@@ -41,10 +41,13 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.lib.StoredConfig;
 
 /** Creates the {@code All-Users} repository. */
 public class AllUsersCreator {
@@ -95,9 +98,15 @@ public class AllUsersCreator {
       initAllUsers(git);
     } catch (RepositoryNotFoundException notFound) {
       try (Repository git = mgr.createRepository(allUsersName)) {
+        StoredConfig config = git.getConfig();
+        config.setBoolean(
+            ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_REFCACHE, true);
+        config.save();
         initAllUsers(git);
         RefUpdate u = git.updateRef(Constants.HEAD);
         u.link(RefNames.REFS_CONFIG);
+        // close the repository to reopen with ref cache
+        RepositoryCache.close(git);
       } catch (RepositoryNotFoundException err) {
         String name = allUsersName.get();
         throw new IOException("Cannot create repository " + name, err);

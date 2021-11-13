@@ -506,7 +506,7 @@ suite('gr-admin-view tests', () => {
       let getGroupConfigStub;
       setup(() => {
         stub('gr-group', 'loadGroup').callsFake(() => Promise.resolve({}));
-        stub('gr-group-members', '_loadGroupDetails').callsFake(() => {});
+        stub('gr-group-members', 'loadGroupDetails').callsFake(() => {});
 
         getGroupConfigStub = stubRestApi('getGroupConfig');
         getGroupConfigStub.returns(Promise.resolve({

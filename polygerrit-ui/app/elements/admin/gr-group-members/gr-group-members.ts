@@ -73,7 +73,7 @@ export class GrGroupMembers extends PolymerElement {
     return htmlTemplate;
   }
 
-  @property({type: Number})
+  @property({type: String})
   groupId?: GroupId;
 
   @property({type: Number})
@@ -195,10 +195,8 @@ export class GrGroupMembers extends PolymerElement {
     return this._loading || this._loading === undefined;
   }
 
-  _computeGroupUrl(url: string) {
-    if (!url) {
-      return;
-    }
+  _computeGroupUrl(url?: string) {
+    if (!url) return;
 
     const r = new RegExp(URL_REGEX, 'i');
     if (r.test(url)) {

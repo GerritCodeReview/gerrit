@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9413ae8a_1badef3b",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-13T00:22:28Z",
+      "side": 0,
+      "message": "Did you mean to remove the shuffle? That should probably be a separate change.",
+      "revId": "24bb7d375490ee9757b370d229a03eaa2c81267a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

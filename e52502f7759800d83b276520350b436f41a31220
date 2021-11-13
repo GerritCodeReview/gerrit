@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b37ca38_e35a05e9",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-13T00:22:28Z",
+      "side": 1,
+      "message": "probably better as scanResult() ?",
+      "range": {
+        "startLine": 106,
+        "startChar": 31,
+        "endLine": 106,
+        "endChar": 33
+      },
+      "revId": "e52502f7759800d83b276520350b436f41a31220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45598592_a5534fbe",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-13T00:22:28Z",
+      "side": 1,
+      "message": "Should these all be final?",
+      "revId": "e52502f7759800d83b276520350b436f41a31220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

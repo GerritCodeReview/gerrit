@@ -49,7 +49,7 @@ suite('gr-group-members tests', () => {
   let includedGroups: GroupInfo[];
   let groupStub: sinon.SinonStub;
 
-  setup(() => {
+  setup(async () => {
     groups = {
       id: 'testId1' as GroupId,
       name: 'Administrators' as GroupName,
@@ -148,14 +148,15 @@ suite('gr-group-members tests', () => {
     stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
     stubRestApi('getIncludedGroup').returns(Promise.resolve(includedGroups));
     element = basicFixture.instantiate();
+    await element.updateComplete;
     stubBaseUrl('https://test/site');
     element.groupId = 'testId1' as GroupId;
     groupStub = stubRestApi('getGroupConfig').returns(Promise.resolve(groups));
-    return element._loadGroupDetails();
+    return element.loadGroupDetails();
   });
 
-  test('_includedGroups', () => {
-    assert.equal(element._includedGroups!.length, 3);
+  test('includedGroups', () => {
+    assert.equal(element.includedGroups!.length, 3);
     assert.equal(
       queryAll<HTMLAnchorElement>(element, '.nameColumn a')[0].href,
       includedGroups[0].url
@@ -171,7 +172,7 @@ suite('gr-group-members tests', () => {
   });
 
   test('save members correctly', async () => {
-    element._groupOwner = true;
+    element.groupOwner = true;
 
     const memberName = 'test-admin';
 
@@ -190,10 +191,10 @@ suite('gr-group-members tests', () => {
     groupMemberSearchInput.text = memberName;
     groupMemberSearchInput.value = '1234';
 
-    await flush();
+    await element.updateComplete;
     assert.isFalse(button.hasAttribute('disabled'));
 
-    return element._handleSavingGroupMember().then(() => {
+    return element.handleSavingGroupMember().then(() => {
       assert.isTrue(button.hasAttribute('disabled'));
       assert.isFalse(
         queryAndAssert<HTMLHeadingElement>(
@@ -207,7 +208,7 @@ suite('gr-group-members tests', () => {
   });
 
   test('save included groups correctly', async () => {
-    element._groupOwner = true;
+    element.groupOwner = true;
 
     const includedGroupName = 'testName';
 
@@ -225,10 +226,10 @@ suite('gr-group-members tests', () => {
     );
     includedGroupSearchInput.text = includedGroupName;
     includedGroupSearchInput.value = 'testId';
-    await flush();
+    await element.updateComplete;
     assert.isFalse(button.hasAttribute('disabled'));
 
-    return element._handleSavingIncludedGroups().then(() => {
+    return element.handleSavingIncludedGroups().then(() => {
       assert.isTrue(button.hasAttribute('disabled'));
       assert.isFalse(
         queryAndAssert<HTMLHeadingElement>(
@@ -242,8 +243,8 @@ suite('gr-group-members tests', () => {
   });
 
   test('add included group 404 shows helpful error text', async () => {
-    element._groupOwner = true;
-    element._groupName = 'test' as GroupName;
+    element.groupOwner = true;
+    element.groupName = 'test' as GroupName;
 
     const memberName = 'bad-name';
     const alertStub = sinon.stub();
@@ -265,14 +266,14 @@ suite('gr-group-members tests', () => {
     groupMemberSearchInput.text = memberName;
     groupMemberSearchInput.value = '1234';
 
-    await flush();
-    element._handleSavingIncludedGroups().then(() => {
+    await element.updateComplete;
+    element.handleSavingIncludedGroups().then(() => {
       assert.isTrue(alertStub.called);
     });
   });
 
   test('add included group network-error throws an exception', async () => {
-    element._groupOwner = true;
+    element.groupOwner = true;
     const memberName = 'bad-name';
     stubRestApi('saveIncludedGroup').throws(new Error());
 
@@ -285,72 +286,54 @@ suite('gr-group-members tests', () => {
 
     let exceptionThrown = false;
     try {
-      await element._handleSavingIncludedGroups();
+      await element.handleSavingIncludedGroups();
     } catch (e) {
       exceptionThrown = true;
     }
     assert.isTrue(exceptionThrown);
   });
 
-  test('_getAccountSuggestions empty', async () => {
-    const accounts = await element._getAccountSuggestions('nonexistent');
+  test('getAccountSuggestions empty', async () => {
+    const accounts = await element.getAccountSuggestions('nonexistent');
     assert.equal(accounts.length, 0);
   });
 
-  test('_getAccountSuggestions non-empty', async () => {
-    const accounts = await element._getAccountSuggestions('test-');
+  test('getAccountSuggestions non-empty', async () => {
+    const accounts = await element.getAccountSuggestions('test-');
     assert.equal(accounts.length, 3);
     assert.equal(accounts[0].name, 'test-account <test.account@example.com>');
     assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
     assert.equal(accounts[2].name, 'test-git');
   });
 
-  test('_getGroupSuggestions empty', async () => {
-    const groups = await element._getGroupSuggestions('nonexistent');
+  test('getGroupSuggestions empty', async () => {
+    const groups = await element.getGroupSuggestions('nonexistent');
 
     assert.equal(groups.length, 0);
   });
 
-  test('_getGroupSuggestions non-empty', async () => {
-    const groups = await element._getGroupSuggestions('test');
+  test('getGroupSuggestions non-empty', async () => {
+    const groups = await element.getGroupSuggestions('test');
 
     assert.equal(groups.length, 2);
     assert.equal(groups[0].name, 'test-admin');
     assert.equal(groups[1].name, 'test/Administrator (admin)');
   });
 
-  test('_computeHideItemClass returns string for admin', () => {
-    const admin = true;
-    const owner = false;
-    assert.equal(element._computeHideItemClass(owner, admin), '');
-  });
-
-  test('_computeHideItemClass returns hideItem for admin and owner', () => {
-    const admin = false;
-    const owner = false;
-    assert.equal(element._computeHideItemClass(owner, admin), 'canModify');
-  });
-
-  test('_computeHideItemClass returns string for owner', () => {
-    const admin = false;
-    const owner = true;
-    assert.equal(element._computeHideItemClass(owner, admin), '');
-  });
-
   test('delete member', () => {
     const deleteBtns = queryAll<GrButton>(element, '.deleteMembersButton');
     MockInteractions.tap(deleteBtns[0]);
-    assert.equal(element._itemId, 1000097 as AccountId);
-    assert.equal(element._itemName, 'jane');
+    assert.equal(element.itemId, 1000097 as AccountId);
+    assert.equal(element.itemName, 'jane');
     MockInteractions.tap(deleteBtns[1]);
-    assert.equal(element._itemId, 1000096 as AccountId);
-    assert.equal(element._itemName, 'Test User');
+    assert.equal(element.itemId, 1000096 as AccountId);
+    assert.equal(element.itemName, 'Test User');
     MockInteractions.tap(deleteBtns[2]);
-    assert.equal(element._itemId, 1000095 as AccountId);
-    assert.equal(element._itemName, 'Gerrit');
+    assert.equal(element.itemId, 1000095 as AccountId);
+    assert.equal(element.itemName, 'Gerrit');
     MockInteractions.tap(deleteBtns[3]);
-    assert.equal(element._itemId, 1000098 as AccountId);
-    assert.equal(element._itemName, '1000098');
+    assert.equal(element.itemId, 1000098 as AccountId);
+    assert.equal(element.itemName, '1000098');
   });
 
   test('delete included groups', () => {
@@ -359,28 +342,22 @@ suite('gr-group-members tests', () => {
       '.deleteIncludedGroupButton'
     );
     MockInteractions.tap(deleteBtns[0]);
-    assert.equal(element._itemId, 'testId' as GroupId);
-    assert.equal(element._itemName, 'testName');
+    assert.equal(element.itemId, 'testId' as GroupId);
+    assert.equal(element.itemName, 'testName');
     MockInteractions.tap(deleteBtns[1]);
-    assert.equal(element._itemId, 'testId2' as GroupId);
-    assert.equal(element._itemName, 'testName2');
+    assert.equal(element.itemId, 'testId2' as GroupId);
+    assert.equal(element.itemName, 'testName2');
     MockInteractions.tap(deleteBtns[2]);
-    assert.equal(element._itemId, 'testId3' as GroupId);
-    assert.equal(element._itemName, 'testName3');
+    assert.equal(element.itemId, 'testId3' as GroupId);
+    assert.equal(element.itemName, 'testName3');
   });
 
-  test('_computeLoadingClass', () => {
-    assert.equal(element._computeLoadingClass(true), 'loading');
-
-    assert.equal(element._computeLoadingClass(false), '');
-  });
-
-  test('_computeGroupUrl', () => {
-    assert.isUndefined(element._computeGroupUrl(undefined));
+  test('computeGroupUrl', () => {
+    assert.isUndefined(element.computeGroupUrl(undefined));
 
     let url = '#/admin/groups/uuid-529b3c2605bb1029c8146f9de4a91c776fe64498';
     assert.equal(
-      element._computeGroupUrl(url),
+      element.computeGroupUrl(url),
       'https://test/site/admin/groups/' +
         'uuid-529b3c2605bb1029c8146f9de4a91c776fe64498'
     );
@@ -388,7 +365,7 @@ suite('gr-group-members tests', () => {
     url =
       'https://gerrit.local/admin/groups/' +
       'uuid-529b3c2605bb1029c8146f9de4a91c776fe64498';
-    assert.equal(element._computeGroupUrl(url), url);
+    assert.equal(element.computeGroupUrl(url), url);
   });
 
   test('fires page-error', async () => {
@@ -409,14 +386,14 @@ suite('gr-group-members tests', () => {
       promise.resolve();
     });
 
-    element._loadGroupDetails();
+    element.loadGroupDetails();
     await promise;
   });
 
   test('_computeItemName', () => {
-    assert.equal(element._computeItemTypeName(ItemType.MEMBER), 'Member');
+    assert.equal(element.computeItemTypeName(ItemType.MEMBER), 'Member');
     assert.equal(
-      element._computeItemTypeName(ItemType.INCLUDED_GROUP),
+      element.computeItemTypeName(ItemType.INCLUDED_GROUP),
       'Included Group'
     );
   });

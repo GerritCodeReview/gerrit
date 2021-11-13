@@ -15,20 +15,12 @@
  * limitations under the License.
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import '../../../styles/gr-font-styles';
-import '../../../styles/gr-form-styles';
-import '../../../styles/gr-subpage-styles';
-import '../../../styles/gr-table-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-account-link/gr-account-link';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-group-members_html';
 import {getBaseUrl} from '../../../utils/url-util';
-import {customElement, property} from '@polymer/decorators';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {
   GroupId,
@@ -41,7 +33,6 @@ import {
   AutocompleteQuery,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
-import {PolymerDomRepeatEvent} from '../../../types/types';
 import {
   fireAlert,
   firePageError,
@@ -50,6 +41,14 @@ import {
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {assertNever} from '../../../utils/common-util';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {subpageStyles} from '../../../styles/gr-subpage-styles';
+import {tableStyles} from '../../../styles/gr-table-styles';
+import {LitElement, css, html} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
 
 const SUGGESTIONS_LIMIT = 15;
 const SAVING_ERROR_TEXT =
@@ -62,83 +61,262 @@ export enum ItemType {
   INCLUDED_GROUP = 'includedGroup',
 }
 
-export interface GrGroupMembers {
-  $: {
-    overlay: GrOverlay;
-  };
-}
-@customElement('gr-group-members')
-export class GrGroupMembers extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-group-members': GrGroupMembers;
   }
+}
+
+@customElement('gr-group-members')
+export class GrGroupMembers extends LitElement {
+  @query('#overlay') protected overlay!: GrOverlay;
 
   @property({type: String})
   groupId?: GroupId;
 
-  @property({type: Number})
-  _groupMemberSearchId?: number;
+  @state() protected groupMemberSearchId?: number;
 
-  @property({type: String})
-  _groupMemberSearchName?: string;
+  @state() protected groupMemberSearchName?: string;
 
-  @property({type: String})
-  _includedGroupSearchId?: string;
+  @state() protected includedGroupSearchId?: string;
 
-  @property({type: String})
-  _includedGroupSearchName?: string;
+  @state() protected includedGroupSearchName?: string;
 
-  @property({type: Boolean})
-  _loading = true;
+  @state() protected loading = true;
 
-  @property({type: String})
-  _groupName?: GroupName;
+  /* private but used in test */
+  @state() groupName?: GroupName;
 
-  @property({type: Object})
-  _groupMembers?: AccountInfo[];
+  @state() protected groupMembers?: AccountInfo[];
 
-  @property({type: Object})
-  _includedGroups?: GroupInfo[];
+  /* private but used in test */
+  @state() includedGroups?: GroupInfo[];
 
-  @property({type: String})
-  _itemName?: string;
+  /* private but used in test */
+  @state() itemName?: string;
 
-  @property({type: String})
-  _itemType?: ItemType;
+  @state() protected itemType?: ItemType;
 
-  @property({type: Object})
-  _queryMembers: AutocompleteQuery;
+  @state() protected queryMembers?: AutocompleteQuery;
 
-  @property({type: Object})
-  _queryIncludedGroup: AutocompleteQuery;
+  @state() protected queryIncludedGroup?: AutocompleteQuery;
 
-  @property({type: Boolean})
-  _groupOwner = false;
+  /* private but used in test */
+  @state() groupOwner = false;
 
-  @property({type: Boolean})
-  _isAdmin = false;
+  @state() protected isAdmin = false;
 
-  _itemId?: AccountId | GroupId;
+  /* private but used in test */
+  @state() itemId?: AccountId | GroupId;
 
   private readonly restApiService = appContext.restApiService;
 
   constructor() {
     super();
-    this._queryMembers = input => this._getAccountSuggestions(input);
-    this._queryIncludedGroup = input => this._getGroupSuggestions(input);
+    this.queryMembers = input => this.getAccountSuggestions(input);
+    this.queryIncludedGroup = input => this.getGroupSuggestions(input);
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    this._loadGroupDetails();
+    this.loadGroupDetails();
 
     fireTitleChange(this, 'Members');
   }
 
-  _loadGroupDetails() {
-    if (!this.groupId) {
-      return;
+  static override get styles() {
+    return [
+      fontStyles,
+      formStyles,
+      sharedStyles,
+      subpageStyles,
+      tableStyles,
+      css`
+        .input {
+          width: 15em;
+        }
+        gr-autocomplete {
+          width: 20em;
+        }
+        a {
+          color: var(--primary-text-color);
+          text-decoration: none;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+        th {
+          border-bottom: 1px solid var(--border-color);
+          font-weight: var(--font-weight-bold);
+          text-align: left;
+        }
+        .canModify #groupMemberSearchInput,
+        .canModify #saveGroupMember,
+        .canModify .deleteHeader,
+        .canModify .deleteColumn,
+        .canModify #includedGroupSearchInput,
+        .canModify #saveIncludedGroups,
+        .canModify .deleteIncludedHeader,
+        .canModify #saveIncludedGroups {
+          display: none;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <div
+        class="main gr-form-styles ${this.isAdmin || this.groupOwner
+          ? ''
+          : 'canModify'}"
+      >
+        <div id="loading" class=${this.loading ? 'loading' : ''}>
+          Loading...
+        </div>
+        <div id="loadedContent" class=${this.loading ? 'loading' : ''}>
+          <h1 id="Title" class="heading-1">${this.groupName}</h1>
+          <div id="form">
+            <h3 id="members" class="heading-3">Members</h3>
+            <fieldset>
+              <span class="value">
+                <gr-autocomplete
+                  id="groupMemberSearchInput"
+                  .text=${this.groupMemberSearchName}
+                  .value=${this.groupMemberSearchId}
+                  .query=${this.queryMembers}
+                  placeholder="Name Or Email"
+                  @text-changed=${this.handleGroupMemberTextChanged}
+                  @value-changed=${this.handleGroupMemberValueChanged}
+                >
+                </gr-autocomplete>
+              </span>
+              <gr-button
+                id="saveGroupMember"
+                ?disabled=${!this.groupMemberSearchId}
+                @click=${this.handleSavingGroupMember}
+              >
+                Add
+              </gr-button>
+              <table id="groupMembers">
+                <tbody>
+                  <tr class="headerRow">
+                    <th class="nameHeader">Name</th>
+                    <th class="emailAddressHeader">Email Address</th>
+                    <th class="deleteHeader">Delete Member</th>
+                  </tr>
+                </tbody>
+                <tbody>
+                  ${this.groupMembers?.map((member, index) =>
+                    this.renderGroupMember(member, index)
+                  )}
+                </tbody>
+              </table>
+            </fieldset>
+            <h3 id="includedGroups" class="heading-3">Included Groups</h3>
+            <fieldset>
+              <span class="value">
+                <gr-autocomplete
+                  id="includedGroupSearchInput"
+                  .text=${this.includedGroupSearchName}
+                  .value=${this.includedGroupSearchId}
+                  .query=${this.queryIncludedGroup}
+                  placeholder="Group Name"
+                  @text-changed=${this.handleIncludedGroupTextChanged}
+                  @value-changed=${this.handleIncludedGroupValueChanged}
+                >
+                </gr-autocomplete>
+              </span>
+              <gr-button
+                id="saveIncludedGroups"
+                ?disabled=${!this.includedGroupSearchId}
+                @click=${this.handleSavingIncludedGroups}
+              >
+                Add
+              </gr-button>
+              <table id="includedGroups">
+                <tbody>
+                  <tr class="headerRow">
+                    <th class="groupNameHeader">Group Name</th>
+                    <th class="descriptionHeader">Description</th>
+                    <th class="deleteIncludedHeader">Delete Group</th>
+                  </tr>
+                </tbody>
+                <tbody>
+                  ${this.includedGroups?.map((group, index) =>
+                    this.renderIncludedGroup(group, index)
+                  )}
+                </tbody>
+              </table>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <gr-overlay id="overlay" with-backdrop>
+        <gr-confirm-delete-item-dialog
+          class="confirmDialog"
+          .item=${this.itemName}
+          .itemTypeName=${this.computeItemTypeName(this.itemType)}
+          @confirm=${this.handleDeleteConfirm}
+          @cancel=${this.handleConfirmDialogCancel}
+        ></gr-confirm-delete-item-dialog>
+      </gr-overlay>
+    `;
+  }
+
+  private renderGroupMember(member: AccountInfo, index: number) {
+    return html`
+      <tr>
+        <td class="nameColumn">
+          <gr-account-link .account=${member}></gr-account-link>
+        </td>
+        <td>${member.email}</td>
+        <td class="deleteColumn">
+          <gr-button
+            class="deleteMembersButton"
+            data-index=${index}
+            @click=${this.handleDeleteMember}
+          >
+            Delete
+          </gr-button>
+        </td>
+      </tr>
+    `;
+  }
+
+  private renderIncludedGroup(group: GroupInfo, index: number) {
+    return html`
+      <tr>
+        <td class="nameColumn">${this.renderIncludedGroupHref(group)}</td>
+        <td>${group.description}</td>
+        <td class="deleteColumn">
+          <gr-button
+            class="deleteIncludedGroupButton"
+            data-index=${index}
+            @click=${this.handleDeleteIncludedGroup}
+          >
+            Delete
+          </gr-button>
+        </td>
+      </tr>
+    `;
+  }
+
+  private renderIncludedGroupHref(group: GroupInfo) {
+    if (group.url) {
+      return html`
+        <a href=${this.computeGroupUrl(group.url)} rel="noopener">
+          ${group.name}
+        </a>
+      `;
     }
+
+    return group.name;
+  }
+
+  /* private but used in test */
+  loadGroupDetails() {
+    if (!this.groupId) return;
 
     const promises: Promise<void>[] = [];
 
@@ -153,49 +331,42 @@ export class GrGroupMembers extends PolymerElement {
           return Promise.resolve();
         }
 
-        this._groupName = config.name;
+        this.groupName = config.name;
 
         promises.push(
           this.restApiService.getIsAdmin().then(isAdmin => {
-            this._isAdmin = !!isAdmin;
+            this.isAdmin = !!isAdmin;
           })
         );
 
         promises.push(
-          this.restApiService.getIsGroupOwner(this._groupName).then(isOwner => {
-            this._groupOwner = !!isOwner;
+          this.restApiService.getIsGroupOwner(this.groupName).then(isOwner => {
+            this.groupOwner = !!isOwner;
           })
         );
 
         promises.push(
-          this.restApiService.getGroupMembers(this._groupName).then(members => {
-            this._groupMembers = members;
+          this.restApiService.getGroupMembers(this.groupName).then(members => {
+            this.groupMembers = members;
           })
         );
 
         promises.push(
           this.restApiService
-            .getIncludedGroup(this._groupName)
+            .getIncludedGroup(this.groupName)
             .then(includedGroup => {
-              this._includedGroups = includedGroup;
+              this.includedGroups = includedGroup;
             })
         );
 
         return Promise.all(promises).then(() => {
-          this._loading = false;
+          this.loading = false;
         });
       });
   }
 
-  _computeLoadingClass(loading: boolean) {
-    return loading ? 'loading' : '';
-  }
-
-  _isLoading() {
-    return this._loading || this._loading === undefined;
-  }
-
-  _computeGroupUrl(url?: string) {
+  /* private but used in test */
+  computeGroupUrl(url?: string) {
     if (!url) return;
 
     const r = new RegExp(URL_REGEX, 'i');
@@ -210,53 +381,55 @@ export class GrGroupMembers extends PolymerElement {
     return getBaseUrl() + url;
   }
 
-  _handleSavingGroupMember() {
-    if (!this._groupName) {
+  /* private but used in test */
+  handleSavingGroupMember() {
+    if (!this.groupName) {
       return Promise.reject(new Error('group name undefined'));
     }
     return this.restApiService
-      .saveGroupMember(this._groupName, this._groupMemberSearchId as AccountId)
+      .saveGroupMember(this.groupName, this.groupMemberSearchId as AccountId)
       .then(config => {
-        if (!config || !this._groupName) {
+        if (!config || !this.groupName) {
           return;
         }
-        this.restApiService.getGroupMembers(this._groupName).then(members => {
-          this._groupMembers = members;
+        this.restApiService.getGroupMembers(this.groupName).then(members => {
+          this.groupMembers = members;
         });
-        this._groupMemberSearchName = '';
-        this._groupMemberSearchId = undefined;
+        this.groupMemberSearchName = '';
+        this.groupMemberSearchId = undefined;
       });
   }
 
-  _handleDeleteConfirm() {
-    if (!this._groupName) {
+  /* private but used in test */
+  handleDeleteConfirm() {
+    if (!this.groupName) {
       return Promise.reject(new Error('group name undefined'));
     }
-    this.$.overlay.close();
-    if (this._itemType === ItemType.MEMBER) {
+    this.overlay.close();
+    if (this.itemType === ItemType.MEMBER) {
       return this.restApiService
-        .deleteGroupMember(this._groupName, this._itemId! as AccountId)
+        .deleteGroupMember(this.groupName, this.itemId! as AccountId)
         .then(itemDeleted => {
-          if (itemDeleted.status === 204 && this._groupName) {
+          if (itemDeleted.status === 204 && this.groupName) {
             this.restApiService
-              .getGroupMembers(this._groupName)
+              .getGroupMembers(this.groupName)
               .then(members => {
-                this._groupMembers = members;
+                this.groupMembers = members;
               });
           }
         });
-    } else if (this._itemType === ItemType.INCLUDED_GROUP) {
+    } else if (this.itemType === ItemType.INCLUDED_GROUP) {
       return this.restApiService
-        .deleteIncludedGroup(this._groupName, this._itemId! as GroupId)
+        .deleteIncludedGroup(this.groupName, this.itemId! as GroupId)
         .then(itemDeleted => {
           if (
             (itemDeleted.status === 204 || itemDeleted.status === 205) &&
-            this._groupName
+            this.groupName
           ) {
             this.restApiService
-              .getIncludedGroup(this._groupName)
+              .getIncludedGroup(this.groupName)
               .then(includedGroup => {
-                this._includedGroups = includedGroup;
+                this.includedGroups = includedGroup;
               });
           }
         });
@@ -264,7 +437,8 @@ export class GrGroupMembers extends PolymerElement {
     return Promise.reject(new Error('Unrecognized item type'));
   }
 
-  _computeItemTypeName(itemType?: ItemType): string {
+  /* private but used in test */
+  computeItemTypeName(itemType?: ItemType): string {
     if (itemType === undefined) return '';
     switch (itemType) {
       case ItemType.INCLUDED_GROUP:
@@ -276,35 +450,36 @@ export class GrGroupMembers extends PolymerElement {
     }
   }
 
-  _handleConfirmDialogCancel() {
-    this.$.overlay.close();
+  private handleConfirmDialogCancel() {
+    this.overlay.close();
   }
 
-  _handleDeleteMember(e: PolymerDomRepeatEvent<AccountInfo>) {
-    const id = e.model.get('item._account_id');
-    const name = e.model.get('item.name');
-    const username = e.model.get('item.username');
-    const email = e.model.get('item.email');
-    const item = username || name || email || id?.toString();
-    if (!item) {
-      return;
-    }
-    this._itemName = item;
-    this._itemId = id;
-    this._itemType = ItemType.MEMBER;
-    this.$.overlay.open();
+  private handleDeleteMember(e: Event) {
+    if (!this.groupMembers) return;
+
+    const el = e.target as GrButton;
+    const index = Number(el.getAttribute('data-index')!);
+    const keys = this.groupMembers[index];
+    const item =
+      keys.username || keys.name || keys.email || keys._account_id?.toString();
+    if (!item) return;
+    this.itemName = item;
+    this.itemId = keys._account_id;
+    this.itemType = ItemType.MEMBER;
+    this.overlay.open();
   }
 
-  _handleSavingIncludedGroups() {
-    if (!this._groupName || !this._includedGroupSearchId) {
+  /* private but used in test */
+  handleSavingIncludedGroups() {
+    if (!this.groupName || !this.includedGroupSearchId) {
       return Promise.reject(
         new Error('group name or includedGroupSearchId undefined')
       );
     }
     return this.restApiService
       .saveIncludedGroup(
-        this._groupName,
-        this._includedGroupSearchId.replace(/\+/g, ' ') as GroupId,
+        this.groupName,
+        this.includedGroupSearchId.replace(/\+/g, ' ') as GroupId,
         (errResponse, err) => {
           if (errResponse) {
             if (errResponse.status === 404) {
@@ -317,36 +492,38 @@ export class GrGroupMembers extends PolymerElement {
         }
       )
       .then(config => {
-        if (!config || !this._groupName) {
+        if (!config || !this.groupName) {
           return;
         }
         this.restApiService
-          .getIncludedGroup(this._groupName)
+          .getIncludedGroup(this.groupName)
           .then(includedGroup => {
-            this._includedGroups = includedGroup;
+            this.includedGroups = includedGroup;
           });
-        this._includedGroupSearchName = '';
-        this._includedGroupSearchId = '';
+        this.includedGroupSearchName = '';
+        this.includedGroupSearchId = '';
       });
   }
 
-  _handleDeleteIncludedGroup(e: PolymerDomRepeatEvent<GroupInfo>) {
-    const id = decodeURIComponent(`${e.model.get('item.id')}`).replace(
-      /\+/g,
-      ' '
-    ) as GroupId;
-    const name = e.model.get('item.name');
+  private handleDeleteIncludedGroup(e: Event) {
+    if (!this.includedGroups) return;
+
+    const el = e.target as GrButton;
+    const index = Number(el.getAttribute('data-index')!);
+    const keys = this.includedGroups[index];
+
+    const id = decodeURIComponent(`${keys.id}`).replace(/\+/g, ' ') as GroupId;
+    const name = keys.name;
     const item = name || id;
-    if (!item) {
-      return;
-    }
-    this._itemName = item;
-    this._itemId = id;
-    this._itemType = ItemType.INCLUDED_GROUP;
-    this.$.overlay.open();
+    if (!item) return;
+    this.itemName = item;
+    this.itemId = id;
+    this.itemType = ItemType.INCLUDED_GROUP;
+    this.overlay.open();
   }
 
-  _getAccountSuggestions(input: string) {
+  /* private but used in test */
+  getAccountSuggestions(input: string) {
     if (input.length === 0) {
       return Promise.resolve([]);
     }
@@ -371,7 +548,8 @@ export class GrGroupMembers extends PolymerElement {
       });
   }
 
-  _getGroupSuggestions(input: string) {
+  /* private but used in test */
+  getGroupSuggestions(input: string) {
     return this.restApiService.getSuggestedGroups(input).then(response => {
       const groups: AutocompleteSuggestion[] = [];
       for (const [name, group] of Object.entries(response ?? {})) {
@@ -381,13 +559,23 @@ export class GrGroupMembers extends PolymerElement {
     });
   }
 
-  _computeHideItemClass(owner: boolean, admin: boolean) {
-    return admin || owner ? '' : 'canModify';
+  private handleGroupMemberTextChanged(e: CustomEvent) {
+    if (this.loading) return;
+    this.groupMemberSearchName = e.detail.value;
   }
-}
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-group-members': GrGroupMembers;
+  private handleGroupMemberValueChanged(e: CustomEvent) {
+    if (this.loading) return;
+    this.groupMemberSearchId = e.detail.value;
+  }
+
+  private handleIncludedGroupTextChanged(e: CustomEvent) {
+    if (this.loading) return;
+    this.includedGroupSearchName = e.detail.value;
+  }
+
+  private handleIncludedGroupValueChanged(e: CustomEvent) {
+    if (this.loading) return;
+    this.includedGroupSearchId = e.detail.value;
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31bc7c28_a02d2963",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-14T13:34:00Z",
+      "side": 1,
+      "message": "I am inviting quite a few people in this review, for making sure that we have the right stakeholders:\n\n- Marco (co-author of ES support in Gerrit, from Ericsson)\n- Han-Wen, Saša, Patrick (ESC members)\n- Dyrone (ES user at Alibaba)\n- Nasser (potential future ES user at Qualcomm)\n\nI would have also invited DavidP, but unfortunately he is no more active in the community and reviews.",
+      "revId": "229aba79cce9fb6d0e2dec8c5d0cf52d0cd0f2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

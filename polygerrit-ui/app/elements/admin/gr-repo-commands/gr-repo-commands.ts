@@ -77,7 +77,7 @@ export class GrRepoCommands extends PolymerElement {
   _repoConfig?: ConfigInfo;
 
   @property({type: Boolean})
-  _canCreate = false;
+  _canCreateChange = false;
 
   @property({type: Boolean})
   _creatingChange = false;
@@ -184,6 +184,12 @@ export class GrRepoCommands extends PolymerElement {
       .finally(() => {
         this._editingConfig = false;
       });
+  }
+
+  _handleCanCreateChange() {
+    this._canCreateChange =
+      !!this.$.createNewChangeModal.branch &&
+      !!this.$.createNewChangeModal.subject;
   }
 }
 

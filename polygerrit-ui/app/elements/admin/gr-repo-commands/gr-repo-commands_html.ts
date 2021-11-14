@@ -75,7 +75,7 @@ export const htmlTemplate = html`
     <gr-dialog
       id="createChangeDialog"
       confirm-label="Create"
-      disabled="[[!_canCreate]]"
+      disabled="[[!_canCreateChange]]"
       on-confirm="_handleCreateChange"
       on-cancel="_handleCloseCreateChange"
     >
@@ -83,8 +83,9 @@ export const htmlTemplate = html`
       <div class="main" slot="main">
         <gr-create-change-dialog
           id="createNewChangeModal"
-          can-create="{{_canCreate}}"
           repo-name="[[repo]]"
+          private-by-default="[[_repoConfig.private_by_default]]"
+          on-can-create-change="_handleCanCreateChange"
         ></gr-create-change-dialog>
       </div>
     </gr-dialog>

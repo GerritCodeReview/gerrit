@@ -1113,22 +1113,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ----
 
 
-[[elasticsearch]]
-elasticsearch
-
-* elasticsearch-rest-client:elasticsearch-rest-client
-
-[[elasticsearch_license]]
-----
-Elasticsearch
-Copyright 2009-2015 Elasticsearch
-
-This product includes software developed by The Apache Software
-Foundation (http://www.apache.org/).
-
-----
-
-
 [[flexmark]]
 flexmark
 

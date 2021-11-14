@@ -53,12 +53,3 @@ java_library(
         "//lib/log:ext",
     ],
 )
-
-java_library(
-    name = "testcontainers-elasticsearch",
-    testonly = True,
-    data = ["//lib:LICENSE-testcontainers"],
-    visibility = ["//visibility:public"],
-    exports = ["@testcontainers-elasticsearch//jar"],
-    runtime_deps = [":testcontainers"],
-)

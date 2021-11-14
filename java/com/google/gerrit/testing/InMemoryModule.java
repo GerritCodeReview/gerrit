@@ -248,8 +248,6 @@ public class InMemoryModule extends FactoryModule {
     // For custom index types, callers must provide their own module.
     if (indexType.isLucene()) {
       install(luceneIndexModule());
-    } else if (indexType.isElasticsearch()) {
-      install(elasticIndexModule());
     } else if (indexType.isFake()) {
       install(fakeIndexModule());
     }
@@ -322,10 +320,6 @@ public class InMemoryModule extends FactoryModule {
 
   private Module luceneIndexModule() {
     return indexModule("com.google.gerrit.lucene.LuceneIndexModule");
-  }
-
-  private Module elasticIndexModule() {
-    return indexModule("com.google.gerrit.elasticsearch.ElasticIndexModule");
   }
 
   private Module fakeIndexModule() {

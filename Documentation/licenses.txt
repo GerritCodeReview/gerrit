@@ -62,11 +62,8 @@ Apache2.0
 * guice:guice-library
 * guice:guice-servlet
 * guice:javax_inject
-* httpcomponents:httpasyncclient
 * httpcomponents:httpclient
 * httpcomponents:httpcore
-* httpcomponents:httpcore-nio
-* jackson:jackson-core
 * jetty:http
 * jetty:io
 * jetty:jmx
@@ -1110,22 +1107,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-----
-
-
-[[elasticsearch]]
-elasticsearch
-
-* elasticsearch-rest-client:elasticsearch-rest-client
-
-[[elasticsearch_license]]
-----
-Elasticsearch
-Copyright 2009-2015 Elasticsearch
-
-This product includes software developed by The Apache Software
-Foundation (http://www.apache.org/).
 
 ----
 

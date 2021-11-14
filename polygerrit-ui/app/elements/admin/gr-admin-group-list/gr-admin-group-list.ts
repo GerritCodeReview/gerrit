@@ -15,16 +15,11 @@
  * limitations under the License.
  */
 
-import '../../../styles/gr-table-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-group-dialog/gr-create-group-dialog';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-admin-group-list_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property, observe, computed} from '@polymer/decorators';
 import {AppElementAdminParams} from '../../gr-app-types';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
@@ -32,6 +27,11 @@ import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dia
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
+import {tableStyles} from '../../../styles/gr-table-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html} from 'lit';
+import {customElement, query, property, state} from 'lit/decorators';
+import {assertIsDefined} from '../../../utils/common-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -39,18 +39,13 @@ declare global {
   }
 }
 
-export interface GrAdminGroupList {
-  $: {
-    createOverlay: GrOverlay;
-    createNewModal: GrCreateGroupDialog;
-  };
-}
-
 @customElement('gr-admin-group-list')
-export class GrAdminGroupList extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrAdminGroupList extends LitElement {
+  readonly path = '/admin/groups';
+
+  @query('#createOverlay') private createOverlay?: GrOverlay;
+
+  @query('#createNewModal') private createNewModal?: GrCreateGroupDialog;
 
   @property({type: Object})
   params?: AppElementAdminParams;
@@ -58,135 +53,200 @@ export class GrAdminGroupList extends PolymerElement {
   /**
    * Offset of currently visible query results.
    */
-  @property({type: Number})
-  _offset = 0;
+  @state() private offset = 0;
 
-  @property({type: String})
-  readonly _path = '/admin/groups';
+  @state() private hasNewGroupName = false;
 
-  @property({type: Boolean})
-  _hasNewGroupName = false;
+  @state() private createNewCapability = false;
 
-  @property({type: Boolean})
-  _createNewCapability = false;
+  // private but used in test
+  @state() groups: GroupInfo[] = [];
 
-  @property({type: Array})
-  _groups: GroupInfo[] = [];
+  @state() private groupsPerPage = 25;
 
-  /**
-   * Because  we request one more than the groupsPerPage, _shownGroups
-   * may be one less than _groups.
-   * */
-  @computed('_groups')
-  get _shownGroups() {
-    return this._groups.slice(0, SHOWN_ITEMS_COUNT);
-  }
+  // private but used in test
+  @state() loading = true;
 
-  @property({type: Number})
-  _groupsPerPage = 25;
-
-  @property({type: Boolean})
-  _loading = true;
-
-  @property({type: String})
-  _filter = '';
+  @state() private filter = '';
 
   private readonly restApiService = appContext.restApiService;
 
   override connectedCallback() {
     super.connectedCallback();
-    this._getCreateGroupCapability();
+    this.getCreateGroupCapability();
     fireTitleChange(this, 'Groups');
-    this._maybeOpenCreateOverlay(this.params);
   }
 
-  @observe('params')
-  _paramsChanged(params: AppElementAdminParams) {
-    this._loading = true;
-    this._filter = params?.filter ?? '';
-    this._offset = Number(params?.offset ?? 0);
+  static override get styles() {
+    return [tableStyles, sharedStyles];
+  }
 
-    return this._getGroups(this._filter, this._groupsPerPage, this._offset);
+  override render() {
+    return html`
+      <gr-list-view
+        .createNew=${this.createNewCapability}
+        .filter=${this.filter}
+        .items=${this.groups}
+        .itemsPerPage=${this.groupsPerPage}
+        .loading=${this.loading}
+        .offset=${this.offset}
+        .path=${this.path}
+        @create-clicked=${() => this.handleCreateClicked()}
+      >
+        <table id="list" class="genericList">
+          <tbody>
+            <tr class="headerRow">
+              <th class="name topHeader">Group Name</th>
+              <th class="description topHeader">Group Description</th>
+              <th class="visibleToAll topHeader">Visible To All</th>
+            </tr>
+            <tr
+              id="loading"
+              class="loadingMsg ${this.loading ? 'loading' : ''}"
+            >
+              <td>Loading...</td>
+            </tr>
+          </tbody>
+          <tbody class=${this.loading ? 'loading' : ''}>
+            ${this.groups
+              .slice(0, SHOWN_ITEMS_COUNT)
+              .map(group => this.renderGroupList(group))}
+          </tbody>
+        </table>
+      </gr-list-view>
+      <gr-overlay id="createOverlay" with-backdrop>
+        <gr-dialog
+          id="createDialog"
+          class="confirmDialog"
+          ?disabled=${!this.hasNewGroupName}
+          confirm-label="Create"
+          confirm-on-enter
+          @confirm=${() => this.handleCreateGroup()}
+          @cancel=${() => this.handleCloseCreate()}
+        >
+          <div class="header" slot="header">Create Group</div>
+          <div class="main" slot="main">
+            <gr-create-group-dialog
+              id="createNewModal"
+              @has-new-group-name=${this.handleHasNewGroupName}
+            ></gr-create-group-dialog>
+          </div>
+        </gr-dialog>
+      </gr-overlay>
+    `;
+  }
+
+  private renderGroupList(group: GroupInfo) {
+    return html`
+      <tr class="table">
+        <td class="name">
+          <a href=${this.computeGroupUrl(group.id)}>${group.name}</a>
+        </td>
+        <td class="description">${group.description}</td>
+        <td class="visibleToAll">
+          ${group.options?.visible_to_all === true ? 'Y' : 'N'}
+        </td>
+      </tr>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this.paramsChanged();
+    }
+  }
+
+  // private but used in test
+  paramsChanged() {
+    this.filter = this.params?.filter ?? '';
+    this.offset = Number(this.params?.offset ?? 0);
+    this.maybeOpenCreateOverlay(this.params);
+
+    return this.getGroups(this.filter, this.groupsPerPage, this.offset);
   }
 
   /**
    * Opens the create overlay if the route has a hash 'create'
+   *
+   * private but used in test
    */
-  _maybeOpenCreateOverlay(params?: AppElementAdminParams) {
+  maybeOpenCreateOverlay(params?: AppElementAdminParams) {
     if (params?.openCreateModal) {
-      this.$.createOverlay.open();
+      assertIsDefined(this.createOverlay, 'createOverlay');
+      this.createOverlay.open();
     }
   }
 
   /**
    * Generates groups link (/admin/groups/<uuid>)
+   *
+   * private but used in test
    */
-  _computeGroupUrl(id: string) {
+  computeGroupUrl(id: string) {
     return GerritNav.getUrlForGroup(decodeURIComponent(id) as GroupId);
   }
 
-  _getCreateGroupCapability() {
+  private getCreateGroupCapability() {
     return this.restApiService.getAccount().then(account => {
-      if (!account) {
-        return;
-      }
+      if (!account) return;
       return this.restApiService
         .getAccountCapabilities(['createGroup'])
         .then(capabilities => {
           if (capabilities?.createGroup) {
-            this._createNewCapability = true;
+            this.createNewCapability = true;
           }
         });
     });
   }
 
-  _getGroups(filter: string, groupsPerPage: number, offset?: number) {
-    this._groups = [];
+  private getGroups(filter: string, groupsPerPage: number, offset?: number) {
+    this.groups = [];
+    this.loading = true;
     return this.restApiService
       .getGroups(filter, groupsPerPage, offset)
       .then(groups => {
-        if (!groups) {
-          return;
-        }
-        this._groups = Object.keys(groups).map(key => {
+        if (!groups) return;
+        this.groups = Object.keys(groups).map(key => {
           const group = groups[key];
           group.name = key as GroupName;
           return group;
         });
-        this._loading = false;
+      })
+      .finally(() => {
+        this.loading = false;
       });
   }
 
-  _refreshGroupsList() {
+  private refreshGroupsList() {
     this.restApiService.invalidateGroupsCache();
-    return this._getGroups(this._filter, this._groupsPerPage, this._offset);
+    return this.getGroups(this.filter, this.groupsPerPage, this.offset);
   }
 
-  _handleCreateGroup() {
-    this.$.createNewModal.handleCreateGroup().then(() => {
-      this._refreshGroupsList();
+  // private but used in test
+  handleCreateGroup() {
+    assertIsDefined(this.createNewModal, 'createNewModal');
+    this.createNewModal.handleCreateGroup().then(() => {
+      this.refreshGroupsList();
     });
   }
 
-  _handleCloseCreate() {
-    this.$.createOverlay.close();
+  // private but used in test
+  handleCloseCreate() {
+    assertIsDefined(this.createOverlay, 'createOverlay');
+    this.createOverlay.close();
   }
 
-  _handleCreateClicked() {
-    this.$.createOverlay.open().then(() => {
-      this.$.createNewModal.focus();
+  // private but used in test
+  handleCreateClicked() {
+    assertIsDefined(this.createOverlay, 'createOverlay');
+    this.createOverlay.open().then(() => {
+      assertIsDefined(this.createNewModal, 'createNewModal');
+      this.createNewModal.focus();
     });
   }
 
-  _visibleToAll(item: GroupInfo) {
-    return item.options?.visible_to_all === true ? 'Y' : 'N';
-  }
-
-  computeLoadingClass(loading: boolean) {
-    return loading ? 'loading' : '';
-  }
-
-  _handleHasNewGroupName() {
-    this._hasNewGroupName = !!this.$.createNewModal.name;
+  private handleHasNewGroupName() {
+    assertIsDefined(this.createNewModal, 'createNewModal');
+    this.hasNewGroupName = !!this.createNewModal.name;
   }
 }

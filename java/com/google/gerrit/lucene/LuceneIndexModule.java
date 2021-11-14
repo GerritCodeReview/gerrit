@@ -20,7 +20,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.AbstractIndexModule;
-import com.google.gerrit.server.index.AutoFlush;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;

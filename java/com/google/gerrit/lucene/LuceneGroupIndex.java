@@ -31,7 +31,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.index.AutoFlush;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.inject.Inject;

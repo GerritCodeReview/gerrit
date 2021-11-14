@@ -31,7 +31,7 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.AutoFlush;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.change.ChangeData;

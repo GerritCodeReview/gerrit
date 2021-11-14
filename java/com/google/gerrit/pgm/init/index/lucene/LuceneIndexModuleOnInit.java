@@ -17,7 +17,7 @@ package com.google.gerrit.pgm.init.index.lucene;
 import com.google.gerrit.lucene.LuceneAccountIndex;
 import com.google.gerrit.lucene.LuceneGroupIndex;
 import com.google.gerrit.pgm.init.index.IndexModuleOnInit;
-import com.google.gerrit.server.index.AutoFlush;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.inject.AbstractModule;

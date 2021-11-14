@@ -19,7 +19,6 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.auth.AuthModule;
-import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
@@ -365,8 +364,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   private Module createIndexModule() {
     if (indexType.isLucene()) {
       return LuceneIndexModule.latestVersion(false);
-    } else if (indexType.isElasticsearch()) {
-      return ElasticIndexModule.latestVersion(false);
     } else if (indexType.isFake()) {
       // Use Reflection so that we can omit the fake index binary in production code. Test code does
       // compile the component in.

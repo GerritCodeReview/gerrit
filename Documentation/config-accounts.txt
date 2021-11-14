@@ -112,7 +112,7 @@ Accessing the account data in Git is not fast enough for account
 queries, since it requires accessing all user branches and parsing
 all files in each of them. To overcome this Gerrit has a secondary
 index for accounts. The account index is either based on
-link:config-gerrit.html#index.type[Lucene or Elasticsearch].
+link:config-gerrit.html#index.type[Lucene].
 
 Via the link:rest-api-accounts.html#query-account[Query Account] REST
 endpoint link:user-search-accounts.html[generic account queries] are

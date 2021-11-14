@@ -20,19 +20,16 @@ import './gr-create-change-dialog';
 import {GrCreateChangeDialog} from './gr-create-change-dialog';
 import {BranchName, GitRef, RepoName} from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
-import {
-  createChange,
-  createConfig,
-  TEST_CHANGE_ID,
-} from '../../../test/test-data-generators';
-import {stubRestApi} from '../../../test/test-utils';
+import {createChange} from '../../../test/test-data-generators';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 
 const basicFixture = fixtureFromElement('gr-create-change-dialog');
 
 suite('gr-create-change-dialog tests', () => {
   let element: GrCreateChangeDialog;
 
-  setup(() => {
+  setup(async () => {
     stubRestApi('getRepoBranches').callsFake((input: string) => {
       if (input.startsWith('test')) {
         return Promise.resolve([
@@ -47,15 +44,8 @@ suite('gr-create-change-dialog tests', () => {
       }
     });
     element = basicFixture.instantiate();
+    await element.updateComplete;
     element.repoName = 'test-repo' as RepoName;
-    element._repoConfig = {
-      ...createConfig(),
-      private_by_default: {
-        value: false,
-        configured_value: InheritedBooleanInfoConfiguredValue.FALSE,
-        inherited_value: false,
-      },
-    };
   });
 
   test('new change created with default', async () => {
@@ -74,9 +64,13 @@ suite('gr-create-change-dialog tests', () => {
     element.branch = 'test-branch' as BranchName;
     element.topic = 'test-topic';
     element.subject = 'first change created with polygerrit ui';
-    assert.isFalse(element.$.privateChangeCheckBox.checked);
+    assert.isFalse(element.privateChangeCheckBox.checked);
 
-    element.$.messageInput.bindValue = configInputObj.subject;
+    const messageInput = queryAndAssert<IronAutogrowTextareaElement>(
+      element,
+      '#messageInput'
+    );
+    messageInput.bindValue = configInputObj.subject;
 
     await element.handleCreateChange();
     // Private change
@@ -92,8 +86,8 @@ suite('gr-create-change-dialog tests', () => {
       inherited_value: false,
       value: true,
     };
-    sinon.stub(element, '_formatBooleanString').callsFake(() => true);
-    flush();
+    sinon.stub(element, 'formatPrivateByDefaultBoolean').callsFake(() => true);
+    await element.updateComplete;
 
     const configInputObj = {
       branch: 'test-branch',
@@ -110,9 +104,13 @@ suite('gr-create-change-dialog tests', () => {
     element.branch = 'test-branch' as BranchName;
     element.topic = 'test-topic';
     element.subject = 'first change created with polygerrit ui';
-    assert.isTrue(element.$.privateChangeCheckBox.checked);
+    assert.isTrue(element.privateChangeCheckBox.checked);
 
-    element.$.messageInput.bindValue = configInputObj.subject;
+    const messageInput = queryAndAssert<IronAutogrowTextareaElement>(
+      element,
+      '#messageInput'
+    );
+    messageInput.bindValue = configInputObj.subject;
 
     await element.handleCreateChange();
     // Private change
@@ -122,24 +120,14 @@ suite('gr-create-change-dialog tests', () => {
     assert.isTrue(saveStub.called);
   });
 
-  test('_getRepoBranchesSuggestions empty', async () => {
-    const branches = await element._getRepoBranchesSuggestions('nonexistent');
+  test('getRepoBranchesSuggestions empty', async () => {
+    const branches = await element.getRepoBranchesSuggestions('nonexistent');
     assert.equal(branches.length, 0);
   });
 
-  test('_getRepoBranchesSuggestions non-empty', async () => {
-    const branches = await element._getRepoBranchesSuggestions('test-branch');
+  test('getRepoBranchesSuggestions non-empty', async () => {
+    const branches = await element.getRepoBranchesSuggestions('test-branch');
     assert.equal(branches.length, 1);
     assert.equal(branches[0].name, 'test-branch');
-  });
-
-  test('_computeBranchClass', () => {
-    assert.equal(element._computeBranchClass(TEST_CHANGE_ID), 'hide');
-    assert.equal(element._computeBranchClass(undefined), '');
-  });
-
-  test('_computePrivateSectionClass', () => {
-    assert.equal(element._computePrivateSectionClass(true), 'hide');
-    assert.equal(element._computePrivateSectionClass(false), '');
   });
 });

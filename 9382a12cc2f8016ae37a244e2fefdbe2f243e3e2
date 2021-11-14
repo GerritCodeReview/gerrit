@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "59f6c58f_7c27efaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-14T23:31:49Z",
+      "side": 1,
+      "message": "With this change, it is possible to plug an external index implementation to the Gerrit daemon, but NOT yet for the reindex program.\n\nI am going to address the reindex as a follow-up.",
+      "range": {
+        "startLine": 12,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "9382a12cc2f8016ae37a244e2fefdbe2f243e3e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bc7bd20c_0a2d0086",

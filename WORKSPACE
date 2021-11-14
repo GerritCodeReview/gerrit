@@ -777,12 +777,6 @@ maven_jar(
     sha1 = "fd369423346b2f1525c413e33f8cf95b09c92cbd",
 )
 
-# Base the following org.apache.httpcomponents versions on what
-# elasticsearch-rest-client explicitly depends on, except for
-# commons-codec (non-http) which is not necessary yet. Note that
-# below httpcore version(s) differs from the HTTPCOMP_VERS range,
-# upstream: that specific dependency has no HTTPCOMP_VERS version
-# equivalent currently.
 HTTPCOMP_VERS = "4.5.2"
 
 maven_jar(
@@ -974,18 +968,3 @@ yarn_install(
 
 external_plugin_deps()
 
-# When upgrading elasticsearch-rest-client, also upgrade httpcore-nio
-# and httpasyncclient as necessary in tools/nongoogle.bzl. Consider
-# also the other org.apache.httpcomponents dependencies in
-# WORKSPACE.
-maven_jar(
-    name = "elasticsearch-rest-client",
-    artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.8.1",
-    sha1 = "59feefe006a96a39f83b0dfb6780847e06c1d0a8",
-)
-
-maven_jar(
-    name = "testcontainers-elasticsearch",
-    artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-    sha1 = "595e3a50f59cd3c1d281ca6c1bc4037e277a1353",
-)

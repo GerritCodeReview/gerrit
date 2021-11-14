@@ -24,8 +24,7 @@ import java.util.Optional;
 /**
  * Index types supported by the secondary index.
  *
- * <p>The explicitly known index types are Lucene (the default), Elasticsearch and a fake index used
- * in tests.
+ * <p>The explicitly known index types are Lucene (the default) and a fake index used in tests.
  *
  * <p>The third supported index type is any other type String value, deemed as custom. This is for
  * configuring index types that are internal or not to be disclosed. Supporting custom index types
@@ -36,7 +35,6 @@ public class IndexType {
   private static final String ENV_VAR = "GERRIT_INDEX_TYPE";
 
   private static final String LUCENE = "lucene";
-  private static final String ELASTICSEARCH = "elasticsearch";
   private static final String FAKE = "fake";
 
   private final String type;
@@ -77,15 +75,11 @@ public class IndexType {
   }
 
   public static ImmutableSet<String> getKnownTypes() {
-    return ImmutableSet.of(LUCENE, ELASTICSEARCH, FAKE);
+    return ImmutableSet.of(LUCENE, FAKE);
   }
 
   public boolean isLucene() {
     return type.equals(LUCENE);
-  }
-
-  public boolean isElasticsearch() {
-    return type.equals(ELASTICSEARCH);
   }
 
   public boolean isFake() {

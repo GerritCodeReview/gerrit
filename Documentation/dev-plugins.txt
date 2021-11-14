@@ -2210,7 +2210,6 @@ DropWizard Metrics,role=external,window=_blank].
 
 Metric reporting plugin implementations are provided for
 link:https://gerrit.googlesource.com/plugins/metrics-reporter-jmx/[JMX,role=external,window=_blank],
-link:https://gerrit.googlesource.com/plugins/metrics-reporter-elasticsearch/[Elastic Search,role=external,window=_blank],
 and link:https://gerrit.googlesource.com/plugins/metrics-reporter-graphite/[Graphite,role=external,window=_blank].
 
 There is also a working example of reporting metrics to the console in the

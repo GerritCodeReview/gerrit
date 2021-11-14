@@ -70,8 +70,8 @@ export const htmlTemplate = html`
       <div class="header" slot="header">Create Group</div>
       <div class="main" slot="main">
         <gr-create-group-dialog
-          has-new-group-name="{{_hasNewGroupName}}"
           id="createNewModal"
+          on-has-new-group-name="_handleHasNewGroupName"
         ></gr-create-group-dialog>
       </div>
     </gr-dialog>

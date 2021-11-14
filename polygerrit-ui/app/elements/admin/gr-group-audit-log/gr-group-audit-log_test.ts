@@ -46,36 +46,36 @@ suite('gr-group-audit-log tests', () => {
   });
 
   suite('members', () => {
-    test('test _getNameForGroup', () => {
+    test('test getNameForGroup', () => {
       let member: GroupInfo = {
         ...createGroupInfo(),
         name: 'test-name' as GroupName,
       };
-      assert.equal(element._getNameForGroup(member), 'test-name');
+      assert.equal(element.getNameForGroup(member), 'test-name');
 
       member = createGroupInfo('test-id');
-      assert.equal(element._getNameForGroup(member), 'test-id');
+      assert.equal(element.getNameForGroup(member), 'test-id');
     });
 
-    test('test _isGroupEvent', () => {
+    test('test isGroupEvent', () => {
       assert.isTrue(
-        element._isGroupEvent(
+        element.isGroupEvent(
           createGroupAuditEventInfo(GroupAuditEventType.ADD_GROUP)
         )
       );
       assert.isTrue(
-        element._isGroupEvent(
+        element.isGroupEvent(
           createGroupAuditEventInfo(GroupAuditEventType.REMOVE_GROUP)
         )
       );
 
       assert.isFalse(
-        element._isGroupEvent(
+        element.isGroupEvent(
           createGroupAuditEventInfo(GroupAuditEventType.ADD_USER)
         )
       );
       assert.isFalse(
-        element._isGroupEvent(
+        element.isGroupEvent(
           createGroupAuditEventInfo(GroupAuditEventType.REMOVE_USER)
         )
       );
@@ -83,12 +83,12 @@ suite('gr-group-audit-log tests', () => {
   });
 
   suite('users', () => {
-    test('test _getIdForUser', () => {
+    test('test getIdForUser', () => {
       const user = {
         ...createAccountWithId(12),
         username: 'test-user',
       };
-      assert.equal(element._getIdForUser(user), ' (12)');
+      assert.equal(element.getIdForUser(user), ' (12)');
     });
 
     test('test _account_id not present', () => {
@@ -97,7 +97,7 @@ suite('gr-group-audit-log tests', () => {
           username: 'test-user',
         },
       };
-      assert.equal(element._getIdForUser(account.user), '');
+      assert.equal(element.getIdForUser(account.user), '');
     });
   });
 
@@ -118,7 +118,7 @@ suite('gr-group-audit-log tests', () => {
         pageErrorCalled.resolve();
       });
 
-      element._getAuditLogs();
+      element.getAuditLogs();
       await pageErrorCalled;
     });
   });

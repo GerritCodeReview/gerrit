@@ -15,13 +15,8 @@
  * limitations under the License.
  */
 
-import '../../../styles/gr-table-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-account-link/gr-account-link';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-group-audit-log_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
 import {
   GroupInfo,
   AccountInfo,
@@ -33,38 +28,97 @@ import {
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {tableStyles} from '../../../styles/gr-table-styles';
+import {LitElement, css, html} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-group-audit-log': GrGroupAuditLog;
+  }
+}
 
 @customElement('gr-group-audit-log')
-export class GrGroupAuditLog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrGroupAuditLog extends LitElement {
   @property({type: String})
   groupId?: EncodedGroupId;
 
-  @property({type: Array})
-  _auditLog?: GroupAuditEventInfo[];
+  @state() protected auditLog?: GroupAuditEventInfo[];
 
-  @property({type: Boolean})
-  _loading = true;
+  @state() protected loading = true;
 
   private readonly restApiService = appContext.restApiService;
 
   override connectedCallback() {
     super.connectedCallback();
+    this.getAuditLogs();
     fireTitleChange(this, 'Audit Log');
   }
 
-  override ready() {
-    super.ready();
-    this._getAuditLogs();
+  static override get styles() {
+    return [
+      sharedStyles,
+      tableStyles,
+      css`
+        /* GenericList style centers the last column, but we don't want that here. */
+        .genericList tr th:last-of-type,
+        .genericList tr td:last-of-type {
+          text-align: left;
+        }
+      `,
+    ];
   }
 
-  _getAuditLogs() {
-    if (!this.groupId) {
-      return '';
-    }
+  override render() {
+    return html`
+      <table id="list" class="genericList">
+        <tbody>
+          <tr class="headerRow">
+            <th class="date topHeader">Date</th>
+            <th class="type topHeader">Type</th>
+            <th class="member topHeader">Member</th>
+            <th class="by-user topHeader">By User</th>
+          </tr>
+          <tr id="loading" class="loadingMsg ${this.loading ? 'loading' : ''}">
+            <td>Loading...</td>
+          </tr>
+        </tbody>
+        <tbody class=${this.loading ? 'loading' : ''}>
+          ${this.auditLog?.map(audit => this.renderAuditLog(audit))}
+        </tbody>
+      </table>
+    `;
+  }
+
+  private renderAuditLog(audit: GroupAuditEventInfo) {
+    return html`
+      <tr class="table">
+        <td class="date">
+          <gr-date-formatter withTooltip date-str=${audit.date}>
+          </gr-date-formatter>
+        </td>
+        <td class="type">${this.itemType(audit.type)}</td>
+        <td class="member">
+          ${this.isGroupEvent(audit)
+            ? `<a href=${this.computeGroupUrl(
+                audit.member
+              )}>${this.getNameForGroup(audit.member)}</a>`
+            : `<gr-account-link account=${
+                audit.member
+              }></gr-account-link>${this.getIdForUser(audit.member)}`}
+        </td>
+        <td class="by-user">
+          <gr-account-link account=${audit.user}></gr-account-link>
+          ${this.getIdForUser(audit.user)}
+        </td>
+      </tr>
+    `;
+  }
+
+  /* private but used in test */
+  getAuditLogs() {
+    if (!this.groupId) return '';
 
     const errFn: ErrorCallback = response => {
       firePageError(response);
@@ -74,15 +128,15 @@ export class GrGroupAuditLog extends PolymerElement {
       .getGroupAuditLog(this.groupId, errFn)
       .then(auditLog => {
         if (!auditLog) {
-          this._auditLog = [];
+          this.auditLog = [];
           return;
         }
-        this._auditLog = auditLog;
-        this._loading = false;
+        this.auditLog = auditLog;
+        this.loading = false;
       });
   }
 
-  itemType(type: string) {
+  private itemType(type: string) {
     let item;
     switch (type) {
       case 'ADD_GROUP':
@@ -99,11 +153,12 @@ export class GrGroupAuditLog extends PolymerElement {
     return item;
   }
 
-  _isGroupEvent(event: GroupAuditEventInfo): event is GroupAuditGroupEventInfo {
+  /* private but used in test */
+  isGroupEvent(event: GroupAuditEventInfo): event is GroupAuditGroupEventInfo {
     return isGroupAuditGroupEventInfo(event);
   }
 
-  _computeGroupUrl(group: GroupInfo) {
+  private computeGroupUrl(group: GroupInfo) {
     if (group && group.url && group.id) {
       return GerritNav.getUrlForGroup(group.id);
     }
@@ -111,11 +166,13 @@ export class GrGroupAuditLog extends PolymerElement {
     return '';
   }
 
-  _getIdForUser(account: AccountInfo) {
+  /* private but used in test */
+  getIdForUser(account: AccountInfo) {
     return account._account_id ? ` (${account._account_id})` : '';
   }
 
-  _getNameForGroup(group: GroupInfo) {
+  /* private but used in test */
+  getNameForGroup(group: GroupInfo) {
     if (group && group.name) {
       return group.name;
     } else if (group && group.id) {
@@ -124,15 +181,5 @@ export class GrGroupAuditLog extends PolymerElement {
     }
 
     return '';
-  }
-
-  computeLoadingClass(loading: boolean) {
-    return loading ? 'loading' : '';
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-group-audit-log': GrGroupAuditLog;
   }
 }

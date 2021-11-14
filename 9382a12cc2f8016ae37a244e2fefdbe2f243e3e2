@@ -24,6 +24,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "549432c8_91a235be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-14T23:48:38Z",
+      "side": 1,
+      "message": "Can this be moved to gerrit-review?",
+      "revId": "9382a12cc2f8016ae37a244e2fefdbe2f243e3e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bc7bd20c_0a2d0086",
@@ -37,6 +54,23 @@
       "writtenOn": "2021-11-14T22:45:22Z",
       "side": 1,
       "message": "I also became inactive from July onwards, as previously shared. Letting other reviewers check this change. I cc myself in case somebody has a specific question for which I should help.",
+      "revId": "9382a12cc2f8016ae37a244e2fefdbe2f243e3e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37705252_a42e5d71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-14T23:48:38Z",
+      "side": 1,
+      "message": "Just one quick comment for now, I\u0027ll look more later when I\u0027m not on a spin bike. 😊",
       "revId": "9382a12cc2f8016ae37a244e2fefdbe2f243e3e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

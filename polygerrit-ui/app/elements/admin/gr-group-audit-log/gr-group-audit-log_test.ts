@@ -15,26 +15,26 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-group-audit-log.js';
+import '../../../test/common-test-setup-karma';
+import './gr-group-audit-log';
 import {
   addListenerForTest,
   mockPromise,
   stubRestApi,
-} from '../../../test/test-utils.js';
-import {GrGroupAuditLog} from './gr-group-audit-log.js';
+} from '../../../test/test-utils';
+import {GrGroupAuditLog} from './gr-group-audit-log';
 import {
   EncodedGroupId,
   GroupAuditEventType,
   GroupInfo,
   GroupName,
-} from '../../../types/common.js';
+} from '../../../types/common';
 import {
   createAccountWithId,
   createGroupAuditEventInfo,
   createGroupInfo,
-} from '../../../test/test-data-generators.js';
-import {PageErrorEvent} from '../../../types/events.js';
+} from '../../../test/test-data-generators';
+import {PageErrorEvent} from '../../../types/events';
 
 const basicFixture = fixtureFromElement('gr-group-audit-log');
 

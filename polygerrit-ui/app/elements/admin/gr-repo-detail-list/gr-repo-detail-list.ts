@@ -109,7 +109,7 @@ export class GrRepoDetailList extends PolymerElement {
   _refName?: GitRef;
 
   @property({type: Boolean})
-  _hasNewItemName = false;
+  _newItemName = false;
 
   @property({type: Boolean})
   _isEditing = false;
@@ -399,6 +399,10 @@ export class GrRepoDetailList extends PolymerElement {
 
   computeShownItems(items: BranchInfo[] | TagInfo[]) {
     return items.slice(0, SHOWN_ITEMS_COUNT);
+  }
+
+  _handleUpdateItemName() {
+    this._newItemName = !!this.$.createNewModal.itemName;
   }
 }
 

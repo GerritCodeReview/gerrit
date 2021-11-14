@@ -192,7 +192,7 @@ export const htmlTemplate = html`
   <gr-overlay id="createOverlay" with-backdrop="">
     <gr-dialog
       id="createDialog"
-      disabled="[[!_hasNewItemName]]"
+      disabled="[[!_newItemName]]"
       confirm-label="Create"
       on-confirm="_handleCreateItem"
       on-cancel="_handleCloseCreate"
@@ -204,9 +204,9 @@ export const htmlTemplate = html`
         <gr-create-pointer-dialog
           id="createNewModal"
           detail-type="[[_computeItemName(detailType)]]"
-          has-new-item-name="{{_hasNewItemName}}"
           item-detail="[[detailType]]"
           repo-name="[[_repo]]"
+          on-update-item-name="_handleUpdateItemName"
         ></gr-create-pointer-dialog>
       </div>
     </gr-dialog>

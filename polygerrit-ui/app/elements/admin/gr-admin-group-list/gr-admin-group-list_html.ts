@@ -61,7 +61,7 @@ export const htmlTemplate = html`
     <gr-dialog
       id="createDialog"
       class="confirmDialog"
-      disabled="[[!_hasNewGroupName]]"
+      disabled="[[!_newGroupName]]"
       confirm-label="Create"
       confirm-on-enter=""
       on-confirm="_handleCreateGroup"
@@ -70,8 +70,8 @@ export const htmlTemplate = html`
       <div class="header" slot="header">Create Group</div>
       <div class="main" slot="main">
         <gr-create-group-dialog
-          has-new-group-name="{{_hasNewGroupName}}"
           id="createNewModal"
+          on-new-group-name="_handleNewGroupName"
         ></gr-create-group-dialog>
       </div>
     </gr-dialog>

@@ -65,7 +65,7 @@ export class GrAdminGroupList extends PolymerElement {
   readonly _path = '/admin/groups';
 
   @property({type: Boolean})
-  _hasNewGroupName = false;
+  _newGroupName = false;
 
   @property({type: Boolean})
   _createNewCapability = false;
@@ -184,5 +184,9 @@ export class GrAdminGroupList extends PolymerElement {
 
   computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
+  }
+
+  _handleNewGroupName() {
+    this._newGroupName = !!this.$.createNewModal.name;
   }
 }

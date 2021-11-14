@@ -24,19 +24,3 @@ acceptance_tests(
     ],
 )
 
-acceptance_tests(
-    srcs = ["ElasticIndexIT.java"],
-    group = "elastic",
-    labels = [
-        "docker",
-        "elastic",
-        "exclusive",
-        "ssh",
-    ],
-    deps = [
-        ":util",
-        "//java/com/google/gerrit/elasticsearch",
-        "//javatests/com/google/gerrit/elasticsearch:elasticsearch_test_utils",
-        "//lib/commons:compress",
-    ],
-)

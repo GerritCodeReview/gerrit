@@ -15,15 +15,18 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-create-group-dialog.js';
-import {page} from '../../../utils/page-wrapper-utils.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-create-group-dialog';
+import {GrCreateGroupDialog} from './gr-create-group-dialog';
+import {page} from '../../../utils/page-wrapper-utils';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {IronInputElement} from '@polymer/iron-input';
+import {GroupId} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-create-group-dialog');
 
 suite('gr-create-group-dialog tests', () => {
-  let element;
+  let element: GrCreateGroupDialog;
 
   const GROUP_NAME = 'test-group';
 
@@ -34,7 +37,7 @@ suite('gr-create-group-dialog tests', () => {
   test('name is updated correctly', async () => {
     assert.isFalse(element.hasNewGroupName);
 
-    const inputEl = element.root.querySelector('iron-input');
+    const inputEl = queryAndAssert<IronInputElement>(element, 'iron-input');
     inputEl.bindValue = GROUP_NAME;
 
     await new Promise(resolve => setTimeout(resolve));
@@ -43,8 +46,12 @@ suite('gr-create-group-dialog tests', () => {
   });
 
   test('test for redirecting to group on successful creation', async () => {
-    stubRestApi('createGroup').returns(Promise.resolve({status: 201}));
-    stubRestApi('getGroupConfig').returns(Promise.resolve({group_id: 551}));
+    stubRestApi('createGroup').returns(
+      Promise.resolve({...new Response(), status: 201})
+    );
+    stubRestApi('getGroupConfig').returns(
+      Promise.resolve({id: 'testId551' as GroupId, group_id: 551})
+    );
 
     const showStub = sinon.stub(page, 'show');
     await element.handleCreateGroup();
@@ -52,12 +59,15 @@ suite('gr-create-group-dialog tests', () => {
   });
 
   test('test for unsuccessful group creation', async () => {
-    stubRestApi('createGroup').returns(Promise.resolve({status: 409}));
-    stubRestApi('getGroupConfig').returns(Promise.resolve({group_id: 551}));
+    stubRestApi('createGroup').returns(
+      Promise.resolve({...new Response(), status: 409})
+    );
+    stubRestApi('getGroupConfig').returns(
+      Promise.resolve({id: 'testId551' as GroupId, group_id: 551})
+    );
 
     const showStub = sinon.stub(page, 'show');
     await element.handleCreateGroup();
     assert.isFalse(showStub.called);
   });
 });
-

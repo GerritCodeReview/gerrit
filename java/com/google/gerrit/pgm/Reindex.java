@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
-import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
@@ -153,9 +152,6 @@ public class Reindex extends SiteProgram {
     IndexType indexType = IndexModule.getIndexType(dbInjector);
     if (indexType.isLucene()) {
       indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);
-    } else if (indexType.isElasticsearch()) {
-      indexModule =
-          ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);
     } else if (indexType.isFake()) {
       // Use Reflection so that we can omit the fake index binary in production code. Test code does
       // compile the component in.

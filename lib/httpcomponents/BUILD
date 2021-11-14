@@ -25,20 +25,3 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@httpcore//jar"],
 )
-
-java_library(
-    name = "httpasyncclient",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = [
-        "//java/com/google/gerrit/elasticsearch:__pkg__",
-        "//javatests/com/google/gerrit/elasticsearch:__pkg__",
-    ],
-    exports = ["@httpasyncclient//jar"],
-)
-
-java_library(
-    name = "httpcore-nio",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//java/com/google/gerrit/elasticsearch:__pkg__"],
-    exports = ["@httpcore-nio//jar"],
-)

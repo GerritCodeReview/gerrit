@@ -476,7 +476,6 @@ public class GerritServer implements AutoCloseable {
     } else {
       daemon.setIndexModule(FakeIndexModule.latestVersion(false));
     }
-    // Elastic search is not supported in integration tests yet.
 
     daemon.setEnableHttpd(desc.httpd());
     daemon.setInMemory(true);

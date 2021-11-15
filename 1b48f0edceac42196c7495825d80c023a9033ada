@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "688408be_6744bd19",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T12:08:32Z",
+      "side": 1,
+      "message": "FYI In preparation for the topics page view we will probably have to move this into its own dedicated diff-view-model soon.",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 0
+      },
+      "revId": "1b48f0edceac42196c7495825d80c023a9033ada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

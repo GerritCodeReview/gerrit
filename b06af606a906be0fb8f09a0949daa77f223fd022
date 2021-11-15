@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efef59eb_19e13077",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T10:13:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a8ee55b_00b03de7",
+      "revId": "b06af606a906be0fb8f09a0949daa77f223fd022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63d7e845_651a1f6b",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "I see 3 usages of _computeChangeUrl(). 2 of those usages want forceReload:false, only one usage wants forceReload:true.",
       "parentUuid": "7fe32495_b6488756",
+      "revId": "b06af606a906be0fb8f09a0949daa77f223fd022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d531973f_c7387532",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T10:13:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bc50f3b_0a76a5d7",
       "revId": "b06af606a906be0fb8f09a0949daa77f223fd022",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c34322b_4e7b0af5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-15T17:43:56Z",
+      "side": 1,
+      "message": "Good other than the one issue commented on inline.",
+      "revId": "b901b34c9449bc5c7ae5d6edfa6d7aee41a26de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ef6b1f5_6f8ac18f",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-15T17:43:56Z",
+      "side": 1,
+      "message": "This needs a fix to not close a passed-in revWalk (set on line 318). See https://gerrit-review.googlesource.com/c/gerrit/+/323295/comments/a5bc59ec_c142a0ac",
+      "range": {
+        "startLine": 431,
+        "startChar": 8,
+        "endLine": 431,
+        "endChar": 19
+      },
+      "revId": "b901b34c9449bc5c7ae5d6edfa6d7aee41a26de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd65d1dc_9e0e67d9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T11:58:31Z",
+      "side": 1,
+      "message": "The other call can be removed. I removed it in the parent change but not in this one.\nUpdated now.",
+      "parentUuid": "683b5a30_0c68acc9",
+      "revId": "aa2a7f370560a4e7f523224baf7fd2feaa5661de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2890f8af_1b9b637b",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-08T09:13:43Z",
       "side": 1,
       "message": "Needs a comment about:\n1. Being either set from the comment or the URL.\n2. Only applying to diff view, not being relevant to the change view.\n3. Which other views does it apply to? edit view?",
+      "revId": "aa2a7f370560a4e7f523224baf7fd2feaa5661de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47a9719f_2e1eb44c",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T11:58:31Z",
+      "side": 1,
+      "message": "Don\u0027t think it applied to edit view. Added a comment.",
+      "parentUuid": "2890f8af_1b9b637b",
       "revId": "aa2a7f370560a4e7f523224baf7fd2feaa5661de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e53f9fd3_59374b76",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T11:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17065abc_a008b0a0",
+      "revId": "aa2a7f370560a4e7f523224baf7fd2feaa5661de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f6dd4b0_5f76d042",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-11-08T09:13:43Z",
       "side": 1,
       "message": "keep all the _testOnly_... functions together",
+      "revId": "aa2a7f370560a4e7f523224baf7fd2feaa5661de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c069c60c_93a923aa",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T11:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f6dd4b0_5f76d042",
       "revId": "aa2a7f370560a4e7f523224baf7fd2feaa5661de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

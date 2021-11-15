@@ -31,6 +31,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.inject.Inject;
@@ -84,7 +85,8 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
-      @Assisted Schema<InternalGroup> schema)
+      @Assisted Schema<InternalGroup> schema,
+      AutoFlush autoFlush)
       throws IOException {
     super(
         schema,
@@ -94,7 +96,8 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
         ImmutableSet.of(),
         null,
         new GerritIndexWriterConfig(cfg, GROUPS),
-        new SearcherFactory());
+        new SearcherFactory(),
+        autoFlush);
     this.groupCache = groupCache;
 
     indexWriterConfig = new GerritIndexWriterConfig(cfg, GROUPS);

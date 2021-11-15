@@ -17,6 +17,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -25,6 +28,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
@@ -51,6 +55,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -671,6 +676,90 @@ public class AccessIT extends AbstractDaemonTest {
 
   private ProjectApi pApi() throws Exception {
     return gApi.projects().name(newProjectName.get());
+  }
+
+  @Test
+  public void grantAllowAndDenyForSameGroup() throws Exception {
+    GroupReference registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS);
+    String access = "access";
+    List<String> allowThenDeny =
+        asList(registeredUsers.toConfigValue(), "deny " + registeredUsers.toConfigValue());
+    // Clone repository to forcefully add permission
+    TestRepository<InMemoryRepository> allProjectsRepo = cloneProject(allProjects, admin);
+
+    // Fetch permission ref
+    GitUtil.fetch(allProjectsRepo, "refs/meta/config:cfg");
+    allProjectsRepo.reset("cfg");
+
+    // Load current permissions
+    String config =
+        gApi.projects()
+            .name(allProjects.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file(ProjectConfig.PROJECT_CONFIG)
+            .asString();
+
+    // Append and push allowThenDeny permissions
+    Config cfg = new Config();
+    cfg.fromText(config);
+    cfg.setStringList(access, AccessSection.HEADS, Permission.READ, allowThenDeny);
+    config = cfg.toText();
+    PushOneCommit push =
+        pushFactory.create(
+            db, admin.getIdent(), allProjectsRepo, "Subject", ProjectConfig.PROJECT_CONFIG, config);
+    push.to(RefNames.REFS_CONFIG).assertOkStatus();
+
+    ProjectAccessInfo pai = gApi.projects().name(allProjects.get()).access();
+    Map<String, AccessSectionInfo> local = pai.local;
+    AccessSectionInfo heads = local.get(AccessSection.HEADS);
+    Map<String, PermissionInfo> permissions = heads.permissions;
+    PermissionInfo read = permissions.get(Permission.READ);
+    Map<String, PermissionRuleInfo> rules = read.rules;
+    assertEquals(
+        rules.get(registeredUsers.getUUID().get()),
+        new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false));
+  }
+
+  @Test
+  public void grantDenyAndAllowForSameGroup() throws Exception {
+    GroupReference registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS);
+    String access = "access";
+    List<String> denyThenAllow =
+        asList("deny " + registeredUsers.toConfigValue(), registeredUsers.toConfigValue());
+    // Clone repository to forcefully add permission
+    TestRepository<InMemoryRepository> allProjectsRepo = cloneProject(allProjects, admin);
+
+    // Fetch permission ref
+    GitUtil.fetch(allProjectsRepo, "refs/meta/config:cfg");
+    allProjectsRepo.reset("cfg");
+
+    // Load current permissions
+    String config =
+        gApi.projects()
+            .name(allProjects.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file(ProjectConfig.PROJECT_CONFIG)
+            .asString();
+
+    // Append and push denyThenAllow permissions
+    Config cfg = new Config();
+    cfg.fromText(config);
+    cfg.setStringList(access, AccessSection.HEADS, Permission.READ, denyThenAllow);
+    config = cfg.toText();
+    PushOneCommit push =
+        pushFactory.create(
+            db, admin.getIdent(), allProjectsRepo, "Subject", ProjectConfig.PROJECT_CONFIG, config);
+    push.to(RefNames.REFS_CONFIG).assertOkStatus();
+
+    ProjectAccessInfo pai = gApi.projects().name(allProjects.get()).access();
+    Map<String, AccessSectionInfo> local = pai.local;
+    AccessSectionInfo heads = local.get(AccessSection.HEADS);
+    Map<String, PermissionInfo> permissions = heads.permissions;
+    PermissionInfo read = permissions.get(Permission.READ);
+    Map<String, PermissionRuleInfo> rules = read.rules;
+    assertEquals(
+        rules.get(registeredUsers.getUUID().get()),
+        new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false));
   }
 
   private ProjectAccessInput newProjectAccessInput() {

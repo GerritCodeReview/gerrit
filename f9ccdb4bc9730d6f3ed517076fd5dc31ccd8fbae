@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d0adf46_7d3a73b9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:20:11Z",
+      "side": 1,
+      "message": "I think state can always be `private`, if `protected` works, because we rarely extend components, and if we do, then we don\u0027t expose fields across the hierarchy.",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 20
+      },
+      "revId": "f9ccdb4bc9730d6f3ed517076fd5dc31ccd8fbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7d56319_5fa17a0c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:20:11Z",
+      "side": 1,
+      "message": "Optional, but generally with Lit we are trying to move the logic of what to render into the render() methods instead of adding css classes that yield a \u0027display:none\u0027.",
+      "range": {
+        "startLine": 83,
+        "startChar": 47,
+        "endLine": 83,
+        "endChar": 77
+      },
+      "revId": "f9ccdb4bc9730d6f3ed517076fd5dc31ccd8fbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92a885e5_93677bcc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:20:11Z",
+      "side": 1,
+      "message": "Why return a string? Maybe just `return;`?",
+      "revId": "f9ccdb4bc9730d6f3ed517076fd5dc31ccd8fbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff412616_5a47f1d0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:20:11Z",
+      "side": 1,
+      "message": "Maybe add an explicit\n\n  this.loading \u003d true;\n  \nhere before the restApi call.",
+      "revId": "f9ccdb4bc9730d6f3ed517076fd5dc31ccd8fbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70388859_cd779804",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:20:11Z",
+      "side": 1,
+      "message": "Just returning without setting `this.loading \u003d false` is weird. Maybe just remove the if-clause and do:\n\n  this.auditLog \u003d auditLog ?? [];",
+      "revId": "f9ccdb4bc9730d6f3ed517076fd5dc31ccd8fbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "649e1c72_5977a68e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:20:11Z",
+      "side": 1,
+      "message": "Prefer // comments for such one-line comments that are not actually documenting what the method does.",
+      "range": {
+        "startLine": 155,
+        "startChar": 2,
+        "endLine": 155,
+        "endChar": 32
+      },
+      "revId": "f9ccdb4bc9730d6f3ed517076fd5dc31ccd8fbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

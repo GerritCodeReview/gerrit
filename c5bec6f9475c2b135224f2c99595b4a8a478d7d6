@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07122e4e_5b7b907b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-15T08:15:43Z",
+      "side": 0,
+      "message": "Nit: I prefered `hasNewGroupName` since I like name convention `is`, `has` for boolean",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 18
+      },
+      "revId": "c5bec6f9475c2b135224f2c99595b4a8a478d7d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

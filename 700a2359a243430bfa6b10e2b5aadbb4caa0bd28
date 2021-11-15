@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5350c7c4_bb33c2e8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-15T08:15:43Z",
+      "side": 1,
+      "message": "This is accessed from admin-group-list (`_handleNewGroupName`)\n\nIt shouldn\u0027t be private. Maybe not even state, but attribute.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 37
+      },
+      "revId": "700a2359a243430bfa6b10e2b5aadbb4caa0bd28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

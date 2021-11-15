@@ -70,6 +70,24 @@
       "parentUuid": "bef792c5_c834baa8",
       "revId": "24bb7d375490ee9757b370d229a03eaa2c81267a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "622702f8_cf41dfe4",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-15T19:42:31Z",
+      "side": 0,
+      "message": "Yes, I agree that the original shuffling will result in more randomness as to which slices will get processed first. Let me leave this shuffle as-is for now.",
+      "parentUuid": "20f2dff9_b17189b9",
+      "revId": "24bb7d375490ee9757b370d229a03eaa2c81267a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

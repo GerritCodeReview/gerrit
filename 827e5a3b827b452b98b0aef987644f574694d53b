@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "57cacc88_b774303c",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-15T16:37:05Z",
+      "side": 1,
+      "message": "AFAIU, the idea is that any predicate that we pass to the index needs to define a \"name\" (field name) and a \"value\" which are used for matching.\n\nYou could try a test import to verify my assumption.\n\nYou could re-use ChangeIndexPredicate.none() directly instead of your Predicate.none(). That should work.",
+      "parentUuid": "65b28389_6426ab97",
+      "range": {
+        "startLine": 234,
+        "startChar": 39,
+        "endLine": 234,
+        "endChar": 48
+      },
+      "revId": "827e5a3b827b452b98b0aef987644f574694d53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a186c76c_87c8cdb6",
         "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
         "patchSetId": 2

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4a6f852a_8f247dc9",
+        "filename": "java/com/google/gerrit/server/account/externalids/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-15T20:42:02Z",
+      "side": 1,
+      "message": "You are right we should check for `userNameCaseInsensitiveMigrationMode` as well",
+      "parentUuid": "cda125a3_9277a926",
+      "revId": "b4b671492e8ed67a924cd5330c8aa4b240c51da3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8a8b4997_d9a0d235",
         "filename": "java/com/google/gerrit/server/account/externalids/OnlineExternalIdCaseSensivityMigrator.java",
         "patchSetId": 7
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-15T08:31:59Z",
       "side": 1,
       "message": "Does it make sense to have a dryrun mode for the online migration? Especially since auth.userNameCaseInsensitive has to be true, you might end up in an inconsistent state, if you decide to not got through with the upgrade.\nThe migration could easily be tested offline by cloning All-Users to a test instance of Gerrit and run the offline migration tool, so I don\u0027t think that the dryrun mode adds a lot of value here.\nIf we keep it, we should change the condition in L83.",
+      "revId": "b4b671492e8ed67a924cd5330c8aa4b240c51da3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "144fdc00_7352ea18",
+        "filename": "java/com/google/gerrit/server/account/externalids/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-15T20:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a8b4997_d9a0d235",
       "revId": "b4b671492e8ed67a924cd5330c8aa4b240c51da3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

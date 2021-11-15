@@ -61,6 +61,7 @@ class GrPermission extends mixinBehaviors( [
 
   static get properties() {
     return {
+      repo: String,
       labels: Object,
       name: String,
       /** @type {?} */
@@ -254,6 +255,7 @@ class GrPermission extends mixinBehaviors( [
   _getGroupSuggestions() {
     return this.$.restAPI.getSuggestedGroups(
         this._groupFilter,
+        this.repo,
         MAX_AUTOCOMPLETE_RESULTS)
         .then(response => {
           const groups = [];

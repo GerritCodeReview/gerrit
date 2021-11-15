@@ -1495,12 +1495,14 @@ class GrRestApiInterface extends mixinBehaviors( [
 
   /**
    * @param {string} inputVal
+   * @param{string} opt_p
    * @param {number} opt_n
    * @param {function(?Response, string=)=} opt_errFn
    */
-  getSuggestedGroups(inputVal, opt_n, opt_errFn) {
+  getSuggestedGroups(inputVal, opt_p, opt_n, opt_errFn) {
     const params = {s: inputVal};
     if (opt_n) { params.n = opt_n; }
+    if (opt_p) { params.p = encodeURIComponent(opt_p); }
     return this._restApiHelper.fetchJSON({
       url: '/groups/',
       errFn: opt_errFn,

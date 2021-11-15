@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b754a1a_92bb0e6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-15T21:36:29Z",
+      "side": 1,
+      "message": "Sure, once the \u0027reindex\u0027 is also working, I\u0027d be happy to have it on gerrit-review.\nBy tonight my PoC should be fully working E2E :-)",
+      "parentUuid": "549432c8_91a235be",
+      "revId": "9382a12cc2f8016ae37a244e2fefdbe2f243e3e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bc7bd20c_0a2d0086",

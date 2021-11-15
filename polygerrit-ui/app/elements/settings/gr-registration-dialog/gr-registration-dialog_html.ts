@@ -73,9 +73,18 @@ export const htmlTemplate = html`
       <hr />
       <section>
         <span class="title">Full Name</span>
-        <span class="value">
+        <span hidden$="[[_nameMutable]]" class="value">[[_account.name]]</span>
+        <span hidden$="[[!_nameMutable]]" class="value">
           <iron-input bind-value="{{_account.name}}">
             <input id="name" disabled="[[_saving]]" />
+          </iron-input>
+        </span>
+      </section>
+      <section>
+        <span class="title">Display Name</span>
+        <span class="value">
+          <iron-input bind-value="{{_account.display_name}}">
+            <input id="displayName" disabled="[[_saving]]" />
           </iron-input>
         </span>
       </section>
@@ -110,7 +119,7 @@ export const htmlTemplate = html`
         id="saveButton"
         primary=""
         link=""
-        disabled="[[_computeSaveDisabled(_account.name, _username, _saving)]]"
+        disabled="[[_computeSaveDisabled(_account.display_name, _account.name, _username, _saving)]]"
         on-click="_handleSave"
         >Save</gr-button
       >

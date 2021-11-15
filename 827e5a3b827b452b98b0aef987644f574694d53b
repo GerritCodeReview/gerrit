@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a186c76c_87c8cdb6",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-15T16:11:08Z",
+      "side": 1,
+      "message": "Instead of requiring each caller of Predicate.or(...) to check if the predicates are empty and return Predicate.none() if yes, could you just change the implementation of Predicate.or(...) to do this check and return Predicate.none() there?",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 44
+      },
+      "revId": "827e5a3b827b452b98b0aef987644f574694d53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

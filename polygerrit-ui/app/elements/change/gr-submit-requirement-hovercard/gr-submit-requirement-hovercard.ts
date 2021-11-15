@@ -98,10 +98,13 @@ export class GrSubmitRequirementHovercard extends base {
           width: 20px;
           height: 20px;
         }
-        .condition {
+        .section.condition > .sectionContent {
           background-color: var(--gray-background);
           padding: var(--spacing-m);
           flex-grow: 1;
+        }
+        .showConditions ~ .condition {
+          margin-top: var(--spacing-m);
         }
         .expression {
           color: var(--gray-foreground);
@@ -149,8 +152,18 @@ export class GrSubmitRequirementHovercard extends base {
           </div>
         </div>
       </div>
-      ${this.renderLabelSection()}
+      ${this.renderLabelSection()}${this.renderDescription()}
       ${this.renderShowHideConditionButton()}${this.renderConditionSection()}
+    </div>`;
+  }
+
+  private renderDescription() {
+    if (!this.requirement?.description) return;
+    return html`<div class="section">
+      <div class="sectionIcon">
+        <iron-icon icon="gr-icons:description"></iron-icon>
+      </div>
+      <div class="sectionContent">${this.requirement.description}</div>
     </div>`;
   }
 
@@ -214,12 +227,6 @@ export class GrSubmitRequirementHovercard extends base {
   private renderConditionSection() {
     if (!this.expanded) return;
     return html`
-      <div class="section">
-        <div class="sectionIcon">
-          <iron-icon icon="gr-icons:description"></iron-icon>
-        </div>
-        <div class="sectionContent">${this.requirement?.description}</div>
-      </div>
       ${this.renderCondition(
         'Blocking condition',
         this.requirement?.submittability_expression_result
@@ -241,9 +248,8 @@ export class GrSubmitRequirementHovercard extends base {
   ) {
     if (!expression?.expression) return '';
     return html`
-      <div class="section">
-        <div class="sectionIcon"></div>
-        <div class="sectionContent condition">
+      <div class="section condition">
+        <div class="sectionContent">
           ${name}:<br />
           <span class="expression"> ${expression.expression} </span>
         </div>

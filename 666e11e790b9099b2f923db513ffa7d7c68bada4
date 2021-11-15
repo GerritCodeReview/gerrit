@@ -33,6 +33,24 @@
       "message": "I’ve done https://gerrit-review.googlesource.com/c/gerrit/+/323575 and https://gerrit-review.googlesource.com/c/gerrit/+/323635",
       "revId": "666e11e790b9099b2f923db513ffa7d7c68bada4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2be674f_9c463b7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T10:29:21Z",
+      "side": 1,
+      "message": "Oh no!\n\nTo avoid such overlap and wasted effort can you set yourself as the owner of a bug that you report, if you plan to fix it yourself? Thanks!\n\nI will abandon this change and let you take over.",
+      "parentUuid": "c735e71b_da092239",
+      "revId": "666e11e790b9099b2f923db513ffa7d7c68bada4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

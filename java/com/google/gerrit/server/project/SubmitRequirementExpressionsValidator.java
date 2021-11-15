@@ -29,7 +29,6 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,7 +45,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * {@link SubmitRequirementsEvaluator} and we cannot do injections into {@link ProjectConfig} (since
  * {@link ProjectConfig} is cached in the project cache).
  */
-@Singleton
 public class SubmitRequirementExpressionsValidator implements CommitValidationListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e6caf55_28a5dffe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-15T21:14:11Z",
+      "side": 1,
+      "message": "This currently breaks unit-tests mock reporting.",
+      "revId": "f469f89dc807ce1b08f4a0979de0b07d1c0b513d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -50,6 +50,9 @@ import {BindValueChangeEvent} from '../../../types/events';
 import {deepClone} from '../../../utils/object-util';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
+import {preferences$} from '../../../services/user/user-model';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 const STATES = {
   active: {value: ProjectState.ACTIVE, label: 'Active'},
@@ -98,13 +101,13 @@ export class GrRepo extends LitElement {
   @property({type: String})
   repo?: RepoName;
 
-  /* private but used in test */
+  // private but used in test
   @state() loading = true;
 
-  /* private but used in test */
+  // private but used in test
   @state() repoConfig?: ConfigInfo;
 
-  /* private but used in test */
+  // private but used in test
   @state() readOnly = true;
 
   @state() private states = Object.values(STATES);
@@ -113,7 +116,7 @@ export class GrRepo extends LitElement {
 
   @state() private selectedScheme?: string;
 
-  /* private but used in test */
+  // private but used in test
   @state() schemesObj?: SchemesInfoMap;
 
   @state() private weblinks: WebLinkInfo[] = [];
@@ -122,11 +125,24 @@ export class GrRepo extends LitElement {
 
   private readonly restApiService = appContext.restApiService;
 
+  disconnected$ = new Subject();
+
   override connectedCallback() {
     super.connectedCallback();
-    this.loadRepo();
+
+    preferences$.pipe(takeUntil(this.disconnected$)).subscribe(prefs => {
+      if (prefs?.download_scheme) {
+        // Note (issue 5180): normalize the download scheme with lower-case.
+        this.selectedScheme = prefs.download_scheme.toLowerCase();
+      }
+    });
 
     fireTitleChange(this, `${this.repo}`);
+  }
+
+  override disconnectedCallback() {
+    this.disconnected$.next();
+    super.disconnectedCallback();
   }
 
   static override get styles() {
@@ -731,12 +747,15 @@ export class GrRepo extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('repo')) {
+      this.loadRepo();
+    }
     if (changedProperties.has('schemesObj')) {
       this.computeSchemesAndDefault();
     }
   }
 
-  /* private but used in test */
+  // private but used in test
   computePluginData() {
     if (!this.repoConfig || !this.repoConfig.plugin_config) return [];
     const pluginConfig = this.repoConfig.plugin_config;
@@ -745,7 +764,7 @@ export class GrRepo extends LitElement {
     });
   }
 
-  /* private but used in test */
+  // private but used in test
   async loadRepo() {
     if (!this.repo) return Promise.resolve();
 
@@ -760,12 +779,6 @@ export class GrRepo extends LitElement {
         if (loggedIn) {
           const repo = this.repo;
           if (!repo) throw new Error('undefined repo');
-          this.restApiService.getPreferences().then(prefs => {
-            if (prefs?.download_scheme) {
-              // Note (issue 5180): normalize the download scheme with lower-case.
-              this.selectedScheme = prefs.download_scheme.toLowerCase();
-            }
-          });
           this.restApiService.getRepo(repo).then(repo => {
             if (!repo?.web_links) return;
             this.weblinks = repo.web_links;
@@ -827,7 +840,7 @@ export class GrRepo extends LitElement {
     await Promise.all(promises);
   }
 
-  /* private but used in test */
+  // private but used in test
   formatBooleanSelect(item?: InheritedBooleanInfo) {
     if (!item) return [];
     let inheritLabel = 'Inherit';
@@ -879,7 +892,7 @@ export class GrRepo extends LitElement {
     ];
   }
 
-  /* private but used in test */
+  // private but used in test
   formatRepoConfigForSave(repoConfig?: ConfigInfo): ConfigInput {
     if (!repoConfig) return {};
     const configInputObj: ConfigInput = {};
@@ -908,7 +921,7 @@ export class GrRepo extends LitElement {
     return configInputObj;
   }
 
-  /* private but used in test */
+  // private but used in test
   async handleSaveRepoConfig() {
     if (!this.repoConfig || !this.repo)
       return Promise.reject(new Error('undefined repoConfig or repo'));
@@ -1059,7 +1072,7 @@ export class GrRepo extends LitElement {
   }
 
   private computeSchemesAndDefault() {
-    this.schemes = !this.schemesObj ? [] : Object.keys(this.schemesObj);
+    this.schemes = !this.schemesObj ? [] : Object.keys(this.schemesObj).sort();
     if (this.schemes.length > 0) {
       if (!this.selectedScheme || !this.schemes.includes(this.selectedScheme)) {
         this.selectedScheme = this.schemes.sort()[0];
@@ -1095,7 +1108,7 @@ export class GrRepo extends LitElement {
     return GerritNav.getUrlForProjectChanges(name as RepoName);
   }
 
-  /* private but used in test */
+  // private but used in test
   handlePluginConfigChanged({
     detail: {name, config},
   }: {

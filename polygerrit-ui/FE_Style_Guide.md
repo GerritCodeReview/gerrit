@@ -103,29 +103,6 @@ export class CounterService {
         this._count++;
     }
 }
-
-// app-context.js
-export const appContext = {
-    //...
-    mouseClickCounterService: null,
-    keypressCounterService: null,
-};
-
-// services/app-context-init.js
-export function initAppContext() {
-    //...
-    // Add the following line before the Object.defineProperties(appContext, registeredServices);
-    addService('mouseClickCounterService', () => new CounterService());
-    addService('keypressCounterService', () => new CounterService());
-    // If a service depends on other services, pass dependencies as shown below
-    // If circular dependencies exist, app-init-context tests fail with timeout or stack overflow
-    // (we are  going to improve it in the future)
-    addService('analyticService', () =>
-        new CounterService(appContext.mouseClickCounterService, appContext.keypressCounterService));
-    //...
-    // This following line must remains the last one in the initAppContext
-    Object.defineProperties(appContext, registeredServices);
-}
 ```
 
 **Bad:**

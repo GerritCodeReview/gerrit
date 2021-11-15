@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,6 +45,8 @@ import java.util.Queue;
  * @param <T> type of object the predicate can evaluate in memory.
  */
 public abstract class Predicate<T> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /** Query String that was used to create this predicate. Only set from the Antlr query parser. */
   private String predicateString = null;
 
@@ -79,6 +82,7 @@ public abstract class Predicate<T> {
   /** Combine the passed predicates into a single AND node. */
   @SafeVarargs
   public static <T> Predicate<T> and(Predicate<T>... that) {
+    checkArgument(that.length != 0, "and predicate with no children predicates is invalid.");
     if (that.length == 1) {
       return that[0];
     }
@@ -87,6 +91,7 @@ public abstract class Predicate<T> {
 
   /** Combine the passed predicates into a single AND node. */
   public static <T> Predicate<T> and(Collection<? extends Predicate<T>> that) {
+    checkArgument(that.size() != 0, "and predicate with no children predicates is invalid.");
     if (that.size() == 1) {
       return Iterables.getOnlyElement(that);
     }
@@ -96,6 +101,7 @@ public abstract class Predicate<T> {
   /** Combine the passed predicates into a single OR node. */
   @SafeVarargs
   public static <T> Predicate<T> or(Predicate<T>... that) {
+    checkArgument(that.length != 0, "or predicate with no children predicates is invalid.");
     if (that.length == 1) {
       return that[0];
     }
@@ -104,6 +110,7 @@ public abstract class Predicate<T> {
 
   /** Combine the passed predicates into a single OR node. */
   public static <T> Predicate<T> or(Collection<? extends Predicate<T>> that) {
+    checkArgument(that.size() != 0, "or predicate with no children predicates is invalid.");
     if (that.size() == 1) {
       return Iterables.getOnlyElement(that);
     }

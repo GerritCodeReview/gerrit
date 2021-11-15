@@ -23,7 +23,9 @@ import {
   SubmitRequirementResultInfo,
 } from '../../../api/rest-api';
 import {
+  canVote,
   extractAssociatedLabels,
+  hasVotes,
   iconForStatus,
 } from '../../../utils/label-util';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -154,12 +156,21 @@ export class GrSubmitRequirementHovercard extends base {
   private renderLabelSection() {
     if (!this.requirement) return;
     const requirementLabels = extractAssociatedLabels(this.requirement);
+    const allLabels = this.change?.labels ?? {};
     const labels: string[] = [];
-    for (const label of Object.keys(this.change?.labels ?? {})) {
+    for (const label of Object.keys(allLabels)) {
       if (requirementLabels.includes(label)) {
-        labels.push(label);
+        const labelInfo = allLabels[label];
+        const canSomeoneVote = (this.change?.reviewers['REVIEWER'] ?? []).some(
+          reviewer => canVote(labelInfo, reviewer)
+        );
+        if (hasVotes(labelInfo) || canSomeoneVote) {
+          labels.push(label);
+        }
       }
     }
+
+    if (labels.length === 0) return;
     const showLabelName = labels.length >= 2;
     return html` <div class="section">
       <div class="sectionIcon"></div>

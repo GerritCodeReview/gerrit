@@ -22,9 +22,14 @@ import './gr-submit-requirement-hovercard';
 import {GrSubmitRequirementHovercard} from './gr-submit-requirement-hovercard';
 import {
   createAccountWithId,
+  createApproval,
   createChange,
+  createDetailedLabelInfo,
+  createParsedChange,
+  createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
+import {ParsedChangeInfo} from '../../../types/types';
 
 suite('gr-submit-requirement-hovercard tests', () => {
   test('renders', async () => {
@@ -75,11 +80,99 @@ suite('gr-submit-requirement-hovercard tests', () => {
             </div>
           </div>
         </div>
+        <div class="showConditions">
+          <gr-button
+            aria-disabled="false"
+            class="showConditions"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            View condition
+            <iron-icon icon="gr-icons:expand-more">
+            </iron-icon>
+          </gr-button>
+        </div>
+      </div>
+      `);
+  });
+
+  test('renders label', async () => {
+    const submitRequirement = {
+      ...createSubmitRequirementResultInfo(),
+      submittability_expression_result: {
+        ...createSubmitRequirementExpressionInfo(),
+        expression: 'label:Verified=MAX -label:Verified=MIN',
+      },
+    };
+    const change: ParsedChangeInfo = {
+      ...createParsedChange(),
+      labels: {
+        Verified: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+            },
+          ],
+        },
+      },
+    };
+    const element = await fixture<GrSubmitRequirementHovercard>(
+      html`<gr-submit-requirement-hovercard
+        .requirement=${submitRequirement}
+        .change=${change}
+        .account=${createAccountWithId()}
+      ></gr-submit-requirement-hovercard>`
+    );
+    expect(element).shadowDom.to.equal(`<div
+        id="container"
+        role="tooltip"
+        tabindex="-1"
+      >
+        <div class="section">
+          <div class="sectionIcon">
+            <iron-icon
+              class="check"
+              icon="gr-icons:check"
+            >
+            </iron-icon>
+          </div>
+          <div class="sectionContent">
+            <h3 class="heading-3 name">
+              <span>
+                Verified
+              </span>
+            </h3>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sectionIcon">
+            <iron-icon
+              class="small"
+              icon="gr-icons:info-outline"
+            >
+            </iron-icon>
+          </div>
+          <div class="sectionContent">
+            <div class="row">
+              <div class="title">
+                Status
+              </div>
+              <div>
+                SATISFIED
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="section">
           <div class="sectionIcon">
           </div>
           <div class="row">
             <div>
+              <gr-label-info>
+              </gr-label-info>
             </div>
           </div>
         </div>

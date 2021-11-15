@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8522ad3d_1a302081",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T13:24:09Z",
+      "side": 1,
+      "message": "Not yet uploaded?",
+      "parentUuid": "0b5d51e5_92539bbd",
+      "range": {
+        "startLine": 205,
+        "startChar": 12,
+        "endLine": 205,
+        "endChar": 36
+      },
+      "revId": "d6c4ec40e699afd80ee33475b70a872ce05c1be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "346a57f8_bd54366b",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
         "patchSetId": 3
@@ -138,6 +162,47 @@
         "endLine": 254,
         "endChar": 30
       },
+      "revId": "d6c4ec40e699afd80ee33475b70a872ce05c1be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8521241f_6299fbe5",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T13:24:09Z",
+      "side": 1,
+      "message": "+1 to renaming to \u0027toggle...\u0027. Some ideas:\n\ntoggleVisibility\ntoggleButtonVisibility\ntoggleConditionsVisibility\ntoggleConditions\ntoggleConditionsView",
+      "parentUuid": "cc4d260b_0efcecfe",
+      "range": {
+        "startLine": 254,
+        "startChar": 10,
+        "endLine": 254,
+        "endChar": 30
+      },
+      "revId": "d6c4ec40e699afd80ee33475b70a872ce05c1be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a54f8c9e_688087dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T13:24:09Z",
+      "side": 1,
+      "message": "Maybe restrict the comparison to the query \u0027.showConditions\u0027.",
       "revId": "d6c4ec40e699afd80ee33475b70a872ce05c1be3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

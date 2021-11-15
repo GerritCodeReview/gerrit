@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3ccf1de_b0eb61b7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T15:50:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d1c4d19_dc61b810",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53db46b2_1d279cba",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-08T09:35:40Z",
       "side": 1,
       "message": "Do you also need a takeUntil(this.disconnected$)?",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c7efbdd_b14d3a10",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T15:50:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53db46b2_1d279cba",
       "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39368525_452cbb3d",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T15:50:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7de531db_c6558512",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92db4dff_a3fba036",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-11-08T09:35:40Z",
       "side": 1,
       "message": "Do you want to allow this? A user changing the reviewed state before the reviewed state was loaded?",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66abb517_3db20049",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T15:50:29Z",
+      "side": 1,
+      "message": "Yeah, the alternative is telling the users to wait somehow for the reviewed files to load. Not sure if users will be happy about that.\nWorst case they mark an already reviewed file reviewed again.\n\nIs there any other downside I am missing?",
+      "parentUuid": "92db4dff_a3fba036",
       "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +164,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eae85675_1368dca5",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T15:50:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94381a91_6570338b",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 18
+      },
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c679174_5e7d9d46",
@@ -105,6 +201,24 @@
       "writtenOn": "2021-11-08T09:35:40Z",
       "side": 1,
       "message": "So you are filtering twice? In line 58 and line 67.\n\nIf one of them is undefined, then clear the set of reviewed files?",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ba80ce7_b4acf5e5",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T15:50:29Z",
+      "side": 1,
+      "message": "Removed the extra filter.\nThen the scenario of one of them being undefined should not be possible.",
+      "parentUuid": "7c679174_5e7d9d46",
       "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -128,6 +242,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "02dca784_4490b039",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T15:50:29Z",
+      "side": 1,
+      "message": "How are they equivalent?\ngetLoggedIn() is doing an auth-check and account$ is simply the account object.",
+      "parentUuid": "3c6da369_66f68eea",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df2daa3f_9e2c9ab9",
         "filename": "polygerrit-ui/app/services/change/change-service.ts",
         "patchSetId": 17
@@ -145,6 +277,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "965761a8_3c74bf42",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T15:50:29Z",
+      "side": 1,
+      "message": "I could add something like\n\n```\nchangeNum$.subscribe(changeNum \u003d\u003e {\n      if (!changeNum) updateStateReviewedFiles(new Set([]));\n    })\n```\n\nto reset the state when changeNum becomes undefined. Currently it\u0027s fired whenever it becomes undefined but I\u0027m wondering if this is the best solution?",
+      "parentUuid": "df2daa3f_9e2c9ab9",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6521f70a_92dec786",
         "filename": "polygerrit-ui/app/services/change/change-service.ts",
         "patchSetId": 17
@@ -156,6 +306,24 @@
       "writtenOn": "2021-11-08T09:35:40Z",
       "side": 1,
       "message": "Maybe optimistic update before the API call? And then revert in cath(), if the API call failed?",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "383f9211_d210b8e5",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T15:50:29Z",
+      "side": 1,
+      "message": "Is it worth the extra complication?\nMaybe if users say it\u0027s slow otherwise this is the simpler option.",
+      "parentUuid": "6521f70a_92dec786",
       "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

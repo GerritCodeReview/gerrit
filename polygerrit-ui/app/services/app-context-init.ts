@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {appContext, AppContext} from './app-context';
+import {create, Registry} from './registry';
 import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';
 import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
@@ -30,61 +31,28 @@ import {CommentsService} from './comments/comments-service';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {BrowserService} from './browser/browser-service';
 
-type ServiceName = keyof AppContext;
-type ServiceCreator<T> = () => T;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const initializedServices: Map<ServiceName, any> = new Map<ServiceName, any>();
-
-function getService<K extends ServiceName>(
-  serviceName: K,
-  serviceCreator: ServiceCreator<AppContext[K]>
-): AppContext[K] {
-  if (!initializedServices.has(serviceName)) {
-    initializedServices.set(serviceName, serviceCreator());
-  }
-  return initializedServices.get(serviceName);
-}
-
 /**
  * The AppContext lazy initializator for all services
  */
-export function initAppContext() {
-  function populateAppContext(
-    serviceCreators: {[P in ServiceName]: ServiceCreator<AppContext[P]>}
-  ) {
-    const registeredServices = Object.keys(serviceCreators).reduce(
-      (registeredServices, key) => {
-        const serviceName = key as ServiceName;
-        const serviceCreator = serviceCreators[serviceName];
-        registeredServices[serviceName] = {
-          configurable: true, // Tests can mock properties
-          get() {
-            return getService(serviceName, serviceCreator);
-          },
-        };
-        return registeredServices;
-      },
-      {} as PropertyDescriptorMap
-    );
-    Object.defineProperties(appContext, registeredServices);
-  }
-
-  populateAppContext({
-    flagsService: () => new FlagsServiceImplementation(),
-    reportingService: () => new GrReporting(appContext.flagsService),
-    eventEmitter: () => new EventEmitter(),
-    authService: () => new Auth(appContext.eventEmitter),
-    restApiService: () =>
-      new GrRestApiInterface(appContext.authService, appContext.flagsService),
-    changeService: () => new ChangeService(appContext.restApiService),
-    commentsService: () => new CommentsService(appContext.restApiService),
-    checksService: () => new ChecksService(appContext.reportingService),
-    jsApiService: () => new GrJsApiInterface(appContext.reportingService),
-    storageService: () => new GrStorageService(),
-    configService: () => new ConfigService(appContext.restApiService),
-    userService: () => new UserService(appContext.restApiService),
-    shortcutsService: () => new ShortcutsService(appContext.reportingService),
-    browserService: () => new BrowserService(),
-  });
+export function createAppContext(): Partial<AppContext> {
+  const appRegistry: Registry<AppContext> = {
+    flagsService: (_ctx: AppContext) => new FlagsServiceImplementation(),
+    reportingService: (ctx: AppContext) => new GrReporting(ctx.flagsService),
+    eventEmitter: (_ctx: AppContext) => new EventEmitter(),
+    authService: (ctx: AppContext) => new Auth(ctx.eventEmitter),
+    restApiService: (ctx: AppContext) =>
+      new GrRestApiInterface(ctx.authService, ctx.flagsService),
+    changeService: (ctx: AppContext) => new ChangeService(ctx.restApiService),
+    commentsService: (ctx: AppContext) => new CommentsService(ctx.restApiService),
+    checksService: (ctx: AppContext) => new ChecksService(ctx.reportingService),
+    jsApiService: (ctx: AppContext) => new GrJsApiInterface(ctx.reportingService),
+    storageService: (_ctx: AppContext) => new GrStorageService(),
+    configService: (ctx: AppContext) => new ConfigService(ctx.restApiService),
+    userService: (ctx: AppContext) => new UserService(ctx.restApiService),
+    shortcutsService: (ctx: AppContext) => new ShortcutsService(ctx.reportingService),
+    browserService: (_ctx: AppContext) => new BrowserService(),
+  };
+  return create<AppContext>(appRegistry);
 }
+
+

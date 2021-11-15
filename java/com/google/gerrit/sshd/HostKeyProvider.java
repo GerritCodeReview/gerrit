@@ -64,6 +64,11 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     }
 
     if (Files.exists(objKey)) {
+      if (Files.exists(rsaKey)) {
+        // Both formats of host key exist, we don't know which format
+        // should be authoritative. Complain and abort.
+        throw new ProvisionException("Multiple host ssh-rsa keys exist: " + stdKeys);
+      }
       if (stdKeys.isEmpty()) {
         SimpleGeneratorHostKeyProvider p = new SimpleGeneratorHostKeyProvider();
         p.setAlgorithm(KeyUtils.RSA_ALGORITHM);
@@ -73,11 +78,7 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
                 + "This is a weak security setting, consider changing it (see 'sshd.kex' documentation section).");
         return p;
       }
-      // Both formats of host key exist, we don't know which format
-      // should be authoritative. Complain and abort.
-      //
       stdKeys.add(objKey);
-      throw new ProvisionException("Multiple host keys exist: " + stdKeys);
     }
     if (stdKeys.isEmpty()) {
       throw new ProvisionException("No SSH keys under " + site.etc_dir);

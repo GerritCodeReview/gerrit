@@ -16,6 +16,24 @@
       "message": "Please replace \u0027forceReload\u0027 with true.",
       "revId": "73ff128e9240cb6ee3569edaf8c0f6e4ca83cf2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eb998bd_1c94357a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T21:41:55Z",
+      "side": 1,
+      "message": "As discussed on chat, polymer doesn\u0027t handle boolean inside template well and it\u0027s better not to use it so that future readers of this code don\u0027t think templates are properly supported.\nThis is anyway temporary until the conversion to Lit.",
+      "parentUuid": "8c72c067_04019176",
+      "revId": "73ff128e9240cb6ee3569edaf8c0f6e4ca83cf2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

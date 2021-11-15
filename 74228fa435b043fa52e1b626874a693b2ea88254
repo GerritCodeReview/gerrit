@@ -16,6 +16,24 @@
       "message": "Will +2 if additional perf testing shows this is still a good gain.",
       "revId": "74228fa435b043fa52e1b626874a693b2ea88254",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f3d4667_37b8b1f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-15T23:16:24Z",
+      "side": 1,
+      "message": "A re-test with the latest patchset showed similar gains(~1-2 mins improvement) on a test-site with ~160k changes across 4 repos on NFS.",
+      "parentUuid": "84825d75_3504ffd4",
+      "revId": "74228fa435b043fa52e1b626874a693b2ea88254",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

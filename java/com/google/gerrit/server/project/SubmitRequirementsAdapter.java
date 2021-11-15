@@ -58,7 +58,25 @@ public class SubmitRequirementsAdapter {
     return records.stream()
         .map(r -> createResult(r, labelTypes, commitId))
         .flatMap(List::stream)
-        .collect(Collectors.toMap(sr -> sr.submitRequirement(), Function.identity()));
+        .collect(
+            Collectors.toMap(
+                sr -> sr.submitRequirement(),
+                Function.identity(),
+                (r1, r2) -> {
+                  // We convert submit records to submit requirements by generating a separate
+                  // submit requirement result for each available label in each submit record.
+                  // The SR status is derived from the label status of the submit record.
+                  // This conversion might result in duplicate entries.
+                  // One such example can be a prolog rule emitting the same label name twice.
+                  // Another case might happen if two different submit rules emit the same label
+                  // name. In such cases, we need to merge these entries and return a single submit
+                  // requirement result. If both entries agree in their status, return any of them.
+                  // Otherwise, favour the entry that is blocking submission.
+                  if (r1.fulfilled() == r2.fulfilled()) {
+                    return r1;
+                  }
+                  return r1.fulfilled() ? r2 : r1;
+                }));
   }
 
   static List<SubmitRequirementResult> createResult(

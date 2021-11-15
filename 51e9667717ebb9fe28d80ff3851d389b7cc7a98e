@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d2f6cdc_04536add",
+        "filename": "java/com/google/gerrit/server/index/options/AutoFlush.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-15T18:58:09Z",
+      "side": 1,
+      "message": "unrelated change?",
+      "range": {
+        "startLine": 19,
+        "startChar": 10,
+        "endLine": 19,
+        "endChar": 11
+      },
+      "revId": "51e9667717ebb9fe28d80ff3851d389b7cc7a98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

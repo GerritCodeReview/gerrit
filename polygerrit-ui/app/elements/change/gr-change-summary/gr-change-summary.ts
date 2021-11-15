@@ -343,8 +343,8 @@ export class GrChecksChip extends LitElement {
     return html`
       <div class="${clazz}" role="link" tabindex="0" aria-label="${ariaLabel}">
         <iron-icon icon="${icon}"></iron-icon>
-        <div class="text">${this.text}</div>
         ${this.renderLinks()}
+        <div class="text">${this.text}</div>
       </div>
     `;
   }

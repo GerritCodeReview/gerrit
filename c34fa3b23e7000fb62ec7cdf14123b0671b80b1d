@@ -111,6 +111,30 @@
       },
       "revId": "c34fa3b23e7000fb62ec7cdf14123b0671b80b1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8969da0_c06754b9",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011722
+      },
+      "writtenOn": "2021-11-15T20:17:39Z",
+      "side": 1,
+      "message": "Very good idea. Done!",
+      "parentUuid": "7b967e00_bdd423b0",
+      "range": {
+        "startLine": 216,
+        "startChar": 1,
+        "endLine": 216,
+        "endChar": 30
+      },
+      "revId": "c34fa3b23e7000fb62ec7cdf14123b0671b80b1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

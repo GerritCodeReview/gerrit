@@ -31,6 +31,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -84,7 +85,8 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
-      @Assisted Schema<ProjectData> schema)
+      @Assisted Schema<ProjectData> schema,
+      AutoFlush autoFlush)
       throws IOException {
     super(
         schema,
@@ -94,7 +96,8 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
         ImmutableSet.of(),
         null,
         new GerritIndexWriterConfig(cfg, PROJECTS),
-        new SearcherFactory());
+        new SearcherFactory(),
+        autoFlush);
     this.projectCache = projectCache;
 
     indexWriterConfig = new GerritIndexWriterConfig(cfg, PROJECTS);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfadcc73_2c80fdab",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-15T10:45:44Z",
+      "side": 1,
+      "message": "keys.id directly without template string?",
+      "range": {
+        "startLine": 515,
+        "startChar": 34,
+        "endLine": 515,
+        "endChar": 46
+      },
+      "revId": "1aa12f3ebe8431946a2436f10dfe999483197e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

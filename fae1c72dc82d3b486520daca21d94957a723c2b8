@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08d449a9_85fe0b1f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-15T18:23:25Z",
+      "side": 1,
+      "message": "NIT: I would prefer using class .long with nameCol if longestNameLength \u003e 25. \n\nAnd having css rule for \n```\n@media screen and (max-width: 1000px) {\n  .namecol.long {\n    width: 200px;\n  }\n```",
+      "range": {
+        "startLine": 1280,
+        "startChar": 4,
+        "endLine": 1281,
+        "endChar": 67
+      },
+      "revId": "fae1c72dc82d3b486520daca21d94957a723c2b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

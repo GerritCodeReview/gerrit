@@ -32,6 +32,7 @@ import {
 import {ParsedChangeInfo} from '../../../types/types';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {SubmitRequirementResultInfo} from '../../../api/rest-api';
 
 suite('gr-submit-requirement-hovercard tests', () => {
   let element: GrSubmitRequirementHovercard;
@@ -161,18 +162,8 @@ suite('gr-submit-requirement-hovercard tests', () => {
             </iron-icon>
           </gr-button>
         </div>
-        <div class="section">
-          <div class="sectionIcon">
-            <iron-icon icon="gr-icons:description">
-            </iron-icon>
-          </div>
+        <div class="section condition">
           <div class="sectionContent">
-          </div>
-        </div>
-        <div class="section">
-          <div class="sectionIcon">
-          </div>
-          <div class="condition sectionContent">
             Blocking condition:
             <br>
             <span class="expression">
@@ -185,8 +176,9 @@ suite('gr-submit-requirement-hovercard tests', () => {
   });
 
   test('renders label', async () => {
-    const submitRequirement = {
+    const submitRequirement: SubmitRequirementResultInfo = {
       ...createSubmitRequirementResultInfo(),
+      description: 'Test Description',
       submittability_expression_result: {
         ...createSubmitRequirementExpressionInfo(),
         expression: 'label:Verified=MAX -label:Verified=MIN',
@@ -261,6 +253,15 @@ suite('gr-submit-requirement-hovercard tests', () => {
               <gr-label-info>
               </gr-label-info>
             </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sectionIcon">
+            <iron-icon icon="gr-icons:description">
+            </iron-icon>
+          </div>
+          <div class="sectionContent">
+          Test Description
           </div>
         </div>
         <div class="showConditions">

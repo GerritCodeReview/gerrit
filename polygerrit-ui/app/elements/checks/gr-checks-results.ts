@@ -75,6 +75,7 @@ import {GerritNav} from '../core/gr-navigation/gr-navigation';
 import {DropdownLink} from '../shared/gr-dropdown/gr-dropdown';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
+import {styleMap} from 'lit-html/directives/style-map';
 
 @customElement('gr-result-row')
 class GrResultRow extends LitElement {
@@ -917,7 +918,6 @@ export class GrChecksResults extends LitElement {
           padding: var(--spacing-s);
         }
         tr.headerRow th.nameCol {
-          width: 200px;
           padding-left: var(--spacing-l);
         }
         tr.headerRow th.summaryCol {
@@ -1274,11 +1274,16 @@ export class GrChecksResults extends LitElement {
       </div>`;
     }
     filtered = filtered.slice(0, limit);
+    // Some hosts/plugins use really long check names. If we have space and the
+    // check names are indeed very long, then set a more generous nameCol width.
+    const longestNameLength = Math.max(...all.map(r => r.checkName.length));
+    const wideNameCol = longestNameLength > 25 && this.clientWidth > 1000;
+    const nameColStyles = {width: wideNameCol ? '300px' : '200px'};
     return html`
       <table class="resultsTable">
         <thead>
           <tr class="headerRow">
-            <th class="nameCol">Run</th>
+            <th class="nameCol" style="${styleMap(nameColStyles)}">Run</th>
             <th class="summaryCol">Summary</th>
             <th class="expanderCol"></th>
           </tr>

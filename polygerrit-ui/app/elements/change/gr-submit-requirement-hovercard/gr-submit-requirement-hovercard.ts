@@ -149,7 +149,8 @@ export class GrSubmitRequirementHovercard extends base {
           </div>
         </div>
       </div>
-      ${this.renderLabelSection()} ${this.renderConditionSection()}
+      ${this.renderLabelSection()}
+      ${this.renderShowHideConditionButton()}${this.renderConditionSection()}
     </div>`;
   }
 
@@ -194,40 +195,44 @@ export class GrSubmitRequirementHovercard extends base {
     `;
   }
 
+  private renderShowHideConditionButton() {
+    const buttonText = this.expanded ? 'Hide conditions' : 'View conditions';
+    const icon = this.expanded ? 'expand-less' : 'expand-more';
+
+    return html` <div class="showConditions">
+      <gr-button
+        link=""
+        id="showHideConditionsButton"
+        @click="${(_: MouseEvent) => this.handleShowConditions()}"
+      >
+        ${buttonText}
+        <iron-icon icon="gr-icons:${icon}"></iron-icon
+      ></gr-button>
+    </div>`;
+  }
+
   private renderConditionSection() {
-    if (!this.expanded) {
-      return html` <div class="showConditions">
-        <gr-button
-          link=""
-          class="showConditions"
-          @click="${(_: MouseEvent) => this.handleShowConditions()}"
-        >
-          View condition
-          <iron-icon icon="gr-icons:expand-more"></iron-icon
-        ></gr-button>
-      </div>`;
-    } else {
-      return html`
-        <div class="section">
-          <div class="sectionIcon">
-            <iron-icon icon="gr-icons:description"></iron-icon>
-          </div>
-          <div class="sectionContent">${this.requirement?.description}</div>
+    if (!this.expanded) return;
+    return html`
+      <div class="section">
+        <div class="sectionIcon">
+          <iron-icon icon="gr-icons:description"></iron-icon>
         </div>
-        ${this.renderCondition(
-          'Blocking condition',
-          this.requirement?.submittability_expression_result
-        )}
-        ${this.renderCondition(
-          'Application condition',
-          this.requirement?.applicability_expression_result
-        )}
-        ${this.renderCondition(
-          'Override condition',
-          this.requirement?.override_expression_result
-        )}
-      `;
-    }
+        <div class="sectionContent">${this.requirement?.description}</div>
+      </div>
+      ${this.renderCondition(
+        'Blocking condition',
+        this.requirement?.submittability_expression_result
+      )}
+      ${this.renderCondition(
+        'Application condition',
+        this.requirement?.applicability_expression_result
+      )}
+      ${this.renderCondition(
+        'Override condition',
+        this.requirement?.override_expression_result
+      )}
+    `;
   }
 
   private renderCondition(
@@ -247,7 +252,7 @@ export class GrSubmitRequirementHovercard extends base {
   }
 
   private handleShowConditions() {
-    this.expanded = true;
+    this.expanded = !this.expanded;
   }
 }
 

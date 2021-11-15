@@ -11,5 +11,5 @@ genrule2(
     name = "log4j-config__jar",
     srcs = ["log4j.properties"],
     outs = ["log4j-config.jar"],
-    cmd = "cd resources && zip -9Dqr $$ROOT/$@ .",
+    cmd = "cd $$(dirname $(location log4j.properties)) && zip -9Dqr $$ROOT/$@ .",
 )

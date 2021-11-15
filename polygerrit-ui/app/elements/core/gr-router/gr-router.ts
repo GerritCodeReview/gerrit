@@ -138,6 +138,9 @@ const RoutePattern = {
 
   REPO_GENERAL: /^\/admin\/repos\/(.+),general$/,
 
+  // Matches /admin/repos/<repo>,quickchange[/path/of/a/file/to/edit][#line-no]
+  REPO_QUICKCHANGE: /^\/admin\/repos\/(.+),quickchange\/?(.*)/,
+
   // Matches /admin/repos/<repos>,access.
   REPO_ACCESS: /^\/admin\/repos\/(.+),access$/,
 
@@ -966,6 +969,8 @@ export class GrRouter extends PolymerElement {
 
     this._mapRoute(RoutePattern.PROJECT_OLD, '_handleProjectsOldRoute');
 
+    this._mapRoute(RoutePattern.REPO_QUICKCHANGE, '_handleRepoQuickchange', true)
+
     this._mapRoute(
       RoutePattern.REPO_COMMANDS,
       '_handleRepoCommandsRoute',
@@ -1716,6 +1721,27 @@ export class GrRouter extends PolymerElement {
     this.reporting.setRepoName(project);
     this.reporting.setChangeId(changeNum);
   }
+
+  _handleRepoQuickchange(ctx: PageContextWithQueryMap) {
+    // Parameter order is based on the regex group number matched.
+    const project = ctx.params[0] as RepoName;
+    const changeNum = Number(4306) as NumericChangeId; // Number(ctx.params[1]) as NumericChangeId;
+    const patchNum = "1"; // ctx.params[2];
+    const path = ctx.params[1];
+    console.log(path);
+    this._redirectOrNavigate({
+      project,
+      changeNum,
+      // for edit view params, patchNum cannot be undefined
+      patchNum: convertToPatchSetNum(patchNum)!,
+      path: path,
+      lineNum: ctx.hash,
+      view: GerritView.EDIT,
+    });
+    this.reporting.setRepoName(project);
+    this.reporting.setChangeId(changeNum);
+  }
+
 
   _handleChangeEditRoute(ctx: PageContextWithQueryMap) {
     // Parameter order is based on the regex group number matched.

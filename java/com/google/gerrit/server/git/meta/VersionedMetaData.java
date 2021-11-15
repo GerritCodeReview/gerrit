@@ -424,7 +424,10 @@ public abstract class VersionedMetaData {
       public void close() {
         newTree = null;
 
-        rw.close();
+        if (rw != null) {
+          rw.close();
+        }
+
         if (objInserter == null && inserter != null) {
           inserter.close();
           inserter = null;

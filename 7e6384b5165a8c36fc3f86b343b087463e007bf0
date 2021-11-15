@@ -16,6 +16,23 @@
       "message": "Is something wrong with the CI?",
       "revId": "7e6384b5165a8c36fc3f86b343b087463e007bf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bd6187e_152bff7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-15T22:07:36Z",
+      "side": 1,
+      "message": "I don\u0027t think CI is ran on stable-3.0 as it\u0027s EOL?",
+      "revId": "7e6384b5165a8c36fc3f86b343b087463e007bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -46,6 +46,30 @@
       },
       "revId": "8f0447d004e095a000e12a393f47804bda93e121",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11d11d52_dd1bfbea",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-15T10:19:21Z",
+      "side": 1,
+      "message": "Also consider a test for your label hiding at some point (not necessarily in this change).",
+      "parentUuid": "bacdd9ab_86d3c514",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 12
+      },
+      "revId": "8f0447d004e095a000e12a393f47804bda93e121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

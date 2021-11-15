@@ -24,7 +24,7 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
 import {ConfigParameterInfoType} from '../../../constants/constants';
 import {
   ConfigParameterInfo,
@@ -37,6 +37,8 @@ import {
   PluginOption,
 } from './gr-repo-plugin-config-types';
 import {paperStyles} from '../../../styles/gr-paper-styles';
+import {subscribe} from '../../lit/subscription-controller';
+import {account$} from '../../../services/user/user-model';
 
 const PLUGIN_CONFIG_CHANGED_EVENT_NAME = 'plugin-config-changed';
 
@@ -66,6 +68,8 @@ export class GrRepoPluginConfig extends LitElement {
   @property({type: Object})
   pluginData?: PluginData;
 
+  @state() private loggedIn = false;
+
   static override get styles() {
     return [
       sharedStyles,
@@ -86,6 +90,11 @@ export class GrRepoPluginConfig extends LitElement {
         }
       `,
     ];
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    subscribe(this, account$, x => (this.loggedIn = !!x));
   }
 
   override render() {
@@ -153,7 +162,7 @@ export class GrRepoPluginConfig extends LitElement {
           ?checked=${this._computeChecked(option.info.value)}
           @change=${this._handleBooleanChange}
           data-option-key=${option._key}
-          ?disabled=${!option.info.editable}
+          ?disabled=${!option.info.editable || !this.loggedIn}
           @click=${this._onTapPluginBoolean}
         ></paper-toggle-button>
       `;
@@ -165,7 +174,7 @@ export class GrRepoPluginConfig extends LitElement {
         >
           <select
             data-option-key=${option._key}
-            ?disabled=${!option.info.editable}
+            ?disabled=${!option.info.editable || !this.loggedIn}
           >
             ${(option.info.permitted_values || []).map(
               value => html`<option value="${value}">${value}</option>`
@@ -188,7 +197,7 @@ export class GrRepoPluginConfig extends LitElement {
             .value="${option.info.value ?? ''}"
             @input=${this._handleStringChange}
             data-option-key="${option._key}"
-            ?disabled=${!option.info.editable}
+            ?disabled=${!option.info.editable || !this.loggedIn}
           />
         </iron-input>
       `;

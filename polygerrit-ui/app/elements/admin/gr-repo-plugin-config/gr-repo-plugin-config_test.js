@@ -16,6 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
+import {queryAndAssert} from '../../../utils/common-util.js';
 import './gr-repo-plugin-config.js';
 
 const basicFixture = fixtureFromElement('gr-repo-plugin-config');
@@ -25,7 +26,87 @@ suite('gr-repo-plugin-config tests', () => {
 
   setup(async () => {
     element = basicFixture.instantiate();
-    await flush();
+    element.loggedIn = true;
+    await element.updateComplete;
+  });
+
+  test('render empty', async () => {
+    element.pluginData = {
+      name: 'plugin-name-test',
+      config: {},
+    };
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(`
+      <div class="gr-form-styles">
+        <fieldset>
+          <h4>plugin-name-test</h4>
+        </fieldset>
+      </div>
+    `);
+  });
+
+  test('render boolean option', async () => {
+    element.pluginData = {
+      name: 'plugin-name-test',
+      config: {'option-test': {value: 'true', type: 'BOOLEAN', editable: true}},
+    };
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(`
+      <div class="gr-form-styles">
+        <fieldset>
+          <h4>plugin-name-test</h4>
+          <section class="BOOLEAN section">
+            <span class="title">
+              <span>
+              </span>
+            </span>
+            <span class="value">
+              <paper-toggle-button
+                active=""
+                aria-disabled="false"
+                aria-pressed="true"
+                checked=""
+                data-option-key="option-test"
+                role="button"
+                style="touch-action: none;"
+                tabindex="0"
+                toggles=""
+              >
+              </paper-toggle-button>
+            </span>
+          </section>
+        </fieldset>
+      </div>
+    `);
+  });
+
+  test('render boolean option when not logged in', async () => {
+    element.pluginData = {
+      name: 'plugin-name-test',
+      config: {'option-test': {value: 'true', type: 'BOOLEAN', editable: true}},
+    };
+    element.loggedIn = false;
+    await element.updateComplete;
+
+    expect(queryAndAssert(element, 'section .value')).dom.to.equal(`
+      <span class="value">
+        <paper-toggle-button
+          active=""
+          aria-disabled="true"
+          aria-pressed="true"
+          checked=""
+          data-option-key="option-test"
+          disabled=""
+          role="button"
+          style="pointer-events: none; touch-action: none;"
+          tabindex="-1"
+          toggles=""
+        >
+        </paper-toggle-button>
+      </span>
+    `);
   });
 
   test('_computePluginConfigOptions', () => {

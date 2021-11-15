@@ -1506,8 +1506,12 @@ export class GrChangeView extends base {
     return 'PARENT';
   }
 
-  _computeChangeUrl(change: ChangeInfo) {
-    return GerritNav.getUrlForChange(change);
+  // Polymer was converting true to "true"(type string) automatically hence
+  // forceReload is of type string instead of boolean.
+  _computeChangeUrl(change: ChangeInfo, forceReload?: string) {
+    return GerritNav.getUrlForChange(change, {
+      forceReload: !!forceReload,
+    });
   }
 
   _computeReplyButtonLabel(

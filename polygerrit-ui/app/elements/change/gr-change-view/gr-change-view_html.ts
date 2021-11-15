@@ -346,7 +346,7 @@ export const htmlTemplate = html`
           <a
             class="changeNumber"
             aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
-            href$="[[_computeChangeUrl(_change)]]"
+            href$="[[_computeChangeUrl(_change, 'forceReload')]]"
             >[[_change._number]]</a
           >
           <span class="changeNumberColon">:&nbsp;</span>

@@ -76,6 +76,12 @@ public abstract class Predicate<T> {
     return (Predicate<T>) Any.INSTANCE;
   }
 
+  /** A predicate that matches no input, always, with no cost. */
+  @SuppressWarnings("unchecked")
+  public static <T> Predicate<T> none() {
+    return (Predicate<T>) None.INSTANCE;
+  }
+
   /** Combine the passed predicates into a single AND node. */
   @SafeVarargs
   public static <T> Predicate<T> and(Predicate<T>... that) {
@@ -207,6 +213,37 @@ public abstract class Predicate<T> {
     @Override
     public boolean match(T object) {
       return true;
+    }
+
+    @Override
+    public int getCost() {
+      return 0;
+    }
+
+    @Override
+    public int hashCode() {
+      return System.identityHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      return other == this;
+    }
+  }
+
+  private static class None<T> extends Predicate<T> implements Matchable<T> {
+    private static final None<Object> INSTANCE = new None<>();
+
+    private None() {}
+
+    @Override
+    public Predicate<T> copy(Collection<? extends Predicate<T>> children) {
+      return this;
+    }
+
+    @Override
+    public boolean match(T object) {
+      return false;
     }
 
     @Override

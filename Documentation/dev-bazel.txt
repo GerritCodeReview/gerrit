@@ -226,6 +226,81 @@ The output JAR file will be be placed in:
 Note that when building an individual plugin, the `core.zip` package
 is not regenerated.
 
+[[Out of tree building]]
+
+If you'd like to compile your own Gerrit you can do that quite simply. You may
+want to do this if, for example, if you're looking to create a custom
+distribution of Gerrit that has a custom set of plugins.
+
+Create a Bazel project like you would normally for
+link:https://docs.bazel.build/versions/4.2.1/tutorial/java.html[Java].
+
+First you will need to include the Gerrit source code at the current version in
+your `WORKSPACE` file.
+
+```
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+git_repository(
+    name = "gerrit",
+    remote = "https://gerrit.googlesource.com/gerrit",
+    commit = "FILL THIS IN WITH THE COMMIT YOU WANT TO BUILD",
+    recursive_init_submodules = True,
+)
+
+git_repository(
+    name = "jgit",
+    remote = "https://gerrit.googlesource.com/jgit",
+    commit = "FILL THIS IN WITH THE COMMIT YOU WANT TO BUILD",
+)
+```
+
+Next you'll need to load in the appropriate dependencies for the Java
+components of Gerrit, again in the `WORKSPACE` file.
+
+```
+load("@gerrit//tools:deps.bzl", gerrit_java_dependencies="java_dependencies")
+load("@gerrit//tools:nongoogle.bzl", gerrit_declare_nongoogle_deps="declare_nongoogle_deps")
+
+gerrit_declare_nongoogle_deps()
+gerrit_java_dependencies()
+```
+
+Now you can create your own `.war` file with whatever context you'd like. For
+example, to build a headless Gerrit that has a custom build `context`, defined
+in the same BUILD
+
+```
+load("@gerrit//tools/bzl:pkg_war.bzl", "pkg_war")
+load("@gerrit//tools/bzl:plugins.bzl", "CORE_PLUGINS")
+load("@gerrit//tools/bzl:genrule2.bzl", "genrule2")
+
+pkg_war(
+    name = "headless",
+    ui = None,
+)
+
+CUSTOM_PLUGINS = [
+    # This is a `java_binary` named "plugin" with the magic suffix
+    # "_deploy.jar" to produce a fat jar with all of its dependencies
+    # included.
+    # This is documented in the documentation for `java_binary` at
+    # https://docs.bazel.build/versions/main/be/java.html#java_binary
+    "//path/to/your:plugin_deploy.jar",
+]
+
+genrule2(
+    name = "plugins",
+    srcs = ["@gerrit//plugins/%s:%s.jar" % (n, n) for n in CORE_PLUGINS] + CUSTOM_PLUGINS,
+    outs = ["core.zip"],
+    cmd = "mkdir -p $$TMP/WEB-INF/plugins;" +
+          "for s in $(SRCS) ; do " +
+          "ln -s $$ROOT/$$s $$TMP/WEB-INF/plugins;done;" +
+          "cd $$TMP;" +
+          "zip -qr $$ROOT/$@ .",
+)
+```
+
 [[IDEs]]
 == Using an IDE.
 

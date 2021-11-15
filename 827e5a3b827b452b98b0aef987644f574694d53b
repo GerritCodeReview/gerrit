@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bee9074c_b66cc1fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-15T16:50:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb9976f2_e4411a65",
+      "revId": "827e5a3b827b452b98b0aef987644f574694d53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65b28389_6426ab97",
@@ -65,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7bdebd5_d5147c47",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-15T16:50:54Z",
+      "side": 1,
+      "message": "Sounds good.\nThanks for finding ChangeindexPredicate.none(), didn\u0027t know it exists.",
+      "parentUuid": "57cacc88_b774303c",
+      "range": {
+        "startLine": 234,
+        "startChar": 39,
+        "endLine": 234,
+        "endChar": 48
+      },
+      "revId": "827e5a3b827b452b98b0aef987644f574694d53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a186c76c_87c8cdb6",
@@ -102,6 +144,30 @@
       "side": 1,
       "message": "+1 to that.",
       "parentUuid": "a186c76c_87c8cdb6",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 44
+      },
+      "revId": "827e5a3b827b452b98b0aef987644f574694d53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73c60c43_831427cc",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-15T16:50:54Z",
+      "side": 1,
+      "message": "good idea, but now that I switched to ChangeIndexPredicate.none(), I can\u0027t, since the Predicate.or() method is generic (returns Predicate\u003cT\u003e but ChangeIndexPredicate.none() returns Predicate\u003cChangeData\u003e.\n\nI made a follow-up change for it, though. WDYT?",
+      "parentUuid": "76bd61dc_eb302c23",
       "range": {
         "startLine": 93,
         "startChar": 4,

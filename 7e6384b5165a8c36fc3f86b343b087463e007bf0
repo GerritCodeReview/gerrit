@@ -33,6 +33,24 @@
       "message": "I don\u0027t think CI is ran on stable-3.0 as it\u0027s EOL?",
       "revId": "7e6384b5165a8c36fc3f86b343b087463e007bf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b4d1365_3ce5176e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-15T22:19:17Z",
+      "side": 1,
+      "message": "Correct. See https://gerrit-review.googlesource.com/c/gerrit/+/323791/comments/1b4aa843_2ac10487 😊",
+      "parentUuid": "2bd6187e_152bff7f",
+      "revId": "7e6384b5165a8c36fc3f86b343b087463e007bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

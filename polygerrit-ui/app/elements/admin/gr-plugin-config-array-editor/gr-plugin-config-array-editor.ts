@@ -59,19 +59,8 @@ class GrPluginConfigArrayEditor extends GestureEventListeners(
   @property({type: Object})
   pluginOption!: ArrayPluginOption;
 
-  @property({type: Boolean, computed: '_computeDisabled(pluginOption.*)'})
+  @property({type: Boolean, value: false, reflectToAttribute: true})
   disabled?: boolean;
-
-  _computeDisabled(
-    record: PolymerDeepPropertyChange<ArrayPluginOption, ArrayPluginOption>
-  ) {
-    return !(
-      record &&
-      record.base &&
-      record.base.info &&
-      record.base.info.editable
-    );
-  }
 
   _handleAddTap(e: MouseEvent) {
     e.preventDefault();

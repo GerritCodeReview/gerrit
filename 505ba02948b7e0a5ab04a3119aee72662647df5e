@@ -16,6 +16,29 @@
       "message": "Oh my... Hope it\u0027s ok now.",
       "revId": "505ba02948b7e0a5ab04a3119aee72662647df5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af241338_99b486dd",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-15T19:12:17Z",
+      "side": 1,
+      "message": "rw can\u0027t ever be null, since it\u0027s final and we\u0027ll always have assigned it to something. So you can simplify this condition to:\n\n if (revWalk \u003d\u003d null) {\n   rw.close();\n }\n\nAnd then update your commit message to remove the NPE bit.",
+      "range": {
+        "startLine": 427,
+        "startChar": 31,
+        "endLine": 427,
+        "endChar": 41
+      },
+      "revId": "505ba02948b7e0a5ab04a3119aee72662647df5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

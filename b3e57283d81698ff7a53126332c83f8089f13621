@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5b5e0f8_351bf702",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-15T20:01:37Z",
+      "side": 1,
+      "message": "We usually leave this part out",
+      "range": {
+        "startLine": 8,
+        "startChar": 14,
+        "endLine": 8,
+        "endChar": 21
+      },
+      "revId": "b3e57283d81698ff7a53126332c83f8089f13621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

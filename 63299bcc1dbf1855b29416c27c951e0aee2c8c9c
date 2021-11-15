@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d3f08a6_76753bc7",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-15T08:31:59Z",
+      "side": 1,
+      "message": "I think that is because the offline and online migrators have different assumptions about the value of auth.userNameCaseInsensitive. The offline migrator uses the value to decide the direction of migration (it can migrate in both directions), if false it will migrate to case insensitive. The online migrator will only migrate into one direction - towards case insenstive - and requires auth.userNameCaseInsensitive to be true.",
+      "parentUuid": "6fbebb32_d889beea",
+      "range": {
+        "startLine": 114,
+        "startChar": 19,
+        "endLine": 114,
+        "endChar": 44
+      },
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a8c92fa_728bd201",
         "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivityMigrator.java",
         "patchSetId": 3

@@ -192,6 +192,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3da5ed95_30b5c6a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-15T13:26:37Z",
+      "side": 1,
+      "message": "toggleConditionsVisibility looks like the best option.",
+      "parentUuid": "8521241f_6299fbe5",
+      "range": {
+        "startLine": 254,
+        "startChar": 10,
+        "endLine": 254,
+        "endChar": 30
+      },
+      "revId": "d6c4ec40e699afd80ee33475b70a872ce05c1be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a54f8c9e_688087dd",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_test.ts",
         "patchSetId": 3

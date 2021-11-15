@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {appContext, AppContext} from './app-context';
+import {AppContext} from './app-context';
+import {create, Registry} from './registry';
 import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';
 import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
@@ -30,61 +31,74 @@ import {CommentsService} from './comments/comments-service';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {BrowserService} from './browser/browser-service';
 
+// NOTE: This global table is a stopgap solution until services know how to
+// properly clean up after themselves.
 type ServiceName = keyof AppContext;
-type ServiceCreator<T> = () => T;
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const initializedServices: Map<ServiceName, any> = new Map<ServiceName, any>();
-
-function getService<K extends ServiceName>(
-  serviceName: K,
-  serviceCreator: ServiceCreator<AppContext[K]>
-): AppContext[K] {
-  if (!initializedServices.has(serviceName)) {
-    initializedServices.set(serviceName, serviceCreator());
-  }
-  return initializedServices.get(serviceName);
-}
 
 /**
  * The AppContext lazy initializator for all services
  */
-export function initAppContext() {
-  function populateAppContext(
-    serviceCreators: {[P in ServiceName]: ServiceCreator<AppContext[P]>}
-  ) {
-    const registeredServices = Object.keys(serviceCreators).reduce(
-      (registeredServices, key) => {
-        const serviceName = key as ServiceName;
-        const serviceCreator = serviceCreators[serviceName];
-        registeredServices[serviceName] = {
-          configurable: true, // Tests can mock properties
-          get() {
-            return getService(serviceName, serviceCreator);
-          },
-        };
-        return registeredServices;
-      },
-      {} as PropertyDescriptorMap
-    );
-    Object.defineProperties(appContext, registeredServices);
-  }
-
-  populateAppContext({
-    flagsService: () => new FlagsServiceImplementation(),
-    reportingService: () => new GrReporting(appContext.flagsService),
-    eventEmitter: () => new EventEmitter(),
-    authService: () => new Auth(appContext.eventEmitter),
-    restApiService: () =>
-      new GrRestApiInterface(appContext.authService, appContext.flagsService),
-    changeService: () => new ChangeService(appContext.restApiService),
-    commentsService: () => new CommentsService(appContext.restApiService),
-    checksService: () => new ChecksService(appContext.reportingService),
-    jsApiService: () => new GrJsApiInterface(appContext.reportingService),
-    storageService: () => new GrStorageService(),
-    configService: () => new ConfigService(appContext.restApiService),
-    userService: () => new UserService(appContext.restApiService),
-    shortcutsService: () => new ShortcutsService(appContext.reportingService),
-    browserService: () => new BrowserService(),
-  });
+export function createAppContext(): AppContext {
+  const appRegistry: Registry<AppContext> = {
+    flagsService: (_ctx: Partial<AppContext>) =>
+     new FlagsServiceImplementation(),
+    reportingService: (ctx: Partial<AppContext>) => {
+      if (!ctx.flagsService)
+        throw new Error('AppContext.flagsService is not registered');
+      return new GrReporting(ctx.flagsService);
+    },
+    eventEmitter: (_ctx: Partial<AppContext>) => new EventEmitter(),
+    authService: (ctx: Partial<AppContext>) => {
+      if (!ctx.eventEmitter)
+        throw new Error('AppContext.eventEmitter is not registered');
+      return new Auth(ctx.eventEmitter);
+    },
+    restApiService: (ctx: Partial<AppContext>) => {
+      if (!ctx.authService)
+        throw new Error('AppContext.authService is not registered');
+      if (!ctx.flagsService)
+        throw new Error('AppContext.flagsService is not registered');
+      return new GrRestApiInterface(ctx.authService, ctx.flagsService);
+    },
+    changeService: (ctx: Partial<AppContext>) => {
+      if (!ctx.restApiService)
+        throw new Error('AppContext.restApiService is not registered');
+      return new ChangeService(ctx.restApiService);
+    },
+    commentsService: (ctx: Partial<AppContext>) => {
+      if (!ctx.restApiService)
+        throw new Error('AppContext.restApiService is not registered');
+      return new CommentsService(ctx.restApiService);
+    },
+    checksService: (ctx: Partial<AppContext>) => {
+      if (!ctx.reportingService)
+        throw new Error('AppContext.reportingService is not registered');
+      return new ChecksService(ctx.reportingService);
+    },
+    jsApiService: (ctx: Partial<AppContext>) => {
+      if (!ctx.reportingService)
+        throw new Error('AppContext.reportingService is not registered');
+      return new GrJsApiInterface(ctx.reportingService);
+    },
+    storageService: (_ctx: Partial<AppContext>) => new GrStorageService(),
+    configService: (ctx: Partial<AppContext>) => {
+      if (!ctx.restApiService)
+        throw new Error('AppContext.restApiService is not registered');
+      return new ConfigService(ctx.restApiService);
+    },
+    userService: (ctx: Partial<AppContext>) => {
+      if (!ctx.restApiService)
+        throw new Error('AppContext.restApiService is not registered');
+      return new UserService(ctx.restApiService);
+    },
+    shortcutsService: (ctx: Partial<AppContext>) => {
+      if (!ctx.reportingService)
+        throw new Error('AppContext.reportingService is not registered');
+      return new ShortcutsService(ctx.reportingService);
+    },
+    browserService: (_ctx: Partial<AppContext>) => new BrowserService(),
+  };
+  return create<AppContext>(appRegistry, initializedServices) as AppContext;
 }

@@ -17,10 +17,9 @@
 import '@polymer/iron-icon/iron-icon';
 import '../gr-avatar/gr-avatar';
 import '../gr-hovercard-account/gr-hovercard-account';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
-import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {fireEvent} from '../../../utils/event-util';
@@ -102,9 +101,9 @@ export class GrAccountLabel extends LitElement {
   @property({type: Boolean, reflect: true})
   deselected = false;
 
-  reporting: ReportingService;
+  readonly reporting = getAppContext().reportingService;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
     return [
@@ -270,7 +269,6 @@ export class GrAccountLabel extends LitElement {
 
   constructor() {
     super();
-    this.reporting = appContext.reportingService;
     this.restApiService.getConfig().then(config => {
       this._config = config;
     });

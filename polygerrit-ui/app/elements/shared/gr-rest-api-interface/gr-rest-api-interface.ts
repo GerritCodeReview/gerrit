@@ -32,7 +32,7 @@ import {
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser';
 import {parseDate} from '../../../utils/date-util';
 import {getBaseUrl} from '../../../utils/url-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {getParentIndex, isMergeParent} from '../../../utils/patch-set-util';
 import {
   ListChangesOption,
@@ -263,7 +263,7 @@ export function _testOnlyResetGrRestApiSharedObjects() {
   pendingRequest = {};
   grEtagDecorator = new GrEtagDecorator();
   projectLookup = {};
-  appContext.authService.clearCache();
+  getAppContext().authService.clearCache();
 }
 
 declare global {
@@ -299,8 +299,8 @@ export class GrRestApiInterface
     super();
     // TODO: Make the authService constructor parameter required when we have
     // changed all usages of this class to not instantiate via createElement().
-    this.authService = authService ?? appContext.authService;
-    this.flagService = flagService ?? appContext.flagsService;
+    this.authService = authService ?? getAppContext().authService;
+    this.flagService = flagService ?? getAppContext().flagsService;
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
       this.authService,

@@ -23,10 +23,10 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
-const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-reply-dialog-it tests', () => {
   let element;
+  let pluginApi;
   let changeNum;
   let patchNum;
 
@@ -71,6 +71,7 @@ suite('gr-reply-dialog-it tests', () => {
   };
 
   setup(() => {
+    pluginApi = _testOnly_initGerritPluginApi();
     changeNum = 42;
     patchNum = 1;
 

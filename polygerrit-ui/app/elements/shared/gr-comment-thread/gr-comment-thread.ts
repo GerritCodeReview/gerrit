@@ -33,7 +33,7 @@ import {
   UIRobot,
 } from '../../../utils/comment-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   CommentSide,
   createDefaultDiffPrefs,
@@ -206,24 +206,24 @@ export class GrCommentThread extends PolymerElement {
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly commentsService = appContext.commentsService;
+  private readonly commentsService = getAppContext().commentsService;
 
-  readonly storage = appContext.storageService;
+  private readonly restApiService = getAppContext().restApiService;
+
+  private readonly shortcuts = getAppContext().shortcutsService;
+
+  readonly storage = getAppContext().storageService;
 
   private readonly syntaxLayer = new GrSyntaxLayer();
-
-  readonly restApiService = appContext.restApiService;
-
-  private readonly shortcuts = appContext.shortcutsService;
 
   constructor() {
     super();
     this.addEventListener('comment-update', e =>
       this._handleCommentUpdate(e as CustomEvent)
     );
-    appContext.restApiService.getPreferences().then(prefs => {
+    this.restApiService.getPreferences().then(prefs => {
       this._initLayers(!!prefs?.disable_token_highlighting);
     });
   }

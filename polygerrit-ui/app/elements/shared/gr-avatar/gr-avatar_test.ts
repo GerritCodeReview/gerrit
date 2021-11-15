@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-avatar';
 import {GrAvatar} from './gr-avatar';
 import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
-import {appContext} from '../../../services/app-context';
+import {getAppContext, AppContext} from '../../../services/app-context';
 import {AvatarInfo} from '../../../types/common';
 import {
   createAccountWithEmail,
@@ -116,7 +116,9 @@ suite('gr-avatar tests', () => {
   });
 
   suite('config set', () => {
+    let appContext: AppContext;
     setup(() => {
+      appContext = getAppContext();
       const config = {
         ...createServerInfo(),
         plugin: {has_avatars: true, js_resource_paths: []},
@@ -141,7 +143,7 @@ suite('gr-avatar tests', () => {
       getPluginLoader().loadPlugins([]);
 
       return Promise.all([
-        appContext.restApiService.getConfig(),
+        appContext!.restApiService.getConfig(),
         getPluginLoader().awaitPluginsLoaded(),
       ]).then(() => {
         assert.isFalse(element.hasAttribute('hidden'));
@@ -154,9 +156,9 @@ suite('gr-avatar tests', () => {
   });
 
   suite('plugin has avatars', () => {
-    let element: GrAvatar;
-
+    let appContext: AppContext;
     setup(() => {
+      appContext = getAppContext();
       const config = {
         ...createServerInfo(),
         plugin: {has_avatars: true, js_resource_paths: []},
@@ -185,10 +187,11 @@ suite('gr-avatar tests', () => {
 
   suite('config not set', () => {
     let element: GrAvatar;
+    let appContext: AppContext;
 
     setup(() => {
       stub('gr-avatar', '_getConfig').returns(Promise.resolve(undefined));
-
+      appContext = getAppContext();
       element = basicFixture.instantiate();
     });
 

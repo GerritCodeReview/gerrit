@@ -20,21 +20,20 @@ import {getPluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {stubRestApi} from '../../../test/test-utils.js';
-import {appContext} from '../../../services/app-context.js';
-
-const pluginApi = _testOnly_initGerritPluginApi();
+import {getAppContext} from '../../../services/app-context.js';
 
 suite('gr-gerrit tests', () => {
   let element;
-
   let clock;
+  let pluginApi;
 
   setup(() => {
     clock = sinon.useFakeTimers();
 
     stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
     stubRestApi('send').returns(Promise.resolve({status: 200}));
-    element = appContext.jsApiService;
+    element = getAppContext().jsApiService;
+    pluginApi = _testOnly_initGerritPluginApi();
   });
 
   teardown(() => {

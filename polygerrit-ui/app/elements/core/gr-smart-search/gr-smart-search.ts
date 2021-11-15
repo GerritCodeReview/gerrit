@@ -26,7 +26,7 @@ import {
   SuggestionProvider,
 } from '../gr-search-bar/gr-search-bar';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
@@ -65,7 +65,7 @@ export class GrSmartSearch extends PolymerElement {
   @property({type: String})
   label = '';
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();

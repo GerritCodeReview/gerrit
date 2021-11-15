@@ -18,7 +18,7 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   allRunsLatestPatchsetLatestAttempt$,
   aPluginHasRegistered$,
@@ -98,7 +98,7 @@ export class GrSummaryChip extends LitElement {
   @property()
   category?: CommentTabState;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   static override get styles() {
     return [
@@ -412,7 +412,7 @@ export class GrChangeSummary extends LitElement {
 
   private showAllChips = new Map<RunStatus | Category, boolean>();
 
-  private checksService = appContext.checksService;
+  private checksService = getAppContext().checksService;
 
   constructor() {
     super();

@@ -26,7 +26,7 @@ import {
   isGroupAuditGroupEventInfo,
 } from '../../../types/common';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
@@ -48,7 +48,7 @@ export class GrGroupAuditLog extends LitElement {
 
   @state() private loading = true;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();

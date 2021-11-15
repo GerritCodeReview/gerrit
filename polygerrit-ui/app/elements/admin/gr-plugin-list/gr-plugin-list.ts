@@ -22,7 +22,7 @@ import {htmlTemplate} from './gr-plugin-list_html';
 import {customElement, property} from '@polymer/decorators';
 import {PluginInfo} from '../../../types/common';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
@@ -72,7 +72,7 @@ export class GrPluginList extends PolymerElement {
   @property({type: String})
   _filter = '';
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();

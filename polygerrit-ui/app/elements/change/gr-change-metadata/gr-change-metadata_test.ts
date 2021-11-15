@@ -20,7 +20,10 @@ import '../../core/gr-router/gr-router';
 import './gr-change-metadata';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit';
+import {
+  _testOnly_initGerritPluginApi,
+  GerritInternal,
+} from '../../shared/gr-js-api-interface/gr-gerrit';
 import {GrChangeMetadata} from './gr-change-metadata';
 import {
   createServerInfo,
@@ -67,12 +70,12 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 
 const basicFixture = fixtureFromElement('gr-change-metadata');
 
-const pluginApi = _testOnly_initGerritPluginApi();
-
 suite('gr-change-metadata tests', () => {
+  let pluginApi: GerritInternal;
   let element: GrChangeMetadata;
 
   setup(() => {
+    pluginApi = _testOnly_initGerritPluginApi();
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getConfig').returns(
       Promise.resolve({

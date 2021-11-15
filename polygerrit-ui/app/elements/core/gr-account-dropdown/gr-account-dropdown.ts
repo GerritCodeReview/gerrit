@@ -18,7 +18,7 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-avatar/gr-avatar';
 import {getUserName} from '../../../utils/display-name-util';
 import {AccountInfo, ServerInfo} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
 import {
   DropdownContent,
@@ -53,7 +53,7 @@ export class GrAccountDropdown extends LitElement {
   @property({type: String})
   _switchAccountUrl = '';
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();

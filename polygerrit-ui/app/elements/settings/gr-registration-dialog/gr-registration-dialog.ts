@@ -23,7 +23,7 @@ import {htmlTemplate} from './gr-registration-dialog_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {ServerInfo, AccountDetailInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
 
 export interface GrRegistrationDialog {
@@ -97,7 +97,7 @@ export class GrRegistrationDialog extends PolymerElement {
   @property({type: Boolean})
   _hasDisplayNameChange?: boolean;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override ready() {
     super.ready();

@@ -18,7 +18,7 @@
 import '@polymer/iron-icon/iron-icon';
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {accountKey, isSelf} from '../../../utils/account-util';
 import {customElement, property} from 'lit/decorators';
 import {
@@ -27,7 +27,6 @@ import {
   ServerInfo,
   ReviewInput,
 } from '../../../types/common';
-import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
   canHaveAttention,
   getAddedByReason,
@@ -81,14 +80,9 @@ export class GrHovercardAccount extends base {
   @property({type: Object})
   _config?: ServerInfo;
 
-  reporting: ReportingService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly restApiService = appContext.restApiService;
-
-  constructor() {
-    super();
-    this.reporting = appContext.reportingService;
-  }
+  private readonly reporting = getAppContext().reportingService;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -171,7 +165,7 @@ export class GrHovercardAccount extends base {
     return html`
       <div class="top">
         <div class="avatar">
-          <gr-avautar .account=${this.account} imageSize="56"></gr-avatar>
+          <gr-avatar .account=${this.account} imageSize="56"></gr-avatar>
         </div>
         <div class="account">
           <h3 class="name heading-3">${this.account.name}</h3>
@@ -179,16 +173,14 @@ export class GrHovercardAccount extends base {
         </div>
       </div>
       ${this.renderAccountStatus()}
-      ${
-        this.voteableText
-          ? html`
-              <div class="voteable">
-                <span class="title">Voteable:</span>
-                <span class="value">${this.voteableText}</span>
-              </div>
-            `
-          : ''
-      }
+      ${this.voteableText
+        ? html`
+            <div class="voteable">
+              <span class="title">Voteable:</span>
+              <span class="value">${this.voteableText}</span>
+            </div>
+          `
+        : ''}
       ${this.renderNeedsAttention()} ${this.renderAddToAttention()}
       ${this.renderRemoveFromAttention()} ${this.renderReviewerOrCcActions()}
     `;

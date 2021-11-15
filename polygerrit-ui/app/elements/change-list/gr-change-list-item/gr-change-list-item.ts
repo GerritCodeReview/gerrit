@@ -34,7 +34,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {truncatePath} from '../../../utils/path-list-util';
 import {changeStatuses} from '../../../utils/change-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
@@ -122,9 +122,9 @@ export class GrChangeListItem extends PolymerElement {
   @property({type: Boolean})
   _isSubmitRequirementsUiEnabled = false;
 
-  reporting: ReportingService = appContext.reportingService;
+  reporting: ReportingService = getAppContext().reportingService;
 
-  private readonly flagsService = appContext.flagsService;
+  private readonly flagsService = getAppContext().flagsService;
 
   override ready() {
     super.ready();

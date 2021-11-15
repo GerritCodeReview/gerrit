@@ -24,7 +24,7 @@ import {getPluginLoader} from './gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 import {stubRestApi} from '../../../test/test-utils.js';
-import {appContext} from '../../../services/app-context.js';
+import {getAppContext} from '../../../services/app-context.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -45,7 +45,7 @@ suite('GrJsApiInterface tests', () => {
 
     stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
     sendStub = stubRestApi('send').returns(Promise.resolve({status: 200}));
-    element = appContext.jsApiService;
+    element = getAppContext().jsApiService;
     errorStub = sinon.stub(element.reporting, 'error');
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');

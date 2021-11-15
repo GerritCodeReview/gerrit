@@ -30,7 +30,7 @@ import {
   rangesEqual,
   SYNTAX_MAX_LINE_LENGTH,
 } from '../gr-diff/gr-diff-utils';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   getParentIndex,
   isAParent,
@@ -270,13 +270,13 @@ export class GrDiffHost extends PolymerElement {
     num_lines_rendered_at_once: 128,
   };
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly flags = appContext.flagsService;
+  private readonly flags = getAppContext().flagsService;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly jsAPI = appContext.jsApiService;
+  private readonly jsAPI = getAppContext().jsApiService;
 
   private readonly syntaxLayer = new GrSyntaxLayer();
 
@@ -333,7 +333,7 @@ export class GrDiffHost extends PolymerElement {
   }
 
   async initLayers() {
-    const preferencesPromise = appContext.restApiService.getPreferences();
+    const preferencesPromise = this.restApiService.getPreferences();
     await getPluginLoader().awaitPluginsLoaded();
     const prefs = await preferencesPromise;
     const enableTokenHighlight = !prefs?.disable_token_highlighting;

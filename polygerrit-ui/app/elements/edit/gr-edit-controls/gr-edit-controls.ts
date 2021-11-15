@@ -34,7 +34,7 @@ import {
   AutocompleteQuery,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {IronInputElement} from '@polymer/iron-input';
 import {fireAlert, fireReload} from '../../../utils/event-util';
 
@@ -76,7 +76,7 @@ export class GrEditControls extends PolymerElement {
   @property({type: Object})
   _query: AutocompleteQuery;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

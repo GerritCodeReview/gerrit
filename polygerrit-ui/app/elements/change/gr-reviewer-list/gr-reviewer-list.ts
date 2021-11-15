@@ -39,7 +39,7 @@ import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {isRemovableReviewer} from '../../../utils/change-util';
 import {ReviewerState} from '../../../constants/constants';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {fireAlert} from '../../../utils/event-util';
 import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
@@ -86,7 +86,7 @@ export class GrReviewerList extends PolymerElement {
   @property({type: Object})
   _xhrPromise?: Promise<Response | undefined>;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   @computed('ccsOnly')
   get _addLabel() {

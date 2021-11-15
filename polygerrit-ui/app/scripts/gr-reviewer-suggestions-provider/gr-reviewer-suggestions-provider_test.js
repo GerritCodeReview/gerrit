@@ -17,7 +17,7 @@
 
 import '../../test/common-test-setup-karma.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from './gr-reviewer-suggestions-provider.js';
-import {appContext} from '../../services/app-context.js';
+import {getAppContext} from '../../services/app-context.js';
 import {stubRestApi} from '../../test/test-utils.js';
 
 suite('GrReviewerSuggestionsProvider tests', () => {
@@ -84,7 +84,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
   suite('allowAnyUser set to false', () => {
     setup(async () => {
       provider = GrReviewerSuggestionsProvider.create(
-          appContext.restApiService, change._number,
+          getAppContext().restApiService, change._number,
           SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
       await provider.init();
     });
@@ -204,7 +204,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
   suite('allowAnyUser set to true', () => {
     setup(async () => {
       provider = GrReviewerSuggestionsProvider.create(
-          appContext.restApiService, change._number,
+          getAppContext().restApiService, change._number,
           SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
       await provider.init();
     });

@@ -17,7 +17,7 @@
 import '../gr-js-api-interface/gr-js-api-interface';
 
 import {EventType} from '../../../api/plugin';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 import {LibraryConfig} from './gr-lib-loader';
 
@@ -27,7 +27,7 @@ export const HLJS_LIBRARY_CONFIG: LibraryConfig = {
   checkPresent: () => window.hljs !== undefined,
   configureCallback: () => {
     window.hljs!.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
-    appContext.jsApiService.handleEvent(EventType.HIGHLIGHTJS_LOADED, {
+    getAppContext().jsApiService.handleEvent(EventType.HIGHLIGHTJS_LOADED, {
       hljs: window.hljs,
     });
     return window.hljs;

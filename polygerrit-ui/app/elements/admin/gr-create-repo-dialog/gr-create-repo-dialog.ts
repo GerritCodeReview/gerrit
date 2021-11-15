@@ -27,7 +27,7 @@ import {
   RepoName,
 } from '../../../types/common';
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {convertToString} from '../../../utils/string-util';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -83,7 +83,7 @@ export class GrCreateRepoDialog extends LitElement {
 
   private readonly queryGroups: AutocompleteQuery;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

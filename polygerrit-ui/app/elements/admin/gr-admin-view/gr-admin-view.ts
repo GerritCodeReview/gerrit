@@ -60,7 +60,7 @@ import {
 } from '../../../types/common';
 import {GroupNameChangedDetail} from '../gr-group/gr-group';
 import {ValueChangeDetail} from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
@@ -169,9 +169,9 @@ export class GrAdminView extends PolymerElement {
   @property({type: Boolean})
   _showPluginList?: boolean;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly jsAPI = appContext.jsApiService;
+  private readonly jsAPI = getAppContext().jsApiService;
 
   override connectedCallback() {
     super.connectedCallback();

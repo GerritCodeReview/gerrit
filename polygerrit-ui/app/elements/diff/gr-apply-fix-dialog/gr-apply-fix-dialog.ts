@@ -36,7 +36,7 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {isRobot} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -103,7 +103,7 @@ export class GrApplyFixDialog extends PolymerElement {
 
   private refitOverlay?: () => void;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

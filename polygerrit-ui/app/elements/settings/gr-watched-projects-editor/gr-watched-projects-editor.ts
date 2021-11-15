@@ -30,7 +30,7 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {ProjectWatchInfo} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {IronInputElement} from '@polymer/iron-input';
 
 const NOTIFICATION_TYPES = [
@@ -67,7 +67,7 @@ export class GrWatchedProjectsEditor extends PolymerElement {
   @property({type: Object})
   _query: AutocompleteQuery;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

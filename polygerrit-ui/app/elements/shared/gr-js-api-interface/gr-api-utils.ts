@@ -18,7 +18,7 @@
 import {getBaseUrl} from '../../../utils/url-util';
 import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 export const PLUGIN_LOADING_TIMEOUT_MS = 10000;
 
@@ -62,14 +62,14 @@ export function getPluginNameFromUrl(url: URL | string) {
   return pathname.split('/')[2].split('.')[0];
 }
 
-// TODO(taoalpha): to be deprecated.
 export function send(
+  restApiService: RestApiService,
   method: HttpMethod,
   url: string,
   opt_callback?: (response: unknown) => void,
   opt_payload?: RequestPayload
 ) {
-  return appContext.restApiService
+  return restApiService
     .send(method, url, opt_payload)
     .then(response => {
       if (response.status < 200 || response.status >= 300) {
@@ -81,7 +81,7 @@ export function send(
           }
         });
       } else {
-        return appContext.restApiService.getResponseObject(response);
+        return restApiService.getResponseObject(response);
       }
     })
     .then(response => {

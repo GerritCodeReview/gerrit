@@ -18,7 +18,7 @@ import '../gr-account-link/gr-account-link';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {classMap} from 'lit/directives/class-map';
@@ -79,7 +79,7 @@ export class GrAccountChip extends LitElement {
   @property({type: Boolean})
   transparentBackground = false;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
     return [

@@ -19,7 +19,7 @@ import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrPluginPopup} from './gr-plugin-popup';
 import {PluginApi} from '../../../api/plugin';
 import {PopupPluginApi} from '../../../api/popup';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 interface CustomPolymerPluginEl extends HTMLElement {
   plugin: PluginApi;
@@ -36,7 +36,7 @@ export class GrPopupInterface implements PopupPluginApi {
 
   private popup: GrPluginPopup | null = null;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   constructor(
     readonly plugin: PluginApi,

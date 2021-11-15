@@ -34,7 +34,7 @@ import {
 } from '../../../types/common';
 import {AuthType} from '../../../constants/constants';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {Subject} from 'rxjs';
 import {serverConfig$} from '../../../services/config/config-model';
 import {takeUntil} from 'rxjs/operators';
@@ -155,9 +155,11 @@ export class GrMainHeader extends PolymerElement {
   @property({type: Boolean})
   mobileSearchHidden = false;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly jsAPI = appContext.jsApiService;
+  private readonly jsAPI = getAppContext().jsApiService;
+
+  private readonly userService = getAppContext().userService;
 
   private readonly disconnected$ = new Subject();
 
@@ -170,7 +172,7 @@ export class GrMainHeader extends PolymerElement {
     // TODO(brohlfs): This just ensures that the userService is instantiated at
     // all. We need the service to manage the model, but we are not making any
     // direct calls. Will need to find a better solution to this problem ...
-    assertIsDefined(appContext.userService);
+    assertIsDefined(this.userService);
 
     super.connectedCallback();
     this._loadAccount();

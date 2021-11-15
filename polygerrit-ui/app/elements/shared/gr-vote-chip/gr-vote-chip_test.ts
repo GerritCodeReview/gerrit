@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma';
 import {fixture} from '@open-wc/testing-helpers';
 import {html} from 'lit';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import './gr-vote-chip';
 import {GrVoteChip} from './gr-vote-chip';
 import {
@@ -31,7 +31,7 @@ import {ApprovalInfo} from '../../../api/rest-api';
 
 suite('gr-vote-chip tests', () => {
   setup(() => {
-    sinon.stub(appContext.flagsService, 'isEnabled').returns(true);
+    sinon.stub(getAppContext().flagsService, 'isEnabled').returns(true);
   });
 
   suite('with QuickLabelInfo', () => {

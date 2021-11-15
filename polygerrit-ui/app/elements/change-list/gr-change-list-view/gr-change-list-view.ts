@@ -37,7 +37,7 @@ import {
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {ChangeListViewState} from '../../../types/types';
 import {fireTitleChange} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 
@@ -109,9 +109,9 @@ export class GrChangeListView extends PolymerElement {
   @property({type: String})
   _repo: RepoName | null = null;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private reporting = appContext.reportingService;
+  private reporting = getAppContext().reportingService;
 
   private lastVisibleTimestampMs = 0;
 

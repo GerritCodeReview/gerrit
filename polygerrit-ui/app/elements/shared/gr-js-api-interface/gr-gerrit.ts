@@ -21,8 +21,11 @@
  */
 import {getPluginLoader, PluginOptionMap} from './gr-plugin-loader';
 import {send} from './gr-api-utils';
-import {appContext} from '../../../services/app-context';
+import {getAppContext, AppContext} from '../../../services/app-context';
 import {PluginApi} from '../../../api/plugin';
+import {AuthService} from '../../../services/gr-auth/gr-auth';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
 import {
@@ -37,6 +40,7 @@ import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
+import {assertIsDefined} from '../../../utils/common-util';
 
 /**
  * These are the methods and properties that are exposed explicitly in the
@@ -74,11 +78,11 @@ export interface GerritInternal extends EventEmitterService, Gerrit {
 
   // exposed methods
   Nav: typeof GerritNav;
-  Auth: typeof appContext.authService;
+  Auth: AuthService;
 }
 
 export function initGerritPluginApi() {
-  window.Gerrit = window.Gerrit ?? new GerritImpl();
+  window.Gerrit = window.Gerrit ?? new GerritImpl(getAppContext());
 }
 
 export function _testOnly_initGerritPluginApi(): GerritInternal {
@@ -91,8 +95,8 @@ export function deprecatedDelete(
   callback?: (response: Response) => void
 ) {
   console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
-  return appContext.restApiService
-    .send(HttpMethod.DELETE, url)
+  return getAppContext()
+    .restApiService.send(HttpMethod.DELETE, url)
     .then(response => {
       if (response.status !== 204) {
         return response.text().then(text => {
@@ -120,7 +124,13 @@ class GerritImpl implements GerritInternal {
 
   public readonly Nav = GerritNav;
 
-  public readonly Auth = appContext.authService;
+  public readonly Auth: AuthService;
+
+  private readonly reportingService: ReportingService;
+
+  private readonly eventEmitter: EventEmitterService;
+
+  private readonly restApiService: RestApiService;
 
   public readonly styles = {
     font: fontStyles,
@@ -131,12 +141,22 @@ class GerritImpl implements GerritInternal {
     table: tableStyles,
   };
 
+  constructor(appContext: AppContext) {
+    this.Auth = appContext.authService;
+    this.reportingService = appContext.reportingService;
+    this.eventEmitter = appContext.eventEmitter;
+    this.restApiService = appContext.restApiService;
+    assertIsDefined(this.reportingService, 'reportingService');
+    assertIsDefined(this.eventEmitter, 'eventEmitter');
+    assertIsDefined(this.restApiService, 'restApiService');
+  }
+
   /**
    * @deprecated Use plugin.styles().css(rulesStr) instead. Please, consult
    * the documentation how to replace it accordingly.
    */
   css(rulesStr: string) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'css');
+    this.reportingService.trackApi(fakeApi, 'global', 'css');
     console.warn(
       'Gerrit.css(rulesStr) is deprecated!',
       'Use plugin.styles().css(rulesStr)'
@@ -161,18 +181,18 @@ class GerritImpl implements GerritInternal {
   }
 
   getLoggedIn() {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'getLoggedIn');
+    this.reportingService.trackApi(fakeApi, 'global', 'getLoggedIn');
     console.warn(
       'Gerrit.getLoggedIn() is deprecated! ' +
         'Use plugin.restApi().getLoggedIn()'
     );
-    return appContext.restApiService.getLoggedIn();
+    return this.restApiService.getLoggedIn();
   }
 
   get(url: string, callback?: (response: unknown) => void) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'get');
+    this.reportingService.trackApi(fakeApi, 'global', 'get');
     console.warn('.get() is deprecated! Use plugin.restApi().get()');
-    send(HttpMethod.GET, url, callback);
+    send(this.restApiService, HttpMethod.GET, url, callback);
   }
 
   post(
@@ -180,9 +200,9 @@ class GerritImpl implements GerritInternal {
     payload?: RequestPayload,
     callback?: (response: unknown) => void
   ) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'post');
+    this.reportingService.trackApi(fakeApi, 'global', 'post');
     console.warn('.post() is deprecated! Use plugin.restApi().post()');
-    send(HttpMethod.POST, url, callback, payload);
+    send(this.restApiService, HttpMethod.POST, url, callback, payload);
   }
 
   put(
@@ -190,43 +210,35 @@ class GerritImpl implements GerritInternal {
     payload?: RequestPayload,
     callback?: (response: unknown) => void
   ) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'put');
+    this.reportingService.trackApi(fakeApi, 'global', 'put');
     console.warn('.put() is deprecated! Use plugin.restApi().put()');
-    send(HttpMethod.PUT, url, callback, payload);
+    send(this.restApiService, HttpMethod.PUT, url, callback, payload);
   }
 
   delete(url: string, callback?: (response: Response) => void) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'delete');
+    this.reportingService.trackApi(fakeApi, 'global', 'delete');
     deprecatedDelete(url, callback);
   }
 
   awaitPluginsLoaded() {
-    appContext.reportingService.trackApi(
-      fakeApi,
-      'global',
-      'awaitPluginsLoaded'
-    );
+    this.reportingService.trackApi(fakeApi, 'global', 'awaitPluginsLoaded');
     return getPluginLoader().awaitPluginsLoaded();
   }
 
   // TODO(taoalpha): consider removing these proxy methods
   // and using getPluginLoader() directly
   _loadPlugins(plugins: string[] = []) {
-    appContext.reportingService.trackApi(fakeApi, 'global', '_loadPlugins');
+    this.reportingService.trackApi(fakeApi, 'global', '_loadPlugins');
     getPluginLoader().loadPlugins(plugins);
   }
 
   _arePluginsLoaded() {
-    appContext.reportingService.trackApi(
-      fakeApi,
-      'global',
-      '_arePluginsLoaded'
-    );
+    this.reportingService.trackApi(fakeApi, 'global', '_arePluginsLoaded');
     return getPluginLoader().arePluginsLoaded();
   }
 
   _isPluginEnabled(pathOrUrl: string) {
-    appContext.reportingService.trackApi(fakeApi, 'global', '_isPluginEnabled');
+    this.reportingService.trackApi(fakeApi, 'global', '_isPluginEnabled');
     return getPluginLoader().isPluginEnabled(pathOrUrl);
   }
 
@@ -235,7 +247,7 @@ class GerritImpl implements GerritInternal {
   }
 
   _isPluginLoaded(pathOrUrl: string) {
-    appContext.reportingService.trackApi(fakeApi, 'global', '_isPluginLoaded');
+    this.reportingService.trackApi(fakeApi, 'global', '_isPluginLoaded');
     return getPluginLoader().isPluginLoaded(pathOrUrl);
   }
 
@@ -262,48 +274,44 @@ class GerritImpl implements GerritInternal {
    * });
    */
   addListener(eventName: string, cb: EventCallback) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'addListener');
-    return appContext.eventEmitter.addListener(eventName, cb);
+    this.reporting.trackApi(fakeApi, 'global', 'addListener');
+    return this.eventEmitter.addListener(eventName, cb);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dispatch(eventName: string, detail: any) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'dispatch');
-    return appContext.eventEmitter.dispatch(eventName, detail);
+    this.reporting.trackApi(fakeApi, 'global', 'dispatch');
+    return this.eventEmitter.dispatch(eventName, detail);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emit(eventName: string, detail: any) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'emit');
-    return appContext.eventEmitter.emit(eventName, detail);
+    this.reporting.trackApi(fakeApi, 'global', 'emit');
+    return this.eventEmitter.emit(eventName, detail);
   }
 
   off(eventName: string, cb: EventCallback) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'off');
-    return appContext.eventEmitter.off(eventName, cb);
+    this.reporting.trackApi(fakeApi, 'global', 'off');
+    return this.eventEmitter.off(eventName, cb);
   }
 
   on(eventName: string, cb: EventCallback) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'on');
-    return appContext.eventEmitter.on(eventName, cb);
+    this.reporting.trackApi(fakeApi, 'global', 'on');
+    return this.eventEmitter.on(eventName, cb);
   }
 
   once(eventName: string, cb: EventCallback) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'once');
-    return appContext.eventEmitter.once(eventName, cb);
+    this.reporting.trackApi(fakeApi, 'global', 'once');
+    return this.eventEmitter.once(eventName, cb);
   }
 
   removeAllListeners(eventName: string) {
-    appContext.reportingService.trackApi(
-      fakeApi,
-      'global',
-      'removeAllListeners'
-    );
-    return appContext.eventEmitter.removeAllListeners(eventName);
+    this.reporting.trackApi(fakeApi, 'global', 'removeAllListeners');
+    return this.eventEmitter.removeAllListeners(eventName);
   }
 
   removeListener(eventName: string, cb: EventCallback) {
-    appContext.reportingService.trackApi(fakeApi, 'global', 'removeListener');
-    return appContext.eventEmitter.removeListener(eventName, cb);
+    this.reporting.trackApi(fakeApi, 'global', 'removeListener');
+    return this.eventEmitter.removeListener(eventName, cb);
   }
 }

@@ -21,7 +21,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-editable-content_html';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {queryAndAssert} from '../../../utils/common-util';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
@@ -108,9 +108,9 @@ export class GrEditableContent extends PolymerElement {
   @property({type: String, observer: '_newContentChanged'})
   _newContent = '';
 
-  private readonly storage = appContext.storageService;
+  private readonly storage = getAppContext().storageService;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   // Tests use this so needs to be non private
   storeTask?: DelayedTask;

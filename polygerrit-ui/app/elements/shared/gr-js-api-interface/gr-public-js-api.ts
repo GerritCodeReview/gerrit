@@ -32,7 +32,7 @@ import {RequestPayload} from '../../../types/common';
 import {HttpMethod} from '../../../constants/constants';
 import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
 import {GrChecksApi} from '../../plugins/gr-checks-api/gr-checks-api';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {AdminPluginApi} from '../../../api/admin';
 import {AnnotationPluginApi} from '../../../api/annotation';
 import {EventHelperPluginApi} from '../../../api/event-helper';
@@ -71,9 +71,11 @@ export class Plugin implements PluginApi {
 
   private readonly _name: string = PLUGIN_NAME_NOT_SET;
 
-  private readonly jsApi = appContext.jsApiService;
+  private readonly jsApi = getAppContext().jsApiService;
 
-  private readonly report = appContext.reportingService;
+  private readonly report = getAppContext().reportingService;
+
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor(url?: string) {
     this.domHooks = new GrDomHooksManager(this);
@@ -175,7 +177,7 @@ export class Plugin implements PluginApi {
 
   getServerInfo() {
     this.report.trackApi(this, 'plugin', 'getServerInfo');
-    return appContext.restApiService.getConfig();
+    return this.restApiService.getConfig();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -212,7 +214,7 @@ export class Plugin implements PluginApi {
     callback?: SendCallback,
     payload?: RequestPayload
   ) {
-    return send(method, this.url(url), callback, payload);
+    return send(this.restApiService, method, this.url(url), callback, payload);
   }
 
   annotationApi(): AnnotationPluginApi {

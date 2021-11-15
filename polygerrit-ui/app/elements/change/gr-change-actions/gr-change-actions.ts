@@ -33,7 +33,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-actions_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {CURRENT} from '../../../utils/patch-set-util';
 import {
   changeIsOpen,
@@ -381,11 +381,12 @@ export class GrChangeActions
 
   RevisionActions = RevisionActions;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly jsAPI = appContext.jsApiService;
+  // Accessed in tests
+  readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly changeService = appContext.changeService;
+  private readonly changeService = getAppContext().changeService;
 
   @property({type: Object})
   change?: ChangeViewChangeInfo;
@@ -551,7 +552,7 @@ export class GrChangeActions
   @property({type: Object})
   _config?: ServerInfo;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

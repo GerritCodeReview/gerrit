@@ -26,7 +26,7 @@ import {customElement, property} from '@polymer/decorators';
 import {AccountExternalIdInfo, ServerInfo} from '../../../types/common';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {PolymerDomRepeatEvent} from '../../../types/types';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 const AUTH = ['OPENID', 'OAUTH'];
 
@@ -57,7 +57,7 @@ export class GrIdentities extends PolymerElement {
   })
   _showLinkAnotherIdentity?: boolean;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   loadData() {
     return this.restApiService.getExternalIds().then(id => {

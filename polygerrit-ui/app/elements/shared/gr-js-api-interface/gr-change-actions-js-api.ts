@@ -16,7 +16,7 @@
  */
 import {PluginApi, TargetElement} from '../../../api/plugin';
 import {ActionInfo, RequireProperties} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   ActionPriority,
   ActionType,
@@ -68,7 +68,9 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
 
   ActionType = ActionType;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
+
+  private readonly jsApiService = getAppContext().jsApiService;
 
   constructor(public plugin: PluginApi, el?: GrChangeActionsElement) {
     this.reporting.trackApi(this.plugin, 'actions', 'constructor');
@@ -92,7 +94,7 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
    */
   ensureEl(): GrChangeActionsElement {
     if (!this.el) {
-      const sharedApiElement = appContext.jsApiService;
+      const sharedApiElement = this.jsApiService;
       this.setEl(
         sharedApiElement.getElement(
           TargetElement.CHANGE_ACTIONS

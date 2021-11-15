@@ -17,7 +17,7 @@
 import '../types/globals';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/gr-plugin-endpoints';
-import {appContext} from '../services/app-context';
+import {getAppContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {SinonSpy, SinonStub} from 'sinon';
 import {StorageService} from '../services/storage/gr-storage';
@@ -104,43 +104,43 @@ export function stubBaseUrl(newUrl: string) {
 }
 
 export function stubRestApi<K extends keyof RestApiService>(method: K) {
-  return sinon.stub(appContext.restApiService, method);
+  return sinon.stub(getAppContext().restApiService, method);
 }
 
 export function spyRestApi<K extends keyof RestApiService>(method: K) {
-  return sinon.spy(appContext.restApiService, method);
+  return sinon.spy(getAppContext().restApiService, method);
 }
 
 export function stubComments<K extends keyof CommentsService>(method: K) {
-  return sinon.stub(appContext.commentsService, method);
+  return sinon.stub(getAppContext().commentsService, method);
 }
 
 export function stubUsers<K extends keyof UserService>(method: K) {
-  return sinon.stub(appContext.userService, method);
+  return sinon.stub(getAppContext().userService, method);
 }
 
 export function stubShortcuts<K extends keyof ShortcutsService>(method: K) {
-  return sinon.stub(appContext.shortcutsService, method);
+  return sinon.stub(getAppContext().shortcutsService, method);
 }
 
 export function stubStorage<K extends keyof StorageService>(method: K) {
-  return sinon.stub(appContext.storageService, method);
+  return sinon.stub(getAppContext().storageService, method);
 }
 
 export function spyStorage<K extends keyof StorageService>(method: K) {
-  return sinon.spy(appContext.storageService, method);
+  return sinon.spy(getAppContext().storageService, method);
 }
 
 export function stubAuth<K extends keyof AuthService>(method: K) {
-  return sinon.stub(appContext.authService, method);
+  return sinon.stub(getAppContext().authService, method);
 }
 
 export function stubReporting<K extends keyof ReportingService>(method: K) {
-  return sinon.stub(appContext.reportingService, method);
+  return sinon.stub(getAppContext().reportingService, method);
 }
 
 export function stubFlags<K extends keyof FlagsService>(method: K) {
-  return sinon.stub(appContext.flagsService, method);
+  return sinon.stub(getAppContext().flagsService, method);
 }
 
 export type SinonSpyMember<F extends (...args: any) => any> = SinonSpy<

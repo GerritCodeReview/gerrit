@@ -29,7 +29,7 @@ import {
 import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
 import {ProjectState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {fireTitleChange} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -69,7 +69,7 @@ export class GrRepoList extends LitElement {
 
   @state() readonly path = '/admin/repos';
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override async connectedCallback() {
     super.connectedCallback();

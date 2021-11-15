@@ -33,7 +33,7 @@ import {
   LabelInfo,
 } from '../../../types/common';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {labelCompare} from '../../../utils/label-util';
 import {Interaction} from '../../../constants/reporting';
 
@@ -85,7 +85,7 @@ export class GrChangeRequirements extends PolymerElement {
   @property({type: Boolean})
   _showOptionalLabels = true;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   _computeShowWip(change: ChangeInfo) {
     return change.work_in_progress;

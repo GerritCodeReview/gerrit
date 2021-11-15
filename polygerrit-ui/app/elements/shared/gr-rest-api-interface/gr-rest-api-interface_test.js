@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import {addListenerForTest, mockPromise, stubAuth} from '../../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {ListChangesOption} from '../../../utils/change-util.js';
-import {appContext} from '../../../services/app-context.js';
+import {getAppContext} from '../../../services/app-context.js';
 import {createChange} from '../../../test/test-data-generators.js';
 import {CURRENT} from '../../../utils/patch-set-util.js';
 import {
@@ -49,7 +49,7 @@ suite('gr-rest-api-interface tests', () => {
       },
     }));
     // fake auth
-    sinon.stub(appContext.authService, 'authCheck')
+    sinon.stub(getAppContext().authService, 'authCheck')
         .returns(Promise.resolve(true));
     element = new GrRestApiInterface();
     element._projectLookup = {};
@@ -828,7 +828,7 @@ suite('gr-rest-api-interface tests', () => {
   test('gerrit auth is used', () => {
     stubAuth('fetch').returns(Promise.resolve());
     element._restApiHelper.fetchJSON({url: 'foo'});
-    assert(appContext.authService.fetch.called);
+    assert(getAppContext().authService.fetch.called);
   });
 
   test('getSuggestedAccounts does not return _fetchJSON', () => {
@@ -1244,7 +1244,8 @@ suite('gr-rest-api-interface tests', () => {
     const res = {status: 404};
     const spy = sinon.spy();
     addListenerForTest(document, 'server-error', spy);
-    sinon.stub(appContext.authService, 'fetch').returns(Promise.resolve(res));
+    sinon.stub(getAppContext().authService, 'fetch')
+        .returns(Promise.resolve(res));
     sinon.stub(element, '_changeBaseURL').returns(Promise.resolve(''));
     return element.getFileContent('1', 'tst/path', '1')
         .then(() => {

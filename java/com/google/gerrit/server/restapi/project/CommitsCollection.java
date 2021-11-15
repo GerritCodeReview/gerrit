@@ -146,13 +146,16 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
 
     // Maybe the commit was a merge commit of a change. Try to find promising candidates for
     // branches to check, by seeing if its parents were associated to changes.
+
+    List<Predicate<ChangeData>> parentPredicates =
+        Arrays.stream(commit.getParents())
+            .map(parent -> ChangePredicates.commitPrefix(parent.getId().getName()))
+            .collect(toImmutableList());
+
     Predicate<ChangeData> pred =
-        Predicate.and(
-            ChangePredicates.project(project),
-            Predicate.or(
-                Arrays.stream(commit.getParents())
-                    .map(parent -> ChangePredicates.commitPrefix(parent.getId().getName()))
-                    .collect(toImmutableList())));
+        parentPredicates.isEmpty()
+            ? ChangePredicates.project(project)
+            : Predicate.and(ChangePredicates.project(project), Predicate.or(parentPredicates));
     changes =
         retryHelper
             .changeIndexQuery(

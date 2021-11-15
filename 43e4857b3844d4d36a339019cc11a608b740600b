@@ -34,6 +34,24 @@
       "parentUuid": "ca633cf2_d2e0ddf5",
       "revId": "43e4857b3844d4d36a339019cc11a608b740600b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "475d1e39_b2d98ec6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-15T19:48:45Z",
+      "side": 1,
+      "message": "I still don\u0027t think we want to change the default. We could add a note to the 3.2 release notes recommending it be enabled and noting that it\u0027s default in JGit since 5.11 and in Gerrit version 3.5+ (assuming it wasn\u0027t already changed in 3.3/3.4)?",
+      "parentUuid": "65dc8485_13b2202f",
+      "revId": "43e4857b3844d4d36a339019cc11a608b740600b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

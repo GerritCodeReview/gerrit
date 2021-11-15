@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0100628_c32bbe71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-11-15T18:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08f5ac7b_238d58b5",
+      "revId": "31de903e2e5a2f173621f25045778386297279d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5295c26_c7ed1b37",
@@ -31,6 +49,54 @@
       "writtenOn": "2021-11-15T18:11:18Z",
       "side": 1,
       "message": "Needs to also do revWalk \u003d\u003d null, like the checks below.\n\n if (revWalk \u003d\u003d null \u0026\u0026 rw !\u003d null) {",
+      "range": {
+        "startLine": 427,
+        "startChar": 12,
+        "endLine": 427,
+        "endChar": 22
+      },
+      "revId": "31de903e2e5a2f173621f25045778386297279d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee36544e_16c7ce68",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-11-15T18:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5295c26_c7ed1b37",
+      "range": {
+        "startLine": 427,
+        "startChar": 12,
+        "endLine": 427,
+        "endChar": 22
+      },
+      "revId": "31de903e2e5a2f173621f25045778386297279d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5d32583_1c59f265",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-11-15T18:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5295c26_c7ed1b37",
       "range": {
         "startLine": 427,
         "startChar": 12,

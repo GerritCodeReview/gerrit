@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4e8fd52_f3335d4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1509,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T10:24:07Z",
+      "side": 1,
+      "message": "Why is this a string when you convert it to a boolean two lines down? Can it just be a boolean with a `false` default?",
+      "range": {
+        "startLine": 1509,
+        "startChar": 40,
+        "endLine": 1509,
+        "endChar": 60
+      },
+      "revId": "4fd1211cc6619f762595b8468a7a1ff8fa8239ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

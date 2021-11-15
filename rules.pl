@@ -48,3 +48,4 @@ base(CR, CS, V) :-
 needs_library_compliance :- gerrit:commit_delta('^lib/'), !.
 needs_library_compliance :- gerrit:commit_delta('^WORKSPACE$'), !.
 needs_library_compliance :- gerrit:commit_delta('^.gitmodules$'), !.
+needs_library_compliance :- gerrit:commit_delta('^tools/deps.bzl$'), !.

@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f265c0ad_e0e16d24",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-15T13:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8522ad3d_1a302081",
+      "range": {
+        "startLine": 205,
+        "startChar": 12,
+        "endLine": 205,
+        "endChar": 36
+      },
+      "revId": "d6c4ec40e699afd80ee33475b70a872ce05c1be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "346a57f8_bd54366b",
@@ -214,6 +238,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51c9b4ab_9aae8120",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-15T13:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3da5ed95_30b5c6a8",
+      "range": {
+        "startLine": 254,
+        "startChar": 10,
+        "endLine": 254,
+        "endChar": 30
+      },
+      "revId": "d6c4ec40e699afd80ee33475b70a872ce05c1be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a54f8c9e_688087dd",
@@ -227,6 +275,24 @@
       "writtenOn": "2021-11-15T13:24:09Z",
       "side": 1,
       "message": "Maybe restrict the comparison to the query \u0027.showConditions\u0027.",
+      "revId": "d6c4ec40e699afd80ee33475b70a872ce05c1be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f4ed840_b24191dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-15T13:33:14Z",
+      "side": 1,
+      "message": "I actually want to see mostly conditions rendered.",
+      "parentUuid": "a54f8c9e_688087dd",
       "revId": "d6c4ec40e699afd80ee33475b70a872ce05c1be3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

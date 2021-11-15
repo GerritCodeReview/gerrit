@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bed97aee_1d93c4e6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:33:40Z",
+      "side": 1,
+      "message": "Adding ! is tempting, but try to avoid it, and just add assertDefined() calls whenever you are using the variable and are sure that it is defined.",
+      "range": {
+        "startLine": 45,
+        "startChar": 35,
+        "endLine": 45,
+        "endChar": 49
+      },
+      "revId": "75213901328f4fd956a672f36c5af2002196a08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7ea7792_fcd08473",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:33:40Z",
+      "side": 1,
+      "message": "prefer // comment style for such one-line comments that are not about what the field is about",
+      "revId": "75213901328f4fd956a672f36c5af2002196a08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8241cefa_46c45a7d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:33:40Z",
+      "side": 1,
+      "message": "Maybe move this into paramsChanged()?",
+      "revId": "75213901328f4fd956a672f36c5af2002196a08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f514d8b1_07acaf81",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:33:40Z",
+      "side": 1,
+      "message": "Prefer \u0027willUpdate\u0027 over \u0027updated\u0027 for computed props.",
+      "range": {
+        "startLine": 153,
+        "startChar": 11,
+        "endLine": 153,
+        "endChar": 18
+      },
+      "revId": "75213901328f4fd956a672f36c5af2002196a08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d7ab3b1_6182f26a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:33:40Z",
+      "side": 1,
+      "message": "Move this to line 205 to right before the restApi call is made.",
+      "revId": "75213901328f4fd956a672f36c5af2002196a08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e213c43_16339069",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-15T08:33:40Z",
+      "side": 1,
+      "message": "Move this from the `then()` block into a `finally()` block.",
+      "revId": "75213901328f4fd956a672f36c5af2002196a08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

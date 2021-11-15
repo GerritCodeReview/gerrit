@@ -20,8 +20,8 @@ config_setting(
 genrule(
     name = "gen_version",
     outs = ["version.txt"],
-    cmd = ("cat bazel-out/volatile-status.txt bazel-out/stable-status.txt | " +
-           "grep STABLE_BUILD_GERRIT_LABEL | cut -d ' ' -f 2 > $@"),
+    cmd = ("(cat bazel-out/volatile-status.txt bazel-out/stable-status.txt | " +
+           "grep STABLE_BUILD_GERRIT_LABEL | cut -d ' ' -f 2) > $@ || echo 'UNKNOWN' > $@"),
     stamp = 1,
 )
 

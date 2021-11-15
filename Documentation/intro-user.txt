@@ -690,6 +690,15 @@ corrections immediately and publish them as a new patch set.
 It is also possible to link:user-inline-edit.html#create-change[create
 new changes inline].
 
+[[quick-change]]
+== Quick changes
+
+It's possible to produce deep links to the the link:#inline-edit[inline edit]
+feature to allow users to quickly create changes. You can do this by creating a
+link to `/admin/repos/$REPO_NAME,quickchange`.
+
+https://gerrit.stairwell.io/admin/repos/$REPO_NAME,quickchange/?path=$PATH&project=$PROJECT&branch=$BRANCH
+
 [[roles]]
 == Roles
 

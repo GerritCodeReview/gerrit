@@ -80,12 +80,11 @@ public class InitSshd implements InitStep {
   }
 
   private void generateSshHostKeys() throws InterruptedException, IOException {
-    if (!exists(site.ssh_key)
-        && (!exists(site.ssh_rsa)
-            || !exists(site.ssh_ed25519)
-            || !exists(site.ssh_ecdsa_256)
-            || !exists(site.ssh_ecdsa_384)
-            || !exists(site.ssh_ecdsa_521))) {
+    if ((!exists(site.ssh_key) && !exists(site.ssh_rsa))
+        || !exists(site.ssh_ed25519)
+        || !exists(site.ssh_ecdsa_256)
+        || !exists(site.ssh_ecdsa_384)
+        || !exists(site.ssh_ecdsa_521)) {
       System.err.print("Generating SSH host key ...");
       System.err.flush();
 
@@ -95,7 +94,7 @@ public class InitSshd implements InitStep {
 
       // Workaround for JDK-6518827 - zero-length argument ignored on Win32
       String emptyPassphraseArg = HostPlatform.isWin32() ? "\"\"" : "";
-      if (!exists(site.ssh_rsa)) {
+      if (!exists(site.ssh_key) && !exists(site.ssh_rsa)) {
         System.err.print(" rsa...");
         System.err.flush();
         new ProcessBuilder(

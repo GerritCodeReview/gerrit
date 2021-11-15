@@ -62,16 +62,17 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     }
 
     if (Files.exists(objKey)) {
+      if (Files.exists(rsaKey)) {
+        // Both formats of host key exist, we don't know which format
+        // should be authoritative. Complain and abort.
+        throw new ProvisionException("Multiple host ssh-rsa keys exist: " + stdKeys);
+      }
       if (stdKeys.isEmpty()) {
         SimpleGeneratorHostKeyProvider p = new SimpleGeneratorHostKeyProvider();
         p.setPath(objKey.toAbsolutePath());
         return p;
       }
-      // Both formats of host key exist, we don't know which format
-      // should be authoritative. Complain and abort.
-      //
       stdKeys.add(objKey.toAbsolutePath().toFile());
-      throw new ProvisionException("Multiple host keys exist: " + stdKeys);
     }
     if (stdKeys.isEmpty()) {
       throw new ProvisionException("No SSH keys under " + site.etc_dir);

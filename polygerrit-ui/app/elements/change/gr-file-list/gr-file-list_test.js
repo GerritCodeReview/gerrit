@@ -46,8 +46,7 @@ import {queryAndAssert} from '../../../utils/common-util.js';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
-    <gr-file-list id="fileList"
-        change-comments="[[_changeComments]]"></gr-file-list>
+    <gr-file-list id="fileList"></gr-file-list>
 `);
 
 const basicFixture = fixtureFromElement(commentApiMock.is);

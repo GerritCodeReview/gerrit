@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efadf2f1_8fe63525",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2212,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-15T00:06:52Z",
+      "side": 1,
+      "message": "no need for comma now",
+      "range": {
+        "startLine": 2212,
+        "startChar": 99,
+        "endLine": 2212,
+        "endChar": 100
+      },
+      "revId": "69d29addd4a00e37f77ff5c5e2ac80c0f539a6d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

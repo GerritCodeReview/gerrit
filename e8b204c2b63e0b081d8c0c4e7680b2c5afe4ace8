@@ -16,6 +16,29 @@
       "message": "All good from my side.",
       "revId": "e8b204c2b63e0b081d8c0c4e7680b2c5afe4ace8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdc29ca9_6a039a0f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-15T17:11:22Z",
+      "side": 1,
+      "message": "nit: could be substituted with a one line\n\nreturn changeIdPredicates.isEmpty()? ChangeIndexPredicate.none() : Predicate.or(changeIdPredicates);\n\nSame for L115.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 44
+      },
+      "revId": "e8b204c2b63e0b081d8c0c4e7680b2c5afe4ace8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

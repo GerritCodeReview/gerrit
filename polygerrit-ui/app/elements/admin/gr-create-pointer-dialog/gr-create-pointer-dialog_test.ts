@@ -18,7 +18,11 @@
 import '../../../test/common-test-setup-karma';
 import './gr-create-pointer-dialog';
 import {GrCreatePointerDialog} from './gr-create-pointer-dialog';
-import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {
+  mockPromise,
+  queryAndAssert,
+  stubRestApi,
+} from '../../../test/test-utils';
 import {BranchName} from '../../../types/common';
 import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
 import {IronInputElement} from '@polymer/iron-input';
@@ -31,73 +35,78 @@ suite('gr-create-pointer-dialog tests', () => {
   const ironInput = (element: Element) =>
     queryAndAssert<IronInputElement>(element, 'iron-input');
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
   test('branch created', async () => {
     stubRestApi('createRepoBranch').returns(Promise.resolve(new Response()));
 
-    assert.isFalse(element.hasNewItemName);
+    const promise = mockPromise();
+    element.addEventListener('update-item-name', () => {
+      promise.resolve();
+    });
 
-    element._itemName = 'test-branch' as BranchName;
+    element.itemName = 'test-branch' as BranchName;
     element.itemDetail = 'branches' as RepoDetailView.BRANCHES;
 
-    ironInput(element.$.itemNameSection).bindValue = 'test-branch2';
-    ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
+    ironInput(queryAndAssert(element, '#itemNameSection')).bindValue =
+      'test-branch2';
+    ironInput(queryAndAssert(element, '#itemRevisionSection')).bindValue =
+      'HEAD';
 
-    await flush();
+    await promise;
 
-    assert.isTrue(element.hasNewItemName);
-    assert.equal(element._itemName, 'test-branch2' as BranchName);
-    assert.equal(element._itemRevision, 'HEAD');
+    assert.equal(element.itemName, 'test-branch2' as BranchName);
+    assert.equal(element.itemRevision, 'HEAD');
   });
 
   test('tag created', async () => {
     stubRestApi('createRepoTag').returns(Promise.resolve(new Response()));
 
-    assert.isFalse(element.hasNewItemName);
+    const promise = mockPromise();
+    element.addEventListener('update-item-name', () => {
+      promise.resolve();
+    });
 
-    element._itemName = 'test-tag' as BranchName;
+    element.itemName = 'test-tag' as BranchName;
     element.itemDetail = 'tags' as RepoDetailView.TAGS;
 
-    ironInput(element.$.itemNameSection).bindValue = 'test-tag2';
-    ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
+    ironInput(queryAndAssert(element, '#itemNameSection')).bindValue =
+      'test-tag2';
+    ironInput(queryAndAssert(element, '#itemRevisionSection')).bindValue =
+      'HEAD';
 
-    await flush();
-    assert.isTrue(element.hasNewItemName);
-    assert.equal(element._itemName, 'test-tag2' as BranchName);
-    assert.equal(element._itemRevision, 'HEAD');
+    await promise;
+
+    assert.equal(element.itemName, 'test-tag2' as BranchName);
+    assert.equal(element.itemRevision, 'HEAD');
   });
 
   test('tag created with annotations', async () => {
     stubRestApi('createRepoTag').returns(Promise.resolve(new Response()));
 
-    assert.isFalse(element.hasNewItemName);
+    const promise = mockPromise();
+    element.addEventListener('update-item-name', () => {
+      promise.resolve();
+    });
 
-    element._itemName = 'test-tag' as BranchName;
-    element._itemAnnotation = 'test-message';
+    element.itemName = 'test-tag' as BranchName;
+    element.itemAnnotation = 'test-message';
     element.itemDetail = 'tags' as RepoDetailView.TAGS;
 
-    ironInput(element.$.itemNameSection).bindValue = 'test-tag2';
-    ironInput(element.$.itemAnnotationSection).bindValue = 'test-message2';
-    ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
+    ironInput(queryAndAssert(element, '#itemNameSection')).bindValue =
+      'test-tag2';
+    ironInput(queryAndAssert(element, '#itemAnnotationSection')).bindValue =
+      'test-message2';
+    ironInput(queryAndAssert(element, '#itemRevisionSection')).bindValue =
+      'HEAD';
 
-    await flush();
-    assert.isTrue(element.hasNewItemName);
-    assert.equal(element._itemName, 'test-tag2' as BranchName);
-    assert.equal(element._itemAnnotation, 'test-message2');
-    assert.equal(element._itemRevision, 'HEAD');
-  });
+    await promise;
 
-  test('_computeHideItemClass returns hideItem if type is branches', () => {
-    assert.equal(
-      element._computeHideItemClass(RepoDetailView.BRANCHES),
-      'hideItem'
-    );
-  });
-
-  test('_computeHideItemClass returns strings if not branches', () => {
-    assert.equal(element._computeHideItemClass(RepoDetailView.TAGS), '');
+    assert.equal(element.itemName, 'test-tag2' as BranchName);
+    assert.equal(element.itemAnnotation, 'test-message2');
+    assert.equal(element.itemRevision, 'HEAD');
   });
 });

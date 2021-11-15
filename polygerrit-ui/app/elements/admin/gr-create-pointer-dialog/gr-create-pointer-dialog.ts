@@ -15,65 +15,132 @@
  * limitations under the License.
  */
 import '@polymer/iron-input/iron-input';
-import '../../../styles/gr-form-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-create-pointer-dialog_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
-import {customElement, property, observe} from '@polymer/decorators';
 import {BranchName, RepoName} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, css, html} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
+import {BindValueChangeEvent} from '../../../types/events';
+import {fireEvent} from '../../../utils/event-util';
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-create-pointer-dialog': GrCreatePointerDialog;
+  }
+}
 
 @customElement('gr-create-pointer-dialog')
-export class GrCreatePointerDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrCreatePointerDialog extends LitElement {
   @property({type: String})
   detailType?: string;
 
   @property({type: String})
   repoName?: RepoName;
 
-  @property({type: Boolean, notify: true})
-  hasNewItemName = false;
-
   @property({type: String})
   itemDetail?: RepoDetailView.BRANCHES | RepoDetailView.TAGS;
 
-  @property({type: String})
-  _itemName?: BranchName;
+  /* private but used in test */
+  @state() itemName?: BranchName;
 
-  @property({type: String})
-  _itemRevision?: string;
+  /* private but used in test */
+  @state() itemRevision?: string;
 
-  @property({type: String})
-  _itemAnnotation?: string;
-
-  @observe('_itemName')
-  _updateItemName(name?: string) {
-    this.hasNewItemName = !!name;
-  }
+  /* private but used in test */
+  @state() itemAnnotation?: string;
 
   private readonly restApiService = appContext.restApiService;
+
+  static override get styles() {
+    return [
+      formStyles,
+      sharedStyles,
+      css`
+        :host {
+          display: inline-block;
+        }
+        input {
+          width: 20em;
+        }
+        /* Add css selector with #id to increase priority
+          (otherwise ".gr-form-styles section" rule wins) */
+        .hideItem,
+        #itemAnnotationSection.hideItem {
+          display: none;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <div class="gr-form-styles">
+        <div id="form">
+          <section id="itemNameSection">
+            <span class="title">${this.detailType} name</span>
+            <iron-input
+              .bindValue=${this.itemName}
+              @bind-value-changed=${this.handleItemNameBindValueChanged}
+            >
+              <input placeholder="${this.detailType} Name" />
+            </iron-input>
+          </section>
+          <section id="itemRevisionSection">
+            <span class="title">Initial Revision</span>
+            <iron-input
+              .bindValue=${this.itemRevision}
+              @bind-value-changed=${this.handleItemRevisionBindValueChanged}
+            >
+              <input placeholder="Revision (Branch or SHA-1)" />
+            </iron-input>
+          </section>
+          <section
+            id="itemAnnotationSection"
+            class=${this.itemDetail === RepoDetailView.BRANCHES
+              ? 'hideItem'
+              : ''}
+          >
+            <span class="title">Annotation</span>
+            <iron-input
+              .bindValue=${this.itemAnnotation}
+              @bind-value-changed=${this.handleItemAnnotationBindValueChanged}
+            >
+              <input placeholder="Annotation (Optional)" />
+            </iron-input>
+          </section>
+        </div>
+      </div>
+    `;
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('itemName')) {
+      this.updateItemName();
+    }
+  }
+
+  private updateItemName() {
+    fireEvent(this, 'update-item-name');
+  }
 
   handleCreateItem() {
     if (!this.repoName) {
       throw new Error('repoName name is not set');
     }
-    if (!this._itemName) {
+    if (!this.itemName) {
       throw new Error('itemName name is not set');
     }
-    const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
+    const USE_HEAD = this.itemRevision ? this.itemRevision : 'HEAD';
     const url = `${getBaseUrl()}/admin/repos/${encodeURL(this.repoName, true)}`;
     if (this.itemDetail === RepoDetailView.BRANCHES) {
       return this.restApiService
-        .createRepoBranch(this.repoName, this._itemName, {revision: USE_HEAD})
+        .createRepoBranch(this.repoName, this.itemName, {revision: USE_HEAD})
         .then(itemRegistered => {
           if (itemRegistered.status === 201) {
             page.show(`${url},branches`);
@@ -81,9 +148,9 @@ export class GrCreatePointerDialog extends PolymerElement {
         });
     } else if (this.itemDetail === RepoDetailView.TAGS) {
       return this.restApiService
-        .createRepoTag(this.repoName, this._itemName, {
+        .createRepoTag(this.repoName, this.itemName, {
           revision: USE_HEAD,
-          message: this._itemAnnotation || undefined,
+          message: this.itemAnnotation || undefined,
         })
         .then(itemRegistered => {
           if (itemRegistered.status === 201) {
@@ -94,13 +161,15 @@ export class GrCreatePointerDialog extends PolymerElement {
     throw new Error(`Invalid itemDetail: ${this.itemDetail}`);
   }
 
-  _computeHideItemClass(type?: RepoDetailView.BRANCHES | RepoDetailView.TAGS) {
-    return type === RepoDetailView.BRANCHES ? 'hideItem' : '';
+  private handleItemNameBindValueChanged(e: BindValueChangeEvent) {
+    this.itemName = e.detail.value as BranchName;
   }
-}
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-create-pointer-dialog': GrCreatePointerDialog;
+  private handleItemRevisionBindValueChanged(e: BindValueChangeEvent) {
+    this.itemRevision = e.detail.value;
+  }
+
+  private handleItemAnnotationBindValueChanged(e: BindValueChangeEvent) {
+    this.itemAnnotation = e.detail.value;
   }
 }

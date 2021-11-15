@@ -16,18 +16,20 @@
  */
 
 import '../test/common-test-setup-karma.js';
-import {appContext} from './app-context.js';
-import {initAppContext} from './app-context-init.js';
+import {AppContext} from './app-context.js';
+import {createAppContext} from './app-context-init.js';
 suite('app context initializer tests', () => {
+  let appContext: Partial<AppContext>;
   setup(() => {
-    initAppContext();
+    appContext = createAppContext();
   });
 
   test('all services initialized and are singletons', () => {
     Object.keys(appContext).forEach(serviceName => {
-      const service = appContext[serviceName];
+      const service = appContext[serviceName as keyof AppContext];
+      assert.isDefined(service);
       assert.isNotNull(service);
-      const service2 = appContext[serviceName];
+      const service2 = appContext[serviceName as keyof AppContext];
       assert.strictEqual(service, service2);
     });
   });

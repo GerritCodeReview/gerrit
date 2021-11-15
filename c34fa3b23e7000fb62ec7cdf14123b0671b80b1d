@@ -34,6 +34,24 @@
       "parentUuid": "408289e4_5fb76b26",
       "revId": "c34fa3b23e7000fb62ec7cdf14123b0671b80b1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "229f89b6_27bd608f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-15T11:48:08Z",
+      "side": 1,
+      "message": "Ah, I think we need to update the rule to include tools/deps.bzl for future modifications.",
+      "parentUuid": "f01382ca_8ec87ab9",
+      "revId": "c34fa3b23e7000fb62ec7cdf14123b0671b80b1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

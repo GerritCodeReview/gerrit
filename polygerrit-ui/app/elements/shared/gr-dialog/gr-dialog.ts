@@ -130,7 +130,6 @@ export class GrDialog extends LitElement {
           </div>
         </main>
         <footer>
-          <slot name="footer"></slot>
           <gr-button
             id="cancel"
             class="${this.cancelLabel.length ? '' : 'hidden'}"

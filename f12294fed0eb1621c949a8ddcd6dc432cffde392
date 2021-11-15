@@ -39,6 +39,30 @@
       },
       "revId": "f12294fed0eb1621c949a8ddcd6dc432cffde392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce3da17a_0cea14f2",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1139897
+      },
+      "writtenOn": "2021-11-15T09:03:09Z",
+      "side": 1,
+      "message": "You\u0027re right, i\u0027ve just test it.",
+      "parentUuid": "eedaefd5_14f3e6cc",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 34
+      },
+      "revId": "f12294fed0eb1621c949a8ddcd6dc432cffde392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

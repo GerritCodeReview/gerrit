@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9139290e_3c28e60f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-15T18:28:28Z",
+      "side": 1,
+      "message": "Query never changes. Should this be a readonly non @state variable?",
+      "revId": "991e8d94903c0b47c52825bf06fee6e8e4ec1723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4376d5cb_46604eb4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-15T18:28:28Z",
+      "side": 1,
+      "message": "Don\u0027t pass this in as parameter, and rename formatBooleanString to something more meaningful.",
+      "revId": "991e8d94903c0b47c52825bf06fee6e8e4ec1723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96c5dc37_95352af2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-15T18:28:28Z",
+      "side": 1,
+      "message": "Consider inlining these as they\u0027re only a single line.",
+      "revId": "991e8d94903c0b47c52825bf06fee6e8e4ec1723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

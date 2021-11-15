@@ -44,6 +44,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
@@ -440,7 +441,7 @@ public class CommentsUtil {
       // unignore the test in PortedCommentsIT.
       Map<String, FileDiffOutput> modifiedFiles =
           diffOperations.listModifiedFilesAgainstParent(
-              change.getProject(), patchset.commitId(), /* parentNum= */ 0);
+              change.getProject(), patchset.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
       return modifiedFiles.isEmpty()
           ? null
           : modifiedFiles.values().iterator().next().oldCommitId();

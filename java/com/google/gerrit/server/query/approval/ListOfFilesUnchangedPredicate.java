@@ -23,6 +23,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -60,15 +61,22 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
     try {
       Map<String, FileDiffOutput> baseVsCurrent =
           diffOperations.listModifiedFilesAgainstParent(
-              ctx.changeNotes().getProjectName(), targetPatchSet.commitId(), parentNum);
+              ctx.changeNotes().getProjectName(),
+              targetPatchSet.commitId(),
+              parentNum,
+              DiffOptions.DEFAULTS);
       Map<String, FileDiffOutput> baseVsPrior =
           diffOperations.listModifiedFilesAgainstParent(
-              ctx.changeNotes().getProjectName(), sourcePatchSet.commitId(), parentNum);
+              ctx.changeNotes().getProjectName(),
+              sourcePatchSet.commitId(),
+              parentNum,
+              DiffOptions.DEFAULTS);
       Map<String, FileDiffOutput> priorVsCurrent =
           diffOperations.listModifiedFiles(
               ctx.changeNotes().getProjectName(),
               sourcePatchSet.commitId(),
-              targetPatchSet.commitId());
+              targetPatchSet.commitId(),
+              DiffOptions.DEFAULTS);
       return match(baseVsCurrent, baseVsPrior, priorVsCurrent);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(

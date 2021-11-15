@@ -51,6 +51,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.webui.EditWebLink;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.inject.Inject;
 import java.awt.image.BufferedImage;
@@ -148,7 +149,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     Map<String, FileDiffOutput> modifiedFiles =
         diffOperations.listModifiedFilesAgainstParent(
-            project, result.getCommit(), /* parentNum= */ 0);
+            project, result.getCommit(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
 
     assertThat(modifiedFiles.keySet()).containsExactly("/COMMIT_MSG", "f.txt");
     assertThat(

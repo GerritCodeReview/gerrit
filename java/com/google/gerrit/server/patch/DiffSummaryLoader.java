@@ -48,8 +48,9 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
     ObjectId newId = key.toPatchListKey().getNewId();
     Map<String, FileDiffOutput> diffList =
         oldId == null
-            ? diffOperations.listModifiedFilesAgainstParent(project, newId, /* parentNum= */ 0)
-            : diffOperations.listModifiedFiles(project, oldId, newId);
+            ? diffOperations.listModifiedFilesAgainstParent(
+                project, newId, /* parentNum= */ 0, DiffOptions.DEFAULTS)
+            : diffOperations.listModifiedFiles(project, oldId, newId, DiffOptions.DEFAULTS);
     return toDiffSummary(diffList);
   }
 

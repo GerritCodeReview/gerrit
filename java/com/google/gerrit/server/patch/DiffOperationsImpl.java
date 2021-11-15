@@ -91,10 +91,11 @@ public class DiffOperationsImpl implements DiffOperations {
 
   @Override
   public Map<String, FileDiffOutput> listModifiedFilesAgainstParent(
-      Project.NameKey project, ObjectId newCommit, int parent) throws DiffNotAvailableException {
+      Project.NameKey project, ObjectId newCommit, int parent, DiffOptions diffOptions)
+      throws DiffNotAvailableException {
     try {
       DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
-      return getModifiedFiles(diffParams);
+      return getModifiedFiles(diffParams, diffOptions);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);
@@ -103,7 +104,7 @@ public class DiffOperationsImpl implements DiffOperations {
 
   @Override
   public Map<String, FileDiffOutput> listModifiedFiles(
-      Project.NameKey project, ObjectId oldCommit, ObjectId newCommit)
+      Project.NameKey project, ObjectId oldCommit, ObjectId newCommit, DiffOptions diffOptions)
       throws DiffNotAvailableException {
     DiffParameters params =
         DiffParameters.builder()
@@ -112,7 +113,7 @@ public class DiffOperationsImpl implements DiffOperations {
             .baseCommit(oldCommit)
             .comparisonType(ComparisonType.againstOtherPatchSet())
             .build();
-    return getModifiedFiles(params);
+    return getModifiedFiles(params, diffOptions);
   }
 
   @Override
@@ -161,8 +162,8 @@ public class DiffOperationsImpl implements DiffOperations {
     return getModifiedFileForKey(key);
   }
 
-  private ImmutableMap<String, FileDiffOutput> getModifiedFiles(DiffParameters diffParams)
-      throws DiffNotAvailableException {
+  private ImmutableMap<String, FileDiffOutput> getModifiedFiles(
+      DiffParameters diffParams, DiffOptions diffOptions) throws DiffNotAvailableException {
     try {
       Project.NameKey project = diffParams.project();
       ObjectId newCommit = diffParams.newCommit();
@@ -211,7 +212,7 @@ public class DiffOperationsImpl implements DiffOperations {
                         /* whitespace= */ null))
             .forEach(fileCacheKeys::add);
       }
-      return getModifiedFilesForKeys(fileCacheKeys);
+      return getModifiedFilesForKeys(fileCacheKeys, diffOptions);
     } catch (IOException e) {
       throw new DiffNotAvailableException(e);
     }
@@ -219,7 +220,8 @@ public class DiffOperationsImpl implements DiffOperations {
 
   private FileDiffOutput getModifiedFileForKey(FileDiffCacheKey key)
       throws DiffNotAvailableException {
-    Map<String, FileDiffOutput> diffList = getModifiedFilesForKeys(ImmutableList.of(key));
+    Map<String, FileDiffOutput> diffList =
+        getModifiedFilesForKeys(ImmutableList.of(key), DiffOptions.DEFAULTS);
     return diffList.containsKey(key.newFilePath())
         ? diffList.get(key.newFilePath())
         : FileDiffOutput.empty(key.newFilePath(), key.oldCommit(), key.newCommit());
@@ -230,8 +232,8 @@ public class DiffOperationsImpl implements DiffOperations {
    * results, e.g. due to timeouts in the cache loader, this method requests the diff again using
    * the fallback algorithm {@link DiffAlgorithm#HISTOGRAM_NO_FALLBACK}.
    */
-  private ImmutableMap<String, FileDiffOutput> getModifiedFilesForKeys(List<FileDiffCacheKey> keys)
-      throws DiffNotAvailableException {
+  private ImmutableMap<String, FileDiffOutput> getModifiedFilesForKeys(
+      List<FileDiffCacheKey> keys, DiffOptions diffOptions) throws DiffNotAvailableException {
     ImmutableMap<FileDiffCacheKey, FileDiffOutput> fileDiffs = fileDiffCache.getAll(keys);
     List<FileDiffCacheKey> fallbackKeys = new ArrayList<>();
 
@@ -260,7 +262,7 @@ public class DiffOperationsImpl implements DiffOperations {
       }
     }
     result.addAll(fileDiffCache.getAll(fallbackKeys).values());
-    return mapByFilePath(result.build());
+    return mapByFilePath(result.build(), diffOptions);
   }
 
   /**
@@ -268,11 +270,12 @@ public class DiffOperationsImpl implements DiffOperations {
    * represent the old file path for deleted files, or the new path otherwise.
    */
   private ImmutableMap<String, FileDiffOutput> mapByFilePath(
-      ImmutableCollection<FileDiffOutput> fileDiffOutputs) {
+      ImmutableCollection<FileDiffOutput> fileDiffOutputs, DiffOptions diffOptions) {
     ImmutableMap.Builder<String, FileDiffOutput> diffs = ImmutableMap.builder();
 
     for (FileDiffOutput fileDiffOutput : fileDiffOutputs) {
-      if (fileDiffOutput.isEmpty() || allDueToRebase(fileDiffOutput)) {
+      if (fileDiffOutput.isEmpty()
+          || (diffOptions.skipFilesWithAllEditsDueToRebase() && allDueToRebase(fileDiffOutput))) {
         continue;
       }
       if (fileDiffOutput.changeType() == ChangeType.DELETED) {

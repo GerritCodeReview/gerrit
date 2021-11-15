@@ -39,6 +39,7 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -463,7 +464,7 @@ class ApprovalInference {
               ? 0
               : 1;
       return diffOperations.listModifiedFilesAgainstParent(
-          project.getNameKey(), ps.commitId(), parentNum);
+          project.getNameKey(), ps.commitId(), parentNum, DiffOptions.DEFAULTS);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"
@@ -480,7 +481,8 @@ class ApprovalInference {
   private Map<String, FileDiffOutput> listModifiedFiles(
       ProjectState project, ObjectId sourceCommit, ObjectId targetCommit) {
     try {
-      return diffOperations.listModifiedFiles(project.getNameKey(), sourceCommit, targetCommit);
+      return diffOperations.listModifiedFiles(
+          project.getNameKey(), sourceCommit, targetCommit, DiffOptions.DEFAULTS);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"

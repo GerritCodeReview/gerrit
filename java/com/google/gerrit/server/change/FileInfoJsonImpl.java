@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.FilePathAdapter;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
@@ -51,9 +52,11 @@ public class FileInfoJsonImpl implements FileInfoJson {
         // single-parent commits, or the auto-merge otherwise
         return asFileInfo(
             diffs.listModifiedFilesAgainstParent(
-                change.getProject(), objectId, /* parentNum= */ 0));
+                change.getProject(), objectId, /* parentNum= */ 0, DiffOptions.DEFAULTS));
       }
-      return asFileInfo(diffs.listModifiedFiles(change.getProject(), base.commitId(), objectId));
+      return asFileInfo(
+          diffs.listModifiedFiles(
+              change.getProject(), base.commitId(), objectId, DiffOptions.DEFAULTS));
     } catch (DiffNotAvailableException e) {
       convertException(e);
       return null; // unreachable. handleAndThrow will throw an exception anyway
@@ -66,7 +69,7 @@ public class FileInfoJsonImpl implements FileInfoJson {
       throws ResourceConflictException, PatchListNotAvailableException {
     try {
       Map<String, FileDiffOutput> modifiedFiles =
-          diffs.listModifiedFilesAgainstParent(project, objectId, parent);
+          diffs.listModifiedFilesAgainstParent(project, objectId, parent, DiffOptions.DEFAULTS);
       return asFileInfo(modifiedFiles);
     } catch (DiffNotAvailableException e) {
       convertException(e);

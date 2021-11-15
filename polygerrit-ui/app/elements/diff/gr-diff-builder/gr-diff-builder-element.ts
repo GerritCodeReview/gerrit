@@ -471,24 +471,32 @@ export class GrDiffBuilderElement extends PolymerElement {
   _createSpecialCharacterIndicatorLayer(): DiffLayer {
     return {
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
-        // Find and annotate the locations of soft hyphen.
-        const split = line.text.split('\u00AD'); // \u00AD soft hyphen
-        if (!split || split.length < 2) {
-          return;
-        }
-        for (let i = 0, pos = 0; i < split.length - 1; i++) {
-          // Skip forward by the length of the content
-          pos += split[i].length;
+        function annotateSymbols(
+          separator: string | RegExp,
+          className: string
+        ) {
+          const split = line.text.split(separator);
+          if (!split || split.length < 2) {
+            return;
+          }
+          for (let i = 0, pos = 0; i < split.length - 1; i++) {
+            // Skip forward by the length of the content
+            pos += split[i].length;
 
-          GrAnnotation.annotateElement(
-            contentEl,
-            pos,
-            1,
-            'style-scope gr-diff special-char-indicator'
-          );
+            GrAnnotation.annotateElement(
+              contentEl,
+              pos,
+              1,
+              `style-scope gr-diff ${className}`
+            );
 
-          pos++;
+            pos++;
+          }
         }
+        // Find and annotate the locations of soft hyphen (\u00AD)
+        annotateSymbols('\u00AD', 'special-char-indicator');
+        // Find and annotate Stateful Unicode directional controls
+        annotateSymbols(/[\u202A-\u202E\u2066-\u2069]/, 'special-char-warning');
       },
     };
   }

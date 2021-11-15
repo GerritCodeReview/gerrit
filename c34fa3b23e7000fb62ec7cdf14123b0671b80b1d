@@ -16,6 +16,24 @@
       "message": "this needs an update for our criteria to request the Library-Compliance vote. Marking as -2 until we have that in order.\n\nYoussef will have to adjust the submit requirements as well.",
       "revId": "c34fa3b23e7000fb62ec7cdf14123b0671b80b1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f01382ca_8ec87ab9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-15T11:46:29Z",
+      "side": 1,
+      "message": "It is. This change is blocked until LC is voted +1.\n\nLC is required for changes that touch WORKSPACE, .gitmodules or the /lib directory. Currently this is enforced by Prolog, and we have a similar SR that will be applicable under these conditions.",
+      "parentUuid": "408289e4_5fb76b26",
+      "revId": "c34fa3b23e7000fb62ec7cdf14123b0671b80b1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

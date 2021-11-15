@@ -55,4 +55,8 @@ export interface AppContext {
  * It is guaranteed that all fields in appContext are always initialized
  * (except for shared gr-diff)
  */
-export const appContext: AppContext = {} as AppContext;
+export let appContext: Partial<AppContext> = {};
+
+export function setAppContext(ctx: AppContext) {
+  appContext = ctx;
+}

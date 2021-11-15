@@ -16,15 +16,17 @@
  */
 
 // Init app context before any other imports
-import {initAppContext} from '../services/app-context-init';
+import {createAppContext} from '../services/app-context-init';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
-import {AppContext, appContext} from '../services/app-context';
+import {AppContext, setAppContext} from '../services/app-context';
 import {grRestApiMock} from './mocks/gr-rest-api_mock';
 import {grStorageMock} from '../services/storage/gr-storage_mock';
 import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 
+let appContext: Partial<AppContext> = {};
+
 export function _testOnlyInitAppContext() {
-  initAppContext();
+  setAppContext(createAppContext());
 
   function setMock<T extends keyof AppContext>(
     serviceName: T,
@@ -39,5 +41,5 @@ export function _testOnlyInitAppContext() {
   setMock('reportingService', grReportingMock);
   setMock('restApiService', grRestApiMock);
   setMock('storageService', grStorageMock);
-  setMock('authService', new GrAuthMock(appContext.eventEmitter));
+  setMock('authService', new GrAuthMock(appContext.eventEmitter!));
 }

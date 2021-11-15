@@ -30,16 +30,23 @@ import {
   createSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../../types/types';
+import {queryAndAssert} from '../../../test/test-utils';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-submit-requirement-hovercard tests', () => {
-  test('renders', async () => {
-    const element = await fixture<GrSubmitRequirementHovercard>(
+  let element: GrSubmitRequirementHovercard;
+
+  setup(async () => {
+    element = await fixture<GrSubmitRequirementHovercard>(
       html`<gr-submit-requirement-hovercard
         .requirement="${createSubmitRequirementResultInfo()}"
         .change=${createChange()}
         .account="${createAccountWithId()}"
       ></gr-submit-requirement-hovercard>`
     );
+  });
+
+  test('renders', async () => {
     expect(element).shadowDom.to.equal(`<div
         id="container"
         role="tooltip"
@@ -83,15 +90,98 @@ suite('gr-submit-requirement-hovercard tests', () => {
         <div class="showConditions">
           <gr-button
             aria-disabled="false"
-            class="showConditions"
+            id="showHideConditionsButton"
             link=""
             role="button"
             tabindex="0"
           >
-            View condition
+            View conditions
             <iron-icon icon="gr-icons:expand-more">
             </iron-icon>
           </gr-button>
+        </div>
+      </div>
+      `);
+  });
+
+  test('renders conditions after click', async () => {
+    const button = queryAndAssert<GrButton>(
+      element,
+      '#showHideConditionsButton'
+    );
+    button.click();
+    await element.updateComplete;
+    expect(element).shadowDom.to.equal(`<div
+        id="container"
+        role="tooltip"
+        tabindex="-1"
+      >
+        <div class="section">
+          <div class="sectionIcon">
+            <iron-icon
+              class="check"
+              icon="gr-icons:check"
+            >
+            </iron-icon>
+          </div>
+          <div class="sectionContent">
+            <h3 class="heading-3 name">
+              <span>
+                Verified
+              </span>
+            </h3>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sectionIcon">
+            <iron-icon
+              class="small"
+              icon="gr-icons:info-outline"
+            >
+            </iron-icon>
+          </div>
+          <div class="sectionContent">
+            <div class="row">
+              <div class="title">
+                Status
+              </div>
+              <div>
+                SATISFIED
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showConditions">
+          <gr-button
+            aria-disabled="false"
+            id="showHideConditionsButton"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            Hide conditions
+            <iron-icon icon="gr-icons:expand-less">
+            </iron-icon>
+          </gr-button>
+        </div>
+        <div class="section">
+          <div class="sectionIcon">
+            <iron-icon icon="gr-icons:description">
+            </iron-icon>
+          </div>
+          <div class="sectionContent">
+          </div>
+        </div>
+        <div class="section">
+          <div class="sectionIcon">
+          </div>
+          <div class="condition sectionContent">
+            Blocking condition:
+            <br>
+            <span class="expression">
+              label:Verified=MAX -label:Verified=MIN
+            </span>
+          </div>
         </div>
       </div>
       `);
@@ -179,12 +269,12 @@ suite('gr-submit-requirement-hovercard tests', () => {
         <div class="showConditions">
           <gr-button
             aria-disabled="false"
-            class="showConditions"
+            id="showHideConditionsButton"
             link=""
             role="button"
             tabindex="0"
           >
-            View condition
+            View conditions
             <iron-icon icon="gr-icons:expand-more">
             </iron-icon>
           </gr-button>

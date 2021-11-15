@@ -17,7 +17,7 @@
 
 import '../../../../test/common-test-setup-karma.js';
 import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-api-helper.js';
-import {appContext} from '../../../../services/app-context.js';
+import {getAppContext} from '../../../../services/app-context.js';
 import {stubAuth} from '../../../../test/test-utils.js';
 
 suite('gr-rest-api-helper tests', () => {
@@ -47,7 +47,7 @@ suite('gr-rest-api-helper tests', () => {
       },
     }));
 
-    helper = new GrRestApiHelper(cache, appContext.authService,
+    helper = new GrRestApiHelper(cache, getAppContext().authService,
         fetchPromisesCache, mockRestApiInterface);
   });
 

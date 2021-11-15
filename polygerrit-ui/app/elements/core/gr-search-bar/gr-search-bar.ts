@@ -33,7 +33,7 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getDocsBaseUrl} from '../../../utils/url-util';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 
 // Possible static search options for auto complete, without negations.
@@ -190,7 +190,7 @@ export class GrSearchBar extends base {
   @property({type: String})
   docBaseUrl: string | null = null;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

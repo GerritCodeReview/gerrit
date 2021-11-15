@@ -46,7 +46,7 @@ import {AppElementRepoParams} from '../../gr-app-types';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
 import {firePageError} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 
@@ -117,7 +117,7 @@ export class GrRepoDetailList extends PolymerElement {
   @property({type: String})
   _revisedRef?: GitRef;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   _determineIfOwner(repo: RepoName) {
     return this.restApiService

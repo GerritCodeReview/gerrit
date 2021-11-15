@@ -42,7 +42,7 @@ import {pluralize} from '../../../utils/string-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   DiffViewMode,
   ScrollMode,
@@ -315,11 +315,11 @@ export class GrFileList extends base {
   @property({type: Array})
   _dynamicPrependedContentEndpoints?: string[];
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly userService = appContext.userService;
+  private readonly userService = getAppContext().userService;
 
   disconnected$ = new Subject();
 

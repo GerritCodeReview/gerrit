@@ -22,7 +22,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-edit-preferences_html';
 import {customElement, property} from '@polymer/decorators';
 import {EditPreferencesInfo} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 export interface GrEditPreferences {
   $: {
@@ -50,7 +50,7 @@ export class GrEditPreferences extends PolymerElement {
   @property({type: Object})
   editPrefs?: EditPreferencesInfo;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   loadData() {
     return this.restApiService.getEditPreferences().then(prefs => {

@@ -26,7 +26,7 @@ import {
   AutocompleteQuery,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 
 export interface RebaseChange {
@@ -91,7 +91,7 @@ export class GrConfirmRebaseDialog extends PolymerElement {
   @property({type: Array})
   _recentChanges?: RebaseChange[];
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

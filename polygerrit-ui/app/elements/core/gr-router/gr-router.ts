@@ -45,7 +45,7 @@ import {
   WeblinkType,
   GenerateUrlTopicViewParams,
 } from '../gr-navigation/gr-navigation';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {convertToPatchSetNum} from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {assertNever} from '../../../utils/common-util';
@@ -277,7 +277,7 @@ if (!app) {
 // Setup listeners outside of the router component initialization.
 (function () {
   window.addEventListener('WebComponentsReady', () => {
-    appContext.reportingService.timeEnd(Timing.WEB_COMPONENTS_READY);
+    getAppContext().reportingService.timeEnd(Timing.WEB_COMPONENTS_READY);
   });
 })();
 
@@ -309,11 +309,11 @@ export class GrRouter extends PolymerElement {
   @property({type: Boolean})
   _isInitialLoad = true;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly flagsService = appContext.flagsService;
+  private readonly flagsService = getAppContext().flagsService;
 
   start() {
     if (!this._app) {

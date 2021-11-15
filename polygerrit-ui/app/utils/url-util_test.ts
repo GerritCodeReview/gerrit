@@ -28,10 +28,11 @@ import {
   toPathname,
   toSearchParams,
 } from './url-util';
-import {appContext} from '../services/app-context';
+import {getAppContext, AppContext} from '../services/app-context';
 import {stubRestApi} from '../test/test-utils';
 
 suite('url-util tests', () => {
+  let appContext: AppContext;
   suite('getBaseUrl tests', () => {
     let originalCanonicalPath: string | undefined;
 
@@ -52,6 +53,7 @@ suite('url-util tests', () => {
   suite('getDocsBaseUrl tests', () => {
     setup(() => {
       _testOnly_clearDocsBaseUrlCache();
+      appContext = getAppContext();
     });
 
     test('null config', async () => {

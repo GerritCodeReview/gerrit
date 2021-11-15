@@ -22,7 +22,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-included-in-dialog_html';
 import {customElement, property} from '@polymer/decorators';
 import {IncludedInInfo, NumericChangeId} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 interface DisplayGroup {
   title: string;
@@ -53,7 +53,7 @@ export class GrIncludedInDialog extends PolymerElement {
   @property({type: String})
   _filterText = '';
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   loadData() {
     if (!this.changeNum) {

@@ -38,7 +38,7 @@ import {
 } from '../../../types/common';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
@@ -128,11 +128,11 @@ export class GrEditorView extends PolymerElement {
   @property({type: Number})
   _lineNum?: number;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly storage = appContext.storageService;
+  private readonly storage = getAppContext().storageService;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   // Tests use this so needs to be non private
   storeTask?: DelayedTask;

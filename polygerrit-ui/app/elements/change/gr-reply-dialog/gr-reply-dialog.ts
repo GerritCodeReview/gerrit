@@ -31,7 +31,7 @@ import {
   GrReviewerSuggestionsProvider,
   SUGGESTIONS_PROVIDERS_USERS_TYPES,
 } from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   ChangeStatus,
   DraftsAction,
@@ -116,6 +116,7 @@ import {StorageLocation} from '../../../services/storage/gr-storage';
 import {Interaction, Timing} from '../../../constants/reporting';
 import {getReplyByReason} from '../../../utils/attention-set-util';
 import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -215,9 +216,9 @@ export class GrReplyDialog extends PolymerElement {
 
   FocusTarget = FocusTarget;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly changeService = appContext.changeService;
+  private readonly changeService = getAppContext().changeService;
 
   @property({type: Object})
   change?: ChangeInfo;
@@ -354,11 +355,12 @@ export class GrReplyDialog extends PolymerElement {
   @property({type: Array, computed: '_computeAllReviewers(_reviewers.*)'})
   _allReviewers: (AccountInfo | GroupInfo)[] = [];
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService: RestApiService =
+    getAppContext().restApiService;
 
-  private readonly storage = appContext.storageService;
+  private readonly storage = getAppContext().storageService;
 
-  private readonly jsAPI = appContext.jsApiService;
+  private readonly jsAPI = getAppContext().jsApiService;
 
   private storeTask?: DelayedTask;
 

@@ -9,20 +9,17 @@ Services should be stateful, if its just pure functions, consider having them in
 Regarding all stateful should be considered as services or not, it's still TBD. Will update as soon
 as it's finalized.
 
-## How to access service
+## How to access a service
 
 We use AppContext to access instance of service. It helps in mocking service in tests as well.
 We prefer setting instance of service in constructor and then accessing it from variable. We also
-allow access straight from appContext especially in static methods.
+allow access straight from getAppContext() especially in static methods.
 
 ```
-import {appContext} from '../../../services/app-context.js';
+import {getAppContext()} from '../../../services/app-context.js';
 
 class T {
-  constructor() {
-    super();
-    this.flagsService = appContext.flagsService;
-  }
+  private readonly flagsService = getAppContext().flagsService;
 
   action1() {
     if (this.flagsService.isEnabled('test)) {
@@ -45,10 +42,10 @@ staticMethod() {
 'flags' is a service to provide easy access to all enabled experiments.
 
 ```
-import {appContext} from '../../../services/app-context.js';
+import {getAppContext} from '../../../services/app-context.js';
 
 // check if an experiment is enabled or not
-if (appContext.flagsService.isEnabled('test')) {
+if (getAppContext().flagsService.isEnabled('test')) {
   // do something
 }
 ```

@@ -31,7 +31,7 @@ import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {ActionTriggeredEvent} from '../../services/checks/checks-util';
 import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
-import {appContext} from '../../services/app-context';
+import {getAppContext} from '../../services/app-context';
 import {subscribe} from '../lit/subscription-controller';
 
 /**
@@ -68,7 +68,7 @@ export class GrChecksTab extends LitElement {
     number | undefined
   >();
 
-  private readonly checksService = appContext.checksService;
+  private readonly checksService = getAppContext().checksService;
 
   constructor() {
     super();

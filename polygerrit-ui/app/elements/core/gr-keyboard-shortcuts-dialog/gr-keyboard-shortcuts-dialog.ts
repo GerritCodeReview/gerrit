@@ -24,7 +24,7 @@ import {
   ShortcutSection,
   SectionView,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ShortcutViewListener} from '../../../services/shortcuts/shortcuts-service';
 
 declare global {
@@ -54,7 +54,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
 
   private readonly shortcutListener: ShortcutViewListener;
 
-  private readonly shortcuts = appContext.shortcutsService;
+  private readonly shortcuts = getAppContext().shortcutsService;
 
   constructor() {
     super();

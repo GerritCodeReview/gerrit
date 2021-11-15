@@ -63,7 +63,7 @@ import {
   PatchSetNumber,
 } from '../../types/common';
 import {labels$, latestPatchNum$} from '../../services/change/change-model';
-import {appContext} from '../../services/app-context';
+import {getAppContext} from '../../services/app-context';
 import {repoConfig$} from '../../services/config/config-model';
 import {spinnerStyles} from '../../styles/gr-spinner-styles';
 import {
@@ -96,7 +96,7 @@ class GrResultRow extends LitElement {
   @state()
   labels?: LabelNameToInfoMap;
 
-  private checksService = appContext.checksService;
+  private checksService = getAppContext().checksService;
 
   constructor() {
     super();
@@ -538,7 +538,7 @@ class GrResultExpanded extends LitElement {
   @state()
   repoConfig?: ConfigInfo;
 
-  private changeService = appContext.changeService;
+  private changeService = getAppContext().changeService;
 
   static override get styles() {
     return [
@@ -732,7 +732,7 @@ export class GrChecksResults extends LitElement {
    */
   private isSectionExpandedByUser = new Map<Category, boolean>();
 
-  private readonly checksService = appContext.checksService;
+  private readonly checksService = getAppContext().checksService;
 
   constructor() {
     super();

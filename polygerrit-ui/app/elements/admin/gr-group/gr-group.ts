@@ -26,7 +26,7 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {convertToString} from '../../../utils/string-util';
 import {BindValueChangeEvent} from '../../../types/events';
@@ -107,7 +107,7 @@ export class GrGroup extends LitElement {
   /* private but used in test */
   @state() originalName?: GroupName;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

@@ -23,7 +23,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-download-commands_html';
 import {customElement, property} from '@polymer/decorators';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {queryAndAssert} from '../../../utils/common-util';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 import {preferences$} from '../../../services/user/user-model';
@@ -72,9 +72,9 @@ export class GrDownloadCommands extends PolymerElement {
   @property({type: Boolean})
   showKeyboardShortcutTooltips = false;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly userService = appContext.userService;
+  private readonly userService = getAppContext().userService;
 
   disconnected$ = new Subject();
 

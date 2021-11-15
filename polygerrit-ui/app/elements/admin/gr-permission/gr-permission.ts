@@ -53,7 +53,7 @@ import {
   EditableProjectAccessGroups,
 } from '../gr-repo-access/gr-repo-access-interfaces';
 import {PolymerDomRepeatEvent} from '../../../types/types';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
@@ -141,7 +141,7 @@ export class GrPermission extends PolymerElement {
   @property({type: Boolean})
   _originalExclusiveValue?: boolean;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

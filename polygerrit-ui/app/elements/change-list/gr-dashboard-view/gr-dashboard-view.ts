@@ -31,7 +31,7 @@ import {
   UserDashboard,
   YOUR_TURN,
 } from '../../core/gr-navigation/gr-navigation';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {changeIsOpen} from '../../../utils/change-util';
 import {parseDate} from '../../../utils/date-util';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -115,9 +115,9 @@ export class GrDashboardView extends PolymerElement {
   @property({type: Number})
   _selectedChangeIndex?: number;
 
-  private reporting = appContext.reportingService;
+  private reporting = getAppContext().reportingService;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   private lastVisibleTimestampMs = 0;
 

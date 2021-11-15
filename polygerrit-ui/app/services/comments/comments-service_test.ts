@@ -22,7 +22,7 @@ import {
   TEST_NUMERIC_CHANGE_ID,
 } from '../../test/test-data-generators';
 import {stubRestApi, waitUntil, waitUntilCalled} from '../../test/test-utils';
-import {appContext} from '../app-context';
+import {getAppContext} from '../app-context';
 import {CommentsService} from './comments-service';
 import {updateStateChange} from '../change/change-model';
 import {
@@ -34,7 +34,7 @@ import {PathToCommentsInfoMap} from '../../types/common';
 
 suite('change service tests', () => {
   test('loads comments', async () => {
-    new CommentsService(appContext.restApiService);
+    new CommentsService(getAppContext().restApiService);
     const diffCommentsSpy = stubRestApi('getDiffComments').returns(
       Promise.resolve({'foo.c': [createComment()]})
     );

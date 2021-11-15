@@ -24,7 +24,7 @@ import {htmlTemplate} from './gr-diff-mode-selector_html';
 import {customElement, property} from '@polymer/decorators';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {FixIronA11yAnnouncer} from '../../../types/types';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
 import {diffViewMode$} from '../../../services/browser/browser-model';
 import {Subject} from 'rxjs';
@@ -49,7 +49,7 @@ export class GrDiffModeSelector extends PolymerElement {
   @property({type: Boolean})
   showTooltipBelow = false;
 
-  private readonly userService = appContext.userService;
+  private readonly userService = getAppContext().userService;
 
   disconnected$ = new Subject();
 

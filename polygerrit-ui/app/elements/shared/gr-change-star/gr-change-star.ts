@@ -21,7 +21,7 @@ import {
   Shortcut,
   ShortcutSection,
 } from '../../../services/shortcuts/shortcuts-config';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
@@ -48,7 +48,7 @@ export class GrChangeStar extends LitElement {
   @property({type: Object})
   change?: ChangeInfo;
 
-  private readonly shortcuts = appContext.shortcutsService;
+  private readonly shortcuts = getAppContext().shortcutsService;
 
   static override get styles() {
     return [

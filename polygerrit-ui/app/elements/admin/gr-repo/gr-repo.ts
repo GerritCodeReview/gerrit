@@ -39,7 +39,7 @@ import {
 } from '../../../constants/constants';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {WebLinkInfo} from '../../../types/diff';
 import {ErrorCallback} from '../../../api/rest';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -120,7 +120,7 @@ export class GrRepo extends LitElement {
 
   @state() private pluginConfigChanged = false;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();

@@ -18,7 +18,7 @@ import '../../shared/gr-list-view/gr-list-view';
 import {getBaseUrl} from '../../../utils/url-util';
 import {DocResult} from '../../../types/common';
 import {fireTitleChange} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ListViewParams} from '../../gr-app-types';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
@@ -42,7 +42,7 @@ export class GrDocumentationSearch extends LitElement {
   @property({type: String})
   _filter?: string;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();

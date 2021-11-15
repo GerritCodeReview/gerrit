@@ -47,7 +47,7 @@ import {
   ShortcutListener,
 } from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GerritNav} from './core/gr-navigation/gr-navigation';
-import {appContext} from '../services/app-context';
+import {getAppContext} from '../services/app-context';
 import {flush} from '@polymer/polymer/lib/utils/flush';
 import {customElement, observe, property} from '@polymer/decorators';
 import {GrRouter} from './core/gr-router/gr-router';
@@ -212,11 +212,11 @@ export class GrAppElement extends base {
   @property({type: Boolean})
   _mainAriaHidden = false;
 
-  private reporting = appContext.reportingService;
+  private reporting = getAppContext().reportingService;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly browserService = appContext.browserService;
+  private readonly browserService = getAppContext().browserService;
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [
@@ -238,7 +238,7 @@ export class GrAppElement extends base {
     // We just want to instantiate this service somewhere. It is reacting to
     // model changes and updates the config model, but at the moment the service
     // is not called from anywhere.
-    appContext.configService;
+    getAppContext().configService;
     document.addEventListener(EventType.PAGE_ERROR, e => {
       this._handlePageError(e);
     });

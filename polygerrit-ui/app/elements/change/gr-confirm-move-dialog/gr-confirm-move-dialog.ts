@@ -21,7 +21,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-move-dialog_html';
 import {customElement, property} from '@polymer/decorators';
 import {BranchName, RepoName} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {GrTypedAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 
@@ -88,7 +88,7 @@ export class GrConfirmMoveDialog extends PolymerElement {
     );
   }
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

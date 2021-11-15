@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {initAppContext} from '../services/app-context-init';
+import {createAppContext} from '../services/app-context-init';
 import {
   initVisibilityReporter,
   initPerformanceReporter,
   initErrorReporter,
 } from '../services/gr-reporting/gr-reporting_impl';
-import {appContext} from '../services/app-context';
+import {injectAppContext} from '../services/app-context';
 
-initAppContext();
-initVisibilityReporter(appContext);
-initPerformanceReporter(appContext);
-initErrorReporter(appContext);
+const appContext = createAppContext();
+injectAppContext(appContext);
+const reportingService = appContext.reportingService;
+initVisibilityReporter(reportingService);
+initPerformanceReporter(reportingService);
+initErrorReporter(reportingService);

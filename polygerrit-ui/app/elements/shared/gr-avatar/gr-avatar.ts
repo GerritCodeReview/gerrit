@@ -17,7 +17,7 @@
 import {getBaseUrl} from '../../../utils/url-util';
 import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
 import {AccountInfo} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
@@ -32,7 +32,7 @@ export class GrAvatar extends LitElement {
   @property({type: Boolean})
   _hasAvatars = false;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
     return [

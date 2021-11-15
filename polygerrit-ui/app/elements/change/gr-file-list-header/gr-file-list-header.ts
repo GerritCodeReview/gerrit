@@ -46,7 +46,7 @@ import {
   Shortcut,
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -134,7 +134,7 @@ export class GrFileListHeader extends PolymerElement {
   @property({type: Object})
   revisionInfo?: RevisionInfo;
 
-  private readonly shortcuts = appContext.shortcutsService;
+  private readonly shortcuts = getAppContext().shortcutsService;
 
   _expandAllDiffs() {
     fireEvent(this, 'expand-diffs');

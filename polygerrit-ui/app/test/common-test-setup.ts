@@ -45,7 +45,7 @@ import {_testOnly_allTasks} from '../utils/async-util';
 import {cleanUpStorage} from '../services/storage/gr-storage_mock';
 import {updatePreferences} from '../services/user/user-model';
 import {createDefaultPreferences} from '../constants/constants';
-import {appContext} from '../services/app-context';
+import {getAppContext} from '../services/app-context';
 import {_testOnly_resetState as resetBrowserState} from '../services/browser/browser-model';
 import {_testOnly_resetState as resetChangeState} from '../services/change/change-model';
 import {_testOnly_resetState as resetChecksState} from '../services/checks/checks-model';
@@ -123,7 +123,7 @@ setup(() => {
   resetRouterState();
   resetUserState();
 
-  const shortcuts = appContext.shortcutsService;
+  const shortcuts = getAppContext().shortcutsService;
   assert.isTrue(shortcuts._testOnly_isEmpty());
   const selection = document.getSelection();
   if (selection) {

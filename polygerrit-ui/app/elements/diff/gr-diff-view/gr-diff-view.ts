@@ -44,7 +44,7 @@ import {
   GeneratedWebLink,
   GerritNav,
 } from '../../core/gr-navigation/gr-navigation';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -353,15 +353,19 @@ export class GrDiffView extends base {
     ];
   }
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly userService = appContext.userService;
+  private readonly userService = getAppContext().userService;
 
-  private readonly changeService = appContext.changeService;
+  private readonly changeService = getAppContext().changeService;
 
-  private readonly shortcuts = appContext.shortcutsService;
+  // We just want to make sure that CommentsService is instantiated.
+  // Otherwise subscribing to the model won't emit any data.
+  private readonly _commentsService = getAppContext().commentsService;
+
+  private readonly shortcuts = getAppContext().shortcutsService;
 
   _throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
@@ -373,9 +377,7 @@ export class GrDiffView extends base {
 
   constructor() {
     super();
-    // We just want to make sure that CommentsService is instantiated.
-    // Otherwise subscribing to the model won't emit any data.
-    appContext.commentsService;
+    this._commentsService;
   }
 
   override connectedCallback() {

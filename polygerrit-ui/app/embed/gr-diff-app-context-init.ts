@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {appContext} from '../services/app-context';
+import {getAppContext} from '../services/app-context';
 import {FlagsService} from '../services/flags/flags';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
 import {AuthService} from '../services/gr-auth/gr-auth';
@@ -61,7 +61,7 @@ class MockAuthService implements AuthService {
 // TODO(dmfilippov): find a better solution for gr-diff
 export function initDiffAppContext() {
   function setMock(serviceName: string, setupMock: unknown) {
-    Object.defineProperty(appContext, serviceName, {
+    Object.defineProperty(getAppContext(), serviceName, {
       get() {
         return setupMock;
       },

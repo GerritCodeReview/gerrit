@@ -31,7 +31,7 @@ import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment_html';
 import {getRootElement} from '../../../scripts/rootElement';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {customElement, observe, property} from '@polymer/decorators';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
@@ -274,13 +274,13 @@ export class GrComment extends PolymerElement {
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly storage = appContext.storageService;
+  private readonly storage = getAppContext().storageService;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly commentsService = appContext.commentsService;
+  private readonly commentsService = getAppContext().commentsService;
 
   private fireUpdateTask?: DelayedTask;
 

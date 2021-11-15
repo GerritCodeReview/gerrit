@@ -22,7 +22,7 @@ import '../../shared/gr-date-formatter/gr-date-formatter';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {AccountDetailInfo, AccountId} from '../../../types/common';
 import {getDisplayName} from '../../../utils/display-name-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -46,7 +46,7 @@ export class GrUserHeader extends LitElement {
   @property({type: String})
   _status = '';
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
     return [

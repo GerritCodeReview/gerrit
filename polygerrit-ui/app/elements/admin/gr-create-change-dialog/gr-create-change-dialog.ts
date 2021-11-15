@@ -28,7 +28,7 @@ import {
   InheritedBooleanInfo,
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {Subject} from 'rxjs';
 import {serverConfig$} from '../../../services/config/config-model';
 import {takeUntil} from 'rxjs/operators';
@@ -76,7 +76,7 @@ export class GrCreateChangeDialog extends LitElement {
 
   private readonly query: (input: string) => Promise<{name: BranchName}[]>;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   disconnected$ = new Subject();
 

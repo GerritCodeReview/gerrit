@@ -16,13 +16,13 @@
  */
 import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
 import {PluginApi} from '../../../api/plugin';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 export class GrAttributeHelper implements AttributeHelperPluginApi {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private readonly _promises = new Map<string, Promise<any>>();
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   // TODO(TS): Change any to something more like HTMLElement.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

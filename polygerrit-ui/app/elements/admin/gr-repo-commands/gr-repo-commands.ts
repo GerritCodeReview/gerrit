@@ -41,7 +41,7 @@ import {
   firePageError,
   fireTitleChange,
 } from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 
 const GC_MESSAGE = 'Garbage collection completed successfully.';
@@ -88,7 +88,7 @@ export class GrRepoCommands extends PolymerElement {
   @property({type: Boolean})
   _runningGC = false;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();

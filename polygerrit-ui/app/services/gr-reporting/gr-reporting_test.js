@@ -17,7 +17,7 @@
 
 import '../../test/common-test-setup-karma.js';
 import {GrReporting, DEFAULT_STARTUP_TIMERS, initErrorReporter} from './gr-reporting_impl.js';
-import {appContext} from '../app-context.js';
+import {getAppContext} from '../app-context.js';
 suite('gr-reporting tests', () => {
   let service;
 
@@ -28,7 +28,7 @@ suite('gr-reporting tests', () => {
 
   setup(() => {
     clock = sinon.useFakeTimers(NOW_TIME);
-    service = new GrReporting(appContext.flagsService);
+    service = new GrReporting(getAppContext().flagsService);
     service._baselines = {...DEFAULT_STARTUP_TIMERS};
     sinon.stub(service, 'reporter');
   });
@@ -461,12 +461,12 @@ suite('gr-reporting tests', () => {
         },
       };
       sinon.stub(console, 'error');
-      Object.defineProperty(appContext, 'reportingService', {
+      Object.defineProperty(getAppContext(), 'reportingService', {
         get() {
           return service;
         },
       });
-      const errorReporter = initErrorReporter(appContext);
+      const errorReporter = initErrorReporter(getAppContext().reportingService);
       errorReporter.catchErrors(fakeWindow);
     });
 

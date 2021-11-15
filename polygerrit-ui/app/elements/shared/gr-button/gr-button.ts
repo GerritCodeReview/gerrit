@@ -20,8 +20,7 @@ import {votingStyles} from '../../../styles/gr-voting-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {getEventPath, modifierPressed} from '../../../utils/dom-util';
-import {appContext} from '../../../services/app-context';
-import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {getAppContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,7 +30,7 @@ declare global {
 
 @customElement('gr-button')
 export class GrButton extends LitElement {
-  private readonly reporting: ReportingService = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   /**
    * Should this button be rendered as a vote chip? Then we are applying

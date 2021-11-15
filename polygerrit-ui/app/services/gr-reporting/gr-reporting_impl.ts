@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {AppContext} from '../app-context';
 import {FlagsService} from '../flags/flags';
 import {EventValue, ReportingService, Timer} from './gr-reporting';
 import {hasOwnProperty} from '../../utils/common-util';
@@ -102,9 +101,7 @@ const DRAFT_ACTION_TIMER = 'TimeBetweenDraftActions';
 const DRAFT_ACTION_TIMER_MAX = 2 * 60 * 1000; // 2 minutes.
 const SLOW_RPC_THRESHOLD = 500;
 
-export function initErrorReporter(appContext: AppContext) {
-  const reportingService = appContext.reportingService;
-
+export function initErrorReporter(reportingService: ReportingService) {
   const normalizeError = (err: Error | unknown) => {
     if (err instanceof Error) {
       return err;
@@ -169,8 +166,7 @@ export function initErrorReporter(appContext: AppContext) {
   return {catchErrors};
 }
 
-export function initPerformanceReporter(appContext: AppContext) {
-  const reportingService = appContext.reportingService;
+export function initPerformanceReporter(reportingService: ReportingService) {
   // PerformanceObserver interface is a browser API.
   if (window.PerformanceObserver) {
     const supportedEntryTypes = PerformanceObserver.supportedEntryTypes || [];
@@ -196,8 +192,7 @@ export function initPerformanceReporter(appContext: AppContext) {
   }
 }
 
-export function initVisibilityReporter(appContext: AppContext) {
-  const reportingService = appContext.reportingService;
+export function initVisibilityReporter(reportingService: ReportingService) {
   document.addEventListener('visibilitychange', () => {
     reportingService.onVisibilityChange();
   });

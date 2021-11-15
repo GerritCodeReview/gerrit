@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {PLUGIN_LOADING_TIMEOUT_MS, getPluginNameFromUrl} from './gr-api-utils';
 import {Plugin} from './gr-public-js-api';
 import {getBaseUrl} from '../../../utils/url-util';
@@ -85,7 +85,7 @@ export class PluginLoader {
 
   _getReporting() {
     if (!this._reporting) {
-      this._reporting = appContext.reportingService;
+      this._reporting = getAppContext().reportingService;
     }
     return this._reporting;
   }

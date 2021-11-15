@@ -16,7 +16,7 @@
  */
 import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback, RestPluginApi} from '../../../api/rest';
 import {PluginApi} from '../../../api/plugin';
 
@@ -35,9 +35,9 @@ class ResponseError extends Error {
 }
 
 export class GrPluginRestApi implements RestPluginApi {
-  private readonly restApi = appContext.restApiService;
+  private readonly restApi = getAppContext().restApiService;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   constructor(readonly plugin: PluginApi, private readonly prefix = '') {
     this.reporting.trackApi(this.plugin, 'rest', 'constructor');

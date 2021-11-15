@@ -22,7 +22,7 @@ import {htmlTemplate} from './gr-confirm-revert-dialog_html';
 import {customElement, property} from '@polymer/decorators';
 import {ChangeInfo, CommitId} from '../../../types/common';
 import {fireAlert} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -83,7 +83,7 @@ export class GrConfirmRevertDialog extends PolymerElement {
   @property({type: Array})
   _revertMessages: string[] = [];
 
-  private readonly jsAPI = appContext.jsApiService;
+  private readonly jsAPI = getAppContext().jsApiService;
 
   _computeIfSingleRevert(revertType: number) {
     return revertType === RevertType.REVERT_SINGLE_CHANGE;

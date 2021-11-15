@@ -18,7 +18,7 @@
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {RepoName} from '../../../types/common';
 import {WebLinkInfo} from '../../../types/diff';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
@@ -36,7 +36,7 @@ export class GrRepoHeader extends LitElement {
   @property({type: Array})
   _webLinks: WebLinkInfo[] = [];
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
     return [

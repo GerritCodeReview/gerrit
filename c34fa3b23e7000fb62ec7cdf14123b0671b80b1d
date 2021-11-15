@@ -70,6 +70,47 @@
       "parentUuid": "229f89b6_27bd608f",
       "revId": "c34fa3b23e7000fb62ec7cdf14123b0671b80b1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01945216_9640f09c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-11-15T18:51:21Z",
+      "side": 1,
+      "message": "thanks!",
+      "parentUuid": "db618f6b_0c4fd6ec",
+      "revId": "c34fa3b23e7000fb62ec7cdf14123b0671b80b1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b967e00_bdd423b0",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-11-15T18:51:21Z",
+      "side": 1,
+      "message": "move these up so callers can import the variables.",
+      "range": {
+        "startLine": 216,
+        "startChar": 1,
+        "endLine": 216,
+        "endChar": 30
+      },
+      "revId": "c34fa3b23e7000fb62ec7cdf14123b0671b80b1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

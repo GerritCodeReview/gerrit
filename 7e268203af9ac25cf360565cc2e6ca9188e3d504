@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7daac2ea_dc339cf3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-15T23:44:55Z",
+      "side": 1,
+      "message": "I verified the code locally but I want to do some additional checks for the events passing in HA during the migration",
+      "revId": "7e268203af9ac25cf360565cc2e6ca9188e3d504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

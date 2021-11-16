@@ -105,6 +105,30 @@
       },
       "revId": "34267825b46c7b9950fd62d6838a6da68199b3bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "860d5d27_23103d2b",
+        "filename": "polygerrit-ui/app/services/user/user-service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:59:39Z",
+      "side": 1,
+      "message": "I\u0027m not sure if makes sense to add a comment on this method for each class that implements Finalizable.\n\nI\u0027ve added comments to Finalizable.",
+      "parentUuid": "b04ed582_f00b1269",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 16
+      },
+      "revId": "34267825b46c7b9950fd62d6838a6da68199b3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -35,6 +35,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8434823e_515be945",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1729832_c12e12d1",
+      "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88a3bc99_438b371b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1729832_c12e12d1",
+      "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0974c4a4_b8718e6d",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-11-16T18:48:25Z",
       "side": 1,
       "message": "Should return void?",
+      "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6af06986_596be337",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0974c4a4_b8718e6d",
       "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73b6efac_193fe38b",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_mock.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:59:39Z",
+      "side": 1,
+      "message": "😂",
+      "parentUuid": "fa4f62eb_8fd60aa3",
+      "range": {
+        "startLine": 51,
+        "startChar": 18,
+        "endLine": 51,
+        "endChar": 21
+      },
+      "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "092847ce_80095c94",
@@ -88,6 +166,24 @@
       "writtenOn": "2021-11-16T18:48:25Z",
       "side": 1,
       "message": "When we find out that all services should also have some other ability, then we will have to invent a new interface and every service will have to implement two interfaces. To avoid such a situation I would recommend creating a `Service` interface, which either is identical to what `Finalizable` currently is or extends it. That is also nice as a marker interface clearly conveying what a service is and what not. The context and the registry can then also clearly be marked as having Services as their values.\n\nAlso add a comment explaining this interface.",
+      "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "006348c4_dccd47c7",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:59:39Z",
+      "side": 1,
+      "message": "I actually considered that but I don\u0027t think it makes sense to have everything on AppContext be a service.\n\nWe could for instance have a map from change-number to change-service. The map would have to know how to finalize but it\u0027s not a service.",
+      "parentUuid": "092847ce_80095c94",
       "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

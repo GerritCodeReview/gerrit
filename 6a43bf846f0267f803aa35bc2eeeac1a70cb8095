@@ -16,6 +16,24 @@
       "message": "This is a lot of change for a stable branch. Our policy is to do these kinds of dependency updates on master just after creating the stable branch.\n\nIs there a strong reason to do this for 3.5?",
       "revId": "6a43bf846f0267f803aa35bc2eeeac1a70cb8095",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e48dbb8_c130c037",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-16T15:32:38Z",
+      "side": 1,
+      "message": "The upgrade of Mina to v2.7.0 is particularly important for the SSH RSA handshake fix (see [1]).\n\n[1] https://issues.apache.org/jira/browse/SSHD-1216",
+      "parentUuid": "55960342_049514da",
+      "revId": "6a43bf846f0267f803aa35bc2eeeac1a70cb8095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

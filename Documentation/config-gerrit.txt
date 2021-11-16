@@ -940,12 +940,6 @@ information is obtained from NoteDb data in the `All-Users` repo.
 +
 If direct updates are made to `All-Users`, this cache should be flushed.
 
-cache `"approvals"`::
-+
-Cache entries contain approvals for a given patch set. This includes
-approvals granted on this patch set as well as approvals copied from
-earlier patch sets.
-
 cache `"adv_bases"`::
 +
 Used only for push over smart HTTP when branch level access controls

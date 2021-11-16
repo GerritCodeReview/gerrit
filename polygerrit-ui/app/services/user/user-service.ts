@@ -29,8 +29,9 @@ import {
 } from '../../constants/constants';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
+import {Finalizable} from '../registry';
 
-export class UserService {
+export class UserService implements Finalizable{
   constructor(readonly restApiService: RestApiService) {
     from(this.restApiService.getAccount()).subscribe(
       (account?: AccountDetailInfo) => {
@@ -58,6 +59,8 @@ export class UserService {
         updateDiffPreferences(diffPrefs ?? createDefaultDiffPrefs());
       });
   }
+
+  finalize() { }
 
   updatePreferences(prefs: Partial<PreferencesInfo>) {
     this.restApiService

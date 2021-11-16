@@ -1382,12 +1382,21 @@ suite('gr-change-actions tests', () => {
             'This reverts commit 2000.\n\nReason ' +
             'for revert: <INSERT REASONING HERE>\n';
           assert.equal(confirmRevertDialog._message, msg);
-          const editedMsg = msg + 'hello';
+          let editedMsg = msg + 'hello';
           confirmRevertDialog._message += 'hello';
           const confirmButton = queryAndAssert(
             queryAndAssert(element.$.confirmRevertDialog, 'gr-dialog'),
             '#confirm'
           );
+          tap(confirmButton);
+          await flush();
+          // Contains generic template reason so doesn't submit
+          assert.isFalse(fireActionStub.called);
+          confirmRevertDialog._message = confirmRevertDialog._message.replace(
+            '<INSERT REASONING HERE>',
+            ''
+          );
+          editedMsg = editedMsg.replace('<INSERT REASONING HERE>', '');
           tap(confirmButton);
           await flush();
           assert.equal(fireActionStub.getCall(0).args[0], '/revert');

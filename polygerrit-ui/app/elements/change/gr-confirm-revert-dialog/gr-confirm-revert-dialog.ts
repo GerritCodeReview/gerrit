@@ -199,9 +199,13 @@ export class GrConfirmRevertDialog extends PolymerElement {
   }
 
   _handleConfirmTap(e: Event) {
+    const insertReasonString = '<INSERT REASONING HERE>';
     e.preventDefault();
     e.stopPropagation();
-    if (this._message === this._originalRevertMessages[this._revertType]) {
+    if (
+      this._message === this._originalRevertMessages[this._revertType] ||
+      this._message.includes(insertReasonString)
+    ) {
       this._showErrorMessage = true;
       return;
     }

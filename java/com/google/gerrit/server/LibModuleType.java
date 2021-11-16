@@ -24,7 +24,10 @@ public enum LibModuleType {
   SYS_BATCH_MODULE("BatchModule"),
 
   /** Module for the dbInjector. */
-  DB_MODULE("DbModule");
+  DB_MODULE("DbModule"),
+
+  /** Module for Reindexing. */
+  REINDEX_MODULE("ReindexModule");
 
   private final String configKey;
 

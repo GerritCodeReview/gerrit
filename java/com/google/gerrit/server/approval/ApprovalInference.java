@@ -51,7 +51,6 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
@@ -102,16 +101,7 @@ class ApprovalInference {
    * on parents) approvals.
    */
   Iterable<PatchSetApproval> forPatchSet(
-      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
-    PatchSet patchset = notes.getPatchSets().get(psId);
-    if (patchset == null) {
-      return Collections.emptyList();
-    }
-    return forPatchSet(notes, patchset, rw, repoConfig);
-  }
-
-  Iterable<PatchSetApproval> forPatchSet(
-      ChangeNotes notes, PatchSet ps, @Nullable RevWalk rw, @Nullable Config repoConfig) {
+      ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
     ProjectState project;
     try (TraceTimer traceTimer =
         TraceContext.newTimer(
@@ -347,11 +337,7 @@ class ApprovalInference {
   }
 
   private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(
-      ChangeNotes notes,
-      ProjectState project,
-      PatchSet patchSet,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig) {
+      ChangeNotes notes, ProjectState project, PatchSet patchSet, RevWalk rw, Config repoConfig) {
     checkState(
         project.getNameKey().equals(notes.getProjectName()),
         "project must match %s, %s",

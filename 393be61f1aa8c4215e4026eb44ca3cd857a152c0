@@ -39,6 +39,30 @@
       },
       "revId": "393be61f1aa8c4215e4026eb44ca3cd857a152c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c675b1_b6fffdba",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8291,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-16T14:55:49Z",
+      "side": 1,
+      "message": "Yes, exactly. I noticed it while testing the \"is:submittable\" in a later change since we would need to ban it.",
+      "parentUuid": "4ce468b6_939f975f",
+      "range": {
+        "startLine": 8291,
+        "startChar": 2,
+        "endLine": 8291,
+        "endChar": 15
+      },
+      "revId": "393be61f1aa8c4215e4026eb44ca3cd857a152c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

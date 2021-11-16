@@ -32,7 +32,7 @@ export function subscribe<T>(
 
 export class SubscriptionController<T> implements ReactiveController {
   private sub?: Subscription;
-
+ 
   constructor(
     private readonly obs$: Observable<T>,
     private readonly setProp: (t: T) => void

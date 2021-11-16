@@ -16,6 +16,7 @@
  */
 
 import {CommentRange, PatchSetNum} from '../../types/common';
+import {Finalizable} from '../registry';
 
 export interface StorageLocation {
   changeNum: number;
@@ -30,7 +31,7 @@ export interface StorageObject {
   updated: number;
 }
 
-export interface StorageService {
+export interface StorageService extends Finalizable {
   getDraftComment(location: StorageLocation): StorageObject | null;
 
   setDraftComment(location: StorageLocation, message: string): void;

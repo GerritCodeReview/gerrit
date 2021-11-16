@@ -20,6 +20,7 @@ import {hasOwnProperty} from '../../utils/common-util';
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
+import {Finalizable} from '../registry';
 import {
   Execution,
   Interaction,
@@ -272,7 +273,7 @@ interface SlowRpcCall {
 
 type PendingReportInfo = [EventInfo, boolean | undefined];
 
-export class GrReporting implements ReportingService {
+export class GrReporting implements ReportingService, Finalizable {
   private readonly _flagsService: FlagsService;
 
   private readonly _baselines = STARTUP_TIMERS;
@@ -322,6 +323,8 @@ export class GrReporting implements ReportingService {
         !hasOwnProperty(this._baselines, Timing.METRICS_PLUGIN_LOADED))
     );
   }
+
+  finalize() {}
 
   /**
    * Reporter reports events. Events will be queued if metrics plugin is not

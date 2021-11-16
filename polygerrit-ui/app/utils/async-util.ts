@@ -139,7 +139,9 @@ export function throttleWrap<T>(fn: (e: T) => void) {
  */
 export function until<T>(obs$: Observable<T>, predicate: (t: T) => boolean) {
   return new Promise<void>(resolve => {
-    obs$.pipe(filter(predicate), take(1)).subscribe(() => resolve());
+    obs$.pipe(filter(predicate), take(1)).subscribe(() => {
+      resolve();
+    });
   });
 }
 

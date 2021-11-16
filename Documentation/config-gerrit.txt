@@ -2317,6 +2317,25 @@ located under the `/lib` directory.
 +
 By default unset.
 
+[[gerrit.installIndexModule]]gerrit.installIndexModule::
++
+Class name of the Guice modules to load as alternate implementation
+for the Gerrit indexes backend.
+Classes are resolved using the primary Gerrit class loader, hence the
+class needs to be either declared in Gerrit or an additional JAR
+located under the `/lib` directory.
++
+NOTE: The `gerrit.installIndexModule` has precedence over the
+`index.type`.
++
+By default unset.
++
+Example:
+----
+[gerrit]
+  installIndexModule = com.google.gerrit.elasticsearch.ElasticIndexModule
+----
++
 [[gerrit.installModule]]gerrit.installModule::
 +
 Repeatable list of class name of additional Guice modules to load at
@@ -3136,16 +3155,13 @@ Gerrit server.
 
 [[index.type]]index.type::
 +
-Type of secondary indexing employed by Gerrit.  The supported
-values are:
+*(DEPRECATED)* The only supported value is `LUCENE`, which is the default,
+that means a link:http://lucene.apache.org/[Lucene]
+index is used.
 +
-* `LUCENE`
+For using other indexing backends (e.g. ElasticSearch), refer to
+`gerrit.installIndexModule` setting.
 +
-A link:http://lucene.apache.org/[Lucene] index is used.
-+
-+
-By default, `LUCENE`.
-
 [[index.threads]]index.threads::
 +
 Number of threads to use for indexing in normal interactive operations. Setting

@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a942e3fb_138592b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T18:48:25Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1729832_c12e12d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T18:48:25Z",
+      "side": 1,
+      "message": "Should return void?",
+      "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0974c4a4_b8718e6d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T18:48:25Z",
+      "side": 1,
+      "message": "Should return void?",
+      "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa4f62eb_8fd60aa3",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_mock.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T18:48:25Z",
+      "side": 1,
+      "message": "I am surprised that lint allows you to write `{ }` instead of `{}`. If I was the linter I would forbid that. :-P",
+      "range": {
+        "startLine": 51,
+        "startChar": 18,
+        "endLine": 51,
+        "endChar": 21
+      },
+      "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "092847ce_80095c94",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T18:48:25Z",
+      "side": 1,
+      "message": "When we find out that all services should also have some other ability, then we will have to invent a new interface and every service will have to implement two interfaces. To avoid such a situation I would recommend creating a `Service` interface, which either is identical to what `Finalizable` currently is or extends it. That is also nice as a marker interface clearly conveying what a service is and what not. The context and the registry can then also clearly be marked as having Services as their values.\n\nAlso add a comment explaining this interface.",
+      "revId": "179abac27cd4c78c9fda3991381f96717cc5ac56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

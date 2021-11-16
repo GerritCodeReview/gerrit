@@ -36,4 +36,10 @@ public class SubmitRequirementExpressionInfo {
    * has two atoms: ["branch:refs/heads/foo", "project:bar"].
    */
   public List<String> failingAtoms;
+
+  /**
+   * Optional error message. Contains an explanation of why the submit requirement expression failed
+   * during its evaluation.
+   */
+  public String errorMessage;
 }

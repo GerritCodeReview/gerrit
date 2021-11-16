@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd2181b9_4c40227a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-16T14:45:09Z",
+      "side": 1,
+      "message": "This is ready for you. This change is needed so that we surface error messages to clients when SRs fail to evaluate. We handle exceptions and return an ERROR status with an error message instead of letting exceptions propagate.\n\nhttps://gerrit.googlesource.com/gerrit/+/a1a066df142977d5bf67aae33eb042690de9fad3/java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java#120",
+      "revId": "393be61f1aa8c4215e4026eb44ca3cd857a152c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

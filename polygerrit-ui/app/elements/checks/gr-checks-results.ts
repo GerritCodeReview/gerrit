@@ -917,8 +917,13 @@ export class GrChecksResults extends LitElement {
           padding: var(--spacing-s);
         }
         tr.headerRow th.nameCol {
-          width: 200px;
           padding-left: var(--spacing-l);
+          width: 200px;
+        }
+        @media screen and (min-width: 1400px) {
+          tr.headerRow th.nameCol.longNames {
+            width: 300px;
+          }
         }
         tr.headerRow th.summaryCol {
           width: 99%;
@@ -1274,11 +1279,15 @@ export class GrChecksResults extends LitElement {
       </div>`;
     }
     filtered = filtered.slice(0, limit);
+    // Some hosts/plugins use really long check names. If we have space and the
+    // check names are indeed very long, then set a more generous nameCol width.
+    const longestNameLength = Math.max(...all.map(r => r.checkName.length));
+    const nameColClasses = {nameCol: true, longNames: longestNameLength > 25};
     return html`
       <table class="resultsTable">
         <thead>
           <tr class="headerRow">
-            <th class="nameCol">Run</th>
+            <th class="${classMap(nameColClasses)}">Run</th>
             <th class="summaryCol">Summary</th>
             <th class="expanderCol"></th>
           </tr>

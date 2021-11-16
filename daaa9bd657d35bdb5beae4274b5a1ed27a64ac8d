@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdda0c36_435de02a",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0609c49d_c7a67076",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 0
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cef40d1_8f2dda39",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-16T09:26:12Z",
       "side": 1,
       "message": "Maybe use\n\n  assertIsDefined(ctx.flagsService, \u0027flagsService\u0027);\n  \nor create a similar utility function.",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 69
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53921244_cd542252",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Done, though I\u0027m not sure I like it because now I don\u0027t get static-guarantees that I\u0027m asserting the right ones as I have to use ! to satisfy the type-system.",
+      "parentUuid": "3cef40d1_8f2dda39",
       "range": {
         "startLine": 48,
         "startChar": 6,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b9fef16_f3980968",
+        "filename": "polygerrit-ui/app/services/app-context.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1f655a3_ee10291d",
+      "range": {
+        "startLine": 50,
+        "startChar": 3,
+        "endLine": 50,
+        "endChar": 64
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b967c7ad_6e823c0c",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-11-16T09:29:18Z",
       "side": 1,
       "message": "mutable exports are not allowed by TS style guide (go/tsstyle#mutable-exports).\nPossible solution: remove \"export\" and add get method.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 53
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab164012_2a062228",
+        "filename": "polygerrit-ui/app/services/app-context.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b967c7ad_6e823c0c",
       "range": {
         "startLine": 58,
         "startChar": 0,
@@ -110,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6578db49_4fe92056",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a03d22e_338ac0e2",
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2034789_5aaec137",
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77afcbf5_9ff51eeb",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "You can\u0027t guarantee that all services are ready when calling the factory for a service.",
+      "parentUuid": "c2034789_5aaec137",
+      "range": {
+        "startLine": 18,
+        "startChar": 7,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de1d31b5_95e09664",
@@ -146,6 +284,30 @@
       "writtenOn": "2021-11-16T09:29:18Z",
       "side": 1,
       "message": "nit: I would prefer the TContext to make it clear that this is a type argument (same for other places in the file)",
+      "range": {
+        "startLine": 22,
+        "startChar": 23,
+        "endLine": 22,
+        "endChar": 30
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "466a1c2e_4ca30d4f",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de1d31b5_95e09664",
       "range": {
         "startLine": 22,
         "startChar": 23,
@@ -181,6 +343,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e4a0937_b7d541f6",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "The reason is that services do not clean up after themselves.  Which resulted in unit-tests spamming TONS of interactions due to this global registration.\n\nhttps://source.corp.google.com/piper///depot/google3/third_party/javascript/polygerrit/services/shortcuts/shortcuts-service.ts;l\u003d105;rcl\u003d408330244\n\nThe child change introduces Finalizable, and then the next change will have to ensure that we clean up properly",
+      "parentUuid": "3267e848_7d96f103",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 33
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b33efa71_c61d43cb",
         "filename": "polygerrit-ui/app/services/registry.ts",
         "patchSetId": 7
@@ -192,6 +378,30 @@
       "writtenOn": "2021-11-16T10:40:10Z",
       "side": 1,
       "message": "Why this is Partial\u003cContext\u003e ?\nRegistry\u003cContext\u003e contains all keys from Context. IIUC, the output will always have the same properties(i.e. keys) as Registry\u003cContext\u003e \u003d\u003e the return value have all properties from the Context.",
+      "range": {
+        "startLine": 26,
+        "startChar": 3,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15b0b853_fb6fd043",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Done. It was my misunderstanding from typing that Registry\u003cContext\u003e guarantees it has all properties of Context.",
+      "parentUuid": "b33efa71_c61d43cb",
       "range": {
         "startLine": 26,
         "startChar": 3,
@@ -225,6 +435,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed556a75_640e5b76",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46cd7e39_393b0e4e",
+      "range": {
+        "startLine": 33,
+        "startChar": 28,
+        "endLine": 33,
+        "endChar": 47
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7238e46f_6738e1e9",
@@ -248,6 +482,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e17979ba_cf3884f6",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "7238e46f_6738e1e9",
+      "range": {
+        "startLine": 35,
+        "startChar": 26,
+        "endLine": 35,
+        "endChar": 48
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3597298d_f571226e",
@@ -261,6 +519,24 @@
       "writtenOn": "2021-11-16T09:26:12Z",
       "side": 1,
       "message": "Can you just call `defineProperty` here instead of collecting all properties?\n\nThen you could change to a simple for-of loop instead of using reduce().",
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dd1497d_69b1e5c1",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3597298d_f571226e",
       "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -301,6 +577,54 @@
       "writtenOn": "2021-11-16T10:40:10Z",
       "side": 1,
       "message": "Wrap it in try-finally (otherwise, exceptions in factory can lead to a wrong exception about circular dependencies)\ntry {\n  initialized.set(...)\n} finally {\n  initializing \u003d false;\n}",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56994c40_314e3494",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3e19879_6ec87184",
+      "range": {
+        "startLine": 42,
+        "startChar": 12,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "558c21fd_a22136f1",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T23:50:40Z",
+      "side": 1,
+      "message": "Good idea!",
+      "parentUuid": "9b371339_56a8fabb",
       "range": {
         "startLine": 44,
         "startChar": 12,

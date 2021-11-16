@@ -185,4 +185,8 @@ export class GrAdminGroupList extends PolymerElement {
   computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
   }
+
+  _handleHasNewGroupName() {
+    this._hasNewGroupName = !!this.$.createNewModal.name;
+  }
 }

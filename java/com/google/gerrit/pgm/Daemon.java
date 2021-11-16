@@ -524,6 +524,7 @@ public class Daemon extends SiteProgram {
 
     List<Module> libModules =
         LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE_TYPE);
+    libModules.addAll(LibModuleLoader.loadModules(cfgInjector, LibModuleType.INDEX_MODULE_TYPE));
     libModules.addAll(testSysModules);
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);

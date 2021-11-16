@@ -301,7 +301,9 @@ public class PatchSetInserter implements BatchUpdateOp {
     // Approvals that are being set in the new patch-set during this operation are not available yet
     // outside of the scope of this method. Only copied approvals are set here.
     if (storeCopiedVotes) {
-      approvalsUtil.byPatchSet(ctx.getNotes(), patchSet).forEach(a -> update.putCopiedApproval(a));
+      approvalsUtil
+          .dynamicallyComputeCopiedApprovals(ctx.getNotes(), patchSet)
+          .forEach(a -> update.putCopiedApproval(a));
     }
 
     return true;

@@ -57,6 +57,30 @@
       },
       "revId": "6a43bf846f0267f803aa35bc2eeeac1a70cb8095",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10ebe109_d51d6c97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-11-16T15:48:10Z",
+      "side": 1,
+      "message": "no, there is no need to upgrade jetty, jgit uses that only in http tests and in command line to start a test lfs server, we update it whenever there is a new version",
+      "parentUuid": "f46abc1a_30d0a91f",
+      "range": {
+        "startLine": 110,
+        "startChar": 28,
+        "endLine": 110,
+        "endChar": 44
+      },
+      "revId": "6a43bf846f0267f803aa35bc2eeeac1a70cb8095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

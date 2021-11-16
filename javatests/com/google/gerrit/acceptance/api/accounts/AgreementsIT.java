@@ -69,7 +69,7 @@ public class AgreementsIT extends AbstractDaemonTest {
       ProjectConfig config = projectConfigFactory.read(md);
       config.getProject().setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, value);
       config.commit(md);
-      projectCache.evict(config.getProject());
+      projectCache.evictAndReindex(config.getProject());
     }
   }
 

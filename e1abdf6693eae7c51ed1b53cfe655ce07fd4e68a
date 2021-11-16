@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b6000a1_f38411e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T14:23:39Z",
+      "side": 1,
+      "message": "Thanks for the migration. One last nit.\n\nCould you document in the change description how you tested it?",
+      "revId": "e1abdf6693eae7c51ed1b53cfe655ce07fd4e68a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dfd2a3d_e846345b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T14:23:39Z",
+      "side": 1,
+      "message": "Use a switch statement.",
+      "revId": "e1abdf6693eae7c51ed1b53cfe655ce07fd4e68a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

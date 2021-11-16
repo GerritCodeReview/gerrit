@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62b716f7_3a0fc7c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-16T01:49:41Z",
+      "side": 1,
+      "message": "Blocking this for avoiding to invalidate the v3.5.0-rc2 release (ready but not merged yet)",
+      "revId": "e17ce9edb48c5aca910a6a5afee66d4415cdb074",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -120,7 +120,7 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
       }
 
       config.commit(md);
-      projectCache.evict(config.getProject());
+      projectCache.evictAndReindex(config.getProject());
     }
   }
 

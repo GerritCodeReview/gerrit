@@ -137,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c8094739_8a3ec51e",
+        "filename": "java/com/google/gerrit/server/index/options/WriteMode.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-16T16:30:29Z",
+      "side": 1,
+      "message": "Marked resolved by mistake.",
+      "parentUuid": "dc13f02a_4b0295e1",
+      "range": {
+        "startLine": 17,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "51e9667717ebb9fe28d80ff3851d389b7cc7a98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d604e8e3_b72abdd2",
         "filename": "java/com/google/gerrit/server/index/project/AllProjectsIndexer.java",
         "patchSetId": 8

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {Finalizable} from './registry';
 import {FlagsService} from './flags/flags';
 import {EventEmitterService} from './gr-event-interface/gr-event-interface';
 import {ReportingService} from './gr-reporting/gr-reporting';
@@ -55,12 +56,14 @@ export interface AppContext {
  * It is guaranteed that all fields in appContext are always initialized
  * (except for shared gr-diff)
  */
-let appContext: AppContext = {} as AppContext;
+let appContext: (AppContext & Finalizable) | undefined = undefined;
 
-export function injectAppContext(ctx: AppContext) {
+export function injectAppContext(ctx: AppContext & Finalizable) {
+  appContext?.finalize();
   appContext = ctx;
 }
 
 export function getAppContext() {
+  if (!appContext) throw new Error('App context has not been injected');
   return appContext;
 }

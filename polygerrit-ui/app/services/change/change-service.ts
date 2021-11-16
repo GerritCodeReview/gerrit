@@ -23,8 +23,9 @@ import {
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
+import {Finalizable} from '../registry';
 
-export class ChangeService {
+export class ChangeService implements Finalizable {
   private change?: ParsedChangeInfo;
 
   constructor(readonly restApiService: RestApiService) {
@@ -38,6 +39,8 @@ export class ChangeService {
       this.change = change;
     });
   }
+
+  finalize() {}
 
   /**
    * This is a temporary indirection between change-view, which currently

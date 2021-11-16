@@ -170,6 +170,8 @@ export const grRestApiMock: RestApiService = {
   executeChangeAction(): Promise<Response | undefined> {
     return Promise.resolve(new Response());
   },
+  finalize(): void {
+  },
   generateAccountHttpPassword(): Promise<Password> {
     return Promise.resolve('asdf');
   },

@@ -15,30 +15,41 @@
  * limitations under the License.
  */
 
+// A finalizable object has a single method `finalize` that is called when
+// the object is no longer needed and should clean itself up.
+export interface Finalizable {
+  finalize(): void;
+}
+
 // A factory can take a partially created TContext and generate a property
 // for a given key on that TContext.
 export type Factory<TContext, K extends keyof TContext> = (
   ctx: Partial<TContext>
-) => TContext[K];
+) => TContext[K] & Finalizable;
 
 // A registry contains a factory for each key in TContext.
 export type Registry<TContext> = {[P in keyof TContext]: Factory<TContext, P>};
 
 // Creates a context given a registry.
-// The cache parameter is a stop-gap solution because currently services do not
-// clean up after themselves. By passing in a cache, we can ensure that in
-// tests services are only created once.
 export function create<TContext>(
   registry: Registry<TContext>,
+): TContext & Finalizable {
+  const context: Partial<TContext> & Finalizable = {
+    finalize() {
+      for (const key of Object.getOwnPropertyNames(registry)) {
+        const name = key as keyof TContext;
+        try {
+          (this[name] as unknown as Finalizable).finalize();
+        } catch (e) {
+          console.info(`Failed to finalize ${key}`);
+          throw e;
+        }
+      }
+    },
+  } as Partial<TContext> & Finalizable;
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  cache?: Map<keyof TContext, any>
-): TContext {
-  const context: Partial<TContext> = {} as Partial<TContext>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const initialized: Map<keyof TContext, any> = cache
-    ? cache
-    : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      new Map<keyof TContext, any>();
+  const initialized: Map<keyof TContext, any> = new Map<keyof TContext, any>();
   for (const key of Object.keys(registry)) {
     const name = key as keyof TContext;
     const factory = registry[name];
@@ -67,5 +78,5 @@ export function create<TContext>(
       },
     });
   }
-  return context as TContext;
+  return context as TContext & Finalizable;
 }

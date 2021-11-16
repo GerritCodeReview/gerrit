@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {AppContext} from './app-context';
-import {create, Registry} from './registry';
+import {create, Finalizable, Registry} from './registry';
 import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';
 import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
@@ -32,16 +32,10 @@ import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {BrowserService} from './browser/browser-service';
 import {assertIsDefined} from '../utils/common-util';
 
-type ServiceName = keyof AppContext;
-// NOTE: This global table is a stopgap solution until services know how to
-// properly clean up after themselves.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const initializedServices: Map<ServiceName, any> = new Map<ServiceName, any>();
-
 /**
  * The AppContext lazy initializator for all services
  */
-export function createAppContext(): AppContext {
+export function createAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
     flagsService: (_ctx: Partial<AppContext>) =>
       new FlagsServiceImplementation(),
@@ -90,5 +84,5 @@ export function createAppContext(): AppContext {
     },
     browserService: (_ctx: Partial<AppContext>) => new BrowserService(),
   };
-  return create<AppContext>(appRegistry, initializedServices) as AppContext;
+  return create<AppContext>(appRegistry);
 }

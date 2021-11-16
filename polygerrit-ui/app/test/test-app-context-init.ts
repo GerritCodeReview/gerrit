@@ -16,28 +16,72 @@
  */
 
 // Init app context before any other imports
-import {createAppContext} from '../services/app-context-init';
-import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
+import {create, Registry, Finalizable} from '../services/registry';
+import {assertIsDefined} from '../utils/common-util';
 import {AppContext, injectAppContext} from '../services/app-context';
+import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
 import {grRestApiMock} from './mocks/gr-rest-api_mock';
 import {grStorageMock} from '../services/storage/gr-storage_mock';
 import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
-export function _testOnlyInitAppContext() {
-  const appContext = createAppContext();
-  injectAppContext(appContext);
+import {FlagsServiceImplementation} from '../services/flags/flags_impl';
+import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_impl';
+import {ChangeService} from '../services/change/change-service';
+import {ChecksService} from '../services/checks/checks-service';
+import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
+import {ConfigService} from '../services/config/config-service';
+import {UserService} from '../services/user/user-service';
+import {CommentsService} from '../services/comments/comments-service';
+import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
+import {BrowserService} from '../services/browser/browser-service';
 
-  function setMock<T extends keyof AppContext>(
-    serviceName: T,
-    setupMock: AppContext[T]
-  ) {
-    Object.defineProperty(appContext, serviceName, {
-      get() {
-        return setupMock;
-      },
-    });
-  }
-  setMock('reportingService', grReportingMock);
-  setMock('restApiService', grRestApiMock);
-  setMock('storageService', grStorageMock);
-  setMock('authService', new GrAuthMock(appContext.eventEmitter));
+let appContext: (AppContext & Finalizable) | undefined;
+
+export function _testOnlyInitAppContext() {
+  const appRegistry: Registry<AppContext> = {
+    flagsService: (_ctx: Partial<AppContext>) =>
+      new FlagsServiceImplementation(),
+    reportingService: (_ctx: Partial<AppContext>) => grReportingMock,
+    eventEmitter: (_ctx: Partial<AppContext>) => new EventEmitter(),
+    authService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.eventEmitter, 'eventEmitter');
+      return new GrAuthMock(ctx.eventEmitter)
+    },
+    restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
+    changeService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.restApiService, 'restApiService');
+      return new ChangeService(ctx.restApiService!);
+    },
+    commentsService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.restApiService, 'restApiService');
+      return new CommentsService(ctx.restApiService!);
+    },
+    checksService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.reportingService, 'reportingService');
+      return new ChecksService(ctx.reportingService!);
+    },
+    jsApiService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.reportingService, 'reportingService');
+      return new GrJsApiInterface(ctx.reportingService!);
+    },
+    storageService: (_ctx: Partial<AppContext>) => grStorageMock,
+    configService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.restApiService, 'restApiService');
+      return new ConfigService(ctx.restApiService!);
+    },
+    userService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.restApiService, 'restApiService');
+      return new UserService(ctx.restApiService!);
+    },
+    shortcutsService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.reportingService, 'reportingService');
+      return new ShortcutsService(ctx.reportingService!);
+    },
+    browserService: (_ctx: Partial<AppContext>) => new BrowserService(),
+  };
+  appContext = create<AppContext>(appRegistry);
+  injectAppContext(appContext);
 }
+
+export function _testOnlyFinalizeAppContext() {
+  appContext?.finalize();
+};

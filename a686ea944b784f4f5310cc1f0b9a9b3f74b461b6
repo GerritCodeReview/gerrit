@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bd1dafe_a62a7712",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "Apologies for not getting back to this sooner. Just some nits, other than that it looks good.",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f62f688_b56e76d9",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-summary_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "Make myTopic a constant and use throughout",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebaf12d9_ad1af8a2",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-project.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "Just return",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ffe97d6_1e18f0ad",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-project.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "Make a new method to render a change.",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8264b089_9f874d38",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-project_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "Declare a constant.",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "140da0c4_7ecb48f3",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "return without a string so it\u0027s undefined.  That way the type of the method will be more clear: string | undefined. In general, I prefer not using a special value when returning from a method that can return nothing (e.g. 0 or \u0027\u0027).",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e78901ba_8719a148",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "Should this be \u003c\u003d for these various lines?",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35f320d1_abf2e6a9",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "Put logic in a separate method with a meaningful name.",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dd0f704_938c6813",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "You can\u0027t just return without \u0027\u0027",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7921b22e_f19c78c3",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "Make this a separate render method.",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab07cd31_d757698d",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "Can topic names be empty strings? If not, you could simplify this to if (!this.topicName) return;",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "867eeaee_5d0c44b2",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-16T12:49:55Z",
+      "side": 1,
+      "message": "just return",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

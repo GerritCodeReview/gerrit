@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40412189_545fe045",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-16T00:32:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fa30cfa0_1f4b3910",
+      "revId": "60bccc66a49948a7e845dfbb34d4790efb3e78c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f3d51dc_2bd6e728",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-11-16T00:11:43Z",
       "side": 1,
       "message": "Do this in willUpdate, not updated.",
+      "revId": "60bccc66a49948a7e845dfbb34d4790efb3e78c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d4f432c_825aa093",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-16T00:32:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9f3d51dc_2bd6e728",
       "revId": "60bccc66a49948a7e845dfbb34d4790efb3e78c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

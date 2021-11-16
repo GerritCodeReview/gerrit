@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10688613_993c4743",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-16T11:32:38Z",
+      "side": 1,
+      "message": "Commit message needs a lot more detail I think.",
+      "revId": "34267825b46c7b9950fd62d6838a6da68199b3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e644d290_e083c456",
+        "filename": "polygerrit-ui/app/services/user/user-service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-16T11:32:38Z",
+      "side": 1,
+      "message": "why are these methods empty?\n\nWhat is the future plan with these methods? Are they going to remain empty?",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 16
+      },
+      "revId": "34267825b46c7b9950fd62d6838a6da68199b3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

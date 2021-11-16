@@ -523,6 +523,7 @@ public class Daemon extends SiteProgram {
     modules.add(new DefaultProjectNameLockManagerModule());
 
     List<Module> libModules = LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE);
+    libModules.addAll(LibModuleLoader.loadModules(cfgInjector, LibModuleType.INDEX_MODULE));
     libModules.addAll(testSysModules);
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);

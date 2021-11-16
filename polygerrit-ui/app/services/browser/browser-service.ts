@@ -1,5 +1,3 @@
-import {updateStateScreenWidth} from './browser-model';
-
 /**
  * @license
  * Copyright (C) 2021 The Android Open Source Project
@@ -17,7 +15,10 @@ import {updateStateScreenWidth} from './browser-model';
  * limitations under the License.
  */
 
-export class BrowserService {
+import {updateStateScreenWidth} from './browser-model';
+
+import {Finalizable} from '../registry';
+export class BrowserService implements Finalizable{
   /* Observer the screen width so that the app can react to changes to it */
   observeWidth() {
     return new ResizeObserver(entries => {
@@ -26,4 +27,5 @@ export class BrowserService {
       });
     });
   }
+  finalize() {}
 }

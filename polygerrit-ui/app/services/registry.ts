@@ -14,17 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+export interface Finalizable {
+  finalize(): void;
+}
+
 export type Factory<Context, K extends keyof Context> = (
   ctx: Partial<Context>
-) => Context[K];
+) => Context[K] & Finalizable;
 export type Registry<Context> = {[P in keyof Context]: Factory<Context, P>};
 
 export function create<Context>(
   registry: Registry<Context>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cache?: Map<keyof Context, any>
-): Partial<Context> {
-  const context: Partial<Context> = {} as Partial<Context>;
+): Partial<Context> & Finalizable {
+  const context: Partial<Context> & Finalizable = {
+    finalize() {
+      for (const prop of Object.getOwnPropertyNames(registry)) {
+        const name = prop as keyof Context;
+        (this[name] as unknown as Finalizable).finalize();
+      }
+    }
+  } as Partial<Context> & Finalizable;
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const initialized: Map<keyof Context, any> = cache
     ? cache
@@ -52,5 +65,5 @@ export function create<Context>(
     {} as PropertyDescriptorMap
   );
   Object.defineProperties(context, properties);
-  return context;
+  return context as Partial<Context> & Finalizable;
 }

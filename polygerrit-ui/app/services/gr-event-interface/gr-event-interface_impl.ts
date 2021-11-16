@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import {Finalizable} from '../registry';
 import {
   EventCallback,
   EventEmitterService,
@@ -34,8 +34,13 @@ import {
  * }
  *
  */
-export class EventEmitter implements EventEmitterService {
+export class EventEmitter implements EventEmitterService, Finalizable {
   private _listenersMap = new Map<string, EventCallback[]>();
+
+
+  finalize() {
+    this.removeAllListeners();
+  }
 
   /**
    * Register an event listener to an event.
@@ -123,7 +128,7 @@ export class EventEmitter implements EventEmitterService {
    *
    * @param eventName if not provided, will remove all
    */
-  removeAllListeners(eventName: string): void {
+  removeAllListeners(eventName?: string): void {
     if (eventName) {
       this._listenersMap.set(eventName, []);
     } else {

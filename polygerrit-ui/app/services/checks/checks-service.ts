@@ -56,6 +56,7 @@ import {
   timer,
 } from 'rxjs';
 import {ChangeInfo, NumericChangeId, PatchSetNumber} from '../../types/common';
+import {Finalizable} from '../registry';
 import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {assertIsDefined} from '../../utils/common-util';
@@ -64,7 +65,7 @@ import {routerPatchNum$} from '../router/router-model';
 import {Execution} from '../../constants/reporting';
 import {fireAlert, fireEvent} from '../../utils/event-util';
 
-export class ChecksService {
+export class ChecksService implements Finalizable {
   private readonly providers: {[name: string]: ChecksProvider} = {};
 
   private readonly reloadSubjects: {[name: string]: Subject<void>} = {};
@@ -76,6 +77,9 @@ export class ChecksService {
   private latestPatchNum?: PatchSetNumber;
 
   private readonly documentVisibilityChange$ = new BehaviorSubject(undefined);
+
+  private readonly reloadListener: () => void;
+  private readonly visibilityChangeListener: () => void;
 
   constructor(readonly reporting: ReportingService) {
     changeNum$.subscribe(x => (this.changeNum = x));
@@ -94,12 +98,21 @@ export class ChecksService {
         }
       }
     );
-    document.addEventListener('visibilitychange', () => {
+    this.visibilityChangeListener = () => {
       this.documentVisibilityChange$.next(undefined);
-    });
-    document.addEventListener('reload', () => {
-      this.reloadAll();
-    });
+    }
+    document.addEventListener(
+      'visibilitychange',
+      this.visibilityChangeListener);
+    this.reloadListener = () => this.reloadAll();
+    document.addEventListener('reload', this.reloadListener);
+  }
+
+  finalize() {
+    document.removeEventListener('reload', this.reloadListener);
+    document.removeEventListener(
+      'visibilitychange',
+      this.visibilityChangeListener);
   }
 
   setPatchset(num?: PatchSetNumber) {

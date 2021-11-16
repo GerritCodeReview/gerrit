@@ -21,7 +21,10 @@ import './source-map-support-install';
 import '../scripts/bundled-polymer';
 import '@polymer/iron-test-helpers/iron-test-helpers';
 import './test-router';
-import {_testOnlyInitAppContext} from './test-app-context-init';
+import {
+  _testOnlyInitAppContext,
+  _testOnlyFinalizeAppContext,
+} from './test-app-context-init';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface';
 import {
@@ -220,6 +223,7 @@ teardown(() => {
   cleanUpStorage();
   // Reset state
   updatePreferences(createDefaultPreferences());
+  _testOnlyFinalizeAppContext();
   const testTeardownTimestampMs = new Date().getTime();
   const elapsedMs = testTeardownTimestampMs - testSetupTimestampMs;
   if (elapsedMs > 1000) {

@@ -59,6 +59,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ecb6e2d_19afcd5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-16T01:31:30Z",
+      "side": 1,
+      "message": "It is fully working E2E with the follow-up change, which introduces the \u0027IndexModule\u0027 type.",
+      "parentUuid": "3b754a1a_92bb0e6f",
+      "revId": "9382a12cc2f8016ae37a244e2fefdbe2f243e3e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bc7bd20c_0a2d0086",

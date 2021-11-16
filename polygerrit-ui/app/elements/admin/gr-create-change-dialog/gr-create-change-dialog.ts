@@ -20,98 +20,77 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-create-change-dialog_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property, observe} from '@polymer/decorators';
 import {
   RepoName,
   BranchName,
   ChangeId,
-  ConfigInfo,
   InheritedBooleanInfo,
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
-import {GrTypedAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {appContext} from '../../../services/app-context';
 import {Subject} from 'rxjs';
-import {
-  repoConfig$,
-  serverConfig$,
-} from '../../../services/config/config-model';
+import {serverConfig$} from '../../../services/config/config-model';
 import {takeUntil} from 'rxjs/operators';
-import {IronInputElement} from '@polymer/iron-input/iron-input';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, css, html} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {BindValueChangeEvent} from '../../../types/events';
+import {fireEvent} from '../../../utils/event-util';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
 
-export interface GrCreateChangeDialog {
-  $: {
-    privateChangeCheckBox: HTMLInputElement;
-    branchInput: GrTypedAutocomplete<BranchName>;
-    tagNameInput: IronInputElement;
-    messageInput: IronAutogrowTextareaElement;
-  };
-}
-@customElement('gr-create-change-dialog')
-export class GrCreateChangeDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-create-change-dialog': GrCreateChangeDialog;
   }
+}
+
+@customElement('gr-create-change-dialog')
+export class GrCreateChangeDialog extends LitElement {
+  // private but used in test
+  @query('#privateChangeCheckBox') privateChangeCheckBox!: HTMLInputElement;
 
   @property({type: String})
   repoName?: RepoName;
 
-  @property({type: String})
-  branch = '' as BranchName;
+  // private but used in test
+  @state() branch = '' as BranchName;
 
-  @property({type: Object})
-  _repoConfig?: ConfigInfo;
+  // private but used in test
+  @state() subject = '';
 
-  @property({type: String})
-  subject = '';
+  // private but used in test
+  @state() topic?: string;
 
-  @property({type: String})
-  topic?: string;
+  @state() private baseChange?: ChangeId;
 
-  @property({type: Object})
-  _query?: (input: string) => Promise<{name: BranchName}[]>;
-
-  @property({type: String})
-  baseChange?: ChangeId;
-
-  @property({type: String})
-  baseCommit?: string;
+  @state() private baseCommit?: string;
 
   @property({type: Object})
   privateByDefault?: InheritedBooleanInfo;
 
-  @property({type: Boolean, notify: true})
-  canCreate = false;
+  @state() private privateChangesEnabled = false;
 
-  @property({type: Boolean})
-  _privateChangesEnabled = false;
+  private readonly query: (input: string) => Promise<{name: BranchName}[]>;
 
-  restApiService = appContext.restApiService;
+  private readonly restApiService = appContext.restApiService;
 
   disconnected$ = new Subject();
 
   constructor() {
     super();
-    this._query = (input: string) => this._getRepoBranchesSuggestions(input);
+    this.query = (input: string) => this.getRepoBranchesSuggestions(input);
   }
 
   override connectedCallback() {
     super.connectedCallback();
     if (!this.repoName) return;
 
-    repoConfig$.pipe(takeUntil(this.disconnected$)).subscribe(config => {
-      this.privateByDefault = config?.private_by_default;
-    });
-
     serverConfig$.pipe(takeUntil(this.disconnected$)).subscribe(config => {
-      this._privateChangesEnabled =
+      this.privateChangesEnabled =
         config?.change?.disable_private_changes ?? false;
     });
   }
@@ -121,20 +100,136 @@ export class GrCreateChangeDialog extends PolymerElement {
     super.disconnectedCallback();
   }
 
-  _computeBranchClass(baseChange?: ChangeId) {
-    return baseChange ? 'hide' : '';
+  static override get styles() {
+    return [
+      formStyles,
+      sharedStyles,
+      css`
+        input:not([type='checkbox']),
+        gr-autocomplete,
+        iron-autogrow-textarea {
+          width: 100%;
+        }
+        .value {
+          width: 32em;
+        }
+        .hide {
+          display: none;
+        }
+        @media only screen and (max-width: 40em) {
+          .value {
+            width: 29em;
+          }
+        }
+      `,
+    ];
   }
 
-  @observe('branch', 'subject')
-  _allowCreate(branch: BranchName, subject: string) {
-    this.canCreate = !!branch && !!subject;
+  override render() {
+    return html`
+      <div class="gr-form-styles">
+        <section class=${this.baseChange ? 'hide' : ''}>
+          <span class="title">Select branch for new change</span>
+          <span class="value">
+            <gr-autocomplete
+              id="branchInput"
+              .text=${this.branch}
+              .query=${this.query}
+              placeholder="Destination branch"
+              @text-changed=${(e: CustomEvent) => {
+                this.branch = e.detail.value;
+              }}
+            >
+            </gr-autocomplete>
+          </span>
+        </section>
+        <section class=${this.baseChange ? 'hide' : ''}>
+          <span class="title">Provide base commit sha1 for change</span>
+          <span class="value">
+            <iron-input
+              maxlength="40"
+              placeholder="(optional)"
+              .bindValue=${this.baseCommit}
+              @bind-value-changed=${(e: BindValueChangeEvent) => {
+                this.baseCommit = e.detail.value;
+              }}
+            >
+              <input
+                id="baseCommitInput"
+                maxlength="40"
+                placeholder="(optional)"
+              />
+            </iron-input>
+          </span>
+        </section>
+        <section>
+          <span class="title">Enter topic for new change</span>
+          <span class="value">
+            <iron-input
+              maxlength="1024"
+              placeholder="(optional)"
+              .bindValue=${this.topic}
+              @bind-value-changed=${(e: BindValueChangeEvent) => {
+                this.topic = e.detail.value;
+              }}
+            >
+              <input
+                id="tagNameInput"
+                maxlength="1024"
+                placeholder="(optional)"
+              />
+            </iron-input>
+          </span>
+        </section>
+        <section id="description">
+          <span class="title">Description</span>
+          <span class="value">
+            <iron-autogrow-textarea
+              id="messageInput"
+              class="message"
+              autocomplete="on"
+              rows="4"
+              maxRows="15"
+              .bindValue=${this.subject}
+              placeholder="Insert the description of the change."
+              @bind-value-changed=${(e: BindValueChangeEvent) => {
+                this.subject = e.detail.value;
+              }}
+            >
+            </iron-autogrow-textarea>
+          </span>
+        </section>
+        <section class=${this.privateChangesEnabled ? 'hide' : ''}>
+          <label class="title" for="privateChangeCheckBox"
+            >Private change</label
+          >
+          <span class="value">
+            <input
+              type="checkbox"
+              id="privateChangeCheckBox"
+              ?checked=${this.formatPrivateByDefaultBoolean()}
+            />
+          </span>
+        </section>
+      </div>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('branch') || changedProperties.has('subject')) {
+      this.allowCreate();
+    }
+  }
+
+  private allowCreate() {
+    fireEvent(this, 'can-create-change');
   }
 
   handleCreateChange(): Promise<void> {
     if (!this.repoName || !this.branch || !this.subject) {
       return Promise.resolve();
     }
-    const isPrivate = this.$.privateChangeCheckBox.checked;
+    const isPrivate = this.privateChangeCheckBox.checked;
     const isWip = true;
     return this.restApiService
       .createChange(
@@ -148,14 +243,13 @@ export class GrCreateChangeDialog extends PolymerElement {
         this.baseCommit || undefined
       )
       .then(changeCreated => {
-        if (!changeCreated) {
-          return;
-        }
+        if (!changeCreated) return;
         GerritNav.navigateToChange(changeCreated);
       });
   }
 
-  _getRepoBranchesSuggestions(input: string) {
+  // private but used in test
+  getRepoBranchesSuggestions(input: string) {
     if (!this.repoName) {
       return Promise.reject(new Error('missing repo name'));
     }
@@ -178,34 +272,19 @@ export class GrCreateChangeDialog extends PolymerElement {
       });
   }
 
-  _formatBooleanString(config?: InheritedBooleanInfo) {
-    if (
-      config &&
-      config.configured_value === InheritedBooleanInfoConfiguredValue.TRUE
-    ) {
-      return true;
-    } else if (
-      config &&
-      config.configured_value === InheritedBooleanInfoConfiguredValue.FALSE
-    ) {
-      return false;
-    } else if (
-      config &&
-      config.configured_value === InheritedBooleanInfoConfiguredValue.INHERITED
-    ) {
-      return !!(config && config.inherited_value);
-    } else {
-      return false;
+  // private but used in test
+  formatPrivateByDefaultBoolean() {
+    const config = this.privateByDefault;
+    if (config === undefined) return false;
+    switch (config.configured_value) {
+      case InheritedBooleanInfoConfiguredValue.TRUE:
+        return true;
+      case InheritedBooleanInfoConfiguredValue.FALSE:
+        return false;
+      case InheritedBooleanInfoConfiguredValue.INHERITED:
+        return !!config.inherited_value;
+      default:
+        return false;
     }
-  }
-
-  _computePrivateSectionClass(config: boolean) {
-    return config ? 'hide' : '';
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-create-change-dialog': GrCreateChangeDialog;
   }
 }

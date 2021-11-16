@@ -16,6 +16,24 @@
       "message": "AFAICT allowClosed is only set if we are retrying a failed merge. In that case the new code would read back SRs from NoteDb instead of recomputing. That sounds good to me.",
       "revId": "39993ac1db0a2b0229314177c030090f500c308f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56ea7c5e_45f69783",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-16T11:56:59Z",
+      "side": 1,
+      "message": "Yes. We \"recomputeForClosedChanges\" in two cases:\n1) When we submit and merge a set of changes if it is a retry.\n2) In LabelsJson: we evaluate current project\u0027s submit rules for closed changes.",
+      "parentUuid": "018f132d_1bccfcce",
+      "revId": "39993ac1db0a2b0229314177c030090f500c308f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

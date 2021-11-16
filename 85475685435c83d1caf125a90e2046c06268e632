@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4eeac3d_3eb76242",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-16T16:13:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "05b59084_9333e271",
+      "revId": "85475685435c83d1caf125a90e2046c06268e632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57f76d3f_866346d0",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-16T09:02:09Z",
       "side": 1,
       "message": "Invert such guarding if-statements: First\n\n  if (!this.loading) return;\n  \nThen the actual rendering.\n\nSame below.",
+      "revId": "85475685435c83d1caf125a90e2046c06268e632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "251a7b92_d280ea21",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-16T16:13:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "57f76d3f_866346d0",
       "revId": "85475685435c83d1caf125a90e2046c06268e632",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44d45b70_f91ecf7e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-16T16:13:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "aa111de5_07de0ad6",
+      "revId": "85475685435c83d1caf125a90e2046c06268e632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56c31151_d565bc73",
@@ -69,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96a9e9a2_8815a8ac",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-16T16:13:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "56c31151_d565bc73",
+      "revId": "85475685435c83d1caf125a90e2046c06268e632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7017452a_f1c68080",
@@ -82,6 +154,30 @@
       "writtenOn": "2021-11-16T09:02:09Z",
       "side": 1,
       "message": "Beyond this Lit conversion change (so totally optional), but generally it would be nice, if such methods could be moved more into either the utility files or inlined into the render methods.",
+      "range": {
+        "startLine": 172,
+        "startChar": 2,
+        "endLine": 200,
+        "endChar": 3
+      },
+      "revId": "85475685435c83d1caf125a90e2046c06268e632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "001ea1aa_a94fd642",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-16T16:13:33Z",
+      "side": 1,
+      "message": "Ack, i think for now i\u0027ll leave this as is.",
+      "parentUuid": "7017452a_f1c68080",
       "range": {
         "startLine": 172,
         "startChar": 2,

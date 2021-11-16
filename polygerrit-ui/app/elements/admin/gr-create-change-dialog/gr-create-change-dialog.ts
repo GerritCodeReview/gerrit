@@ -29,15 +29,14 @@ import {
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
-import {Subject} from 'rxjs';
 import {serverConfig$} from '../../../services/config/config-model';
-import {takeUntil} from 'rxjs/operators';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
+import {subscribe} from '../../lit/subscription-controller';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -78,8 +77,6 @@ export class GrCreateChangeDialog extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  disconnected$ = new Subject();
-
   constructor() {
     super();
     this.query = (input: string) => this.getRepoBranchesSuggestions(input);
@@ -89,15 +86,13 @@ export class GrCreateChangeDialog extends LitElement {
     super.connectedCallback();
     if (!this.repoName) return;
 
-    serverConfig$.pipe(takeUntil(this.disconnected$)).subscribe(config => {
-      this.privateChangesEnabled =
-        config?.change?.disable_private_changes ?? false;
-    });
-  }
-
-  override disconnectedCallback() {
-    this.disconnected$.next();
-    super.disconnectedCallback();
+    subscribe(
+      this,
+      serverConfig$,
+      config => {
+        this.privateChangesEnabled =
+          config?.change?.disable_private_changes ?? false;
+      });
   }
 
   static override get styles() {

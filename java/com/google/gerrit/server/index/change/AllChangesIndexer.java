@@ -134,6 +134,10 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         // splitting of repos into smaller parts reduced indexing time from 1.5 hours to 55 minutes
         // in 2020.
         int size = estimateSize(repo);
+        if (size == 0) {
+          pm.update(1);
+          continue;
+        }
         changeCount += size;
         int slices = 1 + size / PROJECT_SLICE_MAX_REFS;
         if (slices > 1) {

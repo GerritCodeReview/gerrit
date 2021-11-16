@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aef2d9c_cc60daa4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-16T11:43:10Z",
+      "side": 1,
+      "message": "We have this nice helper method that adds SubscriptionController to manage your subscription to preferences$ for you. It handles subscribe/unsubscribe stuff:\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/lit/subscription-controller.ts;l\u003d25;drc\u003d0ca140aba7417dc0d5ffea2833f66716ddb6583d\n\nExample usage: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/checks/gr-checks-tab.ts;l\u003d75;drc\u003dece23f93e5f22d41da8ad388196f567cdf028b13",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 32
+      },
+      "revId": "ae8d0555336e1fd60839bb2f73c8cae86611686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -111,7 +111,7 @@ class ApprovalInference {
   }
 
   Iterable<PatchSetApproval> forPatchSet(
-      ChangeNotes notes, PatchSet ps, @Nullable RevWalk rw, @Nullable Config repoConfig) {
+      ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
     ProjectState project;
     try (TraceTimer traceTimer =
         TraceContext.newTimer(
@@ -347,11 +347,7 @@ class ApprovalInference {
   }
 
   private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(
-      ChangeNotes notes,
-      ProjectState project,
-      PatchSet patchSet,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig) {
+      ChangeNotes notes, ProjectState project, PatchSet patchSet, RevWalk rw, Config repoConfig) {
     checkState(
         project.getNameKey().equals(notes.getProjectName()),
         "project must match %s, %s",

@@ -130,6 +130,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57a730e1_a153aa6d",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-16T08:03:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a9bf4ae9_9403682f",
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aebf3772_b7771f04",
@@ -214,6 +232,30 @@
       "side": 1,
       "message": "I\u0027m using @Assisted injection with a Guice Factory. I\u0027m not sure if it is possible to have a builder instead but I will check Guice documentation",
       "parentUuid": "1da6a19a_fd5bef7c",
+      "range": {
+        "startLine": 79,
+        "startChar": 28,
+        "endLine": 79,
+        "endChar": 47
+      },
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d529213_cbe733f6",
+        "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-16T08:03:06Z",
+      "side": 1,
+      "message": "no more in the diff",
+      "parentUuid": "f94d05a4_7746b6de",
       "range": {
         "startLine": 79,
         "startChar": 28,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3647cb63_8b43ed0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-16T14:29:20Z",
+      "side": 1,
+      "message": "CI failure seems related:\n\nDEBUG org.eclipse.jgit.lib.Repository : close() called when useCnt is already zero for Repository[Repo-159089828]\njava.lang.IllegalStateException",
+      "revId": "8e02d5c9f9d9d06badac1c2d07142208fe62fa87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

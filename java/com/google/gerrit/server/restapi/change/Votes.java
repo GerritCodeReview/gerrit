@@ -80,10 +80,9 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
 
       Map<String, Short> votes = new TreeMap<>();
       Iterable<PatchSetApproval> byPatchSetUser =
-          approvalsUtil.byPatchSetUser(
+          approvalsUtil.dynamicallyComputeCopiedApprovals(
               rsrc.getChangeResource().getNotes(),
-              rsrc.getChange().currentPatchSetId(),
-              rsrc.getReviewerUser().getAccountId());
+              rsrc.getChangeResource().getNotes().getCurrentPatchSet());
       for (PatchSetApproval psa : byPatchSetUser) {
         votes.put(psa.label(), psa.value());
       }

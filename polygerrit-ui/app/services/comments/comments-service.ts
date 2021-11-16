@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import {combineLatest, Subscription} from 'rxjs';
 import {NumericChangeId, PatchSetNum, RevisionId} from '../../types/common';
 import {DraftInfo, UIDraft} from '../../utils/comment-util';
 import {fireAlert} from '../../utils/event-util';
@@ -34,36 +34,56 @@ import {
   updateStateReset,
 } from './comments-model';
 import {changeNum$, currentPatchNum$} from '../change/change-model';
-import {combineLatest} from 'rxjs';
-import {routerChangeNum$} from '../router/router-model';
 
-export class CommentsService {
+import {routerChangeNum$} from '../router/router-model';
+import {Finalizable} from '../registry';
+
+export class CommentsService implements Finalizable {
   private discardedDrafts?: UIDraft[] = [];
 
   private changeNum?: NumericChangeId;
 
   private patchNum?: PatchSetNum;
 
+  private readonly reloadListener: () => void;
+
+  private readonly subscriptions: Subscription[] = [];
+
   constructor(readonly restApiService: RestApiService) {
-    discardedDrafts$.subscribe(
-      discardedDrafts => (this.discardedDrafts = discardedDrafts)
+    this.subscriptions.push(
+      discardedDrafts$.subscribe(
+        discardedDrafts => (this.discardedDrafts = discardedDrafts)
+      )
     );
-    routerChangeNum$.subscribe(changeNum => {
-      this.changeNum = changeNum;
-      updateStateReset();
-      this.reloadAllComments();
-    });
-    combineLatest([changeNum$, currentPatchNum$]).subscribe(
-      ([changeNum, patchNum]) => {
+    this.subscriptions.push(
+      routerChangeNum$.subscribe(changeNum => {
         this.changeNum = changeNum;
-        this.patchNum = patchNum;
-        this.reloadAllPortedComments();
-      }
+        updateStateReset();
+        this.reloadAllComments();
+      })
     );
-    document.addEventListener('reload', () => {
+    this.subscriptions.push(
+      combineLatest([changeNum$, currentPatchNum$]).subscribe(
+        ([changeNum, patchNum]) => {
+          this.changeNum = changeNum;
+          this.patchNum = patchNum;
+          this.reloadAllPortedComments();
+        }
+      )
+    );
+    this.reloadListener = () => {
       this.reloadAllComments();
       this.reloadAllPortedComments();
-    });
+    };
+    document.addEventListener('reload', this.reloadListener);
+  }
+
+  finalize() {
+    document.removeEventListener('reload', this.reloadListener!);
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions.splice(0, this.subscriptions.length);
   }
 
   // Note that this does *not* reload ported comments.

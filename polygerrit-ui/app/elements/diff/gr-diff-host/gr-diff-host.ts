@@ -89,10 +89,9 @@ import {TokenHighlightLayer} from '../gr-diff-builder/token-highlight-layer';
 import {Timing} from '../../../constants/reporting';
 import {changeComments$} from '../../../services/comments/comments-model';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
-import {Subject} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {RenderPreferences} from '../../../api/diff';
 import {diffViewMode$} from '../../../services/browser/browser-model';
-import {takeUntil} from 'rxjs/operators';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -280,7 +279,7 @@ export class GrDiffHost extends PolymerElement {
 
   private readonly syntaxLayer = new GrSyntaxLayer();
 
-  disconnected$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   constructor() {
     super();
@@ -313,21 +312,24 @@ export class GrDiffHost extends PolymerElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    diffViewMode$
-      .pipe(takeUntil(this.disconnected$))
-      .subscribe(diffView => (this.viewMode = diffView));
+    this.subscriptions.push(
+      diffViewMode$.subscribe(diffView => (this.viewMode = diffView))
+    );
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
-    changeComments$
-      .pipe(takeUntil(this.disconnected$))
-      .subscribe(changeComments => {
+    this.subscriptions.push(
+      changeComments$.subscribe(changeComments => {
         this.changeComments = changeComments;
-      });
+      })
+    );
   }
 
   override disconnectedCallback() {
-    this.disconnected$.next();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
     this.clear();
     super.disconnectedCallback();
   }

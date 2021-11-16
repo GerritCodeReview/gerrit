@@ -57,12 +57,12 @@ suite('gr-diff-view tests', () => {
       };
     }
 
-    let getDiffChangeDetailStub;
+    let getChangeDetailStub;
     setup(async () => {
       stubRestApi('getConfig').returns(Promise.resolve({change: {}}));
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getProjectConfig').returns(Promise.resolve({}));
-      getDiffChangeDetailStub = stubRestApi('getDiffChangeDetail').returns(
+      getChangeDetailStub = stubRestApi('getChangeDetail').returns(
           Promise.resolve({}));
       stubRestApi('getChangeFiles').returns(Promise.resolve({}));
       stubRestApi('saveFileReviewed').returns(Promise.resolve());
@@ -359,14 +359,14 @@ suite('gr-diff-view tests', () => {
     test('change detail is not rerequested if changeNum doesnt change',
         async () => {
           const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
-          assert.isFalse(getDiffChangeDetailStub.called);
+          assert.isFalse(getChangeDetailStub.called);
           sinon.stub(element.reporting, 'diffViewDisplayed');
           sinon.stub(element, '_loadBlame');
           sinon.stub(element, '_pathChanged');
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
           sinon.spy(element, '_paramsChanged');
           element._change = undefined;
-          getDiffChangeDetailStub.returns(
+          getChangeDetailStub.returns(
               Promise.resolve({
                 ...createChange(),
                 revisions: createRevisions(11),
@@ -386,7 +386,7 @@ suite('gr-diff-view tests', () => {
           };
           await element._paramsChanged.returnValues[0];
 
-          assert.equal(getDiffChangeDetailStub.callCount, 1);
+          assert.equal(getChangeDetailStub.callCount, 1);
           element.params = {
             view: GerritNav.View.DIFF,
             changeNum: '42',
@@ -396,7 +396,7 @@ suite('gr-diff-view tests', () => {
           };
           await element._paramsChanged.returnValues[0];
 
-          assert.equal(getDiffChangeDetailStub.callCount, 1);
+          assert.equal(getChangeDetailStub.callCount, 1);
           element.params = {
             view: GerritNav.View.DIFF,
             changeNum: '43',
@@ -441,7 +441,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.spy(element, '_paramsChanged');
       element._change = undefined;
-      getDiffChangeDetailStub.returns(
+      getChangeDetailStub.returns(
           Promise.resolve({
             ...createChange(),
             revisions: createRevisions(11),

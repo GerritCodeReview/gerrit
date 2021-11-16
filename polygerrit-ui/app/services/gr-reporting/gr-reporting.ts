@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import {Finalizable} from '../registry';
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
@@ -33,7 +33,7 @@ export interface Timer {
   withMaximum(maximum: number): this;
 }
 
-export interface ReportingService {
+export interface ReportingService extends Finalizable {
   reporter(
     type: string,
     category: string,

@@ -40,6 +40,8 @@ export class GrAuthMock implements AuthService {
     return this._status === Auth.STATUS.AUTHED;
   }
 
+  finalize() {}
+
   private _setStatus(status: AuthStatus) {
     if (this._status === status) return;
     if (this._status === AuthStatus.AUTHED) {

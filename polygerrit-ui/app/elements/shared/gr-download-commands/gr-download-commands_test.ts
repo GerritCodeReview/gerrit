@@ -114,22 +114,22 @@ suite('gr-download-commands', () => {
   });
   suite('authenticated', () => {
     test('loads scheme from preferences', async () => {
+      const element = basicFixture.instantiate();
+      await flush();
       updatePreferences({
         ...createPreferences(),
         download_scheme: 'repo',
       });
-      const element = basicFixture.instantiate();
-      await flush();
       assert.equal(element.selectedScheme, 'repo');
     });
 
     test('normalize scheme from preferences', async () => {
+      const element = basicFixture.instantiate();
+      await flush();
       updatePreferences({
         ...createPreferences(),
         download_scheme: 'REPO',
       });
-      const element = basicFixture.instantiate();
-      await flush();
       assert.equal(element.selectedScheme, 'repo');
     });
   });

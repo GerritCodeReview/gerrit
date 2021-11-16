@@ -23,8 +23,8 @@ import '@polymer/paper-icon-button/paper-icon-button';
 import '@polymer/paper-item/paper-item';
 import '@polymer/paper-listbox/paper-listbox';
 import '@polymer/paper-tooltip/paper-tooltip';
-import {of, EMPTY, Subject} from 'rxjs';
-import {switchMap, delay, takeUntil} from 'rxjs/operators';
+import {of, EMPTY, Subject, Subscription} from 'rxjs';
+import {switchMap, delay} from 'rxjs/operators';
 
 import '../../shared/gr-button/gr-button';
 import {pluralize} from '../../../utils/string-util';
@@ -98,7 +98,7 @@ export class GrContextControls extends LitElement {
     linesToExpand: number;
   }>();
 
-  private disconnected$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   static override styles = css`
     :host {
@@ -209,7 +209,10 @@ export class GrContextControls extends LitElement {
   }
 
   override disconnectedCallback() {
-    this.disconnected$.next();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
   }
 
   private showBoth() {
@@ -225,24 +228,25 @@ export class GrContextControls extends LitElement {
   }
 
   setupButtonHoverHandler() {
-    this.expandButtonsHover
-      .pipe(
-        switchMap(e => {
-          if (e.eventType === 'leave') {
-            // cancel any previous delay
-            // for mouse enter
-            return EMPTY;
-          }
-          return of(e).pipe(delay(500));
-        }),
-        takeUntil(this.disconnected$)
-      )
-      .subscribe(({buttonType, linesToExpand}) => {
-        fire(this, 'diff-context-button-hovered', {
-          buttonType,
-          linesToExpand,
-        });
-      });
+    this.subscriptions.push(
+      this.expandButtonsHover
+        .pipe(
+          switchMap(e => {
+            if (e.eventType === 'leave') {
+              // cancel any previous delay
+              // for mouse enter
+              return EMPTY;
+            }
+            return of(e).pipe(delay(500));
+          })
+        )
+        .subscribe(({buttonType, linesToExpand}) => {
+          fire(this, 'diff-context-button-hovered', {
+            buttonType,
+            linesToExpand,
+          });
+        })
+    );
   }
 
   private numLines() {

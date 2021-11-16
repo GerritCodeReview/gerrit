@@ -29,9 +29,8 @@ import {
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
-import {Subject} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {serverConfig$} from '../../../services/config/config-model';
-import {takeUntil} from 'rxjs/operators';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
@@ -78,7 +77,7 @@ export class GrCreateChangeDialog extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  disconnected$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   constructor() {
     super();
@@ -89,14 +88,19 @@ export class GrCreateChangeDialog extends LitElement {
     super.connectedCallback();
     if (!this.repoName) return;
 
-    serverConfig$.pipe(takeUntil(this.disconnected$)).subscribe(config => {
-      this.privateChangesEnabled =
-        config?.change?.disable_private_changes ?? false;
-    });
+    this.subscriptions.push(
+      serverConfig$.subscribe(config => {
+        this.privateChangesEnabled =
+          config?.change?.disable_private_changes ?? false;
+      })
+    );
   }
 
   override disconnectedCallback() {
-    this.disconnected$.next();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
     super.disconnectedCallback();
   }
 

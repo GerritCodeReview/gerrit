@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5266656c_e4df6eff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-16T07:52:15Z",
+      "side": 1,
+      "message": "Can you please explain this in more details. E.g. why didn\u0027t we have issues with this so far?\n\nTBH I\u0027m not much liking this change, as it requires all callers to do extra checks before invoking the method. Isn\u0027t there a way to just make those methods work when an empty set of predicates is provided?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "74e839c8f3b7ecafb07f8ef88193788c2cf79c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

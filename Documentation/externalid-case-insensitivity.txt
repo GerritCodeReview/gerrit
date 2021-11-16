@@ -1,0 +1,113 @@
+:linkattrs:
+= Gerrit Code Review - ExternalId case insensitivity
+
+In Gerrit usernames are handled case sensitive, e.g. johndoe and JohnDoe can both
+exist as separate accounts. This could lead to issues when migrating an account
+from LDAP to an internal account, if ldap.localUsernameToLowerCase was set. Such
+usernames can also be rather confusing for users, if they try to identify authors
+of comments or changes.
+
+To handle accounts case insensitive but case preserving external ID notes of
+external IDs using the 'gerrit:' or 'username:' scheme are named with the SHA-1
+from the lowercase external ID. With this change there can be no accounts with
+usernames only different in capitalization. On existing Gerrit sites this may
+require to migrate the external ID note names to match the new scheme.
+
+== Current Status
+
+ExternalId case insensitivity is supported by Gerrit 3.5+. The
+external ID notes migration tools are included in Gerrit 3.5+.
+
+[[migration]]
+== Migration
+
+Migrating external ID notes can take some time for large sites, so
+administrators choose whether to do the migration offline or online, depending
+on their available resources and tolerance for downtime.
+
+[[offline-migration]]
+=== Offline
+
+To run the offline migration execute following steps:
+* Stop Gerrit instance
+* Set the `auth.userNameCaseInsensitive` to false
+----
+[auth]
+  userNameCaseInsensitive = false
+----
+
+* Run:
+[verse]
+--
+_java_ -jar gerrit.war _ChangeExternalIdCaseSensitivity_
+  -d <SITE_PATH>
+  [--batch]
+--
+
+See: link:pgm-ChangeExternalIdCaseSensitivity.html
+
+
+[[online-migration]]
+=== Online
+
+To start the online migration, set the `auth.userNameCaseInsensitive`,
+`auth.userNameCaseInsensitiveMigrationMode` and
+`auth.userNameCaseInsensitiveOnlineMigration` options in `gerrit.config` and
+restart Gerrit:
+----
+[auth]
+  userNameCaseInsensitive = true
+  userNameCaseInsensitiveMigrationMode = true
+  userNameCaseInsensitiveOnlineMigration = true
+----
+
+[online-ha-migration]
+== Online migration for high-availability setup
+
+To start the online migration with a setup containing multiple primary
+instances execute following steps:
+* On all Gerrit primary instances set `auth.userNameCaseInsensitive` and
+`auth.userNameCaseInsensitiveMigrationMode` and perform a rolling restart
+----
+[auth]
+  userNameCaseInsensitive = true
+  userNameCaseInsensitiveMigrationMode = true
+----
+* After the rolling restart finished, set `auth.userNameCaseInsensitiveOnlineMigration`
+on one of the primary nodes and restart Gerrit
+----
+[auth]
+  userNameCaseInsensitive = true
+  userNameCaseInsensitiveMigrationMode = true
+  userNameCaseInsensitiveOnlineMigration = true
+----
+* When migration is finished, on all other primary nodes set
+`auth.userNameCaseInsensitiveMigrationMode` and `auth.userNameCaseInsensitiveOnlineMigration`
+to false and perform a rolling restart
+----
+[auth]
+  userNameCaseInsensitive = true
+  userNameCaseInsensitiveMigrationMode = false
+  userNameCaseInsensitiveOnlineMigration = false
+----
+
+== External ID case insensitivity rollback
+
+The offline migration tool allows to calculate external ID notes named with the SHA-1
+from the case sensitive external ID.
+
+To rollback external ID notes migration execute following steps:
+* Stop all Gerrit primary instances
+* Set the `auth.userNameCaseInsensitive` to true
+----
+[auth]
+  userNameCaseInsensitive = true
+----
+
+* Run:
+[verse]
+--
+_java_ -jar gerrit.war _ChangeExternalIdCaseSensitivity_
+  -d <SITE_PATH>
+  [--batch]
+--

@@ -21,6 +21,7 @@ import {
   ReviewInput,
   RevisionInfo,
 } from '../../../types/common';
+import {Finalizable} from '../../../services/registry';
 import {EventType, TargetElement} from '../../../api/plugin';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
@@ -40,7 +41,7 @@ export interface ShowRevisionActionsDetail {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EventCallback = (...args: any[]) => any;
 
-export interface JsApiService {
+export interface JsApiService extends Finalizable {
   getElement(key: TargetElement): HTMLElement;
   addEventCallback(eventName: EventType, callback: EventCallback): void;
   modifyRevertSubmissionMsg(

@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
-export interface FlagsService {
+import {Finalizable} from '../registry';
+
+export interface FlagsService extends Finalizable {
   isEnabled(experimentId: string): boolean;
   enabledExperiments: string[];
 }

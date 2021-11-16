@@ -24,7 +24,7 @@ import '@polymer/paper-item/paper-item';
 import '@polymer/paper-listbox/paper-listbox';
 import '@polymer/paper-tooltip/paper-tooltip';
 import {of, EMPTY, Subject} from 'rxjs';
-import {switchMap, delay, takeUntil} from 'rxjs/operators';
+import {switchMap, delay} from 'rxjs/operators';
 
 import '../../shared/gr-button/gr-button';
 import {pluralize} from '../../../utils/string-util';
@@ -33,6 +33,7 @@ import {DiffInfo} from '../../../types/diff';
 import {assertIsDefined} from '../../../utils/common-util';
 import {css, html, LitElement, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {subscribe} from '../../lit/subscription-controller';
 
 import {
   ContextButtonType,
@@ -97,8 +98,6 @@ export class GrContextControls extends LitElement {
     buttonType: ContextButtonType;
     linesToExpand: number;
   }>();
-
-  private disconnected$ = new Subject();
 
   static override styles = css`
     :host {
@@ -208,10 +207,6 @@ export class GrContextControls extends LitElement {
     this.setupButtonHoverHandler();
   }
 
-  override disconnectedCallback() {
-    this.disconnected$.next();
-  }
-
   private showBoth() {
     return this.showConfig === 'both';
   }
@@ -224,9 +219,10 @@ export class GrContextControls extends LitElement {
     return this.showBoth() || this.showConfig === 'below';
   }
 
-  setupButtonHoverHandler() {
-    this.expandButtonsHover
-      .pipe(
+  private setupButtonHoverHandler() {
+    subscribe(
+      this,
+      this.expandButtonsHover.pipe(
         switchMap(e => {
           if (e.eventType === 'leave') {
             // cancel any previous delay
@@ -234,10 +230,9 @@ export class GrContextControls extends LitElement {
             return EMPTY;
           }
           return of(e).pipe(delay(500));
-        }),
-        takeUntil(this.disconnected$)
-      )
-      .subscribe(({buttonType, linesToExpand}) => {
+        })
+      ),
+      ({buttonType, linesToExpand}) => {
         fire(this, 'diff-context-button-hovered', {
           buttonType,
           linesToExpand,

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {Subscription} from 'rxjs';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../../diff/gr-diff-cursor/gr-diff-cursor';
@@ -87,8 +88,6 @@ import {
   sizeBarInChangeTable$,
 } from '../../../services/user/user-model';
 import {changeComments$} from '../../../services/comments/comments-model';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {diffViewMode$} from '../../../services/browser/browser-model';
 
@@ -321,7 +320,7 @@ export class GrFileList extends base {
 
   private readonly userService = getAppContext().userService;
 
-  disconnected$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
@@ -377,24 +376,24 @@ export class GrFileList extends base {
 
   override connectedCallback() {
     super.connectedCallback();
-    changeComments$
-      .pipe(takeUntil(this.disconnected$))
-      .subscribe(changeComments => {
+    this.subscriptions.push(
+      changeComments$.subscribe(changeComments => {
         this.changeComments = changeComments;
-      });
-    diffViewMode$
-      .pipe(takeUntil(this.disconnected$))
-      .subscribe(diffView => (this.diffViewMode = diffView));
-    diffPreferences$
-      .pipe(takeUntil(this.disconnected$))
-      .subscribe(diffPreferences => {
+      })
+    );
+    this.subscriptions.push(
+      diffViewMode$.subscribe(diffView => (this.diffViewMode = diffView))
+    );
+    this.subscriptions.push(
+      diffPreferences$.subscribe(diffPreferences => {
         this.diffPrefs = diffPreferences;
-      });
-    sizeBarInChangeTable$
-      .pipe(takeUntil(this.disconnected$))
-      .subscribe(sizeBarInChangeTable => {
+      })
+    );
+    this.subscriptions.push(
+      sizeBarInChangeTable$.subscribe(sizeBarInChangeTable => {
         this._showSizeBars = sizeBarInChangeTable;
-      });
+      })
+    );
 
     getPluginLoader()
       .awaitPluginsLoaded()
@@ -447,7 +446,10 @@ export class GrFileList extends base {
   }
 
   override disconnectedCallback() {
-    this.disconnected$.next();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
     this.diffCursor.dispose();
     this.fileCursor.unsetCursor();
     this._cancelDiffs();
@@ -1363,8 +1365,6 @@ export class GrFileList extends base {
     diffElements: GrDiffHost[],
     initialCount: number
   ) {
-    let iter = 0;
-
     for (const file of files) {
       const path = file.path;
       const diffElem = this._findDiffByPath(path, diffElements);
@@ -1377,8 +1377,6 @@ export class GrFileList extends base {
       const path = file.path;
       this._cancelForEachDiff = cancel;
 
-      iter++;
-      console.info('Expanding diff', iter, 'of', initialCount, ':', path);
       const diffElem = this._findDiffByPath(path, diffElements);
       if (!diffElem) {
         this.reporting.error(
@@ -1397,7 +1395,6 @@ export class GrFileList extends base {
       return Promise.all(promises);
     }).then(() => {
       this._cancelForEachDiff = undefined;
-      console.info('Finished expanding', initialCount, 'diff(s)');
       this.reporting.timeEndWithAverage(
         Timing.FILE_EXPAND_ALL,
         Timing.FILE_EXPAND_ALL_AVG,

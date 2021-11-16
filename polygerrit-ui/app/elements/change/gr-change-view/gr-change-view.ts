@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {Subscription} from 'rxjs';
 import '@polymer/paper-tabs/paper-tabs';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-paper-styles';
@@ -181,9 +182,7 @@ import {
   fireTitleChange,
 } from '../../../utils/event-util';
 import {GerritView, routerView$} from '../../../services/router/router-model';
-import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
-import {Subject} from 'rxjs';
 import {debounce, DelayedTask, throttleWrap} from '../../../utils/async-util';
 import {Interaction, Timing} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
@@ -609,7 +608,7 @@ export class GrChangeView extends base {
     ];
   }
 
-  disconnected$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   private replyRefitTask?: DelayedTask;
 
@@ -627,25 +626,31 @@ export class GrChangeView extends base {
 
   override ready() {
     super.ready();
-    aPluginHasRegistered$.pipe(takeUntil(this.disconnected$)).subscribe(b => {
-      this._showChecksTab = b;
-    });
-    routerView$.pipe(takeUntil(this.disconnected$)).subscribe(view => {
-      this.isViewCurrent = view === GerritView.CHANGE;
-    });
-    drafts$.pipe(takeUntil(this.disconnected$)).subscribe(drafts => {
-      this._diffDrafts = {...drafts};
-    });
-    preferenceDiffViewMode$
-      .pipe(takeUntil(this.disconnected$))
-      .subscribe(diffViewMode => {
+    this.subscriptions.push(
+      aPluginHasRegistered$.subscribe(b => {
+        this._showChecksTab = b;
+      })
+    );
+    this.subscriptions.push(
+      routerView$.subscribe(view => {
+        this.isViewCurrent = view === GerritView.CHANGE;
+      })
+    );
+    this.subscriptions.push(
+      drafts$.subscribe(drafts => {
+        this._diffDrafts = {...drafts};
+      })
+    );
+    this.subscriptions.push(
+      preferenceDiffViewMode$.subscribe(diffViewMode => {
         this.diffViewMode = diffViewMode;
-      });
-    changeComments$
-      .pipe(takeUntil(this.disconnected$))
-      .subscribe(changeComments => {
+      })
+    );
+    this.subscriptions.push(
+      changeComments$.subscribe(changeComments => {
         this._changeComments = changeComments;
-      });
+      })
+    );
   }
 
   constructor() {
@@ -727,7 +732,10 @@ export class GrChangeView extends base {
   }
 
   override disconnectedCallback() {
-    this.disconnected$.next();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
     document.removeEventListener(
       'visibilitychange',
       this.handleVisibilityChange

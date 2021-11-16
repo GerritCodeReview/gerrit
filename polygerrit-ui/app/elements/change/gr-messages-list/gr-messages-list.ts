@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {Subscription} from 'rxjs';
 import '@polymer/paper-toggle-button/paper-toggle-button';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
@@ -50,9 +51,7 @@ import {
   FormattedReviewerUpdateInfo,
   ParsedChangeInfo,
 } from '../../../types/types';
-import {Subject} from 'rxjs';
 import {threads$} from '../../../services/comments/comments-model';
-import {takeUntil} from 'rxjs/operators';
 import {
   change$,
   changeNum$,
@@ -268,29 +267,42 @@ export class GrMessagesList extends PolymerElement {
 
   private readonly shortcuts = getAppContext().shortcutsService;
 
-  private readonly disconnected$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   override connectedCallback() {
     super.connectedCallback();
-    threads$.pipe(takeUntil(this.disconnected$)).subscribe(x => {
-      this.commentThreads = x;
-    });
-    change$.pipe(takeUntil(this.disconnected$)).subscribe(x => {
-      this.change = x;
-    });
-    loggedIn$.pipe(takeUntil(this.disconnected$)).subscribe(x => {
-      this.showReplyButtons = x;
-    });
-    repo$.pipe(takeUntil(this.disconnected$)).subscribe(x => {
-      this.projectName = x;
-    });
-    changeNum$.pipe(takeUntil(this.disconnected$)).subscribe(x => {
-      this.changeNum = x;
-    });
+    this.subscriptions.push(
+      threads$.subscribe(x => {
+        this.commentThreads = x;
+      })
+    );
+    this.subscriptions.push(
+      change$.subscribe(x => {
+        this.change = x;
+      })
+    );
+    this.subscriptions.push(
+      loggedIn$.subscribe(x => {
+        this.showReplyButtons = x;
+      })
+    );
+    this.subscriptions.push(
+      repo$.subscribe(x => {
+        this.projectName = x;
+      })
+    );
+    this.subscriptions.push(
+      changeNum$.subscribe(x => {
+        this.changeNum = x;
+      })
+    );
   }
 
   override disconnectedCallback() {
-    this.disconnected$.next();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
     super.disconnectedCallback();
   }
 

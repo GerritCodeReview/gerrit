@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {Subscription} from 'rxjs';
 import {routerChangeNum$} from '../router/router-model';
 import {change$, updateStateChange, updateStatePath} from './change-model';
 import {ParsedChangeInfo} from '../../types/types';
@@ -23,20 +24,34 @@ import {
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
+import {Finalizable} from '../registry';
 
-export class ChangeService {
+export class ChangeService implements Finalizable {
   private change?: ParsedChangeInfo;
+
+  private readonly subscriptions: Subscription[] = [];
 
   constructor(readonly restApiService: RestApiService) {
     // TODO: In the future we will want to make restApiService.getChangeDetail()
     // calls from a switchMap() here. For now just make sure to invalidate the
     // change when no changeNum is set.
-    routerChangeNum$.subscribe(changeNum => {
-      if (!changeNum) updateStateChange(undefined);
-    });
-    change$.subscribe(change => {
-      this.change = change;
-    });
+    this.subscriptions.push(
+      routerChangeNum$.subscribe(changeNum => {
+        if (!changeNum) updateStateChange(undefined);
+      })
+    );
+    this.subscriptions.push(
+      change$.subscribe(change => {
+        this.change = change;
+      })
+    );
+  }
+
+  finalize() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions.splice(0, this.subscriptions.length);
   }
 
   /**

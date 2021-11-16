@@ -16,6 +16,7 @@
  */
 
 import {HttpMethod} from '../../constants/constants';
+import {Finalizable} from '../registry';
 import {
   AccountCapabilityInfo,
   AccountDetailInfo,
@@ -129,7 +130,7 @@ export interface GetDiffRobotCommentsOutput {
   comments: RobotCommentInfo[];
 }
 
-export interface RestApiService {
+export interface RestApiService extends Finalizable {
   getConfig(noCache?: boolean): Promise<ServerInfo | undefined>;
   getLoggedIn(): Promise<boolean>;
   getPreferences(): Promise<PreferencesInfo | undefined>;

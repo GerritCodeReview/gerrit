@@ -78,7 +78,7 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
           executor.submit(
               () -> {
                 try {
-                  projectCache.evict(name);
+                  projectCache.evictOnly(name);
                   index.replace(
                       projectCache.get(name).orElseThrow(illegalState(name)).toProjectData());
                   verboseWriter.println("Reindexed " + desc);

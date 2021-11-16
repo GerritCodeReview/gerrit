@@ -303,13 +303,12 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  public static void checkSubmitRule(ChangeData cd, boolean allowClosed)
-      throws ResourceConflictException {
+  public static void checkSubmitRule(ChangeData cd) throws ResourceConflictException {
     PatchSet patchSet = cd.currentPatchSet();
     if (patchSet == null) {
       throw new ResourceConflictException("missing current patch set for change " + cd.getId());
     }
-    List<SubmitRecord> results = getSubmitRecords(cd, allowClosed);
+    List<SubmitRecord> results = getSubmitRecords(cd, /* allowClosed= */ false);
     if (SubmitRecord.allRecordsOK(results)) {
       // Rules supplied a valid solution.
       return;
@@ -415,7 +414,7 @@ public class MergeOp implements AutoCloseable {
         } else if (cd.change().isWorkInProgress()) {
           commitStatus.problem(cd.getId(), "Change " + cd.getId() + " is work in progress");
         } else {
-          checkSubmitRule(cd, allowMerged);
+          checkSubmitRule(cd);
         }
       } catch (ResourceConflictException e) {
         commitStatus.problem(cd.getId(), e.getMessage());

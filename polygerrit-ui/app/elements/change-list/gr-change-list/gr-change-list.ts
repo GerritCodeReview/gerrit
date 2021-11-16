@@ -63,7 +63,6 @@ export const columnNames = [
   'Subject',
   'Status',
   'Owner',
-  'Assignee',
   'Reviewers',
   'Comments',
   'Repo',
@@ -165,9 +164,6 @@ export class GrChangeList extends base {
       listen(Shortcut.NEXT_PAGE, _ => this._nextPage()),
       listen(Shortcut.PREV_PAGE, _ => this._prevPage()),
       listen(Shortcut.OPEN_CHANGE, _ => this.openChange()),
-      listen(Shortcut.TOGGLE_CHANGE_REVIEWED, _ =>
-        this._toggleChangeReviewed()
-      ),
       listen(Shortcut.TOGGLE_CHANGE_STAR, _ => this._toggleChangeStar()),
       listen(Shortcut.REFRESH_CHANGE_LIST, _ => this._refreshChangeList()),
     ];
@@ -257,14 +253,10 @@ export class GrChangeList extends base {
   }
 
   /**
-   * Is the column disabled by a server config or experiment? For example the
-   * assignee feature might be disabled and thus the corresponding column is
-   * also disabled.
-   *
+   * Is the column disabled by a server config or experiment?
    */
   _isColumnEnabled(column: string, config: ServerInfo, experiments: string[]) {
     if (!config || !config.change) return true;
-    if (column === 'Assignee') return !!config.change.enable_assignee;
     if (column === 'Comments') return experiments.includes('comments-column');
     if (column === 'Requirements')
       return experiments.includes(KnownExperimentId.SUBMIT_REQUIREMENTS_UI);
@@ -446,20 +438,6 @@ export class GrChangeList extends base {
         bubbles: true,
       })
     );
-  }
-
-  _toggleChangeReviewed() {
-    this._toggleReviewedForIndex(this.selectedIndex);
-  }
-
-  _toggleReviewedForIndex(index?: number) {
-    const changeEls = this._getListItems();
-    if (index === undefined || index >= changeEls.length || !changeEls[index]) {
-      return;
-    }
-
-    const changeEl = changeEls[index];
-    changeEl.toggleReviewed();
   }
 
   _refreshChangeList() {

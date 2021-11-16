@@ -275,7 +275,6 @@ suite('gr-change-list basic tests', () => {
           'Subject',
           'Status',
           'Owner',
-          'Assignee',
           'Reviewers',
           'Comments',
           'Repo',
@@ -314,7 +313,6 @@ suite('gr-change-list basic tests', () => {
           'Subject',
           'Status',
           'Owner',
-          'Assignee',
           'Reviewers',
           'Comments',
           'Branch',
@@ -481,19 +479,6 @@ suite('gr-change-list basic tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'Enter');
       assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
           'Should navigate to /c/4/');
-
-      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-      const change = element._changeForIndex(element.selectedIndex);
-      assert.equal(change.reviewed, true,
-          'Should mark change as reviewed');
-      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-      assert.equal(change.reviewed, false,
-          'Should mark change as unreviewed');
-    });
-
-    test('_computeItemHighlight gives false for null account', () => {
-      assert.isFalse(
-          element._computeItemHighlight(null, {assignee: {_account_id: 42}}));
     });
 
     test('_computeItemAbsoluteIndex', () => {

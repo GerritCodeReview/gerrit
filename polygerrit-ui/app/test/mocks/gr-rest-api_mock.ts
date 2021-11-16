@@ -134,9 +134,6 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve(new Response());
   },
   deleteAccountSSHKey(): void {},
-  deleteAssignee(): Promise<Response> {
-    return Promise.resolve(new Response());
-  },
   deleteChangeCommitMessage(): Promise<Response> {
     return Promise.resolve(new Response());
   },
@@ -505,9 +502,6 @@ export const grRestApiMock: RestApiService = {
   },
   setAccountUsername(): Promise<void> {
     return Promise.resolve();
-  },
-  setAssignee(): Promise<Response> {
-    return Promise.resolve(new Response());
   },
   setChangeHashtag(): Promise<Hashtag[]> {
     return Promise.resolve([]);

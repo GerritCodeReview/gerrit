@@ -20,7 +20,6 @@ import './gr-change-table-editor';
 import {GrChangeTableEditor} from './gr-change-table-editor';
 import {queryAndAssert} from '../../../test/test-utils';
 import {createServerInfo} from '../../../test/test-data-generators';
-import {ServerInfo} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-change-table-editor');
 
@@ -35,7 +34,6 @@ suite('gr-change-table-editor tests', () => {
       'Subject',
       'Status',
       'Owner',
-      'Assignee',
       'Reviewers',
       'Comments',
       'Repo',
@@ -62,16 +60,6 @@ suite('gr-change-table-editor tests', () => {
     }
   });
 
-  test('disabled experiments are hidden', () => {
-    assert.isFalse(element.displayedColumns.includes('Assignee'));
-    element.set('displayedColumns', columns);
-    const config: ServerInfo = {...createServerInfo()};
-    config.change.enable_assignee = true;
-    element.serverConfig = config;
-    flush();
-    assert.isTrue(element.displayedColumns.includes('Assignee'));
-  });
-
   test('hide item', () => {
     const checkbox = queryAndAssert<HTMLInputElement>(
       element,
@@ -91,7 +79,6 @@ suite('gr-change-table-editor tests', () => {
     element.set('displayedColumns', [
       'Status',
       'Owner',
-      'Assignee',
       'Repo',
       'Branch',
       'Updated',

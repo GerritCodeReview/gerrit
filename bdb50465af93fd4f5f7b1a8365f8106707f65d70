@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a58965c5_9c2ce4e3",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementExpressionsValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-16T07:42:47Z",
+      "side": 1,
+      "message": "Alternatively you may change this to Provider\u003cSubmitRequirementsEvaluator\u003e",
+      "range": {
+        "startLine": 53,
+        "startChar": 16,
+        "endLine": 53,
+        "endChar": 43
+      },
+      "revId": "bdb50465af93fd4f5f7b1a8365f8106707f65d70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

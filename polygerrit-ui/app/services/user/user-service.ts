@@ -14,49 +14,63 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {from, of, Subscription} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
-import {from, of} from 'rxjs';
 import {
   account$,
   updateAccount,
   updatePreferences,
   updateDiffPreferences,
 } from './user-model';
-import {switchMap} from 'rxjs/operators';
 import {
   createDefaultPreferences,
   createDefaultDiffPrefs,
 } from '../../constants/constants';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
+import {Finalizable} from '../registry';
 
-export class UserService {
+export class UserService implements Finalizable {
+  private readonly subscriptions: Subscription[] = [];
+
   constructor(readonly restApiService: RestApiService) {
     from(this.restApiService.getAccount()).subscribe(
       (account?: AccountDetailInfo) => {
         updateAccount(account);
       }
     );
-    account$
-      .pipe(
-        switchMap(account => {
-          if (!account) return of(createDefaultPreferences());
-          return from(this.restApiService.getPreferences());
+    this.subscriptions.push(
+      account$
+        .pipe(
+          switchMap(account => {
+            if (!account) return of(createDefaultPreferences());
+            return from(this.restApiService.getPreferences());
+          })
+        )
+        .subscribe((preferences?: PreferencesInfo) => {
+          updatePreferences(preferences ?? createDefaultPreferences());
         })
-      )
-      .subscribe((preferences?: PreferencesInfo) => {
-        updatePreferences(preferences ?? createDefaultPreferences());
-      });
-    account$
-      .pipe(
-        switchMap(account => {
-          if (!account) return of(createDefaultDiffPrefs());
-          return from(this.restApiService.getDiffPreferences());
+    );
+    this.subscriptions.push(
+      account$
+        .pipe(
+          switchMap(account => {
+            if (!account) return of(createDefaultDiffPrefs());
+            return from(this.restApiService.getDiffPreferences());
+          })
+        )
+        .subscribe((diffPrefs?: DiffPreferencesInfo) => {
+          updateDiffPreferences(diffPrefs ?? createDefaultDiffPrefs());
         })
-      )
-      .subscribe((diffPrefs?: DiffPreferencesInfo) => {
-        updateDiffPreferences(diffPrefs ?? createDefaultDiffPrefs());
-      });
+    );
+  }
+
+  finalize() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions.splice(0, this.subscriptions.length);
   }
 
   updatePreferences(prefs: Partial<PreferencesInfo>) {

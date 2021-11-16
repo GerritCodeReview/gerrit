@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import {Finalizable} from '../registry';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EventCallback = (...args: any) => void;
 export type UnsubscribeMethod = () => void;
 
-export interface EventEmitterService {
+export interface EventEmitterService extends Finalizable {
   /**
    * Register an event listener to an event.
    */

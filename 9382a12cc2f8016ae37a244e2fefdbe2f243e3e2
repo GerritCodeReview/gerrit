@@ -79,6 +79,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "36bd14ce_ddf58f86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-16T01:33:24Z",
+      "side": 1,
+      "message": "Moved the reference to the POC in the follow-up change, hence marking this as resolved as not relevant to this change anymore.",
+      "parentUuid": "9ecb6e2d_19afcd5a",
+      "revId": "9382a12cc2f8016ae37a244e2fefdbe2f243e3e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bc7bd20c_0a2d0086",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11

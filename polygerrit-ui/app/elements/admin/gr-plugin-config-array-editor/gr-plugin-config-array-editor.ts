@@ -25,7 +25,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-plugin-config-array-editor_html';
 import {property, customElement} from '@polymer/decorators';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {
   PluginConfigOptionsChangedEventDetail,
   ArrayPluginOption,
@@ -59,19 +58,8 @@ class GrPluginConfigArrayEditor extends GestureEventListeners(
   @property({type: Object})
   pluginOption!: ArrayPluginOption;
 
-  @property({type: Boolean, computed: '_computeDisabled(pluginOption.*)'})
-  disabled?: boolean;
-
-  _computeDisabled(
-    record: PolymerDeepPropertyChange<ArrayPluginOption, ArrayPluginOption>
-  ) {
-    return !(
-      record &&
-      record.base &&
-      record.base.info &&
-      record.base.info.editable
-    );
-  }
+  @property({type: Boolean, reflectToAttribute: true})
+  disabled = false;
 
   _handleAddTap(e: MouseEvent) {
     e.preventDefault();

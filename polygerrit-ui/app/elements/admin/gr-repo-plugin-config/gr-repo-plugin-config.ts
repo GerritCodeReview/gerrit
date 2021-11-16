@@ -84,6 +84,9 @@ class GrRepoPluginConfig extends GestureEventListeners(
   })
   _pluginConfigOptions!: PluginOption[]; // _computePluginConfigOptions never returns null
 
+  @property({type: Boolean, reflectToAttribute: true})
+  disabled = false;
+
   _computePluginConfigOptions(
     dataRecord: PolymerDeepPropertyChange<PluginData, PluginData>
   ): PluginOption[] {
@@ -117,8 +120,8 @@ class GrRepoPluginConfig extends GestureEventListeners(
     );
   }
 
-  _computeDisabled(editable: boolean) {
-    return !editable;
+  _computeDisabled(disabled: boolean, editable: boolean) {
+    return disabled || !editable;
   }
 
   _computeChecked(value = 'false') {

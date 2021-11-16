@@ -16,6 +16,24 @@
       "message": "CI failure seems related:\n\nDEBUG org.eclipse.jgit.lib.Repository : close() called when useCnt is already zero for Repository[Repo-159089828]\njava.lang.IllegalStateException",
       "revId": "8e02d5c9f9d9d06badac1c2d07142208fe62fa87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e4911b9_733dc978",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-11-16T14:30:50Z",
+      "side": 1,
+      "message": "see https://gerrit-review.googlesource.com/c/gerrit/+/323136/2",
+      "parentUuid": "3647cb63_8b43ed0b",
+      "revId": "8e02d5c9f9d9d06badac1c2d07142208fe62fa87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

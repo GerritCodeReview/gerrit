@@ -216,6 +216,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -5118,6 +5119,87 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
+  public void submitRequirements_eliminatesDuplicatesForLegacyNonMatchingSRs() throws Exception {
+    // If a custom/prolog submit rule emits the same label name multiple times, we merge these into
+    // a single submit requirement result: in this test, we have two different submit rules that
+    // return the same label name, one as "OK" and the other as "NEED". The submit requirements
+    // API favours the blocking entry and returns one SR result with status=UNSATISFIED.
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    SubmitRule r1 =
+        createSubmitRule("r1", SubmitRecord.Status.OK, "CR", SubmitRecord.Label.Status.OK);
+    SubmitRule r2 =
+        createSubmitRule("r2", SubmitRecord.Status.NOT_READY, "CR", SubmitRecord.Label.Status.NEED);
+    try (Registration registration = extensionRegistry.newRegistration().add(r1).add(r2)) {
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      Collection<SubmitRequirementResultInfo> submitRequirements = change.submitRequirements;
+      assertThat(submitRequirements).hasSize(2);
+      assertSubmitRequirementStatus(
+          submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+      assertSubmitRequirementStatus(
+          submitRequirements, "CR", Status.UNSATISFIED, /* isLegacy= */ true);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
+  public void submitRequirements_eliminatesDuplicatesForLegacyMatchingSRs() throws Exception {
+    // If a custom/prolog submit rule emits the same label name multiple times, we merge these into
+    // a single submit requirement result: in this test, we have two different submit rules that
+    // return the same label name, but both are fulfilled (i.e. they both allow submission). The
+    // submit requirements API returns one SR result with status=SATISFIED.
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    SubmitRule r1 =
+        createSubmitRule("r1", SubmitRecord.Status.OK, "CR", SubmitRecord.Label.Status.OK);
+    SubmitRule r2 =
+        createSubmitRule("r2", SubmitRecord.Status.OK, "CR", SubmitRecord.Label.Status.MAY);
+    try (Registration registration = extensionRegistry.newRegistration().add(r1).add(r2)) {
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      Collection<SubmitRequirementResultInfo> submitRequirements = change.submitRequirements;
+      assertThat(submitRequirements).hasSize(2);
+      assertSubmitRequirementStatus(
+          submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+      assertSubmitRequirementStatus(
+          submitRequirements, "CR", Status.SATISFIED, /* isLegacy= */ true);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
+  public void submitRequirements_eliminatesMultipleDuplicatesForLegacyMatchingSRs()
+      throws Exception {
+    // If a custom/prolog submit rule emits the same label name multiple times, we merge these into
+    // a single submit requirement result: in this test, we have five different submit rules that
+    // return the same label name, all with an "OK" status. The submit requirements API returns
+    // a single SR result with status=SATISFIED.
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    try (Registration registration = extensionRegistry.newRegistration()) {
+      IntStream.range(0, 5)
+          .forEach(
+              i ->
+                  registration.add(
+                      createSubmitRule(
+                          "r" + i, SubmitRecord.Status.OK, "CR", SubmitRecord.Label.Status.OK)));
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      Collection<SubmitRequirementResultInfo> submitRequirements = change.submitRequirements;
+      assertThat(submitRequirements).hasSize(2);
+      assertSubmitRequirementStatus(
+          submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+      assertSubmitRequirementStatus(
+          submitRequirements, "CR", Status.SATISFIED, /* isLegacy= */ true);
+    }
+  }
+
+  @Test
   public void fourByteEmoji() throws Exception {
     // U+1F601 GRINNING FACE WITH SMILING EYES
     String smile = new String(Character.toChars(0x1f601));
@@ -5736,6 +5818,22 @@ public class ChangeIT extends AbstractDaemonTest {
     return project;
   }
 
+  private static SubmitRule createSubmitRule(
+      String ruleName,
+      SubmitRecord.Status srStatus,
+      String labelName,
+      SubmitRecord.Label.Status labelStatus) {
+    return changeData -> {
+      SubmitRecord r = new SubmitRecord();
+      r.ruleName = ruleName;
+      r.status = srStatus;
+      SubmitRecord.Label label = new SubmitRecord.Label();
+      label.label = labelName;
+      label.status = labelStatus;
+      r.labels = Arrays.asList(label);
+      return Optional.of(r);
+    };
+  }
   /** Returns a hard-coded submit record containing all fields. */
   private static class TestSubmitRule implements SubmitRule {
     @Override

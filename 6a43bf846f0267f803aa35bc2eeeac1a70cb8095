@@ -34,6 +34,29 @@
       "parentUuid": "55960342_049514da",
       "revId": "6a43bf846f0267f803aa35bc2eeeac1a70cb8095",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f46abc1a_30d0a91f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-16T15:36:07Z",
+      "side": 1,
+      "message": "Does this require also Gerrit to upgrade to that Jetty version?",
+      "range": {
+        "startLine": 110,
+        "startChar": 28,
+        "endLine": 110,
+        "endChar": 44
+      },
+      "revId": "6a43bf846f0267f803aa35bc2eeeac1a70cb8095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -111,7 +111,7 @@ class ApprovalInference {
   }
 
   Iterable<PatchSetApproval> forPatchSet(
-      ChangeNotes notes, PatchSet ps, @Nullable RevWalk rw, @Nullable Config repoConfig) {
+      ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
     ProjectState project;
     try (TraceTimer traceTimer =
         TraceContext.newTimer(

@@ -18,10 +18,16 @@
 import '../test/common-test-setup-karma.js';
 import {AppContext} from './app-context.js';
 import {createAppContext} from './app-context-init.js';
+import {Finalizable} from './registry';
+
 suite('app context initializer tests', () => {
-  let appContext: Partial<AppContext>;
+  let appContext: AppContext & Finalizable;
   setup(() => {
     appContext = createAppContext();
+  });
+
+  teardown(() => {
+    appContext.finalize();
   });
 
   test('all services initialized and are singletons', () => {

@@ -36,6 +36,7 @@ window.addEventListener('error', e => {
   // For uncaught error mochajs doesn't print the full stack trace.
   // We should print it ourselves.
   console.error('Uncaught error:');
+  console.error(e);
   console.error(e.error.stack.toString());
   unhandledError = e;
 });

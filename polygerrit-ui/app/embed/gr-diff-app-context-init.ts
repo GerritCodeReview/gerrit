@@ -25,6 +25,8 @@ class MockFlagsService implements FlagsService {
     return false;
   }
 
+  finalize() {}
+
   /**
    * @returns array of all enabled experiments.
    */
@@ -47,6 +49,8 @@ class MockAuthService implements AuthService {
   baseUrl = '';
 
   setup() {}
+
+  finalize() {}
 
   fetch() {
     const blob = new Blob();

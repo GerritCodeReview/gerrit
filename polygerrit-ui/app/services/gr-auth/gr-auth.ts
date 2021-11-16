@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import {Finalizable} from '../registry';
 export enum AuthType {
   XSRF_TOKEN = 'xsrf_token',
   ACCESS_TOKEN = 'access_token',
@@ -45,7 +45,7 @@ export interface AuthRequestInit extends RequestInit {
   headers?: Headers;
 }
 
-export interface AuthService {
+export interface AuthService extends Finalizable {
   baseUrl: string;
   isAuthed: boolean;
 

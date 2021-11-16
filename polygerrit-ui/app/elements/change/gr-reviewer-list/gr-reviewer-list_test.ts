@@ -457,11 +457,11 @@ suite('gr-reviewer-list tests', () => {
     };
     assert.strictEqual(
       element._computeVoteableText({...createAccountDetailWithId(1)}, change),
-      'Bar'
+      'Bar: +1'
     );
     assert.strictEqual(
       element._computeVoteableText({...createAccountDetailWithId(7)}, change),
-      'Foo: +2, Bar, FooBar'
+      'Foo: +2, Bar: +1, FooBar: 0'
     );
     assert.strictEqual(
       element._computeVoteableText({...createAccountDetailWithId(2)}, change),

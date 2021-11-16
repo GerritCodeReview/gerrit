@@ -129,21 +129,6 @@ export class GrReviewerList extends PolymerElement {
   }
 
   /**
-   * Returns hash of labels to max permitted score.
-   *
-   * @returns labels to max permitted scores hash
-   */
-  _getMaxPermittedScores(change: ChangeInfo) {
-    return this._permittedLabelsToNumericScores(change.permitted_labels)
-      .map(({label, scores}) => {
-        return {
-          [label]: scores.reduce((a, b) => Math.max(a, b)),
-        };
-      })
-      .reduce((acc, i) => Object.assign(acc, i), {});
-  }
-
-  /**
    * Returns max permitted score for reviewer.
    */
   _getReviewerPermittedScore(
@@ -179,17 +164,13 @@ export class GrReviewerList extends PolymerElement {
       return '';
     }
     const maxScores = [];
-    const maxPermitted = this._getMaxPermittedScores(change);
     for (const label of Object.keys(change.labels)) {
       const maxScore = this._getReviewerPermittedScore(reviewer, change, label);
       if (isNaN(maxScore) || maxScore < 0) {
         continue;
       }
-      if (maxScore > 0 && maxScore === maxPermitted[label]) {
-        maxScores.push(`${label}: +${maxScore}`);
-      } else {
-        maxScores.push(`${label}`);
-      }
+      const scoreLabel = maxScore > 0 ? `+${maxScore}` : `${maxScore}`;
+      maxScores.push(`${label}: ${scoreLabel}`);
     }
     return maxScores.join(', ');
   }

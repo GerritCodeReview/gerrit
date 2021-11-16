@@ -706,7 +706,7 @@ public class AccessIT extends AbstractDaemonTest {
     config = cfg.toText();
     PushOneCommit push =
         pushFactory.create(
-            db, admin.getIdent(), allProjectsRepo, "Subject", ProjectConfig.PROJECT_CONFIG, config);
+            admin.newIdent(), allProjectsRepo, "Subject", ProjectConfig.PROJECT_CONFIG, config);
     push.to(RefNames.REFS_CONFIG).assertOkStatus();
 
     ProjectAccessInfo pai = gApi.projects().name(allProjects.get()).access();
@@ -748,7 +748,7 @@ public class AccessIT extends AbstractDaemonTest {
     config = cfg.toText();
     PushOneCommit push =
         pushFactory.create(
-            db, admin.getIdent(), allProjectsRepo, "Subject", ProjectConfig.PROJECT_CONFIG, config);
+            admin.newIdent(), allProjectsRepo, "Subject", ProjectConfig.PROJECT_CONFIG, config);
     push.to(RefNames.REFS_CONFIG).assertOkStatus();
 
     ProjectAccessInfo pai = gApi.projects().name(allProjects.get()).access();

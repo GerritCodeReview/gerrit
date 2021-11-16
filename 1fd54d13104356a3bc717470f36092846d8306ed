@@ -34,6 +34,24 @@
       "parentUuid": "08f99391_5081bf57",
       "revId": "1fd54d13104356a3bc717470f36092846d8306ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61f47385_1b384e6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-16T11:39:10Z",
+      "side": 1,
+      "message": "To save us time, let\u0027s not block the entire series with this change. I will rebase and bring this change at the end of the series.",
+      "parentUuid": "76016be3_48fc3cd4",
+      "revId": "1fd54d13104356a3bc717470f36092846d8306ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

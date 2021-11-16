@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a5c5a12_5dbb76bc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T18:54:04Z",
+      "side": 1,
+      "message": "Is this if-clause inverted? Did you actually test this?",
+      "revId": "971e38f953ab011988c7bc79e3ea4b9a383848d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

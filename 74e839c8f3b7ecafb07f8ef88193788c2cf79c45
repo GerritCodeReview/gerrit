@@ -22,6 +22,30 @@
       },
       "revId": "74e839c8f3b7ecafb07f8ef88193788c2cf79c45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d1ab9c3_29339ee8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-16T10:49:13Z",
+      "side": 1,
+      "message": "We didn\u0027t have this issue so far since this is the only point in the code that is bug occurred (CommitsCollection).\n\nThis issue seems to have not occurred even there since for this problem to happen:\n1. We first do some index query in lines 136-145. For valid existing changes, this should return here.\n2. Only then we do the buggy index query. \n3. Also, this index query is actually buggy if the commit has no parents (commit.getParents() returns nothing). The index query is meant for merge commits which is not the case for us.\n\nDoes it make sense?\n\nI think there is a way to do what you suggested: but that would require us to add code internally or adjust something in ChangeIndexRewriter (and probably in all other Rewriter classes). Tbh this is a pretty minor fix and I don\u0027t think it\u0027s worth the effort. WDYT?",
+      "parentUuid": "5266656c_e4df6eff",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "74e839c8f3b7ecafb07f8ef88193788c2cf79c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

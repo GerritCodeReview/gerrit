@@ -51,7 +51,6 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
@@ -101,15 +100,6 @@ class ApprovalInference {
    * Returns all approvals that apply to the given patch set. Honors direct and indirect (approval
    * on parents) approvals.
    */
-  Iterable<PatchSetApproval> forPatchSet(
-      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
-    PatchSet patchset = notes.getPatchSets().get(psId);
-    if (patchset == null) {
-      return Collections.emptyList();
-    }
-    return forPatchSet(notes, patchset, rw, repoConfig);
-  }
-
   Iterable<PatchSetApproval> forPatchSet(
       ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
     ProjectState project;

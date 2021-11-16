@@ -18,23 +18,35 @@ import {updateRepoConfig, updateServerConfig} from './config-model';
 import {repo$} from '../change/change-model';
 import {switchMap} from 'rxjs/operators';
 import {ConfigInfo, RepoName, ServerInfo} from '../../types/common';
-import {from, of} from 'rxjs';
+import {from, of, Subscription} from 'rxjs';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
+import {Finalizable} from '../registry';
 
-export class ConfigService {
+export class ConfigService implements Finalizable {
+  private readonly subscriptions: Subscription[] = [];
   constructor(readonly restApiService: RestApiService) {
-    from(this.restApiService.getConfig()).subscribe((config?: ServerInfo) => {
-      updateServerConfig(config);
-    });
-    repo$
-      .pipe(
-        switchMap((repo?: RepoName) => {
-          if (repo === undefined) return of(undefined);
-          return from(this.restApiService.getProjectConfig(repo));
-        })
-      )
-      .subscribe((repoConfig?: ConfigInfo) => {
-        updateRepoConfig(repoConfig);
-      });
+    this.subscriptions.push(
+      from(this.restApiService.getConfig())
+      .subscribe((config?: ServerInfo) => {
+        updateServerConfig(config);
+    }));
+    this.subscriptions.push(
+      repo$
+        .pipe(
+          switchMap((repo?: RepoName) => {
+            if (repo === undefined) return of(undefined);
+            return from(this.restApiService.getProjectConfig(repo));
+          })
+        )
+        .subscribe((repoConfig?: ConfigInfo) => {
+          updateRepoConfig(repoConfig);
+        }));
+  }
+
+  finalize() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions.splice(0, this.subscriptions.length);
   }
 }

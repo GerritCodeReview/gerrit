@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {Subscription} from 'rxjs';
 import '@polymer/paper-tabs/paper-tab';
 import '@polymer/paper-tabs/paper-tabs';
 import '../gr-shell-command/gr-shell-command';
@@ -27,8 +28,6 @@ import {getAppContext} from '../../../services/app-context';
 import {queryAndAssert} from '../../../utils/common-util';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 import {preferences$} from '../../../services/user/user-model';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
 
 declare global {
   interface HTMLElementEventMap {
@@ -75,24 +74,27 @@ export class GrDownloadCommands extends PolymerElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly userService = getAppContext().userService;
-
-  disconnected$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   override connectedCallback() {
     super.connectedCallback();
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
-    preferences$.pipe(takeUntil(this.disconnected$)).subscribe(prefs => {
-      if (prefs?.download_scheme) {
-        // Note (issue 5180): normalize the download scheme with lower-case.
-        this.selectedScheme = prefs.download_scheme.toLowerCase();
-      }
-    });
+    this.subscriptions.push(
+      preferences$.subscribe(prefs => {
+        if (prefs?.download_scheme) {
+          // Note (issue 5180): normalize the download scheme with lower-case.
+          this.selectedScheme = prefs.download_scheme.toLowerCase();
+        }
+    }));
   }
 
   override disconnectedCallback() {
-    this.disconnected$.next();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
     super.disconnectedCallback();
   }
 

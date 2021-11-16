@@ -115,8 +115,8 @@ import {
   changeComments$,
   commentsLoading$,
 } from '../../../services/comments/comments-model';
-import {takeUntil, filter, take} from 'rxjs/operators';
-import {Subject, combineLatest} from 'rxjs';
+import {filter, take} from 'rxjs/operators';
+import {Subscription, combineLatest} from 'rxjs';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {
   preferences$,
@@ -373,7 +373,7 @@ export class GrDiffView extends base {
 
   private cursor = new GrDiffCursor();
 
-  disconnected$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   constructor() {
     super();
@@ -389,42 +389,40 @@ export class GrDiffView extends base {
       this._loggedIn = loggedIn;
     });
 
-    changeComments$
-      .pipe(takeUntil(this.disconnected$))
+    this.subscriptions.push(changeComments$
       .subscribe(changeComments => {
         this._changeComments = changeComments;
-      });
+      }));
 
-    preferences$.pipe(takeUntil(this.disconnected$)).subscribe(preferences => {
+    this.subscriptions.push(preferences$.subscribe(preferences => {
       this._userPrefs = preferences;
-    });
-    diffPreferences$
-      .pipe(takeUntil(this.disconnected$))
+    }));
+    this.subscriptions.push(diffPreferences$
       .subscribe(diffPreferences => {
         this._prefs = diffPreferences;
-      });
+      }));
 
     // When user initially loads the diff view, we want to autmatically mark
     // the file as reviewed if they have it enabled. We can't observe these
     // properties since the method will be called anytime a property updates
     // but we only want to call this on the initial load.
-    combineLatest(currentPatchNum$, routerView$, diffPath$, diffPreferences$)
-      .pipe(
-        filter(
-          ([currentPatchNum, routerView, path, diffPrefs]) =>
-            !!currentPatchNum &&
-            routerView === GerritView.DIFF &&
-            !!path &&
-            !!diffPrefs
-        ),
-        take(1)
-      )
-      .subscribe(([currentPatchNum, _routerView, path, diffPrefs]) => {
-        this.setReviewedStatus(currentPatchNum!, path!, diffPrefs);
-      });
-    diffPath$
-      .pipe(takeUntil(this.disconnected$))
-      .subscribe(path => (this._path = path));
+    this.subscriptions.push(
+      combineLatest(currentPatchNum$, routerView$, diffPath$, diffPreferences$)
+        .pipe(
+          filter(
+            ([currentPatchNum, routerView, path, diffPrefs]) =>
+              !!currentPatchNum &&
+              routerView === GerritView.DIFF &&
+              !!path &&
+              !!diffPrefs
+          ),
+          take(1)
+        )
+        .subscribe(([currentPatchNum, _routerView, path, diffPrefs]) => {
+          this.setReviewedStatus(currentPatchNum!, path!, diffPrefs);
+        }));
+    this.subscriptions.push(
+      diffPath$.subscribe(path => (this._path = path)));
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
@@ -440,13 +438,16 @@ export class GrDiffView extends base {
   }
 
   override disconnectedCallback() {
-    this.disconnected$.next();
     this.cursor.dispose();
     if (this._onRenderHandler) {
       this.$.diffHost.removeEventListener('render', this._onRenderHandler);
     }
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
     super.disconnectedCallback();
   }
 

@@ -14,6 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ import {
+  BehaviorSubject,
+  combineLatest,
+  from,
+  Observable,
+  of,
+  Subject,
+  Subscription,
+  timer,
+} from 'rxjs';
 import {
   catchError,
   filter,
@@ -46,16 +56,8 @@ import {
   updateStateSetResults,
   updateStateUpdateResult,
 } from './checks-model';
-import {
-  BehaviorSubject,
-  combineLatest,
-  from,
-  Observable,
-  of,
-  Subject,
-  timer,
-} from 'rxjs';
 import {ChangeInfo, NumericChangeId, PatchSetNumber} from '../../types/common';
+import {Finalizable} from '../registry';
 import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {assertIsDefined} from '../../utils/common-util';
@@ -64,7 +66,7 @@ import {routerPatchNum$} from '../router/router-model';
 import {Execution} from '../../constants/reporting';
 import {fireAlert, fireEvent} from '../../utils/event-util';
 
-export class ChecksService {
+export class ChecksService implements Finalizable {
   private readonly providers: {[name: string]: ChecksProvider} = {};
 
   private readonly reloadSubjects: {[name: string]: Subject<void>} = {};
@@ -77,29 +79,54 @@ export class ChecksService {
 
   private readonly documentVisibilityChange$ = new BehaviorSubject(undefined);
 
+  private readonly reloadListener: () => void;
+  private readonly subscriptions: Subscription[] = [];
+  private readonly visibilityChangeListener: () => void;
+
   constructor(readonly reporting: ReportingService) {
-    changeNum$.subscribe(x => (this.changeNum = x));
-    checkToPluginMap$.subscribe(map => {
-      this.checkToPluginMap = map;
-    });
-    combineLatest([routerPatchNum$, latestPatchNum$]).subscribe(
-      ([routerPs, latestPs]) => {
-        this.latestPatchNum = latestPs;
-        if (latestPs === undefined) {
-          this.setPatchset(undefined);
-        } else if (typeof routerPs === 'number') {
-          this.setPatchset(routerPs);
-        } else {
-          this.setPatchset(latestPs);
+    this.subscriptions.push(
+      changeNum$
+      .subscribe(x => (this.changeNum = x)));
+    this.subscriptions.push(
+      checkToPluginMap$
+      .subscribe(map => {
+        this.checkToPluginMap = map;
+    }));
+    this.subscriptions.push(
+      combineLatest([routerPatchNum$, latestPatchNum$])
+      .subscribe(
+        ([routerPs, latestPs]) => {
+          this.latestPatchNum = latestPs;
+          if (latestPs === undefined) {
+            this.setPatchset(undefined);
+          } else if (typeof routerPs === 'number') {
+            this.setPatchset(routerPs);
+          } else {
+            this.setPatchset(latestPs);
+          }
         }
-      }
-    );
-    document.addEventListener('visibilitychange', () => {
+    ));
+    this.visibilityChangeListener = () => {
       this.documentVisibilityChange$.next(undefined);
-    });
-    document.addEventListener('reload', () => {
-      this.reloadAll();
-    });
+    };
+    document.addEventListener(
+      'visibilitychange',
+      this.visibilityChangeListener
+    );
+    this.reloadListener = () => this.reloadAll();
+    document.addEventListener('reload', this.reloadListener);
+  }
+
+  finalize() {
+    document.removeEventListener('reload', this.reloadListener);
+    document.removeEventListener(
+      'visibilitychange',
+      this.visibilityChangeListener
+    );
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions.splice(0, this.subscriptions.length);
   }
 
   setPatchset(num?: PatchSetNumber) {
@@ -188,15 +215,16 @@ export class ChecksService {
     // 2. Specific reload requests.
     // 3. Regular polling starting with an initial fetch right now.
     // 4. A hidden Gerrit tab becoming visible.
-    combineLatest([
-      changeNum$,
-      patchset === ChecksPatchset.LATEST
-        ? latestPatchNum$
-        : checksSelectedPatchsetNumber$,
-      this.reloadSubjects[pluginName].pipe(throttleTime(1000)),
-      timer(0, pollIntervalMs),
-      this.documentVisibilityChange$,
-    ])
+    this.subscriptions.push(
+      combineLatest([
+        changeNum$,
+        patchset === ChecksPatchset.LATEST
+          ? latestPatchNum$
+          : checksSelectedPatchsetNumber$,
+        this.reloadSubjects[pluginName].pipe(throttleTime(1000)),
+        timer(0, pollIntervalMs),
+        this.documentVisibilityChange$,
+      ])
       .pipe(
         takeWhile(_ => !!this.providers[pluginName]),
         filter(_ => document.visibilityState !== 'hidden'),
@@ -263,7 +291,7 @@ export class ChecksService {
             break;
           }
         }
-      });
+      }));
   }
 
   private empty(): FetchResponse {

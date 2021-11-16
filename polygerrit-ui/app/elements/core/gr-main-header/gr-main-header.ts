@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {Subscription} from 'rxjs';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-icons/gr-icons';
@@ -35,9 +36,7 @@ import {
 import {AuthType} from '../../../constants/constants';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {getAppContext} from '../../../services/app-context';
-import {Subject} from 'rxjs';
 import {serverConfig$} from '../../../services/config/config-model';
-import {takeUntil} from 'rxjs/operators';
 import {myTopMenuItems$} from '../../../services/user/user-model';
 import {assertIsDefined} from '../../../utils/common-util';
 
@@ -161,7 +160,7 @@ export class GrMainHeader extends PolymerElement {
 
   private readonly userService = getAppContext().userService;
 
-  private readonly disconnected$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   override ready() {
     super.ready();
@@ -177,22 +176,26 @@ export class GrMainHeader extends PolymerElement {
     super.connectedCallback();
     this._loadAccount();
 
-    myTopMenuItems$.pipe(takeUntil(this.disconnected$)).subscribe(items => {
-      this._userLinks = items.map(this._createHeaderLink);
-    });
-
-    serverConfig$.pipe(takeUntil(this.disconnected$)).subscribe(config => {
-      if (!config) return;
-      this._retrieveFeedbackURL(config);
-      this._retrieveRegisterURL(config);
-      getDocsBaseUrl(config, this.restApiService).then(docBaseUrl => {
-        this._docBaseUrl = docBaseUrl;
-      });
-    });
+    this.subscriptions.push(
+      myTopMenuItems$.subscribe(items => {
+        this._userLinks = items.map(this._createHeaderLink);
+    }));
+    this.subscriptions.push(
+      serverConfig$.subscribe(config => {
+        if (!config) return;
+        this._retrieveFeedbackURL(config);
+        this._retrieveRegisterURL(config);
+        getDocsBaseUrl(config, this.restApiService).then(docBaseUrl => {
+          this._docBaseUrl = docBaseUrl;
+        });
+    }));
   }
 
   override disconnectedCallback() {
-    this.disconnected$.next();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
     super.disconnectedCallback();
   }
 

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {Subscription} from 'rxjs';
 import {
   config,
   Shortcut,
@@ -31,6 +32,7 @@ import {
   shouldSuppress,
 } from '../../utils/dom-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
+import {Finalizable} from '../registry';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
 
@@ -62,7 +64,7 @@ export const COMBO_TIMEOUT_MS = 1000;
 /**
  * Shortcuts service, holds all hosts, bindings and listeners.
  */
-export class ShortcutsService {
+export class ShortcutsService implements Finalizable {
   /**
    * Keeps track of the components that are currently active such that we can
    * show a shortcut help dialog that only shows the shortcuts that are
@@ -92,6 +94,9 @@ export class ShortcutsService {
   /** Keeps track of the corresponding user preference. */
   private shortcutsDisabled = false;
 
+  private readonly keydownListener: (e: KeyboardEvent) => void;
+  private readonly subscriptions: Subscription[] = [];
+
   constructor(readonly reporting?: ReportingService) {
     for (const section of config.keys()) {
       const items = config.get(section) ?? [];
@@ -99,12 +104,22 @@ export class ShortcutsService {
         this.bindings.set(item.shortcut, item.bindings);
       }
     }
-    disableShortcuts$.subscribe(x => (this.shortcutsDisabled = x));
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
+    this.subscriptions.push(
+      disableShortcuts$
+      .subscribe(x => (this.shortcutsDisabled = x))
+    );
+    this.keydownListener = (e: KeyboardEvent) => {
       if (!isComboKey(e.key)) return;
       if (this.shouldSuppress(e)) return;
       this.comboKeyLastPressed = {key: e.key, timestampMs: Date.now()};
-    });
+    };
+    document.addEventListener('keydown', this.keydownListener);
+  }
+
+  finalize() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
   }
 
   public _testOnly_isEmpty() {

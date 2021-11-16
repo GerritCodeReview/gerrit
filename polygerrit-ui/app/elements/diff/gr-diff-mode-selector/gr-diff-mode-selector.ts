@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {Subscription} from 'rxjs';
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import '../../../styles/shared-styles';
@@ -27,8 +28,6 @@ import {FixIronA11yAnnouncer} from '../../../types/types';
 import {getAppContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
 import {diffViewMode$} from '../../../services/browser/browser-model';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
 
 @customElement('gr-diff-mode-selector')
 export class GrDiffModeSelector extends PolymerElement {
@@ -50,8 +49,7 @@ export class GrDiffModeSelector extends PolymerElement {
   showTooltipBelow = false;
 
   private readonly userService = getAppContext().userService;
-
-  disconnected$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   constructor() {
     super();
@@ -62,13 +60,17 @@ export class GrDiffModeSelector extends PolymerElement {
     (
       IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
     ).requestAvailability();
-    diffViewMode$
-      .pipe(takeUntil(this.disconnected$))
-      .subscribe(diffView => (this.mode = diffView));
+    this.subscriptions.push(
+      diffViewMode$
+        .subscribe(diffView => (this.mode = diffView)));
   }
 
   override disconnectedCallback() {
-    this.disconnected$.next();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
+    super.disconnectedCallback();
   }
 
   /**

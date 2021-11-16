@@ -170,6 +170,8 @@ export const grRestApiMock: RestApiService = {
   executeChangeAction(): Promise<Response | undefined> {
     return Promise.resolve(new Response());
   },
+  finalize(): void {
+  },
   generateAccountHttpPassword(): Promise<Password> {
     return Promise.resolve('asdf');
   },
@@ -276,16 +278,16 @@ export const grRestApiMock: RestApiService = {
     throw new Error('getDiffChangeDetail() not implemented by RestApiMock.');
   },
   getDiffComments() {
-    throw new Error('getDiffComments() not implemented by RestApiMock.');
+    return Promise.resolve({}) as any;
   },
   getDiffDrafts() {
-    throw new Error('getDiffDrafts() not implemented by RestApiMock.');
+    return Promise.resolve(undefined) as any;
   },
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined> {
     return Promise.resolve(createDefaultDiffPrefs());
   },
   getDiffRobotComments() {
-    throw new Error('getDiffRobotComments() not implemented by RestApiMock.');
+    return Promise.resolve(undefined) as any;
   },
   getDocumentationSearches(): Promise<DocResult[] | undefined> {
     return Promise.resolve([]);

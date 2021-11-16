@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {Subscription} from 'rxjs';
 import '@polymer/iron-input/iron-input';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
@@ -25,8 +26,6 @@ import {DiffPreferencesInfo, IgnoreWhitespaceType} from '../../../types/diff';
 import {GrSelect} from '../gr-select/gr-select';
 import {getAppContext} from '../../../services/app-context';
 import {diffPreferences$} from '../../../services/user/user-model';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
 
 export interface GrDiffPreferences {
   $: {
@@ -59,19 +58,22 @@ export class GrDiffPreferences extends PolymerElement {
 
   private readonly userService = getAppContext().userService;
 
-  private readonly disconnected$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   override connectedCallback() {
     super.connectedCallback();
-    diffPreferences$
-      .pipe(takeUntil(this.disconnected$))
+    this.subscriptions.push(
+      diffPreferences$
       .subscribe(diffPreferences => {
         this.diffPrefs = diffPreferences;
-      });
+      }));
   }
 
   override disconnectedCallback() {
-    this.disconnected$.next();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
     super.disconnectedCallback();
   }
 

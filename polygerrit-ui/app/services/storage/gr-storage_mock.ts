@@ -45,6 +45,7 @@ export function cleanUpStorage() {
 }
 
 export const grStorageMock: StorageService = {
+  finalize(): void {},
   getDraftComment(location: StorageLocation): StorageObject | null {
     return storage.get(getDraftKey(location)) ?? null;
   },

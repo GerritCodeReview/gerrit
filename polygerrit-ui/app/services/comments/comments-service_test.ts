@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import {Subscription} from 'rxjs';
 import '../../test/common-test-setup-karma';
 import {
   createComment,
@@ -33,6 +33,15 @@ import {comments$, portedComments$} from './comments-model';
 import {PathToCommentsInfoMap} from '../../types/common';
 
 suite('change service tests', () => {
+  let subscriptions: Subscription[] = [];
+
+  teardown(() => {
+    for (const s of subscriptions) {
+      s.unsubscribe();
+    }
+    subscriptions = [];
+  });
+
   test('loads comments', async () => {
     new CommentsService(getAppContext().restApiService);
     const diffCommentsSpy = stubRestApi('getDiffComments').returns(
@@ -51,9 +60,11 @@ suite('change service tests', () => {
       Promise.resolve({})
     );
     let comments: PathToCommentsInfoMap = {};
-    comments$.subscribe(c => (comments = c ?? {}));
+    subscriptions.push(
+      comments$.subscribe(c => (comments = c ?? {})));
     let portedComments: PathToCommentsInfoMap = {};
-    portedComments$.subscribe(c => (portedComments = c ?? {}));
+    subscriptions.push(
+      portedComments$.subscribe(c => (portedComments = c ?? {})));
 
     updateRouterState(GerritView.CHANGE, TEST_NUMERIC_CHANGE_ID);
     updateStateChange(createParsedChange());

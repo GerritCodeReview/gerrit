@@ -39,6 +39,30 @@
       },
       "revId": "b901b34c9449bc5c7ae5d6edfa6d7aee41a26de5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ba06fd8_63aa4c90",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-11-16T05:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ef6b1f5_6f8ac18f",
+      "range": {
+        "startLine": 431,
+        "startChar": 8,
+        "endLine": 431,
+        "endChar": 19
+      },
+      "revId": "b901b34c9449bc5c7ae5d6edfa6d7aee41a26de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

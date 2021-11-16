@@ -46,6 +46,30 @@
       },
       "revId": "74e839c8f3b7ecafb07f8ef88193788c2cf79c45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad81672a_9cf91ca2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-16T10:55:31Z",
+      "side": 1,
+      "message": "I\u0027m still having trouble to understand what is the issue and how/why does it break the index. Is it specific to Google only?\n\n\u003e Tbh this is a pretty minor fix and I don\u0027t think it\u0027s worth the effort. WDYT?\n\nI\u0027m not sure. It adds runtime checks that can cause failures if callers accidentally pass in an empty predicate set. It\u0027s easy to miss this in tests and then you would only notice this in prd.",
+      "parentUuid": "3d1ab9c3_29339ee8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "74e839c8f3b7ecafb07f8ef88193788c2cf79c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

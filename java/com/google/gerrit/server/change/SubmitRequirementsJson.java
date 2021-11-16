@@ -66,6 +66,7 @@ public class SubmitRequirementsJson {
     info.fulfilled = result.status().equals(SubmitRequirementExpressionResult.Status.PASS);
     info.passingAtoms = hide ? null : result.passingAtoms();
     info.failingAtoms = hide ? null : result.failingAtoms();
+    info.errorMessage = result.errorMessage().isPresent() ? result.errorMessage().get() : null;
     return info;
   }
 }

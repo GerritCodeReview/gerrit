@@ -8288,6 +8288,9 @@ fulfilled for the change.
 |`failing_atoms`|optional|
 A list of failing atoms. This is similar to `passing_atoms` except that it
 contains the list of predicates that are not fulfilled for the change.
+|`error_message`|optional|
+If the submit requirement fails during evaluation, this string will contain
+an error message describing why it failed.
 |===========================
 
 [[submit-requirement-input]]

@@ -1037,6 +1037,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2d54d45_c703df8f",
+        "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-16T20:59:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de03a97e_728c69a1",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 68
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01f53163_0108777f",

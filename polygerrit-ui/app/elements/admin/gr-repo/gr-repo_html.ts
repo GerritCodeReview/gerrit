@@ -414,6 +414,7 @@ export const htmlTemplate = html`
             <template is="dom-repeat" items="[[_pluginData]]" as="data">
               <gr-repo-plugin-config
                 plugin-data="[[data]]"
+                disabled$="[[_readOnly]]"
               ></gr-repo-plugin-config>
             </template>
           </div>

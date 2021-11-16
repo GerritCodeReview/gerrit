@@ -117,6 +117,7 @@ class GrSmartSearch extends mixinBehaviors( [
     if (expression.length === 0) { return Promise.resolve([]); }
     return this.$.restAPI.getSuggestedGroups(
         expression,
+        undefined,
         MAX_AUTOCOMPLETE_RESULTS)
         .then(groups => {
           if (!groups) { return []; }

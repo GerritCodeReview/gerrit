@@ -64,6 +64,7 @@ class GrAccessSection extends mixinBehaviors( [
 
   static get properties() {
     return {
+      repo: String,
       capabilities: Object,
       /** @type {?} */
       section: {

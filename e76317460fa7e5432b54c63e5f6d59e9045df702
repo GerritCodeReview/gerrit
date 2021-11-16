@@ -34,6 +34,24 @@
       "parentUuid": "9fd6af1d_91a36196",
       "revId": "e76317460fa7e5432b54c63e5f6d59e9045df702",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f826de03_6c352500",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-16T09:04:01Z",
+      "side": 1,
+      "message": "\u003e We could fix this by prohibiting the usage of \"is:submittable\" in SR expressions and throw a QueryParseException in this case.\n\n+1",
+      "parentUuid": "bafbdbf8_2a171771",
+      "revId": "e76317460fa7e5432b54c63e5f6d59e9045df702",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

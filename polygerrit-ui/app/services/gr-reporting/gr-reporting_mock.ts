@@ -18,6 +18,7 @@ import {ReportingService, Timer} from './gr-reporting';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
 import {Execution, Interaction} from '../../constants/reporting';
+import {Finalizable} from '../registry';
 
 export class MockTimer implements Timer {
   end(): this {
@@ -37,7 +38,7 @@ const log = function (msg: string) {
   console.info(`ReportingMock.${msg}`);
 };
 
-export const grReportingMock: ReportingService = {
+export const grReportingMock: ReportingService & Finalizable = {
   appStarted: () => {},
   beforeLocationChanged: () => {},
   changeDisplayed: () => {},
@@ -47,6 +48,7 @@ export const grReportingMock: ReportingService = {
   diffViewDisplayed: () => {},
   diffViewFullyLoaded: () => {},
   fileListDisplayed: () => {},
+  finalize: () => {},
   getTimer: () => new MockTimer(),
   locationChanged: (page: string) => {
     log(`locationChanged: ${page}`);

@@ -15,6 +15,12 @@
  * limitations under the License.
  */
 
+// A finalizable object has a single method `finalize` that is called when
+// the object is no longer needed and should clean itself up.
+export interface Finalizable {
+  finalize(): void;
+}
+
 // A factory can take a partially created TContext and generate a property
 // for a given key on that TContext.
 export type Factory<TContext, K extends keyof TContext> = (
@@ -32,8 +38,16 @@ export function create<TContext>(
   registry: Registry<TContext>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cache?: Map<keyof TContext, any>
-): TContext {
-  const context: Partial<TContext> = {} as Partial<TContext>;
+): TContext & Finalizable {
+  const context: Partial<TContext> & Finalizable = {
+    finalize() {
+      for (const prop of Object.getOwnPropertyNames(registry)) {
+        const name = prop as keyof TContext;
+        (this[name] as unknown as Finalizable).finalize();
+      }
+    },
+  } as Partial<TContext> & Finalizable;
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const initialized: Map<keyof TContext, any> = cache
     ? cache
@@ -67,5 +81,5 @@ export function create<TContext>(
       },
     });
   }
-  return context as TContext;
+  return context as TContext & Finalizable;
 }

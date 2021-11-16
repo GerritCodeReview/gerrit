@@ -70,6 +70,24 @@
       "parentUuid": "475d1e39_b2d98ec6",
       "revId": "43e4857b3844d4d36a339019cc11a608b740600b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "269cc6d9_57e104aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-11-16T14:34:12Z",
+      "side": 1,
+      "message": "the beef of this change is reverted in https://gerrit-review.googlesource.com/c/gerrit/+/323139/3 later in this series\n\ndo you suggest we should implement a similar change like 323137 but switching off protocol version 2 to prevent that jgit 5.12 uses it by default ?\n\nI cherry-picked these changes in the same order they were done in newer Gerrit versions to avoid nasty conflicts",
+      "parentUuid": "475d1e39_b2d98ec6",
+      "revId": "43e4857b3844d4d36a339019cc11a608b740600b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

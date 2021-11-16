@@ -33,6 +33,7 @@ import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser';
 import {parseDate} from '../../../utils/date-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import {getAppContext} from '../../../services/app-context';
+import {Finalizable} from '../../../services/registry';
 import {getParentIndex, isMergeParent} from '../../../utils/patch-set-util';
 import {
   ListChangesOption,
@@ -275,7 +276,7 @@ declare global {
 @customElement('gr-rest-api-interface')
 export class GrRestApiInterface
   extends PolymerElement
-  implements RestApiService
+  implements RestApiService, Finalizable
 {
   readonly _cache = siteBasedCache; // Shared across instances.
 
@@ -307,6 +308,8 @@ export class GrRestApiInterface
       this._sharedFetchPromises
     );
   }
+
+  finalize() {}
 
   _fetchSharedCacheURL(req: FetchJSONRequest): Promise<ParsedJSON | undefined> {
     // Cache is shared across instances

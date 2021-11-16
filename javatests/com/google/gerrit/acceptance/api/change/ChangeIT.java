@@ -4857,6 +4857,7 @@ public class ChangeIT extends AbstractDaemonTest {
         Status.SATISFIED,
         /* isLegacy= */ false,
         /* submittabilityCondition= */ "label:build-cop-override=MAX -label:build-cop-override=MIN");
+    assertThat(change.submittable).isTrue();
 
     // Merge the change. Submit requirements are still the same.
     gApi.changes().id(changeId).current().submit();
@@ -4926,6 +4927,7 @@ public class ChangeIT extends AbstractDaemonTest {
         Status.UNSATISFIED,
         /* isLegacy= */ false,
         /* submittabilityCondition= */ "label:build-cop-override=MIN");
+    assertThat(change.submittable).isFalse();
   }
 
   @Test
@@ -5089,7 +5091,7 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
 

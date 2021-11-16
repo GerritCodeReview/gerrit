@@ -90,7 +90,7 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
         }
 
         config.commit(md);
-        projectCache.evict(rsrc.getProject().getProjectState().getProject());
+        projectCache.evictAndReindex(rsrc.getProject().getProjectState().getProject());
       }
     }
     return Response.ok(LabelDefinitionJson.format(rsrc.getProject().getNameKey(), labelType));

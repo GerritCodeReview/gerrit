@@ -666,8 +666,9 @@ external IDs will not match the new scheme. For more details refer to
 the link:config-accounts.html#external-ids[External ID documentation].
 +
 Gerrit provides the
-link:pgm-ChangeExternalIdCaseSensitivity.html[ChangeExternalIdCaseSensitivity tool]
-to migrate existing accounts to match the new scheme.
+link:pgm-ChangeExternalIdCaseSensitivity.html[offline]
+and the online link:externalid-case-insensitivity.html#online-migration[online]
+tools to migrate existing accounts to match the new scheme.
 +
 Naturally, if there were two accounts only different in capitalization,
 e.g. `johndoe` and `JohnDoe`, the account `JohnDoe` will not be able

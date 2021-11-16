@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55960342_049514da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-16T15:28:08Z",
+      "side": 1,
+      "message": "This is a lot of change for a stable branch. Our policy is to do these kinds of dependency updates on master just after creating the stable branch.\n\nIs there a strong reason to do this for 3.5?",
+      "revId": "6a43bf846f0267f803aa35bc2eeeac1a70cb8095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

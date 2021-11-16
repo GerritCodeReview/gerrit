@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cef40d1_8f2dda39",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T09:26:12Z",
+      "side": 1,
+      "message": "Maybe use\n\n  assertIsDefined(ctx.flagsService, \u0027flagsService\u0027);\n  \nor create a similar utility function.",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 69
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46cd7e39_393b0e4e",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T09:26:12Z",
+      "side": 1,
+      "message": "Since we are not dealing with non-enumerable properties, I would prefer to just use Objects.keys() in our app.",
+      "range": {
+        "startLine": 33,
+        "startChar": 28,
+        "endLine": 33,
+        "endChar": 47
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3597298d_f571226e",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T09:26:12Z",
+      "side": 1,
+      "message": "Can you just call `defineProperty` here instead of collecting all properties?\n\nThen you could change to a simple for-of loop instead of using reduce().",
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3e19879_6ec87184",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T09:26:12Z",
+      "side": 1,
+      "message": "This handling of the `initializing` variable seems to `factory(context)` can somehow call `create\u003cContext\u003e()`. Can that happen?\n\nOr are factories async functions?\n\nOh wait, this is a getter. Maybe add a comment then, so future readers have an easier time to understand this.",
+      "range": {
+        "startLine": 42,
+        "startChar": 12,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

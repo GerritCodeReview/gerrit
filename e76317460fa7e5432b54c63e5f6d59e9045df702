@@ -16,6 +16,24 @@
       "message": "Is this an attack vector to send Gerrit into an infinite recursion?\n\nSR:\nsubmittableIf \u003d is:submittable",
       "revId": "e76317460fa7e5432b54c63e5f6d59e9045df702",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bafbdbf8_2a171771",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-16T09:01:11Z",
+      "side": 1,
+      "message": "Very nice catch!\n\nYes, I tried with a test and it results in infinite recursion. This is how it worked:\n* We parse submittableIf and evaluate the predicate (in SubmitRequirementEvaluator)\n* Parser calls this line and returns this predicate\n* The predicate is evaluated by executing its logic in ChangeField\n* Logic looks for needs to execute all SRs and make sure they are all fulfilled.\n* Same SR is evaluated again using SubmitRequirementEvaluator...\n\nWe could fix this by prohibiting the usage of \"is:submittable\" in SR expressions and throw a QueryParseException in this case.",
+      "parentUuid": "9fd6af1d_91a36196",
+      "revId": "e76317460fa7e5432b54c63e5f6d59e9045df702",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

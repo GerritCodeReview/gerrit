@@ -16,6 +16,80 @@
       "message": "I verified the code locally but I want to do some additional checks for the events passing in HA during the migration",
       "revId": "7e268203af9ac25cf360565cc2e6ca9188e3d504",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fc3da05_0f15162a",
+        "filename": "java/com/google/gerrit/server/account/externalids/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-16T07:24:39Z",
+      "side": 1,
+      "message": "Put this line in a finally block as well.",
+      "revId": "7e268203af9ac25cf360565cc2e6ca9188e3d504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d37dc32_81e174b6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/externalids/OnlineExternalIdCaseSensivityMigratorIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-16T07:24:39Z",
+      "side": 1,
+      "message": "Apart from the scheme this test is exactly the same as the previous test. The test code could be extracted to a method to avoid code duplication.",
+      "revId": "7e268203af9ac25cf360565cc2e6ca9188e3d504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20acbf91_516fd673",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/externalids/OnlineExternalIdCaseSensivityMigratorIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-16T07:24:39Z",
+      "side": 1,
+      "message": "Why do you hide the field with the same value here?",
+      "revId": "7e268203af9ac25cf360565cc2e6ca9188e3d504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b5ed2b4_5d7c478e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/externalids/OnlineExternalIdCaseSensivityMigratorIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-16T07:24:39Z",
+      "side": 1,
+      "message": "nit: better english would be caseInsensitivityShouldWorkAfterMigration",
+      "range": {
+        "startLine": 118,
+        "startChar": 14,
+        "endLine": 118,
+        "endChar": 56
+      },
+      "revId": "7e268203af9ac25cf360565cc2e6ca9188e3d504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

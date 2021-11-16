@@ -36,13 +36,16 @@ import {
 import {changeNum$, currentPatchNum$} from '../change/change-model';
 import {combineLatest} from 'rxjs';
 import {routerChangeNum$} from '../router/router-model';
+import {Finalizable} from '../registry';
 
-export class CommentsService {
+export class CommentsService implements Finalizable {
   private discardedDrafts?: UIDraft[] = [];
 
   private changeNum?: NumericChangeId;
 
   private patchNum?: PatchSetNum;
+
+  private readonly reloadListener: () => void;
 
   constructor(readonly restApiService: RestApiService) {
     discardedDrafts$.subscribe(
@@ -60,10 +63,15 @@ export class CommentsService {
         this.reloadAllPortedComments();
       }
     );
-    document.addEventListener('reload', () => {
+    this.reloadListener = () => {
       this.reloadAllComments();
       this.reloadAllPortedComments();
-    });
+    };
+    document.addEventListener('reload', this.reloadListener);
+  }
+
+  finalize() {
+    document.removeEventListener('reload', this.reloadListener!);
   }
 
   // Note that this does *not* reload ported comments.

@@ -378,8 +378,7 @@ public class MailProcessor {
       // Get previous approvals from this user
       Map<String, Short> approvals = new HashMap<>();
       approvalsUtil
-          .byPatchSetUser(
-              notes, psId, ctx.getAccountId(), ctx.getRevWalk(), ctx.getRepoView().getConfig())
+          .byPatchSetUser(notes, psId, ctx.getAccountId())
           .forEach(a -> approvals.put(a.label(), a.value()));
       // Fire Gerrit event. Note that approvals can't be granted via email, so old and new approvals
       // are always the same here.

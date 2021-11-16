@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "01a05b9c_839e994d",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T08:43:31Z",
+      "side": 1,
+      "message": "If you allow this, then this update will be complete before the REST API call comes back. And when that comes back it will call updateStateReviewedFiles(), completely wiping the previous state.\n\nSo yes, while reviewedFiles\u003d\u003d\u003dundefined you have to either show a toast \"reviewed files not loaded yet\" when the user wants to interact with them. Or you disable the UI widgets based on loading state of the reviewed files.\n\nChange 323426 has an example of how to deal with \"loading\" state.",
+      "parentUuid": "66abb517_3db20049",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "94381a91_6570338b",
         "filename": "polygerrit-ui/app/services/change/change-service.ts",
         "patchSetId": 17
@@ -260,6 +278,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5fcad923_ec9879df",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T08:43:31Z",
+      "side": 1,
+      "message": "The only benefit of getLoggedIn() over account$ is that it returns false, if you have been logged in before, but the credentials have expired in the meantime. But expired credentials generate a toast and an overlay anyway, so there is no need for every random component to care about that.",
+      "parentUuid": "02dca784_4490b039",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df2daa3f_9e2c9ab9",
         "filename": "polygerrit-ui/app/services/change/change-service.ts",
         "patchSetId": 17
@@ -289,6 +325,24 @@
       "side": 1,
       "message": "I could add something like\n\n```\nchangeNum$.subscribe(changeNum \u003d\u003e {\n      if (!changeNum) updateStateReviewedFiles(new Set([]));\n    })\n```\n\nto reset the state when changeNum becomes undefined. Currently it\u0027s fired whenever it becomes undefined but I\u0027m wondering if this is the best solution?",
       "parentUuid": "df2daa3f_9e2c9ab9",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41aefc6c_d3ba7390",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T08:43:31Z",
+      "side": 1,
+      "message": "Added a new comment.",
+      "parentUuid": "965761a8_3c74bf42",
       "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -324,6 +378,24 @@
       "side": 1,
       "message": "Is it worth the extra complication?\nMaybe if users say it\u0027s slow otherwise this is the simpler option.",
       "parentUuid": "6521f70a_92dec786",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13424811_37d4c4b9",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-16T08:43:31Z",
+      "side": 1,
+      "message": "It is optional, but I think the user experience is much better. That said, we don\u0027t yet do optimistic updates much, so feel free to let me establish that pattern in other places first.",
+      "parentUuid": "383f9211_d210b8e5",
       "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

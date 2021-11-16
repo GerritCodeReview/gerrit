@@ -26,6 +26,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1f655a3_ee10291d",
+        "filename": "polygerrit-ui/app/services/app-context.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-11-16T09:29:18Z",
+      "side": 1,
+      "message": "Please update the comment - appContext is not a singleton now",
+      "range": {
+        "startLine": 50,
+        "startChar": 3,
+        "endLine": 50,
+        "endChar": 64
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b967c7ad_6e823c0c",
+        "filename": "polygerrit-ui/app/services/app-context.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-11-16T09:29:18Z",
+      "side": 1,
+      "message": "mutable exports are not allowed by TS style guide (go/tsstyle#mutable-exports).\nPossible solution: remove \"export\" and add get method.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 53
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de1d31b5_95e09664",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-11-16T09:29:18Z",
+      "side": 1,
+      "message": "nit: I would prefer the TContext to make it clear that this is a type argument (same for other places in the file)",
+      "range": {
+        "startLine": 22,
+        "startChar": 23,
+        "endLine": 22,
+        "endChar": 30
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "46cd7e39_393b0e4e",
         "filename": "polygerrit-ui/app/services/registry.ts",
         "patchSetId": 7

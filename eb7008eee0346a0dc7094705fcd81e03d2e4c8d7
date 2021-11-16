@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7645dca_6538ab48",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8302,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-16T16:48:49Z",
+      "side": 1,
+      "message": "My bad, I shouldn\u0027t have written \"not\" (requirement is always fulfilled).\n\nDone.",
+      "parentUuid": "70f034be_244a0cc6",
+      "range": {
+        "startLine": 8302,
+        "startChar": 51,
+        "endLine": 8302,
+        "endChar": 64
+      },
+      "revId": "eb7008eee0346a0dc7094705fcd81e03d2e4c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4933650c_0b7ceece",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-11-11T10:19:07Z",
       "side": 1,
       "message": "nit: document what Optional.empty means.",
+      "revId": "eb7008eee0346a0dc7094705fcd81e03d2e4c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "085b264c_8ef5d3e0",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-16T16:48:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4933650c_0b7ceece",
       "revId": "eb7008eee0346a0dc7094705fcd81e03d2e4c8d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "514247e2_d79a33d4",
+        "filename": "java/com/google/gerrit/server/change/SubmitRequirementsJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-16T16:48:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0817c01e_8674652d",
+      "revId": "eb7008eee0346a0dc7094705fcd81e03d2e4c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c19bd65_8ec3a0c7",
@@ -71,6 +131,30 @@
       "writtenOn": "2021-11-11T10:19:07Z",
       "side": 1,
       "message": "nit: ifPresent(r -\u003e ...)",
+      "range": {
+        "startLine": 56,
+        "startChar": 43,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "eb7008eee0346a0dc7094705fcd81e03d2e4c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f38ff87f_f177d7d5",
+        "filename": "java/com/google/gerrit/server/notedb/SubmitRequirementProtoConverter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-16T16:48:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c19bd65_8ec3a0c7",
       "range": {
         "startLine": 56,
         "startChar": 43,

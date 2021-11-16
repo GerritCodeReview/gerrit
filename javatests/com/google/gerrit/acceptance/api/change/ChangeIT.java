@@ -4473,7 +4473,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @GerritConfig(
       name = "experiments.enabled",
       value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
-  public void submitRequirement_overriddenInChildProject() throws Exception {
+  public void submitRequirement_overriddenInChildProjectWithStricterRequirement() throws Exception {
     configSubmitRequirement(
         allProjects,
         SubmitRequirement.builder()
@@ -4507,6 +4507,45 @@ public class ChangeIT extends AbstractDaemonTest {
         change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "Code-Review", 2);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
+  public void submitRequirement_overriddenInChildProjectWithLessStrictRequirement()
+      throws Exception {
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(true)
+            .build());
+
+    // Override submit requirement in child project (requires Code-Review=+1 instead of +2)
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+1"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    voteLabel(changeId, "Code-Review", 1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(

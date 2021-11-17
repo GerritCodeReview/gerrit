@@ -93,6 +93,30 @@
       },
       "revId": "b40fc57c1da7484f11ee181baffa06e0ae612db6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe4b8e35_9184e0dd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 4589,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-17T09:41:46Z",
+      "side": 1,
+      "message": "Not yet, but yes we should make this clear in docs.\n\nWe don\u0027t have any documentation for SRs yet. I should start working on that soon.",
+      "parentUuid": "7276ea1e_45d563ee",
+      "range": {
+        "startLine": 4585,
+        "startChar": 0,
+        "endLine": 4589,
+        "endChar": 31
+      },
+      "revId": "b40fc57c1da7484f11ee181baffa06e0ae612db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

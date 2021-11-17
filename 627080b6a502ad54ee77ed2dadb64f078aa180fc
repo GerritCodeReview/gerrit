@@ -16,6 +16,108 @@
       "message": "Thanks, PTAL 😊",
       "revId": "627080b6a502ad54ee77ed2dadb64f078aa180fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30d8bd35_a22c384c",
+        "filename": "polygerrit-ui/app/services/browser/browser-service.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-17T00:24:37Z",
+      "side": 1,
+      "message": "Remove newline.",
+      "revId": "627080b6a502ad54ee77ed2dadb64f078aa180fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "862bce70_afda8206",
+        "filename": "polygerrit-ui/app/services/browser/browser-service.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-17T00:24:37Z",
+      "side": 1,
+      "message": "Add newline.",
+      "revId": "627080b6a502ad54ee77ed2dadb64f078aa180fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7035344_fafdb865",
+        "filename": "polygerrit-ui/app/services/browser/browser-service.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-17T00:24:37Z",
+      "side": 1,
+      "message": "Add space before {",
+      "revId": "627080b6a502ad54ee77ed2dadb64f078aa180fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49a74e9e_5ce11486",
+        "filename": "polygerrit-ui/app/services/registry_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-17T00:24:37Z",
+      "side": 1,
+      "message": "Add a space before {\n\nand same for the rest.",
+      "revId": "627080b6a502ad54ee77ed2dadb64f078aa180fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0457d0e_cf84dbc0",
+        "filename": "polygerrit-ui/app/services/registry_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-17T00:24:37Z",
+      "side": 1,
+      "message": "Would this \u0027constructor(private readonly final: Array\u003cstring\u003e) {}\u0027 work?",
+      "revId": "627080b6a502ad54ee77ed2dadb64f078aa180fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8ee55f2_718aff5c",
+        "filename": "polygerrit-ui/app/services/user/user-service.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-17T00:24:37Z",
+      "side": 1,
+      "message": "Add space before {",
+      "revId": "627080b6a502ad54ee77ed2dadb64f078aa180fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

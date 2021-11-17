@@ -22,6 +22,30 @@
       },
       "revId": "8ebe538debb9b003916196fdb5b6810c36205dcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22f41495_cb93b26e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4950,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-17T09:40:16Z",
+      "side": 1,
+      "message": "Yes. As we discussed, there\u0027s nothing like \"partially overridden SR\". I think we can abandon this change?",
+      "parentUuid": "f3156dcd_a2c64a44",
+      "range": {
+        "startLine": 4949,
+        "startChar": 33,
+        "endLine": 4950,
+        "endChar": 18
+      },
+      "revId": "8ebe538debb9b003916196fdb5b6810c36205dcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

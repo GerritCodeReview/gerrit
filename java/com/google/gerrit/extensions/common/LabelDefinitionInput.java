@@ -19,6 +19,7 @@ import java.util.Map;
 
 public class LabelDefinitionInput extends InputWithCommitMessage {
   public String name;
+  public String description;
   public String function;
   public Map<String, String> values;
   public Short defaultValue;

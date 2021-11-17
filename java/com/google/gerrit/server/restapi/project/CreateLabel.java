@@ -43,6 +43,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -147,6 +148,10 @@ public class CreateLabel
 
     List<LabelValue> values = LabelDefinitionInputParser.parseValues(input.values);
     LabelType.Builder labelType = LabelType.builder(LabelType.checkName(label), values);
+
+    if (input.description != null) {
+      labelType.setDescription(Optional.of(input.description));
+    }
 
     if (input.function != null && !input.function.trim().isEmpty()) {
       labelType.setFunction(LabelDefinitionInputParser.parseFunction(input.function));

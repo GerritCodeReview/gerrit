@@ -224,6 +224,19 @@ public class CreateLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createWithNameAndDescription() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.description = "Foo label description";
+
+    LabelDefinitionInfo createdLabel =
+        gApi.projects().name(project.get()).label("Foo").create(input).get();
+
+    assertThat(createdLabel.name).isEqualTo("Foo");
+    assertThat(createdLabel.description).isEqualTo("Foo label description");
+  }
+
+  @Test
   public void createWithNameAndValuesOnly() throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");

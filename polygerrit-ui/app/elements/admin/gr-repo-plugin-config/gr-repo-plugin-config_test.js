@@ -35,6 +35,18 @@ suite('gr-repo-plugin-config tests', () => {
     [{_key: 'testKey', info: 'testInfo'}]);
   });
 
+  test('_computeDisabled', () => {
+    const testDisabled = (disabled, editable) => {
+      element.disabled = disabled;
+      return element._computeDisabled(editable);
+    };
+    assert.isFalse(testDisabled(false, true));
+    assert.isTrue(testDisabled(false, undefined));
+    assert.isTrue(testDisabled(false, null));
+    assert.isTrue(testDisabled(false, false));
+    assert.isTrue(testDisabled(true, true));
+  });
+
   test('_handleChange', () => {
     const eventStub = sinon.stub(element, 'dispatchEvent');
     element.pluginData = {

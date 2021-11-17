@@ -1600,11 +1600,15 @@ export class GrRestApiInterface
 
   getSuggestedGroups(
     inputVal: string,
+    project?: RepoName,
     n?: number
   ): Promise<GroupNameToGroupInfoMap | undefined> {
     const params: QueryGroupsParams = {s: inputVal};
     if (n) {
       params.n = n;
+    }
+    if (project) {
+      params.p = encodeURIComponent(project);
     }
     return this._restApiHelper.fetchJSON({
       url: '/groups/',

@@ -186,15 +186,24 @@ public abstract class ExternalId implements Serializable {
       return scheme.equals(scheme());
     }
 
+    @Memoized
+    public ObjectId sha1() {
+      return sha1(isCaseInsensitive());
+    }
+
     /**
      * Returns the SHA1 of the external ID that is used as note ID in the refs/meta/external-ids
      * notes branch.
      */
     @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
-    @Memoized
-    public ObjectId sha1() {
-      String keyString = isCaseInsensitive() ? get().toLowerCase(Locale.US) : get();
+    private ObjectId sha1(Boolean isCaseInsensitive) {
+      String keyString = isCaseInsensitive ? get().toLowerCase(Locale.US) : get();
       return ObjectId.fromRaw(Hashing.sha1().hashString(keyString, UTF_8).asBytes());
+    }
+
+    @Memoized
+    public ObjectId caseSensitiveSha1() {
+      return sha1(false);
     }
 
     /**

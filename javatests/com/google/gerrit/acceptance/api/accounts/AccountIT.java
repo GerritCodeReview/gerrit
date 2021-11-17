@@ -135,6 +135,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountIndexer;
@@ -233,6 +234,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private PluginSetContext<ExceptionHook> exceptionHooks;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
   @Inject private ExternalIdFactory externalIdFactory;
+  @Inject private AuthConfig authConfig;
 
   @Inject protected Emails emails;
 
@@ -2495,7 +2497,11 @@ public class AccountIT extends AbstractDaemonTest {
     // stale.
     try (Repository repo = repoManager.openRepository(allUsers)) {
       ExternalIdNotes extIdNotes =
-          ExternalIdNotes.loadNoCacheUpdate(allUsers, repo, externalIdFactory);
+          ExternalIdNotes.loadNoCacheUpdate(
+              allUsers,
+              repo,
+              externalIdFactory,
+              authConfig.isUserNameCaseInsensitiveMigrationMode());
 
       ExternalId.Key key = externalIdKeyFactory.create("foo", "foo");
       extIdNotes.insert(externalIdFactory.create(key, accountId));
@@ -2504,14 +2510,24 @@ public class AccountIT extends AbstractDaemonTest {
       }
       assertStaleAccountAndReindex(accountId);
 
-      extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsers, repo, externalIdFactory);
+      extIdNotes =
+          ExternalIdNotes.loadNoCacheUpdate(
+              allUsers,
+              repo,
+              externalIdFactory,
+              authConfig.isUserNameCaseInsensitiveMigrationMode());
       extIdNotes.upsert(externalIdFactory.createWithEmail(key, accountId, "foo@example.com"));
       try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
         extIdNotes.commit(update);
       }
       assertStaleAccountAndReindex(accountId);
 
-      extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsers, repo, externalIdFactory);
+      extIdNotes =
+          ExternalIdNotes.loadNoCacheUpdate(
+              allUsers,
+              repo,
+              externalIdFactory,
+              authConfig.isUserNameCaseInsensitiveMigrationMode());
       extIdNotes.delete(accountId, key);
       try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
         extIdNotes.commit(update);

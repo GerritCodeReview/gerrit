@@ -102,7 +102,7 @@ public class ProjectBasicAuthFilterTest {
     res = new FakeHttpServletResponse();
 
     extIdKeyFactory = new ExternalIdKeyFactory(new ExternalIdKeyFactory.ConfigImpl(authConfig));
-    extIdFactory = new ExternalIdFactory(extIdKeyFactory);
+    extIdFactory = new ExternalIdFactory(extIdKeyFactory, authConfig);
     authRequestFactory = new AuthRequest.Factory(extIdKeyFactory);
     pwdVerifier = new PasswordVerifier(extIdKeyFactory);
 

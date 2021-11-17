@@ -61,14 +61,14 @@ public class ExternalIdsConsistencyChecker {
 
   public List<ConsistencyProblemInfo> check() throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return check(ExternalIdNotes.loadReadOnly(allUsers, repo, null, externalIdFactory));
+      return check(ExternalIdNotes.loadReadOnly(allUsers, repo, null, externalIdFactory, false));
     }
   }
 
   public List<ConsistencyProblemInfo> check(ObjectId rev)
       throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return check(ExternalIdNotes.loadReadOnly(allUsers, repo, rev, externalIdFactory));
+      return check(ExternalIdNotes.loadReadOnly(allUsers, repo, rev, externalIdFactory, false));
     }
   }
 

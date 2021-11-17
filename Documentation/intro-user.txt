@@ -459,7 +459,7 @@ abandon permission] on the change and link:access-control.html#category_push[
 push permission] on the destination branch.
 
 The move operation will not update the change's parent and users will have
-to link:#rebase[rebase] the change. Also, merge commits cannot be moved.
+to link:#rebase[rebase] the change.
 
 [[abandon]]
 [[restore]]

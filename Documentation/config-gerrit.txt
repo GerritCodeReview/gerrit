@@ -666,8 +666,9 @@ external IDs will not match the new scheme. For more details refer to
 the link:config-accounts.html#external-ids[External ID documentation].
 +
 Gerrit provides the
-link:pgm-ChangeExternalIdCaseSensitivity.html[ChangeExternalIdCaseSensitivity tool]
-to migrate existing accounts to match the new scheme.
+link:pgm-ChangeExternalIdCaseSensitivity.html[offline]
+and the online link:externalid-case-insensitivity.html#online-migration[online]
+tools to migrate existing accounts to match the new scheme.
 +
 Naturally, if there were two accounts only different in capitalization,
 e.g. `johndoe` and `JohnDoe`, the account `JohnDoe` will not be able
@@ -675,6 +676,16 @@ to authenticate anymore after setting this option. If such duplicate
 accounts exist the migration tool will fail, since the newly computed
 note name would be identical and thus conflict. These duplicates thus
 have to be deleted manually by deleting the respective external ID.
++
+For newly initialized sites this option defaults to true.
++
+Default is false.
+
+[[auth.userNameCaseInsensitiveMigrationMode]]auth.userNameCaseInsensitiveMigrationMode::
++
+Setting migration mode to true allows to fallback to case sensitive
+behaviour if the migrated external ID cannot be found. This allows to
+trigger the migration while Gerrit process is running.
 +
 Default is false.
 
@@ -3136,7 +3147,7 @@ by the JVM. If set to a negative value, defaults to a direct executor.
 [[index.batchThreads]]index.batchThreads::
 +
 Number of threads to use for indexing in background operations, such as
-online schema upgrades, and also for offline reindexing.
+online schema upgrades, and also the default for offline reindexing.
 +
 If not set or set to a zero, defaults to the number of logical CPUs as returned
 by the JVM. If set to a negative value, defaults to a direct executor.
@@ -3338,6 +3349,11 @@ link:https://lucene.apache.org/core/5_5_0/core/org/apache/lucene/index/Concurren
 Lucene documentation,role=external,window=_blank] for further details.
 +
 Defaults to true (throttling enabled).
+
+During offline reindexing, setting ramBufferSize greater than the size
+of index (size of specific index folder under <site_dir>/index) and
+maxBufferedDocs as -1 avoids unnecessary flushes and triggers only a
+single flush at the end of the process.
 
 Sample Lucene index configuration:
 ----

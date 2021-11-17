@@ -96,7 +96,6 @@ ts_project(
 ignore_templates_list = [
     "elements/admin/gr-admin-view/gr-admin-view_html.ts",
     "elements/admin/gr-permission/gr-permission_html.ts",
-    "elements/admin/gr-plugin-list/gr-plugin-list_html.ts",
     "elements/admin/gr-repo-access/gr-repo-access_html.ts",
     "elements/admin/gr-repo-commands/gr-repo-commands_html.ts",
     "elements/admin/gr-repo-plugin-config/gr-repo-plugin-config_html.ts",

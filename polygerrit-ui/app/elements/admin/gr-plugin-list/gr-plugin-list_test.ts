@@ -31,6 +31,7 @@ import {PluginInfo} from '../../../types/common';
 import {AppElementAdminParams} from '../../gr-app-types';
 import {GerritView} from '../../../services/router/router-model';
 import {PageErrorEvent} from '../../../types/events';
+import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 
 const basicFixture = fixtureFromElement('gr-plugin-list');
 
@@ -74,29 +75,31 @@ suite('gr-plugin-list tests', () => {
 
   const value: AppElementAdminParams = {view: GerritView.ADMIN, adminView: ''};
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
   suite('list with plugins', async () => {
     setup(async () => {
       plugins = createPluginObjectList(26);
       stubRestApi('getPlugins').returns(Promise.resolve(plugins));
-      await element._paramsChanged(value);
-      await flush();
+      element.params = value;
+      await element.paramsChanged();
+      await element.updateComplete;
     });
 
     test('plugin in the list is formatted correctly', async () => {
-      await flush();
-      assert.equal(element._plugins![5].id, 'test5');
-      assert.equal(element._plugins![5].index_url, 'plugins/test5/');
-      assert.equal(element._plugins![5].version, 'version-5');
-      assert.equal(element._plugins![5].api_version, 'api-version-5');
-      assert.equal(element._plugins![5].disabled, false);
+      await element.updateComplete;
+      assert.equal(element.plugins![5].id, 'test5');
+      assert.equal(element.plugins![5].index_url, 'plugins/test5/');
+      assert.equal(element.plugins![5].version, 'version-5');
+      assert.equal(element.plugins![5].api_version, 'api-version-5');
+      assert.equal(element.plugins![5].disabled, false);
     });
 
     test('with and without urls', async () => {
-      await flush();
+      await element.updateComplete;
       const names = queryAll<HTMLTableElement>(element, '.name');
       assert.isOk(queryAndAssert<HTMLAnchorElement>(names[2], 'a'));
       assert.equal(
@@ -108,20 +111,20 @@ suite('gr-plugin-list tests', () => {
     });
 
     test('versions', async () => {
-      await flush();
+      await element.updateComplete;
       const versions = queryAll<HTMLTableElement>(element, '.version');
       assert.equal(versions[3].innerText, 'version-2');
     });
 
     test('api versions', async () => {
-      await flush();
+      await element.updateComplete;
       const apiVersions = queryAll<HTMLTableElement>(element, '.apiVersion');
       assert.equal(apiVersions[4].innerText, 'api-version-3');
       assert.equal(apiVersions[5].innerText, '--');
     });
 
-    test('_shownPlugins', () => {
-      assert.equal(element._shownPlugins!.length, 25);
+    test('plugins', () => {
+      assert.equal(element.plugins!.slice(0, SHOWN_ITEMS_COUNT).length, 25);
     });
   });
 
@@ -129,22 +132,24 @@ suite('gr-plugin-list tests', () => {
     setup(async () => {
       plugins = createPluginObjectList(25);
       stubRestApi('getPlugins').returns(Promise.resolve(plugins));
-      await element._paramsChanged(value);
-      await flush();
+      element.params = value;
+      await element.paramsChanged();
+      await element.updateComplete;
     });
 
-    test('_shownPlugins', () => {
-      assert.equal(element._shownPlugins!.length, 25);
+    test('plugins', () => {
+      assert.equal(element.plugins!.slice(0, SHOWN_ITEMS_COUNT).length, 25);
     });
   });
 
   suite('filter', () => {
-    test('_paramsChanged', async () => {
+    test('paramsChanged', async () => {
       const getPluginsStub = stubRestApi('getPlugins');
       getPluginsStub.returns(Promise.resolve(plugins));
       value.filter = 'test';
       value.offset = 25;
-      await element._paramsChanged(value);
+      element.params = value;
+      await element.paramsChanged();
       assert.equal(getPluginsStub.lastCall.args[0], 'test');
       assert.equal(getPluginsStub.lastCall.args[1], 25);
       assert.equal(getPluginsStub.lastCall.args[2], 25);
@@ -153,24 +158,18 @@ suite('gr-plugin-list tests', () => {
 
   suite('loading', () => {
     test('correct contents are displayed', async () => {
-      assert.isTrue(element._loading);
-      assert.equal(element.computeLoadingClass(element._loading), 'loading');
+      assert.isTrue(element.loading);
       assert.equal(
         getComputedStyle(queryAndAssert<HTMLTableElement>(element, '#loading'))
           .display,
         'block'
       );
 
-      element._loading = false;
-      element._plugins = createPluginList(25);
+      element.loading = false;
+      element.plugins = createPluginList(25);
 
-      await flush();
-      assert.equal(element.computeLoadingClass(element._loading), '');
-      assert.equal(
-        getComputedStyle(queryAndAssert<HTMLTableElement>(element, '#loading'))
-          .display,
-        'none'
-      );
+      await element.updateComplete;
+      assert.isNotOk(query<HTMLTableElement>(element, '#loading'));
     });
   });
 
@@ -194,7 +193,8 @@ suite('gr-plugin-list tests', () => {
 
       value.filter = 'test';
       value.offset = 25;
-      await element._paramsChanged(value);
+      element.params = value;
+      await element.paramsChanged();
       await promise;
     });
   });

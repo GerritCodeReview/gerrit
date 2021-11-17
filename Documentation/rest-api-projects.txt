@@ -3945,6 +3945,8 @@ review label].
 |Field Name      ||Description
 |`name`          ||
 The link:config-labels.html#label_name[name] of the label.
+|`description`   |optional|
+The description of the label.
 |`project_name`  ||
 The name of the project in which this label is defined.
 |`function`      ||
@@ -4018,6 +4020,8 @@ The new link:config-labels.html#label_name[name] of the label.+
 For label creation the name is required if this `LabelDefinitionInput` entity
 is contained in a link:#batch-label-input[BatchLabelInput]
 entity.
+|`description`          |optional|
+The new description for the label.
 |`function`      |optional|
 The new link:config-labels.html#label_function[function] of the label (can be
 `MaxWithBlock`, `AnyWithBlock`, `MaxNoBlock`, `NoBlock`, `NoOp` and `PatchSetLock`.

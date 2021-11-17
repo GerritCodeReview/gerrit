@@ -3479,6 +3479,10 @@ public class ChangeIT extends AbstractDaemonTest {
     r2.assertOkStatus();
   }
 
+  private void assertLabelDescription(ChangeInfo changeInfo, String labelName, String description) {
+    assertThat(changeInfo.labels.get(labelName).description).isEqualTo(description);
+  }
+
   @Test
   public void checkLabelsForUnsubmittedChange() throws Exception {
     PushOneCommit.Result r = createChange();
@@ -3508,6 +3512,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
     assertPermitted(change, LabelId.CODE_REVIEW, -2, -1, 0, 1, 2);
     assertPermitted(change, LabelId.VERIFIED, -1, 0, 1);
+    assertLabelDescription(change, LabelId.VERIFIED, TestLabels.VERIFIED_LABEL_DESCRIPTION);
 
     // add an approval on the new label
     gApi.changes()
@@ -3577,6 +3582,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
     assertPermitted(change, LabelId.CODE_REVIEW, 2);
     assertPermitted(change, LabelId.VERIFIED, 0, 1);
+    assertLabelDescription(change, LabelId.VERIFIED, TestLabels.VERIFIED_LABEL_DESCRIPTION);
 
     // Ignore the new label by Prolog submit rule. Permitted ranges are still going to be
     // returned for the label.

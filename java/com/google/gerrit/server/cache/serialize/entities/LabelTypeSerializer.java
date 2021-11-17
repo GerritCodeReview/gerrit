@@ -24,6 +24,7 @@ import com.google.common.primitives.Shorts;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.server.cache.proto.Cache;
+import java.util.Optional;
 
 /** Helper to (de)serialize values for caches. */
 public class LabelTypeSerializer {
@@ -36,6 +37,7 @@ public class LabelTypeSerializer {
             proto.getValuesList().stream()
                 .map(LabelValueSerializer::deserialize)
                 .collect(toImmutableList()))
+        .setDescription(Optional.ofNullable(proto.getDescription()))
         .setFunction(FUNCTION_CONVERTER.convert(proto.getFunction()))
         .setAllowPostSubmit(proto.getAllowPostSubmit())
         .setIgnoreSelfApproval(proto.getIgnoreSelfApproval())
@@ -68,6 +70,7 @@ public class LabelTypeSerializer {
             autoValue.getValues().stream()
                 .map(LabelValueSerializer::serialize)
                 .collect(toImmutableList()))
+        .setDescription(autoValue.getDescription().orElse(""))
         .setFunction(FUNCTION_CONVERTER.reverse().convert(autoValue.getFunction()))
         .setCopyCondition(autoValue.getCopyCondition().orElse(""))
         .setCopyAnyScore(autoValue.isCopyAnyScore())

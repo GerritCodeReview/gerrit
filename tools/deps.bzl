@@ -4,7 +4,7 @@ CAFFEINE_VERS = "2.8.5"
 ANTLR_VERS = "3.5.2"
 SLF4J_VERS = "1.7.26"
 COMMONMARK_VERS = "0.10.0"
-FLEXMARK_VERS = "0.50.42"
+FLEXMARK_VERS = "0.50.50"
 GREENMAIL_VERS = "1.5.5"
 MAIL_VERS = "1.6.0"
 MIME4J_VERS = "0.8.1"
@@ -231,151 +231,151 @@ def java_dependencies():
     maven_jar(
         name = "flexmark",
         artifact = "com.vladsch.flexmark:flexmark:" + FLEXMARK_VERS,
-        sha1 = "ed537d7bc31883b008cc17d243a691c7efd12a72",
+        sha1 = "7f61e190cff7e1bea64906408ccfa583b5ac9fc2",
     )
 
     maven_jar(
         name = "flexmark-ext-abbreviation",
         artifact = "com.vladsch.flexmark:flexmark-ext-abbreviation:" + FLEXMARK_VERS,
-        sha1 = "dc27c3e7abbc8d2cfb154f41c68645c365bb9d22",
+        sha1 = "8f62f49cfaf8d33391e48a3b79e941d94e444e50",
     )
 
     maven_jar(
         name = "flexmark-ext-anchorlink",
         artifact = "com.vladsch.flexmark:flexmark-ext-anchorlink:" + FLEXMARK_VERS,
-        sha1 = "6a8edb0165f695c9c19b7143a7fbd78c25c3b99c",
+        sha1 = "1d530e44b4439abf53ce9dcc784ffa5b9fd6ce89",
     )
 
     maven_jar(
         name = "flexmark-ext-autolink",
         artifact = "com.vladsch.flexmark:flexmark-ext-autolink:" + FLEXMARK_VERS,
-        sha1 = "5da7a4d009ea08ef2d8714cc73e54a992c6d2d9a",
+        sha1 = "4026aa60fd6e146c2d4931acb19b2409c6a79b8a",
     )
 
     maven_jar(
         name = "flexmark-ext-definition",
         artifact = "com.vladsch.flexmark:flexmark-ext-definition:" + FLEXMARK_VERS,
-        sha1 = "862d17812654624ed81ce8fc89c5ef819ff45f87",
+        sha1 = "bb74d36459e8e34653761aaa0095220b8b7b6cb6",
     )
 
     maven_jar(
         name = "flexmark-ext-emoji",
         artifact = "com.vladsch.flexmark:flexmark-ext-emoji:" + FLEXMARK_VERS,
-        sha1 = "f0d7db64cb546798742b1ffc6db316a33f6acd76",
+        sha1 = "36d36cb227f831b81b636d3f901f07db06b8d84d",
     )
 
     maven_jar(
         name = "flexmark-ext-escaped-character",
         artifact = "com.vladsch.flexmark:flexmark-ext-escaped-character:" + FLEXMARK_VERS,
-        sha1 = "6fd9ab77619df417df949721cb29c45914b326f8",
+        sha1 = "09f0cef3260b6f6371d6066cf32ce6a7dc2a7922",
     )
 
     maven_jar(
         name = "flexmark-ext-footnotes",
         artifact = "com.vladsch.flexmark:flexmark-ext-footnotes:" + FLEXMARK_VERS,
-        sha1 = "e36bd69e43147cc6e19c3f55e4b27c0fc5a3d88c",
+        sha1 = "cdf0b79f026b09c6b87d91e61eb29ada1577aa5c",
     )
 
     maven_jar(
         name = "flexmark-ext-gfm-issues",
         artifact = "com.vladsch.flexmark:flexmark-ext-gfm-issues:" + FLEXMARK_VERS,
-        sha1 = "5c825dd4e4fa4f7ccbe30dc92d7e35cdcb8a8c24",
+        sha1 = "e40d347e242e35d4344553120cb9e69c1c975f41",
     )
 
     maven_jar(
         name = "flexmark-ext-gfm-strikethrough",
         artifact = "com.vladsch.flexmark:flexmark-ext-gfm-strikethrough:" + FLEXMARK_VERS,
-        sha1 = "3256735fd77e7228bf40f7888b4d3dc56787add4",
+        sha1 = "a6948f6e4fc2ec1059d6b53e73d4a30c24f6e05d",
     )
 
     maven_jar(
         name = "flexmark-ext-gfm-tables",
         artifact = "com.vladsch.flexmark:flexmark-ext-gfm-tables:" + FLEXMARK_VERS,
-        sha1 = "62f0efcfb974756940ebe749fd4eb01323babc29",
+        sha1 = "92d3eb0c5dc79924448c186d89717f1df853aaa0",
     )
 
     maven_jar(
         name = "flexmark-ext-gfm-tasklist",
         artifact = "com.vladsch.flexmark:flexmark-ext-gfm-tasklist:" + FLEXMARK_VERS,
-        sha1 = "76d4971ad9ce02f0e70351ab6bd06ad8e405e40d",
+        sha1 = "e6fb4d9e46c96e61a07fbb40cf653db58ed95a95",
     )
 
     maven_jar(
         name = "flexmark-ext-gfm-users",
         artifact = "com.vladsch.flexmark:flexmark-ext-gfm-users:" + FLEXMARK_VERS,
-        sha1 = "7b0fc7e42e4da508da167fcf8e1cbf9ba7e21147",
+        sha1 = "44c83bdccfd41a399f3f7b11ba72728382dd3f5a",
     )
 
     maven_jar(
         name = "flexmark-ext-ins",
         artifact = "com.vladsch.flexmark:flexmark-ext-ins:" + FLEXMARK_VERS,
-        sha1 = "9e51809867b9c4db0fb1c29599b4574e3d2a78e9",
+        sha1 = "b0d174d86ac2348420993dc2c997fad5f02c68fa",
     )
 
     maven_jar(
         name = "flexmark-ext-jekyll-front-matter",
         artifact = "com.vladsch.flexmark:flexmark-ext-jekyll-front-matter:" + FLEXMARK_VERS,
-        sha1 = "44eb6dbb33b3831d3b40af938ddcd99c9c16a654",
+        sha1 = "2bfb31c67fd10af058b90f1b364f881f6276de80",
     )
 
     maven_jar(
         name = "flexmark-ext-superscript",
         artifact = "com.vladsch.flexmark:flexmark-ext-superscript:" + FLEXMARK_VERS,
-        sha1 = "35815b8cb91000344d1fe5df21cacde8553d2994",
+        sha1 = "d210b007b46339082f79b6caf632b19ac8efc341",
     )
 
     maven_jar(
         name = "flexmark-ext-tables",
         artifact = "com.vladsch.flexmark:flexmark-ext-tables:" + FLEXMARK_VERS,
-        sha1 = "f6768e98c7210b79d5e8bab76fff27eec6db51e6",
+        sha1 = "be77790470aa9bd90011067221504162a1d7b083",
     )
 
     maven_jar(
         name = "flexmark-ext-toc",
         artifact = "com.vladsch.flexmark:flexmark-ext-toc:" + FLEXMARK_VERS,
-        sha1 = "1968d038fc6c8156f244f5a7eecb34e7e2f33705",
+        sha1 = "91d6d63ff5b70c3ebae98867bd7a346d71cb0ce1",
     )
 
     maven_jar(
         name = "flexmark-ext-typographic",
         artifact = "com.vladsch.flexmark:flexmark-ext-typographic:" + FLEXMARK_VERS,
-        sha1 = "6549b9862b61c4434a855a733237103df9162849",
+        sha1 = "f51e247df80628df509a3af92a1efa1efb83d746",
     )
 
     maven_jar(
         name = "flexmark-ext-wikilink",
         artifact = "com.vladsch.flexmark:flexmark-ext-wikilink:" + FLEXMARK_VERS,
-        sha1 = "e105b09dd35aab6e6f5c54dfe062ee59bd6f786a",
+        sha1 = "d14aeb078dbaf3e166621ae9499595a4a57b22ab",
     )
 
     maven_jar(
         name = "flexmark-ext-yaml-front-matter",
         artifact = "com.vladsch.flexmark:flexmark-ext-yaml-front-matter:" + FLEXMARK_VERS,
-        sha1 = "b2d3a1e7f3985841062e8d3203617e29c6c21b52",
+        sha1 = "aba328b70e15f2553aac0a74e391edab37bf7b30",
     )
 
     maven_jar(
         name = "flexmark-formatter",
         artifact = "com.vladsch.flexmark:flexmark-formatter:" + FLEXMARK_VERS,
-        sha1 = "a50c6cb10f6d623fc4354a572c583de1372d217f",
+        sha1 = "3e4ad3b1be29d41e8c35cadb70761768505f2164",
     )
 
     maven_jar(
         name = "flexmark-html-parser",
         artifact = "com.vladsch.flexmark:flexmark-html-parser:" + FLEXMARK_VERS,
-        sha1 = "46c075f30017e131c1ada8538f1d8eacf652b044",
+        sha1 = "3c59b0061c50c9a8a48c46d4f4498d8eba249921",
     )
 
     maven_jar(
         name = "flexmark-profile-pegdown",
         artifact = "com.vladsch.flexmark:flexmark-profile-pegdown:" + FLEXMARK_VERS,
-        sha1 = "d9aafd47629959cbeddd731f327ae090fc92b60f",
+        sha1 = "c01a2c2eebe06230858956d45847cee233790d7c",
     )
 
     maven_jar(
         name = "flexmark-util",
         artifact = "com.vladsch.flexmark:flexmark-util:" + FLEXMARK_VERS,
-        sha1 = "417a9821d5d80ddacbfecadc6843ae7b259d5112",
+        sha1 = "fdfce72f5eb9ec53085804fd0c8d15f3680ae359",
     )
 
     # Transitive dependency of flexmark and gitiles

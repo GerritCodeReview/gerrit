@@ -389,6 +389,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e66d6ed4_38471ede",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-11-17T14:38:05Z",
+      "side": 1,
+      "message": "After discussion, \"cache\" looks ok as a temporary solution, but I think it should be removed as soon as possible (probably, in the https://gerrit-review.googlesource.com/c/gerrit/+/323837). It creates dependencies between tests (they all share the same services) and can lead to hard-to-debug fails.",
+      "parentUuid": "f9416aa6_448272f6",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 33
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b33efa71_c61d43cb",

@@ -34,6 +34,24 @@
       "parentUuid": "c2066a2d_553ac455",
       "revId": "391f1e9ac56d117a5132ac531aaa7af5f00590ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b803b0a8_d15db899",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-11-17T13:19:22Z",
+      "side": 1,
+      "message": "As I wrote above, existing code assumes that entries in AppContext are singletons. I think, mixing immutable and mutable entries in AppContext is an error-prone approach - developers have to remember which services can be removed and which can\u0027t be.\n\nIIUC, you are going to finalize only particular services (which are known in advance) like \"ChangeService/ChangeModel\"; i.e. a random service can\u0027t be finalized. Also, the cleaning is a reaction to some other event.\n\nMaybe consider a singleton service (for ex. CurrentTopicSerivce or CurrentModelService or ChangesStorageService) which keeps a map inside and have dedicated methods for cleaning their content:\n  getAppContext().currentTopicService.clear();\nor\n  getAppContext().currentModelService.clearTopic();\n  \nIn this case, finalize() are not required for services.",
+      "parentUuid": "e686f42c_89055e52",
+      "revId": "391f1e9ac56d117a5132ac531aaa7af5f00590ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

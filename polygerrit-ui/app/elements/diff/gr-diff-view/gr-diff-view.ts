@@ -1107,6 +1107,7 @@ export class GrDiffView extends base {
     } else if (this._changeNum !== undefined && this.isSameDiffLoaded(value)) {
       // changeNum has not changed, so check if there are changes in patchRange
       // path. If no changes then we can simply render the view as is.
+      this.reporting.reportInteraction('diff-view-re-rendered');
       return;
     }
 

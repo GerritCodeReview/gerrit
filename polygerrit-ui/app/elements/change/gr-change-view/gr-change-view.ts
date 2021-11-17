@@ -1272,6 +1272,7 @@ export class GrChangeView extends base {
       // to the diff view and then comes back to change page then there is no
       // need to reload anything and we render the change view component as is.
       document.documentElement.scrollTop = this.scrollPosition ?? 0;
+      this.reporting.reportInteraction('change-view-re-rendered');
       return;
     }
 

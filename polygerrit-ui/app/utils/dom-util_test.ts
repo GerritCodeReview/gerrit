@@ -52,6 +52,22 @@ function keyEventOn(
   return promise;
 }
 
+async function keyEventOn(
+  el: HTMLElement,
+  callback: (e: KeyboardEvent) => void,
+  keyCode = 75,
+  key = 'k'
+): Promise<KeyboardEvent> {
+  let resolve: (e: KeyboardEvent) => void;
+  const promise = new Promise<KeyboardEvent>(r => (resolve = r));
+  el.addEventListener('keydown', (e: KeyboardEvent) => {
+    callback(e);
+    resolve(e);
+  });
+  MockInteractions.keyDownOn(el, keyCode, null, key);
+  return await promise;
+}
+
 class TestEle extends PolymerElement {
   static get is() {
     return 'dom-util-test-element';

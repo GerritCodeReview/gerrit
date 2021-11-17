@@ -66,6 +66,9 @@ export class GrRepoPluginConfig extends LitElement {
   @property({type: Object})
   pluginData?: PluginData;
 
+  @property({type: Boolean, reflect: true})
+  disabled = false;
+
   static override get styles() {
     return [
       sharedStyles,
@@ -153,7 +156,7 @@ export class GrRepoPluginConfig extends LitElement {
           ?checked=${this._computeChecked(option.info.value)}
           @change=${this._handleBooleanChange}
           data-option-key=${option._key}
-          ?disabled=${!option.info.editable}
+          ?disabled=${this._computeDisabled(option.info.editable)}
           @click=${this._onTapPluginBoolean}
         ></paper-toggle-button>
       `;
@@ -165,7 +168,7 @@ export class GrRepoPluginConfig extends LitElement {
         >
           <select
             data-option-key=${option._key}
-            ?disabled=${!option.info.editable}
+            ?disabled=${this._computeDisabled(option.info.editable)}
           >
             ${(option.info.permitted_values || []).map(
               value => html`<option value="${value}">${value}</option>`
@@ -188,13 +191,17 @@ export class GrRepoPluginConfig extends LitElement {
             .value="${option.info.value ?? ''}"
             @input=${this._handleStringChange}
             data-option-key="${option._key}"
-            ?disabled=${!option.info.editable}
+            ?disabled=${this._computeDisabled(option.info.editable)}
           />
         </iron-input>
       `;
     } else {
       return html``;
     }
+  }
+
+  _computeDisabled(editable?: boolean) {
+    return this.disabled || !editable;
   }
 
   _computePluginConfigOptions(pluginData: PluginData) {

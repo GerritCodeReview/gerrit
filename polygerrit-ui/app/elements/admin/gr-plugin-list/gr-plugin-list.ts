@@ -28,7 +28,8 @@ import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {ListViewParams} from '../../gr-app-types';
 
-interface PluginInfoWithName extends PluginInfo {
+// Exported for tests
+export interface PluginInfoWithName extends PluginInfo {
   name: string;
 }
 

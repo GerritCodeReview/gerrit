@@ -80,6 +80,9 @@ public final class HttpLogLayout extends Layout {
     buf.append(' ');
     opt(buf, event, HttpLog.P_MEMORY);
 
+    buf.append(' ');
+    dq_opt(buf, event, HttpLog.P_COMMAND_STATUS);
+
     buf.append('\n');
     return buf.toString();
   }

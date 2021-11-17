@@ -95,6 +95,8 @@ public abstract class LabelType {
 
   public abstract String getName();
 
+  public abstract Optional<String> getDescription();
+
   public abstract LabelFunction getFunction();
 
   public abstract boolean isCopyAnyScore();
@@ -225,6 +227,8 @@ public abstract class LabelType {
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract Builder setName(String name);
+
+    public abstract Builder setDescription(Optional<String> description);
 
     public abstract Builder setFunction(LabelFunction function);
 

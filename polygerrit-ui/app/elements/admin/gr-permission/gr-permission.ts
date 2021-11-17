@@ -38,6 +38,7 @@ import {
   ProjectAccessGroups,
   GroupId,
   GitRef,
+  RepoName,
 } from '../../../types/common';
 import {
   AutocompleteQuery,
@@ -96,6 +97,9 @@ export class GrPermission extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
+
+  @property({type: String})
+  repo?: RepoName;
 
   @property({type: Object})
   labels?: LabelNameToLabelTypeInfoMap;
@@ -319,7 +323,11 @@ export class GrPermission extends PolymerElement {
 
   _getGroupSuggestions(): Promise<AutocompleteSuggestion[]> {
     return this.restApiService
-      .getSuggestedGroups(this._groupFilter || '', MAX_AUTOCOMPLETE_RESULTS)
+      .getSuggestedGroups(
+        this._groupFilter || '',
+        this.repo,
+        MAX_AUTOCOMPLETE_RESULTS
+      )
       .then(response => {
         const groups: GroupSuggestion[] = [];
         for (const [name, value] of Object.entries(response ?? {})) {

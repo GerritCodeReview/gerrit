@@ -24,8 +24,9 @@ const basicFixture = fixtureFromTemplate(html` <gr-tooltip> </gr-tooltip> `);
 
 suite('gr-tooltip tests', () => {
   let element: GrTooltip;
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate() as GrTooltip;
+    await flush();
   });
 
   test('max-width is respected if set', () => {

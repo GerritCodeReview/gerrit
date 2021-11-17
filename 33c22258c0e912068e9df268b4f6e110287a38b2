@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aa9a17a_177e170f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-17T23:32:12Z",
+      "side": 1,
+      "message": "helps",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "33c22258c0e912068e9df268b4f6e110287a38b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65137903_3e4f4e6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-17T23:32:12Z",
+      "side": 1,
+      "message": "\"and provides insight into sizing them ...\"",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "33c22258c0e912068e9df268b4f6e110287a38b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6362c674_993a7d9d",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-17T23:32:12Z",
+      "side": 1,
+      "message": "use try-with-resources?",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 228,
+        "endChar": 94
+      },
+      "revId": "33c22258c0e912068e9df268b4f6e110287a38b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a5ea843_736a76a7",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-17T23:32:12Z",
+      "side": 1,
+      "message": "typo: should be \u0027displayCaches\u0027",
+      "range": {
+        "startLine": 235,
+        "startChar": 11,
+        "endLine": 235,
+        "endChar": 23
+      },
+      "revId": "33c22258c0e912068e9df268b4f6e110287a38b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50fc2bf2_fed24118",
+        "filename": "java/com/google/gerrit/server/cache/CacheDisplayUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-17T23:32:12Z",
+      "side": 1,
+      "message": "why not CacheDisplay? \"utils\" tend to become a dumping ground",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "33c22258c0e912068e9df268b4f6e110287a38b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6c31636_d45e6699",
+        "filename": "java/com/google/gerrit/server/cache/CacheDisplayUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-17T23:32:12Z",
+      "side": 1,
+      "message": "Should this be the abstract Writer class instead?",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "33c22258c0e912068e9df268b4f6e110287a38b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f98564ab_24e18aa2",
+        "filename": "java/com/google/gerrit/server/cache/CacheDisplayUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-17T23:32:12Z",
+      "side": 1,
+      "message": "these should be final?",
+      "revId": "33c22258c0e912068e9df268b4f6e110287a38b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7e2674c_7ce445bb",
+        "filename": "java/com/google/gerrit/server/cache/CacheDisplayUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-17T23:32:12Z",
+      "side": 1,
+      "message": "typo: should be \u0027displayCaches\u0027",
+      "range": {
+        "startLine": 47,
+        "startChar": 14,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "33c22258c0e912068e9df268b4f6e110287a38b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1dc723b_3525c594",
+        "filename": "java/com/google/gerrit/server/cache/CacheDisplayUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-17T23:32:12Z",
+      "side": 1,
+      "message": "Should all of this stay with show-caches? For example, is any of it already printed by reindex?",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "33c22258c0e912068e9df268b4f6e110287a38b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

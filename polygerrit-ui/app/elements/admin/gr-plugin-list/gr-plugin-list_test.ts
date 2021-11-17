@@ -15,49 +15,67 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-plugin-list.js';
-import 'lodash/lodash.js';
+import '../../../test/common-test-setup-karma';
+import './gr-plugin-list';
+import {GrPluginList, PluginInfoWithName} from './gr-plugin-list';
+import 'lodash/lodash';
 import {
   addListenerForTest,
   mockPromise,
-  stubRestApi} from '../../../test/test-utils.js';
+  queryAll,
+  queryAndAssert,
+  stubRestApi
+} from '../../../test/test-utils';
+import {PluginInfo} from '../../../types/common';
+import {AppElementAdminParams} from '../../gr-app-types';
+import {GerritView} from '../../../services/router/router-model';
+import {PageErrorEvent} from '../../../types/events';
 
 const basicFixture = fixtureFromElement('gr-plugin-list');
 
-let counter;
-const pluginGenerator = () => {
-  const plugin = {
-    id: `test${++counter}`,
+function pluginGenerator(counter: number) {
+  return {
+    id: `test${counter}`,
+    version: `version-${counter}`,
+    index_url: `plugins/test${counter}/`,
+    api_version: `api-version-${counter}`,
     disabled: false,
-  };
+  } as PluginInfo;
+}
 
-  if (counter !== 2) {
-    plugin.index_url = `plugins/test${counter}/`;
+function createPluginList(n: number) {
+  const plugins = [];
+  for (let i = 0; i < n; ++i) {
+    const plugin = pluginGenerator(i) as PluginInfoWithName;
+    plugin.name = `test${i}`;
+    plugins.push(plugin);
   }
-  if (counter !== 3) {
-    plugin.version = `version-${counter}`;
+  return plugins;
+}
+
+
+function createPluginObjectList(n: number) {
+  const plugins: {[pluginName: string]: PluginInfo} | undefined = {};
+  for (let i = 0; i < n; ++i) {
+    plugins[`test${i}`] = pluginGenerator(i);
   }
-  if (counter !== 4) {
-    plugin.api_version = `api-version-${counter}`;
-  }
-  return plugin;
-};
+  return plugins;
+}
+
 
 suite('gr-plugin-list tests', () => {
-  let element;
-  let plugins;
+  let element: GrPluginList;
+  let plugins: {[pluginName: string]: PluginInfo} | undefined;
 
-  let value;
+  const value: AppElementAdminParams = {view: GerritView.ADMIN, adminView: ''};
 
   setup(() => {
     element = basicFixture.instantiate();
-    counter = 0;
   });
 
   suite('list with plugins', async () => {
     setup(async () => {
-      plugins = _.times(26, pluginGenerator);
+      plugins = createPluginObjectList(26);
       stubRestApi('getPlugins').returns(Promise.resolve(plugins));
       await element._paramsChanged(value);
       await flush();
@@ -65,52 +83,51 @@ suite('gr-plugin-list tests', () => {
 
     test('plugin in the list is formatted correctly', async () => {
       await flush();
-      assert.equal(element._plugins[4].id, 'test5');
-      assert.equal(element._plugins[4].index_url, 'plugins/test5/');
-      assert.equal(element._plugins[4].version, 'version-5');
-      assert.equal(element._plugins[4].api_version, 'api-version-5');
-      assert.equal(element._plugins[4].disabled, false);
+      assert.equal(element._plugins![4].id, 'test4');
+      assert.equal(element._plugins![4].index_url, 'plugins/test4/');
+      assert.equal(element._plugins![4].version, 'version-4');
+      assert.equal(element._plugins![4].api_version, 'api-version-4');
+      assert.equal(element._plugins![4].disabled, false);
     });
 
     test('with and without urls', async () => {
       await flush();
-      const names = element.root.querySelectorAll('.name');
-      assert.isOk(names[1].querySelector('a'));
-      assert.equal(names[1].querySelector('a').innerText, 'test1');
-      assert.isNotOk(names[2].querySelector('a'));
+      const names = queryAll<HTMLTableElement>(element, '.name');
+      assert.isOk(queryAndAssert<HTMLAnchorElement>(names[1], 'a'));
+      assert.equal(queryAndAssert<HTMLAnchorElement>(names[1], 'a').innerText, 'test0');
+      assert.isNotOk(queryAndAssert<HTMLAnchorElement>(names[2], 'a'));
       assert.equal(names[2].innerText, 'test2');
     });
 
     test('versions', async () => {
       await flush();
-      const versions = element.root.querySelectorAll('.version');
+      const versions = queryAll<HTMLTableElement>(element, '.version');
       assert.equal(versions[2].innerText, 'version-2');
       assert.equal(versions[3].innerText, '--');
     });
 
     test('api versions', async () => {
       await flush();
-      const apiVersions = element.root.querySelectorAll(
-          '.apiVersion');
+      const apiVersions = queryAll<HTMLTableElement>(element, '.apiVersion');
       assert.equal(apiVersions[3].innerText, 'api-version-3');
       assert.equal(apiVersions[4].innerText, '--');
     });
 
     test('_shownPlugins', () => {
-      assert.equal(element._shownPlugins.length, 25);
+      assert.equal(element._shownPlugins!.length, 25);
     });
   });
 
   suite('list with less then 26 plugins', () => {
     setup(async () => {
-      plugins = _.times(25, pluginGenerator);
+      plugins = createPluginObjectList(25);
       stubRestApi('getPlugins').returns(Promise.resolve(plugins));
       await element._paramsChanged(value);
       await flush();
     });
 
     test('_shownPlugins', () => {
-      assert.equal(element._shownPlugins.length, 25);
+      assert.equal(element._shownPlugins!.length, 25);
     });
   });
 
@@ -118,10 +135,8 @@ suite('gr-plugin-list tests', () => {
     test('_paramsChanged', async () => {
       const getPluginsStub = stubRestApi('getPlugins');
       getPluginsStub.returns(Promise.resolve(plugins));
-      const value = {
-        filter: 'test',
-        offset: 25,
-      };
+      value.filter = 'test';
+      value.offset = 25;
       await element._paramsChanged(value);
       assert.equal(getPluginsStub.lastCall.args[0], 'test');
       assert.equal(getPluginsStub.lastCall.args[1], 25);
@@ -133,39 +148,38 @@ suite('gr-plugin-list tests', () => {
     test('correct contents are displayed', async () => {
       assert.isTrue(element._loading);
       assert.equal(element.computeLoadingClass(element._loading), 'loading');
-      assert.equal(getComputedStyle(element.$.loading).display, 'block');
+      assert.equal(getComputedStyle(queryAndAssert<HTMLTableElement>(element, '#loading')).display, 'block');
 
       element._loading = false;
-      element._plugins = _.times(25, pluginGenerator);
+      element._plugins = createPluginList(25);
 
       await flush();
       assert.equal(element.computeLoadingClass(element._loading), '');
-      assert.equal(getComputedStyle(element.$.loading).display, 'none');
+      assert.equal(getComputedStyle(queryAndAssert<HTMLTableElement>(element, '#loading')).display, 'none');
     });
   });
 
   suite('404', () => {
     test('fires page-error', async () => {
-      const response = {status: 404};
+      const response = {status: 404} as Response;
       stubRestApi('getPlugins').callsFake(
-          (filter, pluginsPerPage, opt_offset, errFn) => {
-            errFn(response);
+          (_filter, _pluginsPerPage, _opt_offset, errFn) => {
+            if (errFn !== undefined) {
+              errFn(response);
+            }
             return Promise.resolve(undefined);
           });
 
       const promise = mockPromise();
       addListenerForTest(document, 'page-error', e => {
-        assert.deepEqual(e.detail.response, response);
+        assert.deepEqual((e as PageErrorEvent).detail.response, response);
         promise.resolve();
       });
 
-      const value = {
-        filter: 'test',
-        offset: 25,
-      };
+      value.filter = 'test';
+      value.offset = 25;
       await element._paramsChanged(value);
       await promise;
     });
   });
 });
-

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eaab169_9656cad9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-17T14:36:55Z",
+      "side": 1,
+      "message": "If so, why didn\u0027t the push in the test result in an error? It succeeded and the second SR was ignored (also as per your comment in the test).",
+      "range": {
+        "startLine": 18,
+        "startChar": 10,
+        "endLine": 19,
+        "endChar": 45
+      },
+      "revId": "240de0f6c5c99c9543d316505d04263422ad5393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

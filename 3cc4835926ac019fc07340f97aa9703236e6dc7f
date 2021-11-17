@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6c66c55_0e08112f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-17T17:22:31Z",
+      "side": 1,
+      "message": "This can be inlined. See https://gerrit-review.googlesource.com/c/gerrit/+/323575/7/polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts for an example.",
+      "range": {
+        "startLine": 203,
+        "startChar": 2,
+        "endLine": 203,
+        "endChar": 18
+      },
+      "revId": "3cc4835926ac019fc07340f97aa9703236e6dc7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

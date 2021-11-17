@@ -19,6 +19,7 @@ import java.util.Map;
 
 public class LabelDefinitionInfo {
   public String name;
+  public String description;
   public String projectName;
   public String function;
   public Map<String, String> values;

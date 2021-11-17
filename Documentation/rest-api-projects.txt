@@ -3945,6 +3945,8 @@ review label].
 |Field Name      ||Description
 |`name`          ||
 The link:config-labels.html#label_name[name] of the label.
+|`description`   |optional|
+The description of the label.
 |`project_name`  ||
 The name of the project in which this label is defined.
 |`function`      ||

@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 import org.junit.Test;
 
 @NoHttpd
@@ -97,6 +98,30 @@ public class ListLabelsIT extends AbstractDaemonTest {
 
     LabelDefinitionInfo fooLabel = Iterables.getOnlyElement(labels);
     assertThat(fooLabel.defaultValue).isEqualTo(1);
+  }
+
+  @Test
+  public void labelWithDescription() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+
+    // set default value
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(
+              "foo",
+              labelType ->
+                  labelType
+                      .setDefaultValue((short) 1)
+                      .setDescription(Optional.of("foo label description")));
+      u.save();
+    }
+
+    List<LabelDefinitionInfo> labels = gApi.projects().name(project.get()).labels().get();
+    assertThat(labelNames(labels)).containsExactly("foo");
+
+    LabelDefinitionInfo fooLabel = Iterables.getOnlyElement(labels);
+    assertThat(fooLabel.defaultValue).isEqualTo(1);
+    assertThat(fooLabel.description).isEqualTo("foo label description");
   }
 
   @Test

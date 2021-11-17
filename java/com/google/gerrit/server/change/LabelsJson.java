@@ -183,6 +183,8 @@ public class LabelsJson {
       if (detailed) {
         setLabelValues(type.get(), e.getValue());
       }
+      // Set label descriptions
+      e.getValue().label().description = type.get().getDescription().orElse(null);
     }
     return labels;
   }
@@ -285,6 +287,17 @@ public class LabelsJson {
       labels.entrySet().stream()
           .filter(e -> labelTypes.byLabel(e.getKey()).isPresent())
           .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()).get(), e.getValue()));
+    }
+
+    // Set label descriptions
+    for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
+      String labelName = entry.getKey();
+      if (!labelTypes.byLabel(labelName).isPresent()) {
+        continue;
+      }
+      LabelType type = labelTypes.byLabel(labelName).get();
+      LabelWithStatus labelWithStatus = entry.getValue();
+      labelWithStatus.label().description = type.getDescription().orElse(null);
     }
 
     for (Account.Id accountId : allUsers) {

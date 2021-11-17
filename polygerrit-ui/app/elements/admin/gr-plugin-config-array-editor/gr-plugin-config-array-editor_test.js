@@ -42,16 +42,6 @@ suite('gr-plugin-config-array-editor tests', () => {
     assert.equal(element._computeShowInputRow(false), '');
   });
 
-  test('_computeDisabled', () => {
-    assert.isTrue(element._computeDisabled({}));
-    assert.isTrue(element._computeDisabled({base: {}}));
-    assert.isTrue(element._computeDisabled({base: {info: {}}}));
-    assert.isTrue(
-        element._computeDisabled({base: {info: {editable: false}}}));
-    assert.isFalse(
-        element._computeDisabled({base: {info: {editable: true}}}));
-  });
-
   suite('adding', () => {
     setup(() => {
       dispatchStub = sinon.stub(element, '_dispatchChanged');
@@ -60,11 +50,13 @@ suite('gr-plugin-config-array-editor tests', () => {
     test('with enter', () => {
       element._newValue = '';
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
+      assert.isFalse(element.$.input.hasAttribute('disabled'));
       flush();
 
       assert.isFalse(dispatchStub.called);
       element._newValue = 'test';
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
+      assert.isFalse(element.$.input.hasAttribute('disabled'));
       flush();
 
       assert.isTrue(dispatchStub.called);
@@ -91,6 +83,7 @@ suite('gr-plugin-config-array-editor tests', () => {
   test('deleting', () => {
     dispatchStub = sinon.stub(element, '_dispatchChanged');
     element.pluginOption = {info: {values: ['test', 'test2']}};
+    element.disabled = true;
     flush();
 
     const rows = getAll('.existingItems .row');
@@ -101,7 +94,7 @@ suite('gr-plugin-config-array-editor tests', () => {
     flush();
 
     assert.isFalse(dispatchStub.called);
-    element.pluginOption.info.editable = true;
+    element.disabled = false;
     element.notifyPath('pluginOption.info.editable');
     flush();
 

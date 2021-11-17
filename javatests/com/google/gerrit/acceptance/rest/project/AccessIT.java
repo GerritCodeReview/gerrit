@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -27,6 +29,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
+import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 

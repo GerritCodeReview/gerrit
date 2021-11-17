@@ -3128,7 +3128,7 @@ by the JVM. If set to a negative value, defaults to a direct executor.
 [[index.batchThreads]]index.batchThreads::
 +
 Number of threads to use for indexing in background operations, such as
-online schema upgrades, and also for offline reindexing.
+online schema upgrades, and also the default for offline reindexing.
 +
 If not set or set to a zero, defaults to the number of logical CPUs as returned
 by the JVM. If set to a negative value, defaults to a direct executor.
@@ -3330,6 +3330,11 @@ link:https://lucene.apache.org/core/5_5_0/core/org/apache/lucene/index/Concurren
 Lucene documentation,role=external,window=_blank] for further details.
 +
 Defaults to true (throttling enabled).
+
+During offline reindexing, setting ramBufferSize greater than the size
+of index (size of specific index folder under <site_dir>/index) and
+maxBufferedDocs as -1 avoids unnecessary flushes and triggers only a
+single flush at the end of the process.
 
 Sample Lucene index configuration:
 ----

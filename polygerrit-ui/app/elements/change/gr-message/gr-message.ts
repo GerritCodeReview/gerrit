@@ -554,7 +554,10 @@ export class GrMessage extends PolymerElement {
   }
 
   @observe('projectName')
-  _projectNameChanged(name: string) {
+  _projectNameChanged(name?: string) {
+    // Check if name is undefined to prevent
+    // errors.
+    if (!name) return;
     this.restApiService.getProjectConfig(name as RepoName).then(config => {
       this._projectConfig = config;
     });

@@ -101,7 +101,8 @@ public class IndexPreloadingUtil {
           ListChangesOption.MESSAGES,
           ListChangesOption.SUBMITTABLE,
           ListChangesOption.WEB_LINKS,
-          ListChangesOption.SKIP_DIFFSTAT);
+          ListChangesOption.SKIP_DIFFSTAT,
+          ListChangesOption.SUBMIT_REQUIREMENTS);
 
   public static final ImmutableSet<ListChangesOption> DIFF_OPTIONS =
       ImmutableSet.of(

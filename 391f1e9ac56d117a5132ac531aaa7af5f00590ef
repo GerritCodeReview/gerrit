@@ -70,6 +70,24 @@
       "parentUuid": "b803b0a8_d15db899",
       "revId": "391f1e9ac56d117a5132ac531aaa7af5f00590ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e29a134_0d3237e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-11-17T14:26:21Z",
+      "side": 1,
+      "message": "\u003e\u003e Are there strong reservations to having a generalized cleanup API?\nI don\u0027t have anything against cleanup API, but I afraid that in the current state of the codebase it can add more problems than solve - developers should be very careful about calling \"finalize\" on a service.\n\nI got answers to my questions, marked as resolved.",
+      "parentUuid": "63f93beb_46e3f706",
+      "revId": "391f1e9ac56d117a5132ac531aaa7af5f00590ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

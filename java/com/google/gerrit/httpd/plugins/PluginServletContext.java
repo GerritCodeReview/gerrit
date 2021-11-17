@@ -199,6 +199,11 @@ class PluginServletContext {
       String v = Version.getVersion();
       return "Gerrit Code Review/" + (v != null ? v : "dev");
     }
+
+    @Override
+    public String getVirtualServerName() {
+      return null;
+    }
   }
 
   interface API {
@@ -255,5 +260,7 @@ class PluginServletContext {
     int getMinorVersion();
 
     String getServerInfo();
+
+    String getVirtualServerName();
   }
 }

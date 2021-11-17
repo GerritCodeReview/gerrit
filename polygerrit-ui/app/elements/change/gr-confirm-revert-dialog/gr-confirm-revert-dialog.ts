@@ -26,6 +26,7 @@ import {appContext} from '../../../services/app-context';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const CHANGE_SUBJECT_LIMIT = 50;
+const INSERT_REASON_STRING = '<INSERT REASONING HERE>';
 
 // TODO(dhruvsri): clean up repeated definitions after moving to js modules
 export enum RevertType {
@@ -124,7 +125,7 @@ export class GrConfirmRevertDialog extends PolymerElement {
 
     const message =
       `${revertTitle}\n\n${revertCommitText}\n\n` +
-      'Reason for revert: <INSERT REASONING HERE>\n';
+      `Reason for revert: ${INSERT_REASON_STRING}\n`;
     // This is to give plugins a chance to update message
     this._message = this._modifyRevertMsg(change, commitMessage, message);
     this._revertType = RevertType.REVERT_SINGLE_CHANGE;
@@ -201,7 +202,10 @@ export class GrConfirmRevertDialog extends PolymerElement {
   _handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    if (this._message === this._originalRevertMessages[this._revertType]) {
+    if (
+      this._message === this._originalRevertMessages[this._revertType] ||
+      this._message.includes(INSERT_REASON_STRING)
+    ) {
       this._showErrorMessage = true;
       return;
     }

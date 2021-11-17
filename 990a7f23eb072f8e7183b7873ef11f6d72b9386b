@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "083d5bb3_115b66f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "445b500a_867dc72a",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1533f7a6_66ebe624",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-12T13:50:22Z",
       "side": 1,
       "message": "can this be done? \nwould be nice to separate into it\u0027s own change.",
+      "range": {
+        "startLine": 35,
+        "startChar": 55,
+        "endLine": 36,
+        "endChar": 68
+      },
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa9ad874_22b3daf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "Yes. Let\u0027s leave this unresolved until I have added a child change that implements auto-saving.",
+      "parentUuid": "1533f7a6_66ebe624",
       "range": {
         "startLine": 35,
         "startChar": 55,
@@ -121,6 +169,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e593f73_d9de1a08",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "0ba94e89_fbee6927",
+      "range": {
+        "startLine": 126,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 24
+      },
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa1f40ee_fc7b808f",
@@ -134,6 +206,24 @@
       "writtenOn": "2021-11-12T18:49:30Z",
       "side": 1,
       "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5369c296_9d3c4e26",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "aa1f40ee_fc7b808f",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -161,6 +251,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acdaaa6d_5c59e48d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a97719e8_a4c43a57",
+      "range": {
+        "startLine": 281,
+        "startChar": 5,
+        "endLine": 281,
+        "endChar": 59
+      },
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e68e9d11_b43fc0b0",
@@ -174,6 +288,24 @@
       "writtenOn": "2021-11-12T18:49:30Z",
       "side": 1,
       "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "966b92e9_f6e423d6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "e68e9d11_b43fc0b0",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -195,6 +327,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6de59a2e_059f417a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "63babb81_d8c208dd",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d66a1f96_3a9f3e5e",
@@ -208,6 +358,24 @@
       "writtenOn": "2021-11-12T18:49:30Z",
       "side": 1,
       "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf440d7d_e0d9bfa7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "d66a1f96_3a9f3e5e",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -229,6 +397,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07e60e32_606baaed",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "114902a1_0165fca5",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdffd232_5240a62b",
@@ -242,6 +428,24 @@
       "writtenOn": "2021-11-12T18:49:30Z",
       "side": 1,
       "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c734167_c7e81f29",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "bdffd232_5240a62b",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -263,6 +467,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fc28c66_f4c1c5d3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67fdcd0_9cacc613",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba919ac2_a725fc6b",
@@ -276,6 +498,24 @@
       "writtenOn": "2021-11-12T18:49:30Z",
       "side": 1,
       "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6316c4f_8ef9caa0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "ba919ac2_a725fc6b",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -297,6 +537,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e90b0bf_b3266110",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "f42ed365_a76eaa93",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffa55357_c6ce15fa",
@@ -310,6 +568,24 @@
       "writtenOn": "2021-11-12T18:49:30Z",
       "side": 1,
       "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3dec555_634709ec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "ffa55357_c6ce15fa",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -331,6 +607,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c628876_476c9333",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "831b5762_13b87935",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d177d43e_125ad8ed",
@@ -348,6 +642,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2501637_83282cc2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d177d43e_125ad8ed",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50ce8dcc_c2afe2d0",
@@ -361,6 +673,24 @@
       "writtenOn": "2021-11-12T23:43:40Z",
       "side": 1,
       "message": "What if you want to add local shortcuts that are suppressed?",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2851aa50_de258c89",
+        "filename": "polygerrit-ui/app/elements/lit/shortcut-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "Added a comment that we could easily support an option.",
+      "parentUuid": "50ce8dcc_c2afe2d0",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -399,6 +729,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3ed80ef_f507286f",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "Added a deepEqual comparison utility and using it here.",
+      "parentUuid": "21c22ec6_f09b1dd3",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82320d51_2c379335",
@@ -412,6 +760,24 @@
       "writtenOn": "2021-11-12T23:43:40Z",
       "side": 1,
       "message": "We now have 3 things that say shouldSuppress.\n\noptions.shouldSuppress, this.shouldSuppress and \"shouldSuppress\" called from the latter. This adds some amount of confusion",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64499f56_5eb6f241",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "Removed the local this.shouldSuppress() method.",
+      "parentUuid": "82320d51_2c379335",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -433,6 +799,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaca1b96_900f33f6",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "49053bb8_caac9fb4",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99e0b6d1_10a45f1a",
@@ -450,6 +834,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "610be9e9_03283d3e",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "Added it back.",
+      "parentUuid": "99e0b6d1_10a45f1a",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cb3a797_62991dd0",
@@ -463,6 +865,24 @@
       "writtenOn": "2021-11-12T18:49:30Z",
       "side": 1,
       "message": "Unrelated to this change?",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad9accd8_fd236418",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "Well, yes, but as part of this change I do touch the shortcut handling. And this is just a comment, so I would not want to create a separate change for just that. That feels like too much churn.",
+      "parentUuid": "4cb3a797_62991dd0",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

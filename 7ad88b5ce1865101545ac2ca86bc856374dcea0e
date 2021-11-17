@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36b7065a_ab5e4419",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 0,
+      "message": "The latest discussion of the model design suggests that we are likely to get the change service/model from a \"context\", so passing a change number into the thread list component is not clearly the path forward. Both ways are fine, and we can certainly follow up on that, but maybe not block this change.",
+      "parentUuid": "9d712193_b115cd2c",
+      "revId": "7ad88b5ce1865101545ac2ca86bc856374dcea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "537a8131_05d9bf3c",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-12T18:49:30Z",
       "side": 0,
       "message": "Why is this no longer necessary?",
+      "revId": "7ad88b5ce1865101545ac2ca86bc856374dcea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6cec801_51173bec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 0,
+      "message": "I have removed `diffSide` from the data model of CommentThread. It does not have anything to do with the thread itself, but is rather a UI state of the parent component that is showing a comment thread in a diffing context. The property was only used by gr-diff and gr-diff-host and I have taken care that the diff is doing well without it, e.g. we keep setting the *attribute* for thread elements when adding them to a diff, which allows gr-diff to understand where it has to slot them in.",
+      "parentUuid": "537a8131_05d9bf3c",
       "revId": "7ad88b5ce1865101545ac2ca86bc856374dcea0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

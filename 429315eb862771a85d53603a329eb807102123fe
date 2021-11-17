@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c92bc27_dae2a778",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 2029,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-17T08:03:02Z",
+      "side": 1,
+      "message": "I have one unresolved comment for removing all console.log statements before submission. I would like to keep them as long as I want to debug the more complicated scenarios.",
+      "parentUuid": "08670f27_d750fb72",
+      "revId": "429315eb862771a85d53603a329eb807102123fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c97c7ae_f4b2fdb5",

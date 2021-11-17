@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96129d90_b413e656",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-17T09:37:37Z",
+      "side": 1,
+      "message": "I\u0027m OK with that. We just have confidence from other tests that overridden SRs apply. Testing for the override expression specifically doesn\u0027t hurt though :) ",
+      "revId": "e03d70f4842a348a3b24e327104980a87e73e1dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

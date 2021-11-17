@@ -413,6 +413,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75eaebf9_4eb28f9b",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T15:39:06Z",
+      "side": 1,
+      "message": "I agree that this needs to be resolved ASAP.",
+      "parentUuid": "e66d6ed4_38471ede",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 33
+      },
+      "revId": "daaa9bd657d35bdb5beae4274b5a1ed27a64ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b33efa71_c61d43cb",

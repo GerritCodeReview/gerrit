@@ -5639,6 +5639,102 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
+  public void submitRequirement_overrideInheritedSRWithDifferentNameCasing() throws Exception {
+    // Define submit requirement in root project and allow override.
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(true)
+            .build());
+
+    // Define a submit requirement with the same name in the child project that differs by case and
+    // has a different submittability expression (requires Code-Review=+1 instead of +2).
+    // This overrides the inherited submit requirement with the same name, although the case is
+    // different.
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+1"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    voteLabel(changeId, "Code-Review", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    // +1 was enough to fulfill the requirement since the override applies
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+    // Legacy requirement is coming from the label MaxWithBlock function. Still unsatisfied.
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
+  public void submitRequirement_cannotOverrideNonOverridableInheritedSRWithDifferentNameCasing()
+      throws Exception {
+    // Define submit requirement in root project and disallow override.
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    // Define a submit requirement with the same name in the child project that differs by case and
+    // has a different submittability expression (requires Code-Review=+1 instead of +2).
+    // This is ignored since the inherited submit requirement with the same name (different case)
+    // disallows overriding.
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+1"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    voteLabel(changeId, "Code-Review", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    // Still not satisfied since the override is ignored.
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    voteLabel(changeId, "Code-Review", 2);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+  }
+
+  @Test
   public void fourByteEmoji() throws Exception {
     // U+1F601 GRINNING FACE WITH SMILING EYES
     String smile = new String(Character.toChars(0x1f601));

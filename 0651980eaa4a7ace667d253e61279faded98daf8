@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dcc5046_5cb0429a",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-17T17:28:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfd85bb6_3e07880a",
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "149c256b_ae97b9dc",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-11-17T07:53:18Z",
       "side": 1,
       "message": "nit: trailing space",
+      "range": {
+        "startLine": 65,
+        "startChar": 47,
+        "endLine": 65,
+        "endChar": 48
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a488994_ab6498c2",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-17T17:28:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "149c256b_ae97b9dc",
       "range": {
         "startLine": 65,
         "startChar": 47,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ed4bec6_26115e12",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-17T17:28:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0760cc9c_613a69ad",
+      "range": {
+        "startLine": 67,
+        "startChar": 35,
+        "endLine": 67,
+        "endChar": 64
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e3e0f08_43c54102",
@@ -94,6 +160,30 @@
       "writtenOn": "2021-11-17T07:53:18Z",
       "side": 1,
       "message": "a rolling restart",
+      "range": {
+        "startLine": 70,
+        "startChar": 56,
+        "endLine": 70,
+        "endChar": 71
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a7186b5_2cc870e8",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-17T17:28:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e3e0f08_43c54102",
       "range": {
         "startLine": 70,
         "startChar": 56,
@@ -123,6 +213,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "95af98e4_1bea1529",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-17T17:28:21Z",
+      "side": 1,
+      "message": "All nodes must be in a migration mode before starting the online migration. We can combine this with the initial rolling restart but we must be sure that the node which will perform migration is the last one to restart",
+      "parentUuid": "c4ee8ff7_12aa026a",
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa9ce747_2c80ae83",
         "filename": "Documentation/externalid-case-insensitivity.txt",
         "patchSetId": 1
@@ -146,6 +254,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f68f266a_bbc33a16",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-17T17:28:21Z",
+      "side": 1,
+      "message": "We should do online migration on a single node. HA setup shares All-Users repository among all primary nodes. So we need to run it just once. HA will trigger ref update event to all nodes so they will reindex change",
+      "parentUuid": "fa9ce747_2c80ae83",
+      "range": {
+        "startLine": 77,
+        "startChar": 17,
+        "endLine": 77,
+        "endChar": 18
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89c85068_d54dc021",
         "filename": "Documentation/externalid-case-insensitivity.txt",
         "patchSetId": 1
@@ -157,6 +289,30 @@
       "writtenOn": "2021-11-17T07:53:18Z",
       "side": 1,
       "message": "a rolling restart",
+      "range": {
+        "startLine": 86,
+        "startChar": 21,
+        "endLine": 86,
+        "endChar": 36
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e78b14c_b33f928e",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-17T17:28:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89c85068_d54dc021",
       "range": {
         "startLine": 86,
         "startChar": 21,

@@ -16,6 +16,23 @@
       "message": "Remerged both ways. Not tested yet.",
       "revId": "25f33530c67560e09db8bf8e7a743b621c69ac4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45c44b85_1842aa9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-11-17T10:22:38Z",
+      "side": 1,
+      "message": "@Nasser, are we good with this one?",
+      "revId": "25f33530c67560e09db8bf8e7a743b621c69ac4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

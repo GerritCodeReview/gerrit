@@ -16,6 +16,24 @@
       "message": "I don\u0027t have permission to submit 😞",
       "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5a4a575_9656592c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-17T11:20:35Z",
+      "side": 1,
+      "message": "@Jacek?",
+      "parentUuid": "e03af9c7_8e65d42f",
+      "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

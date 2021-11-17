@@ -84,8 +84,11 @@ suite('gr-group tests', () => {
     element.groupId = '1' as GroupId;
     await element.loadGroup();
     assert.isTrue(element.groupIsInternal);
-    assert.isFalse(
-      queryAndAssert<GrSelect>(element, '#visibleToAll').bindValue
+    // The value returned is a boolean in a string
+    // thus we have to check with the string.
+    assert.equal(
+      queryAndAssert<GrSelect>(element, '#visibleToAll').bindValue,
+      'false'
     );
   });
 
@@ -100,8 +103,11 @@ suite('gr-group tests', () => {
     element.groupId = '1' as GroupId;
     await element.loadGroup();
     assert.isFalse(element.groupIsInternal);
-    assert.isFalse(
-      queryAndAssert<GrSelect>(element, '#visibleToAll').bindValue
+    // The value returned is a boolean in a string
+    // thus we have to check with the string.
+    assert.equal(
+      queryAndAssert<GrSelect>(element, '#visibleToAll').bindValue,
+      'false'
     );
   });
 

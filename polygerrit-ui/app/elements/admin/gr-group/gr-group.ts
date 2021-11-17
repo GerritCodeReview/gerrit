@@ -34,7 +34,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
-import {LitElement, css, html} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
@@ -86,25 +86,25 @@ export class GrGroup extends LitElement {
 
   @state() private submitTypes = Object.values(OPTIONS);
 
-  /* private but used in test */
+  // private but used in test
   @state() isAdmin = false;
 
-  /* private but used in test */
+  // private but used in test
   @state() groupOwner = false;
 
-  /* private but used in test */
+  // private but used in test
   @state() groupIsInternal = false;
 
-  /* private but used in test */
+  // private but used in test
   @state() loading = true;
 
-  /* private but used in test */
+  // private but used in test
   @state() groupConfig?: GroupInfo;
 
-  /* private but used in test */
+  // private but used in test
   @state() groupConfigOwner?: string;
 
-  /* private but used in test */
+  // private but used in test
   @state() originalName?: GroupName;
 
   private readonly restApiService = appContext.restApiService;
@@ -116,7 +116,6 @@ export class GrGroup extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.loadGroup();
   }
 
   static override get styles() {
@@ -139,9 +138,7 @@ export class GrGroup extends LitElement {
       <div class="main gr-form-styles read-only">
         <div id="loading" class="${this.computeLoadingClass()}">Loading...</div>
         <div id="loadedContent" class="${this.computeLoadingClass()}">
-          <h1 id="Title" class="heading-1">
-            ${convertToString(this.originalName)}
-          </h1>
+          <h1 id="Title" class="heading-1">${this.originalName}</h1>
           <h2 id="configurations" class="heading-2">General</h2>
           <div id="form">
             <fieldset>
@@ -180,7 +177,7 @@ export class GrGroup extends LitElement {
         <span class="value">
           <gr-autocomplete
             id="groupNameInput"
-            .text=${convertToString(this.groupConfig?.name)}
+            .text=${this.groupConfig?.name}
             ?disabled=${this.computeGroupDisabled()}
             @text-changed=${this.handleNameTextChanged}
           ></gr-autocomplete>
@@ -212,8 +209,8 @@ export class GrGroup extends LitElement {
         <span class="value">
           <gr-autocomplete
             id="groupOwnerInput"
-            .text=${convertToString(this.groupConfig?.owner)}
-            .value=${convertToString(this.groupConfigOwner)}
+            .text=${this.groupConfig?.owner}
+            .value=${this.groupConfigOwner}
             .query=${this.query}
             ?disabled=${this.computeGroupDisabled()}
             @text-changed=${this.handleOwnerTextChanged}
@@ -249,7 +246,7 @@ export class GrGroup extends LitElement {
             rows="4"
             monospace
             ?disabled=${this.computeGroupDisabled()}
-            .text=${convertToString(this.groupConfig?.description)}
+            .text=${this.groupConfig?.description}
             @text-changed=${this.handleDescriptionTextChanged}
           >
         </div>
@@ -266,9 +263,15 @@ export class GrGroup extends LitElement {
   }
 
   private renderGroupOptions() {
+    // We make sure the value is a boolean
+    // this is done so undefined is converted to false.
     const groupOptionsEdited =
-      this.originalOptionsVisibleToAll !==
-      this.groupConfig?.options?.visible_to_all;
+      Boolean(this.originalOptionsVisibleToAll) !==
+      Boolean(this.groupConfig?.options?.visible_to_all);
+
+    // We have to convert boolean to string in order
+    // for the selection to work correctly.
+    // We also convert undefined to false using boolean.
     return html`
       <h3
         id="options"
@@ -284,7 +287,9 @@ export class GrGroup extends LitElement {
           <span class="value">
             <gr-select
               id="visibleToAll"
-              .bindValue="${this.groupConfig?.options?.visible_to_all}"
+              .bindValue="${convertToString(
+                Boolean(this.groupConfig?.options?.visible_to_all)
+              )}"
               @bind-value-changed=${this.handleOptionsBindValueChanged}
             >
               <select ?disabled=${this.computeGroupDisabled()}>
@@ -309,11 +314,15 @@ export class GrGroup extends LitElement {
     `;
   }
 
-  /* private but used in test */
-  async loadGroup() {
-    if (!this.groupId) {
-      return;
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('groupId')) {
+      this.loadGroup();
     }
+  }
+
+  // private but used in test
+  async loadGroup() {
+    if (!this.groupId) return;
 
     const promises: Promise<unknown>[] = [];
 
@@ -348,13 +357,6 @@ export class GrGroup extends LitElement {
       })
     );
 
-    // If visible to all is undefined, set to false. If it is defined
-    // as false, setting to false is fine. If any optional values
-    // are added with a default of true, then this would need to be an
-    // undefined check and not a truthy/falsy check.
-    if (config.options && !config.options.visible_to_all) {
-      config.options.visible_to_all = false;
-    }
     this.groupConfig = config;
     this.originalOptionsVisibleToAll = config?.options?.visible_to_all;
 
@@ -364,12 +366,12 @@ export class GrGroup extends LitElement {
     this.loading = false;
   }
 
-  /* private but used in test */
+  // private but used in test
   computeLoadingClass() {
     return this.loading ? 'loading' : '';
   }
 
-  /* private but used in test */
+  // private but used in test
   async handleSaveName() {
     const groupConfig = this.groupConfig;
     if (!this.groupId || !groupConfig || !groupConfig.name) {
@@ -399,7 +401,7 @@ export class GrGroup extends LitElement {
     return;
   }
 
-  /* private but used in test */
+  // private but used in test
   async handleSaveOwner() {
     if (!this.groupId || !this.groupConfig) return;
     let owner = this.groupConfig.owner;
@@ -412,7 +414,7 @@ export class GrGroup extends LitElement {
     this.groupConfigOwner = undefined;
   }
 
-  /* private but used in test */
+  // private but used in test
   async handleSaveDescription() {
     if (
       !this.groupId ||
@@ -427,14 +429,13 @@ export class GrGroup extends LitElement {
     this.originalDescriptionName = this.groupConfig.description;
   }
 
-  /* private but used in test */
+  // private but used in test
   async handleSaveOptions() {
     if (!this.groupId || !this.groupConfig || !this.groupConfig.options) return;
     const visible = this.groupConfig.options.visible_to_all;
     const options = {visible_to_all: visible};
     await this.restApiService.saveGroupOptions(this.groupId, options);
-    this.originalOptionsVisibleToAll =
-      this.groupConfig?.options?.visible_to_all;
+    this.originalOptionsVisibleToAll = visible;
   }
 
   private computeHeaderClass(configChanged: boolean) {
@@ -451,7 +452,7 @@ export class GrGroup extends LitElement {
     });
   }
 
-  /* private but used in test */
+  // private but used in test
   computeGroupDisabled() {
     return !(this.groupIsInternal && (this.isAdmin || this.groupOwner));
   }
@@ -487,9 +488,12 @@ export class GrGroup extends LitElement {
   }
 
   private handleOptionsBindValueChanged(e: BindValueChangeEvent) {
-    if (!this.groupConfig || !this.groupConfig.options || this.loading) return;
-    this.groupConfig.options.visible_to_all = e.detail
-      .value as unknown as boolean;
+    if (!this.groupConfig || this.loading) return;
+
+    // Because the value for e.detail.value is a string
+    // we convert the value to a boolean.
+    const value = e.detail.value === 'true' ? true : false;
+    this.groupConfig!.options!.visible_to_all = value;
     this.requestUpdate();
   }
 }

@@ -4955,6 +4955,80 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
+  public void submitRequirement_partiallyOverriddenSRIsIgnored() throws Exception {
+    // Define submit requirement in root project.
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+1"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(true)
+            .build());
+
+    // Create Code-Review-Override label
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.function = "NoOp";
+    input.values = ImmutableMap.of("+1", "Override", " 0", "No Override");
+    gApi.projects().name(project.get()).label("Code-Review-Override").create(input).get();
+
+    // Allow to vote on the Code-Review-Override label.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.allowLabel("Code-Review-Override")
+                .range(0, 1)
+                .ref("refs/*")
+                .group(REGISTERED_USERS)
+                .build())
+        .update();
+
+    // Override submit requirement in project (requires Code-Review-Override+1 as override instead
+    // of build-cop-override+1), but do not set all required properties (submittability expression
+    // is missing).
+    projectOperations
+        .project(project)
+        .forInvalidation()
+        .addProjectConfigUpdater(
+            config ->
+                config.setString(
+                    ProjectConfig.SUBMIT_REQUIREMENT,
+                    "Code-Review",
+                    ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
+                    "label:Code-Review-Override=+1"))
+        .invalidate();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    voteLabel(changeId, "Code-Review-Override", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    // The override expression in the project is satisfied, but it's ignored since the SR is
+    // incomplete.
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    voteLabel(changeId, "Code-Review", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    // +1 was enough to fulfill the requirement: override in grand child project was ignored
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+    // Legacy requirement is coming from the label MaxWithBlock function. Still unsatisfied.
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
       values = {
         ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
         ExperimentFeaturesConstants

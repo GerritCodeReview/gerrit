@@ -22,6 +22,30 @@
       },
       "revId": "e440f6c4837c7ae8f4bd312e3bbca4d7ec45f801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "572a3c0b_624f4543",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-17T10:15:14Z",
+      "side": 1,
+      "message": "I think this is an argument for keeping the SR expression mandatory (sorry for suggesting otherwise in the first place).\n\nThis minimizes the risk surface. The only downside is that when users want to remove a requirement, they have to specify submittabilityExpression \u003d is:false (or whatever).\n\nWDYT?",
+      "parentUuid": "a8748ac8_9c40fb8b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 33
+      },
+      "revId": "e440f6c4837c7ae8f4bd312e3bbca4d7ec45f801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4a6c362_7fda32d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-17T10:37:45Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "24a4e58a_b29b9864",
+      "range": {
+        "startLine": 557,
+        "startChar": 22,
+        "endLine": 557,
+        "endChar": 26
+      },
+      "revId": "e95a1c396915ae973753ab6b192a4614fac7e670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6278212d_75eab4f9",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-17T07:21:54Z",
       "side": 1,
       "message": "I assume it\u0027s ok if empty string is also ignored.",
+      "range": {
+        "startLine": 560,
+        "startChar": 9,
+        "endLine": 560,
+        "endChar": 13
+      },
+      "revId": "e95a1c396915ae973753ab6b192a4614fac7e670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2628237_c0a05d42",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-17T10:37:45Z",
+      "side": 1,
+      "message": "Yup.",
+      "parentUuid": "6278212d_75eab4f9",
       "range": {
         "startLine": 560,
         "startChar": 9,

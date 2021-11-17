@@ -1151,8 +1151,7 @@ export class GrRestApiInterface
     if (
       window.DEFAULT_DETAIL_HEXES &&
       window.DEFAULT_DETAIL_HEXES.changePage &&
-      (!config || !(config.receive && config.receive.enable_signed_push)) &&
-      !this.flagService?.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)
+      (!config || !(config.receive && config.receive.enable_signed_push))
     ) {
       return window.DEFAULT_DETAIL_HEXES.changePage;
     }
@@ -1169,12 +1168,10 @@ export class GrRestApiInterface
       ListChangesOption.SUBMITTABLE,
       ListChangesOption.WEB_LINKS,
       ListChangesOption.SKIP_DIFFSTAT,
+      ListChangesOption.SUBMIT_REQUIREMENTS,
     ];
     if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);
-    }
-    if (this.flagService?.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
-      options.push(ListChangesOption.SUBMIT_REQUIREMENTS);
     }
     return listChangesOptionsToHex(...options);
   }

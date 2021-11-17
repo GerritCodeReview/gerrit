@@ -94,6 +94,20 @@ public class SetLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void updateDescription() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.description = "Code review label description";
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
+    assertThat(updatedLabel.description).isEqualTo("Code review label description");
+
+    input.description = "";
+    updatedLabel = gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input);
+    assertThat(updatedLabel.description).isEmpty();
+  }
+
+  @Test
   public void nameIsTrimmed() throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.name = " Foo-Review ";

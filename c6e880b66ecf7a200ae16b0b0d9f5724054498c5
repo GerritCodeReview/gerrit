@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02e2b858_79e228ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:59:01Z",
+      "side": 1,
+      "message": "Dmitrii: Can I get a +2 if you agree with this change?",
+      "revId": "c6e880b66ecf7a200ae16b0b0d9f5724054498c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cac0788_c92466a4",

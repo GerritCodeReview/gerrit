@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.base.Preconditions;
@@ -108,20 +107,11 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
     return Iterables.getOnlyElement(result);
   }
 
+  // WARNING: This method is deprecated in JGit's RefDatabase and it will be removed on master.
+  // Do not add any logic here but rather enrich the getRefsByPrefix method below.
   @Override
   public Map<String, Ref> getRefs(String prefix) throws IOException {
-    List<Ref> refs = getDelegate().getRefDatabase().getRefsByPrefix(prefix);
-    if (refs.isEmpty()) {
-      return Collections.emptyMap();
-    }
-
-    Collection<Ref> result;
-    try {
-      result = forProject.filter(refs, getDelegate(), RefFilterOptions.defaults());
-    } catch (PermissionBackendException e) {
-      throw new IOException("", e);
-    }
-    return buildPrefixRefMap(prefix, result);
+    return buildPrefixRefMap(prefix, getRefsByPrefix(prefix));
   }
 
   private Map<String, Ref> buildPrefixRefMap(String prefix, Collection<Ref> refs) {
@@ -138,26 +128,18 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
 
   @Override
   public List<Ref> getRefsByPrefix(String prefix) throws IOException {
-    Map<String, Ref> coarseRefs;
-    int lastSlash = prefix.lastIndexOf('/');
-    if (lastSlash == -1) {
-      coarseRefs = getRefs(ALL);
-    } else {
-      coarseRefs = getRefs(prefix.substring(0, lastSlash + 1));
+    List<Ref> refs = getDelegate().getRefDatabase().getRefsByPrefix(prefix);
+    if (refs.isEmpty()) {
+      return Collections.emptyList();
     }
 
-    List<Ref> result;
-    if (lastSlash + 1 == prefix.length()) {
-      result = coarseRefs.values().stream().collect(toList());
-    } else {
-      String p = prefix.substring(lastSlash + 1);
-      result =
-          coarseRefs.entrySet().stream()
-              .filter(e -> e.getKey().startsWith(p))
-              .map(e -> e.getValue())
-              .collect(toList());
+    Collection<Ref> result;
+    try {
+      result = forProject.filter(refs, getDelegate(), RefFilterOptions.defaults());
+    } catch (PermissionBackendException e) {
+      throw new IOException("", e);
     }
-    return Collections.unmodifiableList(result);
+    return result.stream().collect(Collectors.toList());
   }
 
   @Override

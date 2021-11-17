@@ -70,6 +70,29 @@
       },
       "revId": "b40fc57c1da7484f11ee181baffa06e0ae612db6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7276ea1e_45d563ee",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 4589,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-17T08:26:46Z",
+      "side": 1,
+      "message": "Unrelated to this change: Have we documented that we serve SRs that aren\u0027t applicable on the API. Might be good to do just to make admins aware that they can\u0027t use any secretive names (Partner-Name-Review).\n\nOr maybe we should drop serving not applicable SRs in the future?",
+      "range": {
+        "startLine": 4585,
+        "startChar": 0,
+        "endLine": 4589,
+        "endChar": 31
+      },
+      "revId": "b40fc57c1da7484f11ee181baffa06e0ae612db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

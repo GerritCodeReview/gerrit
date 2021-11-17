@@ -95,6 +95,8 @@ public abstract class LabelType {
 
   public abstract String getName();
 
+  public abstract Optional<String> getDescription();
+
   public abstract LabelFunction getFunction();
 
   public abstract boolean isCopyAnyScore();
@@ -143,6 +145,7 @@ public abstract class LabelType {
   public static LabelType.Builder builder(String name, List<LabelValue> valueList) {
     return (new AutoValue_LabelType.Builder())
         .setName(name)
+        .setDescription(Optional.of(""))
         .setValues(valueList)
         .setDefaultValue((short) 0)
         .setFunction(LabelFunction.MAX_WITH_BLOCK)
@@ -225,6 +228,8 @@ public abstract class LabelType {
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract Builder setName(String name);
+
+    public abstract Builder setDescription(Optional<String> description);
 
     public abstract Builder setFunction(LabelFunction function);
 

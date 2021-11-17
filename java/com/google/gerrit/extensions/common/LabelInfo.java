@@ -27,6 +27,7 @@ public class LabelInfo {
 
   public Map<String, String> values;
 
+  public String description;
   public Short value;
   public Short defaultValue;
   public Boolean optional;

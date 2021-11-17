@@ -358,6 +358,18 @@ public class LabelsJson {
         }
       }
     }
+
+    // Set labels' description
+    for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
+      String labelName = entry.getKey();
+      Optional<LabelType> type = labelTypes.byLabel(labelName);
+      if (!type.isPresent()) {
+        continue;
+      }
+      LabelWithStatus labelWithStatus = entry.getValue();
+      labelWithStatus.label().description = type.get().getDescription().orElse(null);
+    }
+
     return labels;
   }
 

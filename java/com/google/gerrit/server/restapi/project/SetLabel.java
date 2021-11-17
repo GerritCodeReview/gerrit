@@ -38,6 +38,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -145,6 +146,11 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
         labelTypeBuilder.setName(newName);
         dirty = true;
       }
+    }
+
+    if (input.description != null) {
+      labelTypeBuilder.setDescription(Optional.of(input.description));
+      dirty = true;
     }
 
     if (input.function != null) {

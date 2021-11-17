@@ -358,7 +358,21 @@ public class LabelsJson {
         }
       }
     }
+    setLabelsDescription(labels, labelTypes);
     return labels;
+  }
+
+  private void setLabelsDescription(
+      Map<String, LabelsJson.LabelWithStatus> labels, LabelTypes labelTypes) {
+    for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
+      String labelName = entry.getKey();
+      Optional<LabelType> type = labelTypes.byLabel(labelName);
+      if (!type.isPresent()) {
+        continue;
+      }
+      LabelWithStatus labelWithStatus = entry.getValue();
+      labelWithStatus.label().description = type.get().getDescription().orElse(null);
+    }
   }
 
   private void setLabelScores(

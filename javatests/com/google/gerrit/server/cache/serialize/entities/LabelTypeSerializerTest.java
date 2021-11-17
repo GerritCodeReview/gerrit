@@ -21,6 +21,7 @@ import static com.google.gerrit.server.cache.serialize.entities.LabelTypeSeriali
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
+import java.util.Optional;
 import org.junit.Test;
 
 public class LabelTypeSerializerTest {
@@ -30,6 +31,7 @@ public class LabelTypeSerializerTest {
               ImmutableList.of(
                   LabelValue.create((short) 0, "no vote"),
                   LabelValue.create((short) 1, "approved")))
+          .setDescription(Optional.of("description"))
           .setCanOverride(!LabelType.DEF_CAN_OVERRIDE)
           .setAllowPostSubmit(!LabelType.DEF_ALLOW_POST_SUBMIT)
           .setIgnoreSelfApproval(!LabelType.DEF_IGNORE_SELF_APPROVAL)

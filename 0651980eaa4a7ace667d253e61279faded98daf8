@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10def6e1_2e0c63b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-17T07:53:18Z",
+      "side": 1,
+      "message": "Only some nits from my side",
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfd85bb6_3e07880a",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-17T07:53:18Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "149c256b_ae97b9dc",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-17T07:53:18Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "range": {
+        "startLine": 65,
+        "startChar": 47,
+        "endLine": 65,
+        "endChar": 48
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0760cc9c_613a69ad",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-17T07:53:18Z",
+      "side": 1,
+      "message": "a setup containing multiple primary instances",
+      "range": {
+        "startLine": 67,
+        "startChar": 35,
+        "endLine": 67,
+        "endChar": 64
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e3e0f08_43c54102",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-17T07:53:18Z",
+      "side": 1,
+      "message": "a rolling restart",
+      "range": {
+        "startLine": 70,
+        "startChar": 56,
+        "endLine": 70,
+        "endChar": 71
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4ee8ff7_12aa026a",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-17T07:53:18Z",
+      "side": 1,
+      "message": "Could this already be done in the initial rolling restart?",
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa9ce747_2c80ae83",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-17T07:53:18Z",
+      "side": 1,
+      "message": "Repeat this step for all primary nodes, one at a time.\n(Or am I wrong?)",
+      "range": {
+        "startLine": 77,
+        "startChar": 17,
+        "endLine": 77,
+        "endChar": 18
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89c85068_d54dc021",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-17T07:53:18Z",
+      "side": 1,
+      "message": "a rolling restart",
+      "range": {
+        "startLine": 86,
+        "startChar": 21,
+        "endLine": 86,
+        "endChar": 36
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ff9c6f_f65aa5d8",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-17T07:53:18Z",
+      "side": 1,
+      "message": "The offline migration tool",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 17
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

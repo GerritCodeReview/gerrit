@@ -22,6 +22,30 @@
       },
       "revId": "240de0f6c5c99c9543d316505d04263422ad5393",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea6dc5c8_0af55e9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-17T14:51:00Z",
+      "side": 1,
+      "message": "The test is not pushing the config, but opens the server-side repo directly and thus updates the config bypassing the validator.",
+      "parentUuid": "7eaab169_9656cad9",
+      "range": {
+        "startLine": 18,
+        "startChar": 10,
+        "endLine": 19,
+        "endChar": 45
+      },
+      "revId": "240de0f6c5c99c9543d316505d04263422ad5393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

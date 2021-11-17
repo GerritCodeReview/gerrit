@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2066a2d_553ac455",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-11-17T10:29:13Z",
+      "side": 1,
+      "message": "What is the use-cases for Finalizable, except tests?\nMany gerrit elements stores references to service. I.e. removing\\replacing services is not supported in polygerrit (and requires a lot of work to support it). Do you have plan in near future to allow hot-replacing of services?\n\nIf the Finalizable is used in tests only, I can suggest another option - after each test iterate through all services like this:\n  for (service: getServices(...)) {\n     if (\u0027__test_only_finalize\u0027 in service) {\n       service.__test_only_finalize();\n     }\n  }\nThe main code remains almost unchanged and all cleanup logic are in tests. Also, it is clear for a reader, that the __test_only_finalize is called only in tests.",
+      "revId": "391f1e9ac56d117a5132ac531aaa7af5f00590ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

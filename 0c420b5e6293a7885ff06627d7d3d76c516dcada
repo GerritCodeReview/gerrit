@@ -33,6 +33,24 @@
       "message": "Can you move this constant to the top and also use it in line 127?",
       "revId": "0c420b5e6293a7885ff06627d7d3d76c516dcada",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae2681b0_a1447c67",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-17T14:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6420f15a_53d90819",
+      "revId": "0c420b5e6293a7885ff06627d7d3d76c516dcada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

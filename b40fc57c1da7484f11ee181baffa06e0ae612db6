@@ -22,6 +22,30 @@
       },
       "revId": "b40fc57c1da7484f11ee181baffa06e0ae612db6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "227887ba_74e97c0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-17T08:14:11Z",
+      "side": 1,
+      "message": "Yes, definitely. I haven\u0027t still done any documentation for submit requirements but I should start soon. There should be a documentation page for submit requirement predicates that includes this.\n\nWill add with a follow up change.",
+      "parentUuid": "46d45daf_6e7b8cc1",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "b40fc57c1da7484f11ee181baffa06e0ae612db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

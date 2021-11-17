@@ -14,12 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-table-styles';
-import '../../../styles/shared-styles';
+
 import '../../shared/gr-list-view/gr-list-view';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-plugin-list_html';
-import {customElement, property} from '@polymer/decorators';
 import {PluginInfo} from '../../../types/common';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
@@ -27,6 +23,10 @@ import {ErrorCallback} from '../../../api/rest';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {ListViewParams} from '../../gr-app-types';
+import {tableStyles} from '../../../styles/gr-table-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, css, html} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
 
 // Exported for tests
 export interface PluginInfoWithName extends PluginInfo {
@@ -34,44 +34,29 @@ export interface PluginInfoWithName extends PluginInfo {
 }
 
 @customElement('gr-plugin-list')
-export class GrPluginList extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrPluginList extends LitElement {
+  readonly path = '/admin/plugins';
 
   /**
    * URL params passed from the router.
    */
-  @property({type: Object, observer: '_paramsChanged'})
+  @property({type: Object})
   params?: ListViewParams;
 
   /**
    * Offset of currently visible query results.
    */
-  @property({type: Number})
-  _offset = 0;
+  @state() private offset = 0;
 
-  @property({type: String})
-  readonly _path = '/admin/plugins';
+  // private but used in test
+  @state() plugins?: PluginInfoWithName[];
 
-  @property({type: Array})
-  _plugins?: PluginInfoWithName[];
+  @state() private pluginsPerPage = 25;
 
-  /**
-   * Because  we request one more than the pluginsPerPage, _shownPlugins
-   * maybe one less than _plugins.
-   **/
-  @property({type: Array, computed: 'computeShownItems(_plugins)'})
-  _shownPlugins?: PluginInfoWithName[];
+  // private but used in test
+  @state() loading = true;
 
-  @property({type: Number})
-  _pluginsPerPage = 25;
-
-  @property({type: Boolean})
-  _loading = true;
-
-  @property({type: String})
-  _filter = '';
+  @state() private filter = '';
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -80,15 +65,109 @@ export class GrPluginList extends PolymerElement {
     fireTitleChange(this, 'Plugins');
   }
 
-  _paramsChanged(params: ListViewParams) {
-    this._loading = true;
-    this._filter = params?.filter ?? '';
-    this._offset = Number(params?.offset ?? 0);
-
-    return this._getPlugins(this._filter, this._pluginsPerPage, this._offset);
+  static override get styles() {
+    return [
+      tableStyles,
+      sharedStyles,
+      css`
+        .placeholder {
+          color: var(--deemphasized-text-color);
+        }
+      `,
+    ];
   }
 
-  _getPlugins(filter: string, pluginsPerPage: number, offset?: number) {
+  override render() {
+    return html`
+      <gr-list-view
+        .filter=${this.filter}
+        .itemsPerPage=${this.pluginsPerPage}
+        .items=${this.plugins}
+        .loading=${this.loading}
+        .offset=${this.offset}
+        .path=${this.path}
+      >
+        <table id="list" class="genericList">
+          <tbody>
+            <tr class="headerRow">
+              <th class="name topHeader">Plugin Name</th>
+              <th class="version topHeader">Version</th>
+              <th class="apiVersion topHeader">API Version</th>
+              <th class="status topHeader">Status</th>
+            </tr>
+            ${this.renderLoading()}
+          </tbody>
+          ${this.renderPluginListsTable()}
+        </table>
+      </gr-list-view>
+    `;
+  }
+
+  private renderLoading() {
+    if (!this.loading) return;
+
+    return html`
+      <tr id="loading" class="loadingMsg loading">
+        <td>Loading...</td>
+      </tr>
+    `;
+  }
+
+  private renderPluginListsTable() {
+    if (this.loading) return;
+
+    return html`
+      <tbody>
+        ${this.plugins
+          ?.slice(0, SHOWN_ITEMS_COUNT)
+          .map(plugin => this.renderPluginList(plugin))}
+      </tbody>
+    `;
+  }
+
+  private renderPluginList(plugin: PluginInfoWithName) {
+    return html`
+      <tr class="table">
+        <td class="name">
+          ${plugin.index_url
+            ? html`<a href=${this.computePluginUrl(plugin.index_url)}
+                >${plugin.id}</a
+              >`
+            : plugin.id}
+        </td>
+        <td class="version">
+          ${plugin.version
+            ? plugin.version
+            : html`<span class="placeholder">--</span>`}
+        </td>
+        <td class="apiVersion">
+          ${plugin.api_version
+            ? plugin.api_version
+            : html`<span class="placeholder">--</span>`}
+        </td>
+        <td class="status">
+          ${plugin.disabled === true ? 'Disabled' : 'Enabled'}
+        </td>
+      </tr>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this.paramsChanged();
+    }
+  }
+
+  // private but used in test
+  paramsChanged() {
+    this.loading = true;
+    this.filter = this.params?.filter ?? '';
+    this.offset = Number(this.params?.offset ?? 0);
+
+    return this.getPlugins(this.filter, this.pluginsPerPage, this.offset);
+  }
+
+  private getPlugins(filter: string, pluginsPerPage: number, offset?: number) {
     const errFn: ErrorCallback = response => {
       firePageError(response);
     };
@@ -96,30 +175,20 @@ export class GrPluginList extends PolymerElement {
       .getPlugins(filter, pluginsPerPage, offset, errFn)
       .then(plugins => {
         if (!plugins) {
-          this._plugins = [];
+          this.plugins = [];
           return;
         }
-        this._plugins = Object.keys(plugins).map(key => {
+        this.plugins = Object.keys(plugins).map(key => {
           return {...plugins[key], name: key};
         });
-        this._loading = false;
+      })
+      .finally(() => {
+        this.loading = false;
       });
   }
 
-  _status(item: PluginInfo) {
-    return item.disabled === true ? 'Disabled' : 'Enabled';
-  }
-
-  _computePluginUrl(id: string) {
+  private computePluginUrl(id: string) {
     return getBaseUrl() + '/' + encodeURL(id, true);
-  }
-
-  computeLoadingClass(loading: boolean) {
-    return loading ? 'loading' : '';
-  }
-
-  computeShownItems(plugins: PluginInfoWithName[]) {
-    return plugins.slice(0, SHOWN_ITEMS_COUNT);
   }
 }
 

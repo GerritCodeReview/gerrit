@@ -180,6 +180,7 @@ export interface RestApiService {
   ): Promise<AccountInfo[] | undefined>;
   getSuggestedGroups(
     input: string,
+    project?: RepoName,
     n?: number
   ): Promise<GroupNameToGroupInfoMap | undefined>;
   executeChangeAction(

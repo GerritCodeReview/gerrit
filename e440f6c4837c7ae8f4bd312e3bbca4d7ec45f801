@@ -46,6 +46,30 @@
       },
       "revId": "e440f6c4837c7ae8f4bd312e3bbca4d7ec45f801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab2994a6_f73806f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-17T10:22:42Z",
+      "side": 1,
+      "message": "mmm, yes this would be more safe. We can keep the submittability expression as is then (required).",
+      "parentUuid": "572a3c0b_624f4543",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 33
+      },
+      "revId": "e440f6c4837c7ae8f4bd312e3bbca4d7ec45f801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

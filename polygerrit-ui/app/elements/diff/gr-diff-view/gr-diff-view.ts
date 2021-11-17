@@ -417,7 +417,7 @@ export class GrDiffView extends base {
         ),
         take(1)
       )
-      .subscribe(async ([currentPatchNum, _routerView, path, diffPrefs]) => {
+      .subscribe(([currentPatchNum, _routerView, path, diffPrefs]) => {
         this.setReviewedStatus(currentPatchNum!, path!, diffPrefs);
       });
     diffPath$

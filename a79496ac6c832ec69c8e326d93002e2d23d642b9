@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "580204d1_bf014adf",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-17T10:42:12Z",
+      "side": 1,
+      "message": "nit: keep it in one line",
+      "range": {
+        "startLine": 558,
+        "startChar": 4,
+        "endLine": 559,
+        "endChar": 14
+      },
+      "revId": "a79496ac6c832ec69c8e326d93002e2d23d642b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

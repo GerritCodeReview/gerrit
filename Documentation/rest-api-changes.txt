@@ -7446,6 +7446,7 @@ link:#labels[`LABELS`] and link:#detailed-labels[`DETAILED_LABELS`].
 Whether the label is optional. Optional means the label may be set, but
 it's neither necessary for submission nor does it block submission if
 set.
+|`description` |optional| The description of the label.
 |===========================
 
 ==== Fields set by `LABELS`

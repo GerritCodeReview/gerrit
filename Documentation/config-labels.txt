@@ -176,6 +176,11 @@ Labels are laid out in alphabetical order.
 The name for a label, consisting only of alphanumeric characters and
 `-`.
 
+[[label_description]]
+=== `label.Label-Name.description`
+
+The label description. This field can provide extra information of what the
+label is supposed to do.
 
 [[label_value]]
 === `label.Label-Name.value`

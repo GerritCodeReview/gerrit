@@ -90,7 +90,9 @@ public class ChangePredicates {
         commentsUtil.getChangesWithDrafts(id).stream()
             .map(ChangePredicates::idStr)
             .collect(toImmutableSet());
-    return Predicate.or(changeIdPredicates);
+    return changeIdPredicates.isEmpty()
+        ? ChangeIndexPredicate.none()
+        : Predicate.or(changeIdPredicates);
   }
 
   /**
@@ -105,10 +107,11 @@ public class ChangePredicates {
     if (!computeFromAllUsersRepository) {
       return new StarPredicate(id, label);
     }
-    return Predicate.or(
+    Set<Predicate<ChangeData>> starredChanges =
         starredChangesUtil.byAccountId(id, label).stream()
             .map(ChangePredicates::idStr)
-            .collect(toImmutableSet()));
+            .collect(toImmutableSet());
+    return starredChanges.isEmpty() ? ChangeIndexPredicate.none() : Predicate.or(starredChanges);
   }
 
   /**

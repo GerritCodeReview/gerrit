@@ -189,6 +189,7 @@ import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.IntraLineDiff;
 import com.google.gerrit.server.patch.IntraLineDiffKey;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
@@ -224,12 +225,15 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Test;
 
 @NoHttpd
@@ -5520,6 +5524,118 @@ public class ChangeIT extends AbstractDaemonTest {
       assertSubmitRequirementStatus(
           submitRequirements, "CR", Status.SATISFIED, /* isLegacy= */ true);
     }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
+  public void submitRequirement_duplicateSubmitRequirement_sameCase() throws Exception {
+    // Define 2 submit requirements with exact same name but different submittability expression.
+    try (TestRepository<Repository> repo =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      Ref ref = repo.getRepository().exactRef(RefNames.REFS_CONFIG);
+      RevCommit head = repo.getRevWalk().parseCommit(ref.getObjectId());
+      RevObject blob = repo.get(head.getTree(), ProjectConfig.PROJECT_CONFIG);
+      byte[] data = repo.getRepository().open(blob).getCachedBytes(Integer.MAX_VALUE);
+      String projectConfig = RawParseUtils.decode(data);
+
+      repo.update(
+          RefNames.REFS_CONFIG,
+          repo.commit()
+              .parent(head)
+              .message("Set project config")
+              .add(
+                  ProjectConfig.PROJECT_CONFIG,
+                  projectConfig
+                      // JGit parses this as a list value:
+                      // submit-requirement.Code-Review.submittableIf =
+                      //     [label:Code-Review=+2, label:Code-Review=+1]
+                      // if getString is used to read submittableIf JGit returns the last value
+                      // (label:Code-Review=+1)
+                      + "[submit-requirement \"Code-Review\"]\n"
+                      + "    submittableIf = label:Code-Review=+2\n"
+                      + "[submit-requirement \"Code-Review\"]\n"
+                      + "    submittableIf = label:Code-Review=+1\n"));
+    }
+    projectCache.evict(project);
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    voteLabel(changeId, "Code-Review", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    // The submit requirement is fulfilled now, since label:Code-Review=+1 applies as submittability
+    // expression (see comment above)
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+    // Legacy requirement is coming from the label MaxWithBlock function. Still unsatisfied.
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
+  public void submitRequirement_duplicateSubmitRequirement_differentCase() throws Exception {
+    // Define 2 submit requirements with same name but different case and different submittability
+    // expression.
+    try (TestRepository<Repository> repo =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      Ref ref = repo.getRepository().exactRef(RefNames.REFS_CONFIG);
+      RevCommit head = repo.getRevWalk().parseCommit(ref.getObjectId());
+      RevObject blob = repo.get(head.getTree(), ProjectConfig.PROJECT_CONFIG);
+      byte[] data = repo.getRepository().open(blob).getCachedBytes(Integer.MAX_VALUE);
+      String projectConfig = RawParseUtils.decode(data);
+
+      repo.update(
+          RefNames.REFS_CONFIG,
+          repo.commit()
+              .parent(head)
+              .message("Set project config")
+              .add(
+                  ProjectConfig.PROJECT_CONFIG,
+                  projectConfig
+                      // ProjectConfig processes the submit requirements in the order in which they
+                      // appear (1. Code-Review, 2. code-review) and ignores any further submit
+                      // requirement if its name case-insensitively matches the name of a submit
+                      // requirement that has already been seen. This means the Code-Review submit
+                      // requirement applies and the code-review submit requirement is ignored.
+                      + "[submit-requirement \"Code-Review\"]\n"
+                      + "    submittableIf = label:Code-Review=+2\n"
+                      + "[submit-requirement \"code-review\"]\n"
+                      + "    submittableIf = label:Code-Review=+1\n"));
+    }
+    projectCache.evict(project);
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    voteLabel(changeId, "Code-Review", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    // Still not satisfied since the Code-Review submit requirement with label:Code-Review=+2 as
+    // submittability expression applies (see comment above).
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    voteLabel(changeId, "Code-Review", 2);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    // The submit requirement is fulfilled now, since label:Code-Review=+2 applies as submittability
+    // expression (see comment above)
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test

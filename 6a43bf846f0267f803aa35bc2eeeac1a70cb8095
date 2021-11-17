@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "465371d6_b4fb6065",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-17T05:04:52Z",
+      "side": 1,
+      "message": "\u003e The upgrade of Mina to v2.7.0 is particularly important for the SSH RSA handshake fix (see [1]).\n\u003e \n\u003e [1] https://issues.apache.org/jira/browse/SSHD-1216\n\nThat issue documents a reasonable approach from Thomas that does not require a JGit update. Why not do that on stable-3.5?\n\nI\u0027m all for keeping JGit up to date, but this feels like a bump that we want on master.",
+      "parentUuid": "7e48dbb8_c130c037",
+      "revId": "6a43bf846f0267f803aa35bc2eeeac1a70cb8095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f46abc1a_30d0a91f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

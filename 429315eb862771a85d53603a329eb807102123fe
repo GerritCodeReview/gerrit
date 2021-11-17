@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe456f75_00c8b419",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 2029,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "That\u0027s fine, I\u0027m just adding comments so they\u0027re easy to find later :)",
+      "parentUuid": "2c92bc27_dae2a778",
+      "revId": "429315eb862771a85d53603a329eb807102123fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c97c7ae_f4b2fdb5",

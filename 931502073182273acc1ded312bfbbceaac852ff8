@@ -1,0 +1,639 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b16eb749_6dae52dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "You should sync past paladox\u0027s change.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f475b2db_f0e2f07a",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Keep logic out of willUpdate and call a method instead, that way willUpdate doesn\u0027t grow into a behemoth if we need to listen to other properties.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7a138e3_4b89a899",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Move this after the other render methods that are called from render()",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3137816_15195232",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Consider adding a method you can call to render one gr-account-label so you don\u0027t have nested return html`",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30f3c307_9a444391",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Why do you need this check on threadsEmpty? Doesn\u0027t getDisplayedThreads get all threads to display and if you look at how it calls shouldShowThread, it has an unresolvedOnly check in there. So it\u0027s a bit confusing to have another check here.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2ddc233_3b7d85f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": ": undefined",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea0ef0a6_82d49682",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": ": undefined",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c76a4f0e_7c8e5b70",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "I thought repeat was a directive to be used inside of an html`` stanza?",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5419a3f_2ad24321",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Move to a separate render method.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3759e7bf_dd7d5b0d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Consider inlining",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff85d187_2d6fc808",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Use switch statement",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "326aead4_a2565591",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Consider passing in a single boolean that represents this and then making this method a pure function and moving it out of this class.",
+      "range": {
+        "startLine": 402,
+        "startChar": 0,
+        "endLine": 403,
+        "endChar": 24
+      },
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcfc73e5_c3f7a209",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Remove newline",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fda4606_12f5de6c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "What happens if the thread is already attached?",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74322101_fcb524d9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Move to previous line.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abdc506f_b9876730",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Move this to a separate method to keep willUpdate tidy.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f13b0fe9_6556a729",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Make this an else to the previous if.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db1ce88d_195f315b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "33%?",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6a0c6c0_4c1da850",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "This skips the firing at the end. Move the block of the containing if to a new method.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecd76063_ef4b892c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Make this an async method.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "684f55e7_4f16157c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Use await syntax.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f69728f5_5a99357a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Make this method async.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1c25f01_7b343a63",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Use await syntax and try {} blocks.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "976ad5ee_bc07eec1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 2276,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Make this method async.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "599a2d28_eb7beefe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 2277,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Use await syntax rather than promise-chaining.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afa913a6_b198e7fb",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Should this be a plain number?",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a5a7d68_dec2b65a",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Make this an async method.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22ea211d_6ef0cedf",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "USe async syntax instead of promise-chaining.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16216afd_1e7eb74f",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Make this an async method.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0963c197_1513122f",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Move to using await syntax rather than callbacks.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "745d6484_315ca7f5",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Make this an async method.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8592e887_83599f57",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Should this be a DISCARD_COMMENT report?",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2bb64d7_c037ae0f",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Use await syntax instead of callbacks.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96e12850_1c57c812",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Rather than firing on document body, as a future change maybe this should be a service?",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a300e97c_081a2bcc",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Why is this cancel necessary? Debounce does this already.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27549f08_9e02dc83",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Rather than doing this, why not pass in a varargs of comments?\n\nThen it would be called as\n\ncreateThread({...createComment(), unresolved})",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdfe120d_0bfef3fa",
+        "filename": "polygerrit-ui/app/utils/compare-util.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-17T17:38:05Z",
+      "side": 1,
+      "message": "Do you need this block? Arrays are objects and they have keys",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

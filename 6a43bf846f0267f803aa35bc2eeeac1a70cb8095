@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1cb62136_e25e026b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-11-17T07:50:45Z",
+      "side": 1,
+      "message": "Eh - SSHD-1216 is _not_ in MINA SSHD 2.7.0. It\u0027ll be in the next release -- which will be too late for Gerrit. And yes, Gerrit can implement this server-sig-algs extension independently of an SSHD upgrade; the necessary hooks exist already in 2.6.0.\n\nMINA SSHD 2.8.0 most likely will come in December. I\u0027ll be away for most of that month.",
+      "parentUuid": "465371d6_b4fb6065",
+      "revId": "6a43bf846f0267f803aa35bc2eeeac1a70cb8095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f46abc1a_30d0a91f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

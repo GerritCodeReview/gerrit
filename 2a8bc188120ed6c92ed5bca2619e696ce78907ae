@@ -16,6 +16,24 @@
       "message": "Mention online migration here as well.",
       "revId": "2a8bc188120ed6c92ed5bca2619e696ce78907ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf32a548_c26b02d9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-17T17:50:15Z",
+      "side": 1,
+      "message": "Done in a follow up change",
+      "parentUuid": "65828932_d061bcf8",
+      "revId": "2a8bc188120ed6c92ed5bca2619e696ce78907ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

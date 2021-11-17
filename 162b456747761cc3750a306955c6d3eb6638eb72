@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65cb2606_7fb35584",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-11-17T11:53:51Z",
+      "side": 1,
+      "message": "Note: I re-added _computeDisabled, and re-added the tests here.",
+      "revId": "162b456747761cc3750a306955c6d3eb6638eb72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

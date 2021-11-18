@@ -198,7 +198,7 @@ export class GrDiffSelection extends PolymerElement {
     if (!diffHosts.length) return document.getSelection();
 
     const curDiffHost = diffHosts.find(diffHost => {
-      if (!diffHost?.shadowRoot?.getSelection) return false;
+      if (!diffHost.shadowRoot?.getSelection) return false;
       const selection = diffHost.shadowRoot.getSelection();
       // Pick the one with valid selection:
       // https://developer.mozilla.org/en-US/docs/Web/API/Selection/type

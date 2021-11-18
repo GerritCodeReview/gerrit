@@ -455,7 +455,7 @@ export class GrChangeList extends base {
     }
 
     const changeEl = changeEls[index];
-    const grChangeStar = changeEl?.shadowRoot?.querySelector('gr-change-star');
+    const grChangeStar = changeEl.shadowRoot?.querySelector('gr-change-star');
     if (grChangeStar) grChangeStar.toggleStar();
   }
 

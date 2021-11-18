@@ -506,7 +506,7 @@ export class GrComment extends PolymerElement {
           resComment.__draft = true;
           // Maintain the ephemeral draft ID for identification by other
           // elements.
-          if (this.comment?.__draftID) {
+          if (this.comment.__draftID) {
             resComment.__draftID = this.comment.__draftID;
           }
           if (!resComment.patch_set) resComment.patch_set = this.patchNum;

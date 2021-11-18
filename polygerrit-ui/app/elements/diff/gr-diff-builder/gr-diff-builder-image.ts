@@ -222,7 +222,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     ) as GrImageViewer;
     if (this._useNewImageDiffUi && imageViewer) {
       imageViewer.automaticBlink =
-        !!renderPrefs?.image_diff_prefs?.automatic_blink;
+        !!renderPrefs.image_diff_prefs?.automatic_blink;
     }
   }
 }

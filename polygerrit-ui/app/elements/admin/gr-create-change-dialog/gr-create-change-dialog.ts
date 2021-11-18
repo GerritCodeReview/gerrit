@@ -91,7 +91,7 @@ export class GrCreateChangeDialog extends LitElement {
 
     serverConfig$.pipe(takeUntil(this.disconnected$)).subscribe(config => {
       this.privateChangesEnabled =
-        config?.change?.disable_private_changes ?? false;
+        config?.change.disable_private_changes ?? false;
     });
   }
 

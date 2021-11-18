@@ -163,7 +163,7 @@ export function addIronOverlayBackdropStyleEl() {
 export function removeIronOverlayBackdropStyleEl() {
   const el = document.getElementById('backdrop-style');
   if (!el?.parentNode) throw new Error('Backdrop style element not found.');
-  el.parentNode?.removeChild(el);
+  el.parentNode.removeChild(el);
 }
 
 export function removeThemeStyles() {

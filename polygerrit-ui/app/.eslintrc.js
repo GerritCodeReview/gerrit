@@ -312,7 +312,8 @@ module.exports = {
         // At the same time, we are using typescript in a strict mode and
         // it catches almost all errors related to invalid usage of this.
         'no-invalid-this': 'off',
-
+        // https://typescript-eslint.io/rules/no-unnecessary-condition
+        '@typescript-eslint/no-unnecessary-condition': 'error',
         'node/no-extraneous-import': 'off',
 
         // Typescript already checks for undef

@@ -377,7 +377,7 @@ export class GrChangeListItem extends PolymerElement {
    * attention set before others, and the current user first.
    */
   _computeReviewers(change?: ChangeInfo) {
-    if (!change?.reviewers || !change?.reviewers.REVIEWER) return [];
+    if (!change?.reviewers || !change.reviewers.REVIEWER) return [];
     const reviewers = [...change.reviewers.REVIEWER].filter(
       r =>
         (!change.owner || change.owner._account_id !== r._account_id) &&
@@ -447,7 +447,7 @@ export class GrChangeListItem extends PolymerElement {
     change?: ChangeInfo | null
   ): Timestamp | undefined {
     if (!account?._account_id || !change?.attention_set) return undefined;
-    return change?.attention_set[account._account_id]?.last_update;
+    return change.attention_set[account._account_id].last_update;
   }
 
   _computeIsColumnHidden(columnToCheck?: string, columnsToDisplay?: string[]) {

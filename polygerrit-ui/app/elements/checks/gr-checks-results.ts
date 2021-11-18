@@ -282,7 +282,7 @@ class GrResultRow extends LitElement {
 
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('result')) {
-      this.isExpandable = !!this.result?.summary && !!this.result?.message;
+      this.isExpandable = !!this.result?.summary && !!this.result.message;
     }
   }
 
@@ -620,15 +620,15 @@ class GrResultExpanded extends LitElement {
     if (pointers.length === 0) return;
     const links = pointers.map(pointer => {
       let rangeText = '';
-      const start = pointer?.range?.start_line;
-      const end = pointer?.range?.end_line;
+      const start = pointer.range.start_line;
+      const end = pointer.range.end_line;
       if (start) rangeText += `#${start}`;
       if (end && start !== end) rangeText += `-${end}`;
       const change = this.changeService.getChange();
       assertIsDefined(change);
       const path = pointer.path;
       const patchset = this.result?.patchset as PatchSetNumber | undefined;
-      const line = pointer?.range?.start_line;
+      const line = pointer.range.start_line;
       return {
         icon: LinkIcon.CODE,
         tooltip: `${path}${rangeText}`,

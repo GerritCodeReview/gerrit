@@ -84,7 +84,7 @@ export class GrDownloadCommands extends PolymerElement {
       this._loggedIn = loggedIn;
     });
     preferences$.pipe(takeUntil(this.disconnected$)).subscribe(prefs => {
-      if (prefs?.download_scheme) {
+      if (prefs.download_scheme) {
         // Note (issue 5180): normalize the download scheme with lower-case.
         this.selectedScheme = prefs.download_scheme.toLowerCase();
       }

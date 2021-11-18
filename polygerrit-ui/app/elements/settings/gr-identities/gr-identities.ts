@@ -104,7 +104,7 @@ export class GrIdentities extends PolymerElement {
   }
 
   _computeShowLinkAnotherIdentity(config?: ServerInfo) {
-    if (config?.auth?.git_basic_auth_policy) {
+    if (config?.auth.git_basic_auth_policy) {
       return AUTH.includes(config.auth.git_basic_auth_policy.toUpperCase());
     }
 

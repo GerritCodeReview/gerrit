@@ -318,7 +318,7 @@ export class GrMainHeader extends PolymerElement {
   }
 
   _retrieveFeedbackURL(config: ServerInfo) {
-    if (config.gerrit?.report_bug_url) {
+    if (config.gerrit.report_bug_url) {
       this._feedbackURL = config.gerrit.report_bug_url;
     }
   }

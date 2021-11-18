@@ -127,7 +127,7 @@ export class GrRepo extends LitElement {
   constructor() {
     super();
     subscribe(this, preferences$, prefs => {
-      if (prefs?.download_scheme) {
+      if (prefs.download_scheme) {
         // Note (issue 5180): normalize the download scheme with lower-case.
         this.selectedScheme = prefs.download_scheme.toLowerCase();
       }
@@ -182,8 +182,8 @@ export class GrRepo extends LitElement {
           <h1 id="Title" class="heading-1">${this.repo}</h1>
           <hr />
           <div>
-            <a href=${this.weblinks?.[0]?.url}
-              ><gr-button link ?disabled=${!this.weblinks?.[0]?.url}
+            <a href=${this.weblinks[0]?.url}
+              ><gr-button link ?disabled=${!this.weblinks[0]?.url}
                 >Browse</gr-button
               ></a
             ><a href=${this.computeChangesUrl(this.repo)}
@@ -515,7 +515,7 @@ export class GrRepo extends LitElement {
           <gr-select
             id="unRegisteredCcSelect"
             .bindValue=${this.repoConfig?.enable_reviewer_by_email
-              ?.configured_value}
+              .configured_value}
             @bind-value-changed=${this
               .handleUnRegisteredCcSelectBindValueChanged}
           >
@@ -541,7 +541,7 @@ export class GrRepo extends LitElement {
         <span class="value">
           <gr-select
             id="setAllnewChangesPrivateByDefaultSelect"
-            .bindValue=${this.repoConfig?.private_by_default?.configured_value}
+            .bindValue=${this.repoConfig?.private_by_default.configured_value}
             @bind-value-changed=${this
               .handleSetAllNewChangesPrivateByDefaultSelectBindValueChanged}
           >
@@ -570,7 +570,7 @@ export class GrRepo extends LitElement {
           <gr-select
             id="setAllNewChangesWorkInProgressByDefaultSelect"
             .bindValue=${this.repoConfig?.work_in_progress_by_default
-              ?.configured_value}
+              .configured_value}
             @bind-value-changed=${this
               .handleSetAllNewChangesWorkInProgressByDefaultSelectBindValueChanged}
           >
@@ -597,7 +597,7 @@ export class GrRepo extends LitElement {
           <iron-input
             id="maxGitObjSizeIronInput"
             .bindValue=${this.repoConfig?.max_object_size_limit
-              ?.configured_value}
+              .configured_value}
             type="text"
             ?disabled=${this.readOnly}
             @bind-value-changed=${this.handleMaxGitObjSizeBindValueChanged}
@@ -608,7 +608,7 @@ export class GrRepo extends LitElement {
               ?disabled=${this.readOnly}
             />
           </iron-input>
-          ${this.repoConfig?.max_object_size_limit?.value
+          ${this.repoConfig?.max_object_size_limit.value
             ? `effective: ${this.repoConfig.max_object_size_limit.value} bytes`
             : ''}
         </span>
@@ -784,7 +784,7 @@ export class GrRepo extends LitElement {
             }
 
             // If the user is not an owner, is_owner is not a property.
-            this.readOnly = !access[repo]?.is_owner;
+            this.readOnly = !access[repo].is_owner;
           });
         }
       })

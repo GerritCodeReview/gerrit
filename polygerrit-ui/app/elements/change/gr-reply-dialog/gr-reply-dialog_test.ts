@@ -1426,38 +1426,32 @@ suite('gr-reply-dialog tests', () => {
     element._focusOn();
     await flush();
     assert.equal(chooseFocusTargetSpy.callCount, 1);
-    assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-TEXTAREA');
-    assert.equal(element?.shadowRoot?.activeElement?.id, 'textarea');
+    assert.equal(element.shadowRoot?.activeElement?.tagName, 'GR-TEXTAREA');
+    assert.equal(element.shadowRoot?.activeElement?.id, 'textarea');
 
     element._focusOn(element.FocusTarget.ANY);
     await flush();
     assert.equal(chooseFocusTargetSpy.callCount, 2);
-    assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-TEXTAREA');
-    assert.equal(element?.shadowRoot?.activeElement?.id, 'textarea');
+    assert.equal(element.shadowRoot?.activeElement?.tagName, 'GR-TEXTAREA');
+    assert.equal(element.shadowRoot?.activeElement?.id, 'textarea');
 
     element._focusOn(element.FocusTarget.BODY);
     await flush();
     assert.equal(chooseFocusTargetSpy.callCount, 2);
-    assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-TEXTAREA');
-    assert.equal(element?.shadowRoot?.activeElement?.id, 'textarea');
+    assert.equal(element.shadowRoot?.activeElement?.tagName, 'GR-TEXTAREA');
+    assert.equal(element.shadowRoot?.activeElement?.id, 'textarea');
 
     element._focusOn(element.FocusTarget.REVIEWERS);
     await flush();
     assert.equal(chooseFocusTargetSpy.callCount, 2);
-    assert.equal(
-      element?.shadowRoot?.activeElement?.tagName,
-      'GR-ACCOUNT-LIST'
-    );
-    assert.equal(element?.shadowRoot?.activeElement?.id, 'reviewers');
+    assert.equal(element.shadowRoot?.activeElement?.tagName, 'GR-ACCOUNT-LIST');
+    assert.equal(element.shadowRoot?.activeElement?.id, 'reviewers');
 
     element._focusOn(element.FocusTarget.CCS);
     await flush();
     assert.equal(chooseFocusTargetSpy.callCount, 2);
-    assert.equal(
-      element?.shadowRoot?.activeElement?.tagName,
-      'GR-ACCOUNT-LIST'
-    );
-    assert.equal(element?.shadowRoot?.activeElement?.id, 'ccs');
+    assert.equal(element.shadowRoot?.activeElement?.tagName, 'GR-ACCOUNT-LIST');
+    assert.equal(element.shadowRoot?.activeElement?.id, 'ccs');
   });
 
   test('_chooseFocusTarget', () => {
@@ -1489,7 +1483,7 @@ suite('gr-reply-dialog tests', () => {
   test('only send labels that have changed', async () => {
     await flush();
     stubSaveReview((review: ReviewInput) => {
-      assert.deepEqual(review?.labels, {
+      assert.deepEqual(review.labels, {
         'Code-Review': 0,
         Verified: -1,
       });

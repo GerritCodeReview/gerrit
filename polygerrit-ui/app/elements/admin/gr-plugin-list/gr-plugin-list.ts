@@ -81,8 +81,8 @@ export class GrPluginList extends PolymerElement {
 
   _paramsChanged(params: ListViewParams) {
     this._loading = true;
-    this._filter = params?.filter ?? '';
-    this._offset = Number(params?.offset ?? 0);
+    this._filter = params.filter ?? '';
+    this._offset = Number(params.offset ?? 0);
 
     return this._getPlugins(this._filter, this._pluginsPerPage, this._offset);
   }

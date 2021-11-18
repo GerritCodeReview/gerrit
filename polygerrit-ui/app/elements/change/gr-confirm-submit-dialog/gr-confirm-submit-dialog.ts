@@ -126,7 +126,7 @@ export class GrConfirmSubmitDialog extends LitElement {
         id="commentList"
         .threads="${this.unresolvedThreads}"
         .change="${this.change}"
-        .changeNum="${this.change?._number}"
+        .changeNum="${this.change._number}"
         logged-in
         hide-dropdown
       >

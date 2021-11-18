@@ -358,7 +358,7 @@ export class GrGroup extends LitElement {
     );
 
     this.groupConfig = config;
-    this.originalOptionsVisibleToAll = config?.options?.visible_to_all;
+    this.originalOptionsVisibleToAll = config.options?.visible_to_all;
 
     fireTitleChange(this, config.name);
 
@@ -410,7 +410,7 @@ export class GrGroup extends LitElement {
     }
     if (!owner) return;
     await this.restApiService.saveGroupOwner(this.groupId, owner);
-    this.originalOwnerName = this.groupConfig?.owner;
+    this.originalOwnerName = this.groupConfig.owner;
     this.groupConfigOwner = undefined;
   }
 

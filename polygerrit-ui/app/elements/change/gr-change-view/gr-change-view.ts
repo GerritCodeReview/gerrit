@@ -843,7 +843,7 @@ export class GrChangeView extends base {
         activeTabIndex: e.detail.value,
         scrollIntoView: e.detail.scrollIntoView,
       },
-      (e.composedPath()?.[0] as Element | undefined)?.tagName
+      (e.composedPath()[0] as Element | undefined)?.tagName
     );
     if (activeTabName) {
       this._activeTabs = [activeTabName, this._activeTabs[1]];
@@ -870,7 +870,7 @@ export class GrChangeView extends base {
     let tabName: string | undefined;
     // target can be slot child of papertab, so we search for tabName in parents
     do {
-      tabName = target?.dataset?.['name'];
+      tabName = target?.dataset['name'];
       if (tabName) break;
       target = target?.parentElement as HTMLElement | null;
     } while (target);
@@ -1297,7 +1297,7 @@ export class GrChangeView extends base {
   _initActiveTabs(params?: AppElementChangeViewParams) {
     let primaryTab = PrimaryTab.FILES;
     if (params?.tab) {
-      primaryTab = params?.tab as PrimaryTab;
+      primaryTab = params.tab as PrimaryTab;
     } else if (params && 'commentId' in params) {
       primaryTab = PrimaryTab.COMMENT_THREADS;
     }
@@ -1925,7 +1925,7 @@ export class GrChangeView extends base {
           this._selectedRevision = currentRevision;
           // TODO: Fetch and process files.
         } else {
-          if (!this._change?.revisions || !this._patchRange) return false;
+          if (!this._change.revisions || !this._patchRange) return false;
           this._selectedRevision = Object.values(this._change.revisions).find(
             revision => {
               // edit patchset is a special one
@@ -2212,13 +2212,13 @@ export class GrChangeView extends base {
       promises.push(
         this.commentsService.reloadPortedComments(
           this._changeNum,
-          this._patchRange?.patchNum
+          this._patchRange.patchNum
         )
       );
       promises.push(
         this.commentsService.reloadPortedDrafts(
           this._changeNum,
-          this._patchRange?.patchNum
+          this._patchRange.patchNum
         )
       );
     }

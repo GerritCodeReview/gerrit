@@ -69,7 +69,7 @@ export const grReportingMock: ReportingService = {
     log(`reportExecution '${id}': ${JSON.stringify(details)}`);
   },
   trackApi: (pluginApi: PluginApi, object: string, method: string) => {
-    const plugin = pluginApi?.getPluginName() ?? 'unknown';
+    const plugin = pluginApi.getPluginName() ?? 'unknown';
     log(`trackApi '${plugin}', ${object}, ${method}`);
   },
   reportExtension: () => {},

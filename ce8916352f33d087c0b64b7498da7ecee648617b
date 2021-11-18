@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec4b6aee_aa54ac63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-18T18:20:18Z",
+      "side": 1,
+      "message": "fyi, I think you can also do this with curly braces as the outer quotes:\n\n message:{A \"specific\" word}",
+      "revId": "ce8916352f33d087c0b64b7498da7ecee648617b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

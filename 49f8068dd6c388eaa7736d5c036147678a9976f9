@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb4525f3_aea45e89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-18T23:58:17Z",
+      "side": 1,
+      "message": "Adding Paladox since I\u0027m not sure why we bother to have a list of languages to enable syntax highlighting for? Does it not work to just throw everything at highlight.js?",
+      "revId": "49f8068dd6c388eaa7736d5c036147678a9976f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

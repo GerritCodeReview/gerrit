@@ -39,11 +39,25 @@ export const grSyntaxTheme = css`
   .gr-syntax-built_in {
     color: var(--syntax-built_in-color);
   }
+  .gr-syntax-bullet {
+    color: var(--syntax-bullet-color);
+  }
+  .gr-syntax-code {
+    color: var(--syntax-code-color);
+  }
   .gr-syntax-comment {
     color: var(--syntax-comment-color);
   }
   .gr-syntax-doctag {
     font-weight: var(--syntax-doctag-weight);
+  }
+  .gr-syntax-emphasis {
+    color: var(--syntax-emphasis-color);
+    font-style: var(--syntax-emphasis-style);
+    font-weight: var(--syntax-emphasis-weight);
+  }
+  .gr-syntax-formula {
+    color: var(--syntax-formula-color);
   }
   .gr-syntax-function {
     color: var(--syntax-function-color);
@@ -74,8 +88,14 @@ export const grSyntaxTheme = css`
   .gr-syntax-property {
     color: var(--syntax-property-color);
   }
+  .gr-syntax-quote {
+    color: var(--syntax-quote-color);
+  }
   .gr-syntax-regexp {
     color: var(--syntax-regexp-color);
+  }
+  .gr-syntax-section {
+    color: var(--syntax-section-color);
   }
   .gr-syntax-selector-attr {
     color: var(--syntax-selector-attr-color);
@@ -91,6 +111,11 @@ export const grSyntaxTheme = css`
   }
   .gr-syntax-string {
     color: var(--syntax-string-color);
+  }
+  .gr-syntax-strong {
+    color: var(--syntax-strong-color);
+    font-style: var(--syntax-strong-style);
+    font-weight: var(--syntax-strong-weight);
   }
   .gr-syntax-tag {
     color: var(--syntax-tag-color);

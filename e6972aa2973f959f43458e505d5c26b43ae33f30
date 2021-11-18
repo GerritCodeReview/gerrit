@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f6b4858_36b43750",
+        "filename": "polygerrit-ui/app/services/config/config-service.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T12:40:15Z",
+      "side": 1,
+      "message": "are these empty ones TODO or WAI? If it should be filled in then it would be nice to have a TODO on these",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 15
+      },
+      "revId": "e6972aa2973f959f43458e505d5c26b43ae33f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ca6d58d_39ade0b6",
+        "filename": "polygerrit-ui/app/services/registry_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T12:40:15Z",
+      "side": 1,
+      "message": "string[] is our main way to write this type, same in Foo and Bar",
+      "range": {
+        "startLine": 46,
+        "startChar": 17,
+        "endLine": 46,
+        "endChar": 31
+      },
+      "revId": "e6972aa2973f959f43458e505d5c26b43ae33f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

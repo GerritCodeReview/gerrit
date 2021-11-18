@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f92910f2_90747e24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T16:32:58Z",
+      "side": 1,
+      "message": "Abandoning for now due to many test failures. Mostly these are js tests that are calling our functions with non-type-compliant values which the unnecessary conditions are handling, but converting these is out-of-scope for this change and too much work for now.",
+      "revId": "446c11bc6d874ab86f25e8584e29feec4e0ca177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6eca993a_e40f8841",
@@ -36,6 +53,29 @@
         "startChar": 17,
         "endLine": 82,
         "endChar": 23
+      },
+      "revId": "446c11bc6d874ab86f25e8584e29feec4e0ca177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7adff06_16941dde",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T16:32:58Z",
+      "side": 1,
+      "message": "verify",
+      "range": {
+        "startLine": 841,
+        "startChar": 28,
+        "endLine": 841,
+        "endChar": 41
       },
       "revId": "446c11bc6d874ab86f25e8584e29feec4e0ca177",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

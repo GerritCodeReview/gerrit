@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a45e1297_d6f97a0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-18T20:01:41Z",
+      "side": 1,
+      "message": "This has been cherry-picked to stable-3.2 as https://gerrit-review.googlesource.com/c/gerrit/+/323100\n\nShould this be abandoned then?",
+      "revId": "d7222a84a56d5cce3d7299b220060613fa6fdc47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

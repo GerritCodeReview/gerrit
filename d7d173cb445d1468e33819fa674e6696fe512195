@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9f8cff1_98055049",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4999,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-18T09:11:14Z",
+      "side": 1,
+      "message": "Normally, this should get validated and result in an error (submittability expression is missing). Is validation skipped because we don\u0027t do a push?\n\nCan we add a comment about it?",
+      "revId": "d7d173cb445d1468e33819fa674e6696fe512195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7eb8621_0e4514b6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5021,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-18T09:11:14Z",
+      "side": 1,
+      "message": "nit: child? I only see one level of inheritance in this test.",
+      "range": {
+        "startLine": 5021,
+        "startChar": 61,
+        "endLine": 5021,
+        "endChar": 72
+      },
+      "revId": "d7d173cb445d1468e33819fa674e6696fe512195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

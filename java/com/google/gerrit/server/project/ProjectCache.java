@@ -59,6 +59,13 @@ public interface ProjectCache {
   Optional<ProjectState> get(@Nullable Project.NameKey projectName) throws StorageException;
 
   /**
+   * Invalidate the cached information about the given project.
+   *
+   * @param p the NameKey of the project that is being evicted
+   */
+  void evict(Project.NameKey p);
+
+  /**
    * Invalidate the cached information about the given project, and triggers reindexing for it
    *
    * @param p project that is being evicted

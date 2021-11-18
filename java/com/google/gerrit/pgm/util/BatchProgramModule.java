@@ -81,6 +81,7 @@ import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.query.FileEditsPredicate;
 import com.google.gerrit.server.query.approval.ApprovalModule;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
@@ -209,6 +210,8 @@ public class BatchProgramModule extends FactoryModule {
 
     // Global submit requirements
     DynamicSet.setOf(binder(), SubmitRequirement.class);
+
+    factory(FileEditsPredicate.Factory.class);
 
     bind(ChangeJson.Factory.class).toProvider(Providers.of(null));
     bind(EventUtil.class).toProvider(Providers.of(null));

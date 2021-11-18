@@ -911,12 +911,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> f(String file) {
+  public Predicate<ChangeData> f(String file) throws QueryParseException {
     return file(file);
   }
 
   @Operator
-  public Predicate<ChangeData> file(String file) {
+  public Predicate<ChangeData> file(String file) throws QueryParseException {
     if (file.startsWith("^")) {
       return new RegexPathPredicate(file);
     }

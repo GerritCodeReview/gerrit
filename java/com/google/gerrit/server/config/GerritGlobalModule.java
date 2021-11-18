@@ -190,6 +190,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRequirementExpressionsValidator;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.query.FileEditsPredicate;
 import com.google.gerrit.server.query.approval.ApprovalModule;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
@@ -491,6 +492,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(GitModules.Factory.class);
     factory(VersionedAuthorizedKeys.Factory.class);
     factory(StoreSubmitRequirementsOp.Factory.class);
+    factory(FileEditsPredicate.Factory.class);
 
     bind(AccountManager.class);
     bind(SubscriptionGraph.Factory.class).to(ConfiguredSubscriptionGraphFactory.class);

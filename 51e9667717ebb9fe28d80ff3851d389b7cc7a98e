@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6cf6485_0b4074ac",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-18T17:20:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebc69bf4_9888c4aa",
+      "revId": "51e9667717ebb9fe28d80ff3851d389b7cc7a98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09e7c9e8_d500184d",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-11-15T19:08:58Z",
       "side": 1,
       "message": "this is going to be \"Replace \" instead of \"replace\". See my comment [1] on PS7.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/323396/comments/dbc8a0a8_2f05b13c",
+      "range": {
+        "startLine": 227,
+        "startChar": 22,
+        "endLine": 227,
+        "endChar": 33
+      },
+      "revId": "51e9667717ebb9fe28d80ff3851d389b7cc7a98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb7545e4_751890e0",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-18T17:20:32Z",
+      "side": 1,
+      "message": "Done, Using generic \"reindex\" term.",
+      "parentUuid": "09e7c9e8_d500184d",
       "range": {
         "startLine": 227,
         "startChar": 22,
@@ -196,6 +238,30 @@
       "writtenOn": "2021-11-15T19:08:58Z",
       "side": 1,
       "message": "Is this an unrelated change? i.e. was using projectCache.evict() triggering an extra reindex always? If yes, please fix in a separate change.",
+      "range": {
+        "startLine": 86,
+        "startChar": 31,
+        "endLine": 86,
+        "endChar": 40
+      },
+      "revId": "51e9667717ebb9fe28d80ff3851d389b7cc7a98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ea32af_3d236f1e",
+        "filename": "java/com/google/gerrit/server/index/project/AllProjectsIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-18T17:20:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d604e8e3_b72abdd2",
       "range": {
         "startLine": 86,
         "startChar": 31,

@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "310c254a_af7e773c",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-18T04:59:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bcc18a1a_58b257e2",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 228,
+        "endChar": 94
+      },
+      "revId": "33c22258c0e912068e9df268b4f6e110287a38b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a5ea843_736a76a7",

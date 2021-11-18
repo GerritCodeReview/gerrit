@@ -18,6 +18,41 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f613c6f_b4aa6a85",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4999,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-18T17:36:03Z",
+      "side": 1,
+      "message": "\u003e  Is validation skipped because we don\u0027t do a push?\n\nYes, this updates the config directly bypassing the validator.\n\n\u003e Can we add a comment about it?\n\nSure, done.",
+      "parentUuid": "e9f8cff1_98055049",
+      "revId": "d7d173cb445d1468e33819fa674e6696fe512195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c78f88c7_06aea559",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5018,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-18T17:36:03Z",
+      "side": 1,
+      "message": "It\u0027s better to vote on the original override label here. Done.",
+      "revId": "d7d173cb445d1468e33819fa674e6696fe512195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7eb8621_0e4514b6",
@@ -31,6 +66,30 @@
       "writtenOn": "2021-11-18T09:11:14Z",
       "side": 1,
       "message": "nit: child? I only see one level of inheritance in this test.",
+      "range": {
+        "startLine": 5021,
+        "startChar": 61,
+        "endLine": 5021,
+        "endChar": 72
+      },
+      "revId": "d7d173cb445d1468e33819fa674e6696fe512195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d4396c9_fff098a2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5021,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-18T17:36:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7eb8621_0e4514b6",
       "range": {
         "startLine": 5021,
         "startChar": 61,

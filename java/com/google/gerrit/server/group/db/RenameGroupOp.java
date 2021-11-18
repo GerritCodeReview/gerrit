@@ -121,7 +121,7 @@ class RenameGroupOp extends DefaultQueueOp {
       //
       GroupReference ref = config.getGroup(uuid);
       if (ref == null || newName.equals(ref.getName())) {
-        projectCache.evict(config.getProject());
+        projectCache.evictAndReindex(config.getProject());
         return;
       }
 
@@ -130,7 +130,7 @@ class RenameGroupOp extends DefaultQueueOp {
       md.setMessage("Rename group " + oldName + " to " + newName + "\n");
       try {
         config.commit(md);
-        projectCache.evict(config.getProject());
+        projectCache.evictAndReindex(config.getProject());
         success = true;
       } catch (IOException e) {
         logger.atSevere().withCause(e).log(

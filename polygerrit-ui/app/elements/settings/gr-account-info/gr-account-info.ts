@@ -24,7 +24,7 @@ import {htmlTemplate} from './gr-account-info_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
 
 @customElement('gr-account-info')
@@ -92,7 +92,7 @@ export class GrAccountInfo extends PolymerElement {
   @property({type: String})
   _avatarChangeUrl = '';
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   loadData() {
     const promises = [];

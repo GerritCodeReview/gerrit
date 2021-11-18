@@ -30,7 +30,6 @@ import {
   ReviewerState,
   SpecialFilePath,
 } from '../../../constants/constants';
-import {appContext} from '../../../services/app-context';
 import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {StandardLabels} from '../../../utils/label-util';
 import {
@@ -122,8 +121,6 @@ suite('gr-reply-dialog tests', () => {
 
     stubRestApi('getChange').returns(Promise.resolve({...createChange()}));
     stubRestApi('getChangeSuggestedReviewers').returns(Promise.resolve([]));
-
-    sinon.stub(appContext.flagsService, 'isEnabled').returns(true);
 
     element = basicFixture.instantiate();
     element.change = {

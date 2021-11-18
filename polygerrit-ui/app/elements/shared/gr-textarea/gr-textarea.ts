@@ -22,9 +22,8 @@ import '../../../styles/shared-styles';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-textarea_html';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {customElement, property} from '@polymer/decorators';
-import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {
   GrAutocompleteDropdown,
@@ -137,17 +136,13 @@ export class GrTextarea extends PolymerElement {
   readonly _verticalOffset = 20;
   // Offset makes dropdown appear below text.
 
-  reporting: ReportingService;
+  // Accessed in tests.
+  readonly reporting = getAppContext().reportingService;
 
   disableEnterKeyForSelectingEmoji = false;
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
-
-  constructor() {
-    super();
-    this.reporting = appContext.reportingService;
-  }
 
   override disconnectedCallback() {
     super.disconnectedCallback();

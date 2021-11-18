@@ -30,7 +30,7 @@ import {
 import {TimeFormat, DateFormat} from '../../../constants/constants';
 import {assertNever} from '../../../utils/common-util';
 import {Timestamp} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 const TimeFormats = {
   TIME_12: 'h:mm A', // 2:14 PM
@@ -107,7 +107,7 @@ export class GrDateFormatter extends LitElement {
   @property({type: Boolean})
   relativeOptionNoAgo = false;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

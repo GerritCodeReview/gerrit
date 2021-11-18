@@ -22,7 +22,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-email-editor_html';
 import {customElement, property} from '@polymer/decorators';
 import {EmailInfo} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 @customElement('gr-email-editor')
 export class GrEmailEditor extends PolymerElement {
@@ -42,7 +42,7 @@ export class GrEmailEditor extends PolymerElement {
   @property({type: String})
   _newPreferred: string | null = null;
 
-  readonly restApiService = appContext.restApiService;
+  readonly restApiService = getAppContext().restApiService;
 
   loadData() {
     return this.restApiService.getAccountEmails().then(emails => {

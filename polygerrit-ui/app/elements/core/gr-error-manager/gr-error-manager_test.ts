@@ -23,7 +23,7 @@ import {
   __testOnly_ErrorType,
 } from './gr-error-manager';
 import {stubAuth, stubReporting, stubRestApi} from '../../../test/test-utils';
-import {appContext} from '../../../services/app-context';
+import {AppContext, getAppContext} from '../../../services/app-context';
 import {
   createAccountDetailWithId,
   createPreferences,
@@ -41,11 +41,13 @@ suite('gr-error-manager tests', () => {
     let toastSpy: sinon.SinonSpy;
     let fetchStub: sinon.SinonStub;
     let getLoggedInStub: sinon.SinonStub;
+    let appContext: AppContext;
 
     setup(() => {
       fetchStub = stubAuth('fetch').returns(
         Promise.resolve({...new Response(), ok: true, status: 204})
       );
+      appContext = getAppContext();
       getLoggedInStub = stubRestApi('getLoggedIn').callsFake(() =>
         appContext.authService.authCheck()
       );

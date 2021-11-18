@@ -22,7 +22,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-table-editor_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {ServerInfo} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
 
 @customElement('gr-change-table-editor')
@@ -43,7 +43,7 @@ export class GrChangeTableEditor extends PolymerElement {
   @property({type: Array})
   defaultColumns: string[] = [];
 
-  private readonly flagsService = appContext.flagsService;
+  private readonly flagsService = getAppContext().flagsService;
 
   @observe('serverConfig')
   _configChanged(config: ServerInfo) {

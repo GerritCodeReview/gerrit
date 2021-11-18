@@ -25,7 +25,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dialog';
 import {fireTitleChange} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -69,7 +69,7 @@ export class GrAdminGroupList extends LitElement {
 
   @state() private filter = '';
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();

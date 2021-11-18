@@ -17,7 +17,7 @@
 
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GroupInfo, GroupId} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
@@ -33,7 +33,7 @@ export class GrGroupList extends LitElement {
   @state()
   protected _groups: GroupInfo[] = [];
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   loadData() {
     return this.restApiService.getAccountGroups().then(groups => {

@@ -17,7 +17,7 @@
 
 import '../../test/common-test-setup-karma.js';
 import {GrGroupSuggestionsProvider} from './gr-group-suggestions-provider.js';
-import {appContext} from '../../services/app-context.js';
+import {getAppContext} from '../../services/app-context.js';
 import {stubRestApi} from '../../test/test-utils.js';
 
 suite('GrGroupSuggestionsProvider tests', () => {
@@ -33,7 +33,7 @@ suite('GrGroupSuggestionsProvider tests', () => {
   };
 
   setup(() => {
-    provider = new GrGroupSuggestionsProvider(appContext.restApiService);
+    provider = new GrGroupSuggestionsProvider(getAppContext().restApiService);
   });
 
   test('getSuggestions', async () => {

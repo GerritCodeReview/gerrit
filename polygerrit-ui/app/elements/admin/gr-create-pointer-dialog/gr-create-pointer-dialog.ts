@@ -20,7 +20,7 @@ import '../../shared/gr-select/gr-select';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {BranchName, RepoName} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -55,7 +55,7 @@ export class GrCreatePointerDialog extends LitElement {
   /* private but used in test */
   @state() itemAnnotation?: string;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
     return [

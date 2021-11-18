@@ -47,12 +47,20 @@ export interface AppContext {
 }
 
 /**
- * The AppContext holds immortal singleton instances of services. It's a
- * convenient way to provide singletons that can be swapped out for testing.
+ * The AppContext holds instances of services. It's a convenient way to provide
+ * singletons that can be swapped out for testing.
  *
  * AppContext is initialized in ./app-context-init.js
  *
  * It is guaranteed that all fields in appContext are always initialized
  * (except for shared gr-diff)
  */
-export const appContext: AppContext = {} as AppContext;
+let appContext: AppContext = {} as AppContext;
+
+export function injectAppContext(ctx: AppContext) {
+  appContext = ctx;
+}
+
+export function getAppContext() {
+  return appContext;
+}

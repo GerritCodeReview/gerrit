@@ -28,7 +28,7 @@ import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 export interface GrSshEditor {
   $: {
@@ -64,7 +64,7 @@ export class GrSshEditor extends PolymerElement {
   @property({type: Array})
   _keysToRemove: SshKeyInfo[] = [];
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   loadData() {
     return this.restApiService.getAccountSSHKeys().then(keys => {

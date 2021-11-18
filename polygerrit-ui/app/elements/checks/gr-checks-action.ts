@@ -18,7 +18,7 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {Action} from '../../api/checks';
 import {checkRequiredProperty} from '../../utils/common-util';
-import {appContext} from '../../services/app-context';
+import {getAppContext} from '../../services/app-context';
 
 @customElement('gr-checks-action')
 export class GrChecksAction extends LitElement {
@@ -28,7 +28,7 @@ export class GrChecksAction extends LitElement {
   @property({type: Object})
   eventTarget: HTMLElement | null = null;
 
-  private checksService = appContext.checksService;
+  private checksService = getAppContext().checksService;
 
   override connectedCallback() {
     super.connectedCallback();

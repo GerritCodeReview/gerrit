@@ -22,7 +22,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-cherrypick-dialog_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   ChangeInfo,
   BranchName,
@@ -30,7 +30,6 @@ import {
   CommitId,
   ChangeInfoId,
 } from '../../../types/common';
-import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrTypedAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {HttpMethod, ChangeStatus} from '../../../constants/constants';
@@ -135,17 +134,15 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
   @property({type: Boolean})
   _invalidBranch = false;
 
-  @property({type: Object})
-  reporting: ReportingService;
-
   private selectedChangeIds = new Set<ChangeInfoId>();
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
+
+  private readonly reporting = getAppContext().reportingService;
 
   constructor() {
     super();
     this._statuses = {};
-    this.reporting = appContext.reportingService;
     this._query = (text: string) => this._getProjectBranchesSuggestions(text);
   }
 

@@ -17,7 +17,7 @@
 
 import '../test/common-test-setup-karma.js';
 import './gr-app.js';
-import {appContext} from '../services/app-context.js';
+import {getAppContext} from '../services/app-context.js';
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {stubRestApi} from '../test/test-utils.js';
@@ -29,7 +29,7 @@ suite('gr-app tests', () => {
   let configStub;
 
   setup(async () => {
-    sinon.stub(appContext.reportingService, 'appStarted');
+    sinon.stub(getAppContext().reportingService, 'appStarted');
     stub('gr-account-dropdown', '_getTopContent');
     stub('gr-router', 'start');
     stubRestApi('getAccount').returns(Promise.resolve({}));

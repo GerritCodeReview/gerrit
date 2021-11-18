@@ -17,7 +17,7 @@
 
 import {getBaseUrl} from '../../../utils/url-util';
 import {ContributorAgreementInfo} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
@@ -28,7 +28,7 @@ export class GrAgreementsList extends LitElement {
   @property({type: Array})
   _agreements?: ContributorAgreementInfo[];
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();

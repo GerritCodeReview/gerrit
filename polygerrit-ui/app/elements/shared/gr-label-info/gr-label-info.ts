@@ -46,7 +46,7 @@ import {
   hasVoted,
   valueString,
 } from '../../../utils/label-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -108,9 +108,11 @@ export class GrLabelInfo extends LitElement {
   @property({type: Boolean})
   showAlwaysOldUI = false;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   // TODO(TS): not used, remove later
   _xhrPromise?: Promise<void>;
@@ -210,8 +212,6 @@ export class GrLabelInfo extends LitElement {
       `,
     ];
   }
-
-  private readonly flagsService = appContext.flagsService;
 
   override render() {
     if (

@@ -18,7 +18,7 @@
 import {customElement, property, state} from 'lit/decorators';
 import {LitElement, html, PropertyValues} from 'lit';
 import {AppElementTopicParams} from '../gr-app-types';
-import {appContext} from '../../services/app-context';
+import {getAppContext} from '../../services/app-context';
 import {KnownExperimentId} from '../../services/flags/flags';
 import {GerritNav} from '../core/gr-navigation/gr-navigation';
 import {GerritView} from '../../services/router/router-model';
@@ -31,7 +31,7 @@ export class GrTopicView extends LitElement {
   @state()
   topic?: string;
 
-  private readonly flagsService = appContext.flagsService;
+  private readonly flagsService = getAppContext().flagsService;
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('params')) {

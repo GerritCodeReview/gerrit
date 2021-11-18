@@ -57,7 +57,7 @@ import {
 } from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {charsOnly} from '../../utils/string-util';
-import {appContext} from '../../services/app-context';
+import {getAppContext} from '../../services/app-context';
 import {KnownExperimentId} from '../../services/flags/flags';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
@@ -389,9 +389,9 @@ export class GrChecksRuns extends LitElement {
 
   private isSectionExpanded = new Map<RunStatus, boolean>();
 
-  private flagService = appContext.flagsService;
+  private flagService = getAppContext().flagsService;
 
-  private checksService = appContext.checksService;
+  private checksService = getAppContext().checksService;
 
   constructor() {
     super();

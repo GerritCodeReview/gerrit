@@ -23,7 +23,7 @@ import {htmlTemplate} from './gr-diff-preferences_html';
 import {customElement, property} from '@polymer/decorators';
 import {DiffPreferencesInfo, IgnoreWhitespaceType} from '../../../types/diff';
 import {GrSelect} from '../gr-select/gr-select';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {diffPreferences$} from '../../../services/user/user-model';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
@@ -57,7 +57,7 @@ export class GrDiffPreferences extends PolymerElement {
   @property({type: Object})
   diffPrefs?: DiffPreferencesInfo;
 
-  private readonly userService = appContext.userService;
+  private readonly userService = getAppContext().userService;
 
   private readonly disconnected$ = new Subject();
 

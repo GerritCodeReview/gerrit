@@ -30,7 +30,7 @@ import {
   BranchInfo,
 } from '../../../types/common';
 import {GrLabeledAutocomplete} from '../gr-labeled-autocomplete/gr-labeled-autocomplete';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -62,7 +62,7 @@ export class GrRepoBranchPicker extends PolymerElement {
   @property({type: Object})
   _repoQuery: AutocompleteQuery = () => Promise.resolve([]);
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

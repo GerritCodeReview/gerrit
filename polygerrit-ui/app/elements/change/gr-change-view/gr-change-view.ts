@@ -71,7 +71,7 @@ import {
 } from '../../../constants/constants';
 
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -275,11 +275,12 @@ export class GrChangeView extends base {
    * @event show-auth-required
    */
 
-  private readonly reporting = appContext.reportingService;
+  // Accessed in tests.
+  readonly reporting = getAppContext().reportingService;
 
-  private readonly jsAPI = appContext.jsApiService;
+  readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly changeService = appContext.changeService;
+  private readonly changeService = getAppContext().changeService;
 
   /**
    * URL params passed from the router.
@@ -554,13 +555,13 @@ export class GrChangeView extends base {
   })
   resolveWeblinks?: GeneratedWebLink[];
 
-  restApiService = appContext.restApiService;
+  readonly restApiService = getAppContext().restApiService;
 
-  private readonly userService = appContext.userService;
+  private readonly userService = getAppContext().userService;
 
-  private readonly commentsService = appContext.commentsService;
+  private readonly commentsService = getAppContext().commentsService;
 
-  private readonly shortcuts = appContext.shortcutsService;
+  private readonly shortcuts = getAppContext().shortcutsService;
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [

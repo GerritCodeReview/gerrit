@@ -33,7 +33,10 @@ import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit';
+import {
+  _testOnly_initGerritPluginApi,
+  GerritInternal,
+} from '../../shared/gr-js-api-interface/gr-gerrit';
 import {EventType, PluginApi} from '../../../api/plugin';
 
 import 'lodash/lodash';
@@ -102,18 +105,17 @@ import {CommentThread, UIRobot} from '../../../utils/comment-util';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
-import {appContext} from '../../../services/app-context';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {_testOnly_setState} from '../../../services/user/user-model';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 
-const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
+  let pluginApi: GerritInternal;
 
   let navigateToChangeStub: SinonStubbedMember<
     typeof GerritNav.navigateToChange
@@ -343,6 +345,7 @@ suite('gr-change-view tests', () => {
   ];
 
   setup(() => {
+    pluginApi = _testOnly_initGerritPluginApi();
     // Since pluginEndpoints are global, must reset state.
     _testOnly_resetEndpoints();
     navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
@@ -2017,7 +2020,7 @@ suite('gr-change-view tests', () => {
     element._change = {...change};
     element._patchRange = {patchNum: 4 as RevisionPatchSetNum};
     element._mergeable = true;
-    const showStub = sinon.stub(appContext.jsApiService, 'handleEvent');
+    const showStub = sinon.stub(element.jsAPI, 'handleEvent');
     element._sendShowChangeEvent();
     assert.isTrue(showStub.calledOnce);
     assert.equal(showStub.lastCall.args[0], EventType.SHOW_CHANGE);
@@ -2235,11 +2238,11 @@ suite('gr-change-view tests', () => {
 
     test("don't report changeDisplayed on reply", async () => {
       const changeDisplayStub = sinon.stub(
-        appContext.reportingService,
+        element.reporting,
         'changeDisplayed'
       );
       const changeFullyLoadedStub = sinon.stub(
-        appContext.reportingService,
+        element.reporting,
         'changeFullyLoaded'
       );
       element._handleReplySent();
@@ -2250,11 +2253,11 @@ suite('gr-change-view tests', () => {
 
     test('report changeDisplayed on _paramsChanged', async () => {
       const changeDisplayStub = sinon.stub(
-        appContext.reportingService,
+        element.reporting,
         'changeDisplayed'
       );
       const changeFullyLoadedStub = sinon.stub(
-        appContext.reportingService,
+        element.reporting,
         'changeFullyLoaded'
       );
       // reset so reload is triggered

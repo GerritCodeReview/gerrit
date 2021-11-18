@@ -177,7 +177,6 @@ export class GrPluginEndpoints {
   }
 }
 
-// TODO(dmfilippov): Convert to service and add to appContext
 let pluginEndpoints = new GrPluginEndpoints();
 
 // To avoid mutable-exports, we don't want to export above variable directly

@@ -19,7 +19,7 @@ import '../gr-account-entry/gr-account-entry';
 import '../../../styles/shared-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-account-list_html';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {customElement, property} from '@polymer/decorators';
 import {
   ChangeInfo,
@@ -32,7 +32,6 @@ import {
   ReviewerSuggestionsProvider,
   SuggestionItem,
 } from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
-import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
@@ -178,13 +177,12 @@ export class GrAccountList extends PolymerElement {
   @property({type: Object})
   _querySuggestions: (input: string) => Promise<SuggestionItem[]>;
 
-  reporting: ReportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   private pendingRemoval: Set<AccountInput> = new Set();
 
   constructor() {
     super();
-    this.reporting = appContext.reportingService;
     this._querySuggestions = input => this._getSuggestions(input);
     this.addEventListener('remove', e =>
       this._handleRemove(e as CustomEvent<{account: AccountInput}>)

@@ -30,7 +30,7 @@ import {
   PatchSetNum,
   CommitId,
 } from '../../../types/common';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {truncatePath} from '../../../utils/path-list-util';
@@ -90,7 +90,7 @@ export class GrRelatedChangesList extends LitElement {
   @state()
   sameTopicChanges: ChangeInfo[] = [];
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
     return [
@@ -725,7 +725,7 @@ export class GrRelatedCollapse extends LitElement {
   @property()
   numChangesWhenCollapsed = DEFALT_NUM_CHANGES_WHEN_COLLAPSED;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   static override get styles() {
     return [

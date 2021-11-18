@@ -17,7 +17,7 @@
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-select/gr-select';
 import {convertToString, pluralize} from '../../../utils/string-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   computeLatestPatchNum,
   findSortedIndex,
@@ -124,7 +124,8 @@ export class GrPatchRangeSelect extends LitElement {
   @state()
   changeComments?: ChangeComments;
 
-  private readonly reporting: ReportingService = appContext.reportingService;
+  private readonly reporting: ReportingService =
+    getAppContext().reportingService;
 
   constructor() {
     super();

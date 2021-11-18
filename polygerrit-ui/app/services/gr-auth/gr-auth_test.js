@@ -17,20 +17,23 @@
 
 import '../../test/common-test-setup-karma.js';
 import {Auth} from './gr-auth_impl.js';
-import {appContext} from '../app-context.js';
+import {getAppContext} from '../app-context.js';
 import {stubBaseUrl} from '../../test/test-utils.js';
 
 suite('gr-auth', () => {
   let auth;
+  let eventEmitter;
 
   setup(() => {
-    auth = new Auth(appContext.eventEmitter);
+    // TODO(poucet): Mock the eventEmitter completely instead of getting it
+    // from appContext.
+    eventEmitter = getAppContext().eventEmitter;
+    auth = new Auth(eventEmitter);
   });
 
   suite('Auth class methods', () => {
     let fakeFetch;
     setup(() => {
-      auth = new Auth(appContext.eventEmitter);
       fakeFetch = sinon.stub(window, 'fetch');
     });
 
@@ -67,7 +70,6 @@ suite('gr-auth', () => {
     let fakeFetch;
     let clock;
     setup(() => {
-      auth = new Auth(appContext.eventEmitter);
       clock = sinon.useFakeTimers();
       fakeFetch = sinon.stub(window, 'fetch');
     });
@@ -124,7 +126,7 @@ suite('gr-auth', () => {
       assert.equal(auth.status, Auth.STATUS.AUTHED);
       clock.tick(1000 * 10000);
       fakeFetch.returns(Promise.resolve({status: 403}));
-      const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
+      const emitStub = sinon.stub(eventEmitter, 'emit');
       const authed2 = await auth.authCheck();
       assert.isFalse(authed2);
       assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
@@ -138,7 +140,7 @@ suite('gr-auth', () => {
       assert.equal(auth.status, Auth.STATUS.AUTHED);
       clock.tick(1000 * 10000);
       fakeFetch.returns(Promise.reject(new Error('random error')));
-      const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
+      const emitStub = sinon.stub(eventEmitter, 'emit');
       const authed2 = await auth.authCheck();
       assert.isFalse(authed2);
       assert.isTrue(emitStub.called);
@@ -152,7 +154,7 @@ suite('gr-auth', () => {
       assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
       clock.tick(1000 * 10000);
       fakeFetch.returns(Promise.resolve({status: 204}));
-      const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
+      const emitStub = sinon.stub(eventEmitter, 'emit');
       const authed2 = await auth.authCheck();
       assert.isTrue(authed2);
       assert.isFalse(emitStub.called);
@@ -166,7 +168,7 @@ suite('gr-auth', () => {
       assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
       clock.tick(1000 * 10000);
       fakeFetch.returns(Promise.reject(new Error('random error')));
-      const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
+      const emitStub = sinon.stub(eventEmitter, 'emit');
       const authed2 = await auth.authCheck();
       assert.isFalse(authed2);
       assert.isFalse(emitStub.called);

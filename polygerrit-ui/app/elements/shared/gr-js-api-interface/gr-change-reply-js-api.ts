@@ -25,14 +25,14 @@ import {
   ReplyChangedCallback,
   ValueChangedDetail,
 } from '../../../api/change-reply';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {HookApi, PluginElement} from '../../../api/hook';
 
 /**
  * GrChangeReplyInterface, provides a set of handy methods on reply dialog.
  */
 export class GrChangeReplyInterface implements ChangeReplyPluginApi {
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   constructor(
     readonly plugin: PluginApi,

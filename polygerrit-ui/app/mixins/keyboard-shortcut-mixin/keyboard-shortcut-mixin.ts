@@ -17,7 +17,7 @@
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
 import {check, Constructor} from '../../utils/common-util';
-import {appContext} from '../../services/app-context';
+import {getAppContext} from '../../services/app-context';
 import {
   Shortcut,
   ShortcutSection,
@@ -50,7 +50,7 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
     // This enables `ShortcutSection` to be used in the html template.
     ShortcutSection = ShortcutSection;
 
-    private readonly shortcuts = appContext.shortcutsService;
+    private readonly shortcuts = getAppContext().shortcutsService;
 
     /** Used to disable shortcuts when the element is not visible. */
     private observer?: IntersectionObserver;

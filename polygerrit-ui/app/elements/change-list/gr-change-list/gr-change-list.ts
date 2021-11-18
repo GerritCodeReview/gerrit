@@ -24,7 +24,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-list_html';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   KeyboardShortcutMixin,
   Shortcut,
@@ -153,9 +153,9 @@ export class GrChangeList extends base {
   @property({type: Object})
   _config?: ServerInfo;
 
-  private readonly flagsService = appContext.flagsService;
+  private readonly flagsService = getAppContext().flagsService;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [

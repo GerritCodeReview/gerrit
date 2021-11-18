@@ -32,7 +32,7 @@ import {
   Label,
   LabelValuesMap,
 } from '../gr-label-score-row/gr-label-score-row';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {getTriggerVotes, labelCompare} from '../../../utils/label-util';
 import {Execution} from '../../../constants/reporting';
 import {ChangeStatus} from '../../../constants/constants';
@@ -50,9 +50,9 @@ export class GrLabelScores extends LitElement {
   @property({type: Object})
   account?: AccountInfo;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly flagsService = appContext.flagsService;
+  private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
     return [

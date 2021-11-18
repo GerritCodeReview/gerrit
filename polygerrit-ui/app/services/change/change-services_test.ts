@@ -25,14 +25,14 @@ import {
 import {stubRestApi} from '../../test/test-utils';
 import {CommitId, PatchSetNum} from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
-import {appContext} from '../app-context';
+import {getAppContext} from '../app-context';
 import {ChangeService} from './change-service';
 
 suite('change service tests', () => {
   let changeService: ChangeService;
   let knownChange: ParsedChangeInfo;
   setup(() => {
-    changeService = new ChangeService(appContext.restApiService);
+    changeService = new ChangeService(getAppContext().restApiService);
     knownChange = {
       ...createChange(),
       revisions: {

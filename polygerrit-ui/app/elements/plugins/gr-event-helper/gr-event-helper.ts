@@ -19,10 +19,10 @@ import {
   UnsubscribeCallback,
 } from '../../../api/event-helper';
 import {PluginApi} from '../../../api/plugin';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 export class GrEventHelper implements EventHelperPluginApi {
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   constructor(readonly plugin: PluginApi, readonly element: HTMLElement) {
     this.reporting.trackApi(this.plugin, 'event', 'constructor');

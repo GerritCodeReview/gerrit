@@ -38,7 +38,7 @@ import {
   firePageError,
   fireTitleChange,
 } from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {assertNever} from '../../../utils/common-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -109,7 +109,7 @@ export class GrGroupMembers extends LitElement {
   /* private but used in test */
   @state() itemId?: AccountId | GroupId;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();

@@ -69,7 +69,7 @@ import {
 import {assertNever, unique} from '../../../utils/common-util';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   Metadata,
   isSectionSet,
@@ -216,11 +216,11 @@ export class GrChangeMetadata extends PolymerElement {
   @property({type: Boolean})
   _isSubmitRequirementsUiEnabled = false;
 
-  restApiService = appContext.restApiService;
+  restApiService = getAppContext().restApiService;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly flagsService = appContext.flagsService;
+  private readonly flagsService = getAppContext().flagsService;
 
   override ready() {
     super.ready();

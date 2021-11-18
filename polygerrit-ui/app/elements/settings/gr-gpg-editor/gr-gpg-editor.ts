@@ -28,7 +28,7 @@ import {GpgKeyInfo, GpgKeyId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 export interface GrGpgEditor {
   $: {
@@ -64,7 +64,7 @@ export class GrGpgEditor extends PolymerElement {
   @property({type: Array})
   _keysToRemove: GpgKeyInfo[] = [];
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   loadData() {
     this._keys = [];

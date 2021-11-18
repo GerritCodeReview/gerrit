@@ -30,7 +30,7 @@ import {
   ContributorAgreementInfo,
 } from '../../../types/common';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -65,7 +65,7 @@ export class GrClaView extends PolymerElement {
   @property({type: String})
   _agreementsUrl?: string;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();

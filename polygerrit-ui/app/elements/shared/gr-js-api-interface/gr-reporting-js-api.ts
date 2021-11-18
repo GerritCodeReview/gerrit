@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {PluginApi} from '../../../api/plugin';
 import {EventDetails, ReportingPluginApi} from '../../../api/reporting';
 
@@ -23,7 +23,7 @@ import {EventDetails, ReportingPluginApi} from '../../../api/reporting';
  * Defines all methods that will be exported to plugin from reporting service.
  */
 export class GrReportingJsApi implements ReportingPluginApi {
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   constructor(private readonly plugin: PluginApi) {
     this.reporting.trackApi(this.plugin, 'reporting', 'constructor');

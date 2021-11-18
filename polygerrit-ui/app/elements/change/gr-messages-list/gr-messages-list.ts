@@ -28,7 +28,7 @@ import {
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {parseDate} from '../../../utils/date-util';
 import {MessageTag} from '../../../constants/constants';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {customElement, property} from '@polymer/decorators';
 import {
   ChangeId,
@@ -264,9 +264,9 @@ export class GrMessagesList extends PolymerElement {
   @property({type: Object, computed: '_computeLabelExtremes(labels.*)'})
   _labelExtremes: {[labelName: string]: VotingRangeInfo} = {};
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly shortcuts = appContext.shortcutsService;
+  private readonly shortcuts = getAppContext().shortcutsService;
 
   private readonly disconnected$ = new Subject();
 

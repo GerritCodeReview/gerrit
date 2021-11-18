@@ -60,7 +60,6 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {UIActionInfo} from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {appContext} from '../../../services/app-context';
 
 const basicFixture = fixtureFromElement('gr-change-actions');
 
@@ -590,9 +589,7 @@ suite('gr-change-actions tests', () => {
     test('_setReviewOnRevert', () => {
       const review = {labels: {Foo: 1, 'Bar-Baz': -2}};
       const changeId = 1234 as NumericChangeId;
-      sinon
-        .stub(appContext.jsApiService, 'getReviewPostRevert')
-        .returns(review);
+      sinon.stub(element.jsAPI, 'getReviewPostRevert').returns(review);
       const saveStub = stubRestApi('saveChangeReview').returns(
         Promise.resolve(new Response())
       );

@@ -22,7 +22,7 @@ import '../../shared/gr-overlay/gr-overlay';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-error-manager_html';
 import {getBaseUrl} from '../../../utils/url-util';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {customElement, property} from '@polymer/decorators';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -141,15 +141,15 @@ export class GrErrorManager extends PolymerElement {
   @property({type: String})
   loginUrl = '/login';
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
-  private readonly _authService = appContext.authService;
+  private readonly _authService = getAppContext().authService;
 
-  private readonly eventEmitter = appContext.eventEmitter;
+  private readonly eventEmitter = getAppContext().eventEmitter;
 
   _authErrorHandlerDeregistrationHook?: Function;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   private checkLoggedInTask?: DelayedTask;
 

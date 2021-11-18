@@ -22,7 +22,7 @@ import {
   CheckResult,
   CheckRun,
 } from '../../../api/checks';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 
 const DEFAULT_CONFIG: ChecksApiConfig = {
   fetchPollingIntervalSeconds: 60,
@@ -43,9 +43,9 @@ enum State {
 export class GrChecksApi implements ChecksPluginApi {
   private state = State.NOT_REGISTERED;
 
-  private readonly checksService = appContext.checksService;
+  private readonly checksService = getAppContext().checksService;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   constructor(readonly plugin: PluginApi) {
     this.reporting.trackApi(this.plugin, 'checks', 'constructor');

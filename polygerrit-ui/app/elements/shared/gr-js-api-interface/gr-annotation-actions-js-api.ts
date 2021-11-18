@@ -17,7 +17,7 @@
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {Side} from '../../../constants/constants';
 import {EventType, PluginApi} from '../../../api/plugin';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {AnnotationPluginApi, CoverageProvider} from '../../../api/annotation';
 
 export class GrAnnotationActionsInterface implements AnnotationPluginApi {
@@ -30,7 +30,7 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
 
   private coverageProvider?: CoverageProvider;
 
-  private readonly reporting = appContext.reportingService;
+  private readonly reporting = getAppContext().reportingService;
 
   constructor(private readonly plugin: PluginApi) {
     this.reporting.trackApi(this.plugin, 'annotation', 'constructor');

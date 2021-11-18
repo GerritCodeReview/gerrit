@@ -22,7 +22,7 @@ import {
   isQuickLabelInfo,
   LabelInfo,
 } from '../../../api/rest-api';
-import {appContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   classForLabelStatus,
@@ -48,7 +48,7 @@ export class GrVoteChip extends LitElement {
   @property({type: Boolean})
   more = false;
 
-  private readonly flagsService = appContext.flagsService;
+  private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
     return [

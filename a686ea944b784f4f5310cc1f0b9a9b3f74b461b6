@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01ec9449_434ba6d2",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-summary_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T14:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f62f688_b56e76d9",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebaf12d9_ad1af8a2",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-11-16T12:49:55Z",
       "side": 1,
       "message": "Just return",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f3a92c2_d12f5b1a",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-project.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T14:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebaf12d9_ad1af8a2",
       "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aea97cf_492f015a",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-project.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T14:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ffe97d6_1e18f0ad",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8264b089_9f874d38",
@@ -82,6 +136,24 @@
       "writtenOn": "2021-11-16T12:49:55Z",
       "side": 1,
       "message": "Declare a constant.",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c226e532_d91a19ff",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-project_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T14:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8264b089_9f874d38",
       "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -103,6 +175,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab037bc9_5f2a7a05",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T14:19:27Z",
+      "side": 1,
+      "message": "Done. Since I was thinking of this as the column contents function, `` would be the normal value and undefined would be the special value. However, I will extract this to a util and it is the size function and not the column function, so undefined is more reasonable.\n\nMaybe UNKNOWN should just be one of the enum values, and the component can be left to decide how to abbreviate, but I think that\u0027s not necessary for this small function with only 2 users that want the same abbreviations.",
+      "parentUuid": "140da0c4_7ecb48f3",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e78901ba_8719a148",
@@ -116,6 +206,24 @@
       "writtenOn": "2021-11-16T12:49:55Z",
       "side": 1,
       "message": "Should this be \u003c\u003d for these various lines?",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76c68835_8091528c",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T14:19:27Z",
+      "side": 1,
+      "message": "This is how we calculate in gr-change-list-item on the dashboard. We should keep it consistent. Both ways make sense enough to me (\"XS is less than 10 lines\" vs \"XS is 10 lines or less\"), but if you think we should change it we can change both places together separate from this change.",
+      "parentUuid": "e78901ba_8719a148",
       "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -137,6 +245,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3e7d194_22dd7518",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T14:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35f320d1_abf2e6a9",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9dd0f704_938c6813",
@@ -150,6 +276,24 @@
       "writtenOn": "2021-11-16T12:49:55Z",
       "side": 1,
       "message": "You can\u0027t just return without \u0027\u0027",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8133e0fc_16d463be",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T14:19:27Z",
+      "side": 1,
+      "message": "Done. You probably meant that you can.",
+      "parentUuid": "9dd0f704_938c6813",
       "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -171,6 +315,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f696d66_bd07cdcd",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T14:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7921b22e_f19c78c3",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab07cd31_d757698d",
@@ -188,6 +350,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65361f77_408cb216",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T14:19:27Z",
+      "side": 1,
+      "message": "I don\u0027t feel that\u0027s simpler, just shorter. undefined is clearer about what I\u0027m worried about. !this.topicName may indicate that empty string is a real concern. If you feel strongly about this I will change it, otherwise I\u0027d prefer this way.",
+      "parentUuid": "ab07cd31_d757698d",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "867eeaee_5d0c44b2",
@@ -201,6 +381,24 @@
       "writtenOn": "2021-11-16T12:49:55Z",
       "side": 1,
       "message": "just return",
+      "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45949b7c_0baf6cfa",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-18T14:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "867eeaee_5d0c44b2",
       "revId": "a686ea944b784f4f5310cc1f0b9a9b3f74b461b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

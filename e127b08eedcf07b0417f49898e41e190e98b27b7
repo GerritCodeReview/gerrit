@@ -22,6 +22,30 @@
       },
       "revId": "e127b08eedcf07b0417f49898e41e190e98b27b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53a5beb0_39a26b66",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-18T19:56:04Z",
+      "side": 0,
+      "message": "I would say *both* methods: with and without repo.",
+      "parentUuid": "74f3eaaa_cdbce1f6",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 5
+      },
+      "revId": "e127b08eedcf07b0417f49898e41e190e98b27b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

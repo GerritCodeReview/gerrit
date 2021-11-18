@@ -17,6 +17,7 @@ package com.google.gerrit.index.query;
 import static com.google.gerrit.index.query.QueryParser.AND;
 import static com.google.gerrit.index.query.QueryParser.COLON;
 import static com.google.gerrit.index.query.QueryParser.DEFAULT_FIELD;
+import static com.google.gerrit.index.query.QueryParser.EXACT_PHRASE;
 import static com.google.gerrit.index.query.QueryParser.FIELD_NAME;
 import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
 import static com.google.gerrit.index.query.QueryParser.parse;
@@ -202,6 +203,43 @@ public class QueryParserTest {
     assertThat(r).child(2).hasType(SINGLE_WORD);
     assertThat(r).child(2).hasText("+2");
     assertThat(r).child(2).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameWithEscapedDoubleQuotesInValue() throws Exception {
+    // Actual String: A \"special\" word
+    String search = "message:\"A \\\"special\\\" word\"";
+    Tree r = parse(search);
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasChildCount(1);
+    assertThat(r).hasText("message");
+    assertThat(r).child(0).hasType(EXACT_PHRASE);
+    // Antlr escaped the double quotes in the phrase.
+    assertThat(r).child(0).hasText("A \"special\" word");
+  }
+
+  @Test
+  public void fieldNameWithEscapedTabCharacterIsPreserved() throws Exception {
+    String[] searches = {"message:\"A \\t word\"", "message:{A \\t word}"};
+    for (String search : searches) {
+      Tree r = parse(search);
+      assertThat(r).hasType(FIELD_NAME);
+      assertThat(r).hasChildCount(1);
+      assertThat(r).hasText("message");
+      assertThat(r).child(0).hasType(EXACT_PHRASE);
+      assertThat(r).child(0).hasText("A \t word");
+    }
+  }
+
+  @Test
+  public void fieldNameWithEscapedBackslashIsIncludedInOutput() throws Exception {
+    String search = "message:\"A backslash \\\\ in phrase\"";
+    Tree r = parse(search);
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasChildCount(1);
+    assertThat(r).hasText("message");
+    assertThat(r).child(0).hasType(EXACT_PHRASE);
+    assertThat(r).child(0).hasText("A backslash \\ in phrase");
   }
 
   private static void assertParseFails(String query) {

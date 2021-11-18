@@ -16,6 +16,24 @@
       "message": "This deserves a small javadoc to explain what it is and how to use it correctly.",
       "revId": "1b5d6c201ed964733648dfcb7c3e68523cdcf3cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d6d065f_7ae39b52",
+        "filename": "java/com/google/gerrit/server/index/options/IsFirstInsertForEntry.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-18T21:35:14Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "57e67a8b_b84786b9",
+      "revId": "1b5d6c201ed964733648dfcb7c3e68523cdcf3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

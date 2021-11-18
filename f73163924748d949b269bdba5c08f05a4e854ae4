@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c84596c0_357b9afa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-18T08:25:13Z",
+      "side": 1,
+      "message": "Thanks. Leaving the final +2 to Frank.",
+      "revId": "f73163924748d949b269bdba5c08f05a4e854ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

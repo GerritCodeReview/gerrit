@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45ba551a_019d20a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-18T22:22:09Z",
+      "side": 1,
+      "message": "Still needs dark theme support and some love for the new color definitions. Suggestions are welcome :-)",
+      "revId": "e73a3283b620fcf37309bb1d36b19d9f33cf1e43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

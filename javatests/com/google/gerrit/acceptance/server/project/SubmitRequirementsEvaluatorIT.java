@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
@@ -60,9 +61,13 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<InternalChangeQuery> changeQueryProvider;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private ChangeOperations changeOperations;
 
   private ChangeData changeData;
   private String changeId;
+
+  private static final String FILE_NAME = "file,txt";
+  private static final String CONTENT = "line 1\nline 2\n line 3";
 
   @Before
   public void setUp() throws Exception {
@@ -445,6 +450,361 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
         changeQueryProvider.get().byLegacyChangeId(Change.Id.tryParse(revertId).get()).get(0);
     result = evaluator.evaluateRequirement(sr, revertChangeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+  }
+
+  @Test
+  public void byFileEdits_deletedContent_matching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 2\n", ""))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='line 2'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byFileEdits_deletedContent_nonMatching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 1\n", ""))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='line 2'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byFileEdits_addedContent_matching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT + "line 4\n")
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='line 4'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byFileEdits_addedContent_nonMatching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT + "line 4\n")
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='line 5'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byFileEdits_addedFile_matching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file("new_file.txt")
+            .content("content of the new file")
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "file:\"'^new.*\\\\.txt',withDiffContaining='of the new'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byFileEdits_addedFile_nonMatching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file("new_file.txt")
+            .content("content of the new file")
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "file:\"'^new.*\\.txt',withDiffContaining='not_exist'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byFileEdits_modifiedContent_matching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line three\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='three'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byFileEdits_modifiedContent_nonMatching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line three\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='ten'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byFileEdits_modifiedContentPattern_matching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line three\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "file:\"'^.*\\.txt',withDiffContaining='^.*th[rR]ee$'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byFileEdits_exactMatchingWithFilePath_matching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line three\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            String.format("file:\"'%s',withDiffContaining='three'\"", FILE_NAME));
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byFileEdits_exactMatchingWithFilePath_nonMatching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line three\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "file:\"'non_existent.txt',withDiffContaining='three'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byFileEdits_notMatchingWithFilePath() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line three\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    // commit edit only matches with files ending with ".java". Since our modified file name ends
+    // with ".txt", the applicability expression will not match.
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("file:\"'^.*\\.java',withDiffContaining='three'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byFileEdits_escapeSingleQuotes() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line 'three' is modified\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "file:\"'^.*\\.txt',withDiffContaining='line \\'three\\' is'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byFileEdits_doubleEscapeSingleQuote() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            // This will be written to the file as: line \'three\' is modified.
+            .content(CONTENT.replace("line 3\n", "line \\'three\\' is modified\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    // Users can still provide back-slashes in regexes by escaping them.
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "file:\"'^.*\\\\.txt',withDiffContaining='line \\\\'three\\\\' is'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byFileEdits_escapeDoubleQuotes() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line \"three\" is modified\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "file:\"'^.*\\.txt',withDiffContaining='line \\\"three\\\" is'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byFileEdits_invalidSyntax() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line three\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "file:\"'^.*\\.txt',withDiffContaining=forgot single quotes\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    // If the format is invalid, the operator falls back to the default operator of
+    // ChangeQueryBuilder which does not match the change, i.e. returns false.
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byFileEdits_invalidFilePattern() throws Exception {
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("file:\"'^**',withDiffContaining='content'\"");
+
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, changeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.ERROR);
+    assertThat(srResult.errorMessage().get()).isEqualTo("Invalid file pattern.");
+  }
+
+  @Test
+  public void byFileEdits_invalidContentPattern() throws Exception {
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("file:\"'fileName\\.txt',withDiffContaining='^**'\"");
+
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, changeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.ERROR);
+    assertThat(srResult.errorMessage().get()).isEqualTo("Invalid content pattern.");
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

@@ -16,6 +16,24 @@
       "message": "nit: Add \"We\u0027re using 4.2.0 now, so this is safe to remove.\"",
       "revId": "305c16fdc0123da18781812d9f7627b114cdd404",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "141eecfc_d00f9ff6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-11-18T18:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8de631e4_312d9cd5",
+      "revId": "305c16fdc0123da18781812d9f7627b114cdd404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

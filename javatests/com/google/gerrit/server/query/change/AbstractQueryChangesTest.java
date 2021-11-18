@@ -993,10 +993,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(repo, newChangeForCommit(repo, commit1));
     RevCommit commit2 = repo.parseBody(repo.commit().message("two").create());
     Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    RevCommit commit3 = repo.parseBody(repo.commit().message("A great \"fix\" to my bug").create());
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
 
     assertQuery("message:foo");
     assertQuery("message:one", change1);
     assertQuery("message:two", change2);
+    assertQuery("message:\"great fix to\"");
+    assertQuery("message:\"great \\\"fix\\\" to\"", change3);
   }
 
   @Test

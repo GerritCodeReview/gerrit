@@ -46,6 +46,30 @@
       },
       "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c31919_b7a10cc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-11-18T13:38:43Z",
+      "side": 1,
+      "message": "upon second thought i agree that the issue is too trivial to bother. still, make sure to mention it prominently in the release notes to avoid pointless bug reports.\n\ni\u0027m curious what *exactly* you found not respectful in my comment. that mild expression of astonishment?",
+      "parentUuid": "19ecbaeb_bed505f4",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 21,
+        "endChar": 43
+      },
+      "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

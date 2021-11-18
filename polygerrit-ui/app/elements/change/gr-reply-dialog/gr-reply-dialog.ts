@@ -838,7 +838,7 @@ export class GrReplyDialog extends PolymerElement {
   }
 
   _handleAttentionClick(e: Event) {
-    const id = (e.target as GrAccountChip)?.account?._account_id;
+    const id = (e.target as GrAccountChip).account?._account_id;
     if (!id) return;
 
     const selfId = (this._account && this._account._account_id) || -1;
@@ -941,7 +941,7 @@ export class GrReplyDialog extends PolymerElement {
         if (this._uploader?._account_id && !isUploader) {
           newAttention.add(this._uploader._account_id);
         }
-        if (change.owner?._account_id && !isOwner) {
+        if (change.owner._account_id && !isOwner) {
           newAttention.add(change.owner._account_id);
         }
       }

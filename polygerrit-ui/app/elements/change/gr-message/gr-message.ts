@@ -300,7 +300,7 @@ export class GrMessage extends PolymerElement {
   _isMergePatchset(message?: ChangeMessage) {
     return (
       message?.tag === MessageTag.TAG_MERGED &&
-      message?.message.match(MERGED_PATCHSET_PATTERN)
+      message.message.match(MERGED_PATCHSET_PATTERN)
     );
   }
 

@@ -818,7 +818,7 @@ export class GrChangeSummary extends LitElement {
       .map(getFirstComment)
       .map(comment => comment?.author ?? this.selfAccount)
       .filter(notUndefined)
-      .filter(account => !!account?.avatars?.[0]?.url)
+      .filter(account => !!account.avatars?.[0]?.url)
       .filter(uniqueDefinedAvatar);
     return uniqueAuthors.slice(0, 3);
   }

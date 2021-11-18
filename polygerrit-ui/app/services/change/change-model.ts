@@ -109,7 +109,7 @@ export const change$ = changeState$.pipe(
 );
 
 export const diffPath$ = changeState$.pipe(
-  map(changeState => changeState?.diffPath),
+  map(changeState => changeState.diffPath),
   distinctUntilChanged()
 );
 

@@ -64,7 +64,7 @@ export const DisplayRules = {
 export function isSectionSet(section: Metadata, change?: ParsedChangeInfo) {
   switch (section) {
     case Metadata.CC:
-      return !!change?.reviewers?.CC?.length;
+      return !!change?.reviewers.CC?.length;
     case Metadata.HASHTAGS:
       return !!change?.hashtags?.length;
     case Metadata.TOPIC:

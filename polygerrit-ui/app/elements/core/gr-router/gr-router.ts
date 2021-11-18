@@ -444,7 +444,7 @@ export class GrRouter extends PolymerElement {
     }
     let weblink;
     // Use primary weblink if configured and exists.
-    if (config?.gerrit?.primary_weblink_name) {
+    if (config?.gerrit.primary_weblink_name) {
       const primaryWeblinkName = config.gerrit.primary_weblink_name;
       weblink = weblinks.find(weblink => weblink.name === primaryWeblinkName);
     }

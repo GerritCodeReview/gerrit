@@ -507,7 +507,7 @@ export class GrDiffHost extends PolymerElement {
       this.projectName,
       this.commitRange.baseCommit,
       this.path,
-      {weblinks: diff?.edit_web_links}
+      {weblinks: diff.edit_web_links}
     );
   }
 
@@ -528,13 +528,13 @@ export class GrDiffHost extends PolymerElement {
         this.projectName,
         this.commitRange.baseCommit,
         this.path,
-        {weblinks: diff?.meta_a?.web_links}
+        {weblinks: diff.meta_a.web_links}
       ),
       meta_b: GerritNav.getFileWebLinks(
         this.projectName,
         this.commitRange.commit,
         this.path,
-        {weblinks: diff?.meta_b?.web_links}
+        {weblinks: diff.meta_b.web_links}
       ),
     };
   }
@@ -1037,7 +1037,7 @@ export class GrDiffHost extends PolymerElement {
     >,
     diff?: DiffInfo
   ) {
-    if (!preferenceChangeRecord?.base?.syntax_highlighting || !diff) {
+    if (!preferenceChangeRecord?.base.syntax_highlighting || !diff) {
       return false;
     }
     if (anyLineTooLong(diff)) {

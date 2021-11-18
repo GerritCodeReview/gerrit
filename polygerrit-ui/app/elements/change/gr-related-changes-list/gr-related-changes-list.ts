@@ -220,7 +220,7 @@ export class GrRelatedChangesList extends LitElement {
               )}<gr-related-change
                 .change="${change}"
                 .connectedRevisions="${connectedRevisions}"
-                .href="${change?._change_number
+                .href="${change._change_number
                   ? GerritNav.getUrlForChangeById(
                       change._change_number,
                       change.project,
@@ -297,7 +297,7 @@ export class GrRelatedChangesList extends LitElement {
     isFirst: boolean,
     sectionSize: (section: Section) => number
   ) {
-    if (!this.sameTopicChanges?.length) {
+    if (!this.sameTopicChanges.length) {
       return undefined;
     }
 
@@ -343,7 +343,7 @@ export class GrRelatedChangesList extends LitElement {
     isFirst: boolean,
     sectionSize: (section: Section) => number
   ) {
-    if (!this.conflictingChanges?.length) {
+    if (!this.conflictingChanges.length) {
       return undefined;
     }
     const mergeConflictsMarkersPredicate = this.markersPredicateFactory(
@@ -589,7 +589,7 @@ export class GrRelatedChangesList extends LitElement {
         if (!response) {
           throw new Error('getRelatedChanges returned undefined response');
         }
-        this.relatedChanges = response?.changes ?? [];
+        this.relatedChanges = response.changes ?? [];
       }),
       this.restApiService
         .getChangesSubmittedTogether(change._number)

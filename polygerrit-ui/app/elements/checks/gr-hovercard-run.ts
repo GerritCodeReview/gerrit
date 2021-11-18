@@ -340,7 +340,7 @@ export class GrHovercardRun extends base {
   }
 
   private computeCompletionDuration() {
-    if (!this.run?.finishedTimestamp || !this.run?.startedTimestamp) return '';
+    if (!this.run?.finishedTimestamp || !this.run.startedTimestamp) return '';
     return durationString(
       this.run.startedTimestamp,
       this.run.finishedTimestamp,
@@ -357,16 +357,16 @@ export class GrHovercardRun extends base {
   }
 
   private hideAttempts() {
-    const attemptCount = this.run?.attemptDetails?.length;
+    const attemptCount = this.run?.attemptDetails.length;
     return attemptCount === undefined || attemptCount < 2;
   }
 
   private hideScheduled() {
-    return !this.run?.scheduledTimestamp || !!this.run?.startedTimestamp;
+    return !this.run?.scheduledTimestamp || !!this.run.startedTimestamp;
   }
 
   private hideCompletion() {
-    return !this.run?.startedTimestamp || !this.run?.finishedTimestamp;
+    return !this.run?.startedTimestamp || !this.run.finishedTimestamp;
   }
 }
 

@@ -157,7 +157,7 @@ export class GrClaView extends PolymerElement {
     if (!groups) return false;
     for (const group of groups) {
       if (
-        item?.auto_verify_group?.id === group.id ||
+        item.auto_verify_group?.id === group.id ||
         signedAgreements?.find(i => i.name === item.name)
       ) {
         return true;

@@ -72,7 +72,7 @@ function findBlockTreePathForLine(
   if (!containingBlock) return [];
   const innerPathInChild = findBlockTreePathForLine(
     lineNum,
-    containingBlock?.children
+    containingBlock.children
   );
   return [containingBlock].concat(innerPathInChild);
 }
@@ -520,7 +520,7 @@ export class GrContextControls extends LitElement {
   }
 
   private hasValidProperties() {
-    return !!(this.diff && this.section && this.contextGroups?.length);
+    return !!(this.diff && this.section && this.contextGroups.length);
   }
 
   override render() {

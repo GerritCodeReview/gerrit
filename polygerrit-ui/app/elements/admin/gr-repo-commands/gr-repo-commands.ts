@@ -129,7 +129,7 @@ export class GrRepoCommands extends PolymerElement {
     return this.restApiService
       .runRepoGC(this.repo)
       .then(response => {
-        if (response?.status === 200) {
+        if (response.status === 200) {
           fireAlert(this, GC_MESSAGE);
         }
       })

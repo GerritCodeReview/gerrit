@@ -322,7 +322,7 @@ export class GrChangeMetadata extends PolymerElement {
   ) {
     const hasCherryPickOf =
       !!changeRecord?.base?.cherry_pick_of_change &&
-      !!changeRecord?.base?.cherry_pick_of_patch_set;
+      !!changeRecord.base.cherry_pick_of_patch_set;
     return hasCherryPickOf;
   }
 
@@ -429,7 +429,7 @@ export class GrChangeMetadata extends PolymerElement {
   }
 
   _problems(msg: string, key: GpgKeyInfo) {
-    if (!key?.problems || key.problems.length === 0) {
+    if (!key.problems || key.problems.length === 0) {
       return msg;
     }
 
@@ -566,7 +566,7 @@ export class GrChangeMetadata extends PolymerElement {
   }
 
   _computeRevertCommit(change?: ParsedChangeInfo, revertedChange?: ChangeInfo) {
-    if (revertedChange?.current_revision && revertedChange?.revisions) {
+    if (revertedChange?.current_revision && revertedChange.revisions) {
       return {
         commit: this._computeMergedCommitInfo(
           revertedChange.current_revision,
@@ -575,7 +575,7 @@ export class GrChangeMetadata extends PolymerElement {
       };
     }
     if (!change?.messages) return undefined;
-    return {commit: getRevertCreatedChangeIds(change.messages)?.[0]};
+    return {commit: getRevertCreatedChangeIds(change.messages)[0]};
   }
 
   _computeShowAllLabelText(showAllSections: boolean) {
@@ -599,7 +599,7 @@ export class GrChangeMetadata extends PolymerElement {
    * user with that role is the same as the owner.
    */
   _getNonOwnerRole(change?: ParsedChangeInfo, role?: ChangeRole) {
-    if (!change?.revisions?.[change.current_revision]) return undefined;
+    if (!change?.revisions[change.current_revision]) return undefined;
 
     const rev = change.revisions[change.current_revision];
     if (!rev) return undefined;

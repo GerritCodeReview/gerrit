@@ -839,10 +839,10 @@ suite('gr-change-metadata tests', () => {
       const topicChangedSpy = sinon.spy();
       element.addEventListener('topic-changed', topicChangedSpy);
       tap(remove);
-      assert.isTrue(chip?.disabled);
+      assert.isTrue(chip.disabled);
       assert.isTrue(setChangeTopicStub.calledWith(42 as NumericChangeId));
       return setChangeTopicStub.lastCall.returnValue.then(() => {
-        assert.isFalse(chip?.disabled);
+        assert.isFalse(chip.disabled);
         assert.equal(element.change!.topic, '' as TopicName);
         assert.isTrue(topicChangedSpy.called);
       });

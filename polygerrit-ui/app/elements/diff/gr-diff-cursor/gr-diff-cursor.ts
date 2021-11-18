@@ -188,7 +188,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
     const result = this.cursorManager.next({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
       getTargetHeight: target =>
-        (target?.parentNode as HTMLElement)?.scrollHeight || 0,
+        (target.parentNode as HTMLElement).scrollHeight || 0,
       clipToTop,
     });
     this._fixSide();
@@ -256,7 +256,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
     if (!this.diffRow) return null;
 
     const hostOwner = (dom(this.diffRow) as PolymerDomWrapper).getOwnerRoot();
-    if (hostOwner?.host?.tagName === 'GR-DIFF') {
+    if (hostOwner.host?.tagName === 'GR-DIFF') {
       return hostOwner.host as GrDiff;
     }
     return null;

@@ -51,7 +51,7 @@ export function getDisplayName(
   if (!account || !account.name) {
     return getUserName(config, account);
   }
-  const configDefault = config?.accounts?.default_display_name;
+  const configDefault = config?.accounts.default_display_name;
   if (firstNameOnly || configDefault === DefaultDisplayNameConfig.FIRST_NAME) {
     return account.name.trim().split(' ')[0];
   }

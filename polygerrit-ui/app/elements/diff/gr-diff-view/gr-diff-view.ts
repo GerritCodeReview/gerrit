@@ -1029,7 +1029,7 @@ export class GrDiffView extends base {
     let leftSide = false;
     if (!this._change) return;
     if (this.params?.view !== GerritView.DIFF) return;
-    if (this.params?.commentId) {
+    if (this.params.commentId) {
       const comment = this._changeComments?.findCommentById(
         this.params.commentId
       );
@@ -1064,7 +1064,7 @@ export class GrDiffView extends base {
     assertIsDefined(this._patchRange, '_patchRange');
     this._initLineOfInterestAndCursor(leftSide);
 
-    if (this.params?.commentId) {
+    if (this.params.commentId) {
       // url is of type /comment/{commentId} which isn't meaningful
       this._updateUrlToDiffUrl(this._focusLineNum, leftSide);
     }
@@ -1649,7 +1649,7 @@ export class GrDiffView extends base {
       this._path,
       this._patchRange.basePatchNum,
       'PARENT' as BasePatchSetNum,
-      this.params?.view === GerritView.DIFF && this.params?.commentLink
+      this.params?.view === GerritView.DIFF && this.params.commentLink
         ? this._focusLineNum
         : undefined
     );

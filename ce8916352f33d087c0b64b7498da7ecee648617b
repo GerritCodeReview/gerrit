@@ -16,6 +16,24 @@
       "message": "fyi, I think you can also do this with curly braces as the outer quotes:\n\n message:{A \"specific\" word}",
       "revId": "ce8916352f33d087c0b64b7498da7ecee648617b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ea1d5ea_2fe8dbb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-18T18:22:31Z",
+      "side": 1,
+      "message": "Ah yeah, in the docs: https://gerrit-review.googlesource.com/Documentation/user-search.html#_argument_quoting",
+      "parentUuid": "ec4b6aee_aa54ac63",
+      "revId": "ce8916352f33d087c0b64b7498da7ecee648617b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

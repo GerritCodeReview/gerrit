@@ -18,7 +18,12 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.query.CommitEditsPredicate;
+import com.google.gerrit.server.query.CommitEditsPredicate.CommitEditsArgs;
 import com.google.inject.Inject;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * A query builder for submit requirement expressions that includes all {@link ChangeQueryBuilder}
@@ -31,9 +36,23 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> def =
       new QueryBuilder.Definition<>(SubmitRequirementChangeQueryBuilder.class);
 
+  /**
+   * Regular expression for the {@link #commitedits(String)} operator. Field value is of the form:
+   *
+   * <p>'$fileRegex',content='$contentRegex'
+   *
+   * <p>Both $fileRegex and $contentRegex may contain escaped single or double quotes.
+   */
+  private static final Pattern COMMIT_EDITS_PATTERN =
+      Pattern.compile("'((?:(?:\\\\')|(?:[^']))*)',content='((?:(?:\\\\')|(?:[^']))*)'");
+
+  private final CommitEditsPredicate.Factory commitEditsPredicateFactory;
+
   @Inject
-  SubmitRequirementChangeQueryBuilder(Arguments args) {
+  SubmitRequirementChangeQueryBuilder(
+      Arguments args, CommitEditsPredicate.Factory commitEditsPredicateFactory) {
     super(def, args);
+    this.commitEditsPredicateFactory = commitEditsPredicateFactory;
   }
 
   @Override
@@ -48,5 +67,28 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
       return new ConstantPredicate(value);
     }
     return super.is(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> commitedits(String value) throws QueryParseException {
+    Matcher matcher = COMMIT_EDITS_PATTERN.matcher(value);
+    if (!matcher.find()) {
+      throw new QueryParseException(
+          "Argument for the 'commitEdits' operator should be in the form of "
+              + "commitedits:\"'fileRegex',content='contentRegex'\".");
+    }
+    Pattern fileRegex;
+    Pattern contentRegex;
+    try {
+      fileRegex = Pattern.compile(matcher.group(1));
+    } catch (PatternSyntaxException e) {
+      throw new QueryParseException("Invalid file pattern.", e);
+    }
+    try {
+      contentRegex = Pattern.compile(matcher.group(2));
+    } catch (PatternSyntaxException e) {
+      throw new QueryParseException("Invalid content pattern.", e);
+    }
+    return commitEditsPredicateFactory.create(CommitEditsArgs.create(fileRegex, contentRegex));
   }
 }

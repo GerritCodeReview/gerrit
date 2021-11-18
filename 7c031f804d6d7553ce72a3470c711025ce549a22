@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6847a355_51365158",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-18T05:01:41Z",
+      "side": 1,
+      "message": "I\u0027ll add Ben, if he isn\u0027t the LC person currently then hopefully he can add whoever is. Ben, can you LC?",
+      "parentUuid": "7cf64cea_19b842cb",
+      "revId": "7c031f804d6d7553ce72a3470c711025ce549a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d363212b_ea9a017b",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 5
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "Good idea 👍 but after the merge. I typically want to keep the merge as clean as possible.",
       "parentUuid": "d363212b_ea9a017b",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 7
+      },
+      "revId": "7c031f804d6d7553ce72a3470c711025ce549a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfc2761c_67491376",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-18T05:01:41Z",
+      "side": 1,
+      "message": "Yes! Agreed 😊",
+      "parentUuid": "364cfb82_b388af57",
       "range": {
         "startLine": 222,
         "startChar": 0,

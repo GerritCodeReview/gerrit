@@ -662,6 +662,10 @@ If private changes are used, be aware of the following pitfalls:
 * If you have a series of private changes and share one with reviewers,
   the reviewers can also see the commits of the predecessor private
   changes through the commit parent relationship.
+* Users who would have permission to access the change except for its
+  private status and knowledge of its commit ID (e.g. through CI logs
+  or build artifacts containing build numbers) can fetch the code
+  using the commit ID.
 
 [[ignore]]
 == Ignoring Or Marking Changes As 'Reviewed'

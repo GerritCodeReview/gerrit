@@ -247,6 +247,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f036898c_fb6aca73",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-18T18:55:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6464cef_9addd333",
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa9ce747_2c80ae83",

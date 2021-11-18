@@ -28,6 +28,7 @@ import {UserService} from '../services/user/user-service';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {queryAndAssert, query} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';
+import {Key, Modifier} from '../utils/dom-util';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise<T> extends Promise<T> {
@@ -230,4 +231,21 @@ export function listenOnce(el: EventTarget, eventType: string) {
     };
     registerTestCleanup(removeEventListener);
   });
+}
+
+export function pressKey(
+  element: HTMLElement,
+  key: string | Key,
+  ...modifiers: Modifier[]
+) {
+  const eventOptions = {
+    key,
+    bubbles: true,
+    composed: true,
+    altKey: modifiers.includes(Modifier.ALT_KEY),
+    ctrlKey: modifiers.includes(Modifier.CTRL_KEY),
+    metaKey: modifiers.includes(Modifier.META_KEY),
+    shiftKey: modifiers.includes(Modifier.SHIFT_KEY),
+  };
+  element.dispatchEvent(new KeyboardEvent('keydown', eventOptions));
 }

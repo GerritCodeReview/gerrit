@@ -145,6 +145,7 @@ export class ShortcutsService {
         if (this.isInComboKeyMode()) return;
       }
       if (this.shouldSuppress(e)) return;
+      console.log(`shortcut triggered ${JSON.stringify(shortcut)}`);
       e.preventDefault();
       e.stopPropagation();
       listener(e);

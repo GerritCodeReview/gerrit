@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import '../../../test/common-test-setup-karma.js';
 import './gr-change-list.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {mockPromise} from '../../../test/test-utils.js';
+import {mockPromise, pressKey} from '../../../test/test-utils.js';
 import {YOUR_TURN} from '../../core/gr-navigation/gr-navigation.js';
+import {Key} from '../../../utils/dom-util.js';
 
 const basicFixture = fixtureFromElement('gr-change-list');
 
@@ -155,28 +155,28 @@ suite('gr-change-list basic tests', () => {
     assert.equal(elementItems.length, 3);
 
     assert.isTrue(elementItems[0].hasAttribute('selected'));
-    MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+    pressKey(element, 'j');
     assert.equal(element.selectedIndex, 1);
     assert.isTrue(elementItems[1].hasAttribute('selected'));
-    MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+    pressKey(element, 'j');
     assert.equal(element.selectedIndex, 2);
     assert.isTrue(elementItems[2].hasAttribute('selected'));
 
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
     assert.equal(element.selectedIndex, 2);
-    MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
+    pressKey(element, Key.ENTER);
     assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
         'Should navigate to /c/2/');
 
-    MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+    pressKey(element, 'k');
     assert.equal(element.selectedIndex, 1);
-    MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
+    pressKey(element, Key.ENTER);
     assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
         'Should navigate to /c/1/');
 
-    MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-    MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-    MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+    pressKey(element, 'k');
+    pressKey(element, 'k');
+    pressKey(element, 'k');
     assert.equal(element.selectedIndex, 0);
   });
 
@@ -455,28 +455,28 @@ suite('gr-change-list basic tests', () => {
           'gr-change-list-item');
       assert.equal(elementItems.length, 9);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      pressKey(element, 'j');
       assert.equal(element.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      pressKey(element, 'j');
 
       const navStub = sinon.stub(GerritNav, 'navigateToChange');
       assert.equal(element.selectedIndex, 2);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'Enter');
+      pressKey(element, Key.ENTER);
       assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
           'Should navigate to /c/2/');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+      pressKey(element, 'k');
       assert.equal(element.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'Enter');
+      pressKey(element, Key.ENTER);
       assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
           'Should navigate to /c/1/');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      pressKey(element, 'j');
+      pressKey(element, 'j');
+      pressKey(element, 'j');
       assert.equal(element.selectedIndex, 4);
-      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'Enter');
+      pressKey(element, Key.ENTER);
       assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
           'Should navigate to /c/4/');
     });

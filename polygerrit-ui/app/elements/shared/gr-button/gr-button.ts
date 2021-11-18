@@ -19,7 +19,7 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {getEventPath, modifierPressed} from '../../../utils/dom-util';
+import {addShortcut, getEventPath, Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
 
 declare global {
@@ -202,7 +202,8 @@ export class GrButton extends LitElement {
     super();
     this.initialTabindex = this.getAttribute('tabindex') || '0';
     this.addEventListener('click', e => this._handleAction(e));
-    this.addEventListener('keydown', e => this._handleKeydown(e));
+    addShortcut(this, {key: Key.ENTER}, () => this.click());
+    addShortcut(this, {key: Key.SPACE}, () => this.click());
   }
 
   override updated(changedProperties: PropertyValues) {
@@ -239,15 +240,5 @@ export class GrButton extends LitElement {
     }
 
     this.reporting.reportInteraction('button-click', {path: getEventPath(e)});
-  }
-
-  _handleKeydown(e: KeyboardEvent) {
-    if (modifierPressed(e)) return;
-    // Handle `enter`, `space`.
-    if (e.keyCode === 13 || e.keyCode === 32) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.click();
-    }
   }
 }

@@ -53,6 +53,7 @@ import {ScrollMode} from '../../../constants/constants';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {PRIORITY_REQUIREMENTS_ORDER} from '../../../utils/label-util';
+import {addShortcut, Key} from '../../../utils/dom-util';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -175,7 +176,7 @@ export class GrChangeList extends base {
     super();
     this.cursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.cursor.focusOnMove = true;
-    this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
+    addShortcut(this, {key: Key.ENTER}, () => this.openChange());
   }
 
   override ready() {
@@ -198,20 +199,6 @@ export class GrChangeList extends base {
   override disconnectedCallback() {
     this.cursor.unsetCursor();
     super.disconnectedCallback();
-  }
-
-  /**
-   * shortcut-service catches keyboard events globally. Some keyboard
-   * events must be scoped to a component level (e.g. `enter`) in order to not
-   * override native browser functionality.
-   *
-   * Context: Issue 7294
-   */
-  _scopedKeydownHandler(e: KeyboardEvent) {
-    if (e.keyCode === 13) {
-      // Enter.
-      this.openChange();
-    }
   }
 
   _lowerCase(column: string) {

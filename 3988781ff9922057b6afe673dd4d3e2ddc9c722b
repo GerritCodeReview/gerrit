@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62b86900_6ff6b56d",
+        "filename": "java/com/google/gerrit/server/cache/CacheDisplay.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-18T05:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a38fd76f_ebbd068c",
+      "revId": "3988781ff9922057b6afe673dd4d3e2ddc9c722b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e122fb13_7cdf5503",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61bb3837_22f9a699",
+        "filename": "java/com/google/gerrit/server/cache/CacheDisplay.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-18T05:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e122fb13_7cdf5503",
+      "revId": "3988781ff9922057b6afe673dd4d3e2ddc9c722b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02ad1548_855b8ef3",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-11-18T04:59:20Z",
       "side": 1,
       "message": "this was outside the try before, does it need to move inside?",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 25
+      },
+      "revId": "3988781ff9922057b6afe673dd4d3e2ddc9c722b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c202daf7_2af86b0c",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-18T05:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02ad1548_855b8ef3",
       "range": {
         "startLine": 119,
         "startChar": 0,

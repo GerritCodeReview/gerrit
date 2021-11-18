@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fe74d01_49067125",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2021-11-18T13:39:41Z",
+      "side": 1,
+      "message": "suggestions",
+      "revId": "d8bcf583e135de232b9d202c9de62d02a7434f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8fa03ab_6c86811a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2021-11-18T13:39:41Z",
+      "side": 1,
+      "message": "There is a typo in the commit message",
+      "revId": "d8bcf583e135de232b9d202c9de62d02a7434f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

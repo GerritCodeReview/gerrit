@@ -43,13 +43,13 @@ import {
   tap,
   pressAndReleaseKeyOn,
 } from '@polymer/iron-test-helpers/mock-interactions';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {
   mockPromise,
   stubComments,
   stubReporting,
   stubRestApi,
 } from '../../../test/test-utils';
+import {createComment} from '../../../test/test-data-generators';
 import {SinonStub} from 'sinon';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
@@ -60,20 +60,91 @@ suite('gr-comment-thread tests', () => {
   suite('basic test', () => {
     let element: GrCommentThread;
 
-    setup(() => {
+    setup(async () => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       element = basicFixture.instantiate();
       element.patchNum = 3 as PatchSetNum;
       element.changeNum = 1 as NumericChangeId;
-      flush();
+      await flush();
     });
 
-    test('renders without patchNum and changeNum', async () => {
-      const fixture = fixtureFromTemplate(
-        html`<gr-comment-thread show-file-path="" path="path/to/file"></gr-change-metadata>`
-      );
-      fixture.instantiate();
+    test('renders', async () => {
+      element.comments = [
+        {
+          ...createComment(),
+          author: {name: 'Kermit'},
+          id: 'the-root' as UrlEncodedCommentId,
+          message: 'start the conversation',
+          updated: '2021-11-01 10:11:12.000000000' as Timestamp,
+        },
+        {
+          ...createComment(),
+          author: {name: 'Ms Piggy'},
+          id: 'the-reply' as UrlEncodedCommentId,
+          message: 'keep it going',
+          updated: '2021-11-02 10:11:12.000000000' as Timestamp,
+          in_reply_to: 'the-root' as UrlEncodedCommentId,
+        },
+        {
+          ...createComment(),
+          author: {name: 'Kermit'},
+          id: 'the-draft' as UrlEncodedCommentId,
+          message: 'stop it',
+          updated: '2021-11-03 10:11:12.000000000' as Timestamp,
+          in_reply_to: 'the-reply' as UrlEncodedCommentId,
+          __draft: true,
+        },
+      ];
       await flush();
+      expect(element).shadowDom.to.equal(`
+        <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+        <div id="container">
+          <h3 class="assistive-tech-only">Draft Comment thread by Kermit</h3>
+          <div class="comment-box" tabindex="0">
+            <gr-comment></gr-comment>
+            <gr-comment></gr-comment>
+            <gr-comment></gr-comment>
+            <dom-repeat as="comment" id="commentList" style="display: none;">
+              <template is="dom-repeat"></template>
+            </dom-repeat>
+            <div hidden="true" id="commentInfoContainer">
+              <span id="unresolvedLabel">Resolved</span>
+              <div id="actions">
+                <iron-icon
+                  class="link-icon"
+                  icon="gr-icons:link"
+                  role="button"
+                  tabindex="0"
+                  title="Copy link to this comment"
+                >
+                </iron-icon>
+                <gr-button
+                  aria-disabled="false"
+                  class="action reply"
+                  id="replyBtn"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Reply
+                </gr-button>
+                <gr-button
+                  aria-disabled="false"
+                  class="action quote"
+                  id="quoteBtn"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Quote
+                </gr-button>
+                <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+              </div>
+            </div>
+          </div>
+          <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+        </div>
+      `);
     });
 
     test('comments are sorted correctly', () => {

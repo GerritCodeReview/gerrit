@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd5aface_bbf97574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-11-18T09:40:16Z",
+      "side": 1,
+      "message": "ugh ... that won\u0027t work for many/most orgs, as they usually jump several versions at a time.\n\ni think you\u0027ll need to make a schema migration as considered in the original change, after all.",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 21,
+        "endChar": 43
+      },
+      "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

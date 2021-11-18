@@ -180,11 +180,11 @@ export class GrRegistrationDialog extends PolymerElement {
       promises.push(this.restApiService.setAccountUsername(this._username));
     }
 
-    if (this._hasNameChange && this._nameMutable && this._account?.name) {
+    if (this._hasNameChange && this._nameMutable && this._account.name) {
       promises.push(this.restApiService.setAccountName(this._account.name));
     }
 
-    if (this._hasDisplayNameChange && this._account?.display_name) {
+    if (this._hasDisplayNameChange && this._account.display_name) {
       promises.push(
         this.restApiService.setAccountDisplayName(this._account.display_name)
       );

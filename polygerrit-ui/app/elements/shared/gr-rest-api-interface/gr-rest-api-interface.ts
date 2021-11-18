@@ -1093,7 +1093,7 @@ export class GrRestApiInterface
    * Inserts a change into _projectLookup iff it has a valid structure.
    */
   _maybeInsertInLookup(change: ChangeInfo): void {
-    if (change?.project && change._number) {
+    if (change.project && change._number) {
       this.setInProjectLookup(change._number, change.project);
     }
   }
@@ -1132,7 +1132,7 @@ export class GrRestApiInterface
     if (
       window.DEFAULT_DETAIL_HEXES &&
       window.DEFAULT_DETAIL_HEXES.dashboardPage &&
-      !this.flagService?.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)
+      !this.flagService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)
     ) {
       return window.DEFAULT_DETAIL_HEXES.dashboardPage;
     }
@@ -1140,7 +1140,7 @@ export class GrRestApiInterface
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
     ];
-    if (this.flagService?.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
+    if (this.flagService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
       options.push(ListChangesOption.SUBMIT_REQUIREMENTS);
     }
 
@@ -1378,7 +1378,7 @@ export class GrRestApiInterface
   }
 
   _computeFilter(filter: string) {
-    if (filter?.startsWith('^')) {
+    if (filter.startsWith('^')) {
       filter = '&r=' + encodeURIComponent(filter);
     } else if (filter) {
       filter = '&m=' + encodeURIComponent(filter);
@@ -1904,7 +1904,7 @@ export class GrRestApiInterface
     // 404s indicate the file does not exist yet in the revision, so suppress
     // them.
     const suppress404s: ErrorCallback = res => {
-      if (res && res?.status !== 404) {
+      if (res && res.status !== 404) {
         fireServerError(res);
       }
       return res;
@@ -2658,7 +2658,7 @@ export class GrRestApiInterface
     let promiseA;
     let promiseB;
 
-    if (diff.meta_a?.content_type.startsWith('image/')) {
+    if (diff.meta_a.content_type.startsWith('image/')) {
       if (patchRange.basePatchNum === ParentPatchSetNum) {
         // Note: we only attempt to get the image from the first parent.
         promiseA = this.getB64FileContents(
@@ -2678,7 +2678,7 @@ export class GrRestApiInterface
       promiseA = Promise.resolve(null);
     }
 
-    if (diff.meta_b?.content_type.startsWith('image/')) {
+    if (diff.meta_b.content_type.startsWith('image/')) {
       promiseB = this.getB64FileContents(
         changeNum,
         patchRange.patchNum,
@@ -2913,7 +2913,7 @@ export class GrRestApiInterface
       reportUrlAsIs: true,
     };
     return this._restApiHelper.send(req).then(response => {
-      if (response?.status === 204) {
+      if (response.status === 204) {
         return 'Email confirmed successfully.';
       }
       return null;

@@ -179,11 +179,11 @@ export function getLastComment(thread?: CommentThread): UIComment | undefined {
 }
 
 export function getFirstComment(thread?: CommentThread): UIComment | undefined {
-  return thread?.comments?.[0];
+  return thread?.comments[0];
 }
 
 export function countComments(thread?: CommentThread) {
-  return thread?.comments?.length ?? 0;
+  return thread?.comments.length ?? 0;
 }
 
 export function isPatchsetLevel(thread?: CommentThread): boolean {
@@ -314,7 +314,7 @@ export function computeDiffFromContext(
     meta_b: {
       name: path,
       content_type: content_type || '',
-      lines: context.length + context?.[0].line_number,
+      lines: context.length + context[0].line_number,
       web_links: [],
     },
     change_type: 'MODIFIED',

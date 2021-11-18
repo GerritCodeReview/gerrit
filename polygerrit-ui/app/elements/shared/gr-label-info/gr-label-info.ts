@@ -303,7 +303,7 @@ export class GrLabelInfo extends LitElement {
     if (this.labelInfo && isDetailedLabelInfo(this.labelInfo)) {
       const approvalInfo = getApprovalInfo(this.labelInfo, reviewer);
       if (approvalInfo?.permitted_voting_range) {
-        const {min, max} = approvalInfo?.permitted_voting_range;
+        const {min, max} = approvalInfo.permitted_voting_range;
         return html`<span class="no-votes"
           >Can vote ${valueString(min)}/${valueString(max)}</span
         >`;
@@ -424,7 +424,7 @@ export class GrLabelInfo extends LitElement {
       return 'hidden';
     }
     const removable = change.removable_reviewers;
-    if (removable.find(r => r._account_id === reviewer?._account_id)) {
+    if (removable.find(r => r._account_id === reviewer._account_id)) {
       return '';
     }
     return 'hidden';

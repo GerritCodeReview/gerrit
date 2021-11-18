@@ -61,7 +61,7 @@ suite('gr-hovercard tests', () => {
 
   teardown(() => {
     element.hide(new MouseEvent('click'));
-    button?.remove();
+    button.remove();
   });
 
   test('updatePosition', async () => {

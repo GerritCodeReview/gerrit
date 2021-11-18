@@ -45,7 +45,7 @@ export class GrTopicView extends LitElement {
 
   paramsChanged() {
     if (this.params?.view !== GerritView.TOPIC) return;
-    this.topic = this.params?.topic;
+    this.topic = this.params.topic;
     if (
       !this.flagsService.isEnabled(KnownExperimentId.TOPICS_PAGE) &&
       this.topic

@@ -99,16 +99,16 @@ export const preferenceDiffViewMode$ = preferences$.pipe(
 );
 
 export const myTopMenuItems$ = preferences$.pipe(
-  map(preferences => preferences?.my ?? []),
+  map(preferences => preferences.my ?? []),
   distinctUntilChanged()
 );
 
 export const sizeBarInChangeTable$ = preferences$.pipe(
-  map(prefs => !!prefs?.size_bar_in_change_table),
+  map(prefs => !!prefs.size_bar_in_change_table),
   distinctUntilChanged()
 );
 
 export const disableShortcuts$ = preferences$.pipe(
-  map(preferences => preferences?.disable_keyboard_shortcuts ?? false),
+  map(preferences => preferences.disable_keyboard_shortcuts ?? false),
   distinctUntilChanged()
 );

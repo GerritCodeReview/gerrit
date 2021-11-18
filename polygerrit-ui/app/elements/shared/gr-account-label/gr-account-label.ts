@@ -191,7 +191,7 @@ export class GrAccountLabel extends LitElement {
       forceAttention ||
       this._hasUnforcedAttention(highlightAttention, account, change);
     this.deselected = !this.selected;
-    const hasAvatars = !!_config?.plugin?.has_avatars;
+    const hasAvatars = !!_config?.plugin.has_avatars;
     this.cancelLeftPadding = !this.hideAvatar && !hasAttention && hasAvatars;
 
     return html`<span>

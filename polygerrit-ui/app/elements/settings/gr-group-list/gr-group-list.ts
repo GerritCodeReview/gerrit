@@ -84,7 +84,7 @@ export class GrGroupList extends LitElement {
                 </td>
                 <td>${group.description}</td>
                 <td class="visibleCell">
-                  ${group?.options?.visible_to_all ? 'Yes' : 'No'}
+                  ${group.options?.visible_to_all ? 'Yes' : 'No'}
                 </td>
               </tr>
             `;

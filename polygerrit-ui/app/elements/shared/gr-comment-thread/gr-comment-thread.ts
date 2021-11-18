@@ -359,7 +359,7 @@ export class GrCommentThread extends PolymerElement {
 
   /** The parameter is for triggering re-computation only. */
   getHighlightRange(_: unknown) {
-    const comment = this.comments?.[0];
+    const comment = this.comments[0];
     if (!comment) return undefined;
     if (comment.range) return comment.range;
     if (comment.line) {
@@ -626,7 +626,7 @@ export class GrCommentThread extends PolymerElement {
     for (const el of els) {
       const c = el.comment;
       if (isRobot(c)) continue;
-      if (c?.id === id || (isDraft(c) && c?.__draftID === id)) return el;
+      if (c?.id === id || (isDraft(c) && c.__draftID === id)) return el;
     }
     return null;
   }
@@ -773,7 +773,7 @@ export class GrCommentThread extends PolymerElement {
 
   _computeAriaHeading(_orderedComments: UIComment[]) {
     const firstComment = _orderedComments[0];
-    const author = firstComment?.author ?? this._selfAccount;
+    const author = firstComment.author ?? this._selfAccount;
     const lastComment = _orderedComments[_orderedComments.length - 1] || {};
     const status = [
       lastComment.unresolved ? 'Unresolved' : '',

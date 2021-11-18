@@ -36,7 +36,7 @@ export function hasAttention(
   return (
     canHaveAttention(account) &&
     !!change?.attention_set &&
-    hasOwnProperty(change?.attention_set, account!._account_id!)
+    hasOwnProperty(change.attention_set, account!._account_id!)
   );
 }
 
@@ -51,11 +51,11 @@ export function getReason(
 
   const attentionSetInfo = change.attention_set[account._account_id!];
 
-  if (attentionSetInfo?.reason === undefined) return '';
+  if (attentionSetInfo.reason === undefined) return '';
 
   return replaceTemplates(
     attentionSetInfo.reason,
-    attentionSetInfo?.reason_account ? [attentionSetInfo.reason_account] : [],
+    attentionSetInfo.reason_account ? [attentionSetInfo.reason_account] : [],
     config
   );
 }
@@ -91,7 +91,7 @@ export function getRemovedByIconClickReason(
 export function getLastUpdate(account?: AccountInfo, change?: ChangeInfo) {
   if (!hasAttention(account, change)) return '';
   const entry = change!.attention_set![account!._account_id!];
-  return entry?.last_update ? entry.last_update : '';
+  return entry.last_update ? entry.last_update : '';
 }
 
 /**

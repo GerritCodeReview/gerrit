@@ -134,8 +134,8 @@ export class GrRepoDetailList extends PolymerElement {
     // to false and polymer removes this component, hence check for params
     if (
       !(
-        params?.detail === RepoDetailView.BRANCHES ||
-        params?.detail === RepoDetailView.TAGS
+        params.detail === RepoDetailView.BRANCHES ||
+        params.detail === RepoDetailView.TAGS
       )
     ) {
       return;
@@ -152,8 +152,8 @@ export class GrRepoDetailList extends PolymerElement {
 
     this.detailType = params.detail;
 
-    this._filter = params?.filter ?? '';
-    this._offset = Number(params?.offset ?? 0);
+    this._filter = params.filter ?? '';
+    this._offset = Number(params.offset ?? 0);
     if (!this.detailType)
       return Promise.reject(new Error('undefined detailType'));
 

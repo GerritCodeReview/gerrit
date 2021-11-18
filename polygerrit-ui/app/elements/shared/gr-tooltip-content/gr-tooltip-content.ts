@@ -170,8 +170,8 @@ export class GrTooltipContent extends LitElement {
     // Do not hide if mouse left this or this.tooltip and came to this or
     // this.tooltip
     if (
-      (e as MouseEvent)?.relatedTarget === this.tooltip ||
-      (e as MouseEvent)?.relatedTarget === this
+      (e as MouseEvent).relatedTarget === this.tooltip ||
+      (e as MouseEvent).relatedTarget === this
     ) {
       return;
     }

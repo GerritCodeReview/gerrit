@@ -257,7 +257,7 @@ export class GrTextarea extends PolymerElement {
 
   _handleEmojiSelect(e: CustomEvent<ItemSelectedEvent>) {
     if (e.detail.selected?.dataset['value']) {
-      this._setEmoji(e.detail.selected?.dataset['value']);
+      this._setEmoji(e.detail.selected.dataset['value']);
     }
   }
 

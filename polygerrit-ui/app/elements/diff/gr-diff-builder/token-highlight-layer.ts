@@ -180,13 +180,13 @@ export class TokenHighlightLayer implements DiffLayer {
     // If there's no ongoing hover-task, terminate early.
     if (!this.updateTokenTask?.isActive()) return;
     if (e.buttons > 0 || this.interferesWithSelection()) return;
-    const {element} = this.findTokenAncestor(e?.target);
+    const {element} = this.findTokenAncestor(e.target);
     if (!element) return;
     if (element === this.hoveredElement) {
       // If we are moving out of the currently hovered element, cancel the
       // update task.
       this.hoveredElement = undefined;
-      this.updateTokenTask?.cancel();
+      this.updateTokenTask.cancel();
     }
   }
 
@@ -196,7 +196,7 @@ export class TokenHighlightLayer implements DiffLayer {
       line,
       token: newHighlight,
       element,
-    } = this.findTokenAncestor(e?.target);
+    } = this.findTokenAncestor(e.target);
     if (!newHighlight || newHighlight === this.currentHighlight) return;
     this.hoveredElement = element;
     this.updateTokenTask = debounce(

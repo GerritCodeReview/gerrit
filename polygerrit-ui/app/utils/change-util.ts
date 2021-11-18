@@ -192,7 +192,7 @@ export function isOwner(
   account?: AccountInfo
 ): boolean {
   if (!change || !account) return false;
-  return change.owner?._account_id === account._account_id;
+  return change.owner._account_id === account._account_id;
 }
 
 export function isReviewer(
@@ -235,7 +235,7 @@ export function isInvolved(
 }
 
 export function getCurrentRevision(change?: ChangeInfo | ParsedChangeInfo) {
-  if (!change?.revisions || !change?.current_revision) return undefined;
+  if (!change?.revisions || !change.current_revision) return undefined;
   return change.revisions[change.current_revision];
 }
 
@@ -244,7 +244,7 @@ export function getRevisionKey(
   patchNum: PatchSetNum
 ) {
   return Object.keys(change.revisions ?? []).find(
-    rev => change?.revisions?.[rev]._number === patchNum
+    rev => change.revisions?.[rev]._number === patchNum
   );
 }
 

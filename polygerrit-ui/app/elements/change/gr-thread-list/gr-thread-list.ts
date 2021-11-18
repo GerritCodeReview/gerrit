@@ -234,7 +234,7 @@ export class GrThreadList extends PolymerElement {
     comments: UIComment[],
     scrollCommentId?: UrlEncodedCommentId
   ) {
-    const comment = comments?.[0];
+    const comment = comments[0];
     if (!comment) return false;
     return computeId(comment) === scrollCommentId;
   }

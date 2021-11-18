@@ -372,7 +372,7 @@ export class GrHovercardAccount extends base {
   }
 
   private handleRemoveReviewerOrCC() {
-    if (!this.change || !(this.account?._account_id || this.account?.email))
+    if (!this.change || !(this.account._account_id || this.account.email))
       throw new Error('Missing change or account.');
     this.dispatchEventThroughTarget('show-alert', {
       message: 'Reloading page...',
@@ -380,7 +380,7 @@ export class GrHovercardAccount extends base {
     this.restApiService
       .removeChangeReviewer(
         this.change._number,
-        (this.account?._account_id || this.account?.email)!
+        (this.account._account_id || this.account.email)!
       )
       .then((response: Response | undefined) => {
         if (!response || !response.ok) {

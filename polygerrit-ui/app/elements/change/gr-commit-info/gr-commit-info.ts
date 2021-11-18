@@ -139,6 +139,6 @@ export class GrCommitInfo extends LitElement {
     }
 
     const weblink = this._getWeblink(change, commitInfo, serverConfig);
-    return weblink?.name ?? '';
+    return weblink.name ?? '';
   }
 }

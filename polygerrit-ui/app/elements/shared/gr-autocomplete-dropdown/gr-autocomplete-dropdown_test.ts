@@ -124,7 +124,7 @@ suite('gr-autocomplete-dropdown', () => {
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
     const lastElChild = queryAll<HTMLElement>(suggestionsEl(), 'li')[0]
-      ?.lastElementChild;
+      .lastElementChild;
     assertIsDefined(lastElChild);
     MockInteractions.tap(lastElChild);
     flush();

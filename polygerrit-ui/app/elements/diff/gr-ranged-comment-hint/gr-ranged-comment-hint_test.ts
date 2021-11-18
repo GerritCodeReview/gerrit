@@ -41,6 +41,6 @@ suite('gr-ranged-comment-hint tests', () => {
     } as CommentRange;
     await flush();
     const textDiv = queryAndAssert<GrRangeHeader>(element, 'gr-range-header');
-    assert.equal(textDiv?.innerText.trim(), 'Long comment range 2 - 5');
+    assert.equal(textDiv.innerText.trim(), 'Long comment range 2 - 5');
   });
 });

@@ -586,14 +586,14 @@ export class GrReporting implements ReportingService {
       };
     }
 
-    if (document?.documentElement) {
+    if (document.documentElement) {
       details.viewport = {
         width: document.documentElement.clientWidth,
         height: document.documentElement.clientHeight,
       };
     }
 
-    if (window.performance?.memory) {
+    if (window.performance.memory) {
       const toMb = (bytes: number) =>
         Math.round((bytes / (1024 * 1024)) * 100) / 100;
       details.usedJSHeapSizeMb = toMb(window.performance.memory.usedJSHeapSize);
@@ -848,7 +848,7 @@ export class GrReporting implements ReportingService {
     object: string,
     method: string
   ) {
-    const plugin = pluginApi?.getPluginName() ?? 'unknown';
+    const plugin = pluginApi.getPluginName() ?? 'unknown';
     this.reportExecution(Execution.PLUGIN_API, {plugin, object, method});
   }
 

@@ -182,7 +182,7 @@ export class ChecksService {
     config: ChecksApiConfig,
     patchset: ChecksPatchset
   ) {
-    const pollIntervalMs = (config?.fetchPollingIntervalSeconds ?? 60) * 1000;
+    const pollIntervalMs = (config.fetchPollingIntervalSeconds ?? 60) * 1000;
     // Various events should trigger fetching checks from the provider:
     // 1. Change number and patchset number changes.
     // 2. Specific reload requests.

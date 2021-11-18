@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8de631e4_312d9cd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-18T17:55:51Z",
+      "side": 1,
+      "message": "nit: Add \"We\u0027re using 4.2.0 now, so this is safe to remove.\"",
+      "revId": "305c16fdc0123da18781812d9f7627b114cdd404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

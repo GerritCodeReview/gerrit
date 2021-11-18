@@ -45,6 +45,23 @@
       },
       "revId": "bf713e8cfa0c6c616b9e01ed61ac2e995229a71d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "578ceea7_5cf23fdc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-18T12:09:06Z",
+      "side": 1,
+      "message": "It would be nice to introduce test like https://gerrit-review.googlesource.com/c/gerrit/+/323335/7/polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip_test.ts#50\n\nBut feel free to skip",
+      "revId": "bf713e8cfa0c6c616b9e01ed61ac2e995229a71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

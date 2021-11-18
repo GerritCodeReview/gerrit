@@ -231,6 +231,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6464cef_9addd333",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-18T07:47:50Z",
+      "side": 1,
+      "message": "Thanks for the explanation. This could be made a bit clearer by using `* After the rolling restart finished, set `auth.userNameCaseInsensitiveOnlineMigration` on one of the primary nodes`",
+      "parentUuid": "95af98e4_1bea1529",
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa9ce747_2c80ae83",
         "filename": "Documentation/externalid-case-insensitivity.txt",
         "patchSetId": 1
@@ -266,6 +284,30 @@
       "side": 1,
       "message": "We should do online migration on a single node. HA setup shares All-Users repository among all primary nodes. So we need to run it just once. HA will trigger ref update event to all nodes so they will reindex change",
       "parentUuid": "fa9ce747_2c80ae83",
+      "range": {
+        "startLine": 77,
+        "startChar": 17,
+        "endLine": 77,
+        "endChar": 18
+      },
+      "revId": "0651980eaa4a7ace667d253e61279faded98daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f3d2edf_795f94e1",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-18T07:47:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f68f266a_bbc33a16",
       "range": {
         "startLine": 77,
         "startChar": 17,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b07ee4b9_b5b26e00",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-18T07:47:50Z",
+      "side": 1,
+      "message": "This can be misunderstood as I did as `When migration is finished on all other primary nodes, set` instead of `When migration is finished, on all other primary nodes set`. I would change the sentence structure to make it clearer that the second version is correct.",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 55
+      },
+      "revId": "962c3badbcaa0d72b2a78791aee03c4fee55e31a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

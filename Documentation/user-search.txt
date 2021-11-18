@@ -49,6 +49,10 @@ are added to the same query string, they further restrict the
 returned results. Search can also be performed by typing only a
 text with no operator, which will match against a variety of fields.
 
+Operators can escape characters, for example double quotes, by enclosing the
+value with double quotes and escaping double quotes inside the value with
+a backslash.
+
 [[age]]
 age:'AGE'::
 +

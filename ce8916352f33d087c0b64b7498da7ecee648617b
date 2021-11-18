@@ -34,6 +34,58 @@
       "parentUuid": "ec4b6aee_aa54ac63",
       "revId": "ce8916352f33d087c0b64b7498da7ecee648617b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecac10c8_a75c1c59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-11-18T22:27:36Z",
+      "side": 1,
+      "message": "how perl-y. ^^\ni suspect very few people ever use it; it\u0027s just too unfamiliar.",
+      "parentUuid": "9ea1d5ea_2fe8dbb2",
+      "revId": "ce8916352f33d087c0b64b7498da7ecee648617b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf077638_9fe2b766",
+        "filename": "antlr3/com/google/gerrit/index/query/Query.g",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-11-18T22:27:36Z",
+      "side": 1,
+      "message": "i don\u0027t think it\u0027s necessary to special-case this here and below.",
+      "revId": "ce8916352f33d087c0b64b7498da7ecee648617b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdf6a5d3_c1adb880",
+        "filename": "javatests/com/google/gerrit/index/query/QueryParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-11-18T22:27:36Z",
+      "side": 1,
+      "message": "i\u0027d lump that with the quote test, and add some braces and other random characters for good measure - it\u0027s all the same code path anyway (at least if my comment above is correct).",
+      "revId": "ce8916352f33d087c0b64b7498da7ecee648617b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -371,28 +371,53 @@ const styleSheet = safeStyleSheet`
     --syntax-attr-color: #219;
     --syntax-attribute-color: var(--primary-text-color);
     --syntax-built_in-color: #30a;
+    --syntax-bullet-color: #9e0069; // TBD
+    --syntax-code-color: var(--primary-text-color);
     --syntax-comment-color: #3f7f5f;
     --syntax-default-color: var(--primary-text-color);
+    --syntax-doctag-color: var(--syntax-comment-color);
     --syntax-doctag-weight: bold;
+    --syntax-emphasis-color: var(--primary-text-color);
+    --syntax-emphasis-style: italic;
+    --syntax-emphasis-weight: normal;
+    --syntax-formula-color: #fa8602; // TBD
     --syntax-function-color: var(--primary-text-color);
     --syntax-keyword-color: #9e0069;
     --syntax-link-color: #219;
     --syntax-literal-color: #219;
     --syntax-meta-color: #ff1717;
     --syntax-meta-keyword-color: #219;
+    --syntax-meta-string-color: #2a00ff;
+    --syntax-name-color: #9e0069;
     --syntax-number-color: #164;
+    --syntax-operator-color: #164; // TBD
     --syntax-params-color: var(--primary-text-color);
+    --syntax-property-color: #fa8602;
+    --syntax-punctuation-color: #164; // TBD
+    --syntax-quote-color: var(--primary-text-color);
     --syntax-regexp-color: #fa8602;
+    --syntax-section-color: #9e0069;
+    --syntax-section-style: normal;
+    --syntax-section-weight: bold;
     --syntax-selector-attr-color: #fa8602;
     --syntax-selector-class-color: #164;
     --syntax-selector-id-color: #2a00ff;
-    --syntax-property-color: #fa8602;
+    --syntax-selector-pseudo-color: #2a00ff; // TBD
+    --syntax-selector-tag-color: #2a00ff; // TBD
     --syntax-selector-pseudo-color: #fa8602;
+    --syntax-strong-color: var(--primary-text-color);
+    --syntax-strong-style: normal;
+    --syntax-strong-weight: bold;
     --syntax-string-color: #2a00ff;
+    --syntax-subst-color: #2a00ff; // TBD
+    --syntax-symbol-color: #9e0069;
     --syntax-tag-color: #170;
     --syntax-template-tag-color: #fa8602;
     --syntax-template-variable-color: #0000c0;
     --syntax-title-color: #0000c0;
+    --syntax-title-class-color: #0000c0; //TBD
+    --syntax-title-class-inherited-color: #0000c0; //TBD
+    --syntax-title-function-color: #0000c0; //TBD
     --syntax-type-color: var(--blue-700);
     --syntax-variable-color: var(--primary-text-color);
 

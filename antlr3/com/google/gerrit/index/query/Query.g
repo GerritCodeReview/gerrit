@@ -157,7 +157,7 @@ FIELD_NAME
   ;
 
 EXACT_PHRASE
-  : '"' ( ~('"') )* '"' {
+  : '"' ( ( '\"' | ~('"') ) )* '"' {
       String s = $text;
       setText(s.substring(1, s.length() - 1));
     }

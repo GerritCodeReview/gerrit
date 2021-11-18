@@ -138,6 +138,10 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         // splitting of repos into smaller parts reduced indexing time from 1.5 hours to 55 minutes
         // in 2020.
         int size = estimateSize(repo);
+        if (size == 0) {
+          pm.update(1);
+          continue;
+        }
         changeCount += size;
         int slices = 1 + size / PROJECT_SLICE_MAX_REFS;
         if (slices > 1) {
@@ -237,6 +241,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
           "Failed %s/%s changes (%s%%); not marking new index as ready",
           nFailed, nTotal, Math.round(pctFailed));
       ok.set(false);
+    } else if (nFailed > 0) {
+      logger.atWarning().log("Failed %s/%s changes", nFailed, nTotal);
     }
     return Result.create(sw, ok.get(), nDone, nFailed);
   }

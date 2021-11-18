@@ -82,6 +82,7 @@ import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader.OnlineUpgraderModule;
 import com.google.gerrit.server.index.VersionManager;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
 import com.google.gerrit.server.mail.receive.MailReceiver.MailReceiverModule;
 import com.google.gerrit.server.mail.send.SmtpEmailSender.SmtpEmailSenderModule;
@@ -364,7 +365,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
   private Module createIndexModule() {
     if (indexType.isLucene()) {
-      return LuceneIndexModule.latestVersion(false);
+      return LuceneIndexModule.latestVersion(false, AutoFlush.ENABLED);
     } else if (indexType.isElasticsearch()) {
       return ElasticIndexModule.latestVersion(false);
     } else if (indexType.isFake()) {

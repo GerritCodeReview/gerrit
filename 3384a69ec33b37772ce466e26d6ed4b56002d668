@@ -16,6 +16,24 @@
       "message": "Friendliest of pings on this. Thank you!",
       "revId": "3384a69ec33b37772ce466e26d6ed4b56002d668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "511bfb42_af2f242b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011722
+      },
+      "writtenOn": "2021-11-18T07:07:49Z",
+      "side": 1,
+      "message": "Slightly friendlier ping 😜",
+      "parentUuid": "e66163e3_1df7d794",
+      "revId": "3384a69ec33b37772ce466e26d6ed4b56002d668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

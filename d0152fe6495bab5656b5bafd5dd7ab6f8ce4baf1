@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52aa6305_65e810ee",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-18T12:08:04Z",
+      "side": 0,
+      "message": "Is this not needed anymore - I don\u0027t see it in lit element",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 5
+      },
+      "revId": "d0152fe6495bab5656b5bafd5dd7ab6f8ce4baf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f370dab9_8a1b046e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-18T12:08:04Z",
+      "side": 0,
+      "message": "I see you removed this and just doesn\u0027t render if loading \u003d\u003d\u003d true",
+      "range": {
+        "startLine": 48,
+        "startChar": 13,
+        "endLine": 48,
+        "endChar": 55
+      },
+      "revId": "d0152fe6495bab5656b5bafd5dd7ab6f8ce4baf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

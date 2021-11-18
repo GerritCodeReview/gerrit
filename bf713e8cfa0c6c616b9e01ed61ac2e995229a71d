@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "542e82c7_f0521986",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-18T12:08:04Z",
+      "side": 1,
+      "message": "Nit: you can inline this.",
+      "range": {
+        "startLine": 180,
+        "startChar": 2,
+        "endLine": 180,
+        "endChar": 9
+      },
+      "revId": "bf713e8cfa0c6c616b9e01ed61ac2e995229a71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cff1070e_29b7a7fc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-18T12:08:04Z",
+      "side": 1,
+      "message": "This is not used now. Can be removed.",
+      "range": {
+        "startLine": 188,
+        "startChar": 2,
+        "endLine": 188,
+        "endChar": 19
+      },
+      "revId": "bf713e8cfa0c6c616b9e01ed61ac2e995229a71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

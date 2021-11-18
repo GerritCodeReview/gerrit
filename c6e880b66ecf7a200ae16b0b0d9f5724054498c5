@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14123632_5e08be5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-11-18T07:42:35Z",
+      "side": 1,
+      "message": "After some inspection, it seems that \n1) The embeddable part of gr-diff does not actually depend on AppContext.\n2) The changes in polygerrit-ui/app/embed/gr-diff-app-context-init.ts which set the context do not change the API, so this should still work for downstream tools.",
+      "revId": "c6e880b66ecf7a200ae16b0b0d9f5724054498c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cac0788_c92466a4",

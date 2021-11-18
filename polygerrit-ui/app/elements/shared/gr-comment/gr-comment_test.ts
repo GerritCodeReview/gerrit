@@ -81,6 +81,7 @@ suite('gr-comment tests', () => {
         })
       );
       element = basicFixture.instantiate();
+      element.getRandomNum = () => 1;
       element.comment = {
         ...createComment(),
         author: {
@@ -102,42 +103,174 @@ suite('gr-comment tests', () => {
       });
     });
 
-    test('collapsible comments', () => {
-      // When a comment (not draft) is loaded, it should be collapsed
-      assert.isTrue(element.collapsed);
-      assert.isFalse(
-        isVisible(queryAndAssert(element, 'gr-formatted-text')),
-        'gr-formatted-text is not visible'
-      );
-      assert.isFalse(
-        isVisible(queryAndAssert(element, '.actions')),
-        'actions are not visible'
-      );
-      assert.isNotOk(element.textarea, 'textarea is not visible');
+    test('renders', async () => {
+      await flush();
+      expect(element).shadowDom.to.equal(`
+        <div class="collapsed container" id="container">
+          <div class="header" id="header">
+            <div class="headerLeft">
+              <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+              <gr-account-label deselected="" hidestatus=""></gr-account-label>
+              <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+              <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+              <gr-tooltip-content
+                class="draftTooltip"
+                has-tooltip=""
+                max-width="20em"
+                show-icon=""
+                title="This draft is only visible to you. To publish drafts, click the 'Reply'or 'Start review' button at the top of the change or press the 'A' key."
+              >
+                <span class="draftLabel">DRAFT</span>
+              </gr-tooltip-content>
+            </div>
+            <div class="headerMiddle">
+              <span class="collapsedContent">
+                is this a crossover episode!?
+              </span>
+            </div>
+            <div class="message runIdMessage" hidden="true">
+              <div class="runIdInformation">
+                <a class="robotRunLink">
+                  <span class="link robotRun">
+                    Run Details
+                  </span>
+                </a>
+              </div>
+            </div>
+            <gr-button
+              aria-disabled="false"
+              class="action delete"
+              id="deleteBtn"
+              link=""
+              role="button"
+              tabindex="0"
+              title="Delete Comment"
+            >
+              <iron-icon icon="gr-icons:delete" id="icon"></iron-icon>
+            </gr-button>
+            <span class="patchset-text">Patchset</span>
+            <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            <span class="separator"></span>
+            <span class="date" tabindex="0">
+              <gr-date-formatter withtooltip=""></gr-date-formatter>
+            </span>
+            <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            <div class="show-hide" tabindex="0">
+              <label aria-label="Expand" class="show-hide">
+                <input checked="true" class="show-hide" type="checkbox">
+                <iron-icon id="icon"></iron-icon>
+              </label>
+            </div>
+          </div>
+          <div class="body">
+            <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            <gr-formatted-text class="message" notrailingmargin="">
+            </gr-formatted-text>
+            <div class="actions humanActions">
+              <div class="action hideOnPublished resolve">
+                <label>
+                  <input id="resolvedCheckbox" type="checkbox">
+                  Resolved
+                </label>
+              </div>
+            <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            </div>
+            <div class="robotActions">
+              <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+              <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            </div>
+          </div>
+        </div>
+        <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+      `);
+    });
 
-      // The header middle content is only visible when comments are collapsed.
-      // It shows the message in a condensed way, and limits to a single line.
-      assert.isTrue(
-        isVisible(queryAndAssert(element, '.collapsedContent')),
-        'header middle content is visible'
-      );
-
-      // When the header row is clicked, the comment should expand
-      tap(element.$.header);
-      assert.isFalse(element.collapsed);
-      assert.isTrue(
-        isVisible(queryAndAssert(element, 'gr-formatted-text')),
-        'gr-formatted-text is visible'
-      );
-      assert.isTrue(
-        isVisible(queryAndAssert(element, '.actions')),
-        'actions are visible'
-      );
-      assert.isNotOk(element.textarea, 'textarea is not visible');
-      assert.isFalse(
-        isVisible(queryAndAssert(element, '.collapsedContent')),
-        'header middle content is not visible'
-      );
+    test('renders editing:true', async () => {
+      element.editing = true;
+      await flush();
+      expect(element).shadowDom.to.equal(`
+        <div class="collapsed container editing" id="container">
+          <div class="header" id="header">
+            <div class="headerLeft">
+              <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+              <gr-account-label deselected="" hidestatus=""></gr-account-label>
+              <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+              <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+              <gr-tooltip-content
+                class="draftTooltip"
+                has-tooltip=""
+                max-width="20em"
+                show-icon=""
+                title="This draft is only visible to you. To publish drafts, click the 'Reply'or 'Start review' button at the top of the change or press the 'A' key."
+              >
+                <span class="draftLabel">DRAFT</span>
+              </gr-tooltip-content>
+            </div>
+            <div class="headerMiddle">
+              <span class="collapsedContent">
+                is this a crossover episode!?
+              </span>
+            </div>
+            <div class="message runIdMessage" hidden="true">
+              <div class="runIdInformation">
+                <a class="robotRunLink">
+                  <span class="link robotRun">
+                    Run Details
+                  </span>
+                </a>
+              </div>
+            </div>
+            <gr-button
+              aria-disabled="false"
+              class="action delete"
+              id="deleteBtn"
+              link=""
+              role="button"
+              tabindex="0"
+              title="Delete Comment"
+            >
+              <iron-icon icon="gr-icons:delete" id="icon"></iron-icon>
+            </gr-button>
+            <span class="patchset-text">Patchset</span>
+            <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            <span class="separator"></span>
+            <span class="date" tabindex="0">
+              <gr-date-formatter withtooltip=""></gr-date-formatter>
+            </span>
+            <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            <div class="show-hide" tabindex="0">
+              <label aria-label="Expand" class="show-hide">
+                <input checked="true" class="show-hide" type="checkbox">
+                <iron-icon id="icon"></iron-icon>
+              </label>
+            </div>
+          </div>
+          <div class="body">
+            <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            <gr-textarea autocomplete="on" class="code editMessage" code="" id="editTextarea" rows="4">
+            </gr-textarea>
+            <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            <gr-formatted-text class="message" notrailingmargin="">
+            </gr-formatted-text>
+            <div class="actions humanActions">
+              <div class="action hideOnPublished resolve">
+                <label>
+                  <input id="resolvedCheckbox" type="checkbox">
+                  Resolved
+                </label>
+              </div>
+            <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            </div>
+            <div class="robotActions">
+              <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+              <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+            </div>
+          </div>
+        </div>
+        <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+      `);
     });
 
     test('clicking on date link fires event', () => {

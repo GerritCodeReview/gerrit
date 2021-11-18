@@ -23,6 +23,7 @@ import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
@@ -49,14 +50,18 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Inject SubmitRequirementsEvaluator evaluator;
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<InternalChangeQuery> changeQueryProvider;
+  @Inject private ChangeOperations changeOperations;
 
   private ChangeData changeData;
   private String changeId;
 
+  private static final String FILE_NAME = "file.txt";
+  private static final String CONTENT = "line 1\nline 2\nline 3\n";
+
   @Before
   public void setUp() throws Exception {
     PushOneCommit.Result pushResult =
-        createChange(testRepo, "refs/heads/master", "Fix a bug", "file.txt", "content", "topic");
+        createChange(testRepo, "refs/heads/master", "Fix a bug", FILE_NAME, CONTENT, "topic");
     changeData = pushResult.getChange();
     changeId = pushResult.getChangeId();
   }
@@ -266,6 +271,277 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
         changeQueryProvider.get().byLegacyChangeId(Change.Id.parse(revertId)).get(0);
     result = evaluator.evaluateRequirement(sr, revertChangeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+  }
+
+  @Test
+  public void byCommitEdits_deletedContent_matching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 2\n", ""))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("commitedits:\"'.*\\.txt',content='line 2'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byCommitEdits_deletedContent_nonMatching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 1\n", ""))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("commitedits:\"'.*\\.txt',content='line 2'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byCommitEdits_addedContent_matching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT + "line 4\n")
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("commitedits:\"'.*\\.txt',content='line 4'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byCommitEdits_addedContent_nonMatching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT + "line 4\n")
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("commitedits:\"'.*\\.txt',content='line 5'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byCommitEdits_addedFile_matching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file("new_file.txt")
+            .content("content of the new file")
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("commitedits:\"'new.*\\.txt',content='of the new'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byCommitEdits_addedFile_nonMatching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file("new_file.txt")
+            .content("content of the new file")
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("commitedits:\"'new.*\\.txt',content='not_exist'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byCommitEdits_modifiedContent_matching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line three\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("commitedits:\"'.*\\.txt',content='three'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byCommitEdits_modifiedContent_nonMatching() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line three\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("commitedits:\"'.*\\.txt',content='ten'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byCommitEdits_notMatchingWithFilePath() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line three\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    // commit edit only matches with files ending with ".java". Since our modified file name ends
+    // with ".txt", the applicability expression will not match.
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("commitedits:\"'.*\\.java',content='three'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void byCommitEdit_escapeSingleQuotes() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line 'three' is modified\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "commitedits:\"'.*\\.txt',content='line \\'three\\' is'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byCommitEdit_doubleEscapeSingleQuote() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            // This will be written to the file as: line \'three\' is modified.
+            .content(CONTENT.replace("line 3\n", "line \\'three\\' is modified\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    // Users can still provide back-slashes in regexes by escaping them.
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "commitedits:\"'.*\\.txt',content='line \\\\\\\\'three\\\\\\\\' is'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byCommitEdit_escapeDoubleQuotes() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line \"three\" is modified\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "commitedits:\"'.*\\.txt',content='line \\\"three\\\" is'\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void byCommitEdit_invalidSyntax() throws Exception {
+    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id childId =
+        changeOperations
+            .newChange()
+            .file(FILE_NAME)
+            .content(CONTENT.replace("line 3\n", "line three\n"))
+            .childOf()
+            .change(parent)
+            .create();
+
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create(
+            "commitedits:\"'.*\\.txt',content=forgot single quotes\"");
+
+    ChangeData childChangeData = changeQueryProvider.get().byLegacyChangeId(childId).get(0);
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, childChangeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.ERROR);
+    assertThat(srResult.errorMessage().get())
+        .isEqualTo(
+            "Argument for the 'commitEdits' operator should be in the form of 'fileRegex',content='contentRegex'.");
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

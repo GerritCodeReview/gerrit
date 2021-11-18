@@ -227,6 +227,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "735bcf8b_64441362",
+        "filename": "java/com/google/gerrit/server/index/options/WriteMode.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-18T17:21:21Z",
+      "side": 1,
+      "message": "Does it look good in PS10 ? IsFirstInsertForEntry ?",
+      "parentUuid": "0be63bd2_62a2d9cb",
+      "range": {
+        "startLine": 17,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "51e9667717ebb9fe28d80ff3851d389b7cc7a98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d604e8e3_b72abdd2",
         "filename": "java/com/google/gerrit/server/index/project/AllProjectsIndexer.java",
         "patchSetId": 8

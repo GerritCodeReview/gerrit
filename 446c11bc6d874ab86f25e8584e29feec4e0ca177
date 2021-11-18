@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eca993a_e40f8841",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-18T15:05:55Z",
+      "side": 1,
+      "message": "This needs to be optional because\n```\nparams?: ListViewParams;\n```",
+      "range": {
+        "startLine": 82,
+        "startChar": 17,
+        "endLine": 82,
+        "endChar": 23
+      },
+      "revId": "446c11bc6d874ab86f25e8584e29feec4e0ca177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

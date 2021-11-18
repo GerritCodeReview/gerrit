@@ -22,6 +22,30 @@
       },
       "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19ecbaeb_bed505f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-18T09:45:46Z",
+      "side": 1,
+      "message": "The difference between versions is just to give users *optional* ability to wait a bit, as it\u0027s not mandatory. Votes that are copied across patchsets on open changes that will be lost are not that big of a deal, and some orgs can choose either 1. not to care (since it\u0027s very minor), or 2. wait a bit between versions.\n\nI\u0027m resolving this since your comment is not respectful. If you like further answers, please phrase them in a respectful manner.",
+      "parentUuid": "cd5aface_bbf97574",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 21,
+        "endChar": 43
+      },
+      "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

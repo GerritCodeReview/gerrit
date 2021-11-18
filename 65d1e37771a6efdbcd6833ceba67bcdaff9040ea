@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "605125ab_7a174486",
+        "filename": "java/com/google/gerrit/server/query/CommitEditsPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-18T17:41:18Z",
+      "side": 1,
+      "message": "This can RTE if the pattern is invalid. We should validate the pattern at the caller and throw a QueryParseException if it\u0027s invalid.",
+      "revId": "65d1e37771a6efdbcd6833ceba67bcdaff9040ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

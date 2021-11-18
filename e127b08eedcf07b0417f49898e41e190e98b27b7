@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74f3eaaa_cdbce1f6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-18T19:49:29Z",
+      "side": 0,
+      "message": "This merge resolution is incorrect.\nThe signature of\n\n```\ncreateChecked(Repository repo, Project.NameKey project,Change.Id changeId,@Nullable ObjectId metaRevId)\n```\n\nintroduced in  I359578a05\n\nShould have been preserved.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 5
+      },
+      "revId": "e127b08eedcf07b0417f49898e41e190e98b27b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

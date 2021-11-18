@@ -659,7 +659,10 @@ public abstract class AbstractDaemonTest {
   }
 
   protected Project.NameKey createProjectOverAPI(
-      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
+      String nameSuffix,
+      @Nullable Project.NameKey parent,
+      boolean createEmptyCommit,
+      @Nullable SubmitType submitType)
       throws RestApiException {
     ProjectInput in = new ProjectInput();
     in.name = name(nameSuffix);

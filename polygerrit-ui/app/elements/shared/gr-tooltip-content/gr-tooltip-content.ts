@@ -123,7 +123,7 @@ export class GrTooltipContent extends LitElement {
     this.addEventListener('mouseenter', this.showHandler);
   }
 
-  _handleShowTooltip() {
+  async _handleShowTooltip() {
     if (this.isTouchDevice) {
       return;
     }
@@ -145,15 +145,17 @@ export class GrTooltipContent extends LitElement {
     tooltip.text = this.originalTitle;
     tooltip.maxWidth = this.getAttribute('max-width') || '';
     tooltip.positionBelow = this.hasAttribute('position-below');
+    this.tooltip = tooltip;
 
     // Set visibility to hidden before appending to the DOM so that
     // calculations can be made based on the element’s size.
     tooltip.style.visibility = 'hidden';
     getRootElement().appendChild(tooltip);
+    await tooltip.updateComplete;
     this._positionTooltip(tooltip);
+    console.info('Finished positioning');
     tooltip.style.visibility = 'initial';
 
-    this.tooltip = tooltip;
     window.addEventListener('scroll', this.windowScrollHandler);
     this.addEventListener('mouseleave', this.hideHandler);
     this.addEventListener('click', this.hideHandler);
@@ -198,7 +200,7 @@ export class GrTooltipContent extends LitElement {
   }
 
   // private but used in tests.
-  async _positionTooltip(tooltip: GrTooltip | null) {
+  _positionTooltip(tooltip: GrTooltip | null) {
     if (tooltip === null) return;
     const rect = this.getBoundingClientRect();
     const boxRect = tooltip.getBoundingClientRect();

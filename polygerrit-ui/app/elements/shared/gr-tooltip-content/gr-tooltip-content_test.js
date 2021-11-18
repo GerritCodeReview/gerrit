@@ -148,7 +148,7 @@ suite('gr-tooltip-content tests', () => {
     await element.updateComplete;
 
     // fire mouse-enter
-    element._handleShowTooltip();
+    await element._handleShowTooltip();
     await element.updateComplete;
     assert.isNotOk(element.tooltip);
 
@@ -161,7 +161,7 @@ suite('gr-tooltip-content tests', () => {
     element.isTouchDevice = false;
 
     // fire mouse-enter
-    element._handleShowTooltip();
+    await element._handleShowTooltip();
     await element.updateComplete;
     assert.isOk(element.tooltip);
 

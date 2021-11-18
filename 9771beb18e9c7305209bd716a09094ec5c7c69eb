@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c95e97c7_e220bbbb",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-summary.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-18T15:23:23Z",
+      "side": 1,
+      "message": "Please store restApiService as a variable and initialize it immediately as\n\nprivate readonly restApiService \u003d getAppContext().restApiService;",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2b3ff88_25dcb223",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-summary.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-18T15:23:23Z",
+      "side": 1,
+      "message": "Don\u0027t put logic in willUpdate, as this risks making willUpdate a behemoth as we watch for more properties.",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "930364e8_a3a884f7",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-summary.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-18T15:23:23Z",
+      "side": 1,
+      "message": "if (!this.topicName) return;",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7752716b_aa4009ab",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-project.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-18T15:23:23Z",
+      "side": 1,
+      "message": "if (this.projectName || !this.changes) return;",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48764350_235aa2f7",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-row.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-18T15:23:23Z",
+      "side": 1,
+      "message": "Make this a helper function rather than a method.",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d257a30_4776a8d0",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-18T15:23:23Z",
+      "side": 1,
+      "message": "Please fetch appContext pieces directly on class creation\n\nprivate readonly restApiService \u003d getAppContext().restApiService;",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aef3452e_042a0db7",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-18T15:23:23Z",
+      "side": 1,
+      "message": "What is the undefined parameter? Could you add a /*foo\u003d*/ style comment?",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2539cdad_6fd18e04",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-18T15:23:23Z",
+      "side": 1,
+      "message": "s/appContext/getAppContext()/",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0726eb11_de68d440",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-18T15:23:23Z",
+      "side": 1,
+      "message": "if (!this.topicName) return;",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

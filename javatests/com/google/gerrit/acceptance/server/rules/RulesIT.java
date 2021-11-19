@@ -140,6 +140,6 @@ public class RulesIT extends AbstractDaemonTest {
           .message("Modify rules.pl")
           .create();
     }
-    projectCache.evict(project);
+    projectCache.evictAndReindex(project);
   }
 }

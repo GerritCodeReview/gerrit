@@ -209,16 +209,21 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public void evict(Project p) {
-    evict(p.getNameKey());
-  }
-
-  @Override
   public void evict(Project.NameKey p) {
     if (p != null) {
       logger.atFine().log("Evict project '%s'", p.get());
       inMemoryProjectCache.invalidate(p);
     }
+  }
+
+  @Override
+  public void evictAndReindex(Project p) {
+    evictAndReindex(p.getNameKey());
+  }
+
+  @Override
+  public void evictAndReindex(Project.NameKey p) {
+    evict(p);
     indexer.get().index(p);
   }
 
@@ -239,7 +244,7 @@ public class ProjectCacheImpl implements ProjectCache {
     } finally {
       listLock.unlock();
     }
-    evict(name);
+    evictAndReindex(name);
   }
 
   @Override

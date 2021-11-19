@@ -1349,7 +1349,7 @@ public class RevertIT extends AbstractDaemonTest {
           .message("Modify rules.pl")
           .create();
     }
-    projectCache.evict(project);
+    projectCache.evictAndReindex(project);
   }
 
   private List<ChangeApi> getChangeApis(RevertSubmissionInfo revertSubmissionInfo)

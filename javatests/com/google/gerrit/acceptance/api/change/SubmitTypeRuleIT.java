@@ -106,7 +106,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
       r.rule = rule;
       r.commit(md);
     }
-    projectCache.evict(project);
+    projectCache.evictAndReindex(project);
   }
 
   private static final String SUBMIT_TYPE_FROM_SUBJECT =

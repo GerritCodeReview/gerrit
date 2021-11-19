@@ -261,7 +261,9 @@ export class GrThreadList extends PolymerElement {
       this.sortDropdownValue === SortDropdownState.TIMESTAMP &&
       !this.hideDropdown
     ) {
-      if (c1.updated && c2.updated) return c1.updated > c2.updated ? -1 : 1;
+      // In case of equal timestamps we want futher ordering
+      if (c1.updated && c2.updated && c1.updated !== c2.updated)
+        return c1.updated > c2.updated ? -1 : 1;
     }
 
     if (c1.thread.path !== c2.thread.path) {

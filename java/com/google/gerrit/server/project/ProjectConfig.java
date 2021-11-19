@@ -958,8 +958,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
       lowerNames.put(lower, name);
       String description = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_DESCRIPTION);
-      String appExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_APPLICABILITY_EXPRESSION);
-      String blockExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
+      String applicabilityExpr =
+          rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_APPLICABILITY_EXPRESSION);
+      String submittabilityExpr =
+          rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
       String overrideExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_EXPRESSION);
       boolean canInherit;
       try {
@@ -979,7 +981,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         continue;
       }
 
-      if (blockExpr == null) {
+      if (submittabilityExpr == null) {
         error(
             String.format(
                 "Setting a submittability expression for submit requirement '%s' is required:"
@@ -994,8 +996,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           SubmitRequirement.builder()
               .setName(name)
               .setDescription(Optional.ofNullable(description))
-              .setApplicabilityExpression(SubmitRequirementExpression.of(appExpr))
-              .setSubmittabilityExpression(SubmitRequirementExpression.create(blockExpr))
+              .setApplicabilityExpression(SubmitRequirementExpression.of(applicabilityExpr))
+              .setSubmittabilityExpression(SubmitRequirementExpression.create(submittabilityExpr))
               .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
               .setAllowOverrideInChildProjects(canInherit)
               .build();

@@ -108,8 +108,8 @@ public abstract class SubmitRequirementResult {
     NOT_APPLICABLE,
 
     /**
-     * Any of the applicability, blocking or override expressions contain invalid syntax and are not
-     * parsable.
+     * Any of the applicability, submittability or override expressions contain invalid syntax and
+     * are not parsable.
      */
     ERROR
   }

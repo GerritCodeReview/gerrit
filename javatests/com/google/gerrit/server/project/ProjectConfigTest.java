@@ -396,6 +396,31 @@ public class ProjectConfigTest {
   }
 
   @Test
+  public void readConfigLabelInvalidBranchPattern() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[label \"CustomLabel\"]\n"
+                    + "  value = -1 Negative\n"
+                    + "  value = 0 No Score\n"
+                    + "  value =  1 Positive\n"
+                    + "  branch = ^***\n"
+                    + "  defaultValue = 0\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+        .isEqualTo(
+            "project.config: Invalid ref pattern \"^***\""
+                + " in label.CustomLabel.branch: Dangling meta character '*' near index 2\n"
+                + "^***\n"
+                + "  ^");
+  }
+
+  @Test
   public void readConfigLabelScores() throws Exception {
     RevCommit rev =
         tr.commit()

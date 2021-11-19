@@ -50,6 +50,23 @@
       "message": "@Kenyon can you also try yourself E2E? It should be simple to reproduce:\n- install Gerrit v2.13\n- add your RSA key and verify that you can SSH\n- upgrade to Gerrit v2.16\n- verify you can still SSH as before",
       "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad6fae3_18a050dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T12:12:46Z",
+      "side": 1,
+      "message": "The issue is this one:\n[2021-11-19 11:56:48,625] [sshd-SshServer[6c8d638a]-nio2-thread-6] WARN  org.apache.sshd.common.keyprovider.FileKeyPairProvider : Failed (InvalidKeyException) to load key resource\u003d/var/gerrit/etc/ssh_host_key: Unsupported private key file format: /var/gerrit/etc/ssh_host_key\n\nInstead of tolerating the situation, I believe we should read the old key and convert that into OpenSSH format. That would allow to avoid ignoring the key and preserving the same identity.",
+      "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

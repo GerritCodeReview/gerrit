@@ -22,6 +22,30 @@
       },
       "revId": "d29bf3d8369a6d9de89b83962ad5822f094112c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9c424bb_df3b685b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T18:32:21Z",
+      "side": 1,
+      "message": "I don\u0027t have time to look into this right now. Maybe file a bug for tracking this problem.",
+      "parentUuid": "548dd9a6_e87db68c",
+      "range": {
+        "startLine": 868,
+        "startChar": 6,
+        "endLine": 868,
+        "endChar": 61
+      },
+      "revId": "d29bf3d8369a6d9de89b83962ad5822f094112c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

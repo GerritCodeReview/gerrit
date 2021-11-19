@@ -103,6 +103,24 @@
       "parentUuid": "4c6197d0_dcf7379d",
       "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1940a9b0_54e7e647",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T20:20:18Z",
+      "side": 1,
+      "message": "That\u0027s the catch: if we create the extra keys, they\u0027ll be generated in OpenSSH format and then we\u0027ll end up in the mixed mode mess.\n\nNot generating the extra keys would still work (as the upgrade to v2.16 without your fix did not have this problem) but longer term a new key generation will be required.\n\nHere we are talking about old RSA Keys that were generated at least 5 years ago and are today considered insecure anyway. A responsible Gerrit admin *must* rotate those keys and, when he does it, the clients will have to trust again the new key.\n\nConverting automatically the old obsolete keys into OpenSSH format is just hiding a bigger problem: the keys are unusable anyway. *IF* the Gerrit admin wants to do it, he has to do it consciously, and Gerrit shouldn\u0027t do it automatically.\n\nHope that makes sense.",
+      "parentUuid": "138b58fc_e5566883",
+      "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0a061c7_6d80be2a",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-19T12:07:58Z",
+      "side": 1,
+      "message": "I will push a change adding this information to the Documentation/config-gerrit.txt.",
+      "parentUuid": "09c9db31_519fa125",
+      "range": {
+        "startLine": 4,
+        "startChar": 20,
+        "endLine": 4,
+        "endChar": 46
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6084242_03aed4fb",
         "filename": "Documentation/externalid-case-insensitivity.txt",
         "patchSetId": 4
@@ -389,6 +413,30 @@
       "side": 1,
       "message": "OK, but then *after* the rollback, the userNameCaseInsensitive should be set to false, isn\u0027t it?",
       "parentUuid": "e25895b1_9fa8f97f",
+      "range": {
+        "startLine": 101,
+        "startChar": 44,
+        "endLine": 101,
+        "endChar": 48
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b30a1a10_373c57c0",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-19T12:07:58Z",
+      "side": 1,
+      "message": "The migration tool will do that automatically.",
+      "parentUuid": "897ac0b2_d03a1f0b",
       "range": {
         "startLine": 101,
         "startChar": 44,

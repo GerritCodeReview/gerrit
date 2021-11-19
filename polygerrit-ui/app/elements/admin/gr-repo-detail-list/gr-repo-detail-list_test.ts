@@ -41,13 +41,13 @@ import {
   TimezoneOffset,
 } from '../../../types/common';
 import {GerritView} from '../../../services/router/router-model';
-import {AppElementRepoParams} from '../../gr-app-types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {PageErrorEvent} from '../../../types/events';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
+import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 
 const basicFixture = fixtureFromElement('gr-repo-detail-list');
 
@@ -106,8 +106,9 @@ suite('gr-repo-detail-list', () => {
     let element: GrRepoDetailList;
     let branches: BranchInfo[];
 
-    setup(() => {
+    setup(async () => {
       element = basicFixture.instantiate();
+      await element.updateComplete;
       element.detailType = RepoDetailView.BRANCHES;
       sinon.stub(page, 'show');
     });
@@ -122,13 +123,13 @@ suite('gr-repo-detail-list', () => {
         ].concat(createBranchesList(25));
         stubRestApi('getRepoBranches').returns(Promise.resolve(branches));
 
-        const params: AppElementRepoParams = {
+        element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
           detail: RepoDetailView.BRANCHES,
         };
-        await element._paramsChanged(params);
-        await flush();
+        await element.paramsChanged();
+        await element.updateComplete;
       });
 
       test('test for branch in the list', () => {
@@ -149,8 +150,8 @@ suite('gr-repo-detail-list', () => {
         );
       });
 
-      test('_shownItems', () => {
-        assert.equal(element._shownItems!.length, 25);
+      test('_items', () => {
+        assert.equal(element._items!.slice(0, SHOWN_ITEMS_COUNT)!.length, 25);
       });
 
       test('Edit HEAD button not admin', async () => {
@@ -264,7 +265,7 @@ suite('gr-repo-detail-list', () => {
         }
 
         MockInteractions.tap(editBtn);
-        await flush();
+        await element.updateComplete;
         // The revision and edit button are not visible.
         assert.equal(getComputedStyle(revisionWithEditing).display, 'none');
         assert.equal(getComputedStyle(editBtn).display, 'none');
@@ -295,7 +296,7 @@ suite('gr-repo-detail-list', () => {
 
         // When cancel is tapped, the edit secion closes.
         MockInteractions.tap(cancelBtn);
-        await flush();
+        await element.updateComplete;
 
         // The revision and edit button are visible.
         assert.notEqual(getComputedStyle(revisionWithEditing).display, 'none');
@@ -365,34 +366,34 @@ suite('gr-repo-detail-list', () => {
         branches = createBranchesList(25);
         stubRestApi('getRepoBranches').returns(Promise.resolve(branches));
 
-        const params: AppElementRepoParams = {
+        element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
           detail: RepoDetailView.BRANCHES,
         };
 
-        await element._paramsChanged(params);
-        await flush();
+        await element.paramsChanged();
+        await element.updateComplete;
       });
 
-      test('_shownItems', () => {
-        assert.equal(element._shownItems!.length, 25);
+      test('_items', () => {
+        assert.equal(element._items!.slice(0, SHOWN_ITEMS_COUNT)!.length, 25);
       });
     });
 
     suite('filter', () => {
-      test('_paramsChanged', async () => {
+      test('paramsChanged', async () => {
         const stub = stubRestApi('getRepoBranches').returns(
           Promise.resolve(branches)
         );
-        const params: AppElementRepoParams = {
+        element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
           detail: RepoDetailView.BRANCHES,
           filter: 'test',
           offset: 25,
         };
-        await element._paramsChanged(params);
+        await element.paramsChanged();
         assert.equal(stub.lastCall.args[0], 'test');
         assert.equal(stub.lastCall.args[1], 'test');
         assert.equal(stub.lastCall.args[2], 25);
@@ -418,14 +419,14 @@ suite('gr-repo-detail-list', () => {
           promise.resolve();
         });
 
-        const params: AppElementRepoParams = {
+        element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
           detail: RepoDetailView.BRANCHES,
           filter: 'test',
           offset: 25,
         };
-        element._paramsChanged(params);
+        element.paramsChanged();
         await promise;
       });
     });
@@ -435,8 +436,9 @@ suite('gr-repo-detail-list', () => {
     let element: GrRepoDetailList;
     let tags: TagInfo[];
 
-    setup(() => {
+    setup(async () => {
       element = basicFixture.instantiate();
+      await element.updateComplete;
       element.detailType = RepoDetailView.TAGS;
       sinon.stub(page, 'show');
     });
@@ -466,14 +468,14 @@ suite('gr-repo-detail-list', () => {
         tags = createTagsList(26);
         stubRestApi('getRepoTags').returns(Promise.resolve(tags));
 
-        const params: AppElementRepoParams = {
+        element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
           detail: RepoDetailView.TAGS,
         };
 
-        await element._paramsChanged(params);
-        await flush();
+        await element.paramsChanged();
+        await element.updateComplete;
       });
 
       test('test for tag in the list', async () => {
@@ -512,8 +514,8 @@ suite('gr-repo-detail-list', () => {
         );
       });
 
-      test('_shownItems', () => {
-        assert.equal(element._shownItems!.length, 25);
+      test('_items', () => {
+        assert.equal(element._items!.slice(0, SHOWN_ITEMS_COUNT)!.length, 25);
       });
 
       test('_computeHideTagger', () => {
@@ -534,32 +536,32 @@ suite('gr-repo-detail-list', () => {
         tags = createTagsList(25);
         stubRestApi('getRepoTags').returns(Promise.resolve(tags));
 
-        const params: AppElementRepoParams = {
+        element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
           detail: RepoDetailView.TAGS,
         };
 
-        await element._paramsChanged(params);
-        await flush();
+        await element.paramsChanged();
+        await element.updateComplete;
       });
 
-      test('_shownItems', () => {
-        assert.equal(element._shownItems!.length, 25);
+      test('_items', () => {
+        assert.equal(element._items!.slice(0, SHOWN_ITEMS_COUNT)!.length, 25);
       });
     });
 
     suite('filter', () => {
-      test('_paramsChanged', async () => {
+      test('paramsChanged', async () => {
         const stub = stubRestApi('getRepoTags').returns(Promise.resolve(tags));
-        const params: AppElementRepoParams = {
+        element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
           detail: RepoDetailView.TAGS,
           filter: 'test',
           offset: 25,
         };
-        await element._paramsChanged(params);
+        await element.paramsChanged();
         assert.equal(stub.lastCall.args[0], 'test');
         assert.equal(stub.lastCall.args[1], 'test');
         assert.equal(stub.lastCall.args[2], 25);
@@ -633,22 +635,16 @@ suite('gr-repo-detail-list', () => {
           promise.resolve();
         });
 
-        const params: AppElementRepoParams = {
+        element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
           detail: RepoDetailView.TAGS,
           filter: 'test',
           offset: 25,
         };
-        element._paramsChanged(params);
+        element.paramsChanged();
         await promise;
       });
-    });
-
-    test('test _computeHideDeleteClass', () => {
-      assert.deepEqual(element._computeHideDeleteClass(true, false), 'show');
-      assert.deepEqual(element._computeHideDeleteClass(false, true), 'show');
-      assert.deepEqual(element._computeHideDeleteClass(false, false), '');
     });
 
     test('_computeItemName', () => {

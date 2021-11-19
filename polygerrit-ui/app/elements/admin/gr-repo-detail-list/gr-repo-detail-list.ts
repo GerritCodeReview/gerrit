@@ -16,9 +16,6 @@
  */
 
 import '@polymer/iron-input/iron-input';
-import '../../../styles/gr-form-styles';
-import '../../../styles/gr-table-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-account-link/gr-account-link';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-date-formatter/gr-date-formatter';
@@ -27,46 +24,44 @@ import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-pointer-dialog/gr-create-pointer-dialog';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-repo-detail-list_html';
 import {encodeURL} from '../../../utils/url-util';
-import {customElement, property} from '@polymer/decorators';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrCreatePointerDialog} from '../gr-create-pointer-dialog/gr-create-pointer-dialog';
+import {GrButton} from '../../shared/gr-button/gr-button';
 import {
-  RepoName,
-  ProjectInfo,
   BranchInfo,
   GitRef,
-  TagInfo,
   GitPersonInfo,
+  ProjectInfo,
+  RepoName,
+  TagInfo,
+  WebLinkInfo,
 } from '../../../types/common';
 import {AppElementRepoParams} from '../../gr-app-types';
-import {PolymerDomRepeatEvent} from '../../../types/types';
 import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
 import {firePageError} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {tableStyles} from '../../../styles/gr-table-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, css, html} from 'lit';
+import {customElement, query, property /* , state*/} from 'lit/decorators';
+import {BindValueChangeEvent} from '../../../types/events';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
-export interface GrRepoDetailList {
-  $: {
-    overlay: GrOverlay;
-    createOverlay: GrOverlay;
-    createNewModal: GrCreatePointerDialog;
-  };
-}
-
 @customElement('gr-repo-detail-list')
-export class GrRepoDetailList extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrRepoDetailList extends LitElement {
+  @query('#overlay') private overlay?: GrOverlay;
 
-  @property({type: Object, observer: '_paramsChanged'})
+  @query('#createOverlay') private createOverlay?: GrOverlay;
+
+  @query('#createNewModal') private createNewModal?: GrCreatePointerDialog;
+
+  @property({type: Object})
   params?: AppElementRepoParams;
 
   @property({type: String})
@@ -89,12 +84,6 @@ export class GrRepoDetailList extends PolymerElement {
 
   @property({type: Array})
   _items?: BranchInfo[] | TagInfo[];
-
-  // _shownItems should be BranchInfo[] | TagInfo[],
-  // but TS incorrectly assumes that in the loop for(const item of _shownItems)
-  // item has type BranchInfo, not BranchInfo | TagInfo.
-  @property({type: Array, computed: 'computeShownItems(_items)'})
-  _shownItems?: Array<BranchInfo | TagInfo>;
 
   @property({type: Number})
   _itemsPerPage = 25;
@@ -119,14 +108,253 @@ export class GrRepoDetailList extends PolymerElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  static override get styles() {
+    return [
+      formStyles,
+      tableStyles,
+      sharedStyles,
+      css`
+        .tags td.name {
+          min-width: 25em;
+        }
+        td.name,
+        td.revision,
+        td.message {
+          word-break: break-word;
+        }
+        td.revision.tags {
+          width: 27em;
+        }
+        td.message,
+        td.tagger {
+          max-width: 15em;
+        }
+        .editing .editItem {
+          display: inherit;
+        }
+        .editItem,
+        .editing .editBtn,
+        .canEdit .revisionNoEditing,
+        .editing .revisionWithEditing,
+        .revisionEdit,
+        .hideItem {
+          display: none;
+        }
+        .revisionEdit gr-button {
+          margin-left: var(--spacing-m);
+        }
+        .editBtn {
+          margin-left: var(--spacing-l);
+        }
+        .canEdit .revisionEdit {
+          align-items: center;
+          display: flex;
+        }
+        .deleteButton:not(.show) {
+          display: none;
+        }
+        .tagger.hide {
+          display: none;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <gr-list-view
+        .createNew=${this._loggedIn}
+        .filter=${this._filter}
+        .itemsPerPage=${this._itemsPerPage}
+        .items=${this._items}
+        .loading=${this._loading}
+        .offset=${this._offset}
+        .path=${this._getPath(this._repo, this.detailType)}
+        @create-clicked=${() => this._handleCreateClicked()}
+      >
+        <table id="list" class="genericList gr-form-styles">
+          <tbody>
+            <tr class="headerRow">
+              <th class="name topHeader">Name</th>
+              <th class="revision topHeader">Revision</th>
+              <th
+                class="message topHeader ${this.detailType ===
+                RepoDetailView.BRANCHES
+                  ? 'hideItem'
+                  : ''}"
+              >
+                Message
+              </th>
+              <th
+                class="tagger topHeader ${this.detailType ===
+                RepoDetailView.BRANCHES
+                  ? 'hideItem'
+                  : ''}"
+              >
+                Tagger
+              </th>
+              <th class="repositoryBrowser topHeader">Repository Browser</th>
+              <th class="delete topHeader"></th>
+            </tr>
+            <tr
+              id="loading"
+              class="loadingMsg ${this.computeLoadingClass(this._loading)}"
+            >
+              <td>Loading...</td>
+            </tr>
+          </tbody>
+          <tbody class=${this.computeLoadingClass(this._loading)}>
+            ${this._items?.slice(0, SHOWN_ITEMS_COUNT)
+              .map((item, index) => this.renderItemList(item, index))}
+          </tbody>
+        </table>
+        <gr-overlay id="overlay" withBackdrop>
+          <gr-confirm-delete-item-dialog
+            class="confirmDialog"
+            .item=${this._refName}
+            .itemTypeName=${this._computeItemName(this.detailType)}
+            @confirm=${() => this._handleDeleteItemConfirm()}
+            @cancel=${() => this._handleConfirmDialogCancel()}
+          ></gr-confirm-delete-item-dialog>
+        </gr-overlay>
+      </gr-list-view>
+      <gr-overlay id="createOverlay" withBackdrop>
+        <gr-dialog
+          id="createDialog"
+          ?disabled=${!this._newItemName}
+          confirmLabel="Create"
+          @confirm=${() => this._handleCreateItem()}
+          @cancel=${() => this._handleCloseCreate()}
+        >
+          <div class="header" slot="header">
+            Create ${this._computeItemName(this.detailType)}
+          </div>
+          <div class="main" slot="main">
+            <gr-create-pointer-dialog
+              id="createNewModal"
+              .detailType=${this._computeItemName(this.detailType)}
+              .itemDetail="[[detailType]]"
+              .repoName="[[_repo]]"
+              @update-item-name=${() => this._handleUpdateItemName()}
+            ></gr-create-pointer-dialog>
+          </div>
+        </gr-dialog>
+      </gr-overlay>
+    `;
+  }
+
+  private renderItemList(item: BranchInfo | TagInfo, index: number) {
+    return html`
+      <tr class="table">
+        <td class="${this.detailType} name">
+          <a href=${this._computeFirstWebLink(item)}>
+            ${this._stripRefs(item.ref, this.detailType)}
+          </a>
+        </td>
+        <td
+          class="${this.detailType} revision ${this._computeCanEditClass(
+            item.ref,
+            this.detailType,
+            this._isOwner
+          )}"
+        >
+          <span class="revisionNoEditing"> ${item.revision} </span>
+          <span
+            class="revisionEdit ${this._computeEditingClass(this._isEditing)}"
+          >
+            <span class="revisionWithEditing"> ${item.revision} </span>
+            <gr-button
+              class="editBtn"
+              link
+              data-index=${index}
+              @click=${this._handleEditRevision}
+            >
+              edit
+            </gr-button>
+            <iron-input
+              class="editItem"
+              .bindValue=${this._revisedRef}
+              @bind-value-changed=${this.handleRevisedRefBindValueChanged}
+            >
+              <input />
+            </iron-input>
+            <gr-button
+              class="cancelBtn editItem"
+              link
+              @click=${() => this._handleCancelRevision()}
+            >
+              Cancel
+            </gr-button>
+            <gr-button
+              class="saveBtn editItem"
+              link
+              data-index=${index}
+              ?disabled=${!this._revisedRef}
+              @click=${this._handleSaveRevision}
+            >
+              Save
+            </gr-button>
+          </span>
+        </td>
+        <td
+          class="message ${this.detailType === RepoDetailView.BRANCHES
+            ? 'hideItem'
+            : ''}"
+        >
+          ${this._computeMessage((item as TagInfo).message)}
+        </td>
+        <td
+          class="tagger ${this.detailType === RepoDetailView.BRANCHES
+            ? 'hideItem'
+            : ''}"
+        >
+          <div class="tagger ${this._computeHideTagger((item as TagInfo).tagger)}">
+            <gr-account-link .account=${(item as TagInfo).tagger}> </gr-account-link>
+            (<gr-date-formatter withTooltip .dateStr=${(item as TagInfo).tagger?.date}>
+            </gr-date-formatter
+            >)
+          </div>
+        </td>
+        <td class="repositoryBrowser">
+          ${this._computeWeblink(item).map(link => this.renderWeblink(link))}
+        </td>
+        <td class="delete">
+          <gr-button
+            class="deleteButton ${item.can_delete || this._isOwner ? 'show' : ''}"
+            link
+            data-index=${index}
+            @click="_handleDeleteItem"
+          >
+            Delete
+          </gr-button>
+        </td>
+      </tr>
+    `;
+  }
+
+  private renderWeblink(link: WebLinkInfo) {
+    return html`
+      <a href=${link.url} class="webLink" rel="noopener" target="_blank">
+        (${link.name})
+      </a>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this.paramsChanged();
+    }
+  }
+
   _determineIfOwner(repo: RepoName) {
     return this.restApiService
       .getRepoAccess(repo)
       .then(access => (this._isOwner = !!access?.[repo]?.is_owner));
   }
 
-  _paramsChanged(params?: AppElementRepoParams) {
-    if (!params?.repo) {
+  // private but used in test
+  paramsChanged() {
+    if (!this.params?.repo) {
       return Promise.reject(new Error('undefined repo'));
     }
 
@@ -134,14 +362,14 @@ export class GrRepoDetailList extends PolymerElement {
     // to false and polymer removes this component, hence check for params
     if (
       !(
-        params?.detail === RepoDetailView.BRANCHES ||
-        params?.detail === RepoDetailView.TAGS
+        this.params?.detail === RepoDetailView.BRANCHES ||
+        this.params?.detail === RepoDetailView.TAGS
       )
     ) {
       return;
     }
 
-    this._repo = params.repo;
+    this._repo = this.params.repo;
 
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
@@ -150,10 +378,10 @@ export class GrRepoDetailList extends PolymerElement {
       }
     });
 
-    this.detailType = params.detail;
+    this.detailType = this.params.detail;
 
-    this._filter = params?.filter ?? '';
-    this._offset = Number(params?.offset ?? 0);
+    this._filter = this.params?.filter ?? '';
+    this._offset = Number(this.params?.offset ?? 0);
     if (!this.detailType)
       return Promise.reject(new Error('undefined detailType'));
 
@@ -179,7 +407,7 @@ export class GrRepoDetailList extends PolymerElement {
     }
     this._loading = true;
     this._items = [];
-    flush();
+
     const errFn: ErrorCallback = response => {
       firePageError(response);
     };
@@ -213,22 +441,18 @@ export class GrRepoDetailList extends PolymerElement {
   }
 
   _computeWeblink(repo: ProjectInfo | BranchInfo | TagInfo) {
-    if (!repo.web_links) {
-      return '';
-    }
+    if (!repo.web_links) return [];
     const webLinks = repo.web_links;
-    return webLinks.length ? webLinks : null;
+    return webLinks.length ? webLinks : [];
   }
 
   _computeFirstWebLink(repo: ProjectInfo | BranchInfo | TagInfo) {
     const webLinks = this._computeWeblink(repo);
-    return webLinks ? webLinks[0].url : null;
+    return webLinks.length > 0 ? webLinks[0].url : null;
   }
 
   _computeMessage(message?: string) {
-    if (!message) {
-      return;
-    }
+    if (!message) return;
     // Strip PGP info.
     return message.split(PGP_START)[0];
   }
@@ -261,8 +485,12 @@ export class GrRepoDetailList extends PolymerElement {
       : '';
   }
 
-  _handleEditRevision(e: PolymerDomRepeatEvent<BranchInfo | TagInfo>) {
-    this._revisedRef = e.model.get('item.revision') as unknown as GitRef;
+  _handleEditRevision(e: Event) {
+    if (!this._items) return;
+
+    const el = e.target as GrButton;
+    const index = Number(el.getAttribute('data-index')!);
+    this._revisedRef = this._items[index].revision as GitRef;
     this._isEditing = true;
   }
 
@@ -270,20 +498,19 @@ export class GrRepoDetailList extends PolymerElement {
     this._isEditing = false;
   }
 
-  _handleSaveRevision(e: PolymerDomRepeatEvent<BranchInfo | TagInfo>) {
+  _handleSaveRevision(e: Event) {
     if (this._revisedRef && this._repo)
       this._setRepoHead(this._repo, this._revisedRef, e);
   }
 
-  _setRepoHead(
-    repo: RepoName,
-    ref: GitRef,
-    e: PolymerDomRepeatEvent<BranchInfo | TagInfo>
-  ) {
+  _setRepoHead(repo: RepoName, ref: GitRef, e: Event) {
+    if (!this._items) return;
     return this.restApiService.setRepoHead(repo, ref).then(res => {
       if (res.status < 400) {
         this._isEditing = false;
-        e.model.set('item.revision', ref);
+        const el = e.target as GrButton;
+        const index = Number(el.getAttribute('data-index')!);
+        this._items![index].revision = ref as GitRef;
         // This is needed to refresh _items property with fresh data,
         // specifically can_delete from the json response.
         this._getItems(
@@ -308,7 +535,8 @@ export class GrRepoDetailList extends PolymerElement {
   }
 
   _handleDeleteItemConfirm() {
-    this.$.overlay.close();
+    assertIsDefined(this.overlay, 'overlay');
+    this.overlay.close();
     if (!this._repo || !this._refName) {
       return Promise.reject(new Error('undefined repo or refName'));
     }
@@ -345,48 +573,38 @@ export class GrRepoDetailList extends PolymerElement {
   }
 
   _handleConfirmDialogCancel() {
-    this.$.overlay.close();
+    assertIsDefined(this.overlay, 'overlay');
+    this.overlay.close();
   }
 
-  _handleDeleteItem(e: PolymerDomRepeatEvent<BranchInfo | TagInfo>) {
+  _handleDeleteItem(e: Event) {
+    if (!this._items) return;
+    assertIsDefined(this.overlay, 'overlay');
+    const el = e.target as GrButton;
+    const index = Number(el.getAttribute('data-index')!);
     const name = this._stripRefs(
-      e.model.get('item.ref'),
+      this._items[index].ref,
       this.detailType
     ) as GitRef;
-    if (!name) {
-      return;
-    }
+    if (!name) return;
     this._refName = name;
-    this.$.overlay.open();
-  }
-
-  _computeHideDeleteClass(owner?: boolean, canDelete?: boolean) {
-    if (canDelete || owner) {
-      return 'show';
-    }
-
-    return '';
+    this.overlay.open();
   }
 
   _handleCreateItem() {
-    this.$.createNewModal.handleCreateItem();
+    assertIsDefined(this.createNewModal, 'createNewModal');
+    this.createNewModal.handleCreateItem();
     this._handleCloseCreate();
   }
 
   _handleCloseCreate() {
-    this.$.createOverlay.close();
+    assertIsDefined(this.createOverlay, 'createOverlay');
+    this.createOverlay.close();
   }
 
   _handleCreateClicked() {
-    this.$.createOverlay.open();
-  }
-
-  _hideIfBranch(type?: RepoDetailView) {
-    if (type === RepoDetailView.BRANCHES) {
-      return 'hideItem';
-    }
-
-    return '';
+    assertIsDefined(this.createOverlay, 'createOverlay');
+    this.createOverlay.open();
   }
 
   _computeHideTagger(tagger?: GitPersonInfo) {
@@ -397,12 +615,13 @@ export class GrRepoDetailList extends PolymerElement {
     return loading ? 'loading' : '';
   }
 
-  computeShownItems(items: BranchInfo[] | TagInfo[]) {
-    return items.slice(0, SHOWN_ITEMS_COUNT);
+  _handleUpdateItemName() {
+    assertIsDefined(this.createNewModal, 'createNewModal');
+    this._newItemName = !!this.createNewModal.itemName;
   }
 
-  _handleUpdateItemName() {
-    this._newItemName = !!this.$.createNewModal.itemName;
+  handleRevisedRefBindValueChanged(e: BindValueChangeEvent) {
+    this._revisedRef = e.detail.value as GitRef;
   }
 }
 

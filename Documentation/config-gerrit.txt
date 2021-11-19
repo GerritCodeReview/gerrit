@@ -676,6 +676,8 @@ accounts exist the migration tool will fail, since the newly computed
 note name would be identical and thus conflict. These duplicates thus
 have to be deleted manually by deleting the respective external ID.
 +
+For newly initialized sites this option defaults to true.
++
 Default is false.
 
 [[auth.enableRunAs]]auth.enableRunAs::

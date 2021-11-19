@@ -21,6 +21,7 @@
     "eslint-plugin-regex": "^1.8.0",
     "gts": "^3.1.0",
     "lit-analyzer": "^1.2.1",
+    "npm-run-all": "^4.1.5",
     "prettier": "2.3.1",
     "rollup": "^2.45.2",
     "terser": "^5.6.1",
@@ -39,8 +40,10 @@
     "litlint": "npm run safe_bazelisk run polygerrit-ui/app:lit_analysis",
     "test:debug": "npm run compile:local && npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --root '.ts-out/polygerrit-ui/app/' --browsers ChromeDev --no-single-run --test-files",
     "test:single": "npm run compile:local && npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --root '.ts-out/polygerrit-ui/app/' --test-files",
+    "test:watch": "npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --root '.ts-out/polygerrit-ui/app/' --auto-watch --no-single-run --test-files",
     "polylint": "npm run safe_bazelisk test //polygerrit-ui/app:polylint_test",
-    "polylint:dev": "rm -rf ./polygerrit-ui/app/tmpl_out && npm run safe_bazelisk build //polygerrit-ui/app:template_test_tar && mkdir ./polygerrit-ui/app/tmpl_out && tar -xf bazel-bin/polygerrit-ui/app/template_test_tar.tar -C ./polygerrit-ui/app/tmpl_out"
+    "polylint:dev": "rm -rf ./polygerrit-ui/app/tmpl_out && npm run safe_bazelisk build //polygerrit-ui/app:template_test_tar && mkdir ./polygerrit-ui/app/tmpl_out && tar -xf bazel-bin/polygerrit-ui/app/template_test_tar.tar -C ./polygerrit-ui/app/tmpl_out",
+    "watch": "run-p -r compile:watch \"test:watch -- {*}\" --"
   },
   "repository": {
     "type": "git",

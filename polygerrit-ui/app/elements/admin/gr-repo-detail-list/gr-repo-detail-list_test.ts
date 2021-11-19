@@ -15,24 +15,33 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
+import '../../../test/common-test-setup-karma';
 import './gr-repo-detail-list.js';
-import 'lodash/lodash.js';
-import {page} from '../../../utils/page-wrapper-utils.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {GrRepoDetailList} from './gr-repo-detail-list';
+import {page} from '../../../utils/page-wrapper-utils';
 import {
   addListenerForTest,
   mockPromise,
+  queryAll,
+  queryAndAssert,
   stubRestApi,
-} from '../../../test/test-utils.js';
-import {RepoDetailView} from '../../core/gr-navigation/gr-navigation.js';
+} from '../../../test/test-utils';
+import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
+import {BranchInfo, EmailAddress, GitRef, GroupId, GroupName, ProjectAccessGroups, ProjectAccessInfoMap, RepoName, TagInfo, Timestamp, TimezoneOffset} from '../../../types/common';
+import {GerritView} from '../../../services/router/router-model';
+import {AppElementRepoParams} from '../../gr-app-types';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {PageErrorEvent} from '../../../types/events';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 
 const basicFixture = fixtureFromElement('gr-repo-detail-list');
 
-let counter;
-const branchGenerator = () => {
+function branchGenerator(counter: number) {
   return {
-    ref: `refs/heads/test${++counter}`,
+    ref: `refs/heads/test${counter}` as GitRef,
     revision: '9c9d08a438e55e52f33b608415e6dddd9b18550d',
     web_links: [
       {
@@ -42,10 +51,20 @@ const branchGenerator = () => {
     ],
   };
 };
-const tagGenerator = () => {
+
+function createBranchesList(n: number) {
+  const branches = [];
+  for (let i = 0; i < n; ++i) {
+    branches.push(branchGenerator(i));
+  }
+  return branches;
+}
+
+function tagGenerator(counter: number) {
   return {
-    ref: `refs/tags/test${++counter}`,
+    ref: `refs/tags/test${counter}` as GitRef,
     revision: '9c9d08a438e55e52f33b608415e6dddd9b18550d',
+    can_delete: false,
     web_links: [
       {
         name: 'diffusion',
@@ -55,96 +74,136 @@ const tagGenerator = () => {
     message: 'Annotated tag',
     tagger: {
       name: 'Test User',
-      email: 'test.user@gmail.com',
-      date: '2017-09-19 14:54:00.000000000',
-      tz: 540,
+      email: 'test.user@gmail.com' as EmailAddress,
+      date: '2017-09-19 14:54:00.000000000' as Timestamp,
+      tz: 540 as TimezoneOffset,
     },
   };
 };
 
+function createTagsList(n: number) {
+  const tags = [];
+  for (let i = 0; i < n; ++i) {
+    tags.push(tagGenerator(i));
+  }
+  return tags;
+}
+
 suite('gr-repo-detail-list', () => {
   suite('Branches', () => {
-    let element;
-    let branches;
+    let element: GrRepoDetailList;
+    let branches: BranchInfo[];
 
     setup(() => {
       element = basicFixture.instantiate();
-      element.detailType = 'branches';
-      counter = 0;
+      element.detailType = RepoDetailView.BRANCHES;
       sinon.stub(page, 'show');
     });
 
     suite('list of repo branches', () => {
       setup(async () => {
         branches = [{
-          ref: 'HEAD',
+          ref: 'HEAD' as GitRef,
           revision: 'master',
-        }].concat(_.times(25, branchGenerator));
+        }].concat(createBranchesList(25));
         stubRestApi('getRepoBranches').returns(Promise.resolve(branches));
 
-        const params = {
-          repo: 'test',
-          detail: 'branches',
+        const params: AppElementRepoParams = {
+          view: GerritView.REPO,
+          repo: 'test' as RepoName,
+          detail: RepoDetailView.BRANCHES,
         };
         await element._paramsChanged(params);
         await flush();
       });
 
       test('test for branch in the list', () => {
-        assert.equal(element._items[2].ref, 'refs/heads/test2');
+        assert.equal(element._items![3].ref, 'refs/heads/test2');
       });
 
       test('test for web links in the branches list', () => {
-        assert.equal(element._items[2].web_links[0].url,
+        assert.equal(element._items![3].web_links![0].url,
             'https://git.example.org/branch/test;refs/heads/test2');
       });
 
       test('test for refs/heads/ being striped from ref', () => {
-        assert.equal(element._stripRefs(element._items[2].ref,
+        assert.equal(element._stripRefs(element._items![3].ref,
             element.detailType), 'test2');
       });
 
       test('_shownItems', () => {
-        assert.equal(element._shownItems.length, 25);
+        assert.equal(element._shownItems!.length, 25);
       });
 
       test('Edit HEAD button not admin', async () => {
         sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
         stubRestApi('getRepoAccess').returns(
             Promise.resolve({
-              test: {is_owner: false},
-            }));
-        await element._determineIfOwner('test');
+              test: {
+                revision: 'xxxx',
+                local: {
+                  'refs/*': {
+                    permissions: {
+                      owner: {rules: {xxx: {action: 'ALLOW', force: false}}},
+                    },
+                  },
+                },
+                owner_of: ['refs/*'] as GitRef[],
+                groups: {
+                  xxxx: {
+                    id: 'xxxx' as GroupId,
+                    url: 'test',
+                    name: 'test' as GroupName,
+                  },
+                } as ProjectAccessGroups,
+                config_web_links: [{name: 'gitiles', url: 'test'}],
+              },
+            } as ProjectAccessInfoMap));
+        await element._determineIfOwner('test' as RepoName);
         assert.equal(element._isOwner, false);
-        assert.equal(getComputedStyle(dom(element.root)
-            .querySelector('.revisionNoEditing')).display, 'inline');
-        assert.equal(getComputedStyle(dom(element.root)
-            .querySelector('.revisionEdit')).display, 'none');
+        assert.equal(getComputedStyle(queryAndAssert<HTMLSpanElement>(element, '.revisionNoEditing')).display, 'inline');
+        assert.equal(getComputedStyle(queryAndAssert<HTMLSpanElement>(element, '.revisionEdit')).display, 'none');
       });
 
       test('Edit HEAD button admin', async () => {
-        const saveBtn = element.root.querySelector('.saveBtn');
-        const cancelBtn = element.root.querySelector('.cancelBtn');
-        const editBtn = element.root.querySelector('.editBtn');
-        const revisionNoEditing = dom(element.root)
-            .querySelector('.revisionNoEditing');
-        const revisionWithEditing = dom(element.root)
-            .querySelector('.revisionWithEditing');
+        const saveBtn = queryAndAssert<GrButton>(element, '.saveBtn');
+        const cancelBtn = queryAndAssert<GrButton>(element, '.cancelBtn');
+        const editBtn = queryAndAssert<GrButton>(element, '.editBtn');
+        const revisionNoEditing = queryAndAssert<HTMLSpanElement>(element, '.revisionNoEditing');
+        const revisionWithEditing = queryAndAssert<HTMLSpanElement>(element, '.revisionWithEditing');
 
         sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
         stubRestApi('getRepoAccess').returns(
             Promise.resolve({
-              test: {is_owner: true},
-            }));
-        sinon.stub(element, '_handleSaveRevision');
-        await element._determineIfOwner('test');
+              test: {
+                revision: 'xxxx',
+                local: {
+                  'refs/*': {
+                    permissions: {
+                      owner: {rules: {xxx: {action: 'ALLOW', force: false}}},
+                    },
+                  },
+                },
+                is_owner: true,
+                owner_of: ['refs/*'] as GitRef[],
+                groups: {
+                  xxxx: {
+                    id: 'xxxx' as GroupId,
+                    url: 'test',
+                    name: 'test' as GroupName,
+                  },
+                } as ProjectAccessGroups,
+                config_web_links: [{name: 'gitiles', url: 'test'}],
+              },
+            } as ProjectAccessInfoMap));
+        const handleSaveRevisionStub = sinon.stub(element, '_handleSaveRevision');
+        await element._determineIfOwner('test' as RepoName);
         assert.equal(element._isOwner, true);
         // The revision container for non-editing enabled row is not visible.
         assert.equal(getComputedStyle(revisionNoEditing).display, 'none');
 
         // The revision container for editing enabled row is visible.
-        assert.notEqual(getComputedStyle(dom(element.root)
-            .querySelector('.revisionEdit')).display, 'none');
+        assert.notEqual(getComputedStyle(queryAndAssert<HTMLSpanElement>(element, '.revisionEdit')).display, 'none');
 
         // The revision and edit button are visible.
         assert.notEqual(getComputedStyle(revisionWithEditing).display,
@@ -152,8 +211,7 @@ suite('gr-repo-detail-list', () => {
         assert.notEqual(getComputedStyle(editBtn).display, 'none');
 
         // The input, cancel, and save buttons are not visible.
-        const hiddenElements = dom(element.root)
-            .querySelectorAll('.canEdit .editItem');
+        const hiddenElements = queryAll<HTMLTableElement>(element, '.canEdit .editItem');
 
         for (const item of hiddenElements) {
           assert.equal(getComputedStyle(item).display, 'none');
@@ -171,23 +229,23 @@ suite('gr-repo-detail-list', () => {
         }
 
         // The revised ref was set correctly
-        assert.equal(element._revisedRef, 'master');
+        assert.equal(element._revisedRef, 'master' as GitRef);
 
         assert.isFalse(saveBtn.disabled);
 
         // Delete the ref.
-        element._revisedRef = '';
+        element._revisedRef = '' as GitRef;
         assert.isTrue(saveBtn.disabled);
 
         // Change the ref to something else
-        element._revisedRef = 'newRef';
-        element._repo = 'test';
+        element._revisedRef = 'newRef' as GitRef;
+        element._repo = 'test' as RepoName;
         assert.isFalse(saveBtn.disabled);
 
         // Save button calls handleSave. since this is stubbed, the edit
         // section remains open.
         MockInteractions.tap(saveBtn);
-        assert.isTrue(element._handleSaveRevision.called);
+        assert.isTrue(handleSaveRevisionStub.called);
 
         // When cancel is tapped, the edit secion closes.
         MockInteractions.tap(cancelBtn);
@@ -205,47 +263,56 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('_handleSaveRevision with invalid rev', async () => {
-        const event = {model: {set: sinon.stub()}};
+        // We need to replicate an event to get all the properties that
+        // go with it.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const event: any = new Event('polymer-dom-repeat');
+        event.model = {set: sinon.stub()};
         element._isEditing = true;
         stubRestApi('setRepoHead').returns(
             Promise.resolve({
               status: 400,
-            })
+            } as Response)
         );
 
-        await element._setRepoHead('test', 'newRef', event);
+        await element._setRepoHead('test' as RepoName, 'newRef' as GitRef, event);
         assert.isTrue(element._isEditing);
         assert.isFalse(event.model.set.called);
       });
 
       test('_handleSaveRevision with valid rev', async () => {
-        const event = {model: {set: sinon.stub()}};
+        // We need to replicate an event to get all the properties that
+        // go with it.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const event: any = new Event('polymer-dom-repeat');
+        event.model = {set: sinon.stub()};
         element._isEditing = true;
         stubRestApi('setRepoHead').returns(
             Promise.resolve({
               status: 200,
-            })
+            } as Response)
         );
 
-        await element._setRepoHead('test', 'newRef', event);
+        await element._setRepoHead('test' as RepoName, 'newRef' as GitRef, event);
         assert.isFalse(element._isEditing);
         assert.isTrue(event.model.set.called);
       });
 
       test('test _computeItemName', () => {
-        assert.deepEqual(element._computeItemName('branches'), 'Branch');
-        assert.deepEqual(element._computeItemName('tags'), 'Tag');
+        assert.deepEqual(element._computeItemName(RepoDetailView.BRANCHES), 'Branch');
+        assert.deepEqual(element._computeItemName(RepoDetailView.TAGS), 'Tag');
       });
     });
 
     suite('list with less then 25 branches', () => {
       setup(async () => {
-        branches = _.times(25, branchGenerator);
+        branches = createBranchesList(25);
         stubRestApi('getRepoBranches').returns(Promise.resolve(branches));
 
-        const params = {
-          repo: 'test',
-          detail: 'branches',
+        const params: AppElementRepoParams = {
+          view: GerritView.REPO,
+          repo: 'test' as RepoName,
+          detail: RepoDetailView.BRANCHES,
         };
 
         await element._paramsChanged(params);
@@ -253,7 +320,7 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('_shownItems', () => {
-        assert.equal(element._shownItems.length, 25);
+        assert.equal(element._shownItems!.length, 25);
       });
     });
 
@@ -261,9 +328,10 @@ suite('gr-repo-detail-list', () => {
       test('_paramsChanged', async () => {
         const stub = stubRestApi('getRepoBranches').returns(
             Promise.resolve(branches));
-        const params = {
-          detail: 'branches',
-          repo: 'test',
+        const params: AppElementRepoParams = {
+          view: GerritView.REPO,
+          repo: 'test' as RepoName,
+          detail: RepoDetailView.BRANCHES,
           filter: 'test',
           offset: 25,
         };
@@ -277,22 +345,25 @@ suite('gr-repo-detail-list', () => {
 
     suite('404', () => {
       test('fires page-error', async () => {
-        const response = {status: 404};
+        const response = {status: 404} as Response;
         stubRestApi('getRepoBranches').callsFake(
-            (filter, repo, reposBranchesPerPage, opt_offset, errFn) => {
-              errFn(response);
-              return Promise.resolve();
+            (_filter, _repo, _reposBranchesPerPage, _opt_offset, errFn) => {
+              if (errFn !== undefined) {
+                errFn(response);
+              }
+              return Promise.resolve([]);
             });
 
         const promise = mockPromise();
         addListenerForTest(document, 'page-error', e => {
-          assert.deepEqual(e.detail.response, response);
+          assert.deepEqual((e as PageErrorEvent).detail.response, response);
           promise.resolve();
         });
 
-        const params = {
-          detail: 'branches',
-          repo: 'test',
+        const params: AppElementRepoParams = {
+          view: GerritView.REPO,
+          repo: 'test' as RepoName,
+          detail: RepoDetailView.BRANCHES,
           filter: 'test',
           offset: 25,
         };
@@ -303,13 +374,12 @@ suite('gr-repo-detail-list', () => {
   });
 
   suite('Tags', () => {
-    let element;
-    let tags;
+    let element: GrRepoDetailList;
+    let tags: TagInfo[];
 
     setup(() => {
       element = basicFixture.instantiate();
-      element.detailType = 'tags';
-      counter = 0;
+      element.detailType = RepoDetailView.TAGS;
       sinon.stub(page, 'show');
     });
 
@@ -334,12 +404,13 @@ suite('gr-repo-detail-list', () => {
 
     suite('list of repo tags', () => {
       setup(async () => {
-        tags = _.times(26, tagGenerator);
+        tags = createTagsList(26);
         stubRestApi('getRepoTags').returns(Promise.resolve(tags));
 
-        const params = {
-          repo: 'test',
-          detail: 'tags',
+        const params: AppElementRepoParams = {
+          view: GerritView.REPO,
+          repo: 'test' as RepoName,
+          detail: RepoDetailView.TAGS,
         };
 
         await element._paramsChanged(params);
@@ -347,41 +418,44 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('test for tag in the list', async () => {
-        assert.equal(element._items[1].ref, 'refs/tags/test2');
+        assert.equal(element._items![2].ref, 'refs/tags/test2');
       });
 
       test('test for tag message in the list', async () => {
-        assert.equal(element._items[1].message, 'Annotated tag');
+        assert.equal((element._items as TagInfo[])![2].message, 'Annotated tag');
       });
 
       test('test for tagger in the tag list', async () => {
         const tagger = {
           name: 'Test User',
-          email: 'test.user@gmail.com',
-          date: '2017-09-19 14:54:00.000000000',
-          tz: 540,
+          email: 'test.user@gmail.com' as EmailAddress,
+          date: '2017-09-19 14:54:00.000000000' as Timestamp,
+          tz: 540 as TimezoneOffset,
         };
 
-        assert.deepEqual(element._items[1].tagger, tagger);
+        assert.deepEqual((element._items as TagInfo[])![2].tagger, tagger);
       });
 
       test('test for web links in the tags list', async () => {
-        assert.equal(element._items[1].web_links[0].url,
+        assert.equal(element._items![2].web_links![0].url,
             'https://git.example.org/tag/test;refs/tags/test2');
       });
 
       test('test for refs/tags/ being striped from ref', async () => {
-        assert.equal(element._stripRefs(element._items[1].ref,
+        assert.equal(element._stripRefs(element._items![2].ref,
             element.detailType), 'test2');
       });
 
       test('_shownItems', () => {
-        assert.equal(element._shownItems.length, 25);
+        assert.equal(element._shownItems!.length, 25);
       });
 
       test('_computeHideTagger', () => {
         const testObject1 = {
-          tagger: 'test',
+          name: 'Test User',
+          email: 'test.user@gmail.com' as EmailAddress,
+          date: '2017-09-19 14:54:00.000000000' as Timestamp,
+          tz: 540 as TimezoneOffset,
         };
         assert.equal(element._computeHideTagger(testObject1), '');
 
@@ -391,12 +465,13 @@ suite('gr-repo-detail-list', () => {
 
     suite('list with less then 25 tags', () => {
       setup(async () => {
-        tags = _.times(25, tagGenerator);
+        tags = createTagsList(25);
         stubRestApi('getRepoTags').returns(Promise.resolve(tags));
 
-        const params = {
-          repo: 'test',
-          detail: 'tags',
+        const params: AppElementRepoParams = {
+          view: GerritView.REPO,
+          repo: 'test' as RepoName,
+          detail: RepoDetailView.TAGS,
         };
 
         await element._paramsChanged(params);
@@ -404,16 +479,17 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('_shownItems', () => {
-        assert.equal(element._shownItems.length, 25);
+        assert.equal(element._shownItems!.length, 25);
       });
     });
 
     suite('filter', () => {
       test('_paramsChanged', async () => {
         const stub = stubRestApi('getRepoTags').returns(Promise.resolve(tags));
-        const params = {
-          repo: 'test',
-          detail: 'tags',
+        const params: AppElementRepoParams = {
+          view: GerritView.REPO,
+          repo: 'test' as RepoName,
+          detail: RepoDetailView.TAGS,
           filter: 'test',
           offset: 25,
         };
@@ -427,58 +503,61 @@ suite('gr-repo-detail-list', () => {
 
     suite('create new', () => {
       test('_handleCreateClicked called when create-click fired', () => {
-        sinon.stub(element, '_handleCreateClicked');
-        element.shadowRoot
-            .querySelector('gr-list-view').dispatchEvent(
+        const handleCreateClickedStub = sinon.stub(element, '_handleCreateClicked');
+        queryAndAssert<GrListView>(element, 'gr-list-view').dispatchEvent(
                 new CustomEvent('create-clicked', {
                   composed: true, bubbles: true,
                 }));
-        assert.isTrue(element._handleCreateClicked.called);
+        assert.isTrue(handleCreateClickedStub.called);
       });
 
       test('_handleCreateClicked opens modal', () => {
-        const openStub = sinon.stub(element.$.createOverlay, 'open');
+        queryAndAssert<GrOverlay>(element, '#createOverlay')
+        const openStub = sinon.stub(queryAndAssert<GrOverlay>(element, '#createOverlay'), 'open');
         element._handleCreateClicked();
         assert.isTrue(openStub.called);
       });
 
       test('_handleCreateItem called when confirm fired', () => {
-        sinon.stub(element, '_handleCreateItem');
-        element.$.createDialog.dispatchEvent(
+        const handleCreateItemStub = sinon.stub(element, '_handleCreateItem');
+        queryAndAssert<GrDialog>(element, '#createDialog').dispatchEvent(
             new CustomEvent('confirm', {
               composed: true, bubbles: true,
             }));
-        assert.isTrue(element._handleCreateItem.called);
+        assert.isTrue(handleCreateItemStub.called);
       });
 
       test('_handleCloseCreate called when cancel fired', () => {
-        sinon.stub(element, '_handleCloseCreate');
-        element.$.createDialog.dispatchEvent(
+        const handleCloseCreateStub = sinon.stub(element, '_handleCloseCreate');
+        queryAndAssert<GrDialog>(element, '#createDialog').dispatchEvent(
             new CustomEvent('cancel', {
               composed: true, bubbles: true,
             }));
-        assert.isTrue(element._handleCloseCreate.called);
+        assert.isTrue(handleCloseCreateStub.called);
       });
     });
 
     suite('404', () => {
       test('fires page-error', async () => {
-        const response = {status: 404};
+        const response = {status: 404} as Response;
         stubRestApi('getRepoTags').callsFake(
-            (filter, repo, reposTagsPerPage, opt_offset, errFn) => {
-              errFn(response);
-              return Promise.resolve();
+            (_filter, _repo, _reposTagsPerPage, _opt_offset, errFn) => {
+              if (errFn !== undefined) {
+                errFn(response);
+              }
+              return Promise.resolve([]);
             });
 
         const promise = mockPromise();
         addListenerForTest(document, 'page-error', e => {
-          assert.deepEqual(e.detail.response, response);
+          assert.deepEqual((e as PageErrorEvent).detail.response, response);
           promise.resolve();
         });
 
-        const params = {
-          repo: 'test',
-          detail: 'tags',
+        const params: AppElementRepoParams = {
+          view: GerritView.REPO,
+          repo: 'test' as RepoName,
+          detail: RepoDetailView.TAGS,
           filter: 'test',
           offset: 25,
         };
@@ -500,4 +579,3 @@ suite('gr-repo-detail-list', () => {
     });
   });
 });
-

@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma';
 import '../../edit/gr-edit-constants';
+import '../gr-thread-list/gr-thread-list';
 import './gr-change-view';
 import {
   ChangeStatus,
@@ -110,6 +111,7 @@ import {
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
+import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 
 const fixture = fixtureFromElement('gr-change-view');
 
@@ -865,7 +867,43 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  suite('Findings comment tab', () => {
+  suite('Comments tab', () => {
+    setup(async () => {
+      element._changeNum = TEST_NUMERIC_CHANGE_ID;
+      element._change = {
+        ...createChangeViewChange(),
+        revisions: {
+          rev2: createRevision(2),
+          rev1: createRevision(1),
+          rev13: createRevision(13),
+          rev3: createRevision(3),
+          rev4: createRevision(4),
+        },
+        current_revision: 'rev4' as CommitId,
+      };
+      element._commentThreads = THREADS;
+      await flush();
+      const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
+      tap(paperTabs.querySelectorAll('paper-tab')[1]);
+      await flush();
+    });
+
+    test('commentId overrides unresolveOnly default', async () => {
+      const threadList = queryAndAssert<GrThreadList>(
+        element,
+        'gr-thread-list'
+      );
+      assert.isTrue(element.unresolvedOnly);
+      assert.isNotOk(element.scrollCommentId);
+      assert.isTrue(threadList.unresolvedOnly);
+
+      element.scrollCommentId = 'abcd' as UrlEncodedCommentId;
+      await flush();
+      assert.isFalse(threadList.unresolvedOnly);
+    });
+  });
+
+  suite('Findings robot-comment tab', () => {
     setup(async () => {
       element._changeNum = TEST_NUMERIC_CHANGE_ID;
       element._change = {

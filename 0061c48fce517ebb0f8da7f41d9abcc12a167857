@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16150523_9f93e6f4",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T16:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0a061c7_6d80be2a",
+      "range": {
+        "startLine": 4,
+        "startChar": 20,
+        "endLine": 4,
+        "endChar": 46
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6084242_03aed4fb",
@@ -119,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da246454_3d46b53f",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T16:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6084242_03aed4fb",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 70
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28dc000f_b4d484c3",
@@ -132,6 +180,30 @@
       "writtenOn": "2021-11-19T09:51:23Z",
       "side": 1,
       "message": "This is the documentation of Gerrit v3.5: a \"current status\" headline seems obvious. The whole section is redundant IMHO.",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 17
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ee10cef_6be0e22f",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T16:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28dc000f_b4d484c3",
       "range": {
         "startLine": 16,
         "startChar": 3,
@@ -213,6 +285,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3ce495d_695f1a74",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T16:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f27f5a8_4028c7d7",
+      "range": {
+        "startLine": 24,
+        "startChar": 28,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88f764a9_b6e7b996",
@@ -236,6 +332,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9abad7cf_b4b04069",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T16:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88f764a9_b6e7b996",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 22
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b167aab_6ad3d41e",
@@ -249,6 +369,24 @@
       "writtenOn": "2021-11-19T09:51:23Z",
       "side": 1,
       "message": "+ * Start Gerrit primary node?",
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8315e28_67078d03",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T16:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b167aab_6ad3d41e",
       "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -306,6 +444,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68858837_2284e9e2",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T16:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06858cb4_a4992cfd",
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43399b57_5faff47c",
@@ -319,6 +475,30 @@
       "writtenOn": "2021-11-19T09:51:23Z",
       "side": 1,
       "message": "Wow, why 3 settings?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 47
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4abdd27_8dc8da0c",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T16:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43399b57_5faff47c",
       "range": {
         "startLine": 59,
         "startChar": 0,
@@ -471,6 +651,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45a7827c_07dac677",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T16:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e47fd6_fa9a491f",
+      "range": {
+        "startLine": 101,
+        "startChar": 44,
+        "endLine": 101,
+        "endChar": 48
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64d0aaa3_ddd0c1bf",
@@ -484,6 +688,30 @@
       "writtenOn": "2021-11-19T09:51:23Z",
       "side": 1,
       "message": "Same as above",
+      "range": {
+        "startLine": 104,
+        "startChar": 28,
+        "endLine": 104,
+        "endChar": 32
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "874e6378_f2508045",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T16:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d0aaa3_ddd0c1bf",
       "range": {
         "startLine": 104,
         "startChar": 28,

@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "196b5fa6_3b8f1c8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T15:46:11Z",
+      "side": 1,
+      "message": "Gotcha, this makes sense to me.",
+      "parentUuid": "86ca4c13_0426ae2c",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "81a906db390c007329b3903e1b152eb1091f9193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d89b756_7154b4d1",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "I thought we were moving away from _ prefixes?",
       "parentUuid": "5d89b756_7154b4d1",
+      "range": {
+        "startLine": 164,
+        "startChar": 2,
+        "endLine": 164,
+        "endChar": 30
+      },
+      "revId": "81a906db390c007329b3903e1b152eb1091f9193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fc189ec_7ce51f6e",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T15:46:11Z",
+      "side": 1,
+      "message": "actually using private is fine with me too, but _ would be ok with me in this file because it would be consistent with all the surrounding functions.",
+      "parentUuid": "44a5747f_fb67ad93",
       "range": {
         "startLine": 164,
         "startChar": 2,

@@ -137,7 +137,7 @@ export class GrThreadList extends PolymerElement {
       : CommentTabState.SHOW_ALL;
   }
 
-  @property({type: String})
+  @property({type: String, observer: 'handleScrollCommentIdChanged'})
   scrollCommentId?: UrlEncodedCommentId;
 
   _showEmptyThreadsMessage(
@@ -155,6 +155,14 @@ export class GrThreadList extends PolymerElement {
 
   _showPartyPopper(threads: CommentThread[]) {
     return !!threads.length;
+  }
+
+  /**
+   * When user wants to scroll to a comment, render all comments so that the
+   * appropriate comment can be scrolled into view.
+   */
+  handleScrollCommentIdChanged(scrollCommentId?: UrlEncodedCommentId) {
+    if (scrollCommentId) this.unresolvedOnly = false;
   }
 
   _computeResolvedCommentsMessage(

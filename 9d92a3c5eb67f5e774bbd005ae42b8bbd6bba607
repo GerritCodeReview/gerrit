@@ -243,6 +243,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "46040da5_8b71754c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Dupe.",
+      "parentUuid": "10689619_0e2007d5",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "15073e77_17846590",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 20

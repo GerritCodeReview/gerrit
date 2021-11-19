@@ -265,6 +265,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e518f43b_83b49bb8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Maybe the naming of the method is confusing. It says `handleCreateComment`.  So what if it handles the creation of a comment on an existing thread?",
+      "parentUuid": "10689619_0e2007d5",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "74322101_fcb524d9",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 18
@@ -463,6 +481,24 @@
       "writtenOn": "2021-11-19T14:14:09Z",
       "side": 1,
       "message": "Replaced usage of isEmpty by deepEqual.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee85366d_5bbd6552",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Are we sure that we can not call this method with the same comments object but modified?  \n\nOtherwise deepEqual will terminate early with true because the objects \u003d\u003d\u003d each other, even if the content has changed.",
+      "parentUuid": "365a1ce0_047f0847",
       "revId": "931502073182273acc1ded312bfbbceaac852ff8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

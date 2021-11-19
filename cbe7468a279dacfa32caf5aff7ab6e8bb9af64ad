@@ -1,0 +1,436 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "219539ef_4a8105ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Thanks, looking much better. Some minor nits.",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d41ff3b_4c0f8e01",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Do we still need to make this._projectConfig undefined?",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab022ef3_99e5e5ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Does this need a helper function hasMessageId(message)?",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "540bf815_df0c5628",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Why not simply pass in the messageId to reduce the API surface of this function?",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f990c23_8c0144c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "What else could c1.line be? Would it be sufficient to say (c1.line !\u003d\u003d undefined)?",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5a1c0ba_af4a9b5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Could they be 0?",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76edbfed_ef89f9d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Could you add a brief explanation to the above two lines? I always forget 1 vs -1, so an explanation as to which one should go first/why.",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20db6355_93719bca",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Are these expensive computations? Should you avoid computing it twice (here and inside the inner ifs).",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8082f470_5ffe6809",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Are these expensive computations? Should you avoid computing it twice (here and inside the inner ifs).",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "707ed498_8092f608",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Add a comment explaining this",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baa8f3eb_20bf2289",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Should this be else if or a switch statement?",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a27c4544_77b32c09",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "This could be a single boolean passed in, rather than 2 parameters, as index isn\u0027t used anywhere else.\n\nBetter yet, you could move the creation of thread-separator into renderCommentThreads.\n\n```\nconst commentThread \u003d this.renderCommentThread(thread);\n\nif (index !\u003d\u003d 0 \u0026\u0026 threads[index - 1].path !\u003d\u003d threads[index].path) {\n  return html`\u003cdiv class\u003d\"thread-separator\"\u003e\u003c/div\u003e${commentThread}`\n} else {\n  return commentThread;\n}\n```",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2aa3e1e3_db049c9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Maybe not at this CL but maybe createComment should take a Partial\u003cComment\u003e so you\u0027d do\n\ncreateThread(createComment({unresolved: true}));\n\ncreateThread(input: Partial\u003cComment\u003e \u003d {}) { \n  ...\n}",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5845fb59_baa23ffb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "This belongs in a utility class.\n\ngetRandomIn(start: number, end: number)",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2b67eaa_888a9f82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Why is this necessary? If the try block fails it doesn\u0027t reach this.editing \u003d false;",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "782d09e8_7b9407d4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Should this be a technical-excellence bug?",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1eb85fd_a3f27895",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Make sure to assertisDefined.",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a273d68_1a92f4ff",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Add a comment as to why we\u0027re saving it.",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6a4096d_410baff8",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "This was not part of the code that was being caught before so remove outside of try { } catch block.",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 8
+      },
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca224356_e2ce0921",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Are these the only 2 actual errors that can result in the `catch(err)`?  If so should we simply do something like\n\nif (changeNum !\u003d\u003d this.changeNum) {\n  this.handleFailedDraftRequest();\n  throw new Error(\u0027change changed\u0027);\n}\nif (!result.ok) {\n  this.handleFailedDraftRequest();\n  throw new Error(\n    `Failed to save draft comment: ${JSON.stringify(result)}`);\n}\n\nIt\u0027s a little bit more duplicative but makes it clearer which errors your expecting. And maybe the first error actually doesn\u0027t even need the handleFailedDraftRequest?!",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 7
+      },
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e51e7ee3_b05f78c9",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Add a comment as to why we\u0027re saving it.",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efe42a74_e0fc409a",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "This was not initially in the block of code that was part of catch, so move it out.",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 8
+      },
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49e4963d_1a3f2e32",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "Same comment as above regarding maybe not relying try/catch and being more explicit about when to do handleFailedDraftRequest.",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 7
+      },
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee67ed60_eb1b771f",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T16:47:31Z",
+      "side": 1,
+      "message": "These are technically Partial\u003cCommentInfo\u003e | Partial\u003cDraftInfo\u003e | Partial\u003cRototCommentInfo\u003e",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

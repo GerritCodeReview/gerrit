@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2011349b_288a118b",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-19T14:27:43Z",
+      "side": 1,
+      "message": "Should this only be done if pattern.startsWith(\"^\")?",
+      "range": {
+        "startLine": 1165,
+        "startChar": 10,
+        "endLine": 1172,
+        "endChar": 11
+      },
+      "revId": "73763965e9b3da3afd12cc3f5cddda48fb5ffb58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

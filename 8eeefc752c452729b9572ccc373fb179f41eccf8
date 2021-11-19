@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73a5bad7_432b2a4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T11:25:31Z",
+      "side": 1,
+      "message": "Yes, exactly. Also, Amazon has started the OpenSearch project (see [1]) which means that it would not be difficult to have also that backend supported.\n\n[1] https://aws.amazon.com/blogs/opensource/introducing-opensearch/",
+      "parentUuid": "54279d80_3df1b13d",
+      "revId": "8eeefc752c452729b9572ccc373fb179f41eccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43544efe_2b997c12",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "badf3644_eb9941e6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3121,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T11:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43544efe_2b997c12",
+      "revId": "8eeefc752c452729b9572ccc373fb179f41eccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d4474c8_ee74aca0",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-11-19T02:37:12Z",
       "side": 1,
       "message": "I think if we can concatenate some parts of the `gerrit.installIndexModule` NOTES with `index.type`, I mean the \"precedence\" part.\n\nBecause if the user set `index.type` as \"LUCENE\" and set `gerrit.installIndexModule` with another index module, like ElasticSearch, users be used to check `index.type` and it\u0027s documentation first as the reflection, so if we declare the precedence about the two configs in `index.type`, will be more clearly and intuitively by their sight.",
+      "revId": "8eeefc752c452729b9572ccc373fb179f41eccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da259a95_35587142",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T11:25:31Z",
+      "side": 1,
+      "message": "That is a good point. Thinking aloud, the index.type is obsolete now, because there is only *ONE* index type by default and that is LUCENE. For allowing a different indexing backend, you should use the indexModule.\n\nWill add a note that the setting is deprecated and they should be using the indexModule instead.",
+      "parentUuid": "5d4474c8_ee74aca0",
       "revId": "8eeefc752c452729b9572ccc373fb179f41eccf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

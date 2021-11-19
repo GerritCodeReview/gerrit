@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa938d4e_826c0340",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T17:55:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2629efda_07d46657",
+      "revId": "a367d48608972b21143c1968c9caf10417d2c542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e00b5fd0_572fa19d",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-11-19T14:53:05Z",
       "side": 1,
       "message": "Looks a bit too long to me: what about migrate-externalids-to-insensitive?",
+      "range": {
+        "startLine": 28,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 58
+      },
+      "revId": "a367d48608972b21143c1968c9caf10417d2c542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7eb2b73_25a6242b",
+        "filename": "java/com/google/gerrit/sshd/commands/ExternalIdCaseSensitivityMigrationCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T17:55:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e00b5fd0_572fa19d",
       "range": {
         "startLine": 28,
         "startChar": 12,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e676c861_b9557ef5",
+        "filename": "java/com/google/gerrit/sshd/commands/ExternalIdCaseSensitivityMigrationCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T17:55:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2c19756_76112b79",
+      "range": {
+        "startLine": 29,
+        "startChar": 19,
+        "endLine": 29,
+        "endChar": 77
+      },
+      "revId": "a367d48608972b21143c1968c9caf10417d2c542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "452340d7_92abf9c8",
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cde53ab_ef90b014",
+        "filename": "java/com/google/gerrit/sshd/commands/ExternalIdCaseSensitivityMigrationCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T17:55:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "452340d7_92abf9c8",
+      "range": {
+        "startLine": 44,
+        "startChar": 144,
+        "endLine": 44,
+        "endChar": 163
+      },
+      "revId": "a367d48608972b21143c1968c9caf10417d2c542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3b55d1c_3d92e11b",
@@ -117,6 +207,24 @@
       "writtenOn": "2021-11-19T14:53:05Z",
       "side": 1,
       "message": "should we also give some hints on what to look in the error_log to understand when it finished?",
+      "revId": "a367d48608972b21143c1968c9caf10417d2c542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76f2d588_1853a75d",
+        "filename": "java/com/google/gerrit/sshd/commands/ExternalIdCaseSensitivityMigrationCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T17:55:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3b55d1c_3d92e11b",
       "revId": "a367d48608972b21143c1968c9caf10417d2c542",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

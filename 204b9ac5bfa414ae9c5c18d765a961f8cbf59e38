@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e46f8d7_ea92a76a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T08:00:56Z",
+      "side": 1,
+      "message": "Thanks, looking great!",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34677e5d_d0ad843a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T08:00:56Z",
+      "side": 1,
+      "message": "For LitElements maybe use SubscroptionController\u0027s subscribe() function.",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b75da5d0_3e4cba4f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T08:00:56Z",
+      "side": 1,
+      "message": "So far I have used the pattern\n\n  .pipe(takeUntil(this.disconnected$))\n  \nfor subscriptions in PolymerElements. We are migrating to Lit anyway, so consistency for a few months does not matter much. So feel free to ignore.\n\nOh, I see you have actively converted everything to the new pattern of collecting subscriptions. TBH I like `takeUntil(this.disconnected$)` better, but again, let\u0027s not discuss PolymerElement too much. The design of SubscriptionController is more interesting to discuss. :-)\n\nOh, and now I have read the commit message. :-) I would be interested in why subscriptions were leaking and why the new pattern prevents that.",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5df74de_52a5e80f",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T08:00:56Z",
+      "side": 1,
+      "message": "It would be nice to have something similar to SubscriptionController for services. Maybe something like\n\n  private readonly subscriptions \u003d new Subscriptions();\n  \n  ...\n  \n  this.subcriptions.add(change$, x \u003d\u003e this.change \u003d x);\n  \n  ...\n  \n  finalize() {\n    this.subscriptions.removeAll();\n  }",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8e54f9b_af11aafc",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T08:00:56Z",
+      "side": 1,
+      "message": "What about defining Context as a type explicitly:\n\n  export type Context \u003d Record\u003cstring, Finalizable\u003e;  \n  \n  export type AppContext \u003d AppContextInterface \u0026 Context;\n  \nAnd then replace all of `TContext` by `TContext extends Context`.\n\nMaybe then you can go even further and do\n\n  export type Context \u003d Record\u003cstring, Finalizable\u003e \u0026 Finalizable;",
+      "range": {
+        "startLine": 39,
+        "startChar": 31,
+        "endLine": 39,
+        "endChar": 50
+      },
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95b63bd8_67ed75b4",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T08:00:56Z",
+      "side": 1,
+      "message": "Maybe `unknown` instead of `any` would work here?",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f38fd4c0_9988950a",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T08:00:56Z",
+      "side": 1,
+      "message": "Forgot to call `removeEventListener` in finalize?",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60844667_196bf28a",
+        "filename": "polygerrit-ui/app/test/mocks/gr-rest-api_mock.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T08:00:56Z",
+      "side": 1,
+      "message": "Can you add comments why you are returning `Promise.resolve(undefined)` here?\n\nWould this be an option?\n\n  return Promise.resolve({});",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

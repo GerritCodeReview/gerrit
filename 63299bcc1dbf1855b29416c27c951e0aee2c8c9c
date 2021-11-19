@@ -287,6 +287,30 @@
       },
       "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef8532a0_958eaa4e",
+        "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-19T17:58:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16d9e145_d72ad34f",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 85
+      },
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

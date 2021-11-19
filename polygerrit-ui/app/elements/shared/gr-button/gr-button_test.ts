@@ -22,8 +22,9 @@ import {addListener} from '@polymer/polymer/lib/utils/gestures';
 import {getAppContext} from '../../../services/app-context';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {GrButton} from './gr-button';
-import {queryAndAssert} from '../../../test/test-utils';
+import {pressKey, queryAndAssert} from '../../../test/test-utils';
 import {PaperButtonElement} from '@polymer/paper-button';
+import {Key, Modifier} from '../../../utils/dom-util';
 
 const basicFixture = fixtureFromElement('gr-button');
 
@@ -143,23 +144,22 @@ suite('gr-button tests', () => {
     assert.isTrue(spy.calledOnce);
   });
 
-  // Keycodes: 32 for Space, 13 for Enter.
-  for (const key of [32, 13]) {
-    test(`dispatches click event on keycode ${key}`, () => {
+  for (const key of [Key.ENTER, Key.SPACE]) {
+    test(`dispatches click event on key '${key}'`, () => {
       const tapSpy = sinon.spy();
       element.addEventListener('click', tapSpy);
-      MockInteractions.pressAndReleaseKeyOn(element, key);
+      pressKey(element, key);
       assert.isTrue(tapSpy.calledOnce);
     });
 
-    test(`dispatches no click event with modifier on keycode ${key}`, () => {
+    test(`dispatches no click event with modifier on key '${key}'`, () => {
       const tapSpy = sinon.spy();
       element.addEventListener('click', tapSpy);
-      MockInteractions.pressAndReleaseKeyOn(element, key, 'shift');
-      MockInteractions.pressAndReleaseKeyOn(element, key, 'ctrl');
-      MockInteractions.pressAndReleaseKeyOn(element, key, 'meta');
-      MockInteractions.pressAndReleaseKeyOn(element, key, 'alt');
-      assert.isFalse(tapSpy.calledOnce);
+      pressKey(element, key, Modifier.ALT_KEY);
+      pressKey(element, key, Modifier.CTRL_KEY);
+      pressKey(element, key, Modifier.META_KEY);
+      pressKey(element, key, Modifier.SHIFT_KEY);
+      assert.isFalse(tapSpy.called);
     });
   }
 
@@ -177,12 +177,11 @@ suite('gr-button tests', () => {
       });
     }
 
-    // Keycodes: 32 for Space, 13 for Enter.
-    for (const key of [32, 13]) {
+    for (const key of [Key.ENTER, Key.SPACE]) {
       test(`stops click event on keycode ${key}`, () => {
         const tapSpy = sinon.spy();
         element.addEventListener('click', tapSpy);
-        MockInteractions.pressAndReleaseKeyOn(element, key);
+        pressKey(element, key);
         assert.isFalse(tapSpy.called);
       });
     }

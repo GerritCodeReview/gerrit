@@ -16,6 +16,24 @@
       "message": "This isn\u0027t working E2E: the new keys are generated BUT that creates inconsistency with the existing key.\n\nSee below the error after upgrading from v2.13 to v2.16:\n\n[2021-11-19 01:02:43,223] [main] ERROR com.google.gerrit.pgm.Daemon : Unable to start daemon\ncom.google.inject.CreationException: Unable to create injector, see the following errors:\n\n1) Multiple host keys exist: [/var/gerrit/etc/ssh_host_ecdsa_key, /var/gerrit/etc/ssh_host_ecdsa_384_key, /var/gerrit/etc/ssh_host_ecdsa_521_key, /var/gerrit/etc/ssh_host_ed25519_key, /var/gerrit/etc/ssh_host_key]",
       "revId": "66e70c70502a4337253283c2382c2f790cd84b9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4771c802_4d107e9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-19T01:14:28Z",
+      "side": 1,
+      "message": "\u003e This isn\u0027t working E2E: the new keys are generated BUT that creates inconsistency with the existing key.\n\u003e \n\u003e See below the error after upgrading from v2.13 to v2.16:\n\u003e \n\u003e [2021-11-19 01:02:43,223] [main] ERROR com.google.gerrit.pgm.Daemon : Unable to start daemon\n\u003e com.google.inject.CreationException: Unable to create injector, see the following errors:\n\u003e \n\u003e 1) Multiple host keys exist: [/var/gerrit/etc/ssh_host_ecdsa_key, /var/gerrit/etc/ssh_host_ecdsa_384_key, /var/gerrit/etc/ssh_host_ecdsa_521_key, /var/gerrit/etc/ssh_host_ed25519_key, /var/gerrit/etc/ssh_host_key]\n\nI think that is fixed by https://gerrit-review.googlesource.com/c/gerrit/+/321755\n\nI\u0027ll move that to stable-2.16 so that you can test with it.",
+      "parentUuid": "470a109b_3cc0fc8c",
+      "revId": "66e70c70502a4337253283c2382c2f790cd84b9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

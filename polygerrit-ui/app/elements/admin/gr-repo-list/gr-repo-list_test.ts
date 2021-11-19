@@ -200,8 +200,10 @@ suite('gr-repo-list tests', () => {
 
   suite('create new', () => {
     test('handleCreateClicked called when create-clicked fired', () => {
-      const handleCreateClickedStub = sinon.stub();
-      element.addEventListener('create-clicked', handleCreateClickedStub);
+      const handleCreateClickedStub = sinon.stub(
+        element,
+        'handleCreateClicked'
+      );
       queryAndAssert<GrListView>(element, 'gr-list-view').dispatchEvent(
         new CustomEvent('create-clicked', {
           composed: true,
@@ -220,8 +222,7 @@ suite('gr-repo-list tests', () => {
     });
 
     test('handleCreateRepo called when confirm fired', () => {
-      const handleCreateRepoStub = sinon.stub();
-      element.addEventListener('confirm', handleCreateRepoStub);
+      const handleCreateRepoStub = sinon.stub(element, 'handleCreateRepo');
       queryAndAssert<GrDialog>(element, '#createDialog').dispatchEvent(
         new CustomEvent('confirm', {
           composed: true,
@@ -232,8 +233,7 @@ suite('gr-repo-list tests', () => {
     });
 
     test('handleCloseCreate called when cancel fired', () => {
-      const handleCloseCreateStub = sinon.stub();
-      element.addEventListener('cancel', handleCloseCreateStub);
+      const handleCloseCreateStub = sinon.stub(element, 'handleCloseCreate');
       queryAndAssert<GrDialog>(element, '#createDialog').dispatchEvent(
         new CustomEvent('cancel', {
           composed: true,

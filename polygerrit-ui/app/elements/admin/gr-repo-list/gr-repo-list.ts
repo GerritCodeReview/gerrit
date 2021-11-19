@@ -44,30 +44,33 @@ declare global {
 
 @customElement('gr-repo-list')
 export class GrRepoList extends LitElement {
-  @query('#createOverlay')
-  createOverlay?: GrOverlay;
+  readonly path = '/admin/repos';
 
-  @query('#createNewModal')
-  createNewModal?: GrCreateRepoDialog;
+  @query('#createOverlay') private createOverlay?: GrOverlay;
+
+  @query('#createNewModal') private createNewModal?: GrCreateRepoDialog;
 
   @property({type: Object})
   params?: AppElementAdminParams;
 
+  // private but used in test
   @state() offset = 0;
 
-  @state() newRepoName = false;
+  @state() private newRepoName = false;
 
-  @state() createNewCapability = false;
+  @state() private createNewCapability = false;
 
+  // private but used in test
   @state() repos: ProjectInfoWithName[] = [];
 
+  // private but used in test
   @state() reposPerPage = 25;
 
+  // private but used in test
   @state() loading = true;
 
+  // private but used in test
   @state() filter = '';
-
-  @state() readonly path = '/admin/repos';
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -112,7 +115,7 @@ export class GrRepoList extends LitElement {
         .loading=${this.loading}
         .offset=${this.offset}
         .path=${this.path}
-        @create-clicked=${this.handleCreateClicked}
+        @create-clicked=${() => this.handleCreateClicked()}
       >
         <table id="list" class="genericList">
           <tbody>
@@ -141,14 +144,14 @@ export class GrRepoList extends LitElement {
           class="confirmDialog"
           ?disabled=${!this.newRepoName}
           confirm-label="Create"
-          @confirm=${this.handleCreateRepo}
-          @cancel=${this.handleCloseCreate}
+          @confirm=${() => this.handleCreateRepo()}
+          @cancel=${() => this.handleCloseCreate()}
         >
           <div class="header" slot="header">Create Repository</div>
           <div class="main" slot="main">
             <gr-create-repo-dialog
               id="createNewModal"
-              @new-repo-name=${this.handleNewRepoName}
+              @new-repo-name=${() => this.handleNewRepoName()}
             ></gr-create-repo-dialog>
           </div>
         </gr-dialog>
@@ -240,7 +243,7 @@ export class GrRepoList extends LitElement {
     return account;
   }
 
-  /* private but used in test */
+  // private but used in test
   async getRepos() {
     this.repos = [];
 
@@ -270,25 +273,25 @@ export class GrRepoList extends LitElement {
     return await this.getRepos();
   }
 
-  /* private but used in test */
+  // private but used in test
   async handleCreateRepo() {
     await this.createNewModal?.handleCreateRepo();
     await this.refreshReposList();
   }
 
-  /* private but used in test */
+  // private but used in test
   handleCloseCreate() {
     this.createOverlay?.close();
   }
 
-  /* private but used in test */
+  // private but used in test
   handleCreateClicked() {
     this.createOverlay?.open().then(() => {
       this.createNewModal?.focus();
     });
   }
 
-  /* private but used in test */
+  // private but used in test
   computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
   }

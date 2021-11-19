@@ -743,7 +743,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
           .message("Modify rules.pl")
           .create();
     }
-    projectCache.evict(superKey);
+    projectCache.evictAndReindex(superKey);
   }
 
   private String getStatus(ChangeData cd) throws Exception {

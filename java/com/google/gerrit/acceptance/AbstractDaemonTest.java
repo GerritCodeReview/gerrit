@@ -1028,7 +1028,7 @@ public abstract class AbstractDaemonTest {
       ProjectConfig config = projectConfigFactory.read(md);
       config.updateProject(p -> p.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, value));
       config.commit(md);
-      projectCache.evict(config.getProject());
+      projectCache.evictAndReindex(config.getProject());
     }
   }
 
@@ -1037,7 +1037,7 @@ public abstract class AbstractDaemonTest {
       ProjectConfig config = projectConfigFactory.read(md);
       config.updateProject(p -> p.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, value));
       config.commit(md);
-      projectCache.evict(config.getProject());
+      projectCache.evictAndReindex(config.getProject());
     }
   }
 
@@ -1532,7 +1532,7 @@ public abstract class AbstractDaemonTest {
       projectConfig.commit(metaDataUpdate);
       metaDataUpdate.close();
       metaDataUpdate = null;
-      projectCache.evict(projectConfig.getProject());
+      projectCache.evictAndReindex(projectConfig.getProject());
     }
 
     @Override

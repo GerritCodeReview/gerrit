@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "86ca4c13_0426ae2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-19T15:06:33Z",
+      "side": 1,
+      "message": "I meant when there are some unresolved threads.\nUpdated to use \"if there are any\". Does that make sense?",
+      "parentUuid": "6c0ca70d_26a3e1d0",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "81a906db390c007329b3903e1b152eb1091f9193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d89b756_7154b4d1",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-19T14:24:17Z",
       "side": 1,
       "message": "prefix with _",
+      "range": {
+        "startLine": 164,
+        "startChar": 2,
+        "endLine": 164,
+        "endChar": 30
+      },
+      "revId": "81a906db390c007329b3903e1b152eb1091f9193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44a5747f_fb67ad93",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-19T15:06:33Z",
+      "side": 1,
+      "message": "I thought we were moving away from _ prefixes?",
+      "parentUuid": "5d89b756_7154b4d1",
       "range": {
         "startLine": 164,
         "startChar": 2,

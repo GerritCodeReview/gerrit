@@ -16,6 +16,24 @@
       "message": "Move this function to top-level.",
       "revId": "5b07d7d9ac0d412bf397be370f39f305f3f25898",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae7e4cb3_4065f823",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-19T18:13:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9370c9a7_97fca39c",
+      "revId": "5b07d7d9ac0d412bf397be370f39f305f3f25898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,57 @@
       "message": "@Dyrone @Nasser: I have updated also the Gerrit config documentation with the example on how ElasticSearch index backend would be configurable when it is removed from Gerrit core.\n\n@Han-Wen @Patrick @Saša: please review this change and its predecessor to check if that conforms with the decision of removing ES in v3.5.0 as documented at [1]\n\n[1] https://www.gerritcodereview.com/2021-11-03-esc-minutes.html#removal-of-the-elasticsearch-support-code-from-gerrit-35",
       "revId": "8eeefc752c452729b9572ccc373fb179f41eccf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54279d80_3df1b13d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-11-19T02:37:12Z",
+      "side": 1,
+      "message": "Thank you for the patchset, the implementations can benefit uses who use other kinds of indexed, so We (Alibaba) can continue to use ElasticSearch in this way if we upgrade to the newest release (I guess), the change looks good and I leave two comments about the DOC in here.",
+      "revId": "8eeefc752c452729b9572ccc373fb179f41eccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43544efe_2b997c12",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3121,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-11-19T02:37:12Z",
+      "side": 1,
+      "message": "Maybe there exists a redundant \u003cSP\u003e before \"The only ...\".",
+      "revId": "8eeefc752c452729b9572ccc373fb179f41eccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d4474c8_ee74aca0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3126,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-11-19T02:37:12Z",
+      "side": 1,
+      "message": "I think if we can concatenate some parts of the `gerrit.installIndexModule` NOTES with `index.type`, I mean the \"precedence\" part.\n\nBecause if the user set `index.type` as \"LUCENE\" and set `gerrit.installIndexModule` with another index module, like ElasticSearch, users be used to check `index.type` and it\u0027s documentation first as the reflection, so if we declare the precedence about the two configs in `index.type`, will be more clearly and intuitively by their sight.",
+      "revId": "8eeefc752c452729b9572ccc373fb179f41eccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

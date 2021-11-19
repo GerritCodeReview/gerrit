@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48296200_daafd351",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "Unless I keep the hacky cache in place for the registry, this is necessary. Dmitrii suggested I actually use the new finalize logic as part of this change so I had to fix all the tests and subscriptions.",
+      "parentUuid": "3c6b0141_42b5d19f",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4296481c_e8d9caaa",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-19T09:53:49Z",
       "side": 1,
       "message": "I don\u0027t understand this.\nHow were they leaking and how were the stack-overflow-errors happening?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4de21ab1_2ae2d9e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "When running unit-tests I would get stack overflows in the test-log output related to \u0027subscribe\u0027 methods called by \u0027next\u0027 methods. I don\u0027t fully understand the internals of rxjs so I\u0027d have to dig deeper as to why this leaking happens.",
+      "parentUuid": "4296481c_e8d9caaa",
       "range": {
         "startLine": 23,
         "startChar": 0,
@@ -64,6 +112,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7734a244_c54bf6e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "Thanks",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34677e5d_d0ad843a",
@@ -77,6 +142,24 @@
       "writtenOn": "2021-11-19T08:00:56Z",
       "side": 1,
       "message": "For LitElements maybe use SubscroptionController\u0027s subscribe() function.",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec09964c_8b708893",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34677e5d_d0ad843a",
       "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -100,6 +183,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bdcfd73e_9fefef37",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "I\u0027d have to delve deeper into rxjs code-base to get an idea as to why. But subscriptions have logic that remove themselves from their \u0027parents\u0027 so presumably if you just do .pipe(takeUntil...) and then subscribe to that, you\u0027re still pushing values through it\u0027s just that takeUntil acts like a gate.",
+      "parentUuid": "b75da5d0_3e4cba4f",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a5df74de_52a5e80f",
         "filename": "polygerrit-ui/app/services/change/change-service.ts",
         "patchSetId": 17
@@ -111,6 +212,24 @@
       "writtenOn": "2021-11-19T08:00:56Z",
       "side": 1,
       "message": "It would be nice to have something similar to SubscriptionController for services. Maybe something like\n\n  private readonly subscriptions \u003d new Subscriptions();\n  \n  ...\n  \n  this.subcriptions.add(change$, x \u003d\u003e this.change \u003d x);\n  \n  ...\n  \n  finalize() {\n    this.subscriptions.removeAll();\n  }",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a268b62a_5dc08fa5",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "Agreed, though maybe as a follow-up.",
+      "parentUuid": "a5df74de_52a5e80f",
       "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -140,6 +259,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1096266a_bf9b4e1b",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "So... ideally all I have to check is that the Registry only has string keys but my Typescript Foo is not strong enough.\n\nI\u0027m not sure I like introducing a new Context type. \n\nTContext extends Context also doesn\u0027t guarantee that it\u0027s *only* string keys afaiu",
+      "parentUuid": "d8e54f9b_af11aafc",
+      "range": {
+        "startLine": 39,
+        "startChar": 31,
+        "endLine": 39,
+        "endChar": 50
+      },
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95b63bd8_67ed75b4",
         "filename": "polygerrit-ui/app/services/registry.ts",
         "patchSetId": 17
@@ -151,6 +294,24 @@
       "writtenOn": "2021-11-19T08:00:56Z",
       "side": 1,
       "message": "Maybe `unknown` instead of `any` would work here?",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0859e850_e9ee53cc",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "Found an even better solution.",
+      "parentUuid": "95b63bd8_67ed75b4",
       "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -172,6 +333,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d27bb56_ed67399a",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f38fd4c0_9988950a",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8fdb042_95a32693",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f38fd4c0_9988950a",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60844667_196bf28a",
@@ -185,6 +382,42 @@
       "writtenOn": "2021-11-19T08:00:56Z",
       "side": 1,
       "message": "Can you add comments why you are returning `Promise.resolve(undefined)` here?\n\nWould this be an option?\n\n  return Promise.resolve({});",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "552d719e_82a6431a",
+        "filename": "polygerrit-ui/app/test/mocks/gr-rest-api_mock.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "Changed and added a comment.",
+      "parentUuid": "60844667_196bf28a",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8f92cfc_32bd5b38",
+        "filename": "polygerrit-ui/app/test/mocks/gr-rest-api_mock.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-19T14:46:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60844667_196bf28a",
       "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

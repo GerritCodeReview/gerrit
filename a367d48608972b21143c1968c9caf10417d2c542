@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ba6f39e_8f5b4bdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T14:53:05Z",
+      "side": 1,
+      "message": "LGTM, just some suggestions on how to improve its usability",
+      "revId": "a367d48608972b21143c1968c9caf10417d2c542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2629efda_07d46657",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T14:53:05Z",
+      "side": 1,
+      "message": "nit: empty line",
+      "revId": "a367d48608972b21143c1968c9caf10417d2c542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e00b5fd0_572fa19d",
+        "filename": "java/com/google/gerrit/sshd/commands/ExternalIdCaseSensitivityMigrationCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T14:53:05Z",
+      "side": 1,
+      "message": "Looks a bit too long to me: what about migrate-externalids-to-insensitive?",
+      "range": {
+        "startLine": 28,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 58
+      },
+      "revId": "a367d48608972b21143c1968c9caf10417d2c542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2c19756_76112b79",
+        "filename": "java/com/google/gerrit/sshd/commands/ExternalIdCaseSensitivityMigrationCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T14:53:05Z",
+      "side": 1,
+      "message": "Migrate external-ids to case insensitive",
+      "range": {
+        "startLine": 29,
+        "startChar": 19,
+        "endLine": 29,
+        "endChar": 77
+      },
+      "revId": "a367d48608972b21143c1968c9caf10417d2c542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "452340d7_92abf9c8",
+        "filename": "java/com/google/gerrit/sshd/commands/ExternalIdCaseSensitivityMigrationCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T14:53:05Z",
+      "side": 1,
+      "message": "More than skipping should be \"cannot start\"",
+      "range": {
+        "startLine": 44,
+        "startChar": 144,
+        "endLine": 44,
+        "endChar": 163
+      },
+      "revId": "a367d48608972b21143c1968c9caf10417d2c542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3b55d1c_3d92e11b",
+        "filename": "java/com/google/gerrit/sshd/commands/ExternalIdCaseSensitivityMigrationCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T14:53:05Z",
+      "side": 1,
+      "message": "should we also give some hints on what to look in the error_log to understand when it finished?",
+      "revId": "a367d48608972b21143c1968c9caf10417d2c542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

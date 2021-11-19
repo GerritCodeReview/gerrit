@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ff8b4ce_44dbe713",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-19T18:57:28Z",
+      "side": 1,
+      "message": "Verified that the build is able to download artifacts without any 501 error with this change.",
+      "revId": "1e84f2d0375564b2ab5bf07d66043f2c9e475360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

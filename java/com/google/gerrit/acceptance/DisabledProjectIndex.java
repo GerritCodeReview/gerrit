@@ -50,6 +50,11 @@ public class DisabledProjectIndex implements ProjectIndex {
   }
 
   @Override
+  public void insert(ProjectData obj) {
+    throw new UnsupportedOperationException("ProjectIndex is disabled");
+  }
+
+  @Override
   public void replace(ProjectData obj) {
     throw new UnsupportedOperationException("ProjectIndex is disabled");
   }

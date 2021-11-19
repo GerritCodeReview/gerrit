@@ -96,6 +96,11 @@ export class GrRepoDetailList extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  override async connectedCallback() {
+    super.connectedCallback();
+    await this.getCreateRepoBranchTagCapability();
+  }
+
   static override get styles() {
     return [
       formStyles,

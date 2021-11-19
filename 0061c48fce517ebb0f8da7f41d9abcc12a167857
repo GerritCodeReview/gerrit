@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09c9db31_519fa125",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T10:58:38Z",
+      "side": 1,
+      "message": "Thanks @Thomas, can we then include that behaviour in the documentation?",
+      "parentUuid": "79bf3bb8_6107b790",
+      "range": {
+        "startLine": 4,
+        "startChar": 20,
+        "endLine": 4,
+        "endChar": 46
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6084242_03aed4fb",
         "filename": "Documentation/externalid-case-insensitivity.txt",
         "patchSetId": 4
@@ -143,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5f27f5a8_4028c7d7",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T10:58:38Z",
+      "side": 1,
+      "message": "Thanks for sharing @Matthias. @Marcin it would be useful to share those order of magnitude numbers in the docs.\n\nFor some setups, a 10 mins outage isn\u0027t an issue, for others, it is not acceptable. The decision is left to the Gerrit admin if we give the right sizing in the docs.",
+      "parentUuid": "f1d1a13d_902ddd54",
+      "range": {
+        "startLine": 24,
+        "startChar": 28,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88f764a9_b6e7b996",
         "filename": "Documentation/externalid-case-insensitivity.txt",
         "patchSetId": 4
@@ -212,6 +260,24 @@
       "side": 1,
       "message": "AFAIK replicas only use the group index, which shouldn\u0027t be touched. So I don\u0027t think they need to be reindexed.\nThe `auth.userNameCaseInsensitive` option has to be toggled of course.",
       "parentUuid": "b2412e7b_a8baed88",
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06858cb4_a4992cfd",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T10:58:38Z",
+      "side": 1,
+      "message": "Cool, it would be useful to mention this here.",
+      "parentUuid": "edf57a77_69a2d7a9",
       "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -299,6 +365,30 @@
       "side": 1,
       "message": "No, it is not a typo. The offline migration tool decides on the direction of the migration based on the current configuration. SO if you, have case insensitive behaviour configured (userNameCaseInsensitive \u003d true), it will migrate towards case sensitive.\nThus, usually you won\u0027t have to set this option. It should already reflect the current state of the ExternalIds",
       "parentUuid": "044dd3be_15ad52fc",
+      "range": {
+        "startLine": 101,
+        "startChar": 44,
+        "endLine": 101,
+        "endChar": 48
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "897ac0b2_d03a1f0b",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T10:58:38Z",
+      "side": 1,
+      "message": "OK, but then *after* the rollback, the userNameCaseInsensitive should be set to false, isn\u0027t it?",
+      "parentUuid": "e25895b1_9fa8f97f",
       "range": {
         "startLine": 101,
         "startChar": 44,

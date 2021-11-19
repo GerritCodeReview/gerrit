@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c15ae0f3_0ea9f7bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b16eb749_6dae52dc",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f475b2db_f0e2f07a",
@@ -432,6 +450,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "365a1ce0_047f0847",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Replaced usage of isEmpty by deepEqual.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "afa913a6_b198e7fb",
@@ -445,6 +480,24 @@
       "writtenOn": "2021-11-17T17:38:05Z",
       "side": 1,
       "message": "Should this be a plain number?",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3077d96_0454b645",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afa913a6_b198e7fb",
       "revId": "931502073182273acc1ded312bfbbceaac852ff8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -466,6 +519,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbe8d2de_30ac6969",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a5a7d68_dec2b65a",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22ea211d_6ef0cedf",
@@ -479,6 +550,24 @@
       "writtenOn": "2021-11-17T17:38:05Z",
       "side": 1,
       "message": "USe async syntax instead of promise-chaining.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22574e67_4f7ff766",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22ea211d_6ef0cedf",
       "revId": "931502073182273acc1ded312bfbbceaac852ff8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -500,6 +589,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96890918_bffa416d",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16216afd_1e7eb74f",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0963c197_1513122f",
@@ -513,6 +620,24 @@
       "writtenOn": "2021-11-17T17:38:05Z",
       "side": 1,
       "message": "Move to using await syntax rather than callbacks.",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bb1347a_463bd5b2",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0963c197_1513122f",
       "revId": "931502073182273acc1ded312bfbbceaac852ff8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -534,6 +659,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ad06728_ea4a4533",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "745d6484_315ca7f5",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8592e887_83599f57",
@@ -547,6 +690,24 @@
       "writtenOn": "2021-11-17T17:38:05Z",
       "side": 1,
       "message": "Should this be a DISCARD_COMMENT report?",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "735078c7_e0971be8",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8592e887_83599f57",
       "revId": "931502073182273acc1ded312bfbbceaac852ff8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -568,6 +729,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76fda55a_dfc3b1a4",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2bb64d7_c037ae0f",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96e12850_1c57c812",
@@ -581,6 +760,24 @@
       "writtenOn": "2021-11-17T17:38:05Z",
       "side": 1,
       "message": "Rather than firing on document body, as a future change maybe this should be a service?",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a44387b8_9f7a2d70",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "I had the same idea. :-)\n\nBut not this change ...",
+      "parentUuid": "96e12850_1c57c812",
       "revId": "931502073182273acc1ded312bfbbceaac852ff8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -602,6 +799,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee9cc4b8_31b1dac8",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a300e97c_081a2bcc",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27549f08_9e02dc83",
@@ -619,6 +834,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4491a1fe_1ad21540",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27549f08_9e02dc83",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdfe120d_0bfef3fa",
@@ -632,6 +865,24 @@
       "writtenOn": "2021-11-17T17:38:05Z",
       "side": 1,
       "message": "Do you need this block? Arrays are objects and they have keys",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c832ebc4_32908391",
+        "filename": "polygerrit-ui/app/utils/compare-util.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Interesting. Removed. All tests still passing.",
+      "parentUuid": "cdfe120d_0bfef3fa",
       "revId": "931502073182273acc1ded312bfbbceaac852ff8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,478 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02218489_5c15ee7d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f475b2db_f0e2f07a",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dab3dcac_421a4c17",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7a138e3_4b89a899",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7042e126_73104013",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3137816_15195232",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2991f6f_d5d06ad5",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30f3c307_9a444391",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9baa1a7_c160fbdb",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2ddc233_3b7d85f4",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a6a5dc0_a83656ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0ef0a6_82d49682",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94fc29f6_671038a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "I am not sure what you mean.\n\n  html`${repeat(...)}`\n  \nis identical to\n\n  repeat(...)\n  \nI think.",
+      "parentUuid": "c76a4f0e_7c8e5b70",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fa9abeb_f712491d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5419a3f_2ad24321",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfcfae49_37c263d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3759e7bf_dd7d5b0d",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ec2f451_5db3019c",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff85d187_2d6fc808",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e153b978_600e1028",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "326aead4_a2565591",
+      "range": {
+        "startLine": 402,
+        "startChar": 0,
+        "endLine": 403,
+        "endChar": 24
+      },
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c4dd9c9_960b756f",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcfc73e5_c3f7a209",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10689619_0e2007d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "I don\u0027t understand the question. This is a new thread being created when the user explicitly asks for creation of a new thread. How can that already be attached?",
+      "parentUuid": "2fda4606_12f5de6c",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15073e77_17846590",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1271a6af_9216ee07",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b325dfe_d718b0b4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74322101_fcb524d9",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a22a7055_9d7f03d5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abdc506f_b9876730",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c1c873b_0f092e27",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f13b0fe9_6556a729",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb9e4c17_87af962e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db1ce88d_195f315b",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f49f8120_1624a4c9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6a0c6c0_4c1da850",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f31e650_4659192a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecd76063_ef4b892c",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5946b063_452cf98d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "684f55e7_4f16157c",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ea980b4_93ed51bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f69728f5_5a99357a",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f004c423_7aac9749",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1c25f01_7b343a63",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "652c98e5_1d585b57",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 2276,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "gr-rest-api-interface.ts contains hundreds of returned Promises. I would prefer to leave that to a dedicated cleanup of the entire file.",
+      "parentUuid": "976ad5ee_bc07eec1",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83ef65d1_dd4bf3ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 2277,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "gr-rest-api-interface.ts contains hundreds of chained promises. I would prefer to leave that to a dedicated cleanup of the entire file.",
+      "parentUuid": "599a2d28_eb7beefe",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b009d367_85f043ec",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb4fc58d_e70c42c3",
+      "revId": "9d92a3c5eb67f5e774bbd005ae42b8bbd6bba607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

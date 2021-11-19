@@ -182,6 +182,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f216073d_bba74455",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Talked about this offline. Let\u0027s have meetings to walk you through the change. That is overall less time consuming IMO.",
+      "parentUuid": "e84ed6d8_3c758825",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42148c34_99cf32b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Talked about this offline. Let\u0027s have meetings to walk you through the change. That is overall less time consuming IMO.",
+      "parentUuid": "c0cc0eca_d57b7d67",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ba94e89_fbee6927",
@@ -904,6 +940,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9224e186_1b79f499",
+        "filename": "polygerrit-ui/app/services/user/user-service.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "If you just map(), then you have an observable of observables. You have to somehow clarify how this should be flattened. Check out go/rxjs-flatten for detailed explanations.",
+      "parentUuid": "c9da757c_e11d7920",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99e0b6d1_10a45f1a",
@@ -956,6 +1010,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8aa0b1a_f9cc4008",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "e925facc_ec8c05ab",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3c4f5ae_dcfb5cad",
@@ -990,6 +1062,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ff72564_ebc4a2fa",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Reverted.",
+      "parentUuid": "efbf072a_3c76f17a",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed73663_779e9360",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Reverted.",
+      "parentUuid": "a3c4f5ae_dcfb5cad",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97caa7c5_c07bfbd8",
@@ -1003,6 +1111,24 @@
       "writtenOn": "2021-11-17T17:38:05Z",
       "side": 1,
       "message": "This one probably belongs in a file named async-util.ts",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcdc47a6_5f5b7094",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-19T14:14:09Z",
+      "side": 1,
+      "message": "Reverted.",
+      "parentUuid": "97caa7c5_c07bfbd8",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

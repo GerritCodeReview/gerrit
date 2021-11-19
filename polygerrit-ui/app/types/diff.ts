@@ -52,9 +52,6 @@ export interface DiffInfo extends DiffInfoApi {
   /** Meta information about the file on side B as a DiffFileMetaInfo entity. */
   meta_b: DiffFileMetaInfo;
 
-  /** A list of strings representing the patch set diff header. */
-  diff_header?: string[];
-
   /**
    * Links to the file diff in external sites as a list of DiffWebLinkInfo
    * entries.

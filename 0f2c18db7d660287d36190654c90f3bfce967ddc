@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c293420_51d769af",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-summary.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T13:57:18Z",
+      "side": 1,
+      "message": "Oof, sorry I missed this many times. Done.",
+      "parentUuid": "b8045059_bc5bc685",
+      "revId": "0f2c18db7d660287d36190654c90f3bfce967ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "874ed84a_8b9067d1",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-19T13:34:59Z",
       "side": 1,
       "message": "Simply return",
+      "revId": "0f2c18db7d660287d36190654c90f3bfce967ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1036ed69_94290e6c",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-row.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T13:57:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "874ed84a_8b9067d1",
       "revId": "0f2c18db7d660287d36190654c90f3bfce967ddc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

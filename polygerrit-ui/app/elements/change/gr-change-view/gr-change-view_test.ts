@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma';
 import '../../edit/gr-edit-constants';
+import '../gr-thread-list/gr-thread-list';
 import './gr-change-view';
 import {
   ChangeStatus,
@@ -114,6 +115,7 @@ import {
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
+import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 
 const fixture = fixtureFromElement('gr-change-view');
 
@@ -485,6 +487,20 @@ suite('gr-change-view tests', () => {
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[1]!.patchNum, 10 as PatchSetNum);
     assert.isNotOk(args[1]!.basePatchNum);
+  });
+
+  test('scrollCommentId overrides unresolveOnly default', async () => {
+    element._activeTabs = [PrimaryTab.COMMENT_THREADS];
+    await flush();
+    const threadList = queryAndAssert<GrThreadList>(element, 'gr-thread-list');
+    assert.isTrue(element.unresolvedOnly);
+    assert.isNotOk(element.scrollCommentId);
+    assert.isTrue(threadList.unresolvedOnly);
+
+    threadList.scrollCommentId = 'abcd' as UrlEncodedCommentId;
+    threadList.requestUpdate();
+    await threadList.updateComplete;
+    assert.isFalse(threadList.unresolvedOnly);
   });
 
   test('toggle attention set status', async () => {

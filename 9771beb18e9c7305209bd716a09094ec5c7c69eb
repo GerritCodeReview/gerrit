@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a47d95e9_4e2c7277",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-summary.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T11:51:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c95e97c7_e220bbbb",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2b3ff88_25dcb223",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-18T15:23:23Z",
       "side": 1,
       "message": "Don\u0027t put logic in willUpdate, as this risks making willUpdate a behemoth as we watch for more properties.",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8b51bf6_9a8b624d",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-summary.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T11:51:12Z",
+      "side": 1,
+      "message": "I have a TODO above to move this to the constructor once we have a model I can subscribe to. For now I think it\u0027s ok since this should not stay here long.",
+      "parentUuid": "a2b3ff88_25dcb223",
       "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e20660c_696592a5",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-summary.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T11:51:12Z",
+      "side": 1,
+      "message": "see https://gerrit-review.googlesource.com/c/gerrit/+/323425/7..8/polygerrit-ui/app/elements/topic/gr-topic-view.ts#b49",
+      "parentUuid": "930364e8_a3a884f7",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7752716b_aa4009ab",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-11-18T15:23:23Z",
       "side": 1,
       "message": "if (this.projectName || !this.changes) return;",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d1c4c2e_fad6415a",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-project.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T11:51:12Z",
+      "side": 1,
+      "message": "see https://gerrit-review.googlesource.com/c/gerrit/+/323425/7..8/polygerrit-ui/app/elements/topic/gr-topic-view.ts#b49",
+      "parentUuid": "7752716b_aa4009ab",
       "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8956c6a0_3e8f1035",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree-row.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T11:51:12Z",
+      "side": 1,
+      "message": "This is the TODO on the function and on the enum at top of file. I will need to use the helper elsewhere in the UI and will do that separately.",
+      "parentUuid": "48764350_235aa2f7",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d257a30_4776a8d0",
@@ -99,6 +189,24 @@
       "writtenOn": "2021-11-18T15:23:23Z",
       "side": 1,
       "message": "Please fetch appContext pieces directly on class creation\n\nprivate readonly restApiService \u003d getAppContext().restApiService;",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89bc67e2_ef0de055",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T11:51:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d257a30_4776a8d0",
       "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "235fc97a_87cde6ea",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T11:51:12Z",
+      "side": 1,
+      "message": "Done. it\u0027s limit of changes to fetch.",
+      "parentUuid": "aef3452e_042a0db7",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2539cdad_6fd18e04",
@@ -137,6 +263,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06521197_305bee7d",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T11:51:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2539cdad_6fd18e04",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0726eb11_de68d440",
@@ -150,6 +294,24 @@
       "writtenOn": "2021-11-18T15:23:23Z",
       "side": 1,
       "message": "if (!this.topicName) return;",
+      "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "332b0d81_abea0aa2",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-19T11:51:12Z",
+      "side": 1,
+      "message": "see https://gerrit-review.googlesource.com/c/gerrit/+/323425/7..8/polygerrit-ui/app/elements/topic/gr-topic-view.ts#b49",
+      "parentUuid": "0726eb11_de68d440",
       "revId": "9771beb18e9c7305209bd716a09094ec5c7c69eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

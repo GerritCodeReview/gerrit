@@ -16,6 +16,24 @@
       "message": "Adding Paladox since I\u0027m not sure why we bother to have a list of languages to enable syntax highlighting for? Does it not work to just throw everything at highlight.js?",
       "revId": "49f8068dd6c388eaa7736d5c036147678a9976f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4550e3dd_2ac9df7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-19T09:37:09Z",
+      "side": 1,
+      "message": "Well, it\u0027s more a mapping from mime-type to hljs language name.\nBut you are right, maybe we could simplify that.",
+      "parentUuid": "cb4525f3_aea45e89",
+      "revId": "49f8068dd6c388eaa7736d5c036147678a9976f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

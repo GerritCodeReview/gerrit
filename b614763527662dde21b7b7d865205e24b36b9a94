@@ -16,6 +16,23 @@
       "message": "LGTM, let me do some more E2E test",
       "revId": "b614763527662dde21b7b7d865205e24b36b9a94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b94acb0_ff0969ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T20:09:57Z",
+      "side": 1,
+      "message": "The new command needs to be added to the list of the expected one in tests",
+      "revId": "b614763527662dde21b7b7d865205e24b36b9a94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79bf3bb8_6107b790",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-19T10:14:24Z",
+      "side": 1,
+      "message": "The exact behaviour during the init of a new site is, that the admin will be asked, whether to use case insensitive or case sensitive usernames, with case insensitive being the default.",
+      "parentUuid": "4e783ef1_71f80e04",
+      "range": {
+        "startLine": 4,
+        "startChar": 20,
+        "endLine": 4,
+        "endChar": 46
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6084242_03aed4fb",
         "filename": "Documentation/externalid-case-insensitivity.txt",
         "patchSetId": 4
@@ -95,6 +119,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1d1a13d_902ddd54",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-19T10:14:24Z",
+      "side": 1,
+      "message": "Matthias did a test on the eclipse All-Users (the biggest one we know of):\n\n\u003e I tested running this migration on a copy of the Eclipse All-Users repository.\n  It took 09:57min to migrate their 298609 accounts on my MacBook.\n  \nIIRC, at SAP it took about 4-5 min to migrate ~45000 accounts, of which most of the time was spent on reindexing. The migration itself took just a few seconds.",
+      "parentUuid": "4865eecc_c0415823",
+      "range": {
+        "startLine": 24,
+        "startChar": 28,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88f764a9_b6e7b996",
         "filename": "Documentation/externalid-case-insensitivity.txt",
         "patchSetId": 4
@@ -146,6 +194,24 @@
       "writtenOn": "2021-11-19T09:51:23Z",
       "side": 1,
       "message": "NOTE: We should also mention that this isn\u0027t required on Gerrit replicas. Question: do replicas need reindexing?",
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edf57a77_69a2d7a9",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-19T10:14:24Z",
+      "side": 1,
+      "message": "AFAIK replicas only use the group index, which shouldn\u0027t be touched. So I don\u0027t think they need to be reindexed.\nThe `auth.userNameCaseInsensitive` option has to be toggled of course.",
+      "parentUuid": "b2412e7b_a8baed88",
       "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -209,6 +275,30 @@
       "writtenOn": "2021-11-19T09:51:23Z",
       "side": 1,
       "message": "typo? I thought this was a rollback to case *sensitive*, then caseInsensitive should be set to false",
+      "range": {
+        "startLine": 101,
+        "startChar": 44,
+        "endLine": 101,
+        "endChar": 48
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e25895b1_9fa8f97f",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-19T10:14:24Z",
+      "side": 1,
+      "message": "No, it is not a typo. The offline migration tool decides on the direction of the migration based on the current configuration. SO if you, have case insensitive behaviour configured (userNameCaseInsensitive \u003d true), it will migrate towards case sensitive.\nThus, usually you won\u0027t have to set this option. It should already reflect the current state of the ExternalIds",
+      "parentUuid": "044dd3be_15ad52fc",
       "range": {
         "startLine": 101,
         "startChar": 44,

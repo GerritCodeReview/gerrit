@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98fe25ce_e6183a1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T00:43:28Z",
+      "side": 1,
+      "message": "@Dyrone @Nasser: I have updated also the Gerrit config documentation with the example on how ElasticSearch index backend would be configurable when it is removed from Gerrit core.\n\n@Han-Wen @Patrick @Saša: please review this change and its predecessor to check if that conforms with the decision of removing ES in v3.5.0 as documented at [1]\n\n[1] https://www.gerritcodereview.com/2021-11-03-esc-minutes.html#removal-of-the-elasticsearch-support-code-from-gerrit-35",
+      "revId": "8eeefc752c452729b9572ccc373fb179f41eccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

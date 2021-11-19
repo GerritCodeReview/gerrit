@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f3002d5_c5a1b8be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2021-11-19T12:42:28Z",
+      "side": 1,
+      "message": "Yes, that\u0027s it, I saw the related news before.\n\nAlicloud also provides a PaaS with Elasticseach[1], and it seems more native maybe I don\u0027t know, but without complex business problems I think, whatever, we don\u0027t care about it just use it for the Alibaba Gerrits.\n\n[1] https://www.alibabacloud.com/product/elasticsearch",
+      "parentUuid": "73a5bad7_432b2a4d",
+      "revId": "8eeefc752c452729b9572ccc373fb179f41eccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43544efe_2b997c12",

@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e783ef1_71f80e04",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T09:51:23Z",
+      "side": 1,
+      "message": "I believe we are talking about the situation in v3.5, where usernames are case insensitive by default and case sensitive only for existing setups.\n\nIt should phrased differently then:\n\n  Gerrit usernames are case insensitive by default: e.g. johndoe and\n  JohnDoe represents the same account.\n  However, for installations older than v3.5.x, the usernames were case\n  sensitive, e.g. johndoe and JohnDoe can both ...",
+      "range": {
+        "startLine": 4,
+        "startChar": 20,
+        "endLine": 4,
+        "endChar": 46
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6084242_03aed4fb",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T09:51:23Z",
+      "side": 1,
+      "message": "This should be rephrased as this change is merged:\n\n  When Gerrit handles case insensitive usernames (external IDs using the\n  `gerrit:` or `username:` scheme, their external IDs SHA-1 is always computed\n  using the lowercase external ID, hence there cannot be any account differing\n  only in the capitalization of their usernames.\n  \n  Gerrit installations older than v3.5.x that are switching to the case-insensitive\n  username need to migrating all their existing accounts SHA-1s.",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 70
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28dc000f_b4d484c3",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T09:51:23Z",
+      "side": 1,
+      "message": "This is the documentation of Gerrit v3.5: a \"current status\" headline seems obvious. The whole section is redundant IMHO.",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 17
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4865eecc_c0415823",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T09:51:23Z",
+      "side": 1,
+      "message": "@Thomas performed the migration at SAP, can you mention what \"some time\" means?",
+      "range": {
+        "startLine": 24,
+        "startChar": 28,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88f764a9_b6e7b996",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T09:51:23Z",
+      "side": 1,
+      "message": "primary node?",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 22
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b167aab_6ad3d41e",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T09:51:23Z",
+      "side": 1,
+      "message": "+ * Start Gerrit primary node?",
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2412e7b_a8baed88",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T09:51:23Z",
+      "side": 1,
+      "message": "NOTE: We should also mention that this isn\u0027t required on Gerrit replicas. Question: do replicas need reindexing?",
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43399b57_5faff47c",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T09:51:23Z",
+      "side": 1,
+      "message": "Wow, why 3 settings?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 47
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e39b173_3c819a7e",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T09:51:23Z",
+      "side": 1,
+      "message": "It can be done as a follow-up change, but I would recommend to make those changes automatically, in a similar way to the NoteDb on-line migration process.",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 4
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "044dd3be_15ad52fc",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T09:51:23Z",
+      "side": 1,
+      "message": "typo? I thought this was a rollback to case *sensitive*, then caseInsensitive should be set to false",
+      "range": {
+        "startLine": 101,
+        "startChar": 44,
+        "endLine": 101,
+        "endChar": 48
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64d0aaa3_ddd0c1bf",
+        "filename": "Documentation/externalid-case-insensitivity.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T09:51:23Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 104,
+        "startChar": 28,
+        "endLine": 104,
+        "endChar": 32
+      },
+      "revId": "0061c48fce517ebb0f8da7f41d9abcc12a167857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

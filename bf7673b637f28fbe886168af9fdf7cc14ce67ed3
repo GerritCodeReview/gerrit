@@ -16,6 +16,23 @@
       "message": "I believe this isn\u0027t really independent from his predecessor: if we keep them separate we actually break the user experience.\n\nCan you squash it with its predecessor?",
       "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ee24239_b010f03f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-19T11:58:55Z",
+      "side": 1,
+      "message": "With this further fix, Gerrit starts but existing clients see a warning of a man-in-the-middle attack:\n\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nIT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!\n",
+      "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

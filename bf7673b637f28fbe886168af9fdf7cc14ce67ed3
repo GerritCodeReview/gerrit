@@ -67,6 +67,42 @@
       "message": "The issue is this one:\n[2021-11-19 11:56:48,625] [sshd-SshServer[6c8d638a]-nio2-thread-6] WARN  org.apache.sshd.common.keyprovider.FileKeyPairProvider : Failed (InvalidKeyException) to load key resource\u003d/var/gerrit/etc/ssh_host_key: Unsupported private key file format: /var/gerrit/etc/ssh_host_key\n\nInstead of tolerating the situation, I believe we should read the old key and convert that into OpenSSH format. That would allow to avoid ignoring the key and preserving the same identity.",
       "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "138b58fc_e5566883",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-19T20:11:44Z",
+      "side": 1,
+      "message": "Yes, there is a thread about that here, where a conversion during init is suggested: https://groups.google.com/g/repo-discuss/c/csJIIyekh28/m/yBuMSmOsBwAJ\n\nI thought that Gerrit still supported the old key format. I thought I tested using the old key type along with new ones and it worked.\n\nThere is a small Java program in that thread for doing the conversion. For my own upgrades, I am using an Ansible playbook which uses that program to convert the old host key.\n\nI suppose we could basically use that conversion code inside of gerrit. I\u0027m guessing it should go into java/com/google/gerrit/pgm/init/InitSshd.java.",
+      "parentUuid": "cad6fae3_18a050dd",
+      "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de49da7b_59cf07f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-19T20:11:44Z",
+      "side": 1,
+      "message": "I was thinking the same thing this morning.",
+      "parentUuid": "4c6197d0_dcf7379d",
+      "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

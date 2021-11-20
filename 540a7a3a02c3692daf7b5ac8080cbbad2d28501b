@@ -16,6 +16,24 @@
       "message": "I believe there is an issue in the migration mode: when generating the user\u0027s password I have the following exception.\n\ngerrit-02_1       | [2021-11-19T19:44:40.712Z] [HTTP-76] ERROR com.google.gerrit.pgm.http.jetty.HiddenErrorHandler : Error in POST /plugins/high-availability/index/account/1000001\ngerrit-02_1       | com.google.common.util.concurrent.UncheckedExecutionException: java.lang.IllegalArgumentException: Multiple entries with same key: username:JohnDoe\u003d[externalId \"username:JohnDoe\"]\ngerrit-02_1       | \taccountId \u003d 1000001\ngerrit-02_1       | \tpassword \u003d bcrypt0:4:fh56tTsOgOS8uUmN/Laz7A\u003d\u003d:gCkMrGdU+Z48elWNSL2STJ6uvFRaKvS4\ngerrit-02_1       |  and username:JohnDoe\u003d[externalId \"username:JohnDoe\"]\ngerrit-02_1       | \taccountId \u003d 1000001\n\nThat is because the update of the user happens on the lowercase SHA1 whilst the account isn\u0027t migrated yet and therefore the original account SHA1 and its details still exist \u003d\u003e boom we have a duplicate.\n\nThis needs to be fixed before we merge.",
       "revId": "540a7a3a02c3692daf7b5ac8080cbbad2d28501b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09fedcbd_8596edda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-20T00:14:47Z",
+      "side": 1,
+      "message": "Good catch! It was an issue in upsert method which wasn\u0027t doing the fallback to case sensitive sha1 when updating the external note id. This is fixed in a followup change.",
+      "parentUuid": "aa4925b7_023639ed",
+      "revId": "540a7a3a02c3692daf7b5ac8080cbbad2d28501b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

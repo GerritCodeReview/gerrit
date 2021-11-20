@@ -141,3 +141,4 @@ export class GrListView extends PolymerElement {
     return offset / itemsPerPage + 1;
   }
 }
+

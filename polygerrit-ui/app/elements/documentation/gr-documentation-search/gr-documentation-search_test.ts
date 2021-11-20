@@ -19,51 +19,53 @@ import '../../../test/common-test-setup-karma';
 import './gr-documentation-search';
 import {GrDocumentationSearch} from './gr-documentation-search';
 import {page} from '../../../utils/page-wrapper-utils';
-import 'lodash/lodash';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {DocResult} from '../../../types/common';
-import {ListViewParams} from '../../gr-app-types';
 
 const basicFixture = fixtureFromElement('gr-documentation-search');
 
-let counter: number;
-const documentationGenerator = () => {
+function documentationGenerator(counter: number) {
   return {
-    title: `Gerrit Code Review - REST API Developers Notes${++counter}`,
+    title: `Gerrit Code Review - REST API Developers Notes${counter}`,
     url: 'Documentation/dev-rest-api.html',
   };
-};
+}
+
+function createDocumentationList(n: number) {
+  const list = [];
+  for (let i = 0; i < n; ++i) {
+    list.push(documentationGenerator(i));
+  }
+  return list;
+}
 
 suite('gr-documentation-search tests', () => {
   let element: GrDocumentationSearch;
   let documentationSearches: DocResult[];
 
-  let value: ListViewParams;
-
   setup(async () => {
     sinon.stub(page, 'show');
     element = basicFixture.instantiate();
-    counter = 0;
-    await flush();
+    await element.updateComplete;
   });
 
   suite('list with searches for documentation', () => {
     setup(async () => {
-      documentationSearches = _.times(26, documentationGenerator);
+      documentationSearches = createDocumentationList(26);
       stubRestApi('getDocumentationSearches').returns(
         Promise.resolve(documentationSearches)
       );
-      await element._paramsChanged(value);
-      await flush();
+      await element.paramsChanged();
+      await element.updateComplete;
     });
 
     test('test for test repo in the list', async () => {
       assert.equal(
-        element._documentationSearches![0].title,
+        element.documentationSearches![1].title,
         'Gerrit Code Review - REST API Developers Notes1'
       );
       assert.equal(
-        element._documentationSearches![0].url,
+        element.documentationSearches![1].url,
         'Documentation/dev-rest-api.html'
       );
     });
@@ -71,32 +73,30 @@ suite('gr-documentation-search tests', () => {
 
   suite('filter', () => {
     setup(() => {
-      documentationSearches = _.times(25, documentationGenerator);
+      documentationSearches = createDocumentationList(25);
     });
 
-    test('_paramsChanged', async () => {
+    test('paramsChanged', async () => {
       const stub = stubRestApi('getDocumentationSearches').returns(
         Promise.resolve(documentationSearches)
       );
-      const value = {filter: 'test'};
-      await element._paramsChanged(value);
+      element.params = {filter: 'test'};
+      await element.paramsChanged();
       assert.isTrue(stub.lastCall.calledWithExactly('test'));
     });
   });
 
   suite('loading', () => {
     test('correct contents are displayed', async () => {
-      assert.isTrue(element._loading);
-      assert.equal(element.computeLoadingClass(element._loading), 'loading');
+      assert.isTrue(element.loading);
       assert.equal(
         getComputedStyle(queryAndAssert(element, '#loading')).display,
         'block'
       );
 
-      element._loading = false;
+      element.loading = false;
 
-      await flush();
-      assert.equal(element.computeLoadingClass(element._loading), '');
+      await element.updateComplete;
       assert.equal(
         getComputedStyle(queryAndAssert(element, '#loading')).display,
         'none'

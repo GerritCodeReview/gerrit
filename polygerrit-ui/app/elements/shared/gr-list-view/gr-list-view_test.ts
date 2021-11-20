@@ -28,11 +28,12 @@ const basicFixture = fixtureFromElement('gr-list-view');
 suite('gr-list-view tests', () => {
   let element: GrListView;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
-  test('_computeNavLink', () => {
+  test('computeNavLink', () => {
     const offset = 25;
     const projectsPerPage = 25;
     let filter = 'test';
@@ -41,28 +42,28 @@ suite('gr-list-view tests', () => {
     stubBaseUrl('');
 
     assert.equal(
-      element._computeNavLink(offset, 1, projectsPerPage, filter, path),
+      element.computeNavLink(offset, 1, projectsPerPage, filter, path),
       '/admin/projects/q/filter:test,50'
     );
 
     assert.equal(
-      element._computeNavLink(offset, -1, projectsPerPage, filter, path),
+      element.computeNavLink(offset, -1, projectsPerPage, filter, path),
       '/admin/projects/q/filter:test'
     );
 
     assert.equal(
-      element._computeNavLink(offset, 1, projectsPerPage, undefined, path),
+      element.computeNavLink(offset, 1, projectsPerPage, undefined, path),
       '/admin/projects,50'
     );
 
     assert.equal(
-      element._computeNavLink(offset, -1, projectsPerPage, undefined, path),
+      element.computeNavLink(offset, -1, projectsPerPage, undefined, path),
       '/admin/projects'
     );
 
     filter = 'plugins/';
     assert.equal(
-      element._computeNavLink(offset, 1, projectsPerPage, filter, path),
+      element.computeNavLink(offset, 1, projectsPerPage, filter, path),
       '/admin/projects/q/filter:plugins%252F,50'
     );
   });
@@ -70,50 +71,71 @@ suite('gr-list-view tests', () => {
   test('_onValueChange', async () => {
     let resolve: (url: string) => void;
     const promise = new Promise(r => (resolve = r));
+    element.windowPath = '/admin/projects';
     element.path = '/admin/projects';
     sinon.stub(page, 'show').callsFake(r => resolve(r));
 
     element.filter = 'test';
+    await element.updateComplete;
 
     const url = await promise;
     assert.equal(url, '/admin/projects/q/filter:test');
   });
 
   test('_filterChanged not reload when swap between falsy values', () => {
-    const debounceReloadStub = sinon.stub(element, '_debounceReload');
+    const debounceReloadStub = sinon.stub(element, 'debounceReload');
     element.filter = undefined;
     element.filter = '';
     assert.isFalse(debounceReloadStub.called);
   });
 
-  test('next button', () => {
+  test('next button', async () => {
     element.itemsPerPage = 25;
     let projects = new Array(26);
-    flush();
+    await element.updateComplete;
 
     let loading;
-    assert.isFalse(element._hideNextArrow(loading, projects));
+    assert.isFalse(element.hideNextArrow(loading, projects));
     loading = true;
-    assert.isTrue(element._hideNextArrow(loading, projects));
+    assert.isTrue(element.hideNextArrow(loading, projects));
     loading = false;
-    assert.isFalse(element._hideNextArrow(loading, projects));
+    assert.isFalse(element.hideNextArrow(loading, projects));
     projects = [];
-    assert.isTrue(element._hideNextArrow(loading, projects));
+    assert.isTrue(element.hideNextArrow(loading, projects));
     projects = new Array(4);
-    assert.isTrue(element._hideNextArrow(loading, projects));
+    assert.isTrue(element.hideNextArrow(loading, projects));
   });
 
-  test('prev button', () => {
-    assert.isTrue(element._hidePrevArrow(true, 0));
-    flush(() => {
-      let offset = 0;
-      assert.isTrue(element._hidePrevArrow(false, offset));
-      offset = 5;
-      assert.isFalse(element._hidePrevArrow(false, offset));
-    });
+  test('prev button', async () => {
+    element.loading = true;
+    element.offset = 0;
+    await element.updateComplete;
+    assert.isTrue(
+      queryAndAssert<HTMLAnchorElement>(element, '#prevArrow').hasAttribute(
+        'hidden'
+      )
+    );
+
+    element.loading = false;
+    element.offset = 0;
+    await element.updateComplete;
+    assert.isTrue(
+      queryAndAssert<HTMLAnchorElement>(element, '#prevArrow').hasAttribute(
+        'hidden'
+      )
+    );
+
+    element.loading = false;
+    element.offset = 5;
+    await element.updateComplete;
+    assert.isFalse(
+      queryAndAssert<HTMLAnchorElement>(element, '#prevArrow').hasAttribute(
+        'hidden'
+      )
+    );
   });
 
-  test('createNew link appears correctly', () => {
+  test('createNew link appears correctly', async () => {
     assert.isFalse(
       queryAndAssert<HTMLDivElement>(
         element,
@@ -121,7 +143,7 @@ suite('gr-list-view tests', () => {
       ).classList.contains('show')
     );
     element.createNew = true;
-    flush();
+    await element.updateComplete;
     assert.isTrue(
       queryAndAssert<HTMLDivElement>(
         element,
@@ -130,30 +152,32 @@ suite('gr-list-view tests', () => {
     );
   });
 
-  test('fires create clicked event when button tapped', () => {
+  test('fires create clicked event when button tapped', async () => {
     const clickHandler = sinon.stub();
     element.addEventListener('create-clicked', clickHandler);
     element.createNew = true;
-    flush();
+    await element.updateComplete;
     MockInteractions.tap(queryAndAssert<GrButton>(element, '#createNew'));
     assert.isTrue(clickHandler.called);
   });
 
-  test('next/prev links change when path changes', () => {
+  test('next/prev links change when path changes', async () => {
     const BRANCHES_PATH = '/path/to/branches';
     const TAGS_PATH = '/path/to/tags';
-    const computeNavLinkStub = sinon.stub(element, '_computeNavLink');
+    const computeNavLinkStub = sinon.stub(element, 'computeNavLink');
     element.offset = 0;
     element.itemsPerPage = 25;
     element.filter = '';
     element.path = BRANCHES_PATH;
+    await element.updateComplete;
     assert.equal(computeNavLinkStub.lastCall.args[4], BRANCHES_PATH);
     element.path = TAGS_PATH;
+    await element.updateComplete;
     assert.equal(computeNavLinkStub.lastCall.args[4], TAGS_PATH);
   });
 
-  test('_computePage', () => {
-    assert.equal(element._computePage(0, 25), 1);
-    assert.equal(element._computePage(50, 25), 3);
+  test('computePage', () => {
+    assert.equal(element.computePage(0, 25), 1);
+    assert.equal(element.computePage(50, 25), 3);
   });
 });

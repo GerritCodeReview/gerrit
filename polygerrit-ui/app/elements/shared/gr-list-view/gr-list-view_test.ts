@@ -15,15 +15,18 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-list-view.js';
-import {page} from '../../../utils/page-wrapper-utils.js';
-import {stubBaseUrl} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-list-view';
+import {GrListView} from './gr-list-view';
+import {page} from '../../../utils/page-wrapper-utils';
+import {queryAndAssert, stubBaseUrl} from '../../../test/test-utils';
+import {GrButton} from '../gr-button/gr-button';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-list-view');
 
 suite('gr-list-view tests', () => {
-  let element;
+  let element: GrListView;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -38,32 +41,37 @@ suite('gr-list-view tests', () => {
     stubBaseUrl('');
 
     assert.equal(
-        element._computeNavLink(offset, 1, projectsPerPage, filter, path),
-        '/admin/projects/q/filter:test,50');
+      element._computeNavLink(offset, 1, projectsPerPage, filter, path),
+      '/admin/projects/q/filter:test,50'
+    );
 
     assert.equal(
-        element._computeNavLink(offset, -1, projectsPerPage, filter, path),
-        '/admin/projects/q/filter:test');
+      element._computeNavLink(offset, -1, projectsPerPage, filter, path),
+      '/admin/projects/q/filter:test'
+    );
 
     assert.equal(
-        element._computeNavLink(offset, 1, projectsPerPage, null, path),
-        '/admin/projects,50');
+      element._computeNavLink(offset, 1, projectsPerPage, undefined, path),
+      '/admin/projects,50'
+    );
 
     assert.equal(
-        element._computeNavLink(offset, -1, projectsPerPage, null, path),
-        '/admin/projects');
+      element._computeNavLink(offset, -1, projectsPerPage, undefined, path),
+      '/admin/projects'
+    );
 
     filter = 'plugins/';
     assert.equal(
-        element._computeNavLink(offset, 1, projectsPerPage, filter, path),
-        '/admin/projects/q/filter:plugins%252F,50');
+      element._computeNavLink(offset, 1, projectsPerPage, filter, path),
+      '/admin/projects/q/filter:plugins%252F,50'
+    );
   });
 
   test('_onValueChange', async () => {
-    let resolve;
-    const promise = new Promise(r => resolve = r);
+    let resolve: (url: string) => void;
+    const promise = new Promise(r => (resolve = r));
     element.path = '/admin/projects';
-    sinon.stub(page, 'show').callsFake(resolve);
+    sinon.stub(page, 'show').callsFake(r => resolve(r));
 
     element.filter = 'test';
 
@@ -72,11 +80,10 @@ suite('gr-list-view tests', () => {
   });
 
   test('_filterChanged not reload when swap between falsy values', () => {
-    sinon.stub(element, '_debounceReload');
-    element.filter = null;
+    const debounceReloadStub = sinon.stub(element, '_debounceReload');
     element.filter = undefined;
     element.filter = '';
-    assert.isFalse(element._debounceReload.called);
+    assert.isFalse(debounceReloadStub.called);
   });
 
   test('next button', () => {
@@ -90,8 +97,8 @@ suite('gr-list-view tests', () => {
     assert.isTrue(element._hideNextArrow(loading, projects));
     loading = false;
     assert.isFalse(element._hideNextArrow(loading, projects));
-    element._projects = [];
-    assert.isTrue(element._hideNextArrow(loading, element._projects));
+    projects = [];
+    assert.isTrue(element._hideNextArrow(loading, projects));
     projects = new Array(4);
     assert.isTrue(element._hideNextArrow(loading, projects));
   });
@@ -107,14 +114,20 @@ suite('gr-list-view tests', () => {
   });
 
   test('createNew link appears correctly', () => {
-    assert.isFalse(element.shadowRoot
-        .querySelector('#createNewContainer').classList
-        .contains('show'));
+    assert.isFalse(
+      queryAndAssert<HTMLDivElement>(
+        element,
+        '#createNewContainer'
+      ).classList.contains('show')
+    );
     element.createNew = true;
     flush();
-    assert.isTrue(element.shadowRoot
-        .querySelector('#createNewContainer').classList
-        .contains('show'));
+    assert.isTrue(
+      queryAndAssert<HTMLDivElement>(
+        element,
+        '#createNewContainer'
+      ).classList.contains('show')
+    );
   });
 
   test('fires create clicked event when button tapped', () => {
@@ -122,21 +135,21 @@ suite('gr-list-view tests', () => {
     element.addEventListener('create-clicked', clickHandler);
     element.createNew = true;
     flush();
-    MockInteractions.tap(element.shadowRoot.querySelector('#createNew'));
+    MockInteractions.tap(queryAndAssert<GrButton>(element, '#createNew'));
     assert.isTrue(clickHandler.called);
   });
 
   test('next/prev links change when path changes', () => {
     const BRANCHES_PATH = '/path/to/branches';
     const TAGS_PATH = '/path/to/tags';
-    sinon.stub(element, '_computeNavLink');
+    const computeNavLinkStub = sinon.stub(element, '_computeNavLink');
     element.offset = 0;
     element.itemsPerPage = 25;
     element.filter = '';
     element.path = BRANCHES_PATH;
-    assert.equal(element._computeNavLink.lastCall.args[4], BRANCHES_PATH);
+    assert.equal(computeNavLinkStub.lastCall.args[4], BRANCHES_PATH);
     element.path = TAGS_PATH;
-    assert.equal(element._computeNavLink.lastCall.args[4], TAGS_PATH);
+    assert.equal(computeNavLinkStub.lastCall.args[4], TAGS_PATH);
   });
 
   test('_computePage', () => {
@@ -144,4 +157,3 @@ suite('gr-list-view tests', () => {
     assert.equal(element._computePage(50, 25), 3);
   });
 });
-

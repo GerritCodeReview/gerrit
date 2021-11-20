@@ -23,7 +23,7 @@ import {ListViewParams} from '../../gr-app-types';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, PropertyValues, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
 
 @customElement('gr-documentation-search')
 export class GrDocumentationSearch extends LitElement {
@@ -33,14 +33,13 @@ export class GrDocumentationSearch extends LitElement {
   @property({type: Object})
   params?: ListViewParams;
 
-  @property({type: Array})
-  _documentationSearches?: DocResult[];
+  // private but used in test
+  @state() documentationSearches?: DocResult[];
 
-  @property({type: Boolean})
-  _loading = true;
+  // private but used in test
+  @state() loading = true;
 
-  @property({type: String})
-  _filter?: string;
+  @state() private filter = '';
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -55,10 +54,10 @@ export class GrDocumentationSearch extends LitElement {
 
   override render() {
     return html` <gr-list-view
-      .filter="${this._filter}"
-      .offset="${0}"
-      .loading="${this._loading}"
-      .path="/Documentation"
+      .filter=${this.filter}
+      .offset=${0}
+      .loading=${this.loading}
+      .path=${'/Documentation'}
     >
       <table id="list" class="genericList">
         <tbody>
@@ -67,68 +66,64 @@ export class GrDocumentationSearch extends LitElement {
             <th class="name topHeader"></th>
             <th class="name topHeader"></th>
           </tr>
-          <tr
-            id="loading"
-            class="loadingMsg ${this.computeLoadingClass(this._loading)}"
-          >
+          <tr id="loading" class="loadingMsg ${this.loading ? 'loading' : ''}">
             <td>Loading...</td>
           </tr>
         </tbody>
-        <tbody class="${this.computeLoadingClass(this._loading)}">
-          ${this._documentationSearches?.map(
-            search => html`
-              <tr class="table">
-                <td class="name">
-                  <a href="${this._computeSearchUrl(search.url)}"
-                    >${search.title}</a
-                  >
-                </td>
-                <td></td>
-                <td></td>
-              </tr>
-            `
+        <tbody class=${this.loading ? 'loading' : ''}>
+          ${this.documentationSearches?.map(search =>
+            this.renderDocumentationList(search)
           )}
         </tbody>
       </table>
     </gr-list-view>`;
   }
 
-  override updated(changedProperties: PropertyValues) {
+  private renderDocumentationList(search: DocResult) {
+    return html`
+      <tr class="table">
+        <td class="name">
+          <a href=${this.computeSearchUrl(search.url)}>${search.title}</a>
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('params')) {
-      this._paramsChanged(this.params);
+      this.paramsChanged();
     }
   }
 
-  _paramsChanged(params?: ListViewParams) {
-    this._loading = true;
-    this._filter = params?.filter ?? '';
+  // private but used in test
+  paramsChanged() {
+    this.loading = true;
+    this.filter = this.params?.filter ?? '';
 
-    return this._getDocumentationSearches(this._filter);
+    return this.getDocumentationSearches(this.filter);
   }
 
-  _getDocumentationSearches(filter: string) {
-    this._documentationSearches = [];
+  private getDocumentationSearches(filter: string) {
+    this.documentationSearches = [];
     return this.restApiService
       .getDocumentationSearches(filter)
       .then(searches => {
         // Late response.
-        if (filter !== this._filter || !searches) {
+        if (filter !== this.filter || !searches) {
           return;
         }
-        this._documentationSearches = searches;
-        this._loading = false;
+        this.documentationSearches = searches;
+      })
+      .finally(() => {
+        this.loading = false;
       });
   }
 
-  _computeSearchUrl(url?: string) {
-    if (!url) {
-      return '';
-    }
+  private computeSearchUrl(url?: string) {
+    if (!url) return '';
     return `${getBaseUrl()}/${url}`;
-  }
-
-  computeLoadingClass(loading: boolean) {
-    return loading ? 'loading' : '';
   }
 }
 

@@ -16,15 +16,15 @@
  */
 import '@polymer/iron-input/iron-input';
 import '@polymer/iron-icon/iron-icon';
-import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-list-view_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
-import {property, customElement} from '@polymer/decorators';
 import {fireEvent} from '../../../utils/event-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
+import {BindValueChangeEvent} from '../../../types/events';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 
@@ -35,11 +35,7 @@ declare global {
 }
 
 @customElement('gr-list-view')
-export class GrListView extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrListView extends LitElement {
   @property({type: Boolean})
   createNew?: boolean;
 
@@ -49,7 +45,7 @@ export class GrListView extends PolymerElement {
   @property({type: Number})
   itemsPerPage = 25;
 
-  @property({type: String, observer: '_filterChanged'})
+  @property({type: String})
   filter?: string;
 
   @property({type: Number})
@@ -68,16 +64,126 @@ export class GrListView extends PolymerElement {
     super.disconnectedCallback();
   }
 
-  _filterChanged(newFilter?: string, oldFilter?: string) {
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        #filter {
+          max-width: 25em;
+        }
+        #filter:focus {
+          outline: none;
+        }
+        #topContainer {
+          align-items: center;
+          display: flex;
+          height: 3rem;
+          justify-content: space-between;
+          margin: 0 var(--spacing-l);
+        }
+        #createNewContainer:not(.show) {
+          display: none;
+        }
+        a {
+          color: var(--primary-text-color);
+          text-decoration: none;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+        nav {
+          align-items: center;
+          display: flex;
+          height: 3rem;
+          justify-content: flex-end;
+          margin-right: 20px;
+        }
+        nav,
+        iron-icon {
+          color: var(--deemphasized-text-color);
+        }
+        iron-icon {
+          height: 1.85rem;
+          margin-left: 16px;
+          width: 1.85rem;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <div id="topContainer">
+        <div class="filterContainer">
+          <label>Filter:</label>
+          <iron-input
+            type="text"
+            .bindValue=${this.filter}
+            @bind-value-changed=${this.handleFilterBindValueChanged}
+          >
+            <input type="text" id="filter" />
+          </iron-input>
+        </div>
+        <div id="createNewContainer" class=${this.createNew ? 'show' : ''}>
+          <gr-button
+            id="createNew"
+            primary
+            link
+            @click=${() => this.createNewItem()}
+          >
+            Create New
+          </gr-button>
+        </div>
+      </div>
+      <slot></slot>
+      <nav>
+        Page ${this.computePage(this.offset, this.itemsPerPage)}
+        <a
+          id="prevArrow"
+          href=${this.computeNavLink(
+            this.offset,
+            -1,
+            this.itemsPerPage,
+            this.filter,
+            this.path
+          )}
+          ?hidden=${this.loading || this.offset === 0}
+        >
+          <iron-icon icon="gr-icons:chevron-left"></iron-icon>
+        </a>
+        <a
+          id="nextArrow"
+          href=${this.computeNavLink(
+            this.offset,
+            1,
+            this.itemsPerPage,
+            this.filter,
+            this.path
+          )}
+          ?hidden=${this.hideNextArrow(this.loading, this.items)}
+        >
+          <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+        </a>
+      </nav>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('filter')) {
+      this.filterChanged(this.filter, changedProperties.get('filter') as string);
+    }
+  }
+
+  private filterChanged(newFilter?: string, oldFilter?: string) {
     // newFilter can be empty string and then !newFilter === true
     if (!newFilter && !oldFilter) {
       return;
     }
-
-    this._debounceReload(newFilter);
+    this.debounceReload(newFilter);
   }
 
-  _debounceReload(filter?: string) {
+  // private but used in test
+  debounceReload(filter?: string) {
     this.reloadTask = debounce(
       this.reloadTask,
       () => {
@@ -94,11 +200,12 @@ export class GrListView extends PolymerElement {
     );
   }
 
-  _createNewItem() {
+  private createNewItem() {
     fireEvent(this, 'create-clicked');
   }
 
-  _computeNavLink(
+  // private but used in test
+  computeNavLink(
     offset: number,
     direction: number,
     itemsPerPage: number,
@@ -118,15 +225,8 @@ export class GrListView extends PolymerElement {
     return href;
   }
 
-  _computeCreateClass(createNew?: boolean) {
-    return createNew ? 'show' : '';
-  }
-
-  _hidePrevArrow(loading?: boolean, offset?: number) {
-    return loading || offset === 0;
-  }
-
-  _hideNextArrow(loading?: boolean, items?: unknown[]) {
+  // private but used in test
+  hideNextArrow(loading?: boolean, items?: unknown[]) {
     if (loading || !items || !items.length) {
       return true;
     }
@@ -137,7 +237,12 @@ export class GrListView extends PolymerElement {
   // TODO: fix offset (including itemsPerPage)
   // to either support a decimal or make it go to the nearest
   // whole number (e.g 3).
-  _computePage(offset: number, itemsPerPage: number) {
+  // private but used in test
+  computePage(offset: number, itemsPerPage: number) {
     return offset / itemsPerPage + 1;
+  }
+
+  private handleFilterBindValueChanged(e: BindValueChangeEvent) {
+    this.filter = e.detail.value;
   }
 }

@@ -126,7 +126,7 @@ public class BatchProgramModule extends FactoryModule {
     // We're just running through each change
     // once, so don't worry about cache removal.
     bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {}).toInstance(DynamicSet.emptySet());
-    bind(new TypeLiteral<DynamicMap<Cache<?, ?>>>() {}).toInstance(DynamicMap.emptyMap());
+    DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})
         .toProvider(CommentLinkProvider.class)
         .in(SINGLETON);

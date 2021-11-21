@@ -1051,7 +1051,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       cfg.upsertLabelType(verified);
       cfg.commit(md);
     }
-    projectCache.evict(project);
+    projectCache.evictAndReindex(project);
 
     String heads = RefNames.REFS_HEADS + "*";
     projectOperations
@@ -2117,7 +2117,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           });
 
       config.commit(md);
-      projectCache.evict(config.getProject());
+      projectCache.evictAndReindex(config.getProject());
     }
   }
 

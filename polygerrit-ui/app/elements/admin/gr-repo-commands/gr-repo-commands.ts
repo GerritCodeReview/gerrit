@@ -14,21 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import '../../../styles/gr-font-styles';
-import '../../../styles/gr-form-styles';
-import '../../../styles/gr-subpage-styles';
-import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-change-dialog/gr-create-change-dialog';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-repo-commands_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
 import {
   BranchName,
   ConfigInfo,
@@ -44,6 +38,13 @@ import {
 } from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {subpageStyles} from '../../../styles/gr-subpage-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html} from 'lit';
+import {customElement, query, property, state} from 'lit/decorators';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const GC_MESSAGE = 'Garbage collection completed successfully.';
 const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
@@ -53,80 +54,145 @@ const INITIAL_PATCHSET = 1 as PatchSetNum;
 const CREATE_CHANGE_FAILED_MESSAGE = 'Failed to create change.';
 const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
 
-export interface GrRepoCommands {
-  $: {
-    createChangeOverlay: GrOverlay;
-    createNewChangeModal: GrCreateChangeDialog;
-  };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-repo-commands': GrRepoCommands;
+  }
 }
 
 @customElement('gr-repo-commands')
-export class GrRepoCommands extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrRepoCommands extends LitElement {
+  @query('#createChangeOverlay') private createChangeOverlay?: GrOverlay;
 
-  // This is a required property. Without `repo` being set the component is not
-  // useful. Thus using !.
+  @query('#createNewChangeModal')
+  private createNewChangeModal?: GrCreateChangeDialog;
+
   @property({type: String})
-  repo!: RepoName;
+  repo?: RepoName;
 
-  @property({type: Boolean})
-  _loading = true;
+  @state() private loading = true;
 
-  @property({type: Object})
-  _repoConfig?: ConfigInfo;
+  @state() private repoConfig?: ConfigInfo;
 
-  @property({type: Boolean})
-  _canCreateChange = false;
+  @state() private canCreateChange = false;
 
-  @property({type: Boolean})
-  _creatingChange = false;
+  @state() private creatingChange = false;
 
-  @property({type: Boolean})
-  _editingConfig = false;
+  @state() private editingConfig = false;
 
-  @property({type: Boolean})
-  _runningGC = false;
+  @state() private runningGC = false;
 
   private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();
-    this._loadRepo();
-
     fireTitleChange(this, 'Repo Commands');
   }
 
-  _loadRepo() {
+  static override get styles() {
+    return [fontStyles, formStyles, subpageStyles, sharedStyles];
+  }
+
+  override render() {
+    return html`
+      <div class="main gr-form-styles read-only">
+        <h1 id="Title" class="heading-1">Repository Commands</h1>
+        <div id="loading" class="${this.loading ? 'loading' : ''}">
+          Loading...
+        </div>
+        <div id="loadedContent" class="${this.loading ? 'loading' : ''}">
+          <h2 id="options" class="heading-2">Command</h2>
+          <div id="form">
+            <h3 class="heading-3">Create change</h3>
+            <gr-button
+              ?loading=${this.creatingChange}
+              @click=${() => this.createNewChange()}
+            >
+              Create change
+            </gr-button>
+            <h3 class="heading-3">Edit repo config</h3>
+            <gr-button
+              id="editRepoConfig"
+              ?loading=${this.editingConfig}
+              @click=${() => this.handleEditRepoConfig()}
+            >
+              Edit repo config
+            </gr-button>
+            ${this.renderRepoGarbadgeCollector()}
+            <gr-endpoint-decorator name="repo-command">
+              <gr-endpoint-param name="config" .value=${this.repoConfig}>
+              </gr-endpoint-param>
+              <gr-endpoint-param name="repoName" value="${this.repo}">
+              </gr-endpoint-param>
+            </gr-endpoint-decorator>
+          </div>
+        </div>
+      </div>
+      <gr-overlay id="createChangeOverlay" with-backdrop>
+        <gr-dialog
+          id="createChangeDialog"
+          confirm-label="Create"
+          ?disabled=${!this.canCreateChange}
+          @confirm=${() => this.handleCreateChange()}
+          @cancel=${() => this.handleCloseCreateChange()}
+        >
+          <div class="header" slot="header">Create Change</div>
+          <div class="main" slot="main">
+            <gr-create-change-dialog
+              id="createNewChangeModal"
+              .repoName="${this.repo}"
+              .privateByDefault="${this.repoConfig?.private_by_default}"
+              @can-create-change=${() => this.handleCanCreateChange()}
+            ></gr-create-change-dialog>
+          </div>
+        </gr-dialog>
+      </gr-overlay>
+    `;
+  }
+
+  private renderRepoGarbadgeCollector() {
+    if (!this.repoConfig?.actions?.gc?.enabled) return;
+
+    return html`
+      <h3 class="heading-3">${this.repoConfig?.actions?.gc?.label}</h3>
+      <gr-button
+        title="${this.repoConfig?.actions?.gc?.title}"
+        ?loading=${this.runningGC}
+        @click=${() => this.handleRunningGC()}
+      >
+        ${this.repoConfig?.actions?.gc?.label}
+      </gr-button>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('repo')) {
+      this.loadRepo();
+    }
+  }
+
+  // private but used in test
+  loadRepo() {
+    if (!this.repo) return;
+
     const errFn: ErrorCallback = response => {
-      // Do not process the error, if the component is not attached to the DOM
-      // anymore, which at least in tests can happen.
-      if (!this.isConnected) return;
       firePageError(response);
     };
 
-    this.restApiService.getProjectConfig(this.repo, errFn).then(config => {
-      if (!config) return;
-      // Do not process the response, if the component is not attached to the
-      // DOM anymore, which at least in tests can happen.
-      if (!this.isConnected) return;
-      this._repoConfig = config;
-      this._loading = false;
-    });
+    this.restApiService
+      .getProjectConfig(this.repo, errFn)
+      .then(config => {
+        if (!config) return;
+        this.repoConfig = config;
+      })
+      .finally(() => {
+        this.loading = false;
+      });
   }
 
-  _computeLoadingClass(loading: boolean) {
-    return loading ? 'loading' : '';
-  }
-
-  _isLoading() {
-    return this._loading;
-  }
-
-  _handleRunningGC() {
+  private handleRunningGC() {
     if (!this.repo) return;
-    this._runningGC = true;
+    this.runningGC = true;
     return this.restApiService
       .runRepoGC(this.repo)
       .then(response => {
@@ -135,31 +201,40 @@ export class GrRepoCommands extends PolymerElement {
         }
       })
       .finally(() => {
-        this._runningGC = false;
+        this.runningGC = false;
       });
   }
 
-  _createNewChange() {
-    this.$.createChangeOverlay.open();
+  // private but used in test
+  createNewChange() {
+    assertIsDefined(this.createChangeOverlay, 'createChangeOverlay');
+    this.createChangeOverlay.open();
   }
 
-  _handleCreateChange() {
-    this._creatingChange = true;
-    this.$.createNewChangeModal.handleCreateChange().finally(() => {
-      this._creatingChange = false;
+  // private but used in test
+  handleCreateChange() {
+    assertIsDefined(this.createNewChangeModal, 'createNewChangeModal');
+    this.creatingChange = true;
+    this.createNewChangeModal.handleCreateChange().finally(() => {
+      this.creatingChange = false;
     });
-    this._handleCloseCreateChange();
+    this.handleCloseCreateChange();
   }
 
-  _handleCloseCreateChange() {
-    this.$.createChangeOverlay.close();
+  // private but used in test
+  handleCloseCreateChange() {
+    assertIsDefined(this.createChangeOverlay, 'createChangeOverlay');
+    this.createChangeOverlay.close();
   }
 
   /**
    * Returns a Promise for testing.
+   *
+   * private but used in test
    */
-  _handleEditRepoConfig() {
-    this._editingConfig = true;
+  handleEditRepoConfig() {
+    if (!this.repo) return;
+    this.editingConfig = true;
     return this.restApiService
       .createChange(
         this.repo,
@@ -183,19 +258,13 @@ export class GrRepoCommands extends PolymerElement {
         );
       })
       .finally(() => {
-        this._editingConfig = false;
+        this.editingConfig = false;
       });
   }
 
-  _handleCanCreateChange() {
-    this._canCreateChange =
-      !!this.$.createNewChangeModal.branch &&
-      !!this.$.createNewChangeModal.subject;
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-repo-commands': GrRepoCommands;
+  private handleCanCreateChange() {
+    assertIsDefined(this.createNewChangeModal, 'createNewChangeModal');
+    this.canCreateChange =
+      !!this.createNewChangeModal.branch && !!this.createNewChangeModal.subject;
   }
 }

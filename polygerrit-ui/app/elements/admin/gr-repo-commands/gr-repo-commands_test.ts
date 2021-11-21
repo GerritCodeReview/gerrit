@@ -36,11 +36,11 @@ const basicFixture = fixtureFromElement('gr-repo-commands');
 
 suite('gr-repo-commands tests', () => {
   let element: GrRepoCommands;
-
   let repoStub: sinon.SinonStub;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
     // Note that this probably does not achieve what it is supposed to, because
     // getProjectConfig() is called as soon as the element is attached, so
     // stubbing it here has not effect anymore.
@@ -50,17 +50,17 @@ suite('gr-repo-commands tests', () => {
   });
 
   suite('create new change dialog', () => {
-    test('_createNewChange opens modal', () => {
+    test('createNewChange opens modal', () => {
       const openStub = sinon.stub(
         queryAndAssert<GrOverlay>(element, '#createChangeOverlay'),
         'open'
       );
-      element._createNewChange();
+      element.createNewChange();
       assert.isTrue(openStub.called);
     });
 
-    test('_handleCreateChange called when confirm fired', () => {
-      const handleCreateChangeStub = sinon.stub(element, '_handleCreateChange');
+    test('handleCreateChange called when confirm fired', () => {
+      const handleCreateChangeStub = sinon.stub(element, 'handleCreateChange');
       queryAndAssert<GrDialog>(element, '#createChangeDialog').dispatchEvent(
         new CustomEvent('confirm', {
           composed: true,
@@ -70,10 +70,10 @@ suite('gr-repo-commands tests', () => {
       assert.isTrue(handleCreateChangeStub.called);
     });
 
-    test('_handleCloseCreateChange called when cancel fired', () => {
+    test('handleCloseCreateChange called when cancel fired', () => {
       const handleCloseCreateChangeStub = sinon.stub(
         element,
-        '_handleCloseCreateChange'
+        'handleCloseCreateChange'
       );
       queryAndAssert<GrDialog>(element, '#createChangeDialog').dispatchEvent(
         new CustomEvent('cancel', {
@@ -95,23 +95,24 @@ suite('gr-repo-commands tests', () => {
       createChangeStub = stubRestApi('createChange');
       urlStub = sinon.stub(GerritNav, 'getEditUrlForDiff');
       sinon.stub(GerritNav, 'navigateToRelativeUrl');
-      handleSpy = sinon.spy(element, '_handleEditRepoConfig');
+      handleSpy = sinon.spy(element, 'handleEditRepoConfig');
       alertStub = sinon.stub();
       element.repo = 'test' as RepoName;
       element.addEventListener('show-alert', alertStub);
     });
 
-    test('successful creation of change', () => {
+    test('successful creation of change', async () => {
       const change = {_number: '1'};
       createChangeStub.returns(Promise.resolve(change));
       MockInteractions.tap(
         queryAndAssert<GrButton>(element, '#editRepoConfig')
       );
+      await element.updateComplete;
       assert.isTrue(
         queryAndAssert<GrButton>(element, '#editRepoConfig').loading
       );
-      return handleSpy.lastCall.returnValue.then(() => {
-        flush();
+      return handleSpy.lastCall.returnValue.then(async () => {
+        await element.updateComplete;
 
         assert.isTrue(alertStub.called);
         assert.equal(
@@ -126,16 +127,17 @@ suite('gr-repo-commands tests', () => {
       });
     });
 
-    test('unsuccessful creation of change', () => {
+    test('unsuccessful creation of change', async () => {
       createChangeStub.returns(Promise.resolve(null));
       MockInteractions.tap(
         queryAndAssert<GrButton>(element, '#editRepoConfig')
       );
+      await element.updateComplete;
       assert.isTrue(
         queryAndAssert<GrButton>(element, '#editRepoConfig').loading
       );
-      return handleSpy.lastCall.returnValue.then(() => {
-        flush();
+      return handleSpy.lastCall.returnValue.then(async () => {
+        await element.updateComplete;
 
         assert.isTrue(alertStub.called);
         assert.equal(
@@ -164,14 +166,14 @@ suite('gr-repo-commands tests', () => {
         return Promise.resolve(undefined);
       });
 
-      await flush();
+      await element.updateComplete;
       const promise = mockPromise();
       addListenerForTest(document, 'page-error', e => {
         assert.deepEqual((e as PageErrorEvent).detail.response, response);
         promise.resolve();
       });
 
-      element._loadRepo();
+      element.loadRepo();
       await promise;
     });
   });

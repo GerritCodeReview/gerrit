@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f82e8eab_46ed2352",
+        "filename": "polygerrit-ui/app/elements/documentation/gr-documentation-search/gr-documentation-search.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-21T19:51:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a445e59e_947eefa1",
+      "revId": "b424b2241a73cfb38146867a53b35296889d5a0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bf52921_cd06d16f",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-11-21T19:17:18Z",
       "side": 1,
       "message": "put href target inside of \"\"",
+      "revId": "b424b2241a73cfb38146867a53b35296889d5a0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b88fcb5a_f231e8c8",
+        "filename": "polygerrit-ui/app/elements/documentation/gr-documentation-search/gr-documentation-search.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-21T19:51:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6bf52921_cd06d16f",
       "revId": "b424b2241a73cfb38146867a53b35296889d5a0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

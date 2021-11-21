@@ -2,7 +2,11 @@ load("//tools/bzl:maven_jar.bzl", "MAVEN_CENTRAL", "maven_jar")
 
 _JGIT_VERS = "5.3.9.202012012026-r"
 
-_DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
+_DOC_VERS = "5.1.15.202012011955-r"  # Set to _JGIT_VERS unless using a snapshot
+# TODO: workaround to be removed when merging upstream:
+# 5.1.16.202106041830-r has been removed while
+# 5.1.15.202012011955-r is available and has the same
+# interface and docs
 
 JGIT_DOC_URL = "https://archive.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
 

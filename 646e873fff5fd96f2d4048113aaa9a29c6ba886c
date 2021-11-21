@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3d2a1f8_6be8d61d",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-21T20:34:50Z",
+      "side": 1,
+      "message": "This is quite noisy and unexpected: can we have it enabled only if requested?\nAt the moment, this is also displayed upon a Gerrit init.",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 5
+      },
+      "revId": "646e873fff5fd96f2d4048113aaa9a29c6ba886c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

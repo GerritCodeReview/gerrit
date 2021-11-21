@@ -15,47 +15,58 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-repo-plugin-config.js';
+import '../../../test/common-test-setup-karma';
+import './gr-repo-plugin-config';
+import {GrRepoPluginConfig} from './gr-repo-plugin-config';
+import {PluginParameterToConfigParameterInfoMap} from '../../../types/common';
+import {ConfigParameterInfoType} from '../../../constants/constants';
+import {queryAndAssert} from '../../../test/test-utils';
+import {GrPluginConfigArrayEditor} from '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
+import {PaperToggleButtonElement} from '@polymer/paper-toggle-button/paper-toggle-button';
 
 const basicFixture = fixtureFromElement('gr-repo-plugin-config');
 
 suite('gr-repo-plugin-config tests', () => {
-  let element;
+  let element: GrRepoPluginConfig;
 
   setup(async () => {
     element = basicFixture.instantiate();
-    await flush();
+    await element.updateComplete;
   });
 
   test('_computePluginConfigOptions', () => {
-    assert.deepEqual(element._computePluginConfigOptions({config: {}}), []);
+    // assert.deepEqual(element._computePluginConfigOptions({config: {}}), []);
     assert.deepEqual(element._computePluginConfigOptions(
-        {config: {testKey: 'testInfo'}}),
-    [{_key: 'testKey', info: 'testInfo'}]);
+        {
+          name: 'testInfo',
+          config: {
+            test: {display_name: 'testInfo plugin', type: 'STRING'},
+          } as PluginParameterToConfigParameterInfoMap,
+        }),
+    [{_key: 'testKey', info: {display_name: 'testInfo plugin', type: 'STRING' as ConfigParameterInfoType}}]);
   });
 
   test('_handleChange', () => {
     const eventStub = sinon.stub(element, 'dispatchEvent');
     element.pluginData = {
       name: 'testName',
-      config: {plugin: {value: 'test'}},
+      config: {plugin: {type: 'STRING' as ConfigParameterInfoType, value: 'test'}},
     };
     element._handleChange({
       _key: 'plugin',
-      info: {value: 'newTest'},
+      info: {type: 'STRING' as ConfigParameterInfoType, value: 'newTest'},
     });
 
     assert.isTrue(eventStub.called);
 
-    const {detail} = eventStub.lastCall.args[0];
+    const {detail} = eventStub.lastCall.args[0] as CustomEvent;
     assert.equal(detail.name, 'testName');
     assert.deepEqual(detail.config, {plugin: {value: 'newTest'}});
   });
 
   suite('option types', () => {
-    let changeStub;
-    let buildStub;
+    let changeStub: sinon.SinonStub;
+    let buildStub: sinon.SinonStub;
 
     setup(() => {
       changeStub = sinon.stub(element, '_handleChange');
@@ -65,14 +76,13 @@ suite('gr-repo-plugin-config tests', () => {
     test('ARRAY type option', async () => {
       element.pluginData = {
         name: 'testName',
-        config: {plugin: {value: 'test', type: 'ARRAY', editable: true}},
+        config: {plugin: {value: 'test', type: 'ARRAY' as ConfigParameterInfoType, editable: true}},
       };
-      await flush();
+      await element.updateComplete;
 
-      const editor = element.shadowRoot
-          .querySelector('gr-plugin-config-array-editor');
+      const editor = queryAndAssert<GrPluginConfigArrayEditor>(element, 'gr-plugin-config-array-editor');
       assert.ok(editor);
-      element._handleArrayChange({detail: 'test'});
+      element._handleArrayChange({detail: 'test'} as CustomEvent);
       assert.isTrue(changeStub.called);
       assert.equal(changeStub.lastCall.args[0], 'test');
     });
@@ -80,15 +90,14 @@ suite('gr-repo-plugin-config tests', () => {
     test('BOOLEAN type option', async () => {
       element.pluginData = {
         name: 'testName',
-        config: {plugin: {value: 'true', type: 'BOOLEAN', editable: true}},
+        config: {plugin: {value: 'true', type: 'BOOLEAN' as ConfigParameterInfoType, editable: true}},
       };
-      await flush();
+      await element.updateComplete;
 
-      const toggle = element.shadowRoot
-          .querySelector('paper-toggle-button');
+      const toggle = queryAndAssert<PaperToggleButtonElement>(element, 'paper-toggle-button');
       assert.ok(toggle);
       toggle.click();
-      await flush();
+      await element.updateComplete;
 
       assert.isTrue(buildStub.called);
       assert.deepEqual(buildStub.lastCall.args, ['false', 'plugin']);
@@ -99,16 +108,15 @@ suite('gr-repo-plugin-config tests', () => {
     test('INT/LONG/STRING type option', async () => {
       element.pluginData = {
         name: 'testName',
-        config: {plugin: {value: 'test', type: 'STRING', editable: true}},
+        config: {plugin: {value: 'test', type: 'STRING' as ConfigParameterInfoType, editable: true}},
       };
-      await flush();
+      await element.updateComplete;
 
-      const input = element.shadowRoot
-          .querySelector('input');
+      const input = queryAndAssert<HTMLInputElement>(element, 'input');
       assert.ok(input);
       input.value = 'newTest';
       input.dispatchEvent(new Event('input'));
-      await flush();
+      await element.updateComplete;
 
       assert.isTrue(buildStub.called);
       assert.deepEqual(buildStub.lastCall.args, ['newTest', 'plugin']);
@@ -121,18 +129,17 @@ suite('gr-repo-plugin-config tests', () => {
       element.pluginData = {
         name: 'testName',
         config: {plugin:
-          {value: 'test', type: 'LIST', editable: true, permitted_values},
+          {value: 'test', type: 'LIST' as ConfigParameterInfoType, editable: true, permitted_values},
         },
       };
-      await flush();
+      await element.updateComplete;
 
-      const select = element.shadowRoot
-          .querySelector('select');
+      const select = queryAndAssert<HTMLSelectElement>(element, 'select');
       assert.ok(select);
       select.value = 'newTest';
       select.dispatchEvent(new Event(
           'change', {bubbles: true, composed: true}));
-      await flush();
+      await element.updateComplete;
 
       assert.isTrue(buildStub.called);
       assert.deepEqual(buildStub.lastCall.args, ['newTest', 'plugin']);
@@ -144,11 +151,10 @@ suite('gr-repo-plugin-config tests', () => {
   test('_buildConfigChangeInfo', () => {
     element.pluginData = {
       name: 'testName',
-      config: {plugin: {value: 'test'}},
+      config: {plugin: {type: 'STRING' as ConfigParameterInfoType, value: 'test'}},
     };
     const detail = element._buildConfigChangeInfo('newTest', 'plugin');
     assert.equal(detail._key, 'plugin');
-    assert.deepEqual(detail.info, {value: 'newTest'});
+    assert.deepEqual(detail.info, {type: 'STRING' as ConfigParameterInfoType, value: 'newTest'});
   });
 });
-

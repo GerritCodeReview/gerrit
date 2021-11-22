@@ -265,6 +265,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8540d042_a00a3410",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T14:52:30Z",
+      "side": 1,
+      "message": "As discussed offline, let\u0027s revisit this when we have something that cleans up services for us.  For elements, the migration to Lit should introduce our usage of SubscriptionController so that should remove all the takeUntil logic from components.",
+      "parentUuid": "e1fd60f8_be8a0adb",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5df74de_52a5e80f",

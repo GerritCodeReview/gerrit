@@ -323,6 +323,11 @@ export declare interface LineNumberEventDetail {
   lineNum: LineNumber;
 }
 
+export declare interface DisplayLine {
+  side: Side;
+  lineNum: LineNumber;
+}
+
 /** All types of button for expanding diff sections */
 export enum ContextButtonType {
   ABOVE = 'above',
@@ -445,6 +450,14 @@ export declare interface GrAnnotation {
 
 /** An instance of the GrDiff Webcomponent */
 export declare interface GrDiff extends HTMLElement {
+  /**
+   * A line that should not be collapsed, e.g. because it contains a
+   * search result, or is pointed to from the URL.
+   * This is considered during rendering, but changing this does not
+   * automatically trigger a re-render.
+   */
+  lineOfInterest?: DisplayLine;
+
   /**
    * Return line number element for reading only,
    *

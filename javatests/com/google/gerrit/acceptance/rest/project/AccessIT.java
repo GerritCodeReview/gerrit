@@ -179,7 +179,7 @@ public class AccessIT extends AbstractDaemonTest {
     ProjectAccessInfo expected = pApi().access();
 
     grantRevertPermission.execute(newProjectName);
-    projectCache.evict(newProjectName);
+    projectCache.evictAndReindex(newProjectName);
     ProjectAccessInfo actual = pApi().access();
     // Permissions don't change
     assertThat(expected.local).isEqualTo(actual.local);

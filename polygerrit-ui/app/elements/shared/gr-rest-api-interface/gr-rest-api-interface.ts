@@ -1601,7 +1601,7 @@ export class GrRestApiInterface
       params.n = n;
     }
     if (project) {
-      params.p = encodeURIComponent(project);
+      params.p = project;
     }
     return this._restApiHelper.fetchJSON({
       url: '/groups/',

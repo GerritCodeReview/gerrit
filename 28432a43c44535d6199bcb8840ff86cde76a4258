@@ -16,6 +16,24 @@
       "message": "stable-3.2 has already advanced. I\u0027ve re-merged this with Change-Id: I6f672d58",
       "revId": "28432a43c44535d6199bcb8840ff86cde76a4258",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c454dc96_4241882e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-22T17:02:19Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "1f8cb815_220eb1ae",
+      "revId": "28432a43c44535d6199bcb8840ff86cde76a4258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

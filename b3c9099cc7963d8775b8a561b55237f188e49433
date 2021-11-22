@@ -22,6 +22,30 @@
       },
       "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f8c8c61_f04e4533",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1266,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T12:37:46Z",
+      "side": 1,
+      "message": "Depends on the desired UX. The user sees the page right away with \"old\" data. Then new data comes in, which might make the page jump. Otherwise I think it is ok.",
+      "parentUuid": "5cf49026_dafc9c11",
+      "range": {
+        "startLine": 1264,
+        "startChar": 0,
+        "endLine": 1266,
+        "endChar": 0
+      },
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

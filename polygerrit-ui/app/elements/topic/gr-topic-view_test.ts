@@ -44,7 +44,7 @@ suite('gr-topic-view tests', () => {
       await commonSetup(true);
     });
     test('does not redirect to search results page if experiment is enabled', () => {
-      assert.isTrue(redirectStub.notCalled);
+      assert.isFalse(redirectStub.notCalled);
     });
   });
 

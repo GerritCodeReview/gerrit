@@ -25,7 +25,7 @@ import {ChecksService} from './checks/checks-service';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 import {StorageService} from './storage/gr-storage';
 import {ConfigService} from './config/config-service';
-import {UserService} from './user/user-service';
+import {UserModel} from './user/user-model';
 import {CommentsService} from './comments/comments-service';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {BrowserModel} from './browser/browser-model';
@@ -42,7 +42,7 @@ export interface AppContext {
   jsApiService: JsApiService;
   storageService: StorageService;
   configService: ConfigService;
-  userService: UserService;
+  userModel: UserModel;
   browserModel: BrowserModel;
   shortcutsService: ShortcutsService;
 }

@@ -17,8 +17,8 @@
 import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../registry';
-import {preferenceDiffViewMode$} from '../user/user-model';
 import {DiffViewMode} from '../../api/diff';
+import {UserModel} from '../user/user-model';
 
 // This value is somewhat arbitrary and not based on research or calculations.
 const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 850;
@@ -42,7 +42,7 @@ export class BrowserModel implements Finalizable {
     return this.privateState$;
   }
 
-  constructor() {
+  constructor(readonly userModel: UserModel) {
     const screenWidth$ = this.privateState$.pipe(
       map(
         state =>
@@ -55,7 +55,7 @@ export class BrowserModel implements Finalizable {
     // the user model.
     this.diffViewMode$ = combineLatest([
       screenWidth$,
-      preferenceDiffViewMode$,
+      userModel.preferenceDiffViewMode$,
     ]).pipe(
       map(([isScreenTooSmall, preferenceDiffViewMode]) => {
         if (isScreenTooSmall) return DiffViewMode.UNIFIED;

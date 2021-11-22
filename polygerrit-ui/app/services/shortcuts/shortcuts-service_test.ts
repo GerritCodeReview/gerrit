@@ -24,6 +24,7 @@ import {Shortcut, ShortcutSection} from './shortcuts-config';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {SinonFakeTimers} from 'sinon';
 import {Key, Modifier} from '../../utils/dom-util';
+import {getAppContext} from '../app-context';
 
 async function keyEventOn(
   el: HTMLElement,
@@ -45,7 +46,10 @@ suite('shortcuts-service tests', () => {
   let service: ShortcutsService;
 
   setup(() => {
-    service = new ShortcutsService();
+    service = new ShortcutsService(
+      getAppContext().userModel,
+      getAppContext().reportingService
+    );
   });
 
   suite('shouldSuppress', () => {

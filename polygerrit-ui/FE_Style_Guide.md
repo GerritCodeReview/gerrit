@@ -187,11 +187,11 @@ import {appContext} from `.../services/app-context.js`;
 export class MyCustomElement extends ...{
     constructor() {
         super(); //This is mandatory to call parent constructor
-        this._userService = appContext.userService;
+        this._userModel = appContext.userModel;
     }
     //...
     _getUserName() {
-        return this._userService.activeUserName();
+        return this._userModel.activeUserName();
     }
 }
 ```
@@ -203,12 +203,12 @@ import {appContext} from `.../services/app-context.js`;
 export class MyCustomElement extends ...{
     created() {
         // Incorrect: assign all dependencies in the constructor
-        this._userService = appContext.userService;
+        this._userModel = appContext.userModel;
     }
     //...
     _getUserName() {
         // Incorrect: use appContext outside of a constructor
-        return appContext.userService.activeUserName();
+        return appContext.userModel.activeUserName();
     }
 }
 ```
@@ -237,7 +237,7 @@ export class MyCustomElement extends ...LegacyElementMixin(...) {
     constructor() {
         super();
         // Assign services here
-        this._userService = appContext.userService;
+        this._userModel = appContext.userModel;
         // Code from the created method - put it before existing actions in constructor
         createdAction1();
         createdAction2();

@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "137b6d3a_e32fd7c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-11-22T17:55:56Z",
+      "side": 1,
+      "message": "Also, it looks as if that attempt 2/6 doesn\u0027t send a signature. It\u0027s the (optional) up-front check whether the server would accept the key. See RFC 4252, section 7.[1]\n\nIn light of this I just do not understand how that DatabasePubKeyAuth works. It appears to set a user on the session before even the signature is validated? (In line 164?) And on the second lookup (3/6 in your log) from the next SSH_MSG_USERAUTH_REQUEST (which is *expected*) it then fails because a user is already set? That looks fundamentally wrong.\n\nPublicKeyAuthenticator.authenticate() does not do the whole authentication. It cannot, because it doesn\u0027t have the signature. It only tells whether a particular username/key combination allows log-in at all. If not: game over. But if yes, then the framework additionally validates the signature sent in the request, and only if that check also passes the user is authenticated.\n\n[1] https://datatracker.ietf.org/doc/html/rfc4252#section-7",
+      "parentUuid": "566f5a01_720eb530",
+      "revId": "c335ba1f36384fc822c2975f194f340bd27fb3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d385ba3_a6109d1a",
         "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
         "patchSetId": 1

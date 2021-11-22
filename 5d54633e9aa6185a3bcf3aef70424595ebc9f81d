@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f40a8f78_ad8fc278",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-22T13:22:42Z",
+      "side": 1,
+      "message": "Everything is done in following change. THis is just rename so it\u0027s easier to review",
+      "parentUuid": "634a6614_07ebf4cf",
+      "revId": "5d54633e9aa6185a3bcf3aef70424595ebc9f81d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cb2c972_78d84765",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-22T13:10:36Z",
       "side": 1,
       "message": "await element.updateComplete?",
+      "revId": "5d54633e9aa6185a3bcf3aef70424595ebc9f81d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1698d1c0_f0f818fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-22T13:22:42Z",
+      "side": 1,
+      "message": "Everything is done in following change. THis is just rename so it\u0027s easier to review",
+      "parentUuid": "8cb2c972_78d84765",
       "revId": "5d54633e9aa6185a3bcf3aef70424595ebc9f81d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

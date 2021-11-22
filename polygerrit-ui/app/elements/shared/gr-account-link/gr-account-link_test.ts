@@ -16,19 +16,38 @@
  */
 
 import '../../../test/common-test-setup-karma';
+import {fixture} from '@open-wc/testing-helpers';
+import {html} from 'lit';
 import './gr-account-link';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrAccountLink} from './gr-account-link';
-import {createAccountWithId} from '../../../test/test-data-generators';
+import {
+  createAccountWithId,
+  createAccountWithIdNameAndEmail,
+} from '../../../test/test-data-generators';
 import {AccountId, AccountInfo, EmailAddress} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-account-link');
 
 suite('gr-account-link tests', () => {
   let element: GrAccountLink;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    const account = createAccountWithIdNameAndEmail();
+    element = await fixture<GrAccountLink>(
+      html`<gr-account-link .account=${account}></gr-account-link>`
+    );
+  });
+
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(`<span>
+      <a href="">
+        <gr-account-label
+          deselected=""
+          exportparts="gr-account-label-text: gr-account-link-text"
+        >
+        </gr-account-label>
+      </a>
+    </span>
+  `);
   });
 
   test('computed fields', () => {

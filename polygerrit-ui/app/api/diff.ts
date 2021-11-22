@@ -50,6 +50,8 @@ export declare interface DiffInfo {
   content: DiffContent[];
   /** Whether the file is binary. */
   binary?: boolean;
+  /** A list of strings representing the patch set diff header. */
+  diff_header?: string[];
 }
 
 /**

@@ -71,7 +71,7 @@ public class AgreementsIT extends AbstractDaemonTest {
       config.updateProject(
           p -> p.setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, value));
       config.commit(md);
-      projectCache.evict(config.getProject());
+      projectCache.evictAndReindex(config.getProject());
     }
   }
 

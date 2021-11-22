@@ -202,7 +202,6 @@ import {
   hasAttention,
 } from '../../../utils/attention-set-util';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
-import {preferenceDiffViewMode$} from '../../../services/user/user-model';
 import {change$, changeLoading$} from '../../../services/change/change-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
@@ -562,7 +561,8 @@ export class GrChangeView extends base {
 
   readonly restApiService = getAppContext().restApiService;
 
-  private readonly userService = getAppContext().userService;
+  // Private but used in tests.
+  readonly userModel = getAppContext().userModel;
 
   private readonly commentsService = getAppContext().commentsService;
 
@@ -648,7 +648,7 @@ export class GrChangeView extends base {
       })
     );
     this.subscriptions.push(
-      preferenceDiffViewMode$.subscribe(diffViewMode => {
+      this.userModel.preferenceDiffViewMode$.subscribe(diffViewMode => {
         this.diffViewMode = diffViewMode;
       })
     );
@@ -790,9 +790,9 @@ export class GrChangeView extends base {
 
   _handleToggleDiffMode() {
     if (this.diffViewMode === DiffViewMode.SIDE_BY_SIDE) {
-      this.userService.updatePreferences({diff_view: DiffViewMode.UNIFIED});
+      this.userModel.updatePreferences({diff_view: DiffViewMode.UNIFIED});
     } else {
-      this.userService.updatePreferences({
+      this.userModel.updatePreferences({
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       });
     }

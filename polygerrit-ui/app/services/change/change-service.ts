@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Subscription} from 'rxjs';
+import {from, Subscription} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 import {routerChangeNum$} from '../router/router-model';
 import {change$, updateStateChange, updateStatePath} from './change-model';
 import {ParsedChangeInfo} from '../../types/types';
@@ -36,8 +37,20 @@ export class ChangeService implements Finalizable {
     // calls from a switchMap() here. For now just make sure to invalidate the
     // change when no changeNum is set.
     this.subscriptions.push(
-      routerChangeNum$.subscribe(changeNum => {
-        if (!changeNum) updateStateChange(undefined);
+      routerChangeNum$.pipe(
+        // The change service is currently a singleton, so we have to be
+        // careful to avoid situations where the application state is
+        // partially set for the old change where the user is coming from,
+        // and partially for the new change where the user is navigating to.
+        // So setting the change explicitly to undefined when the user
+        // moves away from diff and change pages (changeNum === undefined)
+        // helps with that.
+        switchMap(changeNum =>
+          from(this.restApiService.getChangeDetail(changeNum))
+        )
+      )
+      .subscribe(change => {
+        updateStateChange(change ?? undefined);
       })
     );
     this.subscriptions.push(
@@ -52,17 +65,22 @@ export class ChangeService implements Finalizable {
       s.unsubscribe();
     }
     this.subscriptions.splice(0, this.subscriptions.length);
-  }
-
-  /**
-   * This is a temporary indirection between change-view, which currently
-   * manages what the current change is, and the change-model, which will
-   * become the source of truth in the future. We will extract a substantial
-   * amount of code from change-view and move it into this change-service. This
-   * will take some time ...
-   */
-  updateChange(change: ParsedChangeInfo) {
-    updateStateChange(change);
+    routerChangeNum$
+      .pipe(
+        // The change service is currently a singleton, so we have to be
+        // careful to avoid situations where the application state is
+        // partially set for the old change where the user is coming from,
+        // and partially for the new change where the user is navigating to.
+        // So setting the change explicitly to undefined when the user
+        // moves away from diff and change pages (changeNum === undefined)
+        // helps with that.
+        switchMap(changeNum =>
+          from(this.restApiService.getChangeDetail(changeNum))
+        )
+      )
+      .subscribe(change => {
+        updateStateChange(change ?? undefined);
+      });
   }
 
   // Temporary workaround until path is derived in the model itself.

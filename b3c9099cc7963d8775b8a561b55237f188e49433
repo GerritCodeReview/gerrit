@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6c865ad_6b9b55cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:37:53Z",
+      "side": 1,
+      "message": "That is beyond the scope of this change.",
+      "parentUuid": "dd80e821_c4e037c1",
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e673d96_2bec8c3d",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e29e1c76_d1ad75ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e673d96_2bec8c3d",
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "796bcd39_9ed6af8a",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-11-22T15:15:38Z",
       "side": 1,
       "message": "Isn\u0027t it possible for this._change to be exactly the same as change in which this assignment can be skipped?\nThis probably fixes the issue of certain properties being reset when nothing changes after coming back to change view?\n\nI quickly checked and this fixes the regression I mentioned in the other comment.",
+      "range": {
+        "startLine": 658,
+        "startChar": 6,
+        "endLine": 658,
+        "endChar": 40
+      },
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bf8e6ea_52ad833e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:37:53Z",
+      "side": 1,
+      "message": "It cannot be exactly the same object, because the state model only creates new objects. Creating and using a deepEqual method is beyond the scope of this change.",
+      "parentUuid": "796bcd39_9ed6af8a",
       "range": {
         "startLine": 658,
         "startChar": 6,
@@ -122,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a244fc5_64de6432",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1884,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:37:53Z",
+      "side": 1,
+      "message": "I would like this change to be as small as possible and avoid any refactorings. This is just a fix of a user facing problem.",
+      "parentUuid": "e2296d78_4bbf9bdf",
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e41d21b_66b381b0",
@@ -135,6 +213,24 @@
       "writtenOn": "2021-11-22T13:54:55Z",
       "side": 1,
       "message": "This block of code can probably be split up into smaller methods with meaningful names.  It\u0027s rather large so hard to follow everything it\u0027s doing.",
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f1fe25e_a7126992",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1885,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:37:53Z",
+      "side": 1,
+      "message": "I would like this change to be as small as possible and avoid any refactorings. This is just a fix of a user facing problem.",
+      "parentUuid": "5e41d21b_66b381b0",
       "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -209,6 +305,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "443b6685_c4427bbd",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:37:53Z",
+      "side": 1,
+      "message": "Added comments.",
+      "parentUuid": "ae192256_215bf354",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 33
+      },
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53ca1c00_64bb82fe",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8309ea23_e3d86286",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 33
+      },
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d79e147_b492d036",
@@ -222,6 +366,24 @@
       "writtenOn": "2021-11-22T13:54:55Z",
       "side": 1,
       "message": "Please add tests for this new logic.",
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee3fbb54_6054300a",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d79e147_b492d036",
       "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

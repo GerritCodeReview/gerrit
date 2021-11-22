@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95f38b54_d8314220",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T18:41:36Z",
+      "side": 1,
+      "message": "Thanks! ",
+      "revId": "b92b71fba71c2e6f939cda3080b35a3483b875a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ada3a89_6403f7c4",
@@ -68,6 +85,24 @@
       "side": 1,
       "message": "It is updated by line 92 I think. I would be surprised if this didn\u0027t work, because this was done for tabs that are usually next to each other.",
       "parentUuid": "2f700d23_94541679",
+      "revId": "b92b71fba71c2e6f939cda3080b35a3483b875a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7127df55_2009f9eb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T18:41:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9c880c6d_123a2944",
       "revId": "b92b71fba71c2e6f939cda3080b35a3483b875a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

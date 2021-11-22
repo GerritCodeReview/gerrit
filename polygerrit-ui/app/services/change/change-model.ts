@@ -108,6 +108,11 @@ export const change$ = changeState$.pipe(
   distinctUntilChanged()
 );
 
+export const changeLoading$ = change$.pipe(
+  map(change => change === undefined),
+  distinctUntilChanged()
+);
+
 export const diffPath$ = changeState$.pipe(
   map(changeState => changeState?.diffPath),
   distinctUntilChanged()

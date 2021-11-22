@@ -125,6 +125,8 @@ import {
 import {
   diffPath$,
   currentPatchNum$,
+  change$,
+  changeLoading$,
 } from '../../../services/change/change-model';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
@@ -389,12 +391,16 @@ export class GrDiffView extends base {
       this._loggedIn = loggedIn;
     });
 
+    change$.pipe(takeUntil(this.disconnected$)).subscribe(change => {
+      // The diff view is tied to a specfic change number, so don't update
+      // _change to undefined.
+      if (change) this._change = change;
+    });
     changeComments$
       .pipe(takeUntil(this.disconnected$))
       .subscribe(changeComments => {
         this._changeComments = changeComments;
       });
-
     preferences$.pipe(takeUntil(this.disconnected$)).subscribe(preferences => {
       this._userPrefs = preferences;
     });
@@ -494,15 +500,6 @@ export class GrDiffView extends base {
     if (!project) return;
     return this.restApiService.getProjectConfig(project).then(config => {
       this._projectConfig = config;
-    });
-  }
-
-  _getChangeDetail(changeNum: NumericChangeId) {
-    return this.restApiService.getChangeDetail(changeNum).then(change => {
-      if (!change) throw new Error('Missing "change" in API response.');
-      this.changeService.updateChange(change);
-      this._change = change;
-      return change;
     });
   }
 
@@ -1138,7 +1135,7 @@ export class GrDiffView extends base {
     }
 
     const promises: Promise<unknown>[] = [];
-    if (!this._change) promises.push(this._getChangeDetail(this._changeNum));
+    if (!this._change) promises.push(until(changeLoading$, isFalse));
     promises.push(until(commentsLoading$, isFalse));
     promises.push(
       this._getChangeEdit().then(edit => {

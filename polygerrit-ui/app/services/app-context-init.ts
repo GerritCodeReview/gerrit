@@ -29,7 +29,7 @@ import {ConfigService} from './config/config-service';
 import {UserService} from './user/user-service';
 import {CommentsService} from './comments/comments-service';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
-import {BrowserService} from './browser/browser-service';
+import {BrowserModel} from './browser/browser-model';
 import {assertIsDefined} from '../utils/common-util';
 
 /**
@@ -82,7 +82,7 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new ShortcutsService(ctx.reportingService!);
     },
-    browserService: (_ctx: Partial<AppContext>) => new BrowserService(),
+    browserModel: (_ctx: Partial<AppContext>) => new BrowserModel(),
   };
   return create<AppContext>(appRegistry);
 }

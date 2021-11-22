@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeb3883f_09b5275d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-22T14:29:58Z",
+      "side": 1,
+      "message": "should this be @state ? It seems like it\u0027s never passed in and only set internally. https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_html.ts;l\u003d152;drc\u003d4037d2f819d95ec0034086cb893bc4df1dec93d7\n\nI think it is read by a parent though so it can\u0027t be private. WDYT?",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 12
+      },
+      "revId": "df16ae9cc24ecda9e909c4ad3ac9ddfc8b898fc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "093918d5_5bd5a369",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-22T14:29:58Z",
+      "side": 1,
+      "message": "can you query for \u003ctr\u003e\u0027s or something and assert that count matches SHOWN_ITEMS_COUNT? This test isn\u0027t currently checking that we are doing the slicing in the component.",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 77
+      },
+      "revId": "df16ae9cc24ecda9e909c4ad3ac9ddfc8b898fc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

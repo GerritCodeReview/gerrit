@@ -1000,7 +1000,7 @@ public class ProjectIT extends AbstractDaemonTest {
       ProjectConfig config = projectConfigFactory.read(md);
       config.renameGroup(AccountGroup.uuid(group.id), newName);
       config.commit(md);
-      projectCache.evict(config.getProject());
+      projectCache.evictAndReindex(config.getProject());
     }
 
     Optional<String> afterRename =

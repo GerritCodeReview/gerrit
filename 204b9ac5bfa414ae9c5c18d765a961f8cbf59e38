@@ -249,6 +249,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e1fd60f8_be8a0adb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T14:32:29Z",
+      "side": 1,
+      "message": "takeUntil() causes the observable to complete and thus the subscription to terminate. It is a recommended pattern, but it does also have pitfalls:\n\nhttps://benlesh.medium.com/rxjs-dont-unsubscribe-6753ed4fda87\nhttps://cartant.medium.com/rxjs-avoiding-takeuntil-leaks-fb5182d047ef",
+      "parentUuid": "bdcfd73e_9fefef37",
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a5df74de_52a5e80f",
         "filename": "polygerrit-ui/app/services/change/change-service.ts",
         "patchSetId": 17
@@ -319,6 +337,30 @@
       "side": 1,
       "message": "So... ideally all I have to check is that the Registry only has string keys but my Typescript Foo is not strong enough.\n\nI\u0027m not sure I like introducing a new Context type. \n\nTContext extends Context also doesn\u0027t guarantee that it\u0027s *only* string keys afaiu",
       "parentUuid": "d8e54f9b_af11aafc",
+      "range": {
+        "startLine": 39,
+        "startChar": 31,
+        "endLine": 39,
+        "endChar": 50
+      },
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76c69ea9_1e0d8015",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T14:32:29Z",
+      "side": 1,
+      "message": "I had downloaded your change and applied my suggestions, and it was surprisingly easy. I find it a bit weird that TContext can by anything and that you have \"as\" and \"any\" too much in the code. But I won\u0027t block the change. I can send a follow-up, if it bugs me and I find the time. :-)",
+      "parentUuid": "1096266a_bf9b4e1b",
       "range": {
         "startLine": 39,
         "startChar": 31,

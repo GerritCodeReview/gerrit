@@ -1160,7 +1160,23 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       label.setCanOverride(
           rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, LabelType.DEF_CAN_OVERRIDE));
       List<String> refPatterns = getStringListOrNull(rc, LABEL, name, KEY_BRANCH);
-      label.setRefPatterns(refPatterns == null ? null : ImmutableList.copyOf(refPatterns));
+      if (refPatterns == null) {
+        label.setRefPatterns(null);
+      } else {
+        for (String pattern : refPatterns) {
+          if (pattern.startsWith("^")) {
+            try {
+              Pattern.compile(pattern);
+            } catch (PatternSyntaxException e) {
+              error(
+                  String.format(
+                      "Invalid ref pattern \"%s\" in %s.%s.%s: %s",
+                      pattern, LABEL, name, KEY_BRANCH, e.getMessage()));
+            }
+          }
+        }
+        label.setRefPatterns(ImmutableList.copyOf(refPatterns));
+      }
       labelSections.put(name, label.build());
     }
   }

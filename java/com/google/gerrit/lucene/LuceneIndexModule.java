@@ -18,6 +18,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.project.ProjectIndex;
+import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.VersionManager;
@@ -29,6 +30,7 @@ import java.util.Map;
 import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
 
+@ModuleImpl(name = AbstractIndexModule.INDEX_MODULE)
 public class LuceneIndexModule extends AbstractIndexModule {
   private final AutoFlush autoFlush;
 

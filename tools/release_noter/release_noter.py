@@ -172,7 +172,6 @@ class Components(Enum):
     )
     doc = Component("Documentation", {"document"})
     jgit = Component("JGit", {"jgit"})
-    elastic = Component("Elasticsearch", {"elastic"})
     deps = Component("Other dependency", {"upgrade", "dependenc"})
     otherwise = Component("Other core", {})
 

@@ -26,8 +26,6 @@ guava
 guice-assistedinject
 guice-library
 guice-servlet
-httpasyncclient
-httpcore-nio
 j2objc
 jackson-annotations
 jackson-core

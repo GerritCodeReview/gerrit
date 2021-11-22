@@ -50,7 +50,6 @@ import {BindValueChangeEvent} from '../../../types/events';
 import {deepClone} from '../../../utils/object-util';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
-import {preferences$} from '../../../services/user/user-model';
 import {subscribe} from '../../lit/subscription-controller';
 
 const STATES = {
@@ -122,11 +121,12 @@ export class GrRepo extends LitElement {
 
   @state() private pluginConfigChanged = false;
 
+  private readonly userModel = getAppContext().userModel;
   private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();
-    subscribe(this, preferences$, prefs => {
+    subscribe(this, this.userModel.preferences$, prefs => {
       if (prefs?.download_scheme) {
         // Note (issue 5180): normalize the download scheme with lower-case.
         this.selectedScheme = prefs.download_scheme.toLowerCase();

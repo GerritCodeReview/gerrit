@@ -118,10 +118,6 @@ import {filter, take} from 'rxjs/operators';
 import {Subscription, combineLatest} from 'rxjs';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {
-  preferences$,
-  diffPreferences$,
-} from '../../../services/user/user-model';
-import {
   diffPath$,
   currentPatchNum$,
   change$,
@@ -359,11 +355,12 @@ export class GrDiffView extends base {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly userService = getAppContext().userService;
+  // Private but used in tests.
+  readonly userModel = getAppContext().userModel;
 
   private readonly changeService = getAppContext().changeService;
 
-  // Private but used in tests
+  // Private but used in tests.
   readonly browserModel = getAppContext().browserModel;
 
   // We just want to make sure that CommentsService is instantiated.
@@ -401,12 +398,12 @@ export class GrDiffView extends base {
     );
 
     this.subscriptions.push(
-      preferences$.subscribe(preferences => {
+      this.userModel.preferences$.subscribe(preferences => {
         this._userPrefs = preferences;
       })
     );
     this.subscriptions.push(
-      diffPreferences$.subscribe(diffPreferences => {
+      this.userModel.diffPreferences$.subscribe(diffPreferences => {
         this._prefs = diffPreferences;
       })
     );
@@ -423,7 +420,10 @@ export class GrDiffView extends base {
     // properties since the method will be called anytime a property updates
     // but we only want to call this on the initial load.
     this.subscriptions.push(
-      combineLatest(currentPatchNum$, routerView$, diffPath$, diffPreferences$)
+      combineLatest(
+        currentPatchNum$,
+        routerView$, diffPath$,
+        this.userModel.diffPreferences$)
         .pipe(
           filter(
             ([currentPatchNum, routerView, path, diffPrefs]) =>
@@ -784,9 +784,9 @@ export class GrDiffView extends base {
   _handleToggleDiffMode() {
     if (!this._userPrefs) return;
     if (this._userPrefs.diff_view === DiffViewMode.SIDE_BY_SIDE) {
-      this.userService.updatePreferences({diff_view: DiffViewMode.UNIFIED});
+      this.userModel.updatePreferences({diff_view: DiffViewMode.UNIFIED});
     } else {
-      this.userService.updatePreferences({
+      this.userModel.updatePreferences({
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       });
     }
@@ -1764,7 +1764,7 @@ export class GrDiffView extends base {
   }
 
   _handleReloadingDiffPreference() {
-    this.userService.getDiffPreferences();
+    this.userModel.getDiffPreferences();
   }
 
   _computeCanEdit(

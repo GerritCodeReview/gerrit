@@ -65,7 +65,6 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {modifierPressed} from '../../../utils/dom-util';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {account$} from '../../../services/user/user-model';
 import {
   changeComments$,
   threads$,
@@ -412,6 +411,7 @@ export class GrChangeSummary extends LitElement {
 
   private showAllChips = new Map<RunStatus | Category, boolean>();
 
+  private userModel = getAppContext().userModel;
   private checksService = getAppContext().checksService;
 
   constructor() {
@@ -428,7 +428,7 @@ export class GrChangeSummary extends LitElement {
     subscribe(this, topLevelActionsLatest$, x => (this.actions = x));
     subscribe(this, changeComments$, x => (this.changeComments = x));
     subscribe(this, threads$, x => (this.commentThreads = x));
-    subscribe(this, account$, x => (this.selfAccount = x));
+    subscribe(this, this.userModel.account$, x => (this.selfAccount = x));
   }
 
   static override get styles() {

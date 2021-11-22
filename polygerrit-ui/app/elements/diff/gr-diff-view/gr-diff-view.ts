@@ -96,7 +96,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrDiffCursor} from '../gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
-import {LineOfInterest} from '../gr-diff/gr-diff';
+import {DisplayLine} from '../gr-diff/gr-diff';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
 import {
   CommentMap,
@@ -1220,14 +1220,17 @@ export class GrDiffView extends base {
     this.cursor.initialLineNumber = this._focusLineNum;
   }
 
-  _getLineOfInterest(leftSide: boolean): LineOfInterest | undefined {
+  _getLineOfInterest(leftSide: boolean): DisplayLine | undefined {
     // If there is a line number specified, pass it along to the diff so that
     // it will not get collapsed.
     if (!this._focusLineNum) {
       return undefined;
     }
 
-    return {number: this._focusLineNum, leftSide};
+    return {
+      lineNum: this._focusLineNum,
+      side: leftSide ? Side.LEFT : Side.RIGHT,
+    };
   }
 
   _pathChanged(path: string) {

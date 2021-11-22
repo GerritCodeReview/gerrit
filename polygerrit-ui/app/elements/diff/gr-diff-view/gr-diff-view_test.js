@@ -31,7 +31,6 @@ import {
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
 import {Side} from '../../../api/diff.js';
-import {_testOnly_setState as setUserModelState, _testOnly_getState as getUserModelState} from '../../../services/user/user-model.js';
 import {_testOnly_setState as setChangeModelState} from '../../../services/change/change-model.js';
 import {_testOnly_setState as setCommentState} from '../../../services/comments/comments-model.js';
 
@@ -1199,7 +1198,7 @@ suite('gr-diff-view tests', () => {
         ...createDefaultDiffPrefs(),
         manual_review: true,
       };
-      setUserModelState({...getUserModelState(), diffPreferences});
+      element.userModel.setDiffPreferences(diffPreferences);
       setChangeModelState({change: createChange(), diffPath: '/COMMIT_MSG'});
 
       setRouterModelState({
@@ -1216,8 +1215,7 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(getReviewedStub.called);
 
       // if prefs are updated then the reviewed status should not be set again
-      setUserModelState({...getUserModelState(),
-        diffPreferences: createDefaultDiffPrefs()});
+      element.userModel.setDiffPreferences(createDefaultDiffPrefs());
 
       await flush();
       assert.isFalse(saveReviewedStub.called);
@@ -1237,7 +1235,7 @@ suite('gr-diff-view tests', () => {
             ...createDefaultDiffPrefs(),
             manual_review: false,
           };
-          setUserModelState({...getUserModelState(), diffPreferences});
+          element.userModel.setDiffPreferences(diffPreferences);
           setChangeModelState({change: createChange(),
             diffPath: '/COMMIT_MSG'});
 
@@ -1262,8 +1260,7 @@ suite('gr-diff-view tests', () => {
           .callsFake(() => Promise.resolve());
       sinon.stub(element.$.diffHost, 'reload');
 
-      setUserModelState({...getUserModelState(),
-        diffPreferences: createDefaultDiffPrefs()});
+      element.userModel.setDiffPreferences(createDefaultDiffPrefs());
       setChangeModelState({change: createChange(), diffPath: '/COMMIT_MSG'});
 
       setRouterModelState({

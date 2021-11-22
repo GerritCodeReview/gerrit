@@ -29,7 +29,7 @@ import {ChangeService} from '../services/change/change-service';
 import {ChecksService} from '../services/checks/checks-service';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {ConfigService} from '../services/config/config-service';
-import {UserService} from '../services/user/user-service';
+import {UserModel} from '../services/user/user-model';
 import {CommentsService} from '../services/comments/comments-service';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {BrowserModel} from '../services/browser/browser-model';
@@ -68,15 +68,19 @@ export function _testOnlyInitAppContext() {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new ConfigService(ctx.restApiService!);
     },
-    userService: (ctx: Partial<AppContext>) => {
+    userModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new UserService(ctx.restApiService!);
+      return new UserModel(ctx.restApiService!);
     },
     shortcutsService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.userModel, 'userModel');
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ShortcutsService(ctx.reportingService!);
+      return new ShortcutsService(ctx.userModel!, ctx.reportingService!);
     },
-    browserModel: (_ctx: Partial<AppContext>) => new BrowserModel(),
+    browserModel: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.userModel, 'userModel');
+      return new BrowserModel(ctx.userModel!);
+    },
   };
   appContext = create<AppContext>(appRegistry);
   injectAppContext(appContext);

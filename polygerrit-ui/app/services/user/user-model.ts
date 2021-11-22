@@ -14,16 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import {from, of, BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
+import {
+  DiffPreferencesInfo as DiffPreferencesInfoAPI,
+  DiffViewMode,
+} from '../../api/diff';
 import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {map, distinctUntilChanged} from 'rxjs/operators';
 import {
   createDefaultPreferences,
   createDefaultDiffPrefs,
 } from '../../constants/constants';
-import {DiffPreferencesInfo, DiffViewMode} from '../../api/diff';
+import {RestApiService} from '../gr-rest-api/gr-rest-api';
+import {DiffPreferencesInfo} from '../../types/diff';
+import {Finalizable} from '../registry';
+import {select} from '../../utils/observable-util';
 
-interface UserState {
+export interface UserState {
   /**
    * Keeps being defined even when credentials have expired.
    */
@@ -32,83 +40,122 @@ interface UserState {
   diffPreferences: DiffPreferencesInfo;
 }
 
-const initialState: UserState = {
-  preferences: createDefaultPreferences(),
-  diffPreferences: createDefaultDiffPrefs(),
-};
+export class UserModel implements Finalizable {
+  private readonly privateState$: BehaviorSubject<UserState> =
+    new BehaviorSubject({
+      preferences: createDefaultPreferences(),
+      diffPreferences: createDefaultDiffPrefs(),
+    });
 
-const privateState$ = new BehaviorSubject(initialState);
+  readonly account$: Observable<AccountDetailInfo | undefined> = select(
+    this.privateState$,
+    userState => userState.account
+  );
 
-export function _testOnly_resetState() {
-  // We cannot assign a new subject to privateState$, because all the selectors
-  // have already subscribed to the original subject. So we have to emit the
-  // initial state on the existing subject.
-  privateState$.next({...initialState});
+  /** Note that this may still be true, even if credentials have expired. */
+  readonly loggedIn$: Observable<boolean> = select(
+    this.account$,
+    account => !!account
+  );
+
+  readonly preferences$: Observable<PreferencesInfo> = select(
+    this.privateState$,
+    userState => userState.preferences
+  );
+
+  readonly diffPreferences$: Observable<DiffPreferencesInfo> = select(
+    this.privateState$,
+    userState => userState.diffPreferences
+  );
+
+  readonly preferenceDiffViewMode$: Observable<DiffViewMode> = select(
+    this.preferences$,
+    preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE
+  );
+
+  private readonly subscriptions: Subscription[] = [];
+
+  get userState$(): Observable<UserState> {
+    return this.privateState$;
+  }
+
+  constructor(readonly restApiService: RestApiService) {
+    this.subscriptions = [
+      from(this.restApiService.getAccount()).subscribe(
+        (account?: AccountDetailInfo) => {
+          this.setAccount(account);
+        }
+      ),
+      this.account$
+        .pipe(
+          switchMap(account => {
+            if (!account) return of(createDefaultPreferences());
+            return from(this.restApiService.getPreferences());
+          })
+        )
+        .subscribe((preferences?: PreferencesInfo) => {
+          this.setPreferences(preferences ?? createDefaultPreferences());
+        }),
+      this.account$
+        .pipe(
+          switchMap(account => {
+            if (!account) return of(createDefaultDiffPrefs());
+            return from(this.restApiService.getDiffPreferences());
+          })
+        )
+        .subscribe((diffPrefs?: DiffPreferencesInfoAPI) => {
+          this.setDiffPreferences(diffPrefs ?? createDefaultDiffPrefs());
+        }),
+    ];
+  }
+
+  finalize() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions.splice(0, this.subscriptions.length);
+  }
+
+  updatePreferences(prefs: Partial<PreferencesInfo>) {
+    this.restApiService
+      .savePreferences(prefs)
+      .then((newPrefs: PreferencesInfo | undefined) => {
+        if (!newPrefs) return;
+        this.setPreferences(newPrefs);
+      });
+  }
+
+  updateDiffPreference(diffPrefs: DiffPreferencesInfo) {
+    return this.restApiService
+      .saveDiffPreferences(diffPrefs)
+      .then((response: Response) => {
+        this.restApiService.getResponseObject(response).then(obj => {
+          const newPrefs = obj as unknown as DiffPreferencesInfo;
+          if (!newPrefs) return;
+          this.setDiffPreferences(newPrefs);
+        });
+      });
+  }
+
+  getDiffPreferences() {
+    return this.restApiService.getDiffPreferences().then(prefs => {
+      if (!prefs) return;
+      this.setDiffPreferences(prefs);
+    });
+  }
+
+  setPreferences(preferences: PreferencesInfo) {
+    const current = this.privateState$.getValue();
+    this.privateState$.next({...current, preferences});
+  }
+
+  setDiffPreferences(diffPreferences: DiffPreferencesInfo) {
+    const current = this.privateState$.getValue();
+    this.privateState$.next({...current, diffPreferences});
+  }
+
+  private setAccount(account?: AccountDetailInfo) {
+    const current = this.privateState$.getValue();
+    this.privateState$.next({...current, account});
+  }
 }
-
-export function _testOnly_setState(state: UserState) {
-  privateState$.next(state);
-}
-
-export function _testOnly_getState() {
-  return privateState$.getValue();
-}
-
-// Re-exporting as Observable so that you can only subscribe, but not emit.
-export const userState$: Observable<UserState> = privateState$;
-
-export function updateAccount(account?: AccountDetailInfo) {
-  const current = privateState$.getValue();
-  privateState$.next({...current, account});
-}
-
-export function updatePreferences(preferences: PreferencesInfo) {
-  const current = privateState$.getValue();
-  privateState$.next({...current, preferences});
-}
-
-export function updateDiffPreferences(diffPreferences: DiffPreferencesInfo) {
-  const current = privateState$.getValue();
-  privateState$.next({...current, diffPreferences});
-}
-
-export const account$ = userState$.pipe(
-  map(userState => userState.account),
-  distinctUntilChanged()
-);
-
-/** Note that this may still be true, even if credentials have expired. */
-export const loggedIn$ = account$.pipe(
-  map(account => !!account),
-  distinctUntilChanged()
-);
-
-export const preferences$ = userState$.pipe(
-  map(userState => userState.preferences),
-  distinctUntilChanged()
-);
-
-export const diffPreferences$ = userState$.pipe(
-  map(userState => userState.diffPreferences),
-  distinctUntilChanged()
-);
-
-export const preferenceDiffViewMode$ = preferences$.pipe(
-  map(preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE),
-  distinctUntilChanged()
-);
-
-export const myTopMenuItems$ = preferences$.pipe(
-  map(preferences => preferences?.my ?? []),
-  distinctUntilChanged()
-);
-
-export const sizeBarInChangeTable$ = preferences$.pipe(
-  map(prefs => !!prefs?.size_bar_in_change_table),
-  distinctUntilChanged()
-);
-
-export const disableShortcuts$ = preferences$.pipe(
-  map(preferences => preferences?.disable_keyboard_shortcuts ?? false),
-  distinctUntilChanged()
-);

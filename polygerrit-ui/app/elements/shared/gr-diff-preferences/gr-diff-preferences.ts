@@ -25,7 +25,6 @@ import {customElement, property} from '@polymer/decorators';
 import {DiffPreferencesInfo, IgnoreWhitespaceType} from '../../../types/diff';
 import {GrSelect} from '../gr-select/gr-select';
 import {getAppContext} from '../../../services/app-context';
-import {diffPreferences$} from '../../../services/user/user-model';
 
 export interface GrDiffPreferences {
   $: {
@@ -56,14 +55,14 @@ export class GrDiffPreferences extends PolymerElement {
   @property({type: Object})
   diffPrefs?: DiffPreferencesInfo;
 
-  private readonly userService = getAppContext().userService;
+  private readonly userModel = getAppContext().userModel;
 
   private subscriptions: Subscription[] = [];
 
   override connectedCallback() {
     super.connectedCallback();
     this.subscriptions.push(
-      diffPreferences$.subscribe(diffPreferences => {
+      this.userModel.diffPreferences$.subscribe(diffPreferences => {
         this.diffPrefs = diffPreferences;
       })
     );
@@ -142,7 +141,7 @@ export class GrDiffPreferences extends PolymerElement {
 
   async save() {
     if (!this.diffPrefs) return;
-    await this.userService.updateDiffPreference(this.diffPrefs);
+    await this.userModel.updateDiffPreference(this.diffPrefs);
     this.hasUnsavedChanges = false;
   }
 

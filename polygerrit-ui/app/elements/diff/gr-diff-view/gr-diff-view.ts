@@ -124,6 +124,8 @@ import {
 import {
   diffPath$,
   currentPatchNum$,
+  change$,
+  changeLoading$,
 } from '../../../services/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 
@@ -405,6 +407,13 @@ export class GrDiffView extends base {
         this._prefs = diffPreferences;
       })
     );
+    this.subscriptions.push(
+      change$.subscribe(change => {
+        // The diff view is tied to a specfic change number, so don't update
+        // _change to undefined.
+        if (change) this._change = change;
+      })
+    );
 
     // When user initially loads the diff view, we want to autmatically mark
     // the file as reviewed if they have it enabled. We can't observe these
@@ -499,15 +508,6 @@ export class GrDiffView extends base {
     if (!project) return;
     return this.restApiService.getProjectConfig(project).then(config => {
       this._projectConfig = config;
-    });
-  }
-
-  _getChangeDetail(changeNum: NumericChangeId) {
-    return this.restApiService.getChangeDetail(changeNum).then(change => {
-      if (!change) throw new Error('Missing "change" in API response.');
-      this.changeService.updateChange(change);
-      this._change = change;
-      return change;
     });
   }
 
@@ -1143,7 +1143,7 @@ export class GrDiffView extends base {
     }
 
     const promises: Promise<unknown>[] = [];
-    if (!this._change) promises.push(this._getChangeDetail(this._changeNum));
+    if (!this._change) promises.push(until(changeLoading$, isFalse));
     promises.push(until(commentsLoading$, isFalse));
     promises.push(
       this._getChangeEdit().then(edit => {

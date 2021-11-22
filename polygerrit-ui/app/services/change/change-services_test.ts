@@ -22,10 +22,14 @@ import {
   createChangeMessageInfo,
   createRevision,
 } from '../../test/test-data-generators';
-import {stubRestApi} from '../../test/test-utils';
+import {stubRestApi, waitUntil} from '../../test/test-utils';
 import {CommitId, PatchSetNum} from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../app-context';
+import {
+  GerritView,
+  _testOnly_setState as setRouterState,
+} from '../router/router-model';
 import {ChangeService} from './change-service';
 
 suite('change service tests', () => {
@@ -51,6 +55,29 @@ suite('change service tests', () => {
       current_revision: 'abc' as CommitId,
       messages: [],
     };
+  });
+
+  teardown(() => {
+    changeService.finalize();
+  });
+
+  test('changeService switching changes', async () => {
+    const change = knownChange;
+    const stub = stubRestApi('getChangeDetail').returns(
+      Promise.resolve(change)
+    );
+
+    setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
+    waitUntil(() => changeService.getChange() === knownChange);
+    assert.equal(stub.callCount, 1);
+
+    setRouterState({view: GerritView.DASHBOARD, changeNum: undefined});
+    waitUntil(() => changeService.getChange() === undefined);
+    assert.equal(stub.callCount, 2);
+
+    setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
+    waitUntil(() => changeService.getChange() === knownChange);
+    assert.equal(stub.callCount, 3);
   });
 
   test('changeService.fetchChangeUpdates on latest', async () => {

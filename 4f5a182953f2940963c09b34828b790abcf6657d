@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1765396_356e1953",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T14:00:33Z",
+      "side": 1,
+      "message": "Consider putting html` on the previous line so it reads more easily.",
+      "revId": "4f5a182953f2940963c09b34828b790abcf6657d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18bef453_8afa01ee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T14:00:33Z",
+      "side": 1,
+      "message": "Fold into one line.",
+      "revId": "4f5a182953f2940963c09b34828b790abcf6657d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a5c47c0_74055279",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T14:00:33Z",
+      "side": 1,
+      "message": "Purely for my own education on this shadowDom library: What if you create a fixture that does contain a slotted element, will it show up here or will it still show up as \u003cslot name \u003d ...\u003e?",
+      "revId": "4f5a182953f2940963c09b34828b790abcf6657d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7d216cd_f4504e21",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T14:00:33Z",
+      "side": 1,
+      "message": "Fold into one line.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 13
+      },
+      "revId": "4f5a182953f2940963c09b34828b790abcf6657d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca93d9e2_3de48a88",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T14:00:33Z",
+      "side": 1,
+      "message": "Move \u003c/iron-icon\u003e to previous line.",
+      "revId": "4f5a182953f2940963c09b34828b790abcf6657d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

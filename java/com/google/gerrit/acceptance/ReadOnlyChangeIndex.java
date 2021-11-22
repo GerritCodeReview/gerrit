@@ -45,6 +45,11 @@ class ReadOnlyChangeIndex implements ChangeIndex {
   }
 
   @Override
+  public void insert(ChangeData obj) {
+    // do nothing
+  }
+
+  @Override
   public void replace(ChangeData obj) {
     // do nothing
   }

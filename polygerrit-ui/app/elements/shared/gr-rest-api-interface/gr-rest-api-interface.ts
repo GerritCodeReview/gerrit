@@ -1112,10 +1112,11 @@ export class GrRestApiInterface
   }
 
   getChangeDetail(
-    changeNum: NumericChangeId,
+    changeNum?: NumericChangeId,
     errFn?: ErrorCallback,
     cancelCondition?: CancelConditionCallback
   ): Promise<ParsedChangeInfo | null | undefined> {
+    if (!changeNum) return Promise.resolve(undefined);
     return this.getConfig(false).then(config => {
       const optionsHex = this._getChangeOptionsHex(config);
       return this._getChangeDetail(

@@ -41,7 +41,7 @@ suite('gr-confirm-submit-dialog tests', () => {
       subject: 'my-subject',
       revisions: {},
     };
-    await flush();
+    await element.updateComplete;
     const header = queryAndAssert(element, '.header');
     assert.equal(header.textContent!.trim(), 'my-label');
 

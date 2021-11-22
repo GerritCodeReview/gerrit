@@ -68,6 +68,7 @@ import {
   createChangeViewChange,
   createRelatedChangeAndCommitInfo,
   createAccountDetailWithId,
+  createParsedChange,
 } from '../../../test/test-data-generators';
 import {ChangeViewPatchRange, GrChangeView} from './gr-change-view';
 import {
@@ -106,7 +107,8 @@ import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
-import {_testOnly_setState} from '../../../services/user/user-model';
+import {_testOnly_setState as setUserState} from '../../../services/user/user-model';
+import {_testOnly_setState as setChangeState} from '../../../services/change/change-model';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
@@ -674,15 +676,6 @@ suite('gr-change-view tests', () => {
         messages: createChangeMessages(1),
       };
       element._change.labels = {};
-      stubRestApi('getChangeDetail').callsFake(() =>
-        Promise.resolve({
-          ...createChangeViewChange(),
-          // element has latest info
-          revisions: createRevisions(1),
-          messages: createChangeMessages(1),
-          current_revision: 'rev1' as CommitId,
-        })
-      );
 
       const openSpy = sinon.spy(element, '_openReplyDialog');
 
@@ -825,7 +818,7 @@ suite('gr-change-view tests', () => {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       };
-      _testOnly_setState({
+      setUserState({
         preferences: prefs,
         diffPreferences: createDefaultDiffPrefs(),
       });
@@ -838,7 +831,7 @@ suite('gr-change-view tests', () => {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.UNIFIED,
       };
-      _testOnly_setState({
+      setUserState({
         preferences: newPrefs,
         diffPreferences: createDefaultDiffPrefs(),
       });
@@ -1036,7 +1029,7 @@ suite('gr-change-view tests', () => {
   suite('ChangeStatus revert', () => {
     test('do not show any chip if no revert created', async () => {
       const change = {
-        ...createChange(),
+        ...createParsedChange(),
         messages: createChangeMessages(2),
       };
       const getChangeStub = stubRestApi('getChange');
@@ -1066,7 +1059,7 @@ suite('gr-change-view tests', () => {
 
     test('do not show any chip if all reverts are abandoned', async () => {
       const change = {
-        ...createChange(),
+        ...createParsedChange(),
         messages: createChangeMessages(2),
       };
       change.messages[0].message = 'Created a revert of this change as 12345';
@@ -1104,7 +1097,7 @@ suite('gr-change-view tests', () => {
 
     test('show revert created if no revert is merged', async () => {
       const change = {
-        ...createChange(),
+        ...createParsedChange(),
         messages: createChangeMessages(2),
       };
       change.messages[0].message = 'Created a revert of this change as 12345';
@@ -1140,7 +1133,7 @@ suite('gr-change-view tests', () => {
 
     test('show revert submitted if revert is merged', async () => {
       const change = {
-        ...createChange(),
+        ...createParsedChange(),
         messages: createChangeMessages(2),
       };
       change.messages[0].message = 'Created a revert of this change as 12345';
@@ -1271,7 +1264,6 @@ suite('gr-change-view tests', () => {
       ...createChangeViewChange(),
       labels: {},
     } as ParsedChangeInfo;
-    stubRestApi('getChangeDetail').returns(Promise.resolve(change));
     element._changeNum = undefined;
     element._patchRange = {
       basePatchNum: ParentPatchSetNum,
@@ -1506,14 +1498,14 @@ suite('gr-change-view tests', () => {
 
   test('topic is coalesced to null', async () => {
     sinon.stub(element, '_changeChanged');
-    stubRestApi('getChangeDetail').returns(
-      Promise.resolve({
+    setChangeState({
+      change: {
         ...createChangeViewChange(),
         labels: {},
         current_revision: 'foo' as CommitId,
         revisions: {foo: createRevision()},
-      })
-    );
+      },
+    });
 
     await element._getChangeDetail();
     assert.isNull(element._change!.topic);
@@ -1521,14 +1513,14 @@ suite('gr-change-view tests', () => {
 
   test('commit sha is populated from getChangeDetail', async () => {
     sinon.stub(element, '_changeChanged');
-    stubRestApi('getChangeDetail').callsFake(() =>
-      Promise.resolve({
+    setChangeState({
+      change: {
         ...createChangeViewChange(),
         labels: {},
         current_revision: 'foo' as CommitId,
         revisions: {foo: createRevision()},
-      })
-    );
+      },
+    });
 
     await element._getChangeDetail();
     assert.equal('foo', element._commitInfo!.commit);
@@ -1537,14 +1529,14 @@ suite('gr-change-view tests', () => {
   test('edit is added to change', () => {
     sinon.stub(element, '_changeChanged');
     const changeRevision = createRevision();
-    stubRestApi('getChangeDetail').callsFake(() =>
-      Promise.resolve({
+    setChangeState({
+      change: {
         ...createChangeViewChange(),
         labels: {},
         current_revision: 'foo' as CommitId,
         revisions: {foo: {...changeRevision}},
-      })
-    );
+      },
+    });
     const editCommit: CommitInfo = {
       ...createCommit(),
       commit: 'bar' as CommitId,
@@ -1722,19 +1714,12 @@ suite('gr-change-view tests', () => {
     setup(() => {
       element._change = {
         ...createChangeViewChange(),
-        revisions: createRevisions(1),
+        // element has latest info
+        revisions: {rev1: createRevision()},
         messages: createChangeMessages(1),
+        current_revision: 'rev1' as CommitId,
+        labels: {},
       };
-      element._change.labels = {};
-      stubRestApi('getChangeDetail').callsFake(() =>
-        Promise.resolve({
-          ...createChangeViewChange(),
-          // element has latest info
-          revisions: {rev1: createRevision()},
-          messages: createChangeMessages(1),
-          current_revision: 'rev1' as CommitId,
-        })
-      );
     });
 
     test('show reply dialog on open-reply-dialog event', async () => {
@@ -1963,8 +1948,8 @@ suite('gr-change-view tests', () => {
   test('_selectedRevision updates when patchNum is changed', () => {
     const revision1: RevisionInfo = createRevision(1);
     const revision2: RevisionInfo = createRevision(2);
-    stubRestApi('getChangeDetail').returns(
-      Promise.resolve({
+    setChangeState({
+      change: {
         ...createChangeViewChange(),
         revisions: {
           aaa: revision1,
@@ -1973,8 +1958,9 @@ suite('gr-change-view tests', () => {
         labels: {},
         actions: {},
         current_revision: 'bbb' as CommitId,
-      })
-    );
+      },
+    });
+
     sinon.stub(element, '_getEdit').returns(Promise.resolve(false));
     sinon
       .stub(element, '_getPreferences')
@@ -1992,8 +1978,8 @@ suite('gr-change-view tests', () => {
     const revision1 = createRevision(1);
     const revision2 = createRevision(2);
     const revision3 = createEditRevision();
-    stubRestApi('getChangeDetail').returns(
-      Promise.resolve({
+    setChangeState({
+      change: {
         ...createChangeViewChange(),
         revisions: {
           aaa: revision1,
@@ -2003,8 +1989,8 @@ suite('gr-change-view tests', () => {
         labels: {},
         actions: {},
         current_revision: 'ccc' as CommitId,
-      })
-    );
+      },
+    });
     sinon.stub(element, '_getEdit').returns(Promise.resolve(undefined));
     sinon
       .stub(element, '_getPreferences')

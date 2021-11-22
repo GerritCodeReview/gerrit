@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25164eb6_bbf27e96",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T20:44:40Z",
+      "side": 1,
+      "message": "Is this used?",
+      "revId": "1a70aed23706dbe886b39f03ce80ba206f716c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b16f284_8ff1e9d4",
+        "filename": "polygerrit-ui/app/services/browser/browser-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T20:44:40Z",
+      "side": 1,
+      "message": "If this is exposed in viewState$(), then maybe it should be exported?",
+      "revId": "1a70aed23706dbe886b39f03ce80ba206f716c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d610e6c9_1a7ad88e",
+        "filename": "polygerrit-ui/app/services/browser/browser-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T20:44:40Z",
+      "side": 1,
+      "message": "Ideally all models can do without this. You should never have a need for calling this. Maybe from the model itself or from tests, but let\u0027s try to remove it or at least make it private. At the moment I think there are no usages?",
+      "revId": "1a70aed23706dbe886b39f03ce80ba206f716c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b54dac79_fb869ae6",
+        "filename": "polygerrit-ui/app/services/browser/browser-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T20:44:40Z",
+      "side": 1,
+      "message": "I find a separate selector for this as before more readable, but just my opinion. :-)",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 8
+      },
+      "revId": "1a70aed23706dbe886b39f03ce80ba206f716c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57101eec_5db06b35",
+        "filename": "polygerrit-ui/app/services/browser/browser-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T20:44:40Z",
+      "side": 1,
+      "message": "Not your change, but I think this is a bug. This should not be a parameter to map(), but to pipe(), so `distinctUntilChanged()` must move one char to the right after the closing parenthesis.",
+      "range": {
+        "startLine": 60,
+        "startChar": 9,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "1a70aed23706dbe886b39f03ce80ba206f716c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28c422e6_94b4c3f8",
+        "filename": "polygerrit-ui/app/services/browser/browser-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T20:44:40Z",
+      "side": 1,
+      "message": "Observe",
+      "range": {
+        "startLine": 64,
+        "startChar": 5,
+        "endLine": 64,
+        "endChar": 13
+      },
+      "revId": "1a70aed23706dbe886b39f03ce80ba206f716c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

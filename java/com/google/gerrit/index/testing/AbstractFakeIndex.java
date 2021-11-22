@@ -236,6 +236,9 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
       }
       return cd;
     }
+
+    @Override
+    public void insert(ChangeData obj) {}
   }
 
   /** Fake implementation of {@link AccountIndex} where all filtering happens in-memory. */
@@ -265,6 +268,9 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     protected Comparator<AccountState> sortingComparator() {
       return Comparator.comparing(a -> a.account().id().get());
     }
+
+    @Override
+    public void insert(AccountState obj) {}
   }
 
   /** Fake implementation of {@link GroupIndex} where all filtering happens in-memory. */
@@ -295,6 +301,9 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     protected Comparator<InternalGroup> sortingComparator() {
       return Comparator.comparing(g -> g.getId().get());
     }
+
+    @Override
+    public void insert(InternalGroup obj) {}
   }
 
   /** Fake implementation of {@link ProjectIndex} where all filtering happens in-memory. */
@@ -324,5 +333,8 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     protected Comparator<ProjectData> sortingComparator() {
       return Comparator.comparing(p -> p.getProject().getName());
     }
+
+    @Override
+    public void insert(ProjectData obj) {}
   }
 }

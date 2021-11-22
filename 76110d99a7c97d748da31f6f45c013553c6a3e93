@@ -68,6 +68,24 @@
       "message": "@luca, how can we use these changes from gerrit docker image ?",
       "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b6f7a4e_b62fca43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-22T09:19:17Z",
+      "side": 1,
+      "message": "I will release v3.3 and v3.4 today, so they will be also be available on Docker.",
+      "parentUuid": "8ccc879d_7a112d3b",
+      "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

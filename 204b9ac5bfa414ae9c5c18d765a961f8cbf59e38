@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ea76a35_e7dba428",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-22T14:14:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "48296200_daafd351",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4296481c_e8d9caaa",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "When running unit-tests I would get stack overflows in the test-log output related to \u0027subscribe\u0027 methods called by \u0027next\u0027 methods. I don\u0027t fully understand the internals of rxjs so I\u0027d have to dig deeper as to why this leaking happens.",
       "parentUuid": "4296481c_e8d9caaa",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "204b9ac5bfa414ae9c5c18d765a961f8cbf59e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d318a2ea_fa2a8f9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-22T14:14:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4de21ab1_2ae2d9e9",
       "range": {
         "startLine": 23,
         "startChar": 0,

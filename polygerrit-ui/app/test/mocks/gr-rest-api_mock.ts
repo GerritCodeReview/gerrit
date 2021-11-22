@@ -225,7 +225,10 @@ export const grRestApiMock: RestApiService = {
   getChangeConflicts(): Promise<ChangeInfo[] | undefined> {
     return Promise.resolve([]);
   },
-  getChangeDetail(): Promise<ParsedChangeInfo | null | undefined> {
+  getChangeDetail(
+    changeNum?: number | string
+  ): Promise<ParsedChangeInfo | null | undefined> {
+    if (changeNum === undefined) return Promise.resolve(undefined);
     return Promise.resolve(createChange() as ParsedChangeInfo);
   },
   getChangeEdit(): Promise<false | EditInfo | undefined> {

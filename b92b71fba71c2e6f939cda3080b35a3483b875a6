@@ -52,6 +52,24 @@
       "parentUuid": "e7b31a37_bddcb78e",
       "revId": "b92b71fba71c2e6f939cda3080b35a3483b875a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c880c6d_123a2944",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-22T18:39:16Z",
+      "side": 1,
+      "message": "It is updated by line 92 I think. I would be surprised if this didn\u0027t work, because this was done for tabs that are usually next to each other.",
+      "parentUuid": "2f700d23_94541679",
+      "revId": "b92b71fba71c2e6f939cda3080b35a3483b875a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

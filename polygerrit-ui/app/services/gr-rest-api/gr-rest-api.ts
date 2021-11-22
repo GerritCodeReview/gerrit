@@ -200,7 +200,7 @@ export interface RestApiService {
   ): Promise<BranchInfo[] | undefined>;
 
   getChangeDetail(
-    changeNum: number | string,
+    changeNum?: number | string,
     opt_errFn?: ErrorCallback,
     opt_cancelCondition?: Function
   ): Promise<ParsedChangeInfo | null | undefined>;

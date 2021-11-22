@@ -22,6 +22,30 @@
       },
       "revId": "4327dafac1823926298fe8e263ac98d1a30d5e3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e19ca38_94c88341",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T16:26:26Z",
+      "side": 0,
+      "message": "The computation of diffs on any code paths (e.g. listing files on the change page, detailed diff) loads entries in all new caches.\n\nThe default memory limit for old diff cache was 10mb. I kept the default as is in the new caches. It makes sense that the same advice still applies.\n\nI re-added the note under the `gerrit_file_diff` section.\n\n\u003e Related, do/should the new caches inherit any settings from cache.diff?\n\nNo they don\u0027t inherit, but they are configure with the same defaults. If you used custom attributes for old diff cache; can you just use the same with new caches? Or maybe with some tweaks (e.g. if you want to have the same disk limit, you could set each new cache to original_limit / 4).",
+      "parentUuid": "2d81d136_bb328a89",
+      "range": {
+        "startLine": 983,
+        "startChar": 0,
+        "endLine": 986,
+        "endChar": 9
+      },
+      "revId": "4327dafac1823926298fe8e263ac98d1a30d5e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

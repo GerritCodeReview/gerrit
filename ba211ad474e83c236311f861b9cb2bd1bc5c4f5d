@@ -64,6 +64,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c32249a_03588bbe",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T16:26:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9f46e2a_de53dda2",
+      "range": {
+        "startLine": 836,
+        "startChar": 30,
+        "endLine": 836,
+        "endChar": 34
+      },
+      "revId": "ba211ad474e83c236311f861b9cb2bd1bc5c4f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d93f141_a663bfdf",
@@ -81,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3566f23_6c6f4441",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T16:26:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d93f141_a663bfdf",
+      "revId": "ba211ad474e83c236311f861b9cb2bd1bc5c4f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f5984f7_dd3944b4",
@@ -94,6 +136,30 @@
       "writtenOn": "2021-10-28T18:06:19Z",
       "side": 1,
       "message": "Here too and in the next paragraph",
+      "range": {
+        "startLine": 1344,
+        "startChar": 26,
+        "endLine": 1344,
+        "endChar": 30
+      },
+      "revId": "ba211ad474e83c236311f861b9cb2bd1bc5c4f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b295e256_b4f3d20f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1344,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T16:26:26Z",
+      "side": 1,
+      "message": "Thanks. Done.",
+      "parentUuid": "5f5984f7_dd3944b4",
       "range": {
         "startLine": 1344,
         "startChar": 26,

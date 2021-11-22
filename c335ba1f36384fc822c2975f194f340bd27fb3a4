@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "566f5a01_720eb530",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-11-22T17:24:20Z",
+      "side": 1,
+      "message": "This is very strange (from your log):\n\n  send SSH_MSG_USERAUTH_PK_OK for key type\u003dsk-ecdsa-sha2-nistp256@openssh.com, fingerprint\u003dBufferException\n  \nThe fingerprint is certainly not \"BufferException\". Unfortunately Apache MINA sshd swallows the exception... :-( It most likely comes from [1], where there are two possibilities: unknown EC curve, or the putRawPublicKeyBytes() method cannot handle that sk-* key at all.\n\nIf you can give me that public key, I can try to do a little unit test for Apache MINA sshd to see what its problem with that key is. To me it looks as if something goes wrong with that authentication attempt, and the session is actually not authenticated.\n\n[1] https://github.com/apache/mina-sshd/blob/c7d83d0f/sshd-common/src/main/java/org/apache/sshd/common/util/buffer/Buffer.java#L965",
+      "parentUuid": "8e2b1090_d7f4191e",
+      "revId": "c335ba1f36384fc822c2975f194f340bd27fb3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d385ba3_a6109d1a",
         "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
         "patchSetId": 1

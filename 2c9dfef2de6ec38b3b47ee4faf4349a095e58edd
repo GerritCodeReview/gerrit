@@ -43,6 +43,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09844292_99db3443",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-22T08:48:56Z",
+      "side": 1,
+      "message": "It does I think",
+      "parentUuid": "93047889_676e43e9",
+      "range": {
+        "startLine": 135,
+        "startChar": 49,
+        "endLine": 135,
+        "endChar": 69
+      },
+      "revId": "2c9dfef2de6ec38b3b47ee4faf4349a095e58edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cebad081_5f8364ec",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-22T08:48:56Z",
+      "side": 1,
+      "message": "type: Garbage (extra \"d\" in this)",
+      "range": {
+        "startLine": 163,
+        "startChar": 10,
+        "endLine": 163,
+        "endChar": 37
+      },
+      "revId": "2c9dfef2de6ec38b3b47ee4faf4349a095e58edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5e059e8_57f15511",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands_test.ts",
         "patchSetId": 4

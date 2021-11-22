@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bfd53c10_afee41d3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2285,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-22T20:52:54Z",
+      "side": 1,
+      "message": "alternative?",
+      "range": {
+        "startLine": 2285,
+        "startChar": 43,
+        "endLine": 2285,
+        "endChar": 52
+      },
+      "revId": "a71cc26ee12cc0d1a8b8f861c9dc66659d3c4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0d0b558_a97ebe77",
         "filename": "java/com/google/gerrit/server/LibModuleType.java",
         "patchSetId": 8

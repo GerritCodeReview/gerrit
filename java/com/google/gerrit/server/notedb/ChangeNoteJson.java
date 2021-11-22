@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
@@ -45,6 +46,9 @@ public class ChangeNoteJson {
         .registerTypeAdapter(
             new TypeLiteral<ImmutableList<String>>() {}.getType(),
             new ImmutableListAdapter().nullSafe())
+        .registerTypeAdapter(
+            new TypeLiteral<Optional<Boolean>>() {}.getType(),
+            new OptionalBooleanAdapter().nullSafe())
         .registerTypeAdapter(ObjectId.class, new ObjectIdAdapter())
         .setPrettyPrinting()
         .create();
@@ -52,6 +56,35 @@ public class ChangeNoteJson {
 
   public Gson getGson() {
     return gson;
+  }
+
+  static class OptionalBooleanAdapter extends TypeAdapter<Optional<Boolean>> {
+    @Override
+    public void write(JsonWriter out, Optional<Boolean> value) throws IOException {
+      // Serialize the field using the same format used by the AutoValue's default Gson serializer.
+      out.beginObject();
+      out.name("value");
+      if (value.isPresent()) {
+        out.value(value.get());
+      } else {
+        out.nullValue();
+      }
+      out.endObject();
+    }
+
+    @Override
+    public Optional<Boolean> read(JsonReader in) throws IOException {
+      JsonElement parsed = new JsonParser().parse(in);
+      if (parsed.isJsonObject()) {
+        // If it's not a JSON object, then the boolean value is available directly in the Json
+        // element.
+        parsed = parsed.getAsJsonObject().get("value");
+      }
+      if (parsed.isJsonNull()) {
+        return Optional.empty();
+      }
+      return Optional.of(parsed.getAsBoolean());
+    }
   }
 
   /** Json serializer for the {@link ObjectId} class. */

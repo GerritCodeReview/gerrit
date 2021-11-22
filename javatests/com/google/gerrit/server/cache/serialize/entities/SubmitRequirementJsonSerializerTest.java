@@ -216,4 +216,21 @@ public class SubmitRequirementJsonSerializerTest {
     assertThat(SubmitRequirementResult.typeAdapter(gson).fromJson(srResultSerialJgitFormat))
         .isEqualTo(srReqResult);
   }
+
+  @Test
+  public void submitRequirementResult_deserializeNonOptionalLegacyField() throws Exception {
+    String srResultSerialOldLegacyFieldFormat =
+        srReqResultSerial.replace("\"legacy\":{\"value\":true}", "\"legacy\":true");
+
+    assertThat(
+            SubmitRequirementResult.typeAdapter(gson).fromJson(srResultSerialOldLegacyFieldFormat))
+        .isEqualTo(srReqResult);
+  }
+
+  @Test
+  public void submitRequirementResult_emptyLegacyField_roundTrip() throws Exception {
+    SubmitRequirementResult srResult = srReqResult.toBuilder().legacy(Optional.empty()).build();
+    TypeAdapter<SubmitRequirementResult> adapter = SubmitRequirementResult.typeAdapter(gson);
+    assertThat(adapter.fromJson(adapter.toJson(srResult))).isEqualTo(srResult);
+  }
 }

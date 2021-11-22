@@ -31,7 +31,6 @@ import {
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
 import {Side} from '../../../api/diff.js';
-import {EventType} from '../../../types/events.js';
 import {_testOnly_setState as browserModelSetState} from '../../../services/browser/browser-model.js';
 import {_testOnly_setState as setUserModelState, _testOnly_getState as getUserModelState} from '../../../services/user/user-model.js';
 import {_testOnly_setState as setChangeModelState} from '../../../services/change/change-model.js';
@@ -58,13 +57,10 @@ suite('gr-diff-view tests', () => {
       };
     }
 
-    let getChangeDetailStub;
     setup(async () => {
       stubRestApi('getConfig').returns(Promise.resolve({change: {}}));
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getProjectConfig').returns(Promise.resolve({}));
-      getChangeDetailStub = stubRestApi('getChangeDetail').returns(
-          Promise.resolve({}));
       stubRestApi('getChangeFiles').returns(Promise.resolve({}));
       stubRestApi('saveFileReviewed').returns(Promise.resolve());
       diffCommentsStub = stubRestApi('getDiffComments');
@@ -145,10 +141,10 @@ suite('gr-diff-view tests', () => {
         sinon.stub(element.reporting, 'diffViewDisplayed');
         sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
         sinon.spy(element, '_paramsChanged');
-        sinon.stub(element, '_getChangeDetail').returns(Promise.resolve({
+        setChangeModelState({change: {
           ...createChange(),
           revisions: createRevisions(11),
-        }));
+        }});
       });
 
       test('comment url resolves to comment.patch_set vs latest', () => {
@@ -254,10 +250,10 @@ suite('gr-diff-view tests', () => {
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
           sinon.stub(element, '_isFileUnchanged').returns(true);
           sinon.spy(element, '_paramsChanged');
-          sinon.stub(element, '_getChangeDetail').returns(Promise.resolve({
+          setChangeModelState({change: {
             ...createChange(),
             revisions: createRevisions(11),
-          }));
+          }});
           element.params = {
             view: GerritNav.View.DIFF,
             changeNum: '42',
@@ -306,10 +302,10 @@ suite('gr-diff-view tests', () => {
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
           sinon.stub(element, '_isFileUnchanged').returns(true);
           sinon.spy(element, '_paramsChanged');
-          sinon.stub(element, '_getChangeDetail').returns(Promise.resolve({
+          setChangeModelState({change: {
             ...createChange(),
             revisions: createRevisions(11),
-          }));
+          }});
           element.params = {
             view: GerritNav.View.DIFF,
             changeNum: '42',
@@ -357,61 +353,6 @@ suite('gr-diff-view tests', () => {
       assert.equal(element._isFileUnchanged(diff), true);
     });
 
-    test('change detail is not rerequested if changeNum doesnt change',
-        async () => {
-          const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
-          assert.isFalse(getChangeDetailStub.called);
-          sinon.stub(element.reporting, 'diffViewDisplayed');
-          sinon.stub(element, '_loadBlame');
-          sinon.stub(element, '_pathChanged');
-          sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-          sinon.spy(element, '_paramsChanged');
-          element._change = undefined;
-          getChangeDetailStub.returns(
-              Promise.resolve({
-                ...createChange(),
-                revisions: createRevisions(11),
-              }));
-          element._patchRange = {
-            patchNum: 2,
-            basePatchNum: 1,
-          };
-          sinon.stub(element, '_isFileUnchanged').returns(false);
-
-          element.params = {
-            view: GerritNav.View.DIFF,
-            changeNum: '42',
-            project: 'p',
-            commentId: 'c1',
-            commentLink: true,
-          };
-          await element._paramsChanged.returnValues[0];
-
-          assert.equal(getChangeDetailStub.callCount, 1);
-          element.params = {
-            view: GerritNav.View.DIFF,
-            changeNum: '42',
-            project: 'p',
-            commentId: 'c1',
-            commentLink: true,
-          };
-          await element._paramsChanged.returnValues[0];
-
-          assert.equal(getChangeDetailStub.callCount, 1);
-          element.params = {
-            view: GerritNav.View.DIFF,
-            changeNum: '43',
-            project: 'p',
-            commentId: 'c1',
-            commentLink: true,
-          };
-          await element._paramsChanged.returnValues[0];
-
-          // change page is recreated now
-          assert.equal(dispatchEventStub.lastCall.args[0].type,
-              EventType.RECREATE_DIFF_VIEW);
-        });
-
     test('diff toast to go to latest is shown and not base', async () => {
       setCommentState({
         comments: {
@@ -442,11 +383,10 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.spy(element, '_paramsChanged');
       element._change = undefined;
-      getChangeDetailStub.returns(
-          Promise.resolve({
-            ...createChange(),
-            revisions: createRevisions(11),
-          }));
+      setChangeModelState({change: {
+        ...createChange(),
+        revisions: createRevisions(11),
+      }});
       element._patchRange = {
         patchNum: 2,
         basePatchNum: 1,
@@ -1447,8 +1387,6 @@ suite('gr-diff-view tests', () => {
         sinon.stub(element.$.diffHost, 'reload');
         sinon.stub(element, '_initCursor');
         element._change = change;
-        sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(
-            change));
       });
 
       test('uses the patchNum and basePatchNum ', async () => {

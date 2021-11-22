@@ -177,13 +177,18 @@ import {
   fireAlert,
   fireDialogChange,
   fireEvent,
-  firePageError,
   fireReload,
   fireTitleChange,
 } from '../../../utils/event-util';
 import {GerritView, routerView$} from '../../../services/router/router-model';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
-import {debounce, DelayedTask, throttleWrap} from '../../../utils/async-util';
+import {
+  debounce,
+  DelayedTask,
+  isFalse,
+  throttleWrap,
+  until,
+} from '../../../utils/async-util';
 import {Interaction, Timing} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
@@ -198,6 +203,7 @@ import {
 } from '../../../utils/attention-set-util';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {preferenceDiffViewMode$} from '../../../services/user/user-model';
+import {change$, changeLoading$} from '../../../services/change/change-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -338,7 +344,7 @@ export class GrChangeView extends base {
   _canStartReview?: boolean;
 
   @property({type: Object, observer: '_changeChanged'})
-  _change?: ChangeInfo | ParsedChangeInfo;
+  _change?: ParsedChangeInfo;
 
   @property({type: Object, computed: '_getRevisionInfo(_change)'})
   _revisionInfo?: RevisionInfoClass;
@@ -649,6 +655,13 @@ export class GrChangeView extends base {
     this.subscriptions.push(
       changeComments$.subscribe(changeComments => {
         this._changeComments = changeComments;
+      })
+    );
+    this.subscriptions.push(
+      change$.subscribe(change => {
+        // The change view is tied to a specific change number, so don't update
+        // _change to undefined.
+        if (change) this._change = change;
       })
     );
   }
@@ -1753,10 +1766,6 @@ export class GrChangeView extends base {
     this._changeViewAriaHidden = true;
   }
 
-  _handleGetChangeDetailError(response?: Response | null) {
-    firePageError(response);
-  }
-
   _getLoggedIn() {
     return this.restApiService.getLoggedIn();
   }
@@ -1874,36 +1883,34 @@ export class GrChangeView extends base {
   }
 
   _getChangeDetail() {
-    if (!this._changeNum)
+    if (!this._changeNum) {
       throw new Error('missing required changeNum property');
-    const detailCompletes = this.restApiService.getChangeDetail(
-      this._changeNum,
-      r => this._handleGetChangeDetailError(r)
-    );
+    }
+
+    const detailCompletes = until(changeLoading$, isFalse);
     const editCompletes = this._getEdit();
     const prefCompletes = this._getPreferences();
 
     return Promise.all([detailCompletes, editCompletes, prefCompletes]).then(
-      ([change, edit, prefs]) => {
+      ([_, edit, prefs]) => {
         this._prefs = prefs;
 
-        if (!change) {
-          return false;
-        }
-        this._processEdit(change, edit);
+        if (!this._change) return false;
+
+        this._processEdit(this._change, edit);
         // Issue 4190: Coalesce missing topics to null.
         // TODO(TS): code needs second thought,
         // it might be that nulls were assigned to trigger some bindings
-        if (!change.topic) {
-          change.topic = null as unknown as undefined;
+        if (!this._change.topic) {
+          this._change.topic = null as unknown as undefined;
         }
-        if (!change.reviewer_updates) {
-          change.reviewer_updates = null as unknown as undefined;
+        if (!this._change.reviewer_updates) {
+          this._change.reviewer_updates = null as unknown as undefined;
         }
-        const latestRevisionSha = this._getLatestRevisionSHA(change);
+        const latestRevisionSha = this._getLatestRevisionSHA(this._change);
         if (!latestRevisionSha)
           throw new Error('Could not find latest Revision Sha');
-        const currentRevision = change.revisions[latestRevisionSha];
+        const currentRevision = this._change.revisions[latestRevisionSha];
         if (currentRevision.commit && currentRevision.commit.message) {
           this._latestCommitMessage = this._prepareCommitMsgForLinkify(
             currentRevision.commit.message
@@ -1917,9 +1924,7 @@ export class GrChangeView extends base {
         // Slice returns a number as a string, convert to an int.
         this._lineHeight = Number(lineHeight.slice(0, lineHeight.length - 2));
 
-        this.changeService.updateChange(change);
-        this._change = change;
-        this.computeRevertSubmitted(change);
+        this.computeRevertSubmitted(this._change);
         if (
           !this._patchRange ||
           !this._patchRange.patchNum ||

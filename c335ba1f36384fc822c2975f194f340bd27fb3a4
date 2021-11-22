@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d385ba3_a6109d1a",
+        "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-11-22T16:14:39Z",
+      "side": 1,
+      "message": "Why is this needed? As far as I see, the Apache MINA sshd framework should do this already in ServerUserAuthService[1], long before this code here is reached.\n\n[1] https://github.com/apache/mina-sshd/blob/c7d83d0f/sshd-core/src/main/java/org/apache/sshd/server/session/ServerUserAuthService.java#L210",
+      "revId": "c335ba1f36384fc822c2975f194f340bd27fb3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

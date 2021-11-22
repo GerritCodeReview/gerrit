@@ -22,6 +22,30 @@
       },
       "revId": "a16c51a41448b8dcad39a3ae06bbc1d43257cf01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90d1beec_da1bf16b",
+        "filename": "polygerrit-ui/app/test/common-test-setup.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T22:52:02Z",
+      "side": 0,
+      "message": "No, because we create a fresh browser-model each time, each with their own unique observable that\u0027s set to the initial state.",
+      "parentUuid": "40ac998f_4bf7b8ee",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 22
+      },
+      "revId": "a16c51a41448b8dcad39a3ae06bbc1d43257cf01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

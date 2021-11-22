@@ -23,31 +23,29 @@ import {
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
+import {switchMap} from 'rxjs/operators';
+import {from, of} from 'rxjs';
 
 export class ChangeService {
   private change?: ParsedChangeInfo;
 
   constructor(readonly restApiService: RestApiService) {
-    // TODO: In the future we will want to make restApiService.getChangeDetail()
-    // calls from a switchMap() here. For now just make sure to invalidate the
-    // change when no changeNum is set.
-    routerChangeNum$.subscribe(changeNum => {
-      if (!changeNum) updateStateChange(undefined);
-    });
+    routerChangeNum$
+      .pipe(
+        switchMap(changeNum => {
+          if (changeNum) {
+            return from(this.restApiService.getChangeDetail(changeNum));
+          } else {
+            return of(undefined);
+          }
+        })
+      )
+      .subscribe(change => {
+        updateStateChange(change ?? undefined);
+      });
     change$.subscribe(change => {
       this.change = change;
     });
-  }
-
-  /**
-   * This is a temporary indirection between change-view, which currently
-   * manages what the current change is, and the change-model, which will
-   * become the source of truth in the future. We will extract a substantial
-   * amount of code from change-view and move it into this change-service. This
-   * will take some time ...
-   */
-  updateChange(change: ParsedChangeInfo) {
-    updateStateChange(change);
   }
 
   // Temporary workaround until path is derived in the model itself.

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2da3847_a7d5b22d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T12:31:49Z",
+      "side": 1,
+      "message": "I would prefer gr-thread-list not being touched until 322356: Completely rewrite commenting components and data model | https://gerrit-review.googlesource.com/c/gerrit/+/322356 lands.",
+      "revId": "6373298ff48b0abe85dbee416473043c78ff7c6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3753082d_52aa57a2",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
         "patchSetId": 3

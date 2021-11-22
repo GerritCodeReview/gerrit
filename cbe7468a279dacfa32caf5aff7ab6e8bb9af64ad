@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bc04b4c_53904e2d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d41ff3b_4c0f8e01",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab022ef3_99e5e5ef",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 1,
       "message": "Does this need a helper function hasMessageId(message)?",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adaaea58_8a7beb3d",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Don\u0027t know. Unrelated to this change?",
+      "parentUuid": "ab022ef3_99e5e5ef",
       "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83af60f3_9243237d",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Don\u0027t know. Unrelated to this change?",
+      "parentUuid": "540bf815_df0c5628",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f990c23_8c0144c4",
@@ -82,6 +136,24 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 1,
       "message": "What else could c1.line be? Would it be sufficient to say (c1.line !\u003d\u003d undefined)?",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7f74570_e5ba8061",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "There is a comment above explaining that:\n\n  // Convert \u0027FILE\u0027 and \u0027LOST\u0027 to undefined.",
+      "parentUuid": "3f990c23_8c0144c4",
       "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -103,6 +175,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "944db7b4_8c764150",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5a1c0ba_af4a9b5e",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76edbfed_ef89f9d5",
@@ -116,6 +206,24 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 1,
       "message": "Could you add a brief explanation to the above two lines? I always forget 1 vs -1, so an explanation as to which one should go first/why.",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49d2f1f7_4d2bcd49",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76edbfed_ef89f9d5",
       "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -137,6 +245,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c806a668_6a51f3e9",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "20db6355_93719bca",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8082f470_5ffe6809",
@@ -150,6 +276,24 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 1,
       "message": "Are these expensive computations? Should you avoid computing it twice (here and inside the inner ifs).",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6cd6dd8_4c907534",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "8082f470_5ffe6809",
       "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -171,6 +315,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "717e844d_6e390ae3",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "707ed498_8092f608",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "baa8f3eb_20bf2289",
@@ -184,6 +346,24 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 1,
       "message": "Should this be else if or a switch statement?",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46489de7_b676be9c",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa8f3eb_20bf2289",
       "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -205,6 +385,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b88fb38a_b5eaab52",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a27c4544_77b32c09",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2aa3e1e3_db049c9f",
@@ -218,6 +416,24 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 1,
       "message": "Maybe not at this CL but maybe createComment should take a Partial\u003cComment\u003e so you\u0027d do\n\ncreateThread(createComment({unresolved: true}));\n\ncreateThread(input: Partial\u003cComment\u003e \u003d {}) { \n  ...\n}",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab367a95_32a4653c",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aa3e1e3_db049c9f",
       "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -239,6 +455,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eae8fa3_f27b7f47",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5845fb59_baa23ffb",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2b67eaa_888a9f82",
@@ -252,6 +486,24 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 1,
       "message": "Why is this necessary? If the try block fails it doesn\u0027t reach this.editing \u003d false;",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "972b3c2e_f15d6cc2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2b67eaa_888a9f82",
       "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -273,6 +525,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "327fbacc_9370089b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done. b/207331216",
+      "parentUuid": "782d09e8_7b9407d4",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1eb85fd_a3f27895",
@@ -286,6 +556,24 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 1,
       "message": "Make sure to assertisDefined.",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba06f292_2381e06a",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1eb85fd_a3f27895",
       "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -307,6 +595,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a97ee21_6fad1bf3",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a273d68_1a92f4ff",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6a4096d_410baff8",
@@ -320,6 +626,30 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 1,
       "message": "This was not part of the code that was being caught before so remove outside of try { } catch block.",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 8
+      },
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e5eb7ce_9511c41d",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "f6a4096d_410baff8",
       "range": {
         "startLine": 204,
         "startChar": 0,
@@ -353,6 +683,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "219bec0b_6d0d3440",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca224356_e2ce0921",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 7
+      },
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e51e7ee3_b05f78c9",
@@ -370,6 +724,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a2fcb17_981497bd",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e51e7ee3_b05f78c9",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efe42a74_e0fc409a",
@@ -383,6 +755,30 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 1,
       "message": "This was not initially in the block of code that was part of catch, so move it out.",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 8
+      },
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9844743c_d99e33e0",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efe42a74_e0fc409a",
       "range": {
         "startLine": 245,
         "startChar": 0,
@@ -416,6 +812,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4930881_8f349442",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49e4963d_1a3f2e32",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 7
+      },
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee67ed60_eb1b771f",
@@ -429,6 +849,24 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 1,
       "message": "These are technically Partial\u003cCommentInfo\u003e | Partial\u003cDraftInfo\u003e | Partial\u003cRototCommentInfo\u003e",
+      "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a1ce8d_8a2a2d49",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee67ed60_eb1b771f",
       "revId": "cbe7468a279dacfa32caf5aff7ab6e8bb9af64ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

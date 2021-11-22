@@ -281,6 +281,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a976875c_2c95e5fa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "Renamed from handleCreateComment to handleCreateThread.",
+      "parentUuid": "e518f43b_83b49bb8",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74322101_fcb524d9",
@@ -499,6 +517,24 @@
       "side": 1,
       "message": "Are we sure that we can not call this method with the same comments object but modified?  \n\nOtherwise deepEqual will terminate early with true because the objects \u003d\u003d\u003d each other, even if the content has changed.",
       "parentUuid": "365a1ce0_047f0847",
+      "revId": "931502073182273acc1ded312bfbbceaac852ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5d46430_e466f5e7",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 1,
+      "message": "At the moment we cannot be 100% sure, but we rely on developers to understand that they should never mutate model objects.\n\nIdeally yes, we should either use immer or deepFreeze.",
+      "parentUuid": "ee85366d_5bbd6552",
       "revId": "931502073182273acc1ded312bfbbceaac852ff8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

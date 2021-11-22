@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0ab46a7_11ff209e",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 0,
+      "message": "This is still required, but instead of trying to mutate the immutable model we are passing a `messageId` into the \u003cgr-thread-list\u003e and \u003cgr-comment-thread\u003e.",
+      "parentUuid": "894b996e_3cd4918d",
+      "revId": "a1e4dabf8a6e7b07bc1636c64d9a289883aa6fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "938dc9c1_1ef64739",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-19T16:47:31Z",
       "side": 0,
       "message": "Why did this get removed?",
+      "revId": "a1e4dabf8a6e7b07bc1636c64d9a289883aa6fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da13b4c8_430d6703",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-22T15:44:12Z",
+      "side": 0,
+      "message": "Because it is just cruft from 2018 (see change 185791) that nobody has looked at for the past 3 years. So let\u0027s reduce complexity.",
+      "parentUuid": "938dc9c1_1ef64739",
       "revId": "a1e4dabf8a6e7b07bc1636c64d9a289883aa6fd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

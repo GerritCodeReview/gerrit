@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4d82e8ef_380ec706",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-11-22T23:01:25Z",
+      "side": 1,
+      "message": "Re: fingerprint\u003dBufferException\n\nThis bit is a (harmless) bug in Apache MINA sshd; should be fixed with [1].\n\nTwo SSH_MSG_USERAUTH_REQUESTs for one public key is normal.\n\n[1] https://github.com/apache/mina-sshd/commit/c80b88f93#diff-ae334901d16cc859444195f3fc35c8b772d011e1c786fed8aec3803c547ac43a",
+      "parentUuid": "137b6d3a_e32fd7c1",
+      "revId": "c335ba1f36384fc822c2975f194f340bd27fb3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d385ba3_a6109d1a",
         "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
         "patchSetId": 1

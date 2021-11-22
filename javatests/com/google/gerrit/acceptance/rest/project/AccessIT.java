@@ -32,6 +32,118 @@ import org.junit.Test;
 
 public class AccessIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private GrantRevertPermission grantRevertPermission;
+
+  private Project.NameKey newProjectName;
+
+  @Before
+  public void setUp() throws Exception {
+    newProjectName = projectOperations.newProject().create();
+  }
+
+  @Test
+  public void grantRevertPermission() throws Exception {
+    String ref = "refs/*";
+    String groupId = "global:Registered-Users";
+
+    grantRevertPermission.execute(newProjectName);
+
+    ProjectAccessInfo info = pApi().access();
+    assertThat(info.local.containsKey(ref)).isTrue();
+    AccessSectionInfo accessSectionInfo = info.local.get(ref);
+    assertThat(accessSectionInfo.permissions.containsKey(Permission.REVERT)).isTrue();
+    PermissionInfo permissionInfo = accessSectionInfo.permissions.get(Permission.REVERT);
+    assertThat(permissionInfo.rules.containsKey(groupId)).isTrue();
+    PermissionRuleInfo permissionRuleInfo = permissionInfo.rules.get(groupId);
+    assertThat(permissionRuleInfo.action).isEqualTo(PermissionRuleInfo.Action.ALLOW);
+  }
+
+  @Test
+  public void grantRevertPermissionByOnNewRefAndDeletingOnOldRef() throws Exception {
+    String refsHeads = "refs/heads/*";
+    String refsStar = "refs/*";
+    String groupId = "global:Registered-Users";
+    GroupReference registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS);
+
+    try (Repository repo = repoManager.openRepository(newProjectName)) {
+      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
+      ProjectConfig projectConfig = projectConfigFactory.read(md);
+      projectConfig.upsertAccessSection(
+          AccessSection.HEADS,
+          heads -> {
+            grant(projectConfig, heads, Permission.REVERT, registeredUsers);
+          });
+      md.getCommitBuilder().setAuthor(admin.newIdent());
+      md.getCommitBuilder().setCommitter(admin.newIdent());
+      md.setMessage("Add revert permission for all registered users\n");
+
+      projectConfig.commit(md);
+    }
+    grantRevertPermission.execute(newProjectName);
+
+    ProjectAccessInfo info = pApi().access();
+
+    // Revert permission is removed on refs/heads/*.
+    assertThat(info.local.containsKey(refsHeads)).isTrue();
+    AccessSectionInfo accessSectionInfo = info.local.get(refsHeads);
+    assertThat(accessSectionInfo.permissions.containsKey(Permission.REVERT)).isFalse();
+
+    // new permission is added on refs/* with Registered-Users.
+    assertThat(info.local.containsKey(refsStar)).isTrue();
+    accessSectionInfo = info.local.get(refsStar);
+    assertThat(accessSectionInfo.permissions.containsKey(Permission.REVERT)).isTrue();
+    PermissionInfo permissionInfo = accessSectionInfo.permissions.get(Permission.REVERT);
+    assertThat(permissionInfo.rules.containsKey(groupId)).isTrue();
+    PermissionRuleInfo permissionRuleInfo = permissionInfo.rules.get(groupId);
+    assertThat(permissionRuleInfo.action).isEqualTo(PermissionRuleInfo.Action.ALLOW);
+  }
+
+  @Test
+  public void grantRevertPermissionDoesntDeleteAdminsPreferences() throws Exception {
+    GroupReference registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS);
+    GroupReference otherGroup = systemGroupBackend.getGroup(ANONYMOUS_USERS);
+
+    try (Repository repo = repoManager.openRepository(newProjectName)) {
+      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
+      ProjectConfig projectConfig = projectConfigFactory.read(md);
+      projectConfig.upsertAccessSection(
+          AccessSection.HEADS,
+          heads -> {
+            grant(projectConfig, heads, Permission.REVERT, registeredUsers);
+            grant(projectConfig, heads, Permission.REVERT, otherGroup);
+          });
+      md.getCommitBuilder().setAuthor(admin.newIdent());
+      md.getCommitBuilder().setCommitter(admin.newIdent());
+      md.setMessage("Add revert permission for all registered users\n");
+
+      projectConfig.commit(md);
+    }
+    projectCache.evict(newProjectName);
+    ProjectAccessInfo expected = pApi().access();
+
+    grantRevertPermission.execute(newProjectName);
+    projectCache.evictAndReindex(newProjectName);
+    ProjectAccessInfo actual = pApi().access();
+    // Permissions don't change
+    assertThat(expected.local).isEqualTo(actual.local);
+  }
+
+  @Test
+  public void grantRevertPermissionOnlyWorksOnce() throws Exception {
+    grantRevertPermission.execute(newProjectName);
+    grantRevertPermission.execute(newProjectName);
+
+    try (Repository repo = repoManager.openRepository(newProjectName)) {
+      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
+      ProjectConfig projectConfig = projectConfigFactory.read(md);
+      AccessSection all = projectConfig.getAccessSection(AccessSection.ALL);
+
+      Permission permission = all.getPermission(Permission.REVERT);
+      assertThat(permission.getRules()).hasSize(1);
+    }
+  }
 
   @Test
   public void listAccessWithoutSpecifyingProject() throws Exception {

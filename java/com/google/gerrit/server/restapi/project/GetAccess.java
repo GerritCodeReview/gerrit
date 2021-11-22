@@ -153,12 +153,12 @@ public class GetAccess implements RestReadView<ProjectResource> {
       if (config.updateGroupNames(groupBackend)) {
         md.setMessage("Update group names\n");
         config.commit(md);
-        projectCache.evict(config.getProject());
+        projectCache.evictAndReindex(config.getProject());
         projectState = projectCache.get(projectName).orElseThrow(illegalState(projectName));
         perm = permissionBackend.currentUser().project(projectName);
       } else if (config.getRevision() != null
           && !config.getRevision().equals(projectState.getConfig().getRevision().orElse(null))) {
-        projectCache.evict(config.getProject());
+        projectCache.evictAndReindex(config.getProject());
         projectState = projectCache.get(projectName).orElseThrow(illegalState(projectName));
         perm = permissionBackend.currentUser().project(projectName);
       }

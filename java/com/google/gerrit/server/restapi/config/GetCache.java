@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.config;
 
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.cache.CacheInfo;
 import com.google.gerrit.server.config.CacheResource;
 import com.google.inject.Singleton;
 
@@ -23,7 +24,7 @@ import com.google.inject.Singleton;
 public class GetCache implements RestReadView<CacheResource> {
 
   @Override
-  public Response<ListCaches.CacheInfo> apply(CacheResource rsrc) {
-    return Response.ok(new ListCaches.CacheInfo(rsrc.getName(), rsrc.getCache()));
+  public Response<CacheInfo> apply(CacheResource rsrc) {
+    return Response.ok(new CacheInfo(rsrc.getName(), rsrc.getCache()));
   }
 }

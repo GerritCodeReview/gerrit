@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40ac998f_4bf7b8ee",
+        "filename": "polygerrit-ui/app/test/common-test-setup.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-22T22:19:42Z",
+      "side": 0,
+      "message": "this isn\u0027t needed anymore?",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 22
+      },
+      "revId": "a16c51a41448b8dcad39a3ae06bbc1d43257cf01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

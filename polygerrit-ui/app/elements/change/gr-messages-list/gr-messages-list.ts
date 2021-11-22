@@ -57,7 +57,6 @@ import {
   changeNum$,
   repo$,
 } from '../../../services/change/change-model';
-import {loggedIn$} from '../../../services/user/user-model';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -263,6 +262,8 @@ export class GrMessagesList extends PolymerElement {
   @property({type: Object, computed: '_computeLabelExtremes(labels.*)'})
   _labelExtremes: {[labelName: string]: VotingRangeInfo} = {};
 
+  private readonly userModel = getAppContext().userModel;
+
   private readonly reporting = getAppContext().reportingService;
 
   private readonly shortcuts = getAppContext().shortcutsService;
@@ -282,7 +283,7 @@ export class GrMessagesList extends PolymerElement {
       })
     );
     this.subscriptions.push(
-      loggedIn$.subscribe(x => {
+      this.userModel.loggedIn$.subscribe(x => {
         this.showReplyButtons = x;
       })
     );

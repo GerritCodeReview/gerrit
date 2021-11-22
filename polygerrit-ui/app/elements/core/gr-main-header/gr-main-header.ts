@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {Subscription} from 'rxjs';
+import {map, distinctUntilChanged} from 'rxjs/operators';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-icons/gr-icons';
@@ -37,7 +38,6 @@ import {AuthType} from '../../../constants/constants';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {getAppContext} from '../../../services/app-context';
 import {serverConfig$} from '../../../services/config/config-model';
-import {myTopMenuItems$} from '../../../services/user/user-model';
 import {assertIsDefined} from '../../../utils/common-util';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
@@ -158,7 +158,7 @@ export class GrMainHeader extends PolymerElement {
 
   private readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly userService = getAppContext().userService;
+  private readonly userModel = getAppContext().userModel;
 
   private subscriptions: Subscription[] = [];
 
@@ -168,18 +168,23 @@ export class GrMainHeader extends PolymerElement {
   }
 
   override connectedCallback() {
-    // TODO(brohlfs): This just ensures that the userService is instantiated at
+    // TODO(brohlfs): This just ensures that the userModel is instantiated at
     // all. We need the service to manage the model, but we are not making any
     // direct calls. Will need to find a better solution to this problem ...
-    assertIsDefined(this.userService);
+    assertIsDefined(this.userModel);
 
     super.connectedCallback();
     this._loadAccount();
 
     this.subscriptions.push(
-      myTopMenuItems$.subscribe(items => {
-        this._userLinks = items.map(this._createHeaderLink);
-      })
+      this.userModel.preferences$
+        .pipe(
+          map(preferences => preferences?.my ?? []),
+          distinctUntilChanged()
+        )
+        .subscribe(items => {
+          this._userLinks = items.map(this._createHeaderLink);
+        })
     );
     this.subscriptions.push(
       serverConfig$.subscribe(config => {

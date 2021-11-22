@@ -47,9 +47,10 @@ suite('gr-change-list-item tests', () => {
 
   let element: GrChangeListItem;
 
-  setup(() => {
+  setup(async () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
   test('_computeLabelCategory', () => {
@@ -371,7 +372,7 @@ suite('gr-change-list-item tests', () => {
       'Requirements',
     ];
 
-    await flush();
+    await element.updateComplete;
 
     for (const column of columnNames) {
       const elementClass = '.' + column.toLowerCase();
@@ -394,7 +395,7 @@ suite('gr-change-list-item tests', () => {
       'Requirements',
     ];
 
-    await flush();
+    await element.updateComplete;
 
     for (const column of columnNames) {
       const elementClass = '.' + column.toLowerCase();
@@ -468,7 +469,7 @@ suite('gr-change-list-item tests', () => {
   test('random column does not exist', async () => {
     element.visibleChangeTableColumns = ['Bad'];
 
-    await flush();
+    await element.updateComplete;
     const elementClass = '.bad';
     assert.isNotOk(query(element, elementClass));
   });
@@ -526,7 +527,7 @@ suite('gr-change-list-item tests', () => {
   test('change params passed to gr-navigation', async () => {
     const navStub = sinon.stub(GerritNav);
     element.change = change;
-    await flush();
+    await element.updateComplete;
 
     assert.deepEqual(navStub.getUrlForChange.lastCall.args, [change]);
     assert.deepEqual(navStub.getUrlForProjectChanges.lastCall.args, [

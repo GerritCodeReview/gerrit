@@ -50,7 +50,7 @@ export class GrDiffModeSelector extends PolymerElement {
   // Private but accessed by tests.
   readonly browserModel = getAppContext().browserModel;
 
-  private readonly userService = getAppContext().userService;
+  private readonly userModel = getAppContext().userModel;
 
   private subscriptions: Subscription[] = [];
 
@@ -83,7 +83,7 @@ export class GrDiffModeSelector extends PolymerElement {
    */
   setMode(newMode: DiffViewMode) {
     if (this.saveOnChange && this.mode && this.mode !== newMode) {
-      this.userService.updatePreferences({diff_view: newMode});
+      this.userModel.updatePreferences({diff_view: newMode});
     }
     this.mode = newMode;
     let announcement;

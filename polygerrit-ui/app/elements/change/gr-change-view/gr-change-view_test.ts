@@ -27,7 +27,6 @@ import {
   MessageTag,
   PrimaryTab,
   createDefaultPreferences,
-  createDefaultDiffPrefs,
 } from '../../../constants/constants';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
@@ -107,7 +106,6 @@ import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
-import {_testOnly_setState as setUserState} from '../../../services/user/user-model';
 import {_testOnly_setState as setChangeState} from '../../../services/change/change-model';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -818,10 +816,7 @@ suite('gr-change-view tests', () => {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       };
-      setUserState({
-        preferences: prefs,
-        diffPreferences: createDefaultDiffPrefs(),
-      });
+      element.userModel.setPreferences(prefs);
       element._handleToggleDiffMode();
       assert.isTrue(
         updatePreferencesStub.calledWith({diff_view: DiffViewMode.UNIFIED})
@@ -831,10 +826,7 @@ suite('gr-change-view tests', () => {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.UNIFIED,
       };
-      setUserState({
-        preferences: newPrefs,
-        diffPreferences: createDefaultDiffPrefs(),
-      });
+      element.userModel.setPreferences(newPrefs);
       await flush();
       element._handleToggleDiffMode();
       assert.isTrue(
@@ -1745,6 +1737,7 @@ suite('gr-change-view tests', () => {
         '#replyDialog'
       );
       const openSpy = sinon.spy(dialog, 'open');
+      await flush();
       await waitUntil(() => openSpy.called && !!openSpy.lastCall.args[1]);
       assert.equal(openSpy.lastCall.args[1], '> quote text\n\n');
     });

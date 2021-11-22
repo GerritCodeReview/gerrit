@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 import {Subscription} from 'rxjs';
+import {map, distinctUntilChanged} from 'rxjs/operators';
 import {
   config,
   Shortcut,
   ShortcutHelpItem,
   ShortcutSection,
 } from './shortcuts-config';
-import {disableShortcuts$} from '../user/user-model';
 import {
   ComboKey,
   eventMatchesShortcut,
@@ -33,6 +33,7 @@ import {
 } from '../../utils/dom-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Finalizable} from '../registry';
+import {UserModel} from '../user/user-model';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
 
@@ -98,7 +99,10 @@ export class ShortcutsService implements Finalizable {
 
   private readonly subscriptions: Subscription[] = [];
 
-  constructor(readonly reporting?: ReportingService) {
+  constructor(
+    readonly userModel: UserModel,
+    readonly reporting?: ReportingService
+  ) {
     for (const section of config.keys()) {
       const items = config.get(section) ?? [];
       for (const item of items) {
@@ -106,7 +110,12 @@ export class ShortcutsService implements Finalizable {
       }
     }
     this.subscriptions.push(
-      disableShortcuts$.subscribe(x => (this.shortcutsDisabled = x))
+      this.userModel.preferences$
+        .pipe(
+          map(preferences => preferences?.disable_keyboard_shortcuts ?? false),
+          distinctUntilChanged()
+        )
+        .subscribe(x => (this.shortcutsDisabled = x))
     );
     this.keydownListener = (e: KeyboardEvent) => {
       if (!isComboKey(e.key)) return;

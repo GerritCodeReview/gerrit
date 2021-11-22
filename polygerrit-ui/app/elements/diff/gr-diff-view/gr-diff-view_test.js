@@ -1518,12 +1518,12 @@ suite('gr-diff-view tests', () => {
 
       element._focusLineNum = 12;
       let result = element._getLineOfInterest(false);
-      assert.equal(result.number, 12);
-      assert.isNotOk(result.leftSide);
+      assert.equal(result.lineNum, 12);
+      assert.equal(result.side, Side.RIGHT);
 
       result = element._getLineOfInterest(true);
-      assert.equal(result.number, 12);
-      assert.isOk(result.leftSide);
+      assert.equal(result.lineNum, 12);
+      assert.equal(result.side, Side.RIGHT);
     });
 
     test('_onLineSelected', () => {

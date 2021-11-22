@@ -24,6 +24,7 @@ import {_setHiddenScroll} from '../../../scripts/hiddenscroll.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import '@polymer/paper-button/paper-button.js';
 import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
+import { Side } from '../../../api/diff.js';
 
 const basicFixture = fixtureFromElement('gr-diff');
 
@@ -1000,7 +1001,7 @@ suite('gr-diff tests', () => {
     });
 
     test('lineOfInterest is a key location', () => {
-      element.lineOfInterest = {number: 789, leftSide: true};
+      element.lineOfInterest = {lineNum: 789, side: Side.LEFT};
       element._renderDiffTable();
       assert.isTrue(renderStub.called);
       assert.deepEqual(renderStub.lastCall.args[0], {

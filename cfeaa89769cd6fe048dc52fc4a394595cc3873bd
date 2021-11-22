@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd527f69_2515bef6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-22T22:23:42Z",
+      "side": 1,
+      "message": "Thanks for the fix!",
+      "revId": "cfeaa89769cd6fe048dc52fc4a394595cc3873bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65582cd7_95df0deb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-22T22:23:42Z",
+      "side": 1,
+      "message": "a bit surprised this is required.",
+      "range": {
+        "startLine": 120,
+        "startChar": 14,
+        "endLine": 122,
+        "endChar": 16
+      },
+      "revId": "cfeaa89769cd6fe048dc52fc4a394595cc3873bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

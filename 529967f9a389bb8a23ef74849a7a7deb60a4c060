@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f43585f_f9430699",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "Add a renderCellSubject()",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "004efb85_605962d7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "add a renderCellStatus()",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073f5ef5_ca34031a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "Add a renderCellReviewers",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6a25196_f4118842",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "Add a renderCellComments.",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2303a686_f8b52c4f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "Add a renderCellRepo",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2da18b74_6ae7e065",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "Add a renderCellBranch",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf29748c_176bd875",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "add a renderCellUpdated",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eea29067_a70b6a70",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "Add a renderCellSubmitted",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "727536d5_a86f6b5d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "Add a renderCellWaiting",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bedfb30_592c65fa",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "Add a renderCellSize",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f58d9315_0ba78687",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "Add a renderCellRequirements.",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52607e44_6b94f104",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T20:22:13Z",
+      "side": 1,
+      "message": "No need to pass in this.foo arguments here and througout",
+      "revId": "529967f9a389bb8a23ef74849a7a7deb60a4c060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

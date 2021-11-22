@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0d0b558_a97ebe77",
+        "filename": "java/com/google/gerrit/server/LibModuleType.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-11-22T14:11:10Z",
+      "side": 1,
+      "message": "I was wondering how this will work as this change doesn\u0027t touch LuceneIndexModule. But the previous change which removes the support for ES also adds an annotation to the LuceneIndexModule [1].\nThat annotation name is the same as this type name, which is a bit hard to follow. Maybe use different names?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/323676/15/java/com/google/gerrit/lucene/LuceneIndexModule.java",
+      "revId": "a71cc26ee12cc0d1a8b8f861c9dc66659d3c4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

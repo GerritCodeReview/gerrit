@@ -52,6 +52,34 @@ suite('gr-account-label tests', () => {
     };
   });
 
+  test('renders', async () => {
+    element.account = kermit;
+    await element.updateComplete;
+    expect(element).shadowDom.to.equal(`<span>
+      <gr-hovercard-account for="hovercardTarget">
+      </gr-hovercard-account>
+    </span>
+    <span
+      id="hovercardTarget"
+      tabindex="0"
+    >
+      <gr-avatar
+        hidden=""
+        imagesize="32"
+      >
+      </gr-avatar>
+      <span
+        class="text"
+        part="gr-account-label-text"
+      >
+        <span class="name">
+          kermit
+        </span>
+      </span>
+    </span>
+    `);
+  });
+
   suite('_computeName', () => {
     test('not showing anonymous', () => {
       const account = {name: 'Wyatt'};

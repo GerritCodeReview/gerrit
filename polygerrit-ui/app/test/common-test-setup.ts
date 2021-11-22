@@ -46,14 +46,12 @@ import {
 } from '../scripts/polymer-resin-install';
 import {_testOnly_allTasks} from '../utils/async-util';
 import {cleanUpStorage} from '../services/storage/gr-storage_mock';
-import {updatePreferences} from '../services/user/user-model';
-import {createDefaultPreferences} from '../constants/constants';
+
 import {getAppContext} from '../services/app-context';
 import {_testOnly_resetState as resetChangeState} from '../services/change/change-model';
 import {_testOnly_resetState as resetChecksState} from '../services/checks/checks-model';
 import {_testOnly_resetState as resetCommentsState} from '../services/comments/comments-model';
 import {_testOnly_resetState as resetRouterState} from '../services/router/router-model';
-import {_testOnly_resetState as resetUserState} from '../services/user/user-model';
 
 declare global {
   interface Window {
@@ -122,7 +120,6 @@ setup(() => {
   resetChecksState();
   resetCommentsState();
   resetRouterState();
-  resetUserState();
 
   const shortcuts = getAppContext().shortcutsService;
   assert.isTrue(shortcuts._testOnly_isEmpty());
@@ -220,7 +217,6 @@ teardown(() => {
   cancelAllTasks();
   cleanUpStorage();
   // Reset state
-  updatePreferences(createDefaultPreferences());
   _testOnlyFinalizeAppContext();
   const testTeardownTimestampMs = new Date().getTime();
   const elapsedMs = testTeardownTimestampMs - testSetupTimestampMs;

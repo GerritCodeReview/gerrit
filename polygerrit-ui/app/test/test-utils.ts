@@ -24,7 +24,7 @@ import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
 import {CommentsService} from '../services/comments/comments-service';
-import {UserService} from '../services/user/user-service';
+import {UserModel} from '../services/user/user-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {queryAndAssert, query} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';
@@ -116,8 +116,8 @@ export function stubComments<K extends keyof CommentsService>(method: K) {
   return sinon.stub(getAppContext().commentsService, method);
 }
 
-export function stubUsers<K extends keyof UserService>(method: K) {
-  return sinon.stub(getAppContext().userService, method);
+export function stubUsers<K extends keyof UserModel>(method: K) {
+  return sinon.stub(getAppContext().userModel, method);
 }
 
 export function stubShortcuts<K extends keyof ShortcutsService>(method: K) {

@@ -32,7 +32,7 @@ import {ConfigService} from '../services/config/config-service';
 import {UserService} from '../services/user/user-service';
 import {CommentsService} from '../services/comments/comments-service';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
-import {BrowserService} from '../services/browser/browser-service';
+import {BrowserModel} from '../services/browser/browser-model';
 
 let appContext: (AppContext & Finalizable) | undefined;
 
@@ -76,7 +76,7 @@ export function _testOnlyInitAppContext() {
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new ShortcutsService(ctx.reportingService!);
     },
-    browserService: (_ctx: Partial<AppContext>) => new BrowserService(),
+    browserModel: (_ctx: Partial<AppContext>) => new BrowserModel(),
   };
   appContext = create<AppContext>(appRegistry);
   injectAppContext(appContext);

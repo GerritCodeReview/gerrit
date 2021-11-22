@@ -32,7 +32,6 @@ import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
 import {Side} from '../../../api/diff.js';
 import {EventType} from '../../../types/events.js';
-import {_testOnly_setState as browserModelSetState} from '../../../services/browser/browser-model.js';
 import {_testOnly_setState as setUserModelState, _testOnly_getState as getUserModelState} from '../../../services/user/user-model.js';
 import {_testOnly_setState as setChangeModelState} from '../../../services/change/change-model.js';
 import {_testOnly_setState as setCommentState} from '../../../services/comments/comments-model.js';
@@ -475,7 +474,7 @@ suite('gr-diff-view tests', () => {
     test('keyboard shortcuts', () => {
       clock = sinon.useFakeTimers();
       element._changeNum = '42';
-      browserModelSetState({screenWidth: 0});
+      element.browserModel.setScreenWidth(0);
       element._patchRange = {
         basePatchNum: PARENT,
         patchNum: 10,
@@ -1395,7 +1394,7 @@ suite('gr-diff-view tests', () => {
       const select = element.$.modeSelect;
       const diffDisplay = element.$.diffHost;
       element._userPrefs = {diff_view: DiffViewMode.SIDE_BY_SIDE};
-      browserModelSetState({screenWidth: 0});
+      element.browserModel.setScreenWidth(0);
 
       const userStub = stubUsers('updatePreferences');
 

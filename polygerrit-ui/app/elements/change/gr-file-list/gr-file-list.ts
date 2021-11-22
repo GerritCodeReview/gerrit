@@ -89,7 +89,6 @@ import {
 } from '../../../services/user/user-model';
 import {changeComments$} from '../../../services/comments/comments-model';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
-import {diffViewMode$} from '../../../services/browser/browser-model';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -320,6 +319,8 @@ export class GrFileList extends base {
 
   private readonly userService = getAppContext().userService;
 
+  private readonly browserModel = getAppContext().browserModel;
+
   private subscriptions: Subscription[] = [];
 
   /** Called in disconnectedCallback. */
@@ -382,7 +383,9 @@ export class GrFileList extends base {
       })
     );
     this.subscriptions.push(
-      diffViewMode$.subscribe(diffView => (this.diffViewMode = diffView))
+      this.browserModel.diffViewMode$.subscribe(
+        diffView => (this.diffViewMode = diffView)
+      )
     );
     this.subscriptions.push(
       diffPreferences$.subscribe(diffPreferences => {

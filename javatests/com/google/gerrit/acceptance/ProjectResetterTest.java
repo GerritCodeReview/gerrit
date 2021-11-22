@@ -231,7 +231,7 @@ public class ProjectResetterTest {
       updateRef(repo2, metaConfig);
     }
 
-    verify(projectCache, only()).evict(project2);
+    verify(projectCache, only()).evictAndReindex(project2);
   }
 
   @Test
@@ -248,7 +248,7 @@ public class ProjectResetterTest {
       createRef(repo2, RefNames.REFS_CONFIG);
     }
 
-    verify(projectCache, only()).evict(project2);
+    verify(projectCache, only()).evictAndReindex(project2);
   }
 
   @Test

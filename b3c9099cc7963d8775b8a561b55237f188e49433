@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e673d96_2bec8c3d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T13:54:55Z",
+      "side": 1,
+      "message": "s/specfic/specific.",
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cf49026_dafc9c11",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 3
@@ -50,6 +67,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e2296d78_4bbf9bdf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1884,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T13:54:55Z",
+      "side": 1,
+      "message": "Use await syntax and make this method async.\n\nconst [_, edit, prefs] \u003d await Promise.all([detailCompletes, editCompletes, prefCompletes]);",
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e41d21b_66b381b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1885,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T13:54:55Z",
+      "side": 1,
+      "message": "This block of code can probably be split up into smaller methods with meaningful names.  It\u0027s rather large so hard to follow everything it\u0027s doing.",
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0494acee_4b525cce",
         "filename": "polygerrit-ui/app/services/change/change-service.ts",
         "patchSetId": 3
@@ -67,6 +118,70 @@
         "endLine": 39,
         "endChar": 33
       },
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae192256_215bf354",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T13:54:55Z",
+      "side": 1,
+      "message": "I agree that it would be useful to think as to when \u0027undefined\u0027 can happen and clarify intent.",
+      "parentUuid": "0494acee_4b525cce",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 33
+      },
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8309ea23_e3d86286",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T13:54:55Z",
+      "side": 1,
+      "message": "Consider moving the undefined logic into the getChangeDetail method.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 33
+      },
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d79e147_b492d036",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T13:54:55Z",
+      "side": 1,
+      "message": "Please add tests for this new logic.",
       "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

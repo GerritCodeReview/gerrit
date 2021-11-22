@@ -62,10 +62,11 @@ declare global {
 
 @customElement('gr-repo-commands')
 export class GrRepoCommands extends LitElement {
-  @query('#createChangeOverlay') private createChangeOverlay?: GrOverlay;
+  @query('#createChangeOverlay')
+  private readonly createChangeOverlay?: GrOverlay;
 
   @query('#createNewChangeModal')
-  private createNewChangeModal?: GrCreateChangeDialog;
+  private readonly createNewChangeModal?: GrCreateChangeDialog;
 
   @property({type: String})
   repo?: RepoName;
@@ -116,7 +117,7 @@ export class GrRepoCommands extends LitElement {
             <h3 class="heading-3">Create change</h3>
             <gr-button
               ?loading=${this.creatingChange}
-              @click=${() => this.createNewChange()}
+              @click=${() => { this.createNewChange(); }}
             >
               Create change
             </gr-button>
@@ -124,7 +125,7 @@ export class GrRepoCommands extends LitElement {
             <gr-button
               id="editRepoConfig"
               ?loading=${this.editingConfig}
-              @click=${() => this.handleEditRepoConfig()}
+              @click=${() => { this.handleEditRepoConfig(); }}
             >
               Edit repo config
             </gr-button>
@@ -143,8 +144,8 @@ export class GrRepoCommands extends LitElement {
           id="createChangeDialog"
           confirm-label="Create"
           ?disabled=${!this.canCreateChange}
-          @confirm=${() => this.handleCreateChange()}
-          @cancel=${() => this.handleCloseCreateChange()}
+          @confirm=${() => { this.handleCreateChange(); }}
+          @cancel=${() => { this.handleCloseCreateChange(); }}
         >
           <div class="header" slot="header">Create Change</div>
           <div class="main" slot="main">
@@ -152,7 +153,7 @@ export class GrRepoCommands extends LitElement {
               id="createNewChangeModal"
               .repoName="${this.repo}"
               .privateByDefault="${this.repoConfig?.private_by_default}"
-              @can-create-change=${() => this.handleCanCreateChange()}
+              @can-create-change=${() => { this.handleCanCreateChange(); }}
             ></gr-create-change-dialog>
           </div>
         </gr-dialog>
@@ -161,16 +162,18 @@ export class GrRepoCommands extends LitElement {
   }
 
   private renderRepoGarbageCollector() {
-    if (!this.repoConfig?.actions?.gc?.enabled) return;
+    if (
+      !this.repoConfig?.actions ||
+      !this.repoConfig?.actions['gc']?.enabled) return;
 
     return html`
-      <h3 class="heading-3">${this.repoConfig.actions.gc.label}</h3>
+      <h3 class="heading-3">${this.repoConfig?.actions['gc']?.label}</h3>
       <gr-button
-        title="${this.repoConfig.actions.gc.title}"
+        title="${this.repoConfig?.actions['gc']?.title || ''}"
         ?loading=${this.runningGC}
         @click=${() => this.handleRunningGC()}
       >
-        ${this.repoConfig.actions.gc.label}
+        ${this.repoConfig?.actions['gc']?.label}
       </gr-button>
     `;
   }

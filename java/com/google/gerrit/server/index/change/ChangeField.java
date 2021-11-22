@@ -63,6 +63,7 @@ import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.ReviewerByEmailSet;
@@ -77,6 +78,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.MagicLabelValue;
+import com.google.gerrit.server.query.change.SubmittablePredicate;
 import com.google.gson.Gson;
 import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
@@ -416,6 +418,25 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> IS_PURE_REVERT =
       fullText(ChangeQueryBuilder.FIELD_PURE_REVERT)
           .build(cd -> Boolean.TRUE.equals(cd.isPureRevert()) ? "1" : "0");
+
+  /**
+   * Determines if a change is submittable based on {@link
+   * com.google.gerrit.entities.SubmitRequirement}s.
+   */
+  public static final FieldDef<ChangeData, String> IS_SUBMITTABLE =
+      exact(ChangeQueryBuilder.FIELD_IS_SUBMITTABLE)
+          .build(
+              cd ->
+                  Predicate.and(
+                              new SubmittablePredicate(SubmitRecord.Status.OK),
+                              Predicate.not(
+                                  new SubmittablePredicate(SubmitRecord.Status.NOT_READY)),
+                              Predicate.not(
+                                  new SubmittablePredicate(SubmitRecord.Status.RULE_ERROR)))
+                          .asMatchable()
+                          .match(cd)
+                      ? "1"
+                      : "0");
 
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {

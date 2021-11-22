@@ -16,6 +16,24 @@
       "message": "Why is this needed? As far as I see, the Apache MINA sshd framework should do this already in ServerUserAuthService[1], long before this code here is reached.\n\n[1] https://github.com/apache/mina-sshd/blob/c7d83d0f/sshd-core/src/main/java/org/apache/sshd/server/session/ServerUserAuthService.java#L210",
       "revId": "c335ba1f36384fc822c2975f194f340bd27fb3a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85ece5c9_4de45214",
+        "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1142970
+      },
+      "writtenOn": "2021-11-22T16:36:42Z",
+      "side": 1,
+      "message": "As far as I can tell, the code is called twice (while it is still processing).\nI thought it was the touch interaction first, but same thing without it...",
+      "parentUuid": "1d385ba3_a6109d1a",
+      "revId": "c335ba1f36384fc822c2975f194f340bd27fb3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

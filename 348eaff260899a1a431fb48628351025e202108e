@@ -16,6 +16,24 @@
       "message": "Consider moving this all to one line?\n\n\u003cgr-avatar hidden\u003d\"\" imagesize\u003d\"56\"\u003e\u003c/gr-avatar\u003e",
       "revId": "348eaff260899a1a431fb48628351025e202108e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88c06846_e222737b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-22T13:47:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a22f8dc7_8fc7444e",
+      "revId": "348eaff260899a1a431fb48628351025e202108e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

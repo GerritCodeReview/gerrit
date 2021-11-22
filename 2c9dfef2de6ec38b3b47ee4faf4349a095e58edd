@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23988e45_60c462d6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-22T16:45:32Z",
+      "side": 1,
+      "message": "Thanks! I\u0027ll leave as is.",
+      "parentUuid": "d4fbb65e_eb447403",
+      "range": {
+        "startLine": 135,
+        "startChar": 49,
+        "endLine": 135,
+        "endChar": 69
+      },
+      "revId": "2c9dfef2de6ec38b3b47ee4faf4349a095e58edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cebad081_5f8364ec",
@@ -102,6 +126,30 @@
       "writtenOn": "2021-11-22T08:48:56Z",
       "side": 1,
       "message": "type: Garbage (extra \"d\" in this)",
+      "range": {
+        "startLine": 163,
+        "startChar": 10,
+        "endLine": 163,
+        "endChar": 37
+      },
+      "revId": "2c9dfef2de6ec38b3b47ee4faf4349a095e58edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d8f5ee4_0cc95b9a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-22T16:45:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cebad081_5f8364ec",
       "range": {
         "startLine": 163,
         "startChar": 10,
@@ -135,6 +183,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a829b42_03c95d28",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-22T16:45:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8dac5866_f88a84d9",
+      "range": {
+        "startLine": 167,
+        "startChar": 30,
+        "endLine": 167,
+        "endChar": 59
+      },
+      "revId": "2c9dfef2de6ec38b3b47ee4faf4349a095e58edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc0ec8bf_f3856d32",
@@ -148,6 +220,30 @@
       "writtenOn": "2021-11-22T13:00:17Z",
       "side": 1,
       "message": "You don\u0027t need ? because it was checked on first line:\n\n`this.repoConfig.actions.gc.label`",
+      "range": {
+        "startLine": 169,
+        "startChar": 17,
+        "endLine": 169,
+        "endChar": 52
+      },
+      "revId": "2c9dfef2de6ec38b3b47ee4faf4349a095e58edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da665eb3_b8d5b83d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-22T16:45:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "bc0ec8bf_f3856d32",
       "range": {
         "startLine": 169,
         "startChar": 17,
@@ -181,6 +277,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29cda300_9ec344d5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-22T16:45:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5b4ccf52_403d08e8",
+      "range": {
+        "startLine": 173,
+        "startChar": 11,
+        "endLine": 173,
+        "endChar": 45
+      },
+      "revId": "2c9dfef2de6ec38b3b47ee4faf4349a095e58edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5e059e8_57f15511",
@@ -194,6 +314,30 @@
       "writtenOn": "2021-11-22T07:24:04Z",
       "side": 1,
       "message": "Wouldn\u0027t this work (like in gr-edit-controls) ?\n```\nawait handleSpy.lastCall.returnValue;\nawait element.updateComplete;\n\nassert.isTrue(alertStub.called);\n```\n\nIf yes, same can be done in other test.",
+      "range": {
+        "startLine": 114,
+        "startChar": 12,
+        "endLine": 114,
+        "endChar": 42
+      },
+      "revId": "2c9dfef2de6ec38b3b47ee4faf4349a095e58edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fc76d93_914f9ca7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-22T16:45:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c5e059e8_57f15511",
       "range": {
         "startLine": 114,
         "startChar": 12,

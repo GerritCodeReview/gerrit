@@ -66,7 +66,7 @@ import {
 import {
   CreateCommentEventDetail,
   GrDiff,
-  LineOfInterest,
+  DisplayLine,
 } from '../gr-diff/gr-diff';
 import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
@@ -207,7 +207,7 @@ export class GrDiffHost extends PolymerElement {
   lineWrapping = false;
 
   @property({type: Object})
-  lineOfInterest?: LineOfInterest;
+  lineOfInterest?: DisplayLine;
 
   @property({type: String})
   viewMode = DiffViewMode.SIDE_BY_SIDE;

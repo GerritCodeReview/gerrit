@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cf49026_dafc9c11",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1266,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-22T12:22:25Z",
+      "side": 1,
+      "message": "Do I understand correctly that when reload is skipped, the service will still make a http request to load the data? If so, it would be a problem that this data loading is not factoring into the loading-message (this._loading), right?",
+      "range": {
+        "startLine": 1264,
+        "startChar": 0,
+        "endLine": 1266,
+        "endChar": 0
+      },
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

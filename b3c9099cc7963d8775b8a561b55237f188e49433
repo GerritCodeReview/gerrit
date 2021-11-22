@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd80e821_c4e037c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-22T14:39:17Z",
+      "side": 1,
+      "message": "A regression I noticed is:\n\n1. Expand a change log entry\n2. Go to dashboard\n3. Come back to the change\n4. Change log entry is collapsed now\n\nIf the change view was being re-rendered purely then this entry would remain expanded like before.\nIs the fix for this in scope of this change?",
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e673d96_2bec8c3d",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 3

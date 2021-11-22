@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a456b780_2d5f8336",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-22T23:51:15Z",
+      "side": 1,
+      "message": "This is the wrong resolution: it should have been applied to the javatests/com/google/gerrit/acceptance/api/project/AccessIT.java because the class was moved to a different package in stable-3.5",
+      "revId": "558549bc6ee8d82b734d73c2c2211fe3f8691d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e975310e_4f61ef9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T10:55:33Z",
+      "side": 1,
+      "message": "Sure, that\u0027s a much better idea.\n\nDone.",
+      "parentUuid": "f2374e03_2348e190",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 67
+      },
+      "revId": "bd7135ddd1788ced04212b0c6c8c184c07dc083a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30eb562c_e813093e",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-19T13:31:12Z",
       "side": 1,
       "message": "\u003ccontentPattern\u003e?",
+      "range": {
+        "startLine": 22,
+        "startChar": 38,
+        "endLine": 22,
+        "endChar": 52
+      },
+      "revId": "bd7135ddd1788ced04212b0c6c8c184c07dc083a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c3a6aaa_eaad6817",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T10:55:33Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "30eb562c_e813093e",
       "range": {
         "startLine": 22,
         "startChar": 38,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a836f1a2_e5112470",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T10:55:33Z",
+      "side": 1,
+      "message": "There\u0027s still not documentation for SR predicates. I will add a documentation for it in a later change.",
+      "parentUuid": "8e928e71_13dbc41e",
+      "revId": "bd7135ddd1788ced04212b0c6c8c184c07dc083a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73e1f295_a80215c1",
@@ -81,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6576d0db_2c5a3280",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T10:55:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73e1f295_a80215c1",
+      "revId": "bd7135ddd1788ced04212b0c6c8c184c07dc083a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1233628_47d269d3",
@@ -94,6 +178,30 @@
       "writtenOn": "2021-11-19T13:31:12Z",
       "side": 1,
       "message": "Should these rather be logged on severe level, since these are real errors?",
+      "range": {
+        "startLine": 154,
+        "startChar": 5,
+        "endLine": 161,
+        "endChar": 0
+      },
+      "revId": "bd7135ddd1788ced04212b0c6c8c184c07dc083a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "163d0b97_ea5c03fe",
+        "filename": "java/com/google/gerrit/server/query/CommitEditsPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T10:55:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1233628_47d269d3",
       "range": {
         "startLine": 154,
         "startChar": 5,
@@ -127,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "893fe08a_f91475fb",
+        "filename": "java/com/google/gerrit/server/query/CommitEditsPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T10:55:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d52eec_9e7de7e1",
+      "range": {
+        "startLine": 167,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 13
+      },
+      "revId": "bd7135ddd1788ced04212b0c6c8c184c07dc083a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26596f06_3568e684",
@@ -140,6 +272,30 @@
       "writtenOn": "2021-11-19T13:31:12Z",
       "side": 1,
       "message": "It seems we require filePattern and contentPattern to always be regular expressions?\n\nShould we maybe support both exact matches and regular expression like we usually do and require regular expressions to start with \u0027^\u0027, e.g. \u0027/pom.xml\u0027 (root pom.xml file) vs \u0027^.*/pom\\.xml$\u0027 (all pom.xml files)?\n\nI guess many use cases could be served without regexps and avoiding expensive reg-exp matching for these cases could make this more performant and also it looks more readable.",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 0
+      },
+      "revId": "bd7135ddd1788ced04212b0c6c8c184c07dc083a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48aa55d9_07e8f0e7",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T10:55:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26596f06_3568e684",
       "range": {
         "startLine": 80,
         "startChar": 4,

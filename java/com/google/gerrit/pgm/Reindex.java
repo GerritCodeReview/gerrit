@@ -17,10 +17,12 @@ package com.google.gerrit.pgm;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.IndexType;
@@ -29,17 +31,24 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.server.cache.CacheDisplay;
+import com.google.gerrit.server.cache.CacheInfo;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.options.AutoFlush;
+import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.util.ReplicaUtil;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.multibindings.OptionalBinder;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,6 +57,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
@@ -78,6 +89,7 @@ public class Reindex extends SiteProgram {
   private Config globalConfig;
 
   @Inject private Collection<IndexDefinition<?, ?, ?>> indexDefs;
+  @Inject private DynamicMap<Cache<?, ?>> cacheMap;
 
   @Override
   public int run() throws Exception {
@@ -163,6 +175,16 @@ public class Reindex extends SiteProgram {
       throw new IllegalStateException("unsupported index.type = " + indexType);
     }
     modules.add(indexModule);
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            super.configure();
+            OptionalBinder.newOptionalBinder(binder(), IsFirstInsertForEntry.class)
+                .setBinding()
+                .toInstance(IsFirstInsertForEntry.YES);
+          }
+        });
     modules.add(new BatchProgramModule(dbInjector));
     modules.add(
         new FactoryModule() {
@@ -210,6 +232,20 @@ public class Reindex extends SiteProgram {
     System.out.format(
         "Index %s in version %d is %sready\n",
         def.getName(), index.getSchema().getVersion(), result.success() ? "" : "NOT ");
+
+    try (Writer sw = new StringWriter()) {
+      sw.write(String.format("Cache Statistics at the end of reindexing %s\n", def.getName()));
+      new CacheDisplay(
+              sw,
+              StreamSupport.stream(cacheMap.spliterator(), false)
+                  .map(e -> new CacheInfo(e.getExportName(), e.get()))
+                  .collect(Collectors.toList()))
+          .displayCaches();
+      System.out.print(sw.toString());
+    } catch (Exception e) {
+      System.out.format("Error displaying the cache statistics\n" + e.getMessage());
+    }
+
     return result.success();
   }
 }

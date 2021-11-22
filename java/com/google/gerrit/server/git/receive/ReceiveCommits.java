@@ -3096,7 +3096,7 @@ class ReceiveCommits {
       }
       if (isConfig(cmd)) {
         logger.atFine().log("Reloading project in cache");
-        projectCache.evict(project);
+        projectCache.evictAndReindex(project);
         ProjectState ps =
             projectCache.get(project.getNameKey()).orElseThrow(illegalState(project.getNameKey()));
         try {

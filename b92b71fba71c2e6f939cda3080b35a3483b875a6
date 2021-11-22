@@ -16,6 +16,24 @@
       "message": "What if there\u0027s more than one unicode character in a row?",
       "revId": "b92b71fba71c2e6f939cda3080b35a3483b875a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7b31a37_bddcb78e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-22T18:30:22Z",
+      "side": 1,
+      "message": "Do you mean something like:\n\"aaaaaa\".split(\u0027a\u0027)\n(7) [\u0027\u0027, \u0027\u0027, \u0027\u0027, \u0027\u0027, \u0027\u0027, \u0027\u0027, \u0027\u0027]\n\nCan you clarify where do you see problem? I can check/fix.",
+      "parentUuid": "9ada3a89_6403f7c4",
+      "revId": "b92b71fba71c2e6f939cda3080b35a3483b875a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

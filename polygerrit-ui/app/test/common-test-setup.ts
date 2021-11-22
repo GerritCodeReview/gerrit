@@ -49,7 +49,6 @@ import {cleanUpStorage} from '../services/storage/gr-storage_mock';
 import {updatePreferences} from '../services/user/user-model';
 import {createDefaultPreferences} from '../constants/constants';
 import {getAppContext} from '../services/app-context';
-import {_testOnly_resetState as resetBrowserState} from '../services/browser/browser-model';
 import {_testOnly_resetState as resetChangeState} from '../services/change/change-model';
 import {_testOnly_resetState as resetChecksState} from '../services/checks/checks-model';
 import {_testOnly_resetState as resetCommentsState} from '../services/comments/comments-model';
@@ -119,7 +118,6 @@ setup(() => {
   initGlobalVariables();
   _testOnly_initGerritPluginApi();
 
-  resetBrowserState();
   resetChangeState();
   resetChecksState();
   resetCommentsState();

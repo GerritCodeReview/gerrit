@@ -27,7 +27,6 @@ import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announce
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {getAppContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
-import {diffViewMode$} from '../../../services/browser/browser-model';
 
 @customElement('gr-diff-mode-selector')
 export class GrDiffModeSelector extends PolymerElement {
@@ -48,6 +47,8 @@ export class GrDiffModeSelector extends PolymerElement {
   @property({type: Boolean})
   showTooltipBelow = false;
 
+  // Private but accessed by tests.
+  readonly browserModel = getAppContext().browserModel;
   private readonly userService = getAppContext().userService;
 
   private subscriptions: Subscription[] = [];
@@ -62,7 +63,8 @@ export class GrDiffModeSelector extends PolymerElement {
       IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
     ).requestAvailability();
     this.subscriptions.push(
-      diffViewMode$.subscribe(diffView => (this.mode = diffView))
+      this.browserModel.diffViewMode$.subscribe(
+        diffView => (this.mode = diffView))
     );
   }
 

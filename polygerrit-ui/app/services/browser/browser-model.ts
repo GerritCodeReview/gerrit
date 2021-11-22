@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
+import {Finalizable} from '../registry';
 import {preferenceDiffViewMode$} from '../user/user-model';
 import {DiffViewMode} from '../../api/diff';
 
@@ -33,44 +33,48 @@ interface BrowserState {
 
 const initialState: BrowserState = {};
 
-const privateState$ = new BehaviorSubject(initialState);
+export class BrowserModel implements Finalizable {
+  private readonly privateState$ = new BehaviorSubject(initialState);
+  readonly diffViewMode$: Observable<DiffViewMode>;
 
-export function _testOnly_resetState() {
-  // We cannot assign a new subject to privateState$, because all the selectors
-  // have already subscribed to the original subject. So we have to emit the
-  // initial state on the existing subject.
-  privateState$.next({...initialState});
+  get viewState$(): Observable<BrowserState> { return this.privateState$; }
+  get viewState(): BrowserState { return this.privateState$.getValue(); }
+
+  constructor() {
+    // TODO; Inject the UserModel once preferenceDiffViewMode$ has moved to
+    // the user model.
+    this.diffViewMode$ = combineLatest([
+      this.privateState$.pipe(
+        map(
+          state =>
+            !!state.screenWidth &&
+            state.screenWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX
+        ),
+        distinctUntilChanged()
+      ),
+      preferenceDiffViewMode$,
+    ]).pipe(
+      map(([isScreenTooSmall, preferenceDiffViewMode]) => {
+        if (isScreenTooSmall) return DiffViewMode.UNIFIED;
+        else return preferenceDiffViewMode;
+      }, distinctUntilChanged())
+    );
+  }
+
+  /* Observer the screen width so that the app can react to changes to it */
+  observeWidth() {
+    return new ResizeObserver(entries => {
+      entries.forEach(entry => {
+        this.setScreenWidth(entry.contentRect.width);
+      });
+    });
+  }
+
+  // Private but used in tests.
+  setScreenWidth(screenWidth: number) {
+    this.privateState$.next(
+      {...this.privateState$.getValue(), screenWidth})
+  }
+
+  finalize() {}
 }
-
-export function _testOnly_setState(state: BrowserState) {
-  privateState$.next(state);
-}
-
-export function _testOnly_getState() {
-  return privateState$.getValue();
-}
-
-export const viewState$: Observable<BrowserState> = privateState$;
-
-export function updateStateScreenWidth(screenWidth: number) {
-  privateState$.next({...privateState$.getValue(), screenWidth});
-}
-
-export const isScreenTooSmall$ = viewState$.pipe(
-  map(
-    state =>
-      !!state.screenWidth &&
-      state.screenWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX
-  ),
-  distinctUntilChanged()
-);
-
-export const diffViewMode$: Observable<DiffViewMode> = combineLatest([
-  isScreenTooSmall$,
-  preferenceDiffViewMode$,
-]).pipe(
-  map(([isScreenTooSmall, preferenceDiffViewMode]) => {
-    if (isScreenTooSmall) return DiffViewMode.UNIFIED;
-    else return preferenceDiffViewMode;
-  }, distinctUntilChanged())
-);

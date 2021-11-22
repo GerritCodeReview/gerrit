@@ -361,6 +361,9 @@ export class GrDiffView extends base {
 
   private readonly changeService = getAppContext().changeService;
 
+  // Private but used in tests
+  readonly browserModel = getAppContext().browserModel;
+
   // We just want to make sure that CommentsService is instantiated.
   // Otherwise subscribing to the model won't emit any data.
   private readonly _commentsService = getAppContext().commentsService;

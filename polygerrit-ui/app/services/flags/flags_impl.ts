@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {FlagsService} from './flags';
+import {Finalizable} from '../registry';
 
 declare global {
   interface Window {
@@ -27,13 +28,15 @@ declare global {
  *
  * Provides all related methods / properties regarding on feature flags.
  */
-export class FlagsServiceImplementation implements FlagsService {
+export class FlagsServiceImplementation implements FlagsService, Finalizable {
   private readonly _experiments: Set<string>;
 
   constructor() {
     // stores all enabled experiments
     this._experiments = this._loadExperiments();
   }
+
+  finalize() {}
 
   isEnabled(experimentId: string): boolean {
     return this._experiments.has(experimentId);

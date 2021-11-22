@@ -16,6 +16,7 @@
  */
 
 import {StorageLocation, StorageObject, StorageService} from './gr-storage';
+import {Finalizable} from '../registry';
 
 export const DURATION_DAY = 24 * 60 * 60 * 1000;
 
@@ -27,12 +28,14 @@ CLEANUP_PREFIXES_MAX_AGE_MAP.set('respectfultip', 14 * DURATION_DAY);
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('draft', DURATION_DAY);
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('editablecontent', DURATION_DAY);
 
-export class GrStorageService implements StorageService {
+export class GrStorageService implements StorageService, Finalizable {
   private lastCleanup = 0;
 
   private readonly storage = window.localStorage;
 
   private exceededQuota = false;
+
+  finalize() {}
 
   getDraftComment(location: StorageLocation): StorageObject | null {
     this.cleanupItems();

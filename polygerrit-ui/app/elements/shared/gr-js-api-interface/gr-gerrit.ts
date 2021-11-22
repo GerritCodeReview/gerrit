@@ -151,6 +151,8 @@ class GerritImpl implements GerritInternal {
     assertIsDefined(this.restApiService, 'restApiService');
   }
 
+  finalize() {}
+
   /**
    * @deprecated Use plugin.styles().css(rulesStr) instead. Please, consult
    * the documentation how to replace it accordingly.

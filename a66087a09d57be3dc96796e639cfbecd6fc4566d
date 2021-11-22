@@ -33,6 +33,24 @@
       "message": "Inline this condition.",
       "revId": "a66087a09d57be3dc96796e639cfbecd6fc4566d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f717d657_95d23d81",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-22T23:39:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "59775f31_cc7df690",
+      "revId": "a66087a09d57be3dc96796e639cfbecd6fc4566d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

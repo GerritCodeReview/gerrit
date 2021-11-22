@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "291bd83d_7ba6d3e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-22T21:57:34Z",
+      "side": 1,
+      "message": "@Adithya I have one error-prone error on LuceneChangeIndex when merging this change to stable-3.5. Can you help understanding the context? (see below the comment) ",
+      "revId": "43cce8b744fd5540be987647d5510cfe2d8ba8b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19d571fc_3e5c698c",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-22T21:57:34Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "range": {
+        "startLine": 291,
+        "startChar": 4,
+        "endLine": 291,
+        "endChar": 60
+      },
+      "revId": "43cce8b744fd5540be987647d5510cfe2d8ba8b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

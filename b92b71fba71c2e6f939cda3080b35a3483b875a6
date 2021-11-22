@@ -34,6 +34,24 @@
       "parentUuid": "9ada3a89_6403f7c4",
       "revId": "b92b71fba71c2e6f939cda3080b35a3483b875a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f700d23_94541679",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T18:34:24Z",
+      "side": 1,
+      "message": "Well you\u0027ll be annotating the same position multiple times because pos won\u0027t get updated.",
+      "parentUuid": "e7b31a37_bddcb78e",
+      "revId": "b92b71fba71c2e6f939cda3080b35a3483b875a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -110,6 +110,8 @@ import org.eclipse.jgit.util.RawParseUtils;
 public class CommitRewriter {
   /** Options to run {@link #backfillProject}. */
   public static class RunOptions implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /** Whether to rewrite the commit history or only find refs that need to be fixed. */
     public boolean dryRun = true;
     /**
@@ -123,10 +125,9 @@ public class CommitRewriter {
     /** Max number of refs to update in a single {@link BatchRefUpdate}. */
     public int maxRefsInBatch = 10000;
     /**
-     * Max number of refs to fix by a single {@link RefsUpdate#backfillProject} run. Since second
-     * run on the same set of refs is a no-op, running with this option in a loop will eventually
-     * fix all refs. Number of executed {@link BatchRefUpdate} depends on {@link #maxRefsInBatch}
-     * option.
+     * Max number of refs to fix by a single {@link RefsUpdate} run. Since the second run on the
+     * same set of refs is a no-op, running with this option in a loop will eventually fix all refs.
+     * The number of executed {@link BatchRefUpdate} depends on {@link #maxRefsInBatch} option.
      */
     public int maxRefsToUpdate = 50000;
   }
@@ -263,6 +264,8 @@ public class CommitRewriter {
     BackfillResult result = new BackfillResult();
     result.ok = true;
     int refsInUpdate = 0;
+
+    @SuppressWarnings("resource")
     RefsUpdate refsUpdate = null;
     try {
       for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {

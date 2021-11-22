@@ -78,6 +78,7 @@ import {
   CreateCommentEventDetail as CreateCommentEventDetailApi,
   RenderPreferences,
   GrDiff as GrDiffApi,
+  DisplayLine,
 } from '../../../api/diff';
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -103,11 +104,6 @@ const COMMIT_MSG_PATH = '/COMMIT_MSG';
  * 4 + 72 + 4
  */
 const COMMIT_MSG_LINE_LENGTH = 72;
-
-export interface DisplayLine {
-  lineNum: number;
-  side: Side;
-}
 
 export interface GrDiff {
   $: {

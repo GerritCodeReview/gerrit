@@ -63,11 +63,7 @@ import {
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
 } from '../../../types/diff';
-import {
-  CreateCommentEventDetail,
-  GrDiff,
-  DisplayLine,
-} from '../gr-diff/gr-diff';
+import {CreateCommentEventDetail, GrDiff} from '../gr-diff/gr-diff';
 import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
@@ -90,7 +86,7 @@ import {Timing} from '../../../constants/reporting';
 import {changeComments$} from '../../../services/comments/comments-model';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subject} from 'rxjs';
-import {RenderPreferences} from '../../../api/diff';
+import {DisplayLine, RenderPreferences} from '../../../api/diff';
 import {diffViewMode$} from '../../../services/browser/browser-model';
 import {takeUntil} from 'rxjs/operators';
 

@@ -33,6 +33,24 @@
       "message": "Maybe also add at least one test where file pattern is not a regular expression and one test where content pattern is a regular expression?",
       "revId": "c6fd612cbb67c3ff1cbfde077b91943c7bd8c3a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a06c47be_e839ec44",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-22T12:54:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a32ae67_3ea1e750",
+      "revId": "c6fd612cbb67c3ff1cbfde077b91943c7bd8c3a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

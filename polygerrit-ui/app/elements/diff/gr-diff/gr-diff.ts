@@ -104,9 +104,9 @@ const COMMIT_MSG_PATH = '/COMMIT_MSG';
  */
 const COMMIT_MSG_LINE_LENGTH = 72;
 
-export interface LineOfInterest {
-  number: number;
-  leftSide: boolean;
+export interface DisplayLine {
+  lineNum: number;
+  side: Side;
 }
 
 export interface GrDiff {
@@ -204,7 +204,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   viewMode = DiffViewMode.SIDE_BY_SIDE;
 
   @property({type: Object})
-  lineOfInterest?: LineOfInterest;
+  lineOfInterest?: DisplayLine;
 
   /**
    * True when diff is changed, until the content is done rendering.
@@ -463,8 +463,8 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   _computeKeyLocations() {
     const keyLocations: KeyLocations = {left: {}, right: {}};
     if (this.lineOfInterest) {
-      const side = this.lineOfInterest.leftSide ? Side.LEFT : Side.RIGHT;
-      keyLocations[side][this.lineOfInterest.number] = true;
+      const side = this.lineOfInterest.side;
+      keyLocations[side][this.lineOfInterest.lineNum] = true;
     }
     const threadEls = (dom(this) as PolymerDomWrapper)
       .getEffectiveChildNodes()

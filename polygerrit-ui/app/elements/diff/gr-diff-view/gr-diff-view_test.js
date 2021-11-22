@@ -30,6 +30,7 @@ import {
 } from '../../../test/test-data-generators.js';
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
+import {Side} from '../../../api/diff.js';
 import {EventType} from '../../../types/events.js';
 import {_testOnly_setState as browserModelSetState} from '../../../services/browser/browser-model.js';
 import {_testOnly_setState as setUserModelState, _testOnly_getState as getUserModelState} from '../../../services/user/user-model.js';
@@ -1518,12 +1519,12 @@ suite('gr-diff-view tests', () => {
 
       element._focusLineNum = 12;
       let result = element._getLineOfInterest(false);
-      assert.equal(result.number, 12);
-      assert.isNotOk(result.leftSide);
+      assert.equal(result.lineNum, 12);
+      assert.equal(result.side, Side.RIGHT);
 
       result = element._getLineOfInterest(true);
-      assert.equal(result.number, 12);
-      assert.isOk(result.leftSide);
+      assert.equal(result.lineNum, 12);
+      assert.equal(result.side, Side.RIGHT);
     });
 
     test('_onLineSelected', () => {

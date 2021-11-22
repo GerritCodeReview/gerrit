@@ -836,7 +836,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('passes in lineOfInterest', () => {
-    const value = {number: 123, leftSide: true};
+    const value = {lineNum: 123, side: Side.LEFT};
     element.lineOfInterest = value;
     assert.equal(element.$.diff.lineOfInterest, value);
   });

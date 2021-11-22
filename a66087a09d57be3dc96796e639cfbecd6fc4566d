@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d15fc54c_0f6720ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T23:18:06Z",
+      "side": 1,
+      "message": "Thanks for the quick turn-around!",
+      "revId": "a66087a09d57be3dc96796e639cfbecd6fc4566d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59775f31_cc7df690",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T23:18:06Z",
+      "side": 1,
+      "message": "Inline this condition.",
+      "revId": "a66087a09d57be3dc96796e639cfbecd6fc4566d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

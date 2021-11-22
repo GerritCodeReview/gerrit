@@ -148,7 +148,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
         setExclusiveGroupPermissions(projectConfig, projectUpdate.exclusiveGroupPermissions());
         projectConfig.commit(metaDataUpdate);
       }
-      projectCache.evict(nameKey);
+      projectCache.evictAndReindex(nameKey);
     }
 
     private void removePermissions(
@@ -293,7 +293,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
 
         setConfig(projectConfig);
         try {
-          projectCache.evict(nameKey);
+          projectCache.evictAndReindex(nameKey);
         } catch (Exception e) {
           // Evicting the project from the cache, also triggers a reindex of the project.
           // The reindex step fails if the project config is invalid. That's fine, since it was our
@@ -311,7 +311,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
         testProjectInvalidation.projectConfigUpdater().forEach(c -> c.accept(projectConfig));
         setConfig(projectConfig);
         try {
-          projectCache.evict(nameKey);
+          projectCache.evictAndReindex(nameKey);
         } catch (Exception e) {
           // Evicting the project from the cache, also triggers a reindex of the project.
           // The reindex step fails if the project config is invalid. That's fine, since it was our

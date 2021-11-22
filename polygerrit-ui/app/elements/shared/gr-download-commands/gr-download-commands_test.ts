@@ -19,7 +19,6 @@ import '../../../test/common-test-setup-karma';
 import './gr-download-commands';
 import {GrDownloadCommands} from './gr-download-commands';
 import {isHidden, queryAndAssert, stubRestApi} from '../../../test/test-utils';
-import {updatePreferences} from '../../../services/user/user-model';
 import {createPreferences} from '../../../test/test-data-generators';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
@@ -116,7 +115,7 @@ suite('gr-download-commands', () => {
     test('loads scheme from preferences', async () => {
       const element = basicFixture.instantiate();
       await flush();
-      updatePreferences({
+      element.userModel.setPreferences({
         ...createPreferences(),
         download_scheme: 'repo',
       });
@@ -126,7 +125,7 @@ suite('gr-download-commands', () => {
     test('normalize scheme from preferences', async () => {
       const element = basicFixture.instantiate();
       await flush();
-      updatePreferences({
+      element.userModel.setPreferences({
         ...createPreferences(),
         download_scheme: 'REPO',
       });

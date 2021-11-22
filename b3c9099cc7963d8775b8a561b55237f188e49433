@@ -46,6 +46,29 @@
       },
       "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0494acee_4b525cce",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-22T13:42:18Z",
+      "side": 1,
+      "message": "what is the purpose of this logic to emit undefined? It seems we are working around it in change-view and diff-view anyway. Also the old TODO seemed to say it was only needed \"For now\" until the service is loading the data.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 33
+      },
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a85c871_2bacb7b5",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 3022,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-22T14:00:38Z",
+      "side": 1,
+      "message": "This should not be required?",
+      "range": {
+        "startLine": 3021,
+        "startChar": 15,
+        "endLine": 3022,
+        "endChar": 31
+      },
+      "revId": "1eadeeae1667324a80482d00f310a47323d78068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

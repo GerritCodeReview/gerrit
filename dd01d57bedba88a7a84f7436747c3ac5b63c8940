@@ -16,6 +16,24 @@
       "message": "I don\u0027t see any difference between js and ts. Let me know if there was a significant change.",
       "revId": "dd01d57bedba88a7a84f7436747c3ac5b63c8940",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8562de34_624be67b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-22T17:08:59Z",
+      "side": 1,
+      "message": "It isn\u0027t so much a large change but there was conversion to typing.",
+      "parentUuid": "1896a241_2c72cd8e",
+      "revId": "dd01d57bedba88a7a84f7436747c3ac5b63c8940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -56,6 +56,24 @@
       "message": "Why not use dot notation rather then in the brackets?",
       "revId": "cfeaa89769cd6fe048dc52fc4a394595cc3873bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2627900_5049d8bb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-22T22:49:37Z",
+      "side": 1,
+      "message": "This doesn\u0027t work because actions is defined as a map from strings.  So using .gc is not rename-safe.",
+      "parentUuid": "8e7ddff6_ad635ed9",
+      "revId": "cfeaa89769cd6fe048dc52fc4a394595cc3873bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "671f7e9e_e9ad244d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-22T12:21:35Z",
+      "side": 1,
+      "message": "Nice.",
+      "revId": "c6fd612cbb67c3ff1cbfde077b91943c7bd8c3a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a32ae67_3ea1e750",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-22T12:21:35Z",
+      "side": 1,
+      "message": "Maybe also add at least one test where file pattern is not a regular expression and one test where content pattern is a regular expression?",
+      "revId": "c6fd612cbb67c3ff1cbfde077b91943c7bd8c3a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53002f73_56b3dadd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-22T08:56:20Z",
+      "side": 1,
+      "message": "What is the solution exactly? Describe in the message here.\n\nThere are a bunch of changes in gr-diff-builder-element.ts but they are just refactors?\n\nSo the main changes are in the css entirely?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "45722b845f434e7b228b5a17d216c99f7124c9e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

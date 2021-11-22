@@ -37,6 +37,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "796bcd39_9ed6af8a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-22T15:15:38Z",
+      "side": 1,
+      "message": "Isn\u0027t it possible for this._change to be exactly the same as change in which this assignment can be skipped?\nThis probably fixes the issue of certain properties being reset when nothing changes after coming back to change view?\n\nI quickly checked and this fixes the regression I mentioned in the other comment.",
+      "range": {
+        "startLine": 658,
+        "startChar": 6,
+        "endLine": 658,
+        "endChar": 40
+      },
+      "revId": "b3c9099cc7963d8775b8a561b55237f188e49433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cf49026_dafc9c11",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 3

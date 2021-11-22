@@ -47,32 +47,33 @@ suite('gr-change-list-item tests', () => {
 
   let element: GrChangeListItem;
 
-  setup(() => {
+  setup(async () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
-  test('_computeLabelCategory', () => {
+  test('computeLabelCategory', () => {
     assert.equal(
-      element._computeLabelCategory({...change, labels: {}}, 'Verified'),
+      element.computeLabelCategory({...change, labels: {}}, 'Verified'),
       LabelCategory.NOT_APPLICABLE
     );
     assert.equal(
-      element._computeLabelCategory(
+      element.computeLabelCategory(
         {...change, labels: {Verified: {approved: account, value: 1}}},
         'Verified'
       ),
       LabelCategory.APPROVED
     );
     assert.equal(
-      element._computeLabelCategory(
+      element.computeLabelCategory(
         {...change, labels: {Verified: {rejected: account, value: -1}}},
         'Verified'
       ),
       LabelCategory.REJECTED
     );
     assert.equal(
-      element._computeLabelCategory(
+      element.computeLabelCategory(
         {
           ...change,
           labels: {'Code-Review': {approved: account, value: 1}},
@@ -83,21 +84,21 @@ suite('gr-change-list-item tests', () => {
       LabelCategory.UNRESOLVED_COMMENTS
     );
     assert.equal(
-      element._computeLabelCategory(
+      element.computeLabelCategory(
         {...change, labels: {'Code-Review': {value: 1}}},
         'Code-Review'
       ),
       LabelCategory.POSITIVE
     );
     assert.equal(
-      element._computeLabelCategory(
+      element.computeLabelCategory(
         {...change, labels: {'Code-Review': {value: -1}}},
         'Code-Review'
       ),
       LabelCategory.NEGATIVE
     );
     assert.equal(
-      element._computeLabelCategory(
+      element.computeLabelCategory(
         {...change, labels: {'Code-Review': {value: -1}}},
         'Verified'
       ),
@@ -147,34 +148,34 @@ suite('gr-change-list-item tests', () => {
     );
   });
 
-  test('_computeLabelTitle', () => {
+  test('computeLabelTitle', () => {
     assert.equal(
-      element._computeLabelTitle({...change, labels: {}}, 'Verified'),
+      element.computeLabelTitle({...change, labels: {}}, 'Verified'),
       'Label not applicable'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {...change, labels: {Verified: {approved: {name: 'Diffy'}}}},
         'Verified'
       ),
       'Verified by Diffy'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {...change, labels: {Verified: {approved: {name: 'Diffy'}}}},
         'Code-Review'
       ),
       'Label not applicable'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {...change, labels: {Verified: {rejected: {name: 'Diffy'}}}},
         'Verified'
       ),
       'Verified by Diffy'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {
           ...change,
           labels: {'Code-Review': {disliked: {name: 'Diffy'}, value: -1}},
@@ -184,7 +185,7 @@ suite('gr-change-list-item tests', () => {
       'Code-Review by Diffy'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {
           ...change,
           labels: {'Code-Review': {recommended: {name: 'Diffy'}, value: 1}},
@@ -194,7 +195,7 @@ suite('gr-change-list-item tests', () => {
       'Code-Review by Diffy'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {
           ...change,
           labels: {
@@ -209,7 +210,7 @@ suite('gr-change-list-item tests', () => {
       'Code-Review by Admin'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {
           ...change,
           labels: {
@@ -224,7 +225,7 @@ suite('gr-change-list-item tests', () => {
       'Code-Review by Admin'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {
           ...change,
           labels: {
@@ -240,7 +241,7 @@ suite('gr-change-list-item tests', () => {
       'Code-Review by Admin'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {
           ...change,
           labels: {
@@ -256,7 +257,7 @@ suite('gr-change-list-item tests', () => {
       'Code-Review by Diffy'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {
           ...change,
           labels: {'Code-Review': {approved: account, value: 1}},
@@ -267,7 +268,7 @@ suite('gr-change-list-item tests', () => {
       '1 unresolved comment'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {
           ...change,
           labels: {'Code-Review': {approved: {name: 'Diffy'}, value: 1}},
@@ -278,7 +279,7 @@ suite('gr-change-list-item tests', () => {
       '1 unresolved comment,\nCode-Review by Diffy'
     );
     assert.equal(
-      element._computeLabelTitle(
+      element.computeLabelTitle(
         {
           ...change,
           labels: {'Code-Review': {approved: account, value: 1}},
@@ -290,20 +291,20 @@ suite('gr-change-list-item tests', () => {
     );
   });
 
-  test('_computeLabelIcon', () => {
+  test('computeLabelIcon', () => {
     assert.equal(
-      element._computeLabelIcon({...change, labels: {}}, 'missingLabel'),
+      element.computeLabelIcon({...change, labels: {}}, 'missingLabel'),
       ''
     );
     assert.equal(
-      element._computeLabelIcon(
+      element.computeLabelIcon(
         {...change, labels: {Verified: {approved: account, value: 1}}},
         'Verified'
       ),
       'gr-icons:check'
     );
     assert.equal(
-      element._computeLabelIcon(
+      element.computeLabelIcon(
         {
           ...change,
           labels: {'Code-Review': {approved: account, value: 1}},
@@ -315,41 +316,41 @@ suite('gr-change-list-item tests', () => {
     );
   });
 
-  test('_computeLabelValue', () => {
+  test('computeLabelValue', () => {
     assert.equal(
-      element._computeLabelValue({...change, labels: {}}, 'Verified'),
+      element.computeLabelValue({...change, labels: {}}, 'Verified'),
       ''
     );
     assert.equal(
-      element._computeLabelValue(
+      element.computeLabelValue(
         {...change, labels: {Verified: {approved: account, value: 1}}},
         'Verified'
       ),
       '✓'
     );
     assert.equal(
-      element._computeLabelValue(
+      element.computeLabelValue(
         {...change, labels: {Verified: {value: 1}}},
         'Verified'
       ),
       '+1'
     );
     assert.equal(
-      element._computeLabelValue(
+      element.computeLabelValue(
         {...change, labels: {Verified: {value: -1}}},
         'Verified'
       ),
       '-1'
     );
     assert.equal(
-      element._computeLabelValue(
+      element.computeLabelValue(
         {...change, labels: {Verified: {approved: account}}},
         'Verified'
       ),
       '✓'
     );
     assert.equal(
-      element._computeLabelValue(
+      element.computeLabelValue(
         {...change, labels: {Verified: {rejected: account}}},
         'Verified'
       ),
@@ -371,7 +372,7 @@ suite('gr-change-list-item tests', () => {
       'Requirements',
     ];
 
-    await flush();
+    await element.updateComplete;
 
     for (const column of columnNames) {
       const elementClass = '.' + column.toLowerCase();
@@ -394,7 +395,7 @@ suite('gr-change-list-item tests', () => {
       'Requirements',
     ];
 
-    await flush();
+    await element.updateComplete;
 
     for (const column of columnNames) {
       const elementClass = '.' + column.toLowerCase();
@@ -437,7 +438,7 @@ suite('gr-change-list-item tests', () => {
     attSetIds.forEach(id => (element.change!.attention_set![id] = {account}));
 
     const actual = element
-      ._computeReviewers(element.change)
+      .computeReviewers(element.change)
       .map(r => r._account_id);
     assert.deepEqual(actual, expected as AccountId[]);
   }
@@ -468,14 +469,14 @@ suite('gr-change-list-item tests', () => {
   test('random column does not exist', async () => {
     element.visibleChangeTableColumns = ['Bad'];
 
-    await flush();
+    await element.updateComplete;
     const elementClass = '.bad';
     assert.isNotOk(query(element, elementClass));
   });
 
   test('TShirt sizing tooltip', () => {
     assert.equal(
-      element._computeSizeTooltip({
+      element.computeSizeTooltip({
         ...change,
         insertions: NaN,
         deletions: NaN,
@@ -483,18 +484,18 @@ suite('gr-change-list-item tests', () => {
       'Size unknown'
     );
     assert.equal(
-      element._computeSizeTooltip({...change, insertions: 0, deletions: 0}),
+      element.computeSizeTooltip({...change, insertions: 0, deletions: 0}),
       'Size unknown'
     );
     assert.equal(
-      element._computeSizeTooltip({...change, insertions: 1, deletions: 2}),
+      element.computeSizeTooltip({...change, insertions: 1, deletions: 2}),
       'added 1, removed 2 lines'
     );
   });
 
   test('TShirt sizing', () => {
     assert.equal(
-      element._computeChangeSize({
+      element.computeChangeSize({
         ...change,
         insertions: NaN,
         deletions: NaN,
@@ -502,23 +503,23 @@ suite('gr-change-list-item tests', () => {
       null
     );
     assert.equal(
-      element._computeChangeSize({...change, insertions: 1, deletions: 1}),
+      element.computeChangeSize({...change, insertions: 1, deletions: 1}),
       'XS'
     );
     assert.equal(
-      element._computeChangeSize({...change, insertions: 9, deletions: 1}),
+      element.computeChangeSize({...change, insertions: 9, deletions: 1}),
       'S'
     );
     assert.equal(
-      element._computeChangeSize({...change, insertions: 10, deletions: 200}),
+      element.computeChangeSize({...change, insertions: 10, deletions: 200}),
       'M'
     );
     assert.equal(
-      element._computeChangeSize({...change, insertions: 99, deletions: 900}),
+      element.computeChangeSize({...change, insertions: 99, deletions: 900}),
       'L'
     );
     assert.equal(
-      element._computeChangeSize({...change, insertions: 99, deletions: 999}),
+      element.computeChangeSize({...change, insertions: 99, deletions: 999}),
       'XL'
     );
   });
@@ -526,7 +527,7 @@ suite('gr-change-list-item tests', () => {
   test('change params passed to gr-navigation', async () => {
     const navStub = sinon.stub(GerritNav);
     element.change = change;
-    await flush();
+    await element.updateComplete;
 
     assert.deepEqual(navStub.getUrlForChange.lastCall.args, [change]);
     assert.deepEqual(navStub.getUrlForProjectChanges.lastCall.args, [
@@ -546,14 +547,14 @@ suite('gr-change-list-item tests', () => {
     ]);
   });
 
-  test('_computeRepoDisplay', () => {
-    assert.equal(element._computeRepoDisplay(change), 'host/a/test/repo');
+  test('computeRepoDisplay', () => {
+    assert.equal(element.computeRepoDisplay(change), 'host/a/test/repo');
     assert.equal(
-      element._computeTruncatedRepoDisplay(change),
+      element.computeTruncatedRepoDisplay(change),
       'host/…/test/repo'
     );
     delete change.internalHost;
-    assert.equal(element._computeRepoDisplay(change), 'a/test/repo');
-    assert.equal(element._computeTruncatedRepoDisplay(change), '…/test/repo');
+    assert.equal(element.computeRepoDisplay(change), 'a/test/repo');
+    assert.equal(element.computeTruncatedRepoDisplay(change), '…/test/repo');
   });
 });

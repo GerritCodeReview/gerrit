@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "beadc2da_c3360c19",
+        "filename": "java/com/google/gerrit/sshd/HostKeyProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-23T20:27:35Z",
+      "side": 0,
+      "message": "Actually I believe this was correct: the problem should be highlighted *before* starting Gerrit though, during the init phase.",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 75
+      },
+      "revId": "66e70c70502a4337253283c2382c2f790cd84b9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

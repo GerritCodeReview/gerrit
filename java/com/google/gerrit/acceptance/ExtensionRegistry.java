@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -70,6 +71,7 @@ public class ExtensionRegistry {
   private final DynamicSet<PerformanceLogger> performanceLoggers;
   private final DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   private final DynamicSet<SubmitRule> submitRules;
+  private final DynamicSet<SubmitRequirement> submitRequirements;
   private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
   private final DynamicSet<ChangeETagComputation> changeETagComputations;
   private final DynamicSet<ActionVisitor> actionVisitors;
@@ -108,6 +110,7 @@ public class ExtensionRegistry {
       DynamicSet<PerformanceLogger> performanceLoggers,
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
       DynamicSet<SubmitRule> submitRules,
+      DynamicSet<SubmitRequirement> submitRequirements,
       DynamicSet<ChangeMessageModifier> changeMessageModifiers,
       DynamicSet<ChangeETagComputation> changeETagComputations,
       DynamicSet<ActionVisitor> actionVisitors,
@@ -142,6 +145,7 @@ public class ExtensionRegistry {
     this.performanceLoggers = performanceLoggers;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
     this.submitRules = submitRules;
+    this.submitRequirements = submitRequirements;
     this.changeMessageModifiers = changeMessageModifiers;
     this.changeETagComputations = changeETagComputations;
     this.actionVisitors = actionVisitors;
@@ -214,6 +218,10 @@ public class ExtensionRegistry {
 
     public Registration add(SubmitRule submitRule) {
       return add(submitRules, submitRule);
+    }
+
+    public Registration add(SubmitRequirement submitRequirement) {
+      return add(submitRequirements, submitRequirement);
     }
 
     public Registration add(ChangeMessageModifier changeMessageModifier) {

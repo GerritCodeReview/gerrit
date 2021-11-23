@@ -22,6 +22,30 @@
       },
       "revId": "646e873fff5fd96f2d4048113aaa9a29c6ba886c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14a1a589_d3a5c514",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2021-11-23T23:00:54Z",
+      "side": 1,
+      "message": "\u003e This is quite noisy and unexpected: can we have it enabled only if requested?\n\u003e At the moment, this is also displayed upon a Gerrit init.\n\nIf we decide to make this optional, I think it should be displayed by default since the \"noise\" is a very valuable educational feature. Given how important it is to have your caches tuned and filled for indexing, and given that most people don\u0027t read the docs, I think this can be invaluable. I would encourage potentially even adding more messages based on an analysis of the hit rates.",
+      "parentUuid": "d3d2a1f8_6be8d61d",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 5
+      },
+      "revId": "646e873fff5fd96f2d4048113aaa9a29c6ba886c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

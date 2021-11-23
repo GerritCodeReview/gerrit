@@ -70,6 +70,29 @@
       "parentUuid": "b407a201_4445dda4",
       "revId": "66e70c70502a4337253283c2382c2f790cd84b9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d312a53c_f09b3a5f",
+        "filename": "java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-23T20:32:15Z",
+      "side": 1,
+      "message": "Why not failing the init if we find a legacy ssh_key instead?\nOr, at least, asking the Gerrit admin something like:\n\"An existing legacy SSH host key has been found, which has two issues:\n- it could be potentially obsolete and insecure (older SSH key unchanged for many years)\n- it would prevent the generation of newer and more secure SSH host keys, such as ECDSA and ED\n\nWould you like to remove the old keys and generate new ones? [Y/n]\"\n\nThe default action should be \"Y\" because it is the safest option.\n\nIf the Gerrit admin says \"Y\", then we remove the old key and generate the new ones.\nIf the Gerrit admin says \"n\", then we keep the current status-quo.\n\nWDYT?",
+      "range": {
+        "startLine": 83,
+        "startChar": 10,
+        "endLine": 83,
+        "endChar": 30
+      },
+      "revId": "66e70c70502a4337253283c2382c2f790cd84b9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

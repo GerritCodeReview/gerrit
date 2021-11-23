@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f2b28e4_f8496b3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-23T13:51:00Z",
+      "side": 1,
+      "message": "We\u0027ll temporarily revert this change because this change introduced modifications that are not compatible with the version of Antlr we have inside Google.\n\nI\u0027ll investigate, find a fix and re-land these changes.",
+      "revId": "ee40ffc6f27eae30d939d59ce88d8fa716bf09e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

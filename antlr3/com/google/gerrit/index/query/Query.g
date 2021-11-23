@@ -157,12 +157,13 @@ FIELD_NAME
   ;
 
 EXACT_PHRASE
-@init { final StringBuilder buf = new StringBuilder(); }
-  : '"' ( ESCAPE[buf] | i = ~('\\'|'"') { buf.appendCodePoint(i); } )* '"' {
-      setText(buf.toString());
+  : '"' ( ~('"') )* '"' {
+      String s = $text;
+      setText(s.substring(1, s.length() - 1));
     }
-  | '{' ( ESCAPE[buf] | i = ~('\\'|'{'|'}') { buf.appendCodePoint(i); } )* '}' {
-      setText(buf.toString());
+  | '{' ( ~('{'|'}') )* '}' {
+      String s = $text;
+      setText(s.substring(1, s.length() - 1));
     }
   ;
 
@@ -196,11 +197,3 @@ fragment NON_WORD
      // | '~' permit
      )
   ;
-
-fragment ESCAPE[StringBuilder buf] :
-    '\\'
-    ( 't' { buf.append('\t'); }
-    | 'n' { buf.append('\n'); }
-    | 'r' { buf.append('\r'); }
-    | i = (~('t'|'n'|'r')) { buf.appendCodePoint(i); }
-    );

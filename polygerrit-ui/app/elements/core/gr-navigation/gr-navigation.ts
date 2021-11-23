@@ -612,11 +612,14 @@ export const GerritNav = {
   },
 
   navigateToTopicPage(topic: string) {
+    // "Back"/"Forward" buttons work correctly only with
+    // opt_redirect options
     this._navigate(
       this._getUrlFor({
         view: GerritView.TOPIC,
         topic,
-      })
+      }),
+      true
     );
   },
 

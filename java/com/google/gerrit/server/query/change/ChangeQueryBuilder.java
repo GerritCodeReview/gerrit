@@ -885,12 +885,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> f(String file) throws QueryParseException {
+  public Predicate<ChangeData> f(String file) {
     return file(file);
   }
 
   @Operator
-  public Predicate<ChangeData> file(String file) throws QueryParseException {
+  public Predicate<ChangeData> file(String file) {
     if (file.startsWith("^")) {
       return new RegexPathPredicate(file);
     }

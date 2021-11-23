@@ -140,9 +140,11 @@ export class GrVoteChip extends LitElement {
       }
     } else if (isQuickLabelInfo(this.label)) {
       if (this.label.approved) {
-        return '👍️';
+        return '👍';
       } else if (this.label.rejected) {
-        return '👎️';
+        return '👎';
+      } else if (this.label.disliked || this.label.recommended) {
+        return valueString(this.label.value);
       }
     }
     return '';

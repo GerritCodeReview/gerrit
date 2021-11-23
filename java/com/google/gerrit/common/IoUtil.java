@@ -32,16 +32,27 @@ import java.util.Set;
 public final class IoUtil {
   public static void copyWithThread(InputStream src, OutputStream dst) {
     new Thread("IoUtil-Copy") {
+      // We cannot propagate the exception since this code is running in a background thread.
+      // Printing the stacktrace is the best we can do. Hence ignoring the exception after printing
+      // the stacktrace is OK and it's fine to suppress the warning for the CatchAndPrintStackTrace
+      // bug pattern here.
+      @SuppressWarnings("CatchAndPrintStackTrace")
       @Override
       public void run() {
+        try {
+          copyIo();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+
+      private void copyIo() throws IOException {
         try {
           final byte[] buf = new byte[256];
           int n;
           while (0 < (n = src.read(buf))) {
             dst.write(buf, 0, n);
           }
-        } catch (IOException e) {
-          e.printStackTrace();
         } finally {
           try {
             src.close();

@@ -119,7 +119,7 @@ java_package_configuration(
         "-Xep:CacheLoaderNull:ERROR",
         "-Xep:CannotMockFinalClass:ERROR",
         "-Xep:CanonicalDuration:ERROR",
-        # "-Xep:CatchAndPrintStackTrace:WARN",
+        "-Xep:CatchAndPrintStackTrace:ERROR",
         "-Xep:CatchFail:ERROR",
         "-Xep:ChainedAssertionLosesContext:ERROR",
         "-Xep:ChainingConstructorIgnoresParameter:ERROR",

@@ -187,8 +187,12 @@ suite('label-util', () => {
     let labelInfo: QuickLabelInfo = {};
     assert.equal(getLabelStatus(labelInfo), LabelStatus.NEUTRAL);
     labelInfo = {approved: createAccountWithEmail()};
-    assert.equal(getLabelStatus(labelInfo), LabelStatus.RECOMMENDED);
+    assert.equal(getLabelStatus(labelInfo), LabelStatus.APPROVED);
     labelInfo = {rejected: createAccountWithEmail()};
+    assert.equal(getLabelStatus(labelInfo), LabelStatus.REJECTED);
+    labelInfo = {recommended: createAccountWithEmail()};
+    assert.equal(getLabelStatus(labelInfo), LabelStatus.RECOMMENDED);
+    labelInfo = {disliked: createAccountWithEmail()};
     assert.equal(getLabelStatus(labelInfo), LabelStatus.DISLIKED);
   });
 

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8ab7272_5a414bd3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-23T19:06:49Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "989ef151_9062808f",
+      "revId": "a1a066df142977d5bf67aae33eb042690de9fad3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b1306f0_d3a367f1",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-11-17T17:38:05Z",
       "side": 0,
       "message": "Where did all these tests move to?",
+      "revId": "a1a066df142977d5bf67aae33eb042690de9fad3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28fbdde3_a99335df",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-23T19:06:49Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "4b1306f0_d3a367f1",
       "revId": "a1a066df142977d5bf67aae33eb042690de9fad3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

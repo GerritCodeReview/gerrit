@@ -15,11 +15,20 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import java.util.Optional;
 
-/** Entity describing a requirement that should be met for a change to become submittable. */
+/** Entity describing a requirement that should be met for a change to become submittable.
+ *
+ * There are two ways to contribute {@link SubmitRequirement}:
+ * <ul>
+ *   <li>Set per-project in project.config (see {@link com.google.gerrit.server.project.ProjectState#getSubmitRequirements()}
+ *   <li>Bind a global {@link SubmitRequirement}, that will be evaluated for all projects.
+ * </ul>
+ * */
+@ExtensionPoint
 @AutoValue
 public abstract class SubmitRequirement {
   /** Requirement name. */
@@ -60,6 +69,12 @@ public abstract class SubmitRequirement {
    */
   public abstract boolean allowOverrideInChildProjects();
 
+  /**
+   * Boolean value indicating if globally defined {@link SubmitRequirement} can be overridden per-project or by legacy SubmitRule.
+   * Default is false.
+   */
+  //public abstract boolean allowOverrideGlobal();
+
   public static SubmitRequirement.Builder builder() {
     return new AutoValue_SubmitRequirement.Builder();
   }
@@ -85,6 +100,8 @@ public abstract class SubmitRequirement {
         Optional<SubmitRequirementExpression> overrideExpression);
 
     public abstract Builder setAllowOverrideInChildProjects(boolean allowOverrideInChildProjects);
+
+    //public abstract Builder setAllowOverrideGlobal(boolean allowOverrideGlobal);
 
     public abstract SubmitRequirement build();
   }

@@ -24,6 +24,7 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateRes
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
 import com.google.inject.AbstractModule;
@@ -32,6 +33,7 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -41,6 +43,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final Provider<SubmitRequirementChangeQueryBuilder> queryBuilder;
   private final ProjectCache projectCache;
   private final SubmitRuleEvaluator.Factory legacyEvaluator;
+  private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
 
   public static Module module() {
     return new AbstractModule() {
@@ -57,10 +60,12 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private SubmitRequirementsEvaluatorImpl(
       Provider<SubmitRequirementChangeQueryBuilder> queryBuilder,
       ProjectCache projectCache,
-      SubmitRuleEvaluator.Factory legacyEvaluator) {
+      SubmitRuleEvaluator.Factory legacyEvaluator,
+      PluginSetContext<SubmitRequirement> globalSubmitRequirements) {
     this.queryBuilder = queryBuilder;
     this.projectCache = projectCache;
     this.legacyEvaluator = legacyEvaluator;
+    this.globalSubmitRequirements = globalSubmitRequirements;
   }
 
   @Override
@@ -123,13 +128,23 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   /** Evaluate and return submit requirements stored in this project's config and its parents. */
   private Map<SubmitRequirement, SubmitRequirementResult> getRequirements(ChangeData cd) {
+
+    Map<String, SubmitRequirement> requirements = new HashMap<>();
+    globalSubmitRequirements.runEach(globalSubmitRequirement -> requirements
+        .put(globalSubmitRequirement.name().toLowerCase(), globalSubmitRequirement));
+    Map<SubmitRequirement, SubmitRequirementResult> results = new HashMap<>();
     ProjectState state = projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
-    Map<String, SubmitRequirement> requirements = state.getSubmitRequirements();
-    Map<SubmitRequirement, SubmitRequirementResult> result = new HashMap<>();
-    for (SubmitRequirement requirement : requirements.values()) {
-      result.put(requirement, evaluateRequirement(requirement, cd));
+    for (SubmitRequirement requirement : state.getSubmitRequirements().values()) {
+      String lowerName = requirement.name().toLowerCase();
+      SubmitRequirement old = requirements.get(lowerName);
+      if (old == null || old.allowOverrideInChildProjects()) {
+        requirements.put(lowerName, requirement);
+      }
     }
-    return result;
+    for (SubmitRequirement requirement : requirements.values()) {
+      results.put(requirement, evaluateRequirement(requirement, cd));
+    }
+    return results;
   }
 
   /** Evaluate the predicate recursively using change data. */

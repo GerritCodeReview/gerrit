@@ -117,15 +117,14 @@ export class GrAccessSection extends PolymerElement {
     this.addEventListener('access-saved', () => this._handleAccessSaved());
   }
 
-  _updateSection(section: PermissionAccessSection) {
+  _updateSection(section?: PermissionAccessSection) {
+    if (!section) return;
     this._permissions = toSortedPermissionsArray(section.value.permissions);
     this._originalId = section.id;
   }
 
   _handleAccessSaved() {
-    if (!this.section) {
-      return;
-    }
+    if (!this.section) return;
     // Set a new 'original' value to keep track of after the value has been
     // saved.
     this._updateSection(this.section);

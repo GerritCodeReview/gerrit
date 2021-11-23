@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2e30788_84e71f8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-23T09:20:15Z",
+      "side": 1,
+      "message": "Does that transform \\n into the HTML equivalent so that admins can make paragraphs, etc?",
+      "range": {
+        "startLine": 127,
+        "startChar": 10,
+        "endLine": 127,
+        "endChar": 32
+      },
+      "revId": "cdba54b8e5f68cd27d61f734c499539e297b771d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

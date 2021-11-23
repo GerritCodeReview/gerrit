@@ -93,7 +93,8 @@ public class ExternalIdCaseSensitivityMigrator {
       ExternalId.Key updatedKey = keyFactory.create(extId.key().scheme(), extId.key().id());
       ExternalId.Key oldKey =
           keyFactory.create(extId.key().scheme(), extId.key().id(), !isUserNameCaseInsensitive);
-      if (!oldKey.sha1().getName().equals(updatedKey.sha1().getName())) {
+      if (!oldKey.sha1().getName().equals(updatedKey.sha1().getName())
+          && !extId.key().sha1().getName().equals(updatedKey.sha1().getName())) {
         logger.atInfo().log("Converting note name of external ID: %s", oldKey);
         ExternalId updatedExtId =
             externalIdFactory.create(

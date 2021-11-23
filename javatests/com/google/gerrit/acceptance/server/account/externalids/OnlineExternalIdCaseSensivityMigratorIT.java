@@ -99,6 +99,35 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
   @Test
   @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
   @GerritConfig(name = "auth.userNameCaseInsensitiveMigrationMode", value = "true")
+  public void shouldSkipMigrationForExternalIdsCreateWhenInMigrationMode()
+      throws IOException, ConfigInvalidException {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+
+      createExternalId(md, extIdNotes, SCHEME_GERRIT, "JonDoe", accountId, true);
+      createExternalId(md, extIdNotes, SCHEME_USERNAME, "JonDoe", accountId, true);
+
+      assertThat(getExactExternalId(extIdNotes, SCHEME_GERRIT, "JonDoe").isPresent()).isFalse();
+      assertThat(getExactExternalId(extIdNotes, SCHEME_GERRIT, "jondoe").isPresent()).isTrue();
+
+      assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isFalse();
+      assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isTrue();
+
+      objectUnderTest.migrate();
+
+      extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+      assertThat(getExactExternalId(extIdNotes, SCHEME_GERRIT, "JonDoe").isPresent()).isFalse();
+      assertThat(getExactExternalId(extIdNotes, SCHEME_GERRIT, "jondoe").isPresent()).isTrue();
+
+      assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isFalse();
+      assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isTrue();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
+  @GerritConfig(name = "auth.userNameCaseInsensitiveMigrationMode", value = "true")
   public void shouldNotCreateDuplicateExternaIdNotesWhenUpdatingAccount()
       throws IOException, ConfigInvalidException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);

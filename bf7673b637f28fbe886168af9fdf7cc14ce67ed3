@@ -139,6 +139,24 @@
       "parentUuid": "1940a9b0_54e7e647",
       "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e74e9720_2165da9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-23T19:22:15Z",
+      "side": 1,
+      "message": "[...]\n\n\u003e Why would the RSA keys be considered insecure? I understand that the ssh-rsa signature algorithm, which is based on SHA-1, is obsolete. But RSA keys themselves are still good.\n\nIf you generated an RSA key pair 5 years ago and you never rotated them, then the keys are considered insecure.\n\nThe security of a key lies in the maximum time that a potential attacker can \"guess\" the key. The longer the key, the longer the time it gets to guess the key by brute-force or other techniques.\n\nHope that explains my statement on why RSA keys generated over 5 years ago aren\u0027t secure anymore.",
+      "parentUuid": "3dbe219b_0e2753f0",
+      "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

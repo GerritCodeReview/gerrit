@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../styles/gr-change-list-styles';
 import '../../shared/gr-account-link/gr-account-link';
 import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';
@@ -23,13 +22,10 @@ import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
-import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-change-list-column/gr-change-list-column';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-change-list-item_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
@@ -38,7 +34,6 @@ import {getAppContext} from '../../../services/app-context';
 import {truncatePath} from '../../../utils/path-list-util';
 import {changeStatuses} from '../../../utils/change-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
-import {customElement, property} from '@polymer/decorators';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
   ChangeInfo,
@@ -49,10 +44,13 @@ import {
 } from '../../../types/common';
 import {assertNever, hasOwnProperty} from '../../../utils/common-util';
 import {pluralize} from '../../../utils/string-util';
-import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {getRequirements, iconForStatus} from '../../../utils/label-util';
 import {SubmitRequirementStatus} from '../../../api/rest-api';
+import {changeListStyles} from '../../../styles/gr-change-list-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, css, html} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
 
 enum ChangeSize {
   XS = 10,
@@ -75,12 +73,14 @@ export enum LabelCategory {
 // How many reviewers should be shown with an account-label?
 const PRIMARY_REVIEWERS_COUNT = 2;
 
-@customElement('gr-change-list-item')
-export class GrChangeListItem extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-change-list-item': GrChangeListItem;
   }
+}
 
+@customElement('gr-change-list-item')
+export class GrChangeListItem extends LitElement {
   /** The logged-in user's account, or null if no user is logged in. */
   @property({type: Object})
   account: AccountInfo | null = null;
@@ -101,68 +101,461 @@ export class GrChangeListItem extends PolymerElement {
   @property({type: String})
   sectionName?: string;
 
-  @property({type: String, computed: '_computeChangeURL(change)'})
-  changeURL?: string;
-
-  @property({type: Array, computed: '_changeStatuses(change)'})
-  statuses?: ChangeStates[];
-
   @property({type: Boolean})
   showStar = false;
 
   @property({type: Boolean})
   showNumber = false;
 
-  @property({type: String, computed: '_computeChangeSize(change)'})
-  _changeSize?: string;
+  @state() private dynamicCellEndpoints?: string[];
 
-  @property({type: Array})
-  _dynamicCellEndpoints?: string[];
-
-  @property({type: Boolean})
-  _isSubmitRequirementsUiEnabled = false;
+  @state() private isSubmitRequirementsUiEnabled = false;
 
   reporting: ReportingService = getAppContext().reportingService;
 
   private readonly flagsService = getAppContext().flagsService;
 
-  override ready() {
-    super.ready();
-    this._isSubmitRequirementsUiEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-    );
-  }
-
   override connectedCallback() {
     super.connectedCallback();
+    this.isSubmitRequirementsUiEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+    );
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
-        this._dynamicCellEndpoints = getPluginEndpoints().getDynamicEndpoints(
+        this.dynamicCellEndpoints = getPluginEndpoints().getDynamicEndpoints(
           'change-list-item-cell'
         );
       });
   }
 
-  _changeStatuses(change?: ChangeInfo) {
-    if (!change) return [];
-    return changeStatuses(change);
+  static override get styles() {
+    return [
+      changeListStyles,
+      sharedStyles,
+      css`
+        :host {
+          display: table-row;
+          color: var(--primary-text-color);
+        }
+        :host(:focus) {
+          outline: none;
+        }
+        :host(:hover) {
+          background-color: var(--hover-background-color);
+        }
+        .container {
+          position: relative;
+        }
+        .content {
+          overflow: hidden;
+          position: absolute;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 100%;
+        }
+        .content a {
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 100%;
+        }
+        .comments,
+        .reviewers,
+        .requirements {
+          white-space: nowrap;
+        }
+        .reviewers {
+          --account-max-length: 70px;
+        }
+        .spacer {
+          height: 0;
+          overflow: hidden;
+        }
+        .status {
+          align-items: center;
+          display: inline-flex;
+        }
+        .status .comma {
+          padding-right: var(--spacing-xs);
+        }
+        /* Used to hide the leading separator comma for statuses. */
+        .status .comma:first-of-type {
+          display: none;
+        }
+        .size gr-tooltip-content {
+          margin: -0.4rem -0.6rem;
+          max-width: 2.5rem;
+          padding: var(--spacing-m) var(--spacing-l);
+        }
+        a {
+          color: inherit;
+          cursor: pointer;
+          text-decoration: none;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+        .subject:hover .content {
+          text-decoration: underline;
+        }
+        .u-monospace {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
+        }
+        .u-green,
+        .u-green iron-icon {
+          color: var(--positive-green-text-color);
+        }
+        .u-red,
+        .u-red iron-icon {
+          color: var(--negative-red-text-color);
+        }
+        .u-gray-background {
+          background-color: var(--table-header-background-color);
+        }
+        .comma,
+        .placeholder {
+          color: var(--deemphasized-text-color);
+        }
+        .cell.label {
+          font-weight: var(--font-weight-normal);
+        }
+        .cell.label iron-icon {
+          vertical-align: top;
+        }
+        @media only screen and (max-width: 50em) {
+          :host {
+            display: flex;
+          }
+        }
+      `,
+    ];
   }
 
-  _computeChangeURL(change?: ChangeInfo) {
-    if (!change) return '';
-    return GerritNav.getUrlForChange(change);
+  override render() {
+    const changeUrl = this.computeChangeURL();
+    return html`
+      <td aria-hidden="true" class="cell leftPadding"></td>
+      ${this.renderCellStar()} ${this.renderCellNumber(changeUrl)}
+      ${this.renderCellSubject(changeUrl)} ${this.renderCellStatus()}
+      ${this.renderCellOwner()} ${this.renderCellReviewers()}
+      ${this.renderCellComments()} ${this.renderCellRepo()}
+      ${this.renderCellBranch()} ${this.renderCellUpdated()}
+      ${this.renderCellSubmitted()} ${this.renderCellWaiting()}
+      ${this.renderCellSize()} ${this.renderCellRequirements()}
+      ${this.labelNames?.map(labelNames => this.renderChangeLabels(labelNames))}
+      ${this.dynamicCellEndpoints?.map(pluginEndpointName =>
+        this.renderChangePluginEndpoint(pluginEndpointName)
+      )}
+    `;
   }
 
-  _computeLabelTitle(change: ChangeInfo | undefined, labelName: string) {
-    const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
-    const category = this._computeLabelCategory(change, labelName);
+  private renderCellStar() {
+    if (!this.showStar) return;
+
+    return html`
+      <td class="cell star">
+        <gr-change-star .change=${this.change}></gr-change-star>
+      </td>
+    `;
+  }
+
+  private renderCellNumber(changeUrl: string) {
+    if (!this.showNumber) return;
+
+    return html`
+      <td class="cell number">
+        <a href="${changeUrl}">${this.change?._number}</a>
+      </td>
+    `;
+  }
+
+  private renderCellSubject(changeUrl: string) {
+    if (this.computeIsColumnHidden('Subject', this.visibleChangeTableColumns))
+      return;
+
+    return html`
+      <td class="cell subject">
+        <a
+          title="${this.change?.subject}"
+          href="${changeUrl}"
+          @click=${() => this.handleChangeClick()}
+        >
+          <div class="container">
+            <div class="content">${this.change?.subject}</div>
+            <div class="spacer">${this.change?.subject}</div>
+            <span>&nbsp;</span>
+          </div>
+        </a>
+      </td>
+    `;
+  }
+
+  private renderCellStatus() {
+    if (this.computeIsColumnHidden('Status', this.visibleChangeTableColumns))
+      return;
+
+    return html` <td class="cell status">${this.renderChangeStatus()}</td> `;
+  }
+
+  private renderChangeStatus() {
+    if (!this.changeStatuses().length) {
+      return html`<span class="placeholder">--</span>`;
+    }
+
+    return this.changeStatuses().map(
+      status => html`
+        <div class="comma">,</div>
+        <gr-change-status flat .status=${status}></gr-change-status>
+      `
+    );
+  }
+
+  private renderCellOwner() {
+    if (this.computeIsColumnHidden('Owner', this.visibleChangeTableColumns))
+      return;
+
+    return html`
+      <td class="cell owner">
+        <gr-account-link
+          highlightAttention
+          .change=${this.change}
+          .account=${this.change?.owner}
+        ></gr-account-link>
+      </td>
+    `;
+  }
+
+  private renderCellReviewers() {
+    if (this.computeIsColumnHidden('Reviewers', this.visibleChangeTableColumns))
+      return;
+
+    return html`
+      <td class="cell reviewers">
+        <div>
+          ${this.computePrimaryReviewers().map((reviewer, index) =>
+            this.renderChangeReviewers(reviewer, index)
+          )}
+          ${this.computeAdditionalReviewersCount()
+            ? html`<span title="${this.computeAdditionalReviewersTitle()}"
+                >+${this.computeAdditionalReviewersCount()}</span
+              >`
+            : ''}
+        </div>
+      </td>
+    `;
+  }
+
+  private renderChangeReviewers(reviewer: AccountInfo, index: number) {
+    return html`
+      <gr-account-link
+        hideAvatar
+        hideStatus
+        firstName
+        highlightAttention
+        .change=${this.change}
+        .account=${reviewer}
+      ></gr-account-link
+      ><span ?hidden=${this.computeCommaHidden(index)} aria-hidden="true"
+        >,
+      </span>
+    `;
+  }
+
+  private renderCellComments() {
+    if (this.computeIsColumnHidden('Comments', this.visibleChangeTableColumns))
+      return;
+
+    return html`
+      <td class="cell comments">
+        ${this.change?.unresolved_comment_count
+          ? html`<iron-icon icon="gr-icons:comment"></iron-icon>`
+          : ''}
+        <span
+          >${this.computeComments(this.change?.unresolved_comment_count)}</span
+        >
+      </td>
+    `;
+  }
+
+  private renderCellRepo() {
+    if (this.computeIsColumnHidden('Repo', this.visibleChangeTableColumns))
+      return;
+
+    return html`
+      <td class="cell repo">
+        <a class="fullRepo" href="${this.computeRepoUrl()}">
+          ${this.computeRepoDisplay()}
+        </a>
+        <a
+          class="truncatedRepo"
+          href="${this.computeRepoUrl()}"
+          title="${this.computeRepoDisplay()}"
+        >
+          ${this.computeTruncatedRepoDisplay()}
+        </a>
+      </td>
+    `;
+  }
+
+  private renderCellBranch() {
+    if (this.computeIsColumnHidden('Branch', this.visibleChangeTableColumns))
+      return;
+
+    return html`
+      <td class="cell branch">
+        <a href="${this.computeRepoBranchURL()}"> ${this.change?.branch} </a>
+        ${this.renderChangeBranch()}
+      </td>
+    `;
+  }
+
+  private renderChangeBranch() {
+    if (!this.change?.topic) return;
+
+    return html`
+      (<a href="${this.computeTopicURL()}"
+        ><!--
+      --><gr-limited-text .limit=${50} .text=${this.change.topic}>
+        </gr-limited-text
+        ><!--
+    --></a
+      >)
+    `;
+  }
+
+  private renderCellUpdated() {
+    if (this.computeIsColumnHidden('Updated', this.visibleChangeTableColumns))
+      return;
+
+    return html`
+      <td class="cell updated">
+        <gr-date-formatter
+          withTooltip
+          .dateStr=${this.formatDate(this.change?.updated)}
+        ></gr-date-formatter>
+      </td>
+    `;
+  }
+
+  private renderCellSubmitted() {
+    if (this.computeIsColumnHidden('Submitted', this.visibleChangeTableColumns))
+      return;
+
+    return html`
+      <td class="cell submitted">
+        <gr-date-formatter
+          withTooltip
+          .dateStr=${this.formatDate(this.change?.submitted)}
+        ></gr-date-formatter>
+      </td>
+    `;
+  }
+
+  private renderCellWaiting() {
+    if (this.computeIsColumnHidden('Waiting', this.visibleChangeTableColumns))
+      return;
+
+    return html`
+      <td class="cell waiting">
+        <gr-date-formatter
+          withTooltip
+          forceRelative
+          relativeOptionNoAgo
+          .dateStr=${this.computeWaiting()}
+        ></gr-date-formatter>
+      </td>
+    `;
+  }
+
+  private renderCellSize() {
+    if (this.computeIsColumnHidden('Size', this.visibleChangeTableColumns))
+      return;
+
+    return html`
+      <td class="cell size">
+        <gr-tooltip-content hasTooltip title="${this.computeSizeTooltip()}">
+          ${this.renderChangeSize()}
+        </gr-tooltip-content>
+      </td>
+    `;
+  }
+
+  private renderChangeSize() {
+    const changeSize = this.computeChangeSize();
+    if (!changeSize) return html`<span class="placeholder">--</span>`;
+
+    return html` <span>${changeSize}</span> `;
+  }
+
+  private renderCellRequirements() {
+    if (
+      this.computeIsColumnHidden('Requirements', this.visibleChangeTableColumns)
+    )
+      return;
+
+    return html`
+      <td class="cell requirements">
+        <gr-change-list-column-requirements .change=${this.change}>
+        </gr-change-list-column-requirements>
+      </td>
+    `;
+  }
+
+  private renderChangeLabels(labelName: string) {
+    return html`
+      <td
+        title="${this.computeLabelTitle(labelName)}"
+        class="${this.computeLabelClass(labelName)}"
+      >
+        ${this.renderChangeHasLabelIcon(labelName)}
+      </td>
+    `;
+  }
+
+  private renderChangeHasLabelIcon(labelName: string) {
+    if (this.computeLabelIcon(labelName) === '')
+      return html`<span>${this.computeLabelValue(labelName)}</span>`;
+
+    return html`
+      <iron-icon icon=${this.computeLabelIcon(labelName)}></iron-icon>
+    `;
+  }
+
+  private renderChangePluginEndpoint(pluginEndpointName: string) {
+    return html`
+      <td class="cell endpoint">
+        <gr-endpoint-decorator name="${pluginEndpointName}">
+          <gr-endpoint-param name="change" .value=${this.change}>
+          </gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </td>
+    `;
+  }
+
+  private changeStatuses() {
+    if (!this.change) return [];
+    return changeStatuses(this.change);
+  }
+
+  private computeChangeURL() {
+    if (!this.change) return '';
+    return GerritNav.getUrlForChange(this.change);
+  }
+
+  // private but used in test
+  computeLabelTitle(labelName: string) {
+    const label: QuickLabelInfo | undefined = this.change?.labels?.[labelName];
+    const category = this.computeLabelCategory(labelName);
     if (!label || category === LabelCategory.NOT_APPLICABLE) {
       return 'Label not applicable';
     }
     const titleParts: string[] = [];
     if (category === LabelCategory.UNRESOLVED_COMMENTS) {
-      const num = change?.unresolved_comment_count ?? 0;
+      const num = this.change?.unresolved_comment_count ?? 0;
       titleParts.push(pluralize(num, 'unresolved comment'));
     }
     const significantLabel =
@@ -176,10 +569,11 @@ export class GrChangeListItem extends PolymerElement {
     return labelName;
   }
 
-  _computeLabelClass(change: ChangeInfo | undefined, labelName: string) {
+  // private but used in test
+  computeLabelClass(labelName: string) {
     const classes = ['cell', 'label'];
-    if (this._isSubmitRequirementsUiEnabled) {
-      const requirements = getRequirements(change).filter(
+    if (this.isSubmitRequirementsUiEnabled) {
+      const requirements = getRequirements(this.change).filter(
         sr => sr.name === labelName
       );
       if (requirements.length === 1) {
@@ -203,7 +597,7 @@ export class GrChangeListItem extends PolymerElement {
         return classes.sort().join(' ');
       }
     }
-    const category = this._computeLabelCategory(change, labelName);
+    const category = this.computeLabelCategory(labelName);
     switch (category) {
       case LabelCategory.NOT_APPLICABLE:
         classes.push('u-gray-background');
@@ -226,20 +620,17 @@ export class GrChangeListItem extends PolymerElement {
     return classes.sort().join(' ');
   }
 
-  _computeHasLabelIcon(change: ChangeInfo | undefined, labelName: string) {
-    return this._computeLabelIcon(change, labelName) !== '';
-  }
-
-  _computeLabelIcon(change: ChangeInfo | undefined, labelName: string): string {
-    if (this._isSubmitRequirementsUiEnabled) {
-      const requirements = getRequirements(change).filter(
+  // private but used in test
+  computeLabelIcon(labelName: string): string {
+    if (this.isSubmitRequirementsUiEnabled) {
+      const requirements = getRequirements(this.change).filter(
         sr => sr.name === labelName
       );
       if (requirements.length === 1) {
         return `gr-icons:${iconForStatus(requirements[0].status)}`;
       }
     }
-    const category = this._computeLabelCategory(change, labelName);
+    const category = this.computeLabelCategory(labelName);
     switch (category) {
       case LabelCategory.APPROVED:
         return 'gr-icons:check';
@@ -252,8 +643,9 @@ export class GrChangeListItem extends PolymerElement {
     }
   }
 
-  _computeLabelCategory(change: ChangeInfo | undefined, labelName: string) {
-    const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
+  // private but used in test
+  computeLabelCategory(labelName: string) {
+    const label: QuickLabelInfo | undefined = this.change?.labels?.[labelName];
     if (!label) {
       return LabelCategory.NOT_APPLICABLE;
     }
@@ -263,7 +655,7 @@ export class GrChangeListItem extends PolymerElement {
     if (label.value && label.value < 0) {
       return LabelCategory.NEGATIVE;
     }
-    if (change?.unresolved_comment_count && labelName === 'Code-Review') {
+    if (this.change?.unresolved_comment_count && labelName === 'Code-Review') {
       return LabelCategory.UNRESOLVED_COMMENTS;
     }
     if (label.approved) {
@@ -275,9 +667,10 @@ export class GrChangeListItem extends PolymerElement {
     return LabelCategory.NEUTRAL;
   }
 
-  _computeLabelValue(change: ChangeInfo | undefined, labelName: string) {
-    const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
-    const category = this._computeLabelCategory(change, labelName);
+  // private but used in test
+  computeLabelValue(labelName: string) {
+    const label: QuickLabelInfo | undefined = this.change?.labels?.[labelName];
+    const category = this.computeLabelCategory(labelName);
     switch (category) {
       case LabelCategory.NOT_APPLICABLE:
         return '';
@@ -293,33 +686,36 @@ export class GrChangeListItem extends PolymerElement {
         return `${label?.value}`;
       case LabelCategory.REJECTED:
         return '\u2715'; // ✕
+      default:
+        return '';
     }
   }
 
-  _computeRepoUrl(change?: ChangeInfo) {
-    if (!change) return '';
+  private computeRepoUrl() {
+    if (!this.change) return '';
     return GerritNav.getUrlForProjectChanges(
-      change.project,
+      this.change.project,
       true,
-      change.internalHost
+      this.change.internalHost
     );
   }
 
-  _computeRepoBranchURL(change?: ChangeInfo) {
-    if (!change) return '';
+  private computeRepoBranchURL() {
+    if (!this.change) return '';
     return GerritNav.getUrlForBranch(
-      change.branch,
-      change.project,
+      this.change.branch,
+      this.change.project,
       undefined,
-      change.internalHost
+      this.change.internalHost
     );
   }
 
-  _computeTopicURL(change?: ChangeInfo) {
-    if (!change?.topic) {
-      return '';
-    }
-    return GerritNav.getUrlForTopic(change.topic, change.internalHost);
+  private computeTopicURL() {
+    if (!this.change?.topic) return '';
+    return GerritNav.getUrlForTopic(
+      this.change.topic,
+      this.change.internalHost
+    );
   }
 
   /**
@@ -328,44 +724,46 @@ export class GrChangeListItem extends PolymerElement {
    *
    * @param truncate whether or not the project name should be
    * truncated. If this value is truthy, the name will be truncated.
+   *
+   * private but used in test
    */
-  _computeRepoDisplay(change?: ChangeInfo) {
-    if (!change?.project) {
-      return '';
-    }
+  computeRepoDisplay() {
+    if (!this.change?.project) return '';
     let str = '';
-    if (change.internalHost) {
-      str += change.internalHost + '/';
+    if (this.change.internalHost) {
+      str += this.change.internalHost + '/';
     }
-    str += change.project;
+    str += this.change.project;
     return str;
   }
 
-  _computeTruncatedRepoDisplay(change?: ChangeInfo) {
-    if (!change?.project) {
+  // private but used in test
+  computeTruncatedRepoDisplay() {
+    if (!this.change?.project) {
       return '';
     }
     let str = '';
-    if (change.internalHost) {
-      str += change.internalHost + '/';
+    if (this.change.internalHost) {
+      str += this.change.internalHost + '/';
     }
-    str += truncatePath(change.project, 2);
+    str += truncatePath(this.change.project, 2);
     return str;
   }
 
-  _computeSizeTooltip(change?: ChangeInfo) {
+  // private but used in test
+  computeSizeTooltip() {
     if (
-      !change ||
-      change.insertions + change.deletions === 0 ||
-      isNaN(change.insertions + change.deletions)
+      !this.change ||
+      this.change.insertions + this.change.deletions === 0 ||
+      isNaN(this.change.insertions + this.change.deletions)
     ) {
       return 'Size unknown';
     } else {
-      return `added ${change.insertions}, removed ${change.deletions} lines`;
+      return `added ${this.change.insertions}, removed ${this.change.deletions} lines`;
     }
   }
 
-  _hasAttention(account: AccountInfo) {
+  private hasAttention(account: AccountInfo) {
     if (!this.change || !this.change.attention_set || !account._account_id) {
       return false;
     }
@@ -375,12 +773,15 @@ export class GrChangeListItem extends PolymerElement {
   /**
    * Computes the array of all reviewers with sorting the reviewers in the
    * attention set before others, and the current user first.
+   *
+   * private but used in test
    */
-  _computeReviewers(change?: ChangeInfo) {
-    if (!change?.reviewers || !change?.reviewers.REVIEWER) return [];
-    const reviewers = [...change.reviewers.REVIEWER].filter(
+  computeReviewers() {
+    if (!this.change?.reviewers || !this.change?.reviewers.REVIEWER) return [];
+    const reviewers = [...this.change.reviewers.REVIEWER].filter(
       r =>
-        (!change.owner || change.owner._account_id !== r._account_id) &&
+        (!this.change?.owner ||
+          this.change?.owner._account_id !== r._account_id) &&
         !isServiceUser(r)
     );
     reviewers.sort((r1, r2) => {
@@ -388,33 +789,33 @@ export class GrChangeListItem extends PolymerElement {
         if (isSelf(r1, this.account)) return -1;
         if (isSelf(r2, this.account)) return 1;
       }
-      if (this._hasAttention(r1) && !this._hasAttention(r2)) return -1;
-      if (this._hasAttention(r2) && !this._hasAttention(r1)) return 1;
+      if (this.hasAttention(r1) && !this.hasAttention(r2)) return -1;
+      if (this.hasAttention(r2) && !this.hasAttention(r1)) return 1;
       return (r1.name || '').localeCompare(r2.name || '');
     });
     return reviewers;
   }
 
-  _computePrimaryReviewers(change?: ChangeInfo) {
-    return this._computeReviewers(change).slice(0, PRIMARY_REVIEWERS_COUNT);
+  private computePrimaryReviewers() {
+    return this.computeReviewers().slice(0, PRIMARY_REVIEWERS_COUNT);
   }
 
-  _computeAdditionalReviewers(change?: ChangeInfo) {
-    return this._computeReviewers(change).slice(PRIMARY_REVIEWERS_COUNT);
+  private computeAdditionalReviewers() {
+    return this.computeReviewers().slice(PRIMARY_REVIEWERS_COUNT);
   }
 
-  _computeAdditionalReviewersCount(change?: ChangeInfo) {
-    return this._computeAdditionalReviewers(change).length;
+  private computeAdditionalReviewersCount() {
+    return this.computeAdditionalReviewers().length;
   }
 
-  _computeAdditionalReviewersTitle(change?: ChangeInfo, config?: ServerInfo) {
-    if (!change || !config) return '';
-    return this._computeAdditionalReviewers(change)
-      .map(user => getDisplayName(config, user, true))
+  private computeAdditionalReviewersTitle() {
+    if (!this.change || !this.config) return '';
+    return this.computeAdditionalReviewers()
+      .map(user => getDisplayName(this.config, user, true))
       .join(', ');
   }
 
-  _computeComments(unresolved_comment_count?: number) {
+  private computeComments(unresolved_comment_count?: number) {
     if (!unresolved_comment_count || unresolved_comment_count < 1) return '';
     return `${unresolved_comment_count} unresolved`;
   }
@@ -422,10 +823,12 @@ export class GrChangeListItem extends PolymerElement {
   /**
    * TShirt sizing is based on the following paper:
    * http://dirkriehle.com/wp-content/uploads/2008/09/hicss-42-csdistr-final-web.pdf
+   *
+   * private but used in test
    */
-  _computeChangeSize(change?: ChangeInfo) {
-    if (!change) return null;
-    const delta = change.insertions + change.deletions;
+  computeChangeSize() {
+    if (!this.change) return null;
+    const delta = this.change.insertions + this.change.deletions;
     if (isNaN(delta) || delta === 0) {
       return null; // Unknown
     }
@@ -442,27 +845,28 @@ export class GrChangeListItem extends PolymerElement {
     }
   }
 
-  _computeWaiting(
-    account?: AccountInfo | null,
-    change?: ChangeInfo | null
-  ): Timestamp | undefined {
-    if (!account?._account_id || !change?.attention_set) return undefined;
-    return change?.attention_set[account._account_id]?.last_update;
+  private computeWaiting(): Timestamp | undefined {
+    if (!this.account?._account_id || !this.change?.attention_set)
+      return undefined;
+    return this.change?.attention_set[this.account._account_id]?.last_update;
   }
 
-  _computeIsColumnHidden(columnToCheck?: string, columnsToDisplay?: string[]) {
+  private computeIsColumnHidden(
+    columnToCheck?: string,
+    columnsToDisplay?: string[]
+  ) {
     if (!columnsToDisplay || !columnToCheck) {
       return false;
     }
     return !columnsToDisplay.includes(columnToCheck);
   }
 
-  _formatDate(date: Timestamp | undefined): string | undefined {
+  private formatDate(date: Timestamp | undefined): string | undefined {
     if (!date) return undefined;
     return date.toString();
   }
 
-  _handleChangeClick() {
+  private handleChangeClick() {
     // Don't prevent the default and neither stop bubbling. We just want to
     // report the click, but then let the browser handle the click on the link.
 
@@ -476,19 +880,10 @@ export class GrChangeListItem extends PolymerElement {
     });
   }
 
-  _computeCommaHidden(index?: number, change?: ChangeInfo) {
-    if (index === undefined) return false;
-    if (change === undefined) return false;
-
-    const additionalCount = this._computeAdditionalReviewersCount(change);
-    const primaryCount = this._computePrimaryReviewers(change).length;
+  private computeCommaHidden(index: number) {
+    const additionalCount = this.computeAdditionalReviewersCount();
+    const primaryCount = this.computePrimaryReviewers().length;
     const isLast = index === primaryCount - 1;
     return isLast && additionalCount === 0;
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-change-list-item': GrChangeListItem;
   }
 }

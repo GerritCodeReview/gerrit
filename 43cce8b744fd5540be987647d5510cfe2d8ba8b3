@@ -63,6 +63,30 @@
       },
       "revId": "43cce8b744fd5540be987647d5510cfe2d8ba8b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42359525_6b3d196e",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-23T00:36:37Z",
+      "side": 1,
+      "message": "No worries, it\u0027s a minor thing. Will fix that on stable-3.5.",
+      "parentUuid": "623018e8_6465f60d",
+      "range": {
+        "startLine": 291,
+        "startChar": 4,
+        "endLine": 291,
+        "endChar": 60
+      },
+      "revId": "43cce8b744fd5540be987647d5510cfe2d8ba8b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

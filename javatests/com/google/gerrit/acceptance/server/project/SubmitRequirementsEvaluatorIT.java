@@ -21,6 +21,8 @@ import static com.google.gerrit.server.project.testing.TestLabels.value;
 
 import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,6 +52,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Inject SubmitRequirementsEvaluator evaluator;
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<InternalChangeQuery> changeQueryProvider;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private ChangeData changeData;
   private String changeId;
@@ -107,6 +111,93 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
         .containsExactly(String.format("project:%s", project.get()), "message:\"Fix a bug\"");
 
     assertThat(result.failingAtoms()).containsExactly(String.format("branch:refs/heads/foo"));
+  }
+
+  @Test
+  public void globalSubmitRequirementEvaluated() throws Exception {
+    SubmitRequirement globalSubmitRequirement =
+        createSubmitRequirement(
+            /*name=*/ "global-config-requirement",
+            /* applicabilityExpr= */ "project:" + project.get(),
+            /*submittabilityExpr= */ "is:true",
+            /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
+            false);
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
+      SubmitRequirement projectSubmitRequirement =
+          createSubmitRequirement(
+              /*name=*/ "project-config-requirement",
+              /* applicabilityExpr= */ "project:" + project.get(),
+              /*submittabilityExpr= */ "is:true",
+              /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
+              false);
+      configSubmitRequirement(project, projectSubmitRequirement);
+      Map<SubmitRequirement, SubmitRequirementResult> results =
+          evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false);
+      assertThat(results).hasSize(2);
+      assertThat(results.get(globalSubmitRequirement).status())
+          .isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+      assertThat(results.get(projectSubmitRequirement).status())
+          .isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+    }
+  }
+
+  @Test
+  public void
+      globalSubmitRequirement_duplicateInProjectConfig_overrideAllowed_projectResultReturned()
+          throws Exception {
+    SubmitRequirement globalSubmitRequirement =
+        createSubmitRequirement(
+            /*name=*/ "config-requirement",
+            /* applicabilityExpr= */ "project:" + project.get(),
+            /*submittabilityExpr= */ "is:true",
+            /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
+            true);
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
+      SubmitRequirement projectSubmitRequirement =
+          createSubmitRequirement(
+              /*name=*/ "config-requirement",
+              /* applicabilityExpr= */ "project:" + project.get(),
+              /*submittabilityExpr= */ "is:true",
+              /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
+              false);
+      configSubmitRequirement(project, projectSubmitRequirement);
+      Map<SubmitRequirement, SubmitRequirementResult> results =
+          evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false);
+      assertThat(results).hasSize(1);
+      assertThat(results.get(projectSubmitRequirement).status())
+          .isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+    }
+  }
+
+  @Test
+  public void
+      globalSubmitRequirement_duplicateInProjectConfig_overrideNotAllowedAllowed_globalResultReturned()
+          throws Exception {
+    SubmitRequirement globalSubmitRequirement =
+        createSubmitRequirement(
+            /*name=*/ "config-requirement",
+            /* applicabilityExpr= */ "project:" + project.get(),
+            /*submittabilityExpr= */ "is:true",
+            /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
+            false);
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
+      SubmitRequirement projectSubmitRequirement =
+          createSubmitRequirement(
+              /*name=*/ "config-requirement",
+              /* applicabilityExpr= */ "project:" + project.get(),
+              /*submittabilityExpr= */ "is:true",
+              /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
+              false);
+      configSubmitRequirement(project, projectSubmitRequirement);
+      Map<SubmitRequirement, SubmitRequirementResult> results =
+          evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false);
+      assertThat(results).hasSize(1);
+      assertThat(results.get(globalSubmitRequirement).status())
+          .isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+    }
   }
 
   @Test
@@ -292,13 +383,27 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
       @Nullable String applicabilityExpr,
       String submittabilityExpr,
       @Nullable String overrideExpr) {
+    return createSubmitRequirement(
+        /*name= */ "sr-name",
+        applicabilityExpr,
+        submittabilityExpr,
+        overrideExpr,
+        /*allowOverrideInChildProjects=*/ false);
+  }
+
+  private SubmitRequirement createSubmitRequirement(
+      String name,
+      @Nullable String applicabilityExpr,
+      String submittabilityExpr,
+      @Nullable String overrideExpr,
+      boolean allowOverrideInChildProjects) {
     return SubmitRequirement.builder()
-        .setName("sr-name")
+        .setName(name)
         .setDescription(Optional.of("sr-description"))
         .setApplicabilityExpression(SubmitRequirementExpression.of(applicabilityExpr))
         .setSubmittabilityExpression(SubmitRequirementExpression.create(submittabilityExpr))
         .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
-        .setAllowOverrideInChildProjects(false)
+        .setAllowOverrideInChildProjects(allowOverrideInChildProjects)
         .build();
   }
 }

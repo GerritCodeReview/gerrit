@@ -2712,6 +2712,23 @@ contribute to the link:#change-etag-computation[change ETag computation] to
 prevent callers using ETags from potentially seeing outdated submittability
 information.
 
+`SubmitRule` interface will soon deprecated. Instead, a global `SubmitRequirement`
+can be bound by plugin.
+
+[source, java]
+----
+import com.google.gerrit.extensions.annotations.Exports;
+import com.google.inject.AbstractModule;
+
+public class MyPluginModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(SubmitRequirement.class).annotatedWith(Exports.named("myPlugin"))
+        .toInstance(myPluginSubmitRequirement);
+  }
+}
+----
+
 [[change-etag-computation]]
 == Change ETag Computation
 

@@ -15,11 +15,23 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import java.util.Optional;
 
-/** Entity describing a requirement that should be met for a change to become submittable. */
+/**
+ * Entity describing a requirement that should be met for a change to become submittable.
+ *
+ * <p>There are two ways to contribute {@link SubmitRequirement}:
+ *
+ * <ul>
+ *   <li>Set per-project in project.config (see {@link
+ *       com.google.gerrit.server.project.ProjectState#getSubmitRequirements()}
+ *   <li>Bind a global {@link SubmitRequirement} that will be evaluated for all projects.
+ * </ul>
+ */
+@ExtensionPoint
 @AutoValue
 public abstract class SubmitRequirement {
   /** Requirement name. */
@@ -56,7 +68,12 @@ public abstract class SubmitRequirement {
 
   /**
    * Boolean value indicating if the {@link SubmitRequirement} definition can be overridden in child
-   * projects. Default is false.
+   * projects.
+   *
+   * <p>For globally bound {@link SubmitRequirement}, indicates if can be overridden by {@link
+   * SubmitRequirement} in project.config.
+   *
+   * <p>Default is false.
    */
   public abstract boolean allowOverrideInChildProjects();
 

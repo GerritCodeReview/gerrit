@@ -180,7 +180,7 @@ import {
   fireReload,
   fireTitleChange,
 } from '../../../utils/event-util';
-import {GerritView, routerView$} from '../../../services/router/router-model';
+import {GerritView} from '../../../services/router/router-model';
 import {
   debounce,
   DelayedTask,
@@ -604,6 +604,8 @@ export class GrChangeView extends base {
   // Private but used in tests.
   readonly changeModel = getAppContext().changeModel;
 
+  private readonly routerModel = getAppContext().routerModel;
+
   private readonly commentsModel = getAppContext().commentsModel;
 
   private readonly shortcuts = getAppContext().shortcutsService;
@@ -632,7 +634,7 @@ export class GrChangeView extends base {
       })
     );
     this.subscriptions.push(
-      routerView$.subscribe(view => {
+      this.routerModel.routerView$.subscribe(view => {
         this.isViewCurrent = view === GerritView.CHANGE;
       })
     );

@@ -45,8 +45,6 @@ import {
 import {_testOnly_allTasks} from '../utils/async-util';
 import {cleanUpStorage} from '../services/storage/gr-storage_mock';
 
-import {_testOnly_resetState as resetRouterState} from '../services/router/router-model';
-
 declare global {
   interface Window {
     assert: typeof chai.assert;
@@ -110,8 +108,6 @@ setup(() => {
   // The following calls is nessecary to avoid influence of previously executed
   // tests.
   initGlobalVariables(appContext);
-
-  resetRouterState();
 
   const shortcuts = appContext.shortcutsService;
   assert.isTrue(shortcuts._testOnly_isEmpty());

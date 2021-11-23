@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 
-import {NumericChangeId, PatchSetNum} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
+import {Finalizable} from '../registry';
+import {NumericChangeId, PatchSetNum} from '../../types/common';
 
 export enum GerritView {
   ADMIN = 'admin',
@@ -42,57 +43,44 @@ export interface RouterState {
   patchNum?: PatchSetNum;
 }
 
-// TODO: Figure out how to best enforce immutability of all states. Use Immer?
-// Use DeepReadOnly?
-const initialState: RouterState = {};
+export class RouterModel implements Finalizable {
+  private readonly privateState$ = new BehaviorSubject<RouterState>({});
 
-const privateState$ = new BehaviorSubject<RouterState>(initialState);
+  readonly routerView$: Observable<GerritView | undefined>;
 
-export function _testOnly_resetState() {
-  // We cannot assign a new subject to privateState$, because all the selectors
-  // have already subscribed to the original subject. So we have to emit the
-  // initial state on the existing subject.
-  privateState$.next({...initialState});
+  readonly routerChangeNum$: Observable<NumericChangeId | undefined>;
+
+  readonly routerPatchNum$: Observable<PatchSetNum | undefined>;
+
+  constructor() {
+    this.routerView$ = this.privateState$.pipe(
+      map(state => state.view),
+      distinctUntilChanged()
+    );
+    this.routerChangeNum$ = this.privateState$.pipe(
+      map(state => state.changeNum),
+      distinctUntilChanged()
+    );
+    this.routerPatchNum$ = this.privateState$.pipe(
+      map(state => state.patchNum),
+      distinctUntilChanged()
+    );
+  }
+
+  finalize() {}
+
+  setState(state: RouterState) {
+    this.privateState$.next(state);
+  }
+
+  updateState(partial: Partial<RouterState>) {
+    this.privateState$.next({
+      ...this.privateState$.getValue(),
+      ...partial,
+    });
+  }
+
+  get routerState$(): Observable<RouterState> {
+    return this.privateState$;
+  }
 }
-
-export function _testOnly_setState(state: RouterState) {
-  privateState$.next(state);
-}
-
-export function _testOnly_getState() {
-  return privateState$.getValue();
-}
-
-// Re-exporting as Observable so that you can only subscribe, but not emit.
-export const routerState$: Observable<RouterState> = privateState$;
-
-// Must only be used by the router service or whatever is in control of this
-// model.
-// TODO: Consider keeping params of type AppElementParams entirely in the state
-export function updateState(
-  view?: GerritView,
-  changeNum?: NumericChangeId,
-  patchNum?: PatchSetNum
-) {
-  privateState$.next({
-    ...privateState$.getValue(),
-    view,
-    changeNum,
-    patchNum,
-  });
-}
-
-export const routerView$ = routerState$.pipe(
-  map(state => state.view),
-  distinctUntilChanged()
-);
-
-export const routerChangeNum$ = routerState$.pipe(
-  map(state => state.changeNum),
-  distinctUntilChanged()
-);
-
-export const routerPatchNum$ = routerState$.pipe(
-  map(state => state.patchNum),
-  distinctUntilChanged()
-);

@@ -123,6 +123,9 @@ export class GrSubmitRequirementHovercard extends base {
           margin-top: var(--spacing-m);
           padding: var(--spacing-m) var(--spacing-xl) 0;
         }
+        .section.description > .sectionContent {
+          white-space: pre-wrap;
+        }
       `,
     ];
   }
@@ -159,7 +162,7 @@ export class GrSubmitRequirementHovercard extends base {
 
   private renderDescription() {
     if (!this.requirement?.description) return;
-    return html`<div class="section">
+    return html`<div class="section description">
       <div class="sectionIcon">
         <iron-icon icon="gr-icons:description"></iron-icon>
       </div>

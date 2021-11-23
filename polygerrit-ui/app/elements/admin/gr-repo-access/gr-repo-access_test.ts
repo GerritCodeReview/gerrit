@@ -134,13 +134,13 @@ suite('gr-repo-access tests', () => {
     element._loading = false;
     element._ownerOf = [];
     element._canUpload = false;
-    await flush();
+    await element.updateComplete;
   });
 
   test('_repoChanged called when repo name changes', async () => {
     const repoChangedStub = sinon.stub(element, '_repoChanged');
     element.repo = 'New Repo' as RepoName;
-    await flush();
+    await element.updateComplete;
     assert.isTrue(repoChangedStub.called);
   });
 
@@ -233,28 +233,43 @@ suite('gr-repo-access tests', () => {
     element._local = {};
     element._ownerOf = [];
     const computeParentHrefStub = sinon.stub(element, '_computeParentHref');
-    await flush();
+    await element.updateComplete;
 
     // Nothing should appear when no inherit from and not in edit mode.
-    assert.equal(getComputedStyle(element.$.inheritsFrom).display, 'none');
-    // The autocomplete should be hidden, and the link should be  displayed.
-    assert.isFalse(computeParentHrefStub.called);
+    assert.equal(
+      getComputedStyle(
+        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom')
+      ).display,
+      'none'
+    );
     // When in edit mode, the autocomplete should appear.
-    element._editing = true;
+    element.editing = true;
     // When editing, the autocomplete should still not be shown.
-    assert.equal(getComputedStyle(element.$.inheritsFrom).display, 'none');
+    assert.equal(
+      getComputedStyle(
+        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom')
+      ).display,
+      'none'
+    );
 
-    element._editing = false;
+    element.editing = false;
     element._inheritsFrom = {
       id: '1234' as UrlEncodedRepoName,
       name: 'another-repo' as RepoName,
     };
-    await flush();
+    await element.updateComplete;
 
     // When there is a parent project, the link should be displayed.
-    assert.notEqual(getComputedStyle(element.$.inheritsFrom).display, 'none');
     assert.notEqual(
-      getComputedStyle(element.$.inheritFromName).display,
+      getComputedStyle(
+        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom')
+      ).display,
+      'none'
+    );
+    assert.notEqual(
+      getComputedStyle(
+        queryAndAssert<HTMLAnchorElement>(element, '#inheritFromName')
+      ).display,
       'none'
     );
     assert.equal(
@@ -264,10 +279,21 @@ suite('gr-repo-access tests', () => {
       'none'
     );
     assert.isTrue(computeParentHrefStub.called);
-    element._editing = true;
+    element.editing = true;
+    await element.updateComplete;
     // When editing, the autocomplete should be shown.
-    assert.notEqual(getComputedStyle(element.$.inheritsFrom).display, 'none');
-    assert.equal(getComputedStyle(element.$.inheritFromName).display, 'none');
+    assert.notEqual(
+      getComputedStyle(
+        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom')
+      ).display,
+      'none'
+    );
+    assert.equal(
+      getComputedStyle(
+        queryAndAssert<HTMLAnchorElement>(element, '#inheritFromName')
+      ).display,
+      'none'
+    );
     assert.notEqual(
       getComputedStyle(
         queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput')
@@ -278,10 +304,11 @@ suite('gr-repo-access tests', () => {
 
   test('_handleUpdateInheritFrom', async () => {
     element._inheritFromFilter = 'foo bar baz' as RepoName;
+    await element.updateComplete;
     element._handleUpdateInheritFrom({
       detail: {value: 'abc+123'},
     } as CustomEvent);
-    await flush();
+    await element.updateComplete;
     assert.isOk(element._inheritsFrom);
     assert.equal(element._inheritsFrom!.id, 'abc+123');
     assert.equal(element._inheritsFrom!.name, 'foo bar baz' as RepoName);
@@ -344,7 +371,7 @@ suite('gr-repo-access tests', () => {
       element._inheritsFrom = {
         id: 'test-project' as UrlEncodedRepoName,
       };
-      await flush();
+      await element.updateComplete;
       assert.equal(
         getComputedStyle(
           queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput')
@@ -353,7 +380,7 @@ suite('gr-repo-access tests', () => {
       );
 
       MockInteractions.tap(queryAndAssert<GrButton>(element, '#editBtn'));
-      await flush();
+      await element.updateComplete;
 
       // Edit button changes to Cancel button, and Save button is visible but
       // disabled.
@@ -412,12 +439,12 @@ suite('gr-repo-access tests', () => {
       element._groups = JSON.parse(JSON.stringify(accessRes.groups));
       element._capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
       element._labels = JSON.parse(JSON.stringify(repoRes.labels));
-      await flush();
+      await element.updateComplete;
     });
 
     test('removing an added section', async () => {
-      element._editing = true;
-      await flush();
+      element.editing = true;
+      await element.updateComplete;
       assert.equal(element._sections!.length, 1);
       queryAndAssert<GrAccessSection>(
         element,
@@ -428,31 +455,38 @@ suite('gr-repo-access tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await element.updateComplete;
       assert.equal(element._sections!.length, 0);
     });
 
-    test('button visibility for non ref owner', () => {
-      assert.equal(getComputedStyle(element.$.saveReviewBtn).display, 'none');
-      assert.equal(getComputedStyle(element.$.editBtn).display, 'none');
+    test('button visibility for non ref owner', async () => {
+      assert.equal(
+        getComputedStyle(queryAndAssert<GrButton>(element, '#saveReviewBtn'))
+          .display,
+        'none'
+      );
+      assert.equal(
+        getComputedStyle(queryAndAssert<GrButton>(element, '#editBtn')).display,
+        'none'
+      );
     });
 
     test('button visibility for non ref owner with upload privilege', async () => {
       element._canUpload = true;
-      await flush();
+      await element.updateComplete;
       testEditSaveCancelBtns(false, true);
     });
 
     test('button visibility for ref owner', async () => {
       element._ownerOf = ['refs/for/*'] as GitRef[];
-      await flush();
+      await element.updateComplete;
       testEditSaveCancelBtns(true, false);
     });
 
     test('button visibility for ref owner and upload', async () => {
       element._ownerOf = ['refs/for/*'] as GitRef[];
       element._canUpload = true;
-      await flush();
+      await element.updateComplete;
       testEditSaveCancelBtns(true, false);
     });
 
@@ -467,7 +501,7 @@ suite('gr-repo-access tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await element.updateComplete;
       assert.isTrue(handleAccessModifiedSpy.called);
     });
 
@@ -475,7 +509,7 @@ suite('gr-repo-access tests', () => {
       element._inheritsFrom = {
         id: 'test-project' as UrlEncodedRepoName,
       };
-      await flush();
+      await element.updateComplete;
       queryAndAssert<GrAutocomplete>(
         element,
         '#editInheritFromInput'
@@ -497,7 +531,7 @@ suite('gr-repo-access tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await element.updateComplete;
       assert.isTrue(handleAccessModifiedSpy.called);
     });
 
@@ -508,7 +542,7 @@ suite('gr-repo-access tests', () => {
         remove: {},
       });
       element._handleSaveForReview(new Event('test'));
-      await flush();
+      await element.updateComplete;
       assert.isFalse(saveStub.called);
     });
 
@@ -623,7 +657,7 @@ suite('gr-repo-access tests', () => {
       element.originalInheritsFrom = {
         id: 'test-project-original' as UrlEncodedRepoName,
       };
-      await flush();
+      await element.updateComplete;
       assert.deepEqual(element._computeAddAndRemove(), {
         parent: 'test-project',
         add: {},
@@ -636,7 +670,7 @@ suite('gr-repo-access tests', () => {
         id: 'spaces+in+project+name' as UrlEncodedRepoName,
       };
       element.originalInheritsFrom = {id: 'old-project' as UrlEncodedRepoName};
-      await flush();
+      await element.updateComplete;
       assert.deepEqual(element._computeAddAndRemove(), {
         parent: 'spaces in project name',
         add: {},
@@ -647,7 +681,7 @@ suite('gr-repo-access tests', () => {
     test('_handleSaveForReview rules', async () => {
       // Delete a rule.
       element._local!['refs/*'].permissions.owner.rules[123].deleted = true;
-      await flush();
+      await element.updateComplete;
       let expectedInput = {
         add: {},
         remove: {
@@ -669,7 +703,7 @@ suite('gr-repo-access tests', () => {
 
       // Modify a rule.
       element._local!['refs/*'].permissions.owner.rules[123].modified = true;
-      await flush();
+      await element.updateComplete;
       expectedInput = {
         add: {
           'refs/*': {
@@ -729,7 +763,7 @@ suite('gr-repo-access tests', () => {
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
 
-      await flush();
+      await element.updateComplete;
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Remove the added rule.
@@ -737,7 +771,7 @@ suite('gr-repo-access tests', () => {
 
       // Delete a permission.
       element._local!['refs/*'].permissions.owner.deleted = true;
-      await flush();
+      await element.updateComplete;
 
       expectedInput = {
         add: {},
@@ -756,7 +790,7 @@ suite('gr-repo-access tests', () => {
 
       // Modify a permission.
       element._local!['refs/*'].permissions.owner.modified = true;
-      await flush();
+      await element.updateComplete;
       expectedInput = {
         add: {
           'refs/*': {
@@ -792,6 +826,7 @@ suite('gr-repo-access tests', () => {
             permissions: {
               'label-Code-Review': {
                 added: true,
+                id: 'refs/heads/*',
                 rules: {},
                 label: 'Code-Review',
               },
@@ -804,7 +839,7 @@ suite('gr-repo-access tests', () => {
         element,
         'gr-access-section'
       )._handleAddPermission();
-      await flush();
+      await element.updateComplete;
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Add a new rule to the new permission.
@@ -829,6 +864,7 @@ suite('gr-repo-access tests', () => {
         },
         remove: {},
       };
+      assert.deepEqual(element._sections, []);
       const grAccessSection = queryAndAssert<GrAccessSection>(
         element,
         'gr-access-section'
@@ -840,13 +876,13 @@ suite('gr-repo-access tests', () => {
       newPermission.handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
-      await flush();
+      await element.updateComplete;
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Modify a section reference.
       element._local!['refs/*'].updatedId = 'refs/for/bar';
       element._local!['refs/*'].modified = true;
-      await flush();
+      await element.updateComplete;
       expectedInput = {
         add: {
           'refs/for/bar': {
@@ -885,12 +921,12 @@ suite('gr-repo-access tests', () => {
           },
         },
       };
-      await flush();
+      await element.updateComplete;
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Delete a section.
       element._local!['refs/*'].deleted = true;
-      await flush();
+      await element.updateComplete;
       expectedInput = {
         add: {},
         remove: {
@@ -915,8 +951,10 @@ suite('gr-repo-access tests', () => {
         },
         remove: {},
       };
-      MockInteractions.tap(element.$.addReferenceBtn);
-      await flush();
+      MockInteractions.tap(
+        queryAndAssert<GrButton>(element, '#addReferenceBtn')
+      );
+      await element.updateComplete;
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       expectedInput = {
@@ -939,7 +977,7 @@ suite('gr-repo-access tests', () => {
         'gr-access-section'
       )[1];
       newSection._handleAddPermission();
-      await flush();
+      await element.updateComplete;
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Add rule to the new permission.
@@ -972,12 +1010,12 @@ suite('gr-repo-access tests', () => {
       ).handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
-      await flush();
+      await element.updateComplete;
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Modify a the reference from the default value.
       element._local!['refs/for/*'].updatedId = 'refs/for/new';
-      await flush();
+      await element.updateComplete;
       expectedInput = {
         add: {
           'refs/for/new': {
@@ -1008,7 +1046,7 @@ suite('gr-repo-access tests', () => {
       // Modify rule and delete permission that it is inside of.
       element._local!['refs/*'].permissions.owner.rules[123].modified = true;
       element._local!['refs/*'].permissions.owner.deleted = true;
-      await flush();
+      await element.updateComplete;
       let expectedInput = {};
 
       expectedInput = {
@@ -1025,12 +1063,12 @@ suite('gr-repo-access tests', () => {
       // Delete rule and delete permission that it is inside of.
       element._local!['refs/*'].permissions.owner.rules[123].modified = false;
       element._local!['refs/*'].permissions.owner.rules[123].deleted = true;
-      await flush();
+      await element.updateComplete;
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Also modify a different rule inside of another permission.
       element._local!['refs/*'].permissions.read.modified = true;
-      await flush();
+      await element.updateComplete;
       expectedInput = {
         add: {
           'refs/*': {
@@ -1060,7 +1098,7 @@ suite('gr-repo-access tests', () => {
       element._local!['refs/*'].permissions.owner.modified = true;
       element._local!['refs/*'].permissions.read.exclusive = true;
       element._local!['refs/*'].permissions.read.modified = true;
-      await flush();
+      await element.updateComplete;
       expectedInput = {
         add: {
           'refs/*': {
@@ -1098,7 +1136,7 @@ suite('gr-repo-access tests', () => {
       readPermission.handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
-      await flush();
+      await element.updateComplete;
 
       expectedInput = {
         add: {
@@ -1129,7 +1167,7 @@ suite('gr-repo-access tests', () => {
       // Change one of the refs
       element._local!['refs/*'].updatedId = 'refs/for/bar';
       element._local!['refs/*'].modified = true;
-      await flush();
+      await element.updateComplete;
 
       expectedInput = {
         add: {
@@ -1165,17 +1203,19 @@ suite('gr-repo-access tests', () => {
         },
       };
       element._local!['refs/*'].deleted = true;
-      await flush();
+      await element.updateComplete;
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Add a new section.
-      MockInteractions.tap(element.$.addReferenceBtn);
+      MockInteractions.tap(
+        queryAndAssert<GrButton>(element, '#addReferenceBtn')
+      );
       let newSection = queryAll<GrAccessSection>(
         element,
         'gr-access-section'
       )[1];
       newSection._handleAddPermission();
-      await flush();
+      await element.updateComplete;
       queryAndAssert<GrPermission>(
         newSection,
         'gr-permission'
@@ -1184,7 +1224,7 @@ suite('gr-repo-access tests', () => {
       } as AutocompleteCommitEvent);
       // Modify a the reference from the default value.
       element._local!['refs/for/*'].updatedId = 'refs/for/new';
-      await flush();
+      await element.updateComplete;
 
       expectedInput = {
         add: {
@@ -1219,7 +1259,7 @@ suite('gr-repo-access tests', () => {
       element._local!['refs/for/*'].permissions['label-Code-Review'].rules[
         'Maintainers'
       ].modified = true;
-      await flush();
+      await element.updateComplete;
       expectedInput = {
         add: {
           'refs/for/new': {
@@ -1251,11 +1291,13 @@ suite('gr-repo-access tests', () => {
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Add a second new section.
-      MockInteractions.tap(element.$.addReferenceBtn);
-      await flush();
+      MockInteractions.tap(
+        queryAndAssert<GrButton>(element, '#addReferenceBtn')
+      );
+      await element.updateComplete;
       newSection = queryAll<GrAccessSection>(element, 'gr-access-section')[2];
       newSection._handleAddPermission();
-      await flush();
+      await element.updateComplete;
       queryAndAssert<GrPermission>(
         newSection,
         'gr-permission'
@@ -1264,7 +1306,7 @@ suite('gr-repo-access tests', () => {
       } as AutocompleteCommitEvent);
       // Modify a the reference from the default value.
       element._local!['refs/for/**'].updatedId = 'refs/for/new2';
-      await flush();
+      await element.updateComplete;
       expectedInput = {
         add: {
           'refs/for/new': {
@@ -1316,16 +1358,18 @@ suite('gr-repo-access tests', () => {
 
     test('Unsaved added refs are discarded when edit cancelled', async () => {
       // Unsaved changes are discarded when editing is cancelled.
-      MockInteractions.tap(element.$.editBtn);
-      await flush();
+      MockInteractions.tap(queryAndAssert<GrButton>(element, '#editBtn'));
+      await element.updateComplete;
       assert.equal(element._sections!.length, 1);
       assert.equal(Object.keys(element._local!).length, 1);
-      MockInteractions.tap(element.$.addReferenceBtn);
-      await flush();
+      MockInteractions.tap(
+        queryAndAssert<GrButton>(element, '#addReferenceBtn')
+      );
+      await element.updateComplete;
       assert.equal(element._sections!.length, 2);
       assert.equal(Object.keys(element._local!).length, 2);
-      MockInteractions.tap(element.$.editBtn);
-      await flush();
+      MockInteractions.tap(queryAndAssert<GrButton>(element, '#editBtn'));
+      await element.updateComplete;
       assert.equal(element._sections!.length, 1);
       assert.equal(Object.keys(element._local!).length, 1);
     });
@@ -1368,11 +1412,14 @@ suite('gr-repo-access tests', () => {
       sinon.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
 
       element._modified = true;
-      MockInteractions.tap(element.$.saveBtn);
-      await flush();
-      assert.equal(element.$.saveBtn.hasAttribute('loading'), true);
+      MockInteractions.tap(queryAndAssert<GrButton>(element, '#saveBtn'));
+      await element.updateComplete;
+      assert.equal(
+        queryAndAssert<GrButton>(element, '#saveBtn').hasAttribute('loading'),
+        true
+      );
       resolver!({status: 200} as Response);
-      await flush();
+      await element.updateComplete;
       assert.isTrue(saveStub.called);
       assert.isTrue(navigateToChangeStub.notCalled);
     });
@@ -1415,11 +1462,16 @@ suite('gr-repo-access tests', () => {
       sinon.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
 
       element._modified = true;
-      MockInteractions.tap(element.$.saveReviewBtn);
-      await flush();
-      assert.equal(element.$.saveReviewBtn.hasAttribute('loading'), true);
+      MockInteractions.tap(queryAndAssert<GrButton>(element, '#saveReviewBtn'));
+      await element.updateComplete;
+      assert.equal(
+        queryAndAssert<GrButton>(element, '#saveReviewBtn').hasAttribute(
+          'loading'
+        ),
+        true
+      );
       resolver!(createChange());
-      await flush();
+      await element.updateComplete;
       assert.isTrue(saveForReviewStub.called);
       assert.isTrue(
         navigateToChangeStub.lastCall.calledWithExactly(createChange())

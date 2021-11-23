@@ -28,6 +28,15 @@ suite('compare-util tests', () => {
     assert.isFalse(deepEqual('a', 'b'));
   });
 
+  test('deepEqual Dates', () => {
+    const a = new Date();
+    const b = new Date(a.getTime());
+    assert.isTrue(deepEqual(a, b));
+    assert.isFalse(deepEqual(a, undefined));
+    assert.isFalse(deepEqual(undefined, b));
+    assert.isFalse(deepEqual(a, new Date(a.getTime() + 1)));
+  });
+
   test('deepEqual objects', () => {
     assert.isTrue(deepEqual({}, {}));
     assert.isTrue(deepEqual({x: 'y'}, {x: 'y'}));

@@ -166,6 +166,9 @@ public class LabelsJson {
     if (detailed) {
       setAllApprovals(accountLoader, cd, labels);
     }
+    // For non-detailed labels, include the label votes.
+    setLabelVotes(cd, labels);
+
     for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
       Optional<LabelType> type = labelTypes.byLabel(e.getKey());
       if (!type.isPresent()) {
@@ -271,6 +274,7 @@ public class LabelsJson {
     // merged).
     Map<String, LabelWithStatus> labels;
     labels = initLabels(accountLoader, cd, labelTypes, standard);
+    setLabelVotes(cd, labels);
 
     // Also include all labels for which approvals exists. E.g. there can be
     // approvals for labels that are ignored by a Prolog submit rule and hence
@@ -388,6 +392,22 @@ public class LabelsJson {
         l.label().recommended = accountLoader.get(accountId);
         l.label().value = score;
       }
+    }
+  }
+
+  private void setLabelVotes(ChangeData cd, Map<String, LabelWithStatus> labels) {
+    for (PatchSetApproval psa : cd.approvals().values()) {
+      String labelName = psa.label();
+      if (!labels.containsKey(labelName)) {
+        logger.atWarning().log("Could not find label '%s' in labels.", labelName);
+        continue;
+      }
+
+      LabelInfo labelInfo = labels.get(labelName).label();
+      if (labelInfo.votes == null) {
+        labelInfo.votes = new ArrayList<>();
+      }
+      labelInfo.votes.add(Integer.valueOf(psa.value()));
     }
   }
 

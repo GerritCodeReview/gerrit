@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db99697a_a9163913",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-23T10:12:02Z",
+      "side": 1,
+      "message": "I think this is not so accurate, for example some labels only have -1/+1 values like the \"Verified\" label, so approved means +1.\n\nI\u0027m looking into refactoring this part in backend so that we serve the actual vote values for dashboard queries.",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 20
+      },
+      "revId": "3613ed4e70bbc6bc326540f733eb065565204730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

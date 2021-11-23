@@ -39,6 +39,30 @@
       },
       "revId": "43cce8b744fd5540be987647d5510cfe2d8ba8b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "623018e8_6465f60d",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-23T00:34:19Z",
+      "side": 1,
+      "message": "Yeah, It\u0027s not needed. I was just trying to replicate the replace() above and this slipped in .",
+      "parentUuid": "19d571fc_3e5c698c",
+      "range": {
+        "startLine": 291,
+        "startChar": 4,
+        "endLine": 291,
+        "endChar": 60
+      },
+      "revId": "43cce8b744fd5540be987647d5510cfe2d8ba8b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

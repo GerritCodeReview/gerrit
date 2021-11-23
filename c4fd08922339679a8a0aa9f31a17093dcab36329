@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd23462_29eb1f4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-23T00:37:19Z",
+      "side": 1,
+      "message": "Blocking this for not invalidating the release of 3.5.0-rc2",
+      "revId": "c4fd08922339679a8a0aa9f31a17093dcab36329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

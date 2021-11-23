@@ -243,6 +243,7 @@ export class GrChangeList extends base {
    * Is the column disabled by a server config or experiment?
    */
   _isColumnEnabled(column: string, config: ServerInfo, experiments: string[]) {
+    if (!columnNames.includes(column)) return false;
     if (!config || !config.change) return true;
     if (column === 'Comments') return experiments.includes('comments-column');
     if (column === 'Requirements')

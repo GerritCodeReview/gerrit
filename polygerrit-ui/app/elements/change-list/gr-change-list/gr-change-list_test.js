@@ -337,6 +337,11 @@ suite('gr-change-list basic tests', () => {
     });
   });
 
+  test('obsolete column in preferences not visible', () => {
+    assert.isTrue(element._isColumnEnabled('Subject'));
+    assert.isFalse(element._isColumnEnabled('Assignee'));
+  });
+
   suite('random column does not exist', () => {
     let element;
 

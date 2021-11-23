@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47d42365_7b7ef2ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-23T09:17:54Z",
+      "side": 1,
+      "message": "any reason why you didn\u0027t keep the specific selector sizeBarInChangeTable$?",
+      "range": {
+        "startLine": 393,
+        "startChar": 6,
+        "endLine": 400,
+        "endChar": 10
+      },
+      "revId": "20e8fbdbbbcdfbf82c61181985284025e1dc29ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1a2201e3_a71e0e91",
         "filename": "polygerrit-ui/app/services/user/user-model.ts",
         "patchSetId": 6
@@ -60,6 +83,29 @@
       "writtenOn": "2021-11-23T08:59:01Z",
       "side": 1,
       "message": "I think it is time for a controller like utility or an AbstractModel. Otherwise that get repetitive and bloaty.",
+      "revId": "20e8fbdbbbcdfbf82c61181985284025e1dc29ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e7f3e91_7cf5ee56",
+        "filename": "polygerrit-ui/app/services/user/user-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-23T09:17:54Z",
+      "side": 1,
+      "message": "what is the intention of this?\nIIUC it\u0027s clearing the subscriptions array.\n\nWhy is this.subscriptions \u003d [] not possible?",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 60
+      },
       "revId": "20e8fbdbbbcdfbf82c61181985284025e1dc29ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

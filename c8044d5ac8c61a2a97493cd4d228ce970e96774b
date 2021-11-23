@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fc13c57_c849dc2a",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-23T10:56:40Z",
+      "side": 1,
+      "message": "I think this name is outdated/wrong? https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts;l\u003d326;drc\u003d463b094f9cb5860121b6c5c2b8d585417a28534d\nMaybe you can just have an inline comment on the true instead:\n```\ntrue /* redirect */\n```",
+      "range": {
+        "startLine": 616,
+        "startChar": 7,
+        "endLine": 616,
+        "endChar": 19
+      },
+      "revId": "c8044d5ac8c61a2a97493cd4d228ce970e96774b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

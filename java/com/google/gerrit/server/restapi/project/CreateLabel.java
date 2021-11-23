@@ -106,7 +106,7 @@ public class CreateLabel
 
       config.commit(md);
 
-      projectCache.evict(rsrc.getProjectState().getProject());
+      projectCache.evictAndReindex(rsrc.getProjectState().getProject());
 
       return Response.created(LabelDefinitionJson.format(rsrc.getNameKey(), labelType));
     }

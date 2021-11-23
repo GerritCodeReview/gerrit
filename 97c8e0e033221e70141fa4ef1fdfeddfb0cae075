@@ -87,6 +87,23 @@
       "message": "1) ApprovalInference: forPatchSet(ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) seems unused\n\n2) ApprovalInference: forPatchSet(\n      ChangeNotes notes, PatchSet ps, @Nullable RevWalk rw, @Nullable Config repoConfig) the RW and Config seem unused because the only caller passes in null?\n\nThis confuses me a bit, though. The code in PatchSetInserter calls dynamicallyComputeCopiedApprovals without passing a RevWalk. Usually, you can only read contents of the current transaction (i.e. the new patch set) when you pass a RevWalk. How can ApprovalInference determine e.g. the change type of the patch set we are currently creating when it doesn\u0027t get that RevWalk?\n\n3) I think this change is missing an important part: Reworking ApprovalInference to only ever attempt to copy from patch set latest-1 to latest when computing dynamic approvals.",
       "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8616a2de_0a82c9cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-23T09:54:00Z",
+      "side": 1,
+      "message": "Note from in-person discussion: We will also need a solution for votes that are put on older patch sets using the UI (e.g. CI votes on older patch set).",
+      "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

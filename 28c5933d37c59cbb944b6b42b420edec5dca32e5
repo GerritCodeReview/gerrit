@@ -16,6 +16,24 @@
       "message": "Typically this is done as\n\n/*redirect\u003d*/true",
       "revId": "28c5933d37c59cbb944b6b42b420edec5dca32e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b59f75f_15dc48f2",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-23T13:56:04Z",
+      "side": 1,
+      "message": "found a reference for that syntax: https://google.github.io/styleguide/tsguide.html#comments-when-calling-a-function\n\nIIUC the /*foo\u003d*/ syntax was chosen so that linters could easily determine whether it was added for that purpose or not, even checking the exact parameter name is used (\"foo\"). Maybe eslint can do this? The exact syntax is not critical to me, but I wouldn\u0027t mind adding a rule (or team agreement).",
+      "parentUuid": "5d7fcbe4_2454530e",
+      "revId": "28c5933d37c59cbb944b6b42b420edec5dca32e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

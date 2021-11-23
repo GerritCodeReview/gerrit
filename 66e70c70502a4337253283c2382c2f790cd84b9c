@@ -93,6 +93,30 @@
       },
       "revId": "66e70c70502a4337253283c2382c2f790cd84b9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04bd1a6e_83159e28",
+        "filename": "java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-23T21:29:25Z",
+      "side": 1,
+      "message": "Either option seems fine to me (fail init, or ask during interactive init, defaulting to regeneration for noninterative init), as long as it\u0027s documented in the release notes.",
+      "parentUuid": "d312a53c_f09b3a5f",
+      "range": {
+        "startLine": 83,
+        "startChar": 10,
+        "endLine": 83,
+        "endChar": 30
+      },
+      "revId": "66e70c70502a4337253283c2382c2f790cd84b9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

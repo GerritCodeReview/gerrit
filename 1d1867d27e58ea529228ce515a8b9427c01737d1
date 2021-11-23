@@ -34,6 +34,24 @@
       "parentUuid": "52daec02_d390dd35",
       "revId": "1d1867d27e58ea529228ce515a8b9427c01737d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47610e91_6e37f42e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-23T09:08:19Z",
+      "side": 1,
+      "message": "Thanks for checking, Patrick. I also verified it.\n\nIt\u0027s included in stable-3.5 and v3.5.0-rc3.",
+      "parentUuid": "b7307a7d_b7fa6bf1",
+      "revId": "1d1867d27e58ea529228ce515a8b9427c01737d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -969,6 +969,9 @@ public class CommitValidators {
       try {
         return new URL(canonicalWebUrl).getHost();
       } catch (MalformedURLException ignored) {
+        logger.atWarning().log(
+            "configured canonical web URL is invalid, using system default: %s",
+            ignored.getMessage());
       }
     }
 

@@ -168,7 +168,7 @@ java_package_configuration(
         "-Xep:DurationTemporalUnit:ERROR",
         "-Xep:DurationToLongTimeUnit:ERROR",
         "-Xep:EmptyBlockTag:ERROR",
-        # "-Xep:EmptyCatch:WARN",
+        "-Xep:EmptyCatch:ERROR",
         "-Xep:EmptySetMultibindingContributions:ERROR",
         # "-Xep:EqualsGetClass:WARN",
         "-Xep:EqualsHashCode:ERROR",

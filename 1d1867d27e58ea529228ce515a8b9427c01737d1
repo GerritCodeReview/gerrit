@@ -16,6 +16,24 @@
       "message": "Are you sure that those caches have been introduced in stable-3.5? I cannot see them in v3.5.0-rc3",
       "revId": "1d1867d27e58ea529228ce515a8b9427c01737d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7307a7d_b7fa6bf1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-23T08:41:57Z",
+      "side": 1,
+      "message": "This change [1] is contained in all stable 3-5 RCs and the main stable 3.5, so I think the new diff cache was contained in the release.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/318335",
+      "parentUuid": "52daec02_d390dd35",
+      "revId": "1d1867d27e58ea529228ce515a8b9427c01737d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

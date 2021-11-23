@@ -14,17 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-font-styles';
-import '../../../styles/gr-menu-page-styles';
-import '../../../styles/gr-subpage-styles';
-import '../../../styles/shared-styles';
+
 import '../gr-access-section/gr-access-section';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-repo-access_html';
 import {encodeURL, getBaseUrl, singleDecodeURL} from '../../../utils/url-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {toSortedPermissionsArray} from '../../../utils/access-util';
-import {customElement, property} from '@polymer/decorators';
 import {
   RepoName,
   ProjectInfo,
@@ -50,10 +44,28 @@ import {
 import {firePageError, fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {WebLinkInfo} from '../../../types/diff';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
+import {subpageStyles} from '../../../styles/gr-subpage-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, css, html} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {assertIsDefined} from '../../../utils/common-util';
+import {ValueChangedEvent} from '../../../types/events';
+import {ifDefined} from 'lit/directives/if-defined';
 
 const NOTHING_TO_SAVE = 'No changes to save.';
 
 const MAX_AUTOCOMPLETE_RESULTS = 50;
+
+declare global {
+  interface HTMLElementEventMap {
+    'text-changed': CustomEvent<string>;
+  }
+  interface HTMLElementTagNameMap {
+    'gr-repo-access': GrRepoAccess;
+  }
+}
 
 /**
  * Fired when save is a no-op
@@ -61,95 +73,267 @@ const MAX_AUTOCOMPLETE_RESULTS = 50;
  * @event show-alert
  */
 @customElement('gr-repo-access')
-export class GrRepoAccess extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrRepoAccess extends LitElement {
+  @query('gr-access-section:last-of-type') accessSection?: GrAccessSection;
 
-  @property({type: String, observer: '_repoChanged'})
+  @property({type: String})
   repo?: RepoName;
 
   @property({type: String})
   path?: string;
 
-  @property({type: Boolean})
-  _canUpload?: boolean = false; // restAPI can return undefined
+  // private but used in test
+  @state() canUpload?: boolean = false; // restAPI can return undefined
 
-  @property({type: String})
-  _inheritFromFilter?: RepoName;
+  // private but used in test
+  @state() inheritFromFilter?: RepoName;
 
-  @property({type: Object})
-  _query: AutocompleteQuery;
+  // private but used in test
+  @state() ownerOf?: GitRef[];
 
-  @property({type: Array})
-  _ownerOf?: GitRef[];
+  // private but used in test
+  @state() capabilities?: CapabilityInfoMap;
 
-  @property({type: Object})
-  _capabilities?: CapabilityInfoMap;
+  // private but used in test
+  @state() groups?: ProjectAccessGroups;
 
-  @property({type: Object})
-  _groups?: ProjectAccessGroups;
+  // private but used in test
+  @state() inheritsFrom?: ProjectInfo;
 
-  @property({type: Object})
-  _inheritsFrom?: ProjectInfo;
+  // private but used in test
+  @state() labels?: LabelNameToLabelTypeInfoMap;
 
-  @property({type: Object})
-  _labels?: LabelNameToLabelTypeInfoMap;
+  // private but used in test
+  @state() local?: EditableLocalAccessSectionInfo;
 
-  @property({type: Object})
-  _local?: EditableLocalAccessSectionInfo;
+  // private but used in test
+  @state() editing = false;
 
-  @property({type: Boolean, observer: '_handleEditingChanged'})
-  _editing = false;
+  // private but used in test
+  @state() modified = false;
 
-  @property({type: Boolean})
-  _modified = false;
+  // private but used in test
+  @state() sections?: PermissionAccessSection[];
 
-  @property({type: Array})
-  _sections?: PermissionAccessSection[];
+  @state() private weblinks?: WebLinkInfo[];
 
-  @property({type: Array})
-  _weblinks?: WebLinkInfo[];
-
-  @property({type: Boolean})
-  _loading = true;
+  // private but used in test
+  @state() loading = true;
 
   // private but used in the tests
   originalInheritsFrom?: ProjectInfo;
+
+  private readonly query: AutocompleteQuery;
 
   private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();
-    this._query = () => this._getInheritFromSuggestions();
+    this.query = () => this.getInheritFromSuggestions();
     this.addEventListener('access-modified', () =>
       this._handleAccessModified()
     );
   }
 
+  static override get styles() {
+    return [
+      fontStyles,
+      menuPageStyles,
+      subpageStyles,
+      sharedStyles,
+      css`
+        gr-button,
+        #inheritsFrom,
+        #editInheritFromInput,
+        .editing #inheritFromName,
+        .weblinks,
+        .editing .invisible {
+          display: none;
+        }
+        #inheritsFrom.show {
+          display: flex;
+          min-height: 2em;
+          align-items: center;
+        }
+        .weblink {
+          margin-right: var(--spacing-xs);
+        }
+        gr-access-section {
+          margin-top: var(--spacing-l);
+        }
+        .weblinks.show,
+        .referenceContainer {
+          display: block;
+        }
+        .rightsText {
+          margin-right: var(--spacing-s);
+        }
+
+        .editing gr-button,
+        .admin #editBtn {
+          display: inline-block;
+          margin: var(--spacing-l) 0;
+        }
+        .editing #editInheritFromInput {
+          display: inline-block;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <div class="main ${this.computeMainClass()}">
+        <div id="loading" class=${this.loading ? 'loading' : ''}>
+          Loading...
+        </div>
+        <div id="loadedContent" class=${this.loading ? 'loading' : ''}>
+          <h3
+            id="inheritsFrom"
+            class="heading-3 ${this.editing || this.inheritsFrom?.id?.length
+              ? 'show'
+              : ''}"
+          >
+            <span class="rightsText">Rights Inherit From</span>
+            <a
+              id="inheritFromName"
+              href=${this.computeParentHref()}
+              rel="noopener"
+            >
+              ${this.inheritsFrom?.name}</a
+            >
+            <gr-autocomplete
+              id="editInheritFromInput"
+              .text=${this.inheritFromFilter}
+              .query=${this.query}
+              @commit=${(e: ValueChangedEvent) => {
+                this.handleUpdateInheritFrom(e);
+              }}
+              @bind-value-changed=${(e: ValueChangedEvent) => {
+                this.handleUpdateInheritFrom(e);
+              }}
+              @text-changed=${(e: ValueChangedEvent) => {
+                this.handleEditInheritFromTextChanged(e);
+              }}
+            ></gr-autocomplete>
+          </h3>
+          <div class="weblinks ${this.weblinks?.length ? 'show' : ''}">
+            History:
+            ${this.weblinks?.map(webLink => this.renderWebLinks(webLink))}
+          </div>
+          ${this.sections?.map((section, index) =>
+            this.renderPermissionSections(section, index)
+          )}
+          <div class="referenceContainer">
+            <gr-button
+              id="addReferenceBtn"
+              @click=${() => this.handleCreateSection()}
+              >Add Reference</gr-button
+            >
+          </div>
+          <div>
+            <gr-button
+              id="editBtn"
+              @click=${() => {
+                this.handleEdit();
+              }}
+              >${this.editing ? 'Cancel' : 'Edit'}</gr-button
+            >
+            <gr-button
+              id="saveBtn"
+              class=${this.ownerOf && this.ownerOf.length === 0
+                ? 'invisible'
+                : ''}
+              primary
+              ?disabled=${!this.modified}
+              @click=${this.handleSave}
+              >Save</gr-button
+            >
+            <gr-button
+              id="saveReviewBtn"
+              class=${!this.canUpload ? 'invisible' : ''}
+              primary
+              ?disabled=${!this.modified}
+              @click=${this.handleSaveForReview}
+              >Save for review</gr-button
+            >
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderWebLinks(webLink: WebLinkInfo) {
+    return html`
+      <a
+        class="weblink"
+        href=${webLink.url}
+        rel="noopener"
+        target=${ifDefined(webLink.target)}
+      >
+        ${webLink.name}
+      </a>
+    `;
+  }
+
+  private renderPermissionSections(
+    section: PermissionAccessSection,
+    index: number
+  ) {
+    return html`
+      <gr-access-section
+        .capabilities=${this.capabilities}
+        .section=${section}
+        .labels=${this.labels}
+        .canUpload=${this.canUpload}
+        .editing=${this.editing}
+        .ownerOf=${this.ownerOf}
+        .groups=${this.groups}
+        .repo=${this.repo}
+        @added-section-removed=${() => {
+          this.handleAddedSectionRemoved(index);
+        }}
+        @section-changed=${(e: ValueChangedEvent<PermissionAccessSection>) => {
+          this.handleAccessSectionChanged(e, index);
+        }}
+      ></gr-access-section>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('repo')) {
+      this._repoChanged(this.repo);
+    }
+
+    if (changedProperties.has('editing')) {
+      this.handleEditingChanged(changedProperties.get('editing') as boolean);
+      this.requestUpdate();
+    }
+  }
+
   _handleAccessModified() {
-    this._modified = true;
+    this.modified = true;
   }
 
   _repoChanged(repo?: RepoName) {
-    this._loading = true;
+    this.loading = true;
 
     if (!repo) {
       return Promise.resolve();
     }
 
-    return this._reload(repo);
+    return this.reload(repo);
   }
 
-  _reload(repo: RepoName) {
+  private reload(repo: RepoName) {
     const errFn = (response?: Response | null) => {
       firePageError(response);
     };
 
-    this._editing = false;
+    this.editing = false;
 
     // Always reset sections when a project changes.
-    this._sections = [];
+    this.sections = [];
     const sectionsPromises = this.restApiService
       .getRepoAccessRights(repo, errFn)
       .then(res => {
@@ -161,26 +345,26 @@ export class GrRepoAccess extends PolymerElement {
         // the ones data bound to gr-autocomplete, so the original value
         // can be restored if the user cancels.
         if (res.inherits_from) {
-          this._inheritsFrom = {...res.inherits_from};
+          this.inheritsFrom = {...res.inherits_from};
           this.originalInheritsFrom = {...res.inherits_from};
         } else {
-          this._inheritsFrom = undefined;
+          this.inheritsFrom = undefined;
           this.originalInheritsFrom = undefined;
         }
         // Initialize the filter value so when the user clicks edit, the
         // current value appears. If there is no parent repo, it is
         // initialized as an empty string.
-        this._inheritFromFilter = res.inherits_from
+        this.inheritFromFilter = res.inherits_from
           ? res.inherits_from.name
           : ('' as RepoName);
         // 'as EditableLocalAccessSectionInfo' is required because res.local
         // type doesn't have index signature
-        this._local = res.local as EditableLocalAccessSectionInfo;
-        this._groups = res.groups;
-        this._weblinks = res.config_web_links || [];
-        this._canUpload = res.can_upload;
-        this._ownerOf = res.owner_of || [];
-        return toSortedPermissionsArray(this._local);
+        this.local = res.local as EditableLocalAccessSectionInfo;
+        this.groups = res.groups;
+        this.weblinks = res.config_web_links || [];
+        this.canUpload = res.can_upload;
+        this.ownerOf = res.owner_of || [];
+        return toSortedPermissionsArray(this.local);
       });
 
     const capabilitiesPromises = this.restApiService
@@ -208,25 +392,26 @@ export class GrRepoAccess extends PolymerElement {
       capabilitiesPromises,
       labelsPromises,
     ]).then(([sections, capabilities, labels]) => {
-      this._capabilities = capabilities;
-      this._labels = labels;
-      this._sections = sections;
-      this._loading = false;
+      this.capabilities = capabilities;
+      this.labels = labels;
+      this.sections = sections;
+      this.loading = false;
     });
   }
 
-  _handleUpdateInheritFrom(e: CustomEvent<{value: string}>) {
-    this._inheritsFrom = {
-      ...(this._inheritsFrom ?? {}),
+  // private but used in test
+  handleUpdateInheritFrom(e: ValueChangedEvent) {
+    this.inheritsFrom = {
+      ...(this.inheritsFrom ?? {}),
       id: e.detail.value as UrlEncodedRepoName,
-      name: this._inheritFromFilter,
+      name: this.inheritFromFilter,
     };
     this._handleAccessModified();
   }
 
-  _getInheritFromSuggestions(): Promise<AutocompleteSuggestion[]> {
+  private getInheritFromSuggestions(): Promise<AutocompleteSuggestion[]> {
     return this.restApiService
-      .getRepos(this._inheritFromFilter, MAX_AUTOCOMPLETE_RESULTS)
+      .getRepos(this.inheritFromFilter, MAX_AUTOCOMPLETE_RESULTS)
       .then(response => {
         const projects: AutocompleteSuggestion[] = [];
         if (!response) {
@@ -242,67 +427,47 @@ export class GrRepoAccess extends PolymerElement {
       });
   }
 
-  _computeLoadingClass(loading: boolean) {
-    return loading ? 'loading' : '';
+  private handleEdit() {
+    this.editing = !this.editing;
   }
 
-  _handleEdit() {
-    this._editing = !this._editing;
-  }
-
-  _editOrCancel(editing: boolean) {
-    return editing ? 'Cancel' : 'Edit';
-  }
-
-  _computeWebLinkClass(weblinks?: string[]) {
-    return weblinks && weblinks.length ? 'show' : '';
-  }
-
-  _computeShowInherit(inheritsFrom?: ProjectInfo) {
-    return this._editing || inheritsFrom?.id?.length ? 'show' : '';
-  }
-
-  // TODO(TS): Unclear what is model here, provide a better explanation
-  _handleAddedSectionRemoved(e: CustomEvent & {model: {index: string}}) {
-    if (!this._sections) {
-      return;
-    }
-    const index = Number(e.model.index);
-    if (isNaN(index)) {
-      return;
-    }
-    this._sections = this._sections
+  private handleAddedSectionRemoved(index: number) {
+    if (!this.sections) return;
+    this.sections = this.sections
       .slice(0, index)
-      .concat(this._sections.slice(index + 1, this._sections.length));
+      .concat(this.sections.slice(index + 1, this.sections.length));
   }
 
-  _handleEditingChanged(editing: boolean, editingOld: boolean) {
+  private handleEditingChanged(editingOld: boolean) {
     // Ignore when editing gets set initially.
-    if (!editingOld || editing) {
+    if (!editingOld || this.editing) {
       return;
     }
     // Remove any unsaved but added refs.
-    if (this._sections) {
-      this._sections = this._sections.filter(p => !p.value.added);
+    if (this.sections) {
+      this.sections = this.sections.filter(p => !p.value.added);
     }
     // Restore inheritFrom.
-    if (this._inheritsFrom) {
-      this._inheritsFrom = this.originalInheritsFrom
+    if (this.inheritsFrom) {
+      this.inheritsFrom = this.originalInheritsFrom
         ? {...this.originalInheritsFrom}
         : undefined;
-      this._inheritFromFilter = this.originalInheritsFrom?.name;
+      this.inheritFromFilter = this.originalInheritsFrom?.name;
     }
-    if (!this._local) {
+    if (!this.local) {
       return;
     }
-    for (const key of Object.keys(this._local)) {
-      if (this._local[key].added) {
-        delete this._local[key];
+    for (const key of Object.keys(this.local)) {
+      if (this.local[key].added) {
+        delete this.local[key];
       }
     }
   }
 
-  _updateRemoveObj(addRemoveObj: {remove: PropertyTreeNode}, path: string[]) {
+  private updateRemoveObj(
+    addRemoveObj: {remove: PropertyTreeNode},
+    path: string[]
+  ) {
     let curPos: PropertyTreeNode = addRemoveObj.remove;
     for (const item of path) {
       if (!curPos[item]) {
@@ -326,7 +491,7 @@ export class GrRepoAccess extends PolymerElement {
     return addRemoveObj;
   }
 
-  _updateAddObj(
+  private updateAddObj(
     addRemoveObj: {add: PropertyTreeNode},
     path: string[],
     value: PropertyTreeNode | PrimitiveValue
@@ -350,8 +515,10 @@ export class GrRepoAccess extends PolymerElement {
 
   /**
    * Used to recursively remove any objects with a 'deleted' bit.
+   *
+   * private but used in test
    */
-  _recursivelyRemoveDeleted(obj?: PropertyTreeNode) {
+  recursivelyRemoveDeleted(obj?: PropertyTreeNode) {
     if (!obj) return;
     for (const k of Object.keys(obj)) {
       const node = obj[k];
@@ -360,12 +527,13 @@ export class GrRepoAccess extends PolymerElement {
           delete obj[k];
           return;
         }
-        this._recursivelyRemoveDeleted(node);
+        this.recursivelyRemoveDeleted(node);
       }
     }
   }
 
-  _recursivelyUpdateAddRemoveObj(
+  // private but used in test
+  recursivelyUpdateAddRemoveObj(
     obj: PropertyTreeNode | undefined,
     addRemoveObj: {
       add: PropertyTreeNode;
@@ -380,36 +548,36 @@ export class GrRepoAccess extends PolymerElement {
         const updatedId = node.updatedId;
         const ref = updatedId ? updatedId : k;
         if (node.deleted) {
-          this._updateRemoveObj(addRemoveObj, path.concat(k));
+          this.updateRemoveObj(addRemoveObj, path.concat(k));
           continue;
         } else if (node.modified) {
-          this._updateRemoveObj(addRemoveObj, path.concat(k));
-          this._updateAddObj(addRemoveObj, path.concat(ref), node);
+          this.updateRemoveObj(addRemoveObj, path.concat(k));
+          this.updateAddObj(addRemoveObj, path.concat(ref), node);
           /* Special case for ref changes because they need to be added and
-           removed in a different way. The new ref needs to include all
-           changes but also the initial state. To do this, instead of
-           continuing with the same recursion, just remove anything that is
-           deleted in the current state. */
+          removed in a different way. The new ref needs to include all
+          changes but also the initial state. To do this, instead of
+          continuing with the same recursion, just remove anything that is
+          deleted in the current state. */
           if (updatedId && updatedId !== k) {
-            this._recursivelyRemoveDeleted(
+            this.recursivelyRemoveDeleted(
               addRemoveObj.add[updatedId] as PropertyTreeNode
             );
           }
           continue;
         } else if (node.added) {
-          this._updateAddObj(addRemoveObj, path.concat(ref), node);
+          this.updateAddObj(addRemoveObj, path.concat(ref), node);
           /**
            * As add / delete both can happen in the new section,
            * so here to make sure it will remove the deleted ones.
            *
            * @see Issue 11339
            */
-          this._recursivelyRemoveDeleted(
+          this.recursivelyRemoveDeleted(
             addRemoveObj.add[k] as PropertyTreeNode
           );
           continue;
         }
-        this._recursivelyUpdateAddRemoveObj(node, addRemoveObj, path.concat(k));
+        this.recursivelyUpdateAddRemoveObj(node, addRemoveObj, path.concat(k));
       }
     }
   }
@@ -417,8 +585,10 @@ export class GrRepoAccess extends PolymerElement {
   /**
    * Returns an object formatted for saving or submitting access changes for
    * review
+   *
+   * private but used in test
    */
-  _computeAddAndRemove() {
+  computeAddAndRemove() {
     const addRemoveObj: {
       add: PropertyTreeNode;
       remove: PropertyTreeNode;
@@ -431,8 +601,8 @@ export class GrRepoAccess extends PolymerElement {
     const originalInheritsFromId = this.originalInheritsFrom
       ? singleDecodeURL(this.originalInheritsFrom.id)
       : undefined;
-    const inheritsFromId = this._inheritsFrom
-      ? singleDecodeURL(this._inheritsFrom.id)
+    const inheritsFromId = this.inheritsFrom
+      ? singleDecodeURL(this.inheritsFrom.id)
       : undefined;
 
     const inheritFromChanged =
@@ -441,12 +611,12 @@ export class GrRepoAccess extends PolymerElement {
       // Inherit from added (did not have one initially);
       (!originalInheritsFromId && inheritsFromId);
 
-    if (!this._local) {
+    if (!this.local) {
       return addRemoveObj;
     }
 
-    this._recursivelyUpdateAddRemoveObj(
-      this._local as unknown as PropertyTreeNode,
+    this.recursivelyUpdateAddRemoveObj(
+      this.local as unknown as PropertyTreeNode,
       addRemoveObj
     );
 
@@ -456,29 +626,25 @@ export class GrRepoAccess extends PolymerElement {
     return addRemoveObj;
   }
 
-  _handleCreateSection() {
-    if (!this._local) {
-      return;
-    }
+  private async handleCreateSection() {
+    if (!this.local) return;
     let newRef = 'refs/for/*';
     // Avoid using an already used key for the placeholder, since it
     // immediately gets added to an object.
-    while (this._local[newRef]) {
+    while (this.local[newRef]) {
       newRef = `${newRef}*`;
     }
     const section = {permissions: {}, added: true};
-    this.push('_sections', {id: newRef, value: section});
-    this.set(['_local', newRef], section);
+    this.sections!.push({id: newRef as GitRef, value: section});
+    this.local[newRef] = section;
+    this.requestUpdate();
+    assertIsDefined(this.accessSection, 'accessSection');
     // Template already instantiated at this point
-    (
-      this.root!.querySelector(
-        'gr-access-section:last-of-type'
-      ) as GrAccessSection
-    ).editReference();
+    this.accessSection.editReference();
   }
 
-  _getObjforSave(): ProjectAccessInput | undefined {
-    const addRemoveObj = this._computeAddAndRemove();
+  private getObjforSave(): ProjectAccessInput | undefined {
+    const addRemoveObj = this.computeAddAndRemove();
     // If there are no changes, don't actually save.
     if (
       !Object.keys(addRemoveObj.add).length &&
@@ -498,8 +664,9 @@ export class GrRepoAccess extends PolymerElement {
     return obj;
   }
 
-  _handleSave(e: Event) {
-    const obj = this._getObjforSave();
+  // private but used in test
+  handleSave(e: Event) {
+    const obj = this.getObjforSave();
     if (!obj) {
       return;
     }
@@ -514,18 +681,19 @@ export class GrRepoAccess extends PolymerElement {
     return this.restApiService
       .setRepoAccessRights(repo, obj)
       .then(() => {
-        this._reload(repo);
+        this.reload(repo);
       })
       .finally(() => {
-        this._modified = false;
+        this.modified = false;
         if (button) {
           button.loading = false;
         }
       });
   }
 
-  _handleSaveForReview(e: Event) {
-    const obj = this._getObjforSave();
+  // private but used in test
+  handleSaveForReview(e: Event) {
+    const obj = this.getObjforSave();
     if (!obj) {
       return;
     }
@@ -542,43 +710,42 @@ export class GrRepoAccess extends PolymerElement {
         GerritNav.navigateToChange(change);
       })
       .finally(() => {
-        this._modified = false;
+        this.modified = false;
         if (button) {
           button.loading = false;
         }
       });
   }
 
-  _computeSaveReviewBtnClass(canUpload?: boolean) {
-    return !canUpload ? 'invisible' : '';
-  }
-
-  _computeSaveBtnClass(ownerOf?: GitRef[]) {
-    return ownerOf && ownerOf.length === 0 ? 'invisible' : '';
-  }
-
-  _computeMainClass(
-    ownerOf: GitRef[] | undefined,
-    canUpload: boolean,
-    editing: boolean
-  ) {
+  // private but used in test
+  computeMainClass() {
     const classList = [];
-    if ((ownerOf && ownerOf.length > 0) || canUpload) {
+    if ((this.ownerOf && this.ownerOf.length > 0) || this.canUpload) {
       classList.push('admin');
     }
-    if (editing) {
+    if (this.editing) {
       classList.push('editing');
     }
     return classList.join(' ');
   }
 
-  _computeParentHref(repoName: RepoName) {
-    return getBaseUrl() + `/admin/repos/${encodeURL(repoName, true)},access`;
+  computeParentHref() {
+    if (!this.inheritsFrom?.name) return '';
+    return `${getBaseUrl()}/admin/repos/${encodeURL(
+      this.inheritsFrom.name,
+      true
+    )},access`;
   }
-}
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-repo-access': GrRepoAccess;
+  private handleEditInheritFromTextChanged(e: ValueChangedEvent) {
+    this.inheritFromFilter = e.detail.value as RepoName;
+  }
+
+  private handleAccessSectionChanged(
+    e: ValueChangedEvent<PermissionAccessSection>,
+    index: number
+  ) {
+    this.sections![index] = e.detail.value;
+    this.requestUpdate();
   }
 }

@@ -104,7 +104,7 @@ public class ProjectBasicAuthFilterTest {
     extIdKeyFactory = new ExternalIdKeyFactory(new ExternalIdKeyFactory.ConfigImpl(authConfig));
     extIdFactory = new ExternalIdFactory(extIdKeyFactory, authConfig);
     authRequestFactory = new AuthRequest.Factory(extIdKeyFactory);
-    pwdVerifier = new PasswordVerifier(extIdKeyFactory);
+    pwdVerifier = new PasswordVerifier(extIdKeyFactory, authConfig);
 
     authSuccessful =
         new AuthResult(AUTH_ACCOUNT_ID, extIdKeyFactory.create("username", AUTH_USER), false);

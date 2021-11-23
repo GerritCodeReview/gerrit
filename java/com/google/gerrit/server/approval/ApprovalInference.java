@@ -97,8 +97,8 @@ class ApprovalInference {
   }
 
   /**
-   * Returns all approvals that apply to the given patch set. Honors direct and indirect (approval
-   * on parents) approvals.
+   * Returns all approvals that apply to the given patch set. Honors copied approvals from previous
+   * patch-set.
    */
   Iterable<PatchSetApproval> forPatchSet(
       ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
@@ -347,34 +347,23 @@ class ApprovalInference {
     PatchSet.Id psId = patchSet.id();
     // Add approvals on the given patch set to the result
     Table<String, Account.Id, PatchSetApproval> resultByUser = HashBasedTable.create();
-    ImmutableList<PatchSetApproval> approvalsForGivenPatchSet =
+    ImmutableList<PatchSetApproval> nonCopiedApprovalsForGivenPatchSet =
         notes.load().getApprovals().get(patchSet.id());
-    approvalsForGivenPatchSet.forEach(psa -> resultByUser.put(psa.label(), psa.accountId(), psa));
+    nonCopiedApprovalsForGivenPatchSet.forEach(
+        psa -> resultByUser.put(psa.label(), psa.accountId(), psa));
 
     // Bail out immediately if this is the first patch set. Return only approvals granted on the
     // given patch set.
     if (psId.get() == 1) {
       return resultByUser.values();
     }
-
-    // Call this algorithm recursively to check if the prior patch set had approvals. This has the
-    // advantage that all caches - most importantly ChangeKindCache - have values cached for what we
-    // need for this computation.
-    // The way this algorithm is written is that any approval will be copied forward by one patch
-    // set at a time if configs and change kind allow so. Once an approval is held back - for
-    // example because the patch set is a REWORK - it will not be picked up again in a future
-    // patch set.
     Map.Entry<PatchSet.Id, PatchSet> priorPatchSet = notes.load().getPatchSets().lowerEntry(psId);
     if (priorPatchSet == null) {
       return resultByUser.values();
     }
 
-    Iterable<PatchSetApproval> priorApprovals =
-        getForPatchSetWithoutNormalization(
-            notes, project, priorPatchSet.getValue(), rw, repoConfig);
-    if (!priorApprovals.iterator().hasNext()) {
-      return resultByUser.values();
-    }
+    ImmutableList<PatchSetApproval> priorApprovalsIncludingCopied =
+        notes.load().getApprovalsWithCopied().get(priorPatchSet.getKey());
 
     // Add labels from the previous patch set to the result in case the label isn't already there
     // and settings as well as change kind allow copying.
@@ -396,7 +385,7 @@ class ApprovalInference {
     Map<String, FileDiffOutput> baseVsPrior = null;
     Map<String, FileDiffOutput> priorVsCurrent = null;
     LabelTypes labelTypes = project.getLabelTypes();
-    for (PatchSetApproval psa : priorApprovals) {
+    for (PatchSetApproval psa : priorApprovalsIncludingCopied) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
         continue;
       }

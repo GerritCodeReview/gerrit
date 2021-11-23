@@ -49,9 +49,7 @@ suite('gr-vote-chip tests', () => {
 
     test('renders', () => {
       expect(element).shadowDom.to.equal(`<span class="container">
-        <div class="positive vote-chip">
-            👍️
-        </div>
+        <div class="max vote-chip">+2</div>
       </span>`);
     });
   });

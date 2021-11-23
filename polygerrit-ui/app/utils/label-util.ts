@@ -90,8 +90,10 @@ export function getLabelStatus(label?: LabelInfo, vote?: number): LabelStatus {
         : LabelStatus.RECOMMENDED;
     }
   } else if (isQuickLabelInfo(label)) {
-    if (label.approved) return LabelStatus.RECOMMENDED;
-    if (label.rejected) return LabelStatus.DISLIKED;
+    if (label.approved) return LabelStatus.APPROVED;
+    if (label.rejected) return LabelStatus.REJECTED;
+    if (label.disliked) return LabelStatus.DISLIKED;
+    if (label.recommended) return LabelStatus.RECOMMENDED;
   }
   return LabelStatus.NEUTRAL;
 }
@@ -178,7 +180,12 @@ export function hasVotes(labelInfo: LabelInfo): boolean {
     );
   }
   if (isQuickLabelInfo(labelInfo)) {
-    return !!labelInfo.rejected || !!labelInfo.approved;
+    return (
+      !!labelInfo.rejected ||
+      !!labelInfo.approved ||
+      !!labelInfo.recommended ||
+      !!labelInfo.disliked
+    );
   }
   return false;
 }

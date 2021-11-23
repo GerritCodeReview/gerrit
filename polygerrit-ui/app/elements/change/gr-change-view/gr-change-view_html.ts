@@ -42,6 +42,12 @@ export const htmlTemplate = html`
     .header.editMode {
       background-color: var(--edit-mode-background-color);
     }
+    .header.merged {
+      background-color: var(--success-background);
+    }
+    .header.readyToSubmit {
+      background-color: var(--tag-cyan);
+    }
     .header .download {
       margin-right: var(--spacing-l);
     }
@@ -321,7 +327,7 @@ export const htmlTemplate = html`
     aria-hidden="[[_changeViewAriaHidden]]"
   >
     <section class="changeInfoSection">
-      <div class$="[[_computeHeaderClass(_editMode)]]">
+      <div class$="[[_computeHeaderClass(_editMode, _changeStatuses)]]">
         <h1 class="assistive-tech-only">
           Change [[_change._number]]: [[_change.subject]]
         </h1>

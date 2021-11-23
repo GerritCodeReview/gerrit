@@ -204,6 +204,7 @@ import {
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {preferenceDiffViewMode$} from '../../../services/user/user-model';
 import {change$, changeLoading$} from '../../../services/change/change-model';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -567,6 +568,8 @@ export class GrChangeView extends base {
   private readonly commentsService = getAppContext().commentsService;
 
   private readonly shortcuts = getAppContext().shortcutsService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [
@@ -2410,10 +2413,22 @@ export class GrChangeView extends base {
     this.getRelatedChangesList()?.reload();
   }
 
-  _computeHeaderClass(editMode?: boolean) {
+  _computeHeaderClass(editMode?: boolean, changeStatuses?: ChangeStates[]) {
     const classes = ['header'];
     if (editMode) {
       classes.push('editMode');
+    } else {
+      if (
+        this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)
+      ) {
+        if ((changeStatuses ?? []).includes(ChangeStates.MERGED)) {
+          classes.push('merged');
+        } else if (
+          (changeStatuses ?? []).includes(ChangeStates.READY_TO_SUBMIT)
+        ) {
+          classes.push('readyToSubmit');
+        }
+      }
     }
     return classes.join(' ');
   }

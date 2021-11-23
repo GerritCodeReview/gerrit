@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94ba77c9_fe8e330b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-23T10:36:01Z",
+      "side": 1,
+      "message": "That\u0027s good fix, this will fix also b/207455666\n\nEverytime someone change columnNames, they are saved and new column name (like submit requirement one) is automatically hidden/disabled",
+      "range": {
+        "startLine": 246,
+        "startChar": 9,
+        "endLine": 246,
+        "endChar": 36
+      },
+      "revId": "8886ae6a43ac7f339e54ec0bbb7b47392db21218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

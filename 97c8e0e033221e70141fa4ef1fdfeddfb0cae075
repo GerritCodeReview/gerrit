@@ -104,6 +104,42 @@
       "message": "Note from in-person discussion: We will also need a solution for votes that are put on older patch sets using the UI (e.g. CI votes on older patch set).",
       "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48776f28_15b8fef4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-23T12:31:39Z",
+      "side": 1,
+      "message": "ack, taking no action in this change, though.",
+      "parentUuid": "8616a2de_0a82c9cb",
+      "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e96eb4b_0af8c095",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-23T12:31:39Z",
+      "side": 1,
+      "message": "1) good catch, but it\u0027s only unused in the next change. Done there.\n2) ha, black magic! The reason is that ChangeKindCache is getting invoked during this transaction, somewhere, earlier, so it\u0027s already in the cache and we don\u0027t need those RevWalks (I have some tests in StickyApprovalsIT#stickyVotesStoredOnUpload and the follow-up test for the rebase case. I was planning to refactor it by directly giving ChangeKind to this method, but forgot it. Doing in the follow-up.\n3) yep, doing that in a follow-up.",
+      "parentUuid": "728fd5a8_02df8b12",
+      "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

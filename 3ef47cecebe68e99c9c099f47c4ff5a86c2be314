@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "def4427e_7fb8b262",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-23T14:05:44Z",
+      "side": 1,
+      "message": "Would it be possible to merge\ncompare-util \nand \nobject-util\n\nto have two deep functions together?",
+      "revId": "3ef47cecebe68e99c9c099f47c4ff5a86c2be314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

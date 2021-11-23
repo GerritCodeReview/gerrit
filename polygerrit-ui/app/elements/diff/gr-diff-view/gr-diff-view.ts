@@ -108,7 +108,7 @@ import {
 import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
 import {EventType, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
-import {GerritView, routerView$} from '../../../services/router/router-model';
+import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {addGlobalShortcut, Key, toggleClass} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
@@ -356,6 +356,9 @@ export class GrDiffView extends base {
   private readonly restApiService = getAppContext().restApiService;
 
   // Private but used in tests.
+  readonly routerModel = getAppContext().routerModel;
+
+  // Private but used in tests.
   readonly userModel = getAppContext().userModel;
 
   // Private but used in tests.
@@ -420,7 +423,7 @@ export class GrDiffView extends base {
     this.subscriptions.push(
       combineLatest([
         this.changeModel.currentPatchNum$,
-        routerView$,
+        this.routerModel.routerView$,
         this.changeModel.diffPath$,
         this.userModel.diffPreferences$,
       ])

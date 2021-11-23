@@ -66,7 +66,7 @@ import {
   AppElementParams,
 } from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
-import {GerritView, updateState} from '../../../services/router/router-model';
+import {GerritView} from '../../../services/router/router-model';
 import {firePageError} from '../../../utils/event-util';
 import {addQuotesWhen} from '../../../utils/string-util';
 import {windowLocationReload} from '../../../utils/dom-util';
@@ -311,6 +311,8 @@ export class GrRouter extends PolymerElement {
 
   private readonly reporting = getAppContext().reportingService;
 
+  private readonly routerModel = getAppContext().routerModel;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly flagsService = getAppContext().flagsService;
@@ -323,11 +325,11 @@ export class GrRouter extends PolymerElement {
   }
 
   _setParams(params: AppElementParams | GenerateUrlParameters) {
-    updateState(
-      params.view,
-      'changeNum' in params ? params.changeNum : undefined,
-      'patchNum' in params ? params.patchNum ?? undefined : undefined
-    );
+    this.routerModel.updateState({
+      view: params.view,
+      changeNum: 'changeNum' in params ? params.changeNum : undefined,
+      patchNum: 'patchNum' in params ? params.patchNum ?? undefined : undefined
+    });
     this._appElement().params = params;
   }
 

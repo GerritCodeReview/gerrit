@@ -96,6 +96,9 @@ export function createDiffAppContext(): AppContext & Finalizable {
     userModel: (_ctx: Partial<AppContext>) => {
       throw new Error('userModel is not implemented');
     },
+    routerModel: (_ctx: Partial<AppContext>) => {
+      throw new Error('routerModel is not implemented');
+    },
     shortcutsService: (_ctx: Partial<AppContext>) => {
       throw new Error('shortcutsService is not implemented');
     },

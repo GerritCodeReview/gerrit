@@ -267,6 +267,8 @@ public class ExternalIdFactory {
                 "Neither case sensitive nor case insensitive SHA1 of external ID '%s' match note ID '%s'",
                 externalIdKeyStr, noteId));
       }
+      externalIdKey =
+          externalIdKeyFactory.create(externalIdKey.scheme(), externalIdKey.id(), false);
     }
 
     String email =

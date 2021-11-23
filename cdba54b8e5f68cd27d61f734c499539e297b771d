@@ -22,6 +22,30 @@
       },
       "revId": "cdba54b8e5f68cd27d61f734c499539e297b771d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75a86db4_bf3a3599",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-23T09:52:18Z",
+      "side": 1,
+      "message": "Yes. \npre-wrap\nSequences of white space are preserved. Lines are broken at newline characters, at \u003cbr\u003e, and as necessary to fill line boxes.\n\nhttps://developer.mozilla.org/en-US/docs/Web/CSS/white-space\n\nUpdating commit message.",
+      "parentUuid": "f2e30788_84e71f8b",
+      "range": {
+        "startLine": 127,
+        "startChar": 10,
+        "endLine": 127,
+        "endChar": 32
+      },
+      "revId": "cdba54b8e5f68cd27d61f734c499539e297b771d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

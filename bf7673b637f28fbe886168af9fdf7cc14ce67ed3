@@ -121,6 +121,24 @@
       "parentUuid": "138b58fc_e5566883",
       "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dbe219b_0e2753f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-23T18:21:52Z",
+      "side": 1,
+      "message": "\u003e Not generating the extra keys would still work (as the upgrade to v2.16 without your fix did not have this problem) but longer term a new key generation will be required.\n\u003e \n\u003e Here we are talking about old RSA Keys that were generated at least 5 years ago and are today considered insecure anyway. A responsible Gerrit admin *must* rotate those keys and, when he does it, the clients will have to trust again the new key.\n\u003e \n\u003e Converting automatically the old obsolete keys into OpenSSH format is just hiding a bigger problem: the keys are unusable anyway. *IF* the Gerrit admin wants to do it, he has to do it consciously, and Gerrit shouldn\u0027t do it automatically.\n\nWhy would the RSA keys be considered insecure? I understand that the ssh-rsa signature algorithm, which is based on SHA-1, is obsolete. But RSA keys themselves are still good.",
+      "parentUuid": "1940a9b0_54e7e647",
+      "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

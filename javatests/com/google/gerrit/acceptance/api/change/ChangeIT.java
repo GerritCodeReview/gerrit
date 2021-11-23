@@ -5863,6 +5863,257 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {
+        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
+        ExperimentFeaturesConstants
+            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
+      })
+  public void globalSubmitRequirement_storedForClosedChanges() throws Exception {
+    SubmitRequirement globalSubmitRequirement =
+        SubmitRequirement.builder()
+            .setName("global-submit-requirement")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("topic:test"))
+            .setAllowOverrideInChildProjects(false)
+            .build();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(2);
+      assertSubmitRequirementStatus(
+          change.submitRequirements,
+          "global-submit-requirement",
+          Status.UNSATISFIED,
+          /* isLegacy= */ false);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+
+      voteLabel(changeId, "Code-Review", 2);
+      gApi.changes().id(changeId).topic("test");
+
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(2);
+      assertSubmitRequirementStatus(
+          change.submitRequirements,
+          "global-submit-requirement",
+          Status.SATISFIED,
+          /* isLegacy= */ false);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+
+      gApi.changes().id(changeId).current().submit();
+
+      ChangeNotes notes = notesFactory.create(project, r.getChange().getId());
+      SubmitRequirementResult result =
+          notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
+      assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+      assertThat(result.submittabilityExpressionResult().status())
+          .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+      assertThat(result.submittabilityExpressionResult().expression().expressionString())
+          .isEqualTo("topic:test");
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {
+        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
+      })
+  public void projectSubmitRequirementDuplicatesGlobal_overrideNotAllowed_globalEvaluated()
+      throws Exception {
+    SubmitRequirement globalSubmitRequirement =
+        SubmitRequirement.builder()
+            .setName("CoDe-reView")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("topic:test"))
+            .setAllowOverrideInChildProjects(false)
+            .build();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("Code-Review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+
+      // Vote does not satisfy submit requirement, because the global definition is evaluated.
+      voteLabel(changeId, "CoDe-reView", 2);
+
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(2);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "CoDe-reView", Status.UNSATISFIED, /* isLegacy= */ false);
+      // In addition, the legacy submit requirement is emitted, since the status mismatch
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+
+      // Setting the topic satisfies the global definition.
+      gApi.changes().id(changeId).topic("test");
+
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "CoDe-reView", Status.SATISFIED, /* isLegacy= */ false);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {
+        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
+      })
+  public void projectSubmitRequirementDuplicatesGlobal_overrideAllowed_projectRequirementEvaluated()
+      throws Exception {
+    SubmitRequirement globalSubmitRequirement =
+        SubmitRequirement.builder()
+            .setName("CoDe-reView")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("topic:test"))
+            .setAllowOverrideInChildProjects(true)
+            .build();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("Code-Review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+
+      // Setting the topic does not satisfy submit requirement, because the project definition is
+      // evaluated.
+      gApi.changes().id(changeId).topic("test");
+
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      // There is no mismatch with legacy submit requirement, so the single result is emitted.
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Voting satisfies the project definition.
+      voteLabel(changeId, "Code-Review", 2);
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {
+        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
+      })
+  public void legacySubmitRequirementDuplicatesGlobal_statusMatches_globalReturned()
+      throws Exception {
+    // The behaviour does not depend on AllowOverrideInChildProject in global submit requirement.
+    testLegacySubmitRequirementDuplicatesGlobalStatusMatches(/*allowOverrideInChildProject=*/ true);
+    testLegacySubmitRequirementDuplicatesGlobalStatusMatches(
+        /*allowOverrideInChildProject=*/ false);
+  }
+
+  private void testLegacySubmitRequirementDuplicatesGlobalStatusMatches(
+      boolean allowOverrideInChildProject) throws Exception {
+    SubmitRequirement globalSubmitRequirement =
+        SubmitRequirement.builder()
+            .setName("CoDe-reView")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("topic:test"))
+            .setAllowOverrideInChildProjects(allowOverrideInChildProject)
+            .build();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+
+      // Both are evaluated, but only the global is returned, since both are unsatisfied
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "CoDe-reView", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Both are evaluated, but only the global is returned, since both are satisfied
+      voteLabel(changeId, "Code-Review", 2);
+      gApi.changes().id(changeId).topic("test");
+
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "CoDe-reView", Status.SATISFIED, /* isLegacy= */ false);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {
+        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
+      })
+  public void legacySubmitRequirementDuplicatesGlobal_statusDoesNotMatch_bothRecordsReturned()
+      throws Exception {
+    // The behaviour does not depend on AllowOverrideInChildProject in global submit requirement.
+    testLegacySubmitRequirementDuplicatesGlobalStatusDoesNotMatch(
+        /*allowOverrideInChildProject=*/ true);
+    testLegacySubmitRequirementDuplicatesGlobalStatusDoesNotMatch(
+        /*allowOverrideInChildProject=*/ false);
+  }
+
+  private void testLegacySubmitRequirementDuplicatesGlobalStatusDoesNotMatch(
+      boolean allowOverrideInChildProject) throws Exception {
+    SubmitRequirement globalSubmitRequirement =
+        SubmitRequirement.builder()
+            .setName("CoDe-reView")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("topic:test"))
+            .setAllowOverrideInChildProjects(allowOverrideInChildProject)
+            .build();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+
+      // Both are evaluated, but only the global is returned, since both are unsatisfied
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "CoDe-reView", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Both are evaluated and both are returned, since result mismatch
+      voteLabel(changeId, "Code-Review", 2);
+
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(2);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "CoDe-reView", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      gApi.changes().id(changeId).topic("test");
+      gApi.changes().id(changeId).reviewer(admin.id().toString()).deleteVote(LabelId.CODE_REVIEW);
+
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(2);
+      assertThat(change.submitRequirements).hasSize(2);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "CoDe-reView", Status.SATISFIED, /* isLegacy= */ false);
+    }
+  }
+
+  @Test
   public void fourByteEmoji() throws Exception {
     // U+1F601 GRINNING FACE WITH SMILING EYES
     String smile = new String(Character.toChars(0x1f601));
@@ -6446,7 +6697,7 @@ public class ChangeIT extends AbstractDaemonTest {
             requirementName,
             status,
             results.stream()
-                .map(r -> String.format("%s=%s", r.name, r.status))
+                .map(r -> String.format("%s=%s, legacy=%s", r.name, r.status, r.isLegacy))
                 .collect(toImmutableList())));
   }
 

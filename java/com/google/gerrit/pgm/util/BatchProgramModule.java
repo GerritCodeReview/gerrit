@@ -20,6 +20,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -205,6 +206,9 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(new PrologModule());
     modules.add(new DefaultSubmitRuleModule());
     modules.add(new IgnoreSelfApprovalRuleModule());
+
+    // Global submit requirements
+    DynamicSet.setOf(binder(), SubmitRequirement.class);
 
     bind(ChangeJson.Factory.class).toProvider(Providers.of(null));
     bind(EventUtil.class).toProvider(Providers.of(null));

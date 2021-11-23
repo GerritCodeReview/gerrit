@@ -229,6 +229,24 @@
       "parentUuid": "01a5d240_03fe9b4b",
       "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c052c2c9_efcbb2fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-23T21:38:17Z",
+      "side": 1,
+      "message": "Well, I don\u0027t use interactive init because I can\u0027t automate that, but otherwise agreed.\n\nOriginally I thought that the code still exists for Gerrit to work with Java-format keys, but I may have been mistaken about that.",
+      "parentUuid": "5b685df0_4bdb784c",
+      "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

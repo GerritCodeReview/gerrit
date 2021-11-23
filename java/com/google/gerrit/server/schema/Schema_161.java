@@ -61,7 +61,7 @@ public class Schema_161 extends SchemaVersion {
       bru.setAllowNonFastForwards(true);
 
       for (Ref ref : git.getRefDatabase().getRefsByPrefix(RefNames.REFS_STARRED_CHANGES)) {
-        StarRef starRef = StarredChangesUtil.readLabels(git, ref.getName());
+        StarRef starRef = StarredChangesUtil.readLabels(git, ref);
 
         Set<Integer> mutedPatchSets =
             StarredChangesUtil.getStarredPatchSets(starRef.labels(), MUTE_LABEL);

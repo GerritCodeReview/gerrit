@@ -288,16 +288,14 @@ export class GrAccessSection extends LitElement {
   // private but used in test
   updateSection() {
     this.permissions = toSortedPermissionsArray(
-      this.section?.value.permissions
+      this.section!.value.permissions
     );
     this.originalId = this.section!.id;
   }
 
   // private but used in test
   handleAccessSaved() {
-    if (!this.section) {
-      return;
-    }
+    if (!this.section) return;
     // Set a new 'original' value to keep track of after the value has been
     // saved.
     this.updateSection();

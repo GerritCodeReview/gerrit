@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4722de51_88f48c57",
+        "filename": "java/com/google/gerrit/server/schema/AllUsersCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-23T08:36:30Z",
+      "side": 1,
+      "message": "At Google, we will need to put \u0027false\u0027 here. Can we make the create method accept a boolean (useRefCache)? Thanks!",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 22
+      },
+      "revId": "bc880b19767185011e1c2e7e003c41cc6179a014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02e4e087_217409b9",
+        "filename": "java/com/google/gerrit/server/schema/AllUsersCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-23T08:36:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the try-with-resources close the repo and wouldn\u0027t this call lead to double-closing?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 35
+      },
+      "revId": "bc880b19767185011e1c2e7e003c41cc6179a014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

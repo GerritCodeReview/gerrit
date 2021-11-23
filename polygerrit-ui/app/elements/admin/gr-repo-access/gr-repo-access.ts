@@ -115,7 +115,8 @@ export class GrRepoAccess extends PolymerElement {
   @property({type: Boolean})
   _loading = true;
 
-  private originalInheritsFrom?: ProjectInfo;
+  // private but used in the tests
+  originalInheritsFrom?: ProjectInfo;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -131,7 +132,7 @@ export class GrRepoAccess extends PolymerElement {
     this._modified = true;
   }
 
-  _repoChanged(repo: RepoName) {
+  _repoChanged(repo?: RepoName) {
     this._loading = true;
 
     if (!repo) {

@@ -278,7 +278,7 @@ export class GrAccessSection extends LitElement {
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('section')) {
       this.updateSection();
-      fire(this, 'section-changed', {value: this.section});
+      fire(this, 'section-changed', {value: this.section!});
     }
     if (changedProperties.has('editing')) {
       this.handleEditingChanged(changedProperties.get('editing') as boolean);
@@ -288,16 +288,14 @@ export class GrAccessSection extends LitElement {
   // private but used in test
   updateSection() {
     this.permissions = toSortedPermissionsArray(
-      this.section?.value.permissions
+      this.section!.value.permissions
     );
     this.originalId = this.section!.id;
   }
 
   // private but used in test
   handleAccessSaved() {
-    if (!this.section) {
-      return;
-    }
+    if (!this.section) return;
     // Set a new 'original' value to keep track of after the value has been
     // saved.
     this.updateSection();
@@ -543,7 +541,7 @@ export class GrAccessSection extends LitElement {
 
 declare global {
   interface HTMLElementEventMap {
-    'section-changed': ValueChangedEvent<PermissionAccessSection | undefined>;
+    'section-changed': ValueChangedEvent<PermissionAccessSection>;
   }
   interface HTMLElementTagNameMap {
     'gr-access-section': GrAccessSection;

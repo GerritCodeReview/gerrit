@@ -17,9 +17,10 @@
 import '../../shared/gr-label-info/gr-label-info';
 import '../gr-submit-requirement-hovercard/gr-submit-requirement-hovercard';
 import '../gr-trigger-vote-hovercard/gr-trigger-vote-hovercard';
+import '../gr-change-summary/gr-change-summary';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
-import {ParsedChangeInfo} from '../../../types/types';
+import {notUndefined, ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfo,
   isDetailedLabelInfo,
@@ -40,15 +41,21 @@ import {
   orderSubmitRequirements,
 } from '../../../utils/label-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {charsOnly, pluralize} from '../../../utils/string-util';
+import {charsOnly} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {
   allRunsLatestPatchsetLatestAttempt$,
   CheckRun,
 } from '../../../services/checks/checks-model';
-import {getResultsOf, hasResultsOf} from '../../../services/checks/checks-util';
+import {
+  firstPrimaryLink,
+  getResultsOf,
+  hasResultsOf,
+} from '../../../services/checks/checks-util';
 import {Category} from '../../../api/checks';
 import '../../shared/gr-vote-chip/gr-vote-chip';
+import {fireShowPrimaryTab} from '../../../utils/event-util';
+import {PrimaryTab} from '../../../constants/constants';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -278,12 +285,24 @@ export class GrSubmitRequirements extends LitElement {
       0
     );
     if (runsCount > 0) {
-      return html`<span class="check-error"
-        ><iron-icon icon="gr-icons:error"></iron-icon>${pluralize(
-          runsCount,
-          'error'
-        )}</span
-      >`;
+      const allPrimaryLinks = requirementRuns
+        .map(run => run.results ?? [])
+        .flat()
+        .map(firstPrimaryLink)
+        .filter(notUndefined);
+      const links = allPrimaryLinks.length === 1 ? allPrimaryLinks : [];
+      return html`<gr-checks-chip
+        .text=${`${runsCount}`}
+        .links=${links}
+        .statusOrCategory=${Category.ERROR}
+        @click="${() => {
+          fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
+            checksTab: {
+              statusOrCategory: Category.ERROR,
+            },
+          });
+        }}"
+      ></gr-checks-chip>`;
     }
     return;
   }

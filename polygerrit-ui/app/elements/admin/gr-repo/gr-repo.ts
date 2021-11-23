@@ -47,7 +47,7 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
-import {deepClone} from '../../../utils/object-util';
+import {deepClone} from '../../../utils/deep-util';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {preferences$} from '../../../services/user/user-model';

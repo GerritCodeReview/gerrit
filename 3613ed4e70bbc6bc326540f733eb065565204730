@@ -22,6 +22,30 @@
       },
       "revId": "3613ed4e70bbc6bc326540f733eb065565204730",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0f50b3_cacdb3e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-23T10:36:43Z",
+      "side": 1,
+      "message": "Thanks, I will revert it to thumbs up",
+      "parentUuid": "db99697a_a9163913",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 20
+      },
+      "revId": "3613ed4e70bbc6bc326540f733eb065565204730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

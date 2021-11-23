@@ -31,7 +31,6 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -53,9 +52,7 @@ import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Computes approvals for a given patch set by looking at approvals applied to the given patch set
@@ -72,7 +69,6 @@ class ApprovalInference {
 
   private final DiffOperations diffOperations;
   private final ProjectCache projectCache;
-  private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
   private final ApprovalQueryBuilder approvalQueryBuilder;
   private final OneOffRequestContext requestContext;
@@ -82,14 +78,12 @@ class ApprovalInference {
   ApprovalInference(
       DiffOperations diffOperations,
       ProjectCache projectCache,
-      ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
       ApprovalQueryBuilder approvalQueryBuilder,
       OneOffRequestContext requestContext,
       ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate) {
     this.diffOperations = diffOperations;
     this.projectCache = projectCache;
-    this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
     this.approvalQueryBuilder = approvalQueryBuilder;
     this.requestContext = requestContext;
@@ -100,8 +94,7 @@ class ApprovalInference {
    * Returns all approvals that apply to the given patch set. Honors copied approvals from previous
    * patch-set.
    */
-  Iterable<PatchSetApproval> forPatchSet(
-      ChangeNotes notes, PatchSet ps, @Nullable RevWalk rw, @Nullable Config repoConfig) {
+  Iterable<PatchSetApproval> forPatchSet(ChangeNotes notes, PatchSet ps, ChangeKind changeKind) {
     ProjectState project;
     try (TraceTimer traceTimer =
         TraceContext.newTimer(
@@ -115,7 +108,7 @@ class ApprovalInference {
               .get(notes.getProjectName())
               .orElseThrow(illegalState(notes.getProjectName()));
       Collection<PatchSetApproval> approvals =
-          getForPatchSetWithoutNormalization(notes, project, ps, rw, repoConfig);
+          getForPatchSetWithoutNormalization(notes, project, ps, changeKind);
       return labelNormalizer.normalize(notes, approvals).getNormalized();
     }
   }
@@ -337,11 +330,7 @@ class ApprovalInference {
   }
 
   private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(
-      ChangeNotes notes,
-      ProjectState project,
-      PatchSet patchSet,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig) {
+      ChangeNotes notes, ProjectState project, PatchSet patchSet, ChangeKind changeKind) {
     checkState(
         project.getNameKey().equals(notes.getProjectName()),
         "project must match %s, %s",
@@ -368,22 +357,6 @@ class ApprovalInference {
 
     ImmutableList<PatchSetApproval> priorApprovalsIncludingCopied =
         notes.load().getApprovalsWithCopied().get(priorPatchSet.getKey());
-
-    // Add labels from the previous patch set to the result in case the label isn't already there
-    // and settings as well as change kind allow copying.
-    ChangeKind changeKind =
-        changeKindCache.getChangeKind(
-            project.getNameKey(),
-            rw,
-            repoConfig,
-            priorPatchSet.getValue().commitId(),
-            patchSet.commitId());
-    logger.atFine().log(
-        "change kind for patch set %d of change %d against prior patch set %s is %s",
-        patchSet.id().get(),
-        patchSet.id().changeId().get(),
-        priorPatchSet.getValue().id().changeId(),
-        changeKind);
 
     Map<String, FileDiffOutput> baseVsCurrent = null;
     Map<String, FileDiffOutput> baseVsPrior = null;

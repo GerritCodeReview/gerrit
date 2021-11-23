@@ -348,7 +348,7 @@ public class ReplaceOp implements BatchUpdateOp {
     // Approvals that are being set in the new patch-set during this operation are not available yet
     // outside of the scope of this method. Only copied approvals are set here.
     approvalsUtil
-        .dynamicallyComputeCopiedApprovals(ctx.getNotes(), newPatchSet)
+        .dynamicallyComputeCopiedApprovals(ctx.getNotes(), newPatchSet, changeKind)
         .forEach(a -> update.putCopiedApproval(a));
 
     mailMessage = insertChangeMessage(update, ctx, reviewMessage);

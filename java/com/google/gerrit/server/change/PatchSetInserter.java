@@ -26,6 +26,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -84,6 +85,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final WorkInProgressStateChanged wipStateChanged;
   private final MessageIdGenerator messageIdGenerator;
   private final AutoMerger autoMerger;
+  private final ChangeKindCache changeKindCache;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -128,6 +130,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       WorkInProgressStateChanged wipStateChanged,
       MessageIdGenerator messageIdGenerator,
       AutoMerger autoMerger,
+      ChangeKindCache changeKindCache,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
@@ -143,6 +146,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.wipStateChanged = wipStateChanged;
     this.messageIdGenerator = messageIdGenerator;
     this.autoMerger = autoMerger;
+    this.changeKindCache = changeKindCache;
 
     this.origNotes = notes;
     this.psId = psId;
@@ -301,8 +305,15 @@ public class PatchSetInserter implements BatchUpdateOp {
     // Approvals that are being set in the new patch-set during this operation are not available yet
     // outside of the scope of this method. Only copied approvals are set here.
     if (storeCopiedVotes) {
+      ChangeKind changeKind =
+          changeKindCache.getChangeKind(
+              change.getProject(),
+              ctx.getRevWalk(),
+              ctx.getRepoView().getConfig(),
+              ctx.getNotes().load().getPatchSets().lowerEntry(psId).getValue().commitId(),
+              commitId);
       approvalsUtil
-          .dynamicallyComputeCopiedApprovals(ctx.getNotes(), patchSet)
+          .dynamicallyComputeCopiedApprovals(ctx.getNotes(), patchSet, changeKind)
           .forEach(a -> update.putCopiedApproval(a));
     }
 

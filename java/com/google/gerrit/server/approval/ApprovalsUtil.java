@@ -35,6 +35,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -347,10 +348,16 @@ public class ApprovalsUtil {
    * the copied approvals are available in {@link ChangeNotes}. However, if the patch-set is just
    * being created, we need to dynamically compute the approvals so that we can persist them in
    * storage.
+   *
+   * @param notes {@link ChangeNotes} of the current change.
+   * @param patchSet the {@link PatchSet} that is currently being created.
+   * @param changeKind the {@link ChangeKind} between the current patchset is being created and the
+   *     previous patchset.
+   * @return the current approvals including copied approvals found in the previous patch-set.
    */
   public Iterable<PatchSetApproval> dynamicallyComputeCopiedApprovals(
-      ChangeNotes notes, PatchSet patchSet) {
-    return approvalInference.forPatchSet(notes, patchSet, /* rw= */ null, /* repoConfig= */ null);
+      ChangeNotes notes, PatchSet patchSet, ChangeKind changeKind) {
+    return approvalInference.forPatchSet(notes, patchSet, changeKind);
   }
 
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {

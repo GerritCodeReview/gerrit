@@ -616,7 +616,8 @@ export const GerritNav = {
       this._getUrlFor({
         view: GerritView.TOPIC,
         topic,
-      })
+      }),
+      true /* redirect */
     );
   },
 

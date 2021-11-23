@@ -15,10 +15,14 @@
  * limitations under the License.
  */
 
-/**
- * @param obj Object
- */
-export function deepClone(obj?: object) {
-  if (!obj) return undefined;
-  return JSON.parse(JSON.stringify(obj));
+import {Observable} from "rxjs";
+import {distinctUntilChanged, map, shareReplay} from "rxjs/operators";
+import {deepEqual} from './deep-util';
+
+export function select<S, T>(obs$: Observable<S>, mapper: (_: S) => T) {
+  return obs$.pipe(
+    map(mapper),
+    distinctUntilChanged(deepEqual),
+    shareReplay(1)
+  )
 }

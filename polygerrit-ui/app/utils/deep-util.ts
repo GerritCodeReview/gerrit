@@ -1,0 +1,44 @@
+/**
+ * @license
+ * Copyright (C) 2021 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+export function deepEqual<T>(a: T, b: T): boolean {
+  if (a === b) return true;
+  if (a === undefined || b === undefined) return false;
+  if (a === null || b === null) return false;
+
+  if (typeof a === 'object') {
+    if (typeof b !== 'object') return false;
+    const aObj = a as Record<string, unknown>;
+    const bObj = b as Record<string, unknown>;
+    const aKeys = Object.keys(aObj);
+    const bKeys = Object.keys(bObj);
+    if (aKeys.length !== bKeys.length) return false;
+    for (const key of aKeys) {
+      if (!deepEqual(aObj[key], bObj[key])) return false;
+    }
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * @param obj Object
+ */
+ export function deepClone(obj?: object) {
+  if (!obj) return undefined;
+  return JSON.parse(JSON.stringify(obj));
+}

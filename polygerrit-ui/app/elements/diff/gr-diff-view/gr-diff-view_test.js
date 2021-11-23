@@ -21,7 +21,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus, DiffViewMode, createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {stubRestApi, stubUsers, waitUntil} from '../../../test/test-utils.js';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
-import {GerritView, _testOnly_setState as setRouterModelState} from '../../../services/router/router-model.js';
+import {GerritView} from '../../../services/router/router-model.js';
 import {
   createChange,
   createRevisions,
@@ -1206,7 +1206,7 @@ suite('gr-diff-view tests', () => {
         change: createChange(),
         diffPath: '/COMMIT_MSG'});
 
-      setRouterModelState({
+      element.routerModel.setState({
         changeNum: TEST_NUMERIC_CHANGE_ID, view: GerritView.DIFF, patchNum: 2}
       );
       element._patchRange = {
@@ -1245,7 +1245,7 @@ suite('gr-diff-view tests', () => {
             change: createChange(),
             diffPath: '/COMMIT_MSG'});
 
-          setRouterModelState({
+          element.routerModel.setState({
             changeNum: TEST_NUMERIC_CHANGE_ID, view: GerritView.DIFF,
             patchNum: 22}
           );
@@ -1271,7 +1271,7 @@ suite('gr-diff-view tests', () => {
         change: createChange(),
         diffPath: '/COMMIT_MSG'});
 
-      setRouterModelState({
+      element.routerModel.setState({
         changeNum: TEST_NUMERIC_CHANGE_ID, view: GerritView.DIFF, patchNum: 2}
       );
 

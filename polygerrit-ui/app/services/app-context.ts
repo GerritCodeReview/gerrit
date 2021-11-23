@@ -26,11 +26,13 @@ import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-typ
 import {StorageService} from './storage/gr-storage';
 import {UserModel} from './user/user-model';
 import {CommentsModel} from './comments/comments-model';
+import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {BrowserModel} from './browser/browser-model';
 import {ConfigModel} from './config/config-model';
 
 export interface AppContext {
+  routerModel: RouterModel,
   flagsService: FlagsService;
   reportingService: ReportingService;
   eventEmitter: EventEmitterService;

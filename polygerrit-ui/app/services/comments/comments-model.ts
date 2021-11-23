@@ -37,7 +37,7 @@ import {
 } from '../../utils/comment-util';
 import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
-import {routerChangeNum$} from '../router/router-model';
+import {RouterModel} from '../router/router-model';
 import {Finalizable} from '../registry';
 import {combineLatest, Subscription} from 'rxjs';
 import {fire, fireAlert, fireEvent} from '../../utils/event-util';
@@ -291,6 +291,7 @@ export class CommentsModel implements Finalizable {
   private discardedDrafts: DraftInfo[] = [];
 
   constructor(
+    readonly routerModel: RouterModel,
     readonly changeModel: ChangeModel,
     readonly restApiService: RestApiService,
     readonly reporting: ReportingService
@@ -305,7 +306,7 @@ export class CommentsModel implements Finalizable {
       this.changeModel.currentPatchNum$.subscribe(x => (this.patchNum = x))
     );
     this.subscriptions.push(
-      routerChangeNum$.subscribe(changeNum => {
+      this.routerModel.routerChangeNum$.subscribe(changeNum => {
         this.changeNum = changeNum;
         this.setState({...initialState});
         this.reloadAllComments();

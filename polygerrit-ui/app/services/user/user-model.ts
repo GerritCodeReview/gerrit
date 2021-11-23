@@ -85,7 +85,7 @@ export class UserModel implements Finalizable {
     preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE
   );
 
-  private readonly subscriptions: Subscription[] = [];
+  private subscriptions: Subscription[] = [];
 
   get userState$(): Observable<UserState> {
     return this.privateState$;
@@ -135,7 +135,7 @@ export class UserModel implements Finalizable {
     for (const s of this.subscriptions) {
       s.unsubscribe();
     }
-    this.subscriptions.splice(0, this.subscriptions.length);
+    this.subscriptions = [];
   }
 
   updatePreferences(prefs: Partial<PreferencesInfo>) {

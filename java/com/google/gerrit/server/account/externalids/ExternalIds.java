@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -35,11 +36,19 @@ import org.eclipse.jgit.lib.ObjectId;
 public class ExternalIds {
   private final ExternalIdReader externalIdReader;
   private final ExternalIdCache externalIdCache;
+  private final AuthConfig authConfig;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
-  public ExternalIds(ExternalIdReader externalIdReader, ExternalIdCache externalIdCache) {
+  public ExternalIds(
+      ExternalIdReader externalIdReader,
+      ExternalIdCache externalIdCache,
+      ExternalIdKeyFactory externalIdKeyFactory,
+      AuthConfig authConfig) {
     this.externalIdReader = externalIdReader;
     this.externalIdCache = externalIdCache;
+    this.externalIdKeyFactory = externalIdKeyFactory;
+    this.authConfig = authConfig;
   }
 
   /** Returns all external IDs. */
@@ -54,7 +63,15 @@ public class ExternalIds {
 
   /** Returns the specified external ID. */
   public Optional<ExternalId> get(ExternalId.Key key) throws IOException {
-    return externalIdCache.byKey(key);
+    Optional<ExternalId> externalId = Optional.empty();
+    if (authConfig.isUserNameCaseInsensitiveMigrationMode()) {
+      externalId =
+          externalIdCache.byKey(externalIdKeyFactory.create(key.scheme(), key.id(), false));
+    }
+    if (!externalId.isPresent()) {
+      externalId = externalIdCache.byKey(key);
+    }
+    return externalId;
   }
 
   /** Returns the specified external ID from the given revision. */

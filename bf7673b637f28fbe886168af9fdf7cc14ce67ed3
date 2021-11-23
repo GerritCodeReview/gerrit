@@ -211,6 +211,24 @@
       "parentUuid": "08f81f77_3c7915a3",
       "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b685df0_4bdb784c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-23T21:31:05Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e If we don\u0027t fix these bugs, at least the release notes should say something about this situation.\n\u003e \u003e \n\u003e \u003e Which bug? The current behaviour? How do we fix it? Do we convert obsolete and insecure keys? Do we remove them? Do we ignore them? \n\u003e \n\u003e The first bug is that nonexistent key types should be generated during init. That\u0027s \u003chttps://gerrit-review.googlesource.com/323100\u003e.\n\nAgreed, however, if you had old key formats you could not generate the new keys, unless you make Gerrit to manage both formats at the same time. So, the fix is incomplete without the second functional improvement.\n\n\u003e The second bug is that ProvisionException with a \"multiple host keys exist\" message would be thrown even if there were not actually multiple host keys of the same type.\n\nThat is not a bug IMHO but the behaviour was correct: you should not start Gerrit in that case because you are in an unsupported situation. As mentioned above, you either improve Gerrit and allow to manage both keys at the same time OR you prevent Gerrit from starting and highlight the problem with the suggested remedies.\n\n\u003e The fact that it\u0027s now five years later is relevant only if your policy is to rotate keys of a certain age or strength.\n\nIf you don\u0027t have a SSH keys rotation policy, it would be best to not use SSH :-)\nHaving SSH doesn\u0027t mean to be \"secure\" because of the first \u0027S\u0027: security is a process is not a tool or a protocol.\n\nI believe we should highlight in Gerrit\u0027s documentation that SSH keys *have to be rotated*.\n \n\u003e My preferred fix (because old Gerrit upgrades are already hard enough) would be to convert the keys\n\nTrue, that is also an option, but I would still warn the Gerrit admin saying \"You are potentially using obsolete or insecure keys: do you really want to proceed? [y/N]\"\n\nWDYT?",
+      "parentUuid": "01a5d240_03fe9b4b",
+      "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

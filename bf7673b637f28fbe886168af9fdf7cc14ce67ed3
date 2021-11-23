@@ -193,6 +193,24 @@
       "parentUuid": "d09d2dc3_644ec662",
       "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01a5d240_03fe9b4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-23T21:21:26Z",
+      "side": 1,
+      "message": "\u003e \u003e If we don\u0027t fix these bugs, at least the release notes should say something about this situation.\n\u003e \n\u003e Which bug? The current behaviour? How do we fix it? Do we convert obsolete and insecure keys? Do we remove them? Do we ignore them? \n\nThe first bug is that nonexistent key types should be generated during init. That\u0027s \u003chttps://gerrit-review.googlesource.com/323100\u003e.\n\nThe second bug is that ProvisionException with a \"multiple host keys exist\" message would be thrown even if there were not actually multiple host keys of the same type.\n\nThe fact that it\u0027s now five years later is relevant only if your policy is to rotate keys of a certain age or strength. You would have hit these bugs if you were upgrading the day Gerrit was released.\n\nMy preferred fix (because old Gerrit upgrades are already hard enough) would be to convert the keys, and log warnings at least every time Gerrit starts, which I think is what this other fellow proposed as well: https://groups.google.com/g/repo-discuss/c/csJIIyekh28/m/3lKNG3TrAwAJ",
+      "parentUuid": "08f81f77_3c7915a3",
+      "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

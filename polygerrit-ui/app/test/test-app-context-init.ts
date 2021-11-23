@@ -30,12 +30,14 @@ import {ChecksModel} from '../services/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {UserModel} from '../services/user/user-model';
 import {CommentsModel} from '../services/comments/comments-model';
+import {RouterModel} from '../services/router/router-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {BrowserModel} from '../services/browser/browser-model';
 import {ConfigModel} from '../services/config/config-model';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
+    routerModel: (_ctx: Partial<AppContext>) => new RouterModel(),
     flagsService: (_ctx: Partial<AppContext>) =>
       new FlagsServiceImplementation(),
     reportingService: (_ctx: Partial<AppContext>) => grReportingMock,
@@ -46,14 +48,20 @@ export function createTestAppContext(): AppContext & Finalizable {
     },
     restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
     changeModel: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.routerModel, 'routerModel');
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new ChangeModel(ctx.restApiService!);
+      return new ChangeModel(
+        ctx.routerModel!,
+        ctx.restApiService!
+      );
     },
     commentsModel: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.routerModel, 'routerModel');
       assertIsDefined(ctx.changeModel, 'changeModel');
       assertIsDefined(ctx.restApiService, 'restApiService');
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new CommentsModel(
+        ctx.routerModel!,
         ctx.changeModel!,
         ctx.restApiService!,
         ctx.reportingService!

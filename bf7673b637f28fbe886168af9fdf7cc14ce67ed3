@@ -175,6 +175,24 @@
       "parentUuid": "e74e9720_2165da9e",
       "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08f81f77_3c7915a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-23T20:19:47Z",
+      "side": 1,
+      "message": "\u003e I still think that my two patches fix actual bugs in Gerrit, where the current code is not providing the expected experience for the Gerrit administrator.\n\nCurrently, Gerrit does not re-generate keys if there are existing keys. Also, it does not generate new keys that could be potentially incompatible with the existing keys. I agree that it should be documented more accurately.\n\n\u003e Host key rotation should be a separate activity, not forced unexpectedly during upgrade.\n\nAgreed, it should be a deliberate and conscious decision by the Gerrit admin.\n \n\u003e If we don\u0027t fix these bugs, at least the release notes should say something about this situation.\n\nWhich bug? The current behaviour? How do we fix it? Do we convert obsolete and insecure keys? Do we remove them? Do we ignore them? \n\nIMHO any automatic decision that eventually is related to obsolete keys is potentially dangerous. Possibly blocking the upgrade would be best, telling the Gerrit admin that there is an old key that is unsupported and potentially also insecure and needs to be removed.\n\n\u003e I have worked around this in my own upgrades by converting the key format as a separate step. So I leave it up to the Gerrit maintainers on what to do with these patches.\n\nYes, and that\u0027s the correct operation to perform. Converting the existing keys is a decision that the Gerrit admin needs to take according to the company policy about key rotation. If the existing key was a 4096 RSA just generated 1 year ago, it is possibly OK to convert it. If the existing key was a 1024 RSA generated 5 or more years ago, converting it is NOT the right decision: the key should be destroyed and regenerated.\n\nSecurity isn\u0027t an easy task: trying to make it easier and too automatic may introduce unnoticed security breaches which are far more serious that a regenerated key.",
+      "parentUuid": "d09d2dc3_644ec662",
+      "revId": "bf7673b637f28fbe886168af9fdf7cc14ce67ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

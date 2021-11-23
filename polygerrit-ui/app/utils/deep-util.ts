@@ -18,6 +18,8 @@ export function deepEqual<T>(a: T, b: T): boolean {
   if (a === b) return true;
   if (a === undefined || b === undefined) return false;
   if (a === null || b === null) return false;
+  if (a instanceof Date && b instanceof Date)
+    return a.getTime() === b.getTime();
 
   if (typeof a === 'object') {
     if (typeof b !== 'object') return false;

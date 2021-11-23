@@ -86,6 +86,24 @@
       "parentUuid": "8ccc879d_7a112d3b",
       "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff6d7264_dad437d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2021-11-23T08:57:44Z",
+      "side": 1,
+      "message": "i can see the latest change at https://github.com/GerritCodeReview/docker-gerrit/tree/stable-3.4. but i don\u0027t see the image on dockerhub, i think a image with the tag \"3.4.2-ubuntu20\" should be in the dockerhub.",
+      "parentUuid": "2b6f7a4e_b62fca43",
+      "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

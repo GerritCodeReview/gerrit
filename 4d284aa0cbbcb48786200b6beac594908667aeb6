@@ -16,6 +16,24 @@
       "message": "1. The chip looks visually misaligned with the vote. I think we should move it by 2 px so that the text in the error chip aligns with the text in the vote. \n\n\n2. When users hover over the error chip, the submit requirements should not show. only show the submit requirement hovercard on the requirement\u0027s name and on the vote.\n\nSee attached screenshot and screencast on the bug. ",
       "revId": "4d284aa0cbbcb48786200b6beac594908667aeb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a8f044d_138f79d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-23T19:41:15Z",
+      "side": 1,
+      "message": "1. fixed by moving it 2px up.\n\n2. I don\u0027t know how easily to do this. Could we file a new bug for this and I will concentrate on it later.",
+      "parentUuid": "3b3d4572_709696fb",
+      "revId": "4d284aa0cbbcb48786200b6beac594908667aeb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

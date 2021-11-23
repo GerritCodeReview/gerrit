@@ -93,6 +93,30 @@
       },
       "revId": "df16ae9cc24ecda9e909c4ad3ac9ddfc8b898fc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ca05c56_704ef88f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-23T09:59:27Z",
+      "side": 1,
+      "message": "Previously it was testing \"the items we show are already limited to 25\", now it\u0027s testing \"If you did take the first 25 items, you\u0027d have 25\". You could take the .slice(SHOWN_ITEMS_COUNT) out of render() and it would still pass.\n\nIt\u0027s ok with me if you want to do it separately, but I think the test should be improved back to it\u0027s previous quality.",
+      "parentUuid": "a65810d2_3893264a",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 77
+      },
+      "revId": "df16ae9cc24ecda9e909c4ad3ac9ddfc8b898fc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

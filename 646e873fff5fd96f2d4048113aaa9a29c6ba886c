@@ -87,6 +87,30 @@
       },
       "revId": "646e873fff5fd96f2d4048113aaa9a29c6ba886c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd12c89a_b30b53a5",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-23T23:15:00Z",
+      "side": 1,
+      "message": "side-note: it isn\u0027t useful though when creating a new Gerrit site, isn\u0027t it?",
+      "parentUuid": "41f02f14_0f73c12e",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 5
+      },
+      "revId": "646e873fff5fd96f2d4048113aaa9a29c6ba886c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

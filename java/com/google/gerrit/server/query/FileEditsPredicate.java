@@ -162,11 +162,11 @@ public class FileEditsPredicate extends SubmitRequirementPredicate {
           }
         }
       } catch (IOException e) {
-        logger.atSevere().log("Error while evaluating commit edits.", e);
+        logger.atSevere().withCause(e).log("Error while evaluating commit edits.");
         return false;
       }
     } catch (DiffNotAvailableException e) {
-      logger.atSevere().log("Diff error while evaluating commit edits.", e);
+      logger.atSevere().withCause(e).log("Diff error while evaluating commit edits.");
       return false;
     }
     return false;

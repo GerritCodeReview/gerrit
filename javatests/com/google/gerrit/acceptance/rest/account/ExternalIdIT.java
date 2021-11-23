@@ -94,6 +94,8 @@ import org.junit.Test;
 
 public class ExternalIdIT extends AbstractDaemonTest {
   private static final boolean IS_USER_NAME_CASE_INSENSITIVE_MIGRATION_MODE = false;
+  private static final boolean CASE_SENSITIVE_USERNAME = false;
+  private static final boolean CASE_INSENSITIVE_USERNAME = true;
 
   @Inject @ServerInitiated private Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private ExternalIds externalIds;
@@ -904,6 +906,34 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
   @GerritConfig(name = "auth.userNameCaseInsensitiveMigrationMode", value = "true")
+  public void shouldTolerateDuplicateExternalIdsWhenInMigrationMode() throws Exception {
+    Account.Id firstAccountId = Account.id(1);
+    Account.Id secondAccountId = Account.id(2);
+
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+
+      createExternalId(
+          md, extIdNotes, SCHEME_GERRIT, "janedoe", firstAccountId, CASE_SENSITIVE_USERNAME);
+      createExternalId(
+          md, extIdNotes, SCHEME_GERRIT, "JaneDoe", secondAccountId, CASE_SENSITIVE_USERNAME);
+
+      ExternalId.Key firstAccountExternalId =
+          externalIdKeyFactory.create(SCHEME_GERRIT, "janedoe", CASE_INSENSITIVE_USERNAME);
+      assertThat(externalIds.get(firstAccountExternalId).get().accountId())
+          .isEqualTo(firstAccountId);
+
+      ExternalId.Key secondAccountExternalId =
+          externalIdKeyFactory.create(SCHEME_GERRIT, "JaneDoe", CASE_INSENSITIVE_USERNAME);
+      assertThat(externalIds.get(secondAccountExternalId).get().accountId())
+          .isEqualTo(secondAccountId);
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
+  @GerritConfig(name = "auth.userNameCaseInsensitiveMigrationMode", value = "true")
   public void createCaseInsensitiveMigrationModeExternalIdAccountDuringTheMigration()
       throws Exception {
     Account.Id accountId = Account.id(66);
@@ -982,6 +1012,12 @@ public class ExternalIdIT extends AbstractDaemonTest {
     assertThat(getAccountId(extIdNotes, scheme, id.toLowerCase())).isEqualTo(accountId.get());
   }
 
+  /**
+   * Create external id object
+   *
+   * <p>This method skips gerrit.config auth.userNameCaseInsensitiveMigrationMode and allow to
+   * create case sensitive/insensitive external id
+   */
   protected void createExternalId(
       MetaDataUpdate md,
       ExternalIdNotes extIdNotes,

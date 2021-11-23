@@ -24,6 +24,7 @@ public class LabelInfo {
   public AccountInfo recommended;
   public AccountInfo disliked;
   public List<ApprovalInfo> all;
+  public List<Integer> votes;
 
   public Map<String, String> values;
 

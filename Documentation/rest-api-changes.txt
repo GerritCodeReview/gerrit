@@ -7471,6 +7471,8 @@ recommended/disliked this label on the change if it is not
 "`+1`"/"`-1`".
 |`default_value`|optional|The default voting value for the label.
 This value may be outside the range specified in permitted_labels.
+|votes|optional|A list of integers containing the vote values applied to this
+label at the latest patchset.
 |===========================
 
 ==== Fields set by `DETAILED_LABELS`

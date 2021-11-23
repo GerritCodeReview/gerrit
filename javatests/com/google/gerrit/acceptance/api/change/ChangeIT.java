@@ -211,6 +211,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -219,6 +220,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -3484,6 +3486,40 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void checkLabelVotesForUnsubmittedChange() throws Exception {
+    List<ListChangesOption> options =
+        EnumSet.complementOf(
+                EnumSet.of(
+                    ListChangesOption.CHECK,
+                    ListChangesOption.SKIP_DIFFSTAT,
+                    ListChangesOption.DETAILED_LABELS))
+            .stream()
+            .collect(Collectors.toList());
+    PushOneCommit.Result r = createChange();
+    ChangeInfo change = gApi.changes().id(r.getChangeId()).get(options);
+    assertThat(change.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).all).isNull();
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).votes).isNull();
+
+    voteLabel(r.getChangeId(), LabelId.CODE_REVIEW, +1);
+    change = gApi.changes().id(r.getChangeId()).get(options);
+    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).all).isNull();
+    List<Integer> votes = change.labels.get(LabelId.CODE_REVIEW).votes;
+    assertThat(votes).containsExactly(1);
+
+    // Add another +1 vote as user
+    requestScopeOperations.setApiUser(user.id());
+    voteLabel(r.getChangeId(), LabelId.CODE_REVIEW, +1);
+    change = gApi.changes().id(r.getChangeId()).get(options);
+    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).all).isNull();
+    votes = change.labels.get(LabelId.CODE_REVIEW).votes;
+    assertThat(votes).containsExactly(1, 1);
+  }
+
+  @Test
   public void checkLabelsForUnsubmittedChange() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
@@ -3545,6 +3581,50 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.status).isEqualTo(ChangeStatus.ABANDONED);
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertThat(change.permittedLabels).isEmpty();
+  }
+
+  @Test
+  public void checkLabelVotesForMergedChange() throws Exception {
+    List<ListChangesOption> options =
+        EnumSet.complementOf(
+                EnumSet.of(
+                    ListChangesOption.CHECK,
+                    ListChangesOption.SKIP_DIFFSTAT,
+                    ListChangesOption.DETAILED_LABELS))
+            .stream()
+            .collect(Collectors.toList());
+    PushOneCommit.Result r = createChange();
+    voteLabel(r.getChangeId(), LabelId.CODE_REVIEW, +2);
+
+    // Add another label for 'Verified'
+    LabelType verified = TestLabels.verified();
+    AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String heads = RefNames.REFS_HEADS + "*";
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().upsertLabelType(verified);
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .update();
+
+    // Submit the change
+    voteLabel(r.getChangeId(), TestLabels.verified().getName(), 1);
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    // Make sure label votes are available if DETAILED_LABELS is not requested.
+    ChangeInfo change = gApi.changes().id(r.getChangeId()).get(options);
+    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.labels.keySet())
+        .containsExactly(LabelId.CODE_REVIEW, TestLabels.verified().getName());
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).all).isNull();
+    assertThat(change.labels.get(TestLabels.verified().getName()).all).isNull();
+    LabelInfo codeReviewLabel = change.labels.get(LabelId.CODE_REVIEW);
+    LabelInfo verifiedLabel = change.labels.get(TestLabels.verified().getName());
+    assertThat(codeReviewLabel.votes).containsExactly(2);
+    assertThat(verifiedLabel.votes).containsExactly(1);
   }
 
   @Test

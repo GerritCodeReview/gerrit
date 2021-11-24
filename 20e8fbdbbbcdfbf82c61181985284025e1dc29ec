@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9fbddb4_5e737987",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T10:18:34Z",
+      "side": 1,
+      "message": "Good idea on the utility. I wanted to move this because it was the only site that used this selector so I felt like it was poluting the model unnecessarily.",
+      "parentUuid": "65ad5ed9_c2f84898",
+      "range": {
+        "startLine": 394,
+        "startChar": 8,
+        "endLine": 397,
+        "endChar": 9
+      },
+      "revId": "20e8fbdbbbcdfbf82c61181985284025e1dc29ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47d42365_7b7ef2ce",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-23T09:17:54Z",
       "side": 1,
       "message": "any reason why you didn\u0027t keep the specific selector sizeBarInChangeTable$?",
+      "range": {
+        "startLine": 393,
+        "startChar": 6,
+        "endLine": 400,
+        "endChar": 10
+      },
+      "revId": "20e8fbdbbbcdfbf82c61181985284025e1dc29ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fdcb8b1_39e45608",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T10:18:34Z",
+      "side": 1,
+      "message": "It was only used in a single place so I felt like it was complicating the model unnecessarily.",
+      "parentUuid": "47d42365_7b7ef2ce",
       "range": {
         "startLine": 393,
         "startChar": 6,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "075aa873_0f5d6c29",
+        "filename": "polygerrit-ui/app/services/user/user-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T10:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a2201e3_a71e0e91",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 6
+      },
+      "revId": "20e8fbdbbbcdfbf82c61181985284025e1dc29ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "239eb0a1_e24a85b3",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c43c76f_a03fdefe",
+        "filename": "polygerrit-ui/app/services/user/user-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T10:18:34Z",
+      "side": 1,
+      "message": "I\u0027m not sure a base-class will help a lot, you\u0027d still need to do something like this.register( ...)\n\nChanged it slightly to make it less cumbersome.",
+      "parentUuid": "239eb0a1_e24a85b3",
+      "revId": "20e8fbdbbbcdfbf82c61181985284025e1dc29ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e7f3e91_7cf5ee56",
@@ -100,6 +190,30 @@
       "writtenOn": "2021-11-23T09:17:54Z",
       "side": 1,
       "message": "what is the intention of this?\nIIUC it\u0027s clearing the subscriptions array.\n\nWhy is this.subscriptions \u003d [] not possible?",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 60
+      },
+      "revId": "20e8fbdbbbcdfbf82c61181985284025e1dc29ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d027a1_56b06795",
+        "filename": "polygerrit-ui/app/services/user/user-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T10:18:34Z",
+      "side": 1,
+      "message": "Because I made the variable readonly.  I guess I could change that.",
+      "parentUuid": "5e7f3e91_7cf5ee56",
       "range": {
         "startLine": 124,
         "startChar": 4,

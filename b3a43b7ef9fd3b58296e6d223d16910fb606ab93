@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36811e3f_4fe01b81",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T13:47:33Z",
+      "side": 1,
+      "message": "Good question! Where do I check this?",
+      "parentUuid": "de4b7f98_fe46b824",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "b3a43b7ef9fd3b58296e6d223d16910fb606ab93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2d48f487_9281ffae",
         "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
         "patchSetId": 3
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0bc124b5_474394a9",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T13:47:33Z",
+      "side": 1,
+      "message": "If AppContext gets more keys then this will fail as a type-error.",
+      "parentUuid": "2d48f487_9281ffae",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 45
+      },
+      "revId": "b3a43b7ef9fd3b58296e6d223d16910fb606ab93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93a59c50_93381e68",
         "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
         "patchSetId": 3
@@ -77,6 +125,30 @@
       "writtenOn": "2021-11-24T13:44:39Z",
       "side": 1,
       "message": "I assume that we exposed restApi interface before as well?",
+      "range": {
+        "startLine": 90,
+        "startChar": 17,
+        "endLine": 90,
+        "endChar": 35
+      },
+      "revId": "b3a43b7ef9fd3b58296e6d223d16910fb606ab93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95e69a46_60ef3a63",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T13:47:33Z",
+      "side": 1,
+      "message": "These are all lazy-loaded only when something asks for it.\n\ninitDiffAppContext didn\u0027t initialize appContext because before this was done statically.\n\nSo my assumption is that all properties that were not overwritten were the original ones.",
+      "parentUuid": "93a59c50_93381e68",
       "range": {
         "startLine": 90,
         "startChar": 17,

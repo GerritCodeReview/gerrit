@@ -253,6 +253,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7b3f04f_80f82c77",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-24T11:54:46Z",
+      "side": 1,
+      "message": "Except for the sanctity of the typed text of the user I can\u0027t come up with a better reason. :P\n\nLet\u0027s keep the trimming them.",
+      "parentUuid": "5ea51a72_b3600437",
+      "range": {
+        "startLine": 1054,
+        "startChar": 8,
+        "endLine": 1054,
+        "endChar": 64
+      },
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3e8c791_a07035c1",

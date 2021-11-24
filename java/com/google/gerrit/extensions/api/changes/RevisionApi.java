@@ -51,12 +51,6 @@ public interface RevisionApi {
 
   ChangeInfo submit(SubmitInput in) throws RestApiException;
 
-  default BinaryResult submitPreview() throws RestApiException {
-    return submitPreview("zip");
-  }
-
-  BinaryResult submitPreview(String format) throws RestApiException;
-
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
 
   ChangeInfo cherryPickAsInfo(CherryPickInput in) throws RestApiException;
@@ -365,11 +359,6 @@ public interface RevisionApi {
 
     @Override
     public SubmitType submitType() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public BinaryResult submitPreview(String format) throws RestApiException {
       throw new NotImplementedException();
     }
 

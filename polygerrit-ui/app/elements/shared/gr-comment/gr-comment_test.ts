@@ -16,7 +16,7 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-comment';
-import {GrComment} from './gr-comment';
+import {AUTO_SAVE_DEBOUNCE_DELAY_MS, GrComment} from './gr-comment';
 import {
   queryAndAssert,
   stubRestApi,
@@ -27,6 +27,8 @@ import {
   stubComments,
   mockPromise,
   waitUntilCalled,
+  dispatch,
+  MockPromise,
 } from '../../../test/test-utils';
 import {
   AccountId,
@@ -51,6 +53,7 @@ import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/
 import {DraftInfo} from '../../../utils/comment-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Modifier} from '../../../utils/dom-util';
+import {SinonStub} from 'sinon';
 
 suite('gr-comment tests', () => {
   suite('basic tests', () => {
@@ -338,6 +341,7 @@ suite('gr-comment tests', () => {
         __draft: true,
         message: 'hello world',
       };
+      element.editing = true;
       await element.updateComplete;
       // messageText was empty so overwrite the message now
       assert.equal(element.messageText, 'hello world');
@@ -362,6 +366,7 @@ suite('gr-comment tests', () => {
         __draft: true,
         message: 'hello world',
       };
+      element.editing = true;
       await element.updateComplete;
       // messageText was empty so overwrite the message now
       assert.equal(element.messageText, 'hello world');
@@ -450,6 +455,7 @@ suite('gr-comment tests', () => {
 
         element.comment = createDraft();
         element.editing = true;
+        await element.updateComplete;
         const textToSave = 'something, not important';
         element.messageText = textToSave;
         element.resolved = false;
@@ -522,21 +528,18 @@ suite('gr-comment tests', () => {
       });
 
       test('saving empty text calls discard()', async () => {
-        const discardStub = sinon.stub(element, 'discard');
-        element.comment = {
-          ...createComment(),
-          id: 'foo' as UrlEncodedCommentId,
-          message: 'test',
-          __draft: true,
-        };
+        const saveStub = stubComments('saveDraft');
+        const discardStub = stubComments('discardDraft');
+        element.comment = createDraft();
         element.editing = true;
         await element.updateComplete;
 
         element.messageText = '';
         await element.updateComplete;
 
-        element.save();
+        await element.save();
         assert.isTrue(discardStub.called);
+        assert.isFalse(saveStub.called);
       });
 
       test('handleFix fires create-fix event', async () => {
@@ -587,6 +590,64 @@ suite('gr-comment tests', () => {
 
         const e = await listener;
         assert.deepEqual(e.detail, element.getEventPayload());
+      });
+    });
+
+    suite('auto saving', () => {
+      let clock: sinon.SinonFakeTimers;
+      let savePromise: MockPromise<void>;
+      let saveStub: SinonStub;
+
+      setup(async () => {
+        clock = sinon.useFakeTimers();
+        savePromise = mockPromise<void>();
+        saveStub = stubComments('saveDraft').returns(savePromise);
+
+        element.comment = createDraft();
+        element.editing = true;
+        await element.updateComplete;
+      });
+
+      teardown(() => {
+        clock.restore();
+        sinon.restore();
+      });
+
+      test('basic auto saving', async () => {
+        const textarea = queryAndAssert<HTMLElement>(element, '#editTextarea');
+        dispatch(textarea, 'text-changed', {value: 'some new text  '});
+
+        clock.tick(AUTO_SAVE_DEBOUNCE_DELAY_MS / 2);
+        assert.isFalse(saveStub.called);
+
+        clock.tick(AUTO_SAVE_DEBOUNCE_DELAY_MS);
+        assert.isTrue(saveStub.called);
+        assert.equal(
+          saveStub.firstCall.firstArg.message,
+          'some new text  '.trim()
+        );
+      });
+
+      test('saving while auto saving', async () => {
+        const textarea = queryAndAssert<HTMLElement>(element, '#editTextarea');
+        dispatch(textarea, 'text-changed', {value: 'auto save text'});
+
+        clock.tick(2 * AUTO_SAVE_DEBOUNCE_DELAY_MS);
+        assert.isTrue(saveStub.called);
+        assert.equal(saveStub.firstCall.firstArg.message, 'auto save text');
+        saveStub.reset();
+
+        element.messageText = 'actual save text';
+        element.save();
+        await element.updateComplete;
+        // First wait for the auto saving to finish.
+        assert.isFalse(saveStub.called);
+
+        savePromise.resolve();
+        await element.updateComplete;
+        // Only then save.
+        assert.isTrue(saveStub.called);
+        assert.equal(saveStub.firstCall.firstArg.message, 'actual save text');
       });
     });
 

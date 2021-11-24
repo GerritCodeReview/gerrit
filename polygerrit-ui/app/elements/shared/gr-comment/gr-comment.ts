@@ -43,11 +43,9 @@ import {
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
   Comment,
-  DraftInfo,
   isDraftOrUnsaved,
   isRobot,
   isUnsaved,
-  UnsavedInfo,
 } from '../../../utils/comment-util';
 import {
   OpenFixPreviewEventDetail,
@@ -65,10 +63,15 @@ import {changeNum$, repo$} from '../../../services/change/change-model';
 import {LineNumber} from '../../../api/diff';
 import {CommentSide} from '../../../constants/constants';
 import {getRandomInt} from '../../../utils/math-util';
+import {Subject} from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
 const FILE = 'FILE';
+
+// visible for testing
+export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
 
 export const __testOnly_UNSAVED_MESSAGE = UNSAVED_MESSAGE;
 
@@ -164,6 +167,15 @@ export class GrComment extends LitElement {
   @property({type: Boolean, reflect: true})
   saving = false;
 
+  /**
+   * `saving` and `autoSaving` are separate and cannot be set at the same time.
+   * `saving` affects the UI state (disabled buttons, etc.) and eventually
+   * leaves editing mode, but `autoSaving` just happens in the background
+   * without the user noticing.
+   */
+  @state()
+  autoSaving?: Promise<void>;
+
   @state()
   changeNum?: NumericChangeId;
 
@@ -223,6 +235,24 @@ export class GrComment extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
+  /**
+   * This is triggered when the user types into the editing textarea. We then
+   * debounce it and call autoSave().
+   */
+  private autoSaveTrigger$ = new Subject();
+
+  /**
+   * Set to the content of DraftInfo when entering editing mode.
+   * Only used for "Cancel".
+   */
+  private originalMessage = '';
+
+  /**
+   * Set to the content of DraftInfo when entering editing mode.
+   * Only used for "Cancel".
+   */
+  private originalResolved = false;
+
   constructor() {
     super();
     subscribe(this, this.userModel.account$, x => (this.account = x));
@@ -230,6 +260,13 @@ export class GrComment extends LitElement {
     subscribe(this, repoCommentLinks$, x => (this.commentLinks = x));
     subscribe(this, repo$, x => (this.repoName = x));
     subscribe(this, changeNum$, x => (this.changeNum = x));
+    subscribe(
+      this,
+      this.autoSaveTrigger$.pipe(debounceTime(AUTO_SAVE_DEBOUNCE_DELAY_MS)),
+      () => {
+        this.autoSave();
+      }
+    );
     this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEsc());
     for (const key of ['s', Key.ENTER]) {
       for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
@@ -625,6 +662,7 @@ export class GrComment extends LitElement {
           // But typically most of the code can just inspect the current value
           // of the textare instead of needing a dedicated property.
           this.messageText = e.detail.value;
+          this.autoSaveTrigger$.next();
         }}"
       ></gr-textarea>
     `;
@@ -723,6 +761,7 @@ export class GrComment extends LitElement {
     if (!isDraftOrUnsaved(this.comment)) return;
     return html`
       <div class="rightActions">
+        ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}
         ${this.renderCopyLinkIcon()} ${this.renderDiscardButton()}
         ${this.renderEditButton()} ${this.renderCancelButton()}
         ${this.renderSaveButton()}
@@ -856,7 +895,6 @@ export class GrComment extends LitElement {
 
     assertIsDefined(this.comment, 'comment');
     this.resolved = !this.comment.unresolved;
-    this.messageText = this.comment.message ?? '';
     if (isUnsaved(this.comment)) this.editing = true;
     if (isDraftOrUnsaved(this.comment)) {
       this.collapsed = false;
@@ -913,9 +951,7 @@ export class GrComment extends LitElement {
       throw new Error('Cannot edit published comment.');
     }
     if (this.editing) return;
-    if (this.comment?.message) this.messageText = this.comment.message;
     this.editing = true;
-    this.collapsed = false;
   }
 
   // TODO: Move this out of gr-comment. gr-comment should not have a comments
@@ -936,6 +972,10 @@ export class GrComment extends LitElement {
   private onEditingChanged() {
     if (this.editing) {
       this.collapsed = false;
+      this.messageText = this.comment?.message ?? '';
+      this.resolved = !this.comment?.unresolved;
+      this.originalMessage = this.messageText;
+      this.originalResolved = this.resolved;
       setTimeout(() => this.textarea?.putCursorAtEnd(), 1);
     }
     this.setRespectfulTip();
@@ -1002,46 +1042,56 @@ export class GrComment extends LitElement {
     if (!isDraftOrUnsaved(this.comment)) {
       throw new Error('only unsaved and draft comments are editable');
     }
-    if (this.saving) throw new Error('Saving in progress.');
-
-    this.editing = false;
-    this.messageText = this.comment.message ?? '';
-    this.resolved = !this.comment.unresolved;
+    this.messageText = this.originalMessage;
+    this.resolved = this.originalResolved;
+    this.save();
   }
 
-  // private, but visible for testing
-  async save() {
-    if (!this.messageText?.trim()) return this.discard();
-    await this.writeOperation(draft =>
-      this.commentsService.saveDraft({
-        ...draft,
-        message: this.messageText,
-        unresolved: !this.resolved,
-      })
-    );
-  }
+  async autoSave() {
+    if (this.saving || this.autoSaving) return;
+    if (!this.editing || !this.comment) return;
+    if (!isDraftOrUnsaved(this.comment)) return;
+    const messageToSave = this.messageText.trimEnd();
+    if (messageToSave === '') return;
+    if (messageToSave === this.comment.message) return;
 
-  // private, but visible for testing
-  async discard() {
-    await this.writeOperation((draft: DraftInfo | UnsavedInfo) => {
-      assertIsDefined(draft.id, 'comment id');
-      return this.commentsService.discardDraft(draft.id);
-    });
-  }
-
-  private async writeOperation(
-    op: (draft: DraftInfo | UnsavedInfo) => Promise<void>
-  ) {
-    assertIsDefined(this.comment, 'comment');
-    if (!isDraftOrUnsaved(this.comment)) {
-      throw new Error('only unsaved and draft comments are editable');
+    try {
+      this.autoSaving = this.rawSave(messageToSave, {showToast: false});
+      await this.autoSaving;
+    } finally {
+      this.autoSaving = undefined;
     }
-    if (this.saving) throw new Error('Saving already in progress.');
+  }
+
+  async discard() {
+    this.messageText = '';
+    await this.save();
+  }
+
+  async save() {
+    if (!isDraftOrUnsaved(this.comment)) throw new Error('not a draft');
 
     try {
       this.saving = true;
       this.unableToSave = false;
-      await op(this.comment);
+      if (this.autoSaving) await this.autoSaving;
+      // Depending on whether `messageToSave` is empty we treat this either as
+      // a discard or a save action.
+      const messageToSave = this.messageText.trimEnd();
+      if (messageToSave === '') {
+        // Don't try to discard UnsavedInfo. Nothing to do then.
+        if (this.comment.id) {
+          await this.commentsService.discardDraft(this.comment.id);
+        }
+      } else {
+        // No need to make a backend call when nothing has changed.
+        if (
+          this.messageText.trim() !== this.comment?.message?.trim() ||
+          this.resolved !== !this.comment.unresolved
+        ) {
+          await this.rawSave(messageToSave, {showToast: true});
+        }
+      }
       this.editing = false;
     } catch (e) {
       this.unableToSave = true;
@@ -1049,6 +1099,19 @@ export class GrComment extends LitElement {
     } finally {
       this.saving = false;
     }
+  }
+
+  /** For sharing between save() and autoSave(). */
+  private rawSave(message: string, options: {showToast: boolean}) {
+    if (!isDraftOrUnsaved(this.comment)) throw new Error('not a draft');
+    return this.commentsService.saveDraft(
+      {
+        ...this.comment,
+        message,
+        unresolved: !this.resolved,
+      },
+      options.showToast
+    );
   }
 
   private handleToggleResolved() {

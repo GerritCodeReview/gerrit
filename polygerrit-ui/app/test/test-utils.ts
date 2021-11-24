@@ -236,6 +236,15 @@ export function listenOnce<T extends Event>(
   });
 }
 
+export function dispatch<T>(element: HTMLElement, type: string, detail: T) {
+  const eventOptions = {
+    detail,
+    bubbles: true,
+    composed: true,
+  };
+  element.dispatchEvent(new CustomEvent<T>(type, eventOptions));
+}
+
 export function pressKey(
   element: HTMLElement,
   key: string | Key,

@@ -24,7 +24,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -35,7 +34,6 @@ import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.ArrayDeque;
-import java.util.Map;
 import org.apache.commons.lang.RandomStringUtils;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -144,7 +142,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     gApi.changes().id(id2).current().review(ReviewInput.approve());
     gApi.changes().id(id3).current().review(ReviewInput.approve());
 
-    Map<BranchNameKey, ObjectId> preview = fetchFromSubmitPreview(id1);
     gApi.changes().id(id1).current().submit();
     ObjectId subRepoId =
         subRepo
@@ -156,25 +153,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
             .getObjectId();
 
     expectToHaveSubmoduleState(superRepo, "master", subKey, subRepoId);
-
-    // As the submodules have changed commits, the superproject tree will be
-    // different, so we cannot directly compare the trees here, so make
-    // assumptions only about the changed branches:
-    assertThat(preview).containsKey(BranchNameKey.create(superKey, "refs/heads/master"));
-    assertThat(preview).containsKey(BranchNameKey.create(subKey, "refs/heads/master"));
-
-    if ((getSubmitType() == SubmitType.CHERRY_PICK)
-        || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
-      // each change is updated and the respective target branch is updated:
-      assertThat(preview).hasSize(5);
-    } else if ((getSubmitType() == SubmitType.REBASE_IF_NECESSARY)) {
-      // Either the first is used first as is, then the second and third need
-      // rebasing, or those two stay as is and the first is rebased.
-      // add in 2 master branches, expect 3 or 4:
-      assertThat(preview.size()).isAnyOf(3, 4);
-    } else {
-      assertThat(preview).hasSize(2);
-    }
   }
 
   @Test
@@ -658,12 +636,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   @Test
   public void branchCircularSubscription() throws Exception {
     testBranchCircularSubscription(changeId -> gApi.changes().id(changeId).current().submit());
-  }
-
-  @Test
-  public void branchCircularSubscriptionPreview() throws Exception {
-    testBranchCircularSubscription(
-        changeId -> gApi.changes().id(changeId).current().submitPreview());
   }
 
   @Test

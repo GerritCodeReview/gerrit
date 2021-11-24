@@ -19,7 +19,6 @@ import '../../../test/common-test-setup-karma';
 import './gr-diff-preferences-dialog';
 import {GrDiffPreferencesDialog} from './gr-diff-preferences-dialog';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
-import {updateDiffPreferences} from '../../../services/user/user-model';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-diff-preferences-dialog');
@@ -37,7 +36,6 @@ suite('gr-diff-preferences-dialog', () => {
       line_wrapping: true,
     };
     element.diffPrefs = originalDiffPrefs;
-    updateDiffPreferences(originalDiffPrefs);
     await flush();
     element.open();
     await flush();

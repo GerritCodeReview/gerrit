@@ -27,7 +27,6 @@ import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {getAppContext} from '../../../services/app-context';
 import {queryAndAssert} from '../../../utils/common-util';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
-import {preferences$} from '../../../services/user/user-model';
 
 declare global {
   interface HTMLElementEventMap {
@@ -73,7 +72,8 @@ export class GrDownloadCommands extends PolymerElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly userService = getAppContext().userService;
+  // Private but used in tests.
+  readonly userModel = getAppContext().userModel;
 
   private subscriptions: Subscription[] = [];
 
@@ -83,7 +83,7 @@ export class GrDownloadCommands extends PolymerElement {
       this._loggedIn = loggedIn;
     });
     this.subscriptions.push(
-      preferences$.subscribe(prefs => {
+      this.userModel.preferences$.subscribe(prefs => {
         if (prefs?.download_scheme) {
           // Note (issue 5180): normalize the download scheme with lower-case.
           this.selectedScheme = prefs.download_scheme.toLowerCase();
@@ -113,7 +113,7 @@ export class GrDownloadCommands extends PolymerElement {
     if (scheme && scheme !== this.selectedScheme) {
       this.set('selectedScheme', scheme);
       if (this._loggedIn) {
-        this.userService.updatePreferences({
+        this.userModel.updatePreferences({
           download_scheme: this.selectedScheme,
         });
       }

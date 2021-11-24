@@ -83,12 +83,9 @@ import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
 import {Timing} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
-import {
-  diffPreferences$,
-  sizeBarInChangeTable$,
-} from '../../../services/user/user-model';
 import {changeComments$} from '../../../services/comments/comments-model';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
+import {select} from '../../../utils/observable-util';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -317,7 +314,7 @@ export class GrFileList extends base {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly userService = getAppContext().userService;
+  private readonly userModel = getAppContext().userModel;
 
   private readonly browserModel = getAppContext().browserModel;
 
@@ -377,26 +374,23 @@ export class GrFileList extends base {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.subscriptions.push(
+    this.subscriptions = [
       changeComments$.subscribe(changeComments => {
         this.changeComments = changeComments;
-      })
-    );
-    this.subscriptions.push(
+      }),
       this.browserModel.diffViewMode$.subscribe(
         diffView => (this.diffViewMode = diffView)
-      )
-    );
-    this.subscriptions.push(
-      diffPreferences$.subscribe(diffPreferences => {
+      ),
+      this.userModel.diffPreferences$.subscribe(diffPreferences => {
         this.diffPrefs = diffPreferences;
-      })
-    );
-    this.subscriptions.push(
-      sizeBarInChangeTable$.subscribe(sizeBarInChangeTable => {
+      }),
+      select(
+        this.userModel.preferences$,
+        prefs => !!prefs?.size_bar_in_change_table
+      ).subscribe(sizeBarInChangeTable => {
         this._showSizeBars = sizeBarInChangeTable;
-      })
-    );
+      }),
+    ];
 
     getPluginLoader()
       .awaitPluginsLoaded()
@@ -1648,7 +1642,7 @@ export class GrFileList extends base {
   }
 
   _handleReloadingDiffPreference() {
-    this.userService.getDiffPreferences();
+    this.userModel.getDiffPreferences();
   }
 
   /**

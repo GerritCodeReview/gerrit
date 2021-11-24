@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba9def97_9762f17b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 1,
+      "message": "Another round of comments.",
+      "revId": "7eded39df2b01c6088499503fde5a4464dcb303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d53c185c_9486633d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 1,
+      "message": "Please move this js -\u003e TS migration to a prefactor change.",
+      "revId": "7eded39df2b01c6088499503fde5a4464dcb303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "062cb0cd_7bad9bf3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 1,
+      "message": "Split out Lit migration as separate pre-factor.",
+      "revId": "7eded39df2b01c6088499503fde5a4464dcb303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08518c35_fc4b69ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 2277,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 1,
+      "message": "Async/await",
+      "revId": "7eded39df2b01c6088499503fde5a4464dcb303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "714a8a3b_e5861b7b",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 1,
+      "message": "Why do you need to check `shouldSuppress` if `this.shortcutsDisabled`?",
+      "revId": "7eded39df2b01c6088499503fde5a4464dcb303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78dd355b_c2471bf3",
+        "filename": "polygerrit-ui/app/services/user/user-service.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 1,
+      "message": "Consider making this not readonly",
+      "revId": "7eded39df2b01c6088499503fde5a4464dcb303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80d96855_f9d40756",
+        "filename": "polygerrit-ui/app/services/user/user-service.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 1,
+      "message": "Consider doing what I did in go/grev/324621.\n\n```\nthis.subscriptions \u003d [\n    from(this.restApiService.getAccount()).subscribe(\n      (account?: AccountDetailInfo) \u003d\u003e {\n        updateAccount(account);\n      }\n    ),\n   account$\n    .pipe(\n      switchMap(account \u003d\u003e {\n        if (!account) return of(createDefaultPreferences());\n        return from(this.restApiService.getPreferences());\n      })\n    )\n    .subscribe((preferences?: PreferencesInfo) \u003d\u003e {\n      updatePreferences(preferences ?? createDefaultPreferences());\n    }),\n    ...\n ];\n ```",
+      "revId": "7eded39df2b01c6088499503fde5a4464dcb303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "318963da_bbe36f2d",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 1,
+      "message": "Should this go after defining the removeEventListener in case this triggers synchronously?",
+      "revId": "7eded39df2b01c6088499503fde5a4464dcb303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0383f732_1194216e",
+        "filename": "polygerrit-ui/app/utils/math-util.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 1,
+      "message": "This is not correct.  The probability of returning 2 is infinitesimal given you\u0027re flooring.\n\nWith Math.round, it would also not be true because then in this example it would be 0.5, 1, 0.5 probability.",
+      "revId": "7eded39df2b01c6088499503fde5a4464dcb303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18215f0d_65d8d4e1",
+        "filename": "polygerrit-ui/karma.conf.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 1,
+      "message": "Move to a separate change.",
+      "revId": "7eded39df2b01c6088499503fde5a4464dcb303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

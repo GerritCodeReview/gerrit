@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8b3b235_7b78b018",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 0,
+      "message": "Where did the collapsing logic move to?",
+      "revId": "536fbe08c259bcca6eb042d9b67ffc21457846c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ded5c9fd_c325568a",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 0,
+      "message": "Please separate out this lit migration as a prefactor.",
+      "revId": "536fbe08c259bcca6eb042d9b67ffc21457846c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9027913_dfc5db8e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 0,
+      "message": "Where did all these tests move to?",
+      "revId": "536fbe08c259bcca6eb042d9b67ffc21457846c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb3b970e_6a3dba16",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 0,
+      "message": "Move lit migration to a separate prefactor change.",
+      "revId": "536fbe08c259bcca6eb042d9b67ffc21457846c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73c10619_596c9905",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 0,
+      "message": "Where did all the tests move to?",
+      "revId": "536fbe08c259bcca6eb042d9b67ffc21457846c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23144ee8_5254532a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 2324,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:42:18Z",
+      "side": 0,
+      "message": "Why is this no longer necessary?",
+      "revId": "536fbe08c259bcca6eb042d9b67ffc21457846c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

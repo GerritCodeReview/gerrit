@@ -176,6 +176,24 @@
       "parentUuid": "9b617126_d574ff14",
       "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90888091_6090fb5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-24T14:17:41Z",
+      "side": 1,
+      "message": "DiffOperations accepts two SHA1s (old/new commit IDs) as parameters. The cache loader creates new object readers each time and assumes that both commits are available in the repo.\n\nI discussed this today with Patrick. AFAIU you create a new patchset (in ReplaceOp) and want to get the diffs immediately of current vs. the newly created patchset. If you just do that, the new commit SHA1 will not be available for the diff caches\u0027 loaders. (We should add a test for it? I believe it\u0027d fail currently)\n\nTo solve this, you need to pass the RevWalk as Patrick mentioned (from ReplaceOp and other callers down the call path). In ApprovalInference, instead of doing\n        baseVsCurrent \u003d listModifiedFiles(project, patchSet);\n        ....\n\nWe could introduce another method in DiffOperations that accepts the SHA1-s and the Revwalk, and does the diff computation (only for file paths) without looking them up from the diff cache. This should not be expensive to compute.",
+      "parentUuid": "76d46642_f047ed7e",
+      "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

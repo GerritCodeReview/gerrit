@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eca65e18_46458ec0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-24T12:31:22Z",
+      "side": 1,
+      "message": "add a test for this icon showing up at the right time",
+      "range": {
+        "startLine": 543,
+        "startChar": 11,
+        "endLine": 546,
+        "endChar": 16
+      },
+      "revId": "c8d67ba552aaa3567d1be20fc42558b0399489ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ef1a33f_67fccfc3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-24T12:31:22Z",
+      "side": 1,
+      "message": "@Delphine: should there be any information on hover (count or authors)? to me that is something I would expect on Gerrit.",
+      "range": {
+        "startLine": 543,
+        "startChar": 11,
+        "endLine": 546,
+        "endChar": 17
+      },
+      "revId": "c8d67ba552aaa3567d1be20fc42558b0399489ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

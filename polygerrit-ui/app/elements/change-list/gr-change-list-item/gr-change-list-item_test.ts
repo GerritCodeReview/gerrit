@@ -15,10 +15,16 @@
  * limitations under the License.
  */
 
+import {fixture} from '@open-wc/testing-helpers';
+import {html} from 'lit';
+import {SubmitRequirementResultInfo} from '../../../api/rest-api';
+import {getAppContext} from '../../../services/app-context';
 import '../../../test/common-test-setup-karma';
 import {
   createAccountWithId,
   createChange,
+  createSubmitRequirementExpressionInfo,
+  createSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
 import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {
@@ -28,6 +34,7 @@ import {
   RepoName,
   TopicName,
 } from '../../../types/common';
+import {StandardLabels} from '../../../utils/label-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {columnNames} from '../gr-change-list/gr-change-list';
 import './gr-change-list-item';
@@ -462,5 +469,35 @@ suite('gr-change-list-item tests', () => {
     element.change = {...change};
     assert.equal(element.computeRepoDisplay(), 'a/test/repo');
     assert.equal(element.computeTruncatedRepoDisplay(), '…/test/repo');
+  });
+
+  test('renders requirement with new submit requirements', async () => {
+    sinon.stub(getAppContext().flagsService, 'isEnabled').returns(true);
+    const submitRequirement: SubmitRequirementResultInfo = {
+      ...createSubmitRequirementResultInfo(),
+      name: StandardLabels.CODE_REVIEW,
+      submittability_expression_result: {
+        ...createSubmitRequirementExpressionInfo(),
+        expression: 'label:Verified=MAX -label:Verified=MIN',
+      },
+    };
+    const change: ChangeInfo = {
+      ...createChange(),
+      submit_requirements: [submitRequirement],
+      unresolved_comment_count: 1,
+    };
+    const element = await fixture<GrChangeListItem>(
+      html`<gr-change-list-item
+        .change=${change}
+        .labelNames=${[StandardLabels.CODE_REVIEW]}
+      ></gr-change-list-item>`
+    );
+
+    const requirement = queryAndAssert(element, '.requirement');
+    expect(requirement).dom.to.equal(`<iron-icon icon="gr-icons:check">
+      </iron-icon>
+      <iron-icon class="commentIcon" icon="gr-icons:comment">
+      </iron-icon>
+    `);
   });
 });

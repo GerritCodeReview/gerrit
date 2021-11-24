@@ -38,22 +38,10 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.zip.GZIPInputStream;
-import org.apache.commons.compress.archivers.ArchiveStreamFactory;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
@@ -184,8 +172,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     approve(change2b.getChangeId());
     approve(change3.getChangeId());
 
-    // get a preview before submitting:
-    Map<BranchNameKey, ObjectId> preview = fetchFromSubmitPreview(change1b.getChangeId());
     submit(change1b.getChangeId());
 
     RevCommit tip1 = getRemoteLog(p1, "master").get(0);
@@ -197,23 +183,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     if (isSubmitWholeTopicEnabled()) {
       assertThat(tip2.getShortMessage()).isEqualTo(change2b.getCommit().getShortMessage());
       assertThat(tip3.getShortMessage()).isEqualTo(change3.getCommit().getShortMessage());
-
-      // check that the preview matched what happened:
-      assertThat(preview).hasSize(3);
-
-      assertThat(preview).containsKey(BranchNameKey.create(p1, "refs/heads/master"));
-      assertTrees(p1, preview);
-
-      assertThat(preview).containsKey(BranchNameKey.create(p2, "refs/heads/master"));
-      assertTrees(p2, preview);
-
-      assertThat(preview).containsKey(BranchNameKey.create(p3, "refs/heads/master"));
-      assertTrees(p3, preview);
     } else {
       assertThat(tip2.getShortMessage()).isEqualTo(initialHead2.getShortMessage());
       assertThat(tip3.getShortMessage()).isEqualTo(initialHead3.getShortMessage());
-      assertThat(preview).hasSize(1);
-      assertThat(preview.get(BranchNameKey.create(p1, "refs/heads/master"))).isNotNull();
     }
   }
 
@@ -280,13 +252,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
               + ": Change could not be "
               + "merged due to a path conflict. Please rebase the change locally "
               + "and upload the rebased commit for review.";
-
-      // Get a preview before submitting:
-      RestApiException thrown =
-          assertThrows(
-              RestApiException.class,
-              () -> gApi.changes().id(change1b.getChangeId()).current().submitPreview().close());
-      assertThat(thrown.getMessage()).isEqualTo(msg);
 
       submitWithConflict(change1b.getChangeId(), msg);
     } else {
@@ -755,35 +720,5 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
                 + " is not visible");
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
-  }
-
-  @Test
-  public void testPreviewSubmitTgz() throws Throwable {
-    Project.NameKey p1 = projectOperations.newProject().create();
-
-    TestRepository<?> repo1 = cloneProject(p1);
-    PushOneCommit.Result change1 = createChange(repo1, "master", "test", "a.txt", "1", "topic");
-    approve(change1.getChangeId());
-
-    // get a preview before submitting:
-    File tempfile;
-    try (BinaryResult request =
-        gApi.changes().id(change1.getChangeId()).current().submitPreview("tgz")) {
-      assertThat(request.getContentType()).isEqualTo("application/x-gzip");
-      tempfile = File.createTempFile("test", null);
-      request.writeTo(Files.newOutputStream(tempfile.toPath()));
-    }
-
-    InputStream is = new GZIPInputStream(Files.newInputStream(tempfile.toPath()));
-
-    List<String> untarredFiles = new ArrayList<>();
-    try (TarArchiveInputStream tarInputStream =
-        (TarArchiveInputStream) new ArchiveStreamFactory().createArchiveInputStream("tar", is)) {
-      TarArchiveEntry entry;
-      while ((entry = (TarArchiveEntry) tarInputStream.getNextEntry()) != null) {
-        untarredFiles.add(entry.getName());
-      }
-    }
-    assertThat(untarredFiles).containsExactly(p1.get() + ".git");
   }
 }

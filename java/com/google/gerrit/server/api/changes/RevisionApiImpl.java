@@ -86,7 +86,6 @@ import com.google.gerrit.server.restapi.change.ListRevisionDrafts;
 import com.google.gerrit.server.restapi.change.ListRobotComments;
 import com.google.gerrit.server.restapi.change.Mergeable;
 import com.google.gerrit.server.restapi.change.PostReview;
-import com.google.gerrit.server.restapi.change.PreviewSubmit;
 import com.google.gerrit.server.restapi.change.PutDescription;
 import com.google.gerrit.server.restapi.change.Rebase;
 import com.google.gerrit.server.restapi.change.Reviewed;
@@ -119,7 +118,6 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final Rebase rebase;
   private final RebaseUtil rebaseUtil;
   private final Submit submit;
-  private final PreviewSubmit submitPreview;
   private final Reviewed.PutReviewed putReviewed;
   private final Reviewed.DeleteReviewed deleteReviewed;
   private final RevisionResource revision;
@@ -167,7 +165,6 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       Rebase rebase,
       RebaseUtil rebaseUtil,
       Submit submit,
-      PreviewSubmit submitPreview,
       Reviewed.PutReviewed putReviewed,
       Reviewed.DeleteReviewed deleteReviewed,
       Files files,
@@ -213,7 +210,6 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.rebaseUtil = rebaseUtil;
     this.review = review;
     this.submit = submit;
-    this.submitPreview = submitPreview;
     this.files = files;
     this.putReviewed = putReviewed;
     this.deleteReviewed = deleteReviewed;
@@ -266,16 +262,6 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       return submit.apply(revision, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot submit change", e);
-    }
-  }
-
-  @Override
-  public BinaryResult submitPreview(String format) throws RestApiException {
-    try {
-      submitPreview.setFormat(format);
-      return submitPreview.apply(revision).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get submit preview", e);
     }
   }
 

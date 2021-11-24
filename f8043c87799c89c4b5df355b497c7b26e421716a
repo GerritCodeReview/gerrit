@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b4ee09a_d2268f51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T17:52:41Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "f8043c87799c89c4b5df355b497c7b26e421716a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a83ec60f_91921eee",
@@ -18,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eabe5d19_9fa9f171",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T17:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a83ec60f_91921eee",
+      "revId": "f8043c87799c89c4b5df355b497c7b26e421716a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7e3f55d_7b554712",
@@ -31,6 +66,30 @@
       "writtenOn": "2021-11-24T17:48:18Z",
       "side": 1,
       "message": "(Optional) If you cannot make the types work, would it make sense to use ducktyping here?\n\nif (this[name] \u0026\u0026 this[name].finalize) {\n  this[name].finalize();\n}",
+      "range": {
+        "startLine": 44,
+        "startChar": 23,
+        "endLine": 44,
+        "endChar": 49
+      },
+      "revId": "f8043c87799c89c4b5df355b497c7b26e421716a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff0ceadf_0a23098e",
+        "filename": "polygerrit-ui/app/services/registry.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T17:52:41Z",
+      "side": 1,
+      "message": "The typing is guaranteed by the input type ensuring all factores return Finalizable.  But you\u0027re right I can\u0027t enforce this within the code.  I don\u0027t think this requires duck-typing.  This should type-fail if a factory returns a non-finalizable.",
+      "parentUuid": "c7e3f55d_7b554712",
       "range": {
         "startLine": 44,
         "startChar": 23,

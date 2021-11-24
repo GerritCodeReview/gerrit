@@ -338,6 +338,7 @@ suite('gr-comment tests', () => {
         __draft: true,
         message: 'hello world',
       };
+      element.editing = true;
       await element.updateComplete;
       // messageText was empty so overwrite the message now
       assert.equal(element.messageText, 'hello world');
@@ -362,6 +363,7 @@ suite('gr-comment tests', () => {
         __draft: true,
         message: 'hello world',
       };
+      element.editing = true;
       await element.updateComplete;
       // messageText was empty so overwrite the message now
       assert.equal(element.messageText, 'hello world');
@@ -450,6 +452,7 @@ suite('gr-comment tests', () => {
 
         element.comment = createDraft();
         element.editing = true;
+        await element.updateComplete;
         const textToSave = 'something, not important';
         element.messageText = textToSave;
         element.resolved = false;
@@ -522,7 +525,8 @@ suite('gr-comment tests', () => {
       });
 
       test('saving empty text calls discard()', async () => {
-        const discardStub = sinon.stub(element, 'discard');
+        const saveStub = stubComments('saveDraft');
+        const discardStub = stubComments('discardDraft');
         element.comment = {
           ...createComment(),
           id: 'foo' as UrlEncodedCommentId,
@@ -535,8 +539,9 @@ suite('gr-comment tests', () => {
         element.messageText = '';
         await element.updateComplete;
 
-        element.save();
+        await element.save();
         assert.isTrue(discardStub.called);
+        assert.isFalse(saveStub.called);
       });
 
       test('handleFix fires create-fix event', async () => {

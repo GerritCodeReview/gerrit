@@ -310,6 +310,24 @@
       "parentUuid": "b3e8c791_a07035c1",
       "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f20891f2_cff2fe8e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:58:27Z",
+      "side": 1,
+      "message": "In case whitespace becomes meaningful due to markdown.",
+      "parentUuid": "25d639d4_0c198e3f",
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

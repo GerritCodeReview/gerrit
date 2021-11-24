@@ -16,6 +16,74 @@
       "message": "Are tests supposed to be part of this change?",
       "revId": "89f5ecbf4add251d6216e9674eda6c22d8b823d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96e37167_cf59384c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:58:27Z",
+      "side": 1,
+      "message": "If autoSaving is a promise.\n\nif (this.saving) return;\nif (this.autoSaving) return this.autoSaving;",
+      "revId": "89f5ecbf4add251d6216e9674eda6c22d8b823d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00bdcb90_b9f1a43e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:58:27Z",
+      "side": 1,
+      "message": "this.autoSaving \u003d this.saveInternal();  // Notice no await\nthis.autoSaving.then(() \u003d\u003e this.autoSaving \u003d undefined);\nreturn this.autoSaving;",
+      "revId": "89f5ecbf4add251d6216e9674eda6c22d8b823d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d39a3db_a4923c60",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:58:27Z",
+      "side": 1,
+      "message": "Why this.saving \u003d true?",
+      "revId": "89f5ecbf4add251d6216e9674eda6c22d8b823d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae293f83_b32d8ab5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T11:58:27Z",
+      "side": 1,
+      "message": "This could be cleaner if autoSaving was a promise.\n\nif (this.autoSaving) {\n  return this.autoSaving.then(() \u003d\u003e this.save());\n}",
+      "revId": "89f5ecbf4add251d6216e9674eda6c22d8b823d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

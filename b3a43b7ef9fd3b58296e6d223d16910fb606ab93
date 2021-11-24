@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84c345b0_a4e29ea5",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-24T14:04:41Z",
+      "side": 1,
+      "message": "if import is fine, it should be fine. I was checking BUILD and it looks ok",
+      "parentUuid": "36811e3f_4fe01b81",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "b3a43b7ef9fd3b58296e6d223d16910fb606ab93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d48f487_9281ffae",

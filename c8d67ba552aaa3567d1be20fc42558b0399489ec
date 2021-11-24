@@ -45,6 +45,54 @@
       },
       "revId": "c8d67ba552aaa3567d1be20fc42558b0399489ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82621374_a9a15f55",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-24T13:03:10Z",
+      "side": 1,
+      "message": "Added",
+      "parentUuid": "eca65e18_46458ec0",
+      "range": {
+        "startLine": 543,
+        "startChar": 11,
+        "endLine": 546,
+        "endChar": 16
+      },
+      "revId": "c8d67ba552aaa3567d1be20fc42558b0399489ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a265e8a_98262d3c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-24T13:03:10Z",
+      "side": 1,
+      "message": "There is already label title https://imgur.com/a/DYWhc3K\n\ncalculated by computeLabelTitle",
+      "parentUuid": "5ef1a33f_67fccfc3",
+      "range": {
+        "startLine": 543,
+        "startChar": 11,
+        "endLine": 546,
+        "endChar": 17
+      },
+      "revId": "c8d67ba552aaa3567d1be20fc42558b0399489ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

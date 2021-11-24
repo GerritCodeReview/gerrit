@@ -1259,12 +1259,6 @@ public abstract class AbstractDaemonTest {
     assertThat(replyTo.getString()).contains(email);
   }
 
-  protected Map<BranchNameKey, ObjectId> fetchFromSubmitPreview(String changeId) throws Exception {
-    try (BinaryResult result = gApi.changes().id(changeId).current().submitPreview()) {
-      return fetchFromBundles(result);
-    }
-  }
-
   /**
    * Fetches each bundle into a newly cloned repository, then it applies the bundle, and returns the
    * resulting tree id.

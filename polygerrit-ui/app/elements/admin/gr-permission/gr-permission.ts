@@ -412,6 +412,16 @@ export class GrPermission extends PolymerElement {
   _onTapExclusiveToggle(e: Event) {
     e.preventDefault();
   }
+
+  // TODO(TS): Unclear what is model here, provide a better explanation
+  _handleRuleChanged(e: CustomEvent & {model: {index: string}}) {
+    if (this._rules === undefined || e.detail.value === undefined) return;
+    const index = Number(e.model.index);
+    if (isNaN(index)) {
+      return;
+    }
+    this._rules[index] = {...e.detail.value};
+  }
 }
 
 declare global {

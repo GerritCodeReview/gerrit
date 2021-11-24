@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "777d6f0c_340ee6be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T19:15:38Z",
+      "side": 1,
+      "message": "Looking good, mostly nits.\n\nGiven you\u0027re changing the key name for AppContext, you also have to update gr-diff-app-context-init.ts",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df17fa69_38d50760",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T19:15:38Z",
+      "side": 1,
+      "message": "I\u0027ve done this as a getter instead.\n\npublic get configState$() { \n  return this.privateState$.asObservable();\n}\n\nThough I have missed the asObservable bit.",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73e6fdd9_66f017e7",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T19:15:38Z",
+      "side": 1,
+      "message": "Just pipe directly from privateState$",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d021907_2d2d2562",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T19:15:38Z",
+      "side": 1,
+      "message": "UserModel change has landed so use `select` from observable-util",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc665636_2970fdc1",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T19:15:38Z",
+      "side": 1,
+      "message": "Just pipe directly from privateState$",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c27b54c_20556fef",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T19:15:38Z",
+      "side": 1,
+      "message": "Same comment about `select`",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ed4c803_6a67aef4",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T19:15:38Z",
+      "side": 1,
+      "message": "I\u0027ve moved to not making these readonly.",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac5a0341_97b70262",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T19:15:38Z",
+      "side": 1,
+      "message": "Rather than a this.subscriptions.push what about\n\nthis.subscriptions \u003d [\n  from(this.restApiService.getConfig()).subscribe((config?: ServerInfo) \u003d\u003e {\n    this.updateServerConfig(config);\n  }),\n  repo$\n    .pipe(\n      switchMap((repo?: RepoName) \u003d\u003e {\n        if (repo \u003d\u003d\u003d undefined) return of(undefined);\n        return from(this.restApiService.getProjectConfig(repo));\n      })\n    )\n    .subscribe((repoConfig?: ConfigInfo) \u003d\u003e {\n      this.updateRepoConfig(repoConfig);\n    })    \n];",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5b7084c_47285d55",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T19:15:38Z",
+      "side": 1,
+      "message": "this.subscriptions \u003d [];",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

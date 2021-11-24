@@ -15,10 +15,23 @@
  * limitations under the License.
  */
 
-import {getAppContext} from '../services/app-context';
+import {create, Registry, Finalizable} from '../services/registry';
+import {assertIsDefined} from '../utils/common-util';
+import {AppContext, injectAppContext} from '../services/app-context';
+import {AuthService} from '../services/gr-auth/gr-auth';
 import {FlagsService} from '../services/flags/flags';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
-import {AuthService} from '../services/gr-auth/gr-auth';
+import {grRestApiMock} from '../test/mocks/gr-rest-api_mock';
+import {grStorageMock} from '../services/storage/gr-storage_mock';
+import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_impl';
+import {ChangeService} from '../services/change/change-service';
+import {ChecksService} from '../services/checks/checks-service';
+import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
+import {ConfigService} from '../services/config/config-service';
+import {UserService} from '../services/user/user-service';
+import {CommentsService} from '../services/comments/comments-service';
+import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
+import {BrowserModel} from '../services/browser/browser-model';
 
 class MockFlagsService implements FlagsService {
   isEnabled() {
@@ -60,18 +73,54 @@ class MockAuthService implements AuthService {
   }
 }
 
+let appContext: (AppContext & Finalizable) | undefined;
+
 // Setup mocks for appContext.
 // This is a temporary solution
 // TODO(dmfilippov): find a better solution for gr-diff
 export function initDiffAppContext() {
-  function setMock(serviceName: string, setupMock: unknown) {
-    Object.defineProperty(getAppContext(), serviceName, {
-      get() {
-        return setupMock;
-      },
-    });
-  }
-  setMock('flagsService', new MockFlagsService());
-  setMock('reportingService', grReportingMock);
-  setMock('authService', new MockAuthService());
+  const appRegistry: Registry<AppContext> = {
+    flagsService: (_ctx: Partial<AppContext>) => new MockFlagsService(),
+    reportingService: (_ctx: Partial<AppContext>) => grReportingMock,
+    eventEmitter: (_ctx: Partial<AppContext>) => new EventEmitter(),
+    authService: (_ctx: Partial<AppContext>) => new MockAuthService(),
+    restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
+    changeService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.restApiService, 'restApiService');
+      return new ChangeService(ctx.restApiService!);
+    },
+    commentsService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.restApiService, 'restApiService');
+      return new CommentsService(ctx.restApiService!);
+    },
+    checksService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.reportingService, 'reportingService');
+      return new ChecksService(ctx.reportingService!);
+    },
+    jsApiService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.reportingService, 'reportingService');
+      return new GrJsApiInterface(ctx.reportingService!);
+    },
+    storageService: (_ctx: Partial<AppContext>) => grStorageMock,
+    configService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.restApiService, 'restApiService');
+      return new ConfigService(ctx.restApiService!);
+    },
+    userService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.restApiService, 'restApiService');
+      return new UserService(ctx.restApiService!);
+    },
+    shortcutsService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.reportingService, 'reportingService');
+      return new ShortcutsService(ctx.reportingService!);
+    },
+    browserModel: (_ctx: Partial<AppContext>) => new BrowserModel(),
+  };
+  appContext = create<AppContext>(appRegistry);
+  injectAppContext(appContext);
+}
+
+export function finalizeDiffAppContext() {
+  appContext?.finalize();
+  appContext = undefined;
 }

@@ -36,7 +36,6 @@ import {
 import {AuthType} from '../../../constants/constants';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {getAppContext} from '../../../services/app-context';
-import {serverConfig$} from '../../../services/config/config-model';
 import {myTopMenuItems$} from '../../../services/user/user-model';
 import {assertIsDefined} from '../../../utils/common-util';
 
@@ -160,6 +159,8 @@ export class GrMainHeader extends PolymerElement {
 
   private readonly userService = getAppContext().userService;
 
+  private readonly configModel = getAppContext().configModel;
+
   private subscriptions: Subscription[] = [];
 
   override ready() {
@@ -182,7 +183,7 @@ export class GrMainHeader extends PolymerElement {
       })
     );
     this.subscriptions.push(
-      serverConfig$.subscribe(config => {
+      this.configModel.serverConfig$.subscribe(config => {
         if (!config) return;
         this._retrieveFeedbackURL(config);
         this._retrieveRegisterURL(config);

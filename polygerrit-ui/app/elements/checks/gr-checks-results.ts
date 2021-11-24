@@ -64,7 +64,6 @@ import {
 } from '../../types/common';
 import {labels$, latestPatchNum$} from '../../services/change/change-model';
 import {getAppContext} from '../../services/app-context';
-import {repoConfig$} from '../../services/config/config-model';
 import {spinnerStyles} from '../../styles/gr-spinner-styles';
 import {
   getLabelStatus,
@@ -540,6 +539,8 @@ class GrResultExpanded extends LitElement {
 
   private changeService = getAppContext().changeService;
 
+  private configModel = getAppContext().configModel;
+
   static override get styles() {
     return [
       sharedStyles,
@@ -563,7 +564,7 @@ class GrResultExpanded extends LitElement {
 
   constructor() {
     super();
-    subscribe(this, repoConfig$, x => (this.repoConfig = x));
+    subscribe(this, this.configModel.repoConfig$, x => (this.repoConfig = x));
   }
 
   override render() {

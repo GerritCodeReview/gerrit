@@ -29,7 +29,6 @@ import {
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
-import {serverConfig$} from '../../../services/config/config-model';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
@@ -77,6 +76,8 @@ export class GrCreateChangeDialog extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly configModel = getAppContext().configModel;
+
   constructor() {
     super();
     this.query = (input: string) => this.getRepoBranchesSuggestions(input);
@@ -86,7 +87,7 @@ export class GrCreateChangeDialog extends LitElement {
     super.connectedCallback();
     if (!this.repoName) return;
 
-    subscribe(this, serverConfig$, config => {
+    subscribe(this, this.configModel.serverConfig$, config => {
       this.privateChangesEnabled =
         config?.change?.disable_private_changes ?? false;
     });

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07a07358_16d7f4a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T17:49:23Z",
+      "side": 0,
+      "message": "Agreed to keep to make an exception for this change.",
+      "parentUuid": "ded5c9fd_c325568a",
+      "revId": "536fbe08c259bcca6eb042d9b67ffc21457846c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9027913_dfc5db8e",
@@ -65,6 +83,24 @@
       "writtenOn": "2021-11-24T11:42:18Z",
       "side": 0,
       "message": "Move lit migration to a separate prefactor change.",
+      "revId": "536fbe08c259bcca6eb042d9b67ffc21457846c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef9d6070_6120069d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T17:49:23Z",
+      "side": 0,
+      "message": "Agreed to keep to make an exception for this change.",
+      "parentUuid": "eb3b970e_6a3dba16",
       "revId": "536fbe08c259bcca6eb042d9b67ffc21457846c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

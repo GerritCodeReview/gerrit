@@ -168,6 +168,7 @@ public class SshSessionMina extends SshSession {
                 MoreFiles.deleteRecursively(userhome.toPath(), ALLOW_INSECURE);
               } catch (IOException e) {
                 e.printStackTrace();
+                throw new RuntimeException("Failed to cleanup userhome", e);
               }
             });
       }

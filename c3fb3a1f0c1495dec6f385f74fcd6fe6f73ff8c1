@@ -20,6 +20,121 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb7c35c4_aa0e7315",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-24T10:30:12Z",
+      "side": 1,
+      "message": "this flow is also triggered if they click \"Cancel\" while auto save is in progress IIUC?\nIf so, add that to the comment.",
+      "range": {
+        "startLine": 241,
+        "startChar": 5,
+        "endLine": 241,
+        "endChar": 65
+      },
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df5bfc52_ed92bc33",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-24T10:30:12Z",
+      "side": 1,
+      "message": "Set to the content of DraftInfo when entering editing mode.\n\nflows much better.",
+      "range": {
+        "startLine": 248,
+        "startChar": 14,
+        "endLine": 248,
+        "endChar": 64
+      },
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b608e74_5be4c19b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-24T10:30:12Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 254,
+        "startChar": 5,
+        "endLine": 254,
+        "endChar": 35
+      },
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1006ab82_969a1ada",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-24T10:30:12Z",
+      "side": 1,
+      "message": "do we need to consider canceling any other autoSave tasks that might be ongoing at this point due to the text the user typed?",
+      "range": {
+        "startLine": 1039,
+        "startChar": 2,
+        "endLine": 1039,
+        "endChar": 12
+      },
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08b5d7a0_22cb511c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-24T10:30:12Z",
+      "side": 1,
+      "message": "Seems unnecessary?\nI can see why not saving on extra whitespaces is useful but maybe not in some weird case?",
+      "range": {
+        "startLine": 1054,
+        "startChar": 8,
+        "endLine": 1054,
+        "endChar": 64
+      },
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b3e8c791_a07035c1",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 2

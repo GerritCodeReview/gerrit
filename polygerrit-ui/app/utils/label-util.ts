@@ -224,12 +224,16 @@ function extractLabelsFrom(expression: string) {
 }
 
 export function extractAssociatedLabels(
-  requirement: SubmitRequirementResultInfo
+  requirement: SubmitRequirementResultInfo,
+  type: 'all' | 'onlyOverride' | 'onlySubmittability' = 'all'
 ): string[] {
-  let labels = extractLabelsFrom(
-    requirement.submittability_expression_result.expression
-  );
-  if (requirement.override_expression_result) {
+  let labels: string[] = [];
+  if (type !== 'onlyOverride') {
+    labels = labels.concat(
+      extractLabelsFrom(requirement.submittability_expression_result.expression)
+    );
+  }
+  if (requirement.override_expression_result && type !== 'onlySubmittability') {
     labels = labels.concat(
       extractLabelsFrom(requirement.override_expression_result.expression)
     );

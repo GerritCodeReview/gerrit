@@ -16,6 +16,24 @@
       "message": "Sorry for being late with reviewing this change. \n\n* CR and the X should be left align instead of CR being center aligned in the column.\n* Show the number of unresolved comment next to the comment icon.\n\nFeel free to send another change for these updates :) \n\n\n",
       "revId": "8a7dc12e717e0c494884553185bb63bfe4649ecd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "398552e7_9088a67e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-11-24T16:54:02Z",
+      "side": 1,
+      "message": "And let me take back the second point, we don\u0027t show the number of unresolved comment, just the comment :)",
+      "parentUuid": "79124d7b_4c45845a",
+      "revId": "8a7dc12e717e0c494884553185bb63bfe4649ecd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

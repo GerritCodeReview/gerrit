@@ -162,13 +162,13 @@ export class GrRuleEditor extends PolymerElement {
     }
   }
 
-  _setupValues(rule: Rule) {
-    if (!rule.value) {
+  _setupValues(rule?: Rule) {
+    if (!rule?.value) {
       this._setDefaultRuleValues();
     }
   }
 
-  _computeForce(permission: AccessPermissionId, action: string) {
+  _computeForce(permission: AccessPermissionId, action?: string) {
     if (AccessPermissionId.PUSH === permission && action !== Action.DENY) {
       return true;
     }
@@ -176,7 +176,7 @@ export class GrRuleEditor extends PolymerElement {
     return AccessPermissionId.EDIT_TOPIC_NAME === permission;
   }
 
-  _computeForceClass(permission: AccessPermissionId, action: string) {
+  _computeForceClass(permission: AccessPermissionId, action?: string) {
     return this._computeForce(permission, action) ? 'force' : '';
   }
 
@@ -213,7 +213,7 @@ export class GrRuleEditor extends PolymerElement {
     return classList.join(' ');
   }
 
-  _computeForceOptions(permission: string, action: string) {
+  _computeForceOptions(permission: string, action?: string) {
     if (permission === AccessPermissionId.PUSH) {
       if (action === Action.ALLOW) {
         return ForcePushOptions.ALLOW;

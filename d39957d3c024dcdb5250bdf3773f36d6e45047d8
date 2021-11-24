@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "140ac0cc_2266e729",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-24T16:56:02Z",
+      "side": 1,
+      "message": "Reason for removal: This endpoint was added by Google and never used. What it is doing is quite exotic (sending bundles on the REST API). So we\u0027d rather remove it.",
+      "revId": "d39957d3c024dcdb5250bdf3773f36d6e45047d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

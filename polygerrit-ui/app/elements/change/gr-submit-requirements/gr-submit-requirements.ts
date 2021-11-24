@@ -314,10 +314,14 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   renderOverrideLabels(requirement: SubmitRequirementResultInfo) {
+    if (requirement.status !== SubmitRequirementStatus.OVERRIDDEN) return;
     const requirementLabels = extractAssociatedLabels(
       requirement,
       'onlyOverride'
-    );
+    ).filter(label => {
+      const allLabels = this.change?.labels ?? {};
+      return hasVotes(allLabels[label]);
+    });
     return requirementLabels.map(
       label => html`<span class="overrideLabel">${label}</span>`
     );

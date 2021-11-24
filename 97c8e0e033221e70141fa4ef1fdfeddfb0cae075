@@ -140,6 +140,24 @@
       "parentUuid": "728fd5a8_02df8b12",
       "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b617126_d574ff14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-24T09:41:57Z",
+      "side": 1,
+      "message": "2) We can\u0027t rely on caches, because the are configurable and it is generally not guaranteed that they already contain a key/value pair.\n\nI suggest we pass down RevWalk and Config for the dynamic evaluation. It seems simple to do.\n\nAlso, passing ChangeKind seems like a one-off: ListOfFilesPredicate relies on the diff cache, so has the exact same problem. Hence, I\u0027d pass down RevWalks.\n\nNow, that brings me to the next question: How does the diff cache actually work when the Git transaction hasn\u0027t gone through yet? It doesn\u0027t accept RevWalk etc as parameters.\n\nThere is a problem with the ListOfFilesPredicate and the ChangeKindPredicate: These rely solely on caches as well. We don\u0027t have to fix that in this change, but need to look at it in the future.",
+      "parentUuid": "2e96eb4b_0af8c095",
+      "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

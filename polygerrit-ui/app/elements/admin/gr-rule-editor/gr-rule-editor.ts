@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import '../../../styles/gr-form-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-rule-editor_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {AccessPermissionId} from '../../../utils/access-util';
-import {property, customElement, observe} from '@polymer/decorators';
 import {fireEvent} from '../../../utils/event-util';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html, css} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
+import {BindValueChangeEvent} from '../../../types/events';
 
 /**
  * Fired when the rule has been modified or removed.
@@ -100,18 +100,14 @@ declare global {
 }
 
 @customElement('gr-rule-editor')
-export class GrRuleEditor extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrRuleEditor extends LitElement {
   @property({type: Boolean})
   hasRange?: boolean;
 
   @property({type: Object})
   label?: RuleLabel;
 
-  @property({type: Boolean, observer: '_handleEditingChanged'})
+  @property({type: Boolean})
   editing = false;
 
   @property({type: String})
@@ -124,97 +120,280 @@ export class GrRuleEditor extends PolymerElement {
   @property({type: String})
   permission!: AccessPermissionId;
 
-  @property({type: Object, notify: true})
+  @property({type: Object})
   rule?: Rule;
 
   @property({type: String})
   section?: string;
 
-  @property({type: Boolean})
-  _deleted = false;
+  // private but used in test
+  @state() deleted = false;
 
-  @property({type: Object})
-  _originalRuleValues?: RuleValue;
+  // private but used in test
+  @state() originalRuleValues?: RuleValue;
 
   constructor() {
     super();
-    this.addEventListener('access-saved', () => this._handleAccessSaved());
-  }
-
-  override ready() {
-    super.ready();
-    // Called on ready rather than the observer because when new rules are
-    // added, the observer is triggered prior to being ready.
-    if (!this.rule) {
-      return;
-    } // Check needed for test purposes.
-    this._setupValues(this.rule);
+    this.addEventListener('access-saved', () => this.handleAccessSaved());
   }
 
   override connectedCallback() {
     super.connectedCallback();
+    if (this.rule) {
+      this.setupValues();
+    }
     // Check needed for test purposes.
-    if (!this._originalRuleValues && this.rule) {
-      // Observer _handleValueChange is called after the ready()
-      // method finishes. Original values must be set later to
-      // avoid set .modified flag to true
-      this._setOriginalRuleValues(this.rule?.value);
+    if (!this.originalRuleValues && this.rule) {
+      this.setOriginalRuleValues();
     }
   }
 
-  _setupValues(rule?: Rule) {
-    if (!rule?.value) {
-      this._setDefaultRuleValues();
+  static override get styles() {
+    return [
+      formStyles,
+      sharedStyles,
+      css`
+        :host {
+          border-bottom: 1px solid var(--border-color);
+          padding: var(--spacing-m);
+          display: block;
+        }
+        #removeBtn {
+          display: none;
+        }
+        .editing #removeBtn {
+          display: flex;
+        }
+        #options {
+          align-items: baseline;
+          display: flex;
+        }
+        #options > * {
+          margin-right: var(--spacing-m);
+        }
+        #mainContainer {
+          align-items: baseline;
+          display: flex;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+        }
+        #deletedContainer.deleted {
+          align-items: baseline;
+          display: flex;
+          justify-content: space-between;
+        }
+        #undoBtn,
+        #force,
+        #deletedContainer,
+        #mainContainer.deleted {
+          display: none;
+        }
+        #undoBtn.modified,
+        #force.force {
+          display: block;
+        }
+        .groupPath {
+          color: var(--deemphasized-text-color);
+        }
+        iron-autogrow-textarea {
+          width: 14em;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <div
+        id="mainContainer"
+        class="gr-form-styles ${this.computeSectionClass()}"
+      >
+        <div id="options">
+          <gr-select
+            id="action"
+            .bindValue=${this.rule?.value?.action}
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              this.handleActionBindValueChanged(e);
+            }}
+          >
+            <select ?disabled=${!this.editing}>
+              ${this.computeOptions().map(
+                item => html` <option value=${item}>${item}</option> `
+              )}
+            </select>
+          </gr-select>
+          ${this.renderMinAndMaxLabel()} ${this.renderMinAndMaxInput()}
+          <a class="groupPath" href="${this.computeGroupPath(this.groupId)}">
+            ${this.groupName}
+          </a>
+          <gr-select
+            id="force"
+            class="${this.computeForce(this.rule?.value?.action)
+              ? 'force'
+              : ''}"
+            .bindValue=${this.rule?.value?.force}
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              this.handleForceBindValueChanged(e);
+            }}
+          >
+            <select ?disabled=${!this.editing}>
+              ${this.computeForceOptions(this.rule?.value?.action).map(
+                item => html`
+                  <option value=${item.value}>${item.value}</option>
+                `
+              )}
+            </select>
+          </gr-select>
+        </div>
+        <gr-button
+          link
+          id="removeBtn"
+          @click=${() => {
+            this.handleRemoveRule();
+          }}
+          >Remove</gr-button
+        >
+      </div>
+      <div
+        id="deletedContainer"
+        class="gr-form-styles ${this.computeSectionClass()}"
+      >
+        ${this.groupName} was deleted
+        <gr-button
+          link
+          id="undoRemoveBtn"
+          @click=${() => {
+            this.handleUndoRemove();
+          }}
+          >Undo</gr-button
+        >
+      </div>
+    `;
+  }
+
+  private renderMinAndMaxLabel() {
+    if (!this.label) return;
+
+    return html`
+      <gr-select
+        id="labelMin"
+        .bindValue=${this.rule?.value?.min}
+        @bind-value-changed=${(e: BindValueChangeEvent) => {
+          this.handleMinBindValueChanged(e);
+        }}
+      >
+        <select ?disabled=${!this.editing}>
+          ${this.label.values.map(
+            item => html` <option value=${item.value}>${item.value}</option> `
+          )}
+        </select>
+      </gr-select>
+      <gr-select
+        id="labelMax"
+        .bindValue=${this.rule?.value?.max}
+        @bind-value-changed=${(e: BindValueChangeEvent) => {
+          this.handleMaxBindValueChanged(e);
+        }}
+      >
+        <select ?disabled=${!this.editing}>
+          ${this.label.values.map(
+            item => html` <option value=${item.value}>${item.value}</option> `
+          )}
+        </select>
+      </gr-select>
+    `;
+  }
+
+  private renderMinAndMaxInput() {
+    if (!this.hasRange) return;
+
+    return html`
+      <iron-autogrow-textarea
+        id="minInput"
+        class="min"
+        autocomplete="on"
+        placeholder="Min value"
+        .bindValue=${this.rule?.value?.min}
+        ?disabled=${!this.editing}
+        @bind-value-changed=${(e: BindValueChangeEvent) => {
+          this.handleMinBindValueChanged(e);
+        }}
+      ></iron-autogrow-textarea>
+      <iron-autogrow-textarea
+        id="maxInput"
+        class="max"
+        autocomplete="on"
+        placeholder="Max value"
+        .bindValue=${this.rule?.value?.max}
+        ?disabled=${!this.editing}
+        @bind-value-changed=${(e: BindValueChangeEvent) => {
+          this.handleMaxBindValueChanged(e);
+        }}
+      ></iron-autogrow-textarea>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('editing')) {
+      this.handleEditingChanged(changedProperties.get('editing') as boolean);
     }
   }
 
-  _computeForce(permission: AccessPermissionId, action?: string) {
-    if (AccessPermissionId.PUSH === permission && action !== Action.DENY) {
+  // private but used in test
+  setupValues() {
+    if (!this.rule?.value) {
+      this.setDefaultRuleValues();
+    }
+  }
+
+  // private but used in test
+  computeForce(action?: string) {
+    if (AccessPermissionId.PUSH === this.permission && action !== Action.DENY) {
       return true;
     }
 
-    return AccessPermissionId.EDIT_TOPIC_NAME === permission;
+    return AccessPermissionId.EDIT_TOPIC_NAME === this.permission;
   }
 
-  _computeForceClass(permission: AccessPermissionId, action?: string) {
-    return this._computeForce(permission, action) ? 'force' : '';
+  // private but used in test
+  computeGroupPath(groupId?: string) {
+    if (!groupId) return;
+    return `${getBaseUrl()}/admin/groups/${encodeURL(groupId, true)}`;
   }
 
-  _computeGroupPath(group: string) {
-    return `${getBaseUrl()}/admin/groups/${encodeURL(group, true)}`;
-  }
-
-  _handleAccessSaved() {
-    if (!this.rule) return;
+  // private but used in test
+  handleAccessSaved() {
     // Set a new 'original' value to keep track of after the value has been
     // saved.
-    this._setOriginalRuleValues(this.rule.value);
+    this.setOriginalRuleValues();
   }
 
-  _handleEditingChanged(editing: boolean, editingOld: boolean) {
+  private handleEditingChanged(editingOld: boolean) {
     // Ignore when editing gets set initially.
     if (!editingOld) {
       return;
     }
     // Restore original values if no longer editing.
-    if (!editing) {
-      this._handleUndoChange();
+    if (!this.editing) {
+      this.handleUndoChange();
     }
   }
 
-  _computeSectionClass(editing: boolean, deleted: boolean) {
+  // private but used in test
+  computeSectionClass() {
     const classList = [];
-    if (editing) {
+    if (this.editing) {
       classList.push('editing');
     }
-    if (deleted) {
+    if (this.deleted) {
       classList.push('deleted');
     }
     return classList.join(' ');
   }
 
-  _computeForceOptions(permission: string, action?: string) {
-    if (permission === AccessPermissionId.PUSH) {
+  // private but used in test
+  computeForceOptions(action?: string) {
+    if (this.permission === AccessPermissionId.PUSH) {
       if (action === Action.ALLOW) {
         return ForcePushOptions.ALLOW;
       } else if (action === Action.BLOCK) {
@@ -222,83 +401,158 @@ export class GrRuleEditor extends PolymerElement {
       } else {
         return [];
       }
-    } else if (permission === AccessPermissionId.EDIT_TOPIC_NAME) {
+    } else if (this.permission === AccessPermissionId.EDIT_TOPIC_NAME) {
       return FORCE_EDIT_OPTIONS;
     }
     return [];
   }
 
-  _getDefaultRuleValues(permission: AccessPermissionId, label?: RuleLabel) {
+  // private but used in test
+  getDefaultRuleValues() {
     const ruleAction = Action.ALLOW;
     const value: RuleValue = {};
-    if (permission === AccessPermissionId.PRIORITY) {
+    if (this.permission === AccessPermissionId.PRIORITY) {
       value.action = PRIORITY_OPTIONS[0];
       return value;
-    } else if (label) {
-      value.min = label.values[0].value;
-      value.max = label.values[label.values.length - 1].value;
-    } else if (this._computeForce(permission, ruleAction)) {
-      value.force = this._computeForceOptions(permission, ruleAction)[0].value;
+    } else if (this.label) {
+      value.min = this.label.values[0].value;
+      value.max = this.label.values[this.label.values.length - 1].value;
+    } else if (this.computeForce(ruleAction)) {
+      value.force = this.computeForceOptions(ruleAction)[0].value;
     }
     value.action = DROPDOWN_OPTIONS[0];
     return value;
   }
 
-  _setDefaultRuleValues() {
-    this.set(
-      'rule.value',
-      this._getDefaultRuleValues(this.permission, this.label)
-    );
+  // private but used in test
+  setDefaultRuleValues() {
+    this.rule!.value = this.getDefaultRuleValues();
+
+    this.handleRuleChange();
   }
 
-  _computeOptions(permission: string) {
-    if (permission === 'priority') {
+  // private but used in test
+  computeOptions() {
+    if (this.permission === 'priority') {
       return PRIORITY_OPTIONS;
     }
     return DROPDOWN_OPTIONS;
   }
 
-  _handleRemoveRule() {
+  private handleRemoveRule() {
     if (!this.rule?.value) return;
     if (this.rule.value.added) {
       fireEvent(this, 'added-rule-removed');
     }
-    this._deleted = true;
+    this.deleted = true;
     this.rule.value.deleted = true;
+
+    this.handleRuleChange();
+
     fireEvent(this, 'access-modified');
   }
 
-  _handleUndoRemove() {
+  private handleUndoRemove() {
     if (!this.rule?.value) return;
-    this._deleted = false;
+    this.deleted = false;
     delete this.rule.value.deleted;
+
+    this.handleRuleChange();
   }
 
-  _handleUndoChange() {
+  private handleUndoChange() {
     if (!this.rule?.value) return;
     // gr-permission will take care of removing rules that were added but
     // unsaved. We need to keep the added bit for the filter.
     if (this.rule.value.added) {
       return;
     }
-    this.set('rule.value', {...this._originalRuleValues});
-    this._deleted = false;
+    this.rule.value = {...this.originalRuleValues};
+    this.deleted = false;
     delete this.rule.value.deleted;
     delete this.rule.value.modified;
+
+    this.handleRuleChange();
   }
 
-  @observe('rule.value.*')
-  _handleValueChange() {
-    if (!this._originalRuleValues || !this.rule?.value) {
+  // private but used in test
+  handleValueChange() {
+    if (!this.originalRuleValues || !this.rule?.value) {
       return;
     }
     this.rule.value.modified = true;
+
+    this.handleRuleChange();
+
     // Allows overall access page to know a change has been made.
     fireEvent(this, 'access-modified');
   }
 
-  _setOriginalRuleValues(value?: RuleValue) {
-    if (value === undefined) return;
-    this._originalRuleValues = {...value};
+  // private but used in test
+  setOriginalRuleValues() {
+    if (!this.rule?.value) return;
+    this.originalRuleValues = {...this.rule!.value};
+  }
+
+  private handleActionBindValueChanged(e: BindValueChangeEvent) {
+    if (
+      !this.rule?.value ||
+      e.detail.value === undefined ||
+      this.rule.value.action === String(e.detail.value)
+    )
+      return;
+
+    this.rule.value.action = String(e.detail.value);
+
+    this.handleValueChange();
+  }
+
+  private handleMinBindValueChanged(e: BindValueChangeEvent) {
+    if (
+      !this.rule?.value ||
+      e.detail.value === undefined ||
+      this.rule.value.min === Number(e.detail.value)
+    )
+      return;
+    this.rule.value.min = Number(e.detail.value);
+
+    this.handleValueChange();
+  }
+
+  private handleMaxBindValueChanged(e: BindValueChangeEvent) {
+    if (
+      !this.rule?.value ||
+      e.detail.value === undefined ||
+      this.rule.value.max === Number(e.detail.value)
+    )
+      return;
+    this.rule.value.max = Number(e.detail.value);
+
+    this.handleValueChange();
+  }
+
+  private handleForceBindValueChanged(e: BindValueChangeEvent) {
+    const forceValue = String(e.detail.value) === 'true' ? true : false;
+    if (
+      !this.rule?.value ||
+      e.detail.value === undefined ||
+      this.rule.value.force === forceValue
+    )
+      return;
+    this.rule.value.force = forceValue;
+
+    this.handleValueChange();
+  }
+
+  private handleRuleChange() {
+    this.requestUpdate('rule');
+
+    this.dispatchEvent(
+      new CustomEvent('rule-changed', {
+        detail: {value: this.rule},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 }

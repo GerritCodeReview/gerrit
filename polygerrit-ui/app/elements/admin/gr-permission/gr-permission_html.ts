@@ -115,9 +115,10 @@ export const htmlTemplate = html`
             group-id="[[rule.id]]"
             group-name="[[_computeGroupName(groups, rule.id)]]"
             permission="[[permission.id]]"
-            rule="{{rule}}"
+            rule="[[rule]]"
             section="[[section]]"
             on-added-rule-removed="_handleAddedRuleRemoved"
+            on-rule-changed="_handleRuleChanged"
           ></gr-rule-editor>
         </template>
         <div id="addRule">

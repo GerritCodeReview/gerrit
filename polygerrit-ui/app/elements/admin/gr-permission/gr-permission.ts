@@ -55,6 +55,7 @@ import {
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {getAppContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
+import {PolymerDomRepeatCustomEvent} from '../../../types/types';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
@@ -411,6 +412,19 @@ export class GrPermission extends PolymerElement {
    */
   _onTapExclusiveToggle(e: Event) {
     e.preventDefault();
+  }
+
+  _handleRuleChanged(e: PolymerDomRepeatCustomEvent) {
+    if (
+      this._rules === undefined ||
+      (e as CustomEvent).detail.value === undefined
+    )
+      return;
+    const index = Number(e.model.index);
+    if (isNaN(index)) {
+      return;
+    }
+    this.splice('_rules', index, (e as CustomEvent).detail.value);
   }
 }
 

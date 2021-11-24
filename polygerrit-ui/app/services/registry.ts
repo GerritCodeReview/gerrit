@@ -40,7 +40,9 @@ export function create<TContext>(
       for (const key of Object.getOwnPropertyNames(registry)) {
         const name = key as keyof TContext;
         try {
-          (this[name] as unknown as Finalizable).finalize();
+          if (this[name]) {
+            (this[name] as unknown as Finalizable).finalize();
+          }
         } catch (e) {
           console.info(`Failed to finalize ${name}`);
           throw e;

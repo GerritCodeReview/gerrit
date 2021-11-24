@@ -17,7 +17,10 @@
 
 import '../test/common-test-setup-karma.js';
 import {getAppContext} from '../services/app-context.js';
-import {initDiffAppContext} from './gr-diff-app-context-init.js';
+import {
+  initDiffAppContext,
+} from './gr-diff-app-context-init.js';
+
 suite('gr diff app context initializer tests', () => {
   setup(() => {
     initDiffAppContext();

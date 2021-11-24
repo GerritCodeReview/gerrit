@@ -16,6 +16,24 @@
       "message": "wouldn\u0027t it be more practical to add a contrib/WORKSPACE.outoftree or something?",
       "revId": "614ff76dd44e6a57a513d3feabdf4044125b4ebf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5997a9d9_d22d8fd2",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011722
+      },
+      "writtenOn": "2021-11-24T18:33:28Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure what you mean by this. I\u0027m not aware (doesn\u0027t mean it doesn\u0027t exist, just that I\u0027m not aware) of a way to import a remote WORKSPACE file into your local one. If that\u0027s what you mean, could you point me to documentation on it to help educate me?\n\nIf you had something else in mind, can you provide a little more context so I can better answer your question?",
+      "parentUuid": "edfbb324_e496cfed",
+      "revId": "614ff76dd44e6a57a513d3feabdf4044125b4ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

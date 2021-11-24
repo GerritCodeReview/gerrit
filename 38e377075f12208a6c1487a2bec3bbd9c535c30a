@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22afd7a5_8bcee517",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-24T16:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aad778d_1221a162",
+      "range": {
+        "startLine": 352,
+        "startChar": 42,
+        "endLine": 352,
+        "endChar": 45
+      },
+      "revId": "38e377075f12208a6c1487a2bec3bbd9c535c30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39a28ec4_0c57035e",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49cb55c4_3fc4f7f8",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-24T16:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39a28ec4_0c57035e",
+      "range": {
+        "startLine": 305,
+        "startChar": 69,
+        "endLine": 305,
+        "endChar": 70
+      },
+      "revId": "38e377075f12208a6c1487a2bec3bbd9c535c30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63b8e78a_77881e3e",
@@ -77,6 +125,30 @@
       "writtenOn": "2021-11-24T09:41:57Z",
       "side": 1,
       "message": "Pass down a RevWalk and Config here",
+      "range": {
+        "startLine": 351,
+        "startChar": 70,
+        "endLine": 351,
+        "endChar": 71
+      },
+      "revId": "38e377075f12208a6c1487a2bec3bbd9c535c30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5906c82e_bd28eaf3",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-24T16:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63b8e78a_77881e3e",
       "range": {
         "startLine": 351,
         "startChar": 70,

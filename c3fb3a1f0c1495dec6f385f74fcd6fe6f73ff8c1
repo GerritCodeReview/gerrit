@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b1f787a_7f6ccb67",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T11:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb7c35c4_aa0e7315",
+      "range": {
+        "startLine": 241,
+        "startChar": 5,
+        "endLine": 241,
+        "endChar": 65
+      },
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df5bfc52_ed92bc33",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-11-24T10:30:12Z",
       "side": 1,
       "message": "Set to the content of DraftInfo when entering editing mode.\n\nflows much better.",
+      "range": {
+        "startLine": 248,
+        "startChar": 14,
+        "endLine": 248,
+        "endChar": 64
+      },
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34233cb1_0211615c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T11:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df5bfc52_ed92bc33",
       "range": {
         "startLine": 248,
         "startChar": 14,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58c6eb3c_86970ad5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T11:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b608e74_5be4c19b",
+      "range": {
+        "startLine": 254,
+        "startChar": 5,
+        "endLine": 254,
+        "endChar": 35
+      },
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1006ab82_969a1ada",
@@ -100,6 +172,30 @@
       "writtenOn": "2021-11-24T10:30:12Z",
       "side": 1,
       "message": "do we need to consider canceling any other autoSave tasks that might be ongoing at this point due to the text the user typed?",
+      "range": {
+        "startLine": 1039,
+        "startChar": 2,
+        "endLine": 1039,
+        "endChar": 12
+      },
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84213242_263bb63e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T11:47:10Z",
+      "side": 1,
+      "message": "save() waits for autoSave() to complete, so I would say we are fine here.",
+      "parentUuid": "1006ab82_969a1ada",
       "range": {
         "startLine": 1039,
         "startChar": 2,
@@ -135,6 +231,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ea51a72_b3600437",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T11:47:10Z",
+      "side": 1,
+      "message": "If you can see why not saving on extra whitespaces is useful, then maybe let\u0027s find a weird case? I cannot come up with one.",
+      "parentUuid": "08b5d7a0_22cb511c",
+      "range": {
+        "startLine": 1054,
+        "startChar": 8,
+        "endLine": 1054,
+        "endChar": 64
+      },
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b3e8c791_a07035c1",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 2
@@ -146,6 +266,24 @@
       "writtenOn": "2021-11-24T10:15:27Z",
       "side": 1,
       "message": "Why compare the trim? This will not save on whitespace changes.",
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d639d4_0c198e3f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T11:47:10Z",
+      "side": 1,
+      "message": "Why would you want to save whitespace changes?",
+      "parentUuid": "b3e8c791_a07035c1",
       "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

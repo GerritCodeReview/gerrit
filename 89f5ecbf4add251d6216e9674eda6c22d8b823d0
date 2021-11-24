@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afecceaa_b94ada12",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T12:46:57Z",
+      "side": 1,
+      "message": "autoSave() does not have a return value and I don\u0027t see a need for it.",
+      "parentUuid": "96e37167_cf59384c",
+      "revId": "89f5ecbf4add251d6216e9674eda6c22d8b823d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00bdcb90_b9f1a43e",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-11-24T11:58:27Z",
       "side": 1,
       "message": "this.autoSaving \u003d this.saveInternal();  // Notice no await\nthis.autoSaving.then(() \u003d\u003e this.autoSaving \u003d undefined);\nreturn this.autoSaving;",
+      "revId": "89f5ecbf4add251d6216e9674eda6c22d8b823d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ecc4ee7_ea312855",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T12:46:57Z",
+      "side": 1,
+      "message": "We don\u0027t need to return anything, but I have done it similarly.",
+      "parentUuid": "00bdcb90_b9f1a43e",
       "revId": "89f5ecbf4add251d6216e9674eda6c22d8b823d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -82,6 +118,42 @@
       "writtenOn": "2021-11-24T11:58:27Z",
       "side": 1,
       "message": "This could be cleaner if autoSaving was a promise.\n\nif (this.autoSaving) {\n  return this.autoSaving.then(() \u003d\u003e this.save());\n}",
+      "revId": "89f5ecbf4add251d6216e9674eda6c22d8b823d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a5a2883_3f550281",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T12:46:57Z",
+      "side": 1,
+      "message": "Because the user wants the visual feedback right away.",
+      "parentUuid": "2d39a3db_a4923c60",
+      "revId": "89f5ecbf4add251d6216e9674eda6c22d8b823d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d74acb3_4aeeb690",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T12:46:57Z",
+      "side": 1,
+      "message": "Cool, good idea. Slightly different implementation chosen.",
+      "parentUuid": "ae293f83_b32d8ab5",
       "revId": "89f5ecbf4add251d6216e9674eda6c22d8b823d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

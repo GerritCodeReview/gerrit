@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "151b94f5_bb2bc2bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T15:48:36Z",
+      "side": 1,
+      "message": "I would like to push back on this proposal, because:\n\n1. It is not directly related to submit requirements.\n2. We should align the colors with other review tools. Using green for \"merged\" in Gerrit and for \"ready to submit\" in other review tools is super confusing.\n3. The color for \"merged\" is too similar to the color that we use for when the change is in editing mode.\n4. We should generally think about a color theme, not just for \"ready to submit\", but also for all other states. Maybe we should also change the chips and their colors. Maybe we also want to change the metadata background? Overall a larger change that might need some more dedicated discussion and design.\n\nWDYT?",
+      "revId": "a8bb96457b3be3cdcd5532c165f018ece292b0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

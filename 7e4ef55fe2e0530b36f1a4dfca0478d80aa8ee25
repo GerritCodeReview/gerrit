@@ -22,6 +22,30 @@
       },
       "revId": "7e4ef55fe2e0530b36f1a4dfca0478d80aa8ee25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5c045b4_9d44f2de",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T21:50:27Z",
+      "side": 0,
+      "message": "Yeah, that is the advantage of wrapping the observables. You have to go through the class, so it must be instantiated and these awkward workarounds are not needed anymore. :-)",
+      "parentUuid": "af50d58d_f004f50e",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 0
+      },
+      "revId": "7e4ef55fe2e0530b36f1a4dfca0478d80aa8ee25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

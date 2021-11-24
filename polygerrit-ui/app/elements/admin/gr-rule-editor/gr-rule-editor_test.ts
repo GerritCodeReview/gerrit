@@ -29,8 +29,9 @@ const basicFixture = fixtureFromElement('gr-rule-editor');
 suite('gr-rule-editor tests', () => {
   let element: GrRuleEditor;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
   suite('unit tests', () => {
@@ -153,13 +154,13 @@ suite('gr-rule-editor tests', () => {
       assert.equal(element.rule!.value, defaultValue);
     });
 
-    test('_computeOptions', () => {
+    test('computeOptions', () => {
       const PRIORITY_OPTIONS = ['BATCH', 'INTERACTIVE'];
       const DROPDOWN_OPTIONS = ['ALLOW', 'DENY', 'BLOCK'];
-      let permission = 'priority';
-      assert.deepEqual(element._computeOptions(permission), PRIORITY_OPTIONS);
-      permission = 'submit';
-      assert.deepEqual(element._computeOptions(permission), DROPDOWN_OPTIONS);
+      element.permission = 'priority' as AccessPermissionId;
+      assert.deepEqual(element.computeOptions(), PRIORITY_OPTIONS);
+      element.permission = 'submit' as AccessPermissionId;
+      assert.deepEqual(element.computeOptions(), DROPDOWN_OPTIONS);
     });
 
     test('_handleValueChange', () => {
@@ -208,7 +209,7 @@ suite('gr-rule-editor tests', () => {
       // Typically called on ready since elements will have properties defined
       // by the parent element.
       element._setupValues(element.rule);
-      await flush();
+      await element.updateComplete;
       element.connectedCallback();
     });
 
@@ -228,8 +229,9 @@ suite('gr-rule-editor tests', () => {
       );
     });
 
-    test('modify and cancel restores original values', () => {
+    test('modify and cancel restores original values', async () => {
       element.editing = true;
+      await element.updateComplete;
       assert.notEqual(
         getComputedStyle(queryAndAssert<GrButton>(element, '#removeBtn'))
           .display,
@@ -240,6 +242,7 @@ suite('gr-rule-editor tests', () => {
       actionBindValue.bindValue = 'DENY';
       assert.isTrue(element.rule!.value!.modified);
       element.editing = false;
+      await element.updateComplete;
       assert.equal(
         getComputedStyle(queryAndAssert<GrButton>(element, '#removeBtn'))
           .display,
@@ -253,11 +256,11 @@ suite('gr-rule-editor tests', () => {
       assert.isNotOk(element.rule!.value!.modified);
     });
 
-    test('modify value', () => {
+    test('modify value', async () => {
       assert.isNotOk(element.rule!.value!.modified);
       const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
       actionBindValue.bindValue = 'DENY';
-      flush();
+      await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
       // The original value should now differ from the rule values.
@@ -361,9 +364,9 @@ suite('gr-rule-editor tests', () => {
       element.rule = {};
       element.section = 'refs/*';
       element._setupValues(element.rule!);
-      await flush();
+      await element.updateComplete;
       element.rule!.value!.added = true;
-      await flush();
+      await element.updateComplete;
       element.connectedCallback();
     });
 
@@ -389,23 +392,23 @@ suite('gr-rule-editor tests', () => {
       });
     });
 
-    test('modify value', () => {
+    test('modify value', async () => {
       assert.isNotOk(element.rule!.value!.modified);
       const forceBindValue = queryAndAssert<GrSelect>(element, '#force');
       forceBindValue.bindValue = true;
-      flush();
+      await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
       // The original value should now differ from the rule values.
       assert.notDeepEqual(element._originalRuleValues, element.rule!.value);
     });
 
-    test('remove value', () => {
+    test('remove value', async () => {
       element.editing = true;
       const removeStub = sinon.stub();
       element.addEventListener('added-rule-removed', removeStub);
       MockInteractions.tap(queryAndAssert<GrButton>(element, '#removeBtn'));
-      flush();
+      await element.updateComplete;
       assert.isTrue(removeStub.called);
     });
   });
@@ -433,7 +436,7 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      await flush();
+      await element.updateComplete;
       element.connectedCallback();
     });
 
@@ -459,13 +462,13 @@ suite('gr-rule-editor tests', () => {
       );
     });
 
-    test('modify value', () => {
+    test('modify value', async () => {
       const removeStub = sinon.stub();
       element.addEventListener('added-rule-removed', removeStub);
       assert.isNotOk(element.rule!.value!.modified);
       const labelMinBindValue = queryAndAssert<GrSelect>(element, '#labelMin');
       labelMinBindValue.bindValue = 1;
-      flush();
+      await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
       assert.isFalse(removeStub.called);
 
@@ -493,9 +496,9 @@ suite('gr-rule-editor tests', () => {
       element.rule = {};
       element.section = 'refs/*';
       element._setupValues(element.rule!);
-      await flush();
+      await element.updateComplete;
       element.rule!.value!.added = true;
-      await flush();
+      await element.updateComplete;
       element.connectedCallback();
     });
 
@@ -528,11 +531,11 @@ suite('gr-rule-editor tests', () => {
       });
     });
 
-    test('modify value', () => {
+    test('modify value', async () => {
       assert.isNotOk(element.rule!.value!.modified);
       const labelMinBindValue = queryAndAssert<GrSelect>(element, '#labelMin');
       labelMinBindValue.bindValue = 1;
-      flush();
+      await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
       // The original value should now differ from the rule values.
@@ -552,102 +555,7 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule!);
-      await flush();
-      element.connectedCallback();
-    });
-
-    test('_ruleValues and _originalRuleValues are set correctly', () => {
-      assert.deepEqual(element._originalRuleValues, element.rule!.value);
-    });
-
-    test('values are set correctly', () => {
-      assert.isTrue(
-        queryAndAssert<GrSelect>(element, '#force').classList.contains('force')
-      );
-      assert.equal(
-        queryAndAssert<GrSelect>(element, '#action').bindValue,
-        element.rule!.value!.action
-      );
-      assert.equal(
-        queryAndAssert<GrSelect>(element, '#force').bindValue,
-        element.rule!.value!.force
-      );
-      assert.isNotOk(query<GrSelect>(element, '#labelMin'));
-      assert.isNotOk(query<GrSelect>(element, '#labelMax'));
-    });
-
-    test('modify value', () => {
-      assert.isNotOk(element.rule!.value!.modified);
-      const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
-      actionBindValue.bindValue = false;
-      flush();
-      assert.isTrue(element.rule!.value!.modified);
-
-      // The original value should now differ from the rule values.
-      assert.notDeepEqual(element._originalRuleValues, element.rule!.value);
-    });
-  });
-
-  suite('new push rule', () => {
-    setup(async () => {
-      element.groupName = 'Group Name';
-      element.permission = 'push' as AccessPermissionId;
-      element.rule = {};
-      element.section = 'refs/*';
-      element._setupValues(element.rule!);
-      await flush();
-      element.rule!.value!.added = true;
-      await flush();
-      element.connectedCallback();
-    });
-
-    test('_ruleValues and _originalRuleValues are set correctly', () => {
-      // Since the element does not already have default values, they should
-      // be set. The original values should be set to those too.
-      assert.isNotOk(element.rule!.value!.modified);
-      const expectedRuleValue = {
-        action: 'ALLOW',
-        force: false,
-        added: true,
-      };
-      assert.deepEqual(element.rule!.value, expectedRuleValue);
-      test('values are set correctly', () => {
-        assert.equal(
-          queryAndAssert<GrSelect>(element, '#action').bindValue,
-          expectedRuleValue.action
-        );
-        assert.equal(
-          queryAndAssert<GrSelect>(element, '#force').bindValue,
-          expectedRuleValue.action
-        );
-      });
-    });
-
-    test('modify value', () => {
-      assert.isNotOk(element.rule!.value!.modified);
-      const forceBindValue = queryAndAssert<GrSelect>(element, '#force');
-      forceBindValue.bindValue = true;
-      flush();
-      assert.isTrue(element.rule!.value!.modified);
-
-      // The original value should now differ from the rule values.
-      assert.notDeepEqual(element._originalRuleValues, element.rule!.value);
-    });
-  });
-
-  suite('already existing edit rule', () => {
-    setup(async () => {
-      element.groupName = 'Group Name';
-      element.permission = 'editTopicName' as AccessPermissionId;
-      element.rule = {
-        value: {
-          action: 'ALLOW',
-          force: true,
-        },
-      };
-      element.section = 'refs/*';
-      element._setupValues(element.rule);
-      await flush();
+      await element.updateComplete;
       element.connectedCallback();
     });
 
@@ -675,7 +583,102 @@ suite('gr-rule-editor tests', () => {
       assert.isNotOk(element.rule!.value!.modified);
       const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
       actionBindValue.bindValue = false;
-      await flush();
+      await element.updateComplete;
+      assert.isTrue(element.rule!.value!.modified);
+
+      // The original value should now differ from the rule values.
+      assert.notDeepEqual(element._originalRuleValues, element.rule!.value);
+    });
+  });
+
+  suite('new push rule', async () => {
+    setup(async () => {
+      element.groupName = 'Group Name';
+      element.permission = 'push' as AccessPermissionId;
+      element.rule = {};
+      element.section = 'refs/*';
+      element._setupValues(element.rule!);
+      await element.updateComplete;
+      element.rule!.value!.added = true;
+      await element.updateComplete;
+      element.connectedCallback();
+    });
+
+    test('_ruleValues and _originalRuleValues are set correctly', () => {
+      // Since the element does not already have default values, they should
+      // be set. The original values should be set to those too.
+      assert.isNotOk(element.rule!.value!.modified);
+      const expectedRuleValue = {
+        action: 'ALLOW',
+        force: false,
+        added: true,
+      };
+      assert.deepEqual(element.rule!.value, expectedRuleValue);
+      test('values are set correctly', () => {
+        assert.equal(
+          queryAndAssert<GrSelect>(element, '#action').bindValue,
+          expectedRuleValue.action
+        );
+        assert.equal(
+          queryAndAssert<GrSelect>(element, '#force').bindValue,
+          expectedRuleValue.action
+        );
+      });
+    });
+
+    test('modify value', async () => {
+      assert.isNotOk(element.rule!.value!.modified);
+      const forceBindValue = queryAndAssert<GrSelect>(element, '#force');
+      forceBindValue.bindValue = true;
+      await element.updateComplete;
+      assert.isTrue(element.rule!.value!.modified);
+
+      // The original value should now differ from the rule values.
+      assert.notDeepEqual(element._originalRuleValues, element.rule!.value);
+    });
+  });
+
+  suite('already existing edit rule', () => {
+    setup(async () => {
+      element.groupName = 'Group Name';
+      element.permission = 'editTopicName' as AccessPermissionId;
+      element.rule = {
+        value: {
+          action: 'ALLOW',
+          force: true,
+        },
+      };
+      element.section = 'refs/*';
+      element._setupValues(element.rule);
+      await element.updateComplete;
+      element.connectedCallback();
+    });
+
+    test('_ruleValues and _originalRuleValues are set correctly', () => {
+      assert.deepEqual(element._originalRuleValues, element.rule!.value);
+    });
+
+    test('values are set correctly', () => {
+      assert.isTrue(
+        queryAndAssert<GrSelect>(element, '#force').classList.contains('force')
+      );
+      assert.equal(
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
+        element.rule!.value!.action
+      );
+      assert.equal(
+        queryAndAssert<GrSelect>(element, '#force').bindValue,
+        element.rule!.value!.force
+      );
+      assert.isNotOk(query<GrSelect>(element, '#labelMin'));
+      assert.isNotOk(query<GrSelect>(element, '#labelMax'));
+    });
+
+    test('modify value', async () => {
+      assert.isNotOk(element.rule!.value!.modified);
+      const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
+      actionBindValue.bindValue = false;
+      await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
       // The original value should now differ from the rule values.

@@ -412,9 +412,17 @@ export class GrPermission extends PolymerElement {
   _onTapExclusiveToggle(e: Event) {
     e.preventDefault();
   }
+
+  _handleRuleChanged(e: CustomEvent) {
+    if (!e.detail.value) return;
+    this._rules = {...this._rules, ...e.detail.value};
+  }
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'rule-changed': CustomEvent;
+  }
   interface HTMLElementTagNameMap {
     'gr-permission': GrPermission;
   }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af50d58d_f004f50e",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-24T16:54:21Z",
+      "side": 0,
+      "message": "@Ben: seems like this is not true anymore, since it is used in gr-main-header, gr-checks-results, and gr-create-change-dialog, so I will remove it.",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 0
+      },
+      "revId": "7e4ef55fe2e0530b36f1a4dfca0478d80aa8ee25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

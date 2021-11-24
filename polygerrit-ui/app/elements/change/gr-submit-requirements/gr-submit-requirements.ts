@@ -18,6 +18,7 @@ import '../../shared/gr-label-info/gr-label-info';
 import '../gr-submit-requirement-hovercard/gr-submit-requirement-hovercard';
 import '../gr-trigger-vote-hovercard/gr-trigger-vote-hovercard';
 import '../gr-change-summary/gr-change-summary';
+import '../../shared/gr-limited-text/gr-limited-text';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {notUndefined, ParsedChangeInfo} from '../../../types/types';

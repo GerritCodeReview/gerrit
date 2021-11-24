@@ -136,6 +136,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b3c5d06_9c620280",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T18:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bc124b5_474394a9",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 45
+      },
+      "revId": "b3a43b7ef9fd3b58296e6d223d16910fb606ab93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93a59c50_93381e68",
@@ -173,6 +197,30 @@
       "side": 1,
       "message": "These are all lazy-loaded only when something asks for it.\n\ninitDiffAppContext didn\u0027t initialize appContext because before this was done statically.\n\nSo my assumption is that all properties that were not overwritten were the original ones.",
       "parentUuid": "93a59c50_93381e68",
+      "range": {
+        "startLine": 90,
+        "startChar": 17,
+        "endLine": 90,
+        "endChar": 35
+      },
+      "revId": "b3a43b7ef9fd3b58296e6d223d16910fb606ab93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06263889_3d5b8655",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T18:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95e69a46_60ef3a63",
       "range": {
         "startLine": 90,
         "startChar": 17,

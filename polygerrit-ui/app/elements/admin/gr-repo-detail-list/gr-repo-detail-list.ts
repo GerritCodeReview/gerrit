@@ -54,11 +54,12 @@ const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
 @customElement('gr-repo-detail-list')
 export class GrRepoDetailList extends LitElement {
-  @query('#overlay') private overlay?: GrOverlay;
+  @query('#overlay') private readonly overlay?: GrOverlay;
 
-  @query('#createOverlay') private createOverlay?: GrOverlay;
+  @query('#createOverlay') private readonly createOverlay?: GrOverlay;
 
-  @query('#createNewModal') private createNewModal?: GrCreatePointerDialog;
+  @query('#createNewModal')
+  private readonly createNewModal?: GrCreatePointerDialog;
 
   @property({type: Object})
   params?: AppElementRepoParams;
@@ -79,7 +80,7 @@ export class GrRepoDetailList extends LitElement {
   // private but used in test
   @state() items?: BranchInfo[] | TagInfo[];
 
-  @state() private itemsPerPage = 25;
+  @state() private readonly itemsPerPage = 25;
 
   @state() private loading = true;
 
@@ -159,7 +160,9 @@ export class GrRepoDetailList extends LitElement {
         .loading=${this.loading}
         .offset=${this.offset}
         .path=${this.getPath(this.repo, this.detailType)}
-        @create-clicked=${() => this.handleCreateClicked()}
+        @create-clicked=${() => {
+          this.handleCreateClicked();
+        }}
       >
         <table id="list" class="genericList gr-form-styles">
           <tbody>
@@ -204,7 +207,9 @@ export class GrRepoDetailList extends LitElement {
             .item=${this.refName}
             .itemTypeName=${this.computeItemName(this.detailType)}
             @confirm=${() => this.handleDeleteItemConfirm()}
-            @cancel=${() => this.handleConfirmDialogCancel()}
+            @cancel=${() => {
+              this.handleConfirmDialogCancel();
+            }}
           ></gr-confirm-delete-item-dialog>
         </gr-overlay>
       </gr-list-view>
@@ -213,8 +218,12 @@ export class GrRepoDetailList extends LitElement {
           id="createDialog"
           ?disabled=${!this.newItemName}
           confirm-label="Create"
-          @confirm=${() => this.handleCreateItem()}
-          @cancel=${() => this.handleCloseCreate()}
+          @confirm=${() => {
+            this.handleCreateItem();
+          }}
+          @cancel=${() => {
+            this.handleCloseCreate();
+          }}
         >
           <div class="header" slot="header">
             Create ${this.computeItemName(this.detailType)}
@@ -225,7 +234,9 @@ export class GrRepoDetailList extends LitElement {
               .detailType=${this.computeItemName(this.detailType)}
               .itemDetail=${this.detailType}
               .repoName=${this.repo}
-              @update-item-name=${() => this.handleUpdateItemName()}
+              @update-item-name=${() => {
+                this.handleUpdateItemName();
+              }}
             ></gr-create-pointer-dialog>
           </div>
         </gr-dialog>
@@ -255,7 +266,9 @@ export class GrRepoDetailList extends LitElement {
               class="editBtn"
               link
               data-index=${index}
-              @click=${() => this.handleEditRevision(index)}
+              @click=${() => {
+                this.handleEditRevision(index);
+              }}
             >
               edit
             </gr-button>
@@ -269,7 +282,9 @@ export class GrRepoDetailList extends LitElement {
             <gr-button
               class="cancelBtn editItem"
               link
-              @click=${() => this.handleCancelRevision()}
+              @click=${() => {
+                this.handleCancelRevision();
+              }}
             >
               Cancel
             </gr-button>
@@ -278,7 +293,9 @@ export class GrRepoDetailList extends LitElement {
               link
               data-index=${index}
               ?disabled=${!this.revisedRef}
-              @click=${() => this.handleSaveRevision(index)}
+              @click=${() => {
+                this.handleSaveRevision(index);
+              }}
             >
               Save
             </gr-button>
@@ -310,7 +327,9 @@ export class GrRepoDetailList extends LitElement {
               : ''}"
             link
             data-index=${index}
-            @click=${() => this.handleDeleteItem(index)}
+            @click=${() => {
+              this.handleDeleteItem(index);
+            }}
           >
             Delete
           </gr-button>
@@ -500,7 +519,7 @@ export class GrRepoDetailList extends LitElement {
     return this.restApiService.setRepoHead(repo, ref).then(res => {
       if (res.status < 400) {
         this.isEditing = false;
-        this.items![index].revision = ref as GitRef;
+        this.items![index].revision = ref;
         // This is needed to refresh 'items' property with fresh data,
         // specifically can_delete from the json response.
         this.getItems(

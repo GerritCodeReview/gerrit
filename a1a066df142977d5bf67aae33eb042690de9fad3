@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "313ba5c8_86a441ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-24T09:37:28Z",
+      "side": 0,
+      "message": "Implemented auto-saving.",
+      "parentUuid": "d7550d83_13f09ff5",
+      "revId": "a1a066df142977d5bf67aae33eb042690de9fad3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "989ef151_9062808f",

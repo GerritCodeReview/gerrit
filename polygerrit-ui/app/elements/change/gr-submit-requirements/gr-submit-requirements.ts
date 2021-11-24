@@ -221,6 +221,7 @@ export class GrSubmitRequirements extends LitElement {
               .value=${requirement}
             ></gr-endpoint-param>
             ${this.renderVotes(requirement)}${this.renderChecks(requirement)}
+            ${this.renderOverrideLabels(requirement)}
           </gr-endpoint-decorator>
         </td>
       </tr>
@@ -309,6 +310,16 @@ export class GrSubmitRequirements extends LitElement {
       ></gr-checks-chip>`;
     }
     return;
+  }
+
+  renderOverrideLabels(requirement: SubmitRequirementResultInfo) {
+    const requirementLabels = extractAssociatedLabels(
+      requirement,
+      'onlyOverride'
+    );
+    return requirementLabels.map(
+      label => html`<span class="overrideLabel">${label}</span>`
+    );
   }
 
   renderTriggerVotes() {

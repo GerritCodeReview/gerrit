@@ -143,7 +143,6 @@ public class ChangeRestApiModule extends RestApiModule {
     get(REVISION_KIND, "related").to(GetRelated.class);
     get(REVISION_KIND, "review").to(GetReview.class);
     post(REVISION_KIND, "review").to(PostReview.class);
-    get(REVISION_KIND, "preview_submit").to(PreviewSubmit.class);
     post(REVISION_KIND, "submit").to(Submit.class);
     post(REVISION_KIND, "rebase").to(Rebase.class);
     put(REVISION_KIND, "description").to(PutDescription.class);

@@ -80,7 +80,9 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("Failed to submit 1 change due to the following problems");
-    assertThat(thrown).hasMessageThat().contains("needs Is-Pure-Revert");
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("submit requirement 'Is-Pure-Revert' is unsatisfied.");
   }
 
   @Test
@@ -101,7 +103,9 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("Failed to submit 1 change due to the following problems");
-    assertThat(thrown).hasMessageThat().contains("needs Is-Pure-Revert");
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("submit requirement 'Is-Pure-Revert' is unsatisfied.");
   }
 
   @Test

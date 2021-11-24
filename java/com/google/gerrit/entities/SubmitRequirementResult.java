@@ -81,6 +81,8 @@ public abstract class SubmitRequirementResult {
     return new AutoValue_SubmitRequirementResult.Builder();
   }
 
+  public abstract Builder toBuilder();
+
   public static TypeAdapter<SubmitRequirementResult> typeAdapter(Gson gson) {
     return new AutoValue_SubmitRequirementResult.GsonTypeAdapter(gson);
   }

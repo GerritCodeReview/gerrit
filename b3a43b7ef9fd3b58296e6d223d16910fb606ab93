@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb80297d_dd74ca6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-24T13:44:39Z",
+      "side": 1,
+      "message": "If it helps unblock import, I am ok with it.",
+      "revId": "b3a43b7ef9fd3b58296e6d223d16910fb606ab93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de4b7f98_fe46b824",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-24T13:44:39Z",
+      "side": 1,
+      "message": "Does diff know how to import all of these? Are they in BUILD?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "b3a43b7ef9fd3b58296e6d223d16910fb606ab93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d48f487_9281ffae",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-24T13:44:39Z",
+      "side": 1,
+      "message": "Do we need this synchronized with app-context-init? If someone adds service in app-context-init, will diff-app-context break? If yes, can we make unit-test or at least comment about it?",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 45
+      },
+      "revId": "b3a43b7ef9fd3b58296e6d223d16910fb606ab93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93a59c50_93381e68",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-24T13:44:39Z",
+      "side": 1,
+      "message": "I assume that we exposed restApi interface before as well?",
+      "range": {
+        "startLine": 90,
+        "startChar": 17,
+        "endLine": 90,
+        "endChar": 35
+      },
+      "revId": "b3a43b7ef9fd3b58296e6d223d16910fb606ab93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

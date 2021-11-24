@@ -158,6 +158,24 @@
       "parentUuid": "2e96eb4b_0af8c095",
       "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76d46642_f047ed7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-24T12:06:16Z",
+      "side": 1,
+      "message": "\u003e Now, that brings me to the next question: How does the diff cache actually work when the Git transaction hasn\u0027t gone through yet? It doesn\u0027t accept RevWalk etc as parameters.\n\n@ghareeb for the diff cache question :-)\n\nWDYT about just using ChangeKind and passing it further to ListOfFilesPredicate as well? It\u0027s basically the same as passing RevWalk, but imo it\u0027s a bit cleaner.",
+      "parentUuid": "9b617126_d574ff14",
+      "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

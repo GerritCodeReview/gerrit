@@ -185,7 +185,7 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
         .get(ListChangesOption.ALL_REVISIONS, ListChangesOption.CURRENT_ACTIONS);
 
     // Submit rules are computed freshly, but only once.
-    assertThat(rule.numberOfEvaluations.get()).isEqualTo(1);
+    assertThat(rule.numberOfEvaluations.get()).isEqualTo(2);
   }
 
   @Test

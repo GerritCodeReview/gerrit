@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ee242f6_02c4aeff",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T22:30:46Z",
+      "side": 1,
+      "message": "|| !this.rule.value",
+      "revId": "fda6f89f7385ec754af3f375ef29ce1b6e392efb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79e647c7_63034d05",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T22:30:46Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need these exclamation marks once you add the extra condition to the if.",
+      "revId": "fda6f89f7385ec754af3f375ef29ce1b6e392efb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72f328e3_0e0365b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T22:30:46Z",
+      "side": 1,
+      "message": "|| !this.rule.value",
+      "revId": "fda6f89f7385ec754af3f375ef29ce1b6e392efb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebfa4ba5_ed346896",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T22:30:46Z",
+      "side": 1,
+      "message": "|| !this.rule.value",
+      "revId": "fda6f89f7385ec754af3f375ef29ce1b6e392efb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3c78987_289f10df",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T22:30:46Z",
+      "side": 1,
+      "message": "|| !this.rule.value",
+      "revId": "fda6f89f7385ec754af3f375ef29ce1b6e392efb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

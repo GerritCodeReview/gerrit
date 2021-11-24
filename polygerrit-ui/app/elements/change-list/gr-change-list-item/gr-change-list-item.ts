@@ -45,7 +45,7 @@ import {
 import {assertNever, hasOwnProperty} from '../../../utils/common-util';
 import {pluralize} from '../../../utils/string-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {getRequirements, iconForStatus} from '../../../utils/label-util';
+import {getRequirements, iconForStatus, StandardLabels} from '../../../utils/label-util';
 import {SubmitRequirementStatus} from '../../../api/rest-api';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -512,6 +512,7 @@ export class GrChangeListItem extends LitElement {
         class="${this.computeLabelClass(labelName)}"
       >
         ${this.renderChangeHasLabelIcon(labelName)}
+        ${this.renderCommentsInfoWithLabel(labelName)}
       </td>
     `;
   }
@@ -523,6 +524,13 @@ export class GrChangeListItem extends LitElement {
     return html`
       <iron-icon icon=${this.computeLabelIcon(labelName)}></iron-icon>
     `;
+  }
+
+  private renderCommentsInfoWithLabel(labelName: string) {
+    if (!this.isSubmitRequirementsUiEnabled) return;
+    if (labelName !== StandardLabels.CODE_REVIEW) return;
+    if (!this.change?.unresolved_comment_count) return;
+    return html`<iron-icon icon="gr-icons:comment"></iron-icon>`;
   }
 
   private renderChangePluginEndpoint(pluginEndpointName: string) {

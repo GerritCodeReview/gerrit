@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d765761_4a8b3a40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T13:42:19Z",
+      "side": 1,
+      "message": "Just some minor nits 😊",
+      "revId": "82da78aa6a400c8f3d4ab1094df6265aa35a70f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a345ee0_8c9b7e17",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T13:42:19Z",
+      "side": 1,
+      "message": "Define constant at top.\n3s also seems quite high?",
+      "revId": "82da78aa6a400c8f3d4ab1094df6265aa35a70f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57411988_7fe41666",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-24T13:42:19Z",
+      "side": 1,
+      "message": "Don\u0027t make this is a default parameter.",
+      "revId": "82da78aa6a400c8f3d4ab1094df6265aa35a70f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -388,6 +388,24 @@
       "parentUuid": "6f546897_04b78470",
       "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4812a9f_52dc327e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-24T14:30:00Z",
+      "side": 1,
+      "message": "we have to use the same trimming as in the construction of `messageToSave` below.\nMaybe we should even provide the already calculated `messageToSave` to `rawSave` as a parameter?",
+      "parentUuid": "a8f31d86_4f960c33",
+      "revId": "c3fb3a1f0c1495dec6f385f74fcd6fe6f73ff8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

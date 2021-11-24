@@ -34,6 +34,24 @@
       "parentUuid": "edfbb324_e496cfed",
       "revId": "614ff76dd44e6a57a513d3feabdf4044125b4ebf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57154e4c_98d49447",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-11-24T18:39:17Z",
+      "side": 1,
+      "message": "I just mean that this doc should say \"See `contrib/WORKSPACE.outoftree`\". Then the WORKSPACE.outoftree can be have the content you have below.\n\nor maybe you can make a script that takes 2 SHA1s and generates the file.",
+      "parentUuid": "5997a9d9_d22d8fd2",
+      "revId": "614ff76dd44e6a57a513d3feabdf4044125b4ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

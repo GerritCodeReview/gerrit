@@ -3960,7 +3960,9 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("Failed to submit 1 change due to the following problems");
-    assertThat(thrown).hasMessageThat().contains("needs All-Comments-Resolved");
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("submit requirement 'All-Comments-Resolved' is unsatisfied");
   }
 
   @Test

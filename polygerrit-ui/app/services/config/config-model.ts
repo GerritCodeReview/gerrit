@@ -14,40 +14,74 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ConfigInfo, ServerInfo} from '../../types/common';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {map, distinctUntilChanged} from 'rxjs/operators';
+import {ConfigInfo, RepoName, ServerInfo} from '../../types/common';
+import {BehaviorSubject, from, Observable, of, Subscription} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
+import {Finalizable} from '../registry';
+import {RestApiService} from '../gr-rest-api/gr-rest-api';
+import {repo$} from '../change/change-model';
+import {select} from '../../utils/observable-util';
 
-interface ConfigState {
+export interface ConfigState {
   repoConfig?: ConfigInfo;
   serverConfig?: ServerInfo;
 }
 
-// TODO: Figure out how to best enforce immutability of all states. Use Immer?
-// Use DeepReadOnly?
-const initialState: ConfigState = {};
+export class ConfigModel implements Finalizable {
+  // TODO: Figure out how to best enforce immutability of all states. Use Immer?
+  // Use DeepReadOnly?
+  private initialState: ConfigState = {};
 
-const privateState$ = new BehaviorSubject(initialState);
+  private privateState$ = new BehaviorSubject(this.initialState);
 
-// Re-exporting as Observable so that you can only subscribe, but not emit.
-export const configState$: Observable<ConfigState> = privateState$;
+  // Re-exporting as Observable so that you can only subscribe, but not emit.
+  public configState$: Observable<ConfigState> =
+    this.privateState$.asObservable();
 
-export function updateRepoConfig(repoConfig?: ConfigInfo) {
-  const current = privateState$.getValue();
-  privateState$.next({...current, repoConfig});
+  public repoConfig$ = select(
+    this.privateState$,
+    configState => configState.repoConfig
+  );
+
+  public serverConfig$ = select(
+    this.privateState$,
+    configState => configState.serverConfig
+  );
+
+  private subscriptions: Subscription[];
+
+  constructor(readonly restApiService: RestApiService) {
+    this.subscriptions = [
+      from(this.restApiService.getConfig()).subscribe((config?: ServerInfo) => {
+        this.updateServerConfig(config);
+      }),
+      repo$
+        .pipe(
+          switchMap((repo?: RepoName) => {
+            if (repo === undefined) return of(undefined);
+            return from(this.restApiService.getProjectConfig(repo));
+          })
+        )
+        .subscribe((repoConfig?: ConfigInfo) => {
+          this.updateRepoConfig(repoConfig);
+        }),
+    ];
+  }
+
+  updateRepoConfig(repoConfig?: ConfigInfo) {
+    const current = this.privateState$.getValue();
+    this.privateState$.next({...current, repoConfig});
+  }
+
+  updateServerConfig(serverConfig?: ServerInfo) {
+    const current = this.privateState$.getValue();
+    this.privateState$.next({...current, serverConfig});
+  }
+
+  finalize() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
+  }
 }
-
-export function updateServerConfig(serverConfig?: ServerInfo) {
-  const current = privateState$.getValue();
-  privateState$.next({...current, serverConfig});
-}
-
-export const repoConfig$ = configState$.pipe(
-  map(configState => configState.repoConfig),
-  distinctUntilChanged()
-);
-
-export const serverConfig$ = configState$.pipe(
-  map(configState => configState.serverConfig),
-  distinctUntilChanged()
-);

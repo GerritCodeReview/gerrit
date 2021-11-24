@@ -37,8 +37,6 @@ import {
 import {AuthType} from '../../../constants/constants';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {getAppContext} from '../../../services/app-context';
-import {serverConfig$} from '../../../services/config/config-model';
-import {assertIsDefined} from '../../../utils/common-util';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -160,6 +158,8 @@ export class GrMainHeader extends PolymerElement {
 
   private readonly userModel = getAppContext().userModel;
 
+  private readonly configModel = getAppContext().configModel;
+
   private subscriptions: Subscription[] = [];
 
   override ready() {
@@ -168,11 +168,6 @@ export class GrMainHeader extends PolymerElement {
   }
 
   override connectedCallback() {
-    // TODO(brohlfs): This just ensures that the userModel is instantiated at
-    // all. We need the service to manage the model, but we are not making any
-    // direct calls. Will need to find a better solution to this problem ...
-    assertIsDefined(this.userModel);
-
     super.connectedCallback();
     this._loadAccount();
 
@@ -187,7 +182,7 @@ export class GrMainHeader extends PolymerElement {
         })
     );
     this.subscriptions.push(
-      serverConfig$.subscribe(config => {
+      this.configModel.serverConfig$.subscribe(config => {
         if (!config) return;
         this._retrieveFeedbackURL(config);
         this._retrieveRegisterURL(config);

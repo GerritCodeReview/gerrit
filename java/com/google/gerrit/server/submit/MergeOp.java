@@ -312,7 +312,7 @@ public class MergeOp implements AutoCloseable {
     // TODO(ghareeb): remove the line below. This is needed to reload submit records on this code
     // path. SubmitStrategyOp re-requests submit records but using ChangeData loaded from the change
     // index. This call here hence pre-populates submit records.
-    getSubmitRecords(cd, /* allowClosed= */ false);
+    getSubmitRecords(cd);
     Map<SubmitRequirement, SubmitRequirementResult> srResults = cd.submitRequirements();
     if (srResults.values().stream().allMatch(srResult -> srResult.fulfilled())) {
       return;
@@ -354,8 +354,8 @@ public class MergeOp implements AutoCloseable {
     return allowClosed ? SUBMIT_RULE_OPTIONS_ALLOW_CLOSED : SUBMIT_RULE_OPTIONS;
   }
 
-  private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed) {
-    return cd.submitRecords(submitRuleOptions(allowClosed));
+  private static List<SubmitRecord> getSubmitRecords(ChangeData cd) {
+    return cd.submitRecords(submitRuleOptions(/* allowClosed= */ false));
   }
 
   private void checkSubmitRulesAndState(ChangeSet cs, boolean allowMerged)
@@ -389,7 +389,15 @@ public class MergeOp implements AutoCloseable {
     checkArgument(
         !cs.furtherHiddenChanges(), "cannot bypass submit rules for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
-      List<SubmitRecord> records = new ArrayList<>(getSubmitRecords(cd, allowClosed));
+      Change change = cd.change();
+      if (change == null) {
+        throw new StorageException("Change not found");
+      }
+      if (change.isClosed()) {
+        // No need to check submit rules if the change is closed.
+        continue;
+      }
+      List<SubmitRecord> records = new ArrayList<>(getSubmitRecords(cd));
       SubmitRecord forced = new SubmitRecord();
       forced.status = SubmitRecord.Status.FORCED;
       records.add(forced);

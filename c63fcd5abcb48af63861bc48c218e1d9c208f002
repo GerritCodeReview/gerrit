@@ -33,6 +33,24 @@
       "message": "I guess this was too late for 3.5, but we don\u0027t need to keep around JSch, right?",
       "revId": "c63fcd5abcb48af63861bc48c218e1d9c208f002",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b80c3ea7_fb0d33aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-11-25T20:21:13Z",
+      "side": 1,
+      "message": "yes, we are replacing it by mina-sshd client in jgit\n\njsch is a one-man show, there is no public source code repository and the maintainer doesn\u0027t accept contributions and it\u0027s buggy",
+      "parentUuid": "6755f88e_511660ac",
+      "revId": "c63fcd5abcb48af63861bc48c218e1d9c208f002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

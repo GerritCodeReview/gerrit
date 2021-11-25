@@ -326,6 +326,15 @@ suite('dom-util tests', () => {
       });
     });
 
+    test('suppress "enter" shortcut event from <gr-button>', async () => {
+      await keyEventOn(
+        document.createElement('gr-button'),
+        e => assert.isTrue(shouldSuppress(e)),
+        13,
+        'enter'
+      );
+    });
+
     test('suppress "enter" shortcut event from <a>', async () => {
       await keyEventOn(document.createElement('a'), e => {
         assert.isFalse(shouldSuppress(e));

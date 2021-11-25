@@ -415,6 +415,9 @@ export const htmlTemplate = html`
               >
               </iron-icon>
             </template>
+            <gr-button link="" class="action" on-click="_handleSuggestEdit"
+              >Suggest Edit</gr-button
+            >
             <gr-button
               link=""
               class="action cancel hideOnPublished"
@@ -443,6 +446,15 @@ export const htmlTemplate = html`
           </div>
         </template>
       </div>
+      <gr-button
+        link=""
+        secondary=""
+        class="action show-fix"
+        hidden$="[[_hasNoFix(comment)]]"
+        on-click="_handleShowFix"
+      >
+        Show Fix
+      </gr-button>
       <div class="robotActions" hidden$="[[!_showRobotActions]]">
         <template is="dom-if" if="[[hasPublishedComment(comments)]]">
           <iron-icon

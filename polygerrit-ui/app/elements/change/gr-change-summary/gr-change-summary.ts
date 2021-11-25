@@ -20,15 +20,9 @@ import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
 import {
-  allRunsLatestPatchsetLatestAttempt$,
-  aPluginHasRegistered$,
   CheckResult,
   CheckRun,
   ErrorMessages,
-  errorMessagesLatest$,
-  loginCallbackLatest$,
-  someProvidersAreLoadingFirstTime$,
-  topLevelActionsLatest$,
 } from '../../../services/checks/checks-model';
 import {Action, Category, Link, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
@@ -413,20 +407,40 @@ export class GrChangeSummary extends LitElement {
 
   private userModel = getAppContext().userModel;
 
-  private checksService = getAppContext().checksService;
+  private checksModel = getAppContext().checksModel;
 
   constructor() {
     super();
-    subscribe(this, allRunsLatestPatchsetLatestAttempt$, x => (this.runs = x));
-    subscribe(this, aPluginHasRegistered$, x => (this.showChecksSummary = x));
     subscribe(
       this,
-      someProvidersAreLoadingFirstTime$,
+      this.checksModel.allRunsLatestPatchsetLatestAttempt$,
+      x => (this.runs = x)
+    );
+    subscribe(
+      this,
+      this.checksModel.aPluginHasRegistered$,
+      x => (this.showChecksSummary = x)
+    );
+    subscribe(
+      this,
+      this.checksModel.someProvidersAreLoadingFirstTime$,
       x => (this.someProvidersAreLoading = x)
     );
-    subscribe(this, errorMessagesLatest$, x => (this.errorMessages = x));
-    subscribe(this, loginCallbackLatest$, x => (this.loginCallback = x));
-    subscribe(this, topLevelActionsLatest$, x => (this.actions = x));
+    subscribe(
+      this,
+      this.checksModel.errorMessagesLatest$,
+      x => (this.errorMessages = x)
+    );
+    subscribe(
+      this,
+      this.checksModel.loginCallbackLatest$,
+      x => (this.loginCallback = x)
+    );
+    subscribe(
+      this,
+      this.checksModel.topLevelActionsLatest$,
+      x => (this.actions = x)
+    );
     subscribe(this, changeComments$, x => (this.changeComments = x));
     subscribe(this, threads$, x => (this.commentThreads = x));
     subscribe(this, this.userModel.account$, x => (this.selfAccount = x));
@@ -560,7 +574,7 @@ export class GrChangeSummary extends LitElement {
   }
 
   private handleAction(e: CustomEvent<Action>) {
-    this.checksService.triggerAction(e.detail);
+    this.checksModel.triggerAction(e.detail);
   }
 
   private renderOverflow(items: DropdownLink[], disabledIds: string[] = []) {

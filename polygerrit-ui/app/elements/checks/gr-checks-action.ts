@@ -28,7 +28,7 @@ export class GrChecksAction extends LitElement {
   @property({type: Object})
   eventTarget: HTMLElement | null = null;
 
-  private checksService = getAppContext().checksService;
+  private checksModel = getAppContext().checksModel;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -80,7 +80,7 @@ export class GrChecksAction extends LitElement {
 
   handleClick(e: Event) {
     e.stopPropagation();
-    this.checksService.triggerAction(this.action);
+    this.checksModel.triggerAction(this.action);
   }
 }
 

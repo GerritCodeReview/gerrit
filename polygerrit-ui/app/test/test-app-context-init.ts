@@ -26,7 +26,7 @@ import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../services/flags/flags_impl';
 import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_impl';
 import {ChangeService} from '../services/change/change-service';
-import {ChecksService} from '../services/checks/checks-service';
+import {ChecksModel} from '../services/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {UserModel} from '../services/user/user-model';
 import {CommentsService} from '../services/comments/comments-service';
@@ -55,9 +55,9 @@ export function _testOnlyInitAppContext() {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new CommentsService(ctx.restApiService!);
     },
-    checksService: (ctx: Partial<AppContext>) => {
+    checksModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ChecksService(ctx.reportingService!);
+      return new ChecksModel(ctx.reportingService!);
     },
     jsApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');

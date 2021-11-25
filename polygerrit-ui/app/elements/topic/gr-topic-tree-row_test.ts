@@ -46,7 +46,7 @@ suite('gr-topic-tree-row tests', () => {
   });
 
   test('shows columns of change information', () => {
-    const columns = queryAll<HTMLSpanElement>(element, 'span');
+    const columns = queryAll<HTMLTableCellElement>(element, 'td');
     assert.equal(columns[0].textContent, 'M');
     assert.equal(columns[1].textContent, TEST_SUBJECT);
     assert.equal(columns[2].textContent, 'myTopic');
@@ -59,7 +59,7 @@ suite('gr-topic-tree-row tests', () => {
     element.change = {...change, insertions: 0, deletions: 0};
     await element.updateComplete;
 
-    const columns = queryAll<HTMLSpanElement>(element, 'span');
+    const columns = queryAll<HTMLTableCellElement>(element, 'td');
     assert.equal(columns[0].textContent, '');
   });
 
@@ -67,7 +67,7 @@ suite('gr-topic-tree-row tests', () => {
     element.change = {...change, insertions: 3, deletions: 6};
     await element.updateComplete;
 
-    const columns = queryAll<HTMLSpanElement>(element, 'span');
+    const columns = queryAll<HTMLTableCellElement>(element, 'td');
     assert.equal(columns[0].textContent, 'XS');
   });
 
@@ -75,7 +75,7 @@ suite('gr-topic-tree-row tests', () => {
     element.change = {...change, insertions: 9, deletions: 40};
     await element.updateComplete;
 
-    const columns = queryAll<HTMLSpanElement>(element, 'span');
+    const columns = queryAll<HTMLTableCellElement>(element, 'td');
     assert.equal(columns[0].textContent, 'S');
   });
 
@@ -83,7 +83,7 @@ suite('gr-topic-tree-row tests', () => {
     element.change = {...change, insertions: 249, deletions: 0};
     await element.updateComplete;
 
-    const columns = queryAll<HTMLSpanElement>(element, 'span');
+    const columns = queryAll<HTMLSpanElement>(element, 'td');
     assert.equal(columns[0].textContent, 'M');
   });
 
@@ -91,7 +91,7 @@ suite('gr-topic-tree-row tests', () => {
     element.change = {...change, insertions: 499, deletions: 500};
     await element.updateComplete;
 
-    const columns = queryAll<HTMLSpanElement>(element, 'span');
+    const columns = queryAll<HTMLTableCellElement>(element, 'td');
     assert.equal(columns[0].textContent, 'L');
   });
 
@@ -99,7 +99,7 @@ suite('gr-topic-tree-row tests', () => {
     element.change = {...change, insertions: 1000, deletions: 1};
     await element.updateComplete;
 
-    const columns = queryAll<HTMLSpanElement>(element, 'span');
+    const columns = queryAll<HTMLTableCellElement>(element, 'td');
     assert.equal(columns[0].textContent, 'XL');
   });
 });

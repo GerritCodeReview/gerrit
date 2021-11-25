@@ -46,13 +46,16 @@ export class GrTopicTreeRow extends LitElement {
     if (this.change === undefined) {
       return;
     }
+    const authorName =
+      this.change.revisions?.[this.change.current_revision!].commit?.author
+        .name;
     return html`
       <tr>
         <td>${this.computeSize(this.change)}</td>
         <td>${this.change.subject}</td>
         <td>${this.change.topic}</td>
         <td>${this.change.branch}</td>
-        <td>${this.change.owner.name}</td>
+        <td>${authorName}</td>
         <td>${this.change.status}</td>
       </tr>
     `;

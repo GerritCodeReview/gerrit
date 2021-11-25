@@ -87,7 +87,8 @@ export class GrTopicTree extends LitElement {
     // getChangesSubmittedTogether.
     const submittedTogetherInfo =
       await this.restApiService.getChangesSubmittedTogether(
-        changesInTopic[0]._number
+        changesInTopic[0]._number,
+        ['NON_VISIBLE_CHANGES', 'CURRENT_REVISION', 'CURRENT_COMMIT']
       );
     if (!submittedTogetherInfo) {
       return;

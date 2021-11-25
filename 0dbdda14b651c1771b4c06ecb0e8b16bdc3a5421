@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6454fef_8d8d7516",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-25T08:51:22Z",
+      "side": 1,
+      "message": "I\u0027m making up my mind on whether this extension is really needed.\n\nWe introduce extension points (e.g. the SubmitRule) such that clients can provide custom logic that can\u0027t be expressed with configs. For example, in the current world, a client does not need to implement a custom SubmitRule only to check if a label is voted +2 -\u003e they can just use a MaxWithBlock (or any other function) with the label config. So here, why would someone write a plugin to contribute a global SR, while they can add it to their \"All-Projects\"\u0027 project.config; after all it will apply to all projects.\n\nFor our use case, we want to \"enforce\" a specific SR on many hosts. So the extension point should be enabled for all these hosts. We should then ensure it\u0027s not disabled.\n\nIs there a middle ground here? For example we can configure this specific SR in All-Projects for all hosts, then implement a commit validation listener via a plugin that always ensures this specific SR is there (i.e. ban anyone from uploading a commit to remove it)? That\u0027d be better to avoid an unnecessary new source contributing SRs, in addition to the confusion it might lead to in case of duplicates (as you described).\n\n",
+      "revId": "0dbdda14b651c1771b4c06ecb0e8b16bdc3a5421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

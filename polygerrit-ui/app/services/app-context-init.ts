@@ -25,12 +25,12 @@ import {ChangeService} from './change/change-service';
 import {ChecksService} from './checks/checks-service';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
-import {ConfigService} from './config/config-service';
 import {UserModel} from './user/user-model';
 import {CommentsService} from './comments/comments-service';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {BrowserModel} from './browser/browser-model';
 import {assertIsDefined} from '../utils/common-util';
+import {ConfigModel} from './config/config-model';
 
 /**
  * The AppContext lazy initializator for all services
@@ -70,9 +70,9 @@ export function createAppContext(): AppContext & Finalizable {
       return new GrJsApiInterface(ctx.reportingService!);
     },
     storageService: (_ctx: Partial<AppContext>) => new GrStorageService(),
-    configService: (ctx: Partial<AppContext>) => {
+    configModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new ConfigService(ctx.restApiService!);
+      return new ConfigModel(ctx.restApiService!);
     },
     userModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');

@@ -28,11 +28,11 @@ import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_im
 import {ChangeService} from '../services/change/change-service';
 import {ChecksService} from '../services/checks/checks-service';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
-import {ConfigService} from '../services/config/config-service';
 import {UserModel} from '../services/user/user-model';
 import {CommentsService} from '../services/comments/comments-service';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {BrowserModel} from '../services/browser/browser-model';
+import {ConfigModel} from '../services/config/config-model';
 
 let appContext: (AppContext & Finalizable) | undefined;
 
@@ -64,9 +64,9 @@ export function _testOnlyInitAppContext() {
       return new GrJsApiInterface(ctx.reportingService!);
     },
     storageService: (_ctx: Partial<AppContext>) => grStorageMock,
-    configService: (ctx: Partial<AppContext>) => {
+    configModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new ConfigService(ctx.restApiService!);
+      return new ConfigModel(ctx.restApiService!);
     },
     userModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');

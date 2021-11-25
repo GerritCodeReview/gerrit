@@ -92,8 +92,8 @@ export function initDiffAppContext() {
     storageService: (_ctx: Partial<AppContext>) => {
       throw new Error('storageService is not implemented');
     },
-    configService: (_ctx: Partial<AppContext>) => {
-      throw new Error('configService is not implemented');
+    configModel: (_ctx: Partial<AppContext>) => {
+      throw new Error('configModel is not implemented');
     },
     userModel: (_ctx: Partial<AppContext>) => {
       throw new Error('userModel is not implemented');

@@ -24,11 +24,11 @@ import {ChangeService} from './change/change-service';
 import {ChecksService} from './checks/checks-service';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 import {StorageService} from './storage/gr-storage';
-import {ConfigService} from './config/config-service';
 import {UserModel} from './user/user-model';
 import {CommentsService} from './comments/comments-service';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {BrowserModel} from './browser/browser-model';
+import {ConfigModel} from './config/config-model';
 
 export interface AppContext {
   flagsService: FlagsService;
@@ -41,7 +41,7 @@ export interface AppContext {
   checksService: ChecksService;
   jsApiService: JsApiService;
   storageService: StorageService;
-  configService: ConfigService;
+  configModel: ConfigModel;
   userModel: UserModel;
   browserModel: BrowserModel;
   shortcutsService: ShortcutsService;

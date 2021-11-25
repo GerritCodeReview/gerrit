@@ -91,6 +91,29 @@
       "message": "eeeeeeeeeeeeeee",
       "revId": "3c4569ce4acad9a93f3084d86e87d594d8beed32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "835bb8d3_80d6edd6",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-25T15:17:58Z",
+      "side": 1,
+      "message": "Carn\u0027t this just be:\n    if (!options.doNotPrevent)\n      e.preventDefault();\n      e.stopPropagation();\n\n?",
+      "range": {
+        "startLine": 419,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 51
+      },
+      "revId": "3c4569ce4acad9a93f3084d86e87d594d8beed32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

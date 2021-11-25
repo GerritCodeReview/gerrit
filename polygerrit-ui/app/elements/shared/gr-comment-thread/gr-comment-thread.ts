@@ -237,10 +237,16 @@ export class GrCommentThread extends PolymerElement {
   override connectedCallback() {
     super.connectedCallback();
     this.cleanups.push(
-      addGlobalShortcut({key: 'e'}, e => this.handleExpandShortcut(e))
+      addGlobalShortcut({key: 'e'}, e => this.handleExpandShortcut(e), {
+        doNotPrevent: true,
+        shouldSuppress: true,
+      })
     );
     this.cleanups.push(
-      addGlobalShortcut({key: 'E'}, e => this.handleCollapseShortcut(e))
+      addGlobalShortcut({key: 'E'}, e => this.handleCollapseShortcut(e), {
+        doNotPrevent: true,
+        shouldSuppress: true,
+      })
     );
     this._getLoggedIn().then(loggedIn => {
       this._showActions = loggedIn;

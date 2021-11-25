@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32b7b5cf_82df2893",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-25T16:12:30Z",
+      "side": 1,
+      "message": "Done. I did not realize that addGlobalShortcut() refers to addShortcut().",
+      "parentUuid": "2fc249ac_499bbb0d",
+      "revId": "3c4569ce4acad9a93f3084d86e87d594d8beed32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0abd48b5_49c6d3f6",
@@ -49,6 +67,30 @@
       "writtenOn": "2021-11-25T15:05:06Z",
       "side": 1,
       "message": "I don\u0027t fully understand how this issue is fixed.\n\nI understand the flow is\n\n1. Both comments and diff add keyboard shortcuts for listening to the same event\n\n2. Comment listens to the event first and then prevents the event from reaching the diff and scrolling.\n\nWhere is the logic that ensures that the listener for the comment is called first?\n\nIn general if multiple listeners are added then how do we know which listener is called first?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "3c4569ce4acad9a93f3084d86e87d594d8beed32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c78b1912_3a59c3ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-25T16:12:30Z",
+      "side": 1,
+      "message": "If you are not the only one listening to a shortcut, then you should not stop propagation.\n\nThe issue is fixed, because scrolling is a browser feature on space. That is what preventDefault() is about. So when you react to SPACE and do something, then you should prevent the brwoser from doing its default.",
+      "parentUuid": "0abd48b5_49c6d3f6",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -106,6 +148,30 @@
       "writtenOn": "2021-11-25T15:17:58Z",
       "side": 1,
       "message": "Carn\u0027t this just be:\n    if (!options.doNotPrevent)\n      e.preventDefault();\n      e.stopPropagation();\n\n?",
+      "range": {
+        "startLine": 419,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 51
+      },
+      "revId": "3c4569ce4acad9a93f3084d86e87d594d8beed32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca3c25ab_b75fcd5e",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-25T16:12:30Z",
+      "side": 1,
+      "message": "Is that better?",
+      "parentUuid": "835bb8d3_80d6edd6",
       "range": {
         "startLine": 419,
         "startChar": 0,

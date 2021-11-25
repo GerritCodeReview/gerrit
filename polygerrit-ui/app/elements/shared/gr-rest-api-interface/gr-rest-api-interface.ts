@@ -1703,11 +1703,12 @@ export class GrRestApiInterface
   }
 
   getChangesSubmittedTogether(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
+    options: string[] = ['NON_VISIBLE_CHANGES']
   ): Promise<SubmittedTogetherInfo | undefined> {
     return this._getChangeURLAndFetch({
       changeNum,
-      endpoint: '/submitted_together?o=NON_VISIBLE_CHANGES',
+      endpoint: `/submitted_together?o=${options.join('&o=')}`,
       reportEndpointAsIs: true,
     }) as Promise<SubmittedTogetherInfo | undefined>;
   }

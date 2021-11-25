@@ -18,8 +18,7 @@
 import {ChangeInfo, ChangeStatus, TopicName} from '../../api/rest-api';
 import '../../test/common-test-setup-karma';
 import {
-  createAccountWithIdNameAndEmail,
-  createChange,
+  createChangeViewChange,
   TEST_BRANCH_ID,
   TEST_SUBJECT,
 } from '../../test/test-data-generators';
@@ -31,12 +30,10 @@ const basicFixture = fixtureFromElement('gr-topic-tree-row');
 
 suite('gr-topic-tree-row tests', () => {
   let element: GrTopicTreeRow;
-  const owner = createAccountWithIdNameAndEmail();
   const change: ChangeInfo = {
-    ...createChange(),
+    ...createChangeViewChange(),
     insertions: 50,
     topic: 'myTopic' as TopicName,
-    owner,
   };
 
   setup(async () => {
@@ -51,7 +48,7 @@ suite('gr-topic-tree-row tests', () => {
     assert.equal(columns[1].textContent, TEST_SUBJECT);
     assert.equal(columns[2].textContent, 'myTopic');
     assert.equal(columns[3].textContent, TEST_BRANCH_ID);
-    assert.equal(columns[4].textContent, owner.name);
+    assert.equal(columns[4].textContent, 'Test name');
     assert.equal(columns[5].textContent, ChangeStatus.NEW);
   });
 

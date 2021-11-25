@@ -648,7 +648,7 @@ export interface RestApiService extends Finalizable {
   ): Promise<RelatedChangesInfo | undefined>;
 
   getChangesSubmittedTogether(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId, options?: string[]
   ): Promise<SubmittedTogetherInfo | undefined>;
 
   getChangeConflicts(

@@ -22,6 +22,7 @@ import {getPluginEndpoints} from './gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {ShowAlertEventDetail} from '../../../types/events';
+import {fireAlert} from '../../../utils/event-util';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -209,9 +210,11 @@ export class PluginLoader {
       this._updatePluginState(plugin.url, PluginState.LOAD_FAILED);
     }
     this._checkIfCompleted();
-    return `Timeout when loading plugins: ${pending
+    const errorMessage = `Timeout when loading plugins: ${pending
       .map(p => p.name)
       .join(',')}`;
+    fireAlert(document, errorMessage);
+    return errorMessage;
   }
 
   _failToLoad(message: string, pluginUrl?: string) {

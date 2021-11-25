@@ -35,6 +35,47 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f23eed61_7ab9c67d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-25T10:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "777d6f0c_340ee6be",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4e8ebe6_84e13e55",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-25T10:33:28Z",
+      "side": 1,
+      "message": "I am making the same cleanup here. The other user model changes in this file are not mine.. even though I rebased.",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 0
+      },
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df17fa69_38d50760",
@@ -48,6 +89,24 @@
       "writtenOn": "2021-11-24T19:15:38Z",
       "side": 1,
       "message": "I\u0027ve done this as a getter instead.\n\npublic get configState$() { \n  return this.privateState$.asObservable();\n}\n\nThough I have missed the asObservable bit.",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e607d243_cdc4fd2d",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-25T10:33:28Z",
+      "side": 1,
+      "message": "Ack. I think asObservable is bette.",
+      "parentUuid": "df17fa69_38d50760",
       "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +128,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85d249e7_1fba29d1",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-25T10:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73e6fdd9_66f017e7",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d021907_2d2d2562",
@@ -82,6 +159,24 @@
       "writtenOn": "2021-11-24T19:15:38Z",
       "side": 1,
       "message": "UserModel change has landed so use `select` from observable-util",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "837014dc_7a66b08f",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-25T10:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d021907_2d2d2562",
       "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -103,6 +198,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c141a08_9e48ef9a",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-25T10:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc665636_2970fdc1",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c27b54c_20556fef",
@@ -116,6 +229,24 @@
       "writtenOn": "2021-11-24T19:15:38Z",
       "side": 1,
       "message": "Same comment about `select`",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd7f4584_ea97fb77",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-25T10:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c27b54c_20556fef",
       "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -137,6 +268,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b17a79e_71fd6653",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-25T10:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ed4c803_6a67aef4",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac5a0341_97b70262",
@@ -154,6 +303,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83f54103_0ca94530",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-25T10:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac5a0341_97b70262",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5b7084c_47285d55",
@@ -167,6 +334,24 @@
       "writtenOn": "2021-11-24T19:15:38Z",
       "side": 1,
       "message": "this.subscriptions \u003d [];",
+      "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d44abd17_a8cd635c",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-25T10:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5b7084c_47285d55",
       "revId": "4916fb79a506bb1e7c2a38e43a5e2bdba7b4ebed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

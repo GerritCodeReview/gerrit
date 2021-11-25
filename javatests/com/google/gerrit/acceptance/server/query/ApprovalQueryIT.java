@@ -36,6 +36,8 @@ import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.inject.Inject;
 import java.util.Date;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class ApprovalQueryIT extends AbstractDaemonTest {
@@ -250,7 +252,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   }
 
   private ApprovalContext contextForCodeReviewLabel(
-      int value, PatchSet.Id psId, Account.Id approver) {
+      int value, PatchSet.Id psId, Account.Id approver) throws Exception {
     ChangeNotes changeNotes = changeNotesFactory.create(project, psId.changeId());
     PatchSet.Id newPsId = PatchSet.id(psId.changeId(), psId.get() + 1);
     ChangeKind changeKind =
@@ -263,7 +265,10 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .key(PatchSetApproval.key(psId, approver, LabelId.create("Code-Review")))
             .value(value)
             .build();
-    return ApprovalContext.create(
-        changeNotes, approval, changeNotes.getPatchSets().get(newPsId), changeKind);
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo.newObjectReader())) {
+      return ApprovalContext.create(
+          changeNotes, approval, changeNotes.getPatchSets().get(newPsId), changeKind, rw);
+    }
   }
 }

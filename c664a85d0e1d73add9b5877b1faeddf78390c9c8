@@ -88,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edb80cea_27c12955",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-25T10:32:53Z",
+      "side": 1,
+      "message": "SG. I agree it\u0027s inherent, just wanted to bring this up for consideration.",
+      "parentUuid": "617f6297_e9b161e0",
+      "range": {
+        "startLine": 1077,
+        "startChar": 6,
+        "endLine": 1077,
+        "endChar": 49
+      },
+      "revId": "c664a85d0e1d73add9b5877b1faeddf78390c9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1346984_6e28a5ed",

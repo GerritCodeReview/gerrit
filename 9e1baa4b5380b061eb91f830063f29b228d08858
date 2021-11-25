@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc56e7c6_60dc6df4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-25T18:49:36Z",
+      "side": 1,
+      "message": "Comment removed by: Milutin Kristofic; Reason: test",
+      "revId": "9e1baa4b5380b061eb91f830063f29b228d08858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

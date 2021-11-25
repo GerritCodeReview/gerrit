@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4232895a_0bd0708e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:33:36Z",
+      "side": 1,
+      "message": "I don\u0027t have access to the Google\u0027s bug tracker: what was the end-user problem?\nDoes the fix make sense also on stable-3.5? If yes, I am happy to merge this.",
+      "revId": "6d92b8c6d7ec9c900379b2004d7e8c6be7285042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

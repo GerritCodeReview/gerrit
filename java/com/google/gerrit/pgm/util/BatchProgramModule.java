@@ -214,7 +214,8 @@ public class BatchProgramModule extends FactoryModule {
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
 
     ModuleOverloader.override(
-            modules, LibModuleLoader.loadModules(parentInjector, LibModuleType.SYS_BATCH_MODULE))
+            modules,
+            LibModuleLoader.loadModules(parentInjector, LibModuleType.SYS_BATCH_MODULE_TYPE))
         .stream()
         .forEach(this::install);
   }

@@ -16,6 +16,24 @@
       "message": "I\u0027m making up my mind on whether this extension is really needed.\n\nWe introduce extension points (e.g. the SubmitRule) such that clients can provide custom logic that can\u0027t be expressed with configs. For example, in the current world, a client does not need to implement a custom SubmitRule only to check if a label is voted +2 -\u003e they can just use a MaxWithBlock (or any other function) with the label config. So here, why would someone write a plugin to contribute a global SR, while they can add it to their \"All-Projects\"\u0027 project.config; after all it will apply to all projects.\n\nFor our use case, we want to \"enforce\" a specific SR on many hosts. So the extension point should be enabled for all these hosts. We should then ensure it\u0027s not disabled.\n\nIs there a middle ground here? For example we can configure this specific SR in All-Projects for all hosts, then implement a commit validation listener via a plugin that always ensures this specific SR is there (i.e. ban anyone from uploading a commit to remove it)? That\u0027d be better to avoid an unnecessary new source contributing SRs, in addition to the confusion it might lead to in case of duplicates (as you described).\n\n",
       "revId": "0dbdda14b651c1771b4c06ecb0e8b16bdc3a5421",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3679b364_97871e92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-11-25T09:58:35Z",
+      "side": 1,
+      "message": "For our use case we will have a SR that is always enabled for all hosts. This won\u0027t be a plugin, just a binding that won\u0027t be possible to disable. Whether or not SR applies will be checked in the SR itself.\n\nAdding that same SR to All-Projects on all hosts would introduce unnecessary config overhead + would actually make it possible to disable the CR by overriding All-Projects config.\n\nAs for the duplicates, unless someone maliciously tries to override the SR in their project config, I don\u0027t think we will actually have any duplicate cases. With the test coverage, I think it is safe.\n\nThat said, with SubmitRule deprecation, I think that would make sense to provide an alternative. E.g maybe I am not aware of specific plans for migration the already implemented SubmitRules, e.g. checks plugin, default rules (like IgnoreSelfApprovalRule)?",
+      "parentUuid": "a6454fef_8d8d7516",
+      "revId": "0dbdda14b651c1771b4c06ecb0e8b16bdc3a5421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

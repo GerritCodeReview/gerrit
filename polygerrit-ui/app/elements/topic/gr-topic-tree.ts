@@ -75,15 +75,22 @@ export class GrTopicTree extends LitElement {
   }
 
   private async loadAndSortChangesFromTopic(): Promise<void> {
-    const changes = await this.restApiService.getChanges(
+    const changesInTopic = await this.restApiService.getChanges(
       undefined /* changesPerPage */,
       `topic:${this.topicName}`
     );
-    if (!changes) {
+    if (!changesInTopic) {
+      return;
+    }
+    const submittedTogetherInfo =
+      await this.restApiService.getChangesSubmittedTogether(
+        changesInTopic[0]._number
+      );
+    if (!submittedTogetherInfo) {
       return;
     }
     this.changesByRepo.clear();
-    for (const change of changes) {
+    for (const change of submittedTogetherInfo.changes) {
       if (this.changesByRepo.has(change.project)) {
         this.changesByRepo.get(change.project)!.push(change);
       } else {

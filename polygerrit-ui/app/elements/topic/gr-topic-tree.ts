@@ -44,10 +44,25 @@ export class GrTopicTree extends LitElement {
   }
 
   override render() {
-    // TODO: organize into <table> for column alignment.
-    return Array.from(this.changesByRepo).map(([repoName, changes]) =>
-      this.renderRepoSection(repoName, changes)
-    );
+    return html`
+      <table>
+        <thead>
+          <tr>
+            <td>Size</td>
+            <td>Subject</td>
+            <td>Topic</td>
+            <td>Branch</td>
+            <td>Owner</td>
+            <td>Status</td>
+          </tr>
+        </thead>
+        <tbody>
+          ${Array.from(this.changesByRepo).map(([repoName, changes]) =>
+            this.renderRepoSection(repoName, changes)
+          )}
+        </tbody>
+      </table>
+    `;
   }
 
   private renderRepoSection(repoName: RepoName, changes: ChangeInfo[]) {

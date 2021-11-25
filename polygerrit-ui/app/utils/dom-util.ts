@@ -452,7 +452,10 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
     // Suppress shortcuts if the key is 'enter'
     // and target is an anchor or button or paper-tab.
     (e.keyCode === 13 &&
-      (tagName === 'A' || tagName === 'BUTTON' || tagName === 'PAPER-TAB'))
+      (tagName === 'A' ||
+        tagName === 'BUTTON' ||
+        tagName === 'GR-BUTTON' ||
+        tagName === 'PAPER-TAB'))
   ) {
     return true;
   }

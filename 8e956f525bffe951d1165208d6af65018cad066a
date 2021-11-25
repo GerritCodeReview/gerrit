@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30655331_d1b142d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-25T16:31:47Z",
+      "side": 1,
+      "message": "@Ben/Dhruv/Milutin/Frank, does this seem fine to do? This is to make it easier to migrate elements that use @observe decorator for example https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts#L290",
+      "revId": "8e956f525bffe951d1165208d6af65018cad066a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

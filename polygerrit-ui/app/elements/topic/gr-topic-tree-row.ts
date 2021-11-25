@@ -16,7 +16,7 @@
  */
 
 import {customElement, property} from 'lit/decorators';
-import {LitElement, html} from 'lit-element/lit-element';
+import {LitElement, html, css} from 'lit-element/lit-element';
 import '../shared/gr-button/gr-button';
 import {ChangeInfo} from '../../api/rest-api';
 
@@ -36,17 +36,25 @@ export class GrTopicTreeRow extends LitElement {
   @property({type: Object})
   change?: ChangeInfo;
 
+  static override styles = css`
+    :host {
+      display: contents;
+    }
+  `;
+
   override render() {
     if (this.change === undefined) {
       return;
     }
     return html`
-      <span>${this.computeSize(this.change)}</span>
-      <span>${this.change.subject}</span>
-      <span>${this.change.topic}</span>
-      <span>${this.change.branch}</span>
-      <span>${this.change.owner.name}</span>
-      <span>${this.change.status}</span>
+      <tr>
+        <td>${this.computeSize(this.change)}</td>
+        <td>${this.change.subject}</td>
+        <td>${this.change.topic}</td>
+        <td>${this.change.branch}</td>
+        <td>${this.change.owner.name}</td>
+        <td>${this.change.status}</td>
+      </tr>
     `;
   }
 

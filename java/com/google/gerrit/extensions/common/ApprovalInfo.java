@@ -88,6 +88,11 @@ public class ApprovalInfo extends AccountInfo {
   }
 
   @Override
+  public String toString() {
+    return super.toString() + ", value=" + this.value;
+  }
+
+  @Override
   public int hashCode() {
     return Objects.hash(super.hashCode(), tag, value, date, postSubmit, permittedVotingRange);
   }

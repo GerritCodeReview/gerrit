@@ -2838,6 +2838,65 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void permissionOnLabelDoesNotAffectCurrentVotes() throws Exception {
+    String heads = "refs/heads/*";
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(LabelId.CODE_REVIEW).ref(heads).group(REGISTERED_USERS).range(-2, +2))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // Add the user as reviewer
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = user.email();
+    gApi.changes().id(changeId).addReviewer(in);
+    ChangeInfo c = gApi.changes().id(changeId).get();
+    String commit = r.getCommit().name();
+    assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+        .containsExactlyElementsIn(ImmutableSet.of(user.id()));
+
+    // Approve the change as user
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(changeId).revision(commit).review(ReviewInput.approve());
+    assertThat(
+            gApi.changes().id(changeId).get(DETAILED_LABELS).labels.get("Code-Review").all.stream()
+                .map(vote -> vote.value))
+        .containsExactly(2);
+
+    // Remove permissions for CODE_REVIEW
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .remove(labelPermissionKey(LabelId.CODE_REVIEW).ref(heads).group(REGISTERED_USERS))
+        .update();
+
+    // No permisisons
+    assertThrows(
+        AuthException.class,
+        () -> gApi.changes().id(changeId).revision(commit).review(ReviewInput.approve()));
+
+    assertThat(
+            gApi.changes().id(changeId).get(DETAILED_LABELS).labels.get("Code-Review").all.stream()
+                .map(vote -> vote.value))
+        .containsExactly(2);
+
+    // The change is still submittable
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(changeId).revision(commit).submit();
+    assertThat(
+            gApi.changes().id(changeId).get(DETAILED_LABELS).labels.get("Code-Review").all.stream()
+                .map(vote -> vote.value))
+        .containsExactly(2, 0);
+    // User should still be on the change
+    c = gApi.changes().id(changeId).get();
+    assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+        .containsExactlyElementsIn(ImmutableSet.of(admin.id(), user.id()));
+  }
+
+  @Test
   public void createEmptyChange() throws Exception {
     ChangeInput in = new ChangeInput();
     in.branch = Constants.MASTER;

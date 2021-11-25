@@ -52,6 +52,24 @@
       "parentUuid": "76016be3_48fc3cd4",
       "revId": "1fd54d13104356a3bc717470f36092846d8306ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae918966_72a23d93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-25T14:38:06Z",
+      "side": 1,
+      "message": "Experiment is ramped up to 100%. It should be safe to proceed and merge this change.",
+      "parentUuid": "61f47385_1b384e6e",
+      "revId": "1fd54d13104356a3bc717470f36092846d8306ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

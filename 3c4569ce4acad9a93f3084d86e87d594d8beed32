@@ -101,6 +101,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5bdd340_e7240e8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-25T16:17:55Z",
+      "side": 1,
+      "message": "If multiple components add listeners for the same key(not this case because the browser is listening to space), how do we know which one is triggered?\n\nAre the listeners of all components triggerred?",
+      "parentUuid": "c78b1912_3a59c3ef",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "3c4569ce4acad9a93f3084d86e87d594d8beed32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "869cc3ff_86855668",

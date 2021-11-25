@@ -75,15 +75,15 @@ export class GrTopicTree extends LitElement {
   }
 
   private async loadAndSortChangesFromTopic(): Promise<void> {
-    const changes = await this.restApiService.getChanges(
-      undefined /* changesPerPage */,
+    const changesInTopic = await this.restApiService.getChanges(
+      /* changesPerPage=*/ undefined,
       `topic:${this.topicName}`
     );
-    if (!changes) {
-      return;
-    }
+    const changesSubmittedTogether = await this.loadChangesSubmittedTogether(
+      changesInTopic
+    );
     this.changesByRepo.clear();
-    for (const change of changes) {
+    for (const change of changesSubmittedTogether) {
       if (this.changesByRepo.has(change.project)) {
         this.changesByRepo.get(change.project)!.push(change);
       } else {
@@ -91,6 +91,21 @@ export class GrTopicTree extends LitElement {
       }
     }
     this.requestUpdate();
+  }
+
+  private async loadChangesSubmittedTogether(
+    changesInTopic?: ChangeInfo[]
+  ): Promise<ChangeInfo[]> {
+    // All changes in the topic will be submitted together, so we can use any of
+    // them for the request to getChangesSubmittedTogether as long as the topic
+    // is not empty.
+    if (!changesInTopic || changesInTopic.length === 0) {
+      return [];
+    }
+    const response = await this.restApiService.getChangesSubmittedTogether(
+      changesInTopic[0]._number
+    );
+    return response?.changes ?? [];
   }
 }
 

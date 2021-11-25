@@ -21,49 +21,53 @@ import {createChange} from '../../test/test-data-generators';
 import {queryAll, stubRestApi} from '../../test/test-utils';
 import './gr-topic-tree';
 import {GrTopicTree} from './gr-topic-tree';
-import {GrTopicTreeProject} from './gr-topic-tree-project';
+import {GrTopicTreeRepo} from './gr-topic-tree-repo';
 
 const basicFixture = fixtureFromElement('gr-topic-tree');
 
-function createChangeForProject(projectName: string): ChangeInfo {
-  return {...createChange(), project: projectName as RepoName};
+const repo1Name = 'repo1' as RepoName;
+const repo2Name = 'repo2' as RepoName;
+const repo3Name = 'repo3' as RepoName;
+
+function createChangeForRepo(repoName: string): ChangeInfo {
+  return {...createChange(), project: repoName as RepoName};
 }
 
 suite('gr-topic-tree tests', () => {
   let element: GrTopicTree;
-  const project1Changes = [
-    createChangeForProject('project1'),
-    createChangeForProject('project1'),
+  const repo1Changes = [
+    createChangeForRepo(repo1Name),
+    createChangeForRepo(repo1Name),
   ];
-  const project2Changes = [
-    createChangeForProject('project2'),
-    createChangeForProject('project2'),
+  const repo2Changes = [
+    createChangeForRepo(repo2Name),
+    createChangeForRepo(repo2Name),
   ];
-  const project3Changes = [
-    createChangeForProject('project3'),
-    createChangeForProject('project3'),
+  const repo3Changes = [
+    createChangeForRepo(repo3Name),
+    createChangeForRepo(repo3Name),
   ];
 
   setup(async () => {
     stubRestApi('getChanges')
       .withArgs(undefined, 'topic:myTopic')
-      .resolves([...project1Changes, ...project2Changes, ...project3Changes]);
+      .resolves([...repo1Changes, ...repo2Changes, ...repo3Changes]);
     element = basicFixture.instantiate();
     element.topicName = 'myTopic';
     await element.updateComplete;
   });
 
-  test('groups changes by project', () => {
-    const projectSections = queryAll<GrTopicTreeProject>(
+  test('groups changes by repo', () => {
+    const repoSections = queryAll<GrTopicTreeRepo>(
       element,
-      'gr-topic-tree-project'
+      'gr-topic-tree-repo'
     );
-    assert.lengthOf(projectSections, 3);
-    assert.equal(projectSections[0].projectName, 'project1');
-    assert.sameMembers(projectSections[0].changes!, project1Changes);
-    assert.equal(projectSections[1].projectName, 'project2');
-    assert.sameMembers(projectSections[1].changes!, project2Changes);
-    assert.equal(projectSections[2].projectName, 'project3');
-    assert.sameMembers(projectSections[2].changes!, project3Changes);
+    assert.lengthOf(repoSections, 3);
+    assert.equal(repoSections[0].repoName, repo1Name);
+    assert.sameMembers(repoSections[0].changes!, repo1Changes);
+    assert.equal(repoSections[1].repoName, repo2Name);
+    assert.sameMembers(repoSections[1].changes!, repo2Changes);
+    assert.equal(repoSections[2].repoName, repo3Name);
+    assert.sameMembers(repoSections[2].changes!, repo3Changes);
   });
 });

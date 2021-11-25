@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import './gr-topic-tree-project';
+import './gr-topic-tree-repo';
 import {customElement, property, state} from 'lit/decorators';
 import {LitElement, html, PropertyValues} from 'lit-element/lit-element';
 import {getAppContext} from '../../services/app-context';
@@ -24,7 +24,7 @@ import {ChangeInfo, RepoName} from '../../api/rest-api';
 
 /**
  * A tree-like dashboard showing changes related to a topic, organized by
- * project.
+ * repository.
  */
 @customElement('gr-topic-tree')
 export class GrTopicTree extends LitElement {
@@ -32,7 +32,7 @@ export class GrTopicTree extends LitElement {
   topicName?: string;
 
   @state()
-  private changesByProject = new Map<RepoName, ChangeInfo[]>();
+  private changesByRepo = new Map<RepoName, ChangeInfo[]>();
 
   private restApiService = getAppContext().restApiService;
 
@@ -45,17 +45,17 @@ export class GrTopicTree extends LitElement {
 
   override render() {
     // TODO: organize into <table> for column alignment.
-    return Array.from(this.changesByProject).map(([projectName, changes]) =>
-      this.renderProjectSection(projectName, changes)
+    return Array.from(this.changesByRepo).map(([repoName, changes]) =>
+      this.renderRepoSection(repoName, changes)
     );
   }
 
-  private renderProjectSection(projectName: RepoName, changes: ChangeInfo[]) {
+  private renderRepoSection(repoName: RepoName, changes: ChangeInfo[]) {
     return html`
-      <gr-topic-tree-project
-        .projectName=${projectName}
+      <gr-topic-tree-repo
+        .repoName=${repoName}
         .changes=${changes}
-      ></gr-topic-tree-project>
+      ></gr-topic-tree-repo>
     `;
   }
 
@@ -67,12 +67,12 @@ export class GrTopicTree extends LitElement {
     if (!changes) {
       return;
     }
-    this.changesByProject.clear();
+    this.changesByRepo.clear();
     for (const change of changes) {
-      if (this.changesByProject.has(change.project)) {
-        this.changesByProject.get(change.project)!.push(change);
+      if (this.changesByRepo.has(change.project)) {
+        this.changesByRepo.get(change.project)!.push(change);
       } else {
-        this.changesByProject.set(change.project, [change]);
+        this.changesByRepo.set(change.project, [change]);
       }
     }
     this.requestUpdate();

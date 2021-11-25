@@ -402,17 +402,23 @@ export function addShortcut(
   shortcut: Binding,
   listener: (e: KeyboardEvent) => void,
   options: {
-    shouldSuppress: boolean;
+    // Do you want to suppress events from <input> elements and such?
+    shouldSuppress?: boolean;
+    // Do you want to take care of calling preventDefault() and
+    // stopPropagation() yourself?
+    doNotPrevent?: boolean;
   } = {
     shouldSuppress: false,
+    doNotPrevent: false,
   }
 ) {
   const wrappedListener = (e: KeyboardEvent) => {
     if (e.repeat && !shortcut.allowRepeat) return;
     if (options.shouldSuppress && shouldSuppress(e)) return;
-    if (eventMatchesShortcut(e, shortcut)) {
-      listener(e);
-    }
+    if (!eventMatchesShortcut(e, shortcut)) return;
+    if (!options.doNotPrevent) e.preventDefault();
+    if (!options.doNotPrevent) e.stopPropagation();
+    listener(e);
   };
   element.addEventListener('keydown', wrappedListener);
   return () => element.removeEventListener('keydown', wrappedListener);

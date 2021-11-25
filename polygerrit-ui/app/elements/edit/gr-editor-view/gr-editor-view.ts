@@ -153,13 +153,13 @@ export class GrEditorView extends PolymerElement {
       this._prefs = prefs;
     });
     this.cleanups.push(
-      addShortcut(this, {key: 's', modifiers: [Modifier.CTRL_KEY]}, e =>
-        this._handleSaveShortcut(e)
+      addShortcut(this, {key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>
+        this._handleSaveShortcut()
       )
     );
     this.cleanups.push(
-      addShortcut(this, {key: 's', modifiers: [Modifier.META_KEY]}, e =>
-        this._handleSaveShortcut(e)
+      addShortcut(this, {key: 's', modifiers: [Modifier.META_KEY]}, () =>
+        this._handleSaveShortcut()
       )
     );
   }
@@ -402,8 +402,7 @@ export class GrEditorView extends PolymerElement {
     );
   }
 
-  _handleSaveShortcut(e: KeyboardEvent) {
-    e.preventDefault();
+  _handleSaveShortcut() {
     if (!this._saveDisabled) {
       this._saveEdit();
     }

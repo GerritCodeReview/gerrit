@@ -133,19 +133,19 @@ export class GrDropdown extends PolymerElement {
   override connectedCallback() {
     super.connectedCallback();
     this.cleanups.push(
-      addShortcut(this, {key: Key.UP}, e => this._handleUp(e))
+      addShortcut(this, {key: Key.UP}, () => this._handleUp())
     );
     this.cleanups.push(
-      addShortcut(this, {key: Key.DOWN}, e => this._handleDown(e))
+      addShortcut(this, {key: Key.DOWN}, () => this._handleDown())
     );
     this.cleanups.push(
-      addShortcut(this, {key: Key.TAB}, e => this._handleTab(e))
+      addShortcut(this, {key: Key.TAB}, () => this._handleTab())
     );
     this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER}, e => this._handleEnter(e))
+      addShortcut(this, {key: Key.ENTER}, () => this._handleEnter())
     );
     this.cleanups.push(
-      addShortcut(this, {key: Key.SPACE}, e => this._handleEnter(e))
+      addShortcut(this, {key: Key.SPACE}, () => this._handleEnter())
     );
   }
 
@@ -159,10 +159,8 @@ export class GrDropdown extends PolymerElement {
   /**
    * Handle the up key.
    */
-  _handleUp(e: Event) {
+  _handleUp() {
     if (this.$.dropdown.opened) {
-      e.preventDefault();
-      e.stopPropagation();
       this.cursor.previous();
     } else {
       this._open();
@@ -172,10 +170,8 @@ export class GrDropdown extends PolymerElement {
   /**
    * Handle the down key.
    */
-  _handleDown(e: Event) {
+  _handleDown() {
     if (this.$.dropdown.opened) {
-      e.preventDefault();
-      e.stopPropagation();
       this.cursor.next();
     } else {
       this._open();
@@ -185,20 +181,14 @@ export class GrDropdown extends PolymerElement {
   /**
    * Handle the tab key.
    */
-  _handleTab(e: Event) {
-    if (this.$.dropdown.opened) {
-      // Tab in a native select is a no-op. Emulate this.
-      e.preventDefault();
-      e.stopPropagation();
-    }
+  _handleTab() {
+    // Tab in a native select is a no-op. Emulate this.
   }
 
   /**
    * Handle the enter key.
    */
-  _handleEnter(e: Event) {
-    e.preventDefault();
-    e.stopPropagation();
+  _handleEnter() {
     if (this.$.dropdown.opened) {
       // TODO(milutin): This solution is not particularly robust in general.
       // Since gr-tooltip-content click on shadow dom is not propagated down,

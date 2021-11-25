@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a2985f8_4ee33abc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-25T07:59:40Z",
+      "side": 1,
+      "message": "Done. Reduced from 3000 ms to 2000 ms.",
+      "parentUuid": "5a345ee0_8c9b7e17",
+      "revId": "82da78aa6a400c8f3d4ab1094df6265aa35a70f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57411988_7fe41666",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-11-24T13:42:19Z",
       "side": 1,
       "message": "Don\u0027t make this is a default parameter.",
+      "revId": "82da78aa6a400c8f3d4ab1094df6265aa35a70f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f444538_f21b0015",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-25T07:59:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57411988_7fe41666",
       "revId": "82da78aa6a400c8f3d4ab1094df6265aa35a70f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -181,7 +181,6 @@ import {
   fireTitleChange,
 } from '../../../utils/event-util';
 import {GerritView, routerView$} from '../../../services/router/router-model';
-import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {
   debounce,
   DelayedTask,
@@ -285,6 +284,8 @@ export class GrChangeView extends base {
   readonly jsAPI = getAppContext().jsApiService;
 
   private readonly changeService = getAppContext().changeService;
+
+  private readonly checksModel = getAppContext().checksModel;
 
   /**
    * URL params passed from the router.
@@ -633,7 +634,7 @@ export class GrChangeView extends base {
   override ready() {
     super.ready();
     this.subscriptions.push(
-      aPluginHasRegistered$.subscribe(b => {
+      this.checksModel.aPluginHasRegistered$.subscribe(b => {
         this._showChecksTab = b;
       })
     );

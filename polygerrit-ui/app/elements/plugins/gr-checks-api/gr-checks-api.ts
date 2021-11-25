@@ -43,7 +43,7 @@ enum State {
 export class GrChecksApi implements ChecksPluginApi {
   private state = State.NOT_REGISTERED;
 
-  private readonly checksService = getAppContext().checksService;
+  private readonly checksModel = getAppContext().checksModel;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -53,14 +53,14 @@ export class GrChecksApi implements ChecksPluginApi {
 
   announceUpdate() {
     this.reporting.trackApi(this.plugin, 'checks', 'announceUpdate');
-    this.checksService.reload(this.plugin.getPluginName());
+    this.checksModel.reload(this.plugin.getPluginName());
   }
 
   updateResult(run: CheckRun, result: CheckResult) {
     if (result.externalId === undefined) {
       throw new Error('ChecksApi.updateResult() was called without externalId');
     }
-    this.checksService.updateResult(this.plugin.getPluginName(), run, result);
+    this.checksModel.updateResult(this.plugin.getPluginName(), run, result);
   }
 
   register(provider: ChecksProvider, config?: ChecksApiConfig): void {
@@ -68,7 +68,7 @@ export class GrChecksApi implements ChecksPluginApi {
     if (this.state === State.REGISTERED)
       throw new Error('Only one provider can be registered per plugin.');
     this.state = State.REGISTERED;
-    this.checksService.register(
+    this.checksModel.register(
       this.plugin.getPluginName(),
       provider,
       config ?? DEFAULT_CONFIG

@@ -17,13 +17,7 @@
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {Action} from '../../api/checks';
-import {
-  CheckResult,
-  CheckRun,
-  allResultsSelected$,
-  checksSelectedPatchsetNumber$,
-  allRunsSelectedPatchset$,
-} from '../../services/checks/checks-model';
+import {CheckResult, CheckRun} from '../../services/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';
 import {changeNum$, latestPatchNum$} from '../../services/change/change-model';
@@ -68,15 +62,23 @@ export class GrChecksTab extends LitElement {
     number | undefined
   >();
 
-  private readonly checksService = getAppContext().checksService;
+  private readonly checksModel = getAppContext().checksModel;
 
   constructor() {
     super();
-    subscribe(this, allRunsSelectedPatchset$, x => (this.runs = x));
-    subscribe(this, allResultsSelected$, x => (this.results = x));
     subscribe(
       this,
-      checksSelectedPatchsetNumber$,
+      this.checksModel.allRunsSelectedPatchset$,
+      x => (this.runs = x)
+    );
+    subscribe(
+      this,
+      this.checksModel.allResultsSelected$,
+      x => (this.results = x)
+    );
+    subscribe(
+      this,
+      this.checksModel.checksSelectedPatchsetNumber$,
       x => (this.checksPatchsetNumber = x)
     );
     subscribe(this, latestPatchNum$, x => (this.latestPatchsetNumber = x));
@@ -140,7 +142,7 @@ export class GrChecksTab extends LitElement {
   }
 
   handleActionTriggered(action: Action, run?: CheckRun) {
-    this.checksService.triggerAction(action, run);
+    this.checksModel.triggerAction(action, run);
   }
 
   handleRunSelected(e: RunSelectedEvent) {

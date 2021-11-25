@@ -32,14 +32,7 @@ import {
   Tag,
 } from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
-import {
-  CheckRun,
-  checksSelectedPatchsetNumber$,
-  RunResult,
-  someProvidersAreLoadingSelected$,
-  topLevelActionsSelected$,
-  topLevelLinksSelected$,
-} from '../../services/checks/checks-model';
+import {CheckRun, RunResult} from '../../services/checks/checks-model';
 import {
   allResults,
   firstPrimaryLink,
@@ -95,7 +88,7 @@ class GrResultRow extends LitElement {
   @state()
   labels?: LabelNameToInfoMap;
 
-  private checksService = getAppContext().checksService;
+  private checksModel = getAppContext().checksModel;
 
   constructor() {
     super();
@@ -493,7 +486,7 @@ class GrResultRow extends LitElement {
   }
 
   private handleAction(e: CustomEvent<Action>) {
-    this.checksService.triggerAction(e.detail);
+    this.checksModel.triggerAction(e.detail);
   }
 
   private renderAction(action?: Action) {
@@ -733,21 +726,29 @@ export class GrChecksResults extends LitElement {
    */
   private isSectionExpandedByUser = new Map<Category, boolean>();
 
-  private readonly checksService = getAppContext().checksService;
+  private readonly checksModel = getAppContext().checksModel;
 
   constructor() {
     super();
-    subscribe(this, topLevelActionsSelected$, x => (this.actions = x));
-    subscribe(this, topLevelLinksSelected$, x => (this.links = x));
     subscribe(
       this,
-      checksSelectedPatchsetNumber$,
+      this.checksModel.topLevelActionsSelected$,
+      x => (this.actions = x)
+    );
+    subscribe(
+      this,
+      this.checksModel.topLevelLinksSelected$,
+      x => (this.links = x)
+    );
+    subscribe(
+      this,
+      this.checksModel.checksSelectedPatchsetNumber$,
       x => (this.checksPatchsetNumber = x)
     );
     subscribe(this, latestPatchNum$, x => (this.latestPatchsetNumber = x));
     subscribe(
       this,
-      someProvidersAreLoadingSelected$,
+      this.checksModel.someProvidersAreLoadingSelected$,
       x => (this.someProvidersAreLoading = x)
     );
   }
@@ -1101,7 +1102,7 @@ export class GrChecksResults extends LitElement {
   }
 
   private handleAction(e: CustomEvent<Action>) {
-    this.checksService.triggerAction(e.detail);
+    this.checksModel.triggerAction(e.detail);
   }
 
   private renderAction(action?: Action) {
@@ -1112,11 +1113,11 @@ export class GrChecksResults extends LitElement {
   private onPatchsetSelected(e: CustomEvent<{value: string}>) {
     const patchset = Number(e.detail.value);
     check(!isNaN(patchset), 'selected patchset must be a number');
-    this.checksService.setPatchset(patchset as PatchSetNumber);
+    this.checksModel.setPatchset(patchset as PatchSetNumber);
   }
 
   private goToLatestPatchset() {
-    this.checksService.setPatchset(undefined);
+    this.checksModel.setPatchset(undefined);
   }
 
   private createPatchsetDropdownItems() {

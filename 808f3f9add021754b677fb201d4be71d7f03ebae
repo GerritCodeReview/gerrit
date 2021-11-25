@@ -22,6 +22,30 @@
       },
       "revId": "808f3f9add021754b677fb201d4be71d7f03ebae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "070c0261_9361b01e",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-25T10:43:22Z",
+      "side": 1,
+      "message": "Looks good to me when reviewing. \nI only see the changes you made.\n\nhttps://screenshot.googleplex.com/6UKrTwgLyBAthWZ",
+      "parentUuid": "054118a1_88eb0009",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 15
+      },
+      "revId": "808f3f9add021754b677fb201d4be71d7f03ebae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

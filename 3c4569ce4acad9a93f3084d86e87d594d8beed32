@@ -36,6 +36,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0abd48b5_49c6d3f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-25T15:05:06Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand how this issue is fixed.\n\nI understand the flow is\n\n1. Both comments and diff add keyboard shortcuts for listening to the same event\n\n2. Comment listens to the event first and then prevents the event from reaching the diff and scrolling.\n\nWhere is the logic that ensures that the listener for the comment is called first?\n\nIn general if multiple listeners are added then how do we know which listener is called first?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "3c4569ce4acad9a93f3084d86e87d594d8beed32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "869cc3ff_86855668",

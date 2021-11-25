@@ -16,6 +16,23 @@
       "message": "Rebased and resolved conflicts. PTAL.",
       "revId": "c63fcd5abcb48af63861bc48c218e1d9c208f002",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6755f88e_511660ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-11-25T13:54:20Z",
+      "side": 1,
+      "message": "I guess this was too late for 3.5, but we don\u0027t need to keep around JSch, right?",
+      "revId": "c63fcd5abcb48af63861bc48c218e1d9c208f002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

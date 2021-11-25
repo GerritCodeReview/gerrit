@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62d17bcd_bb8536c6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2285,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T22:14:50Z",
+      "side": 1,
+      "message": "Yes, I would have written \"alternative\" in British English, but Gerrit documentation is more expressed in North-American English.\n\n\"alternate\" (NORTH AMERICAN): another term for alternative.\n(see https://languages.oup.com/google-dictionary-en/)\n\nEither \"alternate\" (North-American) or \"alternative\" (British) would work for me. Preferences?",
+      "parentUuid": "bfd53c10_afee41d3",
+      "range": {
+        "startLine": 2285,
+        "startChar": 43,
+        "endLine": 2285,
+        "endChar": 52
+      },
+      "revId": "a71cc26ee12cc0d1a8b8f861c9dc66659d3c4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0d0b558_a97ebe77",
         "filename": "java/com/google/gerrit/server/LibModuleType.java",
         "patchSetId": 8
@@ -37,6 +61,24 @@
       "writtenOn": "2021-11-22T14:11:10Z",
       "side": 1,
       "message": "I was wondering how this will work as this change doesn\u0027t touch LuceneIndexModule. But the previous change which removes the support for ES also adds an annotation to the LuceneIndexModule [1].\nThat annotation name is the same as this type name, which is a bit hard to follow. Maybe use different names?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/323676/15/java/com/google/gerrit/lucene/LuceneIndexModule.java",
+      "revId": "a71cc26ee12cc0d1a8b8f861c9dc66659d3c4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e75f305_2d6b277b",
+        "filename": "java/com/google/gerrit/server/LibModuleType.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T22:14:50Z",
+      "side": 1,
+      "message": "You are actually right: this should be called INDEX_MODULE_TYPE and LuceneIndexModule is one instance of that type, therefore should stay INDEX_MODULE.\n\nI\u0027ll change INDEX_MODULE here and adapt all the others in a predecessor of this change.",
+      "parentUuid": "c0d0b558_a97ebe77",
       "revId": "a71cc26ee12cc0d1a8b8f861c9dc66659d3c4fb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

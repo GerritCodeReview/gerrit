@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "617f6297_e9b161e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-25T10:26:02Z",
+      "side": 1,
+      "message": "That depends.\n\nAuto saving only kicks in 2 seconds after you have stopped typing. So for this to be triggered at all you have to stop typing for 2 seconds and then type something and click \"save\" before the auto-saving is completed. I think this will be happening rarely.\n\nNote that saving is smart about only saving when something has changed. So if you stop typing and click \"save\" only after 2.5 seconds, then maybe auto-saving is already running and you have to wait for it to complete, but when it comes back there will be nothing new to save, so it was actually faster because the saving started before you asked for it.\n\nAlso I think this is inherent with auto saving. I don\u0027t see how it would be possible to avoid this. Do you have a suggestion for how auto-saving should/could work without save having to wait for it?",
+      "parentUuid": "77ee3999_ea2f1943",
+      "range": {
+        "startLine": 1077,
+        "startChar": 6,
+        "endLine": 1077,
+        "endChar": 49
+      },
+      "revId": "c664a85d0e1d73add9b5877b1faeddf78390c9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1346984_6e28a5ed",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-11-25T09:57:45Z",
       "side": 1,
       "message": "unnecessary?\nOther tests are just using sinon.SinonStub.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 32
+      },
+      "revId": "c664a85d0e1d73add9b5877b1faeddf78390c9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f65018f_8e873b1e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-25T10:26:02Z",
+      "side": 1,
+      "message": "I think both ways are fine and equally good.",
+      "parentUuid": "a1346984_6e28a5ed",
       "range": {
         "startLine": 56,
         "startChar": 0,

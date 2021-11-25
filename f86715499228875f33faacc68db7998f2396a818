@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36f58b3b_6042af56",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-25T14:35:18Z",
+      "side": 0,
+      "message": "I\u0027d suggest the newly added methods (of the interface) to just return a List\u003cModifiedFile\u003e entities. We can add a helper method in DiffOperationsImpl that has almost the same logic as \"GitModifiedFilesCacheImpl\". At the end, the caller is only interested in the list of files names, and the change types (no need for extra logic for untouched files or the detailed file edits).",
+      "revId": "f86715499228875f33faacc68db7998f2396a818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

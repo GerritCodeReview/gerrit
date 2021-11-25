@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1bf7166_547e7270",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-25T14:35:18Z",
+      "side": 1,
+      "message": "We also load the file diffs at line 252 from FileDiffCache; we\u0027ll also need to extract the logic for it.\n\nA simpler solution is to just return the List\u003cModifiedFile\u003e at that point (maybe handle at the caller). Code paths that will pass RevWalk (now ApprovalInference) only need the file names and the change types; we are not interested in the detailed diff.",
+      "revId": "ab94f4f238f57444e1357b06aaafc1a4a2c9ba8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "267b4569_13baa415",
+        "filename": "java/com/google/gerrit/server/patch/diff/LoadModifiedFilesList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-25T14:35:18Z",
+      "side": 1,
+      "message": "nit: 2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "ab94f4f238f57444e1357b06aaafc1a4a2c9ba8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2c03172_863dd815",
+        "filename": "java/com/google/gerrit/server/patch/diff/LoadModifiedFilesList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-25T14:35:18Z",
+      "side": 1,
+      "message": "nit: ModifiedFilesLoader is a better name, WDYT?",
+      "revId": "ab94f4f238f57444e1357b06aaafc1a4a2c9ba8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efbf2b72_c6869ef8",
+        "filename": "java/com/google/gerrit/server/patch/diff/LoadModifiedFilesList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-25T14:35:18Z",
+      "side": 1,
+      "message": "Here we wrap GitModifiedFilesCache which also creates a new RevWalk, hence we cannot do that. If you want to keep this logic, we need to extract the loader\u0027s logic similar to what we did here.",
+      "range": {
+        "startLine": 78,
+        "startChar": 61,
+        "endLine": 78,
+        "endChar": 69
+      },
+      "revId": "ab94f4f238f57444e1357b06aaafc1a4a2c9ba8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

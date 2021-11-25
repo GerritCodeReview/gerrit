@@ -127,6 +127,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4555b95a_432f6c43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-25T18:49:12Z",
+      "side": 1,
+      "message": "That depends on whether they listen for events in their local envrionment or whether they list on events bubbling up to document.body. If you are listening on document.body (global shortcut) *and* you don\u0027t want to own the shortcut exclusively, then you should not stop the event propagation. An example for that is \u0027e\u0027 for expanding all the comments on the page. Each gr-comment-thread listens for that keypress, but they happily co-exist and just all handle them.\n\nWe should have a mechanism (in shortcut-service eventually) that prevents two exclusive shortcuts for the same key. There is no notion of \"order\". Either you want to handle a key exclusively and don\u0027t accept the existence of other global listeners, or you co-exist with a bunch of other handlers that don\u0027t have conflicting goals.\n\nDoes that answer your question?",
+      "parentUuid": "c5bdd340_e7240e8b",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "3c4569ce4acad9a93f3084d86e87d594d8beed32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "869cc3ff_86855668",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

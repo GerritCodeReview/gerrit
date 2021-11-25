@@ -316,11 +316,14 @@ class ApprovalInference {
       PatchSetApproval psa,
       PatchSet patchSet,
       LabelType type,
-      ChangeKind changeKind) {
+      ChangeKind changeKind,
+      RevWalk revWalk,
+      Config repoConfig) {
     if (!type.getCopyCondition().isPresent()) {
       return false;
     }
-    ApprovalContext ctx = ApprovalContext.create(changeNotes, psa, patchSet, changeKind);
+    ApprovalContext ctx =
+        ApprovalContext.create(changeNotes, psa, patchSet, changeKind, revWalk, repoConfig);
     try {
       // Use a request context to run checks as an internal user with expanded visibility. This is
       // so that the output of the copy condition does not depend on who is running the current
@@ -394,10 +397,11 @@ class ApprovalInference {
       if (baseVsCurrent == null
           && type.isPresent()
           && type.get().isCopyAllScoresIfListOfFilesDidNotChange()) {
-        baseVsCurrent = listModifiedFiles(project, patchSet);
-        baseVsPrior = listModifiedFiles(project, priorPatchSet.getValue());
+        baseVsCurrent = listModifiedFiles(project, patchSet, rw, repoConfig);
+        baseVsPrior = listModifiedFiles(project, priorPatchSet.getValue(), rw, repoConfig);
         priorVsCurrent =
-            listModifiedFiles(project, priorPatchSet.getValue().commitId(), patchSet.commitId());
+            listModifiedFiles(
+                project, priorPatchSet.getValue().commitId(), patchSet.commitId(), rw, repoConfig);
       }
       if (!type.isPresent()) {
         logger.atFine().log(
@@ -420,7 +424,8 @@ class ApprovalInference {
               baseVsCurrent,
               baseVsPrior,
               priorVsCurrent)
-          && !canCopyBasedOnCopyCondition(notes, psa, patchSet, type.get(), changeKind)) {
+          && !canCopyBasedOnCopyCondition(
+              notes, psa, patchSet, type.get(), changeKind, rw, repoConfig)) {
         continue;
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(patchSet.id()));
@@ -432,14 +437,20 @@ class ApprovalInference {
    * Gets the modified files between the two latest patch-sets. Can be used to compute difference in
    * files between those two patch-sets .
    */
-  private Map<String, FileDiffOutput> listModifiedFiles(ProjectState project, PatchSet ps) {
+  private Map<String, FileDiffOutput> listModifiedFiles(
+      ProjectState project, PatchSet ps, RevWalk revWalk, Config repoConfig) {
     try {
       Integer parentNum =
           listOfFilesUnchangedPredicate.isInitialCommit(project.getNameKey(), ps.commitId())
               ? 0
               : 1;
       return diffOperations.listModifiedFilesAgainstParent(
-          project.getNameKey(), ps.commitId(), parentNum, DiffOptions.DEFAULTS);
+          project.getNameKey(),
+          ps.commitId(),
+          parentNum,
+          DiffOptions.DEFAULTS,
+          revWalk,
+          repoConfig);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"
@@ -454,10 +465,19 @@ class ApprovalInference {
    * change.
    */
   private Map<String, FileDiffOutput> listModifiedFiles(
-      ProjectState project, ObjectId sourceCommit, ObjectId targetCommit) {
+      ProjectState project,
+      ObjectId sourceCommit,
+      ObjectId targetCommit,
+      RevWalk revWalk,
+      Config repoConfig) {
     try {
       return diffOperations.listModifiedFiles(
-          project.getNameKey(), sourceCommit, targetCommit, DiffOptions.DEFAULTS);
+          project.getNameKey(),
+          sourceCommit,
+          targetCommit,
+          DiffOptions.DEFAULTS,
+          revWalk,
+          repoConfig);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"

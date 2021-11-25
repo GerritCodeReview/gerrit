@@ -32,9 +32,11 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheKey;
+import com.google.gerrit.server.patch.diff.ModifiedFilesLoader;
 import com.google.gerrit.server.patch.filediff.FileDiffCache;
 import com.google.gerrit.server.patch.filediff.FileDiffCacheImpl;
 import com.google.gerrit.server.patch.filediff.FileDiffCacheKey;
+import com.google.gerrit.server.patch.filediff.FileDiffCacheLoader;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
@@ -47,7 +49,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Provides different file diff operations. Uses the underlying Git/Gerrit caches to speed up the
@@ -63,8 +67,10 @@ public class DiffOperationsImpl implements DiffOperations {
   private static final Whitespace DEFAULT_WHITESPACE = Whitespace.IGNORE_NONE;
 
   private final ModifiedFilesCache modifiedFilesCache;
+  private final ModifiedFilesLoader modifiedFilesLoader;
   private final FileDiffCache fileDiffCache;
   private final BaseCommitUtil baseCommitUtil;
+  private final FileDiffCacheLoader fileDiffCacheLoader;
 
   public static Module module() {
     return new CacheModule() {
@@ -83,19 +89,36 @@ public class DiffOperationsImpl implements DiffOperations {
   public DiffOperationsImpl(
       ModifiedFilesCache modifiedFilesCache,
       FileDiffCache fileDiffCache,
-      BaseCommitUtil baseCommit) {
+      BaseCommitUtil baseCommit,
+      ModifiedFilesLoader modifiedFilesLoader,
+      FileDiffCacheLoader fileDiffCacheLoader) {
     this.modifiedFilesCache = modifiedFilesCache;
     this.fileDiffCache = fileDiffCache;
     this.baseCommitUtil = baseCommit;
+    this.modifiedFilesLoader = modifiedFilesLoader;
+    this.fileDiffCacheLoader = fileDiffCacheLoader;
   }
 
   @Override
   public Map<String, FileDiffOutput> listModifiedFilesAgainstParent(
       Project.NameKey project, ObjectId newCommit, int parent, DiffOptions diffOptions)
       throws DiffNotAvailableException {
+    return listModifiedFilesAgainstParent(
+        project, newCommit, parent, diffOptions, /* revWalk= */ null, /*repoConfig= */ null);
+  }
+
+  @Override
+  public Map<String, FileDiffOutput> listModifiedFilesAgainstParent(
+      Project.NameKey project,
+      ObjectId newCommit,
+      int parent,
+      DiffOptions diffOptions,
+      RevWalk revWalk,
+      Config repoConfig)
+      throws DiffNotAvailableException {
     try {
       DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
-      return getModifiedFiles(diffParams, diffOptions);
+      return getModifiedFiles(diffParams, diffOptions, revWalk, repoConfig);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);
@@ -106,6 +129,20 @@ public class DiffOperationsImpl implements DiffOperations {
   public Map<String, FileDiffOutput> listModifiedFiles(
       Project.NameKey project, ObjectId oldCommit, ObjectId newCommit, DiffOptions diffOptions)
       throws DiffNotAvailableException {
+    return listModifiedFiles(
+        project, oldCommit, newCommit, diffOptions, /* revWalk= */ null, /*
+    repoConfig= */ null);
+  }
+
+  @Override
+  public Map<String, FileDiffOutput> listModifiedFiles(
+      Project.NameKey project,
+      ObjectId oldCommit,
+      ObjectId newCommit,
+      DiffOptions diffOptions,
+      RevWalk revWalk,
+      Config repoConfig)
+      throws DiffNotAvailableException {
     DiffParameters params =
         DiffParameters.builder()
             .project(project)
@@ -113,7 +150,7 @@ public class DiffOperationsImpl implements DiffOperations {
             .baseCommit(oldCommit)
             .comparisonType(ComparisonType.againstOtherPatchSet())
             .build();
-    return getModifiedFiles(params, diffOptions);
+    return getModifiedFiles(params, diffOptions, revWalk, repoConfig);
   }
 
   @Override
@@ -163,15 +200,27 @@ public class DiffOperationsImpl implements DiffOperations {
   }
 
   private ImmutableMap<String, FileDiffOutput> getModifiedFiles(
-      DiffParameters diffParams, DiffOptions diffOptions) throws DiffNotAvailableException {
+      DiffParameters diffParams,
+      DiffOptions diffOptions,
+      @Nullable RevWalk revWalk,
+      @Nullable Config repoConfig)
+      throws DiffNotAvailableException {
     try {
       Project.NameKey project = diffParams.project();
       ObjectId newCommit = diffParams.newCommit();
       ObjectId oldCommit = diffParams.baseCommit();
       ComparisonType cmp = diffParams.comparisonType();
 
+      ModifiedFilesCacheKey key = createModifiedFilesKey(project, oldCommit, newCommit);
+
+      // We skip the cache in special cases where RevWalk is required since the commit is not
+      // fully visible yet since it's currently being created. This is the case when we persist
+      // votes across patchsets on patchset creation.
       ImmutableList<ModifiedFile> modifiedFiles =
-          modifiedFilesCache.get(createModifiedFilesKey(project, oldCommit, newCommit));
+          revWalk != null
+              ? modifiedFilesLoader.loadModifiedFiles(
+                  key, revWalk, repoConfig, /* skipDiffCache= */ true)
+              : modifiedFilesCache.get(key);
 
       List<FileDiffCacheKey> fileCacheKeys = new ArrayList<>();
       fileCacheKeys.add(
@@ -212,7 +261,7 @@ public class DiffOperationsImpl implements DiffOperations {
                         /* whitespace= */ null))
             .forEach(fileCacheKeys::add);
       }
-      return getModifiedFilesForKeys(fileCacheKeys, diffOptions);
+      return getModifiedFilesForKeys(fileCacheKeys, diffOptions, revWalk);
     } catch (IOException e) {
       throw new DiffNotAvailableException(e);
     }
@@ -221,7 +270,7 @@ public class DiffOperationsImpl implements DiffOperations {
   private FileDiffOutput getModifiedFileForKey(FileDiffCacheKey key)
       throws DiffNotAvailableException {
     Map<String, FileDiffOutput> diffList =
-        getModifiedFilesForKeys(ImmutableList.of(key), DiffOptions.DEFAULTS);
+        getModifiedFilesForKeys(ImmutableList.of(key), DiffOptions.DEFAULTS, /*revWalk= */ null);
     return diffList.containsKey(key.newFilePath())
         ? diffList.get(key.newFilePath())
         : FileDiffOutput.empty(key.newFilePath(), key.oldCommit(), key.newCommit());
@@ -233,8 +282,12 @@ public class DiffOperationsImpl implements DiffOperations {
    * the fallback algorithm {@link DiffAlgorithm#HISTOGRAM_NO_FALLBACK}.
    */
   private ImmutableMap<String, FileDiffOutput> getModifiedFilesForKeys(
-      List<FileDiffCacheKey> keys, DiffOptions diffOptions) throws DiffNotAvailableException {
-    ImmutableMap<FileDiffCacheKey, FileDiffOutput> fileDiffs = fileDiffCache.getAll(keys);
+      List<FileDiffCacheKey> keys, DiffOptions diffOptions, @Nullable RevWalk revWalk)
+      throws DiffNotAvailableException {
+    ImmutableMap<FileDiffCacheKey, FileDiffOutput> fileDiffs =
+        revWalk != null
+            ? fileDiffCacheLoader.loadKeysFromRepository(keys, revWalk)
+            : fileDiffCache.getAll(keys);
     List<FileDiffCacheKey> fallbackKeys = new ArrayList<>();
 
     ImmutableList.Builder<FileDiffOutput> result = ImmutableList.builder();

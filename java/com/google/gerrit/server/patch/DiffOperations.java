@@ -21,7 +21,9 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * An interface for all file diff related operations. Clients should use this interface to request:
@@ -60,6 +62,20 @@ public interface DiffOperations {
       throws DiffNotAvailableException;
 
   /**
+   * Same as {@link #listModifiedFilesAgainstParent} above with one difference. Here a RevWalk and
+   * repoConfig also supplied which means at least one the commits is currently being created. In
+   * that case, we must skip the cache and use the current RevWalk to access the repository.
+   */
+  Map<String, FileDiffOutput> listModifiedFilesAgainstParent(
+      Project.NameKey project,
+      ObjectId newCommit,
+      int parentNum,
+      DiffOptions diffOptions,
+      RevWalk revWalk,
+      Config repoConfig)
+      throws DiffNotAvailableException;
+
+  /**
    * Returns the list of added, deleted or modified files between two commits (patchsets). The
    * commit message and merge list (for merge commits) are also returned.
    *
@@ -74,6 +90,20 @@ public interface DiffOperations {
    */
   Map<String, FileDiffOutput> listModifiedFiles(
       Project.NameKey project, ObjectId oldCommit, ObjectId newCommit, DiffOptions diffOptions)
+      throws DiffNotAvailableException;
+
+  /**
+   * Same as {@link #listModifiedFiles} above with one difference. Here a RevWalk and repoConfig
+   * also supplied which means at least one the commits is currently being created. In that case, we
+   * must skip the cache and use the current RevWalk to access the repository.
+   */
+  Map<String, FileDiffOutput> listModifiedFiles(
+      Project.NameKey project,
+      ObjectId oldCommit,
+      ObjectId newCommit,
+      DiffOptions diffOptions,
+      RevWalk revWalk,
+      Config repoConfig)
       throws DiffNotAvailableException;
 
   /**

@@ -14,22 +14,12 @@
 
 package com.google.gerrit.server.patch.diff;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Sets;
-import com.google.common.collect.Streams;
-import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
-import com.google.gerrit.server.patch.DiffUtil;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey;
@@ -40,13 +30,8 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -61,8 +46,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 @Singleton
 public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private static final String MODIFIED_FILES = "modified_files";
 
   private final LoadingCache<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> cache;
@@ -111,13 +94,16 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
 
   static class ModifiedFilesLoader
       extends CacheLoader<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> {
-    private final GitModifiedFilesCache gitCache;
+
+    private final com.google.gerrit.server.patch.diff.ModifiedFilesLoader modifiedFilesLoader;
     private final GitRepositoryManager repoManager;
 
     @Inject
-    ModifiedFilesLoader(GitModifiedFilesCache gitCache, GitRepositoryManager repoManager) {
-      this.gitCache = gitCache;
-      this.repoManager = repoManager;
+    ModifiedFilesLoader(
+        com.google.gerrit.server.patch.diff.ModifiedFilesLoader modifiedFilesLoader,
+        GitRepositoryManager reposManager) {
+      this.modifiedFilesLoader = modifiedFilesLoader;
+      this.repoManager = reposManager;
     }
 
     @Override
@@ -125,118 +111,9 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
         throws IOException, DiffNotAvailableException {
       try (Repository repo = repoManager.openRepository(key.project());
           RevWalk rw = new RevWalk(repo.newObjectReader())) {
-        return loadModifiedFiles(key, rw);
+        return modifiedFilesLoader.loadModifiedFiles(
+            key, rw, repo.getConfig(), /* skipDiffCache= */ false);
       }
-    }
-
-    private ImmutableList<ModifiedFile> loadModifiedFiles(ModifiedFilesCacheKey key, RevWalk rw)
-        throws IOException, DiffNotAvailableException {
-      ObjectId aTree =
-          key.aCommit().equals(ObjectId.zeroId())
-              ? key.aCommit()
-              : DiffUtil.getTreeId(rw, key.aCommit());
-      ObjectId bTree = DiffUtil.getTreeId(rw, key.bCommit());
-      GitModifiedFilesCacheKey gitKey =
-          GitModifiedFilesCacheKey.builder()
-              .project(key.project())
-              .aTree(aTree)
-              .bTree(bTree)
-              .renameScore(key.renameScore())
-              .build();
-      List<ModifiedFile> modifiedFiles = mergeRewrittenEntries(gitCache.get(gitKey));
-      if (key.aCommit().equals(ObjectId.zeroId())) {
-        return ImmutableList.copyOf(modifiedFiles);
-      }
-      RevCommit revCommitA = DiffUtil.getRevCommit(rw, key.aCommit());
-      RevCommit revCommitB = DiffUtil.getRevCommit(rw, key.bCommit());
-      if (DiffUtil.areRelated(revCommitA, revCommitB)) {
-        return ImmutableList.copyOf(modifiedFiles);
-      }
-      Set<String> touchedFiles =
-          getTouchedFilesWithParents(
-              key, revCommitA.getParent(0).getId(), revCommitB.getParent(0).getId(), rw);
-      return modifiedFiles.stream()
-          .filter(f -> isTouched(touchedFiles, f))
-          .collect(toImmutableList());
-    }
-
-    /**
-     * Returns the paths of files that were modified between the old and new commits versus their
-     * parents (i.e. old commit vs. its parent, and new commit vs. its parent).
-     *
-     * @param key the {@link ModifiedFilesCacheKey} representing the commits we are diffing
-     * @param rw a {@link RevWalk} for the repository
-     * @return The list of modified files between the old/new commits and their parents
-     */
-    private Set<String> getTouchedFilesWithParents(
-        ModifiedFilesCacheKey key, ObjectId parentOfA, ObjectId parentOfB, RevWalk rw)
-        throws IOException {
-      try {
-        // TODO(ghareeb): as an enhancement: the 3 calls of the underlying git cache can be combined
-        GitModifiedFilesCacheKey oldVsBaseKey =
-            GitModifiedFilesCacheKey.create(
-                key.project(), parentOfA, key.aCommit(), key.renameScore(), rw);
-        List<ModifiedFile> oldVsBase = gitCache.get(oldVsBaseKey);
-
-        GitModifiedFilesCacheKey newVsBaseKey =
-            GitModifiedFilesCacheKey.create(
-                key.project(), parentOfB, key.bCommit(), key.renameScore(), rw);
-        List<ModifiedFile> newVsBase = gitCache.get(newVsBaseKey);
-
-        return Sets.union(getOldAndNewPaths(oldVsBase), getOldAndNewPaths(newVsBase));
-      } catch (DiffNotAvailableException e) {
-        logger.atWarning().log(
-            "Failed to retrieve the touched files' commits (%s, %s) and parents (%s, %s): %s",
-            key.aCommit(), key.bCommit(), parentOfA, parentOfB, e.getMessage());
-        return ImmutableSet.of();
-      }
-    }
-
-    private ImmutableSet<String> getOldAndNewPaths(List<ModifiedFile> files) {
-      return files.stream()
-          .flatMap(
-              file -> Stream.concat(Streams.stream(file.oldPath()), Streams.stream(file.newPath())))
-          .collect(ImmutableSet.toImmutableSet());
-    }
-
-    private static boolean isTouched(Set<String> touchedFilePaths, ModifiedFile modifiedFile) {
-      String oldFilePath = modifiedFile.oldPath().orElse(null);
-      String newFilePath = modifiedFile.newPath().orElse(null);
-      // One of the above file paths could be /dev/null but we need not explicitly check for this
-      // value as the set of file paths shouldn't contain it.
-      return touchedFilePaths.contains(oldFilePath) || touchedFilePaths.contains(newFilePath);
-    }
-
-    /**
-     * Return the {@code modifiedFiles} input list while merging rewritten entries.
-     *
-     * <p>Background: In some cases, JGit returns two diff entries (ADDED/DELETED, RENAMED/DELETED,
-     * etc...) for the same file path. This happens e.g. when a file's mode is changed between
-     * patchsets, for example converting a symlink file to a regular file. We identify this case and
-     * return a single modified file with changeType = {@link ChangeType#REWRITE}.
-     */
-    private static List<ModifiedFile> mergeRewrittenEntries(List<ModifiedFile> modifiedFiles) {
-      List<ModifiedFile> result = new ArrayList<>();
-      ListMultimap<String, ModifiedFile> byPath = ArrayListMultimap.create();
-      modifiedFiles.stream()
-          .forEach(
-              f -> {
-                if (f.changeType() == ChangeType.DELETED) {
-                  byPath.get(f.oldPath().get()).add(f);
-                } else {
-                  byPath.get(f.newPath().get()).add(f);
-                }
-              });
-      for (String path : byPath.keySet()) {
-        List<ModifiedFile> entries = byPath.get(path);
-        if (entries.size() == 1) {
-          result.add(entries.get(0));
-        } else {
-          // More than one. Return a single REWRITE entry.
-          result.add(entries.get(0).toBuilder().changeType(ChangeType.REWRITE).build());
-        }
-      }
-      return result;
     }
   }
 }

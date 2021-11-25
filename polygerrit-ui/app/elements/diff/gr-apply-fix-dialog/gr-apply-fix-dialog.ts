@@ -31,6 +31,7 @@ import {
   PatchSetNum,
   RobotId,
   BasePatchSetNum,
+  Base64FileContent,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -90,6 +91,9 @@ export class GrApplyFixDialog extends PolymerElement {
   @property({type: Number})
   _selectedFixIdx = 0;
 
+  @property({type: Object})
+  _diffInfo?: DiffInfo;
+
   @property({
     type: Boolean,
     computed:
@@ -122,15 +126,83 @@ export class GrApplyFixDialog extends PolymerElement {
    * @return Promise that resolves either when all
    * preview diffs are fetched or no fix suggestions in custom event detail.
    */
-  open(e: OpenFixPreviewEvent) {
+  async open(e: OpenFixPreviewEvent) {
     const detail = e.detail;
     const comment = detail.comment;
-    if (!detail.patchNum || !comment || !isRobot(comment)) {
-      return Promise.resolve();
+
+    if (comment?.message?.includes('```suggestion')) {
+      const start =
+        comment.message.indexOf('```suggestion\n') + '```suggestion\n'.length;
+      const end = comment.message.indexOf('\n```', start);
+      const replacement = comment.message.substring(start, end);
+      this._fixSuggestions = [
+        {
+          fix_id: 'test' as FixId,
+          description: 'User suggestion',
+          replacements: [
+            {
+              path: comment.path!,
+              range: {
+                start_line: comment.line!,
+                start_character: 0,
+                end_line: comment.line!,
+                end_character: 100,
+              },
+              replacement,
+            },
+          ],
+        },
+      ];
+      const file = await this.restApiService.getFileContent(
+        this.changeNum!,
+        comment.path!,
+        comment.patch_set!
+      );
+      const lines = (file as Base64FileContent).content!.split('\n');
+      const changedLine = comment.line!;
+      const originalLine = lines[changedLine - 1];
+      let firstChange = 0;
+      while (
+        originalLine.charAt(firstChange) === replacement.charAt(firstChange)
+      ) {
+        firstChange++;
+      }
+      this._diffInfo = {
+        intraline_status: 'OK',
+        change_type: 'MODIFIED',
+        meta_a: {
+          name: comment.path!,
+          content_type: 'application/typescript',
+          lines: lines.length,
+        },
+        meta_b: {
+          name: comment.path!,
+          content_type: 'application/typescript',
+          lines: lines.length,
+        },
+        content: [
+          {
+            ab: lines.slice(0, changedLine - 2),
+          },
+          {
+            a: [originalLine],
+            b: [replacement],
+            edit_a: [[firstChange, originalLine.length]],
+            edit_b: [[firstChange, replacement.length]],
+          },
+          {
+            ab: lines.slice(changedLine),
+          },
+        ],
+      };
+    } else {
+      if (!detail.patchNum || !comment || !isRobot(comment)) {
+        return Promise.resolve();
+      }
+      this._fixSuggestions = comment.fix_suggestions;
+      this._robotId = comment.robot_id;
     }
     this._patchNum = detail.patchNum;
-    this._fixSuggestions = comment.fix_suggestions;
-    this._robotId = comment.robot_id;
     if (!this._fixSuggestions || !this._fixSuggestions.length) {
       return Promise.resolve();
     }
@@ -173,19 +245,29 @@ export class GrApplyFixDialog extends PolymerElement {
         new Error('Both _patchNum and changeNum must be set')
       );
     }
-    return this.restApiService
-      .getRobotCommentFixPreview(this.changeNum, this._patchNum, fixId)
-      .then(res => {
-        if (res) {
-          this._currentPreviews = Object.keys(res).map(key => {
-            return {filepath: key, preview: res[key]};
-          });
-        }
-      })
-      .catch(err => {
-        this._close(false);
-        throw err;
-      });
+    if (fixId === 'test') {
+      this._currentPreviews = [
+        {
+          filepath: this._fixSuggestions![0].replacements[0].path,
+          preview: this._diffInfo!,
+        },
+      ];
+      return Promise.resolve();
+    } else {
+      return this.restApiService
+        .getRobotCommentFixPreview(this.changeNum, this._patchNum, fixId)
+        .then(res => {
+          if (res) {
+            this._currentPreviews = Object.keys(res).map(key => {
+              return {filepath: key, preview: res[key]};
+            });
+          }
+        })
+        .catch(err => {
+          this._close(false);
+          throw err;
+        });
+    }
   }
 
   hasSingleFix(_fixSuggestions?: FixSuggestionInfo[]) {

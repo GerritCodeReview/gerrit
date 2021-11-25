@@ -16,6 +16,24 @@
       "message": "Sorry, this is on me but I realized this could even be shortened to.\n\nif (!this.rule?.value) return;\n\nHere and throughout.",
       "revId": "9363913bc78ea114838f3fa096c7c071e878a009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d823c86a_ed4f6605",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-25T00:25:25Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "210d5ecb_107cf643",
+      "revId": "9363913bc78ea114838f3fa096c7c071e878a009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

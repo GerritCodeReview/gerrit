@@ -264,6 +264,11 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .value(value)
             .build();
     return ApprovalContext.create(
-        changeNotes, approval, changeNotes.getPatchSets().get(newPsId), changeKind);
+        changeNotes,
+        approval,
+        changeNotes.getPatchSets().get(newPsId),
+        changeKind, /* revWalk
+                     */
+        null);
   }
 }

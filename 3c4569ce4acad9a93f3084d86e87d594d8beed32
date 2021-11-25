@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4441eed8_ad4a5ea8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-25T14:46:11Z",
+      "side": 1,
+      "message": "For som rason I cannot typ th lttr (fifth lttr of th alphabt).",
+      "revId": "3c4569ce4acad9a93f3084d86e87d594d8beed32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "869cc3ff_86855668",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-25T14:46:11Z",
+      "side": 1,
+      "message": "I am not able",
+      "revId": "3c4569ce4acad9a93f3084d86e87d594d8beed32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

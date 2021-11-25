@@ -1,0 +1,441 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "663f20a0_36aa727a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "In your test you aren\u0027t actually testing this but rather creating a situation where there are external-ids created case-sensitively even though the case-insensitive flag is true.\n\nHow did you really reproduced the issue?",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5765f6b7_db280d83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "nit: wrap line",
+      "range": {
+        "startLine": 14,
+        "startChar": 66,
+        "endLine": 14,
+        "endChar": 74
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "786ccea6_2563c574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "This is pointing to the case-insensitive on-line migration and NOT to the actual problem that you are trying to solve.",
+      "range": {
+        "startLine": 17,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5635b69_4cbe6eb6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "More than \"handle\", can you express the intention? Should \"Keep\" or \"Tolerate\"?",
+      "range": {
+        "startLine": 907,
+        "startChar": 20,
+        "endLine": 907,
+        "endChar": 26
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48a9a8f7_8b738768",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "I am a bit puzzled by this test: you are creating two different accounts that are differing only in their case, but *THEY ARE* actually different.\n\nUnder that condition, we CANNOT move to case-insensitive matching, otherwise we will mixup identities.\n\nAre you saying that even if that happens, the migration mode shouldn\u0027t mixup the identities?",
+      "range": {
+        "startLine": 907,
+        "startChar": 14,
+        "endLine": 907,
+        "endChar": 65
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b6614fb_7b884e37",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "firstAccountId",
+      "range": {
+        "startLine": 908,
+        "startChar": 15,
+        "endLine": 908,
+        "endChar": 24
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ce32c05_5d9ffb72",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "optional: why 66 and not just 1?",
+      "range": {
+        "startLine": 908,
+        "startChar": 38,
+        "endLine": 908,
+        "endChar": 40
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcaf267f_20126a21",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "optional: why 67 and not just 2?",
+      "range": {
+        "startLine": 909,
+        "startChar": 44,
+        "endLine": 909,
+        "endChar": 46
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61feb9ae_d9a4efb0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "final boolean",
+      "range": {
+        "startLine": 910,
+        "startChar": 4,
+        "endLine": 910,
+        "endChar": 11
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58d0bb83_602ab769",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "caseSensitiveUsername?",
+      "range": {
+        "startLine": 910,
+        "startChar": 12,
+        "endLine": 910,
+        "endChar": 37
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f3502d9_ab640da8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "I am a bit puzzled by this call: if \u0027userNameCaseInsensitive\u003dtrue\u0027 in the gerrit.config, how come that you could create an case-sensitive external-id?",
+      "range": {
+        "startLine": 916,
+        "startChar": 0,
+        "endLine": 917,
+        "endChar": 90
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f293cd9_98636c25",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "firstAccountExternalIdKey",
+      "range": {
+        "startLine": 921,
+        "startChar": 21,
+        "endLine": 921,
+        "endChar": 31
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c758a470_f8aa5d30",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "avoid magic values: I would call this caseInsensitiveUsername",
+      "range": {
+        "startLine": 921,
+        "startChar": 88,
+        "endLine": 921,
+        "endChar": 92
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d734969_29b431e7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "avoid reusing the same variable multiple times. Also, this is the externalId of the second account, we should give a name that represents that.\n\nWhat about secondAccountExternalIdKey ?",
+      "range": {
+        "startLine": 924,
+        "startChar": 6,
+        "endLine": 924,
+        "endChar": 16
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "233a1bc8_24b5812f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "same as above: caseInsensitiveUsername",
+      "range": {
+        "startLine": 924,
+        "startChar": 73,
+        "endLine": 924,
+        "endChar": 77
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5aa45b2_c7d99ac3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "What do you mean with \"handle\"? What is the expectation?",
+      "range": {
+        "startLine": 932,
+        "startChar": 20,
+        "endLine": 932,
+        "endChar": 26
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1a07372_e733eb18",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "caseInsensitiveUsername",
+      "range": {
+        "startLine": 934,
+        "startChar": 12,
+        "endLine": 934,
+        "endChar": 37
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7647190_16b80766",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "externalIdFromLowercaseUsername",
+      "range": {
+        "startLine": 943,
+        "startChar": 21,
+        "endLine": 943,
+        "endChar": 31
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "248517ed_bbf52f65",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-25T23:36:59Z",
+      "side": 1,
+      "message": "Do not reuse variables: call this instead externalIdFromMixedCaseUsername",
+      "range": {
+        "startLine": 947,
+        "startChar": 6,
+        "endLine": 947,
+        "endChar": 16
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

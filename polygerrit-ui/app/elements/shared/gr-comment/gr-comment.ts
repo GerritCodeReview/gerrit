@@ -38,6 +38,7 @@ import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
 import {
   AccountDetailInfo,
+  Base64FileContent,
   BasePatchSetNum,
   ConfigInfo,
   NumericChangeId,
@@ -832,6 +833,7 @@ export class GrComment extends PolymerElement {
   }
 
   _hasNoFix(comment?: UIComment) {
+    if (comment?.message?.includes('```suggestion')) return false;
     return !comment || !(comment as UIRobot).fix_suggestions;
   }
 
@@ -1099,6 +1101,21 @@ export class GrComment extends PolymerElement {
         this._handleCancelDeleteComment();
         this.comment = newComment;
       });
+  }
+
+  async _handleSuggestEdit() {
+    if (!this.comment || !this.changeNum) return;
+    const start = '```suggestion\n';
+    const end = '\n```';
+    const file = await this.restApiService.getFileContent(
+      this.changeNum,
+      this.comment.path!,
+      this.comment.patch_set!
+    );
+    const line = (file as Base64FileContent).content!.split('\n')[
+      this.comment.line! - 1
+    ];
+    this._messageText += `${start}${line}${end}`;
   }
 }
 

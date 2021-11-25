@@ -15,27 +15,28 @@
  * limitations under the License.
  */
 
+import {RepoName} from '../../api/rest-api';
 import '../../test/common-test-setup-karma';
 import {createChange} from '../../test/test-data-generators';
 import {queryAndAssert} from '../../test/test-utils';
-import './gr-topic-tree-project';
-import {GrTopicTreeProject} from './gr-topic-tree-project';
+import './gr-topic-tree-repo';
+import {GrTopicTreeRepo} from './gr-topic-tree-repo';
 
-const basicFixture = fixtureFromElement('gr-topic-tree-project');
-const projectName = 'myProject';
+const basicFixture = fixtureFromElement('gr-topic-tree-repo');
+const repoName = 'myRepo' as RepoName;
 
-suite('gr-topic-tree-project tests', () => {
-  let element: GrTopicTreeProject;
+suite('gr-topic-tree-repo tests', () => {
+  let element: GrTopicTreeRepo;
 
   setup(async () => {
     element = basicFixture.instantiate();
-    element.projectName = projectName;
+    element.repoName = repoName;
     element.changes = [createChange()];
     await element.updateComplete;
   });
 
-  test('shows project name', () => {
+  test('shows repository name', () => {
     const heading = queryAndAssert<HTMLHeadingElement>(element, 'h2');
-    assert.equal(heading.textContent, `Project ${projectName}`);
+    assert.equal(heading.textContent, `Repo ${repoName}`);
   });
 });

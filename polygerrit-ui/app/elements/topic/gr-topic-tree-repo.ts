@@ -19,26 +19,26 @@ import './gr-topic-tree-row';
 import {customElement, property} from 'lit/decorators';
 import {LitElement, html} from 'lit-element/lit-element';
 import '../shared/gr-button/gr-button';
-import {ChangeInfo} from '../../api/rest-api';
+import {ChangeInfo, RepoName} from '../../api/rest-api';
 
 /**
- * A view of changes that all belong to the same project.
+ * A view of changes that all belong to the same repository.
  */
-@customElement('gr-topic-tree-project')
-export class GrTopicTreeProject extends LitElement {
+@customElement('gr-topic-tree-repo')
+export class GrTopicTreeRepo extends LitElement {
   @property({type: String})
-  projectName?: string;
+  repoName?: RepoName;
 
   @property({type: Array})
   changes?: ChangeInfo[];
 
   override render() {
-    if (this.projectName === undefined || this.changes === undefined) {
+    if (this.repoName === undefined || this.changes === undefined) {
       return;
     }
-    // TODO: Groups of related changes should be separated within the project.
+    // TODO: Groups of related changes should be separated within the repository.
     return html`
-      <h2>Project ${this.projectName}</h2>
+      <h2>Repo ${this.repoName}</h2>
       ${this.changes.map(change => this.renderTreeRow(change))}
     `;
   }
@@ -50,6 +50,6 @@ export class GrTopicTreeProject extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-topic-tree-project': GrTopicTreeProject;
+    'gr-topic-tree-repo': GrTopicTreeRepo;
   }
 }

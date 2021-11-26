@@ -31,7 +31,7 @@ import {
 import {SubmitRequirementResultInfo} from '../../../api/rest-api';
 import {ParsedChangeInfo} from '../../../types/types';
 
-suite('gr-vote-chip tests', () => {
+suite('gr-submit-requirements tests', () => {
   let element: GrSubmitRequirements;
   setup(async () => {
     const submitRequirement: SubmitRequirementResultInfo = {

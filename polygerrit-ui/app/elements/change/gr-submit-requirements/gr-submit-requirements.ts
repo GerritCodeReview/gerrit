@@ -221,7 +221,7 @@ export class GrSubmitRequirements extends LitElement {
               name="requirement"
               .value=${requirement}
             ></gr-endpoint-param>
-            ${this.renderVotes(requirement)}${this.renderChecks(requirement)}
+            ${this.renderVotesAndChecksChips(requirement)}
             ${this.renderOverrideLabels(requirement)}
           </gr-endpoint-decorator>
         </td>
@@ -239,7 +239,7 @@ export class GrSubmitRequirements extends LitElement {
     ></iron-icon>`;
   }
 
-  renderVotes(requirement: SubmitRequirementResultInfo) {
+  renderVotesAndChecksChips(requirement: SubmitRequirementResultInfo) {
     const requirementLabels = extractAssociatedLabels(requirement);
     const allLabels = this.change?.labels ?? {};
     const associatedLabels = Object.keys(allLabels).filter(label =>
@@ -249,11 +249,20 @@ export class GrSubmitRequirements extends LitElement {
     const everyAssociatedLabelsIsWithoutVotes = associatedLabels.every(
       label => !hasVotes(allLabels[label])
     );
-    if (everyAssociatedLabelsIsWithoutVotes) return html`No votes`;
 
-    return associatedLabels.map(label =>
+    const checksChips = this.renderChecks(requirement);
+
+    if (everyAssociatedLabelsIsWithoutVotes) {
+      if (checksChips) {
+        return checksChips;
+      } else {
+        return html`No votes`;
+      }
+    }
+
+    return html`${associatedLabels.map(label =>
       this.renderLabelVote(label, allLabels)
-    );
+    )}${checksChips}`;
   }
 
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {
@@ -309,8 +318,9 @@ export class GrSubmitRequirements extends LitElement {
           });
         }}"
       ></gr-checks-chip>`;
+    } else {
+      return;
     }
-    return;
   }
 
   renderOverrideLabels(requirement: SubmitRequirementResultInfo) {

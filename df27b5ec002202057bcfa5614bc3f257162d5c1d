@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ea90619_86787523",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-26T10:08:40Z",
+      "side": 1,
+      "message": "Does this have any effect on the UI?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "df27b5ec002202057bcfa5614bc3f257162d5c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "12570016_479d1816",
@@ -14,6 +37,29 @@
       "writtenOn": "2021-11-26T09:41:01Z",
       "side": 1,
       "message": "Hi Edwin, could you please approve this change? The experiment is ramped up to 100% in google3 so should be safe to remove.\nThat\u0027d spare me resolving merge conflicts again if any tests are added to ChangeIT.",
+      "revId": "df27b5ec002202057bcfa5614bc3f257162d5c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c6dc5ea_32555538",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-26T10:08:40Z",
+      "side": 1,
+      "message": "Any chance to avoid this and compute submit rules only once?",
+      "range": {
+        "startLine": 702,
+        "startChar": 3,
+        "endLine": 703,
+        "endChar": 77
+      },
       "revId": "df27b5ec002202057bcfa5614bc3f257162d5c1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

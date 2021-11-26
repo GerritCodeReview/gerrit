@@ -41,7 +41,13 @@ public class SubmitRequirementResultInfo {
      * Any of the applicability, submittability or override expressions contain invalid syntax and
      * are not parsable.
      */
-    ERROR
+    ERROR,
+
+    /**
+     * The "submit requirement" was bypassed during submission, e.g. by pushing for review with the
+     * %submit option.
+     */
+    FORCED
   }
 
   /** Submit requirement name. */

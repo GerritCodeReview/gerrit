@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
@@ -244,12 +245,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psas.get(0).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psas.get(0).value()).isEqualTo((short) -1);
     assertThat(psas.get(0).granted()).isEqualTo(truncate(after(c, 2000)));
+    assertParsedUuid(psas.get(0));
 
     assertThat(psas.get(1).patchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(psas.get(1).accountId().get()).isEqualTo(1);
     assertThat(psas.get(1).label()).isEqualTo(LabelId.VERIFIED);
     assertThat(psas.get(1).value()).isEqualTo((short) 1);
     assertThat(psas.get(1).granted()).isEqualTo(psas.get(0).granted());
+    assertParsedUuid(psas.get(1));
   }
 
   @Test
@@ -276,6 +279,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psa1.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa1.value()).isEqualTo((short) -1);
     assertThat(psa1.granted()).isEqualTo(truncate(after(c, 2000)));
+    assertParsedUuid(psa1);
 
     PatchSetApproval psa2 = Iterables.getOnlyElement(psas.get(ps2));
     assertThat(psa2.patchSetId()).isEqualTo(ps2);
@@ -283,6 +287,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psa2.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa2.value()).isEqualTo((short) +1);
     assertThat(psa2.granted()).isEqualTo(truncate(after(c, 4000)));
+    assertParsedUuid(psa2);
   }
 
   @Test
@@ -297,6 +302,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
     assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa.value()).isEqualTo((short) -1);
+    assertParsedUuid(psa);
 
     update = newUpdate(c, changeOwner);
     update.putApproval(LabelId.CODE_REVIEW, (short) 1);
@@ -306,6 +312,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     psa = Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
     assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa.value()).isEqualTo((short) 1);
+    assertParsedUuid(psa);
   }
 
   @Test
@@ -329,12 +336,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psas.get(0).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psas.get(0).value()).isEqualTo((short) -1);
     assertThat(psas.get(0).granted()).isEqualTo(truncate(after(c, 2000)));
+    assertParsedUuid(psas.get(0));
 
     assertThat(psas.get(1).patchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(psas.get(1).accountId().get()).isEqualTo(2);
     assertThat(psas.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psas.get(1).value()).isEqualTo((short) 1);
     assertThat(psas.get(1).granted()).isEqualTo(truncate(after(c, 3000)));
+    assertParsedUuid(psas.get(1));
   }
 
   @Test
@@ -350,6 +359,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psa.accountId().get()).isEqualTo(1);
     assertThat(psa.label()).isEqualTo("Not-For-Long");
     assertThat(psa.value()).isEqualTo((short) 1);
+    assertParsedUuid(psa);
 
     update = newUpdate(c, changeOwner);
     update.removeApproval("Not-For-Long");
@@ -368,6 +378,242 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void approval_UUIDGenerated_forAllValues() throws Exception {
+    for (int value = -2; value <= 2; value++) {
+      Change c = newChange();
+      ChangeUpdate update = newUpdate(c, changeOwner);
+      update.putApproval(LabelId.CODE_REVIEW, (short) value);
+      update.commit();
+
+      ChangeNotes notes = newNotes(c);
+      PatchSetApproval psa =
+          Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+      assertThat(psa.accountId()).isEqualTo(changeOwner.getAccountId());
+      assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
+      assertThat(psa.value()).isEqualTo((short) value);
+      assertParsedUuid(psa);
+    }
+  }
+
+  @Test
+  public void emptyApproval_uuidGenerated() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    PatchSetApproval psa =
+        Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+    assertThat(psa.accountId()).isEqualTo(changeOwner.getAccountId());
+    assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(psa.value()).isEqualTo((short) -1);
+    assertParsedUuid(psa);
+
+    update = newUpdate(c, changeOwner);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 0);
+    update.commit();
+
+    notes = newNotes(c);
+    PatchSetApproval emptyPsa =
+        Iterables.getOnlyElement(notes.getApprovals().get(psa.patchSetId()));
+    assertThat(emptyPsa.key()).isEqualTo(psa.key());
+    assertThat(emptyPsa.value()).isEqualTo((short) 0);
+    assertThat(emptyPsa.label()).isEqualTo(psa.label());
+    assertParsedUuid(emptyPsa);
+  }
+
+  @Test
+  public void removedApproval_noUuid() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    PatchSetApproval psa =
+        Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+    assertThat(psa.accountId()).isEqualTo(changeOwner.getAccountId());
+    assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(psa.value()).isEqualTo((short) -1);
+    assertParsedUuid(psa);
+
+    update = newUpdate(c, changeOwner);
+    update.removeApproval(LabelId.CODE_REVIEW);
+    update.commit();
+
+    notes = newNotes(c);
+    PatchSetApproval removedPsa =
+        Iterables.getOnlyElement(notes.getApprovals().get(psa.patchSetId()));
+    assertThat(removedPsa.key()).isEqualTo(psa.key());
+    assertThat(removedPsa.value()).isEqualTo((short) 0);
+    assertThat(removedPsa.label()).isEqualTo(psa.label());
+    assertThat(removedPsa.uuid()).isEmpty();
+  }
+
+  @Test
+  public void reissuedApproval_samePatchSet_differentUUID() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getApprovals().keySet()).containsExactly(c.currentPatchSetId());
+    PatchSetApproval originalPsa =
+        Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+
+    assertThat(originalPsa.patchSetId()).isEqualTo(c.currentPatchSetId());
+    assertThat(originalPsa.accountId()).isEqualTo(changeOwner.getAccountId());
+    assertThat(originalPsa.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(originalPsa.value()).isEqualTo((short) -1);
+    assertParsedUuid(originalPsa);
+
+    // Remove approval from current patch set
+    update = newUpdate(c, changeOwner);
+    update.removeApproval(LabelId.CODE_REVIEW);
+    update.commit();
+
+    // Add approval with the same author, label, value to the current patch set
+    update = newUpdate(c, changeOwner);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getApprovals().keySet()).hasSize(1);
+    PatchSetApproval reAddedPsa =
+        Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+
+    assertThat(reAddedPsa.key()).isEqualTo(originalPsa.key());
+    assertThat(reAddedPsa.value()).isEqualTo(originalPsa.value());
+    // The re-added approval has a different UUID
+    assertParsedUuid(reAddedPsa);
+    assertThat(reAddedPsa.uuid().get()).isNotEqualTo(originalPsa.uuid());
+  }
+
+  @Test
+  public void reissuedApproval_otherPatchSet_differentUUID() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getApprovals().keySet()).containsExactly(c.currentPatchSetId());
+    PatchSetApproval originalPsa =
+        Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+
+    assertThat(originalPsa.patchSetId()).isEqualTo(c.currentPatchSetId());
+    assertThat(originalPsa.accountId().get()).isEqualTo(1);
+    assertThat(originalPsa.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(originalPsa.value()).isEqualTo((short) -1);
+    assertParsedUuid(originalPsa);
+
+    // Create new PatchSet and re-issue vote
+    incrementPatchSet(c);
+    update = newUpdate(c, changeOwner);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getApprovals().keySet()).hasSize(2);
+    PatchSetApproval postUpdateOriginalPsa =
+        Iterables.getOnlyElement(notes.getApprovals().get(originalPsa.patchSetId()));
+    PatchSetApproval reAddedPsa =
+        Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+
+    // Same patch set approval for the original patch set is returned after the vote was re-issued
+    // on the next patch set
+    assertThat(postUpdateOriginalPsa).isEqualTo(originalPsa);
+
+    assertThat(reAddedPsa.accountId()).isEqualTo(originalPsa.accountId());
+    assertThat(reAddedPsa.label()).isEqualTo(originalPsa.label());
+    assertThat(reAddedPsa.value()).isEqualTo(originalPsa.value());
+
+    // The re-added approval has a different UUID
+    assertParsedUuid(reAddedPsa);
+    assertThat(reAddedPsa.uuid().get()).isNotEqualTo(originalPsa.uuid());
+  }
+
+  @Test
+  public void approvalUUID_samePatchSet_differentUsers() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
+    update.putApprovalFor(otherUserId, LabelId.CODE_REVIEW, (short) -1);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getApprovals().keySet()).containsExactly(c.currentPatchSetId());
+    List<PatchSetApproval> patchSetApprovals = notes.getApprovals().get(c.currentPatchSetId());
+    assertThat(patchSetApprovals).hasSize(2);
+    assertThat(
+            patchSetApprovals.stream()
+                .filter(psa -> psa.value() == (short) -1 && psa.label().equals(LabelId.CODE_REVIEW))
+                .count())
+        .isEqualTo(2);
+    // Count UUIDs to make sure they are unique
+    assertThat(patchSetApprovals.stream().map(psa -> psa.uuid().get()).distinct().count())
+        .isEqualTo(2);
+    assertThat(patchSetApprovals.stream().map(psa -> psa.accountId()).collect(toImmutableSet()))
+        .containsExactly(changeOwner.getAccountId(), otherUserId);
+  }
+
+  @Test
+  public void approvalUUID_samePatchSet_differentLabels() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval(LabelId.VERIFIED, (short) -1);
+    update.putApproval(LabelId.CODE_REVIEW, (short) -1);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getApprovals().keySet()).containsExactly(c.currentPatchSetId());
+    List<PatchSetApproval> patchSetApprovals = notes.getApprovals().get(c.currentPatchSetId());
+    assertThat(patchSetApprovals).hasSize(2);
+    assertThat(
+            patchSetApprovals.stream()
+                .filter(
+                    psa ->
+                        psa.value() == (short) -1
+                            && psa.accountId().equals(changeOwner.getAccountId()))
+                .count())
+        .isEqualTo(2);
+
+    // Count UUIDs to make sure they are unique
+    assertThat(patchSetApprovals.stream().map(psa -> psa.uuid().get()).distinct().count())
+        .isEqualTo(2);
+    assertThat(patchSetApprovals.stream().map(psa -> psa.label()).collect(toImmutableSet()))
+        .containsExactly(LabelId.VERIFIED, LabelId.CODE_REVIEW);
+  }
+
+  @Test
+  public void approvalUUID_differentChanges() throws Exception {
+    Change c1 = newChange();
+    ChangeUpdate update1 = newUpdate(c1, changeOwner);
+    update1.putApproval(LabelId.CODE_REVIEW, (short) +2);
+    update1.commit();
+
+    Change c2 = newChange();
+    ChangeUpdate update = newUpdate(c2, changeOwner);
+    update.putApproval(LabelId.CODE_REVIEW, (short) +2);
+    update.commit();
+
+    ChangeNotes notes1 = newNotes(c1);
+    PatchSetApproval psa1 =
+        Iterables.getOnlyElement(notes1.getApprovals().get(c1.currentPatchSetId()));
+    ChangeNotes notes2 = newNotes(c2);
+    PatchSetApproval psa2 =
+        Iterables.getOnlyElement(notes2.getApprovals().get(c2.currentPatchSetId()));
+    assertThat(psa1.label()).isEqualTo(psa2.label());
+    assertThat(psa1.accountId()).isEqualTo(psa2.accountId());
+    assertThat(psa1.value()).isEqualTo(psa2.value());
+
+    // UUID is global: different across changes.
+    assertThat(psa1.uuid()).isNotEqualTo(psa2.uuid());
+  }
+
+  @Test
   public void removeOtherUsersApprovals() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
@@ -380,21 +626,19 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psa.accountId()).isEqualTo(otherUserId);
     assertThat(psa.label()).isEqualTo("Not-For-Long");
     assertThat(psa.value()).isEqualTo((short) 1);
+    assertParsedUuid(psa);
 
     update = newUpdate(c, changeOwner);
     update.removeApprovalFor(otherUserId, "Not-For-Long");
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getApprovals())
-        .containsExactlyEntriesIn(
-            ImmutableListMultimap.of(
-                psa.patchSetId(),
-                PatchSetApproval.builder()
-                    .key(psa.key())
-                    .value(0)
-                    .granted(update.getWhen())
-                    .build()));
+    PatchSetApproval removedPsa =
+        Iterables.getOnlyElement(notes.getApprovals().get(psa.patchSetId()));
+    assertThat(removedPsa.key()).isEqualTo(psa.key());
+    assertThat(removedPsa.value()).isEqualTo((short) 0);
+    assertThat(removedPsa.label()).isEqualTo(psa.label());
+    assertThat(removedPsa.uuid()).isEmpty();
 
     // Add back approval on same label.
     update = newUpdate(c, otherUser);
@@ -406,6 +650,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psa.accountId()).isEqualTo(otherUserId);
     assertThat(psa.label()).isEqualTo("Not-For-Long");
     assertThat(psa.value()).isEqualTo((short) 2);
+    assertParsedUuid(psa);
   }
 
   @Test
@@ -426,10 +671,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(approvals.get(0).accountId()).isEqualTo(changeOwner.getAccountId());
     assertThat(approvals.get(0).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(approvals.get(0).value()).isEqualTo((short) 1);
+    assertParsedUuid(approvals.get(0));
 
     assertThat(approvals.get(1).accountId()).isEqualTo(otherUser.getAccountId());
     assertThat(approvals.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(approvals.get(1).value()).isEqualTo((short) -1);
+    assertThat(approvals.get(1).uuid()).isPresent();
+    assertParsedUuid(approvals.get(1));
   }
 
   @Test
@@ -462,9 +710,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(approvals.get(0).label()).isEqualTo(LabelId.VERIFIED);
     assertThat(approvals.get(0).value()).isEqualTo((short) 1);
     assertThat(approvals.get(0).postSubmit()).isFalse();
+    assertParsedUuid(approvals.get(1));
+
     assertThat(approvals.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(approvals.get(1).value()).isEqualTo((short) 2);
     assertThat(approvals.get(1).postSubmit()).isTrue();
+    assertParsedUuid(approvals.get(1));
   }
 
   @Test
@@ -503,14 +754,154 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(approvals.get(0).label()).isEqualTo(LabelId.VERIFIED);
     assertThat(approvals.get(0).value()).isEqualTo(1);
     assertThat(approvals.get(0).postSubmit()).isFalse();
+    assertParsedUuid(approvals.get(0));
+
     assertThat(approvals.get(1).accountId()).isEqualTo(ownerId);
     assertThat(approvals.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(approvals.get(1).value()).isEqualTo(2);
     assertThat(approvals.get(1).postSubmit()).isFalse(); // During submit.
+    assertParsedUuid(approvals.get(1));
+
     assertThat(approvals.get(2).accountId()).isEqualTo(otherId);
     assertThat(approvals.get(2).label()).isEqualTo("Other-Label");
     assertThat(approvals.get(2).value()).isEqualTo(2);
     assertThat(approvals.get(2).postSubmit()).isTrue();
+    assertParsedUuid(approvals.get(2));
+  }
+
+  @Test
+  public void copiedApprovals_keepsUUID() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval(LabelId.CODE_REVIEW, (short) 2);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    PatchSetApproval originalPsa =
+        Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+    assertThat(originalPsa.accountId()).isEqualTo(changeOwner.getAccountId());
+    assertThat(originalPsa.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(originalPsa.value()).isEqualTo(2);
+    assertThat(originalPsa.tag()).isEmpty();
+    assertThat(originalPsa.realAccountId()).isEqualTo(changeOwner.getAccountId());
+    assertParsedUuid(originalPsa);
+
+    // Copied approvals are persisted at the patch set upload, add new patch set
+    incrementPatchSet(c);
+
+    addCopiedApproval(c, changeOwner, originalPsa);
+
+    notes = newNotes(c);
+    assertThat(notes.getApprovalsWithCopied().keySet()).hasSize(2);
+    PatchSetApproval copiedApproval =
+        Iterables.getOnlyElement(
+            notes.getApprovalsWithCopied().get(c.currentPatchSetId()).stream()
+                .filter(a -> a.copied())
+                .collect(toImmutableList()));
+    PatchSetApproval nonCopiedApproval =
+        Iterables.getOnlyElement(
+            notes.getApprovalsWithCopied().get(originalPsa.patchSetId()).stream()
+                .filter(a -> !a.copied())
+                .collect(toImmutableList()));
+
+    // Still same original PSA is returned
+    assertThat(nonCopiedApproval).isEqualTo(originalPsa);
+
+    // The copied approval matches the original approval, including UUID
+    assertCopiedApproval(originalPsa, copiedApproval);
+  }
+
+  @Test
+  public void copiedApprovals_withRealUserAndTag_keepsUUID() throws Exception {
+    ImmutableList<String> strangeTags =
+        ImmutableList.of(", ", ":\"", ",", "!@#$%^\0&*):\" \n: \r\"#$@,. :");
+    for (String strangeTag : strangeTags) {
+      Change c = newChange();
+      CurrentUser otherUserAsOwner = userFactory.runAs(null, changeOwner.getAccountId(), otherUser);
+      ChangeUpdate update = newUpdate(c, otherUserAsOwner);
+      update.putApproval(LabelId.CODE_REVIEW, (short) 2);
+      update.setTag(strangeTag);
+      update.commit();
+      ChangeNotes notes = newNotes(c);
+      PatchSetApproval originalPsa =
+          Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+      assertThat(originalPsa.accountId()).isEqualTo(changeOwner.getAccountId());
+      assertThat(originalPsa.label()).isEqualTo(LabelId.CODE_REVIEW);
+      assertThat(originalPsa.value()).isEqualTo(2);
+      assertThat(originalPsa.tag()).hasValue(NoteDbUtil.sanitizeFooter(strangeTag));
+      assertThat(originalPsa.realAccountId()).isEqualTo(otherUserId);
+      assertParsedUuid(originalPsa);
+
+      // Copied approvals are persisted at the patch set upload, add new patch set
+      incrementPatchSet(c);
+
+      addCopiedApproval(c, changeOwner, originalPsa);
+
+      notes = newNotes(c);
+      assertThat(notes.getApprovalsWithCopied().keySet()).hasSize(2);
+      PatchSetApproval copiedApproval =
+          Iterables.getOnlyElement(
+              notes.getApprovalsWithCopied().get(c.currentPatchSetId()).stream()
+                  .filter(a -> a.copied())
+                  .collect(toImmutableList()));
+      PatchSetApproval nonCopiedApproval =
+          Iterables.getOnlyElement(
+              notes.getApprovalsWithCopied().get(originalPsa.patchSetId()).stream()
+                  .filter(a -> !a.copied())
+                  .collect(toImmutableList()));
+
+      // Still same original PSA is returned
+      assertThat(nonCopiedApproval).isEqualTo(originalPsa);
+
+      // The copied approval matches the original approval, including UUID
+      assertCopiedApproval(originalPsa, copiedApproval);
+    }
+  }
+
+  @Test
+  public void copiedApprovals_withTag_keepsUUID() throws Exception {
+    ImmutableList<String> strangeTags =
+        ImmutableList.of(", ", ":\"", ",", "!@#$%^\0&*):\" \n: \r\"#$@,. :");
+    for (String strangeTag : strangeTags) {
+      Change c = newChange();
+      ChangeUpdate update = newUpdate(c, changeOwner);
+      update.putApproval(LabelId.CODE_REVIEW, (short) 2);
+      update.setTag(strangeTag);
+      update.commit();
+
+      ChangeNotes notes = newNotes(c);
+      PatchSetApproval originalPsa =
+          Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+      assertThat(originalPsa.accountId()).isEqualTo(changeOwner.getAccountId());
+      assertThat(originalPsa.label()).isEqualTo(LabelId.CODE_REVIEW);
+      assertThat(originalPsa.value()).isEqualTo(2);
+      assertThat(originalPsa.tag()).hasValue(NoteDbUtil.sanitizeFooter(strangeTag));
+      assertThat(originalPsa.realAccountId()).isEqualTo(changeOwner.getAccountId());
+      assertParsedUuid(originalPsa);
+      // Copied approvals are persisted at the patch set upload, add new patch set
+      incrementPatchSet(c);
+
+      addCopiedApproval(c, changeOwner, originalPsa);
+
+      notes = newNotes(c);
+      assertThat(notes.getApprovalsWithCopied().keySet()).hasSize(2);
+      PatchSetApproval copiedApproval =
+          Iterables.getOnlyElement(
+              notes.getApprovalsWithCopied().get(c.currentPatchSetId()).stream()
+                  .filter(a -> a.copied())
+                  .collect(toImmutableList()));
+      PatchSetApproval nonCopiedApproval =
+          Iterables.getOnlyElement(
+              notes.getApprovalsWithCopied().get(originalPsa.patchSetId()).stream()
+                  .filter(a -> !a.copied())
+                  .collect(toImmutableList()));
+
+      // Still same original PSA is returned
+      assertThat(nonCopiedApproval).isEqualTo(originalPsa);
+
+      // The copied approval matches the original approval, including UUID
+      assertCopiedApproval(originalPsa, copiedApproval);
+    }
   }
 
   @Test
@@ -3591,5 +3982,35 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         attentionSetUpdate.account(),
         attentionSetUpdate.operation(),
         attentionSetUpdate.reason());
+  }
+
+  private void assertParsedUuid(PatchSetApproval patchSetApproval) {
+    assertThat(patchSetApproval.uuid().get().get()).matches("^[0-9a-fA-F]+$");
+  }
+
+  private void assertCopiedApproval(PatchSetApproval originalPsa, PatchSetApproval copiedPsa) {
+    assertThat(copiedPsa.label()).isEqualTo(originalPsa.label());
+    assertThat(copiedPsa.value()).isEqualTo(originalPsa.value());
+    assertThat(copiedPsa.tag()).isEqualTo(originalPsa.tag());
+    assertThat(copiedPsa.accountId()).isEqualTo(originalPsa.accountId());
+    assertThat(copiedPsa.realAccountId()).isEqualTo(originalPsa.realAccountId());
+    assertThat(copiedPsa.uuid()).isEqualTo(originalPsa.uuid());
+    assertThat(copiedPsa.copied()).isTrue();
+  }
+
+  private void addCopiedApproval(Change c, CurrentUser user, PatchSetApproval originalPsa)
+      throws Exception {
+    ChangeUpdate update = newUpdate(c, user);
+    update.putCopiedApproval(
+        PatchSetApproval.builder()
+            .key(originalPsa.key())
+            .value(originalPsa.value())
+            .copied(true)
+            .granted(TimeUtil.nowTs())
+            .tag(originalPsa.tag())
+            .uuid(originalPsa.uuid())
+            .realAccountId(originalPsa.realAccountId())
+            .build());
+    update.commit();
   }
 }

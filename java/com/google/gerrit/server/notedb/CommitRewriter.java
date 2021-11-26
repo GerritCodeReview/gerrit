@@ -946,7 +946,8 @@ public class CommitRewriter {
           continue;
         }
       } else if (footerKey.equalsIgnoreCase(FOOTER_LABEL.getName())) {
-        int voterIdentStart = footerValue.indexOf(' ');
+        int uuidStart = footerValue.indexOf(", ");
+        int voterIdentStart = footerValue.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
         FixIdentResult fixedVoter = null;
         if (voterIdentStart > 0) {
           String originalIdentString = footerValue.substring(voterIdentStart + 1);

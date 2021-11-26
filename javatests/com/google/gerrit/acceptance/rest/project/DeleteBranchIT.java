@@ -37,6 +37,8 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.inject.Inject;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -190,6 +192,26 @@ public class DeleteBranchIT extends AbstractDaemonTest {
             MethodNotAllowedException.class,
             () -> branch(BranchNameKey.create(allUsers, RefNames.HEAD)).delete());
     assertThat(thrown).hasMessageThat().contains("not allowed to delete HEAD");
+  }
+
+  @Test
+  public void deleteRefsForBranch() throws Exception {
+    BranchNameKey refsForBranch = BranchNameKey.create(project, "refs/for/master");
+
+    // Creating a branch under refs/for/ is not allowed through the API, hence create it directly in
+    // the remote repo.
+    try (TestRepository<Repository> repo =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      repo.branch(refsForBranch.branch()).commit().message("Initial empty commit").create();
+    }
+
+    assertThat(branch(refsForBranch).get().canDelete).isTrue();
+    String branchRev = branch(refsForBranch).get().revision;
+
+    branch(refsForBranch).delete();
+
+    eventRecorder.assertRefUpdatedEvents(project.get(), refsForBranch.branch(), branchRev, null);
+    assertThrows(ResourceNotFoundException.class, () -> branch(refsForBranch).get());
   }
 
   private void blockForcePush() throws Exception {

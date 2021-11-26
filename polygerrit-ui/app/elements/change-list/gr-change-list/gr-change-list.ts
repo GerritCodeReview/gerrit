@@ -53,7 +53,7 @@ import {ScrollMode} from '../../../constants/constants';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {PRIORITY_REQUIREMENTS_ORDER} from '../../../utils/label-util';
-import {addShortcut, Key} from '../../../utils/dom-util';
+import {addGlobalShortcut, Key} from '../../../utils/dom-util';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -176,7 +176,7 @@ export class GrChangeList extends base {
     super();
     this.cursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.cursor.focusOnMove = true;
-    addShortcut(this, {key: Key.ENTER}, () => this.openChange());
+    addGlobalShortcut({key: Key.ENTER}, () => this.openChange());
   }
 
   override ready() {

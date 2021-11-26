@@ -302,7 +302,7 @@ export class GrComment extends PolymerElement {
       this._isAdmin = !!isAdmin;
     });
     this.cleanups.push(
-      addShortcut(this, {key: Key.ESC}, e => this._handleEsc(e))
+      addShortcut(this, {key: Key.ESC}, () => this._handleEsc())
     );
     for (const key of ['s', Key.ENTER]) {
       for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
@@ -676,10 +676,9 @@ export class GrComment extends PolymerElement {
     }
   }
 
-  _handleEsc(e: Event) {
+  _handleEsc() {
     if (!this._messageText.length) {
-      e.preventDefault();
-      this._handleCancel(e);
+      this._handleCancel();
     }
   }
 
@@ -785,8 +784,7 @@ export class GrComment extends PolymerElement {
     });
   }
 
-  _handleCancel(e: Event) {
-    e.preventDefault();
+  _handleCancel() {
     if (!this.comment) return;
     if (!this.comment.id) {
       // Ensures we update the discarded draft message before deleting the draft

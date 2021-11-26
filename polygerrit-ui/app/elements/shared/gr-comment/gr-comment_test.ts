@@ -1420,10 +1420,7 @@ suite('gr-comment tests', () => {
 
       assert.isTrue(storeStub.called);
       assert.equal(storeStub.lastCall.args[1], 'test text');
-      element._handleCancel({
-        ...new Event('click'),
-        preventDefault: sinon.stub(),
-      });
+      element._handleCancel();
       await flush();
       assert.isTrue(discardSpy.called);
       assert.isFalse(eraseStub.called);
@@ -1438,7 +1435,7 @@ suite('gr-comment tests', () => {
       flush();
 
       assert.isFalse(storeStub.called);
-      element._handleCancel({...new Event('click'), preventDefault: () => {}});
+      element._handleCancel();
       assert.isTrue(discardSpy.called);
     });
 

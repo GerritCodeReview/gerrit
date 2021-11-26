@@ -218,7 +218,6 @@ export class GrEditableLabel extends PolymerElement {
       .composedPath()
       .some(element => element === inputContainer);
     if (isEventFromInput) {
-      event.preventDefault();
       this._save();
     }
   }
@@ -229,7 +228,6 @@ export class GrEditableLabel extends PolymerElement {
       .composedPath()
       .some(element => element === inputContainer);
     if (isEventFromInput) {
-      event.preventDefault();
       this._cancel();
     }
   }

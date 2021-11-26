@@ -153,19 +153,29 @@ export class GrTextarea extends PolymerElement {
   override connectedCallback() {
     super.connectedCallback();
     this.cleanups.push(
-      addShortcut(this, {key: Key.UP}, e => this._handleUpKey(e))
+      addShortcut(this, {key: Key.UP}, e => this._handleUpKey(e), {
+        doNotPrevent: true,
+      })
     );
     this.cleanups.push(
-      addShortcut(this, {key: Key.DOWN}, e => this._handleDownKey(e))
+      addShortcut(this, {key: Key.DOWN}, e => this._handleDownKey(e), {
+        doNotPrevent: true,
+      })
     );
     this.cleanups.push(
-      addShortcut(this, {key: Key.TAB}, e => this._handleTabKey(e))
+      addShortcut(this, {key: Key.TAB}, e => this._handleTabKey(e), {
+        doNotPrevent: true,
+      })
     );
     this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER}, e => this._handleEnterByKey(e))
+      addShortcut(this, {key: Key.ENTER}, e => this._handleEnterByKey(e), {
+        doNotPrevent: true,
+      })
     );
     this.cleanups.push(
-      addShortcut(this, {key: Key.ESC}, e => this._handleEscKey(e))
+      addShortcut(this, {key: Key.ESC}, e => this._handleEscKey(e), {
+        doNotPrevent: true,
+      })
     );
   }
 

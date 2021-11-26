@@ -77,7 +77,8 @@ suite('change service tests', () => {
   setup(() => {
     changeModel = new ChangeModel(
       getAppContext().routerModel,
-      getAppContext().restApiService
+      getAppContext().restApiService,
+      getAppContext().userModel
     );
     knownChange = {
       ...createChange(),

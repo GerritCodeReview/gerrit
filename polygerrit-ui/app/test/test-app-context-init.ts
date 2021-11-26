@@ -54,9 +54,11 @@ export function createTestAppContext(): AppContext & Finalizable {
     changeModel: (ctx: Partial<AppContext>) => {
       const routerModel = ctx.routerModel;
       const restApiService = ctx.restApiService;
+      const userModel = ctx.userModel;
       assertIsDefined(routerModel, 'routerModel');
       assertIsDefined(restApiService, 'restApiService');
-      return new ChangeModel(routerModel, restApiService);
+      assertIsDefined(userModel, 'userModel');
+      return new ChangeModel(routerModel, restApiService, userModel);
     },
     checksModel: (ctx: Partial<AppContext>) => {
       const routerModel = ctx.routerModel;

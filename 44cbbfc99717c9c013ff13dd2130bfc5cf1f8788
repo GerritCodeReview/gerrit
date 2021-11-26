@@ -46,6 +46,30 @@
       },
       "revId": "44cbbfc99717c9c013ff13dd2130bfc5cf1f8788",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa2e4753_b2afcc12",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 6029,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T11:38:19Z",
+      "side": 1,
+      "message": "I see. OK that\u0027s fine. Thanks for explaining.",
+      "parentUuid": "52349ae3_2918df7e",
+      "range": {
+        "startLine": 6029,
+        "startChar": 2,
+        "endLine": 6029,
+        "endChar": 9
+      },
+      "revId": "44cbbfc99717c9c013ff13dd2130bfc5cf1f8788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

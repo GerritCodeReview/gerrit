@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92eb56b2_792c5116",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-26T14:56:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cc35360e_b40d24cc",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5765f6b7_db280d83",
@@ -183,6 +207,30 @@
         "startChar": 20,
         "endLine": 907,
         "endChar": 26
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d30fad61_5b773ac5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-26T14:56:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2900791f_1fd63dd7",
+      "range": {
+        "startLine": 907,
+        "startChar": 14,
+        "endLine": 907,
+        "endChar": 65
       },
       "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -460,6 +508,30 @@
       "side": 1,
       "message": "This method is creating ExternalId object so I can decide if I want to create case sensitive/insensitive external id. I need that to prepare case sensitive external ids to simulate situation that I\u0027m turning on migration mode",
       "parentUuid": "4f3502d9_ab640da8",
+      "range": {
+        "startLine": 916,
+        "startChar": 0,
+        "endLine": 917,
+        "endChar": 90
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c61905f_5e5f63bd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-26T14:56:12Z",
+      "side": 1,
+      "message": "Makes sense, can you add a comment to describe that? It is clear now, but it would look weird to the reader without having this context.",
+      "parentUuid": "3c40bc1a_e3b6f462",
       "range": {
         "startLine": 916,
         "startChar": 0,

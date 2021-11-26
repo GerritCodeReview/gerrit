@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b1e415e_82f1aa29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-26T14:56:12Z",
+      "side": 1,
+      "message": "Thanks @Marcin for clarifying the context. I am fine to merge, but please add a comment to the test code for describing the situation.",
+      "revId": "7e79e4b930c4d9979f80bbfcbdef6cef918e2a4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

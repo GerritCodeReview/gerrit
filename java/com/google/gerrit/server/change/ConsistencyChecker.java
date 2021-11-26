@@ -95,7 +95,7 @@ public class ConsistencyChecker {
   public abstract static class Result {
     private static Result create(ChangeNotes notes, List<ProblemInfo> problems) {
       return new AutoValue_ConsistencyChecker_Result(
-          notes.getChangeId(), notes.getChange(), problems);
+          notes.getChangeId(), notes.getChange(), ImmutableList.copyOf(problems));
     }
 
     public abstract Change.Id id();
@@ -103,7 +103,7 @@ public class ConsistencyChecker {
     @Nullable
     public abstract Change change();
 
-    public abstract List<ProblemInfo> problems();
+    public abstract ImmutableList<ProblemInfo> problems();
   }
 
   private final ChangeNotes.Factory notesFactory;

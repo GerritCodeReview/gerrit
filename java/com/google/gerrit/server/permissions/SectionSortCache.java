@@ -125,7 +125,7 @@ public class SectionSortCache {
   abstract static class EntryKey {
     public abstract String ref();
 
-    public abstract List<String> patterns();
+    public abstract ImmutableList<String> patterns();
 
     static EntryKey create(String refName, List<AccessSection> sections) {
       List<String> patterns = new ArrayList<>(sections.size());

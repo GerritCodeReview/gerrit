@@ -211,7 +211,7 @@ public class Reindex extends SiteProgram {
 
     return dbInjector.createChildInjector(
         ModuleOverloader.override(
-            modules, LibModuleLoader.loadReindexModules(cfgInjector, versions, threads, replica)));
+            modules, LibModuleLoader.loadIndexModule(cfgInjector, versions, threads, replica)));
   }
 
   private void overrideConfig() {

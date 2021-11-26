@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7f0fd1d5_875e1480",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T12:45:27Z",
+      "side": 1,
+      "message": "No effect on the UI. SRs will only be returned on the API, the new UI is gated with a FE experiment.",
+      "parentUuid": "1ea90619_86787523",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "df27b5ec002202057bcfa5614bc3f257162d5c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "12570016_479d1816",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
@@ -54,6 +78,30 @@
       "writtenOn": "2021-11-26T10:08:40Z",
       "side": 1,
       "message": "Any chance to avoid this and compute submit rules only once?",
+      "range": {
+        "startLine": 702,
+        "startChar": 3,
+        "endLine": 703,
+        "endChar": 77
+      },
+      "revId": "df27b5ec002202057bcfa5614bc3f257162d5c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ac0bcce_01f68054",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T12:45:27Z",
+      "side": 1,
+      "message": "Ah, I optimized this with a one line change: in SubmitRequirementsAdapter#getLegacyRequirements I changed the call to get submit records to:\n\n\u003e List\u003cSubmitRecord\u003e records \u003d cd.submitRecords(SubmitRuleOptions.defaults());\n\nInstead of \n\n\u003e List\u003cSubmitRecord\u003e records \u003d evaluator.create(SubmitRuleOptions.defaults()).evaluate(cd);\n\nWith that, we reuse the computed (and cached) submit records instead of re-evaluating them every time.",
+      "parentUuid": "4c6dc5ea_32555538",
       "range": {
         "startLine": 702,
         "startChar": 3,

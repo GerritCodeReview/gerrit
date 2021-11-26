@@ -627,9 +627,19 @@ public class MergeOp implements AutoCloseable {
       for (Map.Entry<Change.Id, ChangeData> entry : cs.changesById().entrySet()) {
         Project.NameKey project = entry.getValue().project();
         Change.Id changeId = entry.getKey();
+        ChangeData cd = entry.getValue();
         batchUpdatesByProject
             .get(project)
-            .addOp(changeId, storeSubmitRequirementsOpFactory.create());
+            .addOp(
+                changeId,
+                storeSubmitRequirementsOpFactory.create(
+                    cd.submitRequirements().values().stream()
+                        // We don't store results for legacy submit requirements in NoteDb. While
+                        // surfacing submit requirements for closed changes, we load submit records
+                        // from NoteDb and convert them to submit requirement results. See
+                        // ChangeData#submitRequirements().
+                        .filter(srResult -> !srResult.isLegacy())
+                        .collect(Collectors.toList())));
       }
       try {
         submissionExecutor.setAdditionalBatchUpdateListeners(

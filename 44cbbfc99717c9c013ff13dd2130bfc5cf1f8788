@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61c020b0_9eb3ea47",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 6029,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T11:19:21Z",
+      "side": 1,
+      "message": "nit: move the private methods after all tests (public methods).",
+      "range": {
+        "startLine": 6029,
+        "startChar": 2,
+        "endLine": 6029,
+        "endChar": 9
+      },
+      "revId": "44cbbfc99717c9c013ff13dd2130bfc5cf1f8788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

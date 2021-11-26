@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eae9e43b_911340cb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2857,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-26T08:38:52Z",
+      "side": 1,
+      "message": "[nit] This line looks like it\u0027s not related to adding a reviewer, hence it should rather be part of the previous or next code block.\n\nActually you may drop it, if you follow my suggestion below.",
+      "revId": "f76b69a9ccd452e957d202d21cb2d83c28791662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bef288f7_6b544d61",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2863,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-26T08:38:52Z",
+      "side": 1,
+      "message": "[optional] There is a utility method in the base class that you may use for approving the change:\n\n  approve(changeId);",
+      "range": {
+        "startLine": 2863,
+        "startChar": 4,
+        "endLine": 2863,
+        "endChar": 79
+      },
+      "revId": "f76b69a9ccd452e957d202d21cb2d83c28791662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20b7149b_b8c8ac37",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2863,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-26T08:38:52Z",
+      "side": 1,
+      "message": "[optional] Could be just .current(). Here and below.",
+      "range": {
+        "startLine": 2863,
+        "startChar": 32,
+        "endLine": 2863,
+        "endChar": 48
+      },
+      "revId": "f76b69a9ccd452e957d202d21cb2d83c28791662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be5b2e54_92c50ea6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2869,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-26T08:38:52Z",
+      "side": 1,
+      "message": "Maybe mention that by removing the permission on project, the user still has permission to vote CR-1 to CR+1 due to the inherited access rights from All-Projects.\n\nIf that\u0027s not intended you may want to block the Code-Review permission here to remove the inherited permission.",
+      "range": {
+        "startLine": 2869,
+        "startChar": 4,
+        "endLine": 2869,
+        "endChar": 41
+      },
+      "revId": "f76b69a9ccd452e957d202d21cb2d83c28791662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "44cbbfc99717c9c013ff13dd2130bfc5cf1f8788",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52349ae3_2918df7e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 6029,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-11-26T11:27:51Z",
+      "side": 1,
+      "message": "Ack, looking at other tests in the file, the test methods are usually grouped right after the test cases, e.g. testImplicitlyCcOnNonVotingReviewPgStyle.\n\nI think it is better this way, since those methods are actual tests, not the utility functions.\n\nNormally, such testing would be done with parameterized test runner. We don\u0027t have it for our IT just because we use a custom runner in AbstractDaemonTest.",
+      "parentUuid": "61c020b0_9eb3ea47",
+      "range": {
+        "startLine": 6029,
+        "startChar": 2,
+        "endLine": 6029,
+        "endChar": 9
+      },
+      "revId": "44cbbfc99717c9c013ff13dd2130bfc5cf1f8788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

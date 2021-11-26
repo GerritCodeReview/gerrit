@@ -170,7 +170,7 @@ java_package_configuration(
         "-Xep:EmptyBlockTag:ERROR",
         "-Xep:EmptyCatch:ERROR",
         "-Xep:EmptySetMultibindingContributions:ERROR",
-        # "-Xep:EqualsGetClass:WARN",
+        "-Xep:EqualsGetClass:ERROR",
         "-Xep:EqualsHashCode:ERROR",
         "-Xep:EqualsIncompatibleType:ERROR",
         "-Xep:EqualsNaN:ERROR",

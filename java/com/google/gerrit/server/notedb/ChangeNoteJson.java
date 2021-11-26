@@ -75,12 +75,15 @@ public class ChangeNoteJson {
     @Override
     public Optional<Boolean> read(JsonReader in) throws IOException {
       JsonElement parsed = new JsonParser().parse(in);
+      if (parsed == null) {
+        return Optional.empty();
+      }
       if (parsed.isJsonObject()) {
         // If it's not a JSON object, then the boolean value is available directly in the Json
         // element.
         parsed = parsed.getAsJsonObject().get("value");
       }
-      if (parsed.isJsonNull()) {
+      if (parsed == null || parsed.isJsonNull()) {
         return Optional.empty();
       }
       return Optional.of(parsed.getAsBoolean());

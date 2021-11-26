@@ -34,6 +34,104 @@
       "parentUuid": "a6454fef_8d8d7516",
       "revId": "0dbdda14b651c1771b4c06ecb0e8b16bdc3a5421",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6b691fc_11240d35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T09:50:48Z",
+      "side": 1,
+      "message": "Ack. Thanks for the clarification.\n\nFor different plugins, they need to contribute a SubmitRequirementPredicate similar to https://gerrit-review.googlesource.com/c/plugins/code-owners/+/320980, then admins can configure expressions like:\nsubmittableIf \u003d has:approval_code-owners",
+      "parentUuid": "3679b364_97871e92",
+      "revId": "0dbdda14b651c1771b4c06ecb0e8b16bdc3a5421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "659dca1e_a4477316",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T09:50:48Z",
+      "side": 1,
+      "message": "Could we move the new logic to a \"getGlobalRequirements\" and rename this method to \"getProjectConfigRequirements\"? Javadocs can explain what global requirements mean. The caller should then merge the results.",
+      "revId": "0dbdda14b651c1771b4c06ecb0e8b16bdc3a5421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df3e224e_dc89a50a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6015,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T09:50:48Z",
+      "side": 1,
+      "message": "Can we change to private? Also move to the bottom of the class.",
+      "range": {
+        "startLine": 6015,
+        "startChar": 2,
+        "endLine": 6015,
+        "endChar": 8
+      },
+      "revId": "0dbdda14b651c1771b4c06ecb0e8b16bdc3a5421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceab4e86_3ecf61f1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6059,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T09:50:48Z",
+      "side": 1,
+      "message": "Same: change to private, move to bottom?",
+      "range": {
+        "startLine": 6059,
+        "startChar": 2,
+        "endLine": 6059,
+        "endChar": 8
+      },
+      "revId": "0dbdda14b651c1771b4c06ecb0e8b16bdc3a5421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16a81dc6_04c3d8e4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T09:50:48Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "0dbdda14b651c1771b4c06ecb0e8b16bdc3a5421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

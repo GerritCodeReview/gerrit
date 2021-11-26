@@ -70,6 +70,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1ceea14_e10d2f66",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/externalids/OnlineExternalIdCaseSensivityMigratorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-26T14:18:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9341fb09_714a9b91",
+      "range": {
+        "startLine": 108,
+        "startChar": 75,
+        "endLine": 108,
+        "endChar": 79
+      },
+      "revId": "e7b68cf11f6c13dadaa3f92e0fb01eec1b543edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36795588_98f53295",
@@ -83,6 +107,30 @@
       "writtenOn": "2021-11-25T23:42:17Z",
       "side": 1,
       "message": "How this assertion represent a check that conversion has been skipped?",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 97
+      },
+      "revId": "e7b68cf11f6c13dadaa3f92e0fb01eec1b543edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "214c87bb_1f17c57f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/externalids/OnlineExternalIdCaseSensivityMigratorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-26T14:18:25Z",
+      "side": 1,
+      "message": "Without this change `objectUnderTest.migrate` will throw DuplicateExternalIdKey exception for account created when Gerrit is in migration mode. This asserts are checking if all account are migrated and they are in the correct state. \n\nI will change the test name to be more specific",
+      "parentUuid": "36795588_98f53295",
       "range": {
         "startLine": 120,
         "startChar": 0,

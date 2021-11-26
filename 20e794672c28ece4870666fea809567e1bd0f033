@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0648c39a_7d3eedad",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-26T09:07:24Z",
+      "side": 1,
+      "message": "I think you can use `this.restApiService.getChangesWithSameTopic`\n\n\nlike in https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts;l\u003d623?q\u003d.getChangesWithSameTopic\u0026ss\u003dgerrit",
+      "range": {
+        "startLine": 78,
+        "startChar": 53,
+        "endLine": 78,
+        "endChar": 63
+      },
+      "revId": "20e794672c28ece4870666fea809567e1bd0f033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78c185c9_4183cc9e",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-26T09:07:24Z",
+      "side": 1,
+      "message": "Maybe defensively check if promise is still relevant \n\non start make\n`const changeTopic \u003d this.topic;`\n\nThen after await check if\n`if (changeTopic \u003d\u003d\u003d this.topic)`",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 5
+      },
+      "revId": "20e794672c28ece4870666fea809567e1bd0f033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22540223_941d6362",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-26T09:07:24Z",
+      "side": 1,
+      "message": "I would prefer \n\nconst sameTopicChanges \u003d changesInTopic ?? []\n\nI think page should work with empty list.",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 5
+      },
+      "revId": "20e794672c28ece4870666fea809567e1bd0f033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e7cca87_4019b673",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-26T09:07:24Z",
+      "side": 1,
+      "message": "Again consider defensively to check if changesInTopic wasn\u0027t changed after await.",
+      "range": {
+        "startLine": 90,
+        "startChar": 8,
+        "endLine": 90,
+        "endChar": 33
+      },
+      "revId": "20e794672c28ece4870666fea809567e1bd0f033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3515fd39_ec40b917",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-26T09:07:24Z",
+      "side": 1,
+      "message": "Nit: I would prefer\n\nsubmittedTogetherChanges \u003d submittedTogetherInfo?.changes ? [] \n\nso it works on empty list, like it will not leave old data, but it will clear changesByRepo for example",
+      "range": {
+        "startLine": 92,
+        "startChar": 3,
+        "endLine": 94,
+        "endChar": 5
+      },
+      "revId": "20e794672c28ece4870666fea809567e1bd0f033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

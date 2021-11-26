@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4be37f05_41d91869",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T11:42:22Z",
+      "side": 1,
+      "message": "I missed that. One final comment: I think this binding is also needed in BatchProgramModule.",
+      "revId": "44cbbfc99717c9c013ff13dd2130bfc5cf1f8788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61c020b0_9eb3ea47",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3

@@ -484,7 +484,7 @@ message SubmitRequirementProto {
 }
 
 // Serialized form of com.google.gerrit.entities.SubmitRequirementResult.
-// Next ID: 7
+// Next ID: 8
 message SubmitRequirementResultProto {
   SubmitRequirementProto submit_requirement = 1;
   SubmitRequirementExpressionResultProto applicability_expression_result = 2;
@@ -496,6 +496,10 @@ message SubmitRequirementResultProto {
 
   // Whether this result was created from a legacy submit record.
   bool legacy = 6;
+
+  // Whether the submit requirement was bypassed during submission (i.e. by
+  // performing a push with the %submit option).
+  bool forced = 7;
 }
 
 // Serialized form of com.google.gerrit.entities.SubmitRequirementExpressionResult.

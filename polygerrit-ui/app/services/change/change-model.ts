@@ -52,6 +52,7 @@ import {Finalizable} from '../registry';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../../models/model';
+import {UserModel} from '../../models/user/user-model';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -123,6 +124,8 @@ const initialState: ChangeState = {
 
 export class ChangeModel extends Model<ChangeState> implements Finalizable {
   private change?: ParsedChangeInfo;
+
+  private loggedIn?: boolean;
 
   private currentPatchNum?: PatchSetNum;
 
@@ -196,7 +199,8 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
 
   constructor(
     readonly routerModel: RouterModel,
-    readonly restApiService: RestApiService
+    readonly restApiService: RestApiService,
+    readonly userModel: UserModel
   ) {
     super(initialState);
     this.subscriptions = [
@@ -228,10 +232,17 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
       this.currentPatchNum$.subscribe(
         currentPatchNum => (this.currentPatchNum = currentPatchNum)
       ),
-      combineLatest([this.currentPatchNum$, this.changeNum$])
+      this.userModel.loggedIn$.subscribe(
+        loggedIn => (this.loggedIn = loggedIn)
+      ),
+      combineLatest([
+        this.currentPatchNum$,
+        this.changeNum$,
+        this.userModel.loggedIn$,
+      ])
         .pipe(
-          switchMap(([currentPatchNum, changeNum]) => {
-            if (!changeNum || !currentPatchNum) {
+          switchMap(([currentPatchNum, changeNum, loggedIn]) => {
+            if (!changeNum || !currentPatchNum || !loggedIn) {
               this.updateStateReviewedFiles([]);
               return of(undefined);
             }
@@ -284,19 +295,17 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
   }
 
   fetchReviewedFiles(currentPatchNum: PatchSetNum, changeNum: NumericChangeId) {
-    return this.restApiService.getLoggedIn().then(loggedIn => {
-      if (!loggedIn) return;
-      this.restApiService
-        .getReviewedFiles(changeNum, currentPatchNum)
-        .then(files => {
-          if (
-            changeNum !== this.change?._number ||
-            currentPatchNum !== this.currentPatchNum
-          )
-            return;
-          this.updateStateReviewedFiles(files ?? []);
-        });
-    });
+    if (!this.loggedIn) return Promise.resolve();
+    return this.restApiService
+      .getReviewedFiles(changeNum, currentPatchNum)
+      .then(files => {
+        if (
+          changeNum !== this.change?._number ||
+          currentPatchNum !== this.currentPatchNum
+        )
+          return;
+        this.updateStateReviewedFiles(files ?? []);
+      });
   }
 
   setReviewedFilesStatus(

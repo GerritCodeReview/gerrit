@@ -23,6 +23,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.FakeGroupAuditService.FakeGroupAuditServiceModule;
 import com.google.gerrit.acceptance.ReindexGroupsAtStartup.ReindexGroupsAtStartupModule;
 import com.google.gerrit.acceptance.ReindexProjectsAtStartup.ReindexProjectsAtStartupModule;
@@ -49,16 +50,17 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.index.IndexType;
-import com.google.gerrit.index.testing.FakeIndexModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
+import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits.AsyncReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.ssh.NoSshModule;
@@ -466,17 +468,21 @@ public class GerritServer implements AutoCloseable {
       // index backends so that Reindex tests can be explicit about the backend they want to test
       // against.
       indexType = new IndexType(configuredIndexBackend);
+      if (indexType.isLucene()) {
+        daemon.setIndexModule(createLuceneIndexModule(baseConfig));
+      } else {
+        // Anything that is not a LUCENE index type is explicitly set as a 'fake' index
+        // because Google uses a 'custom' index type which is not shared with the Open-Source
+        // code-base.
+        // Using a FakeIndexModule is the only way for making the tests pass without using
+        // Lucene. See CustomIndexIT as an example of the test-case.
+        daemon.setIndexModule(createFakeIndexModule(baseConfig));
+      }
     } else {
-      // Allow configuring the index backend based on sys/env variables so that integration tests
-      // can be run against different index backends.
-      indexType = IndexType.fromEnvironment().orElse(new IndexType("fake"));
-    }
-    if (indexType.isLucene()) {
-      daemon.setIndexModule(
-          LuceneIndexModule.singleVersionAllLatest(
-              0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED));
-    } else {
-      daemon.setIndexModule(FakeIndexModule.latestVersion(false));
+      AbstractIndexModule indexModule =
+          LibModuleLoader.fromEnvironment(ImmutableMap.of(), 0, ReplicaUtil.isReplica(baseConfig))
+              .orElse(createLuceneIndexModule(baseConfig));
+      daemon.setIndexModule(indexModule);
     }
 
     daemon.setEnableHttpd(desc.httpd());
@@ -495,6 +501,19 @@ public class GerritServer implements AutoCloseable {
         new ReindexProjectsAtStartupModule(), new ReindexGroupsAtStartupModule());
     daemon.start();
     return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
+  }
+
+  private static AbstractIndexModule createFakeIndexModule(Config baseConfig) {
+    return LibModuleLoader.createIndexModule(
+        LibModuleLoader.FAKE_INDEX_MODULE_CLASS_NAME,
+        ImmutableMap.of(),
+        0,
+        ReplicaUtil.isReplica(baseConfig));
+  }
+
+  private static LuceneIndexModule createLuceneIndexModule(Config baseConfig) {
+    return LuceneIndexModule.singleVersionAllLatest(
+        0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED);
   }
 
   private static GerritServer startOnDisk(

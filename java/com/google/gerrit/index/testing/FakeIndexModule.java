@@ -16,6 +16,7 @@ package com.google.gerrit.index.testing;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.index.project.ProjectIndex;
+import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
@@ -24,6 +25,7 @@ import com.google.gerrit.server.index.group.GroupIndex;
 import java.util.Map;
 
 /** Module to bind {@link FakeIndexModule}. */
+@ModuleImpl(name = AbstractIndexModule.INDEX_MODULE)
 public class FakeIndexModule extends AbstractIndexModule {
   public static FakeIndexModule singleVersionAllLatest(int threads, boolean secondary) {
     return new FakeIndexModule(ImmutableMap.of(), threads, secondary);

@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.index.IndexType;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -26,11 +30,48 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 
 /** Loads configured Guice modules from {@code gerrit.installModule}. */
 public class LibModuleLoader {
+  public static final String FAKE_INDEX_MODULE_CLASS_NAME =
+      "com.google.gerrit.index.testing.FakeIndexModule";
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public static final String INDEX_MODULE_SYS_PROP = "gerrit.index.module";
+  private static final String INDEX_MODULE_ENV_VAR = "GERRIT_INDEX_MODULE";
+
+  public static Optional<AbstractIndexModule> fromEnvironment(
+      Map<String, Integer> versions, int threads, boolean replica) {
+    String indexModuleClassName = System.getenv(INDEX_MODULE_ENV_VAR);
+    if (Strings.isNullOrEmpty(indexModuleClassName)) {
+      indexModuleClassName = System.getProperty(INDEX_MODULE_SYS_PROP);
+    }
+    if (Strings.isNullOrEmpty(indexModuleClassName)) {
+      IndexType indexType = IndexType.fromEnvironment().orElse(new IndexType("fake"));
+      if (indexType.isFake()) {
+        indexModuleClassName = FAKE_INDEX_MODULE_CLASS_NAME;
+      } else {
+        return Optional.empty();
+      }
+    }
+    if (!Strings.isNullOrEmpty(System.getenv(INDEX_MODULE_ENV_VAR))) {
+      checkArgument(
+          indexModuleClassName != null,
+          "Invalid value for env variable %s: %s",
+          INDEX_MODULE_ENV_VAR,
+          System.getenv(INDEX_MODULE_ENV_VAR));
+    } else {
+      checkArgument(
+          indexModuleClassName != null,
+          "Invalid value for system property %s: %s",
+          INDEX_MODULE_SYS_PROP,
+          System.getProperty(INDEX_MODULE_SYS_PROP));
+    }
+    return Optional.of(createIndexModule(indexModuleClassName, versions, threads, replica));
+  }
 
   public static List<Module> loadModules(Injector parent, LibModuleType moduleType) {
     Config cfg = getConfig(parent);
@@ -39,17 +80,17 @@ public class LibModuleLoader {
         .collect(toList());
   }
 
-  public static List<Module> loadReindexModules(
+  public static Optional<AbstractIndexModule> loadIndexModule(
       Injector parent, Map<String, Integer> versions, int threads, boolean replica) {
     Config cfg = getConfig(parent);
     return Arrays.stream(
             cfg.getStringList(
                 "gerrit", null, "install" + LibModuleType.INDEX_MODULE_TYPE.getConfigKey()))
-        .map(m -> createReindexModule(m, versions, threads, replica))
-        .collect(toList());
+        .map(m -> createIndexModule(m, versions, threads, replica))
+        .findFirst();
   }
 
-  private static Module createReindexModule(
+  public static AbstractIndexModule createIndexModule(
       String className, Map<String, Integer> versions, int threads, boolean replica) {
     Class<Module> clazz = loadModule(className);
     try {
@@ -57,7 +98,7 @@ public class LibModuleLoader {
       Method m =
           clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class, boolean.class);
 
-      Module module = (Module) m.invoke(null, versions, threads, replica);
+      AbstractIndexModule module = (AbstractIndexModule) m.invoke(null, versions, threads, replica);
       logger.atInfo().log("Installed module %s", className);
       return module;
     } catch (Exception e) {

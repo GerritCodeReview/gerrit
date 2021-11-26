@@ -620,7 +620,11 @@ export class GrRelatedChangesList extends LitElement {
         this.restApiService.getConfig().then(config => {
           if (config && !config.change.submit_whole_topic) {
             return this.restApiService
-              .getChangesWithSameTopic(changeTopic, change._number)
+              .getChangesWithSameTopic(
+                changeTopic,
+                /* openChangesOnly=*/ true,
+                change._number
+              )
               .then(response => {
                 if (changeTopic === this.change?.topic) {
                   this.sameTopicChanges = response ?? [];

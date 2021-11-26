@@ -1758,7 +1758,8 @@ export class GrRestApiInterface
 
   getChangesWithSameTopic(
     topic: string,
-    changeNum: NumericChangeId
+    openChangesOnly?: boolean,
+    excludedChangeNum?: NumericChangeId
   ): Promise<ChangeInfo[] | undefined> {
     const options = listChangesOptionsToHex(
       ListChangesOption.LABELS,
@@ -1766,14 +1767,16 @@ export class GrRestApiInterface
       ListChangesOption.CURRENT_COMMIT,
       ListChangesOption.DETAILED_LABELS
     );
-    const query = [
-      'status:open',
-      `-change:${changeNum}`,
-      `topic:"${topic}"`,
-    ].join(' ');
+    const queryTerms = [`topic:"${topic}"`];
+    if (openChangesOnly) {
+      queryTerms.push('status:open');
+    }
+    if (excludedChangeNum !== undefined) {
+      queryTerms.push(`-change:${excludedChangeNum}`);
+    }
     const params = {
       O: options,
-      q: query,
+      q: queryTerms.join(' '),
     };
     return this._restApiHelper.fetchJSON({
       url: '/changes/',

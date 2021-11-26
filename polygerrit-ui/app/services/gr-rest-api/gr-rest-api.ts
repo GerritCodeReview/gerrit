@@ -663,7 +663,8 @@ export interface RestApiService extends Finalizable {
 
   getChangesWithSameTopic(
     topic: string,
-    changeNum: NumericChangeId
+    openChangesOnly?: boolean,
+    excludedChangeNum?: NumericChangeId
   ): Promise<ChangeInfo[] | undefined>;
   getChangesWithSimilarTopic(topic: string): Promise<ChangeInfo[] | undefined>;
 

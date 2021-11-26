@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8771d0c5_b85ce94d",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-26T12:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c55f9cd2_3f397e07",
+      "range": {
+        "startLine": 256,
+        "startChar": 6,
+        "endLine": 260,
+        "endChar": 7
+      },
+      "revId": "e8057e69fae69cdd4a370597e53bac25705ebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96a002f6_7e2d4b57",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e760945b_37f44385",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-26T12:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96a002f6_7e2d4b57",
+      "range": {
+        "startLine": 265,
+        "startChar": 5,
+        "endLine": 265,
+        "endChar": 7
+      },
+      "revId": "e8057e69fae69cdd4a370597e53bac25705ebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34c6a6cb_4d95750f",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-11-26T12:11:01Z",
       "side": 1,
       "message": "Maybe better\n\n  if (runsCount \u003d\u003d\u003d 0) return;",
+      "revId": "e8057e69fae69cdd4a370597e53bac25705ebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7f9e024_e6771ca6",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-26T12:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34c6a6cb_4d95750f",
       "revId": "e8057e69fae69cdd4a370597e53bac25705ebb42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

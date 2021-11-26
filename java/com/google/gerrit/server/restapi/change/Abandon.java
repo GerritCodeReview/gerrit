@@ -33,17 +33,20 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class Abandon
     implements RestModifyView<ChangeResource, AbandonInput>, UiAction<ChangeResource> {
+  private final ChangeData.Factory changeDataFactory;
   private final BatchUpdate.Factory updateFactory;
   private final ChangeJson.Factory json;
   private final AbandonOp.Factory abandonOpFactory;
@@ -53,12 +56,14 @@ public class Abandon
 
   @Inject
   Abandon(
+      ChangeData.Factory changeDataFactory,
       BatchUpdate.Factory updateFactory,
       ChangeJson.Factory json,
       AbandonOp.Factory abandonOpFactory,
       NotifyResolver notifyResolver,
       PatchSetUtil patchSetUtil,
       StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory) {
+    this.changeDataFactory = changeDataFactory;
     this.updateFactory = updateFactory;
     this.json = json;
     this.abandonOpFactory = abandonOpFactory;
@@ -121,10 +126,20 @@ public class Abandon
       throws RestApiException, UpdateException {
     AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
     AbandonOp op = abandonOpFactory.create(accountState, msgTxt);
+    ChangeData changeData = changeDataFactory.create(notes.getProjectName(), notes.getChangeId());
     try (BatchUpdate u = updateFactory.create(notes.getProjectName(), user, TimeUtil.nowTs())) {
       u.setNotify(notify);
       u.addOp(notes.getChangeId(), op);
-      u.addOp(notes.getChangeId(), storeSubmitRequirementsOpFactory.create());
+      u.addOp(
+          notes.getChangeId(),
+          storeSubmitRequirementsOpFactory.create(
+              changeData.submitRequirements().values().stream()
+                  // We don't store results for legacy submit requirements in NoteDb. While
+                  // surfacing submit requirements for closed changes, we load submit records
+                  // from NoteDb and convert them to submit requirement results. See
+                  // ChangeData#submitRequirements().
+                  .filter(srResult -> !srResult.isLegacy())
+                  .collect(Collectors.toList())));
       u.execute();
     }
     return op.getChange();

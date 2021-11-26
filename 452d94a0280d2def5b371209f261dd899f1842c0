@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95141e20_f4a61dc5",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T22:02:24Z",
+      "side": 1,
+      "message": "This line messed up with submit requirements when I changed ChangeInfo.submittable to use submit requirements instead of submit records.\n\nsubmit requirements are evaluated by calling the match() methods of predicates. Some callers pass in ChangeData with storage constraint\u003dNOTEDB_ONLY but this predicate changes it to INDEX_PRIMARY_NOTEDB_SECONDARY. Then in ChangeInfo\n\nchangeInfo.submittable \u003d ... // now uses SRs, storage constraint was changed\nChangeInfo.labels \u003d ... // now broken because it relies on submit records \nChangeInfo.submit_records \u003d ... // empty\n\nsubmit_records are only computed for the \"NOTEDB_ONLY\" storage constraint.\n\nTo fix this, I will keep as is but just restore the storage constraint back to its original value.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/324941",
+      "revId": "452d94a0280d2def5b371209f261dd899f1842c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

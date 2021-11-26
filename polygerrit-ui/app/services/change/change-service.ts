@@ -36,6 +36,7 @@ import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {Finalizable} from '../registry';
 import {combineLatest} from 'rxjs';
 import {fireAlert} from '../../utils/event-util';
+import { UserModel } from '../user/user-model';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
@@ -44,7 +45,9 @@ export class ChangeService implements Finalizable {
 
   private readonly subscriptions: Subscription[] = [];
 
-  constructor(readonly restApiService: RestApiService) {
+  private loggedIn?: boolean;
+
+  constructor(readonly restApiService: RestApiService, readonly userModel: UserModel) {
     // TODO: In the future we will want to make restApiService.getChangeDetail()
     // calls from a switchMap() here. For now just make sure to invalidate the
     // change when no changeNum is set.
@@ -67,6 +70,11 @@ export class ChangeService implements Finalizable {
         })
     );
     this.subscriptions.push(
+      this.userModel.account$.subscribe(account => {
+        this.loggedIn = !!account;
+      })
+    );
+    this.subscriptions.push(
       change$.subscribe(change => {
         this.change = change;
       })
@@ -85,14 +93,12 @@ export class ChangeService implements Finalizable {
   }
 
   fetchReviewedFiles(currentPatchNum: PatchSetNum, changeNum: NumericChangeId) {
-    this.restApiService.getLoggedIn().then(loggedIn => {
-      if (!loggedIn) return;
-      this.restApiService
-        .getReviewedFiles(changeNum, currentPatchNum)
-        .then(files => {
-          updateStateReviewedFiles(new Set(files ?? []));
-        });
-    });
+    if (!this.loggedIn) return;
+    this.restApiService
+      .getReviewedFiles(changeNum, currentPatchNum)
+      .then(files => {
+        updateStateReviewedFiles(new Set(files ?? []));
+      });
   }
 
   setReviewedFilesStatus(

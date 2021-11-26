@@ -55,7 +55,7 @@ export function createAppContext(): AppContext & Finalizable {
     },
     changeService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new ChangeService(ctx.restApiService!);
+      return new ChangeService(ctx.restApiService!, ctx.userModel!);
     },
     commentsService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');

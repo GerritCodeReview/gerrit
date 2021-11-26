@@ -51,8 +51,8 @@ suite('gr-topic-tree tests', () => {
   ];
 
   setup(async () => {
-    stubRestApi('getChanges')
-      .withArgs(undefined, 'topic:myTopic')
+    stubRestApi('getChangesWithSameTopic')
+      .withArgs('myTopic')
       .resolves([
         ...repo1ChangesInTopic,
         ...repo2ChangesInTopic,

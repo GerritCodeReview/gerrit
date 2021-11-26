@@ -73,6 +73,23 @@
       "message": "I find that separating validation and the setup of the indexModuleClassName is hard to follow. When I try to rewrite this code so that positive cases are checked first and the setup of indexModuleClassName is done together with the validation of the configuration, the resulting code seems cleaner:\n\n    String indexModuleClassName;\n    \n    if (!Strings.isNullOrEmpty(System.getenv(INDEX_MODULE_ENV_VAR))) {\n      indexModuleClassName \u003d System.getenv(INDEX_MODULE_ENV_VAR);\n      checkArgument(\n          indexModuleClassName !\u003d null,\n          \"Invalid value for env variable %s: %s\",\n          INDEX_MODULE_ENV_VAR,\n          indexModuleClassName);\n          \n    } else if (!Strings.isNullOrEmpty(System.getProperty(INDEX_MODULE_SYS_PROP))) {\n      indexModuleClassName \u003d System.getProperty(INDEX_MODULE_SYS_PROP);\n      checkArgument(\n          indexModuleClassName !\u003d null,\n          \"Invalid value for system property %s: %s\",\n          INDEX_MODULE_SYS_PROP,\n          indexModuleClassName);\n          \n    } else {\n      IndexType indexType \u003d IndexType.fromEnvironment().orElse(new IndexType(\"fake\"));\n      if (indexType.isFake()) {\n        indexModuleClassName \u003d FAKE_INDEX_MODULE_CLASS_NAME;\n      } else {\n        return Optional.empty();\n      }\n    }\n     \n    return Optional.of(createIndexModule(indexModuleClassName, versions, threads, replica));",
       "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09d05474_106cb060",
+        "filename": "java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-11-26T13:08:51Z",
+      "side": 1,
+      "message": "How could it be null if the INDEX_MODULE_ENV_VAR is neither null nor empty? The same question also applies to the proposed code from me, where I didn\u0027t pay attention to the exact meaning of the validation check.",
+      "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

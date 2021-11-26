@@ -19,6 +19,8 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,12 +39,13 @@ public class TestRefAdvertiser extends RefAdvertiser {
   @VisibleForTesting
   @AutoValue
   public abstract static class Result {
-    public abstract Map<String, Ref> allRefs();
+    public abstract ImmutableMap<String, Ref> allRefs();
 
-    public abstract Set<ObjectId> additionalHaves();
+    public abstract ImmutableSet<ObjectId> additionalHaves();
 
     public static Result create(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves) {
-      return new AutoValue_TestRefAdvertiser_Result(allRefs, additionalHaves);
+      return new AutoValue_TestRefAdvertiser_Result(
+          ImmutableMap.copyOf(allRefs), ImmutableSet.copyOf(additionalHaves));
     }
   }
 

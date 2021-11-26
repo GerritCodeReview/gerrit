@@ -102,7 +102,7 @@ java_package_configuration(
         "-Xep:AsyncFunctionReturnsNull:ERROR",
         "-Xep:AutoValueConstructorOrderChecker:ERROR",
         "-Xep:AutoValueFinalMethods:ERROR",
-        # "-Xep:AutoValueImmutableFields:WARN",
+        "-Xep:AutoValueImmutableFields:ERROR",
         # "-Xep:AutoValueSubclassLeaked:WARN",
         "-Xep:BadAnnotationImplementation:ERROR",
         "-Xep:BadComparable:ERROR",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d10c597_7e183af6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-26T10:02:41Z",
+      "side": 1,
+      "message": "LGTM. Maybe as a follow-up, should creations of refs/for be banned in the first place?",
+      "revId": "41d64bed0d8b32be312a1c92a38b05ed2851cfb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

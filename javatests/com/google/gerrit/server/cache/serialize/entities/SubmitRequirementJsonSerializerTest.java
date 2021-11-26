@@ -129,7 +129,8 @@ public class SubmitRequirementJsonSerializerTest {
           + "\"passingAtoms\":[],"
           + "\"failingAtoms\":[\"label:Override=+1\"]}},"
           + "\"patchSetCommitId\":\"4663ab9e9eb49a214e68e60f0fe5d0b6f44f763e\","
-          + "\"legacy\":{\"value\":true}}";
+          + "\"legacy\":{\"value\":true},"
+          + "\"forced\":{\"value\":null}}";
 
   private static final Gson gson = new ChangeNoteJson().getGson();
 

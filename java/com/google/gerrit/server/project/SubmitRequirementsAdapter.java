@@ -52,10 +52,16 @@ public class SubmitRequirementsAdapter {
     // This doesn't have an effect since we never call this class (i.e. to evaluate submit
     // requirements) for closed changes.
     List<SubmitRecord> records = cd.submitRecords(SubmitRuleOptions.defaults());
+    boolean areForced =
+        records.stream().anyMatch(record -> record.status.equals(SubmitRecord.Status.FORCED));
     List<LabelType> labelTypes = cd.getLabelTypes().getLabelTypes();
     ObjectId commitId = cd.currentPatchSet().commitId();
     return records.stream()
-        .map(r -> createResult(r, labelTypes, commitId))
+        // Filter out the "FORCED" submit record. This is a marker submit record that was just used
+        // to indicate that all other records were forced. "FORCED" means that the change was pushed
+        // with the %submit option bypassing submit rules.
+        .filter(r -> !r.status.equals(SubmitRecord.Status.FORCED))
+        .map(r -> createResult(r, labelTypes, commitId, areForced))
         .flatMap(List::stream)
         .collect(
             Collectors.toMap(
@@ -79,19 +85,19 @@ public class SubmitRequirementsAdapter {
   }
 
   static List<SubmitRequirementResult> createResult(
-      SubmitRecord record, List<LabelType> labelTypes, ObjectId psCommitId) {
+      SubmitRecord record, List<LabelType> labelTypes, ObjectId psCommitId, boolean isForced) {
     List<SubmitRequirementResult> results;
     if (record.ruleName != null && record.ruleName.equals("gerrit~DefaultSubmitRule")) {
-      results = createFromDefaultSubmitRecord(record.labels, labelTypes, psCommitId);
+      results = createFromDefaultSubmitRecord(record.labels, labelTypes, psCommitId, isForced);
     } else {
-      results = createFromCustomSubmitRecord(record, psCommitId);
+      results = createFromCustomSubmitRecord(record, psCommitId, isForced);
     }
     logger.atFine().log("Converted submit record %s to submit requirements %s", record, results);
     return results;
   }
 
   private static List<SubmitRequirementResult> createFromDefaultSubmitRecord(
-      List<Label> labels, List<LabelType> labelTypes, ObjectId psCommitId) {
+      List<Label> labels, List<LabelType> labelTypes, ObjectId psCommitId, boolean isForced) {
     ImmutableList.Builder<SubmitRequirementResult> result = ImmutableList.builder();
     for (Label label : labels) {
       Optional<LabelType> maybeLabelType = getLabelType(labelTypes, label.label);
@@ -117,13 +123,14 @@ public class SubmitRequirementsAdapter {
               .submittabilityExpressionResult(
                   createExpressionResult(toExpression(atoms), mapStatus(label), atoms))
               .patchSetCommitId(psCommitId)
+              .forced(Optional.of(isForced))
               .build());
     }
     return result.build();
   }
 
   private static List<SubmitRequirementResult> createFromCustomSubmitRecord(
-      SubmitRecord record, ObjectId psCommitId) {
+      SubmitRecord record, ObjectId psCommitId, boolean isForced) {
     String ruleName = record.ruleName != null ? record.ruleName : "Custom-Rule";
     if (record.labels == null || record.labels.isEmpty()) {
       SubmitRequirement sr =
@@ -141,6 +148,7 @@ public class SubmitRequirementsAdapter {
                   createExpressionResult(
                       sr.submittabilityExpression(), mapStatus(record), ImmutableList.of(ruleName)))
               .patchSetCommitId(psCommitId)
+              .forced(Optional.of(isForced))
               .build());
     }
     ImmutableList.Builder<SubmitRequirementResult> result = ImmutableList.builder();

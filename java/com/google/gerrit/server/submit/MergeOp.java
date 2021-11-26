@@ -97,6 +97,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -324,6 +325,7 @@ public class MergeOp implements AutoCloseable {
         case SATISFIED:
         case NOT_APPLICABLE:
         case OVERRIDDEN:
+        case FORCED:
           break;
 
         case ERROR:
@@ -381,7 +383,7 @@ public class MergeOp implements AutoCloseable {
     commitStatus.maybeFailVerbose();
   }
 
-  private void bypassSubmitRules(ChangeSet cs) {
+  private void bypassSubmitRulesAndRequirements(ChangeSet cs) {
     checkArgument(
         !cs.furtherHiddenChanges(), "cannot bypass submit rules for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
@@ -398,6 +400,15 @@ public class MergeOp implements AutoCloseable {
       forced.status = SubmitRecord.Status.FORCED;
       records.add(forced);
       cd.setSubmitRecords(submitRuleOptions(/* allowClosed= */ false), records);
+
+      // Also bypass submit requirements. Mark them as forced.
+      Map<SubmitRequirement, SubmitRequirementResult> forcedSRs =
+          cd.submitRequirements().entrySet().stream()
+              .collect(
+                  Collectors.toMap(
+                      Map.Entry::getKey,
+                      entry -> entry.getValue().toBuilder().forced(Optional.of(true)).build()));
+      cd.setSubmitRequirements(forcedSRs);
     }
   }
 
@@ -510,7 +521,7 @@ public class MergeOp implements AutoCloseable {
                     checkSubmitRulesAndState(filteredNoteDbChangeSet, isRetry);
                   } else {
                     logger.atFine().log("Bypassing submit rules");
-                    bypassSubmitRules(filteredNoteDbChangeSet);
+                    bypassSubmitRulesAndRequirements(filteredNoteDbChangeSet);
                   }
                   integrateIntoHistory(filteredNoteDbChangeSet, submissionExecutor);
                   return null;

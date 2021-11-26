@@ -39,6 +39,30 @@
       },
       "revId": "2407aca6c494ca0bdcc82f4bb8f05eea72271608",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eee67902_638f0cb2",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-26T01:32:09Z",
+      "side": 1,
+      "message": "@Patrick I\u0027ve started the implementation of Change-Id: Ib4436a3f, can you have a look if I am on the good path?",
+      "parentUuid": "6d93fa2b_3a3396b0",
+      "range": {
+        "startLine": 370,
+        "startChar": 24,
+        "endLine": 370,
+        "endChar": 48
+      },
+      "revId": "2407aca6c494ca0bdcc82f4bb8f05eea72271608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

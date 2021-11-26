@@ -16,6 +16,24 @@
       "message": "I don\u0027t have access to the Google\u0027s bug tracker: what was the end-user problem?\nDoes the fix make sense also on stable-3.5? If yes, I am happy to merge this.",
       "revId": "6d92b8c6d7ec9c900379b2004d7e8c6be7285042",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d754328_e108aa8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-26T07:07:12Z",
+      "side": 1,
+      "message": "Open a diff on the change page, create a comment, tab to the SAVE button, hit ENTER. That would not only save the comment, but also take you to the diff page, so two key event listeners were handling the event instead of just one.\n\nSo yes, I think it is useful to pick this into 3.5. Thanks, Patrick!",
+      "parentUuid": "4232895a_0bd0708e",
+      "revId": "6d92b8c6d7ec9c900379b2004d7e8c6be7285042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

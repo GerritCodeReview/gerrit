@@ -40,6 +40,35 @@ public abstract class PatchSetApproval {
     }
   }
 
+  public static UUID uuid(String n) {
+    return new AutoValue_PatchSetApproval_UUID(n);
+  }
+
+  /** Globally unique identifier. */
+  @AutoValue
+  public abstract static class UUID implements Comparable<UUID> {
+    abstract String uuid();
+
+    public String get() {
+      return uuid();
+    }
+
+    /** Parse an {@link PatchSetApproval.UUID} out of a string representation. */
+    public static UUID parse(String str) {
+      return PatchSetApproval.uuid(KeyUtil.decode(str));
+    }
+
+    @Override
+    public final int compareTo(UUID o) {
+      return uuid().compareTo(o.uuid());
+    }
+
+    @Override
+    public final String toString() {
+      return KeyUtil.encode(get());
+    }
+  }
+
   public static Builder builder() {
     return new AutoValue_PatchSetApproval.Builder().postSubmit(false).copied(false);
   }
@@ -49,6 +78,9 @@ public abstract class PatchSetApproval {
     public abstract Builder key(Key key);
 
     public abstract Key key();
+
+    /** Might be missing for vote removals and pre-uuid persisted votes. */
+    public abstract Builder uuid(Optional<UUID> uuid);
 
     public abstract Builder value(short value);
 
@@ -86,6 +118,8 @@ public abstract class PatchSetApproval {
 
   public abstract Key key();
 
+  public abstract Optional<UUID> uuid();
+
   /**
    * Value assigned by the user.
    *
@@ -118,7 +152,11 @@ public abstract class PatchSetApproval {
   public abstract Builder toBuilder();
 
   public PatchSetApproval copyWithPatchSet(PatchSet.Id psId) {
-    return toBuilder().key(key(psId, key().accountId(), key().labelId())).copied(true).build();
+    return toBuilder()
+        .key(key(psId, key().accountId(), key().labelId()))
+        .uuid(uuid())
+        .copied(true)
+        .build();
   }
 
   public PatchSet.Id patchSetId() {

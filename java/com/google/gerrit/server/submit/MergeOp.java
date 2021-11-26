@@ -312,7 +312,7 @@ public class MergeOp implements AutoCloseable {
     // TODO(ghareeb): remove the line below. This is needed to reload submit records on this code
     // path. SubmitStrategyOp re-requests submit records but using ChangeData loaded from the change
     // index. This call here hence pre-populates submit records.
-    getSubmitRecords(cd);
+    getSubmitRecords(cd, /* allowClosed= */ false);
     Map<SubmitRequirement, SubmitRequirementResult> srResults = cd.submitRequirements();
     if (srResults.values().stream().allMatch(srResult -> srResult.fulfilled())) {
       return;
@@ -354,8 +354,8 @@ public class MergeOp implements AutoCloseable {
     return allowClosed ? SUBMIT_RULE_OPTIONS_ALLOW_CLOSED : SUBMIT_RULE_OPTIONS;
   }
 
-  private static List<SubmitRecord> getSubmitRecords(ChangeData cd) {
-    return cd.submitRecords(submitRuleOptions(/* allowClosed= */ false));
+  private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed) {
+    return cd.submitRecords(submitRuleOptions(allowClosed));
   }
 
   private void checkSubmitRulesAndState(ChangeSet cs, boolean allowMerged)
@@ -389,15 +389,7 @@ public class MergeOp implements AutoCloseable {
     checkArgument(
         !cs.furtherHiddenChanges(), "cannot bypass submit rules for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
-      Change change = cd.change();
-      if (change == null) {
-        throw new StorageException("Change not found");
-      }
-      if (change.isClosed()) {
-        // No need to check submit rules if the change is closed.
-        continue;
-      }
-      List<SubmitRecord> records = new ArrayList<>(getSubmitRecords(cd));
+      List<SubmitRecord> records = new ArrayList<>(getSubmitRecords(cd, allowClosed));
       SubmitRecord forced = new SubmitRecord();
       forced.status = SubmitRecord.Status.FORCED;
       records.add(forced);
@@ -631,9 +623,19 @@ public class MergeOp implements AutoCloseable {
       for (Map.Entry<Change.Id, ChangeData> entry : cs.changesById().entrySet()) {
         Project.NameKey project = entry.getValue().project();
         Change.Id changeId = entry.getKey();
+        ChangeData cd = entry.getValue();
         batchUpdatesByProject
             .get(project)
-            .addOp(changeId, storeSubmitRequirementsOpFactory.create());
+            .addOp(
+                changeId,
+                storeSubmitRequirementsOpFactory.create(
+                    cd.submitRequirements().values().stream()
+                        // We don't store results for legacy submit requirements in NoteDb. While
+                        // surfacing submit requirements for closed changes, we load submit records
+                        // from NoteDb and convert them to submit requirement results. See
+                        // ChangeData#submitRequirements().
+                        .filter(srResult -> !srResult.isLegacy())
+                        .collect(Collectors.toList())));
       }
       try {
         submissionExecutor.setAdditionalBatchUpdateListeners(

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fa5bc9d_d88d2307",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-26T13:07:00Z",
+      "side": 1,
+      "message": "That seems better, but currently requires you to pass in a changeNum that gets excluded from the results. I will adjust that method to make the changeNum optional, but in a separate change.",
+      "parentUuid": "0648c39a_7d3eedad",
+      "range": {
+        "startLine": 78,
+        "startChar": 53,
+        "endLine": 78,
+        "endChar": 63
+      },
+      "revId": "20e794672c28ece4870666fea809567e1bd0f033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78c185c9_4183cc9e",
@@ -70,6 +94,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2ca8815_3f7a4bc0",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-26T13:07:00Z",
+      "side": 1,
+      "message": "Done. I will add some message later for users when there are no changes. That will be better than seeing broken page or empty table.",
+      "parentUuid": "22540223_941d6362",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 5
+      },
+      "revId": "20e794672c28ece4870666fea809567e1bd0f033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "220dc099_93ac21ff",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-26T13:07:00Z",
+      "side": 1,
+      "message": "Good idea. All this loading logic will move to TopicModel once we introduce it and we will add the defensive logic to the model hookup code.",
+      "parentUuid": "78c185c9_4183cc9e",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 5
+      },
+      "revId": "20e794672c28ece4870666fea809567e1bd0f033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e7cca87_4019b673",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2651ac16_58cd6c5d",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-26T13:07:00Z",
+      "side": 1,
+      "message": "See other comment. It will be better to add it to our model code rather than the data loading code.",
+      "parentUuid": "1e7cca87_4019b673",
+      "range": {
+        "startLine": 90,
+        "startChar": 8,
+        "endLine": 90,
+        "endChar": 33
+      },
+      "revId": "20e794672c28ece4870666fea809567e1bd0f033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3515fd39_ec40b917",
@@ -106,6 +202,30 @@
       "writtenOn": "2021-11-26T09:07:24Z",
       "side": 1,
       "message": "Nit: I would prefer\n\nsubmittedTogetherChanges \u003d submittedTogetherInfo?.changes ? [] \n\nso it works on empty list, like it will not leave old data, but it will clear changesByRepo for example",
+      "range": {
+        "startLine": 92,
+        "startChar": 3,
+        "endLine": 94,
+        "endChar": 5
+      },
+      "revId": "20e794672c28ece4870666fea809567e1bd0f033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4164bd35_8487fe0f",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-tree.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-26T13:07:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3515fd39_ec40b917",
       "range": {
         "startLine": 92,
         "startChar": 3,

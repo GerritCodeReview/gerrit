@@ -30,6 +30,8 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.server.LibModuleLoader;
+import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.cache.CacheDisplay;
 import com.google.gerrit.server.cache.CacheInfo;
 import com.google.gerrit.server.change.ChangeResource;
@@ -207,7 +209,9 @@ public class Reindex extends SiteProgram {
           }
         });
 
-    return dbInjector.createChildInjector(modules);
+    return dbInjector.createChildInjector(
+        ModuleOverloader.override(
+            modules, LibModuleLoader.loadReindexModules(cfgInjector, versions, threads, replica)));
   }
 
   private void overrideConfig() {

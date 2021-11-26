@@ -221,7 +221,7 @@ export class GrSubmitRequirements extends LitElement {
               name="requirement"
               .value=${requirement}
             ></gr-endpoint-param>
-            ${this.renderVotes(requirement)}${this.renderChecks(requirement)}
+            ${this.renderVotesAndChecksChips(requirement)}
             ${this.renderOverrideLabels(requirement)}
           </gr-endpoint-decorator>
         </td>
@@ -239,7 +239,7 @@ export class GrSubmitRequirements extends LitElement {
     ></iron-icon>`;
   }
 
-  renderVotes(requirement: SubmitRequirementResultInfo) {
+  renderVotesAndChecksChips(requirement: SubmitRequirementResultInfo) {
     const requirementLabels = extractAssociatedLabels(requirement);
     const allLabels = this.change?.labels ?? {};
     const associatedLabels = Object.keys(allLabels).filter(label =>
@@ -249,11 +249,17 @@ export class GrSubmitRequirements extends LitElement {
     const everyAssociatedLabelsIsWithoutVotes = associatedLabels.every(
       label => !hasVotes(allLabels[label])
     );
-    if (everyAssociatedLabelsIsWithoutVotes) return html`No votes`;
 
-    return associatedLabels.map(label =>
+    const checksChips = this.renderChecks(requirement);
+
+    if (everyAssociatedLabelsIsWithoutVotes) {
+      return checksChips || html`No votes`;
+    }
+
+    return html`${associatedLabels.map(label =>
       this.renderLabelVote(label, allLabels)
-    );
+    )}
+    ${checksChips}`;
   }
 
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {
@@ -290,27 +296,25 @@ export class GrSubmitRequirements extends LitElement {
       (sum, run) => sum + getResultsOf(run, Category.ERROR).length,
       0
     );
-    if (runsCount > 0) {
-      const allPrimaryLinks = requirementRuns
-        .map(run => run.results ?? [])
-        .flat()
-        .map(firstPrimaryLink)
-        .filter(notUndefined);
-      const links = allPrimaryLinks.length === 1 ? allPrimaryLinks : [];
-      return html`<gr-checks-chip
-        .text=${`${runsCount}`}
-        .links=${links}
-        .statusOrCategory=${Category.ERROR}
-        @click="${() => {
-          fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
-            checksTab: {
-              statusOrCategory: Category.ERROR,
-            },
-          });
-        }}"
-      ></gr-checks-chip>`;
-    }
-    return;
+    if (runsCount === 0) return;
+    const allPrimaryLinks = requirementRuns
+      .map(run => run.results ?? [])
+      .flat()
+      .map(firstPrimaryLink)
+      .filter(notUndefined);
+    const links = allPrimaryLinks.length === 1 ? allPrimaryLinks : [];
+    return html`<gr-checks-chip
+      .text=${`${runsCount}`}
+      .links=${links}
+      .statusOrCategory=${Category.ERROR}
+      @click="${() => {
+        fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
+          checksTab: {
+            statusOrCategory: Category.ERROR,
+          },
+        });
+      }}"
+    ></gr-checks-chip>`;
   }
 
   renderOverrideLabels(requirement: SubmitRequirementResultInfo) {

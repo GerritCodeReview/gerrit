@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96fc8e5d_b9577253",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-26T14:18:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "623b7dac_0be95f8f",
+      "range": {
+        "startLine": 7,
+        "startChar": 69,
+        "endLine": 7,
+        "endChar": 74
+      },
+      "revId": "e7b68cf11f6c13dadaa3f92e0fb01eec1b543edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcedfd8c_e0d3828b",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-25T23:42:17Z",
       "side": 1,
       "message": "This points to the online migration: what is exactly the issue that you are trying to address?",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 16
+      },
+      "revId": "e7b68cf11f6c13dadaa3f92e0fb01eec1b543edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a1e53ad_6a09d111",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-26T14:18:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcedfd8c_e0d3828b",
       "range": {
         "startLine": 13,
         "startChar": 5,

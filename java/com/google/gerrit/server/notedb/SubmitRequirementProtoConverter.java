@@ -36,6 +36,8 @@ public enum SubmitRequirementProtoConverter
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(4);
   private static final FieldDescriptor SR_LEGACY_FIELD =
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(6);
+  private static final FieldDescriptor SR_FORCED_FIELD =
+      SubmitRequirementResultProto.getDescriptor().findFieldByNumber(7);
 
   @Override
   public SubmitRequirementResultProto toProto(SubmitRequirementResult r) {
@@ -45,6 +47,9 @@ public enum SubmitRequirementProtoConverter
         .setCommit(ObjectIdConverter.create().toByteString(r.patchSetCommitId()));
     if (r.legacy().isPresent()) {
       builder.setLegacy(r.legacy().get());
+    }
+    if (r.forced().isPresent()) {
+      builder.setForced(r.forced().get());
     }
     if (r.applicabilityExpressionResult().isPresent()) {
       builder.setApplicabilityExpressionResult(
@@ -70,6 +75,9 @@ public enum SubmitRequirementProtoConverter
                 SubmitRequirementSerializer.deserialize(proto.getSubmitRequirement()));
     if (proto.hasField(SR_LEGACY_FIELD)) {
       builder.legacy(Optional.of(proto.getLegacy()));
+    }
+    if (proto.hasField(SR_FORCED_FIELD)) {
+      builder.forced(Optional.of(proto.getForced()));
     }
     if (proto.hasField(SR_APPLICABILITY_EXPR_RESULT_FIELD)) {
       builder.applicabilityExpressionResult(

@@ -49,13 +49,17 @@ public abstract class SubmitRequirementResult {
    */
   public abstract Optional<Boolean> legacy();
 
+  public abstract Optional<Boolean> forced();
+
   public boolean isLegacy() {
     return legacy().orElse(false);
   }
 
   @Memoized
   public Status status() {
-    if (assertError(submittabilityExpressionResult())
+    if (forced().orElse(false)) {
+      return Status.FORCED;
+    } else if (assertError(submittabilityExpressionResult())
         || assertError(applicabilityExpressionResult())
         || assertError(overrideExpressionResult())) {
       return Status.ERROR;
@@ -74,7 +78,10 @@ public abstract class SubmitRequirementResult {
   @Memoized
   public boolean fulfilled() {
     Status s = status();
-    return s == Status.SATISFIED || s == Status.OVERRIDDEN || s == Status.NOT_APPLICABLE;
+    return s == Status.SATISFIED
+        || s == Status.OVERRIDDEN
+        || s == Status.NOT_APPLICABLE
+        || s == Status.FORCED;
   }
 
   public static Builder builder() {
@@ -113,7 +120,13 @@ public abstract class SubmitRequirementResult {
      * Any of the applicability, submittability or override expressions contain invalid syntax and
      * are not parsable.
      */
-    ERROR
+    ERROR,
+
+    /**
+     * The "submit requirement" was bypassed during submission, e.g. by pushing for review with the
+     * %submit option.
+     */
+    FORCED
   }
 
   @AutoValue.Builder
@@ -131,6 +144,8 @@ public abstract class SubmitRequirementResult {
     public abstract Builder patchSetCommitId(ObjectId value);
 
     public abstract Builder legacy(Optional<Boolean> value);
+
+    public abstract Builder forced(Optional<Boolean> value);
 
     public abstract SubmitRequirementResult build();
   }

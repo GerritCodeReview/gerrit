@@ -16,6 +16,63 @@
       "message": "The change is still WIP, however, an early review would be beneficial to know if I am on a good path :-)\n\nThe purpose is to be able to run Gerrit integration tests against any indexing backend:\n- FakeIndexBackend\n- ElasticSearchIndexBackend\n- LuceneIndexBackend\n- anything else",
       "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94dd49dd_346f2c75",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-11-26T11:22:47Z",
+      "side": 1,
+      "message": "Move also this chunk into own method (createFakeIndexModule) like you did for the\ncreateLuceneIndexModule.",
+      "range": {
+        "startLine": 475,
+        "startChar": 9,
+        "endLine": 479,
+        "endChar": 50
+      },
+      "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "576fa7aa_7f80a1f7",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-11-26T11:22:47Z",
+      "side": 1,
+      "message": "What if the indexType is neither lucene not fake (maybe a typo in the configuration)?\nThis code will silently ignore that case while the base version will end-up in the line 479 and use the fake type.\nWhy not explicitly fail in such case (\"unknown index type\")?",
+      "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6e4f922_d5428807",
+        "filename": "java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-11-26T11:22:47Z",
+      "side": 1,
+      "message": "I find that separating validation and the setup of the indexModuleClassName is hard to follow. When I try to rewrite this code so that positive cases are checked first and the setup of indexModuleClassName is done together with the validation of the configuration, the resulting code seems cleaner:\n\n    String indexModuleClassName;\n    \n    if (!Strings.isNullOrEmpty(System.getenv(INDEX_MODULE_ENV_VAR))) {\n      indexModuleClassName \u003d System.getenv(INDEX_MODULE_ENV_VAR);\n      checkArgument(\n          indexModuleClassName !\u003d null,\n          \"Invalid value for env variable %s: %s\",\n          INDEX_MODULE_ENV_VAR,\n          indexModuleClassName);\n          \n    } else if (!Strings.isNullOrEmpty(System.getProperty(INDEX_MODULE_SYS_PROP))) {\n      indexModuleClassName \u003d System.getProperty(INDEX_MODULE_SYS_PROP);\n      checkArgument(\n          indexModuleClassName !\u003d null,\n          \"Invalid value for system property %s: %s\",\n          INDEX_MODULE_SYS_PROP,\n          indexModuleClassName);\n          \n    } else {\n      IndexType indexType \u003d IndexType.fromEnvironment().orElse(new IndexType(\"fake\"));\n      if (indexType.isFake()) {\n        indexModuleClassName \u003d FAKE_INDEX_MODULE_CLASS_NAME;\n      } else {\n        return Optional.empty();\n      }\n    }\n     \n    return Optional.of(createIndexModule(indexModuleClassName, versions, threads, replica));",
+      "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

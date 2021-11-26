@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8fdd39bd_fe426a05",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-26T12:08:21Z",
+      "side": 1,
+      "message": "I don\u0027t understand. Consumers of state don\u0027t add or delete.",
+      "parentUuid": "1dbe0c48_5bf33a24",
+      "revId": "04b13f3d24aad0020581287bb04bd6fe4e49aff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb93df6b_ad8a9893",
         "filename": "polygerrit-ui/app/services/change/change-service.ts",
         "patchSetId": 19

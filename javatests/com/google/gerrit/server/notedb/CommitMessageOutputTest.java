@@ -61,8 +61,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
             + "\n"
             + "Reviewer: Gerrit User 1 <1@gerrit>\n"
             + "CC: Gerrit User 2 <2@gerrit>\n"
-            + "Label: Code-Review=-1\n"
-            + "Label: Verified=+1\n",
+            + "Label: Code-Review=-1, 1_1_1_code_review__1_1\n"
+            + "Label: Verified=+1, 1_1_1_verified_1_2\n",
         commit);
 
     PersonIdent author = commit.getAuthorIdent();

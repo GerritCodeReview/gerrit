@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d532967f_7f56bc8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-26T01:30:38Z",
+      "side": 1,
+      "message": "The change is still WIP, however, an early review would be beneficial to know if I am on a good path :-)\n\nThe purpose is to be able to run Gerrit integration tests against any indexing backend:\n- FakeIndexBackend\n- ElasticSearchIndexBackend\n- LuceneIndexBackend\n- anything else",
+      "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

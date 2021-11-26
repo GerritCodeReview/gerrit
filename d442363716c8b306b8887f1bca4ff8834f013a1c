@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "def4849e_26a41423",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-26T16:52:24Z",
+      "side": 1,
+      "message": "Update in line 486 cannot be removed because we need some way to mark the file as reviewed when automatic review is on.\n\nIn this case I cannot see how we ensure that the automatic reviewing is only done once.",
+      "parentUuid": "35071012_6e869626",
+      "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5aa4e3f8_1a25fa8c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 26
@@ -162,6 +180,30 @@
       "writtenOn": "2021-11-26T12:08:21Z",
       "side": 1,
       "message": "I think you want to switchMap the this.restApiService.getReviewedFiles() call here, because otherwise you don\u0027t know then the call comes back and whether the response is still applicable. The user may have switched patch nums while the reviewed files were loading.",
+      "range": {
+        "startLine": 75,
+        "startChar": 52,
+        "endLine": 75,
+        "endChar": 61
+      },
+      "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d118c0b_e68ab345",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-26T16:52:24Z",
+      "side": 1,
+      "message": "I don\u0027t understand this.\n\nSwitchMap should return an observable so I don\u0027t understand how this should be constructed?",
+      "parentUuid": "6cdeac1e_16ba98cb",
       "range": {
         "startLine": 75,
         "startChar": 52,

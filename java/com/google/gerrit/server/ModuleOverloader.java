@@ -17,10 +17,17 @@ package com.google.gerrit.server;
 import com.google.inject.Module;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ModuleOverloader {
-  public static List<Module> override(List<Module> modules, List<Module> overrideCandidates) {
+  public static List<Module> override(
+      List<Module> modules, Optional<? extends Module> overrideCandidate) {
+    return override(modules, overrideCandidate.stream().collect(Collectors.toList()));
+  }
+
+  public static List<Module> override(
+      List<Module> modules, List<? extends Module> overrideCandidates) {
     if (overrideCandidates == null || overrideCandidates.isEmpty()) {
       return modules;
     }

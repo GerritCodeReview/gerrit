@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b3b4b18_d187d98f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2857,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-11-26T09:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eae9e43b_911340cb",
+      "revId": "f76b69a9ccd452e957d202d21cb2d83c28791662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bef288f7_6b544d61",
@@ -64,6 +82,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "960fc638_658e2c9d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2863,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-11-26T09:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20b7149b_b8c8ac37",
+      "range": {
+        "startLine": 2863,
+        "startChar": 32,
+        "endLine": 2863,
+        "endChar": 48
+      },
+      "revId": "f76b69a9ccd452e957d202d21cb2d83c28791662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e40ceb6_48d1d153",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2863,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-11-26T09:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bef288f7_6b544d61",
+      "range": {
+        "startLine": 2863,
+        "startChar": 4,
+        "endLine": 2863,
+        "endChar": 79
+      },
+      "revId": "f76b69a9ccd452e957d202d21cb2d83c28791662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be5b2e54_92c50ea6",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-11-26T08:38:52Z",
       "side": 1,
       "message": "Maybe mention that by removing the permission on project, the user still has permission to vote CR-1 to CR+1 due to the inherited access rights from All-Projects.\n\nIf that\u0027s not intended you may want to block the Code-Review permission here to remove the inherited permission.",
+      "range": {
+        "startLine": 2869,
+        "startChar": 4,
+        "endLine": 2869,
+        "endChar": 41
+      },
+      "revId": "f76b69a9ccd452e957d202d21cb2d83c28791662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07fd9485_0880a665",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2869,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-11-26T09:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be5b2e54_92c50ea6",
       "range": {
         "startLine": 2869,
         "startChar": 4,

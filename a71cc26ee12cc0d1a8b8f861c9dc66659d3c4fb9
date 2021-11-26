@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e723f3b_4d831a6d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2285,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-26T15:07:41Z",
+      "side": 1,
+      "message": "\"alternate\" sounds good. I should have looked it up myself :/",
+      "parentUuid": "62d17bcd_bb8536c6",
+      "range": {
+        "startLine": 2285,
+        "startChar": 43,
+        "endLine": 2285,
+        "endChar": 52
+      },
+      "revId": "a71cc26ee12cc0d1a8b8f861c9dc66659d3c4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0d0b558_a97ebe77",

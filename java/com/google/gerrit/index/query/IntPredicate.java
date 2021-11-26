@@ -37,6 +37,8 @@ public abstract class IntPredicate<T> extends OperatorPredicate<T> {
     return getOperator().hashCode() * 31 + intValue;
   }
 
+  // Suppress the EqualsGetClass warning as this is legacy code.
+  @SuppressWarnings("EqualsGetClass")
   @Override
   public boolean equals(Object other) {
     if (other == null) {

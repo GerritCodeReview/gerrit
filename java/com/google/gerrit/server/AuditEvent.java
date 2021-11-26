@@ -82,6 +82,12 @@ public class AuditEvent {
     return uuid.hashCode();
   }
 
+  // This is a value class that allows adding attributes by subclassing.
+  // Doing this is discouraged and using composition rather than inheritance to add fields to value
+  // types is preferred. However this class is part of the plugin API (used in the AuditListener
+  // extension point), hence we cannot change it without breaking plugins. Hence suppress the
+  // EqualsGetClass warning here.
+  @SuppressWarnings("EqualsGetClass")
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {

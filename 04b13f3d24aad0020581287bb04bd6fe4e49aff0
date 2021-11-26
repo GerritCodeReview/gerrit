@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c4bd1e7_4e74cf60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-26T11:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96ebb074_3ad36894",
+      "revId": "04b13f3d24aad0020581287bb04bd6fe4e49aff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ade9b32_c1a976ca",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-16T08:43:31Z",
       "side": 1,
       "message": "diff-view is being re-used within the same change for different files, so take(1) is too strict: It will only set the reviewed state of the first file that is being shown in diff view. Maybe you want something like this:\n\ndiffPath$.pipe(\n  takeUntil(this.disconnected$),\n  filter(isDefined),\n  switchMap(path \u003d\u003e\n    combineLatest(\u003c5 observables as above\u003e).pipe(\n      filter(\u003cas above\u003e)\n    )\n  )\n).subscribe(\u003cas above\u003e);",
+      "revId": "04b13f3d24aad0020581287bb04bd6fe4e49aff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b112bb70_dc8c38ba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-26T11:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ade9b32_c1a976ca",
       "revId": "04b13f3d24aad0020581287bb04bd6fe4e49aff0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dbe0c48_5bf33a24",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-26T11:08:47Z",
+      "side": 1,
+      "message": "Addition deletion feels cleaner on a set vs array so I\u0027ll keep as Set if it\u0027s ok.",
+      "parentUuid": "565e8497_043e93b5",
+      "revId": "04b13f3d24aad0020581287bb04bd6fe4e49aff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb93df6b_ad8a9893",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-11-16T08:43:31Z",
       "side": 1,
       "message": "Move this into the subscription below (and remove the filter). Otherwise you don\u0027t know which subscription comes first.\n\nAlso, you want to wipe the reviewed files state regardless of whether changeNum or patchNum are set or not. If they change, then you wipe.",
+      "revId": "04b13f3d24aad0020581287bb04bd6fe4e49aff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec794fae_72038de2",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-26T11:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb93df6b_ad8a9893",
       "revId": "04b13f3d24aad0020581287bb04bd6fe4e49aff0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -159,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66e4540b_26268019",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-26T11:08:47Z",
+      "side": 1,
+      "message": "Added a toast for now and a TODO for disabling the widgets when files have not loaded.",
+      "parentUuid": "01a05b9c_839e994d",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94381a91_6570338b",
@@ -290,6 +308,24 @@
       "side": 1,
       "message": "The only benefit of getLoggedIn() over account$ is that it returns false, if you have been logged in before, but the credentials have expired in the meantime. But expired credentials generate a toast and an overlay anyway, so there is no need for every random component to care about that.",
       "parentUuid": "02dca784_4490b039",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d15ff139_704de505",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-26T11:08:47Z",
+      "side": 1,
+      "message": "Handling in Change 324891",
+      "parentUuid": "5fcad923_ec9879df",
       "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

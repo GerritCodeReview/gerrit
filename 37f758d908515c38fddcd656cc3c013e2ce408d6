@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef03b59b_134eb4a6",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-26T11:32:44Z",
+      "side": 1,
+      "message": "Add assertIsDefined for userModel.",
+      "revId": "37f758d908515c38fddcd656cc3c013e2ce408d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e2edb74_73499389",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-26T11:32:44Z",
+      "side": 1,
+      "message": "Use loggedIn$ directly?",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 28
+      },
+      "revId": "37f758d908515c38fddcd656cc3c013e2ce408d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd9f8246_f3a64785",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-26T11:32:44Z",
+      "side": 1,
+      "message": "Maybe include loggedIn$ here similarly to currentPatchNum$ and changeNum$. Otherwise you run the risk that loggedIn$ fires too late compared to the other observables.",
+      "revId": "37f758d908515c38fddcd656cc3c013e2ce408d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

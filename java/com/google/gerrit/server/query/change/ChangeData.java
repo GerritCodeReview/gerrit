@@ -424,6 +424,10 @@ public class ChangeData {
     return this;
   }
 
+  public StorageConstraint getStorageConstraint() {
+    return storageConstraint;
+  }
+
   /** Returns {@code true} if we allow reading data from NoteDb. */
   public boolean lazyload() {
     return storageConstraint.ordinal()

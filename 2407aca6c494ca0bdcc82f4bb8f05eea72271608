@@ -16,6 +16,29 @@
       "message": "🎉",
       "revId": "2407aca6c494ca0bdcc82f4bb8f05eea72271608",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d93fa2b_3a3396b0",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-26T00:29:57Z",
+      "side": 1,
+      "message": "Now that the index.type is obsolete and index backends are pluggable, it would be a good idea that FakeIndexModule is plugged in the same way.\n\nThat would also allow to run integration tests against Elasticsearch, which wasn\u0027t possible before.\n\n@Patrick WDYT?\n\nI am keen to keep the compatibility with GERRIT_INDEX_TYPE\u003d\u003cvalue\u003e environment, so that current integration tests won\u0027t break.\n\nHowever, I would introduce a GERRIT_INDEX_MODULE\u003d\u003cclass name\u003e that can be more generic. Running the integration tests would therefore work as follows:\n- FakeIndex \u003d\u003e --test_env\u003dGERRIT_INDEX_MODULE\u003dcom.google.gerrit.index.testing.FakeIndexModule\n- Elasticsearch \u003d\u003e --test_env\u003dGERRIT_INDEX_MODULE\u003dcom.google.gerrit.elasticsearch.ElasticIndexModule",
+      "range": {
+        "startLine": 370,
+        "startChar": 24,
+        "endLine": 370,
+        "endChar": 48
+      },
+      "revId": "2407aca6c494ca0bdcc82f4bb8f05eea72271608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

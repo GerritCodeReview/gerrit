@@ -410,6 +410,50 @@ public class ChangeNotesStateTest {
   }
 
   @Test
+  public void serializeApprovalsWithUUID() throws Exception {
+    PatchSetApproval a1 =
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    PatchSet.id(ID, 1), Account.id(2001), LabelId.create(LabelId.CODE_REVIEW)))
+            .uuid(Optional.of(PatchSetApproval.uuid("577fb248e474018276351785930358ec0450e9f7")))
+            .value(1)
+            .tag("tag")
+            .granted(new Timestamp(1212L))
+            .build();
+    Entities.PatchSetApproval psa1 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a1);
+    ByteString a1Bytes = Protos.toByteString(psa1);
+
+    PatchSetApproval a2 =
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    PatchSet.id(ID, 1), Account.id(2002), LabelId.create(LabelId.VERIFIED)))
+            .uuid(Optional.of(PatchSetApproval.uuid("577fb248e474018276351785930358ec0450e9f7")))
+            .value(-1)
+            .tag("tag")
+            .copied(true)
+            .granted(new Timestamp(3434L))
+            .build();
+    Entities.PatchSetApproval psa2 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a2);
+    ByteString a2Bytes = Protos.toByteString(psa2);
+    assertThat(a2Bytes.size()).isEqualTo(98);
+    assertThat(a2Bytes).isNotEqualTo(a1Bytes);
+
+    assertRoundTrip(
+        newBuilder()
+            .approvals(ImmutableListMultimap.of(a2.patchSetId(), a2, a1.patchSetId(), a1).entries())
+            .build(),
+        ChangeNotesStateProto.newBuilder()
+            .setMetaId(SHA_BYTES)
+            .setChangeId(ID.get())
+            .setColumns(colsProto)
+            .addApproval(psa2)
+            .addApproval(psa1)
+            .build());
+  }
+
+  @Test
   public void serializeReviewers() throws Exception {
     assertRoundTrip(
         newBuilder()
@@ -978,6 +1022,7 @@ public class ChangeNotesStateTest {
         .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
                 .put("key", PatchSetApproval.Key.class)
+                .put("uuid", new TypeLiteral<Optional<PatchSetApproval.UUID>>() {}.getType())
                 .put("value", short.class)
                 .put("granted", Timestamp.class)
                 .put("tag", new TypeLiteral<Optional<String>>() {}.getType())

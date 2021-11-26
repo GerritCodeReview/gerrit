@@ -17,7 +17,7 @@
 
 import './gr-topic-tree-row';
 import {customElement, property} from 'lit/decorators';
-import {LitElement, html} from 'lit-element/lit-element';
+import {LitElement, html, css} from 'lit-element/lit-element';
 import '../shared/gr-button/gr-button';
 import {ChangeInfo, RepoName} from '../../api/rest-api';
 
@@ -31,6 +31,12 @@ export class GrTopicTreeRepo extends LitElement {
 
   @property({type: Array})
   changes?: ChangeInfo[];
+
+  static override styles = css`
+    :host {
+      display: contents;
+    }
+  `;
 
   override render() {
     if (this.repoName === undefined || this.changes === undefined) {

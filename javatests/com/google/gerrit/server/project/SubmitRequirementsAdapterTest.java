@@ -94,7 +94,8 @@ public class SubmitRequirementsAdapterTest {
                 createLabel("Verified", Label.Status.OK)));
 
     List<SubmitRequirementResult> requirements =
-        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+        SubmitRequirementsAdapter.createResult(
+            submitRecord, labelTypes, psCommitId, /* isForced= */ false);
 
     assertThat(requirements).hasSize(2);
     assertResult(
@@ -122,7 +123,8 @@ public class SubmitRequirementsAdapterTest {
                 createLabel("Verified", Label.Status.NEED)));
 
     List<SubmitRequirementResult> requirements =
-        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+        SubmitRequirementsAdapter.createResult(
+            submitRecord, labelTypes, psCommitId, /* isForced= */ false);
 
     assertThat(requirements).hasSize(2);
     assertResult(
@@ -140,6 +142,32 @@ public class SubmitRequirementsAdapterTest {
   }
 
   @Test
+  public void defaultSubmitRule_withOneLabelForced() {
+    SubmitRecord submitRecord =
+        createSubmitRecord(
+            "gerrit~DefaultSubmitRule",
+            Status.OK,
+            Arrays.asList(createLabel("Code-Review", Label.Status.NEED)));
+
+    // Submit records that are forced are written with their initial status in NoteDb, e.g. NEED.
+    // If we do a force submit, the gerrit server appends an extra marker record with status=FORCED
+    // to indicate that all other records were forced, that's why we explicitly pass isForced=true
+    // to the "submit requirements adapter". The resulting submit requirement result has a
+    // status=FORCED.
+    List<SubmitRequirementResult> requirements =
+        SubmitRequirementsAdapter.createResult(
+            submitRecord, labelTypes, psCommitId, /* isForced= */ true);
+
+    assertThat(requirements).hasSize(1);
+    assertResult(
+        requirements.get(0),
+        /* reqName= */ "Code-Review",
+        /* submitExpression= */ "label:Code-Review=MAX -label:Code-Review=MIN",
+        SubmitRequirementResult.Status.FORCED,
+        SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
   public void defaultSubmitRule_withLabelStatusNeed_labelHasIgnoreSelfApproval() throws Exception {
     SubmitRecord submitRecord =
         createSubmitRecord(
@@ -148,7 +176,8 @@ public class SubmitRequirementsAdapterTest {
             Arrays.asList(createLabel("ISA-Label", Label.Status.NEED)));
 
     List<SubmitRequirementResult> requirements =
-        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+        SubmitRequirementsAdapter.createResult(
+            submitRecord, labelTypes, psCommitId, /* isForced= */ false);
 
     assertThat(requirements).hasSize(1);
     assertResult(
@@ -168,7 +197,8 @@ public class SubmitRequirementsAdapterTest {
             Arrays.asList(createLabel("ISA-Label", Label.Status.OK)));
 
     List<SubmitRequirementResult> requirements =
-        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+        SubmitRequirementsAdapter.createResult(
+            submitRecord, labelTypes, psCommitId, /* isForced= */ false);
 
     assertThat(requirements).hasSize(1);
     assertResult(
@@ -185,7 +215,8 @@ public class SubmitRequirementsAdapterTest {
         createSubmitRecord("gerrit~IgnoreSelfApprovalRule", Status.OK, Arrays.asList());
 
     List<SubmitRequirementResult> requirements =
-        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+        SubmitRequirementsAdapter.createResult(
+            submitRecord, labelTypes, psCommitId, /* isForced= */ false);
 
     assertThat(requirements).hasSize(1);
     assertResult(
@@ -202,7 +233,8 @@ public class SubmitRequirementsAdapterTest {
         createSubmitRecord("gerrit~IgnoreSelfApprovalRule", Status.OK, /* labels= */ null);
 
     List<SubmitRequirementResult> requirements =
-        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+        SubmitRequirementsAdapter.createResult(
+            submitRecord, labelTypes, psCommitId, /* isForced= */ false);
 
     assertThat(requirements).hasSize(1);
     assertResult(
@@ -219,7 +251,8 @@ public class SubmitRequirementsAdapterTest {
         createSubmitRecord("gerrit~IgnoreSelfApprovalRule", Status.NOT_READY, Arrays.asList());
 
     List<SubmitRequirementResult> requirements =
-        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+        SubmitRequirementsAdapter.createResult(
+            submitRecord, labelTypes, psCommitId, /* isForced= */ false);
 
     assertThat(requirements).hasSize(1);
     assertResult(
@@ -241,7 +274,8 @@ public class SubmitRequirementsAdapterTest {
                 createLabel("custom-label-2", Label.Status.REJECT)));
 
     List<SubmitRequirementResult> requirements =
-        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+        SubmitRequirementsAdapter.createResult(
+            submitRecord, labelTypes, psCommitId, /* isForced= */ false);
 
     assertThat(requirements).hasSize(2);
     assertResult(
@@ -269,7 +303,8 @@ public class SubmitRequirementsAdapterTest {
                 createLabel("custom-label-2", Label.Status.REJECT)));
 
     List<SubmitRequirementResult> requirements =
-        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+        SubmitRequirementsAdapter.createResult(
+            submitRecord, labelTypes, psCommitId, /* isForced= */ false);
 
     assertThat(requirements).hasSize(2);
     assertResult(

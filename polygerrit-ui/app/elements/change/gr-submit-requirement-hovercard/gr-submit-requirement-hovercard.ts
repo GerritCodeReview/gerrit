@@ -109,11 +109,12 @@ export class GrSubmitRequirementHovercard extends base {
         .expression {
           color: var(--gray-foreground);
         }
-        iron-icon.check {
+        iron-icon.check,
+        iron-icon.overridden {
           color: var(--success-foreground);
         }
         iron-icon.close {
-          color: var(--warning-foreground);
+          color: var(--error-foreground);
         }
         .showConditions iron-icon {
           color: inherit;

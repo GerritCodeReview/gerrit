@@ -320,7 +320,7 @@ export class GrSubmitRequirements extends LitElement {
       'onlyOverride'
     ).filter(label => {
       const allLabels = this.change?.labels ?? {};
-      return hasVotes(allLabels[label]);
+      return allLabels[label] && hasVotes(allLabels[label]);
     });
     return requirementLabels.map(
       label => html`<span class="overrideLabel">${label}</span>`

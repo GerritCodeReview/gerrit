@@ -17,10 +17,12 @@ package com.google.gerrit.entities.converter;
 import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.PatchSetApproval.UUID;
 import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
 import java.sql.Timestamp;
 import java.util.Objects;
+import java.util.Optional;
 
 @Immutable
 public enum PatchSetApprovalProtoConverter
@@ -41,6 +43,10 @@ public enum PatchSetApprovalProtoConverter
             .setGranted(patchSetApproval.granted().getTime())
             .setPostSubmit(patchSetApproval.postSubmit())
             .setCopied(patchSetApproval.copied());
+
+    if (patchSetApproval.uuid().isPresent()) {
+      builder.setUuid(patchSetApproval.uuid().get().get());
+    }
 
     patchSetApproval.tag().ifPresent(builder::setTag);
     Account.Id realAccountId = patchSetApproval.realAccountId();
@@ -64,6 +70,9 @@ public enum PatchSetApprovalProtoConverter
             .granted(new Timestamp(proto.getGranted()))
             .postSubmit(proto.getPostSubmit())
             .copied(proto.getCopied());
+    if (proto.hasUuid()) {
+      builder.uuid(Optional.of(UUID.parse(proto.getUuid())));
+    }
     if (proto.hasTag()) {
       builder.tag(proto.getTag());
     }

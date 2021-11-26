@@ -313,7 +313,7 @@ java_package_configuration(
         "-Xep:MixedDescriptors:ERROR",
         # "-Xep:MixedMutabilityReturnType:WARN",
         "-Xep:MockitoUsage:ERROR",
-        "-Xep:ModifiedButNotUsed:ERROR",
+        # "-Xep:ModifiedButNotUsed:ERROR",
         "-Xep:ModifyCollectionInEnhancedForLoop:ERROR",
         "-Xep:ModifySourceCollectionInStream:ERROR",
         "-Xep:ModifyingCollectionWithItself:ERROR",

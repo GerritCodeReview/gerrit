@@ -629,9 +629,12 @@ public class MergeOp implements AutoCloseable {
       for (Map.Entry<Change.Id, ChangeData> entry : cs.changesById().entrySet()) {
         Project.NameKey project = entry.getValue().project();
         Change.Id changeId = entry.getKey();
+        ChangeData cd = entry.getValue();
         batchUpdatesByProject
             .get(project)
-            .addOp(changeId, storeSubmitRequirementsOpFactory.create());
+            .addOp(
+                changeId,
+                storeSubmitRequirementsOpFactory.create(cd.submitRequirements().values()));
       }
       try {
         submissionExecutor.setAdditionalBatchUpdateListeners(

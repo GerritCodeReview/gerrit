@@ -78,7 +78,9 @@ public class BatchAbandon {
                   change.project().get(), project.get()));
         }
         u.addOp(change.getId(), abandonOpFactory.create(accountState, msgTxt));
-        u.addOp(change.getId(), storeSubmitRequirementsOpFactory.create());
+        u.addOp(
+            change.getId(),
+            storeSubmitRequirementsOpFactory.create(change.submitRequirements().values()));
       }
       u.execute();
 

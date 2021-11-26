@@ -29,6 +29,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Singleton
 public class BatchAbandon {
@@ -78,7 +79,12 @@ public class BatchAbandon {
                   change.project().get(), project.get()));
         }
         u.addOp(change.getId(), abandonOpFactory.create(accountState, msgTxt));
-        u.addOp(change.getId(), storeSubmitRequirementsOpFactory.create());
+        u.addOp(
+            change.getId(),
+            storeSubmitRequirementsOpFactory.create(
+                change.submitRequirements().values().stream()
+                    .filter(srResult -> !srResult.isLegacy())
+                    .collect(Collectors.toList())));
       }
       u.execute();
 

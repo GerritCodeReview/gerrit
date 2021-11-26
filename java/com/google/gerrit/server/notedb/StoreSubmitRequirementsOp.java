@@ -14,31 +14,37 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+import java.util.Collection;
 
 /** A {@link BatchUpdateOp} that stores the evaluated submit requirements of a change in NoteDb. */
 public class StoreSubmitRequirementsOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final SubmitRequirementsEvaluator evaluator;
   private final boolean storeRequirementsInNoteDb;
+  private final Collection<SubmitRequirementResult> submitRequirementResults;
 
   public interface Factory {
-    StoreSubmitRequirementsOp create();
+    StoreSubmitRequirementsOp create(Collection<SubmitRequirementResult> submitRequirements);
   }
 
-  @Inject
+  @AssistedInject
   public StoreSubmitRequirementsOp(
       ChangeData.Factory changeDataFactory,
       ExperimentFeatures experimentFeatures,
-      SubmitRequirementsEvaluator evaluator) {
+      SubmitRequirementsEvaluator evaluator,
+      @Assisted Collection<SubmitRequirementResult> submitRequirementResults) {
     this.changeDataFactory = changeDataFactory;
     this.evaluator = evaluator;
+    this.submitRequirementResults = submitRequirementResults;
     this.storeRequirementsInNoteDb =
         experimentFeatures.isFeatureEnabled(
             ExperimentFeaturesConstants
@@ -64,8 +70,8 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
     ChangeData changeData = changeDataFactory.create(ctx.getProject(), ctx.getChange().getId());
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
     // We do not want to store submit requirements in NoteDb for legacy submit records
-    update.putSubmitRequirementResults(
-        evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false).values());
+    update.putSubmitRequirementResults(submitRequirementResults);
+    // evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false).values());
     return !changeData.submitRequirements().isEmpty();
   }
 }

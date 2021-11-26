@@ -22,6 +22,30 @@
       },
       "revId": "5b3cdc56bfe8cb2899c2b7cfffdaae08fa43a7eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5c3fadd_488dccbb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-26T13:40:01Z",
+      "side": 1,
+      "message": "Well this works for now. The hex stuff is about specifying exactly what data about changes you want to load (or not load) for performance without ballooning the request URL. I\u0027m not sure if we will be able to use it on this endpoint, but we\u0027ll have to see the performance as we go.",
+      "parentUuid": "035f11c4_cddecdb4",
+      "range": {
+        "startLine": 1711,
+        "startChar": 39,
+        "endLine": 1711,
+        "endChar": 63
+      },
+      "revId": "5b3cdc56bfe8cb2899c2b7cfffdaae08fa43a7eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

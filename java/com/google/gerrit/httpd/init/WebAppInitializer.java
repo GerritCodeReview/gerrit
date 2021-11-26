@@ -292,7 +292,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new AuthConfigModule());
     return cfgInjector.createChildInjector(
         ModuleOverloader.override(
-            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE)));
+            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE_TYPE)));
   }
 
   private Injector createSysInjector() {
@@ -362,7 +362,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new ExternalIdCaseSensitivityMigrator.ExternalIdCaseSensitivityMigratorModule());
     return dbInjector.createChildInjector(
         ModuleOverloader.override(
-            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE)));
+            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE_TYPE)));
   }
 
   private Module createIndexModule() {

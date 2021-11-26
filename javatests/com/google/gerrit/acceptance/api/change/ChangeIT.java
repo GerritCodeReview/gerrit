@@ -5986,6 +5986,41 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {
+        ExperimentFeaturesConstants
+            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
+      })
+  public void submitRequirements_forcedByDirectSubmission() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("My-Requirement")
+            // Submit requirement is always unsatisfied, but we are going to bypass it.
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("is:false"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    pushFactory.create(admin.newIdent(), testRepo, changeId).to("refs/for/master%submit");
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "My-Requirement", Status.FORCED, /* isLegacy= */ false);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.FORCED, /* isLegacy= */ true);
+  }
+
+  @Test
   public void fourByteEmoji() throws Exception {
     // U+1F601 GRINNING FACE WITH SMILING EYES
     String smile = new String(Character.toChars(0x1f601));

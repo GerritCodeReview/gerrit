@@ -63,6 +63,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
@@ -74,6 +75,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.approval.PatchSetApprovalUUID;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.LabelVote;
@@ -630,12 +632,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         deleteCommentRewriter == null && deleteChangeMessageRewriter == null,
         "cannot update and rewrite ref in one BatchUpdate");
 
-    int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
+    PatchSet.Id patchSetId = psId != null ? psId : getChange().currentPatchSetId();
     StringBuilder msg = new StringBuilder();
     if (commitSubject != null) {
       msg.append(commitSubject);
     } else {
-      msg.append("Update patch set ").append(ps);
+      msg.append("Update patch set ").append(patchSetId.get());
     }
     msg.append("\n\n");
 
@@ -644,7 +646,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       msg.append("\n\n");
     }
 
-    addPatchSetFooter(msg, ps);
+    addPatchSetFooter(msg, patchSetId);
 
     if (currentPatchSet) {
       addFooter(msg, FOOTER_CURRENT, Boolean.TRUE);
@@ -718,7 +720,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     for (Table.Cell<String, Account.Id, Optional<Short>> c : approvals.cellSet()) {
-      addLabelFooter(msg, c);
+      addLabelFooter(msg, c, patchSetId);
     }
     for (PatchSetApproval patchSetApproval : copiedApprovals) {
       addCopiedLabelFooter(msg, patchSetApproval);
@@ -802,15 +804,24 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return cb;
   }
 
-  private void addLabelFooter(StringBuilder msg, Cell<String, Account.Id, Optional<Short>> c) {
+  private void addLabelFooter(
+      StringBuilder msg, Cell<String, Account.Id, Optional<Short>> c, PatchSet.Id patchSetId) {
     addFooter(msg, FOOTER_LABEL);
-    // Label names/values are safe to append without sanitizing.
-    if (!c.getValue().isPresent()) {
-      msg.append('-').append(c.getRowKey());
-    } else {
-      msg.append(LabelVote.create(c.getRowKey(), c.getValue().get()).formatWithEquals());
-    }
+    String label = c.getRowKey();
+    short value = c.getValue().get();
     Account.Id id = c.getColumnKey();
+    // Label names/values are safe to append without sanitizing.
+    boolean isRemoval = c.getValue().isPresent();
+    if (isRemoval) {
+      msg.append('-').append(label);
+      // no need to emit UUID for the removed votes.
+    } else {
+      msg.append(LabelVote.create(label, c.getValue().get()).formatWithEquals());
+      msg.append(", ");
+      // Does not matter if we use authorIdent, serverIdent (both include current unique timestamp)
+      // or old sha1 (unique to the update).
+      msg.append(PatchSetApprovalUUID.make(patchSetId, id, label, value, authorIdent));
+    }
     if (!id.equals(getAccountId())) {
       noteUtil.appendAccountIdIdentString(msg.append(' '), id);
     }
@@ -826,6 +837,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // Label names/values are safe to append without sanitizing.
     msg.append(
         LabelVote.create(patchSetApproval.label(), patchSetApproval.value()).formatWithEquals());
+    // Might be copied from the vote that was generated before UUID was introduced.
+    if (patchSetApproval.uuid().isPresent()) {
+      msg.append(", ");
+      msg.append(patchSetApproval.uuid().get());
+    }
     Account.Id id = patchSetApproval.accountId();
     noteUtil.appendAccountIdIdentString(msg.append(' '), id);
 
@@ -840,6 +856,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (patchSetApproval.tag().isPresent()) {
       msg.append(":\"" + sanitizeFooter(patchSetApproval.tag().get()) + "\"");
     }
+
     msg.append('\n');
   }
 
@@ -1021,8 +1038,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     ignoreFurtherAttentionSetUpdates = true;
   }
 
-  private void addPatchSetFooter(StringBuilder sb, int ps) {
-    addFooter(sb, FOOTER_PATCH_SET).append(ps);
+  private void addPatchSetFooter(StringBuilder sb, PatchSet.Id ps) {
+    addFooter(sb, FOOTER_PATCH_SET).append(ps.get());
     if (psState != null) {
       sb.append(" (").append(psState.name().toLowerCase()).append(')');
     }

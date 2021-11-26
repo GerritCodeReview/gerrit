@@ -45,6 +45,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -877,10 +878,21 @@ class ChangeNotesParser {
     }
   }
 
-  // Footer example: Copied-Label: <LABEL>=VOTE <Gerrit Account>,<Gerrit Real Account> :"<TAG>"
-  // ":<"TAG>"" is optional. <Gerrit Real Account> is also optional, if it was not set.
-  // The label, vote, and the Gerrit account are mandatory (unlike FOOTER_LABEL where Gerrit
-  // Account is also optional since by default it's the committer).
+  /**
+   * Parses copied {@link PatchSetApproval}.
+   *
+   * <p>Footer example: Copied-Label: <LABEL>=VOTE, <UUID> <Gerrit Account>,<Gerrit Real Account>
+   * :"<TAG>"
+   *
+   * <ul>
+   *   <li>":<"TAG>"" is optional.
+   *   <li><Gerrit Real Account> is also optional, if it was not set.
+   *   <li><UUID> is optional, since the approval might have been granted before {@link
+   *       com.google.gerrit.entities.PatchSetApproval.UUID} was introduced.
+   *   <li>The label, vote, and the Gerrit account are mandatory (unlike FOOTER_LABEL where Gerrit
+   *       Account is also optional since by default it's the committer).
+   * </ul>
+   */
   private void parseCopiedApproval(PatchSet.Id psId, Timestamp ts, String line)
       throws ConfigInvalidException {
     // Copied approvals can't be explicitly removed. They are removed the same way as non-copied
@@ -889,24 +901,43 @@ class ChangeNotesParser {
 
     Account.Id accountId, realAccountId = null;
     String labelVoteStr;
+    PatchSetApproval.UUID uuid = null;
     String tag = null;
-    int s = line.indexOf(' ');
-    int tagStart = line.indexOf(":\"");
 
-    // The first account is the accountId, and second (if applicable) is the realAccountId.
+    int tagStart = line.indexOf(":\"");
+    int uuidStart = line.indexOf(", ");
+
+    // Wired tag that contains uuid delimiter. The uuid is actually not present.
+    if (tagStart != -1 && uuidStart > tagStart) {
+      uuidStart = -1;
+    }
+    int identitiesStart = line.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
+    checkFooter(
+        identitiesStart != -1 && identitiesStart < line.length(), FOOTER_COPIED_LABEL, line);
+
     try {
-      labelVoteStr = line.substring(0, s);
+      labelVoteStr = line.substring(0, uuidStart != -1 ? uuidStart : identitiesStart);
     } catch (StringIndexOutOfBoundsException ex) {
       throw new ConfigInvalidException(ex.getMessage(), ex);
     }
-    String[] identities =
-        line.substring(s + 1, tagStart == -1 ? line.length() : tagStart).split(",");
-    PersonIdent ident = RawParseUtils.parsePersonIdent(identities[0]);
+    if (uuidStart != -1) {
+      uuid = PatchSetApproval.uuid(line.substring(uuidStart + 2, identitiesStart));
+      checkFooter(!Strings.isNullOrEmpty(uuid.get()), FOOTER_COPIED_LABEL, line);
+    }
+    // The first account is the accountId, and second (if applicable) is the realAccountId.
+    List<String> identities =
+        Splitter.on(',')
+            .splitToList(
+                line.substring(identitiesStart + 1, tagStart == -1 ? line.length() : tagStart));
+    checkFooter(identities.size() >= 1, FOOTER_COPIED_LABEL, line);
+
+    PersonIdent ident = RawParseUtils.parsePersonIdent(identities.get(0));
+
     checkFooter(ident != null, FOOTER_COPIED_LABEL, line);
     accountId = parseIdent(ident);
 
-    if (identities.length > 1) {
-      PersonIdent realIdent = RawParseUtils.parsePersonIdent(identities[1]);
+    if (identities.size() > 1) {
+      PersonIdent realIdent = RawParseUtils.parsePersonIdent(identities.get(1));
       checkFooter(realIdent != null, FOOTER_COPIED_LABEL, line);
       realAccountId = parseIdent(realIdent);
     }
@@ -929,6 +960,7 @@ class ChangeNotesParser {
     PatchSetApproval.Builder psa =
         PatchSetApproval.builder()
             .key(PatchSetApproval.key(psId, accountId, LabelId.create(l.label())))
+            .uuid(Optional.ofNullable(uuid))
             .value(l.value())
             .granted(ts)
             .tag(Optional.ofNullable(tag))
@@ -955,6 +987,24 @@ class ChangeNotesParser {
     bufferedApprovals.add(psa);
   }
 
+  /**
+   * Parses {@link PatchSetApproval} out of the {@link ChangeNoteUtil#FOOTER_LABEL} value.
+   *
+   * <p>Valid footer examples:
+   *
+   * <ul>
+   *   <li>Label: <LABEL>=VOTE
+   *   <li>Label: <LABEL>=VOTE <Gerrit Account>
+   *   <li>Label: <LABEL>=VOTE, <UUID>
+   *   <li>Label: <LABEL>=VOTE, <UUID> <Gerrit Account>
+   * </ul>
+   *
+   * <p><UUID> is optional, since the approval might have been granted before {@link
+   * com.google.gerrit.entities.PatchSetApproval.UUID} was introduced.
+   *
+   * <p><Gerrit Account> is only persisted in cases, when the account, that granted the vote does
+   * not match the account, that issued {@link ChangeUpdate} (created this NoteDB commit).
+   */
   private PatchSetApproval.Builder parseAddApproval(
       PatchSet.Id psId, Account.Id committerId, Account.Id realAccountId, Timestamp ts, String line)
       throws ConfigInvalidException {
@@ -968,18 +1018,30 @@ class ChangeNotesParser {
     //     user.
     Account.Id effectiveAccountId;
     String labelVoteStr;
-    int s = line.indexOf(' ');
-    if (s > 0) {
+    PatchSetApproval.UUID uuid = null;
+    int uuidStart = line.indexOf(", ");
+    int reviewerStart = line.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
+    if (uuidStart != -1) {
+      uuid =
+          PatchSetApproval.uuid(
+              line.substring(uuidStart + 2, reviewerStart > 0 ? reviewerStart : line.length()));
+      checkFooter(!Strings.isNullOrEmpty(uuid.get()), FOOTER_LABEL, line);
+      labelVoteStr = line.substring(0, uuidStart);
+    } else if (reviewerStart != -1) {
+      labelVoteStr = line.substring(0, reviewerStart);
+    } else {
+      labelVoteStr = line;
+    }
+
+    if (reviewerStart > 0) {
       // Account in the label line (2) becomes the effective ID of the
       // approval. If there is a real user (3) different from the commit user
       // (2), we actually don't store that anywhere in this case; it's more
       // important to record that the real user (3) actually initiated submit.
-      labelVoteStr = line.substring(0, s);
-      PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
+      PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(reviewerStart + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
       effectiveAccountId = parseIdent(ident);
     } else {
-      labelVoteStr = line;
       effectiveAccountId = committerId;
     }
 
@@ -995,6 +1057,7 @@ class ChangeNotesParser {
     PatchSetApproval.Builder psa =
         PatchSetApproval.builder()
             .key(PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(l.label())))
+            .uuid(Optional.ofNullable(uuid))
             .value(l.value())
             .granted(ts)
             .tag(Optional.ofNullable(tag));

@@ -42,6 +42,7 @@ public enum PatchSetApprovalProtoConverter
             .setPostSubmit(patchSetApproval.postSubmit())
             .setCopied(patchSetApproval.copied());
 
+    patchSetApproval.uuid().ifPresent(uuid -> builder.setUuid(uuid.get()));
     patchSetApproval.tag().ifPresent(builder::setTag);
     Account.Id realAccountId = patchSetApproval.realAccountId();
     // PatchSetApproval#getRealAccountId automatically delegates to PatchSetApproval#getAccountId if
@@ -64,6 +65,9 @@ public enum PatchSetApprovalProtoConverter
             .granted(new Timestamp(proto.getGranted()))
             .postSubmit(proto.getPostSubmit())
             .copied(proto.getCopied());
+    if (proto.hasUuid()) {
+      builder.uuid(PatchSetApproval.uuid(proto.getUuid()));
+    }
     if (proto.hasTag()) {
       builder.tag(proto.getTag());
     }

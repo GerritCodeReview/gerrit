@@ -39,6 +39,8 @@ import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
+import com.google.gerrit.server.approval.testing.TestPatchSetApprovalUuidGenerator;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -173,6 +175,8 @@ public abstract class AbstractChangeNotesTest {
                         () -> {
                           throw new UnsupportedOperationException();
                         });
+                bind(PatchSetApprovalUuidGenerator.class)
+                    .to(TestPatchSetApprovalUuidGenerator.class);
               }
             });
 

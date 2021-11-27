@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52a56946_e1b74711",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-27T01:31:34Z",
+      "side": 1,
+      "message": "It looks like it is done on purpose in this way, for allowing Google to use a \u0027custom\u0027 undocumented type (see the CustomIndexIT test). I\u0027ll add a comment to clarify the situation.",
+      "parentUuid": "576fa7aa_7f80a1f7",
+      "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f6e4f922_d5428807",
         "filename": "java/com/google/gerrit/server/LibModuleLoader.java",
         "patchSetId": 1
@@ -71,6 +89,24 @@
       "writtenOn": "2021-11-26T11:22:47Z",
       "side": 1,
       "message": "I find that separating validation and the setup of the indexModuleClassName is hard to follow. When I try to rewrite this code so that positive cases are checked first and the setup of indexModuleClassName is done together with the validation of the configuration, the resulting code seems cleaner:\n\n    String indexModuleClassName;\n    \n    if (!Strings.isNullOrEmpty(System.getenv(INDEX_MODULE_ENV_VAR))) {\n      indexModuleClassName \u003d System.getenv(INDEX_MODULE_ENV_VAR);\n      checkArgument(\n          indexModuleClassName !\u003d null,\n          \"Invalid value for env variable %s: %s\",\n          INDEX_MODULE_ENV_VAR,\n          indexModuleClassName);\n          \n    } else if (!Strings.isNullOrEmpty(System.getProperty(INDEX_MODULE_SYS_PROP))) {\n      indexModuleClassName \u003d System.getProperty(INDEX_MODULE_SYS_PROP);\n      checkArgument(\n          indexModuleClassName !\u003d null,\n          \"Invalid value for system property %s: %s\",\n          INDEX_MODULE_SYS_PROP,\n          indexModuleClassName);\n          \n    } else {\n      IndexType indexType \u003d IndexType.fromEnvironment().orElse(new IndexType(\"fake\"));\n      if (indexType.isFake()) {\n        indexModuleClassName \u003d FAKE_INDEX_MODULE_CLASS_NAME;\n      } else {\n        return Optional.empty();\n      }\n    }\n     \n    return Optional.of(createIndexModule(indexModuleClassName, versions, threads, replica));",
+      "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c554387_a5293ed3",
+        "filename": "java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-27T01:31:34Z",
+      "side": 1,
+      "message": "\u003e I find that separating validation and the setup of the indexModuleClassName is hard to follow. When I try to rewrite this code so that positive cases are checked first and the setup of indexModuleClassName is done together with the validation of the configuration, the resulting code seems cleaner:\n\u003e \n\u003e     String indexModuleClassName;\n\u003e     \n\u003e     if (!Strings.isNullOrEmpty(System.getenv(INDEX_MODULE_ENV_VAR))) {\n\u003e       indexModuleClassName \u003d System.getenv(INDEX_MODULE_ENV_VAR);\n\u003e       checkArgument(\n\u003e           indexModuleClassName !\u003d null,\n\u003e           \"Invalid value for env variable %s: %s\",\n\u003e           INDEX_MODULE_ENV_VAR,\n\u003e           indexModuleClassName);\n\u003e           \n\u003e     } else if (!Strings.isNullOrEmpty(System.getProperty(INDEX_MODULE_SYS_PROP))) {\n\u003e       indexModuleClassName \u003d System.getProperty(INDEX_MODULE_SYS_PROP);\n\u003e       checkArgument(\n\u003e           indexModuleClassName !\u003d null,\n\u003e           \"Invalid value for system property %s: %s\",\n\u003e           INDEX_MODULE_SYS_PROP,\n\u003e           indexModuleClassName);\n\u003e           \n\u003e     }\n\nI agree, the above structure is easier to read. I tried to be conservative and keep the current structure, but I agree with you 100% that is confusing.\n\n\n\u003e else {\n\u003e       IndexType indexType \u003d IndexType.fromEnvironment().orElse(new IndexType(\"fake\"));\n\u003e       if (indexType.isFake()) {\n\u003e         indexModuleClassName \u003d FAKE_INDEX_MODULE_CLASS_NAME;\n\u003e       } else {\n\u003e         return Optional.empty();\n\u003e       }\n\u003e     }\n\nThe above logic would break the CustomIndexIT tests: apparently the IndexType is a free-form field and accept also unsupported values like \u0027custom\u0027, which is used at Google.\n\nThe above code therefore needs to be different:\n- If IndexType is LUCENE \u003d\u003e Use a LuceneModuleIndex\n- If IndexType is anything else \u003d\u003e Use a FakeIndexModule",
+      "parentUuid": "f6e4f922_d5428807",
       "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

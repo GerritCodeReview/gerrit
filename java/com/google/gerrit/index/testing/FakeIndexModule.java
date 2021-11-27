@@ -29,9 +29,10 @@ public class FakeIndexModule extends AbstractIndexModule {
     return new FakeIndexModule(ImmutableMap.of(), threads, secondary);
   }
 
+  @SuppressWarnings("unused")
   public static FakeIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads, boolean secondary) {
-    return new FakeIndexModule(versions, threads, secondary);
+    return latestVersion(secondary);
   }
 
   public static FakeIndexModule latestVersion(boolean secondary) {

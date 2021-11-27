@@ -187,6 +187,30 @@
       },
       "revId": "e7b68cf11f6c13dadaa3f92e0fb01eec1b543edd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f4e0437_f4bc26be",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/externalids/OnlineExternalIdCaseSensivityMigratorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-27T00:06:58Z",
+      "side": 1,
+      "message": "The assertions at L120-L124 are identical to the ones before the migration: how can these assert that accounts ids have been migrated?",
+      "parentUuid": "214c87bb_1f17c57f",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 97
+      },
+      "revId": "e7b68cf11f6c13dadaa3f92e0fb01eec1b543edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

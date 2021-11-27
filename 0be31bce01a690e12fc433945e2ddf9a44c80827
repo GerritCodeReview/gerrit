@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfee0ed6_9d41fc5f",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-27T02:11:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94dd49dd_346f2c75",
+      "range": {
+        "startLine": 475,
+        "startChar": 9,
+        "endLine": 479,
+        "endChar": 50
+      },
+      "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "576fa7aa_7f80a1f7",
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "It looks like it is done on purpose in this way, for allowing Google to use a \u0027custom\u0027 undocumented type (see the CustomIndexIT test). I\u0027ll add a comment to clarify the situation.",
       "parentUuid": "576fa7aa_7f80a1f7",
+      "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbed1ac6_54ae9f40",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-27T02:11:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52a56946_e1b74711",
       "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -111,6 +153,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd6c1535_fa24556d",
+        "filename": "java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-27T02:11:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c554387_a5293ed3",
+      "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09d05474_106cb060",
@@ -124,6 +184,24 @@
       "writtenOn": "2021-11-26T13:08:51Z",
       "side": 1,
       "message": "How could it be null if the INDEX_MODULE_ENV_VAR is neither null nor empty? The same question also applies to the proposed code from me, where I didn\u0027t pay attention to the exact meaning of the validation check.",
+      "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90045b65_6141d04a",
+        "filename": "java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-27T02:11:21Z",
+      "side": 1,
+      "message": "True, those checks were redundant.",
+      "parentUuid": "09d05474_106cb060",
       "revId": "0be31bce01a690e12fc433945e2ddf9a44c80827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

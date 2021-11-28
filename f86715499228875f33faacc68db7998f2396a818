@@ -16,6 +16,24 @@
       "message": "I\u0027d suggest the newly added methods (of the interface) to just return a List\u003cModifiedFile\u003e entities. We can add a helper method in DiffOperationsImpl that has almost the same logic as \"GitModifiedFilesCacheImpl\". At the end, the caller is only interested in the list of files names, and the change types (no need for extra logic for untouched files or the detailed file edits).",
       "revId": "f86715499228875f33faacc68db7998f2396a818",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e08ad878_3e65500a",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-28T11:37:19Z",
+      "side": 0,
+      "message": "I started working on this for an hour or so, but then decided it\u0027s not great.\n\nIt\u0027s better to just do the same as we did before and extract the cache logic. This is much more extendable and requires less refactoring on methods that already used the current output.",
+      "parentUuid": "36f58b3b_6042af56",
+      "revId": "f86715499228875f33faacc68db7998f2396a818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

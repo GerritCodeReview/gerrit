@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67cd5f0b_4675da33",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-28T11:37:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1bf7166_547e7270",
+      "revId": "ab94f4f238f57444e1357b06aaafc1a4a2c9ba8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "267b4569_13baa415",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-11-25T14:35:18Z",
       "side": 1,
       "message": "nit: 2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "ab94f4f238f57444e1357b06aaafc1a4a2c9ba8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76ef677f_ebec3c13",
+        "filename": "java/com/google/gerrit/server/patch/diff/LoadModifiedFilesList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-28T11:37:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "267b4569_13baa415",
       "range": {
         "startLine": 1,
         "startChar": 18,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b217daa9_cfacf5c7",
+        "filename": "java/com/google/gerrit/server/patch/diff/LoadModifiedFilesList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-28T11:37:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2c03172_863dd815",
+      "revId": "ab94f4f238f57444e1357b06aaafc1a4a2c9ba8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efbf2b72_c6869ef8",
@@ -71,6 +131,30 @@
       "writtenOn": "2021-11-25T14:35:18Z",
       "side": 1,
       "message": "Here we wrap GitModifiedFilesCache which also creates a new RevWalk, hence we cannot do that. If you want to keep this logic, we need to extract the loader\u0027s logic similar to what we did here.",
+      "range": {
+        "startLine": 78,
+        "startChar": 61,
+        "endLine": 78,
+        "endChar": 69
+      },
+      "revId": "ab94f4f238f57444e1357b06aaafc1a4a2c9ba8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "685b28ed_530f3041",
+        "filename": "java/com/google/gerrit/server/patch/diff/LoadModifiedFilesList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-28T11:37:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efbf2b72_c6869ef8",
       "range": {
         "startLine": 78,
         "startChar": 61,

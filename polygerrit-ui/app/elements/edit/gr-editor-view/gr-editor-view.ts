@@ -212,7 +212,7 @@ export class GrEditorView extends PolymerElement {
   }
 
   _getChangeDetail(changeNum: NumericChangeId) {
-    return this.restApiService.getDiffChangeDetail(changeNum).then(change => {
+    return this.restApiService.getChangeDetail(changeNum).then(change => {
       this._change = change;
     });
   }

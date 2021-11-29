@@ -63,6 +63,30 @@
       },
       "revId": "2407aca6c494ca0bdcc82f4bb8f05eea72271608",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e0d8762_4a0d1fca",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-29T07:33:16Z",
+      "side": 1,
+      "message": "\u003e @Patrick WDYT?\n\nSGTM.\n\nI can have a look, but the next days are super busy, so I can\u0027t promise an ETA.",
+      "parentUuid": "eee67902_638f0cb2",
+      "range": {
+        "startLine": 370,
+        "startChar": 24,
+        "endLine": 370,
+        "endChar": 48
+      },
+      "revId": "2407aca6c494ca0bdcc82f4bb8f05eea72271608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

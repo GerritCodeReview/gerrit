@@ -16,6 +16,24 @@
       "message": "Thank you for review, Edwin!\n\nDo you share my concern though, or are there reasons to assume this works as intended?",
       "revId": "c030e53b6a7bf5e965787771b7774e6b18f9edd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d29ebb4c_4afb1b99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-29T08:05:26Z",
+      "side": 1,
+      "message": "Good question. I would lean towards saying this is WAI. I think reducing/changing a permission should only have effects on future actions, but not undo actions (e.g. approvals) that have happened in the past.",
+      "parentUuid": "0b066122_b45fb26d",
+      "revId": "c030e53b6a7bf5e965787771b7774e6b18f9edd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

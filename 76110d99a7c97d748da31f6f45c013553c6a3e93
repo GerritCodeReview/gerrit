@@ -140,6 +140,24 @@
       "parentUuid": "22cee099_addd50ff",
       "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd73147a_cd302c2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-11-29T09:26:05Z",
+      "side": 1,
+      "message": "\u003e @Prudhvi do you know if Nasser is back today from the thanksgiving week?\n\nYes, I believe he will be available today at morning time of Denver.",
+      "parentUuid": "fc3788c9_3c0c57ce",
+      "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

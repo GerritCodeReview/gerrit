@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf569e54_be2c48f2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T18:00:34Z",
+      "side": 1,
+      "message": "Please pass in the necessary constructor arguments and get rid of getAppContext() fallbacks inside of the constructor.",
+      "revId": "82ff1885788c22d15114859645b003bdaf6282f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

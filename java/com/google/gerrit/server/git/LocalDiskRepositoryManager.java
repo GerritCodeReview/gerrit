@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -21,6 +22,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.ImplementedBy;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.File;
@@ -51,6 +53,18 @@ import org.eclipse.jgit.util.FS;
 @Singleton
 public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  @ImplementedBy(value = NoOpRepoWrapperFactory.class)
+  public interface RepoWrapperFactory {
+    Repository create(Repository repo);
+  }
+
+  static class NoOpRepoWrapperFactory implements RepoWrapperFactory {
+    @Override
+    public Repository create(Repository repo) {
+      return repo;
+    }
+  }
 
   public static class Module extends LifecycleModule {
     @Override
@@ -108,13 +122,21 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private final Path basePath;
+  private final RepoWrapperFactory repoWrapperFactory;
 
   @Inject
-  LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
+  LocalDiskRepositoryManager(
+      SitePaths site, @GerritServerConfig Config cfg, RepoWrapperFactory repoWrapperFactory) {
+    this.repoWrapperFactory = repoWrapperFactory;
     basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
+  }
+
+  @VisibleForTesting
+  public LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
+    this(site, cfg, new NoOpRepoWrapperFactory());
   }
 
   /**
@@ -139,7 +161,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
     FileKey loc = FileKey.lenient(path.resolve(name.get()).toFile(), FS.DETECTED);
     try {
-      return RepositoryCache.open(loc);
+      return repoWrapperFactory.create(RepositoryCache.open(loc));
     } catch (IOException e) {
       throw new RepositoryNotFoundException("Cannot open repository " + name, e);
     }
@@ -193,7 +215,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
             "Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name);
       }
 
-      return db;
+      return repoWrapperFactory.create(db);
     } catch (IOException e) {
       throw new RepositoryNotFoundException("Cannot create repository " + name, e);
     }

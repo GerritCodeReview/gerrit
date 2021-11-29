@@ -55,7 +55,9 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     cfg.setString("gerrit", null, "basePath", "git");
     configMock = mock(RepositoryConfig.class);
     when(configMock.getAllBasePaths()).thenReturn(ImmutableList.of());
-    repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
+    repoManager =
+        new MultiBaseLocalDiskRepositoryManager(
+            site, cfg, new LocalDiskRepositoryManager.NoOpRepoWrapperFactory(), configMock);
   }
 
   @Test
@@ -152,7 +154,9 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
         () -> {
           configMock = mock(RepositoryConfig.class);
           when(configMock.getAllBasePaths()).thenReturn(ImmutableList.of(Paths.get("repos")));
-          repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
+          repoManager =
+              new MultiBaseLocalDiskRepositoryManager(
+                  site, cfg, new LocalDiskRepositoryManager.NoOpRepoWrapperFactory(), configMock);
         });
   }
 }

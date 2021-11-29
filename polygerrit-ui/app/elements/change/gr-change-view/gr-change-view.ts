@@ -2334,11 +2334,10 @@ export class GrChangeView extends base {
     }
 
     this._updateCheckTimerHandle = window.setTimeout(() => {
-      if (!this.isViewCurrent) {
+      if (!this.isViewCurrent || !this._change) {
         this._startUpdateCheckTimer();
         return;
       }
-      assertIsDefined(this._change, '_change');
       const change = this._change;
       this.changeService.fetchChangeUpdates(change).then(result => {
         let toastMessage = null;

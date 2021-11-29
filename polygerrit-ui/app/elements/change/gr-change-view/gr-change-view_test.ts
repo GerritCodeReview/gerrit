@@ -1491,6 +1491,7 @@ suite('gr-change-view tests', () => {
   test('topic is coalesced to null', async () => {
     sinon.stub(element, '_changeChanged');
     setChangeState({
+      changeLoading: false,
       change: {
         ...createChangeViewChange(),
         labels: {},
@@ -1506,6 +1507,7 @@ suite('gr-change-view tests', () => {
   test('commit sha is populated from getChangeDetail', async () => {
     sinon.stub(element, '_changeChanged');
     setChangeState({
+      changeLoading: false,
       change: {
         ...createChangeViewChange(),
         labels: {},
@@ -1522,6 +1524,7 @@ suite('gr-change-view tests', () => {
     sinon.stub(element, '_changeChanged');
     const changeRevision = createRevision();
     setChangeState({
+      changeLoading: false,
       change: {
         ...createChangeViewChange(),
         labels: {},
@@ -1942,6 +1945,7 @@ suite('gr-change-view tests', () => {
     const revision1: RevisionInfo = createRevision(1);
     const revision2: RevisionInfo = createRevision(2);
     setChangeState({
+      changeLoading: false,
       change: {
         ...createChangeViewChange(),
         revisions: {
@@ -1972,6 +1976,7 @@ suite('gr-change-view tests', () => {
     const revision2 = createRevision(2);
     const revision3 = createEditRevision();
     setChangeState({
+      changeLoading: false,
       change: {
         ...createChangeViewChange(),
         revisions: {

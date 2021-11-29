@@ -31,6 +31,17 @@ import {
 import {ParsedChangeInfo} from '../../types/types';
 
 interface ChangeState {
+  /**
+   * Is the change currently being loaded?
+   *
+   * If `change` is undefined, then this is always true. So it also stays true
+   * when loading the change fails.
+   *
+   * If `change` is
+   * defined and `changeLoading` is true, then it means that the change being
+   * *re*loaded.
+   */
+  changeLoading: boolean;
   change?: ParsedChangeInfo;
   /**
    * The name of the file user is viewing in the diff view mode. File path is
@@ -42,7 +53,9 @@ interface ChangeState {
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
 // Use DeepReadOnly?
-const initialState: ChangeState = {};
+const initialState: ChangeState = {
+  changeLoading: true,
+};
 
 const privateState$ = new BehaviorSubject(initialState);
 
@@ -78,7 +91,19 @@ export function updateStateChange(change?: ParsedChangeInfo) {
       privateState$.next({...current, change: undefined});
     }
   }
-  privateState$.next({...current, change});
+  privateState$.next({
+    ...current,
+    change,
+    changeLoading: change === undefined,
+  });
+}
+
+export function updateStateLoading() {
+  const current = privateState$.getValue();
+  privateState$.next({
+    ...current,
+    changeLoading: true,
+  });
 }
 
 export function updateStatePath(diffPath?: string) {
@@ -108,8 +133,10 @@ export const change$ = changeState$.pipe(
   distinctUntilChanged()
 );
 
-export const changeLoading$ = change$.pipe(
-  map(change => change === undefined),
+export const changeLoading$ = changeState$.pipe(
+  map(
+    changeState => changeState.change === undefined || changeState.changeLoading
+  ),
   distinctUntilChanged()
 );
 

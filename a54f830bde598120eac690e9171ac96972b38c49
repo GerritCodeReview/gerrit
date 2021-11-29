@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2481df9a_998b7daa",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service_test.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T18:30:36Z",
+      "side": 0,
+      "message": "Why did these tests get removed?",
+      "revId": "a54f830bde598120eac690e9171ac96972b38c49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1efdb9d4_b6d0fe69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T18:30:36Z",
+      "side": 1,
+      "message": "Let\u0027s try to get this in?",
+      "revId": "e25bfd0281bcaeae4566f28d1d8007221b6ee752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b42029be_239356aa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 2282,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T18:30:36Z",
+      "side": 1,
+      "message": "When does this return undefined?",
+      "revId": "e25bfd0281bcaeae4566f28d1d8007221b6ee752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e29e5de_83d196f8",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T18:30:36Z",
+      "side": 1,
+      "message": "Consider using select(...) here and below",
+      "revId": "e25bfd0281bcaeae4566f28d1d8007221b6ee752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

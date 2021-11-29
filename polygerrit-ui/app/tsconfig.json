@@ -102,6 +102,7 @@
     "types/**/*",
     "utils/**/*",
     "test/**/*",
-    "workers/**/*"
+    "workers/**/*",
+    "service-worker.js",
   ]
 }

@@ -104,6 +104,30 @@
       },
       "revId": "e8a63aea032d2374e757dd95e8b5b7714310fcac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a038914c_dfd8ae30",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-29T15:21:43Z",
+      "side": 1,
+      "message": "Thanks, SGTM!",
+      "parentUuid": "91c15bd2_429ab364",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 62
+      },
+      "revId": "e8a63aea032d2374e757dd95e8b5b7714310fcac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

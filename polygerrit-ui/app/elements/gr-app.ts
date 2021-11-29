@@ -60,6 +60,27 @@ initPerformanceReporter(reportingService);
 initErrorReporter(reportingService);
 
 installPolymerResin(safeTypesBridge);
+const requestNotificationPermission = async () => {
+  const permission = await window.Notification.requestPermission();
+  // value of permission can be 'granted', 'default', 'denied'
+  // granted: user has accepted the request
+  // default: user has dismissed the notification permission popup by clicking on x
+  // denied: user has denied the request.
+  if (permission !== 'granted') {
+    throw new Error('Permission not granted for Notification');
+  }
+};
+
+if ('serviceWorker' in navigator) {
+  // Use the window load event to keep the page load performant
+  setTimeout(async () => {
+    console.log('Register service worker');
+    await navigator.serviceWorker.register('http://localhost:8081/service-worker.js');
+    // const permission =
+    await requestNotificationPermission();
+    // navigator.serviceWorker.register('/service-worker.js');
+  }, 2000);
+}
 
 @customElement('gr-app')
 export class GrApp extends LitElement {

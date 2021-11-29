@@ -798,7 +798,6 @@ suite('gr-diff-view tests', () => {
 
       const downloadOverlayStub = sinon.stub(element.$.downloadOverlay, 'open')
           .returns(Promise.resolve());
-      assert.isUndefined(element.changeViewState.showDownloadDialog);
       MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
       assert.isTrue(downloadOverlayStub.called);
     });

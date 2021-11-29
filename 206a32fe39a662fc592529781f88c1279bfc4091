@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9819e954_467fd916",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-29T16:35:08Z",
+      "side": 1,
+      "message": "you\u0027re right, but this is fixed in the follow-up.\nCan we leave it as is given it\u0027s instantly fixed there?\n\nI could merge those 2 changes but I think it\u0027s nicer that way. Alternatively I could add \"@Nullable\" in other methods.",
+      "parentUuid": "17faf807_857c90d1",
+      "range": {
+        "startLine": 105,
+        "startChar": 43,
+        "endLine": 105,
+        "endChar": 81
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5e8825e2_d97c657e",
         "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
         "patchSetId": 7
@@ -90,6 +114,24 @@
       "side": 1,
       "message": "Thanks for looking into simplifying this.\n\nOne idea. Maybe it would be better is isCopied is a property of PatchSetApproval. Then SubmitWithStickyApprovalDiff could do the filtering on its own.",
       "parentUuid": "c07ece12_23677e80",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3db4aebf_32c4d960",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-29T16:35:08Z",
+      "side": 1,
+      "message": "PatchSetApproval already has this field, so it\u0027s perfectly fine to do this.\n\nHowever, for the sake of preserving existing behavior, can we do this in a follow-up?",
+      "parentUuid": "404b59c1_03637cab",
       "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -189,6 +231,30 @@
       "writtenOn": "2021-11-29T12:30:30Z",
       "side": 1,
       "message": "Is this still true now that the labels are just read from NoteDb? \nCan we just use byPatchSet now?",
+      "range": {
+        "startLine": 373,
+        "startChar": 52,
+        "endLine": 373,
+        "endChar": 61
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "896c628f_b0fd6421",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-29T16:35:08Z",
+      "side": 1,
+      "message": "updated the comment.\nWe can, but it\u0027s not needed to use byPatchSet here (see other comments).",
+      "parentUuid": "bcd34a48_556267ac",
       "range": {
         "startLine": 373,
         "startChar": 52,
@@ -403,6 +469,30 @@
       "side": 1,
       "message": "Is it? \n\nWhat I wanted to suggest is that:\n\n   approvalsUtil\n          .dynamicallyComputeCopiedApprovals(\n              ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig())\n          .forEach(a -\u003e update.putCopiedApproval(a));\n          \nbecomes something like this:\n\n   approvalsUtil.copyApprovals(ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);\n   \nThe same method could then be used in ReplaceOp.",
       "parentUuid": "45ce6ecd_8dba8380",
+      "range": {
+        "startLine": 304,
+        "startChar": 6,
+        "endLine": 307,
+        "endChar": 53
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6fb40b2_4b52b99a",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-29T16:35:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77f0aee1_be7ecace",
       "range": {
         "startLine": 304,
         "startChar": 6,

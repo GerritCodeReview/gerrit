@@ -70,6 +70,30 @@
       },
       "revId": "5715ea2a58f780ea5d108c52eb6a05bb26f51159",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0fa4216_98daaee6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T20:00:41Z",
+      "side": 1,
+      "message": "GrRestApiServiceImpl. I will remove Gr prefix when I make it not an element.",
+      "parentUuid": "8d4485f5_a3dc60af",
+      "range": {
+        "startLine": 277,
+        "startChar": 13,
+        "endLine": 277,
+        "endChar": 26
+      },
+      "revId": "5715ea2a58f780ea5d108c52eb6a05bb26f51159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

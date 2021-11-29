@@ -30,7 +30,7 @@ export type LabelsChangedCallback = (
 ) => void;
 
 export declare interface ChangeReplyPluginApi {
-  getLabelValue(label: string): string;
+  getLabelValue(label: string): string | number | null | undefined;
 
   setLabelValue(label: string, value: string): void;
 

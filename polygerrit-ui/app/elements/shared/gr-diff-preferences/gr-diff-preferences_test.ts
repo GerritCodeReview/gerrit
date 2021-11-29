@@ -55,6 +55,109 @@ suite('gr-diff-preferences tests', () => {
   });
 
   test('renders', () => {
+    expect(element).shadowDom.to.equal(`<div
+      class="gr-form-styles"
+      id="diffPreferences"
+    >
+    <section>
+      <label class="title" for="contextLineSelect">Context</label>
+      <span class="value">
+        <gr-select id="contextSelect">
+          <select id="contextLineSelect">
+            <option value="3">3 lines</option>
+            <option value="10">10 lines</option>
+            <option value="25">25 lines</option>
+            <option value="50">50 lines</option>
+            <option value="75">75 lines</option>
+            <option value="100">100 lines</option>
+            <option value="-1">Whole file</option>
+          </select>
+        </gr-select>
+      </span>
+    </section>
+    <section>
+      <label class="title" for="lineWrappingInput">Fit to screen</label>
+      <span class="value">
+        <input id="lineWrappingInput" type="checkbox">
+      </span>
+    </section>
+    <section>
+      <label class="title" for="columnsInput">Diff width</label>
+      <span class="value">
+        <iron-input allowed-pattern="[0-9]">
+          <input id="columnsInput" type="number">
+        </iron-input>
+      </span>
+    </section>
+    <section>
+      <label class="title" for="tabSizeInput">Tab width</label>
+      <span class="value">
+        <iron-input allowed-pattern="[0-9]">
+          <input id="tabSizeInput" type="number">
+        </iron-input>
+      </span>
+    </section>
+    <section>
+      <label class="title" for="fontSizeInput">Font size</label>
+      <span class="value">
+        <iron-input allowed-pattern="[0-9]">
+          <input id="fontSizeInput" type="number">
+        </iron-input>
+      </span>
+    </section>
+    <section>
+      <label class="title" for="showTabsInput">Show tabs</label>
+      <span class="value">
+        <input id="showTabsInput" type="checkbox">
+      </span>
+    </section>
+    <section>
+      <label class="title" for="showTrailingWhitespaceInput">
+        Show trailing whitespace
+      </label>
+      <span class="value">
+        <input id="showTrailingWhitespaceInput" type="checkbox">
+      </span>
+    </section>
+    <section>
+      <label class="title" for="syntaxHighlightInput">
+        Syntax highlighting
+      </label>
+      <span class="value">
+        <input id="syntaxHighlightInput" type="checkbox">
+      </span>
+    </section>
+    <section>
+      <label class="title" for="automaticReviewInput">
+        Automatically mark viewed files reviewed
+      </label>
+      <span class="value">
+        <input id="automaticReviewInput" type="checkbox">
+      </span>
+    </section>
+    <section>
+      <div class="pref">
+        <label class="title" for="ignoreWhiteSpace">
+          Ignore Whitespace
+        </label>
+        <span class="value">
+          <gr-select>
+            <select id="ignoreWhiteSpace">
+              <option value="IGNORE_NONE">None</option>
+              <option value="IGNORE_TRAILING">Trailing</option>
+              <option value="IGNORE_LEADING_AND_TRAILING">
+                Leading & trailing
+              </option>
+              <option value="IGNORE_ALL">All</option>
+            </select>
+          </gr-select>
+        </span>
+      </div>
+    </section>
+  </div>`);
+  });
+
+  test('renders preferences', () => {
     // Rendered with the expected preferences selected.
     const contextInput = valueOf('Context', 'diffPreferences')
       .firstElementChild as IronInputElement;

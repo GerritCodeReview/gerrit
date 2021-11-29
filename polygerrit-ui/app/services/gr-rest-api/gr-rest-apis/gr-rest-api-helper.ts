@@ -14,23 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {getBaseUrl} from '../../../../utils/url-util';
-import {CancelConditionCallback} from '../../../../services/gr-rest-api/gr-rest-api';
-import {
-  AuthRequestInit,
-  AuthService,
-} from '../../../../services/gr-auth/gr-auth';
+import {getBaseUrl} from '../../../utils/url-util';
+import {CancelConditionCallback} from '../gr-rest-api';
+import {AuthRequestInit, AuthService} from '../../gr-auth/gr-auth';
 import {
   AccountDetailInfo,
   EmailInfo,
   ParsedJSON,
   RequestPayload,
-} from '../../../../types/common';
-import {HttpMethod} from '../../../../constants/constants';
-import {RpcLogEventDetail} from '../../../../types/events';
-import {fireNetworkError, fireServerError} from '../../../../utils/event-util';
-import {FetchRequest} from '../../../../types/types';
-import {ErrorCallback} from '../../../../api/rest';
+} from '../../../types/common';
+import {HttpMethod} from '../../../constants/constants';
+import {RpcLogEventDetail} from '../../../types/events';
+import {fireNetworkError, fireServerError} from '../../../utils/event-util';
+import {FetchRequest} from '../../../types/types';
+import {ErrorCallback} from '../../../api/rest';
 
 export const JSON_PREFIX = ")]}'";
 

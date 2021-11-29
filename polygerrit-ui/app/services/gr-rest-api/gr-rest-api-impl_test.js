@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import {addListenerForTest, mockPromise, stubAuth} from '../../../test/test-utils.js';
+import '../../test/common-test-setup-karma.js';
+import {addListenerForTest, mockPromise, stubAuth} from '../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
-import {ListChangesOption} from '../../../utils/change-util.js';
-import {getAppContext} from '../../../services/app-context.js';
-import {createChange} from '../../../test/test-data-generators.js';
-import {CURRENT} from '../../../utils/patch-set-util.js';
+import {ListChangesOption} from '../../utils/change-util.js';
+import {getAppContext} from '../app-context.js';
+import {createChange} from '../../test/test-data-generators.js';
+import {CURRENT} from '../../utils/patch-set-util.js';
 import {
   parsePrefixedJSON,
   readResponsePayload,

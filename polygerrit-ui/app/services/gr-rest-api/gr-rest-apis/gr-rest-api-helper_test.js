@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-import '../../../../test/common-test-setup-karma.js';
+import '../../../test/common-test-setup-karma.js';
 import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-api-helper.js';
-import {getAppContext} from '../../../../services/app-context.js';
-import {stubAuth} from '../../../../test/test-utils.js';
+import {getAppContext} from '../../app-context.js';
+import {stubAuth} from '../../../test/test-utils.js';
 
 suite('gr-rest-api-helper tests', () => {
   let helper;

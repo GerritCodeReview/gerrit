@@ -30,18 +30,18 @@ import {
   SiteBasedCache,
 } from './gr-rest-apis/gr-rest-api-helper';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser';
-import {parseDate} from '../../../utils/date-util';
-import {getBaseUrl} from '../../../utils/url-util';
-import {getAppContext} from '../../../services/app-context';
-import {Finalizable} from '../../../services/registry';
-import {getParentIndex, isMergeParent} from '../../../utils/patch-set-util';
+import {parseDate} from '../../utils/date-util';
+import {getBaseUrl} from '../../utils/url-util';
+import {getAppContext} from '../app-context';
+import {Finalizable} from '../registry';
+import {getParentIndex, isMergeParent} from '../../utils/patch-set-util';
 import {
   ListChangesOption,
   listChangesOptionsToHex,
-} from '../../../utils/change-util';
-import {assertNever, hasOwnProperty} from '../../../utils/common-util';
+} from '../../utils/change-util';
+import {assertNever, hasOwnProperty} from '../../utils/common-util';
 import {customElement} from '@polymer/decorators';
-import {AuthRequestInit, AuthService} from '../../../services/gr-auth/gr-auth';
+import {AuthRequestInit, AuthService} from '../gr-auth/gr-auth';
 import {
   AccountCapabilityInfo,
   AccountDetailInfo,
@@ -132,18 +132,18 @@ import {
   TagInput,
   TopMenuEntryInfo,
   UrlEncodedCommentId,
-} from '../../../types/common';
+} from '../../types/common';
 import {
   DiffInfo,
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
-} from '../../../types/diff';
+} from '../../types/diff';
 import {
   CancelConditionCallback,
   GetDiffCommentsOutput,
   GetDiffRobotCommentsOutput,
   RestApiService,
-} from '../../../services/gr-rest-api/gr-rest-api';
+} from '../gr-rest-api/gr-rest-api';
 import {
   CommentSide,
   createDefaultDiffPrefs,
@@ -151,11 +151,11 @@ import {
   createDefaultPreferences,
   HttpMethod,
   ReviewerState,
-} from '../../../constants/constants';
-import {firePageError, fireServerError} from '../../../utils/event-util';
-import {ParsedChangeInfo} from '../../../types/types';
-import {ErrorCallback} from '../../../api/rest';
-import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
+} from '../../constants/constants';
+import {firePageError, fireServerError} from '../../utils/event-util';
+import {ParsedChangeInfo} from '../../types/types';
+import {ErrorCallback} from '../../api/rest';
+import {FlagsService, KnownExperimentId} from '../flags/flags';
 
 const MAX_PROJECT_RESULTS = 25;
 

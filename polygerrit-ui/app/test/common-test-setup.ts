@@ -26,7 +26,7 @@ import {
   _testOnlyFinalizeAppContext,
 } from './test-app-context-init';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
-import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-impl';
+import {_testOnlyResetGrRestApiSharedObjects} from '../services/gr-rest-api/gr-rest-api-impl';
 import {
   cleanupTestUtils,
   getCleanupsCount,

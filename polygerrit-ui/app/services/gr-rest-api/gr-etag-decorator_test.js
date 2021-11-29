@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
+import '../../test/common-test-setup-karma.js';
 import 'lodash/lodash.js';
 import {GrEtagDecorator} from './gr-etag-decorator.js';
 

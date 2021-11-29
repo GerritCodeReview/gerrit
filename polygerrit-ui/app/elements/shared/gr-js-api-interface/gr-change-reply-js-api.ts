@@ -26,7 +26,7 @@ import {
 } from '../../../api/change-reply';
 import {getAppContext} from '../../../services/app-context';
 import {HookApi, PluginElement} from '../../../api/hook';
-import { GrReplyDialog } from '../../change/gr-reply-dialog/gr-reply-dialog';
+import {GrReplyDialog} from '../../change/gr-reply-dialog/gr-reply-dialog';
 
 /**
  * GrChangeReplyInterface, provides a set of handy methods on reply dialog.

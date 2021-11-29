@@ -30,7 +30,7 @@ import {
   ReviewerState,
   SpecialFilePath,
 } from '../../../constants/constants';
-import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {JSON_PREFIX} from '../../../services/gr-rest-api/gr-rest-apis/gr-rest-api-helper';
 import {StandardLabels} from '../../../utils/label-util';
 import {
   createAccountWithId,

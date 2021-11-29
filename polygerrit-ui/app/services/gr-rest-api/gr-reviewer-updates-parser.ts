@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import {parseDate} from '../../../utils/date-util';
-import {MessageTag, ReviewerState} from '../../../constants/constants';
+import {parseDate} from '../../utils/date-util';
+import {MessageTag, ReviewerState} from '../../constants/constants';
 import {
   AccountInfo,
   ChangeInfo,
@@ -24,12 +24,9 @@ import {
   ChangeViewChangeInfo,
   ReviewerUpdateInfo,
   Timestamp,
-} from '../../../types/common';
-import {accountKey} from '../../../utils/account-util';
-import {
-  FormattedReviewerUpdateInfo,
-  ParsedChangeInfo,
-} from '../../../types/types';
+} from '../../types/common';
+import {accountKey} from '../../utils/account-util';
+import {FormattedReviewerUpdateInfo, ParsedChangeInfo} from '../../types/types';
 
 const MESSAGE_REVIEWERS_THRESHOLD_MILLIS = 500;
 const REVIEWER_UPDATE_THRESHOLD_MILLIS = 6000;

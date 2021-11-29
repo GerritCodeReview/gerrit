@@ -104,11 +104,8 @@ public class IndexPreloadingUtil {
           ListChangesOption.SKIP_DIFFSTAT,
           ListChangesOption.SUBMIT_REQUIREMENTS);
 
-  public static final ImmutableSet<ListChangesOption> DIFF_OPTIONS =
-      ImmutableSet.of(
-          ListChangesOption.ALL_COMMITS,
-          ListChangesOption.ALL_REVISIONS,
-          ListChangesOption.SKIP_DIFFSTAT);
+  // Diff view is using change service - same change options as change view
+  public static final ImmutableSet<ListChangesOption> DIFF_OPTIONS = CHANGE_DETAIL_OPTIONS;
 
   public static String getPath(@Nullable String requestedURL) throws URISyntaxException {
     if (requestedURL == null) {

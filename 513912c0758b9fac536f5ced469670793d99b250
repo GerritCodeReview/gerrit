@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1c60cef_c5ac8750",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1762,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-29T07:42:47Z",
+      "side": 1,
+      "message": "Nit: Maybe it can be in opt object so it is easier to extend:\n\n```\ngetChangesWithSameTopic(topic: string, opt: {\n  openChangesOnly?: boolean;\n  excludedChangeNum?: NumericChangeId;\n});",
+      "range": {
+        "startLine": 1761,
+        "startChar": 3,
+        "endLine": 1762,
+        "endChar": 39
+      },
+      "revId": "513912c0758b9fac536f5ced469670793d99b250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

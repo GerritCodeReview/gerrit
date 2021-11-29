@@ -104,6 +104,24 @@
       "parentUuid": "2b6f7a4e_b62fca43",
       "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22cee099_addd50ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-11-29T06:07:48Z",
+      "side": 1,
+      "message": "Luca seems to be out of office. Nasser/Patrick/David anybody else has access to upload latest 3.4.2 Gerrit docker image [1] to https://hub.docker.com/r/gerritcodereview/gerrit ..?\n\n[1] https://github.com/GerritCodeReview/docker-gerrit/blob/stable-3.4/ubuntu/20/Dockerfile",
+      "parentUuid": "ff6d7264_dad437d1",
+      "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

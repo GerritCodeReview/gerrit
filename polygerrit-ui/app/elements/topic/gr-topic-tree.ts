@@ -75,10 +75,9 @@ export class GrTopicTree extends LitElement {
   }
 
   private async loadAndSortChangesFromTopic(): Promise<void> {
-    const changesInTopic = await this.restApiService.getChanges(
-      /* changesPerPage=*/ undefined,
-      `topic:${this.topicName}`
-    );
+    const changesInTopic = this.topicName
+      ? await this.restApiService.getChangesWithSameTopic(this.topicName)
+      : [];
     const changesSubmittedTogether = await this.loadChangesSubmittedTogether(
       changesInTopic
     );

@@ -298,7 +298,6 @@ export class GrAppElement extends base {
         patchRange: null,
         selectedFileIndex: 0,
         showReplyDialog: false,
-        showDownloadDialog: false,
         diffMode: null,
         numFilesShown: null,
       },

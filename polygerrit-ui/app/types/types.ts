@@ -186,7 +186,6 @@ export interface ChangeViewState {
   patchRange: PatchRange | null;
   selectedFileIndex: number;
   showReplyDialog: boolean;
-  showDownloadDialog: boolean;
   diffMode: DiffViewMode | null;
   numFilesShown: number | null;
 }
@@ -198,7 +197,6 @@ export interface ChangeListViewState {
   selectedFileIndex?: number;
   selectedChangeIndex?: number;
   showReplyDialog?: boolean;
-  showDownloadDialog?: boolean;
   diffMode?: DiffViewMode;
   numFilesShown?: number;
   scrollTop?: number;

@@ -29,7 +29,6 @@
   {@param? useGoogleFonts: ?}
   {@param? changeRequestsPath: ?}
   {@param? defaultChangeDetailHex: ?}
-  {@param? defaultDiffDetailHex: ?}
   {@param? defaultDashboardHex: ?}
   {@param? dashboardQuery: ?}
   {@param? userIsAuthenticated: ?}
@@ -51,9 +50,6 @@
     window.DEFAULT_DETAIL_HEXES = {lb}
       {if $defaultChangeDetailHex}
         changePage: '{$defaultChangeDetailHex}',
-      {/if}
-      {if $defaultDiffDetailHex}
-        diffPage: '{$defaultDiffDetailHex}',
       {/if}
       {if $defaultDashboardHex}
         dashboardPage: '{$defaultDashboardHex}',
@@ -99,13 +95,7 @@
         <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/edit/?download-commands=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
       {/if}
     {/if}
-    {if $defaultDiffDetailHex}
-      <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O={$defaultDiffDetailHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
-      {if $userIsAuthenticated}
-        <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/edit/" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
-      {/if}
-      <link rel="preload" href="{$staticResourcePath}/bower_components/highlightjs/highlight.min.js" as="script" crossorigin="anonymous"/>
-    {/if}
+    <link rel="preload" href="{$staticResourcePath}/bower_components/highlightjs/highlight.min.js" as="script" crossorigin="anonymous"/>
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments?enable-context=true&context-padding=3" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/robotcomments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}

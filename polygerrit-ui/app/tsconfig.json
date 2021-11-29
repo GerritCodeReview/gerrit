@@ -94,6 +94,7 @@
     "types/**/*",
     "utils/**/*",
     "test/**/*",
+    "service-worker.js",
     "tmpl_out/**/*" //Created by template checker in dev-mode
   ]
 }

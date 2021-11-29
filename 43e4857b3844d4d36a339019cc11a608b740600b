@@ -88,6 +88,24 @@
       "parentUuid": "475d1e39_b2d98ec6",
       "revId": "43e4857b3844d4d36a339019cc11a608b740600b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3887998d_0ab42422",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-29T09:53:21Z",
+      "side": 1,
+      "message": "Ping @Patrick @Nasser: is there any perspective of this series to be merged onto stable-3.2? Or shall we just abandon it?\n\nP.S. Abandoning this series means we will have to document the performance limitations in v3.2.x, v3.3.x, v3.4.x, v3.5.x related to all APIs accessing the refs in All-Users.git.",
+      "parentUuid": "269cc6d9_57e104aa",
+      "revId": "43e4857b3844d4d36a339019cc11a608b740600b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

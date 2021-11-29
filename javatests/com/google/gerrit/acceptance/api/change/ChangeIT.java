@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
@@ -31,6 +32,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelPermissionKey;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
+import static com.google.gerrit.extensions.client.ChangeStatus.MERGED;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHECK;
@@ -2838,6 +2840,53 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void labelPermissionsChange_doesNotAffectCurrentVotes() throws Exception {
+    String heads = "refs/heads/*";
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(LabelId.CODE_REVIEW).ref(heads).group(REGISTERED_USERS).range(-2, +2))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // Approve the change as user
+    requestScopeOperations.setApiUser(user.id());
+    approve(changeId);
+    assertThat(
+            gApi.changes().id(changeId).get(DETAILED_LABELS).labels.get("Code-Review").all.stream()
+                .collect(toImmutableMap(vote -> Account.id(vote._accountId), vote -> vote.value)))
+        .isEqualTo(ImmutableMap.of(user.id(), 2));
+
+    // Remove permissions for CODE_REVIEW. The user still has [-1,+1], inherited from All-Projects.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .remove(labelPermissionKey(LabelId.CODE_REVIEW).ref(heads).group(REGISTERED_USERS))
+        .update();
+
+    // No permissions to vote +2
+    assertThrows(AuthException.class, () -> approve(changeId));
+
+    assertThat(
+            get(changeId, DETAILED_LABELS).labels.get(LabelId.CODE_REVIEW).all.stream()
+                .map(vote -> vote.value))
+        .containsExactly(2);
+
+    // The change is still submittable
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(changeId).current().submit();
+    assertThat(info(changeId).status).isEqualTo(MERGED);
+
+    // The +2 vote out of permissions range is still present.
+    assertThat(
+            get(changeId, DETAILED_LABELS).labels.get(LabelId.CODE_REVIEW).all.stream()
+                .collect(toImmutableMap(vote -> Account.id(vote._accountId), vote -> vote.value)))
+        .isEqualTo(ImmutableMap.of(user.id(), 2, admin.id(), 0));
+  }
+
+  @Test
   public void createEmptyChange() throws Exception {
     ChangeInput in = new ChangeInput();
     in.branch = Constants.MASTER;
@@ -3089,7 +3138,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
 
     gApi.changes().id(r.getChangeId()).current().submit();
-    assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(MERGED);
   }
 
   @Test
@@ -3115,7 +3164,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .update();
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
-    assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(MERGED);
   }
 
   @Test
@@ -3554,7 +3603,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
 
     ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
-    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.status).isEqualTo(MERGED);
     assertThat(change.submissionId).isNotNull();
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertThat(change.permittedLabels.keySet()).containsExactly(LabelId.CODE_REVIEW);
@@ -3717,7 +3766,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
 
     ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
-    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.status).isEqualTo(MERGED);
     assertThat(change.submissionId).isNotNull();
     assertThat(change.labels.keySet())
         .containsExactly(LabelId.CODE_REVIEW, "Non-Author-Code-Review");
@@ -3734,7 +3783,7 @@ public class ChangeIT extends AbstractDaemonTest {
     result.assertOkStatus();
 
     ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
-    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.status).isEqualTo(MERGED);
     assertThat(change.submissionId).isNotNull();
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertPermitted(change, LabelId.CODE_REVIEW, 0, 1, 2);
@@ -3751,11 +3800,11 @@ public class ChangeIT extends AbstractDaemonTest {
     result.assertOkStatus();
 
     ChangeInfo firstChange = gApi.changes().id(first.getChangeId()).get();
-    assertThat(firstChange.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(firstChange.status).isEqualTo(MERGED);
     assertThat(firstChange.submissionId).isNotNull();
 
     ChangeInfo secondChange = gApi.changes().id(second.getChangeId()).get();
-    assertThat(secondChange.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(secondChange.status).isEqualTo(MERGED);
     assertThat(secondChange.submissionId).isNotNull();
 
     assertThat(secondChange.submissionId).isEqualTo(firstChange.submissionId);

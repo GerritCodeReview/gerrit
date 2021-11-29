@@ -78,6 +78,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "404b59c1_03637cab",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-29T13:17:51Z",
+      "side": 1,
+      "message": "Thanks for looking into simplifying this.\n\nOne idea. Maybe it would be better is isCopied is a property of PatchSetApproval. Then SubmitWithStickyApprovalDiff could do the filtering on its own.",
+      "parentUuid": "c07ece12_23677e80",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "777aa1c0_f37ad952",
         "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
         "patchSetId": 7
@@ -336,6 +354,30 @@
       "writtenOn": "2021-11-29T13:14:18Z",
       "side": 1,
       "message": "ah, you meant the forEach part as well :-) \ngot it",
+      "parentUuid": "45ce6ecd_8dba8380",
+      "range": {
+        "startLine": 304,
+        "startChar": 6,
+        "endLine": 307,
+        "endChar": 53
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77f0aee1_be7ecace",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-29T13:17:51Z",
+      "side": 1,
+      "message": "Is it? \n\nWhat I wanted to suggest is that:\n\n   approvalsUtil\n          .dynamicallyComputeCopiedApprovals(\n              ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig())\n          .forEach(a -\u003e update.putCopiedApproval(a));\n          \nbecomes something like this:\n\n   approvalsUtil.copyApprovals(ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);\n   \nThe same method could then be used in ReplaceOp.",
       "parentUuid": "45ce6ecd_8dba8380",
       "range": {
         "startLine": 304,

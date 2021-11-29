@@ -1220,7 +1220,12 @@ export type RecipientTypeToNotifyInfoMap = {
  * The RobotCommentInput entity contains information for creating an inline robot comment
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-input
  */
-export type RobotCommentInput = RobotCommentInfo;
+export type RobotCommentInput = {
+  robot_id: RobotId;
+  robot_run_id: RobotRunId;
+  fix_suggestions: FixSuggestionInfoInput;
+  updated: Timestamp;
+};
 
 /**
  * This is what human, robot and draft comments can agree upon.
@@ -1242,7 +1247,7 @@ export interface RobotCommentInfo extends CommentInfo {
   robot_id: RobotId;
   robot_run_id: RobotRunId;
   url?: string;
-  properties: {[propertyName: string]: string};
+  properties?: {[propertyName: string]: string};
   fix_suggestions: FixSuggestionInfo[];
 }
 export type PathToRobotCommentsInfoMap = {[path: string]: RobotCommentInfo[]};

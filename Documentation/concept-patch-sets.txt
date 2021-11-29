@@ -88,8 +88,8 @@ patch set. This description is intended to help guide reviewers as a change
 evolves, such as "Added more unit tests." Unlike the change description, a patch
 set description does not become a part of the project's history.
 
-To add a patch set description, click *Add a patch set description*, located in
-the file list, or provide it link:user-upload.html#patch_set_description[on upload].
+To add a patch set description provide it
+link:user-upload.html#patch_set_description[on upload].
 
 GERRIT
 ------

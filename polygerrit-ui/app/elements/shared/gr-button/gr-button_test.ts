@@ -190,10 +190,7 @@ suite('gr-button tests', () => {
   suite('reporting', () => {
     let reportStub: sinon.SinonStub;
     setup(() => {
-      reportStub = sinon.stub(
-        getAppContext().reportingService,
-        'reportInteraction'
-      );
+      reportStub = sinon.stub(element.reporting, 'reportInteraction');
       reportStub.reset();
     });
 

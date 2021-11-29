@@ -102,6 +102,6 @@
     "types/**/*",
     "utils/**/*",
     "test/**/*",
-    "workers/**/*"
+    "workers/**/*",
   ]
 }

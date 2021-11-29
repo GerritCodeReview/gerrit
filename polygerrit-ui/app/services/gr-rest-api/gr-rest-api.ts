@@ -402,10 +402,6 @@ export interface RestApiService extends Finalizable {
     draft: CommentInput
   ): Promise<Response>;
 
-  getDiffChangeDetail(
-    changeNum: NumericChangeId
-  ): Promise<ChangeInfo | undefined | null>;
-
   getPortedComments(
     changeNum: NumericChangeId,
     revision: RevisionId

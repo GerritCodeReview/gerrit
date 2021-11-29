@@ -1180,20 +1180,6 @@ export class GrRestApiInterface
     return listChangesOptionsToHex(...options);
   }
 
-  getDiffChangeDetail(changeNum: NumericChangeId) {
-    let optionsHex = '';
-    if (window.DEFAULT_DETAIL_HEXES?.diffPage) {
-      optionsHex = window.DEFAULT_DETAIL_HEXES.diffPage;
-    } else {
-      optionsHex = listChangesOptionsToHex(
-        ListChangesOption.ALL_COMMITS,
-        ListChangesOption.ALL_REVISIONS,
-        ListChangesOption.SKIP_DIFFSTAT
-      );
-    }
-    return this._getChangeDetail(changeNum, optionsHex);
-  }
-
   /**
    * @param optionsHex list changes options in hex
    */

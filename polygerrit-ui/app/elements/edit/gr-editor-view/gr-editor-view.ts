@@ -29,13 +29,13 @@ import {
 import {computeTruncatedPath} from '../../../utils/path-list-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
-  ChangeInfo,
   PatchSetNum,
   EditPreferencesInfo,
   Base64FileContent,
   NumericChangeId,
   EditPatchSetNum,
 } from '../../../types/common';
+import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
@@ -90,7 +90,7 @@ export class GrEditorView extends PolymerElement {
   params?: GenerateUrlEditViewParameters;
 
   @property({type: Object, observer: '_editChange'})
-  _change?: ChangeInfo | null;
+  _change?: ParsedChangeInfo | null;
 
   @property({type: Number})
   _changeNum?: NumericChangeId;
@@ -212,12 +212,12 @@ export class GrEditorView extends PolymerElement {
   }
 
   _getChangeDetail(changeNum: NumericChangeId) {
-    return this.restApiService.getDiffChangeDetail(changeNum).then(change => {
+    return this.restApiService.getChangeDetail(changeNum).then(change => {
       this._change = change;
     });
   }
 
-  _editChange(value?: ChangeInfo | null) {
+  _editChange(value?: ParsedChangeInfo | null) {
     if (!value) return;
     if (!changeIsMerged(value) && !changeIsAbandoned(value)) return;
     fireAlert(
@@ -228,7 +228,7 @@ export class GrEditorView extends PolymerElement {
   }
 
   @observe('_change', '_type')
-  _editType(change?: ChangeInfo | null, type?: string) {
+  _editType(change?: ParsedChangeInfo | null, type?: string) {
     if (!change || !type || !type.startsWith('image/')) return;
 
     // Prevent editing binary files

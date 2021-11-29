@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ae298b5_b28632d3",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-29T15:28:04Z",
+      "side": 1,
+      "message": "This is a change in behavior I think, previously, we regarded them as submittedable, because the predicate (SubmittablePredicate(SubmitRecord.Status.OK)) matched.\n\nI think we should keep that.\n\nIn ChangeQueryBuilder we could filter out merged changes when \"is:submittable\" is called\" in any case by appending the predicate equivalent of \"AND NOT is:submitted\".",
+      "range": {
+        "startLine": 429,
+        "startChar": 18,
+        "endLine": 429,
+        "endChar": 55
+      },
+      "revId": "083f85a0fd9582a16cdd90a0609eb7d4a53b270e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f213cf85_e51cb434",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementChangeQueryBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-29T15:28:04Z",
+      "side": 1,
+      "message": "This is brittle. The call to checkFieldAvailable in the parent class will be removed as soon as the oldest supported index version has that field.\n\nWe should filter this in the \"is\" method instead.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 5
+      },
+      "revId": "083f85a0fd9582a16cdd90a0609eb7d4a53b270e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

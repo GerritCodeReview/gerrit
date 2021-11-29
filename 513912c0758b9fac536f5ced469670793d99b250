@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30bdc2ab_c23c904b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T10:57:00Z",
+      "side": 1,
+      "message": "Done, thanks for asking.",
+      "parentUuid": "11f160ec_55bb346c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "513912c0758b9fac536f5ced469670793d99b250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1c60cef_c5ac8750",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "143a5cba_330451c8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1762,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T10:57:00Z",
+      "side": 1,
+      "message": "Done, much better",
+      "parentUuid": "1168257f_6c50545d",
+      "range": {
+        "startLine": 1761,
+        "startChar": 3,
+        "endLine": 1762,
+        "endChar": 39
+      },
+      "revId": "513912c0758b9fac536f5ced469670793d99b250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3660cc9_82f79549",
@@ -84,6 +132,30 @@
       "writtenOn": "2021-11-29T09:29:23Z",
       "side": 1,
       "message": "what is this parameter exactly?\ncan you add some comments explaining this.",
+      "range": {
+        "startLine": 1774,
+        "startChar": 8,
+        "endLine": 1774,
+        "endChar": 25
+      },
+      "revId": "513912c0758b9fac536f5ced469670793d99b250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be3d692d_9131c862",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1774,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T10:57:00Z",
+      "side": 1,
+      "message": "renamed to changeToExclude. A provided change is excluded from the response by passing in -change to the request. This method is used on the change page in a rare situation where it wants to show other changes in the topic but not the change of the page. If it\u0027s still unclear with the new name can you say which part? I will add comments there.",
+      "parentUuid": "c3660cc9_82f79549",
       "range": {
         "startLine": 1774,
         "startChar": 8,

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.MoreCollectors;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.SubmitRecord;
@@ -95,7 +94,13 @@ public class SubmitRequirementsAdapter {
       List<Label> labels, List<LabelType> labelTypes, ObjectId psCommitId) {
     ImmutableList.Builder<SubmitRequirementResult> result = ImmutableList.builder();
     for (Label label : labels) {
-      LabelType labelType = getLabelType(labelTypes, label.label);
+      Optional<LabelType> maybeLabelType = getLabelType(labelTypes, label.label);
+      if (!maybeLabelType.isPresent()) {
+        // Label type might have been removed from the project config. We don't have information
+        // if it was blocking or not, hence we skip the label.
+        continue;
+      }
+      LabelType labelType = maybeLabelType.get();
       if (!isBlocking(labelType)) {
         continue;
       }
@@ -230,9 +235,19 @@ public class SubmitRequirementsAdapter {
         status == Status.FAIL ? atoms : ImmutableList.of());
   }
 
-  private static LabelType getLabelType(List<LabelType> labelTypes, String labelName) {
-    return labelTypes.stream()
-        .filter(lt -> lt.getName().equals(labelName))
-        .collect(MoreCollectors.onlyElement());
+  private static Optional<LabelType> getLabelType(List<LabelType> labelTypes, String labelName) {
+    List<LabelType> label =
+        labelTypes.stream()
+            .filter(lt -> lt.getName().equals(labelName))
+            .collect(Collectors.toList());
+    if (label.isEmpty()) {
+      // Label might have been removed from the project.
+      logger.atFine().log("Label '%s' was not found for the project.", labelName);
+      return Optional.empty();
+    } else if (label.size() > 1) {
+      logger.atWarning().log("Found more than one label definition for label name '%s'", labelName);
+      return Optional.empty();
+    }
+    return Optional.of(label.get(0));
   }
 }

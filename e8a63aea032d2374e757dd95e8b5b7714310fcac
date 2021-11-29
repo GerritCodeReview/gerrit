@@ -80,6 +80,30 @@
       },
       "revId": "e8a63aea032d2374e757dd95e8b5b7714310fcac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91c15bd2_429ab364",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-29T10:01:16Z",
+      "side": 1,
+      "message": "That\u0027s a separate code path: this change fixes the code path of converting labels from the \"default submit rule\", which does not hit prolog.\n\nFor labels coming from Prolog, we don\u0027t check their corresponding label types https://gerrit.googlesource.com/gerrit/+/2d082a73ef919db9e21662d3c2824b4747d3a24c/java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java#143",
+      "parentUuid": "9b7fdb0e_b25d3229",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 62
+      },
+      "revId": "e8a63aea032d2374e757dd95e8b5b7714310fcac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

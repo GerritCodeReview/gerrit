@@ -40,6 +40,7 @@ import {
 import {injectAppContext} from '../services/app-context';
 import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators';
+import {ServiceWorkerInstaller} from '../workers/service-worker-installer';
 
 const appContext = createAppContext();
 injectAppContext(appContext);
@@ -55,12 +56,20 @@ installPolymerResin(safeTypesBridge);
 export class GrApp extends LitElement {
   private finalizables: Finalizable[] = [];
 
+  private serviceWorkerInstaller?: ServiceWorkerInstaller;
+
   override connectedCallback() {
     super.connectedCallback();
     const dependencies = createAppDependencies(appContext);
     for (const [token, service] of dependencies) {
       this.finalizables.push(service);
       provide(this, token, () => service);
+    }
+    if (!this.serviceWorkerInstaller) {
+      this.serviceWorkerInstaller = new ServiceWorkerInstaller(
+        appContext.flagsService
+      );
+      this.serviceWorkerInstaller.init();
     }
   }
 

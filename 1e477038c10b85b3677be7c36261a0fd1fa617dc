@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "827d3b8f_de2d9272",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-29T08:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5765f6b7_db280d83",
+      "range": {
+        "startLine": 14,
+        "startChar": 66,
+        "endLine": 14,
+        "endChar": 74
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "786ccea6_2563c574",
@@ -108,6 +132,30 @@
       "writtenOn": "2021-11-25T23:36:59Z",
       "side": 1,
       "message": "This is pointing to the case-insensitive on-line migration and NOT to the actual problem that you are trying to solve.",
+      "range": {
+        "startLine": 17,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4f006b3_070c890a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-29T08:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786ccea6_2563c574",
       "range": {
         "startLine": 17,
         "startChar": 5,
@@ -532,6 +580,30 @@
       "side": 1,
       "message": "Makes sense, can you add a comment to describe that? It is clear now, but it would look weird to the reader without having this context.",
       "parentUuid": "3c40bc1a_e3b6f462",
+      "range": {
+        "startLine": 916,
+        "startChar": 0,
+        "endLine": 917,
+        "endChar": 90
+      },
+      "revId": "1e477038c10b85b3677be7c36261a0fd1fa617dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86cef294_5d584a15",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-29T08:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c61905f_5e5f63bd",
       "range": {
         "startLine": 916,
         "startChar": 0,

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92fda224_9174c06b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T11:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e7c54df_ec49bc9a",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "d452d46c626a144675ec678dd6dbea5d124842a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1a5ec50_116318c5",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-29T11:08:51Z",
       "side": 1,
       "message": "update to use \"Make\"? I think personal pronouns should be avoided in commit message.\nhttps://screenshot.googleplex.com/78hgG4Fapx7gAzr\nAlso move to a new paragraph. Looks cleaner.",
+      "range": {
+        "startLine": 11,
+        "startChar": 53,
+        "endLine": 11,
+        "endChar": 70
+      },
+      "revId": "d452d46c626a144675ec678dd6dbea5d124842a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b17b023f_609936bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T11:19:57Z",
+      "side": 1,
+      "message": "Please don\u0027t put internal screenshot links into comments.",
+      "parentUuid": "b1a5ec50_116318c5",
       "range": {
         "startLine": 11,
         "startChar": 53,
@@ -83,6 +131,54 @@
       "writtenOn": "2021-11-29T11:12:23Z",
       "side": 1,
       "message": "Nit: long line",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 167
+      },
+      "revId": "d452d46c626a144675ec678dd6dbea5d124842a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c43d5796_6b2ebcd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T11:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0148373_ffa89bea",
+      "range": {
+        "startLine": 12,
+        "startChar": 75,
+        "endLine": 12,
+        "endChar": 78
+      },
+      "revId": "d452d46c626a144675ec678dd6dbea5d124842a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "950c4698_3593c7d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T11:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b515575_313c7f97",
       "range": {
         "startLine": 12,
         "startChar": 1,

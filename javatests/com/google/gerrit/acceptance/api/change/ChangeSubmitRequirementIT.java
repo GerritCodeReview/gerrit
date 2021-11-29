@@ -206,19 +206,19 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "experiments.enabled",
-      values = {
-        ExperimentFeaturesConstants
-            .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS_BACKFILLING_ON_DASHBOARD,
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS
-      })
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS_BACKFILLING_ON_DASHBOARD)
   public void submitRuleIsInvokedWhenQueryingChangeWithExperiment() throws Exception {
+    rule.numberOfEvaluations.set(0);
     PushOneCommit.Result r = createChange("Some Change", "foo.txt", "some content");
+
     String changeId = r.getChangeId();
 
-    rule.numberOfEvaluations.set(0);
     gApi.changes().query(changeId).withOptions(ListChangesOption.SUBMIT_REQUIREMENTS).get();
 
-    // Submit rules are invoked
+    // Submit rules are invoked when the change was uploaded, further calls loaded submit records
+    // from the change index.
     assertThat(rule.numberOfEvaluations.get()).isEqualTo(1);
   }
 

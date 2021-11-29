@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3770506d_285cfe9f",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-29T10:31:49Z",
+      "side": 1,
+      "message": "nit: change is being",
+      "range": {
+        "startLine": 41,
+        "startChar": 61,
+        "endLine": 41,
+        "endChar": 77
+      },
+      "revId": "b051fea7f2adca294a9fa9cf7ddaa3fc5f5b5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb92e93e_f2f136c1",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-29T10:31:49Z",
+      "side": 1,
+      "message": "where is this set to false?\nI would have expected after new change detail is requested.\n\nOr does this not need to be set to false?",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "b051fea7f2adca294a9fa9cf7ddaa3fc5f5b5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

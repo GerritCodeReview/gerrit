@@ -18,10 +18,14 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * An interface for all file diff related operations. Clients should use this interface to request:
@@ -60,6 +64,25 @@ public interface DiffOperations {
       throws DiffNotAvailableException;
 
   /**
+   * Same as {@link #listModifiedFilesAgainstParent(NameKey, ObjectId, int, DiffOptions)} but loads
+   * the modified files directly instead of retrieving them from the diff cache.
+   *
+   * <p>This method only returns the file paths and the change types.
+   *
+   * <p>A RevWalk and repoConfig are also supplied and are used to look up the commit IDs. This is
+   * useful in case one the commits is currently being created, that's why the {@code revWalk}
+   * parameter is needed.
+   */
+  Map<String, ModifiedFile> loadModifiedFilesAgainstParent(
+      Project.NameKey project,
+      ObjectId newCommit,
+      int parentNum,
+      DiffOptions diffOptions,
+      RevWalk revWalk,
+      Config repoConfig)
+      throws DiffNotAvailableException;
+
+  /**
    * Returns the list of added, deleted or modified files between two commits (patchsets). The
    * commit message and merge list (for merge commits) are also returned.
    *
@@ -74,6 +97,25 @@ public interface DiffOperations {
    */
   Map<String, FileDiffOutput> listModifiedFiles(
       Project.NameKey project, ObjectId oldCommit, ObjectId newCommit, DiffOptions diffOptions)
+      throws DiffNotAvailableException;
+
+  /**
+   * Same as {@link #listModifiedFiles(NameKey, ObjectId, ObjectId, DiffOptions)} but loads the
+   * modified files directly instead of retrieving them from the diff cache.
+   *
+   * <p>This method only returns the file paths and the change types.
+   *
+   * <p>A RevWalk and repoConfig are also supplied and are used to look up the commit IDs. This is
+   * useful in case one the commits is currently being created, that's why the {@code revWalk}
+   * parameter is needed.
+   */
+  Map<String, ModifiedFile> loadModifiedFiles(
+      Project.NameKey project,
+      ObjectId oldCommit,
+      ObjectId newCommit,
+      DiffOptions diffOptions,
+      RevWalk revWalk,
+      Config repoConfig)
       throws DiffNotAvailableException;
 
   /**

@@ -21,6 +21,8 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Entity representing all required information to match predicates for copying approvals. */
 @AutoValue
@@ -41,8 +43,19 @@ public abstract class ApprovalContext {
   /** {@link ChangeKind} of the delta between the origin and target patch set. */
   public abstract ChangeKind changeKind();
 
+  /** {@link RevWalk} of the repository for the current commit. */
+  public abstract RevWalk revWalk();
+
+  /** {@link RevWalk} of the repository for the current commit. */
+  public abstract Config repoConfig();
+
   public static ApprovalContext create(
-      ChangeNotes changeNotes, PatchSetApproval psa, PatchSet patchSet, ChangeKind changeKind) {
+      ChangeNotes changeNotes,
+      PatchSetApproval psa,
+      PatchSet patchSet,
+      ChangeKind changeKind,
+      RevWalk revWalk,
+      Config repoConfig) {
     checkState(
         psa.patchSetId().changeId().equals(patchSet.id().changeId()),
         "approval and target must be the same change. got: %s, %s",
@@ -54,6 +67,7 @@ public abstract class ApprovalContext {
     // As explained in the commit message of this change doing this check is only possible if there
     // are no changes with gaps in patch set numbers. Since it's planned to fix-up old changes with
     // gaps in patch set numbers, this todo is a reminder to add back the check once this is done.
-    return new AutoValue_ApprovalContext(psa, patchSet, changeNotes, changeKind);
+    return new AutoValue_ApprovalContext(
+        psa, patchSet, changeNotes, changeKind, revWalk, repoConfig);
   }
 }

@@ -32,6 +32,10 @@ import {
   RobotId,
   BasePatchSetNum,
   Base64FileContent,
+  RobotCommentInfo,
+  RobotRunId,
+  ReviewInput,
+  RobotCommentInput,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -135,24 +139,6 @@ export class GrApplyFixDialog extends PolymerElement {
         comment.message.indexOf('```suggestion\n') + '```suggestion\n'.length;
       const end = comment.message.indexOf('\n```', start);
       const replacement = comment.message.substring(start, end);
-      this._fixSuggestions = [
-        {
-          fix_id: 'test' as FixId,
-          description: 'User suggestion',
-          replacements: [
-            {
-              path: comment.path!,
-              range: {
-                start_line: comment.line!,
-                start_character: 0,
-                end_line: comment.line!,
-                end_character: 100,
-              },
-              replacement,
-            },
-          ],
-        },
-      ];
       const file = await this.restApiService.getFileContent(
         this.changeNum!,
         comment.path!,
@@ -161,6 +147,43 @@ export class GrApplyFixDialog extends PolymerElement {
       const lines = (file as Base64FileContent).content!.split('\n');
       const changedLine = comment.line!;
       const originalLine = lines[changedLine - 1];
+      const replacements = [
+        {
+          path: comment.path!,
+          range: {
+            start_line: comment.line! - 1,
+            end_line: comment.line!,
+            start_character: 0,
+            end_character: originalLine.length,
+          },
+          replacement,
+        },
+      ];
+      this._fixSuggestions = [
+        {
+          fix_id: 'test' as FixId,
+          description: 'User suggestion',
+          replacements,
+        },
+      ];
+      const robotComment: RobotCommentInput = {
+        robot_id: 'milutin' as RobotId,
+        robot_run_id: '76b1375aa8626ea7149792831fe2ed85e80d9e04' as RobotRunId,
+        fix_suggestions: {
+          description: 'User suggestion',
+          replacements,
+        },
+        // id: comment.id!,
+        updated: comment.updated!,
+      };
+      const review: ReviewInput = {
+        robot_comments: {[comment.path!]: [robotComment]},
+      };
+      await this.restApiService.saveChangeReview(
+        this.changeNum!,
+        comment.patch_set!,
+        review
+      );
       let firstChange = 0;
       while (
         originalLine.charAt(firstChange) === replacement.charAt(firstChange)

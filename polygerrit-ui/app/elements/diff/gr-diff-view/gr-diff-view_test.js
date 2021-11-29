@@ -2046,7 +2046,6 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getConfig').returns(Promise.resolve({change: {}}));
 
       stubRestApi('getProjectConfig').returns(Promise.resolve({}));
-      stubRestApi('getDiffChangeDetail').returns(Promise.resolve({}));
       stubRestApi('getChangeFiles').returns(Promise.resolve(changedFiles));
       stubRestApi('saveFileReviewed').returns(Promise.resolve());
       stubRestApi('getDiffComments').returns(Promise.resolve({}));

@@ -1,0 +1,1 @@
+console.log(`Hello Gerrit, service worker ready!`);

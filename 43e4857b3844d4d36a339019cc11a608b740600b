@@ -106,6 +106,24 @@
       "parentUuid": "269cc6d9_57e104aa",
       "revId": "43e4857b3844d4d36a339019cc11a608b740600b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fe0394f_51064f73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-29T15:23:16Z",
+      "side": 1,
+      "message": "I would just like to keep the default of v2 off after this series is merged. It seems If264e7fe does that, so LGTM.",
+      "parentUuid": "3887998d_0ab42422",
+      "revId": "43e4857b3844d4d36a339019cc11a608b740600b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

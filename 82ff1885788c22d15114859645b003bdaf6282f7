@@ -34,6 +34,24 @@
       "parentUuid": "bf569e54_be2c48f2",
       "revId": "82ff1885788c22d15114859645b003bdaf6282f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11830e66_5ea903fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T20:04:36Z",
+      "side": 1,
+      "message": "Constructor stuff must stay while the class is a polymer element.",
+      "parentUuid": "cbaa2488_84b269a7",
+      "revId": "82ff1885788c22d15114859645b003bdaf6282f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdf46354_ac0dd6f1",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-11-29T13:43:34Z",
+      "side": 1,
+      "message": "that is the key point of the solution as it allows for LocalDiskRepositoryManager to actually use the Gerrit caches. It has to be part of the same module. By default in SiteProgram it is a part of dbinjector but it means that it cannot rely on the Gerrit caches. Leaving module in dbinjector requires that `DefaultMemoryCacheModule` be moved there too and that has multiple cons e.g. broken output of `show-caches`, etc...",
+      "range": {
+        "startLine": 424,
+        "startChar": 4,
+        "endLine": 426,
+        "endChar": 5
+      },
+      "revId": "6ed40973632c96b9f3d11f479ca9e90147e87cc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

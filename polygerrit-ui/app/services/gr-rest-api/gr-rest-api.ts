@@ -112,14 +112,6 @@ import {ErrorCallback} from '../../api/rest';
 
 export type CancelConditionCallback = () => boolean;
 
-// TODO(TS): remove when GrReplyDialog converted to typescript
-export interface GrReplyDialog {
-  getLabelValue(label: string): string;
-  setLabelValue(label: string, value: string): void;
-  send(includeComments?: boolean, startReview?: boolean): Promise<unknown>;
-  setPluginMessage(message: string): void;
-}
-
 export interface GetDiffCommentsOutput {
   baseComments: CommentInfo[];
   comments: CommentInfo[];

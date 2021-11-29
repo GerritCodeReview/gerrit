@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "505c4ff5_5a5c836f",
+        "filename": "java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-11-29T11:21:40Z",
+      "side": 1,
+      "message": "This method name is vague considering that the index module will be created by\nlooking at the following:\n* env variable\n* system property\n* IndexType.fromEnvironment\n\nMaybe just pick a more neutral name: createIndexModule",
+      "range": {
+        "startLine": 46,
+        "startChar": 46,
+        "endLine": 46,
+        "endChar": 61
+      },
+      "revId": "f2b7d0dfc4d2a91d72b5727c27dbff9c2a3c2674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f8678d7_0ac6425f",
+        "filename": "java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-11-29T11:21:40Z",
+      "side": 1,
+      "message": "there are two fallbacks to \"fake\", one here and one in the else branch which says\nthat the default is fake. We could remove this orElse fragment and let the else statement handle the fallback:\n\n  IndexType indexType \u003d IndexType.fromEnvironment();\n  if (indexType.isPresent() \u0026\u0026 indexType.isLucene()) {\n    indexModuleClassName \u003d LUCENE_INDEX_MODULE_CLASS_NAME;\n  } else {\n    indexModuleClassName \u003d FAKE_INDEX_MODULE_CLASS_NAME;\n  }",
+      "range": {
+        "startLine": 55,
+        "startChar": 56,
+        "endLine": 55,
+        "endChar": 86
+      },
+      "revId": "f2b7d0dfc4d2a91d72b5727c27dbff9c2a3c2674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

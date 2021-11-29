@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e119db49_6347cd5f",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T10:34:30Z",
+      "side": 1,
+      "message": "We\u0027re getting into mutiple-booleans/undefined territory and some values are trying to account for others. Maybe it\u0027s time to introduce a LoadingState enum instead of doing it in our heads. States I can think of: Loading, Reloading, Failed, Loaded.",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 21
+      },
+      "revId": "b051fea7f2adca294a9fa9cf7ddaa3fc5f5b5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21c3e08e_f7afe18a",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T10:34:30Z",
+      "side": 1,
+      "message": "The change isn\u0027t being loaded anymore so I\u0027d expect it to be false.",
+      "range": {
+        "startLine": 37,
+        "startChar": 57,
+        "endLine": 38,
+        "endChar": 35
+      },
+      "revId": "b051fea7f2adca294a9fa9cf7ddaa3fc5f5b5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3770506d_285cfe9f",
         "filename": "polygerrit-ui/app/services/change/change-model.ts",
         "patchSetId": 1
@@ -42,6 +88,75 @@
         "startChar": 2,
         "endLine": 44,
         "endChar": 24
+      },
+      "revId": "b051fea7f2adca294a9fa9cf7ddaa3fc5f5b5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d87f87de_5885815e",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T10:34:30Z",
+      "side": 1,
+      "message": "why do we need this part instead of only returning changeState.changeLoading?",
+      "range": {
+        "startLine": 138,
+        "startChar": 19,
+        "endLine": 138,
+        "endChar": 51
+      },
+      "revId": "b051fea7f2adca294a9fa9cf7ddaa3fc5f5b5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88a0169c_59b759b8",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T10:34:30Z",
+      "side": 1,
+      "message": "can you add tests to change-service_tests that demonstrate the new situations?",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 26
+      },
+      "revId": "b051fea7f2adca294a9fa9cf7ddaa3fc5f5b5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1abdc550_5356d58a",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T10:34:30Z",
+      "side": 1,
+      "message": "Is it possible to use fromEvent to turn the document reload event into an observable instead of doing it manually?\nhttps://rxjs.dev/api/index/function/fromEvent",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 50
       },
       "revId": "b051fea7f2adca294a9fa9cf7ddaa3fc5f5b5fb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -16,6 +16,125 @@
       "message": "nice!",
       "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf77ea7f_d63da368",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T17:40:55Z",
+      "side": 1,
+      "message": "This pattern of copying changeNum? props up a lot.  I wonder if we should be avoiding caching that value in so many places and instead make it possible to have a reader for changeNum$.\n\nFood for thought, not for this change.",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "077bd7bd_ea07acb4",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T17:40:55Z",
+      "side": 1,
+      "message": "This feels very niche and I wonder if it should live inside of the consumer.",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22779682_8c26ecc2",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T17:40:55Z",
+      "side": 1,
+      "message": "Do all these selectors need to live on this model? Should some of them live on the consumer side to make the API of this object less bloated?\n\nA lot of this feels like view-oriented modeling rather htan model-oriented modeling.",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aa4c6cf_8c402534",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T17:40:55Z",
+      "side": 1,
+      "message": "The array version of combineLatest is deprecated.\n\nThis could simply be combineLatest(routerPatchNum$, latestPatchNum$)",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ce6bea_07382d92",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T17:40:55Z",
+      "side": 1,
+      "message": "Why do you check if it\u0027s a number? What else could it be?",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ec198da_94b32e8c",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T17:40:55Z",
+      "side": 1,
+      "message": "Rather than this.subscriptions.push repeatedly, what about\n\nthis.subscriptions \u003d [ \n  changeNum$.subscribe(x \u003d\u003e (this.changeNum \u003d x)));\n  this.checkToPluginMap$.subscribe(map \u003d\u003e {\n    this.checkToPluginMap \u003d map;\n  }),\n  combineLatest([...])...\n]",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdad1302_4ad09c60",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-29T17:40:55Z",
+      "side": 1,
+      "message": ".forEach is not preferred.",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

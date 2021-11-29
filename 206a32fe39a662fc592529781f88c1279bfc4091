@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c07ece12_23677e80",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-29T13:10:08Z",
+      "side": 1,
+      "message": "I have only one example right now:\nSubmitWithStickyApprovalDiff uses that, and it is required since we want to figure out when the vote was originally created.\n\nYou have a point that I can somehow simplify this a bit. But anyway, I was just preserving behavior: some cases needed including copied, and some excluding. I\u0027ll refactor a bit since the main reason this behavior was here in the past is to save on calling expensive copying votes code, which is now cheap.",
+      "parentUuid": "5e8825e2_d97c657e",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "777aa1c0_f37ad952",
         "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
         "patchSetId": 7
@@ -271,6 +289,30 @@
       "writtenOn": "2021-11-29T12:30:30Z",
       "side": 1,
       "message": "Could this be a method inside ApprovalsUtil, e.g. approvalsUtil.copyVotes?\nIn my opinion that would be much more readable.",
+      "range": {
+        "startLine": 304,
+        "startChar": 6,
+        "endLine": 307,
+        "endChar": 53
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45ce6ecd_8dba8380",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-29T13:10:08Z",
+      "side": 1,
+      "message": "? \nIt\u0027s already a method in ApprovalsUtil, are you suggesting to rename it?",
+      "parentUuid": "9f8b4e0e_90ba574e",
       "range": {
         "startLine": 304,
         "startChar": 6,

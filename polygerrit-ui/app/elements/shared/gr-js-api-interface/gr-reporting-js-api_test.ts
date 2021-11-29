@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-reply-dialog/gr-reply-dialog.js';
-import {GerritInternal, _testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {getAppContext} from '../../../services/app-context.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {PluginApi} from '../../../api/plugin.js';
@@ -27,10 +26,8 @@ import {ReportingPluginApi} from '../../../api/reporting.js';
 suite('gr-reporting-js-api tests', () => {
   let plugin: PluginApi;
   let reportingService: ReportingService;
-  let pluginApi: GerritInternal;
 
   setup(() => {
-    pluginApi = _testOnly_initGerritPluginApi();
     stubRestApi('getAccount').returns(Promise.resolve(undefined));
     reportingService = getAppContext().reportingService;
   });
@@ -38,7 +35,7 @@ suite('gr-reporting-js-api tests', () => {
   suite('early init', () => {
     let reporting: ReportingPluginApi;
     setup(() => {
-      pluginApi.install(
+      window.Gerrit.install(
         p => {
           plugin = p;
         },

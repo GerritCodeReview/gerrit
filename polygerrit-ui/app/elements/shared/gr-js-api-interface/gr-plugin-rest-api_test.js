@@ -18,10 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
 import {GrPluginRestApi} from './gr-plugin-rest-api.js';
-import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {stubRestApi} from '../../../test/test-utils.js';
-
-const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-plugin-rest-api tests', () => {
   let instance;
@@ -33,7 +30,7 @@ suite('gr-plugin-rest-api tests', () => {
     getResponseObjectStub = stubRestApi('getResponseObject').returns(
         Promise.resolve());
     sendStub = stubRestApi('send').returns(Promise.resolve({status: 200}));
-    pluginApi.install(p => {}, '0.1',
+    window.Gerrit.install(p => {}, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     instance = new GrPluginRestApi();
   });

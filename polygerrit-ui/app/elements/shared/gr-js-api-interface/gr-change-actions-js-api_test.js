@@ -19,11 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-change-actions/gr-change-actions.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {getPluginLoader} from './gr-plugin-loader.js';
-import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
-
 const basicFixture = fixtureFromElement('gr-change-actions');
-
-const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-change-actions-js-api-interface tests', () => {
   let element;
@@ -41,7 +37,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
   suite('early init', () => {
     setup(() => {
       resetPlugins();
-      pluginApi.install(p => { plugin = p; }, '0.1',
+      window.Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       // Mimic all plugins loaded.
       getPluginLoader().loadPlugins([]);
@@ -68,7 +64,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
       sinon.stub(element, '_editStatusChanged');
       element.change = {};
       element._hasKnownChainState = false;
-      pluginApi.install(p => { plugin = p; }, '0.1',
+      window.Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       changeActions = plugin.changeActions();
       // Mimic all plugins loaded.

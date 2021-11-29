@@ -343,7 +343,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
         });
     modules.add(new DefaultUrlFormatterModule());
 
-    SshSessionFactoryInitializer.init(config);
+    SshSessionFactoryInitializer.init();
     modules.add(SshKeyCacheImpl.module());
     modules.add(
         new AbstractModule() {

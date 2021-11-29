@@ -52,6 +52,24 @@
       "parentUuid": "e08ad878_3e65500a",
       "revId": "f86715499228875f33faacc68db7998f2396a818",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b66777d7_0c2865c2",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-29T11:47:15Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "558a52c0_888bc391",
+      "revId": "f86715499228875f33faacc68db7998f2396a818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

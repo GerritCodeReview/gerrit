@@ -34,6 +34,24 @@
       "parentUuid": "36f58b3b_6042af56",
       "revId": "f86715499228875f33faacc68db7998f2396a818",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "558a52c0_888bc391",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-29T09:55:01Z",
+      "side": 0,
+      "message": "The problem for extracting all logic; the logic for GitModifiedFilesCache, ModifiedFilesCache, GitFileDiffCache, FileDiffCache is that the computation will be really expensive, and at the end the caller (approvalInference in this case) only needs the file paths and the change types (i.e. whether the file is added, deleted, modified, etc...). The cache loaders are performing more logic that is not needed, i.e. identifying the file edits, the rebase edits, etc...\n\nI prefer having a thin method in DiffOperationsImpl that does just that for us. This would spare us the refactoring and will also be more lightweight and less expensive.",
+      "parentUuid": "e08ad878_3e65500a",
+      "revId": "f86715499228875f33faacc68db7998f2396a818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

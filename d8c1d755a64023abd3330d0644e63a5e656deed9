@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd75a260_8dfbd022",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-29T09:55:01Z",
+      "side": 1,
+      "message": "This call again wraps another cache: the GitFileDiffCacheImpl where we need to extract a separate loader for.",
+      "range": {
+        "startLine": 283,
+        "startChar": 8,
+        "endLine": 283,
+        "endChar": 32
+      },
+      "revId": "d8c1d755a64023abd3330d0644e63a5e656deed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

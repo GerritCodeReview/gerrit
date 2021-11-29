@@ -16,6 +16,23 @@
       "message": "LGTM, but maybe Patrick should have also a look whether it\u0027s safe to skip submit records for non-existing labels.",
       "revId": "e8a63aea032d2374e757dd95e8b5b7714310fcac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ba8358a_ddae2691",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-29T09:42:11Z",
+      "side": 1,
+      "message": "@Patrick, we convert all labels of the default submit record to submit requirement results (legacy SRs). Sometimes the label type associated with some label might not exist (i.e. if project admin removed the label definition). WDYT is it better to skip returning an SR result in this case, or pretend that the label was blocking was return an SR result for it anyway?",
+      "revId": "e8a63aea032d2374e757dd95e8b5b7714310fcac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

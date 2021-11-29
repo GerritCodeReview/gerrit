@@ -180,6 +180,43 @@ public class SubmitRequirementsAdapterTest {
   }
 
   @Test
+  public void defaultSubmitRule_withNonExistingLabel() throws Exception {
+    SubmitRecord submitRecord =
+        createSubmitRecord(
+            "gerrit~DefaultSubmitRule",
+            Status.OK,
+            Arrays.asList(createLabel("Non-Existing", Label.Status.OK)));
+
+    List<SubmitRequirementResult> requirements =
+        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+
+    assertThat(requirements).isEmpty();
+  }
+
+  @Test
+  public void defaultSubmitRule_withExistingAndNonExistingLabels() throws Exception {
+    SubmitRecord submitRecord =
+        createSubmitRecord(
+            "gerrit~DefaultSubmitRule",
+            Status.OK,
+            Arrays.asList(
+                createLabel("Non-Existing", Label.Status.OK),
+                createLabel("Code-Review", Label.Status.OK)));
+
+    List<SubmitRequirementResult> requirements =
+        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+
+    // The "Non-Existing" label was skipped since it does not exist in the project config.
+    assertThat(requirements).hasSize(1);
+    assertResult(
+        requirements.get(0),
+        /* reqName= */ "Code-Review",
+        /* submitExpression= */ "label:Code-Review=MAX -label:Code-Review=MIN",
+        SubmitRequirementResult.Status.SATISFIED,
+        SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
   public void customSubmitRule_noLabels_withStatusOk() {
     SubmitRecord submitRecord =
         createSubmitRecord("gerrit~IgnoreSelfApprovalRule", Status.OK, Arrays.asList());

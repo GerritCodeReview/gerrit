@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6404638b_35b2c59f",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-29T18:51:02Z",
+      "side": 1,
+      "message": "I don\u0027t think this is too niche, because based on this you would typically enable or disable all checks related UI elements.\n\nSee also my other comment about selectors.",
+      "parentUuid": "077bd7bd_ea07acb4",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22779682_8c26ecc2",
@@ -65,6 +83,24 @@
       "writtenOn": "2021-11-29T17:40:55Z",
       "side": 1,
       "message": "Do all these selectors need to live on this model? Should some of them live on the consumer side to make the API of this object less bloated?\n\nA lot of this feels like view-oriented modeling rather htan model-oriented modeling.",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8016fa6_fb169589",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-29T18:51:02Z",
+      "side": 1,
+      "message": "I agree that this is bloated. Ideally selectors are just utility functions (mappers, extractors) that take state and yield a certain slice. Those functions should be functions outside the model and tested similarly to other stateless utility functions.\n\nThen typically we could just let every component call select()/subscribe() individually. Then we have a clean model without a huge API surface, but we still have selectors separated from components. (Note that there may still be a couple of selectors that are so component specific that they can be local functions in the component file.)\n\nThe only disadvantage that I see is that of being able to share, but that is only relevant either if the selector is doing something expensive (e.g. changeComments$) or if it is called a million times. So as a default pattern I would be happy with selectors being just functions outside of the model.\n\nWDYT? And should I factor this into this change already? Maybe a separate change?",
+      "parentUuid": "22779682_8c26ecc2",
       "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +122,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf475e63_a501d264",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-29T18:51:02Z",
+      "side": 1,
+      "message": "I think it is the other way around? :-)\n\n  /** @deprecated Pass arguments in a single array instead `combineLatest([a, b, c])` */",
+      "parentUuid": "0aa4c6cf_8c402534",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1ce6bea_07382d92",
@@ -99,6 +153,24 @@
       "writtenOn": "2021-11-29T17:40:55Z",
       "side": 1,
       "message": "Why do you check if it\u0027s a number? What else could it be?",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0d6edba_27eaf964",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-29T18:51:02Z",
+      "side": 1,
+      "message": "export type PatchSetNum \u003d BrandType\u003c\u0027PARENT\u0027 | \u0027edit\u0027 | number, \u0027_patchSet\u0027\u003e;",
+      "parentUuid": "f1ce6bea_07382d92",
       "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +192,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "973988f0_ed75d0b2",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-29T18:51:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ec198da_94b32e8c",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdad1302_4ad09c60",
@@ -133,6 +223,24 @@
       "writtenOn": "2021-11-29T17:40:55Z",
       "side": 1,
       "message": ".forEach is not preferred.",
+      "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5dd9e0f_9f85c460",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-29T18:51:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdad1302_4ad09c60",
       "revId": "c87f7dba700f116b142c42559cc426156c756a8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

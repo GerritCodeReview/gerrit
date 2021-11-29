@@ -491,7 +491,7 @@ public class Daemon extends SiteProgram {
           });
     }
     modules.add(new DefaultUrlFormatterModule());
-    SshSessionFactoryInitializer.init(config);
+    SshSessionFactoryInitializer.init();
     if (sshd) {
       modules.add(SshKeyCacheImpl.module());
     } else {

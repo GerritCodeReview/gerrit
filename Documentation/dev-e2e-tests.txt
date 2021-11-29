@@ -102,8 +102,7 @@ docker build . -t e2e-tests
 === SSH keys
 
 If you are running SSH commands, the private keys of the users used for testing need to go in
-`/tmp/ssh-keys`. The keys need to be generated this way (JSch won't validate them
-link:https://stackoverflow.com/questions/53134212/invalid-privatekey-when-using-jsch[otherwise,role=external,window=_blank]):
+`/tmp/ssh-keys`. The keys need to be generated this way and won't be validated.
 
 ----
 mkdir /tmp/ssh-keys

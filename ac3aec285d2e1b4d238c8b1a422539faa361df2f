@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c92f62e_a6967d65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-29T10:00:18Z",
+      "side": 1,
+      "message": "Happy to upgrade to +2 as soon as it passes the build",
+      "revId": "ac3aec285d2e1b4d238c8b1a422539faa361df2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

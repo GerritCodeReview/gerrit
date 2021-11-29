@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ed6534_9bc8595d",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-29T12:30:30Z",
+      "side": 0,
+      "message": "Why is passing in RevWalk + Config no longer needed for callers of byPatchSetUser?",
+      "revId": "7e4ef55fe2e0530b36f1a4dfca0478d80aa8ee25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17faf807_857c90d1",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-29T12:30:30Z",
+      "side": 1,
+      "message": "Must remove @Nullable here too, otherwise null may be passed into forPatchSet(ChangeNotes, PatchSet, RevWalk, Config) which doesn\u0027t allow null anymore. E.g. forPatchSet(ChangeNotes, PatchSet.Id, RevWalk, Config is called with null value from ApprovalCacheImpl.",
+      "range": {
+        "startLine": 105,
+        "startChar": 43,
+        "endLine": 105,
+        "endChar": 81
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e8825e2_d97c657e",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-29T12:30:30Z",
+      "side": 1,
+      "message": "Why would anyone need approvals without the copied approvals being included?",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "777aa1c0_f37ad952",
         "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
         "patchSetId": 7
@@ -102,6 +142,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bcd34a48_556267ac",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-29T12:30:30Z",
+      "side": 1,
+      "message": "Is this still true now that the labels are just read from NoteDb? \nCan we just use byPatchSet now?",
+      "range": {
+        "startLine": 373,
+        "startChar": 52,
+        "endLine": 373,
+        "endChar": 61
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bc994798_b232f59f",
         "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
         "patchSetId": 7
@@ -143,6 +206,87 @@
         "endLine": 226,
         "endChar": 62
       },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1966c7f_bdc61f4f",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-29T12:30:30Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "bc994798_b232f59f",
+      "range": {
+        "startLine": 226,
+        "startChar": 30,
+        "endLine": 226,
+        "endChar": 62
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f8b4e0e_90ba574e",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-29T12:30:30Z",
+      "side": 1,
+      "message": "Could this be a method inside ApprovalsUtil, e.g. approvalsUtil.copyVotes?\nIn my opinion that would be much more readable.",
+      "range": {
+        "startLine": 304,
+        "startChar": 6,
+        "endLine": 307,
+        "endChar": 53
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d22ade00_e2ba8561",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-29T12:30:30Z",
+      "side": 1,
+      "message": "Can we rename this to getApprovals() and drop the current getApprovals() method that excludes copied approvals. I\u0027m not sure I understand why getting approvals without copied approvals is needed.",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f99f2144_0b4fdcd3",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-29T12:30:30Z",
+      "side": 1,
+      "message": "Why are copied approvals excluded here?",
       "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

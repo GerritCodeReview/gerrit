@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c158d92_fa12048e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-29T16:05:15Z",
+      "side": 1,
+      "message": "I don\u0027t think we use this Impl\u003dImplementation abbreviation elsewhere in the frontend, but I\u0027ve seen it commonly in our Java code and on other projects. I don\u0027t mind using the full word Implementation if people prefer.",
+      "range": {
+        "startLine": 277,
+        "startChar": 13,
+        "endLine": 277,
+        "endChar": 26
+      },
+      "revId": "5715ea2a58f780ea5d108c52eb6a05bb26f51159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

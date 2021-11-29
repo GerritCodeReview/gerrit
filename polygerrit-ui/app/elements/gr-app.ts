@@ -16,7 +16,6 @@
  */
 
 import {safeTypesBridge} from '../utils/safe-types-util';
-import './gr-app-init';
 import './font-roboto-local-loader';
 // Sets up global Polymer variable, because plugins requires it.
 import '../scripts/bundled-polymer';
@@ -38,9 +37,23 @@ import {initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-app_html';
-import {initGerritPluginApi} from './shared/gr-js-api-interface/gr-gerrit';
 import {customElement} from '@polymer/decorators';
 import {installPolymerResin} from '../scripts/polymer-resin-install';
+
+import {createAppContext} from '../services/app-context-init';
+import {
+  initVisibilityReporter,
+  initPerformanceReporter,
+  initErrorReporter,
+} from '../services/gr-reporting/gr-reporting_impl';
+import {injectAppContext} from '../services/app-context';
+
+const appContext = createAppContext();
+injectAppContext(appContext);
+const reportingService = appContext.reportingService;
+initVisibilityReporter(reportingService);
+initPerformanceReporter(reportingService);
+initErrorReporter(reportingService);
 
 installPolymerResin(safeTypesBridge);
 
@@ -57,5 +70,4 @@ declare global {
   }
 }
 
-initGlobalVariables();
-initGerritPluginApi();
+initGlobalVariables(appContext);

@@ -16,7 +16,7 @@
  */
 
 import {create, Registry, Finalizable} from '../services/registry';
-import {AppContext, injectAppContext} from '../services/app-context';
+import {AppContext} from '../services/app-context';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {FlagsService} from '../services/flags/flags';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
@@ -61,12 +61,10 @@ class MockAuthService implements AuthService {
   }
 }
 
-let appContext: (AppContext & Finalizable) | undefined;
-
 // Setup mocks for appContext.
 // This is a temporary solution
 // TODO(dmfilippov): find a better solution for gr-diff
-export function initDiffAppContext() {
+export function createDiffAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
     flagsService: (_ctx: Partial<AppContext>) => new MockFlagsService(),
     authService: (_ctx: Partial<AppContext>) => new MockAuthService(),
@@ -105,6 +103,5 @@ export function initDiffAppContext() {
       throw new Error('browserModel is not implemented');
     },
   };
-  appContext = create<AppContext>(appRegistry);
-  injectAppContext(appContext);
+  return create<AppContext>(appRegistry);
 }

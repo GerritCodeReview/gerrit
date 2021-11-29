@@ -17,16 +17,12 @@
 
 import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-reply-dialog/gr-reply-dialog.js';
-import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
-const pluginApi = _testOnly_initGerritPluginApi();
-
 suite('gr-change-reply-js-api tests', () => {
   let element;
-
   let changeReply;
   let plugin;
 
@@ -36,7 +32,7 @@ suite('gr-change-reply-js-api tests', () => {
 
   suite('early init', () => {
     setup(() => {
-      pluginApi.install(p => { plugin = p; }, '0.1',
+      window.Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       changeReply = plugin.changeReply();
       element = basicFixture.instantiate();
@@ -64,7 +60,7 @@ suite('gr-change-reply-js-api tests', () => {
   suite('normal init', () => {
     setup(() => {
       element = basicFixture.instantiate();
-      pluginApi.install(p => { plugin = p; }, '0.1',
+      window.Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       changeReply = plugin.changeReply();
     });

@@ -32,10 +32,6 @@ import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {
-  _testOnly_initGerritPluginApi,
-  GerritInternal,
-} from '../../shared/gr-js-api-interface/gr-gerrit';
 import {EventType, PluginApi} from '../../../api/plugin';
 
 import 'lodash/lodash';
@@ -118,7 +114,6 @@ const fixture = fixtureFromElement('gr-change-view');
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
-  let pluginApi: GerritInternal;
 
   let navigateToChangeStub: SinonStubbedMember<
     typeof GerritNav.navigateToChange
@@ -348,7 +343,6 @@ suite('gr-change-view tests', () => {
   ];
 
   setup(() => {
-    pluginApi = _testOnly_initGerritPluginApi();
     // Since pluginEndpoints are global, must reset state.
     _testOnly_resetEndpoints();
     navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
@@ -372,7 +366,7 @@ suite('gr-change-view tests', () => {
     element._changeNum = TEST_NUMERIC_CHANGE_ID;
     sinon.stub(element.$.actions, 'reload').returns(Promise.resolve());
     getPluginLoader().loadPlugins([]);
-    pluginApi.install(
+    window.Gerrit.install(
       plugin => {
         plugin.registerDynamicCustomComponent(
           'change-view-tab-header',
@@ -2144,7 +2138,7 @@ suite('gr-change-view tests', () => {
       element._change = {...createChangeViewChange(), labels: {}};
       element._selectedRevision = createRevision();
       const promise = mockPromise();
-      pluginApi.install(promise.resolve, '0.1', 'http://some/plugins/url.js');
+      window.Gerrit.install(promise.resolve, '0.1', 'http://some/plugins/url.js');
       await flush();
       const plugin: PluginApi = (await promise) as PluginApi;
       const hookEl = await plugin

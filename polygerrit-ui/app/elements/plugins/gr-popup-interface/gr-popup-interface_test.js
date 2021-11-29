@@ -18,7 +18,6 @@
 import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {GrPopupInterface} from './gr-popup-interface.js';
-import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 
@@ -34,14 +33,13 @@ customElements.define(GrUserTestPopupElement.is, GrUserTestPopupElement);
 
 const containerFixture = fixtureFromElement('div');
 
-const pluginApi = _testOnly_initGerritPluginApi();
 suite('gr-popup-interface tests', () => {
   let container;
   let instance;
   let plugin;
 
   setup(() => {
-    pluginApi.install(p => { plugin = p; }, '0.1',
+    window.Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     container = containerFixture.instantiate();
     sinon.stub(plugin, 'hook').returns({

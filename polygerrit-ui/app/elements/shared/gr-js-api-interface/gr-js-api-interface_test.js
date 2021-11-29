@@ -21,12 +21,9 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
 import {EventType} from '../../../api/plugin.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {getPluginLoader} from './gr-plugin-loader.js';
-import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {getAppContext} from '../../../services/app-context.js';
-
-const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('GrJsApiInterface tests', () => {
   let element;
@@ -47,7 +44,7 @@ suite('GrJsApiInterface tests', () => {
     sendStub = stubRestApi('send').returns(Promise.resolve({status: 200}));
     element = getAppContext().jsApiService;
     errorStub = sinon.stub(element.reporting, 'error');
-    pluginApi.install(p => { plugin = p; }, '0.1',
+    window.Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     getPluginLoader().loadPlugins([]);
   });
@@ -300,7 +297,7 @@ suite('GrJsApiInterface tests', () => {
     setup(() => {
       stubBaseUrl('/r');
 
-      pluginApi.install(p => { baseUrlPlugin = p; }, '0.1',
+      window.Gerrit.install(p => { baseUrlPlugin = p; }, '0.1',
           'http://test.com/r/plugins/baseurlplugin/static/test.js');
     });
 

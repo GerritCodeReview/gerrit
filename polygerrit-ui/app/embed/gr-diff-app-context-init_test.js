@@ -16,18 +16,18 @@
  */
 
 import '../test/common-test-setup-karma.js';
-import {getAppContext} from '../services/app-context.js';
+import {AppContext} from '../services/app-context.js';
 import {
-  initDiffAppContext,
+  createDiffAppContext,
 } from './gr-diff-app-context-init.js';
 
 suite('gr diff app context initializer tests', () => {
+  let appContext;
   setup(() => {
-    initDiffAppContext();
+    appContext = createDiffAppContext();
   });
 
   test('all services initialized and are singletons', () => {
-    const appContext = getAppContext();
     Object.keys(appContext).forEach(serviceName => {
       const service = appContext[serviceName];
       assert.isNotNull(service);

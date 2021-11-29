@@ -21,9 +21,6 @@ import '../gr-endpoint-slot/gr-endpoint-slot.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
-
-const pluginApi = _testOnly_initGerritPluginApi();
 
 const basicFixture = fixtureFromTemplate(
     html`<div>
@@ -54,8 +51,10 @@ suite('gr-endpoint-decorator', () => {
   setup(async () => {
     resetPlugins();
     container = basicFixture.instantiate();
-    pluginApi.install(p => plugin = p, '0.1',
-        'http://some/plugin/url.js');
+    window.Gerrit.install(
+      p => { plugin = p },
+      '0.1',
+      'http://some/plugin/url.js');
     // Decoration
     decorationHook = plugin.registerCustomComponent('first', 'some-module');
     decorationHookWithSlot = plugin.registerCustomComponent(

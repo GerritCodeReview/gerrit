@@ -18,9 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {GrDomHook, GrDomHooksManager} from './gr-dom-hooks.js';
-import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
-const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-dom-hooks tests', () => {
   let instance;
@@ -28,7 +26,7 @@ suite('gr-dom-hooks tests', () => {
 
   setup(() => {
     let plugin;
-    pluginApi.install(p => { plugin = p; }, '0.1',
+    Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     instance = new GrDomHooksManager(plugin);
   });

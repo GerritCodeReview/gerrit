@@ -81,12 +81,12 @@ export interface GerritInternal extends EventEmitterService, Gerrit {
   Auth: AuthService;
 }
 
-export function initGerritPluginApi() {
-  window.Gerrit = window.Gerrit ?? new GerritImpl(getAppContext());
+export function initGerritPluginApi(appContext: AppContext) {
+  window.Gerrit = window.Gerrit ?? new GerritImpl(appContext);
 }
 
-export function _testOnly_initGerritPluginApi(): GerritInternal {
-  initGerritPluginApi();
+export function _testOnly_getGerritInternalPluginApi(): GerritInternal {
+  if (!window.Gerrit) throw new Error('initGerritPluginApi was not called');
   return window.Gerrit as GerritInternal;
 }
 

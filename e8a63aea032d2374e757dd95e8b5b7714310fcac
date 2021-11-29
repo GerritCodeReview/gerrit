@@ -33,6 +33,29 @@
       "message": "@Patrick, we convert all labels of the default submit record to submit requirement results (legacy SRs). Sometimes the label type associated with some label might not exist (i.e. if project admin removed the label definition). WDYT is it better to skip returning an SR result in this case, or pretend that the label was blocking was return an SR result for it anyway?",
       "revId": "e8a63aea032d2374e757dd95e8b5b7714310fcac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b7fdb0e_b25d3229",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-29T09:50:23Z",
+      "side": 1,
+      "message": "Prolog can also \u0027invent\u0027 labels that aren\u0027t configured in project.config. For example, Prolog can emit a blocking label \"Non-Author-Code-Review\" when the Code-Review label only has approvals from the author.\n\nHow are we treating this case?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 62
+      },
+      "revId": "e8a63aea032d2374e757dd95e8b5b7714310fcac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

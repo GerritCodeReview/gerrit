@@ -122,6 +122,24 @@
       "parentUuid": "ff6d7264_dad437d1",
       "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc3788c9_3c0c57ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-29T09:18:23Z",
+      "side": 1,
+      "message": "\u003e Luca seems to be out of office. Nasser/Patrick/David anybody else has access to upload latest 3.4.2 Gerrit docker image [1] to https://hub.docker.com/r/gerritcodereview/gerrit ..?\n\u003e \n\u003e [1] https://github.com/GerritCodeReview/docker-gerrit/blob/stable-3.4/ubuntu/20/Dockerfile\n\nI am not out of office, but I need the release notes to be merged before finalising the releases. Currently they are waiting for Nasser to approve the v3.2.14 [2] which will unblock the merge of all the others upstream, up to v3.4.2. Once the v3.4.2 is merged and announced, all the Docker images and native packages will be published.\n\n@Prudhvi do you know if Nasser is back today from the thanksgiving week?\n\n[2] https://gerrit-review.googlesource.com/c/homepage/+/324467/10",
+      "parentUuid": "22cee099_addd50ff",
+      "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

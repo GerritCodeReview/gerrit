@@ -211,6 +211,30 @@
       },
       "revId": "e7b68cf11f6c13dadaa3f92e0fb01eec1b543edd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f02b75f_e26cb4bb",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/externalids/OnlineExternalIdCaseSensivityMigratorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-29T08:52:11Z",
+      "side": 1,
+      "message": "I wanted to check if all good with the external id but it\u0027s fine I can remove it",
+      "parentUuid": "5f4e0437_f4bc26be",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 97
+      },
+      "revId": "e7b68cf11f6c13dadaa3f92e0fb01eec1b543edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

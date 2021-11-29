@@ -106,7 +106,10 @@ import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
-import {_testOnly_setState as setChangeState} from '../../../services/change/change-model';
+import {
+  LoadingStatus,
+  _testOnly_setState as setChangeState,
+} from '../../../services/change/change-model';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
@@ -1491,6 +1494,7 @@ suite('gr-change-view tests', () => {
   test('topic is coalesced to null', async () => {
     sinon.stub(element, '_changeChanged');
     setChangeState({
+      loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
         labels: {},
@@ -1506,6 +1510,7 @@ suite('gr-change-view tests', () => {
   test('commit sha is populated from getChangeDetail', async () => {
     sinon.stub(element, '_changeChanged');
     setChangeState({
+      loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
         labels: {},
@@ -1522,6 +1527,7 @@ suite('gr-change-view tests', () => {
     sinon.stub(element, '_changeChanged');
     const changeRevision = createRevision();
     setChangeState({
+      loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
         labels: {},
@@ -1942,6 +1948,7 @@ suite('gr-change-view tests', () => {
     const revision1: RevisionInfo = createRevision(1);
     const revision2: RevisionInfo = createRevision(2);
     setChangeState({
+      loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
         revisions: {
@@ -1972,6 +1979,7 @@ suite('gr-change-view tests', () => {
     const revision2 = createRevision(2);
     const revision3 = createEditRevision();
     setChangeState({
+      loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
         revisions: {

@@ -269,12 +269,12 @@ export function _testOnlyResetGrRestApiSharedObjects() {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-rest-api-interface': GrRestApiInterface;
+    'gr-rest-api-service-impl': GrRestApiServiceImpl;
   }
 }
 
-@customElement('gr-rest-api-interface')
-export class GrRestApiInterface
+@customElement('gr-rest-api-service-impl')
+export class GrRestApiServiceImpl
   extends PolymerElement
   implements RestApiService, Finalizable
 {

@@ -22,6 +22,30 @@
       },
       "revId": "a54f830bde598120eac690e9171ac96972b38c49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c29fd808_78d20117",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-29T15:08:32Z",
+      "side": 0,
+      "message": "I\u0027ll clean up in a follow up change.",
+      "parentUuid": "9020c9c9_46205a65",
+      "range": {
+        "startLine": 774,
+        "startChar": 30,
+        "endLine": 774,
+        "endChar": 48
+      },
+      "revId": "a54f830bde598120eac690e9171ac96972b38c49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

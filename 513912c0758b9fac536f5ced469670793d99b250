@@ -164,6 +164,30 @@
       },
       "revId": "513912c0758b9fac536f5ced469670793d99b250",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfaf1898_191647e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1774,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-29T11:05:40Z",
+      "side": 1,
+      "message": "It\u0027s clearer now although I\u0027m not sure why this option is even there. Since it\u0027s an option LGTM.",
+      "parentUuid": "be3d692d_9131c862",
+      "range": {
+        "startLine": 1774,
+        "startChar": 8,
+        "endLine": 1774,
+        "endChar": 25
+      },
+      "revId": "513912c0758b9fac536f5ced469670793d99b250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

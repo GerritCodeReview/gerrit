@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8420262_cdd86120",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-29T20:08:47Z",
+      "side": 1,
+      "message": "One more thing:\n\ngetChangeEdit in diff-view needs to call with downloadCommands \u003d truee. same as in gr-change-view",
+      "revId": "a3f6569ae865e15a8116e5fe271f3acc189438b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

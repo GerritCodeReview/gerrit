@@ -47,8 +47,11 @@ public class MultiBaseLocalDiskRepositoryManager extends LocalDiskRepositoryMana
 
   @Inject
   MultiBaseLocalDiskRepositoryManager(
-      SitePaths site, @GerritServerConfig Config cfg, RepositoryConfig config) {
-    super(site, cfg);
+      SitePaths site,
+      @GerritServerConfig Config cfg,
+      RepoWrapperFactory repoWrapperFactory,
+      RepositoryConfig config) {
+    super(site, cfg, repoWrapperFactory);
     this.config = config;
 
     for (Path alternateBasePath : config.getAllBasePaths()) {

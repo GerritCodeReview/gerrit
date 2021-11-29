@@ -121,7 +121,8 @@ import {
   diffPath$,
   currentPatchNum$,
   change$,
-  changeLoading$,
+  changeLoadingStatus$,
+  LoadingStatus,
 } from '../../../services/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 
@@ -1148,7 +1149,10 @@ export class GrDiffView extends base {
     }
 
     const promises: Promise<unknown>[] = [];
-    if (!this._change) promises.push(until(changeLoading$, isFalse));
+    if (!this._change)
+      promises.push(
+        until(changeLoadingStatus$, status => status === LoadingStatus.LOADED)
+      );
     promises.push(until(commentsLoading$, isFalse));
     promises.push(
       this._getChangeEdit().then(edit => {

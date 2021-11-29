@@ -14,10 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {from, Subscription} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {combineLatest, from, fromEvent, Observable, Subscription} from 'rxjs';
+import {map, startWith, switchMap} from 'rxjs/operators';
 import {routerChangeNum$} from '../router/router-model';
-import {change$, updateStateChange, updateStatePath} from './change-model';
+import {
+  change$,
+  updateStateChange,
+  updateStateLoading,
+  updateStatePath,
+} from './change-model';
 import {ParsedChangeInfo} from '../../types/types';
 import {ChangeInfo} from '../../types/common';
 import {
@@ -32,13 +37,24 @@ export class ChangeService implements Finalizable {
 
   private readonly subscriptions: Subscription[] = [];
 
+  // For usage in `combineLatest` we need `startWith` such that reload$ has an
+  // initial value.
+  private readonly reload$: Observable<unknown> = fromEvent(
+    document,
+    'reload'
+  ).pipe(startWith(undefined));
+
   constructor(readonly restApiService: RestApiService) {
-    // TODO: In the future we will want to make restApiService.getChangeDetail()
-    // calls from a switchMap() here. For now just make sure to invalidate the
-    // change when no changeNum is set.
     this.subscriptions.push(
-      routerChangeNum$
+      combineLatest([routerChangeNum$, this.reload$])
         .pipe(
+          map(([changeNum, _]) => changeNum),
+          switchMap(changeNum => {
+            if (changeNum !== undefined) updateStateLoading();
+            return from(this.restApiService.getChangeDetail(changeNum));
+          })
+        )
+        .subscribe(change => {
           // The change service is currently a singleton, so we have to be
           // careful to avoid situations where the application state is
           // partially set for the old change where the user is coming from,
@@ -46,11 +62,6 @@ export class ChangeService implements Finalizable {
           // So setting the change explicitly to undefined when the user
           // moves away from diff and change pages (changeNum === undefined)
           // helps with that.
-          switchMap(changeNum =>
-            from(this.restApiService.getChangeDetail(changeNum))
-          )
-        )
-        .subscribe(change => {
           updateStateChange(change ?? undefined);
         })
     );

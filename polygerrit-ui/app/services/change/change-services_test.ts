@@ -22,7 +22,7 @@ import {
   createChangeMessageInfo,
   createRevision,
 } from '../../test/test-data-generators';
-import {stubRestApi, waitUntil} from '../../test/test-utils';
+import {mockPromise, stubRestApi, waitUntil} from '../../test/test-utils';
 import {CommitId, PatchSetNum} from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../app-context';
@@ -30,6 +30,7 @@ import {
   GerritView,
   _testOnly_setState as setRouterState,
 } from '../router/router-model';
+import {ChangeState, changeState$, LoadingStatus} from './change-model';
 import {ChangeService} from './change-service';
 
 suite('change service tests', () => {
@@ -61,23 +62,56 @@ suite('change service tests', () => {
     changeService.finalize();
   });
 
-  test('changeService switching changes', async () => {
-    const change = knownChange;
-    const stub = stubRestApi('getChangeDetail').returns(
-      Promise.resolve(change)
-    );
+  test('change not loaded, loading, reloading, ...', async () => {
+    let promise = mockPromise<ParsedChangeInfo | undefined>();
+    const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
+    let state: ChangeState | undefined = {
+      loadingStatus: LoadingStatus.NOT_LOADED,
+    };
+    changeState$.subscribe(s => (state = s));
+
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.NOT_LOADED);
+    assert.equal(stub.callCount, 0);
+    assert.isUndefined(state?.change);
 
     setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
-    waitUntil(() => changeService.getChange() === knownChange);
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADING);
     assert.equal(stub.callCount, 1);
+    assert.isUndefined(state?.change);
 
-    setRouterState({view: GerritView.DASHBOARD, changeNum: undefined});
-    waitUntil(() => changeService.getChange() === undefined);
+    promise.resolve(knownChange);
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
+    assert.equal(stub.callCount, 1);
+    assert.equal(state?.change, knownChange);
+
+    promise = mockPromise<ParsedChangeInfo | undefined>();
+    document.dispatchEvent(new CustomEvent('reload'));
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.RELOADING);
     assert.equal(stub.callCount, 2);
+    assert.equal(state?.change, knownChange);
 
-    setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
-    waitUntil(() => changeService.getChange() === knownChange);
+    promise.resolve(knownChange);
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
+    assert.equal(stub.callCount, 2);
+    assert.equal(state?.change, knownChange);
+
+    promise = mockPromise<ParsedChangeInfo | undefined>();
+    promise.resolve(undefined);
+    setRouterState({view: GerritView.DASHBOARD, changeNum: undefined});
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.NOT_LOADED);
     assert.equal(stub.callCount, 3);
+    assert.isUndefined(state?.change);
+
+    promise = mockPromise<ParsedChangeInfo | undefined>();
+    setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADING);
+    assert.equal(stub.callCount, 4);
+    assert.isUndefined(state?.change);
+
+    promise.resolve(knownChange);
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
+    assert.equal(stub.callCount, 4);
+    assert.equal(state?.change, knownChange);
   });
 
   test('changeService.fetchChangeUpdates on latest', async () => {

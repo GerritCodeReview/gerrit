@@ -69,6 +69,72 @@ suite('gr-account-info tests', () => {
     await flush();
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(`<div class="gr-form-styles">
+    <section>
+      <span class="title"></span>
+      <span class="value">
+        <gr-avatar hidden="" imagesize="120"></gr-avatar>
+      </span>
+    </section>
+    <section class="hide">
+      <span class="title"></span>
+      <span class="value"><a href="">Change avatar</a></span>
+    </section>
+    <section>
+      <span class="title">ID</span>
+      <span class="value">123</span>
+    </section>
+    <section>
+      <span class="title">Email</span>
+      <span class="value">user-123@</span>
+    </section>
+    <section>
+      <span class="title">Registered</span>
+      <span class="value">
+        <gr-date-formatter withtooltip=""></gr-date-formatter>
+      </span>
+    </section>
+    <section id="usernameSection">
+      <span class="title">Username</span>
+      <span class="value"></span>
+      <span class="value" hidden="true">
+        <iron-input id="usernameIronInput">
+          <input id="usernameInput">
+        </iron-input>
+      </span>
+    </section>
+    <section id="nameSection">
+      <label class="title" for="nameInput">Full name</label>
+      <span class="value">User-123</span>
+      <span class="value" hidden="true">
+        <iron-input id="nameIronInput">
+          <input id="nameInput">
+        </iron-input>
+      </span>
+    </section>
+    <section>
+      <label class="title" for="displayNameInput">Display name</label>
+      <span class="value">
+        <iron-input>
+          <input id="displayNameInput">
+        </iron-input>
+      </span>
+    </section>
+    <section>
+      <label class="title" for="statusInput">
+        Status (e.g. "Vacation")
+      </label>
+      <span class="value">
+        <iron-input>
+          <input id="statusInput">
+        </iron-input>
+      </span>
+    </section>
+  </div>
+  `);
+  });
+
   test('basic account info render', () => {
     assert.isFalse(element._loading);
 

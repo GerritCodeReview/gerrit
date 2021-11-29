@@ -47,6 +47,10 @@ public abstract class ModifiedFile {
    */
   public abstract Optional<String> newPath();
 
+  public String getDefaultPath() {
+    return newPath().isPresent() ? newPath().get() : oldPath().get();
+  }
+
   public static Builder builder() {
     return new AutoValue_ModifiedFile.Builder();
   }

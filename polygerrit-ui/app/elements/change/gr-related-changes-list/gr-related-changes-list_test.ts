@@ -47,10 +47,6 @@ import {
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import {
-  _testOnly_initGerritPluginApi,
-  GerritInternal,
-} from '../../shared/gr-js-api-interface/gr-gerrit';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import './gr-related-changes-list';
 import {
@@ -64,10 +60,8 @@ const basicFixture = fixtureFromElement('gr-related-changes-list');
 
 suite('gr-related-changes-list', () => {
   let element: GrRelatedChangesList;
-  let pluginApi: GerritInternal;
 
   setup(() => {
-    pluginApi = _testOnly_initGerritPluginApi();
     element = basicFixture.instantiate();
   });
 
@@ -609,7 +603,7 @@ suite('gr-related-changes-list', () => {
       }
       let hookEl: RelatedChangesListGrEndpointDecorator;
       let plugin: PluginApi;
-      pluginApi.install(
+      window.Gerrit.install(
         p => {
           plugin = p;
           plugin

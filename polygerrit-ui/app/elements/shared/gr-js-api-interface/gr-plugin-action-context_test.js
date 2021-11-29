@@ -18,10 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
-import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {addListenerForTest} from '../../../test/test-utils.js';
-
-const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-plugin-action-context tests', () => {
   let instance;
@@ -29,7 +26,7 @@ suite('gr-plugin-action-context tests', () => {
   let plugin;
 
   setup(() => {
-    pluginApi.install(p => { plugin = p; }, '0.1',
+    window.Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     instance = new GrPluginActionContext(plugin);
   });

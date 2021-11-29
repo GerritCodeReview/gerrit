@@ -18,11 +18,8 @@ import '../../../test/common-test-setup-karma';
 import {resetPlugins} from '../../../test/test-utils';
 import './gr-js-api-interface';
 import {GrPluginEndpoints} from './gr-plugin-endpoints';
-import {_testOnly_initGerritPluginApi} from './gr-gerrit';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, HookCallback, PluginElement} from '../../../api/hook';
-
-const pluginApi = _testOnly_initGerritPluginApi();
 
 export class MockHook<T extends PluginElement> implements HookApi<T> {
   handleInstanceDetached(_: T) {}
@@ -59,7 +56,7 @@ suite('gr-plugin-endpoints tests', () => {
   setup(() => {
     domHook = new MockHook<PluginElement>();
     instance = new GrPluginEndpoints();
-    pluginApi.install(
+    window.Gerrit.install(
       plugin => (decoratePlugin = plugin),
       '0.1',
       'http://test.com/plugins/testplugin/static/decorate.js'
@@ -70,7 +67,7 @@ suite('gr-plugin-endpoints tests', () => {
       moduleName: 'decorate-module',
       domHook,
     });
-    pluginApi.install(
+    window.Gerrit.install(
       plugin => (stylePlugin = plugin),
       '0.1',
       'http://test.com/plugins/testplugin/static/style.js'

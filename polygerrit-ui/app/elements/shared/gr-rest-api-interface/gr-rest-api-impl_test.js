@@ -27,9 +27,9 @@ import {
   readResponsePayload,
 } from './gr-rest-apis/gr-rest-api-helper.js';
 import {JSON_PREFIX} from './gr-rest-apis/gr-rest-api-helper.js';
-import {GrRestApiInterface} from './gr-rest-api-interface.js';
+import {GrRestApiServiceImpl} from './gr-rest-api-impl.js';
 
-suite('gr-rest-api-interface tests', () => {
+suite('gr-rest-api-service-impl tests', () => {
   let element;
 
   let ctr = 0;
@@ -51,7 +51,10 @@ suite('gr-rest-api-interface tests', () => {
     // fake auth
     sinon.stub(getAppContext().authService, 'authCheck')
         .returns(Promise.resolve(true));
-    element = new GrRestApiInterface();
+    element = new GrRestApiServiceImpl(
+        getAppContext().authService,
+        getAppContext().flagsService
+    );
     element._projectLookup = {};
   });
 

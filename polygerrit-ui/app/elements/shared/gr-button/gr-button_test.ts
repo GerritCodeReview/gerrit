@@ -19,7 +19,6 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import '../../../test/common-test-setup-karma';
 import './gr-button';
 import {addListener} from '@polymer/polymer/lib/utils/gestures';
-import {getAppContext} from '../../../services/app-context';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {GrButton} from './gr-button';
 import {pressKey, queryAndAssert} from '../../../test/test-utils';
@@ -190,10 +189,7 @@ suite('gr-button tests', () => {
   suite('reporting', () => {
     let reportStub: sinon.SinonStub;
     setup(() => {
-      reportStub = sinon.stub(
-        getAppContext().reportingService,
-        'reportInteraction'
-      );
+      reportStub = sinon.stub(element.reporting, 'reportInteraction');
       reportStub.reset();
     });
 

@@ -26,7 +26,7 @@ import org.eclipse.jgit.lib.StoredConfig;
 /** Wrapper around {@link Repository} that delegates all calls to the wrapped {@link Repository}. */
 class DelegateRepository extends Repository {
 
-  private final Repository delegate;
+  protected final Repository delegate;
 
   DelegateRepository(Repository delegate) {
     super(toBuilder(delegate));

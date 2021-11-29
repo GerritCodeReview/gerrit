@@ -392,9 +392,6 @@ export class GrChangeView extends base {
   @property({type: Object})
   _messages = NO_ROBOT_COMMENTS_THREADS_MSG;
 
-  @property({type: Number})
-  _lineHeight?: number;
-
   @property({type: Object})
   _patchRange?: ChangeViewPatchRange;
 
@@ -1918,11 +1915,6 @@ export class GrChangeView extends base {
         } else {
           this._latestCommitMessage = null;
         }
-
-        const lineHeight = getComputedStyle(this).lineHeight;
-
-        // Slice returns a number as a string, convert to an int.
-        this._lineHeight = Number(lineHeight.slice(0, lineHeight.length - 2));
 
         this.computeRevertSubmitted(this._change);
         if (

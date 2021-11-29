@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "807a6358_2c705410",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-29T11:59:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "777aa1c0_f37ad952",
+      "range": {
+        "startLine": 351,
+        "startChar": 12,
+        "endLine": 351,
+        "endChar": 13
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b56058bd_ec6ee84d",
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b95e5a5f_629ce15f",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-29T11:59:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b56058bd_ec6ee84d",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc994798_b232f59f",
@@ -71,6 +113,30 @@
       "writtenOn": "2021-11-29T09:17:55Z",
       "side": 1,
       "message": "I think here we have to take copied votes into account. For reviewer deletion, a copied vote is equivalent to a non-copied vote IMO.",
+      "range": {
+        "startLine": 226,
+        "startChar": 30,
+        "endLine": 226,
+        "endChar": 62
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e87ef77d_7ac7761a",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-29T11:59:17Z",
+      "side": 1,
+      "message": "ack, I started looking into this but this change is just preserving behavior.\nI\u0027ll do a follow-up with tests to see if we should change the behavior here.\nI think it is likely okay as is, bsed on the logic of the caller of this classes\u0027 approvals() method.",
+      "parentUuid": "bc994798_b232f59f",
       "range": {
         "startLine": 226,
         "startChar": 30,

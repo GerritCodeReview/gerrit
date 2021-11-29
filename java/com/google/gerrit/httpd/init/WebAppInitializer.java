@@ -67,10 +67,12 @@ import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
+import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker;
 import com.google.gerrit.server.events.StreamEventsApiListener;
+import com.google.gerrit.server.git.CachedRefsModule;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
@@ -278,8 +280,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
   private Injector createDbInjector() {
     final List<Module> modules = new ArrayList<>();
-    modules.add(new SchemaModule());
-    modules.add(NoteDbSchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
     return cfgInjector.createChildInjector(
         ModuleOverloader.override(
@@ -288,11 +288,13 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
+    modules.add(new GitRepositoryManagerModule(cfgInjector.getInstance(RepositoryConfig.class)));
+    modules.add(new SchemaModule());
+    modules.add(NoteDbSchemaVersionCheck.module());
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
     modules.add(new EventBroker.Module());
     modules.add(new JdbcAccountPatchReviewStore.Module(config));
-    modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new StreamEventsApiListener.Module());
     modules.add(new SysExecutorModule());
     modules.add(new DiffExecutorModule());
@@ -305,6 +307,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());
     modules.add(new H2CacheModule());
+    modules.add(new CachedRefsModule());
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());

@@ -80,6 +80,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker;
 import com.google.gerrit.server.events.StreamEventsApiListener;
+import com.google.gerrit.server.git.CachedRefsModule;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
@@ -318,6 +319,7 @@ public class Daemon extends SiteProgram {
     dbInjector = Guice.createInjector(Stage.PRODUCTION, modules);
     inMemoryTest = true;
     headless = true;
+    dbModulesCreated = true;
   }
 
   @VisibleForTesting
@@ -389,6 +391,12 @@ public class Daemon extends SiteProgram {
     return GerritRuntime.DAEMON;
   }
 
+  @Override
+  protected void createDbModules(Injector cfgInjector, List<Module> modules) {
+    // do nothing to postpone creation of DB modules to sysInjector so that GitRepositoryManager can
+    // benefit from the Gerrit caches see createSysInjector
+  }
+
   private boolean sshdOff() {
     return new SshAddressesModule().getListenAddresses(config).isEmpty();
   }
@@ -413,6 +421,10 @@ public class Daemon extends SiteProgram {
 
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
+    boolean currentDbModulesCreated = dbModulesCreated;
+    if (!currentDbModulesCreated) {
+      super.createDbModules(cfgInjector, modules);
+    }
     modules.add(NoteDbSchemaVersionCheck.module());
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
@@ -437,6 +449,9 @@ public class Daemon extends SiteProgram {
     modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());
     modules.add(new H2CacheModule());
+    if (!currentDbModulesCreated) {
+      modules.add(new CachedRefsModule());
+    }
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     if (emailModule != null) {
       modules.add(emailModule);

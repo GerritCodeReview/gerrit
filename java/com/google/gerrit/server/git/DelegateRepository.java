@@ -78,6 +78,10 @@ class DelegateRepository extends Repository {
     return delegate.getReflogReader(refName);
   }
 
+  public Repository getDelegate() {
+    return delegate;
+  }
+
   @SuppressWarnings("rawtypes")
   private static BaseRepositoryBuilder toBuilder(Repository repo) {
     if (!repo.isBare()) {

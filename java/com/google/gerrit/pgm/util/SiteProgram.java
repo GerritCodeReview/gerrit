@@ -27,6 +27,7 @@ import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfigModule;
+import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.git.SystemReaderInstaller;
@@ -56,6 +57,8 @@ public abstract class SiteProgram extends AbstractProgram {
   }
 
   private Path sitePath = Paths.get(".");
+
+  protected boolean dbModulesCreated;
 
   protected SiteProgram() {}
 
@@ -125,9 +128,7 @@ public abstract class SiteProgram extends AbstractProgram {
           }
         });
     Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
-
-    modules.add(new SchemaModule());
-    modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
+    createDbModules(cfgInjector, modules);
 
     try {
       return Guice.createInjector(
@@ -152,6 +153,12 @@ public abstract class SiteProgram extends AbstractProgram {
       }
       throw die(buf.toString(), new RuntimeException("DbInjector failed", ce));
     }
+  }
+
+  protected void createDbModules(Injector cfgInjector, List<Module> modules) {
+    modules.add(new SchemaModule());
+    modules.add(new GitRepositoryManagerModule(cfgInjector.getInstance(RepositoryConfig.class)));
+    dbModulesCreated = true;
   }
 
   /** Returns the current runtime used by this Gerrit program. */

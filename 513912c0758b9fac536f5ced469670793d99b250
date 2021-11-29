@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "11f160ec_55bb346c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-29T09:29:23Z",
+      "side": 1,
+      "message": "Don\u0027t understand what this means. Can you provide more details in the message?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "513912c0758b9fac536f5ced469670793d99b250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a1c60cef_c5ac8750",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
         "patchSetId": 3
@@ -19,6 +42,53 @@
         "startChar": 3,
         "endLine": 1762,
         "endChar": 39
+      },
+      "revId": "513912c0758b9fac536f5ced469670793d99b250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1168257f_6c50545d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1762,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-29T09:29:23Z",
+      "side": 1,
+      "message": "I would like to upgrade this nit. Can you please create an opt object?",
+      "parentUuid": "a1c60cef_c5ac8750",
+      "range": {
+        "startLine": 1761,
+        "startChar": 3,
+        "endLine": 1762,
+        "endChar": 39
+      },
+      "revId": "513912c0758b9fac536f5ced469670793d99b250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3660cc9_82f79549",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1774,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-29T09:29:23Z",
+      "side": 1,
+      "message": "what is this parameter exactly?\ncan you add some comments explaining this.",
+      "range": {
+        "startLine": 1774,
+        "startChar": 8,
+        "endLine": 1774,
+        "endChar": 25
       },
       "revId": "513912c0758b9fac536f5ced469670793d99b250",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

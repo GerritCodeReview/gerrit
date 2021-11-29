@@ -185,7 +185,6 @@ import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {
   debounce,
   DelayedTask,
-  isFalse,
   throttleWrap,
   until,
 } from '../../../utils/async-util';
@@ -202,7 +201,11 @@ import {
   hasAttention,
 } from '../../../utils/attention-set-util';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
-import {change$, changeLoading$} from '../../../services/change/change-model';
+import {
+  change$,
+  changeLoadingStatus$,
+  LoadingStatus,
+} from '../../../services/change/change-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -1884,7 +1887,10 @@ export class GrChangeView extends base {
       throw new Error('missing required changeNum property');
     }
 
-    const detailCompletes = until(changeLoading$, isFalse);
+    const detailCompletes = until(
+      changeLoadingStatus$,
+      status => status === LoadingStatus.LOADED
+    );
     const editCompletes = this._getEdit();
     const prefCompletes = this._getPreferences();
 
@@ -2326,11 +2332,10 @@ export class GrChangeView extends base {
     }
 
     this._updateCheckTimerHandle = window.setTimeout(() => {
-      if (!this.isViewCurrent) {
+      if (!this.isViewCurrent || !this._change) {
         this._startUpdateCheckTimer();
         return;
       }
-      assertIsDefined(this._change, '_change');
       const change = this._change;
       this.changeService.fetchChangeUpdates(change).then(result => {
         let toastMessage = null;

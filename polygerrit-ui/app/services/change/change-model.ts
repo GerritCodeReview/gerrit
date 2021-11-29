@@ -30,7 +30,19 @@ import {
 } from '../../utils/patch-set-util';
 import {ParsedChangeInfo} from '../../types/types';
 
-interface ChangeState {
+export enum LoadingStatus {
+  NOT_LOADED = 'NOT_LOADED',
+  LOADING = 'LOADING',
+  RELOADING = 'RELOADING',
+  LOADED = 'LOADED',
+}
+
+export interface ChangeState {
+  /**
+   * If `change` is undefined, this must be either NOT_LOADED or LOADING.
+   * If `change` is defined, this must be either LOADED or RELOADING.
+   */
+  loadingStatus: LoadingStatus;
   change?: ParsedChangeInfo;
   /**
    * The name of the file user is viewing in the diff view mode. File path is
@@ -42,7 +54,9 @@ interface ChangeState {
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
 // Use DeepReadOnly?
-const initialState: ChangeState = {};
+const initialState: ChangeState = {
+  loadingStatus: LoadingStatus.NOT_LOADED,
+};
 
 const privateState$ = new BehaviorSubject(initialState);
 
@@ -75,10 +89,30 @@ export function updateStateChange(change?: ParsedChangeInfo) {
   // same latestPatchsetNumber.
   if (change !== undefined && current.change !== undefined) {
     if (change._number !== current.change._number) {
-      privateState$.next({...current, change: undefined});
+      privateState$.next({
+        ...current,
+        change: undefined,
+        loadingStatus: LoadingStatus.NOT_LOADED,
+      });
     }
   }
-  privateState$.next({...current, change});
+  privateState$.next({
+    ...current,
+    change,
+    loadingStatus:
+      change === undefined ? LoadingStatus.NOT_LOADED : LoadingStatus.LOADED,
+  });
+}
+
+export function updateStateLoading() {
+  const current = privateState$.getValue();
+  privateState$.next({
+    ...current,
+    loadingStatus:
+      current.change === undefined
+        ? LoadingStatus.LOADING
+        : LoadingStatus.RELOADING,
+  });
 }
 
 export function updateStatePath(diffPath?: string) {
@@ -108,8 +142,8 @@ export const change$ = changeState$.pipe(
   distinctUntilChanged()
 );
 
-export const changeLoading$ = change$.pipe(
-  map(change => change === undefined),
+export const changeLoadingStatus$ = changeState$.pipe(
+  map(changeState => changeState.loadingStatus),
   distinctUntilChanged()
 );
 

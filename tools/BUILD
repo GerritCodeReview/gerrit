@@ -151,7 +151,7 @@ java_package_configuration(
         "-Xep:DeadException:ERROR",
         "-Xep:DeadThread:ERROR",
         "-Xep:DefaultCharset:ERROR",
-        # "-Xep:DefaultPackage:WARN",
+        "-Xep:DefaultPackage:ERROR",
         "-Xep:DepAnn:ERROR",
         "-Xep:DeprecatedVariable:ERROR",
         "-Xep:DiscardedPostfixExpression:ERROR",

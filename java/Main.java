@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+@SuppressWarnings("DefaultPackage")
 public final class Main {
   private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
   private static final String FLOGGER_LOGGING_CONTEXT = "flogger.logging_context";

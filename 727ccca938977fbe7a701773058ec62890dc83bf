@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c8fe8ed_062fdf40",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-29T09:58:31Z",
+      "side": 1,
+      "message": "Why do you need these JavaDoc? Is there anyone using it externally?\n\nP.S. The empty @param tags are breaking the build, because of the errorprone errors notified.",
+      "range": {
+        "startLine": 1015,
+        "startChar": 0,
+        "endLine": 1028,
+        "endChar": 5
+      },
+      "revId": "727ccca938977fbe7a701773058ec62890dc83bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

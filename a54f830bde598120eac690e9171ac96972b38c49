@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9020c9c9_46205a65",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-29T15:03:42Z",
+      "side": 0,
+      "message": "Is showDownloadDialog needed in changeViewState after this change?",
+      "range": {
+        "startLine": 774,
+        "startChar": 30,
+        "endLine": 774,
+        "endChar": 48
+      },
+      "revId": "a54f830bde598120eac690e9171ac96972b38c49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

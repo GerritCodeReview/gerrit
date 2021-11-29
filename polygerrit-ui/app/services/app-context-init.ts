@@ -20,7 +20,7 @@ import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';
 import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
-import {GrRestApiInterface} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GrRestApiImpl} from '../elements/shared/gr-rest-api-interface/gr-rest-api-impl';
 import {ChangeService} from './change/change-service';
 import {ChecksService} from './checks/checks-service';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
@@ -51,7 +51,7 @@ export function createAppContext(): AppContext & Finalizable {
     restApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.authService, 'authService');
       assertIsDefined(ctx.flagsService, 'flagsService)');
-      return new GrRestApiInterface(ctx.authService!, ctx.flagsService!);
+      return new GrRestApiImpl(ctx.authService!, ctx.flagsService!);
     },
     changeService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');

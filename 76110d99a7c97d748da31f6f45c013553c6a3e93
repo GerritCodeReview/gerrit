@@ -158,6 +158,24 @@
       "parentUuid": "fc3788c9_3c0c57ce",
       "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11ae27ba_a958fc2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-29T09:28:11Z",
+      "side": 1,
+      "message": "Cool, so today all the releases should be announced and published.",
+      "parentUuid": "cd73147a_cd302c2f",
+      "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

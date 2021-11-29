@@ -46,6 +46,30 @@
       },
       "revId": "ba4dba70a69e3fc24b7cd2f41696b917205b742e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c081ba6_6ceacd43",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1192,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-29T15:13:46Z",
+      "side": 1,
+      "message": "Yes, it\u0027s needed.\n\nPreload will always call change without download commands and then this code a few line above `window.DEFAULT_DETAIL_HEXES?.diffPage` will override this DOwnload_Commands.\n\nYou will have download commands only when you do internal navigation, not on first diff load",
+      "parentUuid": "c1e5065e_e7e93b37",
+      "range": {
+        "startLine": 1192,
+        "startChar": 8,
+        "endLine": 1192,
+        "endChar": 43
+      },
+      "revId": "ba4dba70a69e3fc24b7cd2f41696b917205b742e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

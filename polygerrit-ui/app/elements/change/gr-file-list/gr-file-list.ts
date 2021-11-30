@@ -83,7 +83,6 @@ import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
 import {Timing} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
-import {changeComments$} from '../../../services/comments/comments-model';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {select} from '../../../utils/observable-util';
 
@@ -316,6 +315,8 @@ export class GrFileList extends base {
 
   private readonly userModel = getAppContext().userModel;
 
+  private readonly commentsModel = getAppContext().commentsModel;
+
   private readonly browserModel = getAppContext().browserModel;
 
   private subscriptions: Subscription[] = [];
@@ -375,7 +376,7 @@ export class GrFileList extends base {
   override connectedCallback() {
     super.connectedCallback();
     this.subscriptions = [
-      changeComments$.subscribe(changeComments => {
+      this.commentsModel.changeComments$.subscribe(changeComments => {
         this.changeComments = changeComments;
       }),
       this.browserModel.diffViewMode$.subscribe(

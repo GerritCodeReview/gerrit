@@ -65,10 +65,7 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {modifierPressed} from '../../../utils/dom-util';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {
-  changeComments$,
-  threads$,
-} from '../../../services/comments/comments-model';
+
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -411,6 +408,8 @@ export class GrChangeSummary extends LitElement {
 
   private showAllChips = new Map<RunStatus | Category, boolean>();
 
+  private commentsModel = getAppContext().commentsModel;
+
   private userModel = getAppContext().userModel;
 
   private checksService = getAppContext().checksService;
@@ -427,8 +426,14 @@ export class GrChangeSummary extends LitElement {
     subscribe(this, errorMessagesLatest$, x => (this.errorMessages = x));
     subscribe(this, loginCallbackLatest$, x => (this.loginCallback = x));
     subscribe(this, topLevelActionsLatest$, x => (this.actions = x));
-    subscribe(this, changeComments$, x => (this.changeComments = x));
-    subscribe(this, threads$, x => (this.commentThreads = x));
+    subscribe(
+      this,
+      this.commentsModel.changeComments$,
+      x => (this.changeComments = x));
+    subscribe(
+      this,
+      this.commentsModel.threads$,
+      x => (this.commentThreads = x));
     subscribe(this, this.userModel.account$, x => (this.selfAccount = x));
   }
 

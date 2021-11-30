@@ -80,8 +80,8 @@ export function initDiffAppContext() {
     changeService: (_ctx: Partial<AppContext>) => {
       throw new Error('changeService is not implemented');
     },
-    commentsService: (_ctx: Partial<AppContext>) => {
-      throw new Error('commentsService is not implemented');
+    commentsModel: (_ctx: Partial<AppContext>) => {
+      throw new Error('commentsModel is not implemented');
     },
     checksService: (_ctx: Partial<AppContext>) => {
       throw new Error('checksService is not implemented');

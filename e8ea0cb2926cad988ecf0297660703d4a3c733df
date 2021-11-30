@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8efa00e4_dbab769e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T14:12:51Z",
+      "side": 1,
+      "message": "Can you please include a description of the problem that this change is trying to solve (approvals from prior patch sets are no longer copied on demand but approvals are solely read from NoteDb, for old changes copied approvals are not stored in NoteDb because they were not backfilled, for merged changes this means that approvals for labels that were required for submit and that were satisfied by a copied votes are no longer shown, which is confusing for users).",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7d3c51a5_596e2e70",
@@ -31,6 +48,23 @@
       "writtenOn": "2021-11-30T12:39:30Z",
       "side": 1,
       "message": "We need to invalidate the ChangeNotes cache. Can you please increase the version number of that cache by 1?",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b2357ce_c4a3a0df",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T14:12:51Z",
+      "side": 1,
+      "message": "Maybe cover the new logic in ChangeNotesParserTest?",
       "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -100,6 +134,63 @@
         "endLine": 339,
         "endChar": 21
       },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "472c24cb_c1d03eee",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T14:12:51Z",
+      "side": 1,
+      "message": "I\u0027m not sure that this test is covering the case that we want to fix.\nThe new logic is about backfilling approvals for changes that have been merged before copied approvals were persisted in NoteDb, but this test runs against a merged change that has copied approvals stored in NoteDb. In this case the new logic doesn\u0027t apply (it\u0027s good to test this too, but this test alone doesn\u0027t seem sufficient).",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "707c0f7b_087ecedb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T14:12:51Z",
+      "side": 1,
+      "message": "It\u0027s nice to test this, but shouldn\u0027t we also test the more common case where there is only a label configuration and the default submit rule is used?",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 46
+      },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a659b25_48bc454b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T14:12:51Z",
+      "side": 1,
+      "message": "The comment in l. 298 suggest that it\u0027s not intended that admin votes again?",
       "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

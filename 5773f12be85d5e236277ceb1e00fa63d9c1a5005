@@ -16,6 +16,24 @@
       "message": "I\u0027d like to understand how we can make this change and your refactor change land nicely.\n\nI\u0027m still not quite able to submit this because I have two weird test-failures inside of gr-file-list_test that I have not yet been able to root-cause.",
       "revId": "5773f12be85d5e236277ceb1e00fa63d9c1a5005",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe20ab70_6bbe80d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-30T04:34:50Z",
+      "side": 1,
+      "message": "For some reason I get the following stack trace for `await renderAndGetNewDiffs`\n\n```\n      TypeError: Attempted to wrap getCommentsForPath which is already wrapped\n          at checkWrappedMethod (external/ui_dev_npm/node_modules/sinon/pkg/lib/sinon/util/core/wrap-method.js:48:1)\n          at wrapMethod (external/ui_dev_npm/node_modules/sinon/pkg/lib/sinon/util/core/wrap-method.js:111:1)\n          at Function.stub (external/ui_dev_npm/node_modules/sinon/pkg/lib/sinon/stub.js:123:1)\n          at Sandbox.stub (external/ui_dev_npm/node_modules/sinon/pkg/lib/sinon/sandbox.js:369:1)\n          at setupDiff (polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.js:1472:26)\n          at renderAndGetNewDiffs (polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.js:1486:15)\n          at Context.\u003canonymous\u003e (polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.js:1572:21)\n```",
+      "parentUuid": "a3f2888f_5e19f8e7",
+      "revId": "5773f12be85d5e236277ceb1e00fa63d9c1a5005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

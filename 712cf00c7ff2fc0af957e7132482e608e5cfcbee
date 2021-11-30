@@ -117,6 +117,30 @@
       },
       "revId": "712cf00c7ff2fc0af957e7132482e608e5cfcbee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a618a213_acbbc02a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-30T16:49:01Z",
+      "side": 1,
+      "message": "PTAL. I am setting the commentId via params which should match the real world behavior",
+      "parentUuid": "8843d8e2_7077d50f",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 498,
+        "endChar": 0
+      },
+      "revId": "712cf00c7ff2fc0af957e7132482e608e5cfcbee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

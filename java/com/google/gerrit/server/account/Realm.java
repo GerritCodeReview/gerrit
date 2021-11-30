@@ -64,7 +64,7 @@ public interface Realm {
 
   /** Returns true if the account is backed by the realm, false otherwise. */
   default boolean accountBelongsToRealm(
-      @SuppressWarnings("unused") Collection<ExternalId> externalIds) {
+      @SuppressWarnings("unused") Collection<ExternalId> externalIds) throws IOException {
     return false;
   }
 }

@@ -29,7 +29,7 @@ import {ChangeService} from '../services/change/change-service';
 import {ChecksService} from '../services/checks/checks-service';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {UserModel} from '../services/user/user-model';
-import {CommentsService} from '../services/comments/comments-service';
+import {CommentsModel} from '../services/comments/comments-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {BrowserModel} from '../services/browser/browser-model';
 import {ConfigModel} from '../services/config/config-model';
@@ -51,9 +51,9 @@ export function _testOnlyInitAppContext() {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new ChangeService(ctx.restApiService!);
     },
-    commentsService: (ctx: Partial<AppContext>) => {
+    commentsModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new CommentsService(ctx.restApiService!);
+      return new CommentsModel(ctx.restApiService!);
     },
     checksService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');

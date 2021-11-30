@@ -19,17 +19,29 @@ import {createDraft} from '../../test/test-data-generators';
 import {UrlEncodedCommentId} from '../../types/common';
 import {DraftInfo} from '../../utils/comment-util';
 import './comments-model';
+import {updateStateDeleteDraft} from './comments-model';
+import {Subscription} from 'rxjs';
+import '../../test/common-test-setup-karma';
 import {
-  updateStateDeleteDraft,
-  _testOnly_getState,
-  _testOnly_setState,
-} from './comments-model';
+  createComment,
+  createParsedChange,
+  TEST_NUMERIC_CHANGE_ID,
+} from '../../test/test-data-generators';
+import {stubRestApi, waitUntil, waitUntilCalled} from '../../test/test-utils';
+import {getAppContext} from '../app-context';
+import {updateStateChange} from '../change/change-model';
+import {
+  GerritView,
+  updateState as updateRouterState,
+} from '../router/router-model';
+import {CommentsModel} from './comments-model';
+import {PathToCommentsInfoMap} from '../../types/common';
 
 suite('comments model tests', () => {
   test('updateStateDeleteDraft', () => {
     const draft = createDraft();
     draft.id = '1' as UrlEncodedCommentId;
-    _testOnly_setState({
+    const state = {
       comments: {},
       robotComments: {},
       drafts: {
@@ -38,9 +50,9 @@ suite('comments model tests', () => {
       portedComments: {},
       portedDrafts: {},
       discardedDrafts: [],
-    });
-    updateStateDeleteDraft(draft);
-    assert.deepEqual(_testOnly_getState(), {
+    };
+    const output = updateStateDeleteDraft(state, draft);
+    assert.deepEqual(output, {
       comments: {},
       robotComments: {},
       drafts: {
@@ -50,5 +62,65 @@ suite('comments model tests', () => {
       portedDrafts: {},
       discardedDrafts: [{...draft}],
     });
+  });
+});
+
+suite('change service tests', () => {
+  let subscriptions: Subscription[] = [];
+
+  teardown(() => {
+    for (const s of subscriptions) {
+      s.unsubscribe();
+    }
+    subscriptions = [];
+  });
+
+  test('loads comments', async () => {
+    const commentsModel = new CommentsModel(getAppContext().restApiService);
+    const diffCommentsSpy = stubRestApi('getDiffComments').returns(
+      Promise.resolve({'foo.c': [createComment()]})
+    );
+    const diffRobotCommentsSpy = stubRestApi('getDiffRobotComments').returns(
+      Promise.resolve({})
+    );
+    const diffDraftsSpy = stubRestApi('getDiffDrafts').returns(
+      Promise.resolve({})
+    );
+    const portedCommentsSpy = stubRestApi('getPortedComments').returns(
+      Promise.resolve({'foo.c': [createComment()]})
+    );
+    const portedDraftsSpy = stubRestApi('getPortedDrafts').returns(
+      Promise.resolve({})
+    );
+    let comments: PathToCommentsInfoMap = {};
+    subscriptions.push(
+      commentsModel.comments$.subscribe(c => (comments = c ?? {}))
+    );
+    let portedComments: PathToCommentsInfoMap = {};
+    subscriptions.push(
+      commentsModel.portedComments$.subscribe(c => (portedComments = c ?? {}))
+    );
+
+    updateRouterState(GerritView.CHANGE, TEST_NUMERIC_CHANGE_ID);
+    updateStateChange(createParsedChange());
+
+    await waitUntilCalled(diffCommentsSpy, 'diffCommentsSpy');
+    await waitUntilCalled(diffRobotCommentsSpy, 'diffRobotCommentsSpy');
+    await waitUntilCalled(diffDraftsSpy, 'diffDraftsSpy');
+    await waitUntilCalled(portedCommentsSpy, 'portedCommentsSpy');
+    await waitUntilCalled(portedDraftsSpy, 'portedDraftsSpy');
+    await waitUntil(
+      () => Object.keys(comments).length > 0,
+      'comment in model not set'
+    );
+    await waitUntil(
+      () => Object.keys(portedComments).length > 0,
+      'ported comment in model not set'
+    );
+
+    assert.equal(comments['foo.c'].length, 1);
+    assert.equal(comments['foo.c'][0].id, '12345');
+    assert.equal(portedComments['foo.c'].length, 1);
+    assert.equal(portedComments['foo.c'][0].id, '12345');
   });
 });

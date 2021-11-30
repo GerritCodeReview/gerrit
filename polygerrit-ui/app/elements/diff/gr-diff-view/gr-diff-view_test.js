@@ -32,7 +32,6 @@ import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
 import {Side} from '../../../api/diff.js';
 import {_testOnly_setState as setChangeModelState} from '../../../services/change/change-model.js';
-import {_testOnly_setState as setCommentState} from '../../../services/comments/comments-model.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -93,7 +92,7 @@ suite('gr-diff-view tests', () => {
       ]});
       await flush();
 
-      setCommentState({
+      element.commentsModel.publishState({
         comments: {},
         robotComments: {},
         drafts: {},
@@ -146,7 +145,7 @@ suite('gr-diff-view tests', () => {
       });
 
       test('comment url resolves to comment.patch_set vs latest', () => {
-        setCommentState({
+        element.commentsModel.publishState({
           comments: {
             '/COMMIT_MSG': [
               {
@@ -220,7 +219,7 @@ suite('gr-diff-view tests', () => {
     test('unchanged diff X vs latest from comment links navigates to base vs X'
         , () => {
           const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-          setCommentState({
+          element.commentsModel.publishState({
             comments: {
               '/COMMIT_MSG': [
                 {
@@ -272,7 +271,7 @@ suite('gr-diff-view tests', () => {
     test('unchanged diff Base vs latest from comment does not navigate'
         , () => {
           const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-          setCommentState({
+          element.commentsModel.publishState({
             comments: {
               '/COMMIT_MSG': [
                 {
@@ -352,7 +351,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('diff toast to go to latest is shown and not base', async () => {
-      setCommentState({
+      element.commentsModel.publishState({
         comments: {
           '/COMMIT_MSG': [
             {

@@ -83,7 +83,6 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {DiffContextExpandedEventDetail} from '../gr-diff-builder/gr-diff-builder';
 import {TokenHighlightLayer} from '../gr-diff-builder/token-highlight-layer';
 import {Timing} from '../../../constants/reporting';
-import {changeComments$} from '../../../services/comments/comments-model';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {DisplayLine, RenderPreferences} from '../../../api/diff';
@@ -266,6 +265,8 @@ export class GrDiffHost extends PolymerElement {
 
   private readonly browserModel = getAppContext().browserModel;
 
+  private readonly commentsModel = getAppContext().commentsModel;
+
   private readonly reporting = getAppContext().reportingService;
 
   private readonly flags = getAppContext().flagsService;
@@ -318,7 +319,7 @@ export class GrDiffHost extends PolymerElement {
       this._loggedIn = loggedIn;
     });
     this.subscriptions.push(
-      changeComments$.subscribe(changeComments => {
+      this.commentsModel.changeComments$.subscribe(changeComments => {
         this.changeComments = changeComments;
       })
     );

@@ -100,6 +100,7 @@ const styleSheet = safeStyleSheet`
     --gray-700-10: #5f63681a;
     --gray-700-12: #5f63681f;
     --gray-500: #9aa0a6;
+    --gray-400: #bdc1c6;
     --gray-300: #dadce0;
     --gray-200: #e8eaed;
     --gray-200-12: #e8eaed1f;
@@ -219,6 +220,15 @@ const styleSheet = safeStyleSheet`
     --disabled-button-background-color: var(--disabled-background);
     --selection-background-color: rgba(161, 194, 250, 0.1);
     --tooltip-background-color: var(--gray-900);
+
+    /* dashboard size background colors */
+    --dashboard-size-xs: var(--gray-200);
+    --dashboard-size-s: var(--gray-300);
+    --dashboard-size-m: var(--gray-400);
+    --dashboard-size-l: var(--gray-500);
+    --dashboard-size-xl: var(--gray-700);
+    --dashboard-size-xs-text: black;
+    --dashboard-size-xl-text: white;
 
     /* comment background colors */
     --comment-background-color: var(--gray-200);

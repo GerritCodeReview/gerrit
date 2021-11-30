@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53f532d2_88cf78dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-11-30T23:36:53Z",
+      "side": 1,
+      "message": "tracked in https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15219",
+      "revId": "b92b71fba71c2e6f939cda3080b35a3483b875a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ada3a89_6403f7c4",

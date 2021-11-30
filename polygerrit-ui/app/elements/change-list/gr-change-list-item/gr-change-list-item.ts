@@ -188,6 +188,33 @@ export class GrChangeListItem extends LitElement {
           max-width: 2.5rem;
           padding: var(--spacing-m) var(--spacing-l);
         }
+        .size span {
+          border-radius: var(--border-radius);
+          color: var(--dashboard-size-text);
+          font-size: var(--font-size-small);
+          /* To set height and width of span, it has to be inline block */
+          display: inline-block;
+          height: 20px;
+          width: 20px;
+          text-align: center;
+        }
+        .size span.XS {
+          background-color: var(--dashboard-size-xs);
+          color: var(--dashboard-size-xs-text);
+        }
+        .size span.S {
+          background-color: var(--dashboard-size-s);
+        }
+        .size span.M {
+          background-color: var(--dashboard-size-m);
+        }
+        .size span.L {
+          background-color: var(--dashboard-size-l);
+        }
+        .size span.XL {
+          background-color: var(--dashboard-size-xl);
+          color: var(--dashboard-size-xl-text);
+        }
         a {
           color: inherit;
           cursor: pointer;
@@ -493,7 +520,7 @@ export class GrChangeListItem extends LitElement {
     const changeSize = this.computeChangeSize();
     if (!changeSize) return html`<span class="placeholder">--</span>`;
 
-    return html` <span>${changeSize}</span> `;
+    return html` <span class="${changeSize}">${changeSize}</span> `;
   }
 
   private renderCellRequirements() {

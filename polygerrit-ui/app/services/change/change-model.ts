@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {PatchSetNum} from '../../types/common';
+import {NumericChangeId, PatchSetNum} from '../../types/common';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {
   map,
@@ -78,24 +78,8 @@ export function _testOnly_getState() {
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const changeState$: Observable<ChangeState> = privateState$;
 
-// Must only be used by the change service or whatever is in control of this
-// model.
 export function updateStateChange(change?: ParsedChangeInfo) {
   const current = privateState$.getValue();
-  // We want to make it easy for subscribers to react to change changes, so we
-  // are explicitly emitting an additional `undefined` when the change number
-  // changes. So if you are subscribed to the latestPatchsetNumber for example,
-  // then you can rely on emissions even if the old and the new change have the
-  // same latestPatchsetNumber.
-  if (change !== undefined && current.change !== undefined) {
-    if (change._number !== current.change._number) {
-      privateState$.next({
-        ...current,
-        change: undefined,
-        loadingStatus: LoadingStatus.NOT_LOADED,
-      });
-    }
-  }
   privateState$.next({
     ...current,
     change,
@@ -104,14 +88,13 @@ export function updateStateChange(change?: ParsedChangeInfo) {
   });
 }
 
-export function updateStateLoading() {
+export function updateStateLoading(changeNum: NumericChangeId) {
   const current = privateState$.getValue();
+  const reloading = current.change?._number === changeNum;
   privateState$.next({
     ...current,
-    loadingStatus:
-      current.change === undefined
-        ? LoadingStatus.LOADING
-        : LoadingStatus.RELOADING,
+    change: reloading ? current.change : undefined,
+    loadingStatus: reloading ? LoadingStatus.RELOADING : LoadingStatus.LOADING,
   });
 }
 

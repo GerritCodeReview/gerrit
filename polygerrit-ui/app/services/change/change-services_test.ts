@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import {Subject} from 'rxjs';
+import {takeUntil, tap} from 'rxjs/operators';
 import {ChangeStatus} from '../../constants/constants';
 import '../../test/common-test-setup-karma';
 import {
@@ -23,19 +25,25 @@ import {
   createRevision,
 } from '../../test/test-data-generators';
 import {mockPromise, stubRestApi, waitUntil} from '../../test/test-utils';
-import {CommitId, PatchSetNum} from '../../types/common';
+import {CommitId, NumericChangeId, PatchSetNum} from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../app-context';
 import {
   GerritView,
   _testOnly_setState as setRouterState,
 } from '../router/router-model';
-import {ChangeState, changeState$, LoadingStatus} from './change-model';
+import {
+  ChangeState,
+  changeState$,
+  LoadingStatus,
+  _testOnly_setState,
+} from './change-model';
 import {ChangeService} from './change-service';
 
 suite('change service tests', () => {
   let changeService: ChangeService;
   let knownChange: ParsedChangeInfo;
+  const testCompleted = new Subject<void>();
   setup(() => {
     changeService = new ChangeService(getAppContext().restApiService);
     knownChange = {
@@ -60,15 +68,16 @@ suite('change service tests', () => {
 
   teardown(() => {
     changeService.finalize();
+    testCompleted.next();
   });
 
-  test('change not loaded, loading, reloading, ...', async () => {
-    let promise = mockPromise<ParsedChangeInfo | undefined>();
+  test('load a change', async () => {
+    const promise = mockPromise<ParsedChangeInfo | undefined>();
     const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
     let state: ChangeState | undefined = {
       loadingStatus: LoadingStatus.NOT_LOADED,
     };
-    changeState$.subscribe(s => (state = s));
+    changeState$.pipe(takeUntil(testCompleted)).subscribe(s => (state = s));
 
     await waitUntil(() => state?.loadingStatus === LoadingStatus.NOT_LOADED);
     assert.equal(stub.callCount, 0);
@@ -83,8 +92,21 @@ suite('change service tests', () => {
     await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
     assert.equal(stub.callCount, 1);
     assert.equal(state?.change, knownChange);
+  });
 
-    promise = mockPromise<ParsedChangeInfo | undefined>();
+  test('reload a change', async () => {
+    // setting up a loaded change
+    const promise = mockPromise<ParsedChangeInfo | undefined>();
+    const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
+    let state: ChangeState | undefined = {
+      loadingStatus: LoadingStatus.NOT_LOADED,
+    };
+    changeState$.pipe(takeUntil(testCompleted)).subscribe(s => (state = s));
+    setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
+    promise.resolve(knownChange);
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
+
+    // Reloading same change
     document.dispatchEvent(new CustomEvent('reload'));
     await waitUntil(() => state?.loadingStatus === LoadingStatus.RELOADING);
     assert.equal(stub.callCount, 2);
@@ -94,23 +116,66 @@ suite('change service tests', () => {
     await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
     assert.equal(stub.callCount, 2);
     assert.equal(state?.change, knownChange);
+  });
+
+  test('navigating to another change', async () => {
+    // setting up a loaded change
+    let promise = mockPromise<ParsedChangeInfo | undefined>();
+    const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
+    let state: ChangeState | undefined = {
+      loadingStatus: LoadingStatus.NOT_LOADED,
+    };
+    changeState$.pipe(takeUntil(testCompleted)).subscribe(s => (state = s));
+    setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
+    promise.resolve(knownChange);
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
+
+    // Navigating to other change
+
+    const otherChange: ParsedChangeInfo = {
+      ...knownChange,
+      _number: 123 as NumericChangeId,
+    };
+    promise = mockPromise<ParsedChangeInfo | undefined>();
+    setRouterState({view: GerritView.CHANGE, changeNum: otherChange._number});
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADING);
+    assert.equal(stub.callCount, 2);
+    assert.isUndefined(state?.change);
+
+    promise.resolve(otherChange);
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
+    assert.equal(stub.callCount, 2);
+    assert.equal(state?.change, otherChange);
+  });
+
+  test('navigating to dashboard', async () => {
+    // setting up a loaded change
+    let promise = mockPromise<ParsedChangeInfo | undefined>();
+    const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
+    let state: ChangeState | undefined = {
+      loadingStatus: LoadingStatus.NOT_LOADED,
+    };
+    changeState$.pipe(takeUntil(testCompleted)).subscribe(s => (state = s));
+    setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
+    promise.resolve(knownChange);
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
+
+    // Navigating to dashboard
 
     promise = mockPromise<ParsedChangeInfo | undefined>();
     promise.resolve(undefined);
     setRouterState({view: GerritView.DASHBOARD, changeNum: undefined});
     await waitUntil(() => state?.loadingStatus === LoadingStatus.NOT_LOADED);
-    assert.equal(stub.callCount, 3);
+    assert.equal(stub.callCount, 2);
     assert.isUndefined(state?.change);
+
+    // Navigating back from dashboard to change page
 
     promise = mockPromise<ParsedChangeInfo | undefined>();
-    setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
-    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADING);
-    assert.equal(stub.callCount, 4);
-    assert.isUndefined(state?.change);
-
     promise.resolve(knownChange);
+    setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
     await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
-    assert.equal(stub.callCount, 4);
+    assert.equal(stub.callCount, 3);
     assert.equal(state?.change, knownChange);
   });
 

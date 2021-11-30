@@ -691,6 +691,24 @@
       "parentUuid": "c4067f73_08557ae5",
       "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28857e03_e8613478",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-30T08:40:51Z",
+      "side": 1,
+      "message": "ChangeData has two methods (#currentApprovals and #approvals). I looked at the callers of #approvals and it seems we could migrate them all (not in this change) to #currentApprovals, it\u0027s not that many and the usage doesn\u0027t seem to strictly require non-copied votes only.",
+      "parentUuid": "2fbb7305_c7234d57",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

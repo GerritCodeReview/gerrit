@@ -160,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a9e91f7_4be552e8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T16:01:08Z",
+      "side": 1,
+      "message": "It\u0027s more about readability. This code is only needed for changes that have been merged before the code from [1] was present. For changes that have been merged after the approval copying was in place, this logic is a no-op and can be skipped right away.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/318135",
+      "parentUuid": "35fb049a_74d2d46e",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2a13f25_fc28a63d",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 3
@@ -371,6 +389,30 @@
       "side": 1,
       "message": "I\u0027m not sure I understand this. Could you please clarify what we need to test?",
       "parentUuid": "707c0f7b_087ecedb",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 46
+      },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92df17c5_e0352135",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T16:01:08Z",
+      "side": 1,
+      "message": "Sure:\n\nWith change [1] we started to persist copied approvals in NoteDb.\n\nSince this code is present now, the change that you are creating and submitting in the test, does have copied approvals persisted in NoteDb.\n\nWhat we are concerned about are changes that have been merged before the code from [1] was present. These changes do not have copied approvals persisted in NoteDb. I think you would need to create such a change for the test.\n\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/318135",
+      "parentUuid": "5a17035e_bcab5254",
       "range": {
         "startLine": 281,
         "startChar": 4,

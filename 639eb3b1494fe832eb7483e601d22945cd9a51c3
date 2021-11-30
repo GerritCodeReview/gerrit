@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3a64c2b_343f6987",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T13:09:50Z",
+      "side": 1,
+      "message": "This comment was about the approvalsUtil.byPatchSet(ctx.getNotes(), patchSet) call which is moved into the persistCopiedApprovals now, should the comment be moved there too?",
+      "range": {
+        "startLine": 301,
+        "startChar": 4,
+        "endLine": 302,
+        "endChar": 79
+      },
+      "revId": "639eb3b1494fe832eb7483e601d22945cd9a51c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08114f55_c8082c12",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T13:09:50Z",
+      "side": 1,
+      "message": "Same here, this comment is no longer needed here.",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 349,
+        "endChar": 79
+      },
+      "revId": "639eb3b1494fe832eb7483e601d22945cd9a51c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4758a04f_3141d45f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T13:09:50Z",
+      "side": 1,
+      "message": "[optional] Could be just: recommend(r.getChangeId())",
+      "range": {
+        "startLine": 1281,
+        "startChar": 4,
+        "endLine": 1282,
+        "endChar": 63
+      },
+      "revId": "639eb3b1494fe832eb7483e601d22945cd9a51c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

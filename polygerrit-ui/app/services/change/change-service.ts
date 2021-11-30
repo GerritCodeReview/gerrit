@@ -50,7 +50,7 @@ export class ChangeService implements Finalizable {
         .pipe(
           map(([changeNum, _]) => changeNum),
           switchMap(changeNum => {
-            if (changeNum !== undefined) updateStateLoading();
+            if (changeNum !== undefined) updateStateLoading(changeNum);
             return from(this.restApiService.getChangeDetail(changeNum));
           })
         )

@@ -141,6 +141,30 @@
       },
       "revId": "81a906db390c007329b3903e1b152eb1091f9193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c327a5a_db6a7a51",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T09:39:44Z",
+      "side": 1,
+      "message": "Using private now.",
+      "parentUuid": "2fc189ec_7ce51f6e",
+      "range": {
+        "startLine": 164,
+        "startChar": 2,
+        "endLine": 164,
+        "endChar": 30
+      },
+      "revId": "81a906db390c007329b3903e1b152eb1091f9193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

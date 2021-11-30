@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1aa8e26_0cde237e",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T09:39:44Z",
+      "side": 1,
+      "message": "Rebased on top of this. PTAL.",
+      "parentUuid": "a2da3847_a7d5b22d",
+      "revId": "6373298ff48b0abe85dbee416473043c78ff7c6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3753082d_52aa57a2",

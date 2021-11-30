@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa5c8243_4fef59e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-11-30T10:24:11Z",
+      "side": 1,
+      "message": "I would prefer if you reverted this as it changes the behavior of a public API without warning.",
+      "revId": "d775f79a0318a9d6936210b6519e3029cdad35f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

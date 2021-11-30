@@ -31,7 +31,6 @@ import {
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
 import {Side} from '../../../api/diff.js';
-import {_testOnly_setState as setChangeModelState} from '../../../services/change/change-model.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -138,10 +137,11 @@ suite('gr-diff-view tests', () => {
         sinon.stub(element.reporting, 'diffViewDisplayed');
         sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
         sinon.spy(element, '_paramsChanged');
-        setChangeModelState({change: {
-          ...createChange(),
-          revisions: createRevisions(11),
-        }});
+        element.changeModel.setState({
+          change: {
+            ...createChange(),
+            revisions: createRevisions(11),
+          }});
       });
 
       test('comment url resolves to comment.patch_set vs latest', () => {
@@ -247,10 +247,11 @@ suite('gr-diff-view tests', () => {
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
           sinon.stub(element, '_isFileUnchanged').returns(true);
           sinon.spy(element, '_paramsChanged');
-          setChangeModelState({change: {
-            ...createChange(),
-            revisions: createRevisions(11),
-          }});
+          element.changeModel.setState({
+            change: {
+              ...createChange(),
+              revisions: createRevisions(11),
+            }});
           element.params = {
             view: GerritNav.View.DIFF,
             changeNum: '42',
@@ -299,10 +300,11 @@ suite('gr-diff-view tests', () => {
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
           sinon.stub(element, '_isFileUnchanged').returns(true);
           sinon.spy(element, '_paramsChanged');
-          setChangeModelState({change: {
-            ...createChange(),
-            revisions: createRevisions(11),
-          }});
+          element.changeModel.setState({
+            change: {
+              ...createChange(),
+              revisions: createRevisions(11),
+            }});
           element.params = {
             view: GerritNav.View.DIFF,
             changeNum: '42',
@@ -380,10 +382,11 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.spy(element, '_paramsChanged');
       element._change = undefined;
-      setChangeModelState({change: {
-        ...createChange(),
-        revisions: createRevisions(11),
-      }});
+      element.changeModel.setState({
+        change: {
+          ...createChange(),
+          revisions: createRevisions(11),
+        }});
       element._patchRange = {
         patchNum: 2,
         basePatchNum: 1,
@@ -1199,7 +1202,9 @@ suite('gr-diff-view tests', () => {
         manual_review: true,
       };
       element.userModel.setDiffPreferences(diffPreferences);
-      setChangeModelState({change: createChange(), diffPath: '/COMMIT_MSG'});
+      element.changeModel.setState({
+        change: createChange(),
+        diffPath: '/COMMIT_MSG'});
 
       setRouterModelState({
         changeNum: TEST_NUMERIC_CHANGE_ID, view: GerritView.DIFF, patchNum: 2}
@@ -1236,7 +1241,8 @@ suite('gr-diff-view tests', () => {
             manual_review: false,
           };
           element.userModel.setDiffPreferences(diffPreferences);
-          setChangeModelState({change: createChange(),
+          element.changeModel.setState({
+            change: createChange(),
             diffPath: '/COMMIT_MSG'});
 
           setRouterModelState({
@@ -1261,7 +1267,9 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element.$.diffHost, 'reload');
 
       element.userModel.setDiffPreferences(createDefaultDiffPrefs());
-      setChangeModelState({change: createChange(), diffPath: '/COMMIT_MSG'});
+      element.changeModel.setState({
+        change: createChange(),
+        diffPath: '/COMMIT_MSG'});
 
       setRouterModelState({
         changeNum: TEST_NUMERIC_CHANGE_ID, view: GerritView.DIFF, patchNum: 2}

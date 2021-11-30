@@ -30,7 +30,6 @@ import {
 } from '../../test/test-data-generators';
 import {stubRestApi, waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {getAppContext} from '../app-context';
-import {updateStateChange} from '../change/change-model';
 import {
   GerritView,
   updateState as updateRouterState,
@@ -77,6 +76,7 @@ suite('change service tests', () => {
 
   test('loads comments', async () => {
     const model = new CommentsModel(
+      getAppContext().changeModel,
       getAppContext().restApiService,
       getAppContext().reportingService
     );
@@ -103,7 +103,7 @@ suite('change service tests', () => {
     );
 
     updateRouterState(GerritView.CHANGE, TEST_NUMERIC_CHANGE_ID);
-    updateStateChange(createParsedChange());
+    model.changeModel.updateStateChange(createParsedChange());
 
     await waitUntilCalled(diffCommentsSpy, 'diffCommentsSpy');
     await waitUntilCalled(diffRobotCommentsSpy, 'diffRobotCommentsSpy');

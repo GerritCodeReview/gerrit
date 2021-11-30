@@ -55,7 +55,6 @@ import {
   LabelNameToInfoMap,
   PatchSetNumber,
 } from '../../types/common';
-import {labels$, latestPatchNum$} from '../../services/change/change-model';
 import {getAppContext} from '../../services/app-context';
 import {spinnerStyles} from '../../styles/gr-spinner-styles';
 import {
@@ -88,11 +87,13 @@ class GrResultRow extends LitElement {
   @state()
   labels?: LabelNameToInfoMap;
 
+  private changeModel = getAppContext().changeModel;
+
   private checksModel = getAppContext().checksModel;
 
   constructor() {
     super();
-    subscribe(this, labels$, x => (this.labels = x));
+    subscribe(this, this.changeModel.labels$, x => (this.labels = x));
   }
 
   static override get styles() {
@@ -530,7 +531,7 @@ class GrResultExpanded extends LitElement {
   @state()
   repoConfig?: ConfigInfo;
 
-  private changeService = getAppContext().changeService;
+  private changeModel = getAppContext().changeModel;
 
   private configModel = getAppContext().configModel;
 
@@ -618,7 +619,7 @@ class GrResultExpanded extends LitElement {
       const end = pointer?.range?.end_line;
       if (start) rangeText += `#${start}`;
       if (end && start !== end) rangeText += `-${end}`;
-      const change = this.changeService.getChange();
+      const change = this.changeModel.getChange();
       assertIsDefined(change);
       const path = pointer.path;
       const patchset = this.result?.patchset as PatchSetNumber | undefined;
@@ -726,6 +727,8 @@ export class GrChecksResults extends LitElement {
    */
   private isSectionExpandedByUser = new Map<Category, boolean>();
 
+  private readonly changeModel = getAppContext().changeModel;
+
   private readonly checksModel = getAppContext().checksModel;
 
   constructor() {
@@ -745,7 +748,11 @@ export class GrChecksResults extends LitElement {
       this.checksModel.checksSelectedPatchsetNumber$,
       x => (this.checksPatchsetNumber = x)
     );
-    subscribe(this, latestPatchNum$, x => (this.latestPatchsetNumber = x));
+    subscribe(
+      this,
+      this.changeModel.latestPatchNum$,
+      x => (this.latestPatchsetNumber = x)
+    );
     subscribe(
       this,
       this.checksModel.someProvidersAreLoadingSelected$,

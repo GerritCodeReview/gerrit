@@ -20,7 +20,6 @@ import {Action} from '../../api/checks';
 import {CheckResult, CheckRun} from '../../services/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';
-import {changeNum$, latestPatchNum$} from '../../services/change/change-model';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {ActionTriggeredEvent} from '../../services/checks/checks-util';
 import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
@@ -62,6 +61,8 @@ export class GrChecksTab extends LitElement {
     number | undefined
   >();
 
+  private readonly changeModel = getAppContext().changeModel;
+
   private readonly checksModel = getAppContext().checksModel;
 
   constructor() {
@@ -81,8 +82,12 @@ export class GrChecksTab extends LitElement {
       this.checksModel.checksSelectedPatchsetNumber$,
       x => (this.checksPatchsetNumber = x)
     );
-    subscribe(this, latestPatchNum$, x => (this.latestPatchsetNumber = x));
-    subscribe(this, changeNum$, x => (this.changeNum = x));
+    subscribe(
+      this,
+      this.changeModel.latestPatchNum$,
+      x => (this.latestPatchsetNumber = x)
+    );
+    subscribe(this, this.changeModel.changeNum$, x => (this.changeNum = x));
 
     this.addEventListener('action-triggered', (e: ActionTriggeredEvent) =>
       this.handleActionTriggered(e.detail.action, e.detail.run)

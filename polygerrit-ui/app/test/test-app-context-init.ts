@@ -25,7 +25,7 @@ import {grStorageMock} from '../services/storage/gr-storage_mock';
 import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../services/flags/flags_impl';
 import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_impl';
-import {ChangeService} from '../services/change/change-service';
+import {ChangeModel} from '../services/change/change-model';
 import {ChecksModel} from '../services/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {UserModel} from '../services/user/user-model';
@@ -45,18 +45,24 @@ export function createTestAppContext(): AppContext & Finalizable {
       return new GrAuthMock(ctx.eventEmitter);
     },
     restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
-    changeService: (ctx: Partial<AppContext>) => {
+    changeModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new ChangeService(ctx.restApiService!);
+      return new ChangeModel(ctx.restApiService!);
     },
     commentsModel: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.changeModel, 'changeModel');
       assertIsDefined(ctx.restApiService, 'restApiService');
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new CommentsModel(ctx.restApiService!, ctx.reportingService!);
+      return new CommentsModel(
+        ctx.changeModel!,
+        ctx.restApiService!,
+        ctx.reportingService!
+      );
     },
     checksModel: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.changeModel, 'changeModel');
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ChecksModel(ctx.reportingService!);
+      return new ChecksModel(ctx.changeModel!, ctx.reportingService!);
     },
     jsApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
@@ -64,8 +70,9 @@ export function createTestAppContext(): AppContext & Finalizable {
     },
     storageService: (_ctx: Partial<AppContext>) => grStorageMock,
     configModel: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.changeModel, 'changeModel');
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new ConfigModel(ctx.restApiService!);
+      return new ConfigModel(ctx.changeModel!, ctx.restApiService!);
     },
     userModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');

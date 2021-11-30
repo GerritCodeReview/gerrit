@@ -386,7 +386,7 @@ export class GrChangeActions
   // Accessed in tests
   readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly changeService = getAppContext().changeService;
+  private readonly changeModel = getAppContext().changeModel;
 
   @property({type: Object})
   change?: ChangeViewChangeInfo;
@@ -1716,7 +1716,7 @@ export class GrChangeActions
         new Error('Properties change and changeNum must be set.')
       );
     }
-    return this.changeService.fetchChangeUpdates(change).then(result => {
+    return this.changeModel.fetchChangeUpdates(change).then(result => {
       if (!result.isLatest) {
         this.dispatchEvent(
           new CustomEvent<ShowAlertEventDetail>('show-alert', {

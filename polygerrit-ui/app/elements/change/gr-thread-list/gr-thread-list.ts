@@ -43,7 +43,6 @@ import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, queryAll, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
-import {change$, changeNum$} from '../../../services/change/change-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {repeat} from 'lit/directives/repeat';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
@@ -200,12 +199,14 @@ export class GrThreadList extends LitElement {
   @state()
   draftsOnly = false;
 
+  private readonly changeModel = getAppContext().changeModel;
+
   private readonly userModel = getAppContext().userModel;
 
   constructor() {
     super();
-    subscribe(this, changeNum$, x => (this.changeNum = x));
-    subscribe(this, change$, x => (this.change = x));
+    subscribe(this, this.changeModel.changeNum$, x => (this.changeNum = x));
+    subscribe(this, this.changeModel.change$, x => (this.change = x));
     subscribe(this, this.userModel.account$, x => (this.account = x));
   }
 

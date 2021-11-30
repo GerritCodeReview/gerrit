@@ -32,15 +32,15 @@ import {
   GerritView,
   _testOnly_setState as setRouterState,
 } from '../router/router-model';
-import {ChangeState, changeState$, LoadingStatus} from './change-model';
-import {ChangeService} from './change-service';
+import {ChangeState, LoadingStatus} from './change-model';
+import {ChangeModel} from './change-model';
 
 suite('change service tests', () => {
-  let changeService: ChangeService;
+  let changeModel: ChangeModel;
   let knownChange: ParsedChangeInfo;
   const testCompleted = new Subject<void>();
   setup(() => {
-    changeService = new ChangeService(getAppContext().restApiService);
+    changeModel = new ChangeModel(getAppContext().restApiService);
     knownChange = {
       ...createChange(),
       revisions: {
@@ -62,8 +62,8 @@ suite('change service tests', () => {
   });
 
   teardown(() => {
-    changeService.finalize();
     testCompleted.next();
+    changeModel.finalize();
   });
 
   test('load a change', async () => {
@@ -72,7 +72,9 @@ suite('change service tests', () => {
     let state: ChangeState | undefined = {
       loadingStatus: LoadingStatus.NOT_LOADED,
     };
-    changeState$.pipe(takeUntil(testCompleted)).subscribe(s => (state = s));
+    changeModel.changeState$
+      .pipe(takeUntil(testCompleted))
+      .subscribe(s => (state = s));
 
     await waitUntil(() => state?.loadingStatus === LoadingStatus.NOT_LOADED);
     assert.equal(stub.callCount, 0);
@@ -96,7 +98,9 @@ suite('change service tests', () => {
     let state: ChangeState | undefined = {
       loadingStatus: LoadingStatus.NOT_LOADED,
     };
-    changeState$.pipe(takeUntil(testCompleted)).subscribe(s => (state = s));
+    changeModel.changeState$
+      .pipe(takeUntil(testCompleted))
+      .subscribe(s => (state = s));
     setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
     promise.resolve(knownChange);
     await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
@@ -120,7 +124,9 @@ suite('change service tests', () => {
     let state: ChangeState | undefined = {
       loadingStatus: LoadingStatus.NOT_LOADED,
     };
-    changeState$.pipe(takeUntil(testCompleted)).subscribe(s => (state = s));
+    changeModel.changeState$
+      .pipe(takeUntil(testCompleted))
+      .subscribe(s => (state = s));
     setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
     promise.resolve(knownChange);
     await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
@@ -150,7 +156,9 @@ suite('change service tests', () => {
     let state: ChangeState | undefined = {
       loadingStatus: LoadingStatus.NOT_LOADED,
     };
-    changeState$.pipe(takeUntil(testCompleted)).subscribe(s => (state = s));
+    changeModel.changeState$
+      .pipe(takeUntil(testCompleted))
+      .subscribe(s => (state = s));
     setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
     promise.resolve(knownChange);
     await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
@@ -174,15 +182,15 @@ suite('change service tests', () => {
     assert.equal(state?.change, knownChange);
   });
 
-  test('changeService.fetchChangeUpdates on latest', async () => {
+  test('changeModel.fetchChangeUpdates on latest', async () => {
     stubRestApi('getChangeDetail').returns(Promise.resolve(knownChange));
-    const result = await changeService.fetchChangeUpdates(knownChange);
+    const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isTrue(result.isLatest);
     assert.isNotOk(result.newStatus);
     assert.isNotOk(result.newMessages);
   });
 
-  test('changeService.fetchChangeUpdates not on latest', async () => {
+  test('changeModel.fetchChangeUpdates not on latest', async () => {
     const actualChange = {
       ...knownChange,
       revisions: {
@@ -195,31 +203,31 @@ suite('change service tests', () => {
       },
     };
     stubRestApi('getChangeDetail').returns(Promise.resolve(actualChange));
-    const result = await changeService.fetchChangeUpdates(knownChange);
+    const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isFalse(result.isLatest);
     assert.isNotOk(result.newStatus);
     assert.isNotOk(result.newMessages);
   });
 
-  test('changeService.fetchChangeUpdates new status', async () => {
+  test('changeModel.fetchChangeUpdates new status', async () => {
     const actualChange = {
       ...knownChange,
       status: ChangeStatus.MERGED,
     };
     stubRestApi('getChangeDetail').returns(Promise.resolve(actualChange));
-    const result = await changeService.fetchChangeUpdates(knownChange);
+    const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isTrue(result.isLatest);
     assert.equal(result.newStatus, ChangeStatus.MERGED);
     assert.isNotOk(result.newMessages);
   });
 
-  test('changeService.fetchChangeUpdates new messages', async () => {
+  test('changeModel.fetchChangeUpdates new messages', async () => {
     const actualChange = {
       ...knownChange,
       messages: [{...createChangeMessageInfo(), message: 'blah blah'}],
     };
     stubRestApi('getChangeDetail').returns(Promise.resolve(actualChange));
-    const result = await changeService.fetchChangeUpdates(knownChange);
+    const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isTrue(result.isLatest);
     assert.isNotOk(result.newStatus);
     assert.deepEqual(result.newMessages, {

@@ -218,7 +218,7 @@ export class GrReplyDialog extends PolymerElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly changeService = getAppContext().changeService;
+  private readonly changeModel = getAppContext().changeModel;
 
   @property({type: Object})
   change?: ChangeInfo;
@@ -435,7 +435,7 @@ export class GrReplyDialog extends PolymerElement {
   open(focusTarget?: FocusTarget, quote?: string) {
     assertIsDefined(this.change, 'change');
     this.knownLatestState = LatestPatchState.CHECKING;
-    this.changeService.fetchChangeUpdates(this.change).then(result => {
+    this.changeModel.fetchChangeUpdates(this.change).then(result => {
       this.knownLatestState = result.isLatest
         ? LatestPatchState.LATEST
         : LatestPatchState.NOT_LATEST;

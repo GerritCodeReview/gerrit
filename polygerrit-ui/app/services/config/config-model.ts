@@ -19,7 +19,7 @@ import {BehaviorSubject, from, Observable, of, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {Finalizable} from '../registry';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
-import {repo$} from '../change/change-model';
+import {ChangeModel} from '../change/change-model';
 import {select} from '../../utils/observable-util';
 
 export interface ConfigState {
@@ -55,12 +55,15 @@ export class ConfigModel implements Finalizable {
 
   private subscriptions: Subscription[];
 
-  constructor(readonly restApiService: RestApiService) {
+  constructor(
+    readonly changeModel: ChangeModel,
+    readonly restApiService: RestApiService
+  ) {
     this.subscriptions = [
       from(this.restApiService.getConfig()).subscribe((config?: ServerInfo) => {
         this.updateServerConfig(config);
       }),
-      repo$
+      this.changeModel.repo$
         .pipe(
           switchMap((repo?: RepoName) => {
             if (repo === undefined) return of(undefined);

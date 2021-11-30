@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8635b67_7a04a9e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T12:55:59Z",
+      "side": 1,
+      "message": "Could we also include this change from stable-3.5?\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/322255",
+      "revId": "d57efbaf0f4578a4d4e9b9e4580e42191ff45630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

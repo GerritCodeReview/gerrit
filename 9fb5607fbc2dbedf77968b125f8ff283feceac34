@@ -16,6 +16,24 @@
       "message": "@ekempin\nTL;DR to all comments that are not resolved: I\u0027m uncomfortable with making the switch of removing getApprovals() and having all methods just return copied votes as well, because this is a change in behavior.\nWhat I like about this change is that it is of lower likelihood to break anything since everything is working as it did before.\n\nIs it ok if we do the changes that change behavior, e.g remove getApprovalsWithCopied and always return copied approvals by default, letting callers do stuff if necessary, maybe a few days after we merge this? ",
       "revId": "9fb5607fbc2dbedf77968b125f8ff283feceac34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9b6cdba_a688cd6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T08:03:27Z",
+      "side": 1,
+      "message": "Agreed to not change any behaviour with this change.\n\nIt seems like PatchSetApproval already has a copied() method. In this case it\u0027s not clear to my why we cannot make the getApprovals() method return all approvals. All callers that only need copied approvals can do getApprovals() and then filter out copied approvals, can\u0027t they?",
+      "parentUuid": "1a3b1f31_b34cec55",
+      "revId": "9fb5607fbc2dbedf77968b125f8ff283feceac34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

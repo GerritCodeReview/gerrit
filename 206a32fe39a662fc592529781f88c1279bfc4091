@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8dbe8dbf_f2ace149",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T08:03:27Z",
+      "side": 1,
+      "message": "I prefer this to be consistent in this change. Either all is Nullable, or all are non-Nullable. Having non-Nullable parameters for which we pass in null looks wrong. So alternatively adding back @Nullable sounds good to me (if null values are properly handled if they are passed in).",
+      "parentUuid": "9819e954_467fd916",
+      "range": {
+        "startLine": 105,
+        "startChar": 43,
+        "endLine": 105,
+        "endChar": 81
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5e8825e2_d97c657e",
         "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
         "patchSetId": 7

@@ -22,6 +22,30 @@
       },
       "revId": "adc95e11fa797eecd45f165653bb4fd5609f9121",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60c73409_67ee9b0a",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T13:23:19Z",
+      "side": 1,
+      "message": "Likely this is not needed and was a bug due to resetting storage constraint in EqualsLabelPredicate. I fixed the bug with https://gerrit-review.googlesource.com/c/gerrit/+/324941.\n\nI just removed that line.\n\nDone",
+      "parentUuid": "846adf60_beb42d19",
+      "range": {
+        "startLine": 312,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 51
+      },
+      "revId": "adc95e11fa797eecd45f165653bb4fd5609f9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

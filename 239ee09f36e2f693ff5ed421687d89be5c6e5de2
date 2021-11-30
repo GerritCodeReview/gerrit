@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "873387f8_de560ed8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-30T18:07:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f60fc845_d03c0f9b",
+      "revId": "239ee09f36e2f693ff5ed421687d89be5c6e5de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "099c1490_ee64045b",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-11-30T10:40:50Z",
       "side": 1,
       "message": "I think you cannot call `returns()` twice on a stub, or maybe only if the args are non-overlapping?",
+      "range": {
+        "startLine": 1477,
+        "startChar": 3,
+        "endLine": 1478,
+        "endChar": 23
+      },
+      "revId": "239ee09f36e2f693ff5ed421687d89be5c6e5de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "789ba3f4_b03c3ae1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-30T18:07:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "099c1490_ee64045b",
       "range": {
         "startLine": 1477,
         "startChar": 3,

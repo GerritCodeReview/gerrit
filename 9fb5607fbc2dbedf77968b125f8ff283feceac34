@@ -34,6 +34,24 @@
       "parentUuid": "1a3b1f31_b34cec55",
       "revId": "9fb5607fbc2dbedf77968b125f8ff283feceac34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd24a570_6a023c1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T08:05:23Z",
+      "side": 1,
+      "message": "Maybe this really shouldn\u0027t be part of this change, but can this cleanup of the API maybe be a predecessor change?",
+      "parentUuid": "e9b6cdba_a688cd6a",
+      "revId": "9fb5607fbc2dbedf77968b125f8ff283feceac34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

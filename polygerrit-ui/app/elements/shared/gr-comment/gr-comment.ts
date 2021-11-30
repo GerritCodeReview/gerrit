@@ -228,7 +228,7 @@ export class GrComment extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly commentsService = getAppContext().commentsService;
+  private readonly commentsModel = getAppContext().commentsModel;
 
   private readonly userModel = getAppContext().userModel;
 
@@ -1085,7 +1085,7 @@ export class GrComment extends LitElement {
       if (messageToSave === '') {
         // Don't try to discard UnsavedInfo. Nothing to do then.
         if (this.comment.id) {
-          await this.commentsService.discardDraft(this.comment.id);
+          await this.commentsModel.discardDraft(this.comment.id);
         }
       } else {
         // No need to make a backend call when nothing has changed.
@@ -1108,7 +1108,7 @@ export class GrComment extends LitElement {
   /** For sharing between save() and autoSave(). */
   private rawSave(message: string, options: {showToast: boolean}) {
     if (!isDraftOrUnsaved(this.comment)) throw new Error('not a draft');
-    return this.commentsService.saveDraft(
+    return this.commentsModel.saveDraft(
       {
         ...this.comment,
         message,

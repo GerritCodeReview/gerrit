@@ -51,7 +51,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
-import {changeComments$} from '../../../services/comments/comments-model';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -127,9 +126,15 @@ export class GrPatchRangeSelect extends LitElement {
   private readonly reporting: ReportingService =
     getAppContext().reportingService;
 
+  private readonly commentsModel = getAppContext().commentsModel;
+
   constructor() {
     super();
-    subscribe(this, changeComments$, x => (this.changeComments = x));
+    subscribe(
+      this,
+      this.commentsModel.changeComments$,
+      x => (this.changeComments = x)
+    );
   }
 
   static override get styles() {

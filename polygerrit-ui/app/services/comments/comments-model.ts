@@ -15,19 +15,42 @@
  * limitations under the License.
  */
 
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
 import {
+  CommentBasics,
   CommentInfo,
+  NumericChangeId,
+  PatchSetNum,
+  RevisionId,
+  UrlEncodedCommentId,
   PathToCommentsInfoMap,
   RobotCommentInfo,
-  UrlEncodedCommentId,
 } from '../../types/common';
-import {addPath, DraftInfo, isDraft, isUnsaved} from '../../utils/comment-util';
+import {
+  addPath,
+  DraftInfo,
+  isDraft,
+  isUnsaved,
+  reportingDetails,
+  UnsavedInfo,
+} from '../../utils/comment-util';
 import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
+import {routerChangeNum$} from '../router/router-model';
+import {Finalizable} from '../registry';
+import {combineLatest, Subscription} from 'rxjs';
+import {fire, fireAlert, fireEvent} from '../../utils/event-util';
+import {CURRENT} from '../../utils/patch-set-util';
+import {RestApiService} from '../gr-rest-api/gr-rest-api';
+import {changeNum$, currentPatchNum$} from '../change/change-model';
+import {Interaction} from '../../constants/reporting';
+import {assertIsDefined} from '../../utils/common-util';
+import {debounce, DelayedTask} from '../../utils/async-util';
+import {pluralize} from '../../utils/string-util';
+import {ReportingService} from '../gr-reporting/gr-reporting';
 
-interface CommentState {
+export interface CommentState {
   /** undefined means 'still loading' */
   comments?: PathToCommentsInfoMap;
   /** undefined means 'still loading' */
@@ -60,134 +83,93 @@ const initialState: CommentState = {
   discardedDrafts: [],
 };
 
-const privateState$ = new BehaviorSubject(initialState);
+const TOAST_DEBOUNCE_INTERVAL = 200;
 
-export function _testOnly_resetState() {
-  // We cannot assign a new subject to privateState$, because all the selectors
-  // have already subscribed to the original subject. So we have to emit the
-  // initial state on the existing subject.
-  privateState$.next({...initialState});
+function getSavingMessage(numPending: number, requestFailed?: boolean) {
+  if (requestFailed) {
+    return 'Unable to save draft';
+  }
+  if (numPending === 0) {
+    return 'All changes saved';
+  }
+  return `Saving ${pluralize(numPending, 'draft')}...`;
 }
 
-// Re-exporting as Observable so that you can only subscribe, but not emit.
-export const commentState$: Observable<CommentState> = privateState$;
-
-export function _testOnly_getState() {
-  return privateState$.getValue();
-}
-
-export function _testOnly_setState(state: CommentState) {
-  privateState$.next(state);
-}
-
-export const commentsLoading$ = select(
-  commentState$,
-  commentState =>
-    commentState.comments === undefined ||
-    commentState.robotComments === undefined ||
-    commentState.drafts === undefined
-);
-
-export const comments$ = select(
-  commentState$,
-  commentState => commentState.comments
-);
-
-export const drafts$ = select(
-  commentState$,
-  commentState => commentState.drafts
-);
-
-export const portedComments$ = select(
-  commentState$,
-  commentState => commentState.portedComments
-);
-
-export const discardedDrafts$ = select(
-  commentState$,
-  commentState => commentState.discardedDrafts
-);
-
-// Emits a new value even if only a single draft is changed. Components should
-// aim to subsribe to something more specific.
-export const changeComments$ = select(
-  commentState$,
-  commentState =>
-    new ChangeComments(
-      commentState.comments,
-      commentState.robotComments,
-      commentState.drafts,
-      commentState.portedComments,
-      commentState.portedDrafts
-    )
-);
-
-export const threads$ = select(changeComments$, changeComments =>
-  changeComments.getAllThreadsForChange()
-);
-
-export function thread$(id: UrlEncodedCommentId) {
-  return select(threads$, threads => threads.find(t => t.rootId === id));
-}
-
-function publishState(state: CommentState) {
-  privateState$.next(state);
-}
-
-/** Called when the change number changes. Wipes out all data from the state. */
-export function updateStateReset() {
-  publishState({...initialState});
-}
-
-export function updateStateComments(comments?: {
-  [path: string]: CommentInfo[];
-}) {
-  const nextState = {...privateState$.getValue()};
-  if (deepEqual(comments, nextState.comments)) return;
+// Private but used in tests.
+export function setComments(
+  state: CommentState,
+  comments?: {
+    [path: string]: CommentInfo[];
+  }
+): CommentState {
+  const nextState = {...state};
+  if (deepEqual(comments, nextState.comments)) return state;
   nextState.comments = addPath(comments) || {};
-  publishState(nextState);
+  return nextState;
 }
 
-export function updateStateRobotComments(robotComments?: {
-  [path: string]: RobotCommentInfo[];
-}) {
-  const nextState = {...privateState$.getValue()};
-  if (deepEqual(robotComments, nextState.robotComments)) return;
+// Private but used in tests.
+export function setRobotComments(
+  state: CommentState,
+  robotComments?: {
+    [path: string]: RobotCommentInfo[];
+  }
+): CommentState {
+  if (deepEqual(robotComments, state.robotComments)) return state;
+  const nextState = {...state};
   nextState.robotComments = addPath(robotComments) || {};
-  publishState(nextState);
+  return nextState;
 }
 
-export function updateStateDrafts(drafts?: {[path: string]: DraftInfo[]}) {
-  const nextState = {...privateState$.getValue()};
-  if (deepEqual(drafts, nextState.drafts)) return;
+// Private but used in tests.
+export function setDrafts(
+  state: CommentState,
+  drafts?: {[path: string]: DraftInfo[]}
+): CommentState {
+  if (deepEqual(drafts, state.drafts)) return state;
+  const nextState = {...state};
   nextState.drafts = addPath(drafts);
-  publishState(nextState);
+  return nextState;
 }
 
-export function updateStatePortedComments(
+// Private but used in tests.
+export function setPortedComments(
+  state: CommentState,
   portedComments?: PathToCommentsInfoMap
-) {
-  const nextState = {...privateState$.getValue()};
-  if (deepEqual(portedComments, nextState.portedComments)) return;
+): CommentState {
+  if (deepEqual(portedComments, state.portedComments)) return state;
+  const nextState = {...state};
   nextState.portedComments = portedComments || {};
-  publishState(nextState);
+  return nextState;
 }
 
-export function updateStatePortedDrafts(portedDrafts?: PathToCommentsInfoMap) {
-  const nextState = {...privateState$.getValue()};
-  if (deepEqual(portedDrafts, nextState.portedDrafts)) return;
+// Private but used in tests.
+export function setPortedDrafts(
+  state: CommentState,
+  portedDrafts?: PathToCommentsInfoMap
+): CommentState {
+  if (deepEqual(portedDrafts, state.portedDrafts)) return state;
+  const nextState = {...state};
   nextState.portedDrafts = portedDrafts || {};
-  publishState(nextState);
+  return nextState;
 }
 
-export function updateStateSetDiscardedDraft(draft: DraftInfo) {
-  const nextState = {...privateState$.getValue()};
+// Private but used in tests.
+export function setDiscardedDraft(
+  state: CommentState,
+  draft: DraftInfo
+): CommentState {
+  const nextState = {...state};
   nextState.discardedDrafts = [...nextState.discardedDrafts, draft];
-  publishState(nextState);
+  return nextState;
 }
 
-export function updateStateDeleteDiscardedDraft(draftID?: string) {
-  const nextState = {...privateState$.getValue()};
+// Private but used in tests.
+export function deleteDiscardedDraft(
+  state: CommentState,
+  draftID?: string
+): CommentState {
+  const nextState = {...state};
   const drafts = [...nextState.discardedDrafts];
   const index = drafts.findIndex(d => d.id === draftID);
   if (index === -1) {
@@ -195,12 +177,12 @@ export function updateStateDeleteDiscardedDraft(draftID?: string) {
   }
   drafts.splice(index, 1);
   nextState.discardedDrafts = drafts;
-  publishState(nextState);
+  return nextState;
 }
 
 /** Adds or updates a draft. */
-export function updateStateSetDraft(draft: DraftInfo) {
-  const nextState = {...privateState$.getValue()};
+export function setDraft(state: CommentState, draft: DraftInfo): CommentState {
+  const nextState = {...state};
   if (!draft.path) throw new Error('draft path undefined');
   if (!isDraft(draft)) throw new Error('draft is not a draft');
   if (isUnsaved(draft)) throw new Error('unsaved drafts dont belong to model');
@@ -215,11 +197,14 @@ export function updateStateSetDraft(draft: DraftInfo) {
   } else {
     drafts[draft.path].push(draft);
   }
-  publishState(nextState);
+  return nextState;
 }
 
-export function updateStateDeleteDraft(draft: DraftInfo) {
-  const nextState = {...privateState$.getValue()};
+export function deleteDraft(
+  state: CommentState,
+  draft: DraftInfo
+): CommentState {
+  const nextState = {...state};
   if (!draft.path) throw new Error('draft path undefined');
   if (!isDraft(draft)) throw new Error('draft is not a draft');
   if (isUnsaved(draft)) throw new Error('unsaved drafts dont belong to model');
@@ -228,10 +213,331 @@ export function updateStateDeleteDraft(draft: DraftInfo) {
   const index = (drafts[draft.path] || []).findIndex(
     d => d.id && d.id === draft.id
   );
-  if (index === -1) return;
+  if (index === -1) return state;
   const discardedDraft = drafts[draft.path][index];
   drafts[draft.path] = [...drafts[draft.path]];
   drafts[draft.path].splice(index, 1);
-  publishState(nextState);
-  updateStateSetDiscardedDraft(discardedDraft);
+  return setDiscardedDraft(nextState, discardedDraft);
+}
+
+export class CommentsModel implements Finalizable {
+  private readonly privateState$: BehaviorSubject<CommentState> =
+    new BehaviorSubject(initialState);
+
+  public readonly commentsLoading$ = select(
+    this.privateState$,
+    commentState =>
+      commentState.comments === undefined ||
+      commentState.robotComments === undefined ||
+      commentState.drafts === undefined
+  );
+
+  public readonly comments$ = select(
+    this.privateState$,
+    commentState => commentState.comments
+  );
+
+  public readonly drafts$ = select(
+    this.privateState$,
+    commentState => commentState.drafts
+  );
+
+  public readonly portedComments$ = select(
+    this.privateState$,
+    commentState => commentState.portedComments
+  );
+
+  public readonly discardedDrafts$ = select(
+    this.privateState$,
+    commentState => commentState.discardedDrafts
+  );
+
+  // Emits a new value even if only a single draft is changed. Components should
+  // aim to subsribe to something more specific.
+  public readonly changeComments$ = select(
+    this.privateState$,
+    commentState =>
+      new ChangeComments(
+        commentState.comments,
+        commentState.robotComments,
+        commentState.drafts,
+        commentState.portedComments,
+        commentState.portedDrafts
+      )
+  );
+
+  public readonly threads$ = select(this.changeComments$, changeComments =>
+    changeComments.getAllThreadsForChange()
+  );
+
+  public thread$(id: UrlEncodedCommentId) {
+    return select(this.threads$, threads => threads.find(t => t.rootId === id));
+  }
+
+  private numPendingDraftRequests = 0;
+
+  private changeNum?: NumericChangeId;
+
+  private patchNum?: PatchSetNum;
+
+  private readonly reloadListener: () => void;
+
+  private readonly subscriptions: Subscription[] = [];
+
+  private drafts: {[path: string]: DraftInfo[]} = {};
+
+  private draftToastTask?: DelayedTask;
+
+  private discardedDrafts: DraftInfo[] = [];
+
+  constructor(
+    readonly restApiService: RestApiService,
+    readonly reporting: ReportingService
+  ) {
+    this.subscriptions.push(
+      this.discardedDrafts$.subscribe(x => (this.discardedDrafts = x))
+    );
+    this.subscriptions.push(
+      this.drafts$.subscribe(x => (this.drafts = x ?? {}))
+    );
+    this.subscriptions.push(
+      currentPatchNum$.subscribe(x => (this.patchNum = x))
+    );
+    this.subscriptions.push(
+      routerChangeNum$.subscribe(changeNum => {
+        this.changeNum = changeNum;
+        this.setState({...initialState});
+        this.reloadAllComments();
+      })
+    );
+    this.subscriptions.push(
+      combineLatest([changeNum$, currentPatchNum$]).subscribe(
+        ([changeNum, patchNum]) => {
+          this.changeNum = changeNum;
+          this.patchNum = patchNum;
+          this.reloadAllPortedComments();
+        }
+      )
+    );
+    this.reloadListener = () => {
+      this.reloadAllComments();
+      this.reloadAllPortedComments();
+    };
+    document.addEventListener('reload', this.reloadListener);
+  }
+
+  finalize() {
+    document.removeEventListener('reload', this.reloadListener!);
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions.splice(0, this.subscriptions.length);
+  }
+
+  // Note that this does *not* reload ported comments.
+  async reloadAllComments() {
+    if (!this.changeNum) return;
+    await Promise.all([
+      this.reloadComments(this.changeNum),
+      this.reloadRobotComments(this.changeNum),
+      this.reloadDrafts(this.changeNum),
+    ]);
+  }
+
+  async reloadAllPortedComments() {
+    if (!this.changeNum) return;
+    if (!this.patchNum) return;
+    await Promise.all([
+      this.reloadPortedComments(this.changeNum, this.patchNum),
+      this.reloadPortedDrafts(this.changeNum, this.patchNum),
+    ]);
+  }
+
+  // visible for testing
+  updateState(reducer: (state: CommentState) => CommentState) {
+    const current = this.privateState$.getValue();
+    this.setState(reducer({...current}));
+  }
+
+  // visible for testing
+  setState(state: CommentState) {
+    this.privateState$.next(state);
+  }
+
+  async reloadComments(changeNum: NumericChangeId): Promise<void> {
+    const comments = await this.restApiService.getDiffComments(changeNum);
+    this.updateState(s => setComments(s, comments));
+  }
+
+  async reloadRobotComments(changeNum: NumericChangeId): Promise<void> {
+    const robotComments = await this.restApiService.getDiffRobotComments(
+      changeNum
+    );
+    this.updateState(s => setRobotComments(s, robotComments));
+  }
+
+  async reloadDrafts(changeNum: NumericChangeId): Promise<void> {
+    const drafts = await this.restApiService.getDiffDrafts(changeNum);
+    this.updateState(s => setDrafts(s, drafts));
+  }
+
+  async reloadPortedComments(
+    changeNum: NumericChangeId,
+    patchNum = CURRENT as RevisionId
+  ): Promise<void> {
+    const portedComments = await this.restApiService.getPortedComments(
+      changeNum,
+      patchNum
+    );
+    this.updateState(s => setPortedComments(s, portedComments));
+  }
+
+  async reloadPortedDrafts(
+    changeNum: NumericChangeId,
+    patchNum = CURRENT as RevisionId
+  ): Promise<void> {
+    const portedDrafts = await this.restApiService.getPortedDrafts(
+      changeNum,
+      patchNum
+    );
+    this.updateState(s => setPortedDrafts(s, portedDrafts));
+  }
+
+  async restoreDraft(id: UrlEncodedCommentId) {
+    const found = this.discardedDrafts?.find(d => d.id === id);
+    if (!found) throw new Error('discarded draft not found');
+    const newDraft = {
+      ...found,
+      id: undefined,
+      updated: undefined,
+      __draft: undefined,
+      __unsaved: true,
+    };
+    await this.saveDraft(newDraft);
+    this.updateState(s => deleteDiscardedDraft(s, id));
+  }
+
+  /**
+   * Saves a new or updates an existing draft.
+   * The model will only be updated when a successful response comes back.
+   */
+  async saveDraft(draft: DraftInfo | UnsavedInfo, showToast = true) {
+    assertIsDefined(this.changeNum, 'change number');
+    assertIsDefined(draft.patch_set, 'patchset number of comment draft');
+    if (!draft.message?.trim()) throw new Error('Cannot save empty draft.');
+
+    // Saving the change number as to make sure that the response is still
+    // relevant when it comes back. The user maybe have navigated away.
+    const changeNum = this.changeNum;
+    this.report(Interaction.SAVE_COMMENT, draft);
+    if (showToast) this.showStartRequest();
+    const result = await this.restApiService.saveDiffDraft(
+      changeNum,
+      draft.patch_set,
+      draft
+    );
+    if (changeNum !== this.changeNum) throw new Error('change changed');
+    if (!result.ok) {
+      if (showToast) this.handleFailedDraftRequest();
+      throw new Error(
+        `Failed to save draft comment: ${JSON.stringify(result)}`
+      );
+    }
+    const obj = await this.restApiService.getResponseObject(result);
+    const savedComment = obj as unknown as CommentInfo;
+    const updatedDraft = {
+      ...draft,
+      id: savedComment.id,
+      updated: savedComment.updated,
+      __draft: true,
+      __unsaved: undefined,
+    };
+    if (showToast) this.showEndRequest();
+    this.updateState(s => setDraft(s, updatedDraft));
+    this.report(Interaction.COMMENT_SAVED, updatedDraft);
+  }
+
+  async discardDraft(draftId: UrlEncodedCommentId) {
+    const draft = this.lookupDraft(draftId);
+    assertIsDefined(this.changeNum, 'change number');
+    assertIsDefined(draft, `draft not found by id ${draftId}`);
+    assertIsDefined(draft.patch_set, 'patchset number of comment draft');
+
+    if (!draft.message?.trim()) throw new Error('saved draft cant be empty');
+    // Saving the change number as to make sure that the response is still
+    // relevant when it comes back. The user maybe have navigated away.
+    const changeNum = this.changeNum;
+    this.report(Interaction.DISCARD_COMMENT, draft);
+    this.showStartRequest();
+    const result = await this.restApiService.deleteDiffDraft(
+      changeNum,
+      draft.patch_set,
+      {id: draft.id}
+    );
+    if (changeNum !== this.changeNum) throw new Error('change changed');
+    if (!result.ok) {
+      this.handleFailedDraftRequest();
+      throw new Error(
+        `Failed to discard draft comment: ${JSON.stringify(result)}`
+      );
+    }
+    this.showEndRequest();
+    this.updateState(s => deleteDraft(s, draft));
+    // We don't store empty discarded drafts and don't need an UNDO then.
+    if (draft.message?.trim()) {
+      fire(document, 'show-alert', {
+        message: 'Draft Discarded',
+        action: 'Undo',
+        callback: () => this.restoreDraft(draft.id),
+      });
+    }
+    this.report(Interaction.COMMENT_DISCARDED, draft);
+  }
+
+  private report(interaction: Interaction, comment: CommentBasics) {
+    const details = reportingDetails(comment);
+    this.reporting.reportInteraction(interaction, details);
+  }
+
+  private showStartRequest() {
+    this.numPendingDraftRequests += 1;
+    this.updateRequestToast();
+  }
+
+  private showEndRequest() {
+    this.numPendingDraftRequests -= 1;
+    this.updateRequestToast();
+  }
+
+  private handleFailedDraftRequest() {
+    this.numPendingDraftRequests -= 1;
+    this.updateRequestToast(/* requestFailed=*/ true);
+  }
+
+  private updateRequestToast(requestFailed?: boolean) {
+    if (this.numPendingDraftRequests === 0 && !requestFailed) {
+      fireEvent(document, 'hide-alert');
+      return;
+    }
+    const message = getSavingMessage(
+      this.numPendingDraftRequests,
+      requestFailed
+    );
+    this.draftToastTask = debounce(
+      this.draftToastTask,
+      () => {
+        // Note: the event is fired on the body rather than this element because
+        // this element may not be attached by the time this executes, in which
+        // case the event would not bubble.
+        fireAlert(document.body, message);
+      },
+      TOAST_DEBOUNCE_INTERVAL
+    );
+  }
+
+  private lookupDraft(id: UrlEncodedCommentId): DraftInfo | undefined {
+    return Object.values(this.drafts)
+      .flat()
+      .find(d => d.id === id);
+  }
 }

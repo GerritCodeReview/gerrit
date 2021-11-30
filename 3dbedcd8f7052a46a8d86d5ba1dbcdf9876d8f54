@@ -16,6 +16,24 @@
       "message": "Why was this breaking change merged into a stable branch?\nSuddenly our internal plugin tests and builds on stable-3.4 started failing for no apparent reason. It was because this change was merged up into stable-3.4.",
       "revId": "3dbedcd8f7052a46a8d86d5ba1dbcdf9876d8f54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "988b3f5e_95c41ce4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-30T19:22:13Z",
+      "side": 1,
+      "message": "As discussed in the other thread, I\u0027m sorry about this breakage. Please do add me as a reviewer for an update to https://gerrit-review.googlesource.com/Documentation/dev-processes.html#dev-in-stable-branches so we can establish a clear process.",
+      "parentUuid": "ad42322e_14a6fdaf",
+      "revId": "3dbedcd8f7052a46a8d86d5ba1dbcdf9876d8f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

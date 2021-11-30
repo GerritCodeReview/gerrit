@@ -16,6 +16,29 @@
       "message": "this lgtm, Patrick/Edwin can you take a look at this?",
       "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71971700_d4e1f702",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-30T12:26:49Z",
+      "side": 1,
+      "message": "We should set this to false and document that we don\u0027t detect renames for the methods in their JavaDoc.\n\nRename detection is very expensive and not needed for the list of files predicate (we are OK listing a file as added/deleted and have no use case for knowing it was actually moved).",
+      "range": {
+        "startLine": 401,
+        "startChar": 8,
+        "endLine": 401,
+        "endChar": 34
+      },
+      "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

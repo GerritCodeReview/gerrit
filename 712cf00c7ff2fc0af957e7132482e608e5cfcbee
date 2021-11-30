@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ecb7c8d_6cc50444",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T14:43:21Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "21179351_c93aea32",
+      "range": {
+        "startLine": 495,
+        "startChar": 0,
+        "endLine": 495,
+        "endChar": 31
+      },
+      "revId": "712cf00c7ff2fc0af957e7132482e608e5cfcbee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60d1c517_be9e352d",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-30T14:35:57Z",
       "side": 1,
       "message": "should this be a test in gr-thread-list_test.ts instead of here? Otherwise you should be setting scrollCommentId on change-view element rather than threadlist, right?",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 498,
+        "endChar": 0
+      },
+      "revId": "712cf00c7ff2fc0af957e7132482e608e5cfcbee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66a87fad_6770e36f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T14:43:21Z",
+      "side": 1,
+      "message": "Yeah, for some reason in the test setting property in change-view was not reflecting in thread-list so I set the property directly here.\n\nIf you can figure out why that\u0027s happening let me know, I wasn\u0027t able to make much progress here.",
+      "parentUuid": "60d1c517_be9e352d",
       "range": {
         "startLine": 494,
         "startChar": 0,

@@ -46,7 +46,6 @@ import {_testOnly_allTasks} from '../utils/async-util';
 import {cleanUpStorage} from '../services/storage/gr-storage_mock';
 
 import {_testOnly_resetState as resetChangeState} from '../services/change/change-model';
-import {_testOnly_resetState as resetCommentsState} from '../services/comments/comments-model';
 import {_testOnly_resetState as resetRouterState} from '../services/router/router-model';
 
 declare global {
@@ -114,7 +113,6 @@ setup(() => {
   initGlobalVariables(appContext);
 
   resetChangeState();
-  resetCommentsState();
   resetRouterState();
 
   const shortcuts = appContext.shortcutsService;

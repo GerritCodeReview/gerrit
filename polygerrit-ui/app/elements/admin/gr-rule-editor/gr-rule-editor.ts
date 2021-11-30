@@ -71,7 +71,7 @@ const FORCE_EDIT_OPTIONS = [
 ];
 
 interface Rule {
-  value: RuleValue;
+  value?: RuleValue;
 }
 
 interface RuleValue {
@@ -158,17 +158,17 @@ export class GrRuleEditor extends PolymerElement {
       // Observer _handleValueChange is called after the ready()
       // method finishes. Original values must be set later to
       // avoid set .modified flag to true
-      this._setOriginalRuleValues(this.rule.value);
+      this._setOriginalRuleValues(this.rule?.value);
     }
   }
 
-  _setupValues(rule: Rule) {
-    if (!rule.value) {
+  _setupValues(rule?: Rule) {
+    if (!rule?.value) {
       this._setDefaultRuleValues();
     }
   }
 
-  _computeForce(permission: AccessPermissionId, action: string) {
+  _computeForce(permission: AccessPermissionId, action?: string) {
     if (AccessPermissionId.PUSH === permission && action !== Action.DENY) {
       return true;
     }
@@ -176,7 +176,7 @@ export class GrRuleEditor extends PolymerElement {
     return AccessPermissionId.EDIT_TOPIC_NAME === permission;
   }
 
-  _computeForceClass(permission: AccessPermissionId, action: string) {
+  _computeForceClass(permission: AccessPermissionId, action?: string) {
     return this._computeForce(permission, action) ? 'force' : '';
   }
 
@@ -213,7 +213,7 @@ export class GrRuleEditor extends PolymerElement {
     return classList.join(' ');
   }
 
-  _computeForceOptions(permission: string, action: string) {
+  _computeForceOptions(permission: string, action?: string) {
     if (permission === AccessPermissionId.PUSH) {
       if (action === Action.ALLOW) {
         return ForcePushOptions.ALLOW;
@@ -259,7 +259,7 @@ export class GrRuleEditor extends PolymerElement {
   }
 
   _handleRemoveRule() {
-    if (!this.rule) return;
+    if (!this.rule?.value) return;
     if (this.rule.value.added) {
       fireEvent(this, 'added-rule-removed');
     }
@@ -269,13 +269,13 @@ export class GrRuleEditor extends PolymerElement {
   }
 
   _handleUndoRemove() {
-    if (!this.rule) return;
+    if (!this.rule?.value) return;
     this._deleted = false;
     delete this.rule.value.deleted;
   }
 
   _handleUndoChange() {
-    if (!this.rule) return;
+    if (!this.rule?.value) return;
     // gr-permission will take care of removing rules that were added but
     // unsaved. We need to keep the added bit for the filter.
     if (this.rule.value.added) {
@@ -289,7 +289,7 @@ export class GrRuleEditor extends PolymerElement {
 
   @observe('rule.value.*')
   _handleValueChange() {
-    if (!this._originalRuleValues || !this.rule) {
+    if (!this._originalRuleValues || !this.rule?.value) {
       return;
     }
     this.rule.value.modified = true;
@@ -297,7 +297,8 @@ export class GrRuleEditor extends PolymerElement {
     fireEvent(this, 'access-modified');
   }
 
-  _setOriginalRuleValues(value: RuleValue) {
+  _setOriginalRuleValues(value?: RuleValue) {
+    if (value === undefined) return;
     this._originalRuleValues = {...value};
   }
 }

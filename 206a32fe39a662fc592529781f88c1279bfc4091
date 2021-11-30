@@ -410,6 +410,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4a9d192e_98af1b81",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T08:07:35Z",
+      "side": 1,
+      "message": "Maybe add a TODO here, that this should be changed to also allow deletion of copied approvals.",
+      "parentUuid": "c6f96823_4cac0ab9",
+      "range": {
+        "startLine": 226,
+        "startChar": 30,
+        "endLine": 226,
+        "endChar": 62
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f8b4e0e_90ba574e",
         "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 7

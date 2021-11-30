@@ -78,8 +78,8 @@ export function createDiffAppContext(): AppContext & Finalizable {
     changeService: (_ctx: Partial<AppContext>) => {
       throw new Error('changeService is not implemented');
     },
-    commentsService: (_ctx: Partial<AppContext>) => {
-      throw new Error('commentsService is not implemented');
+    commentsModel: (_ctx: Partial<AppContext>) => {
+      throw new Error('commentsModel is not implemented');
     },
     checksModel: (_ctx: Partial<AppContext>) => {
       throw new Error('checksModel is not implemented');

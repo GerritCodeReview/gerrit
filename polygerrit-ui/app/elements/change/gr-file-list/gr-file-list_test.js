@@ -1473,8 +1473,7 @@ suite('gr-file-list tests', () => {
     }
 
     async function renderAndGetNewDiffs(index) {
-      const diffs =
-          element.root.querySelectorAll('gr-diff-host');
+      const diffs = element.root.querySelectorAll('gr-diff-host');
 
       for (let i = index; i < diffs.length; i++) {
         await setupDiff(diffs[i]);

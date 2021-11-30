@@ -22,7 +22,6 @@ import {TEST_ONLY} from './gr-messages-list.js';
 import {MessageTag} from '../../../constants/constants.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {stubRestApi} from '../../../test/test-utils.js';
-import {updateStateComments} from '../../../services/comments/comments-model.js';
 
 createCommentApiMockWithTemplateElement(
     'gr-messages-list-comment-mock-api', html`
@@ -129,7 +128,7 @@ suite('gr-messages-list tests', () => {
   };
 
   suite('basic tests', () => {
-    setup(() => {
+    setup(async () => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getDiffComments').returns(Promise.resolve(comments));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
@@ -140,9 +139,9 @@ suite('gr-messages-list tests', () => {
       // comment API.
       commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.messagesList;
-      updateStateComments(comments);
+      await element.commentsModel.reloadComments();
       element.messages = messages;
-      flush();
+      await flush();
     });
 
     test('expand/collapse all', () => {

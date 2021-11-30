@@ -236,7 +236,7 @@ export class GrCommentThread extends LitElement {
   @state()
   saving = false;
 
-  private readonly commentsService = getAppContext().commentsService;
+  private readonly commentsModel = getAppContext().commentsModel;
 
   private readonly userModel = getAppContext().userModel;
 
@@ -769,7 +769,7 @@ export class GrCommentThread extends LitElement {
     } else {
       try {
         this.saving = true;
-        await this.commentsService.saveDraft(unsaved);
+        await this.commentsModel.saveDraft(unsaved);
       } finally {
         this.saving = false;
       }

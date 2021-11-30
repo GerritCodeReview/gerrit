@@ -480,7 +480,9 @@ public class MergeOp implements AutoCloseable {
       logger.atFine().log("Beginning integration of %s", change);
       try {
         ChangeSet indexBackedChangeSet =
-            mergeSuperSet.setMergeOpRepoManager(orm).completeChangeSet(change, caller);
+            mergeSuperSet
+                .setMergeOpRepoManager(orm)
+                .completeChangeSet(change, caller, /* includingTopicClosure= */ false);
         if (!indexBackedChangeSet.ids().contains(change.getId())) {
           // indexBackedChangeSet contains only open changes, if the change is missing in this set
           // it might be that the change was concurrently submitted in the meantime.

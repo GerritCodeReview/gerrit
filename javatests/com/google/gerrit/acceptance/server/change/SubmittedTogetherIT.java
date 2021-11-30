@@ -130,6 +130,8 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     } else {
       assertSubmittedTogether(id1);
       assertSubmittedTogether(id2);
+      assertSubmittedTogetherWithTopicClosure(id1, id2, id1);
+      assertSubmittedTogetherWithTopicClosure(id2, id2, id1);
     }
   }
 
@@ -152,6 +154,8 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     } else {
       assertSubmittedTogether(id1);
       assertSubmittedTogether(id2);
+      assertSubmittedTogetherWithTopicClosure(id1, id2, id1);
+      assertSubmittedTogetherWithTopicClosure(id2, id2, id1);
     }
   }
 
@@ -180,6 +184,9 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
       assertSubmittedTogether(id1);
       assertSubmittedTogether(id2);
       assertSubmittedTogether(id3, id3, id2);
+      assertSubmittedTogetherWithTopicClosure(id1, id2, id1);
+      assertSubmittedTogetherWithTopicClosure(id2, id2, id1);
+      assertSubmittedTogetherWithTopicClosure(id3, id3, id2, id1);
     }
   }
 
@@ -227,6 +234,13 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
       assertSubmittedTogether(id4, id4, id3, id2);
       assertSubmittedTogether(id5);
       assertSubmittedTogether(id6, id6, id5);
+
+      assertSubmittedTogetherWithTopicClosure(id1, id6, id5, id3, id2, id1);
+      assertSubmittedTogetherWithTopicClosure(id2, id6, id5, id2);
+      assertSubmittedTogetherWithTopicClosure(id3, id6, id5, id3, id2, id1);
+      assertSubmittedTogetherWithTopicClosure(id4, id6, id5, id4, id3, id2, id1);
+      assertSubmittedTogetherWithTopicClosure(id5);
+      assertSubmittedTogetherWithTopicClosure(id6, id6, id5, id2);
     }
   }
 

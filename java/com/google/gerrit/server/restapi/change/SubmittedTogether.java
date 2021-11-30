@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
+import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.TOPIC_CLOSURE;
 import static java.util.Collections.reverseOrder;
 import static java.util.stream.Collectors.toList;
 
@@ -127,7 +128,10 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       int hidden;
 
       if (c.isNew()) {
-        ChangeSet cs = mergeSuperSet.get().completeChangeSet(c, resource.getUser());
+        ChangeSet cs =
+            mergeSuperSet
+                .get()
+                .completeChangeSet(c, resource.getUser(), options.contains(TOPIC_CLOSURE));
         cds = ensureRequiredDataIsLoaded(cs.changes().asList());
         hidden = cs.nonVisibleChanges().size();
       } else if (c.isMerged()) {

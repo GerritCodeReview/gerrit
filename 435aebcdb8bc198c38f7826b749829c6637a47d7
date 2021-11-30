@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4add9e4_4dbd21e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-30T13:57:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db9bfaf5_4db21b79",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 65
+      },
+      "revId": "435aebcdb8bc198c38f7826b749829c6637a47d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e17f330_12ee1f1c",
@@ -61,6 +85,30 @@
       "writtenOn": "2021-11-30T12:32:50Z",
       "side": 1,
       "message": "super nit: for which.",
+      "range": {
+        "startLine": 100,
+        "startChar": 30,
+        "endLine": 100,
+        "endChar": 34
+      },
+      "revId": "435aebcdb8bc198c38f7826b749829c6637a47d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ace7e396_117d9847",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-30T13:57:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e17f330_12ee1f1c",
       "range": {
         "startLine": 100,
         "startChar": 30,

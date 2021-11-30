@@ -432,6 +432,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10612f60_51acd5ec",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-30T08:12:45Z",
+      "side": 1,
+      "message": "\u003e ack, I started looking into this but this change is just preserving behavior.\n\nAh, right. Maybe one has to run this Op on the original patch set for it to work in which case no TODO is needed IMO.\n\nToday, this certainly works and I checked the code and you are right in that we only look at original approval, so the modification you made here LGTM.",
+      "parentUuid": "4a9d192e_98af1b81",
+      "range": {
+        "startLine": 226,
+        "startChar": 30,
+        "endLine": 226,
+        "endChar": 62
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f8b4e0e_90ba574e",

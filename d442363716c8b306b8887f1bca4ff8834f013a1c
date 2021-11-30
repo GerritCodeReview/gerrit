@@ -136,6 +136,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c7643ca_058615f5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T17:57:56Z",
+      "side": 1,
+      "message": "Understood now. Updated.",
+      "parentUuid": "41636595_7c8163d4",
+      "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5aa4e3f8_1a25fa8c",
@@ -231,6 +249,24 @@
       "writtenOn": "2021-11-26T12:08:21Z",
       "side": 1,
       "message": "If you want to put Sets into application state, then can you add tests to deepEqual()?\n\nMaybe just use an array or Record?",
+      "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a15a44_96de3f05",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T17:57:56Z",
+      "side": 1,
+      "message": "Replaced with Array.",
+      "parentUuid": "279baa09_d59c7f92",
       "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -376,6 +412,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41031fe7_e51ad09c",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T17:57:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38ef3529_a9d4a6f2",
+      "range": {
+        "startLine": 75,
+        "startChar": 52,
+        "endLine": 75,
+        "endChar": 61
+      },
+      "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54be4ef5_7e41b284",
@@ -412,6 +472,24 @@
       "writtenOn": "2021-11-26T12:08:21Z",
       "side": 1,
       "message": "You have to check whether changeNum and patchNum are still current.",
+      "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dce6d39e_6d103bf1",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T17:57:56Z",
+      "side": 1,
+      "message": "Is the way to maintain changeNum and patchNum inside the service and then comparing when the updateStateFileReviewed method is called?",
+      "parentUuid": "e6b468c5_a988ec05",
       "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -709,6 +709,24 @@
       "parentUuid": "2fbb7305_c7234d57",
       "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc2beedf_7c57e8a8",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T08:55:25Z",
+      "side": 1,
+      "message": "Thanks for checking. +1 to drop redundant methods and always use all approvals if possible (I think the only case where we actually do need to filter out copied approvals is for SubmitWithStickyApprovalDiff, but this can be done by filtering the approvals based on the PatchSetApproval.copied() method). I think the APIs will get much simpler/clearer once we do not differentiate between copied and non-copied approvals everywhere. Agreed that fixing this goes beyond this change, but it would be nice if gets part of this series.",
+      "parentUuid": "28857e03_e8613478",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

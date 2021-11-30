@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ac208da_eba051b9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-30T19:49:29Z",
+      "side": 1,
+      "message": "That\u0027s good question. I am assuming here that either all changes are new or none. I asked this question for backend team. \n\nI can change (now or in future) so that I will check all changes like\n```changes.every(change \u003d\u003e showNewSubmitRequirements(this.flagsService, change)```",
+      "parentUuid": "c0995c84_5bd1b065",
+      "revId": "5de9d48a3ccd4501f45224af37e20faa6f2baa93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ade8b7c_e6774126",
         "filename": "polygerrit-ui/app/utils/label-util.ts",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-30T16:40:22Z",
       "side": 1,
       "message": "Is it possible to have a change without submit requirements in a world that wants submit requirements?\n\nIf so what happens in that case?",
+      "revId": "5de9d48a3ccd4501f45224af37e20faa6f2baa93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a56623d7_fe3e835c",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-30T19:49:29Z",
+      "side": 1,
+      "message": "That\u0027s good question.\n\nThis is temporary code that once submit requirements are rollout to all host by backend will be removed. After that code will work on change without submit requirements.\n\nBut if it will happen before full rollout and we will get case of empty submit requirements, we can create bug and come up with fix, if the old would not work ok for empty submit requirements. (Imho it will be ok). \n\nBtw I think that at least code-review should be everywhere. I asked backend team about this, they maybe know more.",
+      "parentUuid": "3ade8b7c_e6774126",
       "revId": "5de9d48a3ccd4501f45224af37e20faa6f2baa93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

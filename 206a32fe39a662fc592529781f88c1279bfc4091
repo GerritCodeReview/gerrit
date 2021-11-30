@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7883d8b_ad550a2d",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-30T09:28:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dbe8dbf_f2ace149",
+      "range": {
+        "startLine": 105,
+        "startChar": 43,
+        "endLine": 105,
+        "endChar": 81
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e8825e2_d97c657e",
@@ -156,6 +180,24 @@
       "side": 1,
       "message": "PatchSetApproval already has this field, so it\u0027s perfectly fine to do this.\n\nHowever, for the sake of preserving existing behavior, can we do this in a follow-up?",
       "parentUuid": "404b59c1_03637cab",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e17a0baa_253488c4",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-30T09:28:40Z",
+      "side": 1,
+      "message": "resolving, getting rid of differentiating copied/non-copied in a follow-up.",
+      "parentUuid": "3db4aebf_32c4d960",
       "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -279,6 +321,30 @@
       "side": 1,
       "message": "updated the comment.\nWe can, but it\u0027s not needed to use byPatchSet here (see other comments).",
       "parentUuid": "bcd34a48_556267ac",
+      "range": {
+        "startLine": 373,
+        "startChar": 52,
+        "endLine": 373,
+        "endChar": 61
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56c1289c_47d8799d",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-30T09:28:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "896c628f_b0fd6421",
       "range": {
         "startLine": 373,
         "startChar": 52,
@@ -528,6 +594,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1909116f_fe5bfe77",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-30T09:28:40Z",
+      "side": 1,
+      "message": "the votes were all anyway removed, but test confirmed it.\nThis code here was just about a change message, added that to the test.",
+      "parentUuid": "94b1075d_df8c31ef",
+      "range": {
+        "startLine": 226,
+        "startChar": 30,
+        "endLine": 226,
+        "endChar": 62
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f8b4e0e_90ba574e",
@@ -660,6 +750,24 @@
       "writtenOn": "2021-11-29T12:30:30Z",
       "side": 1,
       "message": "Can we rename this to getApprovals() and drop the current getApprovals() method that excludes copied approvals. I\u0027m not sure I understand why getting approvals without copied approvals is needed.",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdc0c949_11d3aae9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-30T09:28:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d22ade00_e2ba8561",
       "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

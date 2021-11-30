@@ -298,7 +298,7 @@ suite('label-util', () => {
         is_legacy: true,
       };
       const change = createChangeInfoWith([requirement]);
-      assert.deepEqual(getRequirements(change), [requirement]);
+      assert.deepEqual(getRequirements(change), []);
     });
     test('legacy and non-legacy - filter legacy', () => {
       const requirement = {
@@ -313,10 +313,7 @@ suite('label-util', () => {
       assert.deepEqual(getRequirements(change), [requirement2]);
     });
     test('filter not applicable', () => {
-      const requirement = {
-        ...createSubmitRequirementResultInfo(),
-        is_legacy: true,
-      };
+      const requirement = createSubmitRequirementResultInfo();
       const requirement2 = {
         ...createSubmitRequirementResultInfo(),
         status: SubmitRequirementStatus.NOT_APPLICABLE,
@@ -348,6 +345,7 @@ suite('label-util', () => {
               ...createSubmitRequirementExpressionInfo(),
               expression: `label:${triggerVote}=MAX`,
             },
+            is_legacy: false,
           },
         ],
         labels: {

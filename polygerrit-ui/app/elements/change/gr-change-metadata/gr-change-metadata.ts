@@ -87,7 +87,7 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {Interaction} from '../../../constants/reporting';
-import {KnownExperimentId} from '../../../services/flags/flags';
+import {showNewSubmitRequirements} from '../../../utils/label-util';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -213,9 +213,6 @@ export class GrChangeMetadata extends PolymerElement {
   @property({type: Object})
   queryTopic?: AutocompleteQuery;
 
-  @property({type: Boolean})
-  _isSubmitRequirementsUiEnabled = false;
-
   restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -225,9 +222,6 @@ export class GrChangeMetadata extends PolymerElement {
   override ready() {
     super.ready();
     this.queryTopic = (input: string) => this._getTopicSuggestions(input);
-    this._isSubmitRequirementsUiEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-    );
   }
 
   @observe('change.labels')
@@ -713,13 +707,7 @@ export class GrChangeMetadata extends PolymerElement {
   }
 
   _showNewSubmitRequirements(change?: ParsedChangeInfo) {
-    if (!this._isSubmitRequirementsUiEnabled) return false;
-    return (change?.submit_requirements ?? []).length > 0;
-  }
-
-  _showNewSubmitRequirementWarning(change?: ParsedChangeInfo) {
-    if (!this._isSubmitRequirementsUiEnabled) return false;
-    return (change?.submit_requirements ?? []).length === 0;
+    return showNewSubmitRequirements(this.flagsService, change);
   }
 }
 

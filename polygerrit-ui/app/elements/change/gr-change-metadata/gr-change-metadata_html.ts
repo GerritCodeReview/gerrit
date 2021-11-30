@@ -113,10 +113,6 @@ export const htmlTemplate = html`
       --iron-icon-height: 18px;
       --iron-icon-width: 18px;
     }
-    .submit-requirement-error {
-      color: var(--deemphasized-text-color);
-      padding-left: var(--metadata-horizontal-padding);
-    }
   </style>
   <gr-external-style id="externalStyle" name="change-metadata">
     <div class="metadata-header">
@@ -478,11 +474,6 @@ export const htmlTemplate = html`
           account="[[account]]"
           mutable="[[_mutable]]"
         ></gr-change-requirements>
-      </template>
-      <template is="dom-if" if="[[_showNewSubmitRequirementWarning(change)]]">
-        <div class="submit-requirement-error">
-          New Submit Requirements don't work on this change.
-        </div>
       </template>
     </div>
     <section

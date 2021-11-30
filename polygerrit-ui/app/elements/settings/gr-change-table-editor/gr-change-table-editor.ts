@@ -24,6 +24,7 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {ServerInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 @customElement('gr-change-table-editor')
 export class GrChangeTableEditor extends PolymerElement {
@@ -48,24 +49,25 @@ export class GrChangeTableEditor extends PolymerElement {
   @observe('serverConfig')
   _configChanged(config: ServerInfo) {
     this.defaultColumns = columnNames.filter(col =>
-      this._isColumnEnabled(col, config, this.flagsService.enabledExperiments)
+      this._isColumnEnabled(col, config)
     );
     if (!this.displayedColumns) return;
     this.displayedColumns = this.displayedColumns.filter(column =>
-      this._isColumnEnabled(
-        column,
-        config,
-        this.flagsService.enabledExperiments
-      )
+      this._isColumnEnabled(column, config)
     );
   }
 
   /**
    * Is the column disabled by a server config or experiment?
    */
-  _isColumnEnabled(column: string, config: ServerInfo, experiments: string[]) {
+  _isColumnEnabled(column: string, config: ServerInfo) {
     if (!config || !config.change) return true;
-    if (column === 'Comments') return experiments.includes('comments-column');
+    if (column === 'Comments')
+      return this.flagsService.isEnabled('comments-column');
+    if (column === 'Requirements')
+      return this.flagsService.isEnabled(
+        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+      );
     return true;
   }
 

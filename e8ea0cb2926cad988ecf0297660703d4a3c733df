@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbd5305b_5cba4d90",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:53:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a02f640a_7305e5eb",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b2357ce_c4a3a0df",
@@ -163,6 +181,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a22901b_78d5f139",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:53:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2a13f25_fc28a63d",
+      "range": {
+        "startLine": 330,
+        "startChar": 33,
+        "endLine": 330,
+        "endChar": 68
+      },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8208d79_0d97069d",
@@ -186,6 +228,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1efa38c_e56451ef",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:53:47Z",
+      "side": 1,
+      "message": "Yes, the caller invokes \"buildCurrentPatchSetId\" to get the latest patchset which has a code path that returns null.",
+      "parentUuid": "a8208d79_0d97069d",
+      "range": {
+        "startLine": 331,
+        "startChar": 64,
+        "endLine": 331,
+        "endChar": 94
+      },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "059d2306_c0e6889f",
@@ -199,6 +265,30 @@
       "writtenOn": "2021-11-30T12:39:30Z",
       "side": 1,
       "message": "Do we need to filter by Status: OK ?",
+      "range": {
+        "startLine": 339,
+        "startChar": 8,
+        "endLine": 339,
+        "endChar": 21
+      },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "251c381b_645d335b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:53:47Z",
+      "side": 1,
+      "message": "mmm, yeah maybe we should do that to be safe.\n\nDone.",
+      "parentUuid": "059d2306_c0e6889f",
       "range": {
         "startLine": 339,
         "startChar": 8,

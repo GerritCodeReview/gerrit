@@ -33,10 +33,13 @@ import {
   LabelValuesMap,
 } from '../gr-label-score-row/gr-label-score-row';
 import {getAppContext} from '../../../services/app-context';
-import {getTriggerVotes, labelCompare} from '../../../utils/label-util';
+import {
+  getTriggerVotes,
+  labelCompare,
+  showNewSubmitRequirements,
+} from '../../../utils/label-util';
 import {Execution} from '../../../constants/reporting';
 import {ChangeStatus} from '../../../constants/constants';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {fontStyles} from '../../../styles/gr-font-styles';
 
 @customElement('gr-label-scores')
@@ -90,7 +93,7 @@ export class GrLabelScores extends LitElement {
   }
 
   override render() {
-    if (this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
+    if (showNewSubmitRequirements(this.flagsService, this.change)) {
       return this.renderNewSubmitRequirements();
     } else {
       return this.renderOldSubmitRequirements();

@@ -30,7 +30,8 @@ declare global {
 
 @customElement('gr-button')
 export class GrButton extends LitElement {
-  private readonly reporting = getAppContext().reportingService;
+  // Private but used in tests.
+  readonly reporting = getAppContext().reportingService;
 
   /**
    * Should this button be rendered as a vote chip? Then we are applying

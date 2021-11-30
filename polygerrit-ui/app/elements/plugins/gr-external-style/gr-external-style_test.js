@@ -18,10 +18,7 @@ import '../../../test/common-test-setup-karma.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import './gr-external-style.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-const pluginApi = _testOnly_initGerritPluginApi();
 
 const basicFixture = fixtureFromTemplate(
     html`<gr-external-style name="foo"></gr-external-style>`
@@ -35,7 +32,7 @@ suite('gr-external-style integration tests', () => {
 
   const installPlugin = () => {
     if (plugin) { return; }
-    pluginApi.install(p => {
+    window.Gerrit.install(p => {
       plugin = p;
     }, '0.1', TEST_URL);
   };

@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import {getPluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins} from '../../../test/test-utils.js';
-import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
+import {_testOnly_getGerritInternalPluginApi} from './gr-gerrit.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {getAppContext} from '../../../services/app-context.js';
 
@@ -33,7 +33,7 @@ suite('gr-gerrit tests', () => {
     stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
     stubRestApi('send').returns(Promise.resolve({status: 200}));
     element = getAppContext().jsApiService;
-    pluginApi = _testOnly_initGerritPluginApi();
+    pluginApi = _testOnly_getGerritInternalPluginApi();
   });
 
   teardown(() => {

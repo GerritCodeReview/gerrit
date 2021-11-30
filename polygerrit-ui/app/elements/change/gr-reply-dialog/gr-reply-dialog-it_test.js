@@ -19,14 +19,12 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-reply-dialog.js';
 
 import {queryAndAssert, resetPlugins, stubRestApi} from '../../../test/test-utils.js';
-import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
 suite('gr-reply-dialog-it tests', () => {
   let element;
-  let pluginApi;
   let changeNum;
   let patchNum;
 
@@ -71,7 +69,6 @@ suite('gr-reply-dialog-it tests', () => {
   };
 
   setup(() => {
-    pluginApi = _testOnly_initGerritPluginApi();
     changeNum = 42;
     patchNum = 1;
 
@@ -102,7 +99,7 @@ suite('gr-reply-dialog-it tests', () => {
 
   test('lgtm plugin', async () => {
     resetPlugins();
-    pluginApi.install(plugin => {
+    window.Gerrit.install(plugin => {
       const replyApi = plugin.changeReply();
       replyApi.addReplyTextChangedCallback(text => {
         const label = 'Code-Review';

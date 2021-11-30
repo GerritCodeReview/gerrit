@@ -19,10 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {_testOnly_resetPluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins, stubBaseUrl} from '../../../test/test-utils.js';
-import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
-
-const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-plugin-loader tests', () => {
   let plugin;
@@ -47,18 +44,18 @@ suite('gr-plugin-loader tests', () => {
   });
 
   test('reuse plugin for install calls', () => {
-    pluginApi.install(p => { plugin = p; }, '0.1',
+    window.Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
 
     let otherPlugin;
-    pluginApi.install(p => { otherPlugin = p; }, '0.1',
+    window.Gerrit.install(p => { otherPlugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     assert.strictEqual(plugin, otherPlugin);
   });
 
   test('versioning', () => {
     const callback = sinon.spy();
-    pluginApi.install(callback, '0.0pre-alpha');
+    window.Gerrit.install(callback, '0.0pre-alpha');
     assert(callback.notCalled);
   });
 
@@ -89,7 +86,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('plugins installed successfully', async () => {
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => void 0, undefined, url);
+      window.Gerrit.install(() => void 0, undefined, url);
     });
     const pluginsLoadedStub = sinon.stub(pluginLoader._getReporting(),
         'pluginsLoaded');
@@ -107,7 +104,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('isPluginEnabled and isPluginLoaded', () => {
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => void 0, undefined, url);
+      window.Gerrit.install(() => void 0, undefined, url);
     });
 
     const plugins = [
@@ -137,7 +134,7 @@ suite('gr-plugin-loader tests', () => {
     addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => {
+      window.Gerrit.install(() => {
         if (url === plugins[0]) {
           throw new Error('failed');
         }
@@ -165,7 +162,7 @@ suite('gr-plugin-loader tests', () => {
     addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => {
+      window.Gerrit.install(() => {
         if (url === plugins[0]) {
           throw new Error('failed');
         }
@@ -198,7 +195,7 @@ suite('gr-plugin-loader tests', () => {
     addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => {
+      window.Gerrit.install(() => {
         throw new Error('failed');
       }, undefined, url);
     });
@@ -224,7 +221,7 @@ suite('gr-plugin-loader tests', () => {
     addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => {
+      window.Gerrit.install(() => {
       }, url === plugins[0] ? '' : 'alpha', url);
     });
 
@@ -241,7 +238,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('multiple assets for same plugin installed successfully', async () => {
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => void 0, undefined, url);
+      window.Gerrit.install(() => void 0, undefined, url);
     });
     const pluginsLoadedStub = sinon.stub(pluginLoader._getReporting(),
         'pluginsLoaded');
@@ -388,7 +385,7 @@ suite('gr-plugin-loader tests', () => {
       }
     }
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => pluginCallback(url), undefined, url);
+      window.Gerrit.install(() => pluginCallback(url), undefined, url);
     });
 
     pluginLoader.loadPlugins(plugins);

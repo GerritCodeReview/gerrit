@@ -17,9 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-change-actions/gr-change-actions.js';
-import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
-
-const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-annotation-actions-js-api tests', () => {
   let annotationActions;
@@ -27,7 +24,7 @@ suite('gr-annotation-actions-js-api tests', () => {
   let plugin;
 
   setup(() => {
-    pluginApi.install(p => { plugin = p; }, '0.1',
+    window.Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     annotationActions = plugin.annotationApi();
   });

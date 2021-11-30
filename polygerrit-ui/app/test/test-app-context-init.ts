@@ -18,7 +18,7 @@
 // Init app context before any other imports
 import {create, Registry, Finalizable} from '../services/registry';
 import {assertIsDefined} from '../utils/common-util';
-import {AppContext, injectAppContext} from '../services/app-context';
+import {AppContext} from '../services/app-context';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
 import {grRestApiMock} from './mocks/gr-rest-api_mock';
 import {grStorageMock} from '../services/storage/gr-storage_mock';
@@ -34,9 +34,7 @@ import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {BrowserModel} from '../services/browser/browser-model';
 import {ConfigModel} from '../services/config/config-model';
 
-let appContext: (AppContext & Finalizable) | undefined;
-
-export function _testOnlyInitAppContext() {
+export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
     flagsService: (_ctx: Partial<AppContext>) =>
       new FlagsServiceImplementation(),
@@ -82,11 +80,5 @@ export function _testOnlyInitAppContext() {
       return new BrowserModel(ctx.userModel!);
     },
   };
-  appContext = create<AppContext>(appRegistry);
-  injectAppContext(appContext);
-}
-
-export function _testOnlyFinalizeAppContext() {
-  appContext?.finalize();
-  appContext = undefined;
+  return create<AppContext>(appRegistry);
 }

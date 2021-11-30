@@ -21,10 +21,9 @@ import './source-map-support-install';
 import '../scripts/bundled-polymer';
 import '@polymer/iron-test-helpers/iron-test-helpers';
 import './test-router';
-import {
-  _testOnlyInitAppContext,
-  _testOnlyFinalizeAppContext,
-} from './test-app-context-init';
+import {AppContext, injectAppContext} from '../services/app-context';
+import {Finalizable} from '../services/registry';
+import {createTestAppContext} from './test-app-context-init';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-impl';
 import {
@@ -36,7 +35,6 @@ import {
   removeThemeStyles,
 } from './test-utils';
 import {safeTypesBridge} from '../utils/safe-types-util';
-import {_testOnly_initGerritPluginApi} from '../elements/shared/gr-js-api-interface/gr-gerrit';
 import {initGlobalVariables} from '../elements/gr-app-global-var-init';
 import 'chai/chai';
 import {chaiDomDiff} from '@open-wc/semantic-dom-diff';
@@ -47,7 +45,6 @@ import {
 import {_testOnly_allTasks} from '../utils/async-util';
 import {cleanUpStorage} from '../services/storage/gr-storage_mock';
 
-import {getAppContext} from '../services/app-context';
 import {_testOnly_resetState as resetChangeState} from '../services/change/change-model';
 import {_testOnly_resetState as resetCommentsState} from '../services/comments/comments-model';
 import {_testOnly_resetState as resetRouterState} from '../services/router/router-model';
@@ -101,6 +98,7 @@ function fixtureImpl(fixtureId: string, model: unknown) {
 
 window.fixture = fixtureImpl;
 let testSetupTimestampMs = 0;
+let appContext: AppContext & Finalizable;
 
 setup(() => {
   testSetupTimestampMs = new Date().getTime();
@@ -109,17 +107,17 @@ setup(() => {
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.
   assert.equal(getCleanupsCount(), 0);
-  _testOnlyInitAppContext();
+  appContext = createTestAppContext();
+  injectAppContext(appContext);
   // The following calls is nessecary to avoid influence of previously executed
   // tests.
-  initGlobalVariables();
-  _testOnly_initGerritPluginApi();
+  initGlobalVariables(appContext);
 
   resetChangeState();
   resetCommentsState();
   resetRouterState();
 
-  const shortcuts = getAppContext().shortcutsService;
+  const shortcuts = appContext.shortcutsService;
   assert.isTrue(shortcuts._testOnly_isEmpty());
   const selection = document.getSelection();
   if (selection) {
@@ -215,7 +213,7 @@ teardown(() => {
   cancelAllTasks();
   cleanUpStorage();
   // Reset state
-  _testOnlyFinalizeAppContext();
+  appContext?.finalize();
   const testTeardownTimestampMs = new Date().getTime();
   const elapsedMs = testTeardownTimestampMs - testSetupTimestampMs;
   if (elapsedMs > 1000) {

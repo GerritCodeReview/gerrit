@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad42322e_14a6fdaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-11-30T09:33:32Z",
+      "side": 1,
+      "message": "Why was this breaking change merged into a stable branch?\nSuddenly our internal plugin tests and builds on stable-3.4 started failing for no apparent reason. It was because this change was merged up into stable-3.4.",
+      "revId": "3dbedcd8f7052a46a8d86d5ba1dbcdf9876d8f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

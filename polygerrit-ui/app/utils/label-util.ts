@@ -20,6 +20,7 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../api/rest-api';
+import {FlagsService, KnownExperimentId} from '../services/flags/flags';
 import {
   AccountInfo,
   ApprovalInfo,
@@ -262,20 +263,9 @@ export function iconForStatus(status: SubmitRequirementStatus) {
  * If there is at least one non-legacy requirement, filter legacy requirements.
  */
 export function getRequirements(change?: ParsedChangeInfo | ChangeInfo) {
-  let submit_requirements = (change?.submit_requirements ?? []).filter(
-    req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
-  );
-
-  const hasNonLegacyRequirements = submit_requirements.some(
-    req => req.is_legacy === false
-  );
-  if (hasNonLegacyRequirements) {
-    submit_requirements = submit_requirements.filter(
-      req => req.is_legacy === false
-    );
-  }
-
-  return submit_requirements;
+  return (change?.submit_requirements ?? [])
+    .filter(req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE)
+    .filter(req => req.is_legacy === false);
 }
 
 // TODO(milutin): This may be temporary for demo purposes
@@ -308,4 +298,17 @@ export function getTriggerVotes(change?: ParsedChangeInfo | ChangeInfo) {
   return allLabels.filter(
     label => !labelAssociatedWithSubmitReqs.includes(label)
   );
+}
+
+export function showNewSubmitRequirements(
+  flagsService: FlagsService,
+  change?: ParsedChangeInfo | ChangeInfo
+) {
+  const isSubmitRequirementsUiEnabled = flagsService.isEnabled(
+    KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+  );
+  if (!isSubmitRequirementsUiEnabled) return false;
+  if ((getRequirements(change) ?? []).length === 0) return false;
+
+  return true;
 }

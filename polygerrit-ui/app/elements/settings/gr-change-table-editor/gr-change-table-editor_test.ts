@@ -104,7 +104,7 @@ suite('gr-change-table-editor tests', () => {
 
   test('_getDisplayedColumns', () => {
     const enabledColumns = columns.filter(column =>
-      element._isColumnEnabled(column, element.serverConfig!, [])
+      element._isColumnEnabled(column, element.serverConfig!)
     );
     assert.deepEqual(element._getDisplayedColumns(), enabledColumns);
     const input = queryAndAssert<HTMLInputElement>(

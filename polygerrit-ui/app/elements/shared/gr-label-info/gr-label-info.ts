@@ -44,6 +44,7 @@ import {
   getVotingRangeOrDefault,
   hasNeutralStatus,
   hasVoted,
+  showNewSubmitRequirements,
   valueString,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
@@ -53,7 +54,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {fireReload} from '../../../utils/event-util';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {sortReviewers} from '../../../utils/attention-set-util';
 
 declare global {
@@ -103,10 +103,6 @@ export class GrLabelInfo extends LitElement {
    */
   @property({type: Boolean})
   showAllReviewers = true;
-
-  /** temporary until submit requirements are finished */
-  @property({type: Boolean})
-  showAlwaysOldUI = false;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -214,10 +210,7 @@ export class GrLabelInfo extends LitElement {
   }
 
   override render() {
-    if (
-      this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI) &&
-      !this.showAlwaysOldUI
-    ) {
+    if (showNewSubmitRequirements(this.flagsService, this.change)) {
       return this.renderNewSubmitRequirements();
     } else {
       return this.renderOldSubmitRequirements();

@@ -175,8 +175,18 @@ function getStyleEl() {
       --header-padding: 0 var(--spacing-l);
       --header-text-color: var(--primary-text-color);
 
+      /* dashboard size background colors */
+      --dashboard-size-xs: var(--gray-700);
+      --dashboard-size-s: var(--gray-500);
+      --dashboard-size-m: var(--gray-400);
+      --dashboard-size-l: var(--gray-300);
+      --dashboard-size-xl: var(--gray-200);
+      --dashboard-size-text: black;
+      --dashboard-size-xs-text: white;
+      --dashboard-size-xl-text: black;
+
       /* diff colors */
-      --dark-add-highlight-color: var(--green-tonal); 
+      --dark-add-highlight-color: var(--green-tonal);
       --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
       --dark-rebased-remove-highlight-color: rgba(255, 139, 6, 0.15);
       --dark-remove-highlight-color: #62110f;

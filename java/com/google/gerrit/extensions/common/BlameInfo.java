@@ -28,7 +28,7 @@ public class BlameInfo {
     if (this == o) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (o == null || !(o instanceof BlameInfo)) {
       return false;
     }
     BlameInfo blameInfo = (BlameInfo) o;

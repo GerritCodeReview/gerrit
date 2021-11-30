@@ -47,6 +47,8 @@ public abstract class OperatorPredicate<T> extends Predicate<T> {
     return getOperator().hashCode() * 31 + getValue().hashCode();
   }
 
+  // Suppress the EqualsGetClass warning as this is legacy code.
+  @SuppressWarnings("EqualsGetClass")
   @Override
   public boolean equals(Object other) {
     if (other == null) {

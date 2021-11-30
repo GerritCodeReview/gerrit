@@ -112,6 +112,8 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
     return pred.hashCode();
   }
 
+  // Suppress the EqualsGetClass warning as this is legacy code.
+  @SuppressWarnings("EqualsGetClass")
   @Override
   public boolean equals(Object other) {
     if (other == null || getClass() != other.getClass()) {

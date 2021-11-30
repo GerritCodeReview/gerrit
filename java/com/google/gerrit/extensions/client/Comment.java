@@ -110,6 +110,11 @@ public abstract class Comment {
     return 1;
   }
 
+  // This is a value class that allows adding attributes by subclassing.
+  // Doing this is discouraged and using composition rather than inheritance to add fields to value
+  // types is preferred. However this class is part of the extension API, hence we cannot change it
+  // without breaking the API. Hence suppress the EqualsGetClass warning here.
+  @SuppressWarnings("EqualsGetClass")
   @Override
   public boolean equals(Object o) {
     if (this == o) {

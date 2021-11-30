@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "48e9321a_bf3e57c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "Done.\n\nThanks for writing the description.",
+      "parentUuid": "8efa00e4_dbab769e",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7d3c51a5_596e2e70",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -69,6 +87,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d3c7cd7_53c5f77a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "No need for this IMO. We are not adding any new footers to change notes, hence there\u0027s anything we can test just for parsed change notes.\n\nWe need to parse the approvals in combination with submit records, and that\u0027s what we do in the test of StickyApprovalsIT.",
+      "parentUuid": "4b2357ce_c4a3a0df",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "549e66bf_bd42727a",
@@ -82,6 +118,24 @@
       "writtenOn": "2021-11-30T14:32:41Z",
       "side": 1,
       "message": "Could we skip this logic entirely if any of the approvals that were read was copied? If there is any copied approval, it means this change was merged after persisting copied approvals was implemented and hence all copied approvals are already present on the latest patch set.",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35fb049a_74d2d46e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "If any approval was copied, it will be ignored by the method \"getCopiedApprovalsFromSubmitRecords\" (now renamed) that checks if there is no approval for this {label, user} on the latest PS.\n\nPlease LMK if I\u0027m missing something.",
+      "parentUuid": "549e66bf_bd42727a",
       "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -172,6 +226,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5d1c855_06498fdc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure that this test is covering the case that we want to fix.\n\nIt is. If we rollback my change to ChangeNotesParser the test fails.\n\nYes, your argument is true. That\u0027s why to mimic this use case, I had to append a custom submit record (emitted from the TestSubmitRule) that always returns an approved \"Verified\" label from \"user\". We don\u0027t have any configuration that copies the \"Verified\" label between patch-sets so it\u0027s not copied with our normal workflow.\n\nWhen the change gets submitted, a submit record will be stored from the TestSubmitRule for the \"Verified\" label. Since there is no approval on the latest PS for \"Verified\", the approval is copied from PS1.\n\nI added a comment on the test to explain this.",
+      "parentUuid": "472c24cb_c1d03eee",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "707c0f7b_087ecedb",
@@ -197,6 +269,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a17035e_bcab5254",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand this. Could you please clarify what we need to test?",
+      "parentUuid": "707c0f7b_087ecedb",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 46
+      },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a659b25_48bc454b",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
         "patchSetId": 3
@@ -208,6 +304,24 @@
       "writtenOn": "2021-11-30T14:12:51Z",
       "side": 1,
       "message": "The comment in l. 298 suggest that it\u0027s not intended that admin votes again?",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf0e69fd_5637dc52",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "Yes, that should not affect the test. I removed the vote from the admin at this line.",
+      "parentUuid": "3a659b25_48bc454b",
       "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

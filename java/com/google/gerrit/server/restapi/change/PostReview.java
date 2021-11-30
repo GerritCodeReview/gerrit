@@ -1579,12 +1579,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       Map<String, PatchSetApproval> current = new HashMap<>();
 
       for (PatchSetApproval a :
-          approvalsUtil.byPatchSetUser(
-              ctx.getNotes(),
-              psId,
-              user.getAccountId(),
-              ctx.getRevWalk(),
-              ctx.getRepoView().getConfig())) {
+          approvalsUtil.byPatchSetUser(ctx.getNotes(), psId, user.getAccountId())) {
         if (a.isLegacySubmit()) {
           continue;
         }

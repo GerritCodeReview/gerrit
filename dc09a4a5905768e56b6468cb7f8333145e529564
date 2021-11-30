@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89994a22_bbc44c66",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 895,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T11:47:05Z",
+      "side": 1,
+      "message": "Created a bug for this.",
+      "parentUuid": "49a21a87_6b3268a4",
+      "range": {
+        "startLine": 890,
+        "startChar": 0,
+        "endLine": 895,
+        "endChar": 0
+      },
+      "revId": "dc09a4a5905768e56b6468cb7f8333145e529564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93edbfa6_514bf708",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f01e62cf_67238b55",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T11:47:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93edbfa6_514bf708",
+      "range": {
+        "startLine": 214,
+        "startChar": 45,
+        "endLine": 214,
+        "endChar": 73
+      },
+      "revId": "dc09a4a5905768e56b6468cb7f8333145e529564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fae5e44_7f50dd2b",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-11-30T10:34:23Z",
       "side": 1,
       "message": "Maybe better:\n\n  if (scrollCommentId) this.handleAllComments();",
+      "range": {
+        "startLine": 236,
+        "startChar": 4,
+        "endLine": 237,
+        "endChar": 3
+      },
+      "revId": "dc09a4a5905768e56b6468cb7f8333145e529564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f592da6_7504c1bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T11:47:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fae5e44_7f50dd2b",
       "range": {
         "startLine": 236,
         "startChar": 4,

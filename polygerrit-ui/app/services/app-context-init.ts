@@ -26,7 +26,7 @@ import {ChecksModel} from './checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
 import {UserModel} from './user/user-model';
-import {CommentsService} from './comments/comments-service';
+import {CommentsModel} from './comments/comments-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {BrowserModel} from './browser/browser-model';
 import {assertIsDefined} from '../utils/common-util';
@@ -57,12 +57,12 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new ChangeService(ctx.restApiService!);
     },
-    commentsService: (ctx: Partial<AppContext>) => {
+    commentsModel: (ctx: Partial<AppContext>) => {
       const restApi = ctx.restApiService;
       const reporting = ctx.reportingService;
       assertIsDefined(restApi, 'restApiService');
       assertIsDefined(reporting, 'reportingService');
-      return new CommentsService(restApi, reporting);
+      return new CommentsModel(restApi, reporting);
     },
     checksModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');

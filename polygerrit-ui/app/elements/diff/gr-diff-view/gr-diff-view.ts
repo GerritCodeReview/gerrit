@@ -113,10 +113,6 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {addGlobalShortcut, Key, toggleClass} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {isFalse, throttleWrap, until} from '../../../utils/async-util';
-import {
-  changeComments$,
-  commentsLoading$,
-} from '../../../services/comments/comments-model';
 import {filter, take} from 'rxjs/operators';
 import {Subscription, combineLatest} from 'rxjs';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
@@ -373,9 +369,8 @@ export class GrDiffView extends base {
   // Private but used in tests.
   readonly browserModel = getAppContext().browserModel;
 
-  // We just want to make sure that CommentsService is instantiated.
-  // Otherwise subscribing to the model won't emit any data.
-  private readonly _commentsService = getAppContext().commentsService;
+  // Private but used in tests.
+  readonly commentsModel = getAppContext().commentsModel;
 
   private readonly shortcuts = getAppContext().shortcutsService;
 
@@ -386,11 +381,6 @@ export class GrDiffView extends base {
   private cursor = new GrDiffCursor();
 
   private subscriptions: Subscription[] = [];
-
-  constructor() {
-    super();
-    this._commentsService;
-  }
 
   override connectedCallback() {
     super.connectedCallback();
@@ -405,7 +395,7 @@ export class GrDiffView extends base {
     });
 
     this.subscriptions.push(
-      changeComments$.subscribe(changeComments => {
+      this.commentsModel.changeComments$.subscribe(changeComments => {
         this._changeComments = changeComments;
       })
     );
@@ -1173,7 +1163,7 @@ export class GrDiffView extends base {
       promises.push(
         until(changeLoadingStatus$, status => status === LoadingStatus.LOADED)
       );
-    promises.push(until(commentsLoading$, isFalse));
+    promises.push(until(this.commentsModel.commentsLoading$, isFalse));
     promises.push(
       this._getChangeEdit().then(edit => {
         if (edit) {

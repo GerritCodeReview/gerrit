@@ -191,10 +191,6 @@ import {Interaction, Timing} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {
-  changeComments$,
-  drafts$,
-} from '../../../services/comments/comments-model';
-import {
   getAddedByReason,
   getRemovedByReason,
   hasAttention,
@@ -565,7 +561,7 @@ export class GrChangeView extends base {
   // Private but used in tests.
   readonly userModel = getAppContext().userModel;
 
-  private readonly commentsService = getAppContext().commentsService;
+  private readonly commentsModel = getAppContext().commentsModel;
 
   private readonly shortcuts = getAppContext().shortcutsService;
 
@@ -644,7 +640,7 @@ export class GrChangeView extends base {
       })
     );
     this.subscriptions.push(
-      drafts$.subscribe(drafts => {
+      this.commentsModel.drafts$.subscribe(drafts => {
         this._diffDrafts = {...drafts};
       })
     );
@@ -654,7 +650,7 @@ export class GrChangeView extends base {
       })
     );
     this.subscriptions.push(
-      changeComments$.subscribe(changeComments => {
+      this.commentsModel.changeComments$.subscribe(changeComments => {
         this._changeComments = changeComments;
       })
     );
@@ -2214,13 +2210,13 @@ export class GrChangeView extends base {
     const promises = [this._getCommitInfo(), this.$.fileList.reload()];
     if (patchNumChanged) {
       promises.push(
-        this.commentsService.reloadPortedComments(
+        this.commentsModel.reloadPortedComments(
           this._changeNum,
           this._patchRange?.patchNum
         )
       );
       promises.push(
-        this.commentsService.reloadPortedDrafts(
+        this.commentsModel.reloadPortedDrafts(
           this._changeNum,
           this._patchRange?.patchNum
         )

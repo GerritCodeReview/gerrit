@@ -16,5 +16,6 @@ package com.google.gerrit.extensions.api.changes;
 
 /** Output options available for submitted_together requests. */
 public enum SubmittedTogetherOption {
-  NON_VISIBLE_CHANGES;
+  NON_VISIBLE_CHANGES,
+  TOPIC_CLOSURE;
 }

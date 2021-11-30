@@ -26,6 +26,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
+import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.TOPIC_CLOSURE;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -41,6 +42,7 @@ import com.google.common.base.Strings;
 import com.google.common.base.Ticker;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.jimfs.Jimfs;
@@ -80,6 +82,7 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
+import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -1203,9 +1206,37 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void assertSubmittedTogether(String chId, String... expected) throws Exception {
-    List<ChangeInfo> actual = gApi.changes().id(chId).submittedTogether();
+    assertSubmittedTogether(chId, ImmutableSet.of(), expected);
+  }
+
+  protected void assertSubmittedTogetherWithTopicClosure(String chId, String... expected)
+      throws Exception {
+    assertSubmittedTogether(chId, ImmutableSet.of(TOPIC_CLOSURE), expected);
+  }
+
+  protected void assertSubmittedTogether(
+      String chId,
+      ImmutableSet<SubmittedTogetherOption> submittedTogetherOptions,
+      String... expected)
+      throws Exception {
+    // This does not include NON_VISIBILE_CHANGES
+    List<ChangeInfo> actual =
+        submittedTogetherOptions.isEmpty()
+            ? gApi.changes().id(chId).submittedTogether()
+            : gApi.changes()
+                .id(chId)
+                .submittedTogether(EnumSet.copyOf(submittedTogetherOptions))
+                .changes;
+
+    EnumSet enumSetIncludingNonVisibleChanges =
+        submittedTogetherOptions.isEmpty()
+            ? EnumSet.of(NON_VISIBLE_CHANGES)
+            : EnumSet.copyOf(submittedTogetherOptions);
+    enumSetIncludingNonVisibleChanges.add(NON_VISIBLE_CHANGES);
+
+    // This includes NON_VISIBLE_CHANGES for comparison.
     SubmittedTogetherInfo info =
-        gApi.changes().id(chId).submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
+        gApi.changes().id(chId).submittedTogether(enumSetIncludingNonVisibleChanges);
 
     assertThat(info.nonVisibleChanges).isEqualTo(0);
     assertThat(Iterables.transform(actual, i1 -> i1.changeId))

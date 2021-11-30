@@ -1857,7 +1857,8 @@ The list consists of:
 
 * The given change.
 * If link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
-  is enabled, include all open changes with the same topic.
+  is enabled OR if the `o=TOPIC_CLOSURE` query parameter is passed, include all
+  open changes with the same topic.
 * For each change whose submit type is not CHERRY_PICK, include unmerged
   ancestors targeting the same branch.
 
@@ -1884,7 +1885,7 @@ link:#submittable[`SUBMITTABLE`] options set.
 
 Standard link:#query-options[formatting options] can be specified
 with the `o` parameter, as well as the `submitted_together` specific
-option `NON_VISIBLE_CHANGES`.
+options `NON_VISIBLE_CHANGES` and `TOPIC_CLOSURE`.
 
 .Response
 ----

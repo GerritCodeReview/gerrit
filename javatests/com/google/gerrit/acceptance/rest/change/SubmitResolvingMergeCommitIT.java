@@ -306,7 +306,10 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   private void assertChangeSetMergeable(ChangeData change, boolean expected)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
           PermissionBackendException {
-    ChangeSet cs = mergeSuperSet.get().completeChangeSet(change.change(), user(admin));
+    ChangeSet cs =
+        mergeSuperSet
+            .get()
+            .completeChangeSet(change.change(), user(admin), /* includingTopicClosure= */ false);
     assertThat(submit.unmergeableChanges(cs).isEmpty()).isEqualTo(expected);
   }
 

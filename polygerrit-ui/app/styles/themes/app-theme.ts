@@ -100,6 +100,7 @@ const styleSheet = safeStyleSheet`
     --gray-700-10: #5f63681a;
     --gray-700-12: #5f63681f;
     --gray-500: #9aa0a6;
+    --gray-400: #bdc1c6;
     --gray-300: #dadce0;
     --gray-200: #e8eaed;
     --gray-200-12: #e8eaed1f;

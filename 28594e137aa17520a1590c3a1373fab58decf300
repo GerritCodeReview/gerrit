@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "541faf04_3997bfe3",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-30T10:39:54Z",
+      "side": 1,
+      "message": "is this logic still doing the right thing? Looks like we go from RELOADING to NOT_LOADED to LOADED, which seems out of order.",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 26
+      },
+      "revId": "28594e137aa17520a1590c3a1373fab58decf300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "444cf40d_819f9a64",
+        "filename": "polygerrit-ui/app/services/change/change-services_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-30T10:39:54Z",
+      "side": 1,
+      "message": "Break this up into individual smaller tests. One long test makes it harder to read, make small adjustments, and the test name is not very specific.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 66
+      },
+      "revId": "28594e137aa17520a1590c3a1373fab58decf300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

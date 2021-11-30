@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d3c51a5_596e2e70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-30T12:39:30Z",
+      "side": 1,
+      "message": "Nice",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a02f640a_7305e5eb",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-30T12:39:30Z",
+      "side": 1,
+      "message": "We need to invalidate the ChangeNotes cache. Can you please increase the version number of that cache by 1?",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2a13f25_fc28a63d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-30T12:39:30Z",
+      "side": 1,
+      "message": "nit: maybe \"backfillMissingCopiedApprovalsFromSubmitRecords\"\n\nsomething with \"backfill\" would be nice :-)",
+      "range": {
+        "startLine": 330,
+        "startChar": 33,
+        "endLine": 330,
+        "endChar": 68
+      },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8208d79_0d97069d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-30T12:39:30Z",
+      "side": 1,
+      "message": "Can this ever be null? I can\u0027t come up with an example.",
+      "range": {
+        "startLine": 331,
+        "startChar": 64,
+        "endLine": 331,
+        "endChar": 94
+      },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "059d2306_c0e6889f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-30T12:39:30Z",
+      "side": 1,
+      "message": "Do we need to filter by Status: OK ?",
+      "range": {
+        "startLine": 339,
+        "startChar": 8,
+        "endLine": 339,
+        "endChar": 21
+      },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

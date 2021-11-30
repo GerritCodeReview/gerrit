@@ -655,6 +655,24 @@
       "message": "Why are copied approvals excluded here?",
       "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4067f73_08557ae5",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-30T08:28:34Z",
+      "side": 1,
+      "message": "This is preserving behavior, the current method is implemented as:\n\n  public ListMultimap\u003cPatchSet.Id, PatchSetApproval\u003e byChange(ChangeNotes notes) \n  {\n    return notes.load().getApprovals();\n  }",
+      "parentUuid": "f99f2144_0b4fdcd3",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

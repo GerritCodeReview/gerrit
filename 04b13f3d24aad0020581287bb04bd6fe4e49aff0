@@ -124,6 +124,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "020d6aa3_a5583022",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T17:17:47Z",
+      "side": 1,
+      "message": "Misunderstood the comment. Updated.",
+      "parentUuid": "8fdd39bd_fe426a05",
+      "revId": "04b13f3d24aad0020581287bb04bd6fe4e49aff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb93df6b_ad8a9893",

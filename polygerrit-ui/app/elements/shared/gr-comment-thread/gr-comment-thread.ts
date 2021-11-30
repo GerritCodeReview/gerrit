@@ -208,7 +208,7 @@ export class GrCommentThread extends PolymerElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly commentsService = getAppContext().commentsService;
+  private readonly commentsModel = getAppContext().commentsModel;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -340,7 +340,7 @@ export class GrCommentThread extends PolymerElement {
     const draft = this._newDraft(lineNum, range);
     draft.__editing = true;
     draft.unresolved = unresolved === false ? unresolved : true;
-    this.commentsService.addDraft(draft);
+    this.commentsModel.addDraft(draft);
   }
 
   _getDiffUrlForPath(
@@ -564,7 +564,7 @@ export class GrCommentThread extends PolymerElement {
 
     if (isEditing) {
       reply.__editing = true;
-      this.commentsService.addDraft(reply);
+      this.commentsModel.addDraft(reply);
     } else {
       assertIsDefined(this.changeNum, 'changeNum');
       assertIsDefined(this.patchNum, 'patchNum');
@@ -578,7 +578,7 @@ export class GrCommentThread extends PolymerElement {
           this.restApiService.getResponseObject(result).then(obj => {
             const resComment = obj as unknown as DraftInfo;
             resComment.patch_set = reply.patch_set;
-            this.commentsService.addDraft(resComment);
+            this.commentsModel.addDraft(resComment);
           });
         });
     }

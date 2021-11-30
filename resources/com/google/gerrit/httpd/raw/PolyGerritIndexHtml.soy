@@ -104,7 +104,7 @@
       {if $userIsAuthenticated}
         <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/edit/" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
       {/if}
-      <link rel="preload" href="{$staticResourcePath}/bower_components/highlightjs/highlight.min.js" as="script"/>
+      <link rel="preload" href="{$staticResourcePath}/bower_components/highlightjs/highlight.min.js" as="script" crossorigin="anonymous"/>
     {/if}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments?enable-context=true&context-padding=3" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}

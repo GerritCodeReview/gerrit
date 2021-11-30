@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0995c84_5bd1b065",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-30T16:40:22Z",
+      "side": 1,
+      "message": "What if changes is empty?\n\nWhat if one of the changes has submit requirements but then another older one does not?",
+      "revId": "5de9d48a3ccd4501f45224af37e20faa6f2baa93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ade8b7c_e6774126",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-30T16:40:22Z",
+      "side": 1,
+      "message": "Is it possible to have a change without submit requirements in a world that wants submit requirements?\n\nIf so what happens in that case?",
+      "revId": "5de9d48a3ccd4501f45224af37e20faa6f2baa93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

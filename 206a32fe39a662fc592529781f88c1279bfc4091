@@ -458,6 +458,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "246a70f2_dba2520b",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T08:19:34Z",
+      "side": 1,
+      "message": "Sorry, now I\u0027m confused. How does it help to remove the vote on the original patch set in the new world where the copied approval are persisted on the new patch set?\n\nOld: Removal of the approval on the old patch set would also remove the copied approval, since copied approvals are computed on the fly.\n\nNew: Removal of the approval on the old patch set would have no effect, since the copied approval on the new patch set is still present.\n\nAfter all is it actually a behaviour change if we exclude copied approvals here, because now copied approvals can no longer be removed?",
+      "parentUuid": "10612f60_51acd5ec",
+      "range": {
+        "startLine": 226,
+        "startChar": 30,
+        "endLine": 226,
+        "endChar": 62
+      },
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f8b4e0e_90ba574e",
         "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 7

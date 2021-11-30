@@ -1469,18 +1469,18 @@ suite('gr-file-list tests', () => {
         ignore_whitespace: 'IGNORE_NONE',
       };
       diff.diff = getMockDiffResponse();
-      sinon.stub(diff.changeComments, 'getCommentsForPath')
-          .withArgs('/COMMIT_MSG', {
+      const stub = sinon.stub(diff.changeComments, 'getCommentsForPath');
+      stub.withArgs('/COMMIT_MSG', {
             basePatchNum: 'PARENT',
             patchNum: 2,
           })
           .returns(diff.comments);
+      stub.returns([]);
       await listenOnce(diff, 'render');
     }
 
     async function renderAndGetNewDiffs(index) {
-      const diffs =
-          element.root.querySelectorAll('gr-diff-host');
+      const diffs = element.root.querySelectorAll('gr-diff-host');
 
       for (let i = index; i < diffs.length; i++) {
         await setupDiff(diffs[i]);

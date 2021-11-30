@@ -51,7 +51,6 @@ import {
   FormattedReviewerUpdateInfo,
   ParsedChangeInfo,
 } from '../../../types/types';
-import {threads$} from '../../../services/comments/comments-model';
 import {
   change$,
   changeNum$,
@@ -264,6 +263,9 @@ export class GrMessagesList extends PolymerElement {
 
   private readonly userModel = getAppContext().userModel;
 
+  // Private but used in tests.
+  readonly commentsModel = getAppContext().commentsModel;
+
   private readonly reporting = getAppContext().reportingService;
 
   private readonly shortcuts = getAppContext().shortcutsService;
@@ -273,7 +275,7 @@ export class GrMessagesList extends PolymerElement {
   override connectedCallback() {
     super.connectedCallback();
     this.subscriptions.push(
-      threads$.subscribe(x => {
+      this.commentsModel.threads$.subscribe(x => {
         this.commentThreads = x;
       })
     );

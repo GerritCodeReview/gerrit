@@ -16,6 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma';
+import './gr-editor-view';
 import {GrEditorView} from './gr-editor-view';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {HttpMethod} from '../../../constants/constants';

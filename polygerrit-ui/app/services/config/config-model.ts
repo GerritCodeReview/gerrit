@@ -43,6 +43,11 @@ export class ConfigModel implements Finalizable {
     configState => configState.repoConfig
   );
 
+  public repoCommentLinks$ = select(
+    this.repoConfig$,
+    repoConfig => repoConfig?.commentlinks ?? {}
+  );
+
   public serverConfig$ = select(
     this.privateState$,
     configState => configState.serverConfig

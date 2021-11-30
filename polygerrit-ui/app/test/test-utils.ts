@@ -219,19 +219,31 @@ export function waitUntilCalled(stub: SinonStub, name: string) {
  *   await listenOnce(el, 'render');
  *   ...
  */
-export function listenOnce(el: EventTarget, eventType: string) {
-  return new Promise<void>(resolve => {
-    const listener = () => {
+export function listenOnce<T extends Event>(
+  el: EventTarget,
+  eventType: string
+) {
+  return new Promise<T>(resolve => {
+    const listener = (e: Event) => {
       removeEventListener();
-      resolve();
+      resolve(e as T);
     };
-    el.addEventListener(eventType, listener);
     let removeEventListener = () => {
       el.removeEventListener(eventType, listener);
       removeEventListener = () => {};
     };
+    el.addEventListener(eventType, listener);
     registerTestCleanup(removeEventListener);
   });
+}
+
+export function dispatch<T>(element: HTMLElement, type: string, detail: T) {
+  const eventOptions = {
+    detail,
+    bubbles: true,
+    composed: true,
+  };
+  element.dispatchEvent(new CustomEvent<T>(type, eventOptions));
 }
 
 export function pressKey(

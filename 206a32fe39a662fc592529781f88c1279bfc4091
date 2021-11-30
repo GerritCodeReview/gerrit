@@ -673,6 +673,24 @@
       "parentUuid": "f99f2144_0b4fdcd3",
       "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fbb7305_c7234d57",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-30T08:37:02Z",
+      "side": 1,
+      "message": "OK, but unrelated to this change, I would be interested to understand why copied approvals need to be excluded here? E.g. is it a bug that they are excluded?",
+      "parentUuid": "c4067f73_08557ae5",
+      "revId": "206a32fe39a662fc592529781f88c1279bfc4091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

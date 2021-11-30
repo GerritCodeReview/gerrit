@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5abf625_fdba6b7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-30T07:50:54Z",
+      "side": 1,
+      "message": "Sure! :-)",
+      "parentUuid": "1efdb9d4_b6d0fe69",
+      "revId": "e25bfd0281bcaeae4566f28d1d8007221b6ee752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b42029be_239356aa",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2be5ca0d_16eb7d2c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 2282,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-30T07:50:54Z",
+      "side": 1,
+      "message": "Rest API methods can return undefined when they have encountered an error. I find this terrible and would like to have them throw errors (or reject promises) instead. I have a couple of old pending changes where I started cleaning this up: https://gerrit-review.googlesource.com/c/gerrit/+/290917\n\nI would love to continue with that in Q1.",
+      "parentUuid": "b42029be_239356aa",
+      "revId": "e25bfd0281bcaeae4566f28d1d8007221b6ee752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e29e5de_83d196f8",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-11-29T18:30:36Z",
       "side": 1,
       "message": "Consider using select(...) here and below",
+      "revId": "e25bfd0281bcaeae4566f28d1d8007221b6ee752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee593557_42df77df",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-30T07:50:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e29e5de_83d196f8",
       "revId": "e25bfd0281bcaeae4566f28d1d8007221b6ee752",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

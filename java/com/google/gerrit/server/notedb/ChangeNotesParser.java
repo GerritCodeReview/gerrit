@@ -40,11 +40,13 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
 import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.ListMultimap;
@@ -70,6 +72,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRecord.Label.Status;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.AssigneeStatusUpdate;
@@ -83,6 +86,7 @@ import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -95,6 +99,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -312,8 +317,79 @@ class ChangeNotesParser {
       }
       result.put(a.key().patchSetId(), a.build());
     }
+    if (status.isClosed() && !isAnyApprovalCopied(result)) {
+      // If the change is closed, check if there are "submit records" with approvals that do not
+      // exist on the latest patch-set and copy them to the latest patch-set.
+      // We do not invoke this logic if any approval is copied. This is because prior to change
+      // https://gerrit-review.googlesource.com/c/gerrit/+/318135 we used to copy approvals
+      // dynamically (e.g. when requesting the change page). After that change, we started
+      // persisting copied votes in NoteDb, so we don't need to do this back-filling.
+      // Prior to that change (318135), we could've had changes with dynamically copied approvals
+      // that were merged in NoteDb but these approvals do not exist on the latest patch-set, so
+      // we need to back-fill these approvals.
+      PatchSet.Id latestPs = buildCurrentPatchSetId();
+      backFillMissingCopiedApprovalsFromSubmitRecords(result, latestPs).stream()
+          .forEach(a -> result.put(latestPs, a));
+    }
     result.keySet().forEach(k -> result.get(k).sort(ChangeNotes.PSA_BY_TIME));
     return result;
+  }
+
+  /**
+   * Returns patch-set approvals that do not exist on the latest patch-set but for which a submit
+   * record exists in NoteDb when the change was merged.
+   */
+  private List<PatchSetApproval> backFillMissingCopiedApprovalsFromSubmitRecords(
+      ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals, @Nullable PatchSet.Id latestPs) {
+    List<PatchSetApproval> copiedApprovals = new ArrayList<>();
+    if (latestPs == null) {
+      return copiedApprovals;
+    }
+    List<PatchSetApproval> approvalsOnLatestPs = allApprovals.get(latestPs);
+    ListMultimap<Account.Id, PatchSetApproval> approvalsByUser = getApprovalsByUser(allApprovals);
+    List<SubmitRecord.Label> submitRecordLabels =
+        submitRecords.stream()
+            .filter(r -> r.labels != null)
+            .flatMap(r -> r.labels.stream())
+            .filter(label -> Status.OK.equals(label.status) || Status.MAY.equals(label.status))
+            .collect(Collectors.toList());
+    for (SubmitRecord.Label recordLabel : submitRecordLabels) {
+      String labelName = recordLabel.label;
+      Account.Id appliedBy = recordLabel.appliedBy;
+      if (appliedBy == null || labelName == null) {
+        continue;
+      }
+      boolean existsAtLatestPs =
+          approvalsOnLatestPs.stream()
+              .anyMatch(a -> a.accountId().equals(appliedBy) && a.label().equals(labelName));
+      if (existsAtLatestPs) {
+        continue;
+      }
+      // Search for an approval for this label on the max previous patch-set and copy the approval.
+      Collection<PatchSetApproval> userApprovals =
+          approvalsByUser.get(appliedBy).stream()
+              .filter(approval -> approval.label().equals(labelName))
+              .collect(Collectors.toList());
+      if (userApprovals.isEmpty()) {
+        continue;
+      }
+      PatchSetApproval lastApproved =
+          Collections.max(userApprovals, comparingInt(a -> a.patchSetId().get()));
+      copiedApprovals.add(lastApproved.copyWithPatchSet(latestPs));
+    }
+    return copiedApprovals;
+  }
+
+  private boolean isAnyApprovalCopied(ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals) {
+    return allApprovals.values().stream().anyMatch(approval -> approval.copied());
+  }
+
+  private ListMultimap<Account.Id, PatchSetApproval> getApprovalsByUser(
+      ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals) {
+    return allApprovals.values().stream()
+        .collect(
+            ImmutableListMultimap.toImmutableListMultimap(
+                PatchSetApproval::accountId, Function.identity()));
   }
 
   private List<ReviewerStatusUpdate> buildReviewerUpdates() {

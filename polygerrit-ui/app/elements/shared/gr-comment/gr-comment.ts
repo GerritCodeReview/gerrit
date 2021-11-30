@@ -1126,7 +1126,7 @@ export class GrComment extends LitElement {
   private async openDeleteCommentOverlay() {
     this.showConfirmDeleteOverlay = true;
     await this.updateComplete;
-    this.confirmDeleteOverlay?.open();
+    await this.confirmDeleteOverlay?.open();
   }
 
   private closeDeleteCommentOverlay() {

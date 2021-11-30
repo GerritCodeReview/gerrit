@@ -39,6 +39,30 @@
       },
       "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b93cb2e_b168146b",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T12:37:31Z",
+      "side": 1,
+      "message": "Sure. Will update the change after Edwin\u0027s feedback.",
+      "parentUuid": "71971700_d4e1f702",
+      "range": {
+        "startLine": 401,
+        "startChar": 8,
+        "endLine": 401,
+        "endChar": 34
+      },
+      "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

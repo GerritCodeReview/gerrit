@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d83f3423_6ba1e56b",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T13:23:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ae298b5_b28632d3",
+      "range": {
+        "startLine": 429,
+        "startChar": 18,
+        "endLine": 429,
+        "endChar": 55
+      },
+      "revId": "083f85a0fd9582a16cdd90a0609eb7d4a53b270e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f213cf85_e51cb434",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-29T15:28:04Z",
       "side": 1,
       "message": "This is brittle. The call to checkFieldAvailable in the parent class will be removed as soon as the oldest supported index version has that field.\n\nWe should filter this in the \"is\" method instead.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 5
+      },
+      "revId": "083f85a0fd9582a16cdd90a0609eb7d4a53b270e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd85af9e_da626a38",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementChangeQueryBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T13:23:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f213cf85_e51cb434",
       "range": {
         "startLine": 43,
         "startChar": 0,

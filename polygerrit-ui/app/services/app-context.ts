@@ -20,7 +20,7 @@ import {EventEmitterService} from './gr-event-interface/gr-event-interface';
 import {ReportingService} from './gr-reporting/gr-reporting';
 import {AuthService} from './gr-auth/gr-auth';
 import {RestApiService} from './gr-rest-api/gr-rest-api';
-import {ChangeService} from './change/change-service';
+import {ChangeModel} from './change/change-model';
 import {ChecksModel} from './checks/checks-model';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 import {StorageService} from './storage/gr-storage';
@@ -36,7 +36,7 @@ export interface AppContext {
   eventEmitter: EventEmitterService;
   authService: AuthService;
   restApiService: RestApiService;
-  changeService: ChangeService;
+  changeModel: ChangeModel;
   commentsModel: CommentsModel;
   checksModel: ChecksModel;
   jsApiService: JsApiService;

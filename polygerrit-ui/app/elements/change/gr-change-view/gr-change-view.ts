@@ -196,11 +196,7 @@ import {
   hasAttention,
 } from '../../../utils/attention-set-util';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
-import {
-  change$,
-  changeLoadingStatus$,
-  LoadingStatus,
-} from '../../../services/change/change-model';
+import {LoadingStatus} from '../../../services/change/change-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -276,15 +272,6 @@ export class GrChangeView extends base {
    *
    * @event show-auth-required
    */
-
-  // Accessed in tests.
-  readonly reporting = getAppContext().reportingService;
-
-  readonly jsAPI = getAppContext().jsApiService;
-
-  private readonly changeService = getAppContext().changeService;
-
-  private readonly checksModel = getAppContext().checksModel;
 
   /**
    * URL params passed from the router.
@@ -556,15 +543,6 @@ export class GrChangeView extends base {
   })
   resolveWeblinks?: GeneratedWebLink[];
 
-  readonly restApiService = getAppContext().restApiService;
-
-  // Private but used in tests.
-  readonly userModel = getAppContext().userModel;
-
-  private readonly commentsModel = getAppContext().commentsModel;
-
-  private readonly shortcuts = getAppContext().shortcutsService;
-
   override keyboardShortcuts(): ShortcutListener[] {
     return [
       listen(Shortcut.SEND_REPLY, _ => {}), // docOnly
@@ -611,6 +589,25 @@ export class GrChangeView extends base {
     ];
   }
 
+  // Accessed in tests.
+  readonly reporting = getAppContext().reportingService;
+
+  readonly jsAPI = getAppContext().jsApiService;
+
+  private readonly checksModel = getAppContext().checksModel;
+
+  readonly restApiService = getAppContext().restApiService;
+
+  // Private but used in tests.
+  readonly userModel = getAppContext().userModel;
+
+  // Private but used in tests.
+  readonly changeModel = getAppContext().changeModel;
+
+  private readonly commentsModel = getAppContext().commentsModel;
+
+  private readonly shortcuts = getAppContext().shortcutsService;
+
   private subscriptions: Subscription[] = [];
 
   private replyRefitTask?: DelayedTask;
@@ -655,7 +652,7 @@ export class GrChangeView extends base {
       })
     );
     this.subscriptions.push(
-      change$.subscribe(change => {
+      this.changeModel.change$.subscribe(change => {
         // The change view is tied to a specific change number, so don't update
         // _change to undefined.
         if (change) this._change = change;
@@ -1877,7 +1874,7 @@ export class GrChangeView extends base {
     }
 
     const detailCompletes = until(
-      changeLoadingStatus$,
+      this.changeModel.changeLoadingStatus$,
       status => status === LoadingStatus.LOADED
     );
     const editCompletes = this._getEdit();
@@ -2326,7 +2323,7 @@ export class GrChangeView extends base {
         return;
       }
       const change = this._change;
-      this.changeService.fetchChangeUpdates(change).then(result => {
+      this.changeModel.fetchChangeUpdates(change).then(result => {
         let toastMessage = null;
         if (!result.isLatest) {
           toastMessage = ReloadToastMessage.NEWER_REVISION;

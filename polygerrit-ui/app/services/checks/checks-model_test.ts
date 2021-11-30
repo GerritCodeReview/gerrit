@@ -18,7 +18,7 @@ import '../../test/common-test-setup-karma';
 import './checks-model';
 import {ChecksModel, ChecksPatchset, ChecksProviderState} from './checks-model';
 import {Category, CheckRun, RunStatus} from '../../api/checks';
-import {grReportingMock} from '../gr-reporting/gr-reporting_mock';
+import {getAppContext} from '../app-context';
 
 const PLUGIN_NAME = 'test-plugin';
 
@@ -45,7 +45,10 @@ suite('checks-model tests', () => {
   let current: ChecksProviderState;
 
   setup(() => {
-    model = new ChecksModel(grReportingMock);
+    model = new ChecksModel(
+      getAppContext().changeModel,
+      getAppContext().reportingService
+    );
     model.checksLatest$.subscribe(c => (current = c[PLUGIN_NAME]));
   });
 

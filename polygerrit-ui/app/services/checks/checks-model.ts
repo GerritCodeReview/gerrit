@@ -48,7 +48,7 @@ import {
   FetchResponse,
   ResponseCode,
 } from '../../api/checks';
-import {change$, changeNum$, latestPatchNum$} from '../change/change-model';
+import {ChangeModel} from '../change/change-model';
 import {ChangeInfo, NumericChangeId, PatchSetNumber} from '../../types/common';
 import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
@@ -321,24 +321,28 @@ export class ChecksModel implements Finalizable {
       .filter(r => r !== undefined)
   );
 
-  constructor(readonly reporting: ReportingService) {
+  constructor(
+    readonly changeModel: ChangeModel,
+    readonly reporting: ReportingService
+  ) {
     this.subscriptions = [
-      changeNum$.subscribe(x => (this.changeNum = x)),
+      this.changeModel.changeNum$.subscribe(x => (this.changeNum = x)),
       this.checkToPluginMap$.subscribe(map => {
         this.checkToPluginMap = map;
       }),
-      combineLatest([routerPatchNum$, latestPatchNum$]).subscribe(
-        ([routerPs, latestPs]) => {
-          this.latestPatchNum = latestPs;
-          if (latestPs === undefined) {
-            this.setPatchset(undefined);
-          } else if (typeof routerPs === 'number') {
-            this.setPatchset(routerPs);
-          } else {
-            this.setPatchset(latestPs);
-          }
+      combineLatest([
+        routerPatchNum$,
+        this.changeModel.latestPatchNum$,
+      ]).subscribe(([routerPs, latestPs]) => {
+        this.latestPatchNum = latestPs;
+        if (latestPs === undefined) {
+          this.setPatchset(undefined);
+        } else if (typeof routerPs === 'number') {
+          this.setPatchset(routerPs);
+        } else {
+          this.setPatchset(latestPs);
         }
-      ),
+      }),
     ];
     this.visibilityChangeListener = () => {
       this.documentVisibilityChange$.next(undefined);
@@ -634,9 +638,9 @@ export class ChecksModel implements Finalizable {
     // 4. A hidden Gerrit tab becoming visible.
     this.subscriptions.push(
       combineLatest([
-        changeNum$,
+        this.changeModel.changeNum$,
         patchset === ChecksPatchset.LATEST
-          ? latestPatchNum$
+          ? this.changeModel.latestPatchNum$
           : this.checksSelectedPatchsetNumber$,
         this.reloadSubjects[pluginName].pipe(throttleTime(1000)),
         timer(0, pollIntervalMs),
@@ -645,7 +649,7 @@ export class ChecksModel implements Finalizable {
         .pipe(
           takeWhile(_ => !!this.providers[pluginName]),
           filter(_ => document.visibilityState !== 'hidden'),
-          withLatestFrom(change$),
+          withLatestFrom(this.changeModel.change$),
           switchMap(
             ([[changeNum, patchNum], change]): Observable<FetchResponse> => {
               if (!change || !changeNum || !patchNum) return of(this.empty());

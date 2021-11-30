@@ -58,7 +58,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {classMap} from 'lit/directives/class-map';
-import {changeNum$, repo$} from '../../../services/change/change-model';
 import {LineNumber} from '../../../api/diff';
 import {CommentSide} from '../../../constants/constants';
 import {getRandomInt} from '../../../utils/math-util';
@@ -228,6 +227,8 @@ export class GrComment extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
+  private readonly changeModel = getAppContext().changeModel;
+
   private readonly commentsModel = getAppContext().commentsModel;
 
   private readonly userModel = getAppContext().userModel;
@@ -263,8 +264,8 @@ export class GrComment extends LitElement {
       this.configModel.repoCommentLinks$,
       x => (this.commentLinks = x)
     );
-    subscribe(this, repo$, x => (this.repoName = x));
-    subscribe(this, changeNum$, x => (this.changeNum = x));
+    subscribe(this, this.changeModel.repo$, x => (this.repoName = x));
+    subscribe(this, this.changeModel.changeNum$, x => (this.changeNum = x));
     subscribe(
       this,
       this.autoSaveTrigger$.pipe(debounceTime(AUTO_SAVE_DEBOUNCE_DELAY_MS)),

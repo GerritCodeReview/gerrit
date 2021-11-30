@@ -67,7 +67,6 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {repeat} from 'lit/directives/repeat';
 import {classMap} from 'lit/directives/class-map';
-import {changeNum$, repo$} from '../../../services/change/change-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ValueChangedEvent} from '../../../types/events';
 
@@ -238,6 +237,8 @@ export class GrCommentThread extends LitElement {
 
   private readonly commentsModel = getAppContext().commentsModel;
 
+  private readonly changeModel = getAppContext().changeModel;
+
   private readonly userModel = getAppContext().userModel;
 
   private readonly shortcuts = new ShortcutController(this);
@@ -246,9 +247,9 @@ export class GrCommentThread extends LitElement {
 
   constructor() {
     super();
-    subscribe(this, changeNum$, x => (this.changeNum = x));
+    subscribe(this, this.changeModel.changeNum$, x => (this.changeNum = x));
     subscribe(this, this.userModel.account$, x => (this.account = x));
-    subscribe(this, repo$, x => (this.repoName = x));
+    subscribe(this, this.changeModel.repo$, x => (this.repoName = x));
     subscribe(this, this.userModel.diffPreferences$, x =>
       this.syntaxLayer.setEnabled(!!x.syntax_highlighting)
     );

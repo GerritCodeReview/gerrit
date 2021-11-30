@@ -43,7 +43,7 @@ import {combineLatest, Subscription} from 'rxjs';
 import {fire, fireAlert, fireEvent} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
-import {changeNum$, currentPatchNum$} from '../change/change-model';
+import {ChangeModel} from '../change/change-model';
 import {Interaction} from '../../constants/reporting';
 import {assertIsDefined} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';
@@ -291,6 +291,7 @@ export class CommentsModel implements Finalizable {
   private discardedDrafts: DraftInfo[] = [];
 
   constructor(
+    readonly changeModel: ChangeModel,
     readonly restApiService: RestApiService,
     readonly reporting: ReportingService
   ) {
@@ -301,7 +302,7 @@ export class CommentsModel implements Finalizable {
       this.drafts$.subscribe(x => (this.drafts = x ?? {}))
     );
     this.subscriptions.push(
-      currentPatchNum$.subscribe(x => (this.patchNum = x))
+      this.changeModel.currentPatchNum$.subscribe(x => (this.patchNum = x))
     );
     this.subscriptions.push(
       routerChangeNum$.subscribe(changeNum => {
@@ -311,13 +312,14 @@ export class CommentsModel implements Finalizable {
       })
     );
     this.subscriptions.push(
-      combineLatest([changeNum$, currentPatchNum$]).subscribe(
-        ([changeNum, patchNum]) => {
-          this.changeNum = changeNum;
-          this.patchNum = patchNum;
-          this.reloadAllPortedComments();
-        }
-      )
+      combineLatest([
+        this.changeModel.changeNum$,
+        this.changeModel.currentPatchNum$,
+      ]).subscribe(([changeNum, patchNum]) => {
+        this.changeNum = changeNum;
+        this.patchNum = patchNum;
+        this.reloadAllPortedComments();
+      })
     );
     this.reloadListener = () => {
       this.reloadAllComments();

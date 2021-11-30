@@ -51,11 +51,6 @@ import {
   FormattedReviewerUpdateInfo,
   ParsedChangeInfo,
 } from '../../../types/types';
-import {
-  change$,
-  changeNum$,
-  repo$,
-} from '../../../services/change/change-model';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -259,6 +254,8 @@ export class GrMessagesList extends PolymerElement {
   // Private but used in tests.
   readonly commentsModel = getAppContext().commentsModel;
 
+  private readonly changeModel = getAppContext().changeModel;
+
   private readonly reporting = getAppContext().reportingService;
 
   private readonly shortcuts = getAppContext().shortcutsService;
@@ -273,7 +270,7 @@ export class GrMessagesList extends PolymerElement {
       })
     );
     this.subscriptions.push(
-      change$.subscribe(x => {
+      this.changeModel.change$.subscribe(x => {
         this.change = x;
       })
     );
@@ -283,12 +280,12 @@ export class GrMessagesList extends PolymerElement {
       })
     );
     this.subscriptions.push(
-      repo$.subscribe(x => {
+      this.changeModel.repo$.subscribe(x => {
         this.projectName = x;
       })
     );
     this.subscriptions.push(
-      changeNum$.subscribe(x => {
+      this.changeModel.changeNum$.subscribe(x => {
         this.changeNum = x;
       })
     );

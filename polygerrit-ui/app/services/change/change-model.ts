@@ -16,12 +16,21 @@
  */
 
 import {NumericChangeId, PatchSetNum} from '../../types/common';
-import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
+import {
+  combineLatest,
+  from,
+  fromEvent,
+  BehaviorSubject,
+  Observable,
+  Subscription,
+} from 'rxjs';
 import {
   map,
   filter,
   withLatestFrom,
   distinctUntilChanged,
+  startWith,
+  switchMap,
 } from 'rxjs/operators';
 import {routerPatchNum$, routerState$} from '../router/router-model';
 import {
@@ -29,6 +38,12 @@ import {
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
 import {ParsedChangeInfo} from '../../types/types';
+
+import {routerChangeNum$} from '../router/router-model';
+import {ChangeInfo} from '../../types/common';
+import {RestApiService} from '../gr-rest-api/gr-rest-api';
+import {Finalizable} from '../registry';
+import {select} from '../../utils/observable-util';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -58,125 +73,189 @@ const initialState: ChangeState = {
   loadingStatus: LoadingStatus.NOT_LOADED,
 };
 
-const privateState$ = new BehaviorSubject(initialState);
+export class ChangeModel implements Finalizable {
+  private readonly privateState$ = new BehaviorSubject(initialState);
 
-export function _testOnly_resetState() {
-  // We cannot assign a new subject to privateState$, because all the selectors
-  // have already subscribed to the original subject. So we have to emit the
-  // initial state on the existing subject.
-  privateState$.next({...initialState});
-}
+  public readonly changeState$: Observable<ChangeState> =
+    this.privateState$.asObservable();
 
-export function _testOnly_setState(state: ChangeState) {
-  privateState$.next(state);
-}
-
-export function _testOnly_getState() {
-  return privateState$.getValue();
-}
-
-// Re-exporting as Observable so that you can only subscribe, but not emit.
-export const changeState$: Observable<ChangeState> = privateState$;
-
-export function updateStateChange(change?: ParsedChangeInfo) {
-  const current = privateState$.getValue();
-  privateState$.next({
-    ...current,
-    change,
-    loadingStatus:
-      change === undefined ? LoadingStatus.NOT_LOADED : LoadingStatus.LOADED,
-  });
-}
-
-/**
- * Called when change detail loading is initiated.
- *
- * If the change number matches the current change in the state, then
- * this is a reload. If not, then we not just want to set the state to
- * LOADING instead of RELOADING, but we also want to set the change to
- * undefined right away. Otherwise components could see inconsistent state:
- * a new change number, but an old change.
- */
-export function updateStateLoading(changeNum: NumericChangeId) {
-  const current = privateState$.getValue();
-  const reloading = current.change?._number === changeNum;
-  privateState$.next({
-    ...current,
-    change: reloading ? current.change : undefined,
-    loadingStatus: reloading ? LoadingStatus.RELOADING : LoadingStatus.LOADING,
-  });
-}
-
-export function updateStatePath(diffPath?: string) {
-  const current = privateState$.getValue();
-  privateState$.next({...current, diffPath});
-}
-
-/**
- * If you depend on both, router and change state, then you want to filter out
- * inconsistent state, e.g. router changeNum already updated, change not yet
- * reset to undefined.
- */
-export const changeAndRouterConsistent$ = combineLatest([
-  routerState$,
-  changeState$,
-]).pipe(
-  filter(([routerState, changeState]) => {
-    const changeNum = changeState.change?._number;
-    const routerChangeNum = routerState.changeNum;
-    return changeNum === undefined || changeNum === routerChangeNum;
-  }),
-  distinctUntilChanged()
-);
-
-export const change$ = changeState$.pipe(
-  map(changeState => changeState.change),
-  distinctUntilChanged()
-);
-
-export const changeLoadingStatus$ = changeState$.pipe(
-  map(changeState => changeState.loadingStatus),
-  distinctUntilChanged()
-);
-
-export const diffPath$ = changeState$.pipe(
-  map(changeState => changeState?.diffPath),
-  distinctUntilChanged()
-);
-
-export const changeNum$ = change$.pipe(
-  map(change => change?._number),
-  distinctUntilChanged()
-);
-
-export const repo$ = change$.pipe(
-  map(change => change?.project),
-  distinctUntilChanged()
-);
-
-export const labels$ = change$.pipe(
-  map(change => change?.labels),
-  distinctUntilChanged()
-);
-
-export const latestPatchNum$ = change$.pipe(
-  map(change => computeLatestPatchNum(computeAllPatchSets(change))),
-  distinctUntilChanged()
-);
-
-/**
- * Emits the current patchset number. If the route does not define the current
- * patchset num, then this selector waits for the change to be defined and
- * returns the number of the latest patchset.
- *
- * Note that this selector can emit a patchNum without the change being
- * available!
- */
-export const currentPatchNum$: Observable<PatchSetNum | undefined> =
-  changeAndRouterConsistent$.pipe(
-    withLatestFrom(routerPatchNum$, latestPatchNum$),
-    map(
-      ([_, routerPatchNum, latestPatchNum]) => routerPatchNum || latestPatchNum
-    ),
-    distinctUntilChanged()
+  public readonly change$ = select(
+    this.privateState$,
+    changeState => changeState.change
   );
+
+  public readonly changeLoadingStatus$ = select(
+    this.privateState$,
+    changeState => changeState.loadingStatus
+  );
+
+  public readonly diffPath$ = select(
+    this.privateState$,
+    changeState => changeState?.diffPath
+  );
+
+  public readonly changeNum$ = select(this.change$, change => change?._number);
+
+  public readonly repo$ = select(this.change$, change => change?.project);
+
+  public readonly labels$ = select(this.change$, change => change?.labels);
+
+  public readonly latestPatchNum$ = select(this.change$, change =>
+    computeLatestPatchNum(computeAllPatchSets(change))
+  );
+
+  /**
+   * Emits the current patchset number. If the route does not define the current
+   * patchset num, then this selector waits for the change to be defined and
+   * returns the number of the latest patchset.
+   *
+   * Note that this selector can emit a patchNum without the change being
+   * available!
+   */
+  public readonly currentPatchNum$: Observable<PatchSetNum | undefined> =
+    /**
+     * If you depend on both, router and change state, then you want to filter
+     * out inconsistent state, e.g. router changeNum already updated, change not
+     * yet reset to undefined.
+     */
+    combineLatest([routerState$, this.changeState$])
+      .pipe(
+        filter(([routerState, changeState]) => {
+          const changeNum = changeState.change?._number;
+          const routerChangeNum = routerState.changeNum;
+          return changeNum === undefined || changeNum === routerChangeNum;
+        }),
+        distinctUntilChanged()
+      )
+      .pipe(
+        withLatestFrom(routerPatchNum$, this.latestPatchNum$),
+        map(([_, routerPatchN, latestPatchN]) => routerPatchN || latestPatchN),
+        distinctUntilChanged()
+      );
+
+  private subscriptions: Subscription[] = [];
+
+  // For usage in `combineLatest` we need `startWith` such that reload$ has an
+  // initial value.
+  private readonly reload$: Observable<unknown> = fromEvent(
+    document,
+    'reload'
+  ).pipe(startWith(undefined));
+
+  constructor(readonly restApiService: RestApiService) {
+    this.subscriptions = [
+      combineLatest([routerChangeNum$, this.reload$])
+        .pipe(
+          map(([changeNum, _]) => changeNum),
+          switchMap(changeNum => {
+            if (changeNum !== undefined) this.updateStateLoading(changeNum);
+            return from(this.restApiService.getChangeDetail(changeNum));
+          })
+        )
+        .subscribe(change => {
+          // The change service is currently a singleton, so we have to be
+          // careful to avoid situations where the application state is
+          // partially set for the old change where the user is coming from,
+          // and partially for the new change where the user is navigating to.
+          // So setting the change explicitly to undefined when the user
+          // moves away from diff and change pages (changeNum === undefined)
+          // helps with that.
+          this.updateStateChange(change ?? undefined);
+        }),
+    ];
+  }
+
+  finalize() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
+  }
+
+  // Temporary workaround until path is derived in the model itself.
+  updatePath(diffPath?: string) {
+    const current = this.getState();
+    this.setState({...current, diffPath});
+  }
+
+  /**
+   * Typically you would just subscribe to change$ yourself to get updates. But
+   * sometimes it is nice to also be able to get the current ChangeInfo on
+   * demand. So here it is for your convenience.
+   */
+  getChange() {
+    return this.getState().change;
+  }
+
+  /**
+   * Check whether there is no newer patch than the latest patch that was
+   * available when this change was loaded.
+   *
+   * @return A promise that yields true if the latest patch
+   *     has been loaded, and false if a newer patch has been uploaded in the
+   *     meantime. The promise is rejected on network error.
+   */
+  fetchChangeUpdates(change: ChangeInfo | ParsedChangeInfo) {
+    const knownLatest = computeLatestPatchNum(computeAllPatchSets(change));
+    return this.restApiService.getChangeDetail(change._number).then(detail => {
+      if (!detail) {
+        const error = new Error('Change detail not found.');
+        return Promise.reject(error);
+      }
+      const actualLatest = computeLatestPatchNum(computeAllPatchSets(detail));
+      if (!actualLatest || !knownLatest) {
+        const error = new Error('Unable to check for latest patchset.');
+        return Promise.reject(error);
+      }
+      return {
+        isLatest: actualLatest <= knownLatest,
+        newStatus: change.status !== detail.status ? detail.status : null,
+        newMessages:
+          (change.messages || []).length < (detail.messages || []).length
+            ? detail.messages![detail.messages!.length - 1]
+            : undefined,
+      };
+    });
+  }
+
+  /**
+   * Called when change detail loading is initiated.
+   *
+   * If the change number matches the current change in the state, then
+   * this is a reload. If not, then we not just want to set the state to
+   * LOADING instead of RELOADING, but we also want to set the change to
+   * undefined right away. Otherwise components could see inconsistent state:
+   * a new change number, but an old change.
+   */
+  private updateStateLoading(changeNum: NumericChangeId) {
+    const current = this.getState();
+    const reloading = current.change?._number === changeNum;
+    this.setState({
+      ...current,
+      change: reloading ? current.change : undefined,
+      loadingStatus: reloading
+        ? LoadingStatus.RELOADING
+        : LoadingStatus.LOADING,
+    });
+  }
+
+  // Private but used in tests.
+  updateStateChange(change?: ParsedChangeInfo) {
+    const current = this.getState();
+    this.setState({
+      ...current,
+      change,
+      loadingStatus:
+        change === undefined ? LoadingStatus.NOT_LOADED : LoadingStatus.LOADED,
+    });
+  }
+
+  getState(): ChangeState {
+    return this.privateState$.getValue();
+  }
+
+  // Private but used in tests
+  setState(state: ChangeState) {
+    this.privateState$.next(state);
+  }
+}

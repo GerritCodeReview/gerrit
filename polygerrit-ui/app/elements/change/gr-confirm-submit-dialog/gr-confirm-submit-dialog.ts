@@ -29,7 +29,6 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {subscribe} from '../../lit/subscription-controller';
-import {change$} from '../../../services/change/change-model';
 import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 
@@ -64,6 +63,8 @@ export class GrConfirmSubmitDialog extends LitElement {
 
   private commentsModel = getAppContext().commentsModel;
 
+  private changeModel = getAppContext().changeModel;
+
   static override get styles() {
     return [
       sharedStyles,
@@ -92,7 +93,7 @@ export class GrConfirmSubmitDialog extends LitElement {
 
   constructor() {
     super();
-    subscribe(this, change$, x => (this.change = x));
+    subscribe(this, this.changeModel.change$, x => (this.change = x));
     subscribe(
       this,
       this.commentsModel.threads$,

@@ -116,13 +116,7 @@ import {isFalse, throttleWrap, until} from '../../../utils/async-util';
 import {filter, take} from 'rxjs/operators';
 import {Subscription, combineLatest} from 'rxjs';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
-import {
-  diffPath$,
-  currentPatchNum$,
-  change$,
-  changeLoadingStatus$,
-  LoadingStatus,
-} from '../../../services/change/change-model';
+import {LoadingStatus} from '../../../services/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 
@@ -364,7 +358,8 @@ export class GrDiffView extends base {
   // Private but used in tests.
   readonly userModel = getAppContext().userModel;
 
-  private readonly changeService = getAppContext().changeService;
+  // Private but used in tests.
+  readonly changeModel = getAppContext().changeModel;
 
   // Private but used in tests.
   readonly browserModel = getAppContext().browserModel;
@@ -411,7 +406,7 @@ export class GrDiffView extends base {
       })
     );
     this.subscriptions.push(
-      change$.subscribe(change => {
+      this.changeModel.change$.subscribe(change => {
         // The diff view is tied to a specfic change number, so don't update
         // _change to undefined.
         if (change) this._change = change;
@@ -423,12 +418,12 @@ export class GrDiffView extends base {
     // properties since the method will be called anytime a property updates
     // but we only want to call this on the initial load.
     this.subscriptions.push(
-      combineLatest(
-        currentPatchNum$,
+      combineLatest([
+        this.changeModel.currentPatchNum$,
         routerView$,
-        diffPath$,
-        this.userModel.diffPreferences$
-      )
+        this.changeModel.diffPath$,
+        this.userModel.diffPreferences$,
+      ])
         .pipe(
           filter(
             ([currentPatchNum, routerView, path, diffPrefs]) =>
@@ -443,7 +438,9 @@ export class GrDiffView extends base {
           this.setReviewedStatus(currentPatchNum!, path!, diffPrefs);
         })
     );
-    this.subscriptions.push(diffPath$.subscribe(path => (this._path = path)));
+    this.subscriptions.push(
+      this.changeModel.diffPath$.subscribe(path => (this._path = path))
+    );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
@@ -1059,7 +1056,7 @@ export class GrDiffView extends base {
         GerritNav.navigateToChange(this._change);
         return;
       }
-      this.changeService.updatePath(comment.path);
+      this.changeModel.updatePath(comment.path);
 
       const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
       if (!latestPatchNum) throw new Error('Missing _allPatchSets');
@@ -1069,7 +1066,7 @@ export class GrDiffView extends base {
       this._focusLineNum = comment.line;
     } else {
       if (this.params.path) {
-        this.changeService.updatePath(this.params.path);
+        this.changeModel.updatePath(this.params.path);
       }
       if (this.params.patchNum) {
         this._patchRange = {
@@ -1135,7 +1132,7 @@ export class GrDiffView extends base {
     }
 
     this._files = {sortedFileList: [], changeFilesByPath: {}};
-    this.changeService.updatePath(undefined);
+    this.changeModel.updatePath(undefined);
     this._patchRange = undefined;
     this._commitRange = undefined;
     this._focusLineNum = undefined;
@@ -1159,10 +1156,14 @@ export class GrDiffView extends base {
     }
 
     const promises: Promise<unknown>[] = [];
-    if (!this._change)
+    if (!this._change) {
       promises.push(
-        until(changeLoadingStatus$, status => status === LoadingStatus.LOADED)
+        until(
+          this.changeModel.changeLoadingStatus$,
+          status => status === LoadingStatus.LOADED
+        )
       );
+    }
     promises.push(until(this.commentsModel.commentsLoading$, isFalse));
     promises.push(
       this._getChangeEdit().then(edit => {

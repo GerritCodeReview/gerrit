@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {PatchSetNum} from '../../types/common';
+import {NumericChangeId, PatchSetNum} from '../../types/common';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {
   map,
@@ -104,14 +104,13 @@ export function updateStateChange(change?: ParsedChangeInfo) {
   });
 }
 
-export function updateStateLoading() {
+export function updateStateLoading(changeNum: NumericChangeId) {
   const current = privateState$.getValue();
+  const reloading = current.change?._number === changeNum;
   privateState$.next({
     ...current,
-    loadingStatus:
-      current.change === undefined
-        ? LoadingStatus.LOADING
-        : LoadingStatus.RELOADING,
+    change: reloading ? current.change : undefined,
+    loadingStatus: reloading ? LoadingStatus.RELOADING : LoadingStatus.LOADING,
   });
 }
 

@@ -23,7 +23,7 @@ import {
   createRevision,
 } from '../../test/test-data-generators';
 import {mockPromise, stubRestApi, waitUntil} from '../../test/test-utils';
-import {CommitId, PatchSetNum} from '../../types/common';
+import {CommitId, NumericChangeId, PatchSetNum} from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../app-context';
 import {
@@ -84,6 +84,8 @@ suite('change service tests', () => {
     assert.equal(stub.callCount, 1);
     assert.equal(state?.change, knownChange);
 
+    // Reloading same change
+
     promise = mockPromise<ParsedChangeInfo | undefined>();
     document.dispatchEvent(new CustomEvent('reload'));
     await waitUntil(() => state?.loadingStatus === LoadingStatus.RELOADING);
@@ -95,22 +97,43 @@ suite('change service tests', () => {
     assert.equal(stub.callCount, 2);
     assert.equal(state?.change, knownChange);
 
+    // Navigating to other change
+
+    const otherChange: ParsedChangeInfo = {
+      ...knownChange,
+      _number: 123 as NumericChangeId,
+    };
+    promise = mockPromise<ParsedChangeInfo | undefined>();
+    setRouterState({view: GerritView.CHANGE, changeNum: otherChange._number});
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADING);
+    assert.equal(stub.callCount, 3);
+    assert.isUndefined(state?.change);
+
+    promise.resolve(otherChange);
+    await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
+    assert.equal(stub.callCount, 3);
+    assert.equal(state?.change, otherChange);
+
+    // Navigating to dashboard
+
     promise = mockPromise<ParsedChangeInfo | undefined>();
     promise.resolve(undefined);
     setRouterState({view: GerritView.DASHBOARD, changeNum: undefined});
     await waitUntil(() => state?.loadingStatus === LoadingStatus.NOT_LOADED);
-    assert.equal(stub.callCount, 3);
+    assert.equal(stub.callCount, 4);
     assert.isUndefined(state?.change);
+
+    // Navigating back from dashboard to change page
 
     promise = mockPromise<ParsedChangeInfo | undefined>();
     setRouterState({view: GerritView.CHANGE, changeNum: knownChange._number});
     await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADING);
-    assert.equal(stub.callCount, 4);
+    assert.equal(stub.callCount, 5);
     assert.isUndefined(state?.change);
 
     promise.resolve(knownChange);
     await waitUntil(() => state?.loadingStatus === LoadingStatus.LOADED);
-    assert.equal(stub.callCount, 4);
+    assert.equal(stub.callCount, 5);
     assert.equal(state?.change, knownChange);
   });
 

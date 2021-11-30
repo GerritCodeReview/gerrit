@@ -40,11 +40,13 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
 import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.ListMultimap;
@@ -83,6 +85,7 @@ import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -95,6 +98,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -312,8 +316,63 @@ class ChangeNotesParser {
       }
       result.put(a.key().patchSetId(), a.build());
     }
+    if (status.isClosed()) {
+      // If the change is closed, check if there are "submit records" with approvals that do not
+      // exist on the latest patch-set and copy them to the latest patch-set.
+      PatchSet.Id latestPs = buildCurrentPatchSetId();
+      backFillMissingCopiedApprovalsFromSubmitRecords(result, latestPs).stream()
+          .forEach(a -> result.put(latestPs, a));
+    }
     result.keySet().forEach(k -> result.get(k).sort(ChangeNotes.PSA_BY_TIME));
     return result;
+  }
+
+  /**
+   * Returns patch-set approvals that do not exist on the latest patch-set but for which a submit
+   * record exists in NoteDb when the change was merged.
+   */
+  private List<PatchSetApproval> backFillMissingCopiedApprovalsFromSubmitRecords(
+      ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals, @Nullable PatchSet.Id latestPs) {
+    List<PatchSetApproval> copiedApprovals = new ArrayList<>();
+    if (latestPs == null) {
+      return copiedApprovals;
+    }
+    var approvalsOnLatestPs = allApprovals.get(latestPs);
+    var approvalsByUser = getApprovalsByUser(allApprovals);
+    for (SubmitRecord.Label recordLabel :
+        submitRecords.stream().flatMap(r -> r.labels.stream()).collect(Collectors.toList())) {
+      String labelName = recordLabel.label;
+      Account.Id appliedBy = recordLabel.appliedBy;
+      if (appliedBy == null) {
+        continue;
+      }
+      boolean existsAtLatestPs =
+          approvalsOnLatestPs.stream()
+              .anyMatch(a -> a.accountId().equals(appliedBy) && a.label().equals(labelName));
+      if (existsAtLatestPs) {
+        continue;
+      }
+      // Search for an approval for this label on the max previous patch-set and copy the approval.
+      Collection<PatchSetApproval> userApprovals =
+          approvalsByUser.get(appliedBy).stream()
+              .filter(approval -> approval.label().equals(labelName))
+              .collect(Collectors.toList());
+      if (userApprovals.isEmpty()) {
+        continue;
+      }
+      PatchSetApproval lastApproved =
+          Collections.max(userApprovals, comparingInt(a -> a.patchSetId().get()));
+      copiedApprovals.add(lastApproved.copyWithPatchSet(latestPs));
+    }
+    return copiedApprovals;
+  }
+
+  private ListMultimap<Account.Id, PatchSetApproval> getApprovalsByUser(
+      ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals) {
+    return allApprovals.values().stream()
+        .collect(
+            ImmutableListMultimap.toImmutableListMultimap(
+                PatchSetApproval::accountId, Function.identity()));
   }
 
   private List<ReviewerStatusUpdate> buildReviewerUpdates() {

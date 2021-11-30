@@ -34,7 +34,10 @@ import static java.util.Comparator.comparing;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -44,12 +47,15 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -58,12 +64,16 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.project.testing.TestLabels;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
@@ -75,6 +85,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ChangeOperations changeOperations;
   @Inject private ChangeKindCreator changeKindCreator;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Inject
   @Named("change_kind")
@@ -256,6 +267,79 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       ChangeInfo c = detailedChange(changeId);
       assertVotes(c, admin, 2, 0, changeKind);
       assertVotes(c, user, 0, 0, changeKind);
+    }
+  }
+
+  @Test
+  public void sticky_copiedToLatestPatchSetFromSubmitRecords() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMaxScore(true));
+      u.getConfig().updateLabelType(LabelId.VERIFIED, b -> b.setFunction(LabelFunction.NO_BLOCK));
+      u.save();
+    }
+
+    // In this test, we add a fake submit rule that's always passing and contains a vote to the
+    // "Verified" label voted by {@code user}. We let the user apply a vote to "Verified" label
+    // on PS1 & PS2 and not on the latest PS. After the change is merged, and while we parse
+    // submit records from NoteDb, we find a voted "Verified" label in submit records that does
+    // not exist on the latest patch-set, hence we copy the last approval from this user to this
+    // label to the latest patch-set.
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(new TestSubmitRule(user.id()))) {
+      // We want to add a vote on PS1, then not copy it to PS2, but include it in submit records
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+
+      // Vote on patch-set 1
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, 1, -1);
+
+      // Upload patch-set 2. Change user's "Verified" vote on PS2.
+      changeOperations
+          .change(Change.id(r.getChange().getId().get()))
+          .newPatchset()
+          .file("new_file")
+          .content("content")
+          .commitMessage("Upload PS2")
+          .create();
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, 1, 1);
+
+      // Upload patch-set 3
+      changeOperations
+          .change(Change.id(r.getChange().getId().get()))
+          .newPatchset()
+          .file("another_file")
+          .content("content")
+          .commitMessage("Upload PS3")
+          .create();
+
+      // Submit the change.
+      requestScopeOperations.setApiUser(admin.id());
+      gApi.changes().id(changeId).current().submit();
+
+      List<PatchSetApproval> patchSetApprovals =
+          notesFactory.create(project, r.getChange().getId()).getApprovalsWithCopied().values()
+              .stream()
+              .sorted(comparing(a -> a.patchSetId().get()))
+              .collect(toImmutableList());
+
+      // Get the copied approval for user on PS3 for the "Verified" label.
+      PatchSetApproval verifiedApproval =
+          patchSetApprovals.stream()
+              .filter(
+                  a ->
+                      a.accountId().equals(user.id())
+                          && a.label().equals(TestLabels.verified().getName())
+                          && a.patchSetId().get() == 3)
+              .collect(MoreCollectors.onlyElement());
+
+      assertCopied(
+          verifiedApproval,
+          /* psId= */ 3,
+          TestLabels.verified().getName(),
+          (short) 1,
+          /* copied= */ true);
     }
   }
 
@@ -1351,5 +1435,30 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertThat(approval.label()).isEqualTo(label);
     assertThat(approval.value()).isEqualTo(value);
     assertThat(approval.copied()).isEqualTo(copied);
+  }
+
+  /**
+   * Test submit rule that always return a passing record with a "Verified" label applied by {@link
+   * TestSubmitRule#userAccountId}.
+   */
+  private static class TestSubmitRule implements SubmitRule {
+    Account.Id userAccountId;
+
+    TestSubmitRule(Account.Id userAccountId) {
+      this.userAccountId = userAccountId;
+    }
+
+    @Override
+    public Optional<SubmitRecord> evaluate(ChangeData changeData) {
+      SubmitRecord record = new SubmitRecord();
+      record.ruleName = "testSubmitRule";
+      record.status = SubmitRecord.Status.OK;
+      SubmitRecord.Label label = new SubmitRecord.Label();
+      label.label = "Verified";
+      label.status = SubmitRecord.Label.Status.OK;
+      label.appliedBy = userAccountId;
+      record.labels = Arrays.asList(label);
+      return Optional.of(record);
+    }
   }
 }

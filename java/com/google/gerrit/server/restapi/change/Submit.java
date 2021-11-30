@@ -304,7 +304,10 @@ public class Submit
       return null; // submit not visible
     }
 
-    ChangeSet cs = mergeSuperSet.get().completeChangeSet(cd.change(), resource.getUser());
+    ChangeSet cs =
+        mergeSuperSet
+            .get()
+            .completeChangeSet(cd.change(), resource.getUser(), /*includingTopicClosure= */ false);
     String topic = change.getTopic();
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {

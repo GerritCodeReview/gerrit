@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db9bfaf5_4db21b79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-30T13:02:38Z",
+      "side": 1,
+      "message": "ah woops I forgot to update the public docs ;-)",
+      "parentUuid": "ee9720d2_19486f77",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 65
+      },
+      "revId": "435aebcdb8bc198c38f7826b749829c6637a47d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e17f330_12ee1f1c",
         "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
         "patchSetId": 1

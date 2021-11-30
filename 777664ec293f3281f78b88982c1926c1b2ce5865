@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1fb41a4_291f00c7",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "Yes, I will fix in a follow-up.",
+      "parentUuid": "22c545eb_c525c450",
+      "range": {
+        "startLine": 46,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 15
+      },
+      "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "646c6c41_24e019c3",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-11-30T13:44:20Z",
       "side": 1,
       "message": "This sentence is confusing. It makes it sounds that the methods are the same except how the modified files are retrieved, but they have different return types so they are not quite the same. Maybe rephrase?",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 68,
+        "endChar": 80
+      },
+      "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18b81b72_a2db89b9",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "646c6c41_24e019c3",
       "range": {
         "startLine": 67,
         "startChar": 5,
@@ -81,6 +129,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "090cc2b7_f28e611e",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c46384e_ac8bab19",
+      "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7672a25d_50be82d4",
@@ -94,6 +160,30 @@
       "writtenOn": "2021-11-30T13:44:20Z",
       "side": 1,
       "message": "same as above",
+      "range": {
+        "startLine": 103,
+        "startChar": 5,
+        "endLine": 104,
+        "endChar": 76
+      },
+      "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbce38f3_47ed1e29",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7672a25d_50be82d4",
       "range": {
         "startLine": 103,
         "startChar": 5,
@@ -127,6 +217,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcd9b253_00ebad81",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7eedf147_39e42ccf",
+      "range": {
+        "startLine": 130,
+        "startChar": 10,
+        "endLine": 130,
+        "endChar": 16
+      },
+      "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e92217ac_8946d75e",
@@ -140,6 +254,30 @@
       "writtenOn": "2021-11-30T13:44:20Z",
       "side": 1,
       "message": "Maybe include the parent arg into the log message too?",
+      "range": {
+        "startLine": 140,
+        "startChar": 10,
+        "endLine": 140,
+        "endChar": 78
+      },
+      "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b38d1ba7_b47145a8",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e92217ac_8946d75e",
       "range": {
         "startLine": 140,
         "startChar": 10,
@@ -221,6 +359,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7efc8522_5bf10cba",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af514f2_409c32ce",
+      "range": {
+        "startLine": 401,
+        "startChar": 8,
+        "endLine": 401,
+        "endChar": 34
+      },
+      "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c51cc3c_493341e5",
@@ -244,6 +406,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "589f89a6_721b5220",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c51cc3c_493341e5",
+      "range": {
+        "startLine": 417,
+        "startChar": 0,
+        "endLine": 417,
+        "endChar": 105
+      },
+      "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5de3dd4_fc489670",
@@ -257,6 +443,30 @@
       "writtenOn": "2021-11-30T13:44:20Z",
       "side": 1,
       "message": "Why does the old path take precedence over the new path?",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 69
+      },
+      "revId": "777664ec293f3281f78b88982c1926c1b2ce5865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd50b552_505f6bcb",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T15:48:09Z",
+      "side": 1,
+      "message": "I overlooked it and thought that only one of the paths is present, but actually both may exist for {renamed, copied} files.\n\nI adjusted it and gave precedence to newPath.",
+      "parentUuid": "d5de3dd4_fc489670",
       "range": {
         "startLine": 51,
         "startChar": 4,

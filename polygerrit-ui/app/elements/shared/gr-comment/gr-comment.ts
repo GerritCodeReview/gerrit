@@ -280,7 +280,7 @@ export class GrComment extends PolymerElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly commentsService = getAppContext().commentsService;
+  private readonly commentsModel = getAppContext().commentsModel;
 
   private fireUpdateTask?: DelayedTask;
 
@@ -580,7 +580,7 @@ export class GrComment extends PolymerElement {
   }
 
   _fireEdit() {
-    if (this.comment) this.commentsService.editDraft(this.comment);
+    if (this.comment) this.commentsModel.editDraft(this.comment);
     this.dispatchEvent(
       new CustomEvent('comment-edit', {
         detail: this._getEventPayload(),
@@ -591,7 +591,7 @@ export class GrComment extends PolymerElement {
   }
 
   _fireSave() {
-    if (this.comment) this.commentsService.addDraft(this.comment);
+    if (this.comment) this.commentsModel.addDraft(this.comment);
     this.dispatchEvent(
       new CustomEvent('comment-save', {
         detail: this._getEventPayload(),
@@ -792,13 +792,13 @@ export class GrComment extends PolymerElement {
       this._fireDiscard();
     } else {
       this.set('comment.__editing', false);
-      this.commentsService.cancelDraft(this.comment);
+      this.commentsModel.cancelDraft(this.comment);
       this.editing = false;
     }
   }
 
   _fireDiscard() {
-    if (this.comment) this.commentsService.deleteDraft(this.comment);
+    if (this.comment) this.commentsModel.deleteDraft(this.comment);
     this.fireUpdateTask?.cancel();
     this.dispatchEvent(
       new CustomEvent('comment-discard', {
@@ -968,7 +968,7 @@ export class GrComment extends PolymerElement {
             message: 'Draft Discarded',
             action: 'Undo',
             callback: () =>
-              this.commentsService.restoreDraft(changeNum, patchNum, draftID),
+              this.commentsModel.restoreDraft(changeNum, patchNum, draftID),
           });
         }
         return result;

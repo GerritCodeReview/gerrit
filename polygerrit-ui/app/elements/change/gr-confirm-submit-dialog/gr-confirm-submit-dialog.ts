@@ -30,7 +30,7 @@ import {customElement, property, query, state} from 'lit/decorators';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {change$} from '../../../services/change/change-model';
-import {threads$} from '../../../services/comments/comments-model';
+import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 
 @customElement('gr-confirm-submit-dialog')
@@ -61,6 +61,8 @@ export class GrConfirmSubmitDialog extends LitElement {
 
   @state()
   initialised = false;
+
+  private commentsModel = getAppContext().commentsModel;
 
   static override get styles() {
     return [
@@ -93,7 +95,7 @@ export class GrConfirmSubmitDialog extends LitElement {
     subscribe(this, change$, x => (this.change = x));
     subscribe(
       this,
-      threads$,
+      this.commentsModel.threads$,
       x => (this.unresolvedThreads = x.filter(isUnresolved))
     );
   }

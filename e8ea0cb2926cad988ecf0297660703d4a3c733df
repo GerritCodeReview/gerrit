@@ -176,6 +176,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5294f98e_689c06d1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T16:30:32Z",
+      "side": 1,
+      "message": "OK I see. Done.\n\nUpdate: That failed the test, because currently we have the \"copy approvals on PS upload\" running in the codebase, so the test had some copied approvals (for code-review).\n\nI removed the logic for copying code-review as well and voted code-review\u003d+2 on all patchsets.",
+      "parentUuid": "6a9e91f7_4be552e8",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2a13f25_fc28a63d",
@@ -413,6 +431,30 @@
       "side": 1,
       "message": "Sure:\n\nWith change [1] we started to persist copied approvals in NoteDb.\n\nSince this code is present now, the change that you are creating and submitting in the test, does have copied approvals persisted in NoteDb.\n\nWhat we are concerned about are changes that have been merged before the code from [1] was present. These changes do not have copied approvals persisted in NoteDb. I think you would need to create such a change for the test.\n\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/318135",
       "parentUuid": "5a17035e_bcab5254",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 46
+      },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f84c063_63d6db46",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-30T16:30:32Z",
+      "side": 1,
+      "message": "Thanks for clarifying. I was thinking that testing this right now is impossible, because current code persists the copied votes in NoteDb.\n\nThe test you\u0027re suggesting should only use the default submit rule, then we want to persist a submit record in NoteDb upon merge for an approval that does not exist on the latest patchset (and then make sure it was backfilled correctly). But this is impossible since the DefaultSubmitRule inspects cd.currentApprovals() (i.e. approvals on the latest patchset).\n\nThis is why I made the custom submit rule workaround.\n\nNot sure if I could work-around this to get to this state.",
+      "parentUuid": "92df17c5_e0352135",
       "range": {
         "startLine": 281,
         "startChar": 4,

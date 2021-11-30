@@ -141,6 +141,30 @@
       },
       "revId": "712cf00c7ff2fc0af957e7132482e608e5cfcbee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3aea7a5_aa41a56a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-30T16:56:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure why this works but the other one didn\u0027t. :(\nLooks good to me.",
+      "parentUuid": "a618a213_acbbc02a",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 498,
+        "endChar": 0
+      },
+      "revId": "712cf00c7ff2fc0af957e7132482e608e5cfcbee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

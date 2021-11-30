@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75e1eedc_445e9a97",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-30T15:37:24Z",
+      "side": 1,
+      "message": "Done\nI think the javadoc in persistCopiedApprovals explains it better already so I will remove this one.",
+      "parentUuid": "c3a64c2b_343f6987",
+      "range": {
+        "startLine": 301,
+        "startChar": 4,
+        "endLine": 302,
+        "endChar": 79
+      },
+      "revId": "639eb3b1494fe832eb7483e601d22945cd9a51c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08114f55_c8082c12",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4eaff10a_c8a8a49c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-30T15:37:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08114f55_c8082c12",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 349,
+        "endChar": 79
+      },
+      "revId": "639eb3b1494fe832eb7483e601d22945cd9a51c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4758a04f_3141d45f",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-11-30T13:09:50Z",
       "side": 1,
       "message": "[optional] Could be just: recommend(r.getChangeId())",
+      "range": {
+        "startLine": 1281,
+        "startChar": 4,
+        "endLine": 1282,
+        "endChar": 63
+      },
+      "revId": "639eb3b1494fe832eb7483e601d22945cd9a51c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13ca19da_e6e6f074",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-30T15:37:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4758a04f_3141d45f",
       "range": {
         "startLine": 1281,
         "startChar": 4,

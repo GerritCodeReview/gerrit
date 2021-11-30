@@ -22,7 +22,7 @@ import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
 import {GrRestApiServiceImpl} from '../elements/shared/gr-rest-api-interface/gr-rest-api-impl';
 import {ChangeService} from './change/change-service';
-import {ChecksService} from './checks/checks-service';
+import {ChecksModel} from './checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
 import {UserModel} from './user/user-model';
@@ -61,9 +61,9 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new CommentsService(ctx.restApiService!);
     },
-    checksService: (ctx: Partial<AppContext>) => {
+    checksModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ChecksService(ctx.reportingService!);
+      return new ChecksModel(ctx.reportingService!);
     },
     jsApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');

@@ -21,7 +21,7 @@ import {ReportingService} from './gr-reporting/gr-reporting';
 import {AuthService} from './gr-auth/gr-auth';
 import {RestApiService} from './gr-rest-api/gr-rest-api';
 import {ChangeService} from './change/change-service';
-import {ChecksService} from './checks/checks-service';
+import {ChecksModel} from './checks/checks-model';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 import {StorageService} from './storage/gr-storage';
 import {UserModel} from './user/user-model';
@@ -38,7 +38,7 @@ export interface AppContext {
   restApiService: RestApiService;
   changeService: ChangeService;
   commentsService: CommentsService;
-  checksService: ChecksService;
+  checksModel: ChecksModel;
   jsApiService: JsApiService;
   storageService: StorageService;
   configModel: ConfigModel;

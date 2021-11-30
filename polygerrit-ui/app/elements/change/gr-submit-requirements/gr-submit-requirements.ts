@@ -44,10 +44,7 @@ import {
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {charsOnly} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
-import {
-  allRunsLatestPatchsetLatestAttempt$,
-  CheckRun,
-} from '../../../services/checks/checks-model';
+import {CheckRun} from '../../../services/checks/checks-model';
 import {
   firstPrimaryLink,
   getResultsOf,
@@ -57,6 +54,7 @@ import {Category} from '../../../api/checks';
 import '../../shared/gr-vote-chip/gr-vote-chip';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import {PrimaryTab} from '../../../constants/constants';
+import {getAppContext} from '../../../services/app-context';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -149,9 +147,15 @@ export class GrSubmitRequirements extends LitElement {
     ];
   }
 
+  private readonly checksModel = getAppContext().checksModel;
+
   constructor() {
     super();
-    subscribe(this, allRunsLatestPatchsetLatestAttempt$, x => (this.runs = x));
+    subscribe(
+      this,
+      this.checksModel.allRunsLatestPatchsetLatestAttempt$,
+      x => (this.runs = x)
+    );
   }
 
   override render() {

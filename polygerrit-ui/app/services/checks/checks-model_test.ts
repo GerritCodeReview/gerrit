@@ -16,15 +16,9 @@
  */
 import '../../test/common-test-setup-karma';
 import './checks-model';
-import {
-  _testOnly_getState,
-  ChecksPatchset,
-  updateStateSetLoading,
-  updateStateSetProvider,
-  updateStateSetResults,
-  updateStateUpdateResult,
-} from './checks-model';
+import {ChecksModel, ChecksPatchset, ChecksProviderState} from './checks-model';
 import {Category, CheckRun, RunStatus} from '../../api/checks';
+import {grReportingMock} from '../gr-reporting/gr-reporting_mock';
 
 const PLUGIN_NAME = 'test-plugin';
 
@@ -45,14 +39,23 @@ const RUNS: CheckRun[] = [
   },
 ];
 
-function current() {
-  return _testOnly_getState().pluginStateLatest[PLUGIN_NAME];
-}
-
 suite('checks-model tests', () => {
-  test('updateStateSetProvider', () => {
-    updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
-    assert.deepEqual(current(), {
+  let model: ChecksModel;
+
+  let current: ChecksProviderState;
+
+  setup(() => {
+    model = new ChecksModel(grReportingMock);
+    model.checksLatest$.subscribe(c => (current = c[PLUGIN_NAME]));
+  });
+
+  teardown(() => {
+    model.finalize();
+  });
+
+  test('model.updateStateSetProvider', () => {
+    model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
+    assert.deepEqual(current, {
       pluginName: PLUGIN_NAME,
       loading: false,
       firstTimeLoad: true,
@@ -63,45 +66,69 @@ suite('checks-model tests', () => {
   });
 
   test('loading and first time load', () => {
-    updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
-    assert.isFalse(current().loading);
-    assert.isTrue(current().firstTimeLoad);
-    updateStateSetLoading(PLUGIN_NAME, ChecksPatchset.LATEST);
-    assert.isTrue(current().loading);
-    assert.isTrue(current().firstTimeLoad);
-    updateStateSetResults(PLUGIN_NAME, RUNS, [], [], ChecksPatchset.LATEST);
-    assert.isFalse(current().loading);
-    assert.isFalse(current().firstTimeLoad);
-    updateStateSetLoading(PLUGIN_NAME, ChecksPatchset.LATEST);
-    assert.isTrue(current().loading);
-    assert.isFalse(current().firstTimeLoad);
-    updateStateSetResults(PLUGIN_NAME, RUNS, [], [], ChecksPatchset.LATEST);
-    assert.isFalse(current().loading);
-    assert.isFalse(current().firstTimeLoad);
+    model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
+    assert.isFalse(current.loading);
+    assert.isTrue(current.firstTimeLoad);
+    model.updateStateSetLoading(PLUGIN_NAME, ChecksPatchset.LATEST);
+    assert.isTrue(current.loading);
+    assert.isTrue(current.firstTimeLoad);
+    model.updateStateSetResults(
+      PLUGIN_NAME,
+      RUNS,
+      [],
+      [],
+      ChecksPatchset.LATEST
+    );
+    assert.isFalse(current.loading);
+    assert.isFalse(current.firstTimeLoad);
+    model.updateStateSetLoading(PLUGIN_NAME, ChecksPatchset.LATEST);
+    assert.isTrue(current.loading);
+    assert.isFalse(current.firstTimeLoad);
+    model.updateStateSetResults(
+      PLUGIN_NAME,
+      RUNS,
+      [],
+      [],
+      ChecksPatchset.LATEST
+    );
+    assert.isFalse(current.loading);
+    assert.isFalse(current.firstTimeLoad);
   });
 
-  test('updateStateSetResults', () => {
-    updateStateSetResults(PLUGIN_NAME, RUNS, [], [], ChecksPatchset.LATEST);
-    assert.lengthOf(current().runs, 1);
-    assert.lengthOf(current().runs[0].results!, 1);
+  test('model.updateStateSetResults', () => {
+    model.updateStateSetResults(
+      PLUGIN_NAME,
+      RUNS,
+      [],
+      [],
+      ChecksPatchset.LATEST
+    );
+    assert.lengthOf(current.runs, 1);
+    assert.lengthOf(current.runs[0].results!, 1);
   });
 
-  test('updateStateUpdateResult', () => {
-    updateStateSetResults(PLUGIN_NAME, RUNS, [], [], ChecksPatchset.LATEST);
+  test('model.updateStateUpdateResult', () => {
+    model.updateStateSetResults(
+      PLUGIN_NAME,
+      RUNS,
+      [],
+      [],
+      ChecksPatchset.LATEST
+    );
     assert.equal(
-      current().runs[0].results![0].summary,
+      current.runs[0].results![0].summary,
       RUNS[0]!.results![0].summary
     );
     const result = RUNS[0].results![0];
     const updatedResult = {...result, summary: 'new'};
-    updateStateUpdateResult(
+    model.updateStateUpdateResult(
       PLUGIN_NAME,
       RUNS[0],
       updatedResult,
       ChecksPatchset.LATEST
     );
-    assert.lengthOf(current().runs, 1);
-    assert.lengthOf(current().runs[0].results!, 1);
-    assert.equal(current().runs[0].results![0].summary, 'new');
+    assert.lengthOf(current.runs, 1);
+    assert.lengthOf(current.runs[0].results!, 1);
+    assert.equal(current.runs[0].results![0].summary, 'new');
   });
 });

@@ -49,7 +49,6 @@ import {cleanUpStorage} from '../services/storage/gr-storage_mock';
 
 import {getAppContext} from '../services/app-context';
 import {_testOnly_resetState as resetChangeState} from '../services/change/change-model';
-import {_testOnly_resetState as resetChecksState} from '../services/checks/checks-model';
 import {_testOnly_resetState as resetCommentsState} from '../services/comments/comments-model';
 import {_testOnly_resetState as resetRouterState} from '../services/router/router-model';
 
@@ -117,7 +116,6 @@ setup(() => {
   _testOnly_initGerritPluginApi();
 
   resetChangeState();
-  resetChecksState();
   resetCommentsState();
   resetRouterState();
 

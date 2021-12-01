@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b823ffc9_6a5e911f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-01T19:20:57Z",
+      "side": 1,
+      "message": "Patrick, could you, please, take a look?\n\nThe failing test is unrelated, fixed in https://gerrit-review.googlesource.com/c/gerrit/+/325239",
+      "revId": "d3e5febac97e639ada8e3e2089b85dc7f903d7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

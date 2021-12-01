@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ab710e4_34ccacf2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-01T14:19:47Z",
+      "side": 1,
+      "message": "This feels incorrect, we shouldn\u0027t be calling connectedCallback. If anything, this means we should be instantiating the fixture here with the right parameters.",
+      "revId": "963eb6cec7f9904f36cbcdcd5a2d527692d63e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

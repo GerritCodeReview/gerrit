@@ -196,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a60750cd_fe9ef404",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T11:06:41Z",
+      "side": 1,
+      "message": "\u003e Update: That failed the test, because currently we have the\n\u003e \"copy approvals on PS upload\" running in the codebase, so\n\u003e the test had some copied approvals (for code-review).\n\nI think it\u0027s unexpected that this made the test fail. Maybe anything is wrong with the test? Why does it expect the Verified approval to be copied to PS3 if the Verified label is not configured to be sticky? That seems wrong.\n\nIf the test passes when the code is exercised maybe something is wrong with our logic as it now copies approvals which wouldn\u0027t have been copied by ApprovalInference before?\n\nI guess this shows that using the fake submit rule in the test is not actually testing what we want to be tested. It tests what happens if you have a submit rule that returns a label as fulfilled which is actually not present on the patch set. This may be an interesting edge case but is not our main concern.\n\nSo I still think we need a proper test.",
+      "parentUuid": "5294f98e_689c06d1",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2a13f25_fc28a63d",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 3

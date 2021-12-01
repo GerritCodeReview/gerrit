@@ -46,6 +46,30 @@
       },
       "revId": "d2e9ecc5ebe9c038a9f24e18cc724690efb778b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe03c686_288bd358",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T11:06:41Z",
+      "side": 1,
+      "message": "Yes, maybe ask the ESC whether we want to start using Java 10 language features.\nRolling back for now, seems good (e.g. this broke my local build).",
+      "parentUuid": "9b55d145_6cdd8e72",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 348,
+        "endChar": 7
+      },
+      "revId": "d2e9ecc5ebe9c038a9f24e18cc724690efb778b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

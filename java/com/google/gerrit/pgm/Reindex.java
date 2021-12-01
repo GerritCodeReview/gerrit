@@ -83,6 +83,9 @@ public class Reindex extends SiteProgram {
   @Option(name = "--index", usage = "Only reindex specified indices")
   private List<String> indices = new ArrayList<>();
 
+  @Option(name = "--disable-cache-stats", usage = "Disables printing the cache statistics")
+  private boolean disableCacheStats;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private Injector cfgInjector;
@@ -238,17 +241,19 @@ public class Reindex extends SiteProgram {
   }
 
   private void printCacheStats() {
-    try (Writer sw = new StringWriter()) {
-      sw.write("Cache Statistics at the end of reindexing\n");
-      new CacheDisplay(
-              sw,
-              StreamSupport.stream(cacheMap.spliterator(), false)
-                  .map(e -> new CacheInfo(e.getExportName(), e.get()))
-                  .collect(Collectors.toList()))
-          .displayCaches();
-      System.out.print(sw.toString());
-    } catch (Exception e) {
-      System.out.format("Error displaying the cache statistics\n" + e.getMessage());
+    if (!disableCacheStats) {
+      try (Writer sw = new StringWriter()) {
+        sw.write("Cache Statistics at the end of reindexing\n");
+        new CacheDisplay(
+                sw,
+                StreamSupport.stream(cacheMap.spliterator(), false)
+                    .map(e -> new CacheInfo(e.getExportName(), e.get()))
+                    .collect(Collectors.toList()))
+            .displayCaches();
+        System.out.print(sw.toString());
+      } catch (Exception e) {
+        System.out.format("Error displaying the cache statistics\n" + e.getMessage());
+      }
     }
   }
 }

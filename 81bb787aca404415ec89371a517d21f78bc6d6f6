@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d3f4d71_942da9c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-01T13:24:03Z",
+      "side": 1,
+      "message": "Frontend changes look good to me.",
+      "revId": "81bb787aca404415ec89371a517d21f78bc6d6f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39e55381_b20be635",
+        "filename": "plugins/delete-project",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-01T13:24:03Z",
+      "side": 1,
+      "message": "Is this related?",
+      "revId": "81bb787aca404415ec89371a517d21f78bc6d6f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14f67d99_e2dc55eb",
+        "filename": "plugins/webhooks",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-01T13:24:03Z",
+      "side": 1,
+      "message": "Is this related?",
+      "revId": "81bb787aca404415ec89371a517d21f78bc6d6f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

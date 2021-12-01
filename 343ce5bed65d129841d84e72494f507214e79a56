@@ -33,6 +33,52 @@
       "message": "Creating a comment thread and saving it also results in the thread disappearing entirely.\n1. Create a thread\n2. Click Save\n3. Thread is not visible on the diff anymore\n\nCan you reproduce this?",
       "revId": "343ce5bed65d129841d84e72494f507214e79a56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b5a3fed_c99759b9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-01T12:32:15Z",
+      "side": 1,
+      "message": "is an unintentional collision possible here?",
+      "range": {
+        "startLine": 758,
+        "startChar": 9,
+        "endLine": 759,
+        "endChar": 19
+      },
+      "revId": "343ce5bed65d129841d84e72494f507214e79a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cfff386_973316b7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-01T12:32:15Z",
+      "side": 1,
+      "message": "test for this situation",
+      "range": {
+        "startLine": 760,
+        "startChar": 6,
+        "endLine": 766,
+        "endChar": 9
+      },
+      "revId": "343ce5bed65d129841d84e72494f507214e79a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

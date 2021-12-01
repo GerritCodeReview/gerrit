@@ -16,6 +16,24 @@
       "message": "What is the cost of all of these deepEquals?",
       "revId": "70ebbac45a1e0992199bbb0d50cde2d5e5ac3107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "582299ca_b49032fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T16:32:50Z",
+      "side": 1,
+      "message": "Whatever the cost of the deepEqual, it must be orders of magnitude lower than the cost of entering a re-rendering cycle. What I have learned is that you always want to do less rendering in the browser when you want to optimize performance.",
+      "parentUuid": "c21de2a6_8829b8cb",
+      "revId": "70ebbac45a1e0992199bbb0d50cde2d5e5ac3107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

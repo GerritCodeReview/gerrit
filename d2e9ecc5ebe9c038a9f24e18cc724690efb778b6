@@ -22,6 +22,30 @@
       },
       "revId": "d2e9ecc5ebe9c038a9f24e18cc724690efb778b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b55d145_6cdd8e72",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-01T11:04:22Z",
+      "side": 1,
+      "message": "Yes. It was not used before in the code base; I was also unsure if it\u0027s OK to introduce it.\n\nWe should not move back to an older java version in the future. It will only not work if we wanted to cherry-pick to older releases that run on Java 8 or earlier.\n\nThe advantage to that is making the code more readable and simplify type declaration, especially for long type definitions so that the declaration fits on a single line.\n\nMaybe we can promote usage of \"var\" in our code base. I can bring this into discussion in our next meeting. For now, I can roll this back.",
+      "parentUuid": "6ac1dd42_85ec1a41",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 348,
+        "endChar": 7
+      },
+      "revId": "d2e9ecc5ebe9c038a9f24e18cc724690efb778b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

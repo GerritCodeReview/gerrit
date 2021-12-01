@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2e3becf_2a7218cf",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T15:59:55Z",
+      "side": 1,
+      "message": "This has a warning now:\n\nThe enum constant FORCED should have a corresponding case label in this enum switch on SubmitRequirementResult.Status.",
+      "revId": "848c0332bbd8745d5801fb710d84b2534f973cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

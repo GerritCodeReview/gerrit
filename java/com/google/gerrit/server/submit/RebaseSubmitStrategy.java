@@ -211,10 +211,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                 .setPostMessage(false)
                 .setSendEmail(false)
                 .setMatchAuthorToCommitterDate(
-                    args.project.is(BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE))
-                // The votes are automatically copied and they don't count as copied votes. See
-                // method's javadoc.
-                .setStoreCopiedVotes(/* storeCopiedVotes = */ false);
+                    args.project.is(BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE));
         try {
           rebaseOp.updateRepo(ctx);
         } catch (MergeConflictException | NoSuchChangeException e) {

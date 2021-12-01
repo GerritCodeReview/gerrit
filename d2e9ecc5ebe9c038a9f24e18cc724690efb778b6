@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ac1dd42_85ec1a41",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T10:46:56Z",
+      "side": 1,
+      "message": "Is this a Java 10 feature? \nIt\u0027s the first time I see this in the Gerrit code base, are we OK with making use of this?",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 348,
+        "endChar": 7
+      },
+      "revId": "d2e9ecc5ebe9c038a9f24e18cc724690efb778b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -13,10 +13,6 @@ build --incompatible_strict_action_env
 
 build --announce_rc
 
-# Workaround Bazel worker crash (remove after upgrading to 4.1.0)
-# https://github.com/bazelbuild/bazel/issues/13333
-build --experimental_worker_multiplex=false
-
 test --build_tests_only
 test --test_output=all
 test --java_toolchain=//tools:error_prone_warnings_toolchain_java11

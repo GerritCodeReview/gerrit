@@ -113,6 +113,7 @@ public class Reindex extends SiteProgram {
 
     try {
       boolean ok = list ? list() : reindex();
+      printCacheStats();
       return ok ? 0 : 1;
     } catch (Exception e) {
       throw die(e.getMessage(), e);
@@ -233,8 +234,12 @@ public class Reindex extends SiteProgram {
         "Index %s in version %d is %sready\n",
         def.getName(), index.getSchema().getVersion(), result.success() ? "" : "NOT ");
 
+    return result.success();
+  }
+
+  private void printCacheStats() {
     try (Writer sw = new StringWriter()) {
-      sw.write(String.format("Cache Statistics at the end of reindexing %s\n", def.getName()));
+      sw.write("Cache Statistics at the end of reindexing\n");
       new CacheDisplay(
               sw,
               StreamSupport.stream(cacheMap.spliterator(), false)
@@ -245,7 +250,5 @@ public class Reindex extends SiteProgram {
     } catch (Exception e) {
       System.out.format("Error displaying the cache statistics\n" + e.getMessage());
     }
-
-    return result.success();
   }
 }

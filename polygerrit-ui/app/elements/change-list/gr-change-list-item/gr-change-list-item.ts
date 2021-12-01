@@ -44,10 +44,10 @@ import {
 } from '../../../types/common';
 import {assertNever, hasOwnProperty} from '../../../utils/common-util';
 import {pluralize} from '../../../utils/string-util';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   getRequirements,
   iconForStatus,
+  showNewSubmitRequirements,
   StandardLabels,
 } from '../../../utils/label-util';
 import {SubmitRequirementStatus} from '../../../api/rest-api';
@@ -113,17 +113,12 @@ export class GrChangeListItem extends LitElement {
 
   @state() private dynamicCellEndpoints?: string[];
 
-  @state() private isSubmitRequirementsUiEnabled = false;
-
   reporting: ReportingService = getAppContext().reportingService;
 
   private readonly flagsService = getAppContext().flagsService;
 
   override connectedCallback() {
     super.connectedCallback();
-    this.isSubmitRequirementsUiEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-    );
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -537,7 +532,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCommentsInfoWithLabel(labelName: string) {
-    if (!this.isSubmitRequirementsUiEnabled) return;
+    if (!showNewSubmitRequirements(this.flagsService, this.change)) return;
     if (labelName !== StandardLabels.CODE_REVIEW) return;
     if (!this.change?.unresolved_comment_count) return;
     return html`<iron-icon
@@ -593,7 +588,7 @@ export class GrChangeListItem extends LitElement {
   // private but used in test
   computeLabelClass(labelName: string) {
     const classes = ['cell', 'label'];
-    if (this.isSubmitRequirementsUiEnabled) {
+    if (showNewSubmitRequirements(this.flagsService, this.change)) {
       const requirements = getRequirements(this.change).filter(
         sr => sr.name === labelName
       );
@@ -644,7 +639,7 @@ export class GrChangeListItem extends LitElement {
 
   // private but used in test
   computeLabelIcon(labelName: string): string {
-    if (this.isSubmitRequirementsUiEnabled) {
+    if (showNewSubmitRequirements(this.flagsService, this.change)) {
       const requirements = getRequirements(this.change).filter(
         sr => sr.name === labelName
       );

@@ -51,8 +51,10 @@ import {hasAttention} from '../../../utils/attention-set-util';
 import {fireEvent, fireReload} from '../../../utils/event-util';
 import {ScrollMode} from '../../../constants/constants';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
-import {KnownExperimentId} from '../../../services/flags/flags';
-import {PRIORITY_REQUIREMENTS_ORDER} from '../../../utils/label-util';
+import {
+  PRIORITY_REQUIREMENTS_ORDER,
+  showNewSubmitRequirements,
+} from '../../../utils/label-util';
 import {addGlobalShortcut, Key} from '../../../utils/dom-util';
 
 const NUMBER_FIXED_COLUMNS = 3;
@@ -205,20 +207,22 @@ export class GrChangeList extends base {
     return column.toLowerCase();
   }
 
-  @observe('account', 'preferences', '_config')
+  @observe('account', 'preferences', '_config', 'sections')
   _computePreferences(
     account?: AccountInfo,
     preferences?: PreferencesInput,
-    config?: ServerInfo
+    config?: ServerInfo,
+    sections?: ChangeListSection[]
   ) {
     if (!config) {
       return;
     }
 
+    const changes = (sections ?? []).map(section => section.results).flat();
     this.changeTableColumns = columnNames;
     this.showNumber = false;
     this.visibleChangeTableColumns = this.changeTableColumns.filter(col =>
-      this._isColumnEnabled(col, config, this.flagsService.enabledExperiments)
+      this._isColumnEnabled(col, config, changes)
     );
     if (account && preferences) {
       this.showNumber = !!(
@@ -229,11 +233,7 @@ export class GrChangeList extends base {
           column === 'Project' ? 'Repo' : column
         );
         this.visibleChangeTableColumns = prefColumns.filter(col =>
-          this._isColumnEnabled(
-            col,
-            config,
-            this.flagsService.enabledExperiments
-          )
+          this._isColumnEnabled(col, config, changes)
         );
       }
     }
@@ -242,12 +242,15 @@ export class GrChangeList extends base {
   /**
    * Is the column disabled by a server config or experiment?
    */
-  _isColumnEnabled(column: string, config: ServerInfo, experiments: string[]) {
+  _isColumnEnabled(column: string, config: ServerInfo, changes?: ChangeInfo[]) {
     if (!columnNames.includes(column)) return false;
     if (!config || !config.change) return true;
-    if (column === 'Comments') return experiments.includes('comments-column');
+    if (column === 'Comments')
+      return this.flagsService.isEnabled('comments-column');
     if (column === 'Requirements')
-      return experiments.includes(KnownExperimentId.SUBMIT_REQUIREMENTS_UI);
+      return (changes ?? []).every(change =>
+        showNewSubmitRequirements(this.flagsService, change)
+      );
     return true;
   }
 
@@ -302,9 +305,10 @@ export class GrChangeList extends base {
         labels = labels.concat(currentLabels.filter(nonExistingLabel));
       }
     }
+    const changes = sections.map(section => section.results).flat();
     if (
-      this.flagsService.enabledExperiments.includes(
-        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+      (changes ?? []).every(change =>
+        showNewSubmitRequirements(this.flagsService, change)
       )
     ) {
       labels = labels.filter(l => PRIORITY_REQUIREMENTS_ORDER.includes(l));

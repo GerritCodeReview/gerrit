@@ -741,6 +741,7 @@ export function createSubmitRequirementResultInfo(): SubmitRequirementResultInfo
     name: 'Verified',
     status: SubmitRequirementStatus.SATISFIED,
     submittability_expression_result: createSubmitRequirementExpressionInfo(),
+    is_legacy: false,
   };
 }
 

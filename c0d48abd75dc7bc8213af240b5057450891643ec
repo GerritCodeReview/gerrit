@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71a00135_9d9a9dbb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T18:39:56Z",
+      "side": 1,
+      "message": "Yes, see chat conversation. The alternative would be to put an ID into UnsavedInfo that would be copied over to DraftInfo.",
+      "parentUuid": "651bd930_55bc2278",
+      "range": {
+        "startLine": 761,
+        "startChar": 0,
+        "endLine": 761,
+        "endChar": 44
+      },
+      "revId": "c0d48abd75dc7bc8213af240b5057450891643ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e15d907f_0ba26e3a",
@@ -89,6 +113,30 @@
       "writtenOn": "2021-12-01T18:13:25Z",
       "side": 1,
       "message": "deepEquals on t1.range?",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 24
+      },
+      "revId": "c0d48abd75dc7bc8213af240b5057450891643ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b6a111e_54aba8c7",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T18:39:56Z",
+      "side": 1,
+      "message": "Yes, that would be a bit nicer. If you don\u0027t mind, I would still like to submit this as is.",
+      "parentUuid": "49a6ac1b_5a8b4a12",
       "range": {
         "startLine": 216,
         "startChar": 4,

@@ -212,6 +212,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb009e35_145c7c21",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T12:40:50Z",
+      "side": 1,
+      "message": "This is resolved now, see review discussion on the test.",
+      "parentUuid": "a60750cd_fe9ef404",
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2a13f25_fc28a63d",
@@ -473,6 +491,30 @@
       "side": 1,
       "message": "Thanks for clarifying. I was thinking that testing this right now is impossible, because current code persists the copied votes in NoteDb.\n\nThe test you\u0027re suggesting should only use the default submit rule, then we want to persist a submit record in NoteDb upon merge for an approval that does not exist on the latest patchset (and then make sure it was backfilled correctly). But this is impossible since the DefaultSubmitRule inspects cd.currentApprovals() (i.e. approvals on the latest patchset).\n\nThis is why I made the custom submit rule workaround.\n\nNot sure if I could work-around this to get to this state.",
       "parentUuid": "92df17c5_e0352135",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 46
+      },
+      "revId": "e8ea0cb2926cad988ecf0297660703d4a3c733df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90251add_6faa2f47",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T12:40:50Z",
+      "side": 1,
+      "message": "Discussed with Youssef offline. I understand the idea behind this test now and got convinced that it\u0027s sufficiently tests the backfilling logic. To make this test better understandable for readers I\u0027m proposing too add a more detailed explanation of how the test works (see comment above).",
+      "parentUuid": "5f84c063_63d6db46",
       "range": {
         "startLine": 281,
         "startChar": 4,

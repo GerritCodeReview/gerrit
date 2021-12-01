@@ -34,6 +34,24 @@
       "parentUuid": "f7ffd641_24f100c3",
       "revId": "ca16ff9efa9e910abef7f395b6e04da0296d826b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af197407_ad111da9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-01T15:43:39Z",
+      "side": 1,
+      "message": "There\u0027s some other failures. Re-opening.",
+      "parentUuid": "8b05e3d0_cab3e04f",
+      "revId": "ca16ff9efa9e910abef7f395b6e04da0296d826b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

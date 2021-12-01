@@ -37,6 +37,7 @@ import {
 } from '../../../utils/patch-set-util';
 import {
   CommentThread,
+  equalLocation,
   isInBaseOfPatchRange,
   isInRevisionOfPatchRange,
 } from '../../../utils/comment-util';
@@ -738,15 +739,32 @@ export class GrDiffHost extends PolymerElement {
 
   _threadsChanged(threads: CommentThread[]) {
     const rootIdToThreadEl = new Map<UrlEncodedCommentId, GrCommentThread>();
+    const unsavedThreadEls: GrCommentThread[] = [];
     for (const threadEl of this.getThreadEls()) {
       if (threadEl.rootId) {
         rootIdToThreadEl.set(threadEl.rootId, threadEl);
+      } else {
+        unsavedThreadEls.push(threadEl);
       }
     }
     const dontRemove = new Set<GrCommentThread>();
     for (const thread of threads) {
-      const existingThreadEl =
+      // Let's find an existing DOM element matching the thread. Normally this
+      // is as simple as matching the rootIds.
+      let existingThreadEl =
         thread.rootId && rootIdToThreadEl.get(thread.rootId);
+      // But unsaved threads don't have rootIds. The incoming thread might be
+      // the saved version of the unsaved thread element. To verify that we
+      // check that the thread only has one comment and that their location is
+      // identical.
+      if (!existingThreadEl && thread.comments.length === 1) {
+        for (const unsavedThreadEl of unsavedThreadEls) {
+          if (equalLocation(unsavedThreadEl.thread, thread)) {
+            existingThreadEl = unsavedThreadEl;
+            break;
+          }
+        }
+      }
       if (existingThreadEl) {
         existingThreadEl.thread = thread;
         dontRemove.add(existingThreadEl);
@@ -759,6 +777,10 @@ export class GrDiffHost extends PolymerElement {
     // Remove all threads that are no longer existing.
     for (const threadEl of this.getThreadEls()) {
       if (dontRemove.has(threadEl)) continue;
+      // The user may have opened a couple of comment boxes for editing. They
+      // might be unsaved and thus not be reflected in `threads` yet, so let's
+      // keep them open.
+      if (threadEl.editing && threadEl.thread?.comments.length === 0) continue;
       threadEl.remove();
     }
     const portedThreadsCount = threads.filter(thread => thread.ported).length;

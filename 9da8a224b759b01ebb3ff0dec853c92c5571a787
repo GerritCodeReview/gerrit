@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1197d7a3_264a9b43",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T15:23:07Z",
+      "side": 1,
+      "message": "If we now always use allowClosed \u003d false in the getSubmitRecords method, shouldn\u0027t this be always false here too to be consistent? Otherwise it might happen that the submit records were computed with allowClosed \u003d false, but cached in ChangeData for allowClosed \u003d true.",
+      "range": {
+        "startLine": 400,
+        "startChar": 44,
+        "endLine": 400,
+        "endChar": 55
+      },
+      "revId": "9da8a224b759b01ebb3ff0dec853c92c5571a787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

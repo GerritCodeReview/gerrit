@@ -205,6 +205,21 @@ export interface CommentThread {
   rangeInfoLost?: boolean; // if BE was unable to determine a range for this
 }
 
+export function equalLocation(t1?: CommentThread, t2?: CommentThread) {
+  if (t1 === t2) return true;
+  if (t1 === undefined || t2 === undefined) return false;
+  return (
+    t1.path === t2.path &&
+    t1.patchNum === t2.patchNum &&
+    t1.commentSide === t2.commentSide &&
+    t1.line === t2.line &&
+    t1.range?.start_line === t2.range?.start_line &&
+    t1.range?.start_character === t2.range?.start_character &&
+    t1.range?.end_line === t2.range?.end_line &&
+    t1.range?.end_character === t2.range?.end_character
+  );
+}
+
 export function getLastComment(thread: CommentThread): CommentInfo | undefined {
   const len = thread.comments.length;
   return thread.comments[len - 1];

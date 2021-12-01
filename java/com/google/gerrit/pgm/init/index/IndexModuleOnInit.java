@@ -50,8 +50,7 @@ public class IndexModuleOnInit extends AbstractModule {
 
   @Override
   protected void configure() {
-    // The AccountIndex implementations (LuceneAccountIndex and
-    // ElasticAccountIndex) need AccountCache only for reading from the index.
+    // The LuceneAccountIndex needs AccountCache only for reading from the index.
     // On init we only want to write to the index, hence we don't need the
     // account cache.
     bind(AccountCache.class).toProvider(Providers.of(null));
@@ -63,8 +62,8 @@ public class IndexModuleOnInit extends AbstractModule {
 
     bind(AccountIndexCollection.class);
 
-    // The GroupIndex implementations (LuceneGroupIndex and ElasticGroupIndex)
-    // need GroupCache only for reading from the index. On init we only want to
+    // The LuceneGroupIndex needs GroupCache only for reading from the index. On init we only want
+    // to
     // write to the index, hence we don't need the group cache.
     bind(GroupCache.class).toProvider(Providers.of(null));
 

@@ -4,7 +4,6 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 acceptance_tests(
     srcs = glob(
         ["*IT.java"],
-        exclude = ["ElasticReindexIT.java"],
     ),
     group = "pgm",
     labels = [
@@ -18,24 +17,6 @@ acceptance_tests(
         "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/server/schema",
         "//lib/errorprone:annotations",
-    ],
-)
-
-acceptance_tests(
-    srcs = ["ElasticReindexIT.java"],
-    group = "elastic",
-    labels = [
-        "docker",
-        "elastic",
-        "pgm",
-        "no_windows",
-    ],
-    vm_args = ["-Xmx1024m"],
-    deps = [
-        ":util",
-        "//java/com/google/gerrit/elasticsearch",
-        "//java/com/google/gerrit/server/schema",
-        "//javatests/com/google/gerrit/elasticsearch:elasticsearch_test_utils",
     ],
 )
 

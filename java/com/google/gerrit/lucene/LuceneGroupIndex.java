@@ -33,6 +33,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -84,7 +85,8 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
-      @Assisted Schema<InternalGroup> schema)
+      @Assisted Schema<InternalGroup> schema,
+      AutoFlush autoFlush)
       throws IOException {
     super(
         schema,
@@ -94,7 +96,8 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
         ImmutableSet.of(),
         null,
         new GerritIndexWriterConfig(cfg, GROUPS),
-        new SearcherFactory());
+        new SearcherFactory(),
+        autoFlush);
     this.groupCache = groupCache;
 
     indexWriterConfig = new GerritIndexWriterConfig(cfg, GROUPS);
@@ -116,6 +119,15 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   public void replace(InternalGroup group) {
     try {
       replace(idTerm(group), toDocument(group)).get();
+    } catch (ExecutionException | InterruptedException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  @Override
+  public void insert(InternalGroup group) {
+    try {
+      insert(toDocument(group)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new StorageException(e);
     }

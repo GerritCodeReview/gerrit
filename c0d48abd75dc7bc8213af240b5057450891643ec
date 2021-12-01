@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06388ce4_835cd203",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-01T17:38:04Z",
+      "side": 1,
+      "message": "I admit that this logic is very confusing.",
+      "revId": "c0d48abd75dc7bc8213af240b5057450891643ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e15d907f_0ba26e3a",
@@ -14,6 +31,24 @@
       "writtenOn": "2021-12-01T17:04:58Z",
       "side": 1,
       "message": "Why not add this to line 764?",
+      "revId": "c0d48abd75dc7bc8213af240b5057450891643ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e43b1c85_90dc7c28",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-01T17:38:04Z",
+      "side": 1,
+      "message": "Never mind.",
+      "parentUuid": "e15d907f_0ba26e3a",
       "revId": "c0d48abd75dc7bc8213af240b5057450891643ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

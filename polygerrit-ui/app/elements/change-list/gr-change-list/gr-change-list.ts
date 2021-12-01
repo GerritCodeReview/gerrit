@@ -248,7 +248,7 @@ export class GrChangeList extends base {
     if (column === 'Comments')
       return this.flagsService.isEnabled('comments-column');
     if (column === 'Requirements')
-      return (changes ?? []).every(change =>
+      return (changes ?? []).some(change =>
         showNewSubmitRequirements(this.flagsService, change)
       );
     return true;
@@ -307,7 +307,7 @@ export class GrChangeList extends base {
     }
     const changes = sections.map(section => section.results).flat();
     if (
-      (changes ?? []).every(change =>
+      (changes ?? []).some(change =>
         showNewSubmitRequirements(this.flagsService, change)
       )
     ) {

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea263572_400346b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T15:40:40Z",
+      "side": 1,
+      "message": "nit: change",
+      "revId": "104e8b059e820fb0bf3a384f80a478d7ca0cf435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ecaf77a_fcc80c56",
+        "filename": "java/com/google/gerrit/server/notedb/StoreSubmitRequirementsOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T15:40:40Z",
+      "side": 1,
+      "message": "I think this should stay @Inject, see https://gerrit-review.googlesource.com/c/gerrit/+/100892",
+      "revId": "104e8b059e820fb0bf3a384f80a478d7ca0cf435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37f64839_f09df6e2",
+        "filename": "java/com/google/gerrit/server/notedb/StoreSubmitRequirementsOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T15:40:40Z",
+      "side": 1,
+      "message": "Should we filter out results for legacy submit requirements here, so that not all callers of StoreSubmitRequirementsOp need to do this? IIUC we never want to store legacy submit requirement results, do we?",
+      "range": {
+        "startLine": 53,
+        "startChar": 39,
+        "endLine": 53,
+        "endChar": 63
+      },
+      "revId": "104e8b059e820fb0bf3a384f80a478d7ca0cf435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

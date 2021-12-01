@@ -34,6 +34,24 @@
       "parentUuid": "df0c3a0b_d7ae0d70",
       "revId": "e44b890cf8585a911d74633e4b7aad12d3767bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "110893ed_62b1ff1f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-01T16:46:49Z",
+      "side": 1,
+      "message": "Maybe still add the check for defensive purposes, or add a comment as to why that check is not necessary?",
+      "parentUuid": "3d4962ef_d958b588",
+      "revId": "e44b890cf8585a911d74633e4b7aad12d3767bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

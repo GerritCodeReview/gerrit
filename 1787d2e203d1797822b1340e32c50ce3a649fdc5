@@ -93,6 +93,30 @@
       },
       "revId": "1787d2e203d1797822b1340e32c50ce3a649fdc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ba56e78_c9ebd419",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-01T12:45:43Z",
+      "side": 1,
+      "message": "spellcheck from Findings when? :)",
+      "parentUuid": "8c5ac334_58930f0a",
+      "range": {
+        "startLine": 757,
+        "startChar": 19,
+        "endLine": 757,
+        "endChar": 26
+      },
+      "revId": "1787d2e203d1797822b1340e32c50ce3a649fdc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "I don\u0027t see ported threads visible when I download this change. Might not be due to this change exactly.",
       "revId": "343ce5bed65d129841d84e72494f507214e79a56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25f5dab4_a74ac3ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-01T12:29:08Z",
+      "side": 1,
+      "message": "Creating a comment thread and saving it also results in the thread disappearing entirely.\n1. Create a thread\n2. Click Save\n3. Thread is not visible on the diff anymore\n\nCan you reproduce this?",
+      "revId": "343ce5bed65d129841d84e72494f507214e79a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "651bd930_55bc2278",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-01T18:13:25Z",
+      "side": 1,
+      "message": "I\u0027m not sure what the TODO is here. This feels like a comment but is there any idea how this can be improved already?",
+      "range": {
+        "startLine": 761,
+        "startChar": 0,
+        "endLine": 761,
+        "endChar": 44
+      },
+      "revId": "c0d48abd75dc7bc8213af240b5057450891643ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e15d907f_0ba26e3a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
         "patchSetId": 6
@@ -49,6 +72,29 @@
       "side": 1,
       "message": "Never mind.",
       "parentUuid": "e15d907f_0ba26e3a",
+      "revId": "c0d48abd75dc7bc8213af240b5057450891643ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49a6ac1b_5a8b4a12",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-01T18:13:25Z",
+      "side": 1,
+      "message": "deepEquals on t1.range?",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 24
+      },
       "revId": "c0d48abd75dc7bc8213af240b5057450891643ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

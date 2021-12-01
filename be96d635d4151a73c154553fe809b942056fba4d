@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0054916b_920bf62d",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T14:43:52Z",
+      "side": 1,
+      "message": "Not sure if it\u0027s related to this change, but I\u0027m a bit surprised to still see submit records here.\n\nThis method is used in SubmitStrategyOp to stored the submit records for the new patch set in NoteDb (if the submit strategy created a new patch set). Shouldn\u0027t this be adapted to also store submit requirements now? It\u0027s seems inconsistent to check submit requirements during merge, but then as result only store submit records in NoteDb, but not the submit requirements.",
+      "revId": "be96d635d4151a73c154553fe809b942056fba4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9460ce6_be063941",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T14:43:52Z",
+      "side": 1,
+      "message": "better: SubmitRequirementResult::fulfilled",
+      "range": {
+        "startLine": 313,
+        "startChar": 57,
+        "endLine": 313,
+        "endChar": 77
+      },
+      "revId": "be96d635d4151a73c154553fe809b942056fba4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59cdda75_ce019d80",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T14:43:52Z",
+      "side": 1,
+      "message": "nit: \"are empty\"? \n\nIn the old version \"returned\" made sense since SubmitRuleEvaluator.evaluate is a method, but submit requirement results aren\u0027t.",
+      "range": {
+        "startLine": 318,
+        "startChar": 56,
+        "endLine": 318,
+        "endChar": 75
+      },
+      "revId": "be96d635d4151a73c154553fe809b942056fba4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "062ba6d4_69eaa24f",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T14:43:52Z",
+      "side": 1,
+      "message": "nit: unneeded double blank",
+      "range": {
+        "startLine": 342,
+        "startChar": 56,
+        "endLine": 342,
+        "endChar": 57
+      },
+      "revId": "be96d635d4151a73c154553fe809b942056fba4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

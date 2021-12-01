@@ -39,6 +39,30 @@
       },
       "revId": "4ed36631f03480afee5dfb86e1833162412aea79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3be4f665_b1ac12e5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-01T14:17:51Z",
+      "side": 1,
+      "message": "i think splice is used to delete? This isn\u0027t deleting.",
+      "parentUuid": "0376d851_ba7645bc",
+      "range": {
+        "startLine": 422,
+        "startChar": 4,
+        "endLine": 422,
+        "endChar": 68
+      },
+      "revId": "4ed36631f03480afee5dfb86e1833162412aea79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -69,20 +69,6 @@ def declare_nongoogle_deps():
         sha1 = "d22138ba75dee95e2123f0e53a9c514b2a766da9",
     )
 
-    # elasticsearch-rest-client explicitly depends on this version
-    maven_jar(
-        name = "httpasyncclient",
-        artifact = "org.apache.httpcomponents:httpasyncclient:4.1.4",
-        sha1 = "f3a3240681faae3fa46b573a4c7e50cec9db0d86",
-    )
-
-    # elasticsearch-rest-client explicitly depends on this version
-    maven_jar(
-        name = "httpcore-nio",
-        artifact = "org.apache.httpcomponents:httpcore-nio:4.4.12",
-        sha1 = "84cd29eca842f31db02987cfedea245af020198b",
-    )
-
     maven_jar(
         name = "openid-consumer",
         artifact = "org.openid4java:openid4java:1.0.0",

@@ -666,8 +666,9 @@ external IDs will not match the new scheme. For more details refer to
 the link:config-accounts.html#external-ids[External ID documentation].
 +
 Gerrit provides the
-link:pgm-ChangeExternalIdCaseSensitivity.html[ChangeExternalIdCaseSensitivity tool]
-to migrate existing accounts to match the new scheme.
+link:pgm-ChangeExternalIdCaseSensitivity.html[offline]
+and the online link:externalid-case-insensitivity.html#online-migration[online]
+tools to migrate existing accounts to match the new scheme.
 +
 Naturally, if there were two accounts only different in capitalization,
 e.g. `johndoe` and `JohnDoe`, the account `JohnDoe` will not be able
@@ -675,6 +676,16 @@ to authenticate anymore after setting this option. If such duplicate
 accounts exist the migration tool will fail, since the newly computed
 note name would be identical and thus conflict. These duplicates thus
 have to be deleted manually by deleting the respective external ID.
++
+For newly initialized sites this option defaults to true.
++
+Default is false.
+
+[[auth.userNameCaseInsensitiveMigrationMode]]auth.userNameCaseInsensitiveMigrationMode::
++
+Setting migration mode to true allows to fallback to case sensitive
+behaviour if the migrated external ID cannot be found. This allows to
+trigger the migration while Gerrit process is running.
 +
 Default is false.
 
@@ -832,18 +843,21 @@ varies by the cache. For most caches where the in-memory size of each
 entry is relatively the same, memoryLimit is currently defined to be
 the number of entries held by the cache (each entry costs 1).
 +
-For caches where the size of an entry can vary significantly between
-individual entries (notably `"diff"`, `"diff_intraline"`), memoryLimit
-is an approximation of the total number of bytes stored by the cache.
-Larger entries that represent bigger patch sets or longer source files
-will consume a bigger portion of the memoryLimit. For these caches the
-memoryLimit should be set to roughly the amount of RAM (in bytes) the
-administrator can dedicate to the cache.
+For caches where the size of an entry can vary significantly between individual
+entries (notably `"git_modified_files"`, `"modified_files"`, `"git_file_diff"`,
+`"gerrit_file_diff"`, `"diff_intraline"`), memoryLimit is an approximation of
+the total number of bytes stored by the cache.  Larger entries that represent
+bigger patch sets or longer source files will consume a bigger portion of the
+memoryLimit. For these caches the memoryLimit should be set to roughly the
+amount of RAM (in bytes) the administrator can dedicate to the cache.
 +
 Default is 1024 for most caches, except:
 +
 * `"adv_bases"`: default is `4096`
-* `"diff"`: default is `10m` (10 MiB of memory)
+* `"git_modified_files"`: default is `10m` (10 MiB of memory)
+* `"modified_files"`: default is `10m` (10 MiB of memory)
+* `"git_file_diff"`: default is `10m` (10 MiB of memory)
+* `"gerrit_file_diff"`: default is `10m` (10 MiB of memory)
 * `"diff_intraline"`: default is `10m` (10 MiB of memory)
 * `"diff_summary"`: default is `10m` (10 MiB of memory)
 * `"external_ids_map"`: default is `2` and should not be changed
@@ -974,16 +988,38 @@ or multiple replica nodes.
 The cache should be flushed whenever the database changes table is modified
 outside of Gerrit.
 
-cache `"diff"`::
+cache `"git_modified_files"`::
 +
-Each item caches the differences between two commits, at both the
-directory and file levels.  Gerrit uses this cache to accelerate
-the display of affected file names, as well as file contents.
+Each item caches the list of git modified files between two git trees
+corresponding to two different commits. This cache does not read the actual
+file contents nor does it include the edits (modified regions) of the files.
+
+cache `"modified_files"`::
++
+Each item caches the list of modified files between two commits. This cache
+is similar to the `git_modified_files` cache but performs extra logic including
+filtering out files that are untouched by both commits because they were purely
+modified between the parent commits.
+
+cache `"git_file_diff"`::
++
+Each item caches the pure git diff between two git trees for a specific file
+path. The diff includes all the file attributes (old/new paths, change/patch
+types) as well as the list of edits corresponding to the modified regions in
+the file.
+
+cache `"gerrit_file_diff"`::
++
+Each item caches the diff between two git commits for a specific file path.
+This cache is similar to the `git_file_diff` cache but performs extra logic
+including identifying the edits that are due to rebase. The diff for the
+"commit message" and "merge list" can also be requested from this cache.
 +
 Entries in this cache are relatively large, so memoryLimit is an
 estimate in bytes of memory used. Administrators should try to target
 cache.diff.memoryLimit to fit all changes users will view in a 1 or 2
-day span.
+day span. The same applies for other diff caches: `"git_modified_files"`,
+`"modified_files"` and `"git_file_diff"`.
 
 cache `"diff_intraline"`::
 +
@@ -1206,9 +1242,9 @@ See also link:cmd-flush-caches.html[gerrit flush-caches].
 
 ==== [[cache_options]]Cache Options
 
-[[cache.diff.timeout]]cache.diff.timeout::
+[[cache.git_file_diff.timeout]]cache.git_file_diff.timeout::
 +
-Maximum number of milliseconds to wait for diff data before giving up and
+Maximum number of milliseconds to wait for git diff data before giving up and
 falling back on a simpler diff algorithm that will not be able to break down
 modified regions into smaller ones. This is a work around for an infinite loop
 bug in the default difference algorithm implementation.
@@ -1330,15 +1366,16 @@ Default is true.
 
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
-When reviewing merge commits, the left-hand side shows the output of the
-result of JGit's automatic merge algorithm. This option controls whether
-this output is cached in the change repository, or if only the diff is
-cached in the persistent `diff` cache.
+When reviewing merge commits, the left-hand side shows the output of the result
+of JGit's automatic merge algorithm. This option controls whether this output is
+cached in the change repository, or if only the diff is cached in the persistent
+diff caches (`"git_modified_files"`, `modified_files`, `"git_file_diff"`,
+`"file_diff"`).
 +
 If true, automerge results are stored in the repository under
 `refs/cache-automerge/*`; the results of diffing the change against its
-automerge base are stored in the diff cache. If false, no extra data is
-stored in the repository, only the diff cache. This can result in slight
+automerge base are stored in the diff caches. If false, no extra data is
+stored in the repository, only the diff caches. This can result in slight
 performance improvements by reducing the number of refs in the repo.
 +
 Default is true.
@@ -2288,6 +2325,25 @@ located under the `/lib` directory.
 +
 By default unset.
 
+[[gerrit.installIndexModule]]gerrit.installIndexModule::
++
+Class name of the Guice modules to load as alternate implementation
+for the Gerrit indexes backend.
+Classes are resolved using the primary Gerrit class loader, hence the
+class needs to be either declared in Gerrit or an additional JAR
+located under the `/lib` directory.
++
+NOTE: The `gerrit.installIndexModule` has precedence over the
+`index.type`.
++
+By default unset.
++
+Example:
+----
+[gerrit]
+  installIndexModule = com.google.gerrit.elasticsearch.ElasticIndexModule
+----
++
 [[gerrit.installModule]]gerrit.installModule::
 +
 Repeatable list of class name of additional Guice modules to load at
@@ -3107,23 +3163,13 @@ Gerrit server.
 
 [[index.type]]index.type::
 +
-Type of secondary indexing employed by Gerrit.  The supported
-values are:
+*(DEPRECATED)* The only supported value is `LUCENE`, which is the default,
+that means a link:http://lucene.apache.org/[Lucene]
+index is used.
 +
-* `LUCENE`
+For using other indexing backends (e.g. ElasticSearch), refer to
+`gerrit.installIndexModule` setting.
 +
-A link:http://lucene.apache.org/[Lucene] index is used.
-+
-+
-* `ELASTICSEARCH` look into link:#elasticsearch[Elasticsearch section]
-+
-An link:https://www.elastic.co/products/elasticsearch[Elasticsearch,role=external,window=_blank] index is
-used. Refer to the link:#elasticsearch[Elasticsearch section] for further
-configuration details.
-
-+
-By default, `LUCENE`.
-
 [[index.threads]]index.threads::
 +
 Number of threads to use for indexing in normal interactive operations. Setting
@@ -3136,7 +3182,7 @@ by the JVM. If set to a negative value, defaults to a direct executor.
 [[index.batchThreads]]index.batchThreads::
 +
 Number of threads to use for indexing in background operations, such as
-online schema upgrades, and also for offline reindexing.
+online schema upgrades, and also the default for offline reindexing.
 +
 If not set or set to a zero, defaults to the number of logical CPUs as returned
 by the JVM. If set to a negative value, defaults to a direct executor.
@@ -3158,11 +3204,6 @@ Defaults to true.
 Maximum limit to allow for search queries. Requesting results above this
 limit will truncate the list (but will still set `_more_changes` on
 result lists). Set to 0 for no limit.
-+
-When `index.type` is set to `ELASTICSEARCH`, this value should not exceed
-the `index.max_result_window` value configured on the Elasticsearch
-server. If a value is not configured during site initialization, defaults to
-10000, which is the default value of `index.max_result_window` in Elasticsearch.
 +
 When `index.type` is set to `LUCENE`, defaults to no limit.
 
@@ -3232,7 +3273,7 @@ Defaults to `true`.
 +
 Whether the scheduled indexer is enabled. If the scheduled indexer is
 disabled you must implement other means to keep the group index for the
-replica up-to-date (e.g. by using ElasticSearch for the indexes).
+replica up-to-date.
 +
 Defaults to `true`.
 
@@ -3339,6 +3380,11 @@ Lucene documentation,role=external,window=_blank] for further details.
 +
 Defaults to true (throttling enabled).
 
+During offline reindexing, setting ramBufferSize greater than the size
+of index (size of specific index folder under <site_dir>/index) and
+maxBufferedDocs as -1 avoids unnecessary flushes and triggers only a
+single flush at the end of the process.
+
 Sample Lucene index configuration:
 ----
 [index]
@@ -3359,95 +3405,6 @@ Sample Lucene index configuration:
   enableIOThrottle = false
 
 ----
-
-[[elasticsearch]]
-=== Section elasticsearch
-
-WARNING: Support for Elasticsearch is still experimental and is not recommended
-for production use. For compatibility information, please refer to the
-link:https://www.gerritcodereview.com/elasticsearch.html[project homepage,role=external,window=_blank].
-
-Note that when Gerrit is configured to use Elasticsearch, the Elasticsearch
-server(s) must be reachable during the site initialization.
-
-[[elasticsearch.prefix]]elasticsearch.prefix::
-+
-This setting can be used to prefix index names to allow multiple Gerrit
-instances in a single Elasticsearch cluster. Prefix `gerrit1_` would result in a
-change index named `gerrit1_changes_0001`.
-+
-Not set by default.
-
-[[elasticsearch.server]]elasticsearch.server::
-+
-Elasticsearch server URI in the form `http[s]://hostname:port`. The `port` is
-optional and defaults to `9200` if not specified.
-+
-At least one server must be specified. May be specified multiple times to
-configure multiple Elasticsearch servers.
-+
-Note that the site initialization program only allows to configure a single
-server. To configure multiple servers the `gerrit.config` file must be edited
-manually.
-
-[[elasticsearch.numberOfShards]]elasticsearch.numberOfShards::
-+
-Sets the number of shards to use per index. Refer to the
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#_static_index_settings[
-Elasticsearch documentation,role=external,window=_blank] for details.
-+
-Defaults to 1.
-
-[[elasticsearch.numberOfReplicas]]elasticsearch.numberOfReplicas::
-+
-Sets the number of replicas to use per index. Refer to the
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#dynamic-index-settings[
-Elasticsearch documentation,role=external,window=_blank] for details.
-+
-Defaults to 1.
-
-[[elasticsearch.maxResultWindow]]elasticsearch.maxResultWindow::
-+
-Sets the maximum value of `from + size` for searches to use per index. Refer to the
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#dynamic-index-settings[
-Elasticsearch documentation,role=external,window=_blank] for details.
-+
-Defaults to 10000.
-
-[[elasticsearch.connectTimeout]]elasticsearch.connectTimeout::
-+
-Sets the timeout for connecting to elasticsearch.
-+
-Defaults to `1 second`.
-
-[[elasticsearch.socketTimeout]]elasticsearch.socketTimeout::
-+
-Sets the timeout for the underlying connection. For more information, refer to
-link:#httpd.idleTimeout[`httpd.idleTimeout`].
-+
-Defaults to `30 seconds`.
-
-==== Elasticsearch Security
-
-When security is enabled in Elasticsearch, the username and password must be provided.
-Note that the same username and password are used for all servers.
-
-For further information about Elasticsearch security, please refer to
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/security-getting-started.html[the documentation,role=external,window=_blank].
-This is the current documentation link. Select another Elasticsearch version
-from the dropdown menu available on that page if need be.
-
-[[elasticsearch.username]]elasticsearch.username::
-+
-Username used to connect to Elasticsearch.
-+
-If a password is set, defaults to `elastic`, otherwise not set by default.
-
-[[elasticsearch.password]]elasticsearch.password::
-+
-Password used to connect to Elasticsearch.
-+
-Not set by default.
 
 [[event]]
 === Section event

@@ -139,7 +139,7 @@ public class PostLabels
 
       if (dirty) {
         config.commit(md);
-        projectCache.evict(rsrc.getProjectState().getProject());
+        projectCache.evictAndReindex(rsrc.getProjectState().getProject());
       }
     }
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdee99c8_8f06ab43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-01T12:24:04Z",
+      "side": 1,
+      "message": "in this example, the 99 gr-comment-threads would receive a new CommentThread object with the identical contents?",
+      "range": {
+        "startLine": 14,
+        "startChar": 58,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "a04e740a48fa226b386e2f368edca34062b6ee87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cb3b2e8_1c5d50cc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-01T12:24:04Z",
+      "side": 1,
+      "message": "can you leave a comment about the purpose of this similar to your change description?",
+      "range": {
+        "startLine": 117,
+        "startChar": 25,
+        "endLine": 117,
+        "endChar": 37
+      },
+      "revId": "a04e740a48fa226b386e2f368edca34062b6ee87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

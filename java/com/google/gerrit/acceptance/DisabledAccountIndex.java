@@ -45,6 +45,11 @@ public class DisabledAccountIndex implements AccountIndex {
   }
 
   @Override
+  public void insert(AccountState obj) {
+    throw new UnsupportedOperationException("AccountIndex is disabled");
+  }
+
+  @Override
   public void replace(AccountState obj) {
     throw new UnsupportedOperationException("AccountIndex is disabled");
   }

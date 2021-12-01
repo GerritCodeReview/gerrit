@@ -204,6 +204,17 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Submitted-with: NOT_READY\n"
             + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
             + "Submitted-with: NEED: Alternative-Code-Review\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Subject: This is a test change\n"
+            + "Submitted-with: NOT_READY\n"
+            + "Submitted-with: Rule-Name: gerrit~PrologRule\n" // Rule-Name footer is ignored
+            + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+            + "Submitted-with: NEED: Code-Review\n");
     assertParseFails("Update change\n\nPatch-set: 1\nSubmitted-with: OOPS\n");
     assertParseFails("Update change\n\nPatch-set: 1\nSubmitted-with: NEED: X+Y\n");
     assertParseFails(
@@ -540,7 +551,9 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             "Update patch set 1\n"
                 + "\n"
                 + "Patch-set: 1\n"
-                + "Attention: {\"person_ident\":\"Gerrit User 1000000 \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}",
+                + "Attention: {\"person_ident\":\"Gerrit User 1000000"
+                + " \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added"
+                + " by Administrator using the hovercard menu\"}",
             false);
     ChangeNotesParser changeNotesParser = newParser(commit);
     changeNotesParser.parseAll();
@@ -559,7 +572,9 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
                 + "\n"
                 + "Patch-set: 1\n"
                 + "Subject: Change subject\n"
-                + "Attention: {\"person_ident\":\"Gerrit User 1000000 \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}",
+                + "Attention: {\"person_ident\":\"Gerrit User 1000000"
+                + " \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added"
+                + " by Administrator using the hovercard menu\"}",
             false);
     ChangeNotesParser changeNotesParser = newParser(commit);
     changeNotesParser.parseAll();
@@ -589,7 +604,9 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             "Update patch set 1\n"
                 + "\n"
                 + "Patch-set: 1\n"
-                + "Attention: {\"person_ident\":\"Gerrit User 1000000 \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}",
+                + "Attention: {\"person_ident\":\"Gerrit User 1000000"
+                + " \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added"
+                + " by Administrator using the hovercard menu\"}",
             false);
     ChangeNotesParser changeNotesParser = newParser(commit);
     changeNotesParser.parseAll();

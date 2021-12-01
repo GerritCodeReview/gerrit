@@ -39,7 +39,6 @@ class InitIndex implements InitStep {
   private final SitePaths site;
   private final InitFlags initFlags;
   private final Section gerrit;
-  private final Section.Factory sections;
 
   @Inject
   InitIndex(ConsoleUI ui, Section.Factory sections, SitePaths site, InitFlags initFlags) {
@@ -48,7 +47,6 @@ class InitIndex implements InitStep {
     this.gerrit = sections.get("gerrit", null);
     this.site = site;
     this.initFlags = initFlags;
-    this.sections = sections;
   }
 
   @Override
@@ -57,13 +55,6 @@ class InitIndex implements InitStep {
     IndexType type =
         new IndexType(
             index.select("Type", "type", IndexType.getDefault(), IndexType.getKnownTypes()));
-
-    if (type.isElasticsearch()) {
-      Section elasticsearch = sections.get("elasticsearch", null);
-      elasticsearch.string("Index Prefix", "prefix", "gerrit_");
-      elasticsearch.string("Server", "server", "http://localhost:9200");
-      index.string("Result window size", "maxLimit", "10000");
-    }
 
     if ((site.isNew || isEmptySite()) && type.isLucene()) {
       for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {

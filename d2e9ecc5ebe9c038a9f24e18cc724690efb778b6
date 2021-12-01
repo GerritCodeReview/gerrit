@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a7da470_cf345c09",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-01T13:05:26Z",
+      "side": 1,
+      "message": "Done. I rolled back for this change.",
+      "parentUuid": "fe03c686_288bd358",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 348,
+        "endChar": 7
+      },
+      "revId": "d2e9ecc5ebe9c038a9f24e18cc724690efb778b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c20b7fcc_7c6154a4",
@@ -85,6 +109,24 @@
       "writtenOn": "2021-12-01T12:40:50Z",
       "side": 1,
       "message": "I\u0027m proposing this description for the test, so that it\u0027s easier to understand how this test works:\n\nThis test is covering the backfilling logic for changes which have been submitted, based on copied approvals, before Gerrit persisted copied votes as Copied-Label footers in NoteDb. It verifies that for such changes copied approvals are returned from the API even if the copied votes were no persisted as Copied-Label footers.\n\nIn other words, this test verifies that given a change that\n\n* was approved by a copied vote and then submitted\n\n* and for which the copied approval is not persisted as a Copied-Label footer in NoteDb\n\nthe copied approval is backfilled from the corresponding Submitted-With footer that got written to NoteDb on submit.\n\nCreating such a change would be possible by running the old Gerrit code from before Gerrit persisted copied labels as Copied-Label footers. However since this old Gerrit code is no longer available, the test needs to apply a trick to create a change in this state. It configures a fake submit rule, that pretends that an approval for a non-sticky label from an old patch set is still present on the current patch set and allows to submit the change. Since the label is non-sticky no Copied-Label footer is written for it. On submit the fake submit rule results in a Submitted-With footer that records the label as approved (although the label is actually not present on the current patch set). This is exactly the change state that we would have had by running the old code if the submit was based on a copied label. As result of the backfilling logic we expect that this \"copied\" label (the label that is mentioned in the Submitted-With footer) is returned from the API.",
+      "revId": "d2e9ecc5ebe9c038a9f24e18cc724690efb778b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95102f3b_6ed64923",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-01T13:05:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c20b7fcc_7c6154a4",
       "revId": "d2e9ecc5ebe9c038a9f24e18cc724690efb778b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

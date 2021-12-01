@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "144c5157_47b54ba2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-01T14:11:31Z",
+      "side": 1,
+      "message": "```suggestion\n    } catch { // use new ecma6\n```",
+      "revId": "9e1baa4b5380b061eb91f830063f29b228d08858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cc56e7c6_60dc6df4",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
         "patchSetId": 1

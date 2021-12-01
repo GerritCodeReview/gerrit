@@ -83,6 +83,13 @@ public class Reindex extends SiteProgram {
   @Option(name = "--index", usage = "Only reindex specified indices")
   private List<String> indices = new ArrayList<>();
 
+  @Option(
+      name = "--disable-cache-stats",
+      usage =
+          "Disables printing the cache statistics."
+              + "Defaults to true when reindex is run from init on a new site, false otherwise")
+  private boolean disableCacheStats;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private Injector cfgInjector;
@@ -113,7 +120,9 @@ public class Reindex extends SiteProgram {
 
     try {
       boolean ok = list ? list() : reindex();
-      printCacheStats();
+      if (!disableCacheStats) {
+        printCacheStats();
+      }
       return ok ? 0 : 1;
     } catch (Exception e) {
       throw die(e.getMessage(), e);

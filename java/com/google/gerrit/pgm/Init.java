@@ -164,7 +164,7 @@ public class Init extends BaseInit {
           indicesToReindex.add(schemaDef.getName());
         }
       }
-      reindex(indicesToReindex);
+      reindex(indicesToReindex, run.flags.isNew);
     }
     start(run);
   }
@@ -277,7 +277,7 @@ public class Init extends BaseInit {
     }
   }
 
-  private void reindex(List<String> indices) throws Exception {
+  private void reindex(List<String> indices, boolean isNewSite) throws Exception {
     if (indices.isEmpty()) {
       return;
     }
@@ -287,6 +287,9 @@ public class Init extends BaseInit {
     for (String index : indices) {
       reindexArgs.add("--index");
       reindexArgs.add(index);
+    }
+    if (isNewSite) {
+      reindexArgs.add("--disable-cache-stats");
     }
 
     getConsoleUI()

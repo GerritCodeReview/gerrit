@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0cce040_fe83a830",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-01T22:08:11Z",
+      "side": 0,
+      "message": "Shouldn\u0027t we be keeping these since v2 isn\u0027t default on 3.2?",
+      "revId": "383a6b8eeb4c7597e4456a866d3594444a5ce64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

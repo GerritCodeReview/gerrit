@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eddcaf82_ad27deec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-01T22:08:11Z",
+      "side": 1,
+      "message": "This needs to be fixed to match the behavior expected from the comment thread at https://gerrit-review.googlesource.com/c/gerrit/+/323137/comments/ca633cf2_d2e0ddf5",
+      "revId": "d68772ea9fb41267be6c6cfbdf018fe0347beb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44fdc14d_5429ed46",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5524,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-01T22:08:11Z",
+      "side": 1,
+      "message": "Aren\u0027t we maintaining the Gerrit 3.2 default of 0?",
+      "range": {
+        "startLine": 5524,
+        "startChar": 38,
+        "endLine": 5524,
+        "endChar": 53
+      },
+      "revId": "d68772ea9fb41267be6c6cfbdf018fe0347beb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

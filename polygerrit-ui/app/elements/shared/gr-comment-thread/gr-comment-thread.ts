@@ -599,7 +599,10 @@ export class GrCommentThread extends LitElement {
       }
     }
     if (changed.has('editing')) {
-      if (!this.editing) {
+      // changed.get('editing') contains the old value. We only want to trigger
+      // when changing from editing to non-editing (user has cancelled/saved).
+      // We do *not* want to trigger on first render (old value is `null`)
+      if (!this.editing && changed.get('editing') === true) {
         this.unsavedComment = undefined;
         if (this.thread?.comments.length === 0) {
           this.remove();

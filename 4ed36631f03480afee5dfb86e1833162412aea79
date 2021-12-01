@@ -185,6 +185,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c5f93b2_683f64a5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-01T21:08:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0a440e03_1633abeb",
+      "range": {
+        "startLine": 418,
+        "startChar": 25,
+        "endLine": 418,
+        "endChar": 32
+      },
+      "revId": "4ed36631f03480afee5dfb86e1833162412aea79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0376d851_ba7645bc",
@@ -246,6 +270,30 @@
       "side": 1,
       "message": "Splice can be used for replacing as well",
       "parentUuid": "3be4f665_b1ac12e5",
+      "range": {
+        "startLine": 422,
+        "startChar": 4,
+        "endLine": 422,
+        "endChar": 68
+      },
+      "revId": "4ed36631f03480afee5dfb86e1833162412aea79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ab3453c_297759b2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-01T21:08:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a826eeee_808b0c1d",
       "range": {
         "startLine": 422,
         "startChar": 4,

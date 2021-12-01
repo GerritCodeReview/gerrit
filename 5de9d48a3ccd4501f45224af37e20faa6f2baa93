@@ -87,6 +87,24 @@
       "parentUuid": "3ade8b7c_e6774126",
       "revId": "5de9d48a3ccd4501f45224af37e20faa6f2baa93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6538a2f_2cf0c3c0",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-01T07:45:07Z",
+      "side": 1,
+      "message": "I am resolving this for one. I will find different solution if we encounter change without submit requirements.",
+      "parentUuid": "a56623d7_fe3e835c",
+      "revId": "5de9d48a3ccd4501f45224af37e20faa6f2baa93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

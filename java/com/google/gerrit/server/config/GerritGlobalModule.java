@@ -108,7 +108,6 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalIdCacheModule;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
-import com.google.gerrit.server.approval.ApprovalCacheImpl;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
@@ -250,7 +249,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(RulesCache.class);
     bind(BlameCache.class).to(BlameCacheImpl.class);
     install(AccountCacheImpl.module());
-    install(ApprovalCacheImpl.module());
     install(BatchUpdate.module());
     install(ChangeKindCacheImpl.module());
     install(ChangeFinder.module());

@@ -24,7 +24,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
-import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -59,24 +59,30 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
     Integer parentNum =
         isInitialCommit(ctx.changeNotes().getProjectName(), targetPatchSet.commitId()) ? 0 : 1;
     try {
-      Map<String, FileDiffOutput> baseVsCurrent =
-          diffOperations.listModifiedFilesAgainstParent(
+      Map<String, ModifiedFile> baseVsCurrent =
+          diffOperations.loadModifiedFilesAgainstParent(
               ctx.changeNotes().getProjectName(),
               targetPatchSet.commitId(),
               parentNum,
-              DiffOptions.DEFAULTS);
-      Map<String, FileDiffOutput> baseVsPrior =
-          diffOperations.listModifiedFilesAgainstParent(
+              DiffOptions.DEFAULTS,
+              ctx.revWalk(),
+              ctx.repoConfig());
+      Map<String, ModifiedFile> baseVsPrior =
+          diffOperations.loadModifiedFilesAgainstParent(
               ctx.changeNotes().getProjectName(),
               sourcePatchSet.commitId(),
               parentNum,
-              DiffOptions.DEFAULTS);
-      Map<String, FileDiffOutput> priorVsCurrent =
-          diffOperations.listModifiedFiles(
+              DiffOptions.DEFAULTS,
+              ctx.revWalk(),
+              ctx.repoConfig());
+      Map<String, ModifiedFile> priorVsCurrent =
+          diffOperations.loadModifiedFiles(
               ctx.changeNotes().getProjectName(),
               sourcePatchSet.commitId(),
               targetPatchSet.commitId(),
-              DiffOptions.DEFAULTS);
+              DiffOptions.DEFAULTS,
+              ctx.revWalk(),
+              ctx.repoConfig());
       return match(baseVsCurrent, baseVsPrior, priorVsCurrent);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
@@ -92,9 +98,9 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
    * {@link ChangeType} matches for each modified file.
    */
   public boolean match(
-      Map<String, FileDiffOutput> baseVsCurrent,
-      Map<String, FileDiffOutput> baseVsPrior,
-      Map<String, FileDiffOutput> priorVsCurrent) {
+      Map<String, ModifiedFile> baseVsCurrent,
+      Map<String, ModifiedFile> baseVsPrior,
+      Map<String, ModifiedFile> priorVsCurrent) {
     Set<String> allFiles = new HashSet<>();
     allFiles.addAll(baseVsCurrent.keySet());
     allFiles.addAll(baseVsPrior.keySet());
@@ -102,17 +108,17 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
       if (Patch.isMagic(file)) {
         continue;
       }
-      FileDiffOutput fileDiffOutput1 = baseVsCurrent.get(file);
-      FileDiffOutput fileDiffOutput2 = baseVsPrior.get(file);
+      ModifiedFile modifiedFile1 = baseVsCurrent.get(file);
+      ModifiedFile modifiedFile2 = baseVsPrior.get(file);
       if (!priorVsCurrent.containsKey(file)) {
         // If the file is not modified between prior and current patchsets, then scan safely skip
-        // it. The file might has been modified due to rebase.
+        // it. The file might have been modified due to rebase.
         continue;
       }
-      if (fileDiffOutput1 == null || fileDiffOutput2 == null) {
+      if (modifiedFile1 == null || modifiedFile2 == null) {
         return false;
       }
-      if (!fileDiffOutput2.changeType().equals(fileDiffOutput1.changeType())) {
+      if (!modifiedFile2.changeType().equals(modifiedFile1.changeType())) {
         return false;
       }
     }

@@ -34,7 +34,10 @@ import static java.util.Comparator.comparing;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -44,12 +47,15 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -58,13 +64,18 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.project.testing.TestLabels;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,6 +86,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ChangeOperations changeOperations;
   @Inject private ChangeKindCreator changeKindCreator;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Inject
   @Named("change_kind")
@@ -256,6 +268,113 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       ChangeInfo c = detailedChange(changeId);
       assertVotes(c, admin, 2, 0, changeKind);
       assertVotes(c, user, 0, 0, changeKind);
+    }
+  }
+
+  @Test
+  public void sticky_copiedToLatestPatchSetFromSubmitRecords() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType(LabelId.VERIFIED, b -> b.setFunction(LabelFunction.NO_BLOCK));
+      u.save();
+    }
+
+    // This test is covering the backfilling logic for changes which have been submitted, based on
+    // copied approvals, before Gerrit persisted copied votes as Copied-Label footers in NoteDb. It
+    // verifies that for such changes copied approvals are returned from the API even if the copied
+    // votes were not persisted as Copied-Label footers.
+    //
+    // In other words, this test verifies that given a change that was approved by a copied vote and
+    // then submitted and for which the copied approval is not persisted as a Copied-Label footer in
+    // NoteDb the copied approval is backfilled from the corresponding Submitted-With footer that
+    // got written to NoteDb on submit.
+    //
+    // Creating such a change would be possible by running the old Gerrit code from before Gerrit
+    // persisted copied labels as Copied-Label footers. However since this old Gerrit code is no
+    // longer available, the test needs to apply a trick to create a change in this state. It
+    // configures a fake submit rule, that pretends that an approval for a non-sticky label from an
+    // old patch set is still present on the current patch set and allows to submit the change.
+    // Since the label is non-sticky no Copied-Label footer is written for it. On submit the fake
+    // submit rule results in a Submitted-With footer that records the label as approved (although
+    // the label is actually not present on the current patch set). This is exactly the change state
+    // that we would have had by running the old code if submit was based on a copied label. As
+    // result of the backfilling logic we expect that this "copied" label (the label that is
+    // mentioned in the Submitted-With footer) is returned from the API.
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(new TestSubmitRule(user.id()))) {
+      // We want to add a vote on PS1, then not copy it to PS2, but include it in submit records
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+
+      // Vote on patch-set 1
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, 1, -1);
+
+      // Upload patch-set 2. Change user's "Verified" vote on PS2.
+      changeOperations
+          .change(Change.id(r.getChange().getId().get()))
+          .newPatchset()
+          .file("new_file")
+          .content("content")
+          .commitMessage("Upload PS2")
+          .create();
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, 1, 1);
+
+      // Upload patch-set 3
+      changeOperations
+          .change(Change.id(r.getChange().getId().get()))
+          .newPatchset()
+          .file("another_file")
+          .content("content")
+          .commitMessage("Upload PS3")
+          .create();
+      vote(admin, changeId, 2, 1);
+
+      List<PatchSetApproval> patchSetApprovals =
+          notesFactory.create(project, r.getChange().getId()).getApprovalsWithCopied().values()
+              .stream()
+              .sorted(comparing(a -> a.patchSetId().get()))
+              .collect(toImmutableList());
+
+      // There's no verified approval on PS#3.
+      assertThat(
+              patchSetApprovals.stream()
+                  .filter(
+                      a ->
+                          a.accountId().equals(user.id())
+                              && a.label().equals(TestLabels.verified().getName())
+                              && a.patchSetId().get() == 3)
+                  .collect(Collectors.toList()))
+          .isEmpty();
+
+      // Submit the change. The TestSubmitRule will store a "submit record" containing a label
+      // voted by user, but the latest patch-set does not have an approval for this user, hence
+      // it will be copied if we request approvals after the change is merged.
+      requestScopeOperations.setApiUser(admin.id());
+      gApi.changes().id(changeId).current().submit();
+
+      patchSetApprovals =
+          notesFactory.create(project, r.getChange().getId()).getApprovalsWithCopied().values()
+              .stream()
+              .sorted(comparing(a -> a.patchSetId().get()))
+              .collect(toImmutableList());
+
+      // Get the copied approval for user on PS3 for the "Verified" label.
+      PatchSetApproval verifiedApproval =
+          patchSetApprovals.stream()
+              .filter(
+                  a ->
+                      a.accountId().equals(user.id())
+                          && a.label().equals(TestLabels.verified().getName())
+                          && a.patchSetId().get() == 3)
+              .collect(MoreCollectors.onlyElement());
+
+      assertCopied(
+          verifiedApproval,
+          /* psId= */ 3,
+          TestLabels.verified().getName(),
+          (short) 1,
+          /* copied= */ true);
     }
   }
 
@@ -1265,6 +1384,35 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertThat(nonCopiedSecondPatchsetRemovedVote.copied()).isFalse();
   }
 
+  @Test
+  public void reviewerStickyVotingCanBeRemoved() throws Exception {
+    // Code-Review will be sticky.
+    String label = LabelId.CODE_REVIEW;
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
+      u.save();
+    }
+
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote by user
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Make a new patchset, keeping the Code-Review +1 vote.
+    amendChange(r.getChangeId());
+    assertVotes(detailedChange(r.getChangeId()), user, label, 1, null);
+
+    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+
+    assertThat(r.getChange().notes().getApprovalsWithCopied()).isEmpty();
+
+    // Changes message has info about vote removed.
+    assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).messages()).message)
+        .contains("Code-Review+1 by User");
+  }
+
   private void assertChangeKindCacheContains(ObjectId prior, ObjectId next) {
     ChangeKind kind =
         changeKindCache.getIfPresent(ChangeKindCacheImpl.Key.create(prior, next, "recursive"));
@@ -1351,5 +1499,30 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertThat(approval.label()).isEqualTo(label);
     assertThat(approval.value()).isEqualTo(value);
     assertThat(approval.copied()).isEqualTo(copied);
+  }
+
+  /**
+   * Test submit rule that always return a passing record with a "Verified" label applied by {@link
+   * TestSubmitRule#userAccountId}.
+   */
+  private static class TestSubmitRule implements SubmitRule {
+    Account.Id userAccountId;
+
+    TestSubmitRule(Account.Id userAccountId) {
+      this.userAccountId = userAccountId;
+    }
+
+    @Override
+    public Optional<SubmitRecord> evaluate(ChangeData changeData) {
+      SubmitRecord record = new SubmitRecord();
+      record.ruleName = "testSubmitRule";
+      record.status = SubmitRecord.Status.OK;
+      SubmitRecord.Label label = new SubmitRecord.Label();
+      label.label = "Verified";
+      label.status = SubmitRecord.Label.Status.OK;
+      label.appliedBy = userAccountId;
+      record.labels = Arrays.asList(label);
+      return Optional.of(record);
+    }
   }
 }

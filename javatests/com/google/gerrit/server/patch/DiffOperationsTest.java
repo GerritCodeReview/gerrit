@@ -19,10 +19,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
@@ -30,6 +32,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -37,6 +40,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
@@ -110,6 +114,66 @@ public class DiffOperationsTest {
 
     // Requesting diff against auto-merge had the side effect of updating the auto-merge ref
     assertThat(repo.getRefDatabase().exactRef(autoMergeRef)).isNotNull();
+  }
+
+  @Test
+  public void loadModifiedFiles() throws Exception {
+    ImmutableMap<String, String> oldFiles =
+        ImmutableMap.of(fileName1, fileContent1, fileName2, fileContent2);
+    ObjectId oldCommitId = createCommit(repo, null, oldFiles);
+
+    ImmutableMap<String, String> newFiles =
+        ImmutableMap.of(fileName1, fileContent1, fileName2, fileContent2 + "\nnew line here");
+    ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
+
+    Repository repository = repoManager.openRepository(testProjectName);
+    ObjectReader objectReader = repository.newObjectReader();
+    RevWalk rw = new RevWalk(objectReader);
+    StoredConfig repoConfig = repository.getConfig();
+
+    // This call loads modified files directly without going through the diff cache.
+    Map<String, ModifiedFile> modifiedFiles =
+        diffOperations.loadModifiedFiles(
+            testProjectName, newCommitId, oldCommitId, DiffOptions.DEFAULTS, rw, repoConfig);
+
+    assertThat(modifiedFiles)
+        .containsExactly(
+            fileName2,
+            ModifiedFile.builder()
+                .changeType(ChangeType.MODIFIED)
+                .oldPath(Optional.of(fileName2))
+                .newPath(Optional.of(fileName2))
+                .build());
+  }
+
+  @Test
+  public void loadModifiedFilesAgainstParent() throws Exception {
+    ImmutableMap<String, String> oldFiles =
+        ImmutableMap.of(fileName1, fileContent1, fileName2, fileContent2);
+    ObjectId oldCommitId = createCommit(repo, null, oldFiles);
+
+    ImmutableMap<String, String> newFiles =
+        ImmutableMap.of(fileName1, fileContent1, fileName2, fileContent2 + "\nnew line here");
+    ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
+
+    Repository repository = repoManager.openRepository(testProjectName);
+    ObjectReader objectReader = repository.newObjectReader();
+    RevWalk rw = new RevWalk(objectReader);
+    StoredConfig repoConfig = repository.getConfig();
+
+    // This call loads modified files directly without going through the diff cache.
+    Map<String, ModifiedFile> modifiedFiles =
+        diffOperations.loadModifiedFilesAgainstParent(
+            testProjectName, newCommitId, /* parentNum=*/ 0, DiffOptions.DEFAULTS, rw, repoConfig);
+
+    assertThat(modifiedFiles)
+        .containsExactly(
+            fileName2,
+            ModifiedFile.builder()
+                .changeType(ChangeType.MODIFIED)
+                .oldPath(Optional.of(fileName2))
+                .newPath(Optional.of(fileName2))
+                .build());
   }
 
   private ObjectId createMergeCommit(

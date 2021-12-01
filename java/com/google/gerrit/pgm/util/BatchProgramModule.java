@@ -41,7 +41,6 @@ import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.ServiceUserClassifierImpl;
 import com.google.gerrit.server.account.externalids.ExternalIdCacheModule;
-import com.google.gerrit.server.approval.ApprovalCacheImpl;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
@@ -177,7 +176,6 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(new GroupModule());
     modules.add(new NoteDbModule());
     modules.add(AccountCacheImpl.module());
-    modules.add(ApprovalCacheImpl.module());
     modules.add(ConflictsCacheImpl.module());
     modules.add(DefaultPreferencesCacheImpl.module());
     modules.add(GroupCacheImpl.module());

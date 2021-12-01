@@ -40,7 +40,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
-import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.approval.ApprovalContext;
@@ -51,7 +51,6 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
@@ -98,20 +97,11 @@ class ApprovalInference {
   }
 
   /**
-   * Returns all approvals that apply to the given patch set. Honors direct and indirect (approval
-   * on parents) approvals.
+   * Returns all approvals that apply to the given patch set. Honors copied approvals from previous
+   * patch-set.
    */
   Iterable<PatchSetApproval> forPatchSet(
-      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
-    PatchSet patchset = notes.getPatchSets().get(psId);
-    if (patchset == null) {
-      return Collections.emptyList();
-    }
-    return forPatchSet(notes, patchset, rw, repoConfig);
-  }
-
-  Iterable<PatchSetApproval> forPatchSet(
-      ChangeNotes notes, PatchSet ps, @Nullable RevWalk rw, @Nullable Config repoConfig) {
+      ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
     ProjectState project;
     try (TraceTimer traceTimer =
         TraceContext.newTimer(
@@ -136,9 +126,9 @@ class ApprovalInference {
       PatchSet.Id psId,
       ChangeKind kind,
       LabelType type,
-      @Nullable Map<String, FileDiffOutput> baseVsCurrentDiff,
-      @Nullable Map<String, FileDiffOutput> baseVsPriorDiff,
-      @Nullable Map<String, FileDiffOutput> priorVsCurrentDiff) {
+      @Nullable Map<String, ModifiedFile> baseVsCurrentDiff,
+      @Nullable Map<String, ModifiedFile> baseVsPriorDiff,
+      @Nullable Map<String, ModifiedFile> priorVsCurrentDiff) {
     int n = psa.key().patchSetId().get();
     checkArgument(n != psId.get());
 
@@ -326,11 +316,14 @@ class ApprovalInference {
       PatchSetApproval psa,
       PatchSet patchSet,
       LabelType type,
-      ChangeKind changeKind) {
+      ChangeKind changeKind,
+      RevWalk revWalk,
+      Config repoConfig) {
     if (!type.getCopyCondition().isPresent()) {
       return false;
     }
-    ApprovalContext ctx = ApprovalContext.create(changeNotes, psa, patchSet, changeKind);
+    ApprovalContext ctx =
+        ApprovalContext.create(changeNotes, psa, patchSet, changeKind, revWalk, repoConfig);
     try {
       // Use a request context to run checks as an internal user with expanded visibility. This is
       // so that the output of the copy condition does not depend on who is running the current
@@ -347,11 +340,7 @@ class ApprovalInference {
   }
 
   private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(
-      ChangeNotes notes,
-      ProjectState project,
-      PatchSet patchSet,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig) {
+      ChangeNotes notes, ProjectState project, PatchSet patchSet, RevWalk rw, Config repoConfig) {
     checkState(
         project.getNameKey().equals(notes.getProjectName()),
         "project must match %s, %s",
@@ -361,34 +350,23 @@ class ApprovalInference {
     PatchSet.Id psId = patchSet.id();
     // Add approvals on the given patch set to the result
     Table<String, Account.Id, PatchSetApproval> resultByUser = HashBasedTable.create();
-    ImmutableList<PatchSetApproval> approvalsForGivenPatchSet =
+    ImmutableList<PatchSetApproval> nonCopiedApprovalsForGivenPatchSet =
         notes.load().getApprovals().get(patchSet.id());
-    approvalsForGivenPatchSet.forEach(psa -> resultByUser.put(psa.label(), psa.accountId(), psa));
+    nonCopiedApprovalsForGivenPatchSet.forEach(
+        psa -> resultByUser.put(psa.label(), psa.accountId(), psa));
 
     // Bail out immediately if this is the first patch set. Return only approvals granted on the
     // given patch set.
     if (psId.get() == 1) {
       return resultByUser.values();
     }
-
-    // Call this algorithm recursively to check if the prior patch set had approvals. This has the
-    // advantage that all caches - most importantly ChangeKindCache - have values cached for what we
-    // need for this computation.
-    // The way this algorithm is written is that any approval will be copied forward by one patch
-    // set at a time if configs and change kind allow so. Once an approval is held back - for
-    // example because the patch set is a REWORK - it will not be picked up again in a future
-    // patch set.
     Map.Entry<PatchSet.Id, PatchSet> priorPatchSet = notes.load().getPatchSets().lowerEntry(psId);
     if (priorPatchSet == null) {
       return resultByUser.values();
     }
 
-    Iterable<PatchSetApproval> priorApprovals =
-        getForPatchSetWithoutNormalization(
-            notes, project, priorPatchSet.getValue(), rw, repoConfig);
-    if (!priorApprovals.iterator().hasNext()) {
-      return resultByUser.values();
-    }
+    ImmutableList<PatchSetApproval> priorApprovalsIncludingCopied =
+        notes.load().getApprovalsWithCopied().get(priorPatchSet.getKey());
 
     // Add labels from the previous patch set to the result in case the label isn't already there
     // and settings as well as change kind allow copying.
@@ -406,11 +384,11 @@ class ApprovalInference {
         priorPatchSet.getValue().id().changeId(),
         changeKind);
 
-    Map<String, FileDiffOutput> baseVsCurrent = null;
-    Map<String, FileDiffOutput> baseVsPrior = null;
-    Map<String, FileDiffOutput> priorVsCurrent = null;
+    Map<String, ModifiedFile> baseVsCurrent = null;
+    Map<String, ModifiedFile> baseVsPrior = null;
+    Map<String, ModifiedFile> priorVsCurrent = null;
     LabelTypes labelTypes = project.getLabelTypes();
-    for (PatchSetApproval psa : priorApprovals) {
+    for (PatchSetApproval psa : priorApprovalsIncludingCopied) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
         continue;
       }
@@ -419,10 +397,11 @@ class ApprovalInference {
       if (baseVsCurrent == null
           && type.isPresent()
           && type.get().isCopyAllScoresIfListOfFilesDidNotChange()) {
-        baseVsCurrent = listModifiedFiles(project, patchSet);
-        baseVsPrior = listModifiedFiles(project, priorPatchSet.getValue());
+        baseVsCurrent = listModifiedFiles(project, patchSet, rw, repoConfig);
+        baseVsPrior = listModifiedFiles(project, priorPatchSet.getValue(), rw, repoConfig);
         priorVsCurrent =
-            listModifiedFiles(project, priorPatchSet.getValue().commitId(), patchSet.commitId());
+            listModifiedFiles(
+                project, priorPatchSet.getValue().commitId(), patchSet.commitId(), rw, repoConfig);
       }
       if (!type.isPresent()) {
         logger.atFine().log(
@@ -445,7 +424,8 @@ class ApprovalInference {
               baseVsCurrent,
               baseVsPrior,
               priorVsCurrent)
-          && !canCopyBasedOnCopyCondition(notes, psa, patchSet, type.get(), changeKind)) {
+          && !canCopyBasedOnCopyCondition(
+              notes, psa, patchSet, type.get(), changeKind, rw, repoConfig)) {
         continue;
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(patchSet.id()));
@@ -457,14 +437,20 @@ class ApprovalInference {
    * Gets the modified files between the two latest patch-sets. Can be used to compute difference in
    * files between those two patch-sets .
    */
-  private Map<String, FileDiffOutput> listModifiedFiles(ProjectState project, PatchSet ps) {
+  private Map<String, ModifiedFile> listModifiedFiles(
+      ProjectState project, PatchSet ps, RevWalk revWalk, Config repoConfig) {
     try {
       Integer parentNum =
           listOfFilesUnchangedPredicate.isInitialCommit(project.getNameKey(), ps.commitId())
               ? 0
               : 1;
-      return diffOperations.listModifiedFilesAgainstParent(
-          project.getNameKey(), ps.commitId(), parentNum, DiffOptions.DEFAULTS);
+      return diffOperations.loadModifiedFilesAgainstParent(
+          project.getNameKey(),
+          ps.commitId(),
+          parentNum,
+          DiffOptions.DEFAULTS,
+          revWalk,
+          repoConfig);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"
@@ -478,11 +464,20 @@ class ApprovalInference {
    * Gets the modified files between two commits corresponding to different patchsets of the same
    * change.
    */
-  private Map<String, FileDiffOutput> listModifiedFiles(
-      ProjectState project, ObjectId sourceCommit, ObjectId targetCommit) {
+  private Map<String, ModifiedFile> listModifiedFiles(
+      ProjectState project,
+      ObjectId sourceCommit,
+      ObjectId targetCommit,
+      RevWalk revWalk,
+      Config repoConfig) {
     try {
-      return diffOperations.listModifiedFiles(
-          project.getNameKey(), sourceCommit, targetCommit, DiffOptions.DEFAULTS);
+      return diffOperations.loadModifiedFiles(
+          project.getNameKey(),
+          sourceCommit,
+          targetCommit,
+          DiffOptions.DEFAULTS,
+          revWalk,
+          repoConfig);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"

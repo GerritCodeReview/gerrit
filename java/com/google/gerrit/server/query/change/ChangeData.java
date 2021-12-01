@@ -774,7 +774,7 @@ public class ChangeData {
       if (!lazyload()) {
         return ImmutableListMultimap.of();
       }
-      allApprovals = approvalsUtil.byChange(notes());
+      allApprovals = approvalsUtil.byChangeExcludingCopiedApprovals(notes());
     }
     return allApprovals;
   }

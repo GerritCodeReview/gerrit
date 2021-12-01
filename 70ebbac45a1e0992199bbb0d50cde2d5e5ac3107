@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c21de2a6_8829b8cb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-01T16:29:45Z",
+      "side": 1,
+      "message": "What is the cost of all of these deepEquals?",
+      "revId": "70ebbac45a1e0992199bbb0d50cde2d5e5ac3107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

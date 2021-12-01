@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63f2fc1b_cc5f50e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1064086
+      },
+      "writtenOn": "2021-12-01T14:13:03Z",
+      "side": 1,
+      "message": "Cherry-picked to allow https://gerrit-review.googlesource.com/c/gerrit/+/325218 to cherry-pick cleanly.",
+      "revId": "22ac1dcc904b86a480f4cc5dd3634d240b2e7033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

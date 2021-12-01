@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e806a32_637d6138",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-01T11:48:33Z",
+      "side": 1,
+      "message": "Delete and do the changes in gr-repo.ts (as it uses lit now).",
+      "revId": "0e2a20c19cf25df34066ae74bb8a592fe049e5a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -461,6 +461,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0125c6b4_69c1abfc",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T12:21:44Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "54be4ef5_7e41b284",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 38
+      },
+      "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e6b468c5_a988ec05",
         "filename": "polygerrit-ui/app/services/change/change-service.ts",
         "patchSetId": 26
@@ -490,6 +514,24 @@
       "side": 1,
       "message": "Is the way to maintain changeNum and patchNum inside the service and then comparing when the updateStateFileReviewed method is called?",
       "parentUuid": "e6b468c5_a988ec05",
+      "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a575c12a_c1fa7b4a",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T12:21:44Z",
+      "side": 1,
+      "message": "This is the pattern used elsewhere:\n\nSave changeNum:\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/services/comments/comments-model.ts;l\u003d433;drc\u003d0142248b018108fdb48d02012eef2773d21bdcae\n\nCompare after response comes back:\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/services/comments/comments-model.ts;l\u003d441;drc\u003d0142248b018108fdb48d02012eef2773d21bdcae\n\nNote that once we have one model instance per change this will not be required anymore. But for now this seems essential.",
+      "parentUuid": "dce6d39e_6d103bf1",
       "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

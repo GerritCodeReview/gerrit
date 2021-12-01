@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8dda6ba_f905e265",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T12:21:44Z",
+      "side": 1,
+      "message": "sync needed, this is now called changeModel",
+      "revId": "7209dcb976114e93e8365f2f1a3d9558c3e59d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "695d41ea_81418e32",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T12:21:44Z",
+      "side": 1,
+      "message": "Array.from not needed anymore",
+      "range": {
+        "startLine": 397,
+        "startChar": 40,
+        "endLine": 397,
+        "endChar": 51
+      },
+      "revId": "7209dcb976114e93e8365f2f1a3d9558c3e59d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "332267e6_1b53a791",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T12:21:44Z",
+      "side": 1,
+      "message": "You don\u0027t have to check for undefined anymore. Done above already. Also, you have to create a new array!\n\n    const reviewedFiles \u003d [...current.reviewedFiles];",
+      "revId": "7209dcb976114e93e8365f2f1a3d9558c3e59d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8654b474_8899ccdd",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T12:21:44Z",
+      "side": 1,
+      "message": "Array.from not needed anymore",
+      "range": {
+        "startLine": 153,
+        "startChar": 35,
+        "endLine": 153,
+        "endChar": 46
+      },
+      "revId": "7209dcb976114e93e8365f2f1a3d9558c3e59d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

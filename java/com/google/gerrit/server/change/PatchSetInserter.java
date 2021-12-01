@@ -104,7 +104,6 @@ public class PatchSetInserter implements BatchUpdateOp {
   private boolean allowClosed;
   private boolean sendEmail = true;
   private String topic;
-  private boolean storeCopiedVotes = true;
 
   // Fields set during some phase of BatchUpdate.Op.
   private Change change;
@@ -204,17 +203,6 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
-  /**
-   * We always want to store copied votes except when the change is getting submitted and a new
-   * patch-set is created on submit (using submit strategies such as "REBASE_ALWAYS"). In such
-   * cases, we already store the votes of the new patch-sets in SubmitStrategyOp#saveApprovals. We
-   * should not also store the copied votes.
-   */
-  public PatchSetInserter setStoreCopiedVotes(boolean storeCopiedVotes) {
-    this.storeCopiedVotes = storeCopiedVotes;
-    return this;
-  }
-
   public Change getChange() {
     checkState(change != null, "getChange() only valid after executing update");
     return change;
@@ -298,10 +286,8 @@ public class PatchSetInserter implements BatchUpdateOp {
       }
     }
 
-    if (storeCopiedVotes) {
-      approvalsUtil.persistCopiedApprovals(
-          ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
-    }
+    approvalsUtil.persistCopiedApprovals(
+        ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
 
     return true;
   }

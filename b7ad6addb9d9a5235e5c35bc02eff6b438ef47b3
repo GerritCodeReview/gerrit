@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65a76f2b_f3814eef",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T15:47:02Z",
+      "side": 1,
+      "message": "I missed this before. Why do we actually allow MAY here?\n\nIf it\u0027s MAY, we cannot safely assume that an approval for this label which existed on an old patch set was indeed copied. If that label was configured as non-sticky so that the label was not copied, the submit would have gone also through.",
+      "range": {
+        "startLine": 354,
+        "startChar": 63,
+        "endLine": 354,
+        "endChar": 73
+      },
+      "revId": "b7ad6addb9d9a5235e5c35bc02eff6b438ef47b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

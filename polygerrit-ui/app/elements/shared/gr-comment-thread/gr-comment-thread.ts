@@ -69,6 +69,7 @@ import {repeat} from 'lit/directives/repeat';
 import {classMap} from 'lit/directives/class-map';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ValueChangedEvent} from '../../../types/events';
+import {notDeepEqual} from '../../../utils/deep-util';
 
 const NEWLINE_PATTERN = /\n/g;
 
@@ -112,8 +113,17 @@ export class GrCommentThread extends LitElement {
   @queryAll('gr-comment')
   commentElements?: NodeList;
 
-  /** Required to be set by parent. */
-  @property()
+  /**
+   * Required to be set by parent.
+   *
+   * Lit's `hasChanged` change detection defaults to just checking strict
+   * equality (===). Here it makes sense to install a proper `deepEqual`
+   * check, because of how the comments-model and ChangeComments are setup:
+   * Each thread object is recreated on the slightest model change. So when you
+   * have 100 comment threads and there is an update to one thread, then you
+   * want to avoid re-rendering the other 99 threads.
+   */
+  @property({hasChanged: notDeepEqual})
   thread?: CommentThread;
 
   /**

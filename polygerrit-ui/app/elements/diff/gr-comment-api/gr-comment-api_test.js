@@ -131,7 +131,8 @@ suite('gr-comment-api tests', () => {
             {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'});
 
         assert.equal(portedThreads.length, 1);
-        // check range of thread is from the ported comment and not the original
+        // check that the location of the thread matches the ported comment
+        assert.equal(portedThreads[0].patchNum, 4);
         assert.deepEqual(portedThreads[0].range, {
           start_line: 136,
           start_character: 16,

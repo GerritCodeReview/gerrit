@@ -37,6 +37,10 @@ export function deepEqual<T>(a: T, b: T): boolean {
   return false;
 }
 
+export function notDeepEqual<T>(a: T, b: T): boolean {
+  return !deepEqual(a, b);
+}
+
 /**
  * @param obj Object
  */

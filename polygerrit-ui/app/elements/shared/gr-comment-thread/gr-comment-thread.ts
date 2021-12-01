@@ -69,6 +69,7 @@ import {repeat} from 'lit/directives/repeat';
 import {classMap} from 'lit/directives/class-map';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ValueChangedEvent} from '../../../types/events';
+import {notDeepEqual} from '../../../utils/deep-util';
 
 const NEWLINE_PATTERN = /\n/g;
 
@@ -113,7 +114,7 @@ export class GrCommentThread extends LitElement {
   commentElements?: NodeList;
 
   /** Required to be set by parent. */
-  @property()
+  @property({hasChanged: notDeepEqual})
   thread?: CommentThread;
 
   /**

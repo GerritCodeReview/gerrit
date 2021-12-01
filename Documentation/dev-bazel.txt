@@ -268,7 +268,15 @@ The html files will be bundled into `searchfree.zip` in this location:
   bazel-bin/Documentation/searchfree.zip
 ----
 
-To build the executable WAR with the documentation included:
+To generate HTML files skipping the zip archiving:
+
+----
+  bazel build Documentation
+----
+
+And open `bazel-bin/Documentation/index.html`.
+
+To build the Gerrit executable WAR with the documentation included:
 
 ----
   bazel build withdocs
@@ -358,15 +366,12 @@ To run the tests against a specific index backend (LUCENE, FAKE):
   bazel test --test_env=GERRIT_INDEX_TYPE=LUCENE //...
 ----
 
-Elastic search is not currently supported in integration tests.
-
 The following values are currently supported for the group name:
 
 * annotation
 * api
 * docker
 * edit
-* elastic
 * git
 * git-protocol-v2
 * git-upload-archive
@@ -398,23 +403,6 @@ Example:
 
 Now attach with a debugger to the port `5005`. For example use "Remote Java Application" launch
 configuration in Eclipe and specify the port `5005`.
-
-[[elasticsearch]]
-=== Elasticsearch
-
-Successfully running the Elasticsearch tests requires Docker, and
-may require setting the local virtual memory on
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html[linux,role=external,window=_blank] and
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_set_vm_max_map_count_to_at_least_262144[macOS,role=external,window=_blank].
-
-On macOS, if using link:https://docs.docker.com/docker-for-mac/[Docker Desktop,role=external,window=_blank],
-the effective memory value can be set in the Preferences, under the Advanced tab.
-The default value usually does not suffice and is causing premature container exits.
-That default is currently 2 GB and should be set to at least 5 (GB).
-
-If Docker is not available, the Elasticsearch tests will be skipped.
-Note that Bazel currently does not show
-link:https://github.com/bazelbuild/bazel/issues/3476[the skipped tests,role=external,window=_blank].
 
 [[logging]]
 === Controlling logging level

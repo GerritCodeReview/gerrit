@@ -21,6 +21,7 @@ import static java.util.Comparator.naturalOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
@@ -37,10 +38,15 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -75,13 +81,26 @@ public class IncludedIn {
         throw new ResourceConflictException(err.getMessage());
       }
 
-      IncludedInResolver.Result d = IncludedInResolver.resolve(r, rw, rev);
+      RefDatabase refDb = r.getRefDatabase();
+      Collection<Ref> tags = refDb.getRefsByPrefix(Constants.R_TAGS);
+      Collection<Ref> branches = refDb.getRefsByPrefix(Constants.R_HEADS);
+      List<Ref> allTagsAndBranches = Lists.newArrayListWithCapacity(tags.size() + branches.size());
+      allTagsAndBranches.addAll(tags);
+      allTagsAndBranches.addAll(branches);
+
+      Set<String> allMatchingTagsAndBranches =
+          rw.getMergedInto(rev, IncludedInUtil.getSortedRefs(allTagsAndBranches, rw)).stream()
+              .map(Ref::getName)
+              .collect(Collectors.toSet());
 
       // Filter branches and tags according to their visbility by the user
       ImmutableSortedSet<String> filteredBranches =
-          sortedShortNames(filterReadableRefs(project, d.branches()));
+          sortedShortNames(
+              filterReadableRefs(
+                  project, getMatchingRefNames(allMatchingTagsAndBranches, branches)));
       ImmutableSortedSet<String> filteredTags =
-          sortedShortNames(filterReadableRefs(project, d.tags()));
+          sortedShortNames(
+              filterReadableRefs(project, getMatchingRefNames(allMatchingTagsAndBranches, tags)));
 
       ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
       externalIncludedIn.runEach(
@@ -113,6 +132,18 @@ public class IncludedIn {
           .map(Ref::getName)
           .collect(toImmutableList());
     }
+  }
+
+  /**
+   * Returns the short names of refs which are as well in the matchingRefs list as well as in the
+   * allRef list.
+   */
+  private static ImmutableList<Ref> getMatchingRefNames(
+      Set<String> matchingRefs, Collection<Ref> allRefs) {
+    return allRefs.stream()
+        .filter(r -> matchingRefs.contains(r.getName()))
+        .distinct()
+        .collect(toImmutableList());
   }
 
   private ImmutableSortedSet<String> sortedShortNames(Collection<String> refs) {

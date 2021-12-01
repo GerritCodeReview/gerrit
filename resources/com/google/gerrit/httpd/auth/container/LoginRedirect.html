@@ -4,6 +4,12 @@
     <title>Gerrit Code Review</title>
     <script type="text/javascript">
       var href = window.location.href;
+      var query = "";
+      var q = href.indexOf('?');
+      if (q >= 0) {
+        query = href.substring(q);
+        href = href.substring(0,q);
+      }
       var p = href.indexOf('#');
       var token;
       if (p >= 0) {
@@ -12,7 +18,7 @@
       } else {
         token = '';
       }
-      window.location.replace(href + 'login/' + token);
+      window.location.replace(href + 'login/' + token + query);
     </script>
   </head>
   <body>

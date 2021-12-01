@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.account.HashedPassword;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import java.util.Collection;
 
@@ -29,9 +30,12 @@ public class PasswordVerifier {
 
   private final ExternalIdKeyFactory externalIdKeyFactory;
 
+  private AuthConfig authConfig;
+
   @Inject
-  public PasswordVerifier(ExternalIdKeyFactory externalIdKeyFactory) {
+  public PasswordVerifier(ExternalIdKeyFactory externalIdKeyFactory, AuthConfig authConfig) {
     this.externalIdKeyFactory = externalIdKeyFactory;
+    this.authConfig = authConfig;
   }
 
   /** Returns {@code true} if there is an external ID matching both the username and password. */
@@ -40,11 +44,21 @@ public class PasswordVerifier {
     if (password == null) {
       return false;
     }
+
     for (ExternalId id : externalIds) {
       // Only process the "username:$USER" entry, which is unique.
-      if (!id.isScheme(SCHEME_USERNAME)
-          || !id.key().equals(externalIdKeyFactory.create(SCHEME_USERNAME, username))) {
+      if (!id.isScheme(SCHEME_USERNAME)) {
         continue;
+      }
+
+      if (!id.key().equals(externalIdKeyFactory.create(SCHEME_USERNAME, username))) {
+        if (!authConfig.isUserNameCaseInsensitiveMigrationMode()) {
+          continue;
+        }
+
+        if (!id.key().equals(externalIdKeyFactory.create(SCHEME_USERNAME, username, false))) {
+          continue;
+        }
       }
 
       String hashedStr = id.password();

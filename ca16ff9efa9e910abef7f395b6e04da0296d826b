@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7ffd641_24f100c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-12-01T14:55:00Z",
+      "side": 1,
+      "message": "I ran tests manually but get some test failures: \n\n//javatests/com/google/gerrit/acceptance/git:HttpSubmitOnPushIT          FAILED in 313.7s\n  /usr/local/google/home/hiesel/.cache/bazel/_bazel_hiesel/c9eb3c837658d5c34ec92b9b847aba43/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/git/HttpSubmitOnPushIT/test.log\n//javatests/com/google/gerrit/acceptance/git:SshSubmitOnPushIT           FAILED in 311.0s\n  /usr/local/google/home/hiesel/.cache/bazel/_bazel_hiesel/c9eb3c837658d5c34ec92b9b847aba43/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/git/SshSubmitOnPushIT/test.log\n//javatests/com/google/gerrit/acceptance/rest/project:HttpPushLightweightTagIT FAILED in 475.2s\n  /usr/local/google/home/hiesel/.cache/bazel/_bazel_hiesel/c9eb3c837658d5c34ec92b9b847aba43/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/rest/project/HttpPushLightweightTagIT/test.log\n//javatests/com/google/gerrit/acceptance/rest/project:SshPushAnnotatedTagIT FAILED in 501.1s\n  /usr/local/google/home/hiesel/.cache/bazel/_bazel_hiesel/c9eb3c837658d5c34ec92b9b847aba43/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/rest/project/SshPushAnnotatedTagIT/test.log\n//javatests/com/google/gerrit/acceptance/server/change:server_change     FAILED in 55.7s\n  /usr/local/google/home/hiesel/.cache/bazel/_bazel_hiesel/c9eb3c837658d5c34ec92b9b847aba43/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/server/change/server_change/test.log\n//javatests/com/google/gerrit/common:server_tests                        FAILED in 0.6s\n  /usr/local/google/home/hiesel/.cache/bazel/_bazel_hiesel/c9eb3c837658d5c34ec92b9b847aba43/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/common/server_tests/test.log\n//javatests/com/google/gerrit/integration/git:protocol-v2                FAILED in 64.1s\n  /usr/local/google/home/hiesel/.cache/bazel/_bazel_hiesel/c9eb3c837658d5c34ec92b9b847aba43/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/integration/git/protocol-v2/test.log\n//javatests/com/google/gerrit/server:server_tests                        FAILED in 51.7s\n  /usr/local/google/home/hiesel/.cache/bazel/_bazel_hiesel/c9eb3c837658d5c34ec92b9b847aba43/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/server/server_tests/test.log",
+      "revId": "ca16ff9efa9e910abef7f395b6e04da0296d826b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

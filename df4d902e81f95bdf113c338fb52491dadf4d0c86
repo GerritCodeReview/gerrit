@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e15d2b4_00e25298",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-01T12:00:33Z",
+      "side": 1,
+      "message": "Think you forgot to add ?disabled\u003d${this.disabled || !option.info.editable} here.\n\nSee https://gerrit-review.googlesource.com/c/gerrit/+/323575.",
+      "revId": "df4d902e81f95bdf113c338fb52491dadf4d0c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

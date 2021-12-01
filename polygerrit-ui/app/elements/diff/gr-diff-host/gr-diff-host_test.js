@@ -26,6 +26,7 @@ import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
 import {CoverageType} from '../../../types/types.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
+import {createUnsavedComment} from '../../../utils/comment-util.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -1164,6 +1165,47 @@ suite('gr-diff-host tests', () => {
           .queryDistributedElements('gr-comment-thread');
       // New thread has a different rootId
       assert.equal(threads.length, 2);
+    });
+
+    test('unsaved thread changes to draft', async () => {
+      element.patchRange = {
+        basePatchNum: 2,
+        patchNum: 3,
+      };
+      element.file = {basePath: 'file_renamed.txt', path: element.path};
+      element.threads = [];
+      await flush();
+
+      element.dispatchEvent(new CustomEvent('create-comment', {
+        detail: {
+          side: Side.RIGHT,
+          path: element.path,
+          lineNum: 13,
+        },
+      }));
+      await flush();
+      assert.equal(element.getThreadEls().length, 1);
+      const threadEl = element.getThreadEls()[0];
+      assert.equal(threadEl.thread.line, 13);
+      assert.isDefined(threadEl.unsavedComment);
+      assert.equal(threadEl.thread.comments.length, 0);
+
+      const draftThread = createCommentThread([{
+        path: element.path,
+        patch_set: 3,
+        line: 13,
+        __draft: true,
+      }]);
+      element.threads = [draftThread];
+      await flush();
+
+      // We expect that no additional thread element was created.
+      assert.equal(element.getThreadEls().length, 1);
+      // In fact the thread element must still be the same.
+      assert.equal(element.getThreadEls()[0], threadEl);
+      // But it must have been updated from unsaved to draft:
+      assert.isUndefined(threadEl.unsavedComment);
+      assert.equal(threadEl.thread.comments.length, 1);
     });
 
     test('thread should use new file path if first created ' +

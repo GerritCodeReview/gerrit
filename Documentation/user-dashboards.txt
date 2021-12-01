@@ -12,7 +12,7 @@ site's `GerritHeader.html` or `GerritFooter.html`.
 
 Dashboards are available via URLs like:
 ----
-  /#/dashboard/?title=Custom+View&To+Review=reviewer:john.doe@example.com&Pending+In+myproject=project:myproject+is:open
+  /dashboard/?title=Custom+View&To+Review=reviewer:john.doe@example.com&Pending+In+myproject=project:myproject+is:open
 ----
 This opens a view showing the title "Custom View" with two sections,
 "To Review" and "Pending in myproject":
@@ -51,7 +51,7 @@ Example custom dashboard using foreach to constrain a dashboard
 to changes for the current user:
 
 ----
-  /#/dashboard/?title=Mine&foreach=owner:self&My+Pending=is:open&My+Merged=is:merged
+  /dashboard/?title=Mine&foreach=owner:self&My+Pending=is:open&My+Merged=is:merged
 ----
 
 

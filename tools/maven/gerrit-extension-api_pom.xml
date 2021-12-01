@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.gerrit</groupId>
   <artifactId>gerrit-extension-api</artifactId>
-  <version>3.5.0-SNAPSHOT</version>
+  <version>3.5.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Gerrit Code Review - Extension API</name>
   <description>API for Gerrit Extensions</description>
@@ -77,6 +77,9 @@
       <name>Patrick Hiesel</name>
     </developer>
     <developer>
+      <name>Patrick Mulhall</name>
+    </developer>
+    <developer>
       <name>Saša Živkov</name>
     </developer>
     <developer>
@@ -84,6 +87,9 @@
     </developer>
     <developer>
       <name>Tao Zhou</name>
+    </developer>
+    <developer>
+      <name>Thomas Dräbing</name>
     </developer>
   </developers>
 

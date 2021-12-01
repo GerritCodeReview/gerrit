@@ -124,6 +124,24 @@
       "parentUuid": "3887998d_0ab42422",
       "revId": "43e4857b3844d4d36a339019cc11a608b740600b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02c41284_990623fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-01T22:09:13Z",
+      "side": 1,
+      "message": "\u003e I would just like to keep the default of v2 off after this series is merged. It seems If264e7fe does that, so LGTM.\n\nIf264e7fe does seem to do that, but the message, docs, and tests are wrong. I commented there and I don\u0027t want this merging until that\u0027s fixed.",
+      "parentUuid": "9fe0394f_51064f73",
+      "revId": "43e4857b3844d4d36a339019cc11a608b740600b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

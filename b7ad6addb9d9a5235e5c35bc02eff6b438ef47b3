@@ -22,6 +22,30 @@
       },
       "revId": "b7ad6addb9d9a5235e5c35bc02eff6b438ef47b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42df1d9d_d4be1caf",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-01T16:16:43Z",
+      "side": 1,
+      "message": "I\u0027m not sure about it but maybe you\u0027re right.\n\nDoes PatchSetApproval mean (I\u0027m not sure about it):\n1) A vote applied to a label by some user at timestamp?\n2) Or, (1) + this vote is also fulfilling a requirement for submission (e.g. label function)? i.e. without it, the change would have been blocked for submission.\n\nIf the former, then any label that exists in a submit record for a merged change should either:\n1) Was applied at the latest patchset.\n2) Or, was copied from a prior PS to the latest PS.\n\nAdditional note: the code in DefaultSubmitRule checks for all approvals at the latest PS (cd.currentApprovals()) and emits a \"MAY\" status for votes that are not max required. This can happen if a label was configured with e.g. ANY_WITH_BLOCK, but that does not prevent us from defining a copying logic to it, then a user voting a non-max vote will still be copied, then merged with submit records. Hence if we see a record for it; we can always assumed it was either on latest PS or copied.\n\n[1] https://gerrit.googlesource.com/gerrit/+/99c51456a6adc76e952fa0ce93dc9b0a5ecaf7e4/java/com/google/gerrit/entities/LabelFunction.java#114",
+      "parentUuid": "65a76f2b_f3814eef",
+      "range": {
+        "startLine": 354,
+        "startChar": 63,
+        "endLine": 354,
+        "endChar": 73
+      },
+      "revId": "b7ad6addb9d9a5235e5c35bc02eff6b438ef47b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

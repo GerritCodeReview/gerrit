@@ -212,6 +212,7 @@ export class GrThreadList extends LitElement {
 
   override willUpdate(changed: PropertyValues) {
     if (changed.has('commentTabState')) this.onCommentTabStateUpdate();
+    if (changed.has('scrollCommentId')) this.onScrollCommentIdUpdate();
   }
 
   private onCommentTabStateUpdate() {
@@ -226,6 +227,14 @@ export class GrThreadList extends LitElement {
         this.handleAllComments();
         break;
     }
+  }
+
+  /**
+   * When user wants to scroll to a comment, render all comments so that the
+   * appropriate comment can be scrolled into view.
+   */
+  private onScrollCommentIdUpdate() {
+    if (this.scrollCommentId) this.handleAllComments();
   }
 
   static override get styles() {

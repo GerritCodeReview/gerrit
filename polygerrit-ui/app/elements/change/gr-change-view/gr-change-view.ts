@@ -880,6 +880,13 @@ export class GrChangeView extends base {
     this._tabState = e.detail.tabState;
   }
 
+  /**
+   * Currently there is a bug in this code where this.unresolvedOnly is only
+   * assigned the correct value when _onPaperTabClick is triggered which is
+   * only triggered when user explicitly clicks on the tab however the comments
+   * tab can also be opened via the url in which case the correct value to
+   * unresolvedOnly is never assigned.
+   */
   _onPaperTabClick(e: MouseEvent) {
     let target = e.target as HTMLElement | null;
     let tabName: string | undefined;
@@ -891,7 +898,8 @@ export class GrChangeView extends base {
     } while (target);
 
     if (tabName === PrimaryTab.COMMENT_THREADS) {
-      // Show unresolved threads by default only if they are present
+      // Show unresolved threads by default
+      // Show resolved threads only if no unresolved threads exist
       const hasUnresolvedThreads =
         (this._commentThreads ?? []).filter(thread => isUnresolved(thread))
           .length > 0;

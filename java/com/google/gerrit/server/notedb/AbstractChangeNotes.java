@@ -37,8 +37,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /** View of contents at a single ref related to some change. * */
 public abstract class AbstractChangeNotes<T> {
@@ -140,6 +138,15 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   public T load() {
+    try (Repository repo = args.repoManager.openRepository(getProjectName())) {
+      load(repo);
+      return self();
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  public T load(Repository repo) {
     if (loaded) {
       return self();
     }
@@ -148,7 +155,6 @@ public abstract class AbstractChangeNotes<T> {
       throw new StorageException("Reading from NoteDb is disabled");
     }
     try (Timer0.Context timer = args.metrics.readLatency.start();
-        Repository repo = args.repoManager.openRepository(getProjectName());
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.
         LoadHandle handle = openHandle(repo, revision)) {
@@ -173,17 +179,16 @@ public abstract class AbstractChangeNotes<T> {
    * <p>Implementations may override this method to provide auto-rebuilding behavior.
    *
    * @param repo open repository.
+   * @param id SHA1 of the entity to read from the repository. The SHA1 is not sanity checked and is
+   *     assumed to be valid. If null, lookup SHA1 from the /meta ref.
    * @return handle for reading the entity.
    * @throws NoSuchChangeException change does not exist.
-   * @throws MissingMetaObjectException specified SHA1 isn't reachable from meta branch.
    * @throws IOException a repo-level error occurred.
    */
   protected LoadHandle openHandle(Repository repo, @Nullable ObjectId id)
-      throws NoSuchChangeException, IOException, MissingMetaObjectException {
+      throws NoSuchChangeException, IOException {
     if (id == null) {
       id = readRef(repo);
-    } else {
-      verifyMetaId(repo, id);
     }
 
     return new LoadHandle(repo, id);
@@ -225,21 +230,5 @@ public abstract class AbstractChangeNotes<T> {
   @SuppressWarnings("unchecked")
   protected final T self() {
     return (T) this;
-  }
-
-  private void verifyMetaId(Repository repo, ObjectId id)
-      throws IOException, MissingMetaObjectException {
-    try (RevWalk rw = new RevWalk(repo)) {
-      Ref ref = repo.getRefDatabase().exactRef(getRefName());
-      RevCommit tip = rw.parseCommit(ref.getObjectId());
-      rw.markStart(tip);
-      for (RevCommit rev : rw) {
-        if (id.equals(rev)) {
-          return;
-        }
-      }
-    }
-
-    throw new MissingMetaObjectException(id.getName() + " not reachable from " + getRefName());
   }
 }

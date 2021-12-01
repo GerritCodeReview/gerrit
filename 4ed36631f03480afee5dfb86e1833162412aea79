@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "227de2b6_1dddd560",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-01T14:25:40Z",
+      "side": 1,
+      "message": "// TODO(TS): Unclear what is model here, provide a better explanation\n\nCan you copy over this very important TODO as well then 😄\nBonus points if you can solve this.",
+      "parentUuid": "fdf61261_5e463aea",
+      "range": {
+        "startLine": 418,
+        "startChar": 25,
+        "endLine": 418,
+        "endChar": 32
+      },
+      "revId": "4ed36631f03480afee5dfb86e1833162412aea79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0376d851_ba7645bc",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
         "patchSetId": 9

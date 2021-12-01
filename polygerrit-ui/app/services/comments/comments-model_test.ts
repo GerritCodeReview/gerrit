@@ -30,10 +30,7 @@ import {
 } from '../../test/test-data-generators';
 import {stubRestApi, waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {getAppContext} from '../app-context';
-import {
-  GerritView,
-  updateState as updateRouterState,
-} from '../router/router-model';
+import {GerritView} from '../router/router-model';
 import {PathToCommentsInfoMap} from '../../types/common';
 
 suite('comments model tests', () => {
@@ -76,6 +73,7 @@ suite('change service tests', () => {
 
   test('loads comments', async () => {
     const model = new CommentsModel(
+      getAppContext().routerModel,
       getAppContext().changeModel,
       getAppContext().restApiService,
       getAppContext().reportingService
@@ -102,7 +100,10 @@ suite('change service tests', () => {
       model.portedComments$.subscribe(c => (portedComments = c ?? {}))
     );
 
-    updateRouterState(GerritView.CHANGE, TEST_NUMERIC_CHANGE_ID);
+    model.routerModel.updateState({
+      view: GerritView.CHANGE,
+      changeNum: TEST_NUMERIC_CHANGE_ID,
+    });
     model.changeModel.updateStateChange(createParsedChange());
 
     await waitUntilCalled(diffCommentsSpy, 'diffCommentsSpy');

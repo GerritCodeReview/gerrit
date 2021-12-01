@@ -53,9 +53,9 @@ import {ChangeInfo, NumericChangeId, PatchSetNumber} from '../../types/common';
 import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
-import {routerPatchNum$} from '../router/router-model';
 import {Execution} from '../../constants/reporting';
 import {fireAlert, fireEvent} from '../../utils/event-util';
+import {RouterModel} from '../router/router-model';
 
 /**
  * The checks model maintains the state of checks for two patchsets: the latest
@@ -322,6 +322,7 @@ export class ChecksModel implements Finalizable {
   );
 
   constructor(
+    readonly routerModel: RouterModel,
     readonly changeModel: ChangeModel,
     readonly reporting: ReportingService
   ) {
@@ -331,14 +332,14 @@ export class ChecksModel implements Finalizable {
         this.checkToPluginMap = map;
       }),
       combineLatest([
-        routerPatchNum$,
+        this.routerModel.routerPatchNum$,
         this.changeModel.latestPatchNum$,
       ]).subscribe(([routerPs, latestPs]) => {
         this.latestPatchNum = latestPs;
         if (latestPs === undefined) {
           this.setPatchset(undefined);
         } else if (typeof routerPs === 'number') {
-          this.setPatchset(routerPs);
+          this.setPatchset(routerPs as PatchSetNumber);
         } else {
           this.setPatchset(latestPs);
         }

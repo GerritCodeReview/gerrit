@@ -46,6 +46,7 @@ suite('checks-model tests', () => {
 
   setup(() => {
     model = new ChecksModel(
+      getAppContext().routerModel,
       getAppContext().changeModel,
       getAppContext().reportingService
     );

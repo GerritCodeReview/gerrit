@@ -32,14 +32,13 @@ import {
   startWith,
   switchMap,
 } from 'rxjs/operators';
-import {routerPatchNum$, routerState$} from '../router/router-model';
+import {RouterModel} from '../router/router-model';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
 import {ParsedChangeInfo} from '../../types/types';
 
-import {routerChangeNum$} from '../router/router-model';
 import {ChangeInfo} from '../../types/common';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {Finalizable} from '../registry';
@@ -118,7 +117,7 @@ export class ChangeModel implements Finalizable {
      * out inconsistent state, e.g. router changeNum already updated, change not
      * yet reset to undefined.
      */
-    combineLatest([routerState$, this.changeState$])
+    combineLatest([this.routerModel.routerState$, this.changeState$])
       .pipe(
         filter(([routerState, changeState]) => {
           const changeNum = changeState.change?._number;
@@ -128,7 +127,7 @@ export class ChangeModel implements Finalizable {
         distinctUntilChanged()
       )
       .pipe(
-        withLatestFrom(routerPatchNum$, this.latestPatchNum$),
+        withLatestFrom(this.routerModel.routerPatchNum$, this.latestPatchNum$),
         map(([_, routerPatchN, latestPatchN]) => routerPatchN || latestPatchN),
         distinctUntilChanged()
       );
@@ -142,9 +141,12 @@ export class ChangeModel implements Finalizable {
     'reload'
   ).pipe(startWith(undefined));
 
-  constructor(readonly restApiService: RestApiService) {
+  constructor(
+    readonly routerModel: RouterModel,
+    readonly restApiService: RestApiService
+  ) {
     this.subscriptions = [
-      combineLatest([routerChangeNum$, this.reload$])
+      combineLatest([this.routerModel.routerChangeNum$, this.reload$])
         .pipe(
           map(([changeNum, _]) => changeNum),
           switchMap(changeNum => {

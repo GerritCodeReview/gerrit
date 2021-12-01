@@ -27,6 +27,7 @@ import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api
 import {GrStorageService} from './storage/gr-storage_impl';
 import {UserModel} from './user/user-model';
 import {CommentsModel} from './comments/comments-model';
+import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {BrowserModel} from './browser/browser-model';
 import {assertIsDefined} from '../utils/common-util';
@@ -37,6 +38,7 @@ import {ConfigModel} from './config/config-model';
  */
 export function createAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
+    routerModel: (_ctx: Partial<AppContext>) => new RouterModel(),
     flagsService: (_ctx: Partial<AppContext>) =>
       new FlagsServiceImplementation(),
     reportingService: (ctx: Partial<AppContext>) => {
@@ -54,28 +56,41 @@ export function createAppContext(): AppContext & Finalizable {
       return new GrRestApiServiceImpl(ctx.authService!, ctx.flagsService!);
     },
     changeModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.restApiService, 'restApiService');
-      return new ChangeModel(ctx.restApiService!);
+      const routerModel = ctx.routerModel;
+      const restApiService = ctx.restApiService;
+      assertIsDefined(routerModel, 'routerModel');
+      assertIsDefined(restApiService, 'restApiService');
+      return new ChangeModel(routerModel, restApiService);
     },
     commentsModel: (ctx: Partial<AppContext>) => {
+      const routerModel = ctx.routerModel;
       const changeModel = ctx.changeModel;
       const restApiService = ctx.restApiService;
-      const reporting = ctx.reportingService;
+      const reportingService = ctx.reportingService;
+      assertIsDefined(routerModel, 'routerModel');
       assertIsDefined(changeModel, 'changeModel');
       assertIsDefined(restApiService, 'restApiService');
-      assertIsDefined(reporting, 'reportingService');
-      return new CommentsModel(changeModel, restApiService, reporting);
+      assertIsDefined(reportingService, 'reportingService');
+      return new CommentsModel(
+        routerModel,
+        changeModel,
+        restApiService,
+        reportingService
+      );
     },
     checksModel: (ctx: Partial<AppContext>) => {
+      const routerModel = ctx.routerModel;
       const changeModel = ctx.changeModel;
-      const reporting = ctx.reportingService;
+      const reportingService = ctx.reportingService;
+      assertIsDefined(routerModel, 'routerModel');
       assertIsDefined(changeModel, 'changeModel');
-      assertIsDefined(reporting, 'reportingService');
-      return new ChecksModel(changeModel, reporting);
+      assertIsDefined(reportingService, 'reportingService');
+      return new ChecksModel(routerModel, changeModel, reportingService);
     },
     jsApiService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.reportingService, 'reportingService');
-      return new GrJsApiInterface(ctx.reportingService!);
+      const reportingService = ctx.reportingService;
+      assertIsDefined(reportingService, 'reportingService');
+      return new GrJsApiInterface(reportingService!);
     },
     storageService: (_ctx: Partial<AppContext>) => new GrStorageService(),
     configModel: (ctx: Partial<AppContext>) => {

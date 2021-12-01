@@ -46,6 +46,30 @@
       },
       "revId": "b7ad6addb9d9a5235e5c35bc02eff6b438ef47b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dc6fafa_e9d8c20c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-01T16:30:42Z",
+      "side": 1,
+      "message": "Thanks for checking.\n\nPatchSetApproval is: 1) A vote applied to a label by some user at timestamp?\n+ on a certain patch set.\n\nSo you are saying if a label is configured as ANY_WITH_BLOCK and on submit there was no vote for the label, we do not write a submit record with MAY, but such a submit record is only written if a corresponding approval is actually present of the latest patch set (either directly applied there or copied)?\n\nIn this case I agree that it\u0027s correct to allow MAY here.",
+      "parentUuid": "42df1d9d_d4be1caf",
+      "range": {
+        "startLine": 354,
+        "startChar": 63,
+        "endLine": 354,
+        "endChar": 73
+      },
+      "revId": "b7ad6addb9d9a5235e5c35bc02eff6b438ef47b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

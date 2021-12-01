@@ -39,6 +39,7 @@ import {
 } from '../../../test/test-data-generators';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {SinonStub} from 'sinon';
+import {waitUntil} from '@open-wc/testing-helpers';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
 
@@ -268,6 +269,32 @@ suite('gr-comment-thread tests', () => {
       assert.isUndefined(element.unsavedComment);
       tap(queryAndAssert(element, '#quoteBtn'));
       assert.equal(element.unsavedComment?.message?.trim(), `> ${c2.message}`);
+    });
+  });
+
+  suite.only('self removal when empty thread changed to editing:false', () => {
+    let threadEl: GrCommentThread;
+
+    setup(async () => {
+      threadEl = basicFixture.instantiate();
+      threadEl.thread = createThread();
+    });
+
+    test('new thread el normally has a parent and an unsaved comment', async () => {
+      await waitUntil(() => threadEl.editing);
+      assert.isOk(threadEl.unsavedComment);
+      assert.isOk(threadEl.parentElement);
+    });
+
+    test('thread el removed after clicking CANCEL', async () => {
+      await waitUntil(() => threadEl.editing);
+
+      const commentEl = queryAndAssert(threadEl, 'gr-comment');
+      const buttonEl = queryAndAssert(commentEl, 'gr-button.cancel');
+      tap(buttonEl);
+
+      await waitUntil(() => !threadEl.editing);
+      assert.isNotOk(threadEl.parentElement);
     });
   });
 

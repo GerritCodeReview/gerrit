@@ -33,8 +33,6 @@ import {
   createCommentThreads,
   isInPatchRange,
   isDraftThread,
-  isInBaseOfPatchRange,
-  isInRevisionOfPatchRange,
   isPatchsetLevel,
   addPath,
 } from '../../../utils/comment-util';
@@ -338,20 +336,8 @@ export class ChangeComments {
         comment => comment.id === portedComment.id
       )!;
 
-      if (
-        (originalComment.line && !portedComment.line) ||
-        (originalComment.range && !portedComment.range)
-      ) {
-        thread.rangeInfoLost = true;
-      }
-
-      if (
-        isInBaseOfPatchRange(thread.comments[0], patchRange) ||
-        isInRevisionOfPatchRange(thread.comments[0], patchRange)
-      ) {
-        // no need to port this thread as it will be rendered by default
-        return false;
-      }
+      // Original comment shown anyway? No need to port.
+      if (isInPatchRange(originalComment, patchRange)) return false;
 
       if (thread.commentSide === CommentSide.PARENT) {
         // TODO(dhruvsri): Add handling for merge parents
@@ -364,6 +350,17 @@ export class ChangeComments {
 
       if (!isUnresolved(thread) && !isDraftThread(thread)) return false;
 
+      if (
+        (originalComment.line && !portedComment.line) ||
+        (originalComment.range && !portedComment.range)
+      ) {
+        thread.rangeInfoLost = true;
+      }
+      // TODO: It probably makes more sense to set the patch_set in
+      // portedComment either in the backend or in the RestApi layer. Then we
+      // could check `!isInPatchRange(portedComment, patchRange)` and then set
+      // thread.patchNum = portedComment.patch_set;
+      thread.patchNum = patchRange.patchNum;
       thread.range = portedComment.range;
       thread.line = portedComment.line;
       thread.ported = true;

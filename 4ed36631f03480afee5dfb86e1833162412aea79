@@ -115,6 +115,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "677cfa80_f1154259",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-01T14:36:38Z",
+      "side": 1,
+      "message": "Can you figure out a way to pass this information in the handleRuleChange method instead of relying on e.model property?\nI think it\u0027s just sending the index that is being modified.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/324777/9/polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts#557",
+      "parentUuid": "5b804713_6e189e99",
+      "range": {
+        "startLine": 418,
+        "startChar": 25,
+        "endLine": 418,
+        "endChar": 32
+      },
+      "revId": "4ed36631f03480afee5dfb86e1833162412aea79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0376d851_ba7645bc",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
         "patchSetId": 9

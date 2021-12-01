@@ -188,6 +188,10 @@ export interface CommentThread {
    * thread only contains an unsaved draft.
    */
   rootId?: UrlEncodedCommentId;
+  /**
+   * Note that all location information is typically identical to that of the
+   * first comment, but not for ported comments!
+   */
   path: string;
   commentSide: CommentSide;
   /* mergeParentNum is the merge parent number only valid for merge commits
@@ -201,8 +205,17 @@ export interface CommentThread {
      FILE comments. */
   line?: LineNumber;
   range?: CommentRange;
-  ported?: boolean; // is the comment ported over from a previous patchset
-  rangeInfoLost?: boolean; // if BE was unable to determine a range for this
+  /**
+   * Was the thread ported over from its original location to a newer patchset?
+   * If yes, then the location information above contains the ported location,
+   * but the comments still have the original location set.
+   */
+  ported?: boolean;
+  /**
+   * Only relevant when ported:true. Means that no ported range could be
+   * computed. `line` and `range` can be undefined then.
+   */
+  rangeInfoLost?: boolean;
 }
 
 export function equalLocation(t1?: CommentThread, t2?: CommentThread) {

@@ -70,6 +70,30 @@
       },
       "revId": "b7ad6addb9d9a5235e5c35bc02eff6b438ef47b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7584cb7d_0024b5ba",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-01T16:40:49Z",
+      "side": 1,
+      "message": "Yes, the code suggests so.",
+      "parentUuid": "7dc6fafa_e9d8c20c",
+      "range": {
+        "startLine": 354,
+        "startChar": 63,
+        "endLine": 354,
+        "endChar": 73
+      },
+      "revId": "b7ad6addb9d9a5235e5c35bc02eff6b438ef47b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

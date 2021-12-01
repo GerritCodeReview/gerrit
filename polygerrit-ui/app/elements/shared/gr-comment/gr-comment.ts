@@ -528,7 +528,7 @@ export class GrComment extends LitElement {
     return html`
       <a href="${this.getUrlForComment()}">
         <span class="portedMessage" @click="${this.handlePortedMessageClick}">
-          From patchset ${this.comment?.patch_set}]]
+          From patchset ${this.comment?.patch_set}
         </span>
       </a>
     `;

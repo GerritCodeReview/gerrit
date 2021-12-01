@@ -88,7 +88,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
             </div>
           </div>
         </div>
-        <div class="showConditions">
+        <div class="button">
           <gr-button
             aria-disabled="false"
             id="toggleConditionsButton"
@@ -149,7 +149,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
             </div>
           </div>
         </div>
-        <div class="showConditions">
+        <div class="button">
           <gr-button
             aria-disabled="false"
             id="toggleConditionsButton"
@@ -264,7 +264,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
           Test Description
           </div>
         </div>
-        <div class="showConditions">
+        <div class="button">
           <gr-button
             aria-disabled="false"
             id="toggleConditionsButton"

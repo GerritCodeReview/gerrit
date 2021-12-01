@@ -19,12 +19,15 @@ import '../../shared/gr-label-info/gr-label-info';
 import {customElement, property} from 'lit/decorators';
 import {
   AccountInfo,
+  ChangeStatus,
+  isDetailedLabelInfo,
   SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
 } from '../../../api/rest-api';
 import {
   canVote,
   extractAssociatedLabels,
+  getApprovalInfo,
   hasVotes,
   iconForStatus,
 } from '../../../utils/label-util';
@@ -32,6 +35,12 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {css, html, LitElement} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {DraftsAction} from '../../../constants/constants';
+import {ReviewInput} from '../../../types/common';
+import {getAppContext} from '../../../services/app-context';
+import {assertIsDefined} from '../../../utils/common-util';
+import {CURRENT} from '../../../utils/patch-set-util';
+import {fireReload} from '../../../utils/event-util';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -52,6 +61,8 @@ export class GrSubmitRequirementHovercard extends base {
 
   @property({type: Boolean})
   expanded = false;
+
+  private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
     return [
@@ -103,7 +114,7 @@ export class GrSubmitRequirementHovercard extends base {
           padding: var(--spacing-m);
           flex-grow: 1;
         }
-        .showConditions ~ .condition {
+        .button ~ .condition {
           margin-top: var(--spacing-m);
         }
         .expression {
@@ -116,10 +127,10 @@ export class GrSubmitRequirementHovercard extends base {
         iron-icon.close {
           color: var(--error-foreground);
         }
-        .showConditions iron-icon {
+        .button iron-icon {
           color: inherit;
         }
-        div.showConditions {
+        div.button {
           border-top: 1px solid var(--border-color);
           margin-top: var(--spacing-m);
           padding: var(--spacing-m) var(--spacing-xl) 0;
@@ -158,6 +169,7 @@ export class GrSubmitRequirementHovercard extends base {
       </div>
       ${this.renderLabelSection()}${this.renderDescription()}
       ${this.renderShowHideConditionButton()}${this.renderConditionSection()}
+      ${this.renderVotingButtons()}
     </div>`;
   }
 
@@ -216,7 +228,7 @@ export class GrSubmitRequirementHovercard extends base {
     const buttonText = this.expanded ? 'Hide conditions' : 'View conditions';
     const icon = this.expanded ? 'expand-less' : 'expand-more';
 
-    return html` <div class="showConditions">
+    return html` <div class="button">
       <gr-button
         link=""
         id="toggleConditionsButton"
@@ -226,6 +238,56 @@ export class GrSubmitRequirementHovercard extends base {
         <iron-icon icon="gr-icons:${icon}"></iron-icon
       ></gr-button>
     </div>`;
+  }
+
+  private renderVotingButtons() {
+    if (!this.requirement) return;
+    if (!this.account) return;
+    if (this.change?.status === ChangeStatus.MERGED) return;
+
+    const submittabilityLabels = extractAssociatedLabels(
+      this.requirement,
+      'onlySubmittability'
+    );
+    return submittabilityLabels.map(labelName =>
+      this.renderLabelVote(labelName)
+    );
+  }
+
+  private renderLabelVote(labelName: string) {
+    const labels = this.change?.labels ?? {};
+    const labelInfo = labels[labelName];
+    if (!labelInfo || !isDetailedLabelInfo(labelInfo)) return;
+    if (!this.account || !canVote(labelInfo, this.account)) return;
+
+    const approvalInfo = getApprovalInfo(labelInfo, this.account);
+    const maxVote = approvalInfo?.permitted_voting_range?.max;
+    if (!maxVote || maxVote <= 0) return;
+    if (approvalInfo?.value === maxVote) return; // Already voted maxVote
+
+    return html` <div class="button">
+      <gr-button
+        link=""
+        @click="${(_: MouseEvent) => this.quickApprove(labelName, maxVote)}"
+      >
+        Vote ${labelName} +${maxVote}
+      </gr-button>
+    </div>`;
+  }
+
+  private quickApprove(label: string, score: number) {
+    assertIsDefined(this.change, 'change');
+    const review: ReviewInput = {
+      drafts: DraftsAction.PUBLISH_ALL_REVISIONS,
+      labels: {
+        [label]: score,
+      },
+    };
+    return this.restApiService
+      .saveChangeReview(this.change._number, CURRENT, review)
+      .then(() => {
+        fireReload(this, true);
+      });
   }
 
   private renderConditionSection() {

@@ -64,6 +64,35 @@ export interface GrDiffBuilderElement {
   };
 }
 
+export function getLineNumberCellWidth(prefs: DiffPreferencesInfo) {
+  return prefs.font_size * 4;
+}
+
+function annotateSymbols(
+  contentEl: HTMLElement,
+  line: GrDiffLine,
+  separator: string | RegExp,
+  className: string
+) {
+  const split = line.text.split(separator);
+  if (!split || split.length < 2) {
+    return;
+  }
+  for (let i = 0, pos = 0; i < split.length - 1; i++) {
+    // Skip forward by the length of the content
+    pos += split[i].length;
+
+    GrAnnotation.annotateElement(
+      contentEl,
+      pos,
+      1,
+      `style-scope gr-diff ${className}`
+    );
+
+    pos++;
+  }
+}
+
 @customElement('gr-diff-builder')
 export class GrDiffBuilderElement extends PolymerElement {
   static get template() {
@@ -467,24 +496,23 @@ export class GrDiffBuilderElement extends PolymerElement {
         }
 
         // Find and annotate the locations of tabs.
-        const split = line.text.split('\t');
-        if (!split) {
-          return;
-        }
-        for (let i = 0, pos = 0; i < split.length - 1; i++) {
-          // Skip forward by the length of the content
-          pos += split[i].length;
+        annotateSymbols(contentEl, line, '\t', 'tab-indicator');
+      },
+    };
+  }
 
-          GrAnnotation.annotateElement(
-            contentEl,
-            pos,
-            1,
-            'style-scope gr-diff tab-indicator'
-          );
-
-          // Skip forward by one tab character.
-          pos++;
-        }
+  _createSpecialCharacterIndicatorLayer(): DiffLayer {
+    return {
+      annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
+        // Find and annotate the locations of soft hyphen (\u00AD)
+        annotateSymbols(contentEl, line, '\u00AD', 'special-char-indicator');
+        // Find and annotate Stateful Unicode directional controls
+        annotateSymbols(
+          contentEl,
+          line,
+          /[\u202A-\u202E\u2066-\u2069]/,
+          'special-char-warning'
+        );
       },
     };
   }

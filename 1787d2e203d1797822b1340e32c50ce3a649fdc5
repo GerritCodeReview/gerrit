@@ -69,6 +69,30 @@
       },
       "revId": "1787d2e203d1797822b1340e32c50ce3a649fdc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c5ac334_58930f0a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-01T12:35:14Z",
+      "side": 1,
+      "message": "A tiny dot on my screen made the n look like a \"h\".\n:(",
+      "parentUuid": "4a918fa3_b7c4153d",
+      "range": {
+        "startLine": 757,
+        "startChar": 19,
+        "endLine": 757,
+        "endChar": 26
+      },
+      "revId": "1787d2e203d1797822b1340e32c50ce3a649fdc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

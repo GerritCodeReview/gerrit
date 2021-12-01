@@ -35,6 +35,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eed088ad_a1a18595",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T16:28:17Z",
+      "side": 1,
+      "message": "Fixed by https://gerrit-review.googlesource.com/c/gerrit/+/325237/1",
+      "parentUuid": "59500ec1_3575cafb",
+      "revId": "343ce5bed65d129841d84e72494f507214e79a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c536db5_0f2a448d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T16:28:17Z",
+      "side": 1,
+      "message": "Fixed by https://gerrit-review.googlesource.com/c/gerrit/+/325237/1",
+      "parentUuid": "25f5dab4_a74ac3ad",
+      "revId": "343ce5bed65d129841d84e72494f507214e79a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b5a3fed_c99759b9",
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc2152ec_635d2fb1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T16:28:17Z",
+      "side": 1,
+      "message": "Yes, collision possible. Not a big, but added a TODO and will follow up.",
+      "parentUuid": "7b5a3fed_c99759b9",
+      "range": {
+        "startLine": 758,
+        "startChar": 9,
+        "endLine": 759,
+        "endChar": 19
+      },
+      "revId": "343ce5bed65d129841d84e72494f507214e79a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cfff386_973316b7",
@@ -71,6 +131,30 @@
       "writtenOn": "2021-12-01T12:32:15Z",
       "side": 1,
       "message": "test for this situation",
+      "range": {
+        "startLine": 760,
+        "startChar": 6,
+        "endLine": 766,
+        "endChar": 9
+      },
+      "revId": "343ce5bed65d129841d84e72494f507214e79a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4c074e3_c81be995",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-01T16:28:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cfff386_973316b7",
       "range": {
         "startLine": 760,
         "startChar": 6,

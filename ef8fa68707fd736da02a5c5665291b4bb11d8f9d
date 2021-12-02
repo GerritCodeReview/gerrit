@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d357205f_1509d0f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-02T11:18:26Z",
+      "side": 1,
+      "message": "Yes, this was outdated. We submitted parts of this change already (adding a new \u0027issubmittable\u0027 index field) with change https://gerrit-review.googlesource.com/c/gerrit/+/324552 and I forgot to update the commit message here.\n\nDone.",
+      "parentUuid": "807f7ffe_9189ad71",
+      "range": {
+        "startLine": 10,
+        "startChar": 3,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "ef8fa68707fd736da02a5c5665291b4bb11d8f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ada6f7b_3c431e33",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17c0b23f_012c0208",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-02T11:18:26Z",
+      "side": 1,
+      "message": "We already added the field with change https://gerrit-review.googlesource.com/c/gerrit/+/324552.\n\nI think the reason was that, in ChangeQueryBuilder we return a predicate (fieldName, Value) that is matched against the index docs. Previously we had:\nis:submittable \u003d (Field.SubmitRecord, OK) \n            AND !(Field.SubmitRecord, NOT_READY)\n            AND !(Field.SubmitRecord, RULE_ERROR)\n\nThe predicate is transformed to a query that can run against the index backend (example for Lucene in [1]). The conversion is based on the field name and value.\n\nFor submit requirements, we define them as a stored field, so we can\u0027t use them to query the index (AFAIU). So the alternative would be to add another non-stored field for submit_requirement and query them with the same way we do for submit records:\nis:submittable \u003d (Field.SubmitRequirement, SATISFIED) OR (.. OVERRIDDEN) ..\n            AND !(Field.SubmitRequirement, UNSATISFIED), etc...\n\nI found it easier though to have a issubmittable field {0, 1} instead.\n\nBack to your question: we haven\u0027t added a change to allow querying changes with a submit requirement status, but we can add that in a later change.\n\n[1] https://gerrit.googlesource.com/gerrit/+/80014c4c73ab6821dd6bad33a08ffbd1d647cabb/java/com/google/gerrit/lucene/LuceneChangeIndex.java#310",
+      "parentUuid": "1ada6f7b_3c431e33",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "ef8fa68707fd736da02a5c5665291b4bb11d8f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d63b7a40_d1047bba",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-12-01T11:31:24Z",
       "side": 1,
       "message": "This change doesn\u0027t seem to contain a deletion of this class?",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "ef8fa68707fd736da02a5c5665291b4bb11d8f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d0cd6fb_c0dd6e58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-02T11:18:26Z",
+      "side": 1,
+      "message": "This was outdated. I updated the commit message.",
+      "parentUuid": "d63b7a40_d1047bba",
       "range": {
         "startLine": 16,
         "startChar": 2,

@@ -16,6 +16,24 @@
       "message": "What does fireReload do?",
       "revId": "371fc2ef8430f35a24fbb61620513a6661f358e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36c6e4ac_eed021b6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1316,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-02T14:16:43Z",
+      "side": 1,
+      "message": "It fires a \u0027reload\u0027 event. :-)\n\nBoth, the change-view and the change-model pick this up.",
+      "parentUuid": "d9b995eb_f1aae96a",
+      "revId": "371fc2ef8430f35a24fbb61620513a6661f358e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

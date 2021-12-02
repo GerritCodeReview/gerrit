@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import java.util.HashMap;
@@ -45,7 +46,9 @@ public class SubmitRequirementsUtil {
    */
   public static Map<SubmitRequirement, SubmitRequirementResult> mergeLegacyAndNonLegacyRequirements(
       Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements,
-      Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements) {
+      Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements,
+      Project.NameKey project,
+      SubmitRequirementsEvaluatorImpl.Metrics metrics) {
     Map<SubmitRequirement, SubmitRequirementResult> result = new HashMap<>();
     result.putAll(projectConfigRequirements);
     Map<String, SubmitRequirementResult> requirementsByName =
@@ -53,12 +56,14 @@ public class SubmitRequirementsUtil {
             .collect(Collectors.toMap(sr -> sr.getKey().name().toLowerCase(), sr -> sr.getValue()));
     for (Map.Entry<SubmitRequirement, SubmitRequirementResult> legacy :
         legacyRequirements.entrySet()) {
-      String name = legacy.getKey().name().toLowerCase();
-      SubmitRequirementResult projectConfigResult = requirementsByName.get(name);
+      String srName = legacy.getKey().name().toLowerCase();
+      SubmitRequirementResult projectConfigResult = requirementsByName.get(srName);
       SubmitRequirementResult legacyResult = legacy.getValue();
       if (projectConfigResult != null && matchByStatus(projectConfigResult, legacyResult)) {
+        metrics.submitRequirementsMatchingWithLegacy.increment(project.get(), srName);
         continue;
       }
+      metrics.submitRequirementsMismatchingWithLegacy.increment(project.get(), srName);
       result.put(legacy.getKey(), legacy.getValue());
     }
     return result;

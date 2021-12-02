@@ -25,6 +25,11 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateRes
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.metrics.Counter2;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
@@ -33,6 +38,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
+import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -45,6 +51,45 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final Provider<SubmitRequirementChangeQueryBuilder> queryBuilder;
   private final ProjectCache projectCache;
   private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
+  private final Metrics metrics;
+
+  @Singleton
+  static class Metrics {
+    final Counter2 submitRequirementsMatchingWithLegacy;
+    final Counter2 submitRequirementsMismatchingWithLegacy;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      submitRequirementsMatchingWithLegacy =
+          metricMaker.newCounter(
+              "change/submit_requirements/matching_with_legacy",
+              new Description(
+                      "Total number of times there was a legacy and non-legacy "
+                          + "submit requirements with the same name for a change, "
+                          + "and the evaluation of both requirements had the same result "
+                          + "w.r.t. change submittability.")
+                  .setRate()
+                  .setUnit("count"),
+              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofString("srName", Metadata.Builder::submitRequirementName)
+                  .description("Submit requirement name")
+                  .build());
+      submitRequirementsMismatchingWithLegacy =
+          metricMaker.newCounter(
+              "change/submit_requirements/mismatching_with_legacy",
+              new Description(
+                      "Total number of times there was a legacy and non-legacy "
+                          + "submit requirements with the same name for a change, "
+                          + "and the evaluation of both requirements had different result "
+                          + "w.r.t. change submittability.")
+                  .setRate()
+                  .setUnit("count"),
+              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofString("srName", Metadata.Builder::indexName)
+                  .description("Submit requirement name")
+                  .build());
+    }
+  }
 
   public static Module module() {
     return new AbstractModule() {
@@ -61,10 +106,12 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private SubmitRequirementsEvaluatorImpl(
       Provider<SubmitRequirementChangeQueryBuilder> queryBuilder,
       ProjectCache projectCache,
-      PluginSetContext<SubmitRequirement> globalSubmitRequirements) {
+      PluginSetContext<SubmitRequirement> globalSubmitRequirements,
+      Metrics metrics) {
     this.queryBuilder = queryBuilder;
     this.projectCache = projectCache;
     this.globalSubmitRequirements = globalSubmitRequirements;
+    this.metrics = metrics;
   }
 
   @Override
@@ -83,7 +130,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
           SubmitRequirementsAdapter.getLegacyRequirements(cd);
       result =
           SubmitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
-              projectConfigRequirements, legacyReqs);
+              projectConfigRequirements, legacyReqs, cd.project(), metrics);
     }
     return ImmutableMap.copyOf(result);
   }

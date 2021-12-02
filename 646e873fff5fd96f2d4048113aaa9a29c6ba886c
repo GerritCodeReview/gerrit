@@ -135,6 +135,30 @@
       },
       "revId": "646e873fff5fd96f2d4048113aaa9a29c6ba886c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df6e1aa4_e5db584e",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-02T19:34:44Z",
+      "side": 1,
+      "message": "\u003e \u003e side-note: it isn\u0027t useful though when creating a new Gerrit site, isn\u0027t it?\n\u003e No, of course, not. We should probably figure out how to eliminate it then.\n\nDone in https://gerrit-review.googlesource.com/c/gerrit/+/325299",
+      "parentUuid": "49a5d904_550a7443",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 5
+      },
+      "revId": "646e873fff5fd96f2d4048113aaa9a29c6ba886c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb25f34a_e201bbf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-12-02T16:22:31Z",
+      "side": 1,
+      "message": "😜",
+      "revId": "68fbc1854cdeeabc9166e4926d303bb7e632cfa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9494a698_a08c147c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-12-02T16:22:31Z",
+      "side": 1,
+      "message": "this is ALL WRONG!!!!111!!!",
+      "revId": "68fbc1854cdeeabc9166e4926d303bb7e632cfa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

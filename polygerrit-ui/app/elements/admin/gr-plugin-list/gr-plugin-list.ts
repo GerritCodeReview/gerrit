@@ -58,6 +58,8 @@ export class GrPluginList extends LitElement {
 
   @state() private filter = '';
 
+  @state() private stopFilter = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
@@ -81,6 +83,7 @@ export class GrPluginList extends LitElement {
     return html`
       <gr-list-view
         .filter=${this.filter}
+        .stopFilter=${this.stopFilter}
         .itemsPerPage=${this.pluginsPerPage}
         .items=${this.plugins}
         .loading=${this.loading}
@@ -130,7 +133,11 @@ export class GrPluginList extends LitElement {
       <tr class="table">
         <td class="name">
           ${plugin.index_url
-            ? html`<a href=${this.computePluginUrl(plugin.index_url)}
+            ? html`<a
+                href="${this.computePluginUrl(plugin.index_url)}"
+                @click=${() => {
+                  this.handleUrlClick();
+                }}
                 >${plugin.id}</a
               >`
             : plugin.id}
@@ -189,6 +196,13 @@ export class GrPluginList extends LitElement {
 
   private computePluginUrl(id: string) {
     return getBaseUrl() + '/' + encodeURL(id, true);
+  }
+
+  // Work around an issue with gr-list-view where when you
+  // typed in a filter and then clicked on the link,
+  // it would take you back to gr-list-view.
+  private handleUrlClick() {
+    this.stopFilter = true;
   }
 }
 

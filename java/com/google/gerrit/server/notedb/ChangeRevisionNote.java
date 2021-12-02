@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import java.io.ByteArrayInputStream;
@@ -33,13 +34,13 @@ import org.eclipse.jgit.util.MutableInteger;
 /** Implements the parsing of comment data, handling JSON decoding and push certificates. */
 class ChangeRevisionNote extends RevisionNote<HumanComment> {
   private final ChangeNoteJson noteJson;
-  private final HumanComment.Status status;
+  private final Comment.Status status;
   private String pushCert;
 
   private ImmutableList<SubmitRequirementResult> submitRequirementsResult;
 
   ChangeRevisionNote(
-      ChangeNoteJson noteJson, ObjectReader reader, ObjectId noteId, HumanComment.Status status) {
+      ChangeNoteJson noteJson, ObjectReader reader, ObjectId noteId, Comment.Status status) {
     super(reader, noteId);
     this.noteJson = noteJson;
     this.status = status;

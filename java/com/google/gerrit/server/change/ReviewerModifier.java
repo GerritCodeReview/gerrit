@@ -648,7 +648,7 @@ public class ReviewerModifier {
     }
 
     public <T> ImmutableSet<T> flattenResults(
-        Function<AddReviewersOp.Result, ? extends Collection<T>> func) {
+        Function<ReviewerOp.Result, ? extends Collection<T>> func) {
       modifications()
           .forEach(
               a ->

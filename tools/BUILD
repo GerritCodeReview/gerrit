@@ -327,7 +327,7 @@ java_package_configuration(
         "-Xep:NestedInstanceOfConditions:ERROR",
         "-Xep:NonAtomicVolatileUpdate:ERROR",
         "-Xep:NonCanonicalStaticImport:ERROR",
-        # "-Xep:NonCanonicalType:WARN",
+        "-Xep:NonCanonicalType:ERROR",
         "-Xep:NonFinalCompileTimeConstant:ERROR",
         "-Xep:NonOverridingEquals:ERROR",
         "-Xep:NonRuntimeAnnotation:ERROR",

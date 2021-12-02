@@ -236,11 +236,25 @@ export class GrAutocomplete extends PolymerElement {
 
   _handleItemSelect(e: CustomEvent) {
     // Let _handleKeydown deal with keyboard interaction.
-    if (e.detail.trigger !== 'click') {
-      return;
+    if (e.detail.trigger === 'click') {
+      this._selected = e.detail.selected;
+      this._commit();
+      e.stopPropagation();
+      e.preventDefault();
+    } else if (e.detail.trigger === 'enter') {
+      this._handleInputCommit();
+      e.stopPropagation();
+      e.preventDefault();
+    } else if (e.detail.trigger === 'tab') {
+      if (this.tabComplete){
+        this._handleInputCommit(true);
+        e.stopPropagation();
+        e.preventDefault();
+        this.focus();
+      } else {
+        this._focused = false;
+      }
     }
-    this._selected = e.detail.selected;
-    this._commit();
   }
 
   get _inputElement() {
@@ -351,8 +365,7 @@ export class GrAutocomplete extends PolymerElement {
   }
 
   /**
-   * _handleKeydown used for key handling in the this.$.input AND all child
-   * autocomplete options.
+   * _handleKeydown used for key handling in the this.$.input.
    */
   _handleKeydown(e: KeyboardEvent) {
     this._focused = true;

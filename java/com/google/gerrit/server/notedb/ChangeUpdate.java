@@ -322,7 +322,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     submitRequirementResults.addAll(rs);
   }
 
-  public void putComment(HumanComment.Status status, HumanComment c) {
+  public void putComment(Comment.Status status, HumanComment c) {
     verifyComment(c);
     createDraftUpdateIfNull();
     if (status == HumanComment.Status.DRAFT) {

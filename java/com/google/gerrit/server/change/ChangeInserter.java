@@ -497,15 +497,15 @@ public class ChangeInserter implements InsertChangeOp {
                 emailSender.setPatchSet(patchSet, patchSetInfo);
                 emailSender.setNotify(notify);
                 emailSender.addReviewers(
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
+                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewers).stream()
                         .map(PatchSetApproval::accountId)
                         .collect(toImmutableSet()));
                 emailSender.addReviewersByEmail(
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewersByEmail));
+                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewersByEmail));
                 emailSender.addExtraCC(
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs));
+                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCs));
                 emailSender.addExtraCCByEmail(
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCsByEmail));
+                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCsByEmail));
                 emailSender.setMessageId(
                     messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
                 emailSender.send();

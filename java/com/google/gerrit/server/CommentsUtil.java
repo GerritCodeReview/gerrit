@@ -338,7 +338,7 @@ public class CommentsUtil {
   }
 
   public void putHumanComments(
-      ChangeUpdate update, HumanComment.Status status, Iterable<HumanComment> comments) {
+      ChangeUpdate update, Comment.Status status, Iterable<HumanComment> comments) {
     for (HumanComment c : comments) {
       update.putComment(status, c);
     }

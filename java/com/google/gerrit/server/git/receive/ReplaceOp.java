@@ -48,13 +48,13 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.approval.ApprovalsUtil;
-import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerModifier;
 import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
+import com.google.gerrit.server.change.ReviewerOp;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -532,13 +532,13 @@ public class ReplaceOp implements BatchUpdateOp {
         emailSender.addReviewers(
             Streams.concat(
                     oldRecipients.getReviewers().stream(),
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
+                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewers).stream()
                         .map(PatchSetApproval::accountId))
                 .collect(toImmutableSet()));
         emailSender.addExtraCC(
             Streams.concat(
                     oldRecipients.getCcOnly().stream(),
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs).stream())
+                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCs).stream())
                 .collect(toImmutableSet()));
         emailSender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSetId));

@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.change;
 
 import com.google.gerrit.index.query.OperatorPredicate;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -25,7 +26,7 @@ import org.junit.Ignore;
 public class FakeQueryBuilder extends ChangeQueryBuilder {
   FakeQueryBuilder(ChangeIndexCollection indexes) {
     super(
-        new ChangeQueryBuilder.Definition<>(FakeQueryBuilder.class),
+        new QueryBuilder.Definition<>(FakeQueryBuilder.class),
         new ChangeQueryBuilder.Arguments(
             null,
             null,

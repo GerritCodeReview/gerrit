@@ -16,6 +16,24 @@
       "message": "Duplicates, see line 520.",
       "revId": "e6bf8c1a2fd53978561454137f8885cb831e8b57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f4c7d5b_db2baa8a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1064086
+      },
+      "writtenOn": "2021-12-02T17:29:42Z",
+      "side": 1,
+      "message": "Thanks for pointing that out!",
+      "parentUuid": "60cca283_45de469e",
+      "revId": "e6bf8c1a2fd53978561454137f8885cb831e8b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

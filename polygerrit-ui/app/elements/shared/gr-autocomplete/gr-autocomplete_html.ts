@@ -113,7 +113,6 @@ export const htmlTemplate = html`
     horizontal-align="left"
     id="suggestions"
     on-item-selected="_handleItemSelect"
-    on-keydown="_handleKeydown"
     suggestions="[[_suggestions]]"
     role="listbox"
     index="[[_index]]"

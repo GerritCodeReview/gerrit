@@ -1413,6 +1413,23 @@ suite('gr-change-view tests', () => {
     assert.isFalse(collapseStub.calledTwice);
   });
 
+  test('forceReload updates the change', async () => {
+    const getChangeStub = stubRestApi('getChangeDetail').returns(
+      Promise.resolve(createParsedChange())
+    );
+    const loadDataStub = sinon
+      .stub(element, 'loadData')
+      .callsFake(() => Promise.resolve());
+    const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
+    element.params = {...createAppElementChangeViewParams(), forceReload: true};
+    await flush();
+    assert.isTrue(getChangeStub.called);
+    assert.isTrue(loadDataStub.called);
+    assert.isTrue(collapseStub.called);
+    // patchNum is set by changeChanged, so this verifies that _change was set.
+    assert.isOk(element._patchRange?.patchNum);
+  });
+
   test('do not handle new change numbers', async () => {
     const recreateSpy = sinon.spy();
     element.addEventListener('recreate-change-view', recreateSpy);

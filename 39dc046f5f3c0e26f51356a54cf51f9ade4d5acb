@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22a63a62_a550384f",
+        "filename": "java/com/google/gerrit/entities/PatchSetInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-12-02T08:55:06Z",
+      "side": 1,
+      "message": "Doesn\u0027t GSON require public fields?",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 9
+      },
+      "revId": "39dc046f5f3c0e26f51356a54cf51f9ade4d5acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

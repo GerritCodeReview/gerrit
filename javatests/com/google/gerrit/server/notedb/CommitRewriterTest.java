@@ -49,8 +49,10 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
@@ -261,6 +263,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
       Ref metaRefBeforeRewrite = repo.exactRef(refName);
       expectedSkippedRefsToOldMetaBuilder.put(refName, metaRefBeforeRewrite.getObjectId());
     }
+    Set<String> invalidRefs = new HashSet<>();
     for (int i = 0; i < numberOfInvalidChanges; i++) {
       Change c = newChange();
       ChangeUpdate update = newUpdate(c, changeOwner);
@@ -270,12 +273,20 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
       updateWithSubject.setSubjectForCommit("Update with subject");
       updateWithSubject.commit();
       String refName = RefNames.changeMetaRef(c.getId());
-      Ref metaRefBeforeRewrite = repo.exactRef(refName);
-      if (i < maxRefsToUpdate) {
-        expectedFixedRefsToOldMetaBuilder.put(refName, metaRefBeforeRewrite.getObjectId());
-      } else {
-        expectedSkippedRefsToOldMetaBuilder.put(refName, metaRefBeforeRewrite.getObjectId());
+      invalidRefs.add(refName);
+    }
+    int i = 0;
+    for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
+      Ref metaRefBeforeRewrite = repo.exactRef(ref.getName());
+      if (!invalidRefs.contains(ref.getName())) {
+        continue;
       }
+      if (i < maxRefsToUpdate) {
+        expectedFixedRefsToOldMetaBuilder.put(ref.getName(), metaRefBeforeRewrite.getObjectId());
+      } else {
+        expectedSkippedRefsToOldMetaBuilder.put(ref.getName(), metaRefBeforeRewrite.getObjectId());
+      }
+      i++;
     }
     ImmutableMap<String, ObjectId> expectedFixedRefsToOldMeta =
         expectedFixedRefsToOldMetaBuilder.build();

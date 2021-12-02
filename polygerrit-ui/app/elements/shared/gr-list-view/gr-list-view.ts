@@ -23,7 +23,7 @@ import {fireEvent} from '../../../utils/event-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators';
 import {BindValueChangeEvent} from '../../../types/events';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
@@ -56,11 +56,6 @@ export class GrListView extends LitElement {
 
   @property({type: String})
   path?: string;
-
-  // We have to do this for the tests.
-  // There's an issue when using lit and going between
-  // groups, repos and more with a filter.
-  @state() windowPath?: string;
 
   private reloadTask?: DelayedTask;
 
@@ -196,25 +191,13 @@ export class GrListView extends LitElement {
     this.reloadTask = debounce(
       this.reloadTask,
       () => {
-        // We need to check that the url includes the path,
-        // this is to prevent an issue under lit where switching between
-        // groups, repos and so on with a filter inputed,
-        // goes back to the previous screen that had the filter.
-        // E.g. you go onto /admin/repos, type in a filter and click on
-        // groups. Doing this results in taking you back to /admin/repos
-        // without the filter. This is because the else part of the statement
-        // below gets executed 'page.show(this.path)'.
-        // We also create 'windowPath' for the tests where we cannot
-        // easily mock window.location.pathname.
-        const windowPath = this.windowPath ?? window.location.pathname;
-        if (this.path && windowPath?.includes(this.path)) {
-          if (filter) {
-            return page.show(
-              `${this.path}/q/filter:${encodeURL(filter, false)}`
-            );
-          }
-          return page.show(this.path);
+        if (!this.isConnected || !this.path) return;
+        if (filter) {
+          return page.show(
+            `${this.path}/q/filter:${encodeURL(filter, false)}`
+          );
         }
+        return page.show(this.path);
       },
       REQUEST_DEBOUNCE_INTERVAL_MS
     );

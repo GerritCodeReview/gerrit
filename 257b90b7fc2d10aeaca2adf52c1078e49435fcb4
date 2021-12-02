@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2758666_746f8e49",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 7
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-12-02T20:21:22Z",
+      "side": 1,
+      "message": "\u0027highlightjs-structured-text\u0027 introduces several `dependencies` which should instead be `devDependencies`. This has to be fixed before we can include it.",
+      "range": {
+        "startLine": 824,
+        "startChar": 2,
+        "endLine": 824,
+        "endChar": 14
+      },
+      "revId": "257b90b7fc2d10aeaca2adf52c1078e49435fcb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

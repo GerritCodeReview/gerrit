@@ -48,6 +48,9 @@ export class GrListView extends LitElement {
   @property({type: String})
   filter?: string;
 
+  @property({type: Boolean})
+  stopFilter = false;
+
   @property({type: Number})
   offset = 0;
 
@@ -207,7 +210,10 @@ export class GrListView extends LitElement {
         // We also create 'windowPath' for the tests where we cannot
         // easily mock window.location.pathname.
         const windowPath = this.windowPath ?? window.location.pathname;
-        if (this.path && windowPath?.includes(this.path)) {
+
+        // We work around an issue where if you typed in a filter and then
+        // click on a link, it would take you back to gr-list-view.
+        if (!this.stopFilter && this.path && windowPath?.includes(this.path)) {
           if (filter) {
             return page.show(
               `${this.path}/q/filter:${encodeURL(filter, false)}`

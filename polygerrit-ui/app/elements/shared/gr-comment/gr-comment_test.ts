@@ -521,7 +521,7 @@ suite('gr-comment tests', () => {
     });
 
     test('resolved comment state indicated by checkbox', async () => {
-      const saveStub = sinon.stub(element, 'save');
+      const saveStub = stubComments('saveDraft');
       element.comment = {
         ...createComment(),
         __draft: true,

@@ -16,6 +16,24 @@
       "message": "I commented on the bug. \n\nThe proposal is to:\n\nUse a fixed 20x20px box so that all sizes are visually aligned in the background (this is not the case in the change at the moment\n\nThe text size is --font-size-small: .857rem; /* 12px */\\\n\nThe text for sizing is currently 14px in Gerrit and the proposal of 20x20px box and 12px Roboto text is taking the same amount of space.\n\nCould we update the change with these specs?",
       "revId": "47d8972325a73929494ab912b92c0e0feb56b3eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f10bee9_89ea5b60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-02T09:51:52Z",
+      "side": 1,
+      "message": "PTAL",
+      "parentUuid": "6b9bf9ec_6b9fdb19",
+      "revId": "47d8972325a73929494ab912b92c0e0feb56b3eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

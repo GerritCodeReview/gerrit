@@ -28,6 +28,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 
@@ -122,6 +124,64 @@ public class MultiProgressMonitor {
       synchronized (MultiProgressMonitor.this) {
         return count;
       }
+    }
+
+    public int getTotal() {
+      return total;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public String getTotalDisplay(int total) {
+      return String.valueOf(total);
+    }
+  }
+
+  /** Handle for a sub-task whose total work can be updated while the task is in progress. */
+  public class VolatileTask extends Task {
+    protected AtomicInteger volatileTotal;
+    protected AtomicBoolean isTotalFinalized = new AtomicBoolean(false);
+
+    public VolatileTask(String subTaskName) {
+      super(subTaskName, UNKNOWN);
+      volatileTotal = new AtomicInteger(UNKNOWN);
+    }
+
+    /**
+     * Update the total work for this sub-task.
+     *
+     * <p>Intended to be called from a worker thread.
+     *
+     * @param workUnits number of work units to be added to existing total work.
+     */
+    public void updateTotal(int workUnits) {
+      if (!isTotalFinalized.get()) {
+        volatileTotal.addAndGet(workUnits);
+      } else {
+        logger.atWarning().log(
+            "Total work has been finalized on sub-task " + getName() + " and cannot be updated");
+      }
+    }
+
+    /**
+     * Mark the total on this sub-task as unmodifiable.
+     *
+     * <p>Intended to be called from a worker thread.
+     */
+    public void finalizeTotal() {
+      isTotalFinalized.set(true);
+    }
+
+    @Override
+    public int getTotal() {
+      return volatileTotal.get();
+    }
+
+    @Override
+    public String getTotalDisplay(int total) {
+      return super.getTotalDisplay(total) + (isTotalFinalized.get() ? "" : "+");
     }
   }
 
@@ -305,6 +365,18 @@ public class MultiProgressMonitor {
   }
 
   /**
+   * Begin a sub-task whose total work can be updated.
+   *
+   * @param subTask sub-task name.
+   * @return sub-task handle.
+   */
+  public VolatileTask beginVolatileSubTask(String subTask) {
+    VolatileTask task = new VolatileTask(subTask);
+    tasks.add(task);
+    return task;
+  }
+
+  /**
    * End the overall task.
    *
    * <p>Must be called from a worker thread.
@@ -347,6 +419,7 @@ public class MultiProgressMonitor {
       boolean first = true;
       for (Task t : tasks) {
         int count = t.getCount();
+        int total = t.getTotal();
         if (count == 0) {
           continue;
         }
@@ -361,10 +434,11 @@ public class MultiProgressMonitor {
         if (!Strings.isNullOrEmpty(t.name)) {
           s.append(t.name).append(": ");
         }
-        if (t.total == UNKNOWN) {
+        if (total == UNKNOWN) {
           s.append(count);
         } else {
-          s.append(String.format("%d%% (%d/%d)", count * 100 / t.total, count, t.total));
+          s.append(
+              String.format("%d%% (%d/%s)", count * 100 / total, count, t.getTotalDisplay(total)));
         }
       }
     }

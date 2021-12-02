@@ -16,6 +16,42 @@
       "message": "This has a warning now:\n\nThe enum constant FORCED should have a corresponding case label in this enum switch on SubmitRequirementResult.Status.",
       "revId": "848c0332bbd8745d5801fb710d84b2534f973cca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9fcc16c_f16f5f37",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-02T11:18:26Z",
+      "side": 1,
+      "message": "Thanks for noticing. Done.",
+      "parentUuid": "e2e3becf_2a7218cf",
+      "revId": "848c0332bbd8745d5801fb710d84b2534f973cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e38715f_4ca5b6bf",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-02T11:18:26Z",
+      "side": 1,
+      "message": "Thanks for noticing. Done.",
+      "parentUuid": "e2e3becf_2a7218cf",
+      "revId": "848c0332bbd8745d5801fb710d84b2534f973cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

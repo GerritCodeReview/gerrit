@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b73b15e1_eeeb7854",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-02T00:19:48Z",
+      "side": 1,
+      "message": "Add: \"Defaulted when reindex is run from init on a new site.\"",
+      "revId": "731d1ae6d0b19765a362886f0f5994025e7833c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9410c6d7_f0659bec",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-02T00:19:48Z",
+      "side": 1,
+      "message": "Add default info as suggested on doc",
+      "revId": "731d1ae6d0b19765a362886f0f5994025e7833c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0495ed4b_65c3ccc9",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-02T00:19:48Z",
+      "side": 1,
+      "message": "Put this around line 119 instead",
+      "revId": "731d1ae6d0b19765a362886f0f5994025e7833c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

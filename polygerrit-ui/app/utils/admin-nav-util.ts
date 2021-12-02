@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
+ import {
   GerritNav,
   RepoDetailView,
   GroupDetailView,
@@ -34,7 +34,7 @@ const ADMIN_LINKS: NavLink[] = [
     name: 'Repositories',
     noBaseUrl: true,
     url: '/admin/repos',
-    view: 'gr-repo-list',
+    view: 'gr-repo-list' as GerritView,
     viewableToAll: true,
   },
   {
@@ -42,7 +42,7 @@ const ADMIN_LINKS: NavLink[] = [
     section: 'Groups',
     noBaseUrl: true,
     url: '/admin/groups',
-    view: 'gr-admin-group-list',
+    view: 'gr-admin-group-list' as GerritView,
   },
   {
     name: 'Plugins',
@@ -50,7 +50,7 @@ const ADMIN_LINKS: NavLink[] = [
     section: 'Plugins',
     noBaseUrl: true,
     url: '/admin/plugins',
-    view: 'gr-plugin-list',
+    view: 'gr-plugin-list' as GerritView,
   },
 ];
 
@@ -107,7 +107,7 @@ function _filterLinks(
         name: link.text,
         capability: link.capability || undefined,
         noBaseUrl: !isExternalLink(link),
-        view: null,
+        view: undefined,
         viewableToAll: !link.capability,
         target: isExternalLink(link) ? '_blank' : null,
       };
@@ -252,10 +252,11 @@ export interface NavLink {
   name: string;
   noBaseUrl: boolean;
   url: string;
-  view: string | null;
+  view?: GerritView;
   viewableToAll?: boolean;
   section?: string;
   capability?: string;
   target?: string | null;
   subsection?: SubsectionInterface;
+  children?: SubsectionInterface[];
 }

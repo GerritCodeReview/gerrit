@@ -37,6 +37,7 @@ import {
 import {getAppContext} from '../../../services/app-context';
 import {IronInputElement} from '@polymer/iron-input';
 import {fireAlert, fireReload} from '../../../utils/event-util';
+import {assertIsDefined} from '../../../utils/common-util';
 
 export interface GrEditControls {
   $: {
@@ -56,10 +57,10 @@ export class GrEditControls extends PolymerElement {
   }
 
   @property({type: Object})
-  change!: ChangeInfo;
+  change?: ChangeInfo;
 
   @property({type: String})
-  patchNum!: PatchSetNum;
+  patchNum?: PatchSetNum;
 
   @property({type: Array})
   hiddenActions: string[] = [GrEditConstants.Actions.RESTORE.id];
@@ -298,6 +299,8 @@ export class GrEditControls extends PolymerElement {
   }
 
   _queryFiles(input: string): Promise<AutocompleteSuggestion[]> {
+    assertIsDefined(this.change, 'this.change');
+    assertIsDefined(this.patchNum, 'this.patchNum');
     return this.restApiService
       .queryChangeFiles(this.change._number, this.patchNum, input)
       .then(res => {

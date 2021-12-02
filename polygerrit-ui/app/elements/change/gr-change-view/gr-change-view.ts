@@ -1306,6 +1306,17 @@ export class GrChangeView extends base {
     // diff is not requested. See Issue 125270 for more details.
     this.$.fileList.collapseAllDiffs();
 
+    // If the change was loaded before, then we are firing a 'reload' event
+    // instead of calling `loadData()` directly for two reasons:
+    // 1. We want to avoid code such as `this._initialLoadComplete = false` that
+    //    is only relevant for the initial load of a change.
+    // 2. We have to somehow trigger the change-model reloading. Otherwise
+    //    this._change is not updated.
+    if (this._changeNum) {
+      fireReload(this);
+      return;
+    }
+
     this._initialLoadComplete = false;
     this._changeNum = value.changeNum;
     this.loadData(true).then(() => {

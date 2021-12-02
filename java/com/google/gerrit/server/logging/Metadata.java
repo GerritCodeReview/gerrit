@@ -165,6 +165,8 @@ public abstract class Metadata {
   /** The name of a REST view. */
   public abstract Optional<String> restViewName();
 
+  public abstract Optional<String> submitRequirementName();
+
   /** The SHA1 of Git commit. */
   public abstract Optional<String> revision();
 
@@ -374,6 +376,8 @@ public abstract class Metadata {
     public abstract Builder restViewName(@Nullable String restViewName);
 
     public abstract Builder revision(@Nullable String revision);
+
+    public abstract Builder submitRequirementName(@Nullable String srName);
 
     public abstract Builder username(@Nullable String username);
 

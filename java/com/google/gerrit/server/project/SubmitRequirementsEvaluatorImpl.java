@@ -45,6 +45,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final Provider<SubmitRequirementChangeQueryBuilder> queryBuilder;
   private final ProjectCache projectCache;
   private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
+  private final SubmitRequirementsUtil submitRequirementsUtil;
 
   public static Module module() {
     return new AbstractModule() {
@@ -61,10 +62,12 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private SubmitRequirementsEvaluatorImpl(
       Provider<SubmitRequirementChangeQueryBuilder> queryBuilder,
       ProjectCache projectCache,
-      PluginSetContext<SubmitRequirement> globalSubmitRequirements) {
+      PluginSetContext<SubmitRequirement> globalSubmitRequirements,
+      SubmitRequirementsUtil submitRequirementsUtil) {
     this.queryBuilder = queryBuilder;
     this.projectCache = projectCache;
     this.globalSubmitRequirements = globalSubmitRequirements;
+    this.submitRequirementsUtil = submitRequirementsUtil;
   }
 
   @Override
@@ -82,8 +85,8 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
           SubmitRequirementsAdapter.getLegacyRequirements(cd);
       result =
-          SubmitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
-              projectConfigRequirements, legacyReqs);
+          submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
+              projectConfigRequirements, legacyReqs, cd.project());
     }
     return ImmutableMap.copyOf(result);
   }

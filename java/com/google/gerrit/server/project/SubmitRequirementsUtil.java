@@ -14,8 +14,16 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.metrics.Counter2;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,9 +32,53 @@ import java.util.stream.Collectors;
  * A utility class for different operations related to {@link
  * com.google.gerrit.entities.SubmitRequirement}s.
  */
+@Singleton
 public class SubmitRequirementsUtil {
 
-  private SubmitRequirementsUtil() {}
+  @Singleton
+  static class Metrics {
+    final Counter2 submitRequirementsMatchingWithLegacy;
+    final Counter2 submitRequirementsMismatchingWithLegacy;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      submitRequirementsMatchingWithLegacy =
+          metricMaker.newCounter(
+              "change/submit_requirements/matching_with_legacy",
+              new Description(
+                      "Total number of times there was a legacy and non-legacy "
+                          + "submit requirements with the same name for a change, "
+                          + "and the evaluation of both requirements had the same result "
+                          + "w.r.t. change submittability.")
+                  .setRate()
+                  .setUnit("count"),
+              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
+                  .description("Submit requirement name")
+                  .build());
+      submitRequirementsMismatchingWithLegacy =
+          metricMaker.newCounter(
+              "change/submit_requirements/mismatching_with_legacy",
+              new Description(
+                      "Total number of times there was a legacy and non-legacy "
+                          + "submit requirements with the same name for a change, "
+                          + "and the evaluation of both requirements had a different result "
+                          + "w.r.t. change submittability.")
+                  .setRate()
+                  .setUnit("count"),
+              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
+                  .description("Submit requirement name")
+                  .build());
+    }
+  }
+
+  private final Metrics metrics;
+
+  @Inject
+  public SubmitRequirementsUtil(Metrics metrics) {
+    this.metrics = metrics;
+  }
 
   /**
    * Merge legacy and non-legacy submit requirement results. If both input maps have submit
@@ -43,9 +95,10 @@ public class SubmitRequirementsUtil {
    * @return a map that is the result of merging both input maps, while eliminating requirements
    *     with the same name and status.
    */
-  public static Map<SubmitRequirement, SubmitRequirementResult> mergeLegacyAndNonLegacyRequirements(
+  public Map<SubmitRequirement, SubmitRequirementResult> mergeLegacyAndNonLegacyRequirements(
       Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements,
-      Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements) {
+      Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements,
+      Project.NameKey project) {
     Map<SubmitRequirement, SubmitRequirementResult> result = new HashMap<>();
     result.putAll(projectConfigRequirements);
     Map<String, SubmitRequirementResult> requirementsByName =
@@ -53,12 +106,14 @@ public class SubmitRequirementsUtil {
             .collect(Collectors.toMap(sr -> sr.getKey().name().toLowerCase(), sr -> sr.getValue()));
     for (Map.Entry<SubmitRequirement, SubmitRequirementResult> legacy :
         legacyRequirements.entrySet()) {
-      String name = legacy.getKey().name().toLowerCase();
-      SubmitRequirementResult projectConfigResult = requirementsByName.get(name);
+      String srName = legacy.getKey().name().toLowerCase();
+      SubmitRequirementResult projectConfigResult = requirementsByName.get(srName);
       SubmitRequirementResult legacyResult = legacy.getValue();
       if (projectConfigResult != null && matchByStatus(projectConfigResult, legacyResult)) {
+        metrics.submitRequirementsMatchingWithLegacy.increment(project.get(), srName);
         continue;
       }
+      metrics.submitRequirementsMismatchingWithLegacy.increment(project.get(), srName);
       result.put(legacy.getKey(), legacy.getValue());
     }
     return result;

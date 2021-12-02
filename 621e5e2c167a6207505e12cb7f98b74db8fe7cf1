@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec866022_d46b9d87",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-02T12:39:43Z",
+      "side": 1,
+      "message": "Consder using more meaningful class-names.\n\nSomething like size-xl\n\nAlso, use lower-case for css class names.",
+      "revId": "621e5e2c167a6207505e12cb7f98b74db8fe7cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

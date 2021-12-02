@@ -72,6 +72,8 @@ export class GrRepoList extends LitElement {
   // private but used in test
   @state() filter = '';
 
+  @state() private linkClicked = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   override async connectedCallback() {
@@ -110,6 +112,7 @@ export class GrRepoList extends LitElement {
       <gr-list-view
         .createNew=${this.createNewCapability}
         .filter=${this.filter}
+        .stopFilter=${this.linkClicked}
         .itemsPerPage=${this.reposPerPage}
         .items=${this.repos}
         .loading=${this.loading}
@@ -168,7 +171,13 @@ export class GrRepoList extends LitElement {
     return html`
       <tr class="table">
         <td class="name">
-          <a href="${this.computeRepoUrl(item.name)}">${item.name}</a>
+          <a
+            href="${this.computeRepoUrl(item.name)}"
+            @click=${() => {
+              this.handleRepoUrlClick();
+            }}
+            >${item.name}</a
+          >
         </td>
         <td class="repositoryBrowser">${this.renderWebLinks(item)}</td>
         <td class="changesLink">
@@ -299,5 +308,12 @@ export class GrRepoList extends LitElement {
   private handleNewRepoName() {
     if (!this.createNewModal) return;
     this.newRepoName = this.createNewModal.nameChanged;
+  }
+
+  // Work around an issue with gr-list-view where when you
+  // typed in a filter and then clicked on the link,
+  // it would take you back to gr-list-view.
+  private handleRepoUrlClick() {
+    this.linkClicked = true;
   }
 }

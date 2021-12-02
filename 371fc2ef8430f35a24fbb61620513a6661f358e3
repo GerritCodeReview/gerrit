@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9b995eb_f1aae96a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1316,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-02T14:09:54Z",
+      "side": 1,
+      "message": "What does fireReload do?",
+      "revId": "371fc2ef8430f35a24fbb61620513a6661f358e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

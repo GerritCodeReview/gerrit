@@ -184,6 +184,7 @@ export class GrListView extends LitElement {
   }
 
   private filterChanged(newFilter?: string, oldFilter?: string) {
+    if (!this.isConnected) return;
     // newFilter can be empty string and then !newFilter === true
     if (!newFilter && !oldFilter) {
       return;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1590e35c_e0da02ea",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-02T09:10:08Z",
+      "side": 1,
+      "message": "Could this just be\n\n  throw e;\n  \nor could we even drop the whole catch block?",
+      "range": {
+        "startLine": 592,
+        "startChar": 8,
+        "endLine": 592,
+        "endChar": 73
+      },
+      "revId": "81cb96067dd4fa9be383fc7d49cd43f4dd5d7738",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

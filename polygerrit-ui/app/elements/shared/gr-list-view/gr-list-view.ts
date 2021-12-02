@@ -196,6 +196,7 @@ export class GrListView extends LitElement {
     this.reloadTask = debounce(
       this.reloadTask,
       () => {
+        if (!this.isConnected) return;
         // We need to check that the url includes the path,
         // this is to prevent an issue under lit where switching between
         // groups, repos and so on with a filter inputed,

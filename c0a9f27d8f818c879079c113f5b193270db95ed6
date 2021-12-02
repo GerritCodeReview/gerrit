@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8abc25b0_ec0ad6cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1892,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-02T16:02:07Z",
+      "side": 1,
+      "message": "mark private or maintain _ prefix.",
+      "range": {
+        "startLine": 1892,
+        "startChar": 2,
+        "endLine": 1892,
+        "endChar": 28
+      },
+      "revId": "c0a9f27d8f818c879079c113f5b193270db95ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "543c5047_6047e53b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1892,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-02T16:02:07Z",
+      "side": 1,
+      "message": "seems like _getChangeDetail is called in tests (js) so you need to change them too.",
+      "range": {
+        "startLine": 1892,
+        "startChar": 2,
+        "endLine": 1892,
+        "endChar": 28
+      },
+      "revId": "c0a9f27d8f818c879079c113f5b193270db95ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

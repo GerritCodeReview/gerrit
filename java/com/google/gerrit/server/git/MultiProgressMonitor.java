@@ -28,6 +28,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 
@@ -123,6 +125,55 @@ public class MultiProgressMonitor {
         return count;
       }
     }
+
+    public int getTotal() {
+      return total;
+    }
+
+    public String getName() {
+      return name;
+    }
+  }
+
+  /** Handle for a sub-task whose total work can be updated while the task is in progress. */
+  public class VolatileTask extends Task {
+    protected AtomicInteger volatileTotal;
+    protected AtomicBoolean isTotalWorkFinalized = new AtomicBoolean(false);
+
+    public VolatileTask(String subTaskName) {
+      super(subTaskName, UNKNOWN);
+      volatileTotal = new AtomicInteger(UNKNOWN);
+    }
+
+    /**
+     * Update the total work for this sub-task.
+     *
+     * <p>Must be called from a worker thread.
+     *
+     * @param workUnits number of work units to be added to existing total work.
+     */
+    public void updateTotalWork(int workUnits) {
+      if (!isTotalWorkFinalized.get()) {
+        volatileTotal.addAndGet(workUnits);
+      } else {
+        logger.atWarning().log(
+            "Total work has been finalized on sub-task " + getName() + " and cannot be updated");
+      }
+    }
+
+    /**
+     * Mark the total on this sub-task as unmodifiable.
+     *
+     * <p>Must be called from a worker thread.
+     */
+    public void finalizeTotal() {
+      isTotalWorkFinalized.set(true);
+    }
+
+    @Override
+    public int getTotal() {
+      return volatileTotal.get();
+    }
   }
 
   private final OutputStream out;
@@ -201,6 +252,19 @@ public class MultiProgressMonitor {
     }
     sendDone();
     return t;
+  }
+
+  /**
+   * Wait for an intermediate task managed by a {@link Future}, with no timeout.
+   *
+   * @see #waitFor(Future, long, TimeUnit)
+   */
+  public <T> T waitFor(Future<T> workerFuture) {
+    try {
+      return waitFor(workerFuture, 0, null);
+    } catch (TimeoutException e) {
+      throw new IllegalStateException("timout exception without setting a timeout", e);
+    }
   }
 
   /**
@@ -292,6 +356,18 @@ public class MultiProgressMonitor {
   }
 
   /**
+   * Begin a sub-task whose total work can be updated.
+   *
+   * @param subTask sub-task name.
+   * @return sub-task handle.
+   */
+  public VolatileTask beginVolatileSubTask(String subTask) {
+    VolatileTask task = new VolatileTask(subTask);
+    tasks.add(task);
+    return task;
+  }
+
+  /**
    * End the overall task.
    *
    * <p>Must be called from a worker thread.
@@ -348,10 +424,18 @@ public class MultiProgressMonitor {
         if (!Strings.isNullOrEmpty(t.name)) {
           s.append(t.name).append(": ");
         }
-        if (t.total == UNKNOWN) {
+        if (t.getTotal() == UNKNOWN) {
           s.append(count);
         } else {
-          s.append(String.format("%d%% (%d/%d)", count * 100 / t.total, count, t.total));
+          s.append(
+              String.format(
+                  "%d%% (%d/%d%s)",
+                  count * 100 / t.getTotal(),
+                  count,
+                  t.getTotal(),
+                  t instanceof VolatileTask && !((VolatileTask) t).isTotalWorkFinalized.get()
+                      ? "+"
+                      : ""));
         }
       }
     }

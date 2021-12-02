@@ -319,7 +319,7 @@ export interface RestApiService extends Finalizable {
 
   getIsAdmin(): Promise<boolean | undefined>;
 
-  getIsGroupOwner(groupName: GroupName): Promise<boolean>;
+  getIsGroupOwner(groupName?: GroupName): Promise<boolean>;
 
   saveGroupName(
     groupId: GroupId | GroupName,

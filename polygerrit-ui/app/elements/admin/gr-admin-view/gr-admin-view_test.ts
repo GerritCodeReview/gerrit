@@ -47,33 +47,26 @@ suite('gr-admin-view tests', () => {
     const pluginsLoaded = Promise.resolve();
     sinon.stub(getPluginLoader(), 'awaitPluginsLoaded').returns(pluginsLoaded);
     await pluginsLoaded;
-    await flush();
-  });
-
-  test('_computeURLHelper', () => {
-    const path = '/test';
-    const host = 'http://www.testsite.com';
-    const computedPath = element._computeURLHelper(host, path);
-    assert.equal(computedPath, '//http://www.testsite.com/test');
+    await element.updateComplete;
   });
 
   test('link URLs', () => {
     assert.equal(
-      element._computeLinkURL({name: '', url: '/test', noBaseUrl: true}),
+      element.computeLinkURL({name: '', url: '/test', noBaseUrl: true}),
       '//' + window.location.host + '/test'
     );
 
     stubBaseUrl('/foo');
     assert.equal(
-      element._computeLinkURL({name: '', url: '/test', noBaseUrl: true}),
+      element.computeLinkURL({name: '', url: '/test', noBaseUrl: true}),
       '//' + window.location.host + '/foo/test'
     );
     assert.equal(
-      element._computeLinkURL({name: '', url: '/test', noBaseUrl: false}),
+      element.computeLinkURL({name: '', url: '/test', noBaseUrl: false}),
       '/test'
     );
     assert.equal(
-      element._computeLinkURL({
+      element.computeLinkURL({
         name: '',
         url: '/test',
         target: '_blank',
@@ -83,8 +76,8 @@ suite('gr-admin-view tests', () => {
     );
   });
 
-  test('current page gets selected and is displayed', () => {
-    element._filteredLinks = [
+  test('current page gets selected and is displayed', async () => {
+    element.filteredLinks = [
       {
         name: 'Repositories',
         url: '/admin/repos',
@@ -98,13 +91,13 @@ suite('gr-admin-view tests', () => {
       adminView: 'gr-repo-list',
     };
 
-    flush();
+    await element.updateComplete;
     assert.equal(queryAll<HTMLLIElement>(element, '.selected').length, 1);
     assert.ok(queryAndAssert<GrRepoList>(element, 'gr-repo-list'));
     assert.isNotOk(query(element, 'gr-admin-create-repo'));
   });
 
-  test('_filteredLinks admin', async () => {
+  test('filteredLinks admin', async () => {
     stubRestApi('getAccount').returns(
       Promise.resolve({
         name: 'test-user',
@@ -115,36 +108,36 @@ suite('gr-admin-view tests', () => {
       Promise.resolve(createAdminCapabilities())
     );
     await element.reload();
-    assert.equal(element._filteredLinks!.length, 3);
+    assert.equal(element.filteredLinks!.length, 3);
 
     // Repos
-    assert.isNotOk(element._filteredLinks![0].subsection);
+    assert.isNotOk(element.filteredLinks![0].subsection);
 
     // Groups
-    assert.isNotOk(element._filteredLinks![0].subsection);
+    assert.isNotOk(element.filteredLinks![0].subsection);
 
     // Plugins
-    assert.isNotOk(element._filteredLinks![0].subsection);
+    assert.isNotOk(element.filteredLinks![0].subsection);
   });
 
-  test('_filteredLinks non admin authenticated', async () => {
+  test('filteredLinks non admin authenticated', async () => {
     await element.reload();
-    assert.equal(element._filteredLinks!.length, 2);
+    assert.equal(element.filteredLinks!.length, 2);
     // Repos
-    assert.isNotOk(element._filteredLinks![0].subsection);
+    assert.isNotOk(element.filteredLinks![0].subsection);
     // Groups
-    assert.isNotOk(element._filteredLinks![0].subsection);
+    assert.isNotOk(element.filteredLinks![0].subsection);
   });
 
-  test('_filteredLinks non admin unathenticated', async () => {
+  test('filteredLinks non admin unathenticated', async () => {
     stubRestApi('getAccount').returns(Promise.resolve(undefined));
     await element.reload();
-    assert.equal(element._filteredLinks!.length, 1);
+    assert.equal(element.filteredLinks!.length, 1);
     // Repos
-    assert.isNotOk(element._filteredLinks![0].subsection);
+    assert.isNotOk(element.filteredLinks![0].subsection);
   });
 
-  test('_filteredLinks from plugin', () => {
+  test('filteredLinks from plugin', () => {
     stubRestApi('getAccount').returns(Promise.resolve(undefined));
     sinon.stub(element.jsAPI, 'getAdminMenuLinks').returns([
       {capability: null, text: 'internal link text', url: '/internal/link/url'},
@@ -155,8 +148,8 @@ suite('gr-admin-view tests', () => {
       },
     ]);
     return element.reload().then(() => {
-      assert.equal(element._filteredLinks!.length, 3);
-      assert.deepEqual(element._filteredLinks![1], {
+      assert.equal(element.filteredLinks!.length, 3);
+      assert.deepEqual(element.filteredLinks![1], {
         capability: undefined,
         url: '/internal/link/url',
         name: 'internal link text',
@@ -165,7 +158,7 @@ suite('gr-admin-view tests', () => {
         viewableToAll: true,
         target: null,
       });
-      assert.deepEqual(element._filteredLinks![2], {
+      assert.deepEqual(element.filteredLinks![2], {
         capability: undefined,
         url: 'http://external/link/url',
         name: 'external link text',
@@ -178,7 +171,7 @@ suite('gr-admin-view tests', () => {
   });
 
   test('Repo shows up in nav', async () => {
-    element._repoName = 'Test Repo' as RepoName;
+    element.repoName = 'Test Repo' as RepoName;
     stubRestApi('getAccount').returns(
       Promise.resolve({
         name: 'test-user',
@@ -189,7 +182,7 @@ suite('gr-admin-view tests', () => {
       Promise.resolve(createAdminCapabilities())
     );
     await element.reload();
-    await flush();
+    await element.updateComplete;
     assert.equal(queryAll<HTMLLIElement>(element, '.sectionTitle').length, 3);
     assert.equal(
       queryAndAssert<HTMLSpanElement>(element, '.breadcrumbText').innerText,
@@ -202,11 +195,10 @@ suite('gr-admin-view tests', () => {
   });
 
   test('Group shows up in nav', async () => {
-    element._groupId = 'a15262' as GroupId;
-    element._groupName = 'my-group' as GroupName;
-    element._groupIsInternal = true;
-    element._isAdmin = true;
-    element._groupOwner = false;
+    element.groupId = 'a15262' as GroupId;
+    element.groupName = 'my-group' as GroupName;
+    element.groupIsInternal = true;
+    stubRestApi('getIsAdmin').returns(Promise.resolve(true));
     stubRestApi('getAccount').returns(
       Promise.resolve({
         name: 'test-user',
@@ -217,18 +209,18 @@ suite('gr-admin-view tests', () => {
       Promise.resolve(createAdminCapabilities())
     );
     await element.reload();
-    await flush();
-    assert.equal(element._filteredLinks!.length, 3);
+    await element.updateComplete;
+    assert.equal(element.filteredLinks!.length, 3);
     // Repos
-    assert.isNotOk(element._filteredLinks![0].subsection);
+    assert.isNotOk(element.filteredLinks![0].subsection);
     // Groups
-    assert.equal(element._filteredLinks![1].subsection!.children!.length, 2);
-    assert.equal(element._filteredLinks![1].subsection!.name, 'my-group');
+    assert.equal(element.filteredLinks![1].subsection!.children!.length, 2);
+    assert.equal(element.filteredLinks![1].subsection!.name, 'my-group');
     // Plugins
-    assert.isNotOk(element._filteredLinks![2].subsection);
+    assert.isNotOk(element.filteredLinks![2].subsection);
   });
 
-  test('Nav is reloaded when repo changes', () => {
+  test('Nav is reloaded when repo changes', async () => {
     stubRestApi('getAccountCapabilities').returns(
       Promise.resolve(createAdminCapabilities())
     );
@@ -240,13 +232,15 @@ suite('gr-admin-view tests', () => {
     );
     const reloadStub = sinon.stub(element, 'reload');
     element.params = {repo: 'Test Repo' as RepoName, view: GerritView.REPO};
+    await element.updateComplete;
     assert.equal(reloadStub.callCount, 1);
     element.params = {repo: 'Test Repo 2' as RepoName, view: GerritView.REPO};
+    await element.updateComplete;
     assert.equal(reloadStub.callCount, 2);
   });
 
-  test('Nav is reloaded when group changes', () => {
-    sinon.stub(element, '_computeGroupName');
+  test('Nav is reloaded when group changes', async () => {
+    sinon.stub(element, 'computeGroupName');
     stubRestApi('getAccountCapabilities').returns(
       Promise.resolve(createAdminCapabilities())
     );
@@ -258,20 +252,21 @@ suite('gr-admin-view tests', () => {
     );
     const reloadStub = sinon.stub(element, 'reload');
     element.params = {groupId: '1' as GroupId, view: GerritView.GROUP};
+    await element.updateComplete;
     assert.equal(reloadStub.callCount, 1);
   });
 
   test('Nav is reloaded when group name changes', async () => {
     const newName = 'newName' as GroupName;
     const reloadCalled = mockPromise();
-    sinon.stub(element, '_computeGroupName');
+    sinon.stub(element, 'computeGroupName');
     sinon.stub(element, 'reload').callsFake(() => {
       reloadCalled.resolve();
       return Promise.resolve();
     });
     element.params = {groupId: '1' as GroupId, view: GerritView.GROUP};
-    element._groupName = 'oldName' as GroupName;
-    await flush();
+    element.groupName = 'oldName' as GroupName;
+    await element.updateComplete;
     queryAndAssert<GrGroup>(element, 'gr-group').dispatchEvent(
       new CustomEvent('name-changed', {
         detail: {name: newName},
@@ -280,12 +275,12 @@ suite('gr-admin-view tests', () => {
       })
     );
     await reloadCalled;
-    assert.equal(element._groupName, newName);
+    assert.equal(element.groupName, newName);
   });
 
-  test('dropdown displays if there is a subsection', () => {
+  test('dropdown displays if there is a subsection', async () => {
     assert.isNotOk(query(element, '.mainHeader'));
-    element._subsectionLinks = [
+    element.subsectionLinks = [
       {
         text: 'Home',
         value: 'repo',
@@ -294,18 +289,15 @@ suite('gr-admin-view tests', () => {
         detailType: undefined,
       },
     ];
-    flush();
+    await element.updateComplete;
     assert.isOk(query(element, '.mainHeader'));
-    element._subsectionLinks = undefined;
-    flush();
-    assert.equal(
-      getComputedStyle(queryAndAssert(element, '.mainHeader')).display,
-      'none'
-    );
+    element.subsectionLinks = undefined;
+    await element.updateComplete;
+    assert.isNotOk(query(element, '.mainHeader'));
   });
 
   test('Dropdown only triggers navigation on explicit select', async () => {
-    element._repoName = 'my-repo' as RepoName;
+    element.repoName = 'my-repo' as RepoName;
     element.params = {
       repo: 'my-repo' as RepoName,
       view: GerritNav.View.REPO,
@@ -320,7 +312,7 @@ suite('gr-admin-view tests', () => {
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       })
     );
-    await flush();
+    await element.updateComplete;
     const expectedFilteredLinks = [
       {
         name: 'Repositories',
@@ -451,12 +443,12 @@ suite('gr-admin-view tests', () => {
     );
     const selectedIsCurrentPageSpy = sinon.spy(
       element,
-      '_selectedIsCurrentPage'
+      'selectedIsCurrentPage'
     );
-    sinon.spy(element, '_handleSubsectionChange');
+    sinon.spy(element, 'handleSubsectionChange');
     await element.reload();
-    assert.deepEqual(element._filteredLinks, expectedFilteredLinks);
-    assert.deepEqual(element._subsectionLinks, expectedSubsectionLinks);
+    assert.deepEqual(element.filteredLinks, expectedFilteredLinks);
+    assert.deepEqual(element.subsectionLinks, expectedSubsectionLinks);
     assert.equal(
       queryAndAssert<GrDropdownList>(element, '#pageSelect').value,
       'repoaccess'
@@ -472,8 +464,8 @@ suite('gr-admin-view tests', () => {
     assert.isTrue(navigateToRelativeUrlStub.calledOnce);
   });
 
-  test('_selectedIsCurrentPage', () => {
-    element._repoName = 'my-repo' as RepoName;
+  test('selectedIsCurrentPage', () => {
+    element.repoName = 'my-repo' as RepoName;
     element.params = {view: GerritView.REPO, repo: 'my-repo' as RepoName};
     const selected = {
       view: GerritView.REPO,
@@ -481,15 +473,15 @@ suite('gr-admin-view tests', () => {
       value: '',
       text: '',
     } as AdminSubsectionLink;
-    assert.isTrue(element._selectedIsCurrentPage(selected));
+    assert.isTrue(element.selectedIsCurrentPage(selected));
     selected.parent = 'my-second-repo' as RepoName;
-    assert.isFalse(element._selectedIsCurrentPage(selected));
+    assert.isFalse(element.selectedIsCurrentPage(selected));
     selected.detailType = GerritNav.RepoDetailView.GENERAL;
-    assert.isFalse(element._selectedIsCurrentPage(selected));
+    assert.isFalse(element.selectedIsCurrentPage(selected));
   });
 
-  suite('_computeSelectedClass', () => {
-    setup(() => {
+  suite('computeSelectedClass', () => {
+    setup(async () => {
       stubRestApi('getAccountCapabilities').returns(
         Promise.resolve(createAdminCapabilities())
       );
@@ -499,7 +491,7 @@ suite('gr-admin-view tests', () => {
           registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
         })
       );
-      return element.reload();
+      await element.reload();
     });
 
     suite('repos', () => {
@@ -509,67 +501,64 @@ suite('gr-admin-view tests', () => {
         );
       });
 
-      test('repo list', () => {
+      test('repo list', async () => {
         element.params = {
           view: GerritNav.View.ADMIN,
           adminView: 'gr-repo-list',
           openCreateModal: false,
         };
-        flush();
+        await element.updateComplete;
         const selected = queryAndAssert(element, 'gr-page-nav .selected');
         assert.isOk(selected);
         assert.equal(selected.textContent!.trim(), 'Repositories');
       });
 
-      test('repo', () => {
+      test('repo', async () => {
         element.params = {
           view: GerritNav.View.REPO,
           repo: 'foo' as RepoName,
         };
-        element._repoName = 'foo' as RepoName;
-        return element.reload().then(() => {
-          flush();
-          const selected = queryAndAssert(element, 'gr-page-nav .selected');
-          assert.isOk(selected);
-          assert.equal(selected.textContent!.trim(), 'foo');
-        });
+        element.repoName = 'foo' as RepoName;
+        await element.reload();
+        await element.updateComplete;
+        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+        assert.isOk(selected);
+        assert.equal(selected.textContent!.trim(), 'foo');
       });
 
-      test('repo access', () => {
+      test('repo access', async () => {
         element.params = {
           view: GerritNav.View.REPO,
           detail: GerritNav.RepoDetailView.ACCESS,
           repo: 'foo' as RepoName,
         };
-        element._repoName = 'foo' as RepoName;
-        return element.reload().then(() => {
-          flush();
-          const selected = queryAndAssert(element, 'gr-page-nav .selected');
-          assert.isOk(selected);
-          assert.equal(selected.textContent!.trim(), 'Access');
-        });
+        element.repoName = 'foo' as RepoName;
+        await element.reload();
+        await element.updateComplete;
+        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+        assert.isOk(selected);
+        assert.equal(selected.textContent!.trim(), 'Access');
       });
 
-      test('repo dashboards', () => {
+      test('repo dashboards', async () => {
         element.params = {
           view: GerritNav.View.REPO,
           detail: GerritNav.RepoDetailView.DASHBOARDS,
           repo: 'foo' as RepoName,
         };
-        element._repoName = 'foo' as RepoName;
-        return element.reload().then(() => {
-          flush();
-          const selected = queryAndAssert(element, 'gr-page-nav .selected');
-          assert.isOk(selected);
-          assert.equal(selected.textContent!.trim(), 'Dashboards');
-        });
+        element.repoName = 'foo' as RepoName;
+        await element.reload();
+        await element.updateComplete;
+        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+        assert.isOk(selected);
+        assert.equal(selected.textContent!.trim(), 'Dashboards');
       });
     });
 
     suite('groups', () => {
       let getGroupConfigStub: sinon.SinonStub;
 
-      setup(() => {
+      setup(async () => {
         stub('gr-group', 'loadGroup').callsFake(() => Promise.resolve());
         stub('gr-group-members', 'loadGroupDetails').callsFake(() =>
           Promise.resolve()
@@ -583,42 +572,41 @@ suite('gr-admin-view tests', () => {
           })
         );
         stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
-        return element.reload();
+        await element.reload();
       });
 
-      test('group list', () => {
+      test('group list', async () => {
         element.params = {
           view: GerritNav.View.ADMIN,
           adminView: 'gr-admin-group-list',
           openCreateModal: false,
         };
-        flush();
+        await element.updateComplete;
         const selected = queryAndAssert(element, 'gr-page-nav .selected');
         assert.isOk(selected);
         assert.equal(selected.textContent!.trim(), 'Groups');
       });
 
-      test('internal group', () => {
+      test('internal group', async () => {
         element.params = {
           view: GerritNav.View.GROUP,
           groupId: '1234' as GroupId,
         };
-        element._groupName = 'foo' as GroupName;
-        return element.reload().then(() => {
-          flush();
-          const subsectionItems = queryAll<HTMLLIElement>(
-            element,
-            '.subsectionItem'
-          );
-          assert.equal(subsectionItems.length, 2);
-          assert.isTrue(element._groupIsInternal);
-          const selected = queryAndAssert(element, 'gr-page-nav .selected');
-          assert.isOk(selected);
-          assert.equal(selected.textContent!.trim(), 'foo');
-        });
+        element.groupName = 'foo' as GroupName;
+        await element.reload();
+        await element.updateComplete;
+        const subsectionItems = queryAll<HTMLLIElement>(
+          element,
+          '.subsectionItem'
+        );
+        assert.equal(subsectionItems.length, 2);
+        assert.isTrue(element.groupIsInternal);
+        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+        assert.isOk(selected);
+        assert.equal(selected.textContent!.trim(), 'foo');
       });
 
-      test('external group', () => {
+      test('external group', async () => {
         getGroupConfigStub.returns(
           Promise.resolve({
             name: 'foo',
@@ -629,34 +617,32 @@ suite('gr-admin-view tests', () => {
           view: GerritNav.View.GROUP,
           groupId: '1234' as GroupId,
         };
-        element._groupName = 'foo' as GroupName;
-        return element.reload().then(() => {
-          flush();
-          const subsectionItems = queryAll<HTMLLIElement>(
-            element,
-            '.subsectionItem'
-          );
-          assert.equal(subsectionItems.length, 0);
-          assert.isFalse(element._groupIsInternal);
-          const selected = queryAndAssert(element, 'gr-page-nav .selected');
-          assert.isOk(selected);
-          assert.equal(selected.textContent!.trim(), 'foo');
-        });
+        element.groupName = 'foo' as GroupName;
+        await element.reload();
+        await element.updateComplete;
+        const subsectionItems = queryAll<HTMLLIElement>(
+          element,
+          '.subsectionItem'
+        );
+        assert.equal(subsectionItems.length, 0);
+        assert.isFalse(element.groupIsInternal);
+        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+        assert.isOk(selected);
+        assert.equal(selected.textContent!.trim(), 'foo');
       });
 
-      test('group members', () => {
+      test('group members', async () => {
         element.params = {
           view: GerritNav.View.GROUP,
           detail: GerritNav.GroupDetailView.MEMBERS,
           groupId: '1234' as GroupId,
         };
-        element._groupName = 'foo' as GroupName;
-        return element.reload().then(() => {
-          flush();
-          const selected = queryAndAssert(element, 'gr-page-nav .selected');
-          assert.isOk(selected);
-          assert.equal(selected.textContent!.trim(), 'Members');
-        });
+        element.groupName = 'foo' as GroupName;
+        await element.reload();
+        await element.updateComplete;
+        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+        assert.isOk(selected);
+        assert.equal(selected.textContent!.trim(), 'Members');
       });
     });
   });

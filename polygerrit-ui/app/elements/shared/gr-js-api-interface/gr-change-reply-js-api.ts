@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {GrReplyDialog} from '../../../services/gr-rest-api/gr-rest-api';
+import {GrReplyDialog} from '../../change/gr-reply-dialog/gr-reply-dialog';
 import {PluginApi, TargetElement} from '../../../api/plugin';
 import {JsApiService} from './gr-js-api-types';
 import {
@@ -47,7 +47,7 @@ export class GrChangeReplyInterface implements ChangeReplyPluginApi {
     ) as unknown as GrReplyDialog;
   }
 
-  getLabelValue(label: string): string {
+  getLabelValue(label: string): string | number | undefined {
     this.reporting.trackApi(this.plugin, 'reply', 'getLabelValue');
     return this._el.getLabelValue(label);
   }

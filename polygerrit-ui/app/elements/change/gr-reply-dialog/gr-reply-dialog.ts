@@ -482,24 +482,19 @@ export class GrReplyDialog extends PolymerElement {
   }
 
   setLabelValue(label: string, value: string) {
-    const selectorEl = this.getLabelScores().shadowRoot?.querySelector(
-      `gr-label-score-row[name="${label}"]`
-    );
-    if (!selectorEl) {
-      return;
-    }
-    (selectorEl as GrLabelScoreRow).setSelectedValue(value);
+    const selectorEl =
+      this.getLabelScores().shadowRoot?.querySelector<GrLabelScoreRow>(
+        `gr-label-score-row[name="${label}"]`
+      );
+    selectorEl?.setSelectedValue(value);
   }
 
   getLabelValue(label: string) {
-    const selectorEl = this.getLabelScores().shadowRoot?.querySelector(
-      `gr-label-score-row[name="${label}"]`
-    );
-    if (!selectorEl) {
-      return null;
-    }
-
-    return (selectorEl as GrLabelScoreRow).selectedValue;
+    const selectorEl =
+      this.getLabelScores().shadowRoot?.querySelector<GrLabelScoreRow>(
+        `gr-label-score-row[name="${label}"]`
+      );
+    return selectorEl?.selectedValue;
   }
 
   @observe('_ccs.splices')

@@ -515,7 +515,7 @@ suite('gr-autocomplete tests', () => {
       assert.equal(element._suggestions.length, 1);
     });
 
-    test('tab on suggestion, tabComplete = false', () => {
+    test('tab on suggestion, tabComplete = false', async () => {
       element._suggestions = [{name: 'sugar bombs'}];
       element._focused = true;
       // When tabComplete is false, do not focus.
@@ -528,14 +528,14 @@ suite('gr-autocomplete tests', () => {
         queryAndAssert(suggestionsEl(), 'li:first-child'),
         9,
         null,
-        'tab'
+        'Tab'
       );
-      flush();
+      await flush();
       assert.isFalse(commitSpy.called);
       assert.isFalse(element._focused);
     });
 
-    test('tab on suggestion, tabComplete = true', () => {
+    test('tab on suggestion, tabComplete = true', async () => {
       element._suggestions = [{name: 'sugar bombs'}];
       element._focused = true;
       // When tabComplete is true, focus.
@@ -548,9 +548,9 @@ suite('gr-autocomplete tests', () => {
         queryAndAssert(suggestionsEl(), 'li:first-child'),
         9,
         null,
-        'tab'
+        'Tab'
       );
-      flush();
+      await flush();
 
       assert.isTrue(commitSpy.called);
       assert.isTrue(element._focused);

@@ -34,6 +34,24 @@
       "parentUuid": "6b9bf9ec_6b9fdb19",
       "revId": "47d8972325a73929494ab912b92c0e0feb56b3eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "953e11af_d11a717f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-02T09:54:25Z",
+      "side": 1,
+      "message": "XS and XL are a little bit cramped.",
+      "parentUuid": "8f10bee9_89ea5b60",
+      "revId": "47d8972325a73929494ab912b92c0e0feb56b3eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

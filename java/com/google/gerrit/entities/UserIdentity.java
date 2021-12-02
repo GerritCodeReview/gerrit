@@ -18,22 +18,22 @@ import java.sql.Timestamp;
 
 public final class UserIdentity {
   /** Full name of the user. */
-  protected String name;
+  private String name;
 
   /** Email address (or user@host style string anyway). */
-  protected String email;
+  private String email;
 
   /** Username of the user. */
-  protected String username;
+  private String username;
 
   /** Time (in UTC) when the identity was constructed. */
-  protected Timestamp when;
+  private Timestamp when;
 
   /** Offset from UTC */
-  protected int tz;
+  private int tz;
 
   /** If the user has a Gerrit account, their account identity. */
-  protected Account.Id accountId;
+  private Account.Id accountId;
 
   public String getName() {
     return name;

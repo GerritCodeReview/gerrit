@@ -31,33 +31,33 @@ public final class PatchSetInfo {
       this.shortMessage = requireNonNull(shortMessage);
     }
 
-    protected ParentInfo() {}
+    ParentInfo() {}
   }
 
-  protected PatchSet.Id key;
+  private PatchSet.Id key;
 
   /** First line of {@link #message}. */
-  protected String subject;
+  private String subject;
 
   /** The complete description of the change the patch set introduces. */
-  protected String message;
+  private String message;
 
   /** Identity of who wrote the patch set. May differ from {@link #committer}. */
-  protected UserIdentity author;
+  private UserIdentity author;
 
   /** Identity of who committed the patch set to the VCS. */
-  protected UserIdentity committer;
+  private UserIdentity committer;
 
   /** List of parents of the patch set. */
-  protected List<ParentInfo> parents;
+  private List<ParentInfo> parents;
 
   /** ID of commit. */
-  protected ObjectId commitId;
+  private ObjectId commitId;
 
   /** Optional user-supplied description for the patch set. */
-  protected String description;
+  private String description;
 
-  protected PatchSetInfo() {}
+  PatchSetInfo() {}
 
   public PatchSetInfo(PatchSet.Id k) {
     key = k;

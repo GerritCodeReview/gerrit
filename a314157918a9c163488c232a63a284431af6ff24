@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bf8b658_bc7303ee",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-02T09:56:00Z",
+      "side": 1,
+      "message": "test that the button is showing at the right times?",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 292,
+        "endChar": 0
+      },
+      "revId": "a314157918a9c163488c232a63a284431af6ff24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

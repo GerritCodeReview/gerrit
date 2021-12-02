@@ -16,6 +16,23 @@
       "message": "Works now (navigation url and also url in general)",
       "revId": "0ab7064bc72ba183a2edf2778f183c76351317ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3f928ca_2bdf0624",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-02T17:46:24Z",
+      "side": 1,
+      "message": "Given how many places this needs to be touched, I feel like this is the wrong approach.  Can this be fixed purely inside of gr-list-view?",
+      "revId": "0ab7064bc72ba183a2edf2778f183c76351317ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

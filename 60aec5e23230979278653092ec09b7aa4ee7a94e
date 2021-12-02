@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00a71a07_e62ccd55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-02T10:24:18Z",
+      "side": 1,
+      "message": "I\u0027ll add tests once we agree this is the correct approach.",
+      "revId": "60aec5e23230979278653092ec09b7aa4ee7a94e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -103,10 +103,14 @@ export class GrAutocompleteDropdown extends base {
   override connectedCallback() {
     super.connectedCallback();
     this.cleanups.push(
-      addShortcut(this, {key: Key.UP}, () => this._handleUp())
+      addShortcut(this, {key: Key.UP}, () => this._handleUp(), {
+        shouldSuppress: true,
+      })
     );
     this.cleanups.push(
-      addShortcut(this, {key: Key.DOWN}, () => this._handleDown())
+      addShortcut(this, {key: Key.DOWN}, () => this._handleDown(), {
+        shouldSuppress: true,
+      })
     );
     this.cleanups.push(
       addShortcut(this, {key: Key.ENTER}, () => this._handleEnter())

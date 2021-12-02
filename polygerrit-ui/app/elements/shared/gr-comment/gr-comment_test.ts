@@ -559,6 +559,21 @@ suite('gr-comment tests', () => {
       assert.isFalse(saveStub.called);
     });
 
+    test('saving while only toggling resolved state', async () => {
+      const saveStub = stubComments('saveDraft');
+      const discardStub = stubComments('discardDraft');
+      element.comment = createDraft();
+      await element.updateComplete;
+
+      const resolvedCheckbox = queryAndAssert(element, '#resolvedCheckbox');
+      tap(resolvedCheckbox);
+
+      await element.save();
+      assert.equal(element.messageText, 'hello world');
+      assert.isFalse(discardStub.called);
+      assert.isTrue(saveStub.called);
+    });
+
     test('handleFix fires create-fix event', async () => {
       const listener = listenOnce<CreateFixCommentEvent>(
         element,

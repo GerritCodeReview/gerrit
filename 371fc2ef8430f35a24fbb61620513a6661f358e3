@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5df3bfe1_f6cc1267",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-02T14:19:37Z",
+      "side": 1,
+      "message": "what other URL changes?\nAFAIU everything should be firing a reload event setting the forceReload property.\n\nIt\u0027s unclear to me what the exact issue is.",
+      "range": {
+        "startLine": 10,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "371fc2ef8430f35a24fbb61620513a6661f358e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ef3928a_6d41607d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-02T14:19:37Z",
+      "side": 1,
+      "message": "loadData is calling getChangeDetail so how is the change-model not reloaded in this code path?\n\ngetChangeDetail in gr-change-view should tell the model to request another change object and then the model is updated.",
+      "range": {
+        "startLine": 1313,
+        "startChar": 21,
+        "endLine": 1313,
+        "endChar": 63
+      },
+      "revId": "371fc2ef8430f35a24fbb61620513a6661f358e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9b995eb_f1aae96a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 1

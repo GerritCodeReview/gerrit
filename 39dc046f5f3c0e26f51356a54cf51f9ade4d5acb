@@ -70,6 +70,30 @@
       },
       "revId": "39dc046f5f3c0e26f51356a54cf51f9ade4d5acb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e36f2a08_a8499402",
+        "filename": "java/com/google/gerrit/entities/PatchSetInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-02T09:54:13Z",
+      "side": 1,
+      "message": "Ah, of course this was due to an untested last minute change, of change the Change constructor from package private to private.\n\nI think the fields can be private, but GSON requires non-private constructors. Mentioned this in the commit message.",
+      "parentUuid": "267add85_839c6318",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 9
+      },
+      "revId": "39dc046f5f3c0e26f51356a54cf51f9ade4d5acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -184,7 +184,7 @@ export class GrReplyDialog extends PolymerElement {
 
   /**
    * Fired when the main textarea's value changes, which may have triggered
-   * a change in size for the dialog.
+   * a change in size for the dialog. Temp change. My new edit. 2
    *
    * @event autogrow
    */
@@ -197,7 +197,7 @@ export class GrReplyDialog extends PolymerElement {
 
   /**
    * Fires when the reply dialog believes that the server side diff drafts
-   * have been updated and need to be refreshed.
+   * have been updated and need to be refreshed. ssss
    *
    * @event comment-refresh
    */
@@ -206,7 +206,7 @@ export class GrReplyDialog extends PolymerElement {
    * Fires when the state of the send button (enabled/disabled) changes.
    *
    * @event send-disabled-changed
-   */
+   */ss
 
   /**
    * Fired to reload the change page.

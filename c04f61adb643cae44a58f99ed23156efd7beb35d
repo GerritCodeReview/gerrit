@@ -16,6 +16,24 @@
       "message": "Why can\u0027t you simply do loadData and explicitly ask the model to reload rather than going through global events?",
       "revId": "c04f61adb643cae44a58f99ed23156efd7beb35d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ffacbd6_f340dd5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-02T14:33:33Z",
+      "side": 1,
+      "message": "That is an alternative.\n\nI am trying to do a minimal fix here. Firing \u0027reload\u0027 is consistent with what we have done so far. Pressing the Shirt-R shortcut also fires a reload event.\n\nBut I agree that going forward we will probably want to call out directly to the change-model. What I am not sure about is how dependent models will then receive reload calls. But that is not for this change to answer.\n\nNote that there is also the complication of avoiding double loading. The change-model must not get triggered by both the router change and the change view.",
+      "parentUuid": "c5bbce09_881abcaa",
+      "revId": "c04f61adb643cae44a58f99ed23156efd7beb35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

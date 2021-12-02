@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "697c3b3a_98b32aeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-02T14:33:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0da16244_c29130a4",
+      "range": {
+        "startLine": 10,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "371fc2ef8430f35a24fbb61620513a6661f358e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ef3928a_6d41607d",
@@ -61,6 +85,30 @@
       "writtenOn": "2021-12-02T14:19:37Z",
       "side": 1,
       "message": "loadData is calling getChangeDetail so how is the change-model not reloaded in this code path?\n\ngetChangeDetail in gr-change-view should tell the model to request another change object and then the model is updated.",
+      "range": {
+        "startLine": 1313,
+        "startChar": 21,
+        "endLine": 1313,
+        "endChar": 63
+      },
+      "revId": "371fc2ef8430f35a24fbb61620513a6661f358e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2717f273_ebade06a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-02T14:33:33Z",
+      "side": 1,
+      "message": "\u003e loadData is calling getChangeDetail so how is the change-model not reloaded in this code path?\n\nBecause getChangeDetail is not loading the change, but just waiting for the model to get into LOADED state.\n \n\u003e getChangeDetail in gr-change-view should tell the model to request another change object and then the model is updated.\n\nThat is an alternative, see Chris\u0027 comment above. But you would have to make sure that you don\u0027t load the change twice.",
+      "parentUuid": "9ef3928a_6d41607d",
       "range": {
         "startLine": 1313,
         "startChar": 21,

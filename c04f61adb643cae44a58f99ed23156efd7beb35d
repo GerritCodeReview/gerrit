@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5bbce09_881abcaa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-02T14:18:18Z",
+      "side": 1,
+      "message": "Why can\u0027t you simply do loadData and explicitly ask the model to reload rather than going through global events?",
+      "revId": "c04f61adb643cae44a58f99ed23156efd7beb35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

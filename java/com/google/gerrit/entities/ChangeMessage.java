@@ -40,30 +40,30 @@ public final class ChangeMessage {
     public abstract String uuid();
   }
 
-  protected Key key;
+  private Key key;
 
   /** Who wrote this comment; null if it was written by the Gerrit system. */
-  @Nullable protected Account.Id author;
+  @Nullable private Account.Id author;
 
   /** When this comment was drafted. */
-  protected Timestamp writtenOn;
+  private Timestamp writtenOn;
 
   /**
    * The text left by the user or Gerrit system in template form, that is free of Gerrit User
    * Identifiable Information and can be persisted in data storage.
    */
-  @Nullable protected String message;
+  @Nullable private String message;
 
   /** Which patchset (if any) was this message generated from? */
-  @Nullable protected PatchSet.Id patchset;
+  @Nullable private PatchSet.Id patchset;
 
   /** Tag associated with change message */
-  @Nullable protected String tag;
+  @Nullable private String tag;
 
   /** Real user that added this message on behalf of the user recorded in {@link #author}. */
-  @Nullable protected Account.Id realAuthor;
+  @Nullable private Account.Id realAuthor;
 
-  protected ChangeMessage() {}
+  private ChangeMessage() {}
 
   public static ChangeMessage create(
       final ChangeMessage.Key k, @Nullable Account.Id a, Timestamp wo, @Nullable PatchSet.Id psid) {

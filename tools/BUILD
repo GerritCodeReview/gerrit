@@ -364,7 +364,7 @@ java_package_configuration(
         "-Xep:PreconditionsInvalidPlaceholder:ERROR",
         "-Xep:PrimitiveAtomicReference:ERROR",
         "-Xep:PrivateSecurityContractProtoAccess:ERROR",
-        # "-Xep:ProtectedMembersInFinalClass:WARN",
+        "-Xep:ProtectedMembersInFinalClass:ERROR",
         "-Xep:ProtoBuilderReturnValueIgnored:ERROR",
         "-Xep:ProtoDurationGetSecondsGetNano:ERROR",
         "-Xep:ProtoFieldNullComparison:ERROR",

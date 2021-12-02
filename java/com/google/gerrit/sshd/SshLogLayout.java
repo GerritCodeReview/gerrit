@@ -32,7 +32,7 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.util.QuotedString;
 
 public final class SshLogLayout extends Layout {
-  protected final LogTimestampFormatter timestampFormatter;
+  private final LogTimestampFormatter timestampFormatter;
 
   public SshLogLayout() {
     timestampFormatter = new LogTimestampFormatter();

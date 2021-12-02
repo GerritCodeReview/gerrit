@@ -24,7 +24,7 @@ import java.util.List;
 public final class NotPredicate<T> extends Predicate<T> implements Matchable<T> {
   private final Predicate<T> that;
 
-  protected NotPredicate(Predicate<T> that) {
+  NotPredicate(Predicate<T> that) {
     if (that instanceof NotPredicate) {
       throw new IllegalArgumentException("Double negation unsupported");
     }

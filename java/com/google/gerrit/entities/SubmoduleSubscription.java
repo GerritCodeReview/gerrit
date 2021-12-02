@@ -25,11 +25,11 @@ import java.util.Objects;
  * <p>A subscriber operates a submodule in defined path.
  */
 public final class SubmoduleSubscription {
-  protected BranchNameKey superProject;
+  private BranchNameKey superProject;
 
-  protected String submodulePath;
+  private String submodulePath;
 
-  protected BranchNameKey submodule;
+  private BranchNameKey submodule;
 
   public SubmoduleSubscription(BranchNameKey superProject, BranchNameKey submodule, String path) {
     this.superProject = superProject;

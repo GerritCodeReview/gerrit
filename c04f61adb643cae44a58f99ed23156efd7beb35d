@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaafc1c5_e4f38502",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-02T14:35:54Z",
+      "side": 1,
+      "message": "SG on the minimal fix. I agree there are better options but this is the safest minimal fix given the existing code.",
+      "revId": "c04f61adb643cae44a58f99ed23156efd7beb35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5bbce09_881abcaa",
@@ -32,6 +49,29 @@
       "side": 1,
       "message": "That is an alternative.\n\nI am trying to do a minimal fix here. Firing \u0027reload\u0027 is consistent with what we have done so far. Pressing the Shirt-R shortcut also fires a reload event.\n\nBut I agree that going forward we will probably want to call out directly to the change-model. What I am not sure about is how dependent models will then receive reload calls. But that is not for this change to answer.\n\nNote that there is also the complication of avoiding double loading. The change-model must not get triggered by both the router change and the change view.",
       "parentUuid": "c5bbce09_881abcaa",
+      "revId": "c04f61adb643cae44a58f99ed23156efd7beb35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cba454d1_502f2c08",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1892,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-02T14:35:54Z",
+      "side": 1,
+      "message": "can we change the name of this method?\nIt\u0027s not getting the ChangeDetail so the name is quite confusing.\n\nIt was requesting it at some point so the name was valid but don\u0027t think it\u0027s valid now.",
+      "range": {
+        "startLine": 1892,
+        "startChar": 2,
+        "endLine": 1892,
+        "endChar": 18
+      },
       "revId": "c04f61adb643cae44a58f99ed23156efd7beb35d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

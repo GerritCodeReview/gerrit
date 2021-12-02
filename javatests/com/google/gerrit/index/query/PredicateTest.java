@@ -19,7 +19,7 @@ import org.junit.Ignore;
 @Ignore
 public abstract class PredicateTest {
   protected static final class TestPredicate extends OperatorPredicate<String> {
-    protected TestPredicate(String name, String value) {
+    private TestPredicate(String name, String value) {
       super(name, value);
     }
   }

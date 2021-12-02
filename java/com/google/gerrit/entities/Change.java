@@ -438,37 +438,37 @@ public final class Change {
   }
 
   /** Locally assigned unique identifier of the change */
-  protected Id changeId;
+  private Id changeId;
 
   /** Globally assigned unique identifier of the change */
-  protected Key changeKey;
+  private Key changeKey;
 
   /** When this change was first introduced into the database. */
-  protected Timestamp createdOn;
+  private Timestamp createdOn;
 
   /**
    * When was a meaningful modification last made to this record's data
    *
    * <p>Note, this update timestamp includes its children.
    */
-  protected Timestamp lastUpdatedOn;
+  private Timestamp lastUpdatedOn;
 
-  protected Account.Id owner;
+  private Account.Id owner;
 
   /** The branch (and project) this change merges into. */
-  protected BranchNameKey dest;
+  private BranchNameKey dest;
 
   /** Current state code; see {@link Status}. */
-  protected char status;
+  private char status;
 
   /** The current patch set. */
-  protected int currentPatchSetId;
+  private int currentPatchSetId;
 
   /** Subject from the current patch set. */
-  protected String subject;
+  private String subject;
 
   /** Topic name assigned by the user, if any. */
-  @Nullable protected String topic;
+  @Nullable private String topic;
 
   /**
    * First line of first patch set's commit message.
@@ -476,33 +476,33 @@ public final class Change {
    * <p>Unlike {@link #subject}, this string does not change if future patch sets change the first
    * line.
    */
-  @Nullable protected String originalSubject;
+  @Nullable private String originalSubject;
 
   /**
    * Unique id for the changes submitted together assigned during merging. Only set if the status is
    * MERGED.
    */
-  @Nullable protected String submissionId;
+  @Nullable private String submissionId;
 
   /** Allows assigning a change to a user. */
-  @Nullable protected Account.Id assignee;
+  @Nullable private Account.Id assignee;
 
   /** Whether the change is private. */
-  protected boolean isPrivate;
+  private boolean isPrivate;
 
   /** Whether the change is work in progress. */
-  protected boolean workInProgress;
+  private boolean workInProgress;
 
   /** Whether the change has started review. */
-  protected boolean reviewStarted;
+  private boolean reviewStarted;
 
   /** References a change that this change reverts. */
-  @Nullable protected Id revertOf;
+  @Nullable private Id revertOf;
 
   /** References the source change and patchset that this change was cherry-picked from. */
-  @Nullable protected PatchSet.Id cherryPickOf;
+  @Nullable private PatchSet.Id cherryPickOf;
 
-  protected Change() {}
+  Change() {}
 
   public Change(
       Change.Key newKey,

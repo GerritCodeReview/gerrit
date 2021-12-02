@@ -34,6 +34,24 @@
       "parentUuid": "aa5c8243_4fef59e0",
       "revId": "d775f79a0318a9d6936210b6519e3029cdad35f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cecd073_6f60438d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-02T19:36:40Z",
+      "side": 1,
+      "message": "I know we circled back on this elsewhere, but wanted to close the loop here and note that this is being covered in the release notes too: 325102: Add a breaking change note to 3.2.14, 3.3.8, 3.4.2 and 3.5.0-rc4 | https://gerrit-review.googlesource.com/c/homepage/+/325102",
+      "parentUuid": "ae038f1e_4a4dd301",
+      "revId": "d775f79a0318a9d6936210b6519e3029cdad35f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

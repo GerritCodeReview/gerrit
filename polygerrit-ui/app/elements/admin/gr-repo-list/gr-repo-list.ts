@@ -72,6 +72,8 @@ export class GrRepoList extends LitElement {
   // private but used in test
   @state() filter = '';
 
+  @state() private stopFilter = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   override async connectedCallback() {
@@ -110,6 +112,7 @@ export class GrRepoList extends LitElement {
       <gr-list-view
         .createNew=${this.createNewCapability}
         .filter=${this.filter}
+        .stopFilter=${this.stopFilter}
         .itemsPerPage=${this.reposPerPage}
         .items=${this.repos}
         .loading=${this.loading}
@@ -168,11 +171,23 @@ export class GrRepoList extends LitElement {
     return html`
       <tr class="table">
         <td class="name">
-          <a href="${this.computeRepoUrl(item.name)}">${item.name}</a>
+          <a
+            href="${this.computeRepoUrl(item.name)}"
+            @click=${() => {
+              this.handleRepoUrlClick();
+            }}
+            >${item.name}</a
+          >
         </td>
         <td class="repositoryBrowser">${this.renderWebLinks(item)}</td>
         <td class="changesLink">
-          <a href="${this.computeChangesLink(item.name)}">view all</a>
+          <a
+            href="${this.computeChangesLink(item.name)}"
+            @click=${() => {
+              this.handleUrlClick();
+            }}
+            >view all</a
+          >
         </td>
         <td class="readOnly">
           ${item.state === ProjectState.READ_ONLY ? 'Y' : ''}
@@ -189,7 +204,15 @@ export class GrRepoList extends LitElement {
 
   private renderWebLink(link: WebLinkInfo) {
     return html`
-      <a href="${link.url}" class="webLink" rel="noopener" target="_blank">
+      <a
+        href="${link.url}"
+        class="webLink"
+        rel="noopener"
+        target="_blank"
+        @click=${() => {
+          this.handleUrlClick();
+        }}
+      >
         ${link.name}
       </a>
     `;
@@ -299,5 +322,12 @@ export class GrRepoList extends LitElement {
   private handleNewRepoName() {
     if (!this.createNewModal) return;
     this.newRepoName = this.createNewModal.nameChanged;
+  }
+
+  // Work around an issue with gr-list-view where when you
+  // typed in a filter and then clicked on the link,
+  // it would take you back to gr-list-view.
+  private handleUrlClick() {
+    this.stopFilter = true;
   }
 }

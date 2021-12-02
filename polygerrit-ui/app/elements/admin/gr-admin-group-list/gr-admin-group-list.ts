@@ -69,6 +69,8 @@ export class GrAdminGroupList extends LitElement {
 
   @state() private filter = '';
 
+  @state() private stopFilter = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
@@ -86,6 +88,7 @@ export class GrAdminGroupList extends LitElement {
       <gr-list-view
         .createNew=${this.createNewCapability}
         .filter=${this.filter}
+        .stopFilter=${this.stopFilter}
         .items=${this.groups}
         .itemsPerPage=${this.groupsPerPage}
         .loading=${this.loading}
@@ -140,7 +143,13 @@ export class GrAdminGroupList extends LitElement {
     return html`
       <tr class="table">
         <td class="name">
-          <a href=${this.computeGroupUrl(group.id)}>${group.name}</a>
+          <a
+            href="${this.computeGroupUrl(group.id)}"
+            @click=${() => {
+              this.handleUrlClick();
+            }}
+            >${group.name}</a
+          >
         </td>
         <td class="description">${group.description}</td>
         <td class="visibleToAll">
@@ -248,5 +257,12 @@ export class GrAdminGroupList extends LitElement {
   private handleHasNewGroupName() {
     assertIsDefined(this.createNewModal, 'createNewModal');
     this.hasNewGroupName = !!this.createNewModal.name;
+  }
+
+  // Work around an issue with gr-list-view where when you
+  // typed in a filter and then clicked on the link,
+  // it would take you back to gr-list-view.
+  private handleUrlClick() {
+    this.stopFilter = true;
   }
 }

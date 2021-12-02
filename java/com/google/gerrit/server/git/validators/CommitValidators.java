@@ -589,7 +589,7 @@ public class CommitValidators {
             l -> runValidator(l, messages, receiveEvent), CommitValidationException.class);
       } catch (CommitValidationException e) {
         messages.addAll(e.getMessages());
-        throw new CommitValidationException(e.getMessage(), messages);
+        throw new CommitValidationException(e.getMessage(), messages, e);
       }
       return messages;
     }

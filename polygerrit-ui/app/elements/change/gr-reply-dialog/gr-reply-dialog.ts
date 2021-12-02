@@ -184,7 +184,7 @@ export class GrReplyDialog extends PolymerElement {
 
   /**
    * Fired when the main textarea's value changes, which may have triggered
-   * a change in size for the dialog.
+   * a change in size for the dialog. Temp change.
    *
    * @event autogrow
    */

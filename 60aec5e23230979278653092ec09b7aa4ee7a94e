@@ -16,6 +16,29 @@
       "message": "I\u0027ll add tests once we agree this is the correct approach.",
       "revId": "60aec5e23230979278653092ec09b7aa4ee7a94e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c426b6_7e51fde5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-02T10:36:47Z",
+      "side": 1,
+      "message": "maybe drop this part of the comment",
+      "range": {
+        "startLine": 1126,
+        "startChar": 16,
+        "endLine": 1128,
+        "endChar": 28
+      },
+      "revId": "60aec5e23230979278653092ec09b7aa4ee7a94e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

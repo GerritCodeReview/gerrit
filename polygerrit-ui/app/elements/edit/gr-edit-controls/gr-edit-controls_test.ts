@@ -40,6 +40,7 @@ suite('gr-edit-controls tests', () => {
   setup(() => {
     element = basicFixture.instantiate();
     element.change = createChange();
+    element.patchNum = 1 as PatchSetNum;
     showDialogSpy = sinon.spy(element, '_showDialog');
     closeDialogSpy = sinon.spy(element, '_closeDialog');
     hideDialogStub = sinon.stub(element, '_hideAllDialogs');

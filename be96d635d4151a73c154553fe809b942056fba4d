@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ce7d203_42eb4e5d",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-02T11:18:26Z",
+      "side": 1,
+      "message": "Yes, I noticed that. But we add a separate op \"StoreSubmitRequirementsOp\" [1] at an earlier point of the code path, so it\u0027s already taken care of.\n\nWe discussed this previously in https://gerrit-review.googlesource.com/c/gerrit/+/317326, which implied that, for some submit types, we store submit requirements in the pre-last patchset.\n\n[1] https://gerrit.googlesource.com/gerrit/+/80014c4c73ab6821dd6bad33a08ffbd1d647cabb/java/com/google/gerrit/server/submit/MergeOp.java#672",
+      "parentUuid": "0054916b_920bf62d",
+      "revId": "be96d635d4151a73c154553fe809b942056fba4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9460ce6_be063941",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-12-01T14:43:52Z",
       "side": 1,
       "message": "better: SubmitRequirementResult::fulfilled",
+      "range": {
+        "startLine": 313,
+        "startChar": 57,
+        "endLine": 313,
+        "endChar": 77
+      },
+      "revId": "be96d635d4151a73c154553fe809b942056fba4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78bcc66b_8cb173a7",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-02T11:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9460ce6_be063941",
       "range": {
         "startLine": 313,
         "startChar": 57,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cf02d60_54e68383",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-02T11:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59cdda75_ce019d80",
+      "range": {
+        "startLine": 318,
+        "startChar": 56,
+        "endLine": 318,
+        "endChar": 75
+      },
+      "revId": "be96d635d4151a73c154553fe809b942056fba4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "062ba6d4_69eaa24f",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-12-01T14:43:52Z",
       "side": 1,
       "message": "nit: unneeded double blank",
+      "range": {
+        "startLine": 342,
+        "startChar": 56,
+        "endLine": 342,
+        "endChar": 57
+      },
+      "revId": "be96d635d4151a73c154553fe809b942056fba4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75a81870_f55f0ec1",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-02T11:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "062ba6d4_69eaa24f",
       "range": {
         "startLine": 342,
         "startChar": 56,

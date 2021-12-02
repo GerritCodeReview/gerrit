@@ -22,6 +22,30 @@
       },
       "revId": "d2f4d9bec1ce0161a96528fee46ed2df17e7368e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1afe2b7_ace60547",
+        "filename": "polygerrit-ui/app/api/change-reply.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-02T10:21:14Z",
+      "side": 1,
+      "message": "made change to reply dialog. AFAICT null cases can be swapped to undefined.",
+      "parentUuid": "c47d1d1a_4af8be02",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 66
+      },
+      "revId": "d2f4d9bec1ce0161a96528fee46ed2df17e7368e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Maybe just replace this with\n\n  const saveStub \u003d stubComments(\u0027saveDraft\u0027);\n  \nThen you don\u0027t really need an extra test.",
       "revId": "dee3cf57b828698d92846d9d76534b856b7655f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf623722_50dd6cac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-02T11:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccbd8817_7c6d953c",
+      "revId": "dee3cf57b828698d92846d9d76534b856b7655f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

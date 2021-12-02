@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2cecae1b_5cd9c19d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-02T13:05:57Z",
+      "side": 1,
+      "message": "Will there be a new test case then?",
+      "parentUuid": "371c79e4_13bf9faf",
+      "revId": "60aec5e23230979278653092ec09b7aa4ee7a94e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e7c426b6_7e51fde5",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 1

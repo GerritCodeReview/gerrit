@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a4c9a1_4ecbd337",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-12-02T00:55:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b73b15e1_eeeb7854",
+      "revId": "731d1ae6d0b19765a362886f0f5994025e7833c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9410c6d7_f0659bec",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51f4e8b1_25613aaa",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-12-02T00:55:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9410c6d7_f0659bec",
+      "revId": "731d1ae6d0b19765a362886f0f5994025e7833c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0495ed4b_65c3ccc9",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-12-02T00:19:48Z",
       "side": 1,
       "message": "Put this around line 119 instead",
+      "revId": "731d1ae6d0b19765a362886f0f5994025e7833c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71581fcf_8172d9f4",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-12-02T00:55:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0495ed4b_65c3ccc9",
       "revId": "731d1ae6d0b19765a362886f0f5994025e7833c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

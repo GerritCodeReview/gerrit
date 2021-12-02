@@ -33,6 +33,24 @@
       "message": "Given how many places this needs to be touched, I feel like this is the wrong approach.  Can this be fixed purely inside of gr-list-view?",
       "revId": "0ab7064bc72ba183a2edf2778f183c76351317ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c177d55_ed795cea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-02T18:00:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure, it appears that when clicking on the url, it then wants to execute debounceReload which it shouldn\u0027t hence why the problem happens.\n\nOne theory is it could be gr-admin-view needs to be upgraded to lit? I\u0027m not sure though, it\u0027s just a guess. \n\nWould you happen to have a guess on what a potential fix could be?",
+      "parentUuid": "f3f928ca_2bdf0624",
+      "revId": "0ab7064bc72ba183a2edf2778f183c76351317ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

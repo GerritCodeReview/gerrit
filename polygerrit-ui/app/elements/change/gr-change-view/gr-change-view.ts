@@ -1299,6 +1299,10 @@ export class GrChangeView extends base {
       // need to reload anything and we render the change view component as is.
       document.documentElement.scrollTop = this.scrollPosition ?? 0;
       this.reporting.reportInteraction('change-view-re-rendered');
+      // We still need to check if post load tasks need to be done such as when
+      // user wants to open the reply dialog when in the diff page, the change
+      // page should open the reply dialog
+      this._performPostLoadTasks();
       return;
     }
 

@@ -1893,7 +1893,13 @@ export class GrChangeView extends base {
     });
   }
 
-  _getChangeDetail() {
+  /**
+   * Process edits
+   * Check if a revert of this change has been submitted
+   * Calculate selected revision
+   */
+  // private but used in tests
+  performPostChangeLoadTasks() {
     if (!this._changeNum) {
       throw new Error('missing required changeNum property');
     }
@@ -2098,7 +2104,11 @@ export class GrChangeView extends base {
 
     // Resolves when the change detail and the edit patch set (if available)
     // are loaded.
-    const detailCompletes = this._getChangeDetail();
+    const detailCompletes = until(
+      this.changeModel.changeLoadingStatus$,
+      status => status === LoadingStatus.LOADED
+    );
+    this.performPostChangeLoadTasks();
     allDataPromises.push(detailCompletes);
 
     // Resolves when the loading flag is set to false, meaning that some
@@ -2120,8 +2130,8 @@ export class GrChangeView extends base {
       });
 
     // Resolves when the project config has successfully loaded.
-    const projectConfigLoaded = detailCompletes.then(success => {
-      if (!success) return Promise.resolve();
+    const projectConfigLoaded = detailCompletes.then(() => {
+      if (!this._change) return Promise.resolve();
       return this._getProjectConfig();
     });
     allDataPromises.push(projectConfigLoaded);
@@ -2141,8 +2151,6 @@ export class GrChangeView extends base {
         patchResourcesLoaded,
         loadingFlagSet,
       ]);
-
-      // _getChangeDetail triggers reload of change actions already.
 
       // The core data is loaded when mergeability is known.
       coreDataPromise = detailAndPatchResourcesLoaded.then(() =>

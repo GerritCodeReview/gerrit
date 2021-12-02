@@ -1548,7 +1548,7 @@ suite('gr-change-view tests', () => {
       },
     });
 
-    await element._getChangeDetail();
+    await element.performPostChangeLoadTasks();
     assert.isNull(element._change!.topic);
   });
 
@@ -1564,7 +1564,7 @@ suite('gr-change-view tests', () => {
       },
     });
 
-    await element._getChangeDetail();
+    await element.performPostChangeLoadTasks();
     assert.equal('foo', element._commitInfo!.commit);
   });
 
@@ -1594,7 +1594,7 @@ suite('gr-change-view tests', () => {
     );
     element._patchRange = {};
 
-    return element._getChangeDetail().then(() => {
+    return element.performPostChangeLoadTasks().then(() => {
       const revs = element._change!.revisions!;
       assert.equal(Object.keys(revs).length, 2);
       assert.deepEqual(revs['foo'], changeRevision);
@@ -2011,7 +2011,7 @@ suite('gr-change-view tests', () => {
       .stub(element, '_getPreferences')
       .returns(Promise.resolve(createPreferences()));
     element._patchRange = {patchNum: 2 as RevisionPatchSetNum};
-    return element._getChangeDetail().then(() => {
+    return element.performPostChangeLoadTasks().then(() => {
       assert.strictEqual(element._selectedRevision, revision2);
 
       element.set('_patchRange.patchNum', '1');
@@ -2042,7 +2042,7 @@ suite('gr-change-view tests', () => {
       .stub(element, '_getPreferences')
       .returns(Promise.resolve(createPreferences()));
     element._patchRange = {patchNum: EditPatchSetNum};
-    return element._getChangeDetail().then(() => {
+    return element.performPostChangeLoadTasks().then(() => {
       assert.strictEqual(element._selectedRevision, revision3);
     });
   });
@@ -2263,7 +2263,9 @@ suite('gr-change-view tests', () => {
         basePatchNum: ParentPatchSetNum,
         patchNum: 1 as RevisionPatchSetNum,
       };
-      sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(false));
+      sinon
+        .stub(element, 'performPostChangeLoadTasks')
+        .returns(Promise.resolve(false));
       sinon.stub(element, '_getProjectConfig').returns(Promise.resolve());
       sinon.stub(element, '_getMergeability').returns(Promise.resolve());
       sinon.stub(element, '_getLatestCommitMessage').returns(Promise.resolve());
@@ -2303,6 +2305,15 @@ suite('gr-change-view tests', () => {
         changeNum: TEST_NUMERIC_CHANGE_ID,
         project: TEST_PROJECT_NAME,
       };
+      element.changeModel.setState({
+        loadingStatus: LoadingStatus.LOADED,
+        change: {
+          ...createChangeViewChange(),
+          labels: {},
+          current_revision: 'foo' as CommitId,
+          revisions: {foo: createRevision()},
+        },
+      });
       await flush();
       assert.isTrue(changeDisplayStub.called);
       assert.isTrue(changeFullyLoadedStub.called);

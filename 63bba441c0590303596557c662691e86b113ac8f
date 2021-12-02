@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "552d816f_a50b3b3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-02T00:15:48Z",
+      "side": 1,
+      "message": "Test failure looks real. I haven\u0027t looked at the test, but the name doesn\u0027t seem to match the code in init...\n\n There was 1 failure:\n 1) initDoesNotReindexProjectsOnExistingSites(com.google.gerrit.acceptance.pgm.InitIT)\n expected: Optional[2021-12-01T23:41:16.519815Z]\n but was : Optional[2021-12-01T23:41:09.184434Z]\n \tat com.google.gerrit.acceptance.pgm.InitIT.initDoesNotReindexProjectsOnExistingSites(InitIT.java:76)",
+      "revId": "63bba441c0590303596557c662691e86b113ac8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74b2f29b_7ff4c04a",

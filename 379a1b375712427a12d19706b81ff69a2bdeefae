@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d25fdff_308422d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-03T18:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f4bd53_2786438e",
+      "range": {
+        "startLine": 290,
+        "startChar": 10,
+        "endLine": 290,
+        "endChar": 30
+      },
+      "revId": "379a1b375712427a12d19706b81ff69a2bdeefae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8666361_e4ea4199",
@@ -60,6 +84,30 @@
       "writtenOn": "2021-12-03T16:12:54Z",
       "side": 1,
       "message": "override case test(s)?",
+      "range": {
+        "startLine": 296,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 39
+      },
+      "revId": "379a1b375712427a12d19706b81ff69a2bdeefae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd4df6e0_4675dbc1",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-03T18:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8666361_e4ea4199",
       "range": {
         "startLine": 296,
         "startChar": 0,

@@ -226,7 +226,7 @@ export class GrChangeListItem extends LitElement {
         .subject:hover .content {
           text-decoration: underline;
         }
-        .requirement {
+        .requirement.codeReview {
           text-align: left;
         }
         .u-monospace {
@@ -623,6 +623,9 @@ export class GrChangeListItem extends LitElement {
       );
       if (requirements.length === 1) {
         const status = requirements[0].status;
+        if (labelName === StandardLabels.CODE_REVIEW) {
+          classes.push('codeReview');
+        }
         classes.push('requirement');
         switch (status) {
           case SubmitRequirementStatus.SATISFIED:

@@ -22,6 +22,30 @@
       },
       "revId": "bbde3f2d23afc1de55e9c2a73a518b62c557b1fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0de0c93c_d089badc",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-12-03T05:20:40Z",
+      "side": 1,
+      "message": "Done here: https://gerrit-review.googlesource.com/c/gerrit/+/323787",
+      "parentUuid": "a5bc59ec_c142a0ac",
+      "range": {
+        "startLine": 427,
+        "startChar": 8,
+        "endLine": 427,
+        "endChar": 19
+      },
+      "revId": "bbde3f2d23afc1de55e9c2a73a518b62c557b1fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

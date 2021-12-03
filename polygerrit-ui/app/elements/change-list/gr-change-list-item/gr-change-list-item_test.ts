@@ -494,7 +494,8 @@ suite('gr-change-list-item tests', () => {
     );
 
     const requirement = queryAndAssert(element, '.requirement');
-    expect(requirement).dom.to.equal(`<iron-icon icon="gr-icons:check">
+    expect(requirement).dom.to
+      .equal(`<iron-icon icon="gr-icons:check-circle-filled">
       </iron-icon>`);
   });
 });

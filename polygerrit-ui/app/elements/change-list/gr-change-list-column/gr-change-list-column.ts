@@ -45,11 +45,11 @@ export class GrChangeListColumRequirements extends LitElement {
           margin-left: var(--spacing-s);
           color: var(--deemphasized-text-color);
         }
-        .check {
+        .check-circle-filled {
           color: var(--success-foreground);
         }
-        iron-icon.close {
-          color: var(--error-foreground);
+        iron-icon.block {
+          color: var(--deemphasized-text-color);
         }
         .commentIcon {
           color: var(--deemphasized-text-color);
@@ -61,7 +61,7 @@ export class GrChangeListColumRequirements extends LitElement {
 
   override render() {
     if (changeIsMerged(this.change)) {
-      return this.renderState('check', 'Merged');
+      return this.renderState('check-circle-filled', 'Merged');
     }
 
     const submitRequirements = getRequirements(this.change);
@@ -82,7 +82,7 @@ export class GrChangeListColumRequirements extends LitElement {
     ).length;
 
     const state = this.renderState(
-      'close',
+      'block',
       this.renderSummary(numUnsatisfied, numRequirements)
     );
     const commentIcon = this.renderCommentIcon();

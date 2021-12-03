@@ -17,8 +17,18 @@
 import '../../test/common-test-setup-karma';
 import './checks-model';
 import {ChecksModel, ChecksPatchset, ChecksProviderState} from './checks-model';
-import {Category, CheckRun, RunStatus} from '../../api/checks';
+import {
+  Category,
+  CheckRun,
+  ChecksApiConfig,
+  ChecksProvider,
+  ResponseCode,
+  RunStatus,
+} from '../../api/checks';
 import {getAppContext} from '../app-context';
+import {createParsedChange} from '../../test/test-data-generators';
+import {waitUntil, waitUntilCalled} from '../../test/test-utils';
+import {ParsedChangeInfo} from '../../types/types';
 
 const PLUGIN_NAME = 'test-plugin';
 
@@ -39,6 +49,20 @@ const RUNS: CheckRun[] = [
   },
 ];
 
+const CONFIG: ChecksApiConfig = {
+  fetchPollingIntervalSeconds: 1000,
+};
+
+function createProvider(): ChecksProvider {
+  return {
+    fetch: () =>
+      Promise.resolve({
+        responseCode: ResponseCode.OK,
+        runs: [],
+      }),
+  };
+}
+
 suite('checks-model tests', () => {
   let model: ChecksModel;
 
@@ -55,6 +79,21 @@ suite('checks-model tests', () => {
 
   teardown(() => {
     model.finalize();
+  });
+
+  test('register and fetch', async () => {
+    let change: ParsedChangeInfo | undefined = undefined;
+    model.changeModel.change$.subscribe(c => (change = c));
+    const provider = createProvider();
+    const fetchSpy = sinon.spy(provider, 'fetch');
+
+    model.register('test-plugin', provider, CONFIG);
+    await waitUntil(() => change === undefined);
+
+    const testChange = createParsedChange();
+    model.changeModel.updateStateChange(testChange);
+    await waitUntil(() => change === testChange);
+    await waitUntilCalled(fetchSpy, 'fetch');
   });
 
   test('model.updateStateSetProvider', () => {

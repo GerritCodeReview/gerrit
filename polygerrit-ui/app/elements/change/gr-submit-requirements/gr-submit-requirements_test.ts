@@ -89,8 +89,8 @@ suite('gr-submit-requirements tests', () => {
           <td>
             <iron-icon
               aria-label="satisfied"
-              class="check"
-              icon="gr-icons:check"
+              class="check-circle-filled"
+              icon="gr-icons:check-circle-filled"
               role="img"
             >
             </iron-icon>

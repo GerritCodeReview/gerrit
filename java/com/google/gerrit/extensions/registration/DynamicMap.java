@@ -24,8 +24,8 @@ import com.google.inject.util.Types;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.SortedSet;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
@@ -116,14 +116,14 @@ public abstract class DynamicMap<T> implements Iterable<Extension<T>> {
   /**
    * Get the names of all running plugins supplying this type.
    *
-   * @return sorted set of active plugins that supply at least one item.
+   * @return navigatable set of active plugins that supply at least one item.
    */
-  public SortedSet<String> plugins() {
-    SortedSet<String> r = new TreeSet<>();
+  public NavigableSet<String> plugins() {
+    NavigableSet<String> r = new TreeSet<>();
     for (NamePair p : items.keySet()) {
       r.add(p.pluginName);
     }
-    return Collections.unmodifiableSortedSet(r);
+    return Collections.unmodifiableNavigableSet(r);
   }
 
   /**
@@ -132,14 +132,14 @@ public abstract class DynamicMap<T> implements Iterable<Extension<T>> {
    * @param pluginName name of the plugin.
    * @return items exported by a plugin, keyed by the export name.
    */
-  public SortedMap<String, Provider<T>> byPlugin(String pluginName) {
-    SortedMap<String, Provider<T>> r = new TreeMap<>();
+  public NavigableMap<String, Provider<T>> byPlugin(String pluginName) {
+    NavigableMap<String, Provider<T>> r = new TreeMap<>();
     for (Map.Entry<NamePair, Provider<T>> e : items.entrySet()) {
       if (e.getKey().pluginName.equals(pluginName)) {
         r.put(e.getKey().exportName, e.getValue());
       }
     }
-    return Collections.unmodifiableSortedMap(r);
+    return Collections.unmodifiableNavigableMap(r);
   }
 
   /** Iterate through all entries in an undefined order. */

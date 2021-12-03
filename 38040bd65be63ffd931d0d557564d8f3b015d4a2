@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67331a63_9021b3f0",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-03T12:06:35Z",
+      "side": 1,
+      "message": "Does this need to be a computed property?",
+      "revId": "38040bd65be63ffd931d0d557564d8f3b015d4a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

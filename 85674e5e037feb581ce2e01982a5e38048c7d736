@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b38ad7c7_ddf72e31",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-03T21:03:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e81b6995_4d0cd8bf",
+      "revId": "85674e5e037feb581ce2e01982a5e38048c7d736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9589b042_8d4e5f41",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-12-03T17:34:59Z",
       "side": 1,
       "message": "Inline",
+      "revId": "85674e5e037feb581ce2e01982a5e38048c7d736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac4105b7_59c89cdd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-03T21:03:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9589b042_8d4e5f41",
       "revId": "85674e5e037feb581ce2e01982a5e38048c7d736",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cfe981d_befc0027",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-03T21:03:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "88017341_12d8c27a",
+      "revId": "85674e5e037feb581ce2e01982a5e38048c7d736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3460a054_9bc7ddb7",
@@ -82,6 +136,24 @@
       "writtenOn": "2021-12-03T17:34:59Z",
       "side": 1,
       "message": "Make an async method and use await syntax.",
+      "revId": "85674e5e037feb581ce2e01982a5e38048c7d736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d28efd9_761dbf95",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-03T21:03:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3460a054_9bc7ddb7",
       "revId": "85674e5e037feb581ce2e01982a5e38048c7d736",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

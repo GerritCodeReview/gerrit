@@ -45,12 +45,19 @@ import {
 import {assertNever, hasOwnProperty} from '../../../utils/common-util';
 import {pluralize} from '../../../utils/string-util';
 import {
+  extractAssociatedLabels,
   getRequirements,
   iconForStatus,
   showNewSubmitRequirements,
   StandardLabels,
+  valueString,
 } from '../../../utils/label-util';
-import {SubmitRequirementStatus} from '../../../api/rest-api';
+import {
+  ChangeStatus,
+  isQuickLabelInfo,
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../../../api/rest-api';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
@@ -229,6 +236,13 @@ export class GrChangeListItem extends LitElement {
         .requirement.codeReview {
           text-align: left;
         }
+        .requirement.codeReview > .labelVote {
+          margin-left: var(--spacing-xs);
+        }
+        .requirement.codeReview > .commentIcon {
+          color: var(--deemphasized-text-color);
+          margin-right: var(--spacing-xs);
+        }
         .u-monospace {
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-mono);
@@ -254,9 +268,6 @@ export class GrChangeListItem extends LitElement {
         }
         .cell.label iron-icon {
           vertical-align: top;
-        }
-        .cell.label > .commentIcon {
-          color: var(--deemphasized-text-color);
         }
         @media only screen and (max-width: 50em) {
           :host {
@@ -540,28 +551,81 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderChangeLabels(labelName: string) {
-    return html`
-      <td
-        title="${this.computeLabelTitle(labelName)}"
-        class="${this.computeLabelClass(labelName)}"
-      >
-        ${this.renderChangeHasLabelIcon(labelName)}
-        ${this.renderCommentsInfoWithLabel(labelName)}
-      </td>
-    `;
+    if (showNewSubmitRequirements(this.flagsService, this.change)) {
+      const requirements = getRequirements(this.change).filter(
+        sr => sr.name === labelName
+      );
+      if (requirements.length === 1) {
+        return html`
+          <td
+            title="${this.computeLabelTitle(labelName)}"
+            class="${this.computeLabelClass(labelName)}"
+          >
+            ${this.renderRequirementValue(requirements[0])}
+            ${this.renderCommentsInfoWithRequirement(labelName)}
+          </td>
+        `;
+      }
+      return html`<td class="${this.computeLabelClass}"></td> `;
+    } else {
+      return html`
+        <td
+          title="${this.computeLabelTitle(labelName)}"
+          class="${this.computeLabelClass(labelName)}"
+        >
+          ${this.renderChangeHasLabelIcon(labelName)}
+        </td>
+      `;
+    }
+  }
+
+  private renderRequirementValue(requirement: SubmitRequirementResultInfo) {
+    if (
+      requirement.status === SubmitRequirementStatus.SATISFIED ||
+      requirement.status === SubmitRequirementStatus.OVERRIDDEN
+    ) {
+      const icon = `gr-icons:${iconForStatus(requirement.status)}`;
+      return html`<iron-icon icon=${icon}></iron-icon>`;
+    } else if (requirement.status === SubmitRequirementStatus.UNSATISFIED) {
+      const submittabilityLabels = extractAssociatedLabels(
+        requirement,
+        'onlySubmittability'
+      );
+      const labels = this.change?.labels ?? {};
+
+      // there is no value - there are labelInfo.rejected
+      const votes = submittabilityLabels
+        .map(labelName => {
+          const labelInfo = labels[labelName];
+          if (labelInfo && isQuickLabelInfo(labelInfo)) {
+            return labelInfo.value ?? 0;
+          } else {
+            return 0;
+          }
+        })
+        .filter(labelvalue => labelvalue !== 0);
+
+      if (votes.length === 0) {
+        const icon = `gr-icons:${iconForStatus(requirement.status)}`;
+        return html`<iron-icon icon=${icon}></iron-icon>`;
+      } else {
+        const lowestVote = votes.sort()[0];
+        return html`<span class="labelVote">${valueString(lowestVote)}</span>`;
+      }
+    } else {
+      return;
+    }
   }
 
   private renderChangeHasLabelIcon(labelName: string) {
     if (this.computeLabelIcon(labelName) === '')
       return html`<span>${this.computeLabelValue(labelName)}</span>`;
-
     return html`
       <iron-icon icon=${this.computeLabelIcon(labelName)}></iron-icon>
     `;
   }
 
-  private renderCommentsInfoWithLabel(labelName: string) {
-    if (!showNewSubmitRequirements(this.flagsService, this.change)) return;
+  private renderCommentsInfoWithRequirement(labelName: string) {
     if (labelName !== StandardLabels.CODE_REVIEW) return;
     if (!this.change?.unresolved_comment_count) return;
     return html`<iron-icon
@@ -671,14 +735,6 @@ export class GrChangeListItem extends LitElement {
 
   // private but used in test
   computeLabelIcon(labelName: string): string {
-    if (showNewSubmitRequirements(this.flagsService, this.change)) {
-      const requirements = getRequirements(this.change).filter(
-        sr => sr.name === labelName
-      );
-      if (requirements.length === 1) {
-        return `gr-icons:${iconForStatus(requirements[0].status)}`;
-      }
-    }
     const category = this.computeLabelCategory(labelName);
     switch (category) {
       case LabelCategory.APPROVED:

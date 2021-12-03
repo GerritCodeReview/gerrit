@@ -483,6 +483,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71959acb_fcdd23e1",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-03T16:37:42Z",
+      "side": 1,
+      "message": "Change 324891",
+      "parentUuid": "0125c6b4_69c1abfc",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 38
+      },
+      "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6b468c5_a988ec05",
@@ -532,6 +556,24 @@
       "side": 1,
       "message": "This is the pattern used elsewhere:\n\nSave changeNum:\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/services/comments/comments-model.ts;l\u003d433;drc\u003d0142248b018108fdb48d02012eef2773d21bdcae\n\nCompare after response comes back:\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/services/comments/comments-model.ts;l\u003d441;drc\u003d0142248b018108fdb48d02012eef2773d21bdcae\n\nNote that once we have one model instance per change this will not be required anymore. But for now this seems essential.",
       "parentUuid": "dce6d39e_6d103bf1",
+      "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adc64455_57ec9544",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-03T16:37:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a575c12a_c1fa7b4a",
       "revId": "d442363716c8b306b8887f1bca4ff8834f013a1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

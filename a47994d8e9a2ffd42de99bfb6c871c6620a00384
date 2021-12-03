@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d2e5f64_fe939f8d",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-03T20:48:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33f06305_eb7a0c5d",
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f7e1056_f96c90a1",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "638a896b_c169668c",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-03T20:48:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f7e1056_f96c90a1",
+      "range": {
+        "startLine": 147,
+        "startChar": 48,
+        "endLine": 147,
+        "endChar": 57
+      },
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a20ecea8_eede9cb0",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-12-03T00:44:09Z",
       "side": 1,
       "message": "No need to use equals() for Enums.\n\nAlthough, it is not clear what the EndMonitor is, and what you need it for?",
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c657891_69303772",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-03T20:48:40Z",
+      "side": 1,
+      "message": "\u003e No need to use equals() for Enums.\nDone\n\n\u003e Although, it is not clear what the EndMonitor is, and what you need it for?\nThe monitor shows progress whilst waiting for a Future to complete. Once the Future completes, it calls the end() method (see L369) to also end the monitor task. We don\u0027t want that behaviour because we use the monitor to track two Futures (slice creation and reindex). The EndMonitor flag gives us this flexibility to end the monitor only after the second Future completes.",
+      "parentUuid": "a20ecea8_eede9cb0",
       "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

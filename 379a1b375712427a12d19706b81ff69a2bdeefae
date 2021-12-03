@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47843161_dc8a492f",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-03T16:12:54Z",
+      "side": 1,
+      "message": "looks like highlighting is wrong here since \u0027type\u0027 is a keyword 😞",
+      "range": {
+        "startLine": 269,
+        "startChar": 4,
+        "endLine": 269,
+        "endChar": 8
+      },
+      "revId": "379a1b375712427a12d19706b81ff69a2bdeefae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6f4bd53_2786438e",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-03T16:12:54Z",
+      "side": 1,
+      "message": "if this is called \"render\" should it return html`` TemplateResult instead of plain strings? Or have a different name besides \"render\".",
+      "range": {
+        "startLine": 290,
+        "startChar": 10,
+        "endLine": 290,
+        "endChar": 30
+      },
+      "revId": "379a1b375712427a12d19706b81ff69a2bdeefae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8666361_e4ea4199",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-03T16:12:54Z",
+      "side": 1,
+      "message": "override case test(s)?",
+      "range": {
+        "startLine": 296,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 39
+      },
+      "revId": "379a1b375712427a12d19706b81ff69a2bdeefae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

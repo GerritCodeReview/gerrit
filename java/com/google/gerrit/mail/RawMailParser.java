@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Address;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Instant;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.dom.Entity;
 import org.apache.james.mime4j.dom.Message;
@@ -66,7 +67,9 @@ public class RawMailParser {
       messageBuilder.subject(mimeMessage.getSubject());
     }
     if (mimeMessage.getDate() != null) {
-      messageBuilder.dateReceived(mimeMessage.getDate().toInstant());
+      @SuppressWarnings("JdkObsolete")
+      Instant mimeMessageInstant = mimeMessage.getDate().toInstant();
+      messageBuilder.dateReceived(mimeMessageInstant);
     }
 
     // Add From, To and Cc

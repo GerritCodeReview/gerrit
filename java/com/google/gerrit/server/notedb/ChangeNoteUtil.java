@@ -15,6 +15,8 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.json.OutputFormat;
@@ -23,7 +25,9 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -31,29 +35,30 @@ import org.eclipse.jgit.util.RawParseUtils;
 
 public class ChangeNoteUtil {
 
-  static final FooterKey FOOTER_ATTENTION = new FooterKey("Attention");
-  static final FooterKey FOOTER_ASSIGNEE = new FooterKey("Assignee");
-  static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
-  static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
-  static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
-  static final FooterKey FOOTER_CURRENT = new FooterKey("Current");
-  static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
-  static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
-  static final FooterKey FOOTER_LABEL = new FooterKey("Label");
-  static final FooterKey FOOTER_COPIED_LABEL = new FooterKey("Copied-Label");
-  static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
-  static final FooterKey FOOTER_PATCH_SET_DESCRIPTION = new FooterKey("Patch-set-description");
-  static final FooterKey FOOTER_PRIVATE = new FooterKey("Private");
-  static final FooterKey FOOTER_REAL_USER = new FooterKey("Real-user");
-  static final FooterKey FOOTER_STATUS = new FooterKey("Status");
-  static final FooterKey FOOTER_SUBJECT = new FooterKey("Subject");
-  static final FooterKey FOOTER_SUBMISSION_ID = new FooterKey("Submission-id");
-  static final FooterKey FOOTER_SUBMITTED_WITH = new FooterKey("Submitted-with");
-  static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
-  static final FooterKey FOOTER_TAG = new FooterKey("Tag");
-  static final FooterKey FOOTER_WORK_IN_PROGRESS = new FooterKey("Work-in-progress");
-  static final FooterKey FOOTER_REVERT_OF = new FooterKey("Revert-of");
-  static final FooterKey FOOTER_CHERRY_PICK_OF = new FooterKey("Cherry-pick-of");
+  public static final FooterKey FOOTER_ATTENTION = new FooterKey("Attention");
+  public static final FooterKey FOOTER_ASSIGNEE = new FooterKey("Assignee");
+  public static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
+  public static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
+  public static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
+  public static final FooterKey FOOTER_CURRENT = new FooterKey("Current");
+  public static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
+  public static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
+  public static final FooterKey FOOTER_LABEL = new FooterKey("Label");
+  public static final FooterKey FOOTER_COPIED_LABEL = new FooterKey("Copied-Label");
+  public static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
+  public static final FooterKey FOOTER_PATCH_SET_DESCRIPTION =
+      new FooterKey("Patch-set-description");
+  public static final FooterKey FOOTER_PRIVATE = new FooterKey("Private");
+  public static final FooterKey FOOTER_REAL_USER = new FooterKey("Real-user");
+  public static final FooterKey FOOTER_STATUS = new FooterKey("Status");
+  public static final FooterKey FOOTER_SUBJECT = new FooterKey("Subject");
+  public static final FooterKey FOOTER_SUBMISSION_ID = new FooterKey("Submission-id");
+  public static final FooterKey FOOTER_SUBMITTED_WITH = new FooterKey("Submitted-with");
+  public static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
+  public static final FooterKey FOOTER_TAG = new FooterKey("Tag");
+  public static final FooterKey FOOTER_WORK_IN_PROGRESS = new FooterKey("Work-in-progress");
+  public static final FooterKey FOOTER_REVERT_OF = new FooterKey("Revert-of");
+  public static final FooterKey FOOTER_CHERRY_PICK_OF = new FooterKey("Cherry-pick-of");
 
   static final String GERRIT_USER_TEMPLATE = "Gerrit User %d";
 
@@ -244,5 +249,177 @@ public class ChangeNoteUtil {
     return gson.toJson(
         new AttentionStatusInNoteDb(
             stringBuilder.toString(), attentionSetUpdate.operation(), attentionSetUpdate.reason()));
+  }
+
+  @AutoValue
+  public abstract static class RawParsedPatchSetApproval {
+
+    public abstract String labelLine();
+
+    public abstract String labelVote();
+
+    public abstract Optional<String> uuid();
+
+    public abstract Optional<String> accountIdent();
+
+    public abstract Optional<String> realAccountIdent();
+
+    public abstract Optional<String> tag();
+
+    public static Builder builder() {
+      return new AutoValue_ChangeNoteUtil_RawParsedPatchSetApproval.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+
+      abstract Builder labelLine(String labelLine);
+
+      abstract Builder labelVote(String labelVote);
+
+      abstract Builder uuid(Optional<String> uuid);
+
+      abstract Builder accountIdent(Optional<String> accountIdent);
+
+      abstract Builder realAccountIdent(Optional<String> realAccountIdent);
+
+      abstract Builder tag(Optional<String> tag);
+
+      abstract RawParsedPatchSetApproval build();
+    }
+  }
+
+  /**
+   * Parses {@link RawParsedPatchSetApproval} from {@link #FOOTER_LABEL} line.
+   *
+   * <p>Footer example:
+   *
+   * <ul>
+   *   <li>Added approval: Label: <LABEL>=VOTE, <UUID> <Gerrit Account>
+   *   <li>Removed approval: Label: -<LABEL>, <UUID> <Gerrit Account>
+   * </ul>
+   *
+   * <p><UUID> is optional, since the approval might have been granted before {@link
+   * com.google.gerrit.entities.PatchSetApproval.UUID} was introduced.
+   *
+   * <p><Gerrit Account> is only persisted in cases, when the account, that granted the vote does
+   * not match the account, that issued {@link ChangeUpdate} (created this NoteDB commit).
+   */
+  public static RawParsedPatchSetApproval parseAddApproval(String labelLine)
+      throws ConfigInvalidException {
+    try {
+      RawParsedPatchSetApproval.Builder rawPatchSetApproval =
+          RawParsedPatchSetApproval.builder().labelLine(labelLine);
+      String labelVoteStr;
+      boolean isRemoval = labelLine.startsWith("-");
+      int uuidStart = isRemoval ? -1 : labelLine.indexOf(", ");
+      int reviewerStart = labelLine.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
+      int labelStart = isRemoval ? 1 : 0;
+      checkFooter(!isRemoval || uuidStart == -1, FOOTER_LABEL, labelLine);
+      if (uuidStart != -1) {
+        String uuid =
+            labelLine.substring(
+                uuidStart + 2, reviewerStart > 0 ? reviewerStart : labelLine.length());
+        checkFooter(!Strings.isNullOrEmpty(uuid), FOOTER_LABEL, labelLine);
+        labelVoteStr = labelLine.substring(labelStart, uuidStart);
+        rawPatchSetApproval.uuid(Optional.of(uuid));
+      } else if (reviewerStart != -1) {
+        labelVoteStr = labelLine.substring(labelStart, reviewerStart);
+      } else {
+        labelVoteStr = labelLine.substring(labelStart);
+      }
+      rawPatchSetApproval.labelVote(labelVoteStr);
+
+      if (reviewerStart > 0) {
+        String ident = labelLine.substring(reviewerStart + 1);
+        rawPatchSetApproval.accountIdent(Optional.of(ident));
+      }
+      return rawPatchSetApproval.build();
+    } catch (StringIndexOutOfBoundsException ex) {
+      throw parseException(FOOTER_LABEL, labelLine, ex);
+    }
+  }
+
+  /**
+   * Parses copied {@link RawParsedPatchSetApproval} from {@link #FOOTER_COPIED_LABEL} line.
+   *
+   * <p>Footer example: Copied-Label: <LABEL>=VOTE, <UUID> <Gerrit Account>,<Gerrit Real Account>
+   * :"<TAG>"
+   *
+   * <ul>
+   *   <li>":<"TAG>"" is optional.
+   *   <li><Gerrit Real Account> is also optional, if it was not set.
+   *   <li><UUID> is optional, since the approval might have been granted before {@link
+   *       com.google.gerrit.entities.PatchSetApproval.UUID} was introduced.
+   *   <li>The label, vote, and the Gerrit account are mandatory (unlike FOOTER_LABEL where Gerrit
+   *       Account is also optional since by default it's the committer).
+   * </ul>
+   */
+  public static RawParsedPatchSetApproval parseCopiedApproval(String labelLine)
+      throws ConfigInvalidException {
+    try {
+      // Copied approvals can't be explicitly removed. They are removed the same way as non-copied
+      // approvals.
+      checkFooter(!labelLine.startsWith("-"), FOOTER_COPIED_LABEL, labelLine);
+      RawParsedPatchSetApproval.Builder rawPatchSetApproval =
+          RawParsedPatchSetApproval.builder().labelLine(labelLine);
+
+      int tagStart = labelLine.indexOf(":\"");
+      int uuidStart = labelLine.indexOf(", ");
+
+      // Wired tag that contains uuid delimiter. The uuid is actually not present.
+      if (tagStart != -1 && uuidStart > tagStart) {
+        uuidStart = -1;
+      }
+      int identitiesStart = labelLine.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
+      checkFooter(
+          identitiesStart != -1 && identitiesStart < labelLine.length(),
+          FOOTER_COPIED_LABEL,
+          labelLine);
+
+      String labelVoteStr = labelLine.substring(0, uuidStart != -1 ? uuidStart : identitiesStart);
+      rawPatchSetApproval.labelVote(labelVoteStr);
+      if (uuidStart != -1) {
+        String uuid = labelLine.substring(uuidStart + 2, identitiesStart);
+        checkFooter(!Strings.isNullOrEmpty(uuid), FOOTER_COPIED_LABEL, labelLine);
+        rawPatchSetApproval.uuid(Optional.of(uuid));
+      }
+      // The first account is the accountId, and second (if applicable) is the realAccountId.
+      List<String> identities =
+          Splitter.on(',')
+              .splitToList(
+                  labelLine.substring(
+                      identitiesStart + 1, tagStart == -1 ? labelLine.length() : tagStart));
+      checkFooter(identities.size() >= 1, FOOTER_COPIED_LABEL, labelLine);
+
+      rawPatchSetApproval.accountIdent(Optional.of(identities.get(0)));
+
+      if (identities.size() > 1) {
+        rawPatchSetApproval.realAccountIdent(Optional.of(identities.get(1)));
+      }
+
+      if (tagStart != -1) {
+        // tagStart+2 skips ":\"" to parse the actual tag. Tags are in brackets.
+        // line.length()-1 skips the last ".
+        String tag = labelLine.substring(tagStart + 2, labelLine.length() - 1);
+        rawPatchSetApproval.tag(Optional.of(tag));
+      }
+      return rawPatchSetApproval.build();
+    } catch (StringIndexOutOfBoundsException ex) {
+      throw parseException(FOOTER_COPIED_LABEL, labelLine, ex);
+    }
+  }
+
+  private static void checkFooter(boolean expr, FooterKey footer, String actual)
+      throws ConfigInvalidException {
+    if (!expr) {
+      throw parseException(footer, actual, /*cause=*/ null);
+    }
+  }
+
+  private static ConfigInvalidException parseException(
+      FooterKey footer, String actual, Throwable cause) {
+    return new ConfigInvalidException(
+        String.format("invalid %s: %s", footer.getName(), actual), cause);
   }
 }

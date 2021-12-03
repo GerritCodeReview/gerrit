@@ -17,13 +17,13 @@ package com.google.gerrit.index.query;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.json.JavaSqlTimestampHelper;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.Instant;
 
 // TODO: Migrate this to IntegerRangePredicate
 public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
-  protected static Timestamp parse(String value) throws QueryParseException {
+  protected static Instant parse(String value) throws QueryParseException {
     try {
-      return JavaSqlTimestampHelper.parseTimestamp(value);
+      return JavaSqlTimestampHelper.parseTimestamp(value).toInstant();
     } catch (IllegalArgumentException e) {
       // parseTimestamp's errors are specific and helpful, so preserve them.
       throw new QueryParseException(e.getMessage(), e);
@@ -38,7 +38,7 @@ public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
     return (Timestamp) this.getField().get(object);
   }
 
-  public abstract Date getMinTimestamp();
+  public abstract Instant getMinTimestamp();
 
-  public abstract Date getMaxTimestamp();
+  public abstract Instant getMaxTimestamp();
 }

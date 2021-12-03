@@ -41,12 +41,12 @@ import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Properties;
-import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -266,11 +266,11 @@ public final class GerritLauncher {
       throw e;
     }
 
-    final SortedMap<String, URL> jars = new TreeMap<>();
+    final NavigableMap<String, URL> jars = new TreeMap<>();
     try (ZipFile zf = new ZipFile(path)) {
-      final Enumeration<? extends ZipEntry> e = zf.entries();
-      while (e.hasMoreElements()) {
-        final ZipEntry ze = e.nextElement();
+      Iterator<? extends ZipEntry> zipEntryIt = zf.stream().iterator();
+      while (zipEntryIt.hasNext()) {
+        final ZipEntry ze = zipEntryIt.next();
         if (ze.isDirectory()) {
           continue;
         }
@@ -310,7 +310,7 @@ public final class GerritLauncher {
     return URLClassLoader.newInstance(jars.values().toArray(new URL[jars.size()]), parent);
   }
 
-  private static void extractJar(ZipFile zf, ZipEntry ze, SortedMap<String, URL> jars)
+  private static void extractJar(ZipFile zf, ZipEntry ze, NavigableMap<String, URL> jars)
       throws IOException {
     File tmp = createTempFile(safeName(ze), ".jar");
     try (OutputStream out = Files.newOutputStream(tmp.toPath());
@@ -326,8 +326,8 @@ public final class GerritLauncher {
     jars.put(name.substring(name.lastIndexOf('/')), tmp.toURI().toURL());
   }
 
-  private static void move(SortedMap<String, URL> jars, String prefix, List<URL> extapi) {
-    SortedMap<String, URL> matches = jars.tailMap(prefix);
+  private static void move(NavigableMap<String, URL> jars, String prefix, List<URL> extapi) {
+    NavigableMap<String, URL> matches = jars.tailMap(prefix, /* inclusive= */ true);
     if (!matches.isEmpty()) {
       String first = matches.firstKey();
       if (first.startsWith(prefix)) {

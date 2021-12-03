@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4666f183_0eda8e43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-12-03T21:21:17Z",
+      "side": 1,
+      "message": "...shuffling is not needed since the slices are not scanning refs anymore ?",
+      "parentUuid": "4a96f0be_826b6342",
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33f06305_eb7a0c5d",
         "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
         "patchSetId": 1

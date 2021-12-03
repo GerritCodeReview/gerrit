@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e2ee496_c860bcdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-03T17:34:59Z",
+      "side": 1,
+      "message": "Awesome work, thanks!",
+      "revId": "85674e5e037feb581ce2e01982a5e38048c7d736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e81b6995_4d0cd8bf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-03T17:34:59Z",
+      "side": 1,
+      "message": "Make this method async and use await syntax.",
+      "revId": "85674e5e037feb581ce2e01982a5e38048c7d736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9589b042_8d4e5f41",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-03T17:34:59Z",
+      "side": 1,
+      "message": "Inline",
+      "revId": "85674e5e037feb581ce2e01982a5e38048c7d736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88017341_12d8c27a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-03T17:34:59Z",
+      "side": 1,
+      "message": "One way to avoid having to make so many changes is:\n\nconst params \u003d this.params;",
+      "revId": "85674e5e037feb581ce2e01982a5e38048c7d736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3460a054_9bc7ddb7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-03T17:34:59Z",
+      "side": 1,
+      "message": "Make an async method and use await syntax.",
+      "revId": "85674e5e037feb581ce2e01982a5e38048c7d736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

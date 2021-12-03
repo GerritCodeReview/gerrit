@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1cb72f7_73fe5f6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-12-03T17:46:09Z",
+      "side": 1,
+      "message": "Dmitrii brought up that I159e94a49 leads to wrong \"submittable\" bits set on the API when querying changes. I removed my approval so that we can keep this change open until we have figured out I159e94a49.",
+      "revId": "e2cc756d4cbe12b705f4626d6fcdf16ca0db942d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

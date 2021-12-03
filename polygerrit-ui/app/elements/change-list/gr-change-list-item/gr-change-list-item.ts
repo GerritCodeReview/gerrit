@@ -239,6 +239,10 @@ export class GrChangeListItem extends LitElement {
         .u-red iron-icon {
           color: var(--negative-red-text-color);
         }
+        .u-deemphasized,
+        .u-deemphasized iron-icon {
+          color: var(--deemphasized-text-color);
+        }
         .u-gray-background {
           background-color: var(--table-header-background-color);
         }
@@ -615,7 +619,7 @@ export class GrChangeListItem extends LitElement {
             classes.push('u-green');
             break;
           case SubmitRequirementStatus.UNSATISFIED:
-            classes.push('u-red');
+            classes.push('u-deemphasized');
             break;
           case SubmitRequirementStatus.OVERRIDDEN:
             classes.push('u-green');

@@ -20,7 +20,7 @@ import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
 import {changeIsMerged} from '../../../utils/change-util';
-import {getRequirements} from '../../../utils/label-util';
+import {getRequirements, iconForStatus} from '../../../utils/label-util';
 
 @customElement('gr-change-list-column-requirements')
 export class GrChangeListColumRequirements extends LitElement {
@@ -45,11 +45,11 @@ export class GrChangeListColumRequirements extends LitElement {
           margin-left: var(--spacing-s);
           color: var(--deemphasized-text-color);
         }
-        .check {
+        .check-circle-filled {
           color: var(--success-foreground);
         }
-        iron-icon.close {
-          color: var(--error-foreground);
+        iron-icon.block {
+          color: var(--deemphasized-text-color);
         }
         .commentIcon {
           color: var(--deemphasized-text-color);
@@ -60,8 +60,9 @@ export class GrChangeListColumRequirements extends LitElement {
   }
 
   override render() {
+    const satisfiedIcon = iconForStatus(SubmitRequirementStatus.SATISFIED);
     if (changeIsMerged(this.change)) {
-      return this.renderState('check', 'Merged');
+      return this.renderState(satisfiedIcon, 'Merged');
     }
 
     const submitRequirements = getRequirements(this.change);
@@ -74,7 +75,7 @@ export class GrChangeListColumRequirements extends LitElement {
     ).length;
 
     if (numSatisfied === numRequirements) {
-      return this.renderState('check', 'Ready');
+      return this.renderState(satisfiedIcon, 'Ready');
     }
 
     const numUnsatisfied = submitRequirements.filter(
@@ -82,7 +83,7 @@ export class GrChangeListColumRequirements extends LitElement {
     ).length;
 
     const state = this.renderState(
-      'close',
+      iconForStatus(SubmitRequirementStatus.UNSATISFIED),
       this.renderSummary(numUnsatisfied, numRequirements)
     );
     const commentIcon = this.renderCommentIcon();

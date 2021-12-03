@@ -120,12 +120,12 @@ export class GrSubmitRequirementHovercard extends base {
         .expression {
           color: var(--gray-foreground);
         }
-        iron-icon.check,
+        iron-icon.check-circle-filled,
         iron-icon.overridden {
           color: var(--success-foreground);
         }
-        iron-icon.close {
-          color: var(--error-foreground);
+        iron-icon.block {
+          color: var(--deemphasized-text-color);
         }
         .button iron-icon {
           color: inherit;

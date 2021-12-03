@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e29335fa_43752a02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-03T11:14:06Z",
+      "side": 1,
+      "message": "gr-autocomplete-dropdown fire an item-selected event and has a keyboard handler already.  So it doesn\u0027t make sense to listen to keydown on it from the parent component",
+      "parentUuid": "b5863145_2fc995eb",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "be1d4b5369b7ec5ee33de88ada85baa5c8906c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b3d0c45_7323ea80",
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d55adb29_2523d593",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-03T11:14:06Z",
+      "side": 1,
+      "message": "What part is not so clear?",
+      "parentUuid": "0b3d0c45_7323ea80",
+      "revId": "be1d4b5369b7ec5ee33de88ada85baa5c8906c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e5f2f70_7ab7a63a",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
         "patchSetId": 3
@@ -54,6 +96,30 @@
       "writtenOn": "2021-12-03T09:34:06Z",
       "side": 1,
       "message": "how can _handleItemSelect be be triggered by \u0027tab\u0027?\n\nTab is used for autocomplete and not selecting an entry in the dropdown",
+      "range": {
+        "startLine": 237,
+        "startChar": 2,
+        "endLine": 237,
+        "endChar": 19
+      },
+      "revId": "be1d4b5369b7ec5ee33de88ada85baa5c8906c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "874e47a6_360d688c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-03T11:14:06Z",
+      "side": 1,
+      "message": "gr-autocomplete-dropdown sends an \u0027item-selected\u0027 event with as trigger detail \u0027tab\u0027.",
+      "parentUuid": "2e5f2f70_7ab7a63a",
       "range": {
         "startLine": 237,
         "startChar": 2,

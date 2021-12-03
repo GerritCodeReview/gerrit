@@ -389,13 +389,13 @@ export const htmlTemplate = html`
           </template>
           <!-- TODO: Remove data-url as it appears its not used -->
           <span
-            data-url="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]"
+            data-url="[[_computeDiffURL(change, patchRange.basePatchNum, patchRange.patchNum, file.__path, editMode)]]"
             class="path"
             role="gridcell"
           >
             <a
               class="pathLink"
-              href$="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]"
+              href$="[[_computeDiffURL(change, patchRange.basePatchNum, patchRange.patchNum, file.__path, editMode)]]"
             >
               <span
                 title$="[[_computeDisplayPath(file.__path)]]"

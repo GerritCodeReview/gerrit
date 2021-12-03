@@ -72,6 +72,7 @@ import {
   FileNameToFileInfoMap,
   NumericChangeId,
   PatchRange,
+  RevisionPatchSetNum,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
@@ -1026,28 +1027,23 @@ export class GrFileList extends base {
 
   _computeDiffURL(
     change?: ParsedChangeInfo,
-    patchRange?: PatchRange,
+    basePatchNum?: BasePatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     path?: string,
     editMode?: boolean
   ) {
-    // Polymer 2: check for undefined
     if (
       change === undefined ||
-      !patchRange?.patchNum ||
+      patchNum === undefined ||
       path === undefined ||
       editMode === undefined
     ) {
       return;
     }
     if (editMode && path !== SpecialFilePath.MERGE_LIST) {
-      return GerritNav.getEditUrlForDiff(change, path, patchRange.patchNum);
+      return GerritNav.getEditUrlForDiff(change, path, patchNum);
     }
-    return GerritNav.getUrlForDiff(
-      change,
-      path,
-      patchRange.patchNum,
-      patchRange.basePatchNum
-    );
+    return GerritNav.getUrlForDiff(change, path, patchNum, basePatchNum);
   }
 
   _formatBytes(bytes?: number) {

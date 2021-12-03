@@ -1222,11 +1222,8 @@ suite('gr-file-list tests', () => {
         project: 'gerrit',
       };
       const path = 'index.php';
-      const patchRange = {
-        patchNum: 1,
-      };
       assert.equal(
-          element._computeDiffURL(change, patchRange, path, false),
+          element._computeDiffURL(change, undefined, 1, path, false),
           '/c/gerrit/+/1/1/index.php');
       diffStub.restore();
     });
@@ -1239,11 +1236,8 @@ suite('gr-file-list tests', () => {
         project: 'gerrit',
       };
       const path = '/COMMIT_MSG';
-      const patchRange = {
-        patchNum: 1,
-      };
       assert.equal(
-          element._computeDiffURL(change, patchRange, path, false),
+          element._computeDiffURL(change, undefined, 1, path, false),
           '/c/gerrit/+/1/1//COMMIT_MSG');
       diffStub.restore();
     });
@@ -1256,11 +1250,8 @@ suite('gr-file-list tests', () => {
         project: 'gerrit',
       };
       const path = 'index.php';
-      const patchRange = {
-        patchNum: 1,
-      };
       assert.equal(
-          element._computeDiffURL(change, patchRange, path, true),
+          element._computeDiffURL(change, undefined, 1, path, true),
           '/c/gerrit/+/1/edit/index.php,edit');
       editStub.restore();
     });
@@ -1273,11 +1264,8 @@ suite('gr-file-list tests', () => {
         project: 'gerrit',
       };
       const path = '/COMMIT_MSG';
-      const patchRange = {
-        patchNum: 1,
-      };
       assert.equal(
-          element._computeDiffURL(change, patchRange, path, true),
+          element._computeDiffURL(change, undefined, 1, path, true),
           '/c/gerrit/+/1/edit//COMMIT_MSG,edit');
       editStub.restore();
     });

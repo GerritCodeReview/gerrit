@@ -41,7 +41,11 @@ import {isRemovableReviewer} from '../../../utils/change-util';
 import {ReviewerState} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {fireAlert} from '../../../utils/event-util';
-import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
+import {
+  getApprovalInfo,
+  getCodeReviewLabel,
+  showNewSubmitRequirements,
+} from '../../../utils/label-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
 
 @customElement('gr-reviewer-list')
@@ -87,6 +91,8 @@ export class GrReviewerList extends PolymerElement {
   _xhrPromise?: Promise<Response | undefined>;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   @computed('ccsOnly')
   get _addLabel() {
@@ -301,6 +307,10 @@ export class GrReviewerList extends PolymerElement {
   _removeReviewer(id: AccountId | EmailAddress): Promise<Response | undefined> {
     if (!this.change) return Promise.resolve(undefined);
     return this.restApiService.removeChangeReviewer(this.change._number, id);
+  }
+
+  showNewSubmitRequirements(change?: ChangeInfo) {
+    return showNewSubmitRequirements(this.flagsService, change);
   }
 }
 

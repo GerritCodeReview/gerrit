@@ -33,7 +33,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.RegexPredicate;
 import com.google.gerrit.index.query.TimestampRangePredicate;
-import java.util.Date;
 import java.util.List;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.IntPoint;
@@ -277,10 +276,6 @@ public class QueryBuilder<V> {
       throw new QueryParseException("Cannot create full-text query with value: " + value);
     }
     return query;
-  }
-
-  public int toIndexTimeInMinutes(Date ts) {
-    return (int) (ts.getTime() / 60000);
   }
 
   public Schema<V> getSchema() {

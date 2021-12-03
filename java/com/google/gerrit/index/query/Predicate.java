@@ -18,10 +18,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.Iterables;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
@@ -152,7 +152,7 @@ public abstract class Predicate<T> {
   /** Returns a list of this predicate and all its descendants. */
   public List<Predicate<T>> getFlattenedPredicateList() {
     List<Predicate<T>> result = new ArrayList<>();
-    Queue<Predicate<T>> queue = new LinkedList<>();
+    Queue<Predicate<T>> queue = new ArrayDeque<>();
     queue.add(this);
     while (!queue.isEmpty()) {
       Predicate<T> current = queue.poll();

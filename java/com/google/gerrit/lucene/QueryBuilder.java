@@ -231,15 +231,17 @@ public class QueryBuilder<V> {
     if (p instanceof TimestampRangePredicate) {
       TimestampRangePredicate<V> r = (TimestampRangePredicate<V>) p;
       return longRangeQuery.get(
-          r.getField().getName(), r.getMinTimestamp().getTime(), r.getMaxTimestamp().getTime());
+          r.getField().getName(),
+          r.getMinTimestamp().toEpochMilli(),
+          r.getMaxTimestamp().toEpochMilli());
     }
     throw new QueryParseException("not a timestamp: " + p);
   }
 
   private Query notTimestamp(TimestampRangePredicate<V> r) throws QueryParseException {
-    if (r.getMinTimestamp().getTime() == 0) {
+    if (r.getMinTimestamp().toEpochMilli() == 0) {
       return longRangeQuery.get(
-          r.getField().getName(), r.getMaxTimestamp().getTime(), Long.MAX_VALUE);
+          r.getField().getName(), r.getMaxTimestamp().toEpochMilli(), Long.MAX_VALUE);
     }
     throw new QueryParseException("cannot negate: " + r);
   }

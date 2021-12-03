@@ -17,14 +17,14 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.QueryParseException;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.Instant;
 
 /**
  * Predicate that matches a {@link Timestamp} field from the index in a range from the passed {@code
  * String} representation of the Timestamp value to the maximum supported time.
  */
 public class AfterPredicate extends TimestampRangeChangePredicate {
-  protected final Date cut;
+  protected final Instant cut;
 
   public AfterPredicate(FieldDef<ChangeData, Timestamp> def, String name, String value)
       throws QueryParseException {
@@ -33,13 +33,13 @@ public class AfterPredicate extends TimestampRangeChangePredicate {
   }
 
   @Override
-  public Date getMinTimestamp() {
+  public Instant getMinTimestamp() {
     return cut;
   }
 
   @Override
-  public Date getMaxTimestamp() {
-    return new Date(Long.MAX_VALUE);
+  public Instant getMaxTimestamp() {
+    return Instant.ofEpochMilli(Long.MAX_VALUE);
   }
 
   @Override
@@ -48,6 +48,6 @@ public class AfterPredicate extends TimestampRangeChangePredicate {
     if (valueTimestamp == null) {
       return false;
     }
-    return valueTimestamp.getTime() >= cut.getTime();
+    return valueTimestamp.getTime() >= cut.toEpochMilli();
   }
 }

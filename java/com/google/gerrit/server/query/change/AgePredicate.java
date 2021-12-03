@@ -21,26 +21,27 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 public class AgePredicate extends TimestampRangeChangePredicate {
-  protected final long cut;
+  protected final Instant cut;
 
   public AgePredicate(String value) {
     super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_AGE, value);
 
     long s = ConfigUtil.getTimeUnit(getValue(), 0, SECONDS);
     long ms = MILLISECONDS.convert(s, SECONDS);
-    this.cut = TimeUtil.nowMs() - ms;
+    this.cut = Instant.ofEpochMilli(TimeUtil.nowMs() - ms);
   }
 
   @Override
-  public Timestamp getMinTimestamp() {
-    return new Timestamp(0);
+  public Instant getMinTimestamp() {
+    return Instant.ofEpochMilli(0);
   }
 
   @Override
-  public Timestamp getMaxTimestamp() {
-    return new Timestamp(cut);
+  public Instant getMaxTimestamp() {
+    return cut;
   }
 
   @Override
@@ -49,6 +50,6 @@ public class AgePredicate extends TimestampRangeChangePredicate {
     if (valueTimestamp == null) {
       return false;
     }
-    return valueTimestamp.getTime() <= cut;
+    return valueTimestamp.getTime() <= cut.toEpochMilli();
   }
 }

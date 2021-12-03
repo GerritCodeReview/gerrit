@@ -245,9 +245,9 @@ export function extractAssociatedLabels(
 export function iconForStatus(status: SubmitRequirementStatus) {
   switch (status) {
     case SubmitRequirementStatus.SATISFIED:
-      return 'check';
+      return 'check-circle-filled';
     case SubmitRequirementStatus.UNSATISFIED:
-      return 'close';
+      return 'block';
     case SubmitRequirementStatus.OVERRIDDEN:
       return 'overridden';
     case SubmitRequirementStatus.NOT_APPLICABLE:

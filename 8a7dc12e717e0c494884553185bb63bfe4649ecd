@@ -34,6 +34,24 @@
       "parentUuid": "79124d7b_4c45845a",
       "revId": "8a7dc12e717e0c494884553185bb63bfe4649ecd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d3728ac_0ac7a767",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-03T12:49:11Z",
+      "side": 1,
+      "message": "Since there is a new design for dashboard where comment icon is in status, I am closing it as resolved.",
+      "parentUuid": "398552e7_9088a67e",
+      "revId": "8a7dc12e717e0c494884553185bb63bfe4649ecd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

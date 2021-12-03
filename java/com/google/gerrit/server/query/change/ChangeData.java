@@ -272,7 +272,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, project, id, null, null);
+            null, null, null, null, project, id, null, null);
     cd.currentPatchSet =
         PatchSet.builder()
             .id(PatchSet.id(id, currentPatchSetId))
@@ -300,6 +300,7 @@ public class ChangeData {
   private final TrackingFooters trackingFooters;
   private final PureRevert pureRevert;
   private final SubmitRequirementsEvaluator submitRequirementsEvaluator;
+  private final SubmitRequirementsUtil submitRequirementsUtil;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   // Required assisted injected fields.
@@ -382,6 +383,7 @@ public class ChangeData {
       TrackingFooters trackingFooters,
       PureRevert pureRevert,
       SubmitRequirementsEvaluator submitRequirementsEvaluator,
+      SubmitRequirementsUtil submitRequirementsUtil,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
@@ -403,6 +405,7 @@ public class ChangeData {
     this.trackingFooters = trackingFooters;
     this.pureRevert = pureRevert;
     this.submitRequirementsEvaluator = submitRequirementsEvaluator;
+    this.submitRequirementsUtil = submitRequirementsUtil;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
 
     this.project = project;
@@ -971,8 +974,8 @@ public class ChangeData {
       Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements =
           SubmitRequirementsAdapter.getLegacyRequirements(this);
       submitRequirements =
-          SubmitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
-              projectConfigRequirements, legacyRequirements);
+          submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
+              projectConfigRequirements, legacyRequirements, project());
     }
     return submitRequirements;
   }

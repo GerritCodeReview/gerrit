@@ -330,6 +330,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
       </div>
       `);
     });
+
     test("doesn't render when already voted max vote", async () => {
       const changeWithVote = {
         ...change,
@@ -359,6 +360,59 @@ suite('gr-submit-requirement-hovercard tests', () => {
         ></gr-submit-requirement-hovercard>`
       );
       assert.isUndefined(query(element, '.quickApprove'));
+    });
+
+    test('override button renders', async () => {
+      const submitRequirement: SubmitRequirementResultInfo = {
+        ...createSubmitRequirementResultInfo(),
+        description: 'Test Description',
+        submittability_expression_result: {
+          ...createSubmitRequirementExpressionInfo(),
+          expression: 'label:Verified=MAX -label:Verified=MIN',
+        },
+        override_expression_result: {
+          ...createSubmitRequirementExpressionInfo(),
+          expression: 'label:Build-Cop=MAX',
+        },
+      };
+      const account = createAccountWithId();
+      const change: ParsedChangeInfo = {
+        ...createParsedChange(),
+        status: ChangeStatus.NEW,
+        labels: {
+          'Build-Cop': {
+            ...createDetailedLabelInfo(),
+            all: [
+              {
+                ...createApproval(),
+                _account_id: account._account_id,
+                permitted_voting_range: {
+                  min: -2,
+                  max: 2,
+                },
+              },
+            ],
+          },
+        },
+      };
+      const element = await fixture<GrSubmitRequirementHovercard>(
+        html`<gr-submit-requirement-hovercard
+          .requirement=${submitRequirement}
+          .change=${change}
+          .account=${account}
+        ></gr-submit-requirement-hovercard>`
+      );
+      const quickApprove = queryAndAssert(element, '.quickApprove');
+      expect(quickApprove).dom.to.equal(`<div class="button quickApprove">
+        <gr-button
+          aria-disabled="false"
+          link=""
+          role="button"
+          tabindex="0"
+        >Override (Build-Cop)
+        </gr-button>
+      </div>
+      `);
     });
   });
 });

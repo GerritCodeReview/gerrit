@@ -15,28 +15,31 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-page-nav.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import '../../../test/common-test-setup-karma';
+import './gr-page-nav';
+import {GrPageNav} from './gr-page-nav';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 const basicFixture = fixtureFromTemplate(html`
-<gr-page-nav>
-      <ul>
-        <li>item</li>
-      </ul>
-    </gr-page-nav>
+  <gr-page-nav>
+    <ul>
+      <li>item</li>
+    </ul>
+  </gr-page-nav>
 `);
 
 suite('gr-page-nav tests', () => {
-  let element;
+  let element: GrPageNav;
 
-  setup(() => {
-    element = basicFixture.instantiate();
-    flush();
+  setup(async () => {
+    element = basicFixture.instantiate() as GrPageNav;
+    await flush();
   });
 
   test('header is not pinned just below top', () => {
-    sinon.stub(element, '_getOffsetParent').callsFake(() => 0);
+    sinon
+      .stub(element, '_getOffsetParent')
+      .callsFake(() => 0 as unknown as HTMLElement);
     sinon.stub(element, '_getOffsetTop').callsFake(() => 10);
     sinon.stub(element, '_getScrollY').callsFake(() => 5);
     element._handleBodyScroll();
@@ -44,10 +47,11 @@ suite('gr-page-nav tests', () => {
   });
 
   test('header is pinned when scroll down the page', () => {
-    sinon.stub(element, '_getOffsetParent').callsFake(() => 0);
+    sinon
+      .stub(element, '_getOffsetParent')
+      .callsFake(() => 0 as unknown as HTMLElement);
     sinon.stub(element, '_getOffsetTop').callsFake(() => 10);
     sinon.stub(element, '_getScrollY').callsFake(() => 25);
-    window.scrollY = 100;
     element._handleBodyScroll();
     assert.isTrue(element.$.nav.classList.contains('pinned'));
   });
@@ -55,7 +59,6 @@ suite('gr-page-nav tests', () => {
   test('header is not pinned just below top with header set', () => {
     element._headerHeight = 20;
     sinon.stub(element, '_getScrollY').callsFake(() => 15);
-    window.scrollY = 100;
     element._handleBodyScroll();
     assert.isFalse(element.$.nav.classList.contains('pinned'));
   });
@@ -63,9 +66,7 @@ suite('gr-page-nav tests', () => {
   test('header is pinned when scroll down the page with header set', () => {
     element._headerHeight = 20;
     sinon.stub(element, '_getScrollY').callsFake(() => 25);
-    window.scrollY = 100;
     element._handleBodyScroll();
     assert.isTrue(element.$.nav.classList.contains('pinned'));
   });
 });
-

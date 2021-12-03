@@ -68,6 +68,78 @@
       },
       "revId": "c0a9f27d8f818c879079c113f5b193270db95ed6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e6fe23c_a8542c6b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1892,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-03T13:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a841f784_db11cf2f",
+      "range": {
+        "startLine": 1892,
+        "startChar": 2,
+        "endLine": 1892,
+        "endChar": 28
+      },
+      "revId": "c0a9f27d8f818c879079c113f5b193270db95ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "827038f7_3883c728",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1892,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-03T13:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "543c5047_6047e53b",
+      "range": {
+        "startLine": 1892,
+        "startChar": 2,
+        "endLine": 1892,
+        "endChar": 28
+      },
+      "revId": "c0a9f27d8f818c879079c113f5b193270db95ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79dff3a8_4ca2ff66",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1892,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-03T13:56:47Z",
+      "side": 1,
+      "message": "Used in tests. Added a comment.",
+      "parentUuid": "8abc25b0_ec0ad6cd",
+      "range": {
+        "startLine": 1892,
+        "startChar": 2,
+        "endLine": 1892,
+        "endChar": 28
+      },
+      "revId": "c0a9f27d8f818c879079c113f5b193270db95ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

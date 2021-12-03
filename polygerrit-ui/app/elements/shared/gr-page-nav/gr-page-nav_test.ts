@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-page-nav';
 import {GrPageNav} from './gr-page-nav';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {queryAndAssert} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromTemplate(html`
   <gr-page-nav>
@@ -33,40 +34,44 @@ suite('gr-page-nav tests', () => {
 
   setup(async () => {
     element = basicFixture.instantiate() as GrPageNav;
-    await flush();
+    await element.updateComplete;
   });
 
   test('header is not pinned just below top', () => {
     sinon
-      .stub(element, '_getOffsetParent')
+      .stub(element, 'getOffsetParent')
       .callsFake(() => 0 as unknown as HTMLElement);
-    sinon.stub(element, '_getOffsetTop').callsFake(() => 10);
-    sinon.stub(element, '_getScrollY').callsFake(() => 5);
-    element._handleBodyScroll();
-    assert.isFalse(element.$.nav.classList.contains('pinned'));
+    sinon.stub(element, 'getOffsetTop').callsFake(() => 10);
+    sinon.stub(element, 'getScrollY').callsFake(() => 5);
+    element.handleBodyScroll();
+    assert.isFalse(
+      queryAndAssert(element, '#nav').classList.contains('pinned')
+    );
   });
 
   test('header is pinned when scroll down the page', () => {
     sinon
-      .stub(element, '_getOffsetParent')
+      .stub(element, 'getOffsetParent')
       .callsFake(() => 0 as unknown as HTMLElement);
-    sinon.stub(element, '_getOffsetTop').callsFake(() => 10);
-    sinon.stub(element, '_getScrollY').callsFake(() => 25);
-    element._handleBodyScroll();
-    assert.isTrue(element.$.nav.classList.contains('pinned'));
+    sinon.stub(element, 'getOffsetTop').callsFake(() => 10);
+    sinon.stub(element, 'getScrollY').callsFake(() => 25);
+    element.handleBodyScroll();
+    assert.isTrue(queryAndAssert(element, '#nav').classList.contains('pinned'));
   });
 
   test('header is not pinned just below top with header set', () => {
-    element._headerHeight = 20;
-    sinon.stub(element, '_getScrollY').callsFake(() => 15);
-    element._handleBodyScroll();
-    assert.isFalse(element.$.nav.classList.contains('pinned'));
+    element.headerHeight = 20;
+    sinon.stub(element, 'getScrollY').callsFake(() => 15);
+    element.handleBodyScroll();
+    assert.isFalse(
+      queryAndAssert(element, '#nav').classList.contains('pinned')
+    );
   });
 
   test('header is pinned when scroll down the page with header set', () => {
-    element._headerHeight = 20;
-    sinon.stub(element, '_getScrollY').callsFake(() => 25);
-    element._handleBodyScroll();
-    assert.isTrue(element.$.nav.classList.contains('pinned'));
+    element.headerHeight = 20;
+    sinon.stub(element, 'getScrollY').callsFake(() => 25);
+    element.handleBodyScroll();
+    assert.isTrue(queryAndAssert(element, '#nav').classList.contains('pinned'));
   });
 });

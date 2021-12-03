@@ -14,22 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-page-nav_html';
-import {customElement, property} from '@polymer/decorators';
 
-/**
- * Augment the interface on top of PolymerElement
- * for gr-page-nav.
- */
-export interface GrPageNav {
-  $: {
-    // Note: this is needed to access $.nav
-    // with dotted property access
-    nav: HTMLElement;
-  };
-}
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, css, html} from 'lit';
+import {customElement, query, state} from 'lit/decorators';
+import {assertIsDefined} from '../../../utils/common-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -38,19 +27,17 @@ declare global {
 }
 
 @customElement('gr-page-nav')
-export class GrPageNav extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrPageNav extends LitElement {
+  @query('#nav') private nav?: HTMLElement;
 
-  @property({type: Number})
-  _headerHeight?: number;
+  // private but used in test
+  @state() headerHeight?: number;
 
   private readonly bodyScrollHandler: () => void;
 
   constructor() {
     super();
-    this.bodyScrollHandler = () => this._handleBodyScroll();
+    this.bodyScrollHandler = () => this.handleBodyScroll();
   }
 
   override connectedCallback() {
@@ -63,40 +50,78 @@ export class GrPageNav extends PolymerElement {
     super.disconnectedCallback();
   }
 
-  _handleBodyScroll() {
-    if (this._headerHeight === undefined) {
-      let top = this._getOffsetTop(this);
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        #nav {
+          background-color: var(--table-header-background-color);
+          border: 1px solid var(--border-color);
+          border-top: none;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          width: 14em;
+        }
+        #nav.pinned {
+          position: fixed;
+        }
+        @media only screen and (max-width: 53em) {
+          #nav {
+            display: none;
+          }
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <nav id="nav" aria-label="Sidebar">
+        <slot></slot>
+      </nav>
+    `;
+  }
+
+  // private but used in test
+  handleBodyScroll() {
+    assertIsDefined(this.nav, 'nav');
+    if (this.headerHeight === undefined) {
+      let top = this.getOffsetTop(this);
       // TODO(TS): Element doesn't have offsetParent,
       // while `offsetParent` are returning Element not HTMLElement
       for (
         let offsetParent = this.offsetParent as HTMLElement | undefined;
         offsetParent;
-        offsetParent = this._getOffsetParent(offsetParent)
+        offsetParent = this.getOffsetParent(offsetParent)
       ) {
-        top += this._getOffsetTop(offsetParent);
+        top += this.getOffsetTop(offsetParent);
       }
-      this._headerHeight = top;
+      this.headerHeight = top;
     }
 
-    this.$.nav.classList.toggle(
+    this.nav.classList.toggle(
       'pinned',
-      this._getScrollY() >= (this._headerHeight || 0)
+      this.getScrollY() >= (this.headerHeight || 0)
     );
   }
 
   /* Functions used for test purposes */
-  _getOffsetParent(element?: HTMLElement) {
+  // private but used in test
+  getOffsetParent(element?: HTMLElement) {
     if (!element || !('offsetParent' in element)) {
       return undefined;
     }
     return element.offsetParent as HTMLElement;
   }
 
-  _getOffsetTop(element: HTMLElement) {
+  // private but used in test
+  getOffsetTop(element: HTMLElement) {
     return element.offsetTop;
   }
 
-  _getScrollY() {
+  // private but used in test
+  getScrollY() {
     return window.scrollY;
   }
 }

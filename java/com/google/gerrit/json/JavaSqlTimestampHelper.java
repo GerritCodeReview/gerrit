@@ -15,7 +15,8 @@
 package com.google.gerrit.json;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 /** Utility to parse Timestamp from a string. */
 public class JavaSqlTimestampHelper {
@@ -81,8 +82,9 @@ public class JavaSqlTimestampHelper {
       ss = 0;
       ns = 0;
     }
-    @SuppressWarnings("deprecation")
-    Timestamp result = new Timestamp(Date.UTC(yy, mm, dd, hh, mi, ss) - off);
+    Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    calendar.set(yy + 1900, mm, dd, hh, mi, ss);
+    Timestamp result = new Timestamp(calendar.toInstant().toEpochMilli() - off);
     result.setNanos(ns);
     return result;
   }

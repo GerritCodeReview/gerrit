@@ -208,7 +208,7 @@ export function waitUntil(
   });
 }
 
-export function waitUntilCalled(stub: SinonStub, name: string) {
+export function waitUntilCalled(stub: SinonStub | SinonSpy, name: string) {
   return waitUntil(() => stub.called, `${name} was not called`);
 }
 

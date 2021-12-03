@@ -35,7 +35,6 @@ import {
   takeUntil,
   takeWhile,
   throttleTime,
-  withLatestFrom,
 } from 'rxjs/operators';
 import {
   Action,
@@ -639,7 +638,7 @@ export class ChecksModel implements Finalizable {
     // 4. A hidden Gerrit tab becoming visible.
     this.subscriptions.push(
       combineLatest([
-        this.changeModel.changeNum$,
+        this.changeModel.change$,
         patchset === ChecksPatchset.LATEST
           ? this.changeModel.latestPatchNum$
           : this.checksSelectedPatchsetNumber$,
@@ -650,27 +649,24 @@ export class ChecksModel implements Finalizable {
         .pipe(
           takeWhile(_ => !!this.providers[pluginName]),
           filter(_ => document.visibilityState !== 'hidden'),
-          withLatestFrom(this.changeModel.change$),
-          switchMap(
-            ([[changeNum, patchNum], change]): Observable<FetchResponse> => {
-              if (!change || !changeNum || !patchNum) return of(this.empty());
-              if (typeof patchNum !== 'number') return of(this.empty());
-              assertIsDefined(change.revisions, 'change.revisions');
-              const patchsetSha = getShaByPatchNum(change.revisions, patchNum);
-              // Sometimes patchNum is updated earlier than change, so change
-              // revisions don't have patchNum yet
-              if (!patchsetSha) return of(this.empty());
-              const data: ChangeData = {
-                changeNumber: changeNum,
-                patchsetNumber: patchNum,
-                patchsetSha,
-                repo: change.project,
-                commitMessage: getCurrentRevision(change)?.commit?.message,
-                changeInfo: change as ChangeInfo,
-              };
-              return this.fetchResults(pluginName, data, patchset);
-            }
-          ),
+          switchMap(([change, patchNum]): Observable<FetchResponse> => {
+            if (!change || !patchNum) return of(this.empty());
+            if (typeof patchNum !== 'number') return of(this.empty());
+            assertIsDefined(change.revisions, 'change.revisions');
+            const patchsetSha = getShaByPatchNum(change.revisions, patchNum);
+            // Sometimes patchNum is updated earlier than change, so change
+            // revisions don't have patchNum yet
+            if (!patchsetSha) return of(this.empty());
+            const data: ChangeData = {
+              changeNumber: change?._number,
+              patchsetNumber: patchNum,
+              patchsetSha,
+              repo: change.project,
+              commitMessage: getCurrentRevision(change)?.commit?.message,
+              changeInfo: change as ChangeInfo,
+            };
+            return this.fetchResults(pluginName, data, patchset);
+          }),
           catchError(e => {
             // This should not happen and is really severe, because it means that
             // the Observable has terminated and we won't recover from that. No

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c5778b2_674cdf64",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3102,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-03T20:06:56Z",
+      "side": 1,
+      "message": "s/lucene\u0027s/Lucene\u0027s/\n\nMaybe clarify \"enables info stream\" as \"enables IndexWriter InfoStream for all components\" and then link to [1]?\n\n[1] https://lucene.apache.org/core/6_6_5/core/org/apache/lucene/util/InfoStream.html\n\nPlease fix version of that link to match the lucene version in 3.2 if this isn\u0027t right.",
+      "revId": "bb83d41cd7b518d8a7b7e3a404df480eb2e5ff0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b56f2bdd_c733366e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3103,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-03T20:06:56Z",
+      "side": 1,
+      "message": "This should probably mention it only has an effect for Lucene? And definitely should mention that this isn\u0027t recommended for production use since https://lucene.apache.org/core/6_6_5/core/org/apache/lucene/util/InfoStream.html notes that it could have a performance impact.",
+      "revId": "bb83d41cd7b518d8a7b7e3a404df480eb2e5ff0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f1d77a1_981acdfe",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-03T20:06:56Z",
+      "side": 1,
+      "message": "\"System.out\" is not a good generic value to use here. We probably want to use something passed into the constructor. For example, a running Gerrit daemon might want this to go into the error_log file or a custom lucene log file.\n\nI\u0027m not sure we want to take on the effort to do all that, so perhaps we should pause and think on this approach more.",
+      "range": {
+        "startLine": 39,
+        "startChar": 45,
+        "endLine": 39,
+        "endChar": 55
+      },
+      "revId": "bb83d41cd7b518d8a7b7e3a404df480eb2e5ff0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

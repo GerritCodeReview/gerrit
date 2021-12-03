@@ -65,7 +65,7 @@ import {GerritView} from '../../../services/router/router-model';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
-interface AdminSubsectionLink {
+export interface AdminSubsectionLink {
   text: string;
   value: string;
   view: GerritView;
@@ -169,9 +169,10 @@ export class GrAdminView extends PolymerElement {
   @property({type: Boolean})
   _showPluginList?: boolean;
 
-  private readonly restApiService = getAppContext().restApiService;
+  // private but used in the tests
+  readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly jsAPI = getAppContext().jsApiService;
+  private readonly restApiService = getAppContext().restApiService;
 
   override connectedCallback() {
     super.connectedCallback();

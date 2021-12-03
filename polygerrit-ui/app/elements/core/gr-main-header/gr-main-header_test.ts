@@ -99,7 +99,7 @@ suite('gr-main-header tests', () => {
         name: 'Repos',
         url: '/repos',
         noBaseUrl: true,
-        view: null,
+        view: undefined,
       },
     ];
 
@@ -173,7 +173,7 @@ suite('gr-main-header tests', () => {
         name: 'Repos',
         url: '/repos',
         noBaseUrl: true,
-        view: null,
+        view: undefined,
       },
     ];
     const topMenus = [
@@ -220,7 +220,7 @@ suite('gr-main-header tests', () => {
         name: 'Repos',
         url: '/repos',
         noBaseUrl: true,
-        view: null,
+        view: undefined,
       },
     ];
     const topMenus = [
@@ -272,7 +272,7 @@ suite('gr-main-header tests', () => {
         name: 'Repos',
         url: '/repos',
         noBaseUrl: true,
-        view: null,
+        view: undefined,
       },
     ];
     const topMenus = [
@@ -434,7 +434,7 @@ suite('gr-main-header tests', () => {
         name: 'Repos',
         url: '/repos',
         noBaseUrl: true,
-        view: null,
+        view: undefined,
       },
     ];
     const topMenus = [

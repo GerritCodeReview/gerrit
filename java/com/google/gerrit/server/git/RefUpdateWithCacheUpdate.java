@@ -14,8 +14,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 
-class RefUpdateWithCacheUpdate extends RefUpdate {
-  interface Factory {
+public class RefUpdateWithCacheUpdate extends RefUpdate {
+  public interface Factory {
     RefUpdateWithCacheUpdate create(RefDatabase refDb, Repository repo, RefUpdate delegate);
   }
 

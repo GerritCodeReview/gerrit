@@ -28,17 +28,20 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 
-class CachedRefDatabase extends RefDatabase {
-  interface Factory {
-    CachedRefDatabase create(CachedRefRepository repo);
+public class CachedRefDatabase<T extends Repository & WithDelegate<?>> extends RefDatabase {
+  public interface TemplateFactory<T extends Repository & WithDelegate<?>> {
+    CachedRefDatabase<T> create(T repo);
   }
+
+  interface Factory extends TemplateFactory<CachedRefRepository> {}
 
   private final RefByNameCache refsCache;
   private final BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory;
   private final RefUpdateWithCacheUpdate.Factory updateFactory;
   private final RefRenameWithCacheUpdate.Factory renameFactory;
-  private final CachedRefRepository repo;
+  private final T repo;
 
   @Inject
   CachedRefDatabase(
@@ -46,7 +49,7 @@ class CachedRefDatabase extends RefDatabase {
       BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory,
       RefUpdateWithCacheUpdate.Factory updateFactory,
       RefRenameWithCacheUpdate.Factory renameFactory,
-      @Assisted CachedRefRepository repo) {
+      @Assisted T repo) {
     this.refsCache = refsCache;
     this.batchUpdateFactory = batchUpdateFactory;
     this.updateFactory = updateFactory;

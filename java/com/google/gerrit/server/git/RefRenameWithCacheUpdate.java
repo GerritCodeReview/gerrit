@@ -24,8 +24,8 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 
-class RefRenameWithCacheUpdate extends RefRename {
-  interface Factory {
+public class RefRenameWithCacheUpdate extends RefRename {
+  public interface Factory {
     RefRenameWithCacheUpdate create(
         Repository repo,
         RefRename delegate,

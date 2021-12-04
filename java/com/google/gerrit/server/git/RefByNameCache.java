@@ -27,9 +27,9 @@ import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Ref;
 
 @Singleton
-class RefByNameCache {
+public class RefByNameCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final String REF_BY_NAME = "ref_by_name";
+  public static final String REF_BY_NAME = "ref_by_name";
 
   static com.google.inject.Module module() {
     return new CacheModule() {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17b13514_7e7d2f7a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-04T00:11:16Z",
+      "side": 1,
+      "message": "Doing that breaks the test.",
+      "parentUuid": "466558df_654e961d",
+      "revId": "984598cf83be1ca6db63876b173ee5c2140a3e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "004bc0b9_caa38042",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77056368_17a4921c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-04T00:11:16Z",
+      "side": 1,
+      "message": "Doing that breaks the test.",
+      "parentUuid": "004bc0b9_caa38042",
+      "revId": "984598cf83be1ca6db63876b173ee5c2140a3e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58fcb58e_75e46b50",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-12-03T22:59:03Z",
       "side": 1,
       "message": "Why do you need this one?",
+      "revId": "984598cf83be1ca6db63876b173ee5c2140a3e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "791c66bb_2869daa8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-04T00:11:16Z",
+      "side": 1,
+      "message": "Yes, removing it causes the test to fail.",
+      "parentUuid": "58fcb58e_75e46b50",
       "revId": "984598cf83be1ca6db63876b173ee5c2140a3e89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

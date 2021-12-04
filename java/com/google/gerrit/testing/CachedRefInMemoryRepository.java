@@ -12,8 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.testing;
 
+import com.google.gerrit.server.git.CachedRefDatabase;
+import com.google.gerrit.server.git.CachedRefDatabase.TemplateFactory;
+import com.google.gerrit.server.git.RefRenameWithCacheUpdate;
+import com.google.gerrit.server.git.RefUpdateWithCacheUpdate;
+import com.google.gerrit.server.git.WithDelegate;
+import com.google.gerrit.testing.InMemoryRepositoryManager.Description;
+import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.File;
@@ -21,6 +28,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -41,21 +49,23 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.FS;
 
-class CachedRefRepository extends DelegateRepository implements WithDelegate<Repository> {
+public class CachedRefInMemoryRepository extends InMemoryRepositoryManager.Repo
+    implements WithDelegate<InMemoryRepositoryManager.Repo> {
   @Singleton
-  static class Factory implements LocalDiskRepositoryManager.RepoWrapperFactory {
-    private final CachedRefDatabase.Factory refDbFactory;
+  public static class Factory implements InMemoryRepositoryManager.RepoWrapperFactory {
+    private final RefDbFactory refDbFactory;
     private final RefUpdateWithCacheUpdate.Factory updateFactory;
     private final RefRenameWithCacheUpdate.Factory renameFactory;
 
     @Inject
     Factory(
-        CachedRefDatabase.Factory refDbFactory,
+        RefDbFactory refDbFactory,
         RefUpdateWithCacheUpdate.Factory updateFactory,
         RefRenameWithCacheUpdate.Factory renameFactory) {
       this.refDbFactory = refDbFactory;
@@ -64,24 +74,53 @@ class CachedRefRepository extends DelegateRepository implements WithDelegate<Rep
     }
 
     @Override
-    public Repository create(Repository repo) {
-      return new CachedRefRepository(refDbFactory, updateFactory, renameFactory, repo);
+    public InMemoryRepositoryManager.Repo create(InMemoryRepositoryManager.Repo repo) {
+      return new CachedRefInMemoryRepository(refDbFactory, updateFactory, renameFactory, repo);
     }
   }
 
-  private final CachedRefDatabase<CachedRefRepository> refDb;
+  public interface RefDbFactory extends TemplateFactory<CachedRefInMemoryRepository> {}
+
+  private final Repo delegate;
+  private final CachedRefDatabase<CachedRefInMemoryRepository> refDb;
   private final RefUpdateWithCacheUpdate.Factory updateFactory;
   private final RefRenameWithCacheUpdate.Factory renameFactory;
 
-  CachedRefRepository(
-      CachedRefDatabase.Factory refDbFactory,
+  CachedRefInMemoryRepository(
+      RefDbFactory refDbFactory,
       RefUpdateWithCacheUpdate.Factory updateFactory,
       RefRenameWithCacheUpdate.Factory renameFactory,
-      Repository repo) {
-    super(repo);
+      InMemoryRepositoryManager.Repo delegate) {
+    super(delegate.getDescription().getProject());
+    this.delegate = delegate;
+    this.refDb = refDbFactory.create(this);
     this.updateFactory = updateFactory;
     this.renameFactory = renameFactory;
-    this.refDb = refDbFactory.create(this);
+  }
+
+  @Override
+  public Repo getDelegate() {
+    return delegate;
+  }
+
+  @Override
+  public Description getDescription() {
+    return delegate.getDescription();
+  }
+
+  @Override
+  public String getGitwebDescription() {
+    return delegate.getGitwebDescription();
+  }
+
+  @Override
+  public void setGitwebDescription(String d) {
+    delegate.setGitwebDescription(d);
+  }
+
+  @Override
+  public MemObjDatabase getObjectDatabase() {
+    return delegate.getObjectDatabase();
   }
 
   @Override
@@ -90,278 +129,315 @@ class CachedRefRepository extends DelegateRepository implements WithDelegate<Rep
   }
 
   @Override
+  public void setPerformsAtomicTransactions(boolean atomic) {
+    if (delegate != null) {
+      delegate.setPerformsAtomicTransactions(atomic);
+    }
+  }
+
+  @Override
+  public boolean exists() throws IOException {
+    return delegate.exists();
+  }
+
+  @Override
+  public void create(boolean bare) throws IOException {
+    delegate.create(bare);
+  }
+
+  @Override
+  public StoredConfig getConfig() {
+    return delegate.getConfig();
+  }
+
+  @Override
+  public String getIdentifier() {
+    return delegate.getIdentifier();
+  }
+
+  @Override
+  public void scanForRepoChanges() throws IOException {
+    delegate.scanForRepoChanges();
+  }
+
+  @Override
+  public void notifyIndexChanged(boolean internal) {
+    delegate.notifyIndexChanged(internal);
+  }
+
+  @Override
+  public ReflogReader getReflogReader(String refName) throws IOException {
+    return delegate.getReflogReader(refName);
+  }
+
+  @Override
+  public AttributesNodeProvider createAttributesNodeProvider() {
+    return delegate.createAttributesNodeProvider();
+  }
+
+  @Override
   public ListenerList getListenerList() {
-    return getDelegate().getListenerList();
+    return delegate.getListenerList();
   }
 
   @Override
   public void fireEvent(RepositoryEvent<?> event) {
-    getDelegate().fireEvent(event);
+    delegate.fireEvent(event);
+  }
+
+  @Override
+  public void create() throws IOException {
+    delegate.create();
   }
 
   @Override
   public File getDirectory() {
-    return getDelegate().getDirectory();
+    return delegate.getDirectory();
   }
 
   @Override
   public ObjectInserter newObjectInserter() {
-    return getDelegate().newObjectInserter();
+    return delegate.newObjectInserter();
   }
 
   @Override
   public ObjectReader newObjectReader() {
-    return getDelegate().newObjectReader();
+    return delegate.newObjectReader();
   }
 
   @Override
   public FS getFS() {
-    return getDelegate().getFS();
+    return delegate.getFS();
   }
 
   @Deprecated
   @Override
   public boolean hasObject(AnyObjectId objectId) {
-    return getDelegate().hasObject(objectId);
+    return delegate.hasObject(objectId);
   }
 
   @Override
   public ObjectLoader open(AnyObjectId objectId) throws MissingObjectException, IOException {
-    return getDelegate().open(objectId);
+    return delegate.open(objectId);
   }
 
   @Override
   public ObjectLoader open(AnyObjectId objectId, int typeHint)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
-    return getDelegate().open(objectId, typeHint);
+    return delegate.open(objectId, typeHint);
   }
 
   @Override
   public RefUpdate updateRef(String ref) throws IOException {
-    return updateFactory.create(refDb, this, getDelegate().updateRef(ref));
+    return updateFactory.create(refDb, this, delegate.updateRef(ref));
   }
 
   @Override
   public RefUpdate updateRef(String ref, boolean detach) throws IOException {
-    return updateFactory.create(refDb, this, getDelegate().updateRef(ref, detach));
+    return updateFactory.create(refDb, this, delegate.updateRef(ref, detach));
   }
 
   @Override
   public RefRename renameRef(String fromRef, String toRef) throws IOException {
     return renameFactory.create(
-        this, getDelegate().renameRef(fromRef, toRef), updateRef(fromRef), updateRef(toRef));
+        this, delegate.renameRef(fromRef, toRef), updateRef(fromRef), updateRef(toRef));
   }
 
   @Override
   public ObjectId resolve(String revstr)
       throws AmbiguousObjectException, IncorrectObjectTypeException, RevisionSyntaxException,
           IOException {
-    return getDelegate().resolve(revstr);
+    return delegate.resolve(revstr);
   }
 
   @Override
   public String simplify(String revstr) throws AmbiguousObjectException, IOException {
-    return getDelegate().simplify(revstr);
+    return delegate.simplify(revstr);
   }
 
   @Override
   public void incrementOpen() {
-    getDelegate().incrementOpen();
+    delegate.incrementOpen();
   }
 
   @Override
   public void close() {
-    getDelegate().close();
+    delegate.close();
   }
 
   @Override
   public String getFullBranch() throws IOException {
-    return getDelegate().getFullBranch();
+    return delegate.getFullBranch();
   }
 
   @Override
   public String getBranch() throws IOException {
-    return getDelegate().getBranch();
+    return delegate.getBranch();
   }
 
   @Override
   public Set<ObjectId> getAdditionalHaves() {
-    return getDelegate().getAdditionalHaves();
+    return delegate.getAdditionalHaves();
   }
 
   @Deprecated
   @Override
   public Map<String, Ref> getAllRefs() {
-    return getDelegate().getAllRefs();
+    return delegate.getAllRefs();
   }
 
   @Deprecated
   @Override
   public Map<String, Ref> getTags() {
-    return getDelegate().getTags();
+    return delegate.getTags();
   }
 
   @Deprecated
   @Override
   public Ref peel(Ref ref) {
-    return getDelegate().peel(ref);
+    return delegate.peel(ref);
   }
 
   @Override
   public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() {
-    return getDelegate().getAllRefsByPeeledObjectId();
+    return delegate.getAllRefsByPeeledObjectId();
   }
 
   @Override
   public File getIndexFile() throws NoWorkTreeException {
-    return getDelegate().getIndexFile();
+    return delegate.getIndexFile();
   }
 
   @Override
   public RevCommit parseCommit(AnyObjectId id)
       throws IncorrectObjectTypeException, IOException, MissingObjectException {
-    return getDelegate().parseCommit(id);
+    return delegate.parseCommit(id);
   }
 
   @Override
   public DirCache readDirCache() throws NoWorkTreeException, CorruptObjectException, IOException {
-    return getDelegate().readDirCache();
+    return delegate.readDirCache();
   }
 
   @Override
   public DirCache lockDirCache() throws NoWorkTreeException, CorruptObjectException, IOException {
-    return getDelegate().lockDirCache();
+    return delegate.lockDirCache();
   }
 
   @Override
   public RepositoryState getRepositoryState() {
-    return getDelegate().getRepositoryState();
+    return delegate.getRepositoryState();
   }
 
   @Override
   public boolean isBare() {
-    return getDelegate().isBare();
+    return delegate.isBare();
   }
 
   @Override
   public File getWorkTree() throws NoWorkTreeException {
-    return getDelegate().getWorkTree();
+    return delegate.getWorkTree();
   }
 
   @Override
   public String shortenRemoteBranchName(String refName) {
-    return getDelegate().shortenRemoteBranchName(refName);
+    return delegate.shortenRemoteBranchName(refName);
   }
 
   @Override
   public String getRemoteName(String refName) {
-    return getDelegate().getRemoteName(refName);
-  }
-
-  @Override
-  public String getGitwebDescription() throws IOException {
-    return getDelegate().getGitwebDescription();
-  }
-
-  @Override
-  public void setGitwebDescription(String description) throws IOException {
-    getDelegate().setGitwebDescription(description);
+    return delegate.getRemoteName(refName);
   }
 
   @Override
   public String readMergeCommitMsg() throws IOException, NoWorkTreeException {
-    return getDelegate().readMergeCommitMsg();
+    return delegate.readMergeCommitMsg();
   }
 
   @Override
   public void writeMergeCommitMsg(String msg) throws IOException {
-    getDelegate().writeMergeCommitMsg(msg);
+    delegate.writeMergeCommitMsg(msg);
   }
 
   @Override
   public String readCommitEditMsg() throws IOException, NoWorkTreeException {
-    return getDelegate().readCommitEditMsg();
+    return delegate.readCommitEditMsg();
   }
 
   @Override
   public void writeCommitEditMsg(String msg) throws IOException {
-    getDelegate().writeCommitEditMsg(msg);
+    delegate.writeCommitEditMsg(msg);
   }
 
   @Override
   public List<ObjectId> readMergeHeads() throws IOException, NoWorkTreeException {
-    return getDelegate().readMergeHeads();
+    return delegate.readMergeHeads();
   }
 
   @Override
   public void writeMergeHeads(List<? extends ObjectId> heads) throws IOException {
-    getDelegate().writeMergeHeads(heads);
+    delegate.writeMergeHeads(heads);
   }
 
   @Override
   public ObjectId readCherryPickHead() throws IOException, NoWorkTreeException {
-    return getDelegate().readCherryPickHead();
+    return delegate.readCherryPickHead();
   }
 
   @Override
   public ObjectId readRevertHead() throws IOException, NoWorkTreeException {
-    return getDelegate().readRevertHead();
+    return delegate.readRevertHead();
   }
 
   @Override
   public void writeCherryPickHead(ObjectId head) throws IOException {
-    getDelegate().writeCherryPickHead(head);
+    delegate.writeCherryPickHead(head);
   }
 
   @Override
   public void writeRevertHead(ObjectId head) throws IOException {
-    getDelegate().writeRevertHead(head);
+    delegate.writeRevertHead(head);
   }
 
   @Override
   public void writeOrigHead(ObjectId head) throws IOException {
-    getDelegate().writeOrigHead(head);
+    delegate.writeOrigHead(head);
   }
 
   @Override
   public ObjectId readOrigHead() throws IOException, NoWorkTreeException {
-    return getDelegate().readOrigHead();
+    return delegate.readOrigHead();
   }
 
   @Override
   public String readSquashCommitMsg() throws IOException {
-    return getDelegate().readSquashCommitMsg();
+    return delegate.readSquashCommitMsg();
   }
 
   @Override
   public void writeSquashCommitMsg(String msg) throws IOException {
-    getDelegate().writeSquashCommitMsg(msg);
+    delegate.writeSquashCommitMsg(msg);
   }
 
   @Override
   public List<RebaseTodoLine> readRebaseTodo(String path, boolean includeComments)
       throws IOException {
-    return getDelegate().readRebaseTodo(path, includeComments);
+    return delegate.readRebaseTodo(path, includeComments);
   }
 
   @Override
   public void writeRebaseTodoFile(String path, List<RebaseTodoLine> steps, boolean append)
       throws IOException {
-    getDelegate().writeRebaseTodoFile(path, steps, append);
+    delegate.writeRebaseTodoFile(path, steps, append);
   }
 
   @Override
   public Set<String> getRemoteNames() {
-    return getDelegate().getRemoteNames();
+    return delegate.getRemoteNames();
   }
 
   @Override
   public void autoGC(ProgressMonitor monitor) {
-    getDelegate().autoGC(monitor);
-  }
-
-  @Override
-  public void create() throws IOException {
-    getDelegate().create();
+    delegate.autoGC(monitor);
   }
 }

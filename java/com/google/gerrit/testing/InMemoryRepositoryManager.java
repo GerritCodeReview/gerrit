@@ -19,7 +19,9 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
+import com.google.inject.ImplementedBy;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
@@ -30,8 +32,17 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 
 /** Repository manager that uses in-memory repositories. */
 public class InMemoryRepositoryManager implements GitRepositoryManager {
-  public static InMemoryRepository newRepository(Project.NameKey name) {
-    return new Repo(name);
+  @ImplementedBy(NoOpRepoWrapperFactory.class)
+  public interface RepoWrapperFactory {
+    Repo create(Repo repo);
+  }
+
+  @Singleton
+  static class NoOpRepoWrapperFactory implements RepoWrapperFactory {
+    @Override
+    public Repo create(Repo repo) {
+      return repo;
+    }
   }
 
   public static class Description extends DfsRepositoryDescription {
@@ -50,7 +61,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   public static class Repo extends InMemoryRepository {
     private String description;
 
-    private Repo(Project.NameKey name) {
+    protected Repo(Project.NameKey name) {
       super(new Description(name));
       setPerformsAtomicTransactions(true);
     }
@@ -71,11 +82,17 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     }
   }
 
+  private final RepoWrapperFactory repoWrapperFactory;
   private final Map<String, Repo> repos;
 
   @Inject
-  public InMemoryRepositoryManager() {
+  public InMemoryRepositoryManager(RepoWrapperFactory repoWrapperFactory) {
+    this.repoWrapperFactory = repoWrapperFactory;
     this.repos = new HashMap<>();
+  }
+
+  public InMemoryRepositoryManager() {
+    this(new NoOpRepoWrapperFactory());
   }
 
   @Override
@@ -93,7 +110,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
         throw new RepositoryCaseMismatchException(name);
       }
     } catch (RepositoryNotFoundException e) {
-      repo = new Repo(name);
+      repo = repoWrapperFactory.create(new Repo(name));
       repos.put(normalize(name), repo);
     }
     return repo;

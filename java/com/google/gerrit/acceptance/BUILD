@@ -53,6 +53,8 @@ DEPLOY_ENV = [
     "//lib/bouncycastle:bcpg",
     "//lib/bouncycastle:bcprov",
     "//prolog:gerrit-prolog-common",
+    "//lib:caffeine",
+    "//lib:caffeine-guava",
 ]
 
 TEST_DEPS = [
@@ -74,8 +76,8 @@ TEST_DEPS = [
 ]
 
 PGM_DEPLOY_ENV = [
-    "//lib:caffeine",
-    "//lib:caffeine-guava",
+    #"//lib:caffeine",
+    #"//lib:caffeine-guava",
     "//lib/jackson:jackson-core",
     "//lib/prolog:cafeteria",
 ]

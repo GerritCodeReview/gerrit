@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -26,19 +28,20 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import org.eclipse.jgit.lib.Repository;
 
-class CachedRefDatabase extends RefDatabase {
-  interface Factory {
-    CachedRefDatabase create(CachedRefRepository repo);
+public class CachedRefDatabase<T extends Repository & WithDelegate<?>> extends RefDatabase {
+  public interface TemplateFactory<T extends Repository & WithDelegate<?>> {
+    CachedRefDatabase<T> create(T repo);
   }
+
+  interface Factory extends TemplateFactory<CachedRefRepository> {}
 
   private final RefByNameCache refsCache;
   private final BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory;
   private final RefUpdateWithCacheUpdate.Factory updateFactory;
   private final RefRenameWithCacheUpdate.Factory renameFactory;
-  private final CachedRefRepository repo;
+  private final T repo;
 
   @Inject
   CachedRefDatabase(
@@ -46,7 +49,7 @@ class CachedRefDatabase extends RefDatabase {
       BatchRefUpdateWithCacheUpdate.Factory batchUpdateFactory,
       RefUpdateWithCacheUpdate.Factory updateFactory,
       RefRenameWithCacheUpdate.Factory renameFactory,
-      @Assisted CachedRefRepository repo) {
+      @Assisted T repo) {
     this.refsCache = refsCache;
     this.batchUpdateFactory = batchUpdateFactory;
     this.updateFactory = updateFactory;
@@ -71,7 +74,8 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public RefUpdate newUpdate(String name, boolean detach) throws IOException {
-    return updateFactory.create(this, repo, repo.getDelegate().getRefDatabase().newUpdate(name, detach));
+    return updateFactory.create(
+        this, repo, repo.getDelegate().getRefDatabase().newUpdate(name, detach));
   }
 
   @Override
@@ -85,7 +89,10 @@ class CachedRefDatabase extends RefDatabase {
 
   @Override
   public Ref exactRef(String name) throws IOException {
-    return refsCache.computeIfAbsent(repo.getDelegate().getIdentifier(), name, () -> Optional.ofNullable(repo.getDelegate().getRefDatabase().exactRef(name)));
+    return refsCache.computeIfAbsent(
+        repo.getDelegate().getIdentifier(),
+        name,
+        () -> Optional.ofNullable(repo.getDelegate().getRefDatabase().exactRef(name)));
   }
 
   @Deprecated

@@ -28,8 +28,8 @@ import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.time.ProposedTimestamp;
 
-class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
-  interface Factory {
+public class BatchRefUpdateWithCacheUpdate extends BatchRefUpdate {
+  public interface Factory {
     BatchRefUpdateWithCacheUpdate create(Repository repo, BatchRefUpdate delegate);
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "986ea8e8_a6b8548f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-05T10:03:08Z",
+      "side": 1,
+      "message": "Have you thought wrapping it from the outside, so that no changes are required in Gerrit core?\n\nSee for instance:\nhttps://github.com/GerritForge/global-refdb/blob/master/src/main/java/com/gerritforge/gerrit/globalrefdb/validation/SharedRefDbGitRepositoryManager.java\n\nand the binding will be:\n    bind(GitRepositoryManager.class).to(SharedRefDbGitRepositoryManager.class)\n",
+      "revId": "37bf51d0f58e6519cacc95bcae9aa32c6a6db0da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

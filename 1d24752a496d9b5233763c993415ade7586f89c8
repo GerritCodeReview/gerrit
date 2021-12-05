@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e6884c6_47aa8066",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-05T10:16:20Z",
+      "side": 1,
+      "message": "This would break existing modules, like multi-site. The remapping of the GitRepositoryManager is done in the DBInjection and remapped there.",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 97
+      },
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b070abba_f48e125f",
+        "filename": "java/com/google/gerrit/server/git/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-05T10:16:20Z",
+      "side": 1,
+      "message": "Can\u0027t you just listen to the ref-updated events and evict cache on callback? That would allow you to avoid writing all the wrapping code around BatchRefUpdate. What do you think?",
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bc78496_eff6aa40",
+        "filename": "java/com/google/gerrit/server/git/CachedRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-05T10:16:20Z",
+      "side": 1,
+      "message": "Why not wrapping directly the refDatabase instead? You could store the wrapped refDatabase in an instance variable in the constructor. Have you tired that approach?",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 39
+      },
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec325f95_d3bb493c",
+        "filename": "java/com/google/gerrit/server/git/RefByNameCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-05T10:16:20Z",
+      "side": 1,
+      "message": "Is this the project name?",
+      "range": {
+        "startLine": 50,
+        "startChar": 29,
+        "endLine": 50,
+        "endChar": 39
+      },
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "572ec964_426ffcf1",
+        "filename": "java/com/google/gerrit/server/git/RefRenameWithCacheUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-05T10:16:20Z",
+      "side": 1,
+      "message": "How a ref-rename would behave in terms of ref-updated events? Would that trigger two events? (ref deleted + ref created?)",
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab7ddd29_8556be7d",
+        "filename": "java/com/google/gerrit/server/git/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-05T10:16:20Z",
+      "side": 1,
+      "message": "I guess we could just invalidate the cache using the ref-updated event, instead of wrapping it.",
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c26489a3_2c0f6581",
+        "filename": "plugins/replication",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-05T10:16:20Z",
+      "side": 1,
+      "message": "Why updating the replication plugin?",
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

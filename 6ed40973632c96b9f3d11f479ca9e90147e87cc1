@@ -22,6 +22,30 @@
       },
       "revId": "6ed40973632c96b9f3d11f479ca9e90147e87cc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e5b9172_d26cc05a",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-05T10:16:20Z",
+      "side": 1,
+      "message": "You could also have a different solution, composed by two parts:\n\n1. A libModule that allows simply \"wrapping\" the ref-db to a \"generic caching\" layer, not necessarily linked to any Gerrit cache (a dynamic-item). The default implementation could be a non-caching NOOP implementation.\n\n2. A ref-caching plugin that implements the dynamic-item and defines the new cache.\n\nIn that way, you don\u0027t need to change the structure of the GitRepositoryManager injection in Gerrit and you don\u0027t need to touch Gerrit at all. Also, allows to have a much clear ref-caching layer which is simply a plugin to load.",
+      "parentUuid": "cdf46354_ac0dd6f1",
+      "range": {
+        "startLine": 424,
+        "startChar": 4,
+        "endLine": 426,
+        "endChar": 5
+      },
+      "revId": "6ed40973632c96b9f3d11f479ca9e90147e87cc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efe1f62e_de59adbe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-page-nav/gr-page-nav_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-06T10:53:34Z",
+      "side": 1,
+      "message": "```\n{} as HTMLElement\n```\nwould be a bit better assuming you\u0027re not going to make a more real parent. Same in test below \u0027header is pinned when scroll down the page\u0027",
+      "range": {
+        "startLine": 42,
+        "startChar": 23,
+        "endLine": 42,
+        "endChar": 35
+      },
+      "revId": "96225b7a49069f77e45c250c047c67c56a6fcb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

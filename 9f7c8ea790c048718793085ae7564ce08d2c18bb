@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89a9d19f_ceac5068",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-06T14:06:16Z",
+      "side": 1,
+      "message": "More details here? What is the problem and how are we fixing this.",
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea9a927f_30591b10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-06T14:06:16Z",
+      "side": 1,
+      "message": "Link to a bug?",
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e02a59a_0b06cc86",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1837,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-06T14:06:16Z",
+      "side": 1,
+      "message": "nit: Redirecting",
+      "range": {
+        "startLine": 1837,
+        "startChar": 74,
+        "endLine": 1837,
+        "endChar": 84
+      },
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10b7449a_59593d5a",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-06T14:06:16Z",
+      "side": 1,
+      "message": "why is this needed? not sure what this is doing.\nspecifically why does routerPatchNum \u003d\u003d\u003d undefined check is required?",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 3
+      },
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0340ad6_8c67285b",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-06T14:06:16Z",
+      "side": 1,
+      "message": "we don\u0027t usually use single letter variables anywhere so perhaps use full names instead?",
+      "range": {
+        "startLine": 190,
+        "startChar": 17,
+        "endLine": 190,
+        "endChar": 25
+      },
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28eda8cc_55a04210",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-06T14:06:16Z",
+      "side": 1,
+      "message": "unnecessary extra \"|\" ?",
+      "range": {
+        "startLine": 127,
+        "startChar": 3,
+        "endLine": 127,
+        "endChar": 6
+      },
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

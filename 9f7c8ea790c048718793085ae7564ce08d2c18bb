@@ -60,6 +60,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cdb42917_673679f9",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-06T14:08:25Z",
+      "side": 1,
+      "message": "move to util or into changemodel",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 37
+      },
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "10b7449a_59593d5a",
         "filename": "polygerrit-ui/app/services/change/change-model.ts",
         "patchSetId": 1

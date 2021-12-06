@@ -52,10 +52,11 @@ import {fireEvent, fireReload} from '../../../utils/event-util';
 import {ScrollMode} from '../../../constants/constants';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {
-  PRIORITY_REQUIREMENTS_ORDER,
+  getRequirements,
   showNewSubmitRequirements,
 } from '../../../utils/label-util';
 import {addGlobalShortcut, Key} from '../../../utils/dom-util';
+import {unique} from '../../../utils/common-util';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -311,7 +312,11 @@ export class GrChangeList extends base {
         showNewSubmitRequirements(this.flagsService, change)
       )
     ) {
-      labels = labels.filter(l => PRIORITY_REQUIREMENTS_ORDER.includes(l));
+      labels = (changes ?? [])
+        .map(change => getRequirements(change))
+        .flat()
+        .map(requirement => requirement.name)
+        .filter(unique);
     }
     return labels.sort();
   }

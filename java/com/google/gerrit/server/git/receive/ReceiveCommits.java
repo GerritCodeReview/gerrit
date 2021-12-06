@@ -781,7 +781,7 @@ class ReceiveCommits {
     Task newProgress = progress.beginSubTask("new", UNKNOWN);
     Task replaceProgress = progress.beginSubTask("updated", UNKNOWN);
 
-    List<CreateRequest> newChanges = Collections.emptyList();
+    ImmutableList<CreateRequest> newChanges = ImmutableList.of();
     try {
       if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
         try {
@@ -1009,7 +1009,8 @@ class ReceiveCommits {
     addMessage(changeFormatter.changeUpdated(input));
   }
 
-  private void insertChangesAndPatchSets(List<CreateRequest> newChanges, Task replaceProgress) {
+  private void insertChangesAndPatchSets(
+      ImmutableList<CreateRequest> newChanges, Task replaceProgress) {
     try (TraceTimer traceTimer =
         newTimer(
             "insertChangesAndPatchSets", Metadata.builder().resourceCount(newChanges.size()))) {
@@ -2248,7 +2249,7 @@ class ReceiveCommits {
     }
   }
 
-  private void warnAboutMissingChangeId(List<CreateRequest> newChanges) {
+  private void warnAboutMissingChangeId(ImmutableList<CreateRequest> newChanges) {
     for (CreateRequest create : newChanges) {
       try {
         receivePack.getRevWalk().parseBody(create.commit);
@@ -2265,7 +2266,7 @@ class ReceiveCommits {
     }
   }
 
-  private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch(Task newProgress)
+  private ImmutableList<CreateRequest> selectNewAndReplacedChangesFromMagicBranch(Task newProgress)
       throws IOException {
     try (TraceTimer traceTimer = newTimer("selectNewAndReplacedChangesFromMagicBranch")) {
       logger.atFine().log("Finding new and replaced changes");
@@ -2280,7 +2281,7 @@ class ReceiveCommits {
       try {
         RevCommit start = setUpWalkForSelectingChanges();
         if (start == null) {
-          return Collections.emptyList();
+          return ImmutableList.of();
         }
 
         LinkedHashMap<RevCommit, ChangeLookup> pending = new LinkedHashMap<>();
@@ -2358,7 +2359,7 @@ class ReceiveCommits {
             reject(
                 magicBranch.cmd,
                 "the number of pushed changes in a batch exceeds the max limit " + maxBatchChanges);
-            return Collections.emptyList();
+            return ImmutableList.of();
           }
 
           if (commitAlreadyTracked) {
@@ -2391,7 +2392,7 @@ class ReceiveCommits {
           if (!validationResult.isValid()) {
             // Not a change the user can propose? Abort as early as possible.
             logger.atFine().log("Aborting early due to invalid commit");
-            return Collections.emptyList();
+            return ImmutableList.of();
           }
 
           // Don't allow merges to be uploaded in commit chain via all-not-in-target
@@ -2428,7 +2429,7 @@ class ReceiveCommits {
           if (newChangeIds.contains(p.changeKey)) {
             logger.atFine().log("Multiple commits with Change-Id %s", p.changeKey);
             reject(magicBranch.cmd, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
-            return Collections.emptyList();
+            return ImmutableList.of();
           }
 
           List<ChangeData> changes = p.destChanges;
@@ -2444,7 +2445,7 @@ class ReceiveCommits {
             // this error message as Change-Id should be unique per branch.
             //
             reject(magicBranch.cmd, p.changeKey.get() + " has duplicates");
-            return Collections.emptyList();
+            return ImmutableList.of();
           }
 
           if (changes.size() == 1) {
@@ -2469,13 +2470,13 @@ class ReceiveCommits {
                 magicBranch.cmd, false, changes.get(0).change(), p.commit)) {
               continue;
             }
-            return Collections.emptyList();
+            return ImmutableList.of();
           }
 
           if (changes.isEmpty()) {
             if (!isValidChangeId(p.changeKey.get())) {
               reject(magicBranch.cmd, "invalid Change-Id");
-              return Collections.emptyList();
+              return ImmutableList.of();
             }
 
             // In case the change look up from the index failed,
@@ -2483,7 +2484,7 @@ class ReceiveCommits {
             if (foundInExistingPatchSets(receivePackRefCache.patchSetIdsFromObjectId(p.commit))) {
               if (pending.size() == 1) {
                 reject(magicBranch.cmd, "commit(s) already exists (as current patchset)");
-                return Collections.emptyList();
+                return ImmutableList.of();
               }
               itr.remove();
               continue;
@@ -2503,11 +2504,11 @@ class ReceiveCommits {
 
       if (newChanges.isEmpty() && replaceByChange.isEmpty()) {
         reject(magicBranch.cmd, "no new changes");
-        return Collections.emptyList();
+        return ImmutableList.of();
       }
       if (!newChanges.isEmpty() && magicBranch.edit) {
         reject(magicBranch.cmd, "edit is not supported for new changes");
-        return newChanges;
+        return ImmutableList.copyOf(newChanges);
       }
 
       SortedSetMultimap<ObjectId, String> groups = groupCollector.getGroups();
@@ -2524,7 +2525,7 @@ class ReceiveCommits {
         update.groups = ImmutableList.copyOf((groups.get(update.commit)));
       }
       logger.atFine().log("Finished updating groups from GroupCollector");
-      return newChanges;
+      return ImmutableList.copyOf(newChanges);
     }
   }
 
@@ -2827,7 +2828,7 @@ class ReceiveCommits {
     }
   }
 
-  private void preparePatchSetsForReplace(List<CreateRequest> newChanges) {
+  private void preparePatchSetsForReplace(ImmutableList<CreateRequest> newChanges) {
     try (TraceTimer traceTimer =
         newTimer(
             "preparePatchSetsForReplace", Metadata.builder().resourceCount(newChanges.size()))) {

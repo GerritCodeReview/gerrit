@@ -191,6 +191,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de0490fd_b2ed2716",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-06T14:08:44Z",
+      "side": 1,
+      "message": "\u003e \u003e Why? Updating the logic in a predicate doesn\u0027t require an index upgrade, does it?\n\u003e \n\u003e I understood you meant updating the predicates\u0027 logic. For the logic of\n\u003e \"issubmittable\" field, \n\nNo, I meant updating the predicates logic when there was no \"issubmittable\" field and the predicate is used only at query time. TBH I find it quite confusing to invoke a predicate to compute the value for an index field at index time. That seems like a misuse of a predicate. But I understand this is only temporary and will go away with https://gerrit-review.googlesource.com/c/gerrit/+/323185.\n\n\u003e \n\u003e   * // All submit requirements should be fulfilled\n\u003e                   cd.submitRequirements().values().stream()\n\u003e                           .allMatch(SubmitRequirementResult::fulfilled)\n\u003e                           \n\u003e that\u0027s not expected to change or maybe very rarely. I\u0027m not expecting this logic \n\u003e to be changed/extended.\n\nYes, that\u0027s why I said it was a minor issue 😊\nSo no need to change anything.",
+      "parentUuid": "2700d56c_b4a8a4b1",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "ef8fa68707fd736da02a5c5665291b4bb11d8f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d63b7a40_d1047bba",

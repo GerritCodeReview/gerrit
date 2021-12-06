@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc7d1e7b_f277960e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-06T12:50:40Z",
+      "side": 1,
+      "message": "OK, thanks for explaining.\n\n\u003e Back to your question: we haven\u0027t added a change to allow querying changes\n\u003e with a submit requirement status, but we can add that in a later change.\n\nAh OK, I thought this was already done and would be needed to keep some of the search operators working with submit requirements (e.g. the \"rule:\" operator?). But maybe it\u0027s not needed?\n\nA minor issue with having a submittable field in addition to the yet to be added submit requirements field (if it will be needed) is that any change to the logic that computes the submitability of the change will require a new change index version and an index upgrade. If this was implemented as Predicate (as it is now) the logic could be changed by a normal rollout.",
+      "parentUuid": "17c0b23f_012c0208",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "ef8fa68707fd736da02a5c5665291b4bb11d8f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d63b7a40_d1047bba",

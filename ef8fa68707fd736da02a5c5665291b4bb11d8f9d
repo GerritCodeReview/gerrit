@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0da7c7a_9c0b4d00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-06T13:37:29Z",
+      "side": 1,
+      "message": "\u003e Rule operator only works with submit rules but not with submit requirements.\n\nI know, but wouldn\u0027t people expect that they can still do similar queries once submit rules have been migrated to submit requirements? E.g. what will people do that use the \"rule:\" operator now when their submit rule has been migrated to a submit requirement?\n\n\u003e Yes, but we\u0027ll also need a reindex if submittability is implemented as:\n\u003e * is:submittable \u003d (Field.SubmitRequirement, SATISFIED) OR (.. OVERRIDDEN) ..\n\nWhy? Updating the logic in a predicate doesn\u0027t require an index upgrade, does it?",
+      "parentUuid": "eab38900_f440067d",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "ef8fa68707fd736da02a5c5665291b4bb11d8f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d63b7a40_d1047bba",

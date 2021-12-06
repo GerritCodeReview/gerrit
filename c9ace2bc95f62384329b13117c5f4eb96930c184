@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f40f6c5d_25f897e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-06T10:54:22Z",
+      "side": 1,
+      "message": "it seems that I had some formatting discrepancy in CachedRefDatabase.java :/ it should be fixed now IOW we can forget about GJF for the time being ;)",
+      "parentUuid": "33f09ca9_8eb36f46",
+      "revId": "c9ace2bc95f62384329b13117c5f4eb96930c184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbccba35_2784be5d",

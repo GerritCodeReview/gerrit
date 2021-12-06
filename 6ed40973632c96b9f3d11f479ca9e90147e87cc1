@@ -46,6 +46,30 @@
       },
       "revId": "6ed40973632c96b9f3d11f479ca9e90147e87cc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d08e7764_725049f0",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-06T10:54:22Z",
+      "side": 1,
+      "message": "I was trying to use dynamic-item to swap RepoWrapper factories in the LocalDiskRepositoryManager but I couldn\u0027t make it work - it was not picking up the cached implementation...\n\nAnyway let\u0027s discuss details as I can\u0027t see it that straightforward as you describe :D",
+      "parentUuid": "8e5b9172_d26cc05a",
+      "range": {
+        "startLine": 424,
+        "startChar": 4,
+        "endLine": 426,
+        "endChar": 5
+      },
+      "revId": "6ed40973632c96b9f3d11f479ca9e90147e87cc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

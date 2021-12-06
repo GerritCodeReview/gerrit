@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5eae188_b21cf056",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-06T10:54:22Z",
+      "side": 1,
+      "message": "So we have to sort it out :D",
+      "parentUuid": "4e6884c6_47aa8066",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 97
+      },
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b070abba_f48e125f",
         "filename": "java/com/google/gerrit/server/git/BatchRefUpdateWithCacheUpdate.java",
         "patchSetId": 3
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0cda7eb_426e573b",
+        "filename": "java/com/google/gerrit/server/git/BatchRefUpdateWithCacheUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-06T10:54:22Z",
+      "side": 1,
+      "message": "You mean Gerrit ref-updated, right? Not really - see the problem explained here \n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/316785/5/java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java\n\nbasically account ref-updated happens BEFORE external-id ref-updated and results in invalid index...",
+      "parentUuid": "b070abba_f48e125f",
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2bc78496_eff6aa40",
         "filename": "java/com/google/gerrit/server/git/CachedRefDatabase.java",
         "patchSetId": 3
@@ -54,6 +96,30 @@
       "writtenOn": "2021-12-05T10:16:20Z",
       "side": 1,
       "message": "Why not wrapping directly the refDatabase instead? You could store the wrapped refDatabase in an instance variable in the constructor. Have you tired that approach?",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 39
+      },
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a780574a_49e71629",
+        "filename": "java/com/google/gerrit/server/git/CachedRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-06T10:54:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bc78496_eff6aa40",
       "range": {
         "startLine": 59,
         "startChar": 4,
@@ -89,6 +155,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c2341ed9_679ab88c",
+        "filename": "java/com/google/gerrit/server/git/RefByNameCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-06T10:54:22Z",
+      "side": 1,
+      "message": "it basically is `Repository.getIdentifier()` (so implementation specific) - IOW we always have it at hand without doing extra translation to ProjectName... if it brings any value I can try switching to project name",
+      "parentUuid": "ec325f95_d3bb493c",
+      "range": {
+        "startLine": 50,
+        "startChar": 29,
+        "endLine": 50,
+        "endChar": 39
+      },
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "572ec964_426ffcf1",
         "filename": "java/com/google/gerrit/server/git/RefRenameWithCacheUpdate.java",
         "patchSetId": 3
@@ -100,6 +190,24 @@
       "writtenOn": "2021-12-05T10:16:20Z",
       "side": 1,
       "message": "How a ref-rename would behave in terms of ref-updated events? Would that trigger two events? (ref deleted + ref created?)",
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "155791a7_b800eacf",
+        "filename": "java/com/google/gerrit/server/git/RefRenameWithCacheUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-06T10:54:22Z",
+      "side": 1,
+      "message": "Will check and update accordingly",
+      "parentUuid": "572ec964_426ffcf1",
       "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -123,6 +231,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "03aa60aa_b7775f2c",
+        "filename": "java/com/google/gerrit/server/git/RefUpdateWithCacheUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-06T10:54:22Z",
+      "side": 1,
+      "message": "AFAIU I can\u0027t - see the answer above",
+      "parentUuid": "ab7ddd29_8556be7d",
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c26489a3_2c0f6581",
         "filename": "plugins/replication",
         "patchSetId": 3
@@ -134,6 +260,24 @@
       "writtenOn": "2021-12-05T10:16:20Z",
       "side": 1,
       "message": "Why updating the replication plugin?",
+      "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ecb2bd0_bbef650d",
+        "filename": "plugins/replication",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-06T10:54:22Z",
+      "side": 1,
+      "message": "it was failing locally for me when I have called\n\n  bazel test //...\n\ncuz it was called together with Gerrit core tests... it is probably less relevant for CI as replication tests are not called there",
+      "parentUuid": "c26489a3_2c0f6581",
       "revId": "1d24752a496d9b5233763c993415ade7586f89c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -6,7 +6,10 @@ a given user is allowed to set are defined according to the
 link:access-control.html#category_review_labels[access controls].  Gerrit
 comes pre-configured with the Code-Review label that can be granted to
 groups within projects, enabling functionality for that group's members.
-
+Project owners and admins might also need to configure rules which require
+labels to be voted before a change can be submittable. See the
+link:config-submit-requirements.html[submit requirements] documentation to
+configure such rules.
 
 [[label_Code-Review]]
 == Label: Code-Review
@@ -205,7 +208,12 @@ box will be either the lowest or highest score in the permissible range.
 
 
 [[label_function]]
-=== `label.Label-Name.function`
+=== `label.Label-Name.function (deprecated)`
+
+Label functions dictate the rules for requiring certain label votes before a
+change is allowed for submission. Label functions are **deprecated**, favour
+using link:config-submit-requirements.html[submit requirements] instead,
+except if it's needed to set the value to `PatchSetLock`.
 
 The name of a function for evaluating multiple votes for a label.  This
 function is only applied if the default submit rule is used for a label.
@@ -486,13 +494,20 @@ link:access-control.html#reference[here], but must not contain `${username}` or
 `${shardeduserid}`.
 
 [[label_ignoreSelfApproval]]
-=== `label.Label-Name.ignoreSelfApproval`
+=== `label.Label-Name.ignoreSelfApproval (deprecated)`
 
 If true, the label may be voted on by the uploader of the latest patch set,
 but their approval does not make a change submittable. Instead, a
 non-uploader who has the right to vote has to approve the change.
 
 Defaults to false.
+
+The `ignoreSelfApproval` attribute is **deprecated**, favour
+using link:config-submit-requirements.html[submit requirements] and
+define the `submittableIf` expression with the `label` operator and
+the `user=non_uploader` argument. See the
+link:config-submit-requirements.html#code-review-example[Code Review] submit
+requirement example.
 
 [[label_example]]
 === Example

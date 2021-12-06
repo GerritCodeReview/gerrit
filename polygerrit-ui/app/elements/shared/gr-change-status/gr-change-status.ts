@@ -39,9 +39,9 @@ export enum ChangeStates {
   WIP = 'WIP',
 }
 
-const WIP_TOOLTIP =
+export const WIP_TOOLTIP =
   "This change isn't ready to be reviewed or submitted. " +
-  "It will not appear on dashboards unless you are CC'ed or assigned, " +
+  "It will not appear on dashboards unless you are CC'ed, " +
   'and email notifications will be silenced until the review is started.';
 
 export const MERGE_CONFLICT_TOOLTIP =

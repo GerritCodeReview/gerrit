@@ -22,6 +22,29 @@
       },
       "revId": "cb1e2563de887a6cc72038858318a85e54ca369e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06aca9b6_7ea0ac97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1848,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-06T14:27:29Z",
+      "side": 1,
+      "message": "Is the only motivation to reduce 2 checks in components? Every other method here except 1 expects request-skipping to happen elsewhere, so it would be nice to keep this assumption.\n\nCleaning up false makes sense to me.",
+      "range": {
+        "startLine": 1848,
+        "startChar": 0,
+        "endLine": 1848,
+        "endChar": 54
+      },
+      "revId": "cb1e2563de887a6cc72038858318a85e54ca369e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

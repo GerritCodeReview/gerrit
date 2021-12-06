@@ -24,6 +24,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98eb06a1_357ce041",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T17:34:24Z",
+      "side": 1,
+      "message": "Thanks for the input! Seems we\u0027re thinking in very similar ways.",
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd70ac4b_a3a4d24e",
@@ -61,6 +78,30 @@
       "side": 1,
       "message": "Using the class would probably have a bit of shoehorning as well, so maybe Symbol is better. We can still reduce the unknowns a lot I think.",
       "parentUuid": "cd70ac4b_a3a4d24e",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 0
+      },
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "760fff41_002b4a29",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T17:34:24Z",
+      "side": 1,
+      "message": "Hah, great minds think alike. At first I also considered using Constructor\u003cT\u003e as the key-type, but I realized this might be shoehorning too much.\n\nFair point on simplifying to just a symbol.",
+      "parentUuid": "1b5caedc_d8eb82e1",
       "range": {
         "startLine": 23,
         "startChar": 0,
@@ -142,6 +183,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "307d6395_489678bd",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T17:34:24Z",
+      "side": 1,
+      "message": "Yes, this is required to bind \u0027this\u0027.",
+      "parentUuid": "8ad5fb7d_1ffabc21",
+      "range": {
+        "startLine": 167,
+        "startChar": 12,
+        "endLine": 168,
+        "endChar": 73
+      },
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e644d8f2_08195df7",
         "filename": "polygerrit-ui/app/services/dependency.ts",
         "patchSetId": 5
@@ -200,6 +265,30 @@
       "side": 1,
       "message": "OK I think I see more now. need().get() won\u0027t work because all this stuff relies on dom events and therefore dom connections?",
       "parentUuid": "8ef44558_0e90fef2",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 29
+      },
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d89723f8_11dd4cd0",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T17:34:24Z",
+      "side": 1,
+      "message": "So if you call need() inside of connectedCallback, you should be fine.  By the time need finishes the need should be fullfilled. This is guaranteed because of 3 reasons:\n1. Dom events are synchronously dispatched\n2. Parent elements get connectedCallback before child components, so as long as the need\u0027s been provided in or before a parent\u0027s connectedCallback we\u0027re good\n3. When adding a controller to a host that\u0027s connected, its hostConnected method gets called synchronously.\n\nThe reason for wait is if you do something inside of the constructor:\n\nconstructor() {\n  need(this, fooDependency).wait(dep \u003d\u003e\n     // do something with dep\n  )\n}",
+      "parentUuid": "ebcb00db_a79cc3e2",
       "range": {
         "startLine": 220,
         "startChar": 0,

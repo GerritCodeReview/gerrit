@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1616497_3af223d5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column/gr-change-list-column.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T18:01:51Z",
+      "side": 1,
+      "message": "Consider using the util rather than hardcoding here.\n\niconForStatus(SubmitRequirementStatus.SATISFIED)",
+      "revId": "80f69e4ae1b41fc76c9e5324f3c57a806aec35f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d169580_b85c2cc9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column/gr-change-list-column.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T18:01:51Z",
+      "side": 1,
+      "message": "Consider using the util rather than hardcoding here.",
+      "revId": "80f69e4ae1b41fc76c9e5324f3c57a806aec35f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31ffd8e9_1474143d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T18:01:51Z",
+      "side": 1,
+      "message": "Do you still need u-red?",
+      "revId": "80f69e4ae1b41fc76c9e5324f3c57a806aec35f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d8fa50e_b06e26fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T18:01:51Z",
+      "side": 1,
+      "message": "Why do we have to copy these? Why can\u0027t we directly link to a library from fonts.google.com?",
+      "revId": "80f69e4ae1b41fc76c9e5324f3c57a806aec35f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

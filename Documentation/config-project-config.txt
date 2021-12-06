@@ -481,6 +481,12 @@ documentation for a full list of available capabilities.
 
 Please refer to link:config-labels.html#label_custom[Custom Labels] documentation.
 
+[[submit-requirement-section]]
+=== Submit Requirement section
+
+Please refer to link:config-submit-requirements.html[Configuring Submit
+Requirements] documentation.
+
 [[branchOrder-section]]
 === branchOrder section
 

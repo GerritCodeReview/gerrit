@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37e775bf_64b6f33f",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-06T14:57:11Z",
+      "side": 1,
+      "message": "Ack, thanks for reminding!",
+      "parentUuid": "9ce7d203_42eb4e5d",
+      "revId": "be96d635d4151a73c154553fe809b942056fba4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9460ce6_be063941",

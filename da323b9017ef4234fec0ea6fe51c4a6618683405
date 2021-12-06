@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbdc0511_e5c05b17",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-06T14:57:11Z",
+      "side": 1,
+      "message": "nit: this line seems to exceed the 100 chars now and should be wrapped",
+      "revId": "da323b9017ef4234fec0ea6fe51c4a6618683405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd6a8dd2_2321dcdb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T17:42:59Z",
+      "side": 1,
+      "message": "this.showGroupAuditLog still needs to be set to false in the case this.params.view is not GROUP.",
+      "parentUuid": "7458c3fb_b36d370a",
+      "range": {
+        "startLine": 531,
+        "startChar": 6,
+        "endLine": 531,
+        "endChar": 43
+      },
+      "revId": "3a9ff601f0ef24064f717a167fb40c41c1756146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "995841f7_0cb7f0e8",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
         "patchSetId": 9

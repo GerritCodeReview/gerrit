@@ -199,7 +199,7 @@ public class MultiProgressMonitor {
 
     synchronized (this) {
       long left = maxIntervalNanos;
-      while (!done) {
+      while (!workerFuture.isDone()) {
         long start = System.nanoTime();
         try {
           NANOSECONDS.timedWait(this, left);
@@ -228,12 +228,12 @@ public class MultiProgressMonitor {
           left = maxIntervalNanos;
         }
         sendUpdate();
-        if (!done && workerFuture.isDone()) {
-          // The worker may not have called end() explicitly, which is likely a
-          // programming error.
-          logger.atWarning().log("MultiProgressMonitor worker did not call end() before returning");
-          end();
-        }
+      }
+      if (!done) {
+        // The worker may not have called end() explicitly, which is likely a
+        // programming error.
+        logger.atWarning().log("MultiProgressMonitor worker did not call end() before returning");
+        end();
       }
       sendDone();
     }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07a58b76_e45992f0",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71b06443_a6b9b5bf",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acbd16ef_79e3c7c0",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-12-06T21:08:06Z",
       "side": 1,
       "message": "Consider \"ancestor\" rather than \"parent\", as parent suggests that it\u0027s one level up but ancestor includes parents of parents etc",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e3a2ada_9c96adde",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acbd16ef_79e3c7c0",
       "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1884a42_e17e4295",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4474d806_09d154ac",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56abb6c9_eeb1796e",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-12-06T21:08:06Z",
       "side": 1,
       "message": "Prefer the type symbol over the type Symbol. symbol is a primitive, Symbol is the object wrapper, similar to number vs Number",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3219a6a_215dd874",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56abb6c9_eeb1796e",
       "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -103,6 +175,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fba99b1c_bd997513",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "321c0dcf_13e1d0de",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44eed36a_db2faf80",
@@ -120,6 +210,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "724358fc_594e3477",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44eed36a_db2faf80",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25d847f0_17dab922",
@@ -133,6 +241,24 @@
       "writtenOn": "2021-12-06T21:08:06Z",
       "side": 1,
       "message": "Minor, but consider:\n\n```\nfor (const waiter of waiters) {\n  waiter(value);\n}\nthis.waiters.length \u003d 0;\n```\n\nThis avoids allocating a new array, and just clears out the existing one. You could even make this.waiters readonly",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21270005_211978b6",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "I wanted to avoid re-entrancy, but I realized that there is none because the wait method returns early if this.value is set.",
+      "parentUuid": "25d847f0_17dab922",
       "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -156,6 +282,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "973f5e60_89d512b3",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s a feature we want, so not sure if I want to add it at this point.",
+      "parentUuid": "6428af11_24fd930b",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4523af48_44bc9693",
         "filename": "polygerrit-ui/app/services/dependency.ts",
         "patchSetId": 9
@@ -167,6 +311,24 @@
       "writtenOn": "2021-12-06T21:08:06Z",
       "side": 1,
       "message": "This is a one-time provider, but the requester",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e94fd101_788b43f9",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Not sure I follow?",
+      "parentUuid": "4523af48_44bc9693",
       "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -188,6 +350,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aeb4fbb_8577437b",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c6643f9_c453dc4e",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5141ef3e_39b86518",
@@ -205,6 +385,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccadfd82_fcc60609",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5141ef3e_39b86518",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ac9dcef_1bd97da0",
@@ -218,6 +416,24 @@
       "writtenOn": "2021-12-06T21:08:06Z",
       "side": 1,
       "message": "is this an artifact of an old implementation? this.__controllers is always defined",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f826f04f_9669fba6",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac9dcef_1bd97da0",
       "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

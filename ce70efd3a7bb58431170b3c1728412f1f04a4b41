@@ -159,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8d839f3_8f4b7461",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16e9cb60_3dffced2",
+      "range": {
+        "startLine": 51,
+        "startChar": 11,
+        "endLine": 51,
+        "endChar": 28
+      },
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "428b9900_ed6d8a9b",
@@ -172,6 +196,30 @@
       "writtenOn": "2021-12-06T13:05:41Z",
       "side": 1,
       "message": "any example of something that would need to use the async pattern? Or maybe we can always have a synchronously provided class that itself async methods/Observables?",
+      "range": {
+        "startLine": 120,
+        "startChar": 2,
+        "endLine": 120,
+        "endChar": 6
+      },
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3137ff6_7dc1cea6",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "constructor() {\n  resolve(this, changeModelToken).then(changeModel \u003d\u003e \n    subscribe(this, changeModel.foo$, ...)\n  );\n}",
+      "parentUuid": "428b9900_ed6d8a9b",
       "range": {
         "startLine": 120,
         "startChar": 2,
@@ -229,6 +277,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "212888a6_56166f3f",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307d6395_489678bd",
+      "range": {
+        "startLine": 167,
+        "startChar": 12,
+        "endLine": 168,
+        "endChar": 73
+      },
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e644d8f2_08195df7",
@@ -242,6 +314,30 @@
       "writtenOn": "2021-12-06T13:05:41Z",
       "side": 1,
       "message": "this is a fooServiceProvider and not a fooService, right?",
+      "range": {
+        "startLine": 216,
+        "startChar": 19,
+        "endLine": 216,
+        "endChar": 29
+      },
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "768a823f_94ffe5c0",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T22:54:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e644d8f2_08195df7",
       "range": {
         "startLine": 216,
         "startChar": 19,

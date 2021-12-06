@@ -16,6 +16,24 @@
       "message": "Dmitrii brought up that I159e94a49 leads to wrong \"submittable\" bits set on the API when querying changes. I removed my approval so that we can keep this change open until we have figured out I159e94a49.",
       "revId": "e2cc756d4cbe12b705f4626d6fcdf16ca0db942d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d037a2e0_2e7b5275",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-06T09:48:23Z",
+      "side": 1,
+      "message": "I looked at the wrong submittable bits reported by Dmitrii; this happened because of\n* Change  I159e94a49.\n* We haven\u0027t yet upgraded the change index in google. SRs are backfilled from the change index field \"full_submit_requirements\" which doesn\u0027t exist yet. I added details in b/208994829.\n\nFor this change, it should not harm. This change modifies the computation of the \"issubmittable\" field, but we don\u0027t use this field if it does not exist in the change index [1] and, in this case, we fall back to submit records.\n\n[1] https://gerrit.googlesource.com/gerrit/+/d01da4fb182d50fe45b9ce571c390b9f7db60b47/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java#717",
+      "parentUuid": "c1cb72f7_73fe5f6d",
+      "revId": "e2cc756d4cbe12b705f4626d6fcdf16ca0db942d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

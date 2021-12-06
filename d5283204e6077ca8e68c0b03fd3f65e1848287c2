@@ -88,6 +88,24 @@
       "parentUuid": "f3dcd819_d305719a",
       "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65550d20_c3a05bd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-06T21:41:46Z",
+      "side": 1,
+      "message": "A thought just occurred to me, is to this support the Verified History [1] requirement of SLSA?\n\nhttps://slsa.dev/requirements#verified-history",
+      "parentUuid": "c89db837_ffaf5e10",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

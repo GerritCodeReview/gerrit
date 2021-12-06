@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b497ff6_afa9431c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-06T15:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89a9d19f_ceac5068",
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea9a927f_30591b10",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abec31ba_04dab87f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-06T15:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea9a927f_30591b10",
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e02a59a_0b06cc86",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-12-06T14:06:16Z",
       "side": 1,
       "message": "nit: Redirecting",
+      "range": {
+        "startLine": 1837,
+        "startChar": 74,
+        "endLine": 1837,
+        "endChar": 84
+      },
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89e76d31_dcdc4ee3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1837,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-06T15:08:00Z",
+      "side": 1,
+      "message": "Not this change, but sure. :-)",
+      "parentUuid": "5e02a59a_0b06cc86",
       "range": {
         "startLine": 1837,
         "startChar": 74,
@@ -129,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b406c13_68dc0047",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-06T15:08:00Z",
+      "side": 1,
+      "message": "I would like to keep it outside of the class, because it is stateless and has no dependencies that would require it to be inside the class. That makes it easier to test and reason about.\n\nI would like to keep it in this file, because it is not useful (or even dangerous) when called from somewhere else.\n\nMakes sense?",
+      "parentUuid": "4951660b_dc14cfa9",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 37
+      },
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10b7449a_59593d5a",
@@ -142,6 +226,30 @@
       "writtenOn": "2021-12-06T14:06:16Z",
       "side": 1,
       "message": "why is this needed? not sure what this is doing.\nspecifically why does routerPatchNum \u003d\u003d\u003d undefined check is required?",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 3
+      },
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed85d04d_2620bbf4",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-06T15:08:00Z",
+      "side": 1,
+      "message": "Added a comment.",
+      "parentUuid": "10b7449a_59593d5a",
       "range": {
         "startLine": 94,
         "startChar": 2,
@@ -175,6 +283,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0172852_23a7588e",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-06T15:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0340ad6_8c67285b",
+      "range": {
+        "startLine": 190,
+        "startChar": 17,
+        "endLine": 190,
+        "endChar": 25
+      },
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28eda8cc_55a04210",
@@ -188,6 +320,30 @@
       "writtenOn": "2021-12-06T14:06:16Z",
       "side": 1,
       "message": "unnecessary extra \"|\" ?",
+      "range": {
+        "startLine": 127,
+        "startChar": 3,
+        "endLine": 127,
+        "endChar": 6
+      },
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aba1bd4f_062e1ace",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-06T15:08:00Z",
+      "side": 1,
+      "message": "Weird. That is auto-formatter\u0027s doing. Re-written to work around the problem.",
+      "parentUuid": "28eda8cc_55a04210",
       "range": {
         "startLine": 127,
         "startChar": 3,

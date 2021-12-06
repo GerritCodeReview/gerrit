@@ -249,12 +249,25 @@ export class GrSubmitRequirementHovercard extends base {
       this.requirement,
       'onlySubmittability'
     );
-    return submittabilityLabels.map(labelName =>
-      this.renderLabelVote(labelName)
+    const submittabilityVotes = submittabilityLabels.map(labelName =>
+      this.renderLabelVote(labelName, 'submittability')
     );
+
+    const overrideLabels = extractAssociatedLabels(
+      this.requirement,
+      'onlyOverride'
+    );
+    const overrideVotes = overrideLabels.map(labelName =>
+      this.renderLabelVote(labelName, 'override')
+    );
+
+    return submittabilityVotes.concat(overrideVotes);
   }
 
-  private renderLabelVote(labelName: string) {
+  private renderLabelVote(
+    labelName: string,
+    type: 'override' | 'submittability'
+  ) {
     const labels = this.change?.labels ?? {};
     const labelInfo = labels[labelName];
     if (!labelInfo || !isDetailedLabelInfo(labelInfo)) return;
@@ -264,15 +277,26 @@ export class GrSubmitRequirementHovercard extends base {
     const maxVote = approvalInfo?.permitted_voting_range?.max;
     if (!maxVote || maxVote <= 0) return;
     if (approvalInfo?.value === maxVote) return; // Already voted maxVote
-
     return html` <div class="button quickApprove">
       <gr-button
         link=""
         @click="${(_: MouseEvent) => this.quickApprove(labelName, maxVote)}"
       >
-        Vote ${labelName} +${maxVote}
+        ${this.computeVoteButtonName(labelName, maxVote, type)}
       </gr-button>
     </div>`;
+  }
+
+  private computeVoteButtonName(
+    labelName: string,
+    maxVote: number,
+    type: 'override' | 'submittability'
+  ) {
+    if (type === 'override') {
+      return `Override (${labelName})`;
+    } else {
+      return `Vote ${labelName} +${maxVote}`;
+    }
   }
 
   private quickApprove(label: string, score: number) {

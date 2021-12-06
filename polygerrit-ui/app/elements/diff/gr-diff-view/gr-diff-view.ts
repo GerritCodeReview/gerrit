@@ -519,10 +519,6 @@ export class GrDiffView extends base {
     });
   }
 
-  _getChangeEdit() {
-    return this.restApiService.getChangeEdit(this._changeNum);
-  }
-
   _getSortedFileList(files?: Files) {
     if (!files) return [];
     return files.sortedFileList;
@@ -1167,17 +1163,6 @@ export class GrDiffView extends base {
       );
     }
     promises.push(until(this.commentsModel.commentsLoading$, isFalse));
-    promises.push(
-      this._getChangeEdit().then(edit => {
-        if (edit) {
-          this.set(`_change.revisions.${edit.commit.commit}`, {
-            _number: EditPatchSetNum,
-            basePatchNum: edit.base_patch_set_number,
-            commit: edit.commit,
-          });
-        }
-      })
-    );
 
     this.$.diffHost.cancel();
     this.$.diffHost.clearDiffContent();

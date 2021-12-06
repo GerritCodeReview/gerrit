@@ -76,6 +76,8 @@ import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
+  findEdit,
+  findEditParentRevision,
   hasEditBasedOnCurrentPatchSet,
   hasEditPatchsetLoaded,
   PatchSet,
@@ -109,7 +111,6 @@ import {
   CommitId,
   CommitInfo,
   ConfigInfo,
-  EditInfo,
   EditPatchSetNum,
   LabelNameToInfoMap,
   NumericChangeId,
@@ -1812,9 +1813,12 @@ export class GrChangeView extends base {
    * Utility function to make the necessary modifications to a change in the
    * case an edit exists.
    */
-  _processEdit(change: ParsedChangeInfo, edit?: EditInfo | false) {
+  _processEdit(change: ParsedChangeInfo) {
+    const revisions = Object.values(change.revisions || {});
+    const editRev = findEdit(revisions);
+    const editParentRev = findEditParentRevision(revisions);
     if (
-      !edit &&
+      !editRev &&
       this._patchRange?.patchNum === EditPatchSetNum &&
       changeIsOpen(change)
     ) {
@@ -1824,40 +1828,33 @@ export class GrChangeView extends base {
     }
 
     if (
-      !edit &&
+      !editRev &&
       (changeIsMerged(change) || changeIsAbandoned(change)) &&
       this._editMode
     ) {
       fireAlert(
         this,
-        'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
+        'Change edits cannot be created if change is merged or abandoned. Redirecting to non edit mode.'
       );
       fireReload(this, true);
       return;
     }
 
-    if (!edit) return;
+    if (!editRev) return;
+    assertIsDefined(this._patchRange, '_patchRange');
+    assertIsDefined(editRev.commit.commit, 'editRev.commit.commit');
+    assertIsDefined(editParentRev, 'editParentRev');
 
-    if (!this._patchRange)
-      throw new Error('missing required _patchRange property');
-
-    if (!edit.commit.commit) throw new Error('undefined edit.commit.commit');
-    const changeWithEdit = change;
-    if (changeWithEdit.revisions)
-      changeWithEdit.revisions[edit.commit.commit] = {
-        _number: EditPatchSetNum,
-        basePatchNum: edit.base_patch_set_number,
-        commit: edit.commit,
-        fetch: edit.fetch,
-      };
-
-    // If the edit is based on the most recent patchset, load it by
-    // default, unless another patch set to load was specified in the URL.
-    if (
-      !this._patchRange.patchNum &&
-      changeWithEdit.current_revision === edit.base_revision
-    ) {
-      changeWithEdit.current_revision = edit.commit.commit;
+    const latestPsNum = computeLatestPatchNum(computeAllPatchSets(change));
+    // If the change was loaded without a specific patchset, then this normally
+    // means that the *latest* patchset should be loaded. But if there is an
+    // active edit, then automatically switch to that edit as the current
+    // patchset.
+    // TODO: This goes together with `change.current_revision` being set, which
+    // is under change-model control. `_patchRange.patchNum` should eventually
+    // also be model managed, so we can reconcile these two code snippets into
+    // one location.
+    if (!this._patchRange.patchNum && latestPsNum === editParentRev._number) {
       this.set('_patchRange.patchNum', EditPatchSetNum);
     }
   }
@@ -1894,75 +1891,67 @@ export class GrChangeView extends base {
    * Calculate selected revision
    */
   // private but used in tests
-  performPostChangeLoadTasks() {
-    if (!this._changeNum) {
-      throw new Error('missing required changeNum property');
-    }
+  async performPostChangeLoadTasks() {
+    assertIsDefined(this._changeNum, '_changeNum');
 
-    const detailCompletes = until(
+    const prefCompletes = this._getPreferences();
+    await until(
       this.changeModel.changeLoadingStatus$,
       status => status === LoadingStatus.LOADED
     );
-    const editCompletes = this._getEdit();
-    const prefCompletes = this._getPreferences();
+    this._prefs = await prefCompletes;
 
-    return Promise.all([detailCompletes, editCompletes, prefCompletes]).then(
-      ([_, edit, prefs]) => {
-        this._prefs = prefs;
+    if (!this._change) return false;
 
-        if (!this._change) return false;
+    this._processEdit(this._change);
+    // Issue 4190: Coalesce missing topics to null.
+    // TODO(TS): code needs second thought,
+    // it might be that nulls were assigned to trigger some bindings
+    if (!this._change.topic) {
+      this._change.topic = null as unknown as undefined;
+    }
+    if (!this._change.reviewer_updates) {
+      this._change.reviewer_updates = null as unknown as undefined;
+    }
+    const latestRevisionSha = this._getLatestRevisionSHA(this._change);
+    if (!latestRevisionSha)
+      throw new Error('Could not find latest Revision Sha');
+    const currentRevision = this._change.revisions[latestRevisionSha];
+    if (currentRevision.commit && currentRevision.commit.message) {
+      this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+        currentRevision.commit.message
+      );
+    } else {
+      this._latestCommitMessage = null;
+    }
 
-        this._processEdit(this._change, edit);
-        // Issue 4190: Coalesce missing topics to null.
-        // TODO(TS): code needs second thought,
-        // it might be that nulls were assigned to trigger some bindings
-        if (!this._change.topic) {
-          this._change.topic = null as unknown as undefined;
-        }
-        if (!this._change.reviewer_updates) {
-          this._change.reviewer_updates = null as unknown as undefined;
-        }
-        const latestRevisionSha = this._getLatestRevisionSHA(this._change);
-        if (!latestRevisionSha)
-          throw new Error('Could not find latest Revision Sha');
-        const currentRevision = this._change.revisions[latestRevisionSha];
-        if (currentRevision.commit && currentRevision.commit.message) {
-          this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-            currentRevision.commit.message
-          );
-        } else {
-          this._latestCommitMessage = null;
-        }
-
-        this.computeRevertSubmitted(this._change);
-        if (
-          !this._patchRange ||
-          !this._patchRange.patchNum ||
-          this._patchRange.patchNum === currentRevision._number
-        ) {
-          // CommitInfo.commit is optional, and may need patching.
-          if (currentRevision.commit && !currentRevision.commit.commit) {
-            currentRevision.commit.commit = latestRevisionSha as CommitId;
-          }
-          this._commitInfo = currentRevision.commit;
-          this._selectedRevision = currentRevision;
-          // TODO: Fetch and process files.
-        } else {
-          if (!this._change?.revisions || !this._patchRange) return false;
-          this._selectedRevision = Object.values(this._change.revisions).find(
-            revision => {
-              // edit patchset is a special one
-              const thePatchNum = this._patchRange!.patchNum;
-              if (thePatchNum === 'edit') {
-                return revision._number === thePatchNum;
-              }
-              return revision._number === Number(`${thePatchNum}`);
-            }
-          );
-        }
-        return true;
+    this.computeRevertSubmitted(this._change);
+    if (
+      !this._patchRange ||
+      !this._patchRange.patchNum ||
+      this._patchRange.patchNum === currentRevision._number
+    ) {
+      // CommitInfo.commit is optional, and may need patching.
+      if (currentRevision.commit && !currentRevision.commit.commit) {
+        currentRevision.commit.commit = latestRevisionSha as CommitId;
       }
-    );
+      this._commitInfo = currentRevision.commit;
+      this._selectedRevision = currentRevision;
+      // TODO: Fetch and process files.
+    } else {
+      if (!this._change?.revisions || !this._patchRange) return false;
+      this._selectedRevision = Object.values(this._change.revisions).find(
+        revision => {
+          // edit patchset is a special one
+          const thePatchNum = this._patchRange!.patchNum;
+          if (thePatchNum === 'edit') {
+            return revision._number === thePatchNum;
+          }
+          return revision._number === Number(`${thePatchNum}`);
+        }
+      );
+    }
+    return true;
   }
 
   _isSubmitEnabled(revisionActions: ActionNameToActionInfoMap) {
@@ -1979,10 +1968,6 @@ export class GrChangeView extends base {
     } else {
       return true;
     }
-  }
-
-  _getEdit() {
-    return this.restApiService.getChangeEdit(this._changeNum);
   }
 
   _getLatestCommitMessage() {
@@ -2016,34 +2001,12 @@ export class GrChangeView extends base {
     return latestRev;
   }
 
-  _getCommitInfo() {
-    if (!this._changeNum)
-      throw new Error('missing required _changeNum property');
-    if (!this._patchRange)
-      throw new Error('missing required _patchRange property');
-    if (this._patchRange.patchNum === undefined)
-      throw new Error('missing required patchNum property');
-
-    // We only call _getEdit if the patchset number is an edit.
-    // We have to do this to ensure we can tell if an edit
-    // exists or not.
-    // This safely works even if a edit does not exist.
-    if (this._patchRange!.patchNum! === EditPatchSetNum) {
-      return this._getEdit().then(edit => {
-        if (!edit) {
-          return Promise.resolve();
-        }
-
-        return this._getChangeCommitInfo();
-      });
-    }
-
-    return this._getChangeCommitInfo();
-  }
-
-  _getChangeCommitInfo() {
+  // visible for testing
+  loadAndSetCommitInfo() {
+    assertIsDefined(this._changeNum, '_changeNum');
+    assertIsDefined(this._patchRange?.patchNum, '_patchRange.patchNum');
     return this.restApiService
-      .getChangeCommitInfo(this._changeNum!, this._patchRange!.patchNum!)
+      .getChangeCommitInfo(this._changeNum, this._patchRange!.patchNum)
       .then(commitInfo => {
         this._commitInfo = commitInfo;
       });
@@ -2230,7 +2193,7 @@ export class GrChangeView extends base {
   _reloadPatchNumDependentResources(patchNumChanged?: boolean) {
     assertIsDefined(this._changeNum, '_changeNum');
     if (!this._patchRange?.patchNum) throw new Error('missing patchNum');
-    const promises = [this._getCommitInfo(), this.$.fileList.reload()];
+    const promises = [this.loadAndSetCommitInfo(), this.$.fileList.reload()];
     if (patchNumChanged) {
       promises.push(
         this.commentsModel.reloadPortedComments(

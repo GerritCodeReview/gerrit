@@ -227,7 +227,7 @@ export const grRestApiMock: RestApiService = {
   },
   getChangeDetail(
     changeNum?: number | string
-  ): Promise<ParsedChangeInfo | null | undefined> {
+  ): Promise<ParsedChangeInfo | undefined> {
     if (changeNum === undefined) return Promise.resolve(undefined);
     return Promise.resolve(createChange() as ParsedChangeInfo);
   },

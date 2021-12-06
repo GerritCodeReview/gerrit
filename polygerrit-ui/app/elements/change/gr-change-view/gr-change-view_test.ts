@@ -74,10 +74,7 @@ import {
   ChangeId,
   ChangeInfo,
   CommitId,
-  CommitInfo,
-  EditInfo,
   EditPatchSetNum,
-  GitRef,
   NumericChangeId,
   ParentPatchSetNum,
   PatchRange,
@@ -1362,7 +1359,7 @@ suite('gr-change-view tests', () => {
 
   test('reload ported comments when patchNum changes', async () => {
     sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
-    sinon.stub(element, '_getCommitInfo');
+    sinon.stub(element, 'loadAndSetCommitInfo');
     sinon.stub(element.$.fileList, 'reload');
     flush();
     const reloadPortedCommentsStub = stubComments('reloadPortedComments');
@@ -1566,44 +1563,6 @@ suite('gr-change-view tests', () => {
 
     await element.performPostChangeLoadTasks();
     assert.equal('foo', element._commitInfo!.commit);
-  });
-
-  test('edit is added to change', () => {
-    sinon.stub(element, '_changeChanged');
-    const changeRevision = createRevision();
-    element.changeModel.setState({
-      loadingStatus: LoadingStatus.LOADED,
-      change: {
-        ...createChangeViewChange(),
-        labels: {},
-        current_revision: 'foo' as CommitId,
-        revisions: {foo: {...changeRevision}},
-      },
-    });
-    const editCommit: CommitInfo = {
-      ...createCommit(),
-      commit: 'bar' as CommitId,
-    };
-    sinon.stub(element, '_getEdit').callsFake(() =>
-      Promise.resolve({
-        base_patch_set_number: 1 as BasePatchSetNum,
-        commit: {...editCommit},
-        base_revision: 'abc',
-        ref: 'some/ref' as GitRef,
-      })
-    );
-    element._patchRange = {};
-
-    return element.performPostChangeLoadTasks().then(() => {
-      const revs = element._change!.revisions!;
-      assert.equal(Object.keys(revs).length, 2);
-      assert.deepEqual(revs['foo'], changeRevision);
-      assert.deepEqual(revs['bar'], {
-        ...createEditRevision(),
-        commit: editCommit,
-        fetch: undefined,
-      });
-    });
   });
 
   test('_getBasePatchNum', () => {
@@ -1867,40 +1826,28 @@ suite('gr-change-view tests', () => {
         foo: {...createRevision()},
       },
     };
-    let mockChange;
 
-    // With no edit, mockChange should be unmodified.
-    element._processEdit((mockChange = _.cloneDeep(change)), false);
-    assert.deepEqual(mockChange, change);
+    // With no edit, nothing happens.
+    element._processEdit(change);
+    assert.equal(element._patchRange.patchNum, undefined);
 
-    const editCommit: CommitInfo = {
-      ...createCommit(),
-      commit: 'bar' as CommitId,
-    };
-    // When edit is not based on the latest PS, current_revision should be
-    // unmodified.
-    const edit: EditInfo = {
-      ref: 'ref/test/abc' as GitRef,
-      base_revision: 'abc',
-      base_patch_set_number: 1 as BasePatchSetNum,
-      commit: {...editCommit},
+    change.revisions['bar'] = {
+      _number: EditPatchSetNum,
+      basePatchNum: 1 as BasePatchSetNum,
+      commit: {
+        ...createCommit(),
+        commit: 'bar' as CommitId,
+      },
       fetch: {},
     };
-    element._processEdit((mockChange = _.cloneDeep(change)), edit);
-    assert.notDeepEqual(mockChange, change);
-    assert.equal(mockChange.revisions.bar._number, EditPatchSetNum);
-    assert.equal(mockChange.current_revision, change.current_revision);
-    assert.deepEqual(mockChange.revisions.bar.commit, editCommit);
 
-    edit.base_revision = 'foo';
-    element._processEdit((mockChange = _.cloneDeep(change)), edit);
-    assert.notDeepEqual(mockChange, change);
-    assert.equal(mockChange.current_revision, 'bar');
+    // When edit is set, but not patchNum, then switch to edit ps.
+    element._processEdit(change);
+    assert.equal(element._patchRange.patchNum, EditPatchSetNum);
 
-    // If _patchRange.patchNum is defined, do not load edit.
+    // When edit is set, but patchNum as well, then keep patchNum.
     element._patchRange.patchNum = 5 as RevisionPatchSetNum;
-    change.current_revision = 'baz' as CommitId;
-    element._processEdit((mockChange = _.cloneDeep(change)), edit);
+    element._processEdit(change);
     assert.equal(element._patchRange.patchNum, 5 as RevisionPatchSetNum);
   });
 
@@ -2000,7 +1947,6 @@ suite('gr-change-view tests', () => {
       },
     });
 
-    sinon.stub(element, '_getEdit').returns(Promise.resolve(undefined));
     sinon
       .stub(element, '_getPreferences')
       .returns(Promise.resolve(createPreferences()));
@@ -2013,7 +1959,7 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  test('_selectedRevision is assigned when patchNum is edit', () => {
+  test('_selectedRevision is assigned when patchNum is edit', async () => {
     const revision1 = createRevision(1);
     const revision2 = createRevision(2);
     const revision3 = createEditRevision();
@@ -2031,14 +1977,12 @@ suite('gr-change-view tests', () => {
         current_revision: 'ccc' as CommitId,
       },
     });
-    sinon.stub(element, '_getEdit').returns(Promise.resolve(undefined));
     sinon
       .stub(element, '_getPreferences')
       .returns(Promise.resolve(createPreferences()));
     element._patchRange = {patchNum: EditPatchSetNum};
-    return element.performPostChangeLoadTasks().then(() => {
-      assert.strictEqual(element._selectedRevision, revision3);
-    });
+    await element.performPostChangeLoadTasks();
+    assert.strictEqual(element._selectedRevision, revision3);
   });
 
   test('_sendShowChangeEvent', () => {

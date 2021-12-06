@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c435687c_242fc43b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-06T17:32:26Z",
+      "side": 1,
+      "message": "I don\u0027t understand this. What \"external storage\" would want to reference a specific Gerrit PatchSetApproval? Or does this just mean NoteDb? If it\u0027s NoteDb, I\u0027m not clear on the added value of a UUID. We already reference PSAs from notedb, correct?",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

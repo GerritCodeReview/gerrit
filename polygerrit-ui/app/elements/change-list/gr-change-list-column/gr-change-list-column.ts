@@ -16,7 +16,7 @@
  */
 
 import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard';
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
 import {changeIsMerged} from '../../../utils/change-util';
@@ -37,6 +37,13 @@ export class GrChangeListColumRequirements extends LitElement {
         }
         span {
           line-height: var(--line-height-normal);
+        }
+        .unsatisfied {
+          color: var(--primary-text-color);
+        }
+        .total {
+          margin-left: var(--spacing-s);
+          color: var(--deemphasized-text-color);
         }
         .check {
           color: var(--success-foreground);
@@ -69,15 +76,25 @@ export class GrChangeListColumRequirements extends LitElement {
     const numUnsatisfied = submitRequirements.filter(
       req => req.status === SubmitRequirementStatus.UNSATISFIED
     ).length;
-    return this.renderState('close', `${numUnsatisfied} of ${numRequirements}`);
+    return this.renderState(
+      'close',
+      this.renderSummary(numUnsatisfied, numRequirements)
+    );
   }
 
-  renderState(icon: string, message: string) {
+  renderState(icon: string, aggregation: string | TemplateResult) {
     return html`<span class="${icon}"
       ><gr-submit-requirement-dashboard-hovercard .change=${this.change}>
       </gr-submit-requirement-dashboard-hovercard>
       <iron-icon class="${icon}" icon="gr-icons:${icon}" role="img"></iron-icon
-      >${message}</span
+      >${aggregation}</span
+    >`;
+  }
+
+  renderSummary(numUnsatisfied: number, numRequirements: number) {
+    return html`<span
+      ><span class="unsatisfied">${numUnsatisfied}</span
+      ><span class="total">(of ${numRequirements})</span></span
     >`;
   }
 }

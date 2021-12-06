@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f9fc5081_93c0b144",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T17:49:27Z",
+      "side": 1,
+      "message": "Actually, this comment is obsolete if you get rid of all these members as suggested in my comment below.",
+      "parentUuid": "3869781f_e3415285",
+      "revId": "3a9ff601f0ef24064f717a167fb40c41c1756146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cc4d437_0df0a5d7",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
         "patchSetId": 9

@@ -18,16 +18,11 @@
 import '../../../test/common-test-setup-karma';
 import {createChange} from '../../../test/test-data-generators';
 import './gr-change-status';
-import {ChangeStates, GrChangeStatus} from './gr-change-status';
+import {ChangeStates, GrChangeStatus, WIP_TOOLTIP} from './gr-change-status';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {MERGE_CONFLICT_TOOLTIP} from './gr-change-status';
 
 const basicFixture = fixtureFromElement('gr-change-status');
-
-const WIP_TOOLTIP =
-  "This change isn't ready to be reviewed or submitted. " +
-  "It will not appear on dashboards unless you are CC'ed or assigned, " +
-  'and email notifications will be silenced until the review is started.';
 
 const PRIVATE_TOOLTIP =
   'This change is only visible to its owner and ' +

@@ -34,6 +34,24 @@
       "parentUuid": "c1cb72f7_73fe5f6d",
       "revId": "e2cc756d4cbe12b705f4626d6fcdf16ca0db942d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3350849_75280721",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-06T12:12:13Z",
+      "side": 1,
+      "message": "I added https://gerrit-review.googlesource.com/c/gerrit/+/325492/2 as a temporary workaround; more details in its commit message.",
+      "parentUuid": "d037a2e0_2e7b5275",
+      "revId": "e2cc756d4cbe12b705f4626d6fcdf16ca0db942d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -197,7 +197,7 @@ export interface RestApiService extends Finalizable {
     changeNum?: number | string,
     opt_errFn?: ErrorCallback,
     opt_cancelCondition?: Function
-  ): Promise<ParsedChangeInfo | null | undefined>;
+  ): Promise<ParsedChangeInfo | undefined>;
 
   getChange(
     changeNum: ChangeId | NumericChangeId,

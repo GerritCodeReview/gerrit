@@ -22,15 +22,53 @@ import '../../test/common-test-setup-karma';
 import {
   createChange,
   createChangeMessageInfo,
+  createEditInfo,
+  createParsedChange,
   createRevision,
 } from '../../test/test-data-generators';
 import {mockPromise, stubRestApi, waitUntil} from '../../test/test-utils';
-import {CommitId, NumericChangeId, PatchSetNum} from '../../types/common';
+import {
+  CommitId,
+  EditPatchSetNum,
+  NumericChangeId,
+  PatchSetNum,
+} from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../app-context';
 import {GerritView} from '../router/router-model';
-import {ChangeState, LoadingStatus} from './change-model';
+import {ChangeState, LoadingStatus, updateChangeWithEdit} from './change-model';
 import {ChangeModel} from './change-model';
+
+suite('updateChangeWithEdit() tests', () => {
+  test('undefined change', async () => {
+    assert.isUndefined(updateChangeWithEdit());
+  });
+
+  test('undefined edit', async () => {
+    const change = createParsedChange();
+    assert.equal(updateChangeWithEdit(change), change);
+  });
+
+  test('set edit rev and current rev', async () => {
+    let change: ParsedChangeInfo | undefined = createParsedChange();
+    const edit = createEditInfo();
+    change = updateChangeWithEdit(change, edit);
+    const editRev = change?.revisions[`${edit.commit.commit}`];
+    assert.isDefined(editRev);
+    assert.equal(editRev?._number, EditPatchSetNum);
+    assert.equal(editRev?.basePatchNum, edit.base_patch_set_number);
+    assert.equal(change?.current_revision, edit.commit.commit);
+  });
+
+  test('do not set current rev when patchNum already set', async () => {
+    let change: ParsedChangeInfo | undefined = createParsedChange();
+    const edit = createEditInfo();
+    change = updateChangeWithEdit(change, edit, 1 as PatchSetNum);
+    const editRev = change?.revisions[`${edit.commit.commit}`];
+    assert.isDefined(editRev);
+    assert.equal(change?.current_revision, 'abc' as CommitId);
+  });
+});
 
 suite('change service tests', () => {
   let changeModel: ChangeModel;

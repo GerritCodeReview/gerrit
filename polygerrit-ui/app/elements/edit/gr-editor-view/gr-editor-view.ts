@@ -90,7 +90,7 @@ export class GrEditorView extends PolymerElement {
   params?: GenerateUrlEditViewParameters;
 
   @property({type: Object, observer: '_editChange'})
-  _change?: ParsedChangeInfo | null;
+  _change?: ParsedChangeInfo;
 
   @property({type: Number})
   _changeNum?: NumericChangeId;

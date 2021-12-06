@@ -213,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78c78ec5_4c437df8",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-06T15:33:17Z",
+      "side": 1,
+      "message": "I don\u0027t agree but its ok if it\u0027s strongly important to you that it lives outside the class.\n\nA better test would be to use the model as it would naturally be used and have this logic happen at the appropriate time. This is an easier test because it\u0027s a worse test.",
+      "parentUuid": "8b406c13_68dc0047",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 37
+      },
+      "revId": "9f7c8ea790c048718793085ae7564ce08d2c18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10b7449a_59593d5a",

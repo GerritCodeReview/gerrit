@@ -790,7 +790,7 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) {
-    return cd.submitRequirements().values().stream().allMatch(srResult -> srResult.fulfilled());
+    return SubmitRecord.allRecordsOK(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT));
   }
 
   private void setSubmitter(ChangeData cd, ChangeInfo out) {

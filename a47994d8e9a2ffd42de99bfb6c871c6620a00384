@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e13e165_8ca2c770",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-06T21:57:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aed8b8c2_d3227eb2",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 65
+      },
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2a8a73c_9cdd927c",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-12-03T21:12:26Z",
       "side": 1,
       "message": "I think this has the same meaning without \"as and when they are available\" or \"finish on all repositories\".\n\n ...  With this change,\n we schedule slices without waiting for any other slice creation.",
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a95e7b09_b775c9f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-06T21:57:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2a8a73c_9cdd927c",
       "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -72,6 +114,24 @@
       "side": 1,
       "message": "...shuffling is not needed since the slices are not scanning refs anymore ?",
       "parentUuid": "4a96f0be_826b6342",
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c79293d_17e5a410",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-06T21:57:10Z",
+      "side": 1,
+      "message": "\u003e ...shuffling is not needed since the slices are not scanning refs anymore ?\n\nI think, when indexing a particular change, we load the change data from its ref.",
+      "parentUuid": "4666f183_0eda8e43",
       "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -181,6 +241,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeae345b_ca7a9000",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-06T21:57:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e0f76d5_66ef4d2c",
+      "range": {
+        "startLine": 261,
+        "startChar": 41,
+        "endLine": 261,
+        "endChar": 46
+      },
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3aa3ef1_61bc31d3",
@@ -194,6 +278,30 @@
       "writtenOn": "2021-12-03T21:12:26Z",
       "side": 1,
       "message": "This looks like a separate refactor. Can you split it out?",
+      "range": {
+        "startLine": 278,
+        "startChar": 6,
+        "endLine": 278,
+        "endChar": 38
+      },
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99f21601_11d38d72",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-06T21:57:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3aa3ef1_61bc31d3",
       "range": {
         "startLine": 278,
         "startChar": 6,
@@ -256,6 +364,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bacea39c_8b52b510",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-06T21:57:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c5b7ce_e5cf9687",
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1d577a9_e0d0df8e",
@@ -269,6 +395,24 @@
       "writtenOn": "2021-12-03T21:12:26Z",
       "side": 1,
       "message": "final",
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c06acc8_47682c4b",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-06T21:57:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1d577a9_e0d0df8e",
       "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -296,6 +440,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a2b2330_fea0965d",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-06T21:57:10Z",
+      "side": 1,
+      "message": "Since projectCount variable is needed, projectCache.all() cannot be inlined.",
+      "parentUuid": "15fb2d68_61cbe282",
+      "range": {
+        "startLine": 293,
+        "startChar": 42,
+        "endLine": 293,
+        "endChar": 50
+      },
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c25509fb_1985d187",
@@ -309,6 +477,30 @@
       "writtenOn": "2021-12-03T21:12:26Z",
       "side": 1,
       "message": "inline this single use variable",
+      "range": {
+        "startLine": 294,
+        "startChar": 11,
+        "endLine": 294,
+        "endChar": 23
+      },
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5da6194_ac3d4016",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-06T21:57:10Z",
+      "side": 1,
+      "message": "We also use it in line 314",
+      "parentUuid": "c25509fb_1985d187",
       "range": {
         "startLine": 294,
         "startChar": 11,

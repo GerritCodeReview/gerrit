@@ -52,6 +52,24 @@
       "parentUuid": "b95db98c_2d74176a",
       "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3dcd819_d305719a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-06T20:09:13Z",
+      "side": 1,
+      "message": "More specifically, this is the information about credentials, used to issue the vote update. The exacts depend on the authentication implementation. We have the \u0027Realm\u0027 binding, that provides a way for custom authentication implementations.",
+      "parentUuid": "569e7b54_0252ae9d",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

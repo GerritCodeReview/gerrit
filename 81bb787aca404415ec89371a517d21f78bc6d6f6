@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79392a99_3c1effc7",
+        "filename": "plugins/delete-project",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-12-06T17:31:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5368bf2e_b3172ba4",
+      "revId": "81bb787aca404415ec89371a517d21f78bc6d6f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14f67d99_e2dc55eb",
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "ditto",
       "parentUuid": "14f67d99_e2dc55eb",
+      "revId": "81bb787aca404415ec89371a517d21f78bc6d6f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d347bc6_e9458032",
+        "filename": "plugins/webhooks",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-12-06T17:31:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12d2137c_944b6713",
       "revId": "81bb787aca404415ec89371a517d21f78bc6d6f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -16,6 +16,52 @@
       "message": "Google-Bug-Id: b/208994829",
       "revId": "faa4ca46c85e8ff7805bb3aa38a5411c5489f61c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "631a7e05_c900237d",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-06T13:55:12Z",
+      "side": 1,
+      "message": "nit: doesn\u0027t",
+      "range": {
+        "startLine": 795,
+        "startChar": 40,
+        "endLine": 795,
+        "endChar": 44
+      },
+      "revId": "faa4ca46c85e8ff7805bb3aa38a5411c5489f61c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "667a1b91_82a342d8",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-06T13:55:12Z",
+      "side": 1,
+      "message": "better: SubmitRequirementResult::fulfilled",
+      "range": {
+        "startLine": 797,
+        "startChar": 64,
+        "endLine": 797,
+        "endChar": 96
+      },
+      "revId": "faa4ca46c85e8ff7805bb3aa38a5411c5489f61c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

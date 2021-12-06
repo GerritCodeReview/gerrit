@@ -226,9 +226,6 @@ export class GrChangeListItem extends LitElement {
         .subject:hover .content {
           text-decoration: underline;
         }
-        .requirement.codeReview {
-          text-align: left;
-        }
         .u-monospace {
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-mono);
@@ -254,9 +251,6 @@ export class GrChangeListItem extends LitElement {
         }
         .cell.label iron-icon {
           vertical-align: top;
-        }
-        .cell.label > .commentIcon {
-          color: var(--deemphasized-text-color);
         }
         @media only screen and (max-width: 50em) {
           :host {
@@ -546,7 +540,6 @@ export class GrChangeListItem extends LitElement {
         class="${this.computeLabelClass(labelName)}"
       >
         ${this.renderChangeHasLabelIcon(labelName)}
-        ${this.renderCommentsInfoWithLabel(labelName)}
       </td>
     `;
   }
@@ -558,16 +551,6 @@ export class GrChangeListItem extends LitElement {
     return html`
       <iron-icon icon=${this.computeLabelIcon(labelName)}></iron-icon>
     `;
-  }
-
-  private renderCommentsInfoWithLabel(labelName: string) {
-    if (!showNewSubmitRequirements(this.flagsService, this.change)) return;
-    if (labelName !== StandardLabels.CODE_REVIEW) return;
-    if (!this.change?.unresolved_comment_count) return;
-    return html`<iron-icon
-      icon="gr-icons:comment"
-      class="commentIcon"
-    ></iron-icon>`;
   }
 
   private renderChangePluginEndpoint(pluginEndpointName: string) {

@@ -51,6 +51,10 @@ export class GrChangeListColumRequirements extends LitElement {
         iron-icon.close {
           color: var(--error-foreground);
         }
+        .commentIcon {
+          color: var(--deemphasized-text-color);
+          margin-left: var(--spacing-s);
+        }
       `,
     ];
   }
@@ -76,10 +80,13 @@ export class GrChangeListColumRequirements extends LitElement {
     const numUnsatisfied = submitRequirements.filter(
       req => req.status === SubmitRequirementStatus.UNSATISFIED
     ).length;
-    return this.renderState(
+
+    const state = this.renderState(
       'close',
       this.renderSummary(numUnsatisfied, numRequirements)
     );
+    const commentIcon = this.renderCommentIcon();
+    return html`${state}${commentIcon}`;
   }
 
   renderState(icon: string, aggregation: string | TemplateResult) {
@@ -96,6 +103,14 @@ export class GrChangeListColumRequirements extends LitElement {
       ><span class="unsatisfied">${numUnsatisfied}</span
       ><span class="total">(of ${numRequirements})</span></span
     >`;
+  }
+
+  renderCommentIcon() {
+    if (!this.change?.unresolved_comment_count) return;
+    return html`<iron-icon
+      icon="gr-icons:comment"
+      class="commentIcon"
+    ></iron-icon>`;
   }
 }
 

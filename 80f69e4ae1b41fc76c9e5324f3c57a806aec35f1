@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50a5f4ae_dd1c0675",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column/gr-change-list-column.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-06T19:00:04Z",
+      "side": 1,
+      "message": "Great idea, thanks!",
+      "parentUuid": "a1616497_3af223d5",
+      "revId": "80f69e4ae1b41fc76c9e5324f3c57a806aec35f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d169580_b85c2cc9",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-12-06T18:01:51Z",
       "side": 1,
       "message": "Consider using the util rather than hardcoding here.",
+      "revId": "80f69e4ae1b41fc76c9e5324f3c57a806aec35f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcf20871_e5a9b2d7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column/gr-change-list-column.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-06T19:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d169580_b85c2cc9",
       "revId": "80f69e4ae1b41fc76c9e5324f3c57a806aec35f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "950498fa_218d4cf8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-06T19:00:04Z",
+      "side": 1,
+      "message": "Yes, for old UI based on labels.",
+      "parentUuid": "31ffd8e9_1474143d",
+      "revId": "80f69e4ae1b41fc76c9e5324f3c57a806aec35f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d8fa50e_b06e26fb",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-12-06T18:01:51Z",
       "side": 1,
       "message": "Why do we have to copy these? Why can\u0027t we directly link to a library from fonts.google.com?",
+      "revId": "80f69e4ae1b41fc76c9e5324f3c57a806aec35f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e289a75d_434dbdf7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-06T19:00:04Z",
+      "side": 1,
+      "message": "on that page, there is download link for svg, so I think you should copy it to your web. But I never looked into it much, we just do it. But good to open this discussion in our meeting.",
+      "parentUuid": "1d8fa50e_b06e26fb",
       "revId": "80f69e4ae1b41fc76c9e5324f3c57a806aec35f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

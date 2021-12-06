@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39f196ed_c37e1806",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-06T18:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60de4f06_6d18c10b",
+      "range": {
+        "startLine": 10,
+        "startChar": 56,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "727575119a275cb642215c37db897f89da433bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f66201dc_d7403e6d",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-12-03T16:24:04Z",
       "side": 1,
       "message": "nit: UUIDs",
+      "range": {
+        "startLine": 17,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 35
+      },
+      "revId": "727575119a275cb642215c37db897f89da433bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1de6920_0e31f443",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-06T18:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f66201dc_d7403e6d",
       "range": {
         "startLine": 17,
         "startChar": 31,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e65476b_3b65c8c0",
+        "filename": "java/com/google/gerrit/entities/PatchSetApproval.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-06T18:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "347da8c3_5d6d5a73",
+      "range": {
+        "startLine": 47,
+        "startChar": 71,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "727575119a275cb642215c37db897f89da433bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f5519db_d101fa98",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-12-03T16:24:04Z",
       "side": 1,
       "message": "Where is the decoding happening?\n\nIf I have a string \"foo\" is \"foo\".equals(uuid(foo).get()) in all cases? I think it should.\n\nActually, why do we need to encode/decode at all :-)",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 27
+      },
+      "revId": "727575119a275cb642215c37db897f89da433bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5a7b65b_60bd3eef",
+        "filename": "java/com/google/gerrit/entities/PatchSetApproval.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-06T18:39:53Z",
+      "side": 1,
+      "message": "It would only be needed if UUID contained user input. It does not, so removed.",
+      "parentUuid": "8f5519db_d101fa98",
       "range": {
         "startLine": 65,
         "startChar": 13,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e80a9c6_2943d293",
+        "filename": "java/com/google/gerrit/entities/PatchSetApproval.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-06T18:39:53Z",
+      "side": 1,
+      "message": "Since I copy Optional\u003cUUID\u003e in builder and it\u0027s convenient to provide  Optional.ofNullable(uuid), added both.",
+      "parentUuid": "16f30792_c9bb2ede",
+      "range": {
+        "startLine": 90,
+        "startChar": 33,
+        "endLine": 90,
+        "endChar": 41
+      },
+      "revId": "727575119a275cb642215c37db897f89da433bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c659d7d9_e4e00b60",
@@ -129,6 +249,30 @@
       "writtenOn": "2021-12-03T16:24:04Z",
       "side": 1,
       "message": "It seems this only contains the generator and that you might want to make that an extension point in the future. So I would move the Generator interface and impl into two files: PatchSetUuidGenerator and *Impl.",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "727575119a275cb642215c37db897f89da433bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a88c58c_719bdc1e",
+        "filename": "java/com/google/gerrit/server/approval/PatchSetApprovalUuid.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-06T18:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c659d7d9_e4e00b60",
       "range": {
         "startLine": 28,
         "startChar": 4,
@@ -156,6 +300,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5739678a_23f69b8c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-06T18:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db98a59_d7d54123",
+      "revId": "727575119a275cb642215c37db897f89da433bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0a83f38_54a07bc7",
@@ -169,6 +331,24 @@
       "writtenOn": "2021-12-03T16:24:04Z",
       "side": 1,
       "message": "This parsing is getting more complicated. What do you think about using some standard serializer instead medium-term (outside of the scope of this change)? e.g. protos?",
+      "revId": "727575119a275cb642215c37db897f89da433bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6e97536_753074e2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-06T18:39:53Z",
+      "side": 1,
+      "message": "We already use json for e.g. attention set (still readable in the change footer).\nMedium-term, we could use json here too.",
+      "parentUuid": "c0a83f38_54a07bc7",
       "revId": "727575119a275cb642215c37db897f89da433bc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -196,6 +376,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f120a557_5e27d802",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-06T18:39:53Z",
+      "side": 1,
+      "message": "This won\u0027t work for all inputs. I think it would make sense for the implementations o ensure the appropriate test coverage.\nE.g. this test is for the default implementation, for internal we can have separate test cases.",
+      "parentUuid": "ade2e1ff_36132776",
+      "range": {
+        "startLine": 165,
+        "startChar": 15,
+        "endLine": 165,
+        "endChar": 99
+      },
+      "revId": "727575119a275cb642215c37db897f89da433bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf7e7862_163d1c4d",
@@ -209,6 +413,30 @@
       "writtenOn": "2021-12-03T16:24:04Z",
       "side": 1,
       "message": "11\n\n(was forgotten to be updated when copied was added)",
+      "range": {
+        "startLine": 128,
+        "startChar": 12,
+        "endLine": 128,
+        "endChar": 14
+      },
+      "revId": "727575119a275cb642215c37db897f89da433bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7d86b70_1af3964b",
+        "filename": "proto/entities.proto",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-06T18:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf7e7862_163d1c4d",
       "range": {
         "startLine": 128,
         "startChar": 12,

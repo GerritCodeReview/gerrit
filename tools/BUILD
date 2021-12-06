@@ -231,7 +231,7 @@ java_package_configuration(
         "-Xep:InfiniteRecursion:ERROR",
         "-Xep:InjectOnConstructorOfAbstractClass:ERROR",
         "-Xep:InheritDoc:ERROR",
-        # "-Xep:InlineFormatString:WARN",
+        "-Xep:InlineFormatString:ERROR",
         "-Xep:InlineMeInliner:ERROR",
         "-Xep:InlineMeSuggester:ERROR",
         "-Xep:InlineMeValidator:ERROR",

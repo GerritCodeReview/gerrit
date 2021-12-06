@@ -237,6 +237,24 @@
       "message": "Hm, I wonder what to do here. Asked the WC core team about it. I have vague memory that this.notifyPath(\u0027*\u0027) might work, but reading through the code I\u0027m not so sure.\n\nIn any case, this will work fine for dependencies that are only provided once, which is all you\u0027re doing for now, but maybe put a comment here saying something would need to be done for dependencies that are updated over time",
       "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ad04d79_c41e858b",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:51:59Z",
+      "side": 1,
+      "message": "Ah, our WIP implementation requires references to controller-mediated properties to go through a c() function, which we update with a new reference whenever a controller calls requestUpdate. See \n\n  definition: https://codesandbox.io/s/reactivecontrollers-in-polymer-lrhhp?file\u003d/src/controller-mixin.ts:2964-2997\n  usage: https://codesandbox.io/s/reactivecontrollers-in-polymer-lrhhp?file\u003d/src/clock-polymer-class.ts:565-626)\n\nThis seems like more friction than you want right now, given that currently all providers just provide their values one time. Probably worth leaving a comment with this info so that if later you want dynamic dependencies it\u0027ll be clear where to go from here",
+      "parentUuid": "b839e562_c2466fb8",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

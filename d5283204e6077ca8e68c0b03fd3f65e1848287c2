@@ -34,6 +34,24 @@
       "parentUuid": "c435687c_242fc43b",
       "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "569e7b54_0252ae9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-06T19:01:46Z",
+      "side": 1,
+      "message": "That\u0027s a little clearer, but I\u0027m still confused. Is Gerrit using this \"additional information\"? Can you be specific about what the information is?",
+      "parentUuid": "b95db98c_2d74176a",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

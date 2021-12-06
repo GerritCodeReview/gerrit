@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56657328_d9f4f59d",
+        "filename": "java/com/google/gerrit/json/JavaSqlTimestampHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-12-06T10:54:38Z",
+      "side": 1,
+      "message": "Can be removed here and \"+ 1900\" below",
+      "range": {
+        "startLine": 48,
+        "startChar": 39,
+        "endLine": 48,
+        "endChar": 45
+      },
+      "revId": "41b3e932b2525279acd2bf7e1373e7c0a3b3b475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

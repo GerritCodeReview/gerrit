@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3869781f_e3415285",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T17:48:19Z",
+      "side": 1,
+      "message": "Make all these non? and default them to false?",
+      "revId": "3a9ff601f0ef24064f717a167fb40c41c1756146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cc4d437_0df0a5d7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T17:48:19Z",
+      "side": 1,
+      "message": "Pass in subsection, you don\u0027t need the item.",
+      "revId": "3a9ff601f0ef24064f717a167fb40c41c1756146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "70d0969f_18054279",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
         "patchSetId": 9
@@ -116,6 +150,23 @@
         "endLine": 531,
         "endChar": 43
       },
+      "revId": "3a9ff601f0ef24064f717a167fb40c41c1756146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3df7480_3149ffe0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T17:48:19Z",
+      "side": 1,
+      "message": "You don\u0027t need all these show variables.\n\nYou could inline this directly in the render methods.",
       "revId": "3a9ff601f0ef24064f717a167fb40c41c1756146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9861fd5_bfb6f04b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-06T17:28:00Z",
+      "side": 1,
+      "message": "This doesn\u0027t work because we want it to reset when we navigate away. For example if you are view the group page and navigate to the repo list, it\u0027ll show both elements.",
+      "parentUuid": "70d0969f_18054279",
+      "range": {
+        "startLine": 531,
+        "startChar": 6,
+        "endLine": 531,
+        "endChar": 43
+      },
+      "revId": "3a9ff601f0ef24064f717a167fb40c41c1756146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "995841f7_0cb7f0e8",

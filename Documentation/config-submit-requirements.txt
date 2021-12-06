@@ -1,0 +1,180 @@
+= Gerrit Code Review - Submit Requirements
+
+As part of the code review process, admins need to configure rules that govern
+when changes become submittable. For example, an admin might want to prevent
+changes from being submitted until at least a “+2” vote on the “Code-Review”
+label is granted on a change. Admins can define submit requirements to enforce
+submittability rules for changes.
+
+== Configuring Submit Requirements
+
+Site administrators and project owners can define submit requirements in the
+project config. A submit requirement has the following fields:
+
+
+[[submit_requirement_name]]
+=== submit-requirement.Name
+
+A name that uniquely identifies the submit requirement.
+
+[[submit_requirement_description]]
+=== submit-requirement.Name.description
+
+A detailed description of what the submit requirement is supposed to do. This
+field is optional.
+
+
+[[submit_requirement_applicable_if]]
+=== submit-requirement.Name.applicableIf
+
+A query expression that determines if the submit requirement is applicable for
+a change. For example, administrators can exclude submit requirements for
+certain branch patterns.
+
+This field is optional, and if not specified, the submit requirement is
+considered applicable for all changes in the project.
+
+[[submit_requirement_submittable_if]]
+=== submit-requirement.Name.submittableIf
+
+A query expression that determines when the change becomes submittable. This
+field is mandatory.
+
+
+[[submit_requirement_override_if]]
+=== submit-requirement.Name.overrideIf
+
+A query expression that determines the condition that, when evaluated to true,
+the submit requirement becomes overridden, that is fulfilled for the change.
+This field is optional.
+
+
+[[submit_requirement_can_override_in_child_projects]]
+=== submit-requirement.Name.canOverrideInChildProjects
+
+A boolean (true, false) that determines if child projects can override the
+submit requirement.
+
+
+[[evaluation_results]]
+== Evaluation Results
+
+When submit requirements are configured, their results are returned for all
+changes requested by the REST API with the
+link:rest-api-changes.html#submit-requirement-result-info[SubmitRequirementResultInfo]
+entity.  The `status` field can be one of:
+
+* `NOT_APPLICABLE`
++
+The link:#submit_requirement_applicable_if[applicableIf] expression evaluates
+to false for the change.
+
+* `UNSATISFIED`
++
+The submit requirement is applicable
+(link:#submit_requirement_applicable_if[applicableIf] evaluates to true), but
+the evaluation of the link:#submit_requirement_submittable_if[submittableIf] and
+link:#submit_requirement_override_if[overrideIf] expressions return false for
+the change.
+
+* `SATISFIED`
++
+The submit requirement is applicable
+(link:#submit_requirement_applicable_if[applicableIf] evaluates to true), the
+link:#submit_requirement_submittable_if[submittableIf] expression evaluates to
+true, and the link:#submit_requirement_override_if[overrideIf] evaluates to
+false for the change.
+
+* `OVERRIDDEN`
++
+The submit requirement is applicable
+(link:#submit_requirement_applicable_if[applicableIf] evaluates to true) and the
+link:#submit_requirement_override_if[overrideIf] expression evaluates to true.
++
+Note that in this case, the change is overridden whether the
+link:#submit_requirement_submittable_if[submittableIf] expression evaluates to
+true or not.
+
+* `BYPASSED`
++
+The change was merged directly bypassing code review by supplying the `%submit`
+option while doing a git push.
+
+* `ERROR`
++
+The evaluation of any of the
+link:#submit_requirement_applicable_if[applicableIf],
+link:#submit_requirement_submittable_if[submittableIf] or
+link:#submit_requirement_override_if[overrideIf] expressions resulted in an
+error.
+
+
+[[query_expression_syntax]]
+== Query Expression Syntax
+
+All applicableIf, submittableIf and overrideIf expressions use the same syntax
+and operators available for link:user-search.html[searching changes]. In
+addition to that, submit requirements support extra operators.
+
+
+[[submit_requirements_operators]]
+=== Submit Requirements Operators
+
+[[operator_is_true]]
+is:true::
++
+An operator that always returns true for all changes. An example usage is to
+redefine a submit requirement in a child project and make the submit requirement
+always applicable.
+
+[[operator_is_false]]
+is:false::
++
+An operator that always returns false for all changes. An example usage is to
+redefine a submit requirement in a child project and make the submit requirement
+always non-applicable.
+
+
+[[inheritance]]
+== Inheritance
+
+Child projects can override a submit requirement defined in any of their parent
+projects. Overriding a submit requirement overrides all of its properties and
+values. The overriding project needs to define all mandatory fields.
+
+Submit requirements are looked up from the current project up the inheritance
+hierarchy to “All-Projects”. The first project in the hierarchy chain that sets
+link:#submit_requirement_can_override_in_child_projects[canOverrideInChildProjects]
+to false prevents all descendant projects from overriding it.
+
+If a project disallows a submit requirement from being overridden in child
+projects, all definitions of this submit requirement in descendant projects are
+ignored.
+
+To remove a submit requirement in a child project, administrators can redefine
+the requirement with the same name in the child project and set the
+link:#submit_requirement_applicable_if[applicableIf] expression to `is:false`.
+Since the link:#submit_requirement_submittable_if[submittableIf] field is
+mandatory, administrators need to provide it in the child project but can set it
+to anything, for example `is:false` but it will have no effect anyway.
+
+
+[[example_code_review]]
+== Example - Code-Review
+
+To define a submit requirement for code-review that requires a maximum vote for
+the “Code-Review” label from a non-uploader without a maximum negative vote:
+
+----
+[submit-requirement "Code-Review"]
+	description = At least one maximum vote for label 'Code-Review' is required
+	submittableIf = label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN
+	canOverrideInChildProjects = true
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

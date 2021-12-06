@@ -19,10 +19,12 @@ import '../../../test/common-test-setup-karma';
 import {
   createParsedChange,
   createRevision,
+  createThread,
 } from '../../../test/test-data-generators';
 import {queryAndAssert} from '../../../test/test-utils';
 import {PatchSetNum} from '../../../types/common';
 import {GrConfirmSubmitDialog} from './gr-confirm-submit-dialog';
+import './gr-confirm-submit-dialog';
 
 const basicFixture = fixtureFromElement('gr-confirm-submit-dialog');
 
@@ -51,13 +53,15 @@ suite('gr-confirm-submit-dialog tests', () => {
   });
 
   test('computeUnresolvedCommentsWarning', () => {
-    element.change = {...createParsedChange(), unresolved_comment_count: 1};
+    element.change = {...createParsedChange()};
+    element.unresolvedThreads = [createThread()];
     assert.equal(
       element.computeUnresolvedCommentsWarning(),
       'Heads Up! 1 unresolved comment.'
     );
 
-    element.change = {...createParsedChange(), unresolved_comment_count: 2};
+    element.unresolvedThreads = [...element.unresolvedThreads, createThread()];
+    element.change = {...createParsedChange()};
     assert.equal(
       element.computeUnresolvedCommentsWarning(),
       'Heads Up! 2 unresolved comments.'

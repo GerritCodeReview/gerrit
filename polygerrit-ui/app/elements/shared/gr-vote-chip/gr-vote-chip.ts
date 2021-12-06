@@ -57,7 +57,7 @@ export class GrVoteChip extends LitElement {
           background-color: var(--vote-color-approved);
           padding: 2px;
         }
-        .vote-chip.max.more {
+        .more > .vote-chip.max {
           padding: 1px;
           border: 1px solid var(--vote-outline-recommended);
         }
@@ -65,7 +65,7 @@ export class GrVoteChip extends LitElement {
           background-color: var(--vote-color-rejected);
           padding: 2px;
         }
-        .vote-chip.min.more {
+        .more > .vote-chip.min {
           padding: 1px;
           border: 1px solid var(--vote-outline-disliked);
         }
@@ -95,11 +95,11 @@ export class GrVoteChip extends LitElement {
           line-height: var(--gr-vote-chip-width, 16px);
           color: var(--vote-text-color);
         }
-        .vote-chip {
+        .more > .vote-chip {
           position: relative;
           z-index: 2;
         }
-        .chip-angle {
+        .more > .chip-angle {
           position: absolute;
           top: 2px;
           left: 2px;
@@ -119,10 +119,8 @@ export class GrVoteChip extends LitElement {
     const renderValue = this.renderValue();
     if (!renderValue) return;
 
-    return html`<span class="container">
-      <div class="vote-chip ${this.computeClass()} ${this.more ? 'more' : ''}">
-        ${renderValue}
-      </div>
+    return html`<span class="container ${this.more ? 'more' : ''}">
+      <div class="vote-chip ${this.computeClass()}">${renderValue}</div>
       ${this.more
         ? html`<div class="chip-angle ${this.computeClass()}">
             ${renderValue}

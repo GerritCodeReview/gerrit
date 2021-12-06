@@ -1845,10 +1845,9 @@ export class GrRestApiServiceImpl
   }
 
   getChangeEdit(
-    changeNum: NumericChangeId,
-    downloadCommands?: boolean
+    changeNum: NumericChangeId
   ): Promise<false | EditInfo | undefined> {
-    const params = downloadCommands ? {'download-commands': true} : undefined;
+    const params = {'download-commands': true};
     return this.getLoggedIn().then(loggedIn => {
       if (!loggedIn) {
         return Promise.resolve(false);

@@ -521,7 +521,7 @@ export class GrDiffView extends base {
 
   _getChangeEdit() {
     assertIsDefined(this._changeNum, '_changeNum');
-    return this.restApiService.getChangeEdit(this._changeNum, true);
+    return this.restApiService.getChangeEdit(this._changeNum);
   }
 
   _getSortedFileList(files?: Files) {

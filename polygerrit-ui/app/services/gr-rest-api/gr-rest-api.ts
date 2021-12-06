@@ -360,8 +360,7 @@ export interface RestApiService extends Finalizable {
   ): Promise<Response>;
 
   getChangeEdit(
-    changeNum: NumericChangeId,
-    downloadCommands?: boolean
+    changeNum: NumericChangeId
   ): Promise<false | EditInfo | undefined>;
 
   getChangeActionURL(

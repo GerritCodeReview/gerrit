@@ -1989,7 +1989,7 @@ export class GrChangeView extends base {
   _getEdit() {
     if (!this._changeNum)
       return Promise.reject(new Error('missing required changeNum property'));
-    return this.restApiService.getChangeEdit(this._changeNum, true);
+    return this.restApiService.getChangeEdit(this._changeNum);
   }
 
   _getLatestCommitMessage() {

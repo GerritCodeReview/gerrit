@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71b06443_a6b9b5bf",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "I mean, it\u0027s guaranteed provided that it has a provider as an ancestor yeah?\n\nMention that it throws an error if no ancestor provides the dependency",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acbd16ef_79e3c7c0",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "Consider \"ancestor\" rather than \"parent\", as parent suggests that it\u0027s one level up but ancestor includes parents of parents etc",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4474d806_09d154ac",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "Might be worth mentioning that the provider can provide a value of null, but it must not provide a value of undefined. So, this is valid:\n\nconst token \u003d define\u003cFoo | null\u003e(\u0027foo\u0027);\n\nbut this isn\u0027t (the subscriber will throw an error when it tries to get an undefined value):\n\nconst token \u003d define\u003cFoo | undefined\u003e(\u0027foo\u0027);",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56abb6c9_eeb1796e",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "Prefer the type symbol over the type Symbol. symbol is a primitive, Symbol is the object wrapper, similar to number vs Number",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c929a63_684a5c3b",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "I really like this system of providing type safety. Very cool work",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "321c0dcf_13e1d0de",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "Mention that the string is just useful for debugging, has no runtime effect, and doesn\u0027t need to be unique",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44eed36a_db2faf80",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "Is this comment accurate? I see \u003d\u003e void as the return type",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d847f0_17dab922",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "Minor, but consider:\n\n```\nfor (const waiter of waiters) {\n  waiter(value);\n}\nthis.waiters.length \u003d 0;\n```\n\nThis avoids allocating a new array, and just clears out the existing one. You could even make this.waiters readonly",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6428af11_24fd930b",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "Consider calling this.host.requestUpdate() here\n\nIn the normal case, where we\u0027re getting this during connectedCallback, that\u0027s a no-op (and a fast one), because the host already has an update scheduled, but if you later add a provider class that can update its dependencies over time this will let them re-render in response to the new dependency",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4523af48_44bc9693",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "This is a one-time provider, but the requester",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c6643f9_c453dc4e",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "consider making __controllers readonly. also consider using three underscores, because Polymer already uses two underscores for private fields (yes this is a bit silly, but I could totally see this clashing with an implementation of the same feature inside the Polymer library)",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5141ef3e_39b86518",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "I believe you can just use this.isConnected from HTMLElement instead of keeping track of your own connected boolean",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ac9dcef_1bd97da0",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "is this an artifact of an old implementation? this.__controllers is always defined",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b839e562_c2466fb8",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-12-06T21:08:06Z",
+      "side": 1,
+      "message": "Hm, I wonder what to do here. Asked the WC core team about it. I have vague memory that this.notifyPath(\u0027*\u0027) might work, but reading through the code I\u0027m not so sure.\n\nIn any case, this will work fine for dependencies that are only provided once, which is all you\u0027re doing for now, but maybe put a comment here saying something would need to be done for dependencies that are updated over time",
+      "revId": "389f58e419668d5ce3350e2e708366cff5c72d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

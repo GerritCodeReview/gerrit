@@ -115,8 +115,8 @@ export class GrConfirmSubmitDialog extends LitElement {
     `;
   }
 
-  private renderUnresolvedCommentCount() {
-    if (!this.change?.unresolved_comment_count) return '';
+  private renderUnresolvedCommentCount(unresolvedThreads: CommentThread[]) {
+    if (!unresolvedThreads?.length) return '';
     return html`
       <p>
         <iron-icon
@@ -153,7 +153,7 @@ export class GrConfirmSubmitDialog extends LitElement {
       <div class="main" slot="main">
         <gr-endpoint-decorator name="confirm-submit-change">
           <p>Ready to submit “<strong>${this.change?.subject}</strong>”?</p>
-          ${this.renderPrivate()} ${this.renderUnresolvedCommentCount()}
+          ${this.renderPrivate()} ${this.renderUnresolvedCommentCount(this.unresolvedThreads)}
           ${this.renderChangeEdit()}
           <gr-endpoint-param
             name="change"
@@ -197,8 +197,7 @@ export class GrConfirmSubmitDialog extends LitElement {
 
   // Private method, but visible for testing.
   computeUnresolvedCommentsWarning() {
-    if (!this.change) return '';
-    const unresolvedCount = this.change.unresolved_comment_count;
+    const unresolvedCount = this.unresolvedThreads.length;
     if (!unresolvedCount) throw new Error('unresolved comments undefined or 0');
     return `Heads Up! ${pluralize(unresolvedCount, 'unresolved comment')}.`;
   }

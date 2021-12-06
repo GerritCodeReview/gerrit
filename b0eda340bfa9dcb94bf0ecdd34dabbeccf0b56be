@@ -16,6 +16,24 @@
       "message": "What is this necessary for?",
       "revId": "b0eda340bfa9dcb94bf0ecdd34dabbeccf0b56be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4381c84a_26387dbf",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-06T17:17:51Z",
+      "side": 1,
+      "message": "Removed. Thanks.",
+      "parentUuid": "9468a795_3bf9cc9a",
+      "revId": "b0eda340bfa9dcb94bf0ecdd34dabbeccf0b56be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

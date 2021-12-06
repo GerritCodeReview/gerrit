@@ -391,6 +391,9 @@ export class GrChangeView extends base {
   @property({type: Object})
   _selectedRevision?: RevisionInfo | EditRevisionInfo;
 
+  /**
+   * <gr-change-actions> populates this via two-way data binding.
+   */
   @property({type: Object})
   _currentRevisionActions?: ActionNameToActionInfoMap;
 
@@ -1856,14 +1859,6 @@ export class GrChangeView extends base {
     ) {
       changeWithEdit.current_revision = edit.commit.commit;
       this.set('_patchRange.patchNum', EditPatchSetNum);
-      // Because edits are fibbed as revisions and added to the revisions
-      // array, and revision actions are always derived from the 'latest'
-      // patch set, we must copy over actions from the patch set base.
-      // Context: Issue 7243
-      if (changeWithEdit.revisions) {
-        changeWithEdit.revisions[edit.commit.commit].actions =
-          changeWithEdit.revisions[edit.base_revision].actions;
-      }
     }
   }
 

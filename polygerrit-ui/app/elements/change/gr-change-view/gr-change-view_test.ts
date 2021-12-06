@@ -1864,7 +1864,7 @@ suite('gr-change-view tests', () => {
       ...createChangeViewChange(),
       current_revision: 'foo' as CommitId,
       revisions: {
-        foo: {...createRevision(), actions: {cherrypick: {enabled: true}}},
+        foo: {...createRevision()},
       },
     };
     let mockChange;
@@ -1891,23 +1891,17 @@ suite('gr-change-view tests', () => {
     assert.equal(mockChange.revisions.bar._number, EditPatchSetNum);
     assert.equal(mockChange.current_revision, change.current_revision);
     assert.deepEqual(mockChange.revisions.bar.commit, editCommit);
-    assert.notOk(mockChange.revisions.bar.actions);
 
     edit.base_revision = 'foo';
     element._processEdit((mockChange = _.cloneDeep(change)), edit);
     assert.notDeepEqual(mockChange, change);
     assert.equal(mockChange.current_revision, 'bar');
-    assert.deepEqual(
-      mockChange.revisions.bar.actions,
-      mockChange.revisions.foo.actions
-    );
 
     // If _patchRange.patchNum is defined, do not load edit.
     element._patchRange.patchNum = 5 as RevisionPatchSetNum;
     change.current_revision = 'baz' as CommitId;
     element._processEdit((mockChange = _.cloneDeep(change)), edit);
     assert.equal(element._patchRange.patchNum, 5 as RevisionPatchSetNum);
-    assert.notOk(mockChange.revisions.bar.actions);
   });
 
   test('file-action-tap handling', () => {

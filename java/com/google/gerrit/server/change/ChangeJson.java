@@ -277,7 +277,7 @@ public class ChangeJson {
     this.includeMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
     this.lazyLoad =
         containsAnyOf(this.options, REQUIRE_LAZY_LOAD)
-            || lazyloadSubmitRequirements(this.options, experimentFeatures);
+            || lazyloadSubmitRequirements(experimentFeatures);
     this.pluginDefinedInfosFactory = pluginDefinedInfosFactory;
 
     logger.atFine().log("options = %s", options);
@@ -790,6 +790,13 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) {
+    // TODO(ghareeb): Remove the lazy load check after upgrading the change index in google
+    // The ChangeData's submit requirements field is populated from the change index field
+    // "full_submit_requirements" which does not exist in google's change index schema definition
+    // yet.
+    if (lazyLoad) {
+      return cd.submitRequirements().values().stream().allMatch(SubmitRequirementResult::fulfilled);
+    }
     return SubmitRecord.allRecordsOK(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT));
   }
 
@@ -951,8 +958,7 @@ public class ChangeJson {
     return ImmutableListMultimap.of();
   }
 
-  private static boolean lazyloadSubmitRequirements(
-      Set<ListChangesOption> changeOptions, ExperimentFeatures experimentFeatures) {
+  private static boolean lazyloadSubmitRequirements(ExperimentFeatures experimentFeatures) {
     // TODO(ghareeb,hiesel): Remove this method.
     // We are testing the new submit requirements with users in lieu of upgrading the change index
     // to a version that supports the new requirements.
@@ -961,9 +967,8 @@ public class ChangeJson {
     // Allowing changes to lazyload parameters will slow down dashboards for users who have this
     // feature enabled, but will backfill submit requirements that weren't loaded from the index by
     // simply computing them.
-    return changeOptions.contains(SUBMIT_REQUIREMENTS)
-        && experimentFeatures.isFeatureEnabled(
-            ExperimentFeaturesConstants
-                .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS_BACKFILLING_ON_DASHBOARD);
+    return experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants
+            .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS_BACKFILLING_ON_DASHBOARD);
   }
 }

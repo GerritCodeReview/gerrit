@@ -99,13 +99,9 @@ suite('gr-vote-chip tests', () => {
           more
         ></gr-vote-chip>`
       );
-      expect(element).shadowDom.to.equal(`<span class="container">
-        <div class="more positive vote-chip">
-          +2
-        </div>
-        <div class="chip-angle positive">
-          +2
-        </div>
+      expect(element).shadowDom.to.equal(`<span class="container more">
+        <div class="positive vote-chip">+2</div>
+        <div class="chip-angle positive">+2</div>
       </span>`);
     });
   });

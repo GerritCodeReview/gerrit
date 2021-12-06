@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48f35349_8267b444",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column/gr-change-list-column.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-06T15:18:53Z",
+      "side": 1,
+      "message": "consider renaming this file to say that it\u0027s the summary/requirements column. This part was collapsed in the diff and I thought this was the code for all columns",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "0a33f780c95acac9c862ed069514f1e246f5df65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8de2ce3d_cd4a7d67",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column/gr-change-list-column.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-06T15:18:53Z",
+      "side": 1,
+      "message": "consider tests for comment count / no comment cases",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 19
+      },
+      "revId": "0a33f780c95acac9c862ed069514f1e246f5df65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "nit: this line seems to exceed the 100 chars now and should be wrapped",
       "revId": "da323b9017ef4234fec0ea6fe51c4a6618683405",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9538e66_8d40acb5",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-06T16:12:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbdc0511_e5c05b17",
+      "revId": "da323b9017ef4234fec0ea6fe51c4a6618683405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

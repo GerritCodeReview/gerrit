@@ -520,7 +520,6 @@ export class GrDiffView extends base {
   }
 
   _getChangeEdit() {
-    assertIsDefined(this._changeNum, '_changeNum');
     return this.restApiService.getChangeEdit(this._changeNum);
   }
 

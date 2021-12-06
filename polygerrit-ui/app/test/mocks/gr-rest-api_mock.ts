@@ -231,8 +231,8 @@ export const grRestApiMock: RestApiService = {
     if (changeNum === undefined) return Promise.resolve(undefined);
     return Promise.resolve(createChange() as ParsedChangeInfo);
   },
-  getChangeEdit(): Promise<false | EditInfo | undefined> {
-    return Promise.resolve(false);
+  getChangeEdit(): Promise<EditInfo | undefined> {
+    return Promise.resolve(undefined);
   },
   getChangeFiles(): Promise<FileNameToFileInfoMap | undefined> {
     return Promise.resolve({});

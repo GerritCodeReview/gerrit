@@ -2006,7 +2006,7 @@ suite('gr-change-view tests', () => {
       },
     });
 
-    sinon.stub(element, '_getEdit').returns(Promise.resolve(false));
+    sinon.stub(element, '_getEdit').returns(Promise.resolve(undefined));
     sinon
       .stub(element, '_getPreferences')
       .returns(Promise.resolve(createPreferences()));

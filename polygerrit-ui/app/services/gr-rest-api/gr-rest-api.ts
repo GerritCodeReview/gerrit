@@ -359,9 +359,7 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<Response>;
 
-  getChangeEdit(
-    changeNum: NumericChangeId
-  ): Promise<false | EditInfo | undefined>;
+  getChangeEdit(changeNum?: NumericChangeId): Promise<EditInfo | undefined>;
 
   getChangeActionURL(
     changeNum: NumericChangeId,

@@ -1844,13 +1844,12 @@ export class GrRestApiServiceImpl
     );
   }
 
-  getChangeEdit(
-    changeNum: NumericChangeId
-  ): Promise<false | EditInfo | undefined> {
+  getChangeEdit(changeNum?: NumericChangeId): Promise<EditInfo | undefined> {
+    if (!changeNum) return Promise.resolve(undefined);
     const params = {'download-commands': true};
     return this.getLoggedIn().then(loggedIn => {
       if (!loggedIn) {
-        return Promise.resolve(false);
+        return Promise.resolve(undefined);
       }
       return this._getChangeURLAndFetch(
         {
@@ -1860,7 +1859,7 @@ export class GrRestApiServiceImpl
           reportEndpointAsIs: true,
         },
         true
-      ) as Promise<EditInfo | false | undefined>;
+      ) as Promise<EditInfo | undefined>;
     });
   }
 

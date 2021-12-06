@@ -70,6 +70,24 @@
       "parentUuid": "569e7b54_0252ae9d",
       "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c89db837_ffaf5e10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-06T21:39:43Z",
+      "side": 1,
+      "message": "Ok, if I\u0027m understanding correctly so far, it sounds like there\u0027s a desired mapping of PSAs to the voting user\u0027s (Google internal?) credentials?\n\nSorry, I\u0027m still not really understanding the overall intent here. I would think you could map from the Gerrit external id to those same credentials. Are you worried that external-id -\u003e credential mapping will change over time?\n\nIs this part of some bigger initiative to map point-in-time account actions to UUIDs?",
+      "parentUuid": "f3dcd819_d305719a",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

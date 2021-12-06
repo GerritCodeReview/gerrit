@@ -16,6 +16,23 @@
       "message": "I have a workaround that I can think of shortly. Blocking with -2.",
       "revId": "ad3cf2f5468f8e9997accda1eb89e90ed7f4bc2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4164d7b2_0befedea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-12-06T10:15:43Z",
+      "side": 1,
+      "message": "It is better to revert first (to unblock a release) and then make a fix (this is a recommended approach)",
+      "revId": "ad3cf2f5468f8e9997accda1eb89e90ed7f4bc2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

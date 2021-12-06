@@ -22,9 +22,6 @@ public class GeneralPreferencesInfo {
   /** Default number of items to display per page. */
   public static final int DEFAULT_PAGESIZE = 25;
 
-  /** Valid choices for the page size. */
-  public static final int[] PAGESIZE_CHOICES = {10, 25, 50, 100};
-
   /** Preferred method to download a change. */
   public enum DownloadCommand {
     PULL,

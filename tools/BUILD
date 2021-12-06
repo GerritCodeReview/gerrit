@@ -321,7 +321,7 @@ java_package_configuration(
         "-Xep:MultipleUnaryOperatorsInMethodCall:ERROR",
         "-Xep:MustBeClosedChecker:ERROR",
         "-Xep:MutableConstantField:ERROR",
-        # "-Xep:MutablePublicArray:WARN",
+        "-Xep:MutablePublicArray:ERROR",
         "-Xep:NCopiesOfChar:ERROR",
         "-Xep:NarrowingCompoundAssignment:ERROR",
         "-Xep:NestedInstanceOfConditions:ERROR",

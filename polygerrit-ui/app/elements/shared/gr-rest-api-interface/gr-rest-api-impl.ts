@@ -1116,7 +1116,7 @@ export class GrRestApiServiceImpl
     changeNum?: NumericChangeId,
     errFn?: ErrorCallback,
     cancelCondition?: CancelConditionCallback
-  ): Promise<ParsedChangeInfo | null | undefined> {
+  ): Promise<ParsedChangeInfo | undefined> {
     if (!changeNum) return Promise.resolve(undefined);
     return this.getConfig(false).then(config => {
       const optionsHex = this._getChangeOptionsHex(config);
@@ -1189,7 +1189,7 @@ export class GrRestApiServiceImpl
     optionsHex: string,
     errFn?: ErrorCallback,
     cancelCondition?: CancelConditionCallback
-  ): Promise<ChangeInfo | undefined | null> {
+  ): Promise<ChangeInfo | undefined> {
     return this.getChangeActionURL(changeNum, undefined, '/detail').then(
       url => {
         const params: FetchParams = {O: optionsHex};
@@ -1220,12 +1220,12 @@ export class GrRestApiServiceImpl
           }
 
           if (!response) {
-            return Promise.resolve(null);
+            return Promise.resolve(undefined);
           }
 
           return readResponsePayload(response).then(payload => {
             if (!payload) {
-              return null;
+              return undefined;
             }
             this._etags.collect(urlWithParams, response, payload.raw);
             // TODO(TS): Why it is always change info?
@@ -1844,14 +1844,12 @@ export class GrRestApiServiceImpl
     );
   }
 
-  getChangeEdit(
-    changeNum: NumericChangeId,
-    downloadCommands?: boolean
-  ): Promise<false | EditInfo | undefined> {
-    const params = downloadCommands ? {'download-commands': true} : undefined;
+  getChangeEdit(changeNum?: NumericChangeId): Promise<EditInfo | undefined> {
+    if (!changeNum) return Promise.resolve(undefined);
+    const params = {'download-commands': true};
     return this.getLoggedIn().then(loggedIn => {
       if (!loggedIn) {
-        return Promise.resolve(false);
+        return Promise.resolve(undefined);
       }
       return this._getChangeURLAndFetch(
         {
@@ -1861,7 +1859,7 @@ export class GrRestApiServiceImpl
           reportEndpointAsIs: true,
         },
         true
-      ) as Promise<EditInfo | false | undefined>;
+      ) as Promise<EditInfo | undefined>;
     });
   }
 

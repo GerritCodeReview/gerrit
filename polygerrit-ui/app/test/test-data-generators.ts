@@ -37,6 +37,7 @@ import {
   CommitInfo,
   ConfigInfo,
   DownloadInfo,
+  EditInfo,
   EditPatchSetNum,
   EmailAddress,
   FixId,
@@ -257,11 +258,25 @@ export function createRevision(
   };
 }
 
+export function createEditInfo(): EditInfo {
+  return {
+    commit: {...createCommit(), commit: 'commit-id-of-edit-ps' as CommitId},
+    base_patch_set_number: 1 as BasePatchSetNum,
+    base_revision: 'base-revision-of-edit',
+    ref: 'refs/changes/5/6/1' as GitRef,
+    fetch: {},
+    files: {},
+  };
+}
+
 export function createEditRevision(basePatchNum = 1): EditRevisionInfo {
   return {
     _number: EditPatchSetNum,
     basePatchNum: basePatchNum as BasePatchSetNum,
-    commit: createCommit(),
+    commit: {
+      ...createCommit(),
+      commit: 'test-commit-id-of-edit-rev' as CommitId,
+    },
   };
 }
 

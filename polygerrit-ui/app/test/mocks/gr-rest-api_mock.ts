@@ -227,12 +227,12 @@ export const grRestApiMock: RestApiService = {
   },
   getChangeDetail(
     changeNum?: number | string
-  ): Promise<ParsedChangeInfo | null | undefined> {
+  ): Promise<ParsedChangeInfo | undefined> {
     if (changeNum === undefined) return Promise.resolve(undefined);
     return Promise.resolve(createChange() as ParsedChangeInfo);
   },
-  getChangeEdit(): Promise<false | EditInfo | undefined> {
-    return Promise.resolve(false);
+  getChangeEdit(): Promise<EditInfo | undefined> {
+    return Promise.resolve(undefined);
   },
   getChangeFiles(): Promise<FileNameToFileInfoMap | undefined> {
     return Promise.resolve({});

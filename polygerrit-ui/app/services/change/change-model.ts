@@ -15,7 +15,12 @@
  * limitations under the License.
  */
 
-import {NumericChangeId, PatchSetNum} from '../../types/common';
+import {
+  EditInfo,
+  EditPatchSetNum,
+  NumericChangeId,
+  PatchSetNum,
+} from '../../types/common';
 import {
   combineLatest,
   from,
@@ -23,6 +28,7 @@ import {
   BehaviorSubject,
   Observable,
   Subscription,
+  forkJoin,
 } from 'rxjs';
 import {
   map,
@@ -43,6 +49,7 @@ import {ChangeInfo} from '../../types/common';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {Finalizable} from '../registry';
 import {select} from '../../utils/observable-util';
+import {assertIsDefined} from '../../utils/common-util';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -64,6 +71,38 @@ export interface ChangeState {
    * Does not apply to change-view or edit-view.
    */
   diffPath?: string;
+}
+
+/**
+ * Updates the change object with information from the saved `edit` patchset.
+ */
+// visible for testing
+export function updateChangeWithEdit(
+  change?: ParsedChangeInfo,
+  edit?: EditInfo,
+  routerPatchNum?: PatchSetNum
+): ParsedChangeInfo | undefined {
+  if (!change || !edit) return change;
+  assertIsDefined(edit.commit.commit, 'edit.commit.commit');
+  if (!change.revisions) change.revisions = {};
+  change.revisions[edit.commit.commit] = {
+    _number: EditPatchSetNum,
+    basePatchNum: edit.base_patch_set_number,
+    commit: edit.commit,
+    fetch: edit.fetch,
+  };
+  // If the change was loaded without a specific patchset, then this normally
+  // means that the *latest* patchset should be loaded. But if there is an
+  // active edit, then automatically switch to that edit as the current
+  // patchset.
+  // TODO: This goes together with `_patchRange.patchNum' being set to `edit`,
+  // which is still done in change-view. `_patchRange.patchNum` should
+  // eventually also be model managed, so we can reconcile these two code
+  // snippets into one location.
+  if (routerPatchNum === undefined) {
+    change.current_revision = edit.commit.commit;
+  }
+  return change;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
@@ -151,8 +190,14 @@ export class ChangeModel implements Finalizable {
           map(([changeNum, _]) => changeNum),
           switchMap(changeNum => {
             if (changeNum !== undefined) this.updateStateLoading(changeNum);
-            return from(this.restApiService.getChangeDetail(changeNum));
-          })
+            const change = from(this.restApiService.getChangeDetail(changeNum));
+            const edit = from(this.restApiService.getChangeEdit(changeNum));
+            return forkJoin([change, edit]);
+          }),
+          withLatestFrom(this.routerModel.routerPatchNum$),
+          map(([[change, edit], patchNum]) =>
+            updateChangeWithEdit(change, edit, patchNum)
+          )
         )
         .subscribe(change => {
           // The change service is currently a singleton, so we have to be

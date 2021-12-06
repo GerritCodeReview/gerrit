@@ -118,20 +118,26 @@ export function getShaByPatchNum(
 }
 
 /**
+ * Find change edit revision if change edit exists.
+ */
+export function findEdit(
+  revisions: Array<RevisionInfo | EditRevisionInfo>
+): EditRevisionInfo | undefined {
+  const editRev = revisions.find(info => info._number === EditPatchSetNum);
+  return editRev as EditRevisionInfo | undefined;
+}
+
+/**
  * Find change edit base revision if change edit exists.
  *
  * @return change edit parent revision or null if change edit
  *     doesn't exist.
- *
  */
 export function findEditParentRevision(
   revisions: Array<RevisionInfo | EditRevisionInfo>
 ) {
-  const editInfo = revisions.find(info => info._number === EditPatchSetNum);
-
-  if (!editInfo) {
-    return null;
-  }
+  const editInfo = findEdit(revisions);
+  if (!editInfo) return null;
 
   return revisions.find(info => info._number === editInfo.basePatchNum) || null;
 }

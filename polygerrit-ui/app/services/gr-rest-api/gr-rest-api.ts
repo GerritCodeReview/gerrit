@@ -197,7 +197,7 @@ export interface RestApiService extends Finalizable {
     changeNum?: number | string,
     opt_errFn?: ErrorCallback,
     opt_cancelCondition?: Function
-  ): Promise<ParsedChangeInfo | null | undefined>;
+  ): Promise<ParsedChangeInfo | undefined>;
 
   getChange(
     changeNum: ChangeId | NumericChangeId,
@@ -359,10 +359,7 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<Response>;
 
-  getChangeEdit(
-    changeNum: NumericChangeId,
-    downloadCommands?: boolean
-  ): Promise<false | EditInfo | undefined>;
+  getChangeEdit(changeNum?: NumericChangeId): Promise<EditInfo | undefined>;
 
   getChangeActionURL(
     changeNum: NumericChangeId,

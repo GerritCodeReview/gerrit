@@ -948,7 +948,6 @@ export declare interface RevisionInfo {
   fetch?: {[protocol: string]: FetchInfo};
   commit?: CommitInfo;
   files?: {[filename: string]: FileInfo};
-  actions?: ActionNameToActionInfoMap;
   reviewed?: boolean;
   commit_with_footers?: boolean;
   push_certificate?: PushCertificateInfo;

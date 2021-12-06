@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "056f2b19_0bdc6cb3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column/gr-change-list-column.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-06T15:25:05Z",
+      "side": 1,
+      "message": "You are right, I plan to clean this up in following change. Tracking Bug: b/209432052",
+      "parentUuid": "48f35349_8267b444",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "0a33f780c95acac9c862ed069514f1e246f5df65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8de2ce3d_cd4a7d67",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-12-06T15:18:53Z",
       "side": 1,
       "message": "consider tests for comment count / no comment cases",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 19
+      },
+      "revId": "0a33f780c95acac9c862ed069514f1e246f5df65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "547cc6a3_ee285854",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column/gr-change-list-column.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-06T15:25:05Z",
+      "side": 1,
+      "message": "Yes, this needs UTs, I plan to add them once this is cleaned up. Tracking Bug: Tracking Bug: b/209432052",
+      "parentUuid": "8de2ce3d_cd4a7d67",
       "range": {
         "startLine": 108,
         "startChar": 2,

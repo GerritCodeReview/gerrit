@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "969113da_3eec67ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-06T17:12:51Z",
+      "side": 1,
+      "message": "Why pass in this parameter? It\u0027s a this.method so should have access to this.unresolvedThreads.",
+      "revId": "78395f8015494bada59e9b13f8ca3d04520d2d7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eab38900_f440067d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-06T13:28:02Z",
+      "side": 1,
+      "message": "\u003e Ah OK, I thought this was already done and would be needed to keep some of the search operators working with submit requirements (e.g. the \"rule:\" operator?). But maybe it\u0027s not needed?\n\nRule operator only works with submit rules but not with submit requirements.\n\n\u003e A minor issue with having a submittable field in addition to the yet to be added submit requirements field (if it will be needed) is that any change to the logic that computes the submitability of the change will require a new change index version and an index upgrade.\n\nYes, but we\u0027ll also need a reindex if submittability is implemented as:\n  * is:submittable \u003d (Field.SubmitRequirement, SATISFIED) OR (.. OVERRIDDEN) ..\n  \nSo this problem will happen anyway.",
+      "parentUuid": "fc7d1e7b_f277960e",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "ef8fa68707fd736da02a5c5665291b4bb11d8f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d63b7a40_d1047bba",

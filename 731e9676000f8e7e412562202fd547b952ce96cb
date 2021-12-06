@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa8616c8_7e0d90fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-12-06T17:32:53Z",
+      "side": 1,
+      "message": "The more you wait, the harder it becomes to maintain this merge...",
+      "revId": "731e9676000f8e7e412562202fd547b952ce96cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

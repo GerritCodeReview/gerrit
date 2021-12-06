@@ -379,7 +379,7 @@ export class GrEditorView extends PolymerElement {
         )
         .then(() => {
           assertIsDefined(this._change, '_change');
-          GerritNav.navigateToChange(this._change);
+          GerritNav.navigateToChange(this._change, {forceReload: true});
         });
     });
   }

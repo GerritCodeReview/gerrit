@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d6cb6f4_1cc11473",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-06T16:33:44Z",
+      "side": 1,
+      "message": "connected",
+      "range": {
+        "startLine": 18,
+        "startChar": 10,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd70ac4b_a3a4d24e",
         "filename": "polygerrit-ui/app/services/dependency.ts",
         "patchSetId": 5
@@ -43,6 +66,29 @@
         "startChar": 0,
         "endLine": 32,
         "endChar": 0
+      },
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16e9cb60_3dffced2",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-06T16:33:44Z",
+      "side": 1,
+      "message": "request-dependency?",
+      "range": {
+        "startLine": 51,
+        "startChar": 11,
+        "endLine": 51,
+        "endChar": 28
       },
       "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

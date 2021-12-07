@@ -424,7 +424,10 @@ export class CommentsModel implements Finalizable {
    * Saves a new or updates an existing draft.
    * The model will only be updated when a successful response comes back.
    */
-  async saveDraft(draft: DraftInfo | UnsavedInfo, showToast = true) {
+  async saveDraft(
+    draft: DraftInfo | UnsavedInfo,
+    showToast = true
+  ): Promise<DraftInfo> {
     assertIsDefined(this.changeNum, 'change number');
     assertIsDefined(draft.patch_set, 'patchset number of comment draft');
     if (!draft.message?.trim()) throw new Error('Cannot save empty draft.');
@@ -458,6 +461,7 @@ export class CommentsModel implements Finalizable {
     if (showToast) this.showEndRequest();
     this.updateState(s => setDraft(s, updatedDraft));
     this.report(Interaction.COMMENT_SAVED, updatedDraft);
+    return updatedDraft;
   }
 
   async discardDraft(draftId: UrlEncodedCommentId) {

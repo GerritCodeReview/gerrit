@@ -103,6 +103,7 @@ import {
   CommentThread,
   createCommentThreads,
   DraftInfo,
+  UnsavedInfo,
 } from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
@@ -541,6 +542,16 @@ export function createDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
   return {
     ...createComment(),
     __draft: true,
+    ...extra,
+  };
+}
+
+export function createUnsaved(extra: Partial<CommentInfo> = {}): UnsavedInfo {
+  return {
+    ...createComment(),
+    __unsaved: true,
+    id: undefined,
+    updated: undefined,
     ...extra,
   };
 }

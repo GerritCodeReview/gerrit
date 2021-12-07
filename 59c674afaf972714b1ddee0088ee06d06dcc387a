@@ -22,6 +22,30 @@
       },
       "revId": "59c674afaf972714b1ddee0088ee06d06dcc387a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbfb5c9b_0b737f3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-07T00:05:25Z",
+      "side": 1,
+      "message": "I had an issue with Maven: it uploaded the POM without the WAR file :-( ... resulting in a zombie release. I had to re-release it with a different number, as Maven releases cannot be removed.",
+      "parentUuid": "a7adbb06_c03b153c",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "59c674afaf972714b1ddee0088ee06d06dcc387a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

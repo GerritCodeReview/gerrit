@@ -16,6 +16,24 @@
       "message": "Blocking with -2 until I adapt our code in google3.",
       "revId": "d4994c4ba8b6f3300afec729ee669972b65161f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22afa89e_782b9f3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-07T13:07:41Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "581b0dbf_bf68c824",
+      "revId": "d4994c4ba8b6f3300afec729ee669972b65161f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

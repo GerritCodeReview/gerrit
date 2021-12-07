@@ -349,12 +349,6 @@ To exclude tests that have been marked as flaky:
   bazel test --test_tag_filters=-flaky //...
 ----
 
-To exclude tests that require a Docker host:
-
-----
-  bazel test --test_tag_filters=-docker //...
-----
-
 To exclude tests that require very recent git client version:
 
 ----
@@ -382,7 +376,6 @@ The following values are currently supported for the group name:
 
 * annotation
 * api
-* docker
 * edit
 * git
 * git-protocol-v2

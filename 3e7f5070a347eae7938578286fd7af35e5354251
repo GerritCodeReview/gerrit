@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bac059a_4e0bb5ed",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-07T12:39:52Z",
+      "side": 1,
+      "message": "test",
+      "range": {
+        "startLine": 47,
+        "startChar": 32,
+        "endLine": 47,
+        "endChar": 46
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec212204_3b22d505",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-07T12:39:52Z",
+      "side": 1,
+      "message": "any thoughts about how component tests can ensure this? Or generally, how component tests can easily provide dependencies? Without any helper/util/infra we will need to write a whole parent component in every test file.",
+      "range": {
+        "startLine": 48,
+        "startChar": 54,
+        "endLine": 49,
+        "endChar": 41
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "240c1dd3_06212d2c",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-07T12:39:52Z",
+      "side": 1,
+      "message": "Line 253 has the mechanism for filling in the right value:\n```\nif (ev.dependency !\u003d\u003d this.dependency) return;\n```\nWouldn\u0027t non-uniqueness mess this up?",
+      "range": {
+        "startLine": 116,
+        "startChar": 31,
+        "endLine": 116,
+        "endChar": 57
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae352d81_21eb2b72",
+        "filename": "polygerrit-ui/app/services/dependency_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-07T12:39:52Z",
+      "side": 1,
+      "message": "consider descriptive names for all elements. FooProviderElement, etc?",
+      "range": {
+        "startLine": 47,
+        "startChar": 13,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

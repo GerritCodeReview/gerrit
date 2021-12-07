@@ -22,6 +22,30 @@
       },
       "revId": "296dead9344ecca0af750bd3a362954886c996bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbf692c4_3f19661a",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-12-07T13:56:26Z",
+      "side": 1,
+      "message": "Youssef and I talked about this offline. This is actually fine. In the case where we can lazyload, the call to submitRequirements() will work regardless of weather we have loaded submit rules back from the index or not. In the case where it was not loaded back, we just compute it.\n\nSorry for the noise!",
+      "parentUuid": "dd9eee45_a2387152",
+      "range": {
+        "startLine": 793,
+        "startChar": 0,
+        "endLine": 799,
+        "endChar": 5
+      },
+      "revId": "296dead9344ecca0af750bd3a362954886c996bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

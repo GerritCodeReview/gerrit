@@ -47,7 +47,7 @@ suite('gr-diff-mode-selector tests', () => {
   });
 
   test('setMode', () => {
-    element.browserModel.setScreenWidth(0);
+    element.browserModel().setScreenWidth(0);
     const saveStub = stubUsers('updatePreferences');
 
     flush();

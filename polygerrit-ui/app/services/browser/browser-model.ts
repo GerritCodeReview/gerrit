@@ -17,6 +17,7 @@
 import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../registry';
+import {define} from '../dependency';
 import {DiffViewMode} from '../../api/diff';
 import {UserModel} from '../user/user-model';
 
@@ -32,6 +33,8 @@ export interface BrowserState {
 }
 
 const initialState: BrowserState = {};
+
+export const browserModelToken = define<BrowserModel>('browser-model');
 
 export class BrowserModel implements Finalizable {
   private readonly privateState$ = new BehaviorSubject(initialState);

@@ -17,6 +17,7 @@
 
 // Init app context before any other imports
 import {create, Registry, Finalizable} from '../services/registry';
+import {DependencyToken} from '../services/dependency';
 import {assertIsDefined} from '../utils/common-util';
 import {AppContext} from '../services/app-context';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
@@ -32,8 +33,11 @@ import {UserModel} from '../services/user/user-model';
 import {CommentsModel} from '../services/comments/comments-model';
 import {RouterModel} from '../services/router/router-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
-import {BrowserModel} from '../services/browser/browser-model';
 import {ConfigModel} from '../services/config/config-model';
+import {
+  BrowserModel,
+  browserModelToken,
+} from '../services/browser/browser-model';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -98,10 +102,16 @@ export function createTestAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new ShortcutsService(ctx.userModel!, ctx.reportingService!);
     },
-    browserModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.userModel, 'userModel');
-      return new BrowserModel(ctx.userModel!);
-    },
   };
   return create<AppContext>(appRegistry);
+}
+
+export function createTestDependencies(
+  appContext: AppContext
+): Map<DependencyToken<unknown>, Finalizable> {
+  const dependencies = new Map();
+  const browserModel = new BrowserModel(appContext.userModel!);
+  dependencies.set(browserModelToken, browserModel);
+
+  return dependencies;
 }

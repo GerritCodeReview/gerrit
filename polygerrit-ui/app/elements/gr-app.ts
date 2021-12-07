@@ -35,12 +35,16 @@ setPassiveTouchGestures(true);
 
 import {initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {Finalizable} from '../services/registry';
+import {provide, DIPolymerElement} from '../services/dependency';
 import {htmlTemplate} from './gr-app_html';
 import {customElement} from '@polymer/decorators';
 import {installPolymerResin} from '../scripts/polymer-resin-install';
 
-import {createAppContext} from '../services/app-context-init';
+import {
+  createAppContext,
+  createAppDependencies,
+} from '../services/app-context-init';
 import {
   initVisibilityReporter,
   initPerformanceReporter,
@@ -58,7 +62,25 @@ initErrorReporter(reportingService);
 installPolymerResin(safeTypesBridge);
 
 @customElement('gr-app')
-export class GrApp extends PolymerElement {
+export class GrApp extends DIPolymerElement {
+  private finalizables: Finalizable[] = [];
+
+  override connectedCallback() {
+    super.connectedCallback();
+    const dependencies = createAppDependencies(appContext);
+    for (const [token, service] of dependencies) {
+      provide(this, token, () => service);
+    }
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    for (const f of this.finalizables) {
+      f.finalize();
+    }
+    this.finalizables = [];
+  }
+
   static get template() {
     return htmlTemplate;
   }

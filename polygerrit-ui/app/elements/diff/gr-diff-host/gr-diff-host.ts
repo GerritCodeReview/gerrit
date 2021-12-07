@@ -16,7 +16,6 @@
  */
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../gr-diff/gr-diff';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-host_html';
 import {
   GerritNav,
@@ -89,6 +88,8 @@ import {Timing} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {DisplayLine, RenderPreferences} from '../../../api/diff';
+import {resolve, DIPolymerElement} from '../../../services/dependency';
+import {browserModelToken} from '../../../services/browser/browser-model';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -130,7 +131,7 @@ export interface GrDiffHost {
  * specific component, while <gr-diff> is a re-usable component.
  */
 @customElement('gr-diff-host')
-export class GrDiffHost extends PolymerElement {
+export class GrDiffHost extends DIPolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -266,7 +267,7 @@ export class GrDiffHost extends PolymerElement {
     num_lines_rendered_at_once: 128,
   };
 
-  private readonly browserModel = getAppContext().browserModel;
+  private readonly browserModel = resolve(this, browserModelToken);
 
   private readonly commentsModel = getAppContext().commentsModel;
 
@@ -314,7 +315,7 @@ export class GrDiffHost extends PolymerElement {
   override connectedCallback() {
     super.connectedCallback();
     this.subscriptions.push(
-      this.browserModel.diffViewMode$.subscribe(
+      this.browserModel().diffViewMode$.subscribe(
         diffView => (this.viewMode = diffView)
       )
     );

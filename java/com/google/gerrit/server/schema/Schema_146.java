@@ -33,7 +33,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +44,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -61,7 +59,6 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
@@ -188,42 +185,19 @@ public class Schema_146 extends SchemaVersion {
 
   private void gc(UpdateUI ui) {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      gc(repo, false, ui);
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
-  }
-
-  private void gc(Repository repo, boolean refsOnly, UpdateUI ui) {
-    if (repo instanceof FileRepository && gcLock.tryLock()) {
-      ProgressMonitor pm = null;
-      try {
-        pm = new TextProgressMonitor();
-        FileRepository r = (FileRepository) repo;
-        GC gc = new GC(r);
-        gc.setProgressMonitor(pm);
-        pm.beginTask("gc", ProgressMonitor.UNKNOWN);
-        if (refsOnly) {
-          ui.message(String.format("... (%.3f s) pack refs", elapsed()));
-          gc.packRefs();
-        } else {
-          // TODO(ms): Enable bitmap index when this JGit performance issue is fixed:
-          // https://bugs.eclipse.org/bugs/show_bug.cgi?id=562740
-          PackConfig pconfig = new PackConfig(repo);
-          pconfig.setBuildBitmaps(false);
-          gc.setPackConfig(pconfig);
-          ui.message(String.format("... (%.3f s) gc --prune=now", elapsed()));
-          gc.setExpire(new Date());
-          gc.gc();
-        }
-      } catch (IOException | ParseException e) {
-        throw new RuntimeException(e);
-      } finally {
-        gcLock.unlock();
-        if (pm != null) {
+      if (repo instanceof FileRepository && gcLock.tryLock()) {
+        ProgressMonitor pm = new TextProgressMonitor();
+        try {
+          gc(repo, ui, pm, sw);
+        } catch (IOException | ParseException e) {
+          throw new RuntimeException(e);
+        } finally {
+          gcLock.unlock();
           pm.endTask();
         }
       }
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
     }
   }
 

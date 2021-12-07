@@ -22,6 +22,30 @@
       },
       "revId": "96225b7a49069f77e45c250c047c67c56a6fcb35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff4920ae_d86efa77",
+        "filename": "polygerrit-ui/app/elements/shared/gr-page-nav/gr-page-nav_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-07T16:02:55Z",
+      "side": 1,
+      "message": "I\u0027m not sure exactly what you mean by this?\n\nDoing {} as HTMLElement doesn\u0027t work here.",
+      "parentUuid": "efe1f62e_de59adbe",
+      "range": {
+        "startLine": 42,
+        "startChar": 23,
+        "endLine": 42,
+        "endChar": 35
+      },
+      "revId": "96225b7a49069f77e45c250c047c67c56a6fcb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

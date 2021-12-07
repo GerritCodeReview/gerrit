@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e20404a_bbe40a84",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-07T00:07:38Z",
+      "side": 1,
+      "message": "Done in 325757: Remove ES leftovers | https://gerrit-review.googlesource.com/c/gerrit/+/325757 (along with a few other cleanups)",
+      "parentUuid": "fd27fc9f_39d13fa5",
+      "range": {
+        "startLine": 114,
+        "startChar": 41,
+        "endLine": 114,
+        "endChar": 47
+      },
+      "revId": "731e9676000f8e7e412562202fd547b952ce96cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f266b447_34754ab0",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "456a7242_90bfa199",
+        "filename": "plugins/delete-project",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-07T00:07:38Z",
+      "side": 1,
+      "message": "Bumped to 325697: Merge branch \u0027stable-3.5\u0027 | https://gerrit-review.googlesource.com/c/plugins/delete-project/+/325697",
+      "parentUuid": "f266b447_34754ab0",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "731e9676000f8e7e412562202fd547b952ce96cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4bd344a_7a6d5e4e",
@@ -77,6 +125,30 @@
       "writtenOn": "2021-12-06T20:01:52Z",
       "side": 1,
       "message": "Needs to be updated to 3.6.0-SNAPSHOT on master. I\u0027ll fix on top of this so that it doesn\u0027t conflict.",
+      "range": {
+        "startLine": 5,
+        "startChar": 20,
+        "endLine": 5,
+        "endChar": 23
+      },
+      "revId": "731e9676000f8e7e412562202fd547b952ce96cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64eabc83_0d20c17f",
+        "filename": "version.bzl",
+        "patchSetId": 10
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-07T00:07:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4bd344a_7a6d5e4e",
       "range": {
         "startLine": 5,
         "startChar": 20,

@@ -83,6 +83,8 @@ import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
 import {assertIsDefined} from '../utils/common-util';
 import {listen} from '../services/shortcuts/shortcuts-service';
+import {resolve, DIPolymerElement} from '../services/dependency';
+import {browserModelToken} from '../services/browser/browser-model';
 
 interface ErrorInfo {
   text: string;
@@ -104,7 +106,7 @@ type DomIf = PolymerElement & {
 };
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
+const base = KeyboardShortcutMixin(DIPolymerElement);
 
 // TODO(TS): implement AppElement interface from gr-app-types.ts
 @customElement('gr-app-element')
@@ -216,7 +218,7 @@ export class GrAppElement extends base {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly browserModel = getAppContext().browserModel;
+  private readonly browserModel = resolve(this, browserModelToken);
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [
@@ -254,7 +256,11 @@ export class GrAppElement extends base {
       this.handleRecreateView(GerritView.DIFF)
     );
     document.addEventListener(EventType.GR_RPC_LOG, e => this._handleRpcLog(e));
-    const resizeObserver = this.browserModel.observeWidth();
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    const resizeObserver = this.browserModel().observeWidth();
     resizeObserver.observe(this);
   }
 

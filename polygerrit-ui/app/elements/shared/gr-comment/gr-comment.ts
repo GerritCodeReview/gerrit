@@ -676,7 +676,7 @@ export class GrComment extends LitElement {
 
   private renderRespectfulTip() {
     if (!this.showRespectfulTip || this.respectfulTipDismissed) return;
-    if (this.collapsed) return;
+    if (!this.editing || this.collapsed) return;
     return html`
       <div class="respectfulReviewTip">
         <div>
@@ -1007,6 +1007,9 @@ export class GrComment extends LitElement {
       });
       // update cache
       this.storage.setRespectfulTipVisibility();
+    } else {
+      this.showRespectfulTip = false;
+      this.respectfulReviewTip = undefined;
     }
   }
 

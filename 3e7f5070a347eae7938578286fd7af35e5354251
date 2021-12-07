@@ -73,6 +73,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c7e14835_d2b60be3",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-07T13:31:53Z",
+      "side": 1,
+      "message": "why would the provider provide null?",
+      "range": {
+        "startLine": 78,
+        "startChar": 3,
+        "endLine": 78,
+        "endChar": 29
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ade01cf_8bd30f5b",
         "filename": "polygerrit-ui/app/services/dependency.ts",
         "patchSetId": 12
@@ -84,6 +107,29 @@
       "writtenOn": "2021-12-07T12:44:14Z",
       "side": 1,
       "message": "any best practices that would help us follow these guarantees? such as require\n.get() for every usage or only save the dep in a local variable in a function and never in any larger scope?",
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9efc3976_6dfece31",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-07T13:31:53Z",
+      "side": 1,
+      "message": "nit: whose lifetime mirrors",
+      "range": {
+        "startLine": 89,
+        "startChar": 58,
+        "endLine": 90,
+        "endChar": 22
+      },
       "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -113,6 +159,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "90a37dad_ee0be29c",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-07T13:31:53Z",
+      "side": 1,
+      "message": "connected",
+      "range": {
+        "startLine": 170,
+        "startChar": 45,
+        "endLine": 170,
+        "endChar": 53
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caadcd0c_acc2a670",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-07T13:31:53Z",
+      "side": 1,
+      "message": "any reason for three \"_\"?",
+      "range": {
+        "startLine": 280,
+        "startChar": 19,
+        "endLine": 280,
+        "endChar": 33
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e9f2f75_4a576b53",
         "filename": "polygerrit-ui/app/services/dependency.ts",
         "patchSetId": 12
@@ -129,6 +221,29 @@
         "startChar": 0,
         "endLine": 303,
         "endChar": 0
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb636255_b46977b9",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-12-07T13:31:53Z",
+      "side": 1,
+      "message": "I dislike using bitwise magic where it\u0027s unnecessary.\nI would prefer to use more readable/explicit code.",
+      "range": {
+        "startLine": 306,
+        "startChar": 26,
+        "endLine": 306,
+        "endChar": 51
       },
       "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

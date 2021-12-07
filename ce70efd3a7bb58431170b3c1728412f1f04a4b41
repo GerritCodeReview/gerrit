@@ -417,6 +417,30 @@
       },
       "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e358f7_71fcfced",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-07T11:17:36Z",
+      "side": 1,
+      "message": "what\u0027s the difference between .wait() in constructor and .get() in connectedCallback? They\u0027ll both execute at the same time (connectedCallback), right?",
+      "parentUuid": "d89723f8_11dd4cd0",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 29
+      },
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

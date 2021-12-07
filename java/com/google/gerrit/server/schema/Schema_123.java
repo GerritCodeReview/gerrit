@@ -79,6 +79,7 @@ public class Schema_123 extends SchemaVersion {
                 ObjectId.zeroId(), id, RefNames.refsStarredChanges(e.getValue(), e.getKey())));
       }
       bru.execute(rw, new TextProgressMonitor());
+      runGcInBackground(repoManager, allUsersName, ui);
     } catch (IOException | IllegalLabelException ex) {
       throw new OrmException(ex);
     }

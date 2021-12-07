@@ -20,16 +20,17 @@ import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import {DiffViewMode} from '../../../constants/constants';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-mode-selector_html';
 import {customElement, property} from '@polymer/decorators';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {getAppContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
+import {browserModelToken} from '../../../services/browser/browser-model';
+import {resolve, DIPolymerElement} from '../../../services/dependency';
 
 @customElement('gr-diff-mode-selector')
-export class GrDiffModeSelector extends PolymerElement {
+export class GrDiffModeSelector extends DIPolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -48,7 +49,7 @@ export class GrDiffModeSelector extends PolymerElement {
   showTooltipBelow = false;
 
   // Private but accessed by tests.
-  readonly browserModel = getAppContext().browserModel;
+  readonly browserModel = resolve(this, browserModelToken);
 
   private readonly userModel = getAppContext().userModel;
 
@@ -64,7 +65,7 @@ export class GrDiffModeSelector extends PolymerElement {
       IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
     ).requestAvailability();
     this.subscriptions.push(
-      this.browserModel.diffViewMode$.subscribe(
+      this.browserModel().diffViewMode$.subscribe(
         diffView => (this.mode = diffView)
       )
     );

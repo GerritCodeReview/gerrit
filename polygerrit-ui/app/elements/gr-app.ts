@@ -35,7 +35,11 @@ setPassiveTouchGestures(true);
 
 import {initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {provide, DIPolymerElement} from '../services/dependency';
+import {
+  browserModelToken,
+  BrowserModel
+} from '../services/browser/browser-model';
 import {htmlTemplate} from './gr-app_html';
 import {customElement} from '@polymer/decorators';
 import {installPolymerResin} from '../scripts/polymer-resin-install';
@@ -58,7 +62,13 @@ initErrorReporter(reportingService);
 installPolymerResin(safeTypesBridge);
 
 @customElement('gr-app')
-export class GrApp extends PolymerElement {
+export class GrApp extends DIPolymerElement {
+  override connectedCallback() {
+    super.connectedCallback();
+    const browserModel = new BrowserModel(appContext.userModel!)
+    provide(this, browserModelToken, () => browserModel);
+  }
+
   static get template() {
     return htmlTemplate;
   }

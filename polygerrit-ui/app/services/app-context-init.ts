@@ -29,7 +29,6 @@ import {UserModel} from './user/user-model';
 import {CommentsModel} from './comments/comments-model';
 import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
-import {BrowserModel} from './browser/browser-model';
 import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel} from './config/config-model';
 
@@ -108,10 +107,6 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.userModel, 'userModel');
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new ShortcutsService(ctx.userModel, ctx.reportingService!);
-    },
-    browserModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.userModel, 'userModel');
-      return new BrowserModel(ctx.userModel!);
     },
   };
   return create<AppContext>(appRegistry);

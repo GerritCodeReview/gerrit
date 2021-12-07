@@ -22,20 +22,24 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.UsedAt;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -46,14 +50,19 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.storage.pack.PackConfig;
 
 /** A version of the database schema. */
 public abstract class SchemaVersion {
@@ -67,6 +76,10 @@ public abstract class SchemaVersion {
   private final Provider<? extends SchemaVersion> prior;
   private final int versionNbr;
   private static SortedSet<Project.NameKey> projects;
+
+  @Inject private GitRepositoryManager repoMgr;
+  @Inject private AllUsersName allUsers;
+  private ReentrantLock allUsersGcLock = new ReentrantLock();
 
   protected SchemaVersion(Provider<? extends SchemaVersion> prior) {
     this.prior = prior;
@@ -315,6 +328,59 @@ public abstract class SchemaVersion {
     cb.setAuthor(ident);
     cb.setMessage(message);
     return cb;
+  }
+
+  protected void GcAllUsersInBackground(UpdateUI ui) {
+    Executors.newFixedThreadPool(1)
+        .execute(
+            new Runnable() {
+              @Override
+              public void run() {
+                try (Repository repo = repoMgr.openRepository(allUsers)) {
+                  if (repo instanceof FileRepository && allUsersGcLock.tryLock()) {
+                    ProgressMonitor pm = new TextProgressMonitor();
+                    try {
+                      // Empty reference folders are only deleted if they have not been modified
+                      // in the last 30s. Add a delay so that their deletion is not skipped.
+                      Thread.sleep(30000);
+                      Stopwatch sw = Stopwatch.createStarted();
+                      gc(repo, false, ui, pm, sw);
+                    } catch (IOException | ParseException | InterruptedException ex) {
+                      ui.message("GC on All-Users failed with error: " + ex);
+                    } finally {
+                      allUsersGcLock.unlock();
+                      pm.endTask();
+                    }
+                  }
+                } catch (IOException ex) {
+                  ui.message("GC on All-Users failed with error: " + ex);
+                }
+              }
+            });
+  }
+
+  protected void gc(
+      Repository repo, boolean refsOnly, UpdateUI ui, ProgressMonitor pm, Stopwatch sw)
+      throws IOException, ParseException {
+    FileRepository r = (FileRepository) repo;
+    GC gc = new GC(r);
+    gc.setProgressMonitor(pm);
+    pm.beginTask("gc", ProgressMonitor.UNKNOWN);
+    if (refsOnly) {
+      ui.message(
+          String.format("... (%.3f s) pack refs", sw.elapsed(TimeUnit.MILLISECONDS) / 1000d));
+      gc.packRefs();
+    } else {
+      // TODO(ms): Enable bitmap index when this JGit performance issue is fixed:
+      // https://bugs.eclipse.org/bugs/show_bug.cgi?id=562740
+      PackConfig pconfig = new PackConfig(repo);
+      pconfig.setBuildBitmaps(false);
+      gc.setPackConfig(pconfig);
+      ui.message(
+          String.format("... (%.3f s) gc --prune=now", sw.elapsed(TimeUnit.MILLISECONDS) / 1000d));
+      gc.setExpire(new Date());
+      gc.gc();
+    }
   }
 
   protected static ObjectId emptyTree(ObjectInserter oi) throws IOException {

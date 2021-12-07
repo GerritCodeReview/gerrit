@@ -754,6 +754,21 @@ suite('gr-comment tests', () => {
       assert.isTrue(!!queryAndAssert(element, '.respectfulReviewTip'));
     });
 
+    test('hide tip when leaving editing mode', async () => {
+      stubStorage('getRespectfulTipVisibility').returns(null);
+      element.editing = true;
+      element.getRandomInt = () => 0;
+      element.comment = createComment();
+
+      await element.updateComplete;
+      assert.isOk(query(element, '.respectfulReviewTip'));
+
+      element.editing = false;
+
+      await element.updateComplete;
+      assert.isNotOk(query(element, '.respectfulReviewTip'));
+    });
+
     test('no tip when cached record', async () => {
       const respectfulGetStub = stubStorage('getRespectfulTipVisibility');
       const respectfulSetStub = stubStorage('setRespectfulTipVisibility');

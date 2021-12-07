@@ -363,6 +363,24 @@
       "message": "This feels superfluous.",
       "revId": "3a9ff601f0ef24064f717a167fb40c41c1756146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51973b5e_8c6295d7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-07T15:01:43Z",
+      "side": 1,
+      "message": "this is removed.",
+      "parentUuid": "764acd31_f345bbfe",
+      "revId": "3a9ff601f0ef24064f717a167fb40c41c1756146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

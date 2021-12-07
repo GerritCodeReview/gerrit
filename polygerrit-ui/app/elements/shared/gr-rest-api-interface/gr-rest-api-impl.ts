@@ -501,7 +501,8 @@ export class GrRestApiServiceImpl
     });
   }
 
-  getIsGroupOwner(groupName: GroupName): Promise<boolean> {
+  getIsGroupOwner(groupName?: GroupName): Promise<boolean> {
+    if (!groupName) return Promise.resolve(false);
     const encodeName = encodeURIComponent(groupName);
     const req = {
       url: `/groups/?owned&g=${encodeName}`,

@@ -22,7 +22,7 @@ import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
-import {ListViewParams} from '../../gr-app-types';
+import {AppElementAdminParams} from '../../gr-app-types';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
@@ -41,7 +41,7 @@ export class GrPluginList extends LitElement {
    * URL params passed from the router.
    */
   @property({type: Object})
-  params?: ListViewParams;
+  params?: AppElementAdminParams;
 
   /**
    * Offset of currently visible query results.

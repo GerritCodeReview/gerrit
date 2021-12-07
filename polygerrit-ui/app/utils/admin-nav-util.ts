@@ -258,4 +258,5 @@ export interface NavLink {
   capability?: string;
   target?: string | null;
   subsection?: SubsectionInterface;
+  children?: SubsectionInterface[];
 }

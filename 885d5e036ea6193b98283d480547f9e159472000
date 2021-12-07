@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4890619_33d9ab0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-12-07T14:01:45Z",
+      "side": 1,
+      "message": "I think I disagree: Reusing \"all\" is more appealing to me :-)\n\nThe only thing that we\u0027d leave empty is \"permittedVotingRange\". The rest (value, date, postSubmit, tag) would be populated. Or did I get this wrong?\n\nWhy would we not populate the fields inherited from AccountInfo? These seem really cheap as well (we fill in account details for reviewers, owner etc on dashboards anyway).",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 0
+      },
+      "revId": "885d5e036ea6193b98283d480547f9e159472000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "de5bf8b7_a6fa4a0d",

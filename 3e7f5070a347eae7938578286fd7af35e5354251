@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d415a4a_00c20fe5",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T16:17:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fcb3ab50_6686c61c",
+      "range": {
+        "startLine": 48,
+        "startChar": 54,
+        "endLine": 49,
+        "endChar": 41
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7e14835_d2b60be3",
@@ -203,6 +227,24 @@
       "writtenOn": "2021-12-07T12:44:14Z",
       "side": 1,
       "message": "any best practices that would help us follow these guarantees? such as require\n.get() for every usage or only save the dep in a local variable in a function and never in any larger scope?",
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c794e7a_bd58b5d5",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T16:17:29Z",
+      "side": 1,
+      "message": "Added some comments",
+      "parentUuid": "5ade01cf_8bd30f5b",
       "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

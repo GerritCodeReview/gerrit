@@ -378,7 +378,7 @@ public class AsyncReceiveCommits {
       FutureTask<ReceiveCommitsResult> runnable =
           ProjectRunnable.fromCallable(
               callable, receiveCommits.getProject().getNameKey(), "receive-commits", null, false);
-      monitor.waitFor(
+      monitor.waitForAndDone(
           executor.submit(scopePropagator.wrap(runnable)), timeoutMillis, TimeUnit.MILLISECONDS);
       if (!runnable.isDone()) {
         // At this point we are either done or have thrown a TimeoutException and bailed out.

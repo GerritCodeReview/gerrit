@@ -44,6 +44,16 @@ import {
 } from '../scripts/polymer-resin-install';
 import {_testOnly_allTasks} from '../utils/async-util';
 import {cleanUpStorage} from '../services/storage/gr-storage_mock';
+import {
+  browserModelToken,
+  BrowserModel,
+} from '../services/browser/browser-model';
+import {
+  DependencyRequestEvent,
+  DependencyError,
+  DependencyToken,
+  Provider,
+} from '../services/dependency';
 
 declare global {
   interface Window {
@@ -96,6 +106,30 @@ window.fixture = fixtureImpl;
 let testSetupTimestampMs = 0;
 let appContext: AppContext & Finalizable;
 
+const injectedDependencies: Map<
+  DependencyToken<unknown>,
+  Provider<unknown>
+> = new Map();
+
+function injectDependency<T>(
+  dependency: DependencyToken<T>,
+  value: Provider<T>
+) {
+  injectedDependencies.set(dependency, value);
+}
+
+function resolveDependency(evt: DependencyRequestEvent<unknown>) {
+  const service = injectedDependencies.get(evt.dependency);
+  if (service) {
+    evt.callback(service());
+  } else {
+    throw new DependencyError(
+      evt.dependency,
+      'Forgot to set up dependency for tests'
+    );
+  }
+}
+
 setup(() => {
   testSetupTimestampMs = new Date().getTime();
   addIronOverlayBackdropStyleEl();
@@ -104,6 +138,9 @@ setup(() => {
   // overwritten by some other code.
   assert.equal(getCleanupsCount(), 0);
   appContext = createTestAppContext();
+  const browserModel = new BrowserModel(appContext.userModel);
+  injectDependency(browserModelToken, () => browserModel);
+  document.addEventListener('request-dependency', resolveDependency);
   injectAppContext(appContext);
   // The following calls is nessecary to avoid influence of previously executed
   // tests.
@@ -204,6 +241,8 @@ teardown(() => {
   removeThemeStyles();
   cancelAllTasks();
   cleanUpStorage();
+  document.removeEventListener('request-dependency', resolveDependency);
+  injectedDependencies.clear();
   // Reset state
   appContext?.finalize();
   const testTeardownTimestampMs = new Date().getTime();

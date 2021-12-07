@@ -28,7 +28,6 @@ import {UserModel} from './user/user-model';
 import {CommentsModel} from './comments/comments-model';
 import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
-import {BrowserModel} from './browser/browser-model';
 import {ConfigModel} from './config/config-model';
 
 export interface AppContext {
@@ -45,7 +44,6 @@ export interface AppContext {
   storageService: StorageService;
   configModel: ConfigModel;
   userModel: UserModel;
-  browserModel: BrowserModel;
   shortcutsService: ShortcutsService;
 }
 

@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72083238_162845c4",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:34:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7bac059a_4e0bb5ed",
+      "range": {
+        "startLine": 47,
+        "startChar": 32,
+        "endLine": 47,
+        "endChar": 46
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec212204_3b22d505",
@@ -61,6 +85,30 @@
       "writtenOn": "2021-12-07T12:39:52Z",
       "side": 1,
       "message": "any thoughts about how component tests can ensure this? Or generally, how component tests can easily provide dependencies? Without any helper/util/infra we will need to write a whole parent component in every test file.",
+      "range": {
+        "startLine": 48,
+        "startChar": 54,
+        "endLine": 49,
+        "endChar": 41
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcb3ab50_6686c61c",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:34:55Z",
+      "side": 1,
+      "message": "Good question, that\u0027s something I\u0027m working on in a follow-up.",
+      "parentUuid": "ec212204_3b22d505",
       "range": {
         "startLine": 48,
         "startChar": 54,
@@ -118,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "779d5513_c26262e6",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd3ffaf8_c71ff6b2",
+      "range": {
+        "startLine": 78,
+        "startChar": 3,
+        "endLine": 78,
+        "endChar": 29
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ade01cf_8bd30f5b",
@@ -158,6 +230,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff3fd560_4bb22531",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9efc3976_6dfece31",
+      "range": {
+        "startLine": 89,
+        "startChar": 58,
+        "endLine": 90,
+        "endChar": 22
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "240c1dd3_06212d2c",
@@ -181,6 +277,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62b8d539_dd3c0f27",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:34:55Z",
+      "side": 1,
+      "message": "Symbols are guaranteed unique by construction, even if they get the same string.\n\nI.o.w:\n\nSymbol(\u0027abc\u0027) !\u003d\u003d Symbol(\u0027abc\u0027);\n\nbut \nconst a \u003d Symbol(\u0027abc\u0027);\na \u003d\u003d\u003d a",
+      "parentUuid": "240c1dd3_06212d2c",
+      "range": {
+        "startLine": 116,
+        "startChar": 31,
+        "endLine": 116,
+        "endChar": 57
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90a37dad_ee0be29c",
@@ -194,6 +314,30 @@
       "writtenOn": "2021-12-07T13:31:53Z",
       "side": 1,
       "message": "connected",
+      "range": {
+        "startLine": 170,
+        "startChar": 45,
+        "endLine": 170,
+        "endChar": 53
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6e2dd36_46986712",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a37dad_ee0be29c",
       "range": {
         "startLine": 170,
         "startChar": 45,
@@ -238,6 +382,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3a9106e_8b78f15f",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92d89d2e_8f6c3176",
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d676a10_2e36e40b",
@@ -251,6 +413,30 @@
       "writtenOn": "2021-12-07T13:56:12Z",
       "side": 1,
       "message": "Inline this method?",
+      "range": {
+        "startLine": 227,
+        "startChar": 10,
+        "endLine": 227,
+        "endChar": 17
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "029578c9_7f16f54d",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d676a10_2e36e40b",
       "range": {
         "startLine": 227,
         "startChar": 10,
@@ -284,6 +470,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c858178d_ccf7ccc0",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:34:55Z",
+      "side": 1,
+      "message": "Yes, the Lit team is going to do this as well, making PolymerElement implement ReactiveControllerHost.\n\nGiven that, rictic@\u0027s suggestion was to use 3 underscores to avoid potential future conflicts",
+      "parentUuid": "caadcd0c_acc2a670",
+      "range": {
+        "startLine": 280,
+        "startChar": 19,
+        "endLine": 280,
+        "endChar": 33
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e9f2f75_4a576b53",
@@ -307,6 +517,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c30ea5fc_cc91f0f6",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e9f2f75_4a576b53",
+      "range": {
+        "startLine": 296,
+        "startChar": 0,
+        "endLine": 303,
+        "endChar": 0
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb636255_b46977b9",
@@ -320,6 +554,30 @@
       "writtenOn": "2021-12-07T13:31:53Z",
       "side": 1,
       "message": "I dislike using bitwise magic where it\u0027s unnecessary.\nI would prefer to use more readable/explicit code.",
+      "range": {
+        "startLine": 306,
+        "startChar": 26,
+        "endLine": 306,
+        "endChar": 51
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30916d28_e7ffbc96",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb636255_b46977b9",
       "range": {
         "startLine": 306,
         "startChar": 26,

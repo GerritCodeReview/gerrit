@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ea2f5b8_ac90b1cb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-07T09:21:30Z",
+      "side": 1,
+      "message": "Since this is not that urgent, I would add unit test - respectful tip is shown only during editing -  for feature refactorings :)",
+      "range": {
+        "startLine": 679,
+        "startChar": 14,
+        "endLine": 679,
+        "endChar": 21
+      },
+      "revId": "0782cd0fce19a915fd82f3b73524639e3a99620d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

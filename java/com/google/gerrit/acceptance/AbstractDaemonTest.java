@@ -1288,6 +1288,12 @@ public abstract class AbstractDaemonTest {
     assertThat(replyTo.getString()).contains(email);
   }
 
+  protected void assertMailNotReplyTo(Message message, String email) throws Exception {
+    assertThat(message.headers()).containsKey("Reply-To");
+    StringEmailHeader replyTo = (StringEmailHeader) message.headers().get("Reply-To");
+    assertThat(replyTo.getString()).doesNotContain(email);
+  }
+
   /**
    * Fetches each bundle into a newly cloned repository, then it applies the bundle, and returns the
    * resulting tree id.

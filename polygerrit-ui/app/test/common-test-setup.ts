@@ -23,7 +23,10 @@ import '@polymer/iron-test-helpers/iron-test-helpers';
 import './test-router';
 import {AppContext, injectAppContext} from '../services/app-context';
 import {Finalizable} from '../services/registry';
-import {createTestAppContext} from './test-app-context-init';
+import {
+  createTestAppContext,
+  createTestDependencies,
+} from './test-app-context-init';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-impl';
 import {
@@ -44,6 +47,12 @@ import {
 } from '../scripts/polymer-resin-install';
 import {_testOnly_allTasks} from '../utils/async-util';
 import {cleanUpStorage} from '../services/storage/gr-storage_mock';
+import {
+  DependencyRequestEvent,
+  DependencyError,
+  DependencyToken,
+  Provider,
+} from '../services/dependency';
 
 declare global {
   interface Window {
@@ -96,6 +105,33 @@ window.fixture = fixtureImpl;
 let testSetupTimestampMs = 0;
 let appContext: AppContext & Finalizable;
 
+const injectedDependencies: Map<
+  DependencyToken<unknown>,
+  Provider<unknown>
+> = new Map();
+
+const finalizers: Finalizable[] = [];
+
+function injectDependency<T>(
+  dependency: DependencyToken<T>,
+  service: T & Finalizable
+) {
+  injectedDependencies.set(dependency, () => service);
+  finalizers.push(service);
+}
+
+function resolveDependency(evt: DependencyRequestEvent<unknown>) {
+  const service = injectedDependencies.get(evt.dependency);
+  if (service) {
+    evt.callback(service());
+  } else {
+    throw new DependencyError(
+      evt.dependency,
+      'Forgot to set up dependency for tests'
+    );
+  }
+}
+
 setup(() => {
   testSetupTimestampMs = new Date().getTime();
   addIronOverlayBackdropStyleEl();
@@ -105,6 +141,12 @@ setup(() => {
   assert.equal(getCleanupsCount(), 0);
   appContext = createTestAppContext();
   injectAppContext(appContext);
+  finalizers.push(appContext);
+  const dependencies = createTestDependencies(appContext);
+  for (const [token, service] of dependencies) {
+    injectDependency(token, service);
+  }
+  document.addEventListener('request-dependency', resolveDependency);
   // The following calls is nessecary to avoid influence of previously executed
   // tests.
   initGlobalVariables(appContext);
@@ -204,8 +246,12 @@ teardown(() => {
   removeThemeStyles();
   cancelAllTasks();
   cleanUpStorage();
+  document.removeEventListener('request-dependency', resolveDependency);
+  injectedDependencies.clear();
   // Reset state
-  appContext?.finalize();
+  for (const f of finalizers) {
+    f.finalize();
+  }
   const testTeardownTimestampMs = new Date().getTime();
   const elapsedMs = testTeardownTimestampMs - testSetupTimestampMs;
   if (elapsedMs > 1000) {

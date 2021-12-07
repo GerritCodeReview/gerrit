@@ -34,7 +34,6 @@ import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-view_html';
 import {
   KeyboardShortcutMixin,
@@ -119,6 +118,8 @@ import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../services/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
+import {browserModelToken} from '../../../services/browser/browser-model';
+import {resolve, DIPolymerElement} from '../../../services/dependency';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -150,7 +151,7 @@ export interface GrDiffView {
 }
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
+const base = KeyboardShortcutMixin(DIPolymerElement);
 
 @customElement('gr-diff-view')
 export class GrDiffView extends base {
@@ -358,7 +359,7 @@ export class GrDiffView extends base {
   readonly changeModel = getAppContext().changeModel;
 
   // Private but used in tests.
-  readonly browserModel = getAppContext().browserModel;
+  readonly getBrowserModel = resolve(this, browserModelToken);
 
   // Private but used in tests.
   readonly commentsModel = getAppContext().commentsModel;

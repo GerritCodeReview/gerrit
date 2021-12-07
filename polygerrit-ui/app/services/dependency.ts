@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {ReactiveController, ReactiveControllerHost} from 'lit';
-import {PolymerElement} from '@polymer/polymer';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
 
 /**
  * This module provides the ability to do dependency injection in components.
@@ -163,7 +163,7 @@ export function resolve<T>(
  * Because Polymer doesn't (yet) depend on ReactiveControllerHost, this adds a
  * work-around base-class to make this work for Polymer.
  */
-export abstract class DIPolymerElement
+export class DIPolymerElement
   extends PolymerElement
   implements ReactiveControllerHost
 {
@@ -210,7 +210,7 @@ type Callback<T> = (value: T) => void;
 /**
  * A Dependency Request gets sent by an element to ask for a dependency.
  */
-interface DependencyRequest<T> {
+export interface DependencyRequest<T> {
   readonly dependency: DependencyToken<T>;
   readonly callback: Callback<T>;
 }
@@ -223,13 +223,20 @@ declare global {
      */
     'request-dependency': DependencyRequestEvent<unknown>;
   }
+  interface DocumentEventMap {
+    /**
+     * An 'request-dependency' can be emitted by any element which desires a
+     * dependency to be injected by an external provider.
+     */
+     'request-dependency': DependencyRequestEvent<unknown>;
+  }
 }
 
 /**
  * Dependency Consumers fire DependencyRequests in the form of
  * DependencyRequestEvent
  */
-class DependencyRequestEvent<T> extends Event implements DependencyRequest<T> {
+export class DependencyRequestEvent<T> extends Event implements DependencyRequest<T> {
   public constructor(
     public readonly dependency: DependencyToken<T>,
     public readonly callback: Callback<T>
@@ -246,7 +253,7 @@ interface ResolvedDependency<T> {
   get(): T;
 }
 
-class DependencyError<D extends DependencyToken<unknown>> extends Error {
+export class DependencyError<D extends DependencyToken<unknown>> extends Error {
   constructor(public readonly dependency: D, message: string) {
     super(message);
   }

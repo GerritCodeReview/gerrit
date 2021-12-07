@@ -102,9 +102,6 @@ export function createDiffAppContext(): AppContext & Finalizable {
     shortcutsService: (_ctx: Partial<AppContext>) => {
       throw new Error('shortcutsService is not implemented');
     },
-    browserModel: (_ctx: Partial<AppContext>) => {
-      throw new Error('browserModel is not implemented');
-    },
   };
   return create<AppContext>(appRegistry);
 }

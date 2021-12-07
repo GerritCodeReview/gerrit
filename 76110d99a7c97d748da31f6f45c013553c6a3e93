@@ -176,6 +176,24 @@
       "parentUuid": "cd73147a_cd302c2f",
       "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1d149c8_b9b3f087",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2021-12-07T12:41:06Z",
+      "side": 1,
+      "message": "hi @luca \n\nwhen i run [1] command it shows that gerrit version is \"3.3.8\", it should be gerrit version \"3.4.2\"\n\nCommand :\n\n[1] docker run -ti -p 8080:8080 -p 29418:29418 gerritcodereview/gerrit:3.4.2-ubuntu20\n\n\noutput :\n\n[2021-12-07T12:34:29.850Z] [main] INFO  com.google.gerrit.pgm.Daemon : Gerrit Code Review 3.3.8 ready",
+      "parentUuid": "11ae27ba_a958fc2a",
+      "revId": "76110d99a7c97d748da31f6f45c013553c6a3e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

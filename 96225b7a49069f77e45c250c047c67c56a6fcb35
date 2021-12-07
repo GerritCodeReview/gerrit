@@ -46,6 +46,30 @@
       },
       "revId": "96225b7a49069f77e45c250c047c67c56a6fcb35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc468c33_8770657e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-page-nav/gr-page-nav_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-07T16:24:58Z",
+      "side": 1,
+      "message": "Removed mocking for this, was not needed. Thanks!",
+      "parentUuid": "ff4920ae_d86efa77",
+      "range": {
+        "startLine": 42,
+        "startChar": 23,
+        "endLine": 42,
+        "endChar": 35
+      },
+      "revId": "96225b7a49069f77e45c250c047c67c56a6fcb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

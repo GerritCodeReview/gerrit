@@ -33,9 +33,11 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -48,12 +50,16 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.storage.pack.PackConfig;
 
 /** A version of the database schema. */
 public abstract class SchemaVersion {
@@ -67,6 +73,7 @@ public abstract class SchemaVersion {
   private final Provider<? extends SchemaVersion> prior;
   private final int versionNbr;
   private static SortedSet<Project.NameKey> projects;
+  private ExecutorService backgroundGcThread = Executors.newFixedThreadPool(1);
 
   protected SchemaVersion(Provider<? extends SchemaVersion> prior) {
     this.prior = prior;
@@ -315,6 +322,49 @@ public abstract class SchemaVersion {
     cb.setAuthor(ident);
     cb.setMessage(message);
     return cb;
+  }
+
+  protected void runGcInBackground(
+      GitRepositoryManager repoManager, Project.NameKey project, UpdateUI ui) {
+    backgroundGcThread.execute(
+        new Runnable() {
+          @Override
+          public void run() {
+            try (Repository repo = repoManager.openRepository(project)) {
+              ProgressMonitor pm = new TextProgressMonitor();
+              try {
+                // Empty reference folders are only deleted if they have not been modified
+                // in the last 30s. Add a delay so that their deletion is not skipped.
+                Thread.sleep(30000);
+                Stopwatch sw = Stopwatch.createStarted();
+                gc(repo, ui, pm, sw);
+              } catch (IOException | ParseException | InterruptedException ex) {
+                ui.message("GC on " + project.get() + " failed with error: " + ex);
+              } finally {
+                pm.endTask();
+              }
+            } catch (IOException ex) {
+              ui.message("GC on " + project.get() + " failed with error: " + ex);
+            }
+          }
+        });
+  }
+
+  protected void gc(Repository repo, UpdateUI ui, ProgressMonitor pm, Stopwatch sw)
+      throws IOException, ParseException {
+    FileRepository r = (FileRepository) repo;
+    GC gc = new GC(r);
+    gc.setProgressMonitor(pm);
+    pm.beginTask("gc", ProgressMonitor.UNKNOWN);
+    // TODO(ms): Enable bitmap index when this JGit performance issue is fixed:
+    // https://bugs.eclipse.org/bugs/show_bug.cgi?id=562740
+    PackConfig pconfig = new PackConfig(repo);
+    pconfig.setBuildBitmaps(false);
+    gc.setPackConfig(pconfig);
+    ui.message(
+        String.format("... (%.3f s) gc --prune=now", sw.elapsed(TimeUnit.MILLISECONDS) / 1000d));
+    gc.setExpire(new Date());
+    gc.gc();
   }
 
   protected static ObjectId emptyTree(ObjectInserter oi) throws IOException {

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a61b11cd_30932d2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-12-07T14:03:32Z",
+      "side": 1,
+      "message": "LGTM minus your blocker",
+      "revId": "88791c0a28474bb5c2455c20fcc422fbe2faaab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "318f130a_5eb63a28",

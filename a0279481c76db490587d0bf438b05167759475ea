@@ -16,6 +16,24 @@
       "message": "Meta comment. This type of subscription is really too complicated to effectively be a single-statement.\n\nI wonder how this can be done more modularly.",
       "revId": "a0279481c76db490587d0bf438b05167759475ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2b45935_99014b89",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-07T07:44:08Z",
+      "side": 1,
+      "message": "Agreed.\n\nThe switchMap code (lines 653-668) could be moved into a method.\n\nThe subscribe code (lines 679-714) could be moved into a method.\n\nOtherwise I don\u0027t have any great ideas.",
+      "parentUuid": "dacb2ecc_2a32178e",
+      "revId": "a0279481c76db490587d0bf438b05167759475ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

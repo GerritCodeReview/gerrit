@@ -96,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd3ffaf8_c71ff6b2",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-07T13:56:12Z",
+      "side": 1,
+      "message": "Yeah, maybe keep it simple for now and don\u0027t provide `null` at all.",
+      "parentUuid": "c7e14835_d2b60be3",
+      "range": {
+        "startLine": 78,
+        "startChar": 3,
+        "endLine": 78,
+        "endChar": 29
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ade01cf_8bd30f5b",
         "filename": "polygerrit-ui/app/services/dependency.ts",
         "patchSetId": 12
@@ -175,6 +199,63 @@
         "startChar": 45,
         "endLine": 170,
         "endChar": 53
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e139ddb_c81a823f",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-07T13:56:12Z",
+      "side": 1,
+      "message": "Nit: As an alternative this could\n\n  return () \u003d\u003e controller.get();\n  \nThen you could do\n\n  this.model()\n  \ninstead of\n\n  this.model.get()\n  \nNot sure whether that is better or not ...",
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92d89d2e_8f6c3176",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-07T13:56:12Z",
+      "side": 1,
+      "message": "Does it make sense to add a defensive check here to ensure that the callback was called and the dependency is satisfied?",
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d676a10_2e36e40b",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-07T13:56:12Z",
+      "side": 1,
+      "message": "Inline this method?",
+      "range": {
+        "startLine": 227,
+        "startChar": 10,
+        "endLine": 227,
+        "endChar": 17
       },
       "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

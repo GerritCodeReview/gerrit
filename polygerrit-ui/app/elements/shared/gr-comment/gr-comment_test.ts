@@ -44,6 +44,7 @@ import {
   createDraft,
   createFixSuggestionInfo,
   createRobotComment,
+  createUnsaved,
 } from '../../../test/test-data-generators';
 import {
   CreateFixCommentEvent,
@@ -451,7 +452,7 @@ suite('gr-comment tests', () => {
     });
 
     test('save', async () => {
-      const savePromise = mockPromise<void>();
+      const savePromise = mockPromise<DraftInfo>();
       const stub = stubComments('saveDraft').returns(savePromise);
 
       element.comment = createDraft();
@@ -612,15 +613,15 @@ suite('gr-comment tests', () => {
 
   suite('auto saving', () => {
     let clock: sinon.SinonFakeTimers;
-    let savePromise: MockPromise<void>;
+    let savePromise: MockPromise<DraftInfo>;
     let saveStub: SinonStub;
 
     setup(async () => {
       clock = sinon.useFakeTimers();
-      savePromise = mockPromise<void>();
+      savePromise = mockPromise<DraftInfo>();
       saveStub = stubComments('saveDraft').returns(savePromise);
 
-      element.comment = createDraft();
+      element.comment = createUnsaved();
       element.editing = true;
       await element.updateComplete;
     });
@@ -655,16 +656,23 @@ suite('gr-comment tests', () => {
       saveStub.reset();
 
       element.messageText = 'actual save text';
-      element.save();
+      const save = element.save();
       await element.updateComplete;
       // First wait for the auto saving to finish.
       assert.isFalse(saveStub.called);
 
-      savePromise.resolve();
-      await element.updateComplete;
+      // Resolve auto-saving promise.
+      savePromise.resolve({
+        ...element.comment,
+        __draft: true,
+        id: 'exp123' as UrlEncodedCommentId,
+        updated: '2018-02-13 22:48:48.018000000' as Timestamp,
+      });
+      await save;
       // Only then save.
       assert.isTrue(saveStub.called);
       assert.equal(saveStub.firstCall.firstArg.message, 'actual save text');
+      assert.equal(saveStub.firstCall.firstArg.id, 'exp123');
     });
   });
 

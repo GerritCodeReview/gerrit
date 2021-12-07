@@ -16,7 +16,7 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-comment-thread';
-import {sortComments} from '../../../utils/comment-util';
+import {DraftInfo, sortComments} from '../../../utils/comment-util';
 import {GrCommentThread} from './gr-comment-thread';
 import {
   NumericChangeId,
@@ -229,11 +229,11 @@ suite('gr-comment-thread tests', () => {
   });
 
   suite('action button clicks', () => {
-    let savePromise: MockPromise<void>;
+    let savePromise: MockPromise<DraftInfo>;
     let stub: SinonStub;
 
     setup(async () => {
-      savePromise = mockPromise<void>();
+      savePromise = mockPromise<DraftInfo>();
       stub = stubComments('saveDraft').returns(savePromise);
 
       element.thread = createThread(c1, {...c2, unresolved: true});

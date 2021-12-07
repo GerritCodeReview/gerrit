@@ -43,6 +43,7 @@ import {
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
   Comment,
+  DraftInfo,
   isDraftOrUnsaved,
   isRobot,
   isUnsaved,
@@ -172,7 +173,7 @@ export class GrComment extends LitElement {
    * without the user noticing.
    */
   @state()
-  autoSaving?: Promise<void>;
+  autoSaving?: Promise<DraftInfo>;
 
   @state()
   changeNum?: NumericChangeId;
@@ -1079,7 +1080,9 @@ export class GrComment extends LitElement {
     try {
       this.saving = true;
       this.unableToSave = false;
-      if (this.autoSaving) await this.autoSaving;
+      if (this.autoSaving) {
+        this.comment = await this.autoSaving;
+      }
       // Depending on whether `messageToSave` is empty we treat this either as
       // a discard or a save action.
       const messageToSave = this.messageText.trimEnd();

@@ -155,6 +155,29 @@
       },
       "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeeb19b1_196e7d2d",
+        "filename": "polygerrit-ui/app/services/dependency_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-07T13:05:46Z",
+      "side": 1,
+      "message": "you\u0027re not checking for an error that Foo is not provided like the test says",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

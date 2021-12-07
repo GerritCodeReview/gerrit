@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3e0669a_171c6670",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 11
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-07T00:42:08Z",
+      "side": 1,
+      "message": "This should be getting removed too: https://gerrit.googlesource.com/gerrit/+/0b6d3d8c5ff4439397b702a1525b80c08ac77af3%5E%21/#F6",
+      "range": {
+        "startLine": 747,
+        "startChar": 0,
+        "endLine": 761,
+        "endChar": 5
+      },
+      "revId": "cc66e30033e3a6b55638d7ec26e428ba58e10502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

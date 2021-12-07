@@ -415,7 +415,7 @@ suite('gr-diff-view tests', () => {
     test('keyboard shortcuts', () => {
       clock = sinon.useFakeTimers();
       element._changeNum = '42';
-      element.browserModel.setScreenWidth(0);
+      element.getBrowserModel().setScreenWidth(0);
       element._patchRange = {
         basePatchNum: PARENT,
         patchNum: 10,
@@ -1339,7 +1339,7 @@ suite('gr-diff-view tests', () => {
       const select = element.$.modeSelect;
       const diffDisplay = element.$.diffHost;
       element._userPrefs = {diff_view: DiffViewMode.SIDE_BY_SIDE};
-      element.browserModel.setScreenWidth(0);
+      element.getBrowserModel().setScreenWidth(0);
 
       const userStub = stubUsers('updatePreferences');
 

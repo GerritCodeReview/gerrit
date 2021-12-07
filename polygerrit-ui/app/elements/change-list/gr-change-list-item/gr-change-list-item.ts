@@ -197,6 +197,7 @@ export class GrChangeListItem extends LitElement {
           height: 20px;
           width: 20px;
           text-align: center;
+          vertical-align: top;
         }
         .size span.size-xs {
           background-color: var(--dashboard-size-xs);

@@ -69,6 +69,29 @@
       },
       "revId": "ba6502f2bfb27328dbdf192f76f55207b0459579",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae7e53a0_57ff7334",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-07T13:37:34Z",
+      "side": 1,
+      "message": "ffff",
+      "range": {
+        "startLine": 47,
+        "startChar": 17,
+        "endLine": 47,
+        "endChar": 28
+      },
+      "revId": "ba6502f2bfb27328dbdf192f76f55207b0459579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

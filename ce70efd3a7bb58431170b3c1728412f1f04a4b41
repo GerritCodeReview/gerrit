@@ -441,6 +441,30 @@
       },
       "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0e2be6c_528db67e",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T11:30:41Z",
+      "side": 1,
+      "message": "I\u0027ll remove wait() because it actually gets executed later than connectedCallback or even render because it\u0027s promised-based.",
+      "parentUuid": "63e358f7_71fcfced",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 29
+      },
+      "revId": "ce70efd3a7bb58431170b3c1728412f1f04a4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

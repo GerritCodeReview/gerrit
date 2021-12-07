@@ -46,6 +46,30 @@
       },
       "revId": "59c674afaf972714b1ddee0088ee06d06dcc387a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07179823_a722c216",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-07T00:10:30Z",
+      "side": 1,
+      "message": "Ouch.",
+      "parentUuid": "cbfb5c9b_0b737f3a",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "59c674afaf972714b1ddee0088ee06d06dcc387a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

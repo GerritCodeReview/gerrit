@@ -180,7 +180,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     }
 
     try {
-      mpm.waitFor(
+      mpm.waitForAndDone(
           transform(
               successfulAsList(futures),
               x -> {

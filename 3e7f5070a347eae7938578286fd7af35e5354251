@@ -671,6 +671,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c75d5cc9_71643acc",
+        "filename": "polygerrit-ui/app/services/dependency_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T17:39:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae352d81_21eb2b72",
+      "range": {
+        "startLine": 47,
+        "startChar": 13,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aeeb19b1_196e7d2d",
@@ -684,6 +708,30 @@
       "writtenOn": "2021-12-07T13:05:46Z",
       "side": 1,
       "message": "you\u0027re not checking for an error that Foo is not provided like the test says",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "3e7f5070a347eae7938578286fd7af35e5354251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f8c2325_55288f5d",
+        "filename": "polygerrit-ui/app/services/dependency_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T17:39:30Z",
+      "side": 1,
+      "message": "I tried adding that, unfortunately there\u0027s an issue with errors happening when adding elements to the dom in that they don\u0027t properly get captured by assert.throws.",
+      "parentUuid": "aeeb19b1_196e7d2d",
       "range": {
         "startLine": 103,
         "startChar": 8,

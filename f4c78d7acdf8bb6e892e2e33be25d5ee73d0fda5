@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86a8b6ce_f86a139d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:39:34Z",
+      "side": 1,
+      "message": "Looking good, some last nits.",
+      "revId": "f4c78d7acdf8bb6e892e2e33be25d5ee73d0fda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "719e1693_dcf78768",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:39:34Z",
+      "side": 1,
+      "message": "s/item/subsection?",
+      "revId": "f4c78d7acdf8bb6e892e2e33be25d5ee73d0fda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de32288e_4d3ce83f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:39:34Z",
+      "side": 1,
+      "message": "You can get rid of this extra check by doing\n\n!(params?.view \u003d\u003d\u003d GerritView.GROUP \u0026\u0026 params?.detail \u003d\u003d\u003d GroupDetailView.LOG))\n\nHere and throughout",
+      "revId": "f4c78d7acdf8bb6e892e2e33be25d5ee73d0fda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9ce022d_bfe69515",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-07T14:39:34Z",
+      "side": 1,
+      "message": "Put this logic in willUpdate, not update.",
+      "revId": "f4c78d7acdf8bb6e892e2e33be25d5ee73d0fda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "050441ad_0ddcf297",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-07T00:31:33Z",
+      "side": 1,
+      "message": "@Luca, codestyle seems to have passed in https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/76243/console ?\n\n@Han-Wen, can you LC? Just removed an unused import from nongoogle.bzl.",
+      "revId": "a5c2f8fbdbd206cd6f2922bd982bb3e70386d842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

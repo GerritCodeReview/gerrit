@@ -43,6 +43,7 @@ import {
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
   Comment,
+  DraftInfo,
   isDraftOrUnsaved,
   isRobot,
   isUnsaved,
@@ -172,7 +173,7 @@ export class GrComment extends LitElement {
    * without the user noticing.
    */
   @state()
-  autoSaving?: Promise<void>;
+  autoSaving?: Promise<DraftInfo>;
 
   @state()
   changeNum?: NumericChangeId;
@@ -284,6 +285,7 @@ export class GrComment extends LitElement {
   }
 
   override disconnectedCallback() {
+    console.log(`gr-comment disconnected ${this.comment?.id}`);
     // Clean up emoji dropdown.
     if (this.textarea) this.textarea.closeDropdown();
     super.disconnectedCallback();
@@ -479,6 +481,9 @@ export class GrComment extends LitElement {
   }
 
   override render() {
+    console.log(
+      `gr-comment render ${this.comment?.id} ${this.messageText} ${this.unresolved} ${this.saving} ${this.autoSaving}`
+    );
     if (isUnsaved(this.comment) && !this.editing) return;
     const classes = {container: true, draft: isDraftOrUnsaved(this.comment)};
     return html`
@@ -1061,6 +1066,11 @@ export class GrComment extends LitElement {
     if (messageToSave === this.comment.message) return;
 
     try {
+      console.log(
+        `gr-comment autosave ${JSON.stringify(messageToSave)} ${this.saving} ${
+          this.autoSaving
+        }`
+      );
       this.autoSaving = this.rawSave(messageToSave, {showToast: false});
       await this.autoSaving;
     } finally {
@@ -1069,17 +1079,30 @@ export class GrComment extends LitElement {
   }
 
   async discard() {
+    console.log(`gr-comment discard ${this.messageText} ${this.unresolved}`);
     this.messageText = '';
     await this.save();
   }
 
   async save() {
+    console.log(
+      `gr-comment save ${this.messageText} ${this.unresolved} ${this.saving} ${this.autoSaving}`
+    );
     if (!isDraftOrUnsaved(this.comment)) throw new Error('not a draft');
 
     try {
       this.saving = true;
       this.unableToSave = false;
-      if (this.autoSaving) await this.autoSaving;
+      if (this.autoSaving) {
+        console.log(`gr-comment await auto-saving before ${this.comment.id}`);
+        this.comment = await this.autoSaving;
+        console.log(
+          `gr-comment await auto-saving after1 ${this.comment.id} ${this.comment.message}`
+        );
+        console.log(
+          `gr-comment await auto-saving after2 ${this.comment.id} ${this.comment.message}`
+        );
+      }
       // Depending on whether `messageToSave` is empty we treat this either as
       // a discard or a save action.
       const messageToSave = this.messageText.trimEnd();

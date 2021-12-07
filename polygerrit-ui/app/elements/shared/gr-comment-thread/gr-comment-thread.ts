@@ -783,6 +783,7 @@ export class GrCommentThread extends LitElement {
     } else {
       try {
         this.saving = true;
+        console.log(`gr-comment-thread save from thread ${JSON.stringify(unsaved)}`);
         await this.commentsModel.saveDraft(unsaved);
       } finally {
         this.saving = false;

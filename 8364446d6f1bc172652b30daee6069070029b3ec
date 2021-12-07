@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16df852c_6f93d6e5",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-07T23:40:07Z",
+      "side": 1,
+      "message": "We rolled out last night to v3.5.0.1 and we had to rollback because of NPE at this point. Any idea why could that have happened?",
+      "range": {
+        "startLine": 767,
+        "startChar": 14,
+        "endLine": 767,
+        "endChar": 55
+      },
+      "revId": "8364446d6f1bc172652b30daee6069070029b3ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

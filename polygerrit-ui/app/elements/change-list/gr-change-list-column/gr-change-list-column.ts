@@ -35,26 +35,29 @@ export class GrChangeListColumRequirements extends LitElement {
           height: var(--line-height-normal, 20px);
           vertical-align: top;
         }
+        iron-icon.block,
+        iron-icon.check-circle-filled {
+          margin-right: var(--spacing-xs);
+        }
+        iron-icon.commentIcon {
+          color: var(--deemphasized-text-color);
+          margin-left: var(--spacing-s);
+        }
         span {
           line-height: var(--line-height-normal);
         }
+        span.check-circle-filled {
+          color: var(--success-foreground);
+        }
+        span.block {
+          color: var(--deemphasized-text-color);
+        }
         .unsatisfied {
           color: var(--primary-text-color);
-          margin-left: var(--spacing-xs);
         }
         .total {
           margin-left: var(--spacing-xs);
           color: var(--deemphasized-text-color);
-        }
-        .check-circle-filled {
-          color: var(--success-foreground);
-        }
-        iron-icon.block {
-          color: var(--deemphasized-text-color);
-        }
-        .commentIcon {
-          color: var(--deemphasized-text-color);
-          margin-left: var(--spacing-s);
         }
       `,
     ];

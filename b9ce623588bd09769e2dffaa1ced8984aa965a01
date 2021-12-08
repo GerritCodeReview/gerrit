@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a6eb79a_a2fc86cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-08T08:51:25Z",
+      "side": 1,
+      "message": "Thanks for fix! I didn\u0027t notice until now. It looks better.",
+      "revId": "b9ce623588bd09769e2dffaa1ced8984aa965a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -17,6 +17,12 @@
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-endpoint-slot': GrEndpointSlot;
+  }
+}
+
 /**
  * `gr-endpoint-slot` is used when need control over where
  * the registered element should appear inside of the endpoint.

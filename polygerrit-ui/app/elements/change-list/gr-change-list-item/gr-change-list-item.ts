@@ -525,9 +525,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellRequirements() {
-    if (
-      this.computeIsColumnHidden('Requirements', this.visibleChangeTableColumns)
-    )
+    if (this.computeIsColumnHidden(' Status ', this.visibleChangeTableColumns))
       return;
 
     return html`

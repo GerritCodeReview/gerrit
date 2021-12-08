@@ -16,6 +16,183 @@
       "message": "Friendly Ping.",
       "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f799584_62cafc9f",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-08T14:13:23Z",
+      "side": 1,
+      "message": "[optional] Instead of having a comment here, just extract the following code block into a setLabelDescriptions method.",
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce09ed3b_c5fab55c",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-08T14:13:23Z",
+      "side": 1,
+      "message": "Should this only be done if standard \u003d\u003d true?\n\nAccording to the documentation [1] the description field is only set if the LABELS option is set, and standard is true if the LABELS option is set [2,3].\n\nAre we missing a test that verifies that the description field is not set if the LABELS option is not set?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/324042/6/Documentation/rest-api-changes.txt#7451\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/ChangeJson.java#676\n[3] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/LabelsJson.java#83",
+      "range": {
+        "startLine": 362,
+        "startChar": 0,
+        "endLine": 372,
+        "endChar": 0
+      },
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c604fb09_a7208502",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1587,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-08T14:13:23Z",
+      "side": 1,
+      "message": "Don\u0027t we need to do\n\n  rc.unset(LABEL, name, KEY_LABEL_DESCRIPTION, description)\n  \nif the description is not present to clear a previously set description?",
+      "range": {
+        "startLine": 1585,
+        "startChar": 6,
+        "endLine": 1587,
+        "endChar": 99
+      },
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28279713_93c12879",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateLabel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-08T14:13:23Z",
+      "side": 1,
+      "message": "Should we trim() the given description to remove any leading and trailing whitespace?",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 5
+      },
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ce22210_0e65763e",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-08T14:13:23Z",
+      "side": 1,
+      "message": "Here too, consider trimming.",
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "591d0046_1a8878fa",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListLabelsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-08T14:13:23Z",
+      "side": 1,
+      "message": "wrong comment?",
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afce4dda_23e5f97b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListLabelsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-08T14:13:23Z",
+      "side": 1,
+      "message": "Drop this as setting a default value is not relevant for this test?",
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3c5c46b_e8c82c9f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListLabelsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-08T14:13:23Z",
+      "side": 1,
+      "message": "Drop this as setting a default value is not relevant for this test (already tested by labelWithDefaultValue())?",
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db2ee82d_e19b099a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/SetLabelIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-08T14:13:23Z",
+      "side": 1,
+      "message": "I wonder, should it be rather unset aka null?",
+      "range": {
+        "startLine": 107,
+        "startChar": 41,
+        "endLine": 107,
+        "endChar": 48
+      },
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

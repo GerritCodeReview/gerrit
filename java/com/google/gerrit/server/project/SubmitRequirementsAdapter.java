@@ -94,6 +94,9 @@ public class SubmitRequirementsAdapter {
       List<Label> labels, List<LabelType> labelTypes, ObjectId psCommitId) {
     ImmutableList.Builder<SubmitRequirementResult> result = ImmutableList.builder();
     for (Label label : labels) {
+      if (skipSubmitRequirementFor(label)) {
+        continue;
+      }
       Optional<LabelType> maybeLabelType = getLabelType(labelTypes, label.label);
       if (!maybeLabelType.isPresent()) {
         // Label type might have been removed from the project config. We don't have information
@@ -145,6 +148,9 @@ public class SubmitRequirementsAdapter {
     }
     ImmutableList.Builder<SubmitRequirementResult> result = ImmutableList.builder();
     for (Label label : record.labels) {
+      if (skipSubmitRequirementFor(label)) {
+        continue;
+      }
       String expressionString = String.format("label:%s=%s", label.label, ruleName);
       SubmitRequirement sr =
           SubmitRequirement.builder()
@@ -249,5 +255,13 @@ public class SubmitRequirementsAdapter {
       return Optional.empty();
     }
     return Optional.of(label.get(0));
+  }
+
+  /**
+   * Returns true if we should skip creating a "submit requirement" result out of the "submit
+   * record" label.
+   */
+  private static boolean skipSubmitRequirementFor(SubmitRecord.Label label) {
+    return label.status == SubmitRecord.Label.Status.MAY;
   }
 }

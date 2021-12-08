@@ -5369,6 +5369,38 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirements_skippedIfLegacySRIsBasedOnOptionalLabel() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    SubmitRule r1 =
+        createSubmitRule("r1", SubmitRecord.Status.OK, "CR", SubmitRecord.Label.Status.MAY);
+    try (Registration registration = extensionRegistry.newRegistration().add(r1)) {
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      Collection<SubmitRequirementResultInfo> submitRequirements = change.submitRequirements;
+      assertThat(submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+    }
+  }
+
+  @Test
+  public void submitRequirement_notSkippedIfLegacySRIsBasedOnNonOptionalLabel() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    SubmitRule r1 =
+        createSubmitRule("r1", SubmitRecord.Status.OK, "CR", SubmitRecord.Label.Status.OK);
+    try (Registration registration = extensionRegistry.newRegistration().add(r1)) {
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      Collection<SubmitRequirementResultInfo> submitRequirements = change.submitRequirements;
+      assertThat(submitRequirements).hasSize(2);
+      assertSubmitRequirementStatus(
+          submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+      assertSubmitRequirementStatus(
+          submitRequirements, "CR", Status.SATISFIED, /* isLegacy= */ true);
+    }
+  }
+
+  @Test
   public void submitRequirements_returnForLegacySubmitRecords_ifEnabled() throws Exception {
     configLabel("build-cop-override", LabelFunction.MAX_WITH_BLOCK);
     projectOperations

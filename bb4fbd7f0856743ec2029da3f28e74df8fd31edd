@@ -102,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97e01d18_51f35c0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-12-08T16:05:23Z",
+      "side": 1,
+      "message": "Sure, I am going to adapt the test and push it.",
+      "parentUuid": "a434172a_499efedd",
+      "revId": "bb4fbd7f0856743ec2029da3f28e74df8fd31edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab5f1325_2ea56b8b",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 1

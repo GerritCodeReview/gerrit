@@ -22,6 +22,30 @@
       },
       "revId": "936c921f88154866feaf35e0dcd1090dcdb2e65b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96584038_e062db55",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1912,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-08T15:03:09Z",
+      "side": 1,
+      "message": "Yes, that is actually better. :-)",
+      "parentUuid": "b9c7f28d_f9d21bdf",
+      "range": {
+        "startLine": 1912,
+        "startChar": 61,
+        "endLine": 1912,
+        "endChar": 73
+      },
+      "revId": "936c921f88154866feaf35e0dcd1090dcdb2e65b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

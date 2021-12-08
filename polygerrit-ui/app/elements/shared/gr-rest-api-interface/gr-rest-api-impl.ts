@@ -178,6 +178,12 @@ let pendingRequest: {[promiseName: string]: Array<Promise<unknown>>} = {}; // Sh
 let grEtagDecorator = new GrEtagDecorator(); // Shared across instances.
 let projectLookup: {[changeNum: string]: RepoName} = {}; // Shared across instances.
 
+function suppress404s(res?: Response | null) {
+  if (!res || res.status === 404) return;
+  // This is the default error handling behavior of the rest-api-helper.
+  fireServerError(res);
+}
+
 interface FetchChangeJSON {
   reportEndpointAsIs?: boolean;
   endpoint: string;
@@ -1245,6 +1251,7 @@ export class GrRestApiServiceImpl
       endpoint: '/commit?links',
       revision: patchNum,
       reportEndpointAsIs: true,
+      errFn: suppress404s,
     }) as Promise<CommitInfo | undefined>;
   }
 
@@ -1899,12 +1906,6 @@ export class GrRestApiServiceImpl
   ): Promise<Response | Base64FileContent | undefined> {
     // 404s indicate the file does not exist yet in the revision, so suppress
     // them.
-    const suppress404s: ErrorCallback = res => {
-      if (res && res?.status !== 404) {
-        fireServerError(res);
-      }
-      return res;
-    };
     const promise =
       patchNum === EditPatchSetNum
         ? this._getFileInChangeEdit(changeNum, path)

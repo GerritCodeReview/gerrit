@@ -630,6 +630,10 @@ export class GrChangeView extends base {
    */
   private scrollPosition?: number;
 
+  /** Simply reflects the router-model value. */
+  // visible for testing
+  routerPatchNum?: PatchSetNum;
+
   override ready() {
     super.ready();
     this.subscriptions.push(
@@ -640,6 +644,11 @@ export class GrChangeView extends base {
     this.subscriptions.push(
       this.routerModel.routerView$.subscribe(view => {
         this.isViewCurrent = view === GerritView.CHANGE;
+      })
+    );
+    this.subscriptions.push(
+      this.routerModel.routerPatchNum$.subscribe(patchNum => {
+        this.routerPatchNum = patchNum;
       })
     );
     this.subscriptions.push(
@@ -1854,7 +1863,7 @@ export class GrChangeView extends base {
     // is under change-model control. `_patchRange.patchNum` should eventually
     // also be model managed, so we can reconcile these two code snippets into
     // one location.
-    if (!this._patchRange.patchNum && latestPsNum === editParentRev._number) {
+    if (!this.routerPatchNum && latestPsNum === editParentRev._number) {
       this.set('_patchRange.patchNum', EditPatchSetNum);
     }
   }

@@ -83,6 +83,9 @@ import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
 import {assertIsDefined} from '../utils/common-util';
 import {listen} from '../services/shortcuts/shortcuts-service';
+import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {customElement as customEl, property as prop} from 'lit/decorators';
+import {css, html, LitElement} from 'lit';
 
 interface ErrorInfo {
   text: string;
@@ -105,6 +108,33 @@ type DomIf = PolymerElement & {
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = KeyboardShortcutMixin(PolymerElement);
+
+@customEl('my-banner-warning')
+export class MyBannerWarning extends LitElement {
+  static override get styles() {
+    return css`
+      div {
+        background-color: var(--warning-background);
+        padding: var(--spacing-m) var(--spacing-m);
+        text-align: center;
+      }
+      iron-icon {
+        color: var(--warning-foreground);
+        width: 20px;
+        height: 20px;
+      }
+    `;
+  }
+
+  override render() {
+    return html`
+      <div>
+        <iron-icon icon="gr-icons:warning"></iron-icon>
+        Warning! Please add a Buganizer component.
+      </div>
+    `;
+  }
+}
 
 // TODO(TS): implement AppElement interface from gr-app-types.ts
 @customElement('gr-app-element')
@@ -308,6 +338,14 @@ export class GrAppElement extends base {
       },
       dashboardView: {},
     };
+
+    getPluginLoader().install(
+      pluginApi => {
+        pluginApi.registerCustomComponent('banner', 'my-banner-warning');
+      },
+      undefined,
+      'fake-plugin'
+    );
   }
 
   _accountChanged(account?: AccountDetailInfo) {

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb4d5aaa_8449779f",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-08T14:48:28Z",
+      "side": 1,
+      "message": "Right. Much better!\n\nDone.",
+      "parentUuid": "2f799584_62cafc9f",
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce09ed3b_c5fab55c",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-12-08T14:13:23Z",
       "side": 1,
       "message": "Should this only be done if standard \u003d\u003d true?\n\nAccording to the documentation [1] the description field is only set if the LABELS option is set, and standard is true if the LABELS option is set [2,3].\n\nAre we missing a test that verifies that the description field is not set if the LABELS option is not set?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/324042/6/Documentation/rest-api-changes.txt#7451\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/ChangeJson.java#676\n[3] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/LabelsJson.java#83",
+      "range": {
+        "startLine": 362,
+        "startChar": 0,
+        "endLine": 372,
+        "endChar": 0
+      },
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f34f709c_a2acd004",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-08T14:48:28Z",
+      "side": 1,
+      "message": "Thanks for bringing this to attention.\n\nThis is a bit confusing. Documentation of ChangeInfo#labels says:\n\u003e The labels of the change as a map that maps the label names to LabelInfo entries. Only set if labels or detailed labels are requested.\n\nBut our implementation suggests that we return labels anyway [1] (even if none of {LABELS, DETAILED_LABELS} is set). We shall update our documentation and mention the fields that are returned when \"standard\" is exercised.\n\nTo your question: IMO we should always return the description because:\n1) It\u0027s a fundamental field (similar to the \"name\").\n2) It\u0027s computationally negligible to include it.\n\nSo I\u0027d leave as is. WDYT?\n\n[1] https://gerrit.googlesource.com/gerrit/+/428ffac21d44d012a1b4dce23e3de29ca45f468b/java/com/google/gerrit/server/change/ChangeJson.java#676",
+      "parentUuid": "ce09ed3b_c5fab55c",
       "range": {
         "startLine": 362,
         "startChar": 0,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea789fe8_739b17bc",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1587,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-08T14:48:28Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "c604fb09_a7208502",
+      "range": {
+        "startLine": 1585,
+        "startChar": 6,
+        "endLine": 1587,
+        "endChar": 99
+      },
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28279713_93c12879",
@@ -94,6 +160,30 @@
       "writtenOn": "2021-12-08T14:13:23Z",
       "side": 1,
       "message": "Should we trim() the given description to remove any leading and trailing whitespace?",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 5
+      },
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9894c46c_c746e686",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateLabel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-08T14:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28279713_93c12879",
       "range": {
         "startLine": 152,
         "startChar": 4,
@@ -121,6 +211,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6225c2d1_ffe939d5",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-08T14:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ce22210_0e65763e",
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "591d0046_1a8878fa",
@@ -134,6 +242,24 @@
       "writtenOn": "2021-12-08T14:13:23Z",
       "side": 1,
       "message": "wrong comment?",
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a02afe3_a714ab50",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListLabelsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-08T14:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "591d0046_1a8878fa",
       "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -155,6 +281,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de1bc2f7_a808db80",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListLabelsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-08T14:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afce4dda_23e5f97b",
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3c5c46b_e8c82c9f",
@@ -172,6 +316,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d030d791_a722f4fb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListLabelsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-08T14:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3c5c46b_e8c82c9f",
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db2ee82d_e19b099a",
@@ -185,6 +347,30 @@
       "writtenOn": "2021-12-08T14:13:23Z",
       "side": 1,
       "message": "I wonder, should it be rather unset aka null?",
+      "range": {
+        "startLine": 107,
+        "startChar": 41,
+        "endLine": 107,
+        "endChar": 48
+      },
+      "revId": "4796faea41fad2b7ffe86403b36234da2d43dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bc6e780_e682e35d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/SetLabelIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-08T14:48:28Z",
+      "side": 1,
+      "message": "Done. Changed here and also updated the implementation.",
+      "parentUuid": "db2ee82d_e19b099a",
       "range": {
         "startLine": 107,
         "startChar": 41,

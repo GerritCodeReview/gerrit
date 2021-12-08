@@ -16,6 +16,8 @@
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-textarea/gr-textarea';
 import '../../shared/gr-button/gr-button';

@@ -164,7 +164,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
         </div>
         <div class="section condition">
           <div class="sectionContent">
-            Blocking condition:
+            Submit condition:
             <br>
             <span class="expression">
               label:Verified=MAX -label:Verified=MIN

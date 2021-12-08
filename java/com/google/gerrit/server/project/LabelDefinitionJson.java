@@ -25,6 +25,7 @@ public class LabelDefinitionJson {
   public static LabelDefinitionInfo format(Project.NameKey projectName, LabelType labelType) {
     LabelDefinitionInfo label = new LabelDefinitionInfo();
     label.name = labelType.getName();
+    label.description = labelType.getDescription().orElse(null);
     label.projectName = projectName.get();
     label.function = labelType.getFunction().getFunctionName();
     label.values =

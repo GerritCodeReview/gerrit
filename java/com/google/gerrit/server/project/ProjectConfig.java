@@ -105,6 +105,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public static final String COMMENTLINK = "commentlink";
   public static final String LABEL = "label";
+  public static final String KEY_LABEL_DESCRIPTION = "description";
   public static final String KEY_FUNCTION = "function";
   public static final String KEY_DEFAULT_VALUE = "defaultValue";
   public static final String KEY_COPY_MIN_SCORE = "copyMinScore";
@@ -1079,6 +1080,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         continue;
       }
 
+      label.setDescription(Optional.ofNullable(rc.getString(LABEL, name, KEY_LABEL_DESCRIPTION)));
+
       String functionName = rc.getString(LABEL, name, KEY_FUNCTION);
       Optional<LabelFunction> function =
           functionName != null
@@ -1597,6 +1600,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       String name = e.getKey();
       LabelType label = e.getValue();
       toUnset.remove(name);
+      if (label.getDescription().isPresent() && !label.getDescription().get().isEmpty()) {
+        rc.setString(LABEL, name, KEY_LABEL_DESCRIPTION, label.getDescription().get());
+      } else {
+        rc.unset(LABEL, name, KEY_LABEL_DESCRIPTION);
+      }
       rc.setString(LABEL, name, KEY_FUNCTION, label.getFunction().getFunctionName());
       rc.setInt(LABEL, name, KEY_DEFAULT_VALUE, label.getDefaultValue());
 

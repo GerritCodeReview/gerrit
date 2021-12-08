@@ -40,9 +40,10 @@ export class GrChangeListColumRequirements extends LitElement {
         }
         .unsatisfied {
           color: var(--primary-text-color);
+          margin-left: var(--spacing-xs);
         }
         .total {
-          margin-left: var(--spacing-s);
+          margin-left: var(--spacing-xs);
           color: var(--deemphasized-text-color);
         }
         .check-circle-filled {

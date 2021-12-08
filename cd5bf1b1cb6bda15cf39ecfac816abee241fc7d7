@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed9526db_d7189258",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-12-08T14:28:19Z",
+      "side": 1,
+      "message": "I am not familiar at all with that part of the code. Do you think a fix along these lines is ok?\n\nIt will need to be applied to all the FieldType...it might be worth moving it in the \"set()\"?",
+      "revId": "cd5bf1b1cb6bda15cf39ecfac816abee241fc7d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

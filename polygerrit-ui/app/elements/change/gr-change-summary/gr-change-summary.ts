@@ -208,7 +208,7 @@ export class GrChecksChip extends LitElement {
           display: none;
         }
         .checksChip.hoverFullLength .text {
-          max-width: 400px;
+          max-width: 500px;
         }
         :host(:hover) .checksChip.hoverFullLength {
           display: inline-block;

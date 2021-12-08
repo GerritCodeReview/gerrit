@@ -73,7 +73,7 @@ export const columnNames = [
   'Branch',
   'Updated',
   'Size',
-  'Requirements',
+  ' Status ', // spaces to differentiate from old 'Status'
 ];
 
 export interface ChangeListSection {
@@ -248,7 +248,12 @@ export class GrChangeList extends base {
     if (!config || !config.change) return true;
     if (column === 'Comments')
       return this.flagsService.isEnabled('comments-column');
-    if (column === 'Requirements')
+    if (column === 'Status') {
+      return (changes ?? []).every(
+        change => !showNewSubmitRequirements(this.flagsService, change)
+      );
+    }
+    if (column === ' Status ')
       return (changes ?? []).some(change =>
         showNewSubmitRequirements(this.flagsService, change)
       );

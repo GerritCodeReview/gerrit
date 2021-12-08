@@ -405,124 +405,111 @@ export const htmlTemplate = html`
       </span>
     </section>
     <div class$="stickyBottom newReplyDialog">
-      <section
-        hidden$="[[!_showAttentionSummary(_attentionExpanded)]]"
-        class="attention"
-      >
-        <div class="attentionSummary">
-          <div>
-            <template
-              is="dom-if"
-              if="[[_computeShowNoAttentionUpdate(serverConfig, _currentAttentionSet, _newAttentionSet, _sendDisabled)]]"
-            >
-              <span
-                >[[_computeDoNotUpdateMessage(_currentAttentionSet,
-                _newAttentionSet, _sendDisabled)]]</span
-              >
-            </template>
-            <template
-              is="dom-if"
-              if="[[!_computeShowNoAttentionUpdate(serverConfig, _currentAttentionSet, _newAttentionSet, _sendDisabled)]]"
-            >
-              <span>Bring to attention of</span>
+      <gr-endpoint-decorator name="reply-bottom">
+        <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+        <section
+          hidden$="[[!_showAttentionSummary(_attentionExpanded)]]"
+          class="attention"
+        >
+          <div class="attentionSummary">
+            <div>
               <template
-                is="dom-repeat"
-                items="[[_computeNewAttentionAccounts(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
-                as="account"
+                is="dom-if"
+                if="[[_computeShowNoAttentionUpdate(serverConfig, _currentAttentionSet, _newAttentionSet, _sendDisabled)]]"
               >
-                <gr-account-label
-                  account="[[account]]"
-                  force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                  selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                  hideHovercard
-                  selectionChipStyle
-                  on-click="_handleAttentionClick"
-                ></gr-account-label>
+                <span
+                  >[[_computeDoNotUpdateMessage(_currentAttentionSet,
+                  _newAttentionSet, _sendDisabled)]]</span
+                >
               </template>
-            </template>
-            <gr-tooltip-content
-              has-tooltip
-              title="[[_computeAttentionButtonTitle(_sendDisabled)]]"
-            >
-              <gr-button
-                class="edit-attention-button"
-                on-click="_handleAttentionModify"
-                disabled="[[_sendDisabled]]"
-                link=""
-                position-below=""
-                data-label="Edit"
-                data-action-type="change"
-                data-action-key="edit"
-                role="button"
-                tabindex="0"
+              <template
+                is="dom-if"
+                if="[[!_computeShowNoAttentionUpdate(serverConfig, _currentAttentionSet, _newAttentionSet, _sendDisabled)]]"
               >
-                <iron-icon icon="gr-icons:edit"></iron-icon>
-                Modify
-              </gr-button>
-            </gr-tooltip-content>
+                <span>Bring to attention of</span>
+                <template
+                  is="dom-repeat"
+                  items="[[_computeNewAttentionAccounts(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
+                  as="account"
+                >
+                  <gr-account-label
+                    account="[[account]]"
+                    force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                    selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                    hideHovercard
+                    selectionChipStyle
+                    on-click="_handleAttentionClick"
+                  ></gr-account-label>
+                </template>
+              </template>
+              <gr-tooltip-content
+                has-tooltip
+                title="[[_computeAttentionButtonTitle(_sendDisabled)]]"
+              >
+                <gr-button
+                  class="edit-attention-button"
+                  on-click="_handleAttentionModify"
+                  disabled="[[_sendDisabled]]"
+                  link=""
+                  position-below=""
+                  data-label="Edit"
+                  data-action-type="change"
+                  data-action-key="edit"
+                  role="button"
+                  tabindex="0"
+                >
+                  <iron-icon icon="gr-icons:edit"></iron-icon>
+                  Modify
+                </gr-button>
+              </gr-tooltip-content>
+            </div>
+            <div>
+              <a
+                href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+                target="_blank"
+              >
+                <iron-icon
+                  icon="gr-icons:help-outline"
+                  title="read documentation"
+                ></iron-icon>
+              </a>
+            </div>
           </div>
-          <div>
-            <a
-              href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
-              target="_blank"
+        </section>
+        <section
+          hidden$="[[!_showAttentionDetails(_attentionExpanded)]]"
+          class="attention-detail"
+        >
+          <div class="attentionDetailsTitle">
+            <div>
+              <span>Modify attention to</span>
+            </div>
+            <div></div>
+            <div>
+              <a
+                href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+                target="_blank"
+              >
+                <iron-icon
+                  icon="gr-icons:help-outline"
+                  title="read documentation"
+                ></iron-icon>
+              </a>
+            </div>
+          </div>
+          <div class="selectUsers">
+            <span
+              >Select chips to set who will be in the attention set after sending
+              this reply</span
             >
-              <iron-icon
-                icon="gr-icons:help-outline"
-                title="read documentation"
-              ></iron-icon>
-            </a>
           </div>
-        </div>
-      </section>
-      <section
-        hidden$="[[!_showAttentionDetails(_attentionExpanded)]]"
-        class="attention-detail"
-      >
-        <div class="attentionDetailsTitle">
-          <div>
-            <span>Modify attention to</span>
-          </div>
-          <div></div>
-          <div>
-            <a
-              href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
-              target="_blank"
-            >
-              <iron-icon
-                icon="gr-icons:help-outline"
-                title="read documentation"
-              ></iron-icon>
-            </a>
-          </div>
-        </div>
-        <div class="selectUsers">
-          <span
-            >Select chips to set who will be in the attention set after sending
-            this reply</span
-          >
-        </div>
-        <div class="peopleList">
-          <div class="peopleListLabel">Owner</div>
-          <div class="peopleListValues">
-            <gr-account-label
-              account="[[_owner]]"
-              force-attention="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
-              selected="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
-              hideHovercard
-              selectionChipStyle
-              on-click="_handleAttentionClick"
-            >
-            </gr-account-label>
-          </div>
-        </div>
-        <template is="dom-if" if="[[_uploader]]">
           <div class="peopleList">
-            <div class="peopleListLabel">Uploader</div>
+            <div class="peopleListLabel">Owner</div>
             <div class="peopleListValues">
               <gr-account-label
-                account="[[_uploader]]"
-                force-attention="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
-                selected="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
+                account="[[_owner]]"
+                force-attention="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
+                selected="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
                 hideHovercard
                 selectionChipStyle
                 on-click="_handleAttentionClick"
@@ -530,34 +517,28 @@ export const htmlTemplate = html`
               </gr-account-label>
             </div>
           </div>
-        </template>
-        <div class="peopleList">
-          <div class="peopleListLabel">Reviewers</div>
-          <div class="peopleListValues">
-            <template
-              is="dom-repeat"
-              items="[[_removeServiceUsers(_reviewers, _newAttentionSet)]]"
-              as="account"
-            >
-              <gr-account-label
-                account="[[account]]"
-                force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                hideHovercard
-                selectionChipStyle
-                on-click="_handleAttentionClick"
-              >
-              </gr-account-label>
-            </template>
-          </div>
-        </div>
-        <template is="dom-if" if="[[_attentionCcsCount]]">
+          <template is="dom-if" if="[[_uploader]]">
+            <div class="peopleList">
+              <div class="peopleListLabel">Uploader</div>
+              <div class="peopleListValues">
+                <gr-account-label
+                  account="[[_uploader]]"
+                  force-attention="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
+                  selected="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
+                  hideHovercard
+                  selectionChipStyle
+                  on-click="_handleAttentionClick"
+                >
+                </gr-account-label>
+              </div>
+            </div>
+          </template>
           <div class="peopleList">
-            <div class="peopleListLabel">CC</div>
+            <div class="peopleListLabel">Reviewers</div>
             <div class="peopleListValues">
               <template
                 is="dom-repeat"
-                items="[[_removeServiceUsers(_ccs, _newAttentionSet)]]"
+                items="[[_removeServiceUsers(_reviewers, _newAttentionSet)]]"
                 as="account"
               >
                 <gr-account-label
@@ -572,76 +553,99 @@ export const htmlTemplate = html`
               </template>
             </div>
           </div>
-        </template>
-        <template
-          is="dom-if"
-          if="[[_computeShowAttentionTip(_account, _owner, _currentAttentionSet, _newAttentionSet)]]"
-        >
-          <div class="attentionTip">
-            <iron-icon
-              class="pointer"
-              icon="gr-icons:lightbulb-outline"
-            ></iron-icon>
-            Be mindful of requiring attention from too many users.
+          <template is="dom-if" if="[[_attentionCcsCount]]">
+            <div class="peopleList">
+              <div class="peopleListLabel">CC</div>
+              <div class="peopleListValues">
+                <template
+                  is="dom-repeat"
+                  items="[[_removeServiceUsers(_ccs, _newAttentionSet)]]"
+                  as="account"
+                >
+                  <gr-account-label
+                    account="[[account]]"
+                    force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                    selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                    hideHovercard
+                    selectionChipStyle
+                    on-click="_handleAttentionClick"
+                  >
+                  </gr-account-label>
+                </template>
+              </div>
+            </div>
+          </template>
+          <template
+            is="dom-if"
+            if="[[_computeShowAttentionTip(_account, _owner, _currentAttentionSet, _newAttentionSet)]]"
+          >
+            <div class="attentionTip">
+              <iron-icon
+                class="pointer"
+                icon="gr-icons:lightbulb-outline"
+              ></iron-icon>
+              Be mindful of requiring attention from too many users.
+            </div>
+          </template>
+        </section>
+        <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
+        <section class="actions">
+          <div class="left">
+            <span
+              id="checkingStatusLabel"
+              hidden$="[[!_isState(knownLatestState, 'checking')]]"
+            >
+              Checking whether patch [[patchNum]] is latest...
+            </span>
+            <span
+              id="notLatestLabel"
+              hidden$="[[!_isState(knownLatestState, 'not-latest')]]"
+            >
+              [[_computePatchSetWarning(patchNum, _labelsChanged)]]
+              <gr-button link="" on-click="_reload">Reload</gr-button>
+            </span>
           </div>
-        </template>
-      </section>
-      <section class="actions">
-        <div class="left">
-          <span
-            id="checkingStatusLabel"
-            hidden$="[[!_isState(knownLatestState, 'checking')]]"
-          >
-            Checking whether patch [[patchNum]] is latest...
-          </span>
-          <span
-            id="notLatestLabel"
-            hidden$="[[!_isState(knownLatestState, 'not-latest')]]"
-          >
-            [[_computePatchSetWarning(patchNum, _labelsChanged)]]
-            <gr-button link="" on-click="_reload">Reload</gr-button>
-          </span>
-        </div>
-        <div class="right">
-          <gr-button
-            link=""
-            id="cancelButton"
-            class="action cancel"
-            on-click="_cancelTapHandler"
-            >Cancel</gr-button
-          >
-          <template is="dom-if" if="[[canBeStarted]]">
-            <!-- Use 'Send' here as the change may only about reviewers / ccs
-                and when this button is visible, the next button will always
-                be 'Start review' -->
+          <div class="right">
+            <gr-button
+              link=""
+              id="cancelButton"
+              class="action cancel"
+              on-click="_cancelTapHandler"
+              >Cancel</gr-button
+            >
+            <template is="dom-if" if="[[canBeStarted]]">
+              <!-- Use 'Send' here as the change may only about reviewers / ccs
+                  and when this button is visible, the next button will always
+                  be 'Start review' -->
+              <gr-tooltip-content
+                has-tooltip=""
+                title$="[[_saveTooltip]]"
+              >
+                <gr-button
+                  link=""
+                  disabled="[[_isState(knownLatestState, 'not-latest')]]"
+                  class="action save"
+                  on-click="_saveClickHandler"
+                  >Send As WIP</gr-button
+                >
+              </gr-tooltip-content>
+            </template>
             <gr-tooltip-content
               has-tooltip=""
-              title$="[[_saveTooltip]]"
+              title$="[[_computeSendButtonTooltip(canBeStarted, _commentEditing)]]"
             >
               <gr-button
-                link=""
-                disabled="[[_isState(knownLatestState, 'not-latest')]]"
-                class="action save"
-                on-click="_saveClickHandler"
-                >Send As WIP</gr-button
-              >
+                id="sendButton"
+                primary=""
+                disabled="[[_sendDisabled]]"
+                class="action send"
+                on-click="_sendTapHandler"
+                >[[_sendButtonLabel]]
+              </gr-button>
             </gr-tooltip-content>
-          </template>
-          <gr-tooltip-content
-            has-tooltip=""
-            title$="[[_computeSendButtonTooltip(canBeStarted, _commentEditing)]]"
-          >
-            <gr-button
-              id="sendButton"
-              primary=""
-              disabled="[[_sendDisabled]]"
-              class="action send"
-              on-click="_sendTapHandler"
-              >[[_sendButtonLabel]]
-            </gr-button>
-          </gr-tooltip-content>
-        </div>
-      </section>
+          </div>
+        </section>
+      </gr-endpoint-decorator>
     </div>
   </div>
 `;

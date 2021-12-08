@@ -318,7 +318,7 @@ export class GrSubmitRequirementHovercard extends base {
     if (!this.expanded) return;
     return html`
       ${this.renderCondition(
-        'Blocking condition',
+        'Submit condition',
         this.requirement?.submittability_expression_result
       )}
       ${this.renderCondition(

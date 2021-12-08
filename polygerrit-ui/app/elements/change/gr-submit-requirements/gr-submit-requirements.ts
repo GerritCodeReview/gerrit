@@ -200,6 +200,7 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   renderRequirement(requirement: SubmitRequirementResultInfo) {
+    const endpointName = this.calculateEndpointName(requirement.name);
     return html`
       <tr id="requirement-${charsOnly(requirement.name)}">
         <td>${this.renderStatus(requirement.status)}</td>
@@ -211,12 +212,7 @@ export class GrSubmitRequirements extends LitElement {
           ></gr-limited-text>
         </td>
         <td>
-          <gr-endpoint-decorator
-            class="votes-cell"
-            name="${`submit-requirement-${charsOnly(
-              requirement.name
-            ).toLowerCase()}`}"
-          >
+          <gr-endpoint-decorator class="votes-cell" name="${endpointName}">
             <gr-endpoint-param
               name="change"
               .value=${this.change}
@@ -354,6 +350,14 @@ export class GrSubmitRequirements extends LitElement {
             ></gr-trigger-vote>`
         )}
       </section>`;
+  }
+
+  // not private for tests
+  calculateEndpointName(requirementName: string) {
+    // remove class name annnotation after ~
+    const name = requirementName.split('~')[0];
+    const normalizedName = charsOnly(name).toLowerCase();
+    return `submit-requirement-${normalizedName}`;
   }
 }
 

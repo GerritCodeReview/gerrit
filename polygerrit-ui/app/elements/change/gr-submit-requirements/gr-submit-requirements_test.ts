@@ -115,4 +115,11 @@ suite('gr-submit-requirements tests', () => {
     </gr-submit-requirement-hovercard>
   `);
   });
+
+  test('calculateEndpointName()', () => {
+    assert.equal(
+      element.calculateEndpointName('code-owners~CodeOwnerSub'),
+      'submit-requirement-codeowners'
+    );
+  });
 });

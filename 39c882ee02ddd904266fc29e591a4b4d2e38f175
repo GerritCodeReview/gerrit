@@ -16,6 +16,24 @@
       "message": "Looks good when code style passes",
       "revId": "39c882ee02ddd904266fc29e591a4b4d2e38f175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "061adf85_8223314f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-12-08T17:21:49Z",
+      "side": 1,
+      "message": "Fixed the codestyle. Should be fine now.",
+      "parentUuid": "fc09d50a_5f092451",
+      "revId": "39c882ee02ddd904266fc29e591a4b4d2e38f175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

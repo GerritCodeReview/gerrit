@@ -187,8 +187,12 @@ public final class FieldDef<I, T> {
       return true;
     } else if (FieldType.INTEGER_TYPES.stream()
         .anyMatch(t -> t.getName().equals(getType().getName()))) {
-      setter.get().set(object, (T) (isRepeatable() ? doc.asIntegers() : doc.asInteger()));
-      return true;
+      T value = (T) (isRepeatable() ? doc.asIntegers() : doc.asInteger());
+      if (value != null) {
+        setter.get().set(object, value);
+        return true;
+      }
+      return false;
     } else if (FieldType.LONG.getName().equals(getType().getName())) {
       setter.get().set(object, (T) (isRepeatable() ? doc.asLongs() : doc.asLong()));
       return true;

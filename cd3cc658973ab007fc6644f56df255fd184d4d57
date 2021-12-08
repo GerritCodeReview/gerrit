@@ -16,6 +16,29 @@
       "message": "Remerged",
       "revId": "cd3cc658973ab007fc6644f56df255fd184d4d57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e97adc18_d5a8b9db",
+        "filename": "WORKSPACE",
+        "patchSetId": 13
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-12-08T09:45:53Z",
+      "side": 1,
+      "message": "Should this also be removed?",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 39
+      },
+      "revId": "cd3cc658973ab007fc6644f56df255fd184d4d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

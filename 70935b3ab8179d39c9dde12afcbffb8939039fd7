@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "839e319d_226825eb",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-08T17:23:17Z",
+      "side": 1,
+      "message": "Good idea. The original goal was to allow people to use the underlying primitives directly, but with the DIPolymerElement this is no longer necessary.",
+      "parentUuid": "6fe3db9b_d38b2b35",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 6
+      },
+      "revId": "70935b3ab8179d39c9dde12afcbffb8939039fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aea72077_6ce1c614",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-12-08T13:25:57Z",
       "side": 1,
       "message": "Should Factory be renamed to Provider? It\u0027s not creating the \u003cT\u003e.",
+      "range": {
+        "startLine": 139,
+        "startChar": 12,
+        "endLine": 139,
+        "endChar": 19
+      },
+      "revId": "70935b3ab8179d39c9dde12afcbffb8939039fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5ce44f0_bd7c4f60",
+        "filename": "polygerrit-ui/app/services/dependency.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-08T17:23:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aea72077_6ce1c614",
       "range": {
         "startLine": 139,
         "startChar": 12,

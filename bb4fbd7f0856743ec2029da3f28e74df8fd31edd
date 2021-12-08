@@ -66,6 +66,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "032c9ccb_60a44a39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-12-08T15:47:31Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "1c8e568e_2df53f66",
+      "revId": "bb4fbd7f0856743ec2029da3f28e74df8fd31edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab5f1325_2ea56b8b",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 1
@@ -101,6 +119,30 @@
       "side": 1,
       "message": "All values we set for long and integers in ChangeData are boxed (so Integer and Long) besides these two. For boxed values, setting \u0027null\u0027 is OK.\n\nFor these two, ChangeData has:\n  public void setLinesInserted(int insertions)\n    public void setLinesDeleted(int deletions)\n    \nCalling those will unbox the value and fail with an NPE. I see 3 options for fixing the NPE:\n\n1) This change. Fix it in ChangeField.\n2) Accept boxed values in ChangeData for these two methods. Annotate them @Nullable\n3) Never set any null values. This is the most generic. It\u0027s probably OK at least I can\u0027t come up with cases where it would not be, but since we are fixing on a stable branch, I went with (1) for a smaller blast radius.\n\nWDYT?",
       "parentUuid": "ab5f1325_2ea56b8b",
+      "range": {
+        "startLine": 828,
+        "startChar": 1,
+        "endLine": 844,
+        "endChar": 0
+      },
+      "revId": "bb4fbd7f0856743ec2029da3f28e74df8fd31edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67d1b29b_788dcdea",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-12-08T15:47:31Z",
+      "side": 1,
+      "message": "\u003e All values we set for long and integers in ChangeData are boxed (so Integer and Long) besides these two. \n\nOk, now I understand.\n\n\u003e I went with (1) for a smaller blast radius.\n\nSounds good to me.",
+      "parentUuid": "5ee1eca8_5ce65fa8",
       "range": {
         "startLine": 828,
         "startChar": 1,

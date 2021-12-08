@@ -112,7 +112,7 @@ class DefaultRefFilter {
   }
 
   /** Filters given refs and tags by visibility. */
-  Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
+  ImmutableList<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
     visibleChangesCache = visibleChangesCacheFactory.create(projectControl, repo);
     logger.atFinest().log(
@@ -138,7 +138,7 @@ class DefaultRefFilter {
         boolean isChangeRefVisisble = canSeeSingleChangeRef(refName);
         if (isChangeRefVisisble) {
           logger.atFinest().log("Change ref %s is visible", refName);
-          return refs;
+          return ImmutableList.copyOf(refs);
         }
         logger.atFinest().log("Filter out non-visible change ref %s", refName);
         return ImmutableList.of();
@@ -178,7 +178,7 @@ class DefaultRefFilter {
     }
 
     logger.atFinest().log("visible refs = %s", visibleRefs);
-    return visibleRefs;
+    return ImmutableList.copyOf(visibleRefs);
   }
 
   /**

@@ -247,7 +247,7 @@ public class ProjectsConsistencyChecker {
     return r;
   }
 
-  private List<ChangeInfo> executeQueryAndAutoCloseChanges(
+  private ImmutableList<ChangeInfo> executeQueryAndAutoCloseChanges(
       Predicate<ChangeData> basePredicate,
       Set<Change.Id> seenChanges,
       List<Predicate<ChangeData>> predicates,
@@ -306,7 +306,7 @@ public class ProjectsConsistencyChecker {
         }
       }
 
-      return autoCloseableChangesByBranch;
+      return ImmutableList.copyOf(autoCloseableChangesByBranch);
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
       throw new StorageException(e);

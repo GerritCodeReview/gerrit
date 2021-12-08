@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Change;
@@ -49,7 +50,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -113,8 +113,8 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
         .checkStatePermitsWrite();
 
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
-    List<AccessSection> removals = setAccess.getAccessSections(input.remove);
-    List<AccessSection> additions = setAccess.getAccessSections(input.add);
+    ImmutableList<AccessSection> removals = setAccess.getAccessSections(input.remove);
+    ImmutableList<AccessSection> additions = setAccess.getAccessSections(input.add);
 
     Project.NameKey newParentProjectName =
         input.parent == null ? null : Project.nameKey(input.parent);

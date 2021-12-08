@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.RefNames;
@@ -57,7 +58,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -194,7 +194,8 @@ public class CreateProject
     }
   }
 
-  private List<String> normalizeBranchNames(List<String> branches) throws BadRequestException {
+  private ImmutableList<String> normalizeBranchNames(List<String> branches)
+      throws BadRequestException {
     if (branches == null || branches.isEmpty()) {
       // Use host-level default for HEAD or fall back to 'master' if nothing else was specified in
       // the input.
@@ -203,7 +204,7 @@ public class CreateProject
           defaultBranch != null
               ? normalizeAndValidateBranch(defaultBranch)
               : Constants.R_HEADS + Constants.MASTER;
-      return Collections.singletonList(defaultBranch);
+      return ImmutableList.of(defaultBranch);
     }
     List<String> normalizedBranches = new ArrayList<>();
     for (String branch : branches) {
@@ -212,7 +213,7 @@ public class CreateProject
         normalizedBranches.add(branch);
       }
     }
-    return normalizedBranches;
+    return ImmutableList.copyOf(normalizedBranches);
   }
 
   private String normalizeAndValidateBranch(String branch) throws BadRequestException {

@@ -22,7 +22,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class MergeListBuilder {
-  public static List<RevCommit> build(RevWalk rw, RevCommit merge, int uninterestingParent)
+  public static ImmutableList<RevCommit> build(RevWalk rw, RevCommit merge, int uninterestingParent)
       throws IOException {
     rw.reset();
     rw.parseBody(merge);
@@ -45,6 +45,6 @@ public class MergeListBuilder {
     while ((c = rw.next()) != null) {
       result.add(c);
     }
-    return result;
+    return ImmutableList.copyOf(result);
   }
 }

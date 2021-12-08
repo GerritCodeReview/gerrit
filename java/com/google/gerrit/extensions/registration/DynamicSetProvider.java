@@ -14,13 +14,13 @@
 
 package com.google.gerrit.extensions.registration;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -38,11 +38,12 @@ class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
     return new DynamicSet<>(find(injector, type));
   }
 
-  private static <T> List<AtomicReference<Extension<T>>> find(Injector src, TypeLiteral<T> type) {
+  private static <T> ImmutableList<AtomicReference<Extension<T>>> find(
+      Injector src, TypeLiteral<T> type) {
     List<Binding<T>> bindings = src.findBindingsByType(type);
     int cnt = bindings != null ? bindings.size() : 0;
     if (cnt == 0) {
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
     List<AtomicReference<Extension<T>>> r = new ArrayList<>(cnt);
     for (Binding<T> b : bindings) {
@@ -50,6 +51,6 @@ class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
         r.add(new AtomicReference<>(new Extension<>(PluginName.GERRIT, b.getProvider())));
       }
     }
-    return r;
+    return ImmutableList.copyOf(r);
   }
 }

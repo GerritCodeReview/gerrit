@@ -17,6 +17,7 @@ package com.google.gerrit.server.group.db;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo.warning;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
@@ -95,7 +96,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
   @Test
   public void groupNameNoteFailToParse() throws Exception {
     updateGroupNamesRef("g-1", "[invalid");
-    List<ConsistencyProblemInfo> problems =
+    ImmutableList<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.PatchSet;
@@ -40,7 +41,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
@@ -121,7 +121,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     }
   }
 
-  private List<RevisionResource> find(ChangeResource change, String id)
+  private ImmutableList<RevisionResource> find(ChangeResource change, String id)
       throws IOException, AuthException {
     if (id.equals("0") || id.equals("edit")) {
       return loadEdit(change, null);
@@ -131,7 +131,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     } else if (id.length() < 4 || id.length() > ObjectIds.STR_LEN) {
       // Require a minimum of 4 digits.
       // Impossibly long identifier will never match.
-      return Collections.emptyList();
+      return ImmutableList.of();
     } else {
       List<RevisionResource> out = new ArrayList<>();
       for (PatchSet ps : psUtil.byChange(change.getNotes())) {
@@ -143,20 +143,20 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       if (out.isEmpty() && ObjectId.isId(id)) {
         return loadEdit(change, ObjectId.fromString(id));
       }
-      return out;
+      return ImmutableList.copyOf(out);
     }
   }
 
-  private List<RevisionResource> byLegacyPatchSetId(ChangeResource change, String id) {
+  private ImmutableList<RevisionResource> byLegacyPatchSetId(ChangeResource change, String id) {
     PatchSet ps = psUtil.get(change.getNotes(), PatchSet.id(change.getId(), Integer.parseInt(id)));
     if (ps != null) {
-      return Collections.singletonList(new RevisionResource(change, ps));
+      return ImmutableList.of(new RevisionResource(change, ps));
     }
-    return Collections.emptyList();
+    return ImmutableList.of();
   }
 
-  private List<RevisionResource> loadEdit(ChangeResource change, @Nullable ObjectId commitId)
-      throws AuthException, IOException {
+  private ImmutableList<RevisionResource> loadEdit(
+      ChangeResource change, @Nullable ObjectId commitId) throws AuthException, IOException {
     Optional<ChangeEdit> edit = editUtil.byChange(change.getNotes(), change.getUser());
     if (edit.isPresent()) {
       RevCommit editCommit = edit.get().getEditCommit();
@@ -168,9 +168,9 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
               .createdOn(new Timestamp(editCommit.getCommitterIdent().getWhen().getTime()))
               .build();
       if (commitId == null || editCommit.equals(commitId)) {
-        return Collections.singletonList(new RevisionResource(change, ps, edit));
+        return ImmutableList.of(new RevisionResource(change, ps, edit));
       }
     }
-    return Collections.emptyList();
+    return ImmutableList.of();
   }
 }

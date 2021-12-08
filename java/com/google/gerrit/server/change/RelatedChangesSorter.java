@@ -196,7 +196,7 @@ public class RelatedChangesSorter {
       List<PatchSetData> start)
       throws PermissionBackendException {
     if (start.isEmpty()) {
-      return ImmutableList.of();
+      return new ArrayList<>();
     }
     Map<Change.Id, PatchSet.Id> maxPatchSetIds = new HashMap<>();
     Set<PatchSetData> seen = new HashSet<>();

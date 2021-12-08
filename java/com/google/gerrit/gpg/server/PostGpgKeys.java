@@ -164,7 +164,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
     }
   }
 
-  private Map<ExternalId, Fingerprint> readKeysToRemove(
+  private ImmutableMap<ExternalId, Fingerprint> readKeysToRemove(
       GpgKeysInput input, Collection<ExternalId> existingExtIds) {
     if (input.delete == null || input.delete.isEmpty()) {
       return ImmutableMap.of();
@@ -179,10 +179,11 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
         // Skip removal.
       }
     }
-    return fingerprints;
+    return ImmutableMap.copyOf(fingerprints);
   }
 
-  private List<PGPPublicKeyRing> readKeysToAdd(GpgKeysInput input, Collection<Fingerprint> toRemove)
+  private ImmutableList<PGPPublicKeyRing> readKeysToAdd(
+      GpgKeysInput input, Collection<Fingerprint> toRemove)
       throws BadRequestException, IOException {
     if (input.add == null || input.add.isEmpty()) {
       return ImmutableList.of();
@@ -206,7 +207,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
         throw new BadRequestException("Failed to parse GPG keys", e);
       }
     }
-    return keyRings;
+    return ImmutableList.copyOf(keyRings);
   }
 
   private void storeKeys(

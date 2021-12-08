@@ -1714,7 +1714,7 @@ public class RestApiServlet extends HttpServlet {
   private static List<IdString> splitPath(HttpServletRequest req) {
     String path = RequestUtil.getEncodedPathInfo(req);
     if (Strings.isNullOrEmpty(path)) {
-      return Collections.emptyList();
+      return new ArrayList<>();
     }
     List<IdString> out = new ArrayList<>();
     for (String p : Splitter.on('/').split(path)) {

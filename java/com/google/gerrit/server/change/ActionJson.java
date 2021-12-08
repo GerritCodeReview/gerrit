@@ -206,7 +206,7 @@ public class ActionJson {
     return out;
   }
 
-  private Map<String, ActionInfo> toActionMap(
+  private ImmutableMap<String, ActionInfo> toActionMap(
       RevisionResource rsrc,
       List<ActionVisitor> visitors,
       ChangeInfo changeInfo,
@@ -226,6 +226,6 @@ public class ActionJson {
       }
       out.put(d.getId(), actionInfo);
     }
-    return out;
+    return ImmutableMap.copyOf(out);
   }
 }

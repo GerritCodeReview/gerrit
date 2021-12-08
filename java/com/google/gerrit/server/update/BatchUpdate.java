@@ -615,7 +615,7 @@ public class BatchUpdate implements AutoCloseable {
       BatchUpdate.this.executed = manager.isExecuted();
     }
 
-    List<ListenableFuture<ChangeData>> startIndexFutures() {
+    ImmutableList<ListenableFuture<ChangeData>> startIndexFutures() {
       if (dryrun) {
         return ImmutableList.of();
       }
@@ -636,7 +636,7 @@ public class BatchUpdate implements AutoCloseable {
             throw new IllegalStateException("unexpected result: " + e.getValue());
         }
       }
-      return indexFutures;
+      return ImmutableList.copyOf(indexFutures);
     }
   }
 

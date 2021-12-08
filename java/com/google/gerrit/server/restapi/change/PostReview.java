@@ -1309,17 +1309,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return robotComment;
     }
 
-    private List<FixSuggestion> createFixSuggestionsFromInput(
+    private ImmutableList<FixSuggestion> createFixSuggestionsFromInput(
         List<FixSuggestionInfo> fixSuggestionInfos) {
       if (fixSuggestionInfos == null) {
-        return Collections.emptyList();
+        return ImmutableList.of();
       }
 
       List<FixSuggestion> fixSuggestions = new ArrayList<>(fixSuggestionInfos.size());
       for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
         fixSuggestions.add(createFixSuggestionFromInput(fixSuggestionInfo));
       }
-      return fixSuggestions;
+      return ImmutableList.copyOf(fixSuggestions);
     }
 
     private FixSuggestion createFixSuggestionFromInput(FixSuggestionInfo fixSuggestionInfo) {

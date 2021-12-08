@@ -311,7 +311,7 @@ java_package_configuration(
         "-Xep:MisusedDayOfYear:ERROR",
         "-Xep:MisusedWeekYear:ERROR",
         "-Xep:MixedDescriptors:ERROR",
-        # "-Xep:MixedMutabilityReturnType:WARN",
+        "-Xep:MixedMutabilityReturnType:ERROR",
         "-Xep:MockitoUsage:ERROR",
         "-Xep:ModifiedButNotUsed:ERROR",
         "-Xep:ModifyCollectionInEnhancedForLoop:ERROR",

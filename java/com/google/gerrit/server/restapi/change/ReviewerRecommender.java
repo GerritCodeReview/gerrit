@@ -18,7 +18,6 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -44,6 +43,7 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -227,7 +227,7 @@ public class ReviewerRecommender {
     } catch (QueryParseException e) {
       // Unhandled, because owner:self will never provoke a QueryParseException
       logger.atSevere().withCause(e).log("Exception while suggesting reviewers");
-      return ImmutableMap.of();
+      return new HashMap<>();
     }
   }
 

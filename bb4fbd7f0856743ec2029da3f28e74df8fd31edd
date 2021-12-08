@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "da5db2a3_f2380ef4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-12-08T15:22:38Z",
+      "side": 1,
+      "message": "insertions",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "bb4fbd7f0856743ec2029da3f28e74df8fd31edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "372d41b8_9459da57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-12-08T15:22:38Z",
+      "side": 1,
+      "message": "insertion",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "bb4fbd7f0856743ec2029da3f28e74df8fd31edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1c8e568e_2df53f66",
@@ -14,6 +60,29 @@
       "writtenOn": "2021-12-08T14:46:42Z",
       "side": 1,
       "message": "Would it make sense to also add Ponch\u0027s test to this change?\n(see Change-Id: I1ec18c7edd53)",
+      "revId": "bb4fbd7f0856743ec2029da3f28e74df8fd31edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab5f1325_2ea56b8b",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-12-08T15:22:38Z",
+      "side": 1,
+      "message": "Why are these 2 the only cases? In the FieldDef#setIfPossible each FirldType could potentially return an empty list from the StoredValue, for example:\n\n    ...\n    } else if (FieldType.LONG.getName().equals(getType().getName())) {\n      setter.get().set(object, (T) (isRepeatable() ? doc.asLongs() : doc.asLong()));\n      return true;\n    } else if (FieldType.STORED_ONLY.getName().equals(getType().getName())) {\n    ...\n    \nI think this could lead to an NPE as well, isn\u0027t it?",
+      "range": {
+        "startLine": 828,
+        "startChar": 1,
+        "endLine": 844,
+        "endChar": 0
+      },
       "revId": "bb4fbd7f0856743ec2029da3f28e74df8fd31edd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

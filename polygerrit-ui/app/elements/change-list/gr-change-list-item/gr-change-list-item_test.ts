@@ -274,13 +274,13 @@ suite('gr-change-list-item tests', () => {
       'Branch',
       'Updated',
       'Size',
-      'Requirements',
+      ' Status ',
     ];
 
     await element.updateComplete;
 
     for (const column of columnNames) {
-      const elementClass = '.' + column.toLowerCase();
+      const elementClass = '.' + column.trim().toLowerCase();
       assert.isFalse(
         queryAndAssert(element, elementClass).hasAttribute('hidden')
       );
@@ -297,13 +297,13 @@ suite('gr-change-list-item tests', () => {
       'Branch',
       'Updated',
       'Size',
-      'Requirements',
+      ' Status ',
     ];
 
     await element.updateComplete;
 
     for (const column of columnNames) {
-      const elementClass = '.' + column.toLowerCase();
+      const elementClass = '.' + column.trim().toLowerCase();
       if (column === 'Repo') {
         assert.isNotOk(query(element, elementClass));
       } else {

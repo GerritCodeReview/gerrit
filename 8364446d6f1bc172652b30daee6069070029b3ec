@@ -22,6 +22,30 @@
       },
       "revId": "8364446d6f1bc172652b30daee6069070029b3ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e47a870_37e70278",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-12-08T08:17:32Z",
+      "side": 1,
+      "message": "Sorry for the trouble. I think this happens on changes where diffing failed.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/325880 for a quick fix (missing tests, but will fix the NPE).",
+      "parentUuid": "16df852c_6f93d6e5",
+      "range": {
+        "startLine": 767,
+        "startChar": 14,
+        "endLine": 767,
+        "endChar": 55
+      },
+      "revId": "8364446d6f1bc172652b30daee6069070029b3ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

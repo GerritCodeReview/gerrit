@@ -252,7 +252,7 @@ suite('gr-change-list basic tests', () => {
 
     test('all columns visible', () => {
       for (const column of element.changeTableColumns) {
-        const elementClass = '.' + element._lowerCase(column);
+        const elementClass = '.' + column.trim().toLowerCase();
         assert.isFalse(element.shadowRoot
             .querySelector(elementClass).hidden);
       }
@@ -281,7 +281,7 @@ suite('gr-change-list basic tests', () => {
           'Branch',
           'Updated',
           'Size',
-          'Requirements',
+          ' Status ',
         ],
       };
       element._config = {};
@@ -290,7 +290,7 @@ suite('gr-change-list basic tests', () => {
 
     test('all columns visible', () => {
       for (const column of element.changeTableColumns) {
-        const elementClass = '.' + element._lowerCase(column);
+        const elementClass = '.' + column.trim().toLowerCase();
         assert.isFalse(element.shadowRoot
             .querySelector(elementClass).hidden);
       }
@@ -318,7 +318,7 @@ suite('gr-change-list basic tests', () => {
           'Branch',
           'Updated',
           'Size',
-          'Requirements',
+          ' Status ',
         ],
       };
       element._config = {};
@@ -327,7 +327,7 @@ suite('gr-change-list basic tests', () => {
 
     test('all columns except repo visible', () => {
       for (const column of element.changeTableColumns) {
-        const elementClass = '.' + column.toLowerCase();
+        const elementClass = '.' + column.trim().toLowerCase();
         if (column === 'Repo') {
           assert.isNotOk(element.shadowRoot.querySelector(elementClass));
         } else {

@@ -24,7 +24,6 @@ guice-assistedinject
 guice-library
 guice-servlet
 j2objc
-jackson-core
 jimfs
 jruby
 lucene-analyzers-common

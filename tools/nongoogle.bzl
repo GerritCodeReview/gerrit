@@ -91,12 +91,6 @@ def declare_nongoogle_deps():
     )
 
     maven_jar(
-        name = "jackson-core",
-        artifact = "com.fasterxml.jackson.core:jackson-core:2.12.0",
-        sha1 = "afe52c6947d9939170da7989612cef544115511a",
-    )
-
-    maven_jar(
         name = "commons-io",
         artifact = "commons-io:commons-io:2.4",
         sha1 = "b1b6ea3b7e4aa4f492509a4952029cd8e48019ad",

@@ -63,7 +63,6 @@ Apache2.0
 * guice:javax_inject
 * httpcomponents:httpclient
 * httpcomponents:httpcore
-* jackson:jackson-core
 * jetty:http
 * jetty:io
 * jetty:jmx

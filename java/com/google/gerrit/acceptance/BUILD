@@ -81,7 +81,6 @@ TEST_DEPS = [
 PGM_DEPLOY_ENV = [
     "//lib:caffeine",
     "//lib:caffeine-guava",
-    "//lib/jackson:jackson-core",
     "//lib/prolog:cafeteria",
 ]
 

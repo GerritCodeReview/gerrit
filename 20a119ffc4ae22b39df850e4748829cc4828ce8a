@@ -16,6 +16,24 @@
       "message": "@Chris do you have LC+1 permissions?",
       "revId": "20a119ffc4ae22b39df850e4748829cc4828ce8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8655db74_418a40c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-08T19:47:23Z",
+      "side": 1,
+      "message": "Yes, though I admit that I don\u0027t feel confident doing LC reviews yet in general. This one seems trivial because it\u0027s just removing a library.",
+      "parentUuid": "19c56933_d1a48c7b",
+      "revId": "20a119ffc4ae22b39df850e4748829cc4828ce8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

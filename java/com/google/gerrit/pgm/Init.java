@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.common.PageLinks;
@@ -157,11 +158,13 @@ public class Init extends BaseInit {
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
     if (!ReplicaUtil.isReplica(run.flags.cfg)) {
+      List<String> indicesToReindex = new ArrayList<>();
       for (SchemaDefinitions<?> schemaDef : schemaDefs) {
         if (!indexStatus.exists(schemaDef.getName())) {
-          reindex(schemaDef);
+          indicesToReindex.add(schemaDef.getName());
         }
       }
+      reindex(indicesToReindex, run.flags.isNew);
     }
     start(run);
   }
@@ -274,17 +277,23 @@ public class Init extends BaseInit {
     }
   }
 
-  private void reindex(SchemaDefinitions<?> schemaDef) throws Exception {
+  private void reindex(List<String> indices, boolean isNewSite) throws Exception {
+    if (indices.isEmpty()) {
+      return;
+    }
     List<String> reindexArgs =
-        ImmutableList.of(
-            "--site-path",
-            getSitePath().toString(),
-            "--threads",
-            Integer.toString(1),
-            "--index",
-            schemaDef.getName());
+        Lists.newArrayList(
+            "--site-path", getSitePath().toString(), "--threads", Integer.toString(1));
+    for (String index : indices) {
+      reindexArgs.add("--index");
+      reindexArgs.add(index);
+    }
+    if (isNewSite) {
+      reindexArgs.add("--disable-cache-stats");
+    }
+
     getConsoleUI()
-        .message(String.format("Init complete, reindexing %s with:", schemaDef.getName()));
+        .message(String.format("Init complete, reindexing %s with:", String.join(",", indices)));
     getConsoleUI().message(" reindex " + reindexArgs.stream().collect(joining(" ")));
     Reindex reindexPgm = new Reindex();
     reindexPgm.main(reindexArgs.stream().toArray(String[]::new));

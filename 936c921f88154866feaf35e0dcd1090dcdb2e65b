@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9c7f28d_f9d21bdf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1912,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-08T12:23:51Z",
+      "side": 1,
+      "message": "I assume it\u0027s ok that now this method is not returning `res` when status is 404 as before.",
+      "range": {
+        "startLine": 1912,
+        "startChar": 61,
+        "endLine": 1912,
+        "endChar": 73
+      },
+      "revId": "936c921f88154866feaf35e0dcd1090dcdb2e65b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

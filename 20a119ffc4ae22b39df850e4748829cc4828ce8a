@@ -34,6 +34,24 @@
       "parentUuid": "19c56933_d1a48c7b",
       "revId": "20a119ffc4ae22b39df850e4748829cc4828ce8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aafc76a_0c2c51c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-08T19:53:37Z",
+      "side": 1,
+      "message": "Yeah, this is rather a leftover of the removal of ES. Thanks @Chris for that.",
+      "parentUuid": "8655db74_418a40c1",
+      "revId": "20a119ffc4ae22b39df850e4748829cc4828ce8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

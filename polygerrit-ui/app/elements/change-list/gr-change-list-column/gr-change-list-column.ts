@@ -34,22 +34,22 @@ export class GrChangeListColumRequirements extends LitElement {
           width: var(--line-height-normal, 20px);
           height: var(--line-height-normal, 20px);
           vertical-align: top;
+          margin-right: var(--spacing-xs);
+        }
+        iron-icon.check-circle-filled {
+          color: var(--success-foreground);
+        }
+        iron-icon.block {
+          color: var(--deemphasized-text-color);
         }
         span {
           line-height: var(--line-height-normal);
         }
         .unsatisfied {
           color: var(--primary-text-color);
-          margin-left: var(--spacing-xs);
         }
         .total {
           margin-left: var(--spacing-xs);
-          color: var(--deemphasized-text-color);
-        }
-        .check-circle-filled {
-          color: var(--success-foreground);
-        }
-        iron-icon.block {
           color: var(--deemphasized-text-color);
         }
         .commentIcon {

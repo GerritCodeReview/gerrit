@@ -66,7 +66,12 @@ export class GrEditableContent extends PolymerElement {
   @property({type: Boolean, reflectToAttribute: true})
   disabled = false;
 
-  @property({type: Boolean, observer: '_editingChanged', notify: true})
+  @property({
+    type: Boolean,
+    observer: '_editingChanged',
+    notify: true,
+    reflectToAttribute: true,
+  })
   editing = false;
 
   @property({type: Boolean})

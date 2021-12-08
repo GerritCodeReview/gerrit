@@ -62,16 +62,19 @@ export const htmlTemplate = html`
       background-color: var(--view-background-color);
       display: flex;
       justify-content: flex-end;
-      border-top-width: 1px;
-      border-top-style: solid;
+      border: 1px solid transparent;
+      border-top-color: var(--border-color);
       border-radius: 0 0 4px 4px;
-      border-color: var(--border-color);
       box-shadow: var(--elevation-level-1);
       /* slightly up to cover rounded corner of the commit msg */
       margin-top: calc(-1 * var(--spacing-xs));
       /* To make this bar pop over editor, since editor has relative position.
       */
       position: relative;
+    }
+    :host([editing]) .show-all-container {
+      box-shadow: none;
+      border: 1px solid var(--border-color);
     }
     .show-all-container .show-all-button {
       margin-right: auto;

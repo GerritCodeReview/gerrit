@@ -298,9 +298,9 @@ suite('label-util', () => {
         is_legacy: true,
       };
       const change = createChangeInfoWith([requirement]);
-      assert.deepEqual(getRequirements(change), []);
+      assert.deepEqual(getRequirements(change), [requirement]);
     });
-    test('legacy and non-legacy - filter legacy', () => {
+    test('legacy and non-legacy - show all', () => {
       const requirement = {
         ...createSubmitRequirementResultInfo(),
         is_legacy: true,
@@ -310,7 +310,7 @@ suite('label-util', () => {
         is_legacy: false,
       };
       const change = createChangeInfoWith([requirement, requirement2]);
-      assert.deepEqual(getRequirements(change), [requirement2]);
+      assert.deepEqual(getRequirements(change), [requirement, requirement2]);
     });
     test('filter not applicable', () => {
       const requirement = createSubmitRequirementResultInfo();

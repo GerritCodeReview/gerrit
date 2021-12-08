@@ -259,13 +259,11 @@ export function iconForStatus(status: SubmitRequirementStatus) {
 
 /**
  * Show only applicable.
- * If there are only legacy requirements, show all legacy requirements.
- * If there is at least one non-legacy requirement, filter legacy requirements.
  */
 export function getRequirements(change?: ParsedChangeInfo | ChangeInfo) {
-  return (change?.submit_requirements ?? [])
-    .filter(req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE)
-    .filter(req => req.is_legacy === false);
+  return (change?.submit_requirements ?? []).filter(
+    req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
+  );
 }
 
 // TODO(milutin): This may be temporary for demo purposes

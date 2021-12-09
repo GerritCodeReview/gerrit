@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "825e12a5_c6197cd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-09T15:22:32Z",
+      "side": 1,
+      "message": "CI voted -1 due to failing PolyGerrit tests, but this change doesn\u0027t affect the UI. Verified manually.",
+      "revId": "0ef2e266b15617700c2a547eb85ca7b6af952ff2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

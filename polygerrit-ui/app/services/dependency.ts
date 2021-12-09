@@ -170,17 +170,17 @@ export class DIPolymerElement
   private readonly ___controllers: ReactiveController[] = [];
 
   override connectedCallback() {
-    super.connectedCallback();
     for (const c of this.___controllers) {
       c.hostConnected?.();
     }
+    super.connectedCallback();
   }
 
   override disconnectedCallback() {
+    super.disconnectedCallback();
     for (const c of this.___controllers) {
       c.hostDisconnected?.();
     }
-    super.disconnectedCallback();
   }
 
   addController(controller: ReactiveController) {

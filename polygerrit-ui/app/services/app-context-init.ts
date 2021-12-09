@@ -16,6 +16,7 @@
  */
 import {AppContext} from './app-context';
 import {create, Finalizable, Registry} from './registry';
+import {DependencyToken} from './dependency';
 import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';
 import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
@@ -29,9 +30,9 @@ import {UserModel} from './user/user-model';
 import {CommentsModel} from './comments/comments-model';
 import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
-import {BrowserModel} from './browser/browser-model';
 import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel} from './config/config-model';
+import {BrowserModel, browserModelToken} from './browser/browser-model';
 
 /**
  * The AppContext lazy initializator for all services
@@ -109,10 +110,16 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new ShortcutsService(ctx.userModel, ctx.reportingService!);
     },
-    browserModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.userModel, 'userModel');
-      return new BrowserModel(ctx.userModel!);
-    },
   };
   return create<AppContext>(appRegistry);
+}
+
+export function createAppDependencies(
+  appContext: AppContext
+): Map<DependencyToken<unknown>, Finalizable> {
+  const dependencies = new Map();
+  const browserModel = new BrowserModel(appContext.userModel!);
+  dependencies.set(browserModelToken, browserModel);
+
+  return dependencies;
 }

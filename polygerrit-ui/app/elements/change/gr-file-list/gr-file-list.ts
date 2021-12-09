@@ -30,7 +30,6 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-file-status-chip/gr-file-status-chip';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-file-list_html';
 import {asyncForeach, debounce, DelayedTask} from '../../../utils/async-util';
 import {
@@ -86,6 +85,8 @@ import {Timing} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {select} from '../../../utils/observable-util';
+import {resolve, DIPolymerElement} from '../../../services/dependency';
+import {browserModelToken} from '../../../services/browser/browser-model';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -174,7 +175,7 @@ export type FileNameToReviewedFileInfoMap = {[name: string]: ReviewedFileInfo};
  */
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
+const base = KeyboardShortcutMixin(DIPolymerElement);
 
 @customElement('gr-file-list')
 export class GrFileList extends base {
@@ -318,7 +319,7 @@ export class GrFileList extends base {
 
   private readonly commentsModel = getAppContext().commentsModel;
 
-  private readonly browserModel = getAppContext().browserModel;
+  private readonly getBrowserModel = resolve(this, browserModelToken);
 
   private subscriptions: Subscription[] = [];
 
@@ -380,7 +381,7 @@ export class GrFileList extends base {
       this.commentsModel.changeComments$.subscribe(changeComments => {
         this.changeComments = changeComments;
       }),
-      this.browserModel.diffViewMode$.subscribe(
+      this.getBrowserModel().diffViewMode$.subscribe(
         diffView => (this.diffViewMode = diffView)
       ),
       this.userModel.diffPreferences$.subscribe(diffPreferences => {

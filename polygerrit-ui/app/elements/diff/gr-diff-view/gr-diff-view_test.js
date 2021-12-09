@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-diff-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus, DiffViewMode, createDefaultDiffPrefs} from '../../../constants/constants.js';
-import {stubRestApi, stubUsers, waitUntil, stubChange} from '../../../test/test-utils.js';
+import {stubRestApi, stubUsers, waitUntil} from '../../../test/test-utils.js';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
 import {GerritView} from '../../../services/router/router-model.js';
 import {
@@ -1190,10 +1190,10 @@ suite('gr-diff-view tests', () => {
 
     test('_prefs.manual_review true means set reviewed is not ' +
       'automatically called', async () => {
-      const setReviewedFileStatusStub = stubChange('setReviewedFilesStatus')
+      const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
           .callsFake(() => Promise.resolve());
-
-      const setReviewedStatusStub = sinon.spy(element, 'setReviewedStatus');
+      const getReviewedStub = sinon.stub(element, '_getReviewedStatus')
+          .returns(false);
 
       sinon.stub(element.$.diffHost, 'reload');
       sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
@@ -1204,9 +1204,7 @@ suite('gr-diff-view tests', () => {
       element.userModel.setDiffPreferences(diffPreferences);
       element.changeModel.setState({
         change: createChange(),
-        diffPath: '/COMMIT_MSG',
-        reviewedFiles: [],
-      });
+        diffPath: '/COMMIT_MSG'});
 
       element.routerModel.setState({
         changeNum: TEST_NUMERIC_CHANGE_ID, view: GerritView.DIFF, patchNum: 2}
@@ -1216,21 +1214,25 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 1,
       };
 
-      await waitUntil(() => setReviewedStatusStub.called);
+      await waitUntil(() => getReviewedStub.called);
 
-      assert.isFalse(setReviewedFileStatusStub.called);
+      assert.isFalse(saveReviewedStub.called);
+      assert.isTrue(getReviewedStub.called);
 
       // if prefs are updated then the reviewed status should not be set again
       element.userModel.setDiffPreferences(createDefaultDiffPrefs());
 
       await flush();
-      assert.isFalse(setReviewedFileStatusStub.called);
+      assert.isFalse(saveReviewedStub.called);
+      assert.isTrue(getReviewedStub.calledOnce);
     });
 
     test('_prefs.manual_review false means set reviewed is called',
         async () => {
-          const setReviewedFileStatusStub = stubChange('setReviewedFilesStatus')
+          const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
               .callsFake(() => Promise.resolve());
+          const getReviewedStub = sinon.stub(element, '_getReviewedStatus')
+              .returns(false);
 
           sinon.stub(element.$.diffHost, 'reload');
           sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
@@ -1241,9 +1243,7 @@ suite('gr-diff-view tests', () => {
           element.userModel.setDiffPreferences(diffPreferences);
           element.changeModel.setState({
             change: createChange(),
-            diffPath: '/COMMIT_MSG',
-            reviewedFiles: [],
-          });
+            diffPath: '/COMMIT_MSG'});
 
           element.routerModel.setState({
             changeNum: TEST_NUMERIC_CHANGE_ID, view: GerritView.DIFF,
@@ -1254,23 +1254,22 @@ suite('gr-diff-view tests', () => {
             basePatchNum: 1,
           };
 
-          await waitUntil(() => setReviewedFileStatusStub.called);
+          await waitUntil(() => saveReviewedStub.called);
 
-          assert.isTrue(setReviewedFileStatusStub.called);
+          assert.isTrue(saveReviewedStub.called);
+          assert.isFalse(getReviewedStub.called);
         });
 
     test('file review status', async () => {
-      element.changeModel.setState({
-        change: createChange(),
-        diffPath: '/COMMIT_MSG',
-        reviewedFiles: [],
-      });
       sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-      const saveReviewedStub = stubChange('setReviewedFilesStatus')
+      const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
           .callsFake(() => Promise.resolve());
       sinon.stub(element.$.diffHost, 'reload');
 
       element.userModel.setDiffPreferences(createDefaultDiffPrefs());
+      element.changeModel.setState({
+        change: createChange(),
+        diffPath: '/COMMIT_MSG'});
 
       element.routerModel.setState({
         changeNum: TEST_NUMERIC_CHANGE_ID, view: GerritView.DIFF, patchNum: 2}
@@ -1283,28 +1282,19 @@ suite('gr-diff-view tests', () => {
 
       await waitUntil(() => saveReviewedStub.called);
 
-      element.changeModel.updateStateFileReviewed('/COMMIT_MSG', true);
-      await flush();
-
       const reviewedStatusCheckBox = element.root.querySelector(
           'input[type="checkbox"]');
 
       assert.isTrue(reviewedStatusCheckBox.checked);
-      assert.deepEqual(saveReviewedStub.lastCall.args,
-          ['42', 2, '/COMMIT_MSG', true]);
+      assert.deepEqual(saveReviewedStub.lastCall.args, [true, 2]);
 
       MockInteractions.tap(reviewedStatusCheckBox);
       assert.isFalse(reviewedStatusCheckBox.checked);
-      assert.deepEqual(saveReviewedStub.lastCall.args,
-          ['42', 2, '/COMMIT_MSG', false]);
-
-      element.changeModel.updateStateFileReviewed('/COMMIT_MSG', false);
-      await flush();
+      assert.deepEqual(saveReviewedStub.lastCall.args, [false, 2]);
 
       MockInteractions.tap(reviewedStatusCheckBox);
       assert.isTrue(reviewedStatusCheckBox.checked);
-      assert.deepEqual(saveReviewedStub.lastCall.args,
-          ['42', 2, '/COMMIT_MSG', true]);
+      assert.deepEqual(saveReviewedStub.lastCall.args, [true, 2]);
 
       const callCount = saveReviewedStub.callCount;
 
@@ -1317,7 +1307,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('file review status with edit loaded', () => {
-      const saveReviewedStub = stubChange('setReviewedFilesStatus');
+      const saveReviewedStub = sinon.stub(element, '_saveReviewedState');
 
       element._patchRange = {patchNum: EditPatchSetNum};
       flush();
@@ -1806,7 +1796,7 @@ suite('gr-diff-view tests', () => {
         isAtEndStub.returns(true);
 
         element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
-        element.reviewedFiles = new Set(['file2']);
+        element._reviewedFiles = new Set(['file2']);
         element._path = 'file1';
 
         nowStub.returns(5);
@@ -1850,7 +1840,7 @@ suite('gr-diff-view tests', () => {
         isAtStartStub.returns(true);
 
         element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
-        element.reviewedFiles = new Set(['file2']);
+        element._reviewedFiles = new Set(['file2']);
         element._path = 'file3';
 
         nowStub.returns(5);
@@ -1897,7 +1887,7 @@ suite('gr-diff-view tests', () => {
 
     test('shift+m navigates to next unreviewed file', () => {
       element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
-      element.reviewedFiles = new Set(['file1', 'file2']);
+      element._reviewedFiles = new Set(['file1', 'file2']);
       element._path = 'file1';
       const reviewedStub = sinon.stub(element, '_setReviewed');
       const navStub = sinon.stub(element, '_navToFile');

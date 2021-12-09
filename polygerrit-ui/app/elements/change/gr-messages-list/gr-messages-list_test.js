@@ -139,7 +139,7 @@ suite('gr-messages-list tests', () => {
       // comment API.
       commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.messagesList;
-      await element.commentsModel.reloadComments();
+      await element.getCommentsModel().reloadComments();
       element.messages = messages;
       await flush();
     });

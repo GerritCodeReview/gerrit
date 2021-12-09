@@ -24,7 +24,6 @@ import {
   query,
   pressKey,
   listenOnce,
-  stubComments,
   mockPromise,
   waitUntilCalled,
   dispatch,
@@ -453,7 +452,9 @@ suite('gr-comment tests', () => {
 
     test('save', async () => {
       const savePromise = mockPromise<DraftInfo>();
-      const stub = stubComments('saveDraft').returns(savePromise);
+      const stub = sinon
+        .stub(element.getCommentsModel(), 'saveDraft')
+        .returns(savePromise);
 
       element.comment = createDraft();
       element.editing = true;
@@ -480,9 +481,9 @@ suite('gr-comment tests', () => {
     });
 
     test('save failed', async () => {
-      stubComments('saveDraft').returns(
-        Promise.reject(new Error('saving failed'))
-      );
+      sinon
+        .stub(element.getCommentsModel(), 'saveDraft')
+        .returns(Promise.reject(new Error('saving failed')));
 
       element.comment = createDraft();
       element.editing = true;
@@ -500,7 +501,9 @@ suite('gr-comment tests', () => {
 
     test('discard', async () => {
       const discardPromise = mockPromise<void>();
-      const stub = stubComments('discardDraft').returns(discardPromise);
+      const stub = sinon
+        .stub(element.getCommentsModel(), 'discardDraft')
+        .returns(discardPromise);
 
       element.comment = createDraft();
       element.editing = true;
@@ -522,7 +525,7 @@ suite('gr-comment tests', () => {
     });
 
     test('resolved comment state indicated by checkbox', async () => {
-      const saveStub = stubComments('saveDraft');
+      const saveStub = sinon.stub(element.getCommentsModel(), 'saveDraft');
       element.comment = {
         ...createComment(),
         __draft: true,
@@ -546,8 +549,9 @@ suite('gr-comment tests', () => {
     });
 
     test('saving empty text calls discard()', async () => {
-      const saveStub = stubComments('saveDraft');
-      const discardStub = stubComments('discardDraft');
+      const saveStub = sinon.stub(element.getCommentsModel(), 'saveDraft');
+      const discardStub =
+        sinon.stub(element.getCommentsModel(), 'discardDraft');
       element.comment = createDraft();
       element.editing = true;
       await element.updateComplete;
@@ -619,7 +623,9 @@ suite('gr-comment tests', () => {
     setup(async () => {
       clock = sinon.useFakeTimers();
       savePromise = mockPromise<DraftInfo>();
-      saveStub = stubComments('saveDraft').returns(savePromise);
+      saveStub = sinon
+        .stub(element.getCommentsModel(), 'saveDraft')
+        .returns(savePromise);
 
       element.comment = createUnsaved();
       element.editing = true;

@@ -33,6 +33,24 @@
       "message": "This if was present for the other build method as well [1]. Is it intentionally left out now?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/245012/14/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java#163",
       "revId": "5deb6d345eec368e82eeb415ccbda2b7e4c4dd1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97e8e2d3_1b38ddd6",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-09T14:03:35Z",
+      "side": 1,
+      "message": "Thanks for catching. If this code was removed then we should not bring it back. I removed it.",
+      "parentUuid": "70f4a2a7_a1df2e3c",
+      "revId": "5deb6d345eec368e82eeb415ccbda2b7e4c4dd1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

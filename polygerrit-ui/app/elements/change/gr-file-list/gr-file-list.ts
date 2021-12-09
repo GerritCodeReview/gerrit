@@ -87,6 +87,7 @@ import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {select} from '../../../utils/observable-util';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
 import {browserModelToken} from '../../../services/browser/browser-model';
+import {commentsModelToken} from '../../../services/comments/comments-model';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -317,7 +318,7 @@ export class GrFileList extends base {
 
   private readonly userModel = getAppContext().userModel;
 
-  private readonly commentsModel = getAppContext().commentsModel;
+  private readonly commentsModel = resolve(this, commentsModelToken);
 
   private readonly changeModel = getAppContext().changeModel;
 
@@ -380,7 +381,7 @@ export class GrFileList extends base {
   override connectedCallback() {
     super.connectedCallback();
     this.subscriptions = [
-      this.commentsModel.changeComments$.subscribe(changeComments => {
+      this.commentsModel().changeComments$.subscribe(changeComments => {
         this.changeComments = changeComments;
       }),
       this.browserModel().diffViewMode$.subscribe(

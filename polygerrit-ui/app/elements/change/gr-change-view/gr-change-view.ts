@@ -45,7 +45,6 @@ import '../gr-thread-list/gr-thread-list';
 import '../../checks/gr-checks-tab';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-view_html';
 import {
   KeyboardShortcutMixin,
@@ -198,6 +197,8 @@ import {
 } from '../../../utils/attention-set-util';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../services/change/change-model';
+import {commentsModelToken} from '../../../services/comments/comments-model';
+import {resolve, DIPolymerElement} from '../../../services/dependency';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -248,7 +249,7 @@ export interface GrChangeView {
 export type ChangeViewPatchRange = Partial<PatchRange>;
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
+const base = KeyboardShortcutMixin(DIPolymerElement);
 
 @customElement('gr-change-view')
 export class GrChangeView extends base {
@@ -610,7 +611,8 @@ export class GrChangeView extends base {
 
   private readonly routerModel = getAppContext().routerModel;
 
-  private readonly commentsModel = getAppContext().commentsModel;
+  // Private but used in tests.
+  readonly commentsModel = resolve(this, commentsModelToken);
 
   private readonly shortcuts = getAppContext().shortcutsService;
 
@@ -634,47 +636,6 @@ export class GrChangeView extends base {
   // visible for testing
   routerPatchNum?: PatchSetNum;
 
-  override ready() {
-    super.ready();
-    this.subscriptions.push(
-      this.checksModel.aPluginHasRegistered$.subscribe(b => {
-        this._showChecksTab = b;
-      })
-    );
-    this.subscriptions.push(
-      this.routerModel.routerView$.subscribe(view => {
-        this.isViewCurrent = view === GerritView.CHANGE;
-      })
-    );
-    this.subscriptions.push(
-      this.routerModel.routerPatchNum$.subscribe(patchNum => {
-        this.routerPatchNum = patchNum;
-      })
-    );
-    this.subscriptions.push(
-      this.commentsModel.drafts$.subscribe(drafts => {
-        this._diffDrafts = {...drafts};
-      })
-    );
-    this.subscriptions.push(
-      this.userModel.preferenceDiffViewMode$.subscribe(diffViewMode => {
-        this.diffViewMode = diffViewMode;
-      })
-    );
-    this.subscriptions.push(
-      this.commentsModel.changeComments$.subscribe(changeComments => {
-        this._changeComments = changeComments;
-      })
-    );
-    this.subscriptions.push(
-      this.changeModel.change$.subscribe(change => {
-        // The change view is tied to a specific change number, so don't update
-        // _change to undefined.
-        if (change) this._change = change;
-      })
-    );
-  }
-
   constructor() {
     super();
     this.addEventListener('topic-changed', () => this._handleTopicChanged());
@@ -695,8 +656,49 @@ export class GrChangeView extends base {
     this.addEventListener('open-reply-dialog', () => this._openReplyDialog());
   }
 
+  private setupSubscriptions() {
+    this.subscriptions.push(
+      this.checksModel.aPluginHasRegistered$.subscribe(b => {
+        this._showChecksTab = b;
+      })
+    );
+    this.subscriptions.push(
+      this.routerModel.routerView$.subscribe(view => {
+        this.isViewCurrent = view === GerritView.CHANGE;
+      })
+    );
+    this.subscriptions.push(
+      this.routerModel.routerPatchNum$.subscribe(patchNum => {
+        this.routerPatchNum = patchNum;
+      })
+    );
+    this.subscriptions.push(
+      this.commentsModel().drafts$.subscribe(drafts => {
+        this._diffDrafts = {...drafts};
+      })
+    );
+    this.subscriptions.push(
+      this.userModel.preferenceDiffViewMode$.subscribe(diffViewMode => {
+        this.diffViewMode = diffViewMode;
+      })
+    );
+    this.subscriptions.push(
+      this.commentsModel().changeComments$.subscribe(changeComments => {
+        this._changeComments = changeComments;
+      })
+    );
+    this.subscriptions.push(
+      this.changeModel.change$.subscribe(change => {
+        // The change view is tied to a specific change number, so don't update
+        // _change to undefined.
+        if (change) this._change = change;
+      })
+    );
+  }
+
   override connectedCallback() {
     super.connectedCallback();
+    this.setupSubscriptions();
     this._throttledToggleChangeStar = throttleWrap<KeyboardEvent>(_ =>
       this._handleToggleChangeStar()
     );
@@ -2205,13 +2207,13 @@ export class GrChangeView extends base {
     const promises = [this.loadAndSetCommitInfo(), this.$.fileList.reload()];
     if (patchNumChanged) {
       promises.push(
-        this.commentsModel.reloadPortedComments(
+        this.commentsModel().reloadPortedComments(
           this._changeNum,
           this._patchRange?.patchNum
         )
       );
       promises.push(
-        this.commentsModel.reloadPortedDrafts(
+        this.commentsModel().reloadPortedDrafts(
           this._changeNum,
           this._patchRange?.patchNum
         )

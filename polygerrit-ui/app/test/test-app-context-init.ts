@@ -30,7 +30,10 @@ import {ChangeModel} from '../services/change/change-model';
 import {ChecksModel} from '../services/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {UserModel} from '../services/user/user-model';
-import {CommentsModel} from '../services/comments/comments-model';
+import {
+  CommentsModel,
+  commentsModelToken,
+} from '../services/comments/comments-model';
 import {RouterModel} from '../services/router/router-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {ConfigModel} from '../services/config/config-model';
@@ -57,22 +60,6 @@ export function createTestAppContext(): AppContext & Finalizable {
       assertIsDefined(routerModel, 'routerModel');
       assertIsDefined(restApiService, 'restApiService');
       return new ChangeModel(routerModel, restApiService);
-    },
-    commentsModel: (ctx: Partial<AppContext>) => {
-      const routerModel = ctx.routerModel;
-      const changeModel = ctx.changeModel;
-      const restApiService = ctx.restApiService;
-      const reportingService = ctx.reportingService;
-      assertIsDefined(routerModel, 'routerModel');
-      assertIsDefined(changeModel, 'changeModel');
-      assertIsDefined(restApiService, 'restApiService');
-      assertIsDefined(reportingService, 'reportingService');
-      return new CommentsModel(
-        routerModel,
-        changeModel,
-        restApiService,
-        reportingService
-      );
     },
     checksModel: (ctx: Partial<AppContext>) => {
       const routerModel = ctx.routerModel;
@@ -106,12 +93,27 @@ export function createTestAppContext(): AppContext & Finalizable {
   return create<AppContext>(appRegistry);
 }
 
+export type Creator<T> = () => T & Finalizable;
+
+// Test dependencies are provides as creator functions to ensure that they are
+// not created if a test doesn't depend on them. E.g. don't create a
+// change-model in change-model_test.ts because it creates one in the test
+// after setting up stubs.
 export function createTestDependencies(
   appContext: AppContext
-): Map<DependencyToken<unknown>, Finalizable> {
+): Map<DependencyToken<unknown>, Creator<unknown>> {
   const dependencies = new Map();
-  const browserModel = new BrowserModel(appContext.userModel!);
+  const browserModel = () => new BrowserModel(appContext.userModel!);
   dependencies.set(browserModelToken, browserModel);
+
+  const commentsModel = () =>
+    new CommentsModel(
+      appContext.routerModel,
+      appContext.changeModel,
+      appContext.restApiService,
+      appContext.reportingService
+    );
+  dependencies.set(commentsModelToken, commentsModel);
 
   return dependencies;
 }

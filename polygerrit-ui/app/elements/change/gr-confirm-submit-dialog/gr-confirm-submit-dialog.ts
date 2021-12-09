@@ -31,6 +31,8 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
+import {commentsModelToken} from '../../../services/comments/comments-model';
+import {resolve} from '../../../services/dependency';
 
 @customElement('gr-confirm-submit-dialog')
 export class GrConfirmSubmitDialog extends LitElement {
@@ -61,7 +63,7 @@ export class GrConfirmSubmitDialog extends LitElement {
   @state()
   initialised = false;
 
-  private commentsModel = getAppContext().commentsModel;
+  private commentsModel = resolve(this, commentsModelToken);
 
   private changeModel = getAppContext().changeModel;
 
@@ -91,12 +93,12 @@ export class GrConfirmSubmitDialog extends LitElement {
     ];
   }
 
-  constructor() {
-    super();
+  override connectedCallback() {
+    super.connectedCallback();
     subscribe(this, this.changeModel.change$, x => (this.change = x));
     subscribe(
       this,
-      this.commentsModel.threads$,
+      this.commentsModel().threads$,
       x => (this.unresolvedThreads = x.filter(isUnresolved))
     );
   }

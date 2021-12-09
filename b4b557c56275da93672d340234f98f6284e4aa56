@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c153410_998d0136",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-12-09T16:58:14Z",
+      "side": 1,
+      "message": "Some UX comments about the filtering interaction: \n* Change the input in the filter box to a chip similar to the one in the check result row. (see screenshot in the bug)\n* Also add the option for users to remove the chip with a `X` or if using `Backspace` in the filter",
+      "revId": "b4b557c56275da93672d340234f98f6284e4aa56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

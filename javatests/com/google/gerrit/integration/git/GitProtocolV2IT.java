@@ -346,7 +346,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
   }
 
   private static void assertGitProtocolV2Refs(String commit, String out) {
-    assertThat(out).contains("git< version 2");
+    assertThat(out).containsMatch("(git|ls-remote)< version 2");
     assertThat(out).contains("refs/changes/01/1/1");
     assertThat(out).contains("refs/changes/01/1/meta");
     assertThat(out).contains(commit);

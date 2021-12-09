@@ -66,6 +66,21 @@ import {GerritNav} from '../core/gr-navigation/gr-navigation';
 import {DropdownLink} from '../shared/gr-dropdown/gr-dropdown';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
+import {fire} from '../../utils/event-util';
+
+/**
+ * Firing this event sets the regular expression of the results filter.
+ */
+export interface ChecksResultsFilterDetail {
+  filterRegExp?: string;
+}
+export type ChecksResultsFilterEvent = CustomEvent<ChecksResultsFilterDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'checks-results-filter': ChecksResultsFilterEvent;
+  }
+}
 
 @customElement('gr-result-row')
 class GrResultRow extends LitElement {
@@ -208,6 +223,7 @@ class GrResultRow extends LitElement {
           background-color: var(--tag-background);
           padding: 0 var(--spacing-m);
           margin-left: var(--spacing-s);
+          cursor: pointer;
         }
         td .summary-cell .tag.gray {
           background-color: var(--tag-gray);
@@ -379,6 +395,12 @@ class GrResultRow extends LitElement {
     this.toggleExpanded();
   }
 
+  private tagClick(e: MouseEvent, tagName: string) {
+    e.preventDefault();
+    e.stopPropagation();
+    fire(this, 'checks-results-filter', {filterRegExp: tagName});
+  }
+
   private toggleExpandedPress(e: KeyboardEvent) {
     if (!this.isExpandable) return;
     if (modifierPressed(e)) return;
@@ -514,10 +536,16 @@ class GrResultRow extends LitElement {
   }
 
   renderTag(tag: Tag) {
-    return html`<div class="tag ${tag.color}">
+    return html`<button
+      class="tag ${tag.color}"
+      @click="${(e: MouseEvent) => this.tagClick(e, tag.name)}"
+    >
       <span>${tag.name}</span>
       <paper-tooltip offset="5" ?fitToVisibleBounds="${true}">
-        ${tag.tooltip ?? 'A category tag for this check result'}
+        ${
+          tag.tooltip ??
+          'A category tag for this check result. Click to filter.'
+        }
       </paper-tooltip>
     </div>`;
   }
@@ -1112,6 +1140,14 @@ export class GrChecksResults extends LitElement {
     this.checksModel.triggerAction(e.detail);
   }
 
+  private handleFilter(e: ChecksResultsFilterEvent) {
+    if (!this.filterInput) return;
+    const oldValue = this.filterInput.value ?? '';
+    const newValue = e.detail.filterRegExp ?? '';
+    this.filterInput.value = oldValue === newValue ? '' : newValue;
+    this.onFilterInputChange();
+  }
+
   private renderAction(action?: Action) {
     if (!action) return;
     return html`<gr-checks-action .action="${action}"></gr-checks-action>`;
@@ -1164,13 +1200,13 @@ export class GrChecksResults extends LitElement {
           id="filterInput"
           type="text"
           placeholder="Filter results by regular expression"
-          @input="${this.onInput}"
+          @input="${this.onFilterInputChange}"
         />
       </div>
     `;
   }
 
-  onInput() {
+  onFilterInputChange() {
     assertIsDefined(this.filterInput, 'filter <input> element');
     this.filterRegExp = new RegExp(this.filterInput.value, 'i');
   }
@@ -1301,7 +1337,7 @@ export class GrChecksResults extends LitElement {
             <th class="expanderCol"></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody @checks-results-filter=${this.handleFilter}>
           ${repeat(
             filtered,
             result => result.internalResultId,

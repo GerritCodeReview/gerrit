@@ -177,10 +177,10 @@ export class DIPolymerElement
   }
 
   override disconnectedCallback() {
+    super.disconnectedCallback();
     for (const c of this.___controllers) {
       c.hostDisconnected?.();
     }
-    super.disconnectedCallback();
   }
 
   addController(controller: ReactiveController) {

@@ -39,7 +39,6 @@ import 'lodash/lodash';
 import {
   mockPromise,
   queryAndAssert,
-  stubComments,
   stubRestApi,
   stubUsers,
   waitQueryAndAssert,
@@ -1362,8 +1361,14 @@ suite('gr-change-view tests', () => {
     sinon.stub(element, 'loadAndSetCommitInfo');
     sinon.stub(element.$.fileList, 'reload');
     flush();
-    const reloadPortedCommentsStub = stubComments('reloadPortedComments');
-    const reloadPortedDraftsStub = stubComments('reloadPortedDrafts');
+    const reloadPortedCommentsStub = sinon.stub(
+      element.getCommentsModel(),
+      'reloadPortedComments'
+    );
+    const reloadPortedDraftsStub = sinon.stub(
+      element.getCommentsModel(),
+      'reloadPortedDrafts'
+    );
     sinon.stub(element.$.fileList, 'collapseAllDiffs');
 
     const value: AppElementChangeViewParams = {

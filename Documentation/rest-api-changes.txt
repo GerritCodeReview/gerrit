@@ -5031,6 +5031,9 @@ whole comment, this endpoint just replaces the comment's message
 with a new message, which contains the name of the user who deletes
 the comment and the reason why it's deleted.
 
+This endpoint also marks the comment as resolved since deleted comments are not
+actionable.
+
 Note that only users with the
 link:access-control.html#capability_administrateServer[Administrate Server]
 global capability are permitted to delete a comment.

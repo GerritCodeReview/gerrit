@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87c51719_57d9582a",
+        "filename": "polygerrit-ui/app/elements/gr-app.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-09T07:59:21Z",
+      "side": 1,
+      "message": "Here and everywhere else, should `super.disconnectedCallback();` be called first or last? Should we establish a pattern?",
+      "revId": "3021208cd5ad26d5e9f9c68c5cacaf466f0c4b9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -275,12 +275,7 @@ class DependencySubscriber<T>
   ) {}
 
   get() {
-    if (!this.resolved) {
-      throw new DependencyError(
-        this.dependency,
-        'Could not resolve dependency'
-      );
-    }
+    this.checkResolved();
     return this.value!;
   }
 
@@ -291,12 +286,15 @@ class DependencySubscriber<T>
         this.value = value;
       })
     );
-    if (!this.resolved) {
-      throw new DependencyError(
-        this.dependency,
-        'Could not resolve dependency'
-      );
-    }
+    this.checkResolved();
+  }
+
+  checkResolved() {
+    if (this.resolved) return;
+    const dep = this.dependency.description;
+    const tag = this.host.tagName;
+    const msg = `Could not resolve dependency '${dep}' in '${tag}'`;
+    throw new DependencyError(this.dependency, msg);
   }
 
   hostDisconnected() {

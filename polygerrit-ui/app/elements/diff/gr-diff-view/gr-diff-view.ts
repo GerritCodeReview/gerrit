@@ -119,6 +119,7 @@ import {LoadingStatus} from '../../../services/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 import {browserModelToken} from '../../../services/browser/browser-model';
+import {commentsModelToken} from '../../../services/comments/comments-model';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
@@ -369,7 +370,7 @@ export class GrDiffView extends base {
   readonly getBrowserModel = resolve(this, browserModelToken);
 
   // Private but used in tests.
-  readonly commentsModel = getAppContext().commentsModel;
+  readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly shortcuts = getAppContext().shortcutsService;
 
@@ -394,7 +395,7 @@ export class GrDiffView extends base {
     });
 
     this.subscriptions.push(
-      this.commentsModel.changeComments$.subscribe(changeComments => {
+      this.getCommentsModel().changeComments$.subscribe(changeComments => {
         this._changeComments = changeComments;
       })
     );
@@ -1163,7 +1164,7 @@ export class GrDiffView extends base {
         )
       );
     }
-    promises.push(until(this.commentsModel.commentsLoading$, isFalse));
+    promises.push(until(this.getCommentsModel().commentsLoading$, isFalse));
 
     this.$.diffHost.cancel();
     this.$.diffHost.clearDiffContent();

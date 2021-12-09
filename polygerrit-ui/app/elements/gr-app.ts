@@ -36,9 +36,7 @@ setPassiveTouchGestures(true);
 import {initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
 import {Finalizable} from '../services/registry';
-import {provide, DIPolymerElement} from '../services/dependency';
-import {htmlTemplate} from './gr-app_html';
-import {customElement} from '@polymer/decorators';
+import {provide} from '../services/dependency';
 import {installPolymerResin} from '../scripts/polymer-resin-install';
 
 import {
@@ -51,6 +49,8 @@ import {
   initErrorReporter,
 } from '../services/gr-reporting/gr-reporting_impl';
 import {injectAppContext} from '../services/app-context';
+import {html, LitElement} from 'lit';
+import {customElement} from 'lit/decorators';
 
 const appContext = createAppContext();
 injectAppContext(appContext);
@@ -62,20 +62,16 @@ initErrorReporter(reportingService);
 installPolymerResin(safeTypesBridge);
 
 @customElement('gr-app')
-export class GrApp extends DIPolymerElement {
+export class GrApp extends LitElement {
   private finalizables: Finalizable[] = [];
 
   override connectedCallback() {
-    // NOTE: Polymer renders its template synchronously as part of
-    // super.connectedCallback. This means that we need to provide the
-    // dependencies before.  After migration to lit, super.connectedCallback
-    // can come first again.
+    super.connectedCallback();
     const dependencies = createAppDependencies(appContext);
     for (const [token, service] of dependencies) {
       this.finalizables.push(service);
       provide(this, token, () => service);
     }
-    super.connectedCallback();
   }
 
   override disconnectedCallback() {
@@ -86,8 +82,8 @@ export class GrApp extends DIPolymerElement {
     super.disconnectedCallback();
   }
 
-  static get template() {
-    return htmlTemplate;
+  override render() {
+    return html`<gr-app-element id="app-element"></gr-app-element>`;
   }
 }
 

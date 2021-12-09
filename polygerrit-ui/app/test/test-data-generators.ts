@@ -96,7 +96,10 @@ import {
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
 import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
-import {AppElementChangeViewParams} from '../elements/gr-app-types';
+import {
+  AppElementChangeViewParams,
+  AppElementSearchParam,
+} from '../elements/gr-app-types';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
 import {
@@ -486,6 +489,14 @@ export function createAppElementChangeViewParams(): AppElementChangeViewParams {
     view: GerritView.CHANGE,
     changeNum: TEST_NUMERIC_CHANGE_ID,
     project: TEST_PROJECT_NAME,
+  };
+}
+
+export function createAppElementSearchViewParams(): AppElementSearchParam {
+  return {
+    view: GerritView.SEARCH,
+    query: TEST_NUMERIC_CHANGE_ID.toString(),
+    offset: '0',
   };
 }
 

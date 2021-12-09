@@ -16,6 +16,24 @@
       "message": "Here and everywhere else, should `super.disconnectedCallback();` be called first or last? Should we establish a pattern?",
       "revId": "3021208cd5ad26d5e9f9c68c5cacaf466f0c4b9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "432f7e04_f071a7c2",
+        "filename": "polygerrit-ui/app/elements/gr-app.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-09T10:08:14Z",
+      "side": 1,
+      "message": "That\u0027s a good question.\n\nI agree with you that ita should be called last. Destructors always go in reverse order.",
+      "parentUuid": "87c51719_57d9582a",
+      "revId": "3021208cd5ad26d5e9f9c68c5cacaf466f0c4b9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

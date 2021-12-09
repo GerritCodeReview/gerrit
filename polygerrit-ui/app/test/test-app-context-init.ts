@@ -17,7 +17,7 @@
 
 // Init app context before any other imports
 import {create, Registry, Finalizable} from '../services/registry';
-import {DependencyToken} from '../services/dependency';
+import {DependencyToken, Provider} from '../services/dependency';
 import {assertIsDefined} from '../utils/common-util';
 import {AppContext} from '../services/app-context';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
@@ -30,7 +30,10 @@ import {ChangeModel} from '../services/change/change-model';
 import {ChecksModel} from '../services/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {UserModel} from '../services/user/user-model';
-import {CommentsModel} from '../services/comments/comments-model';
+import {
+  CommentsModel,
+  commentsModelToken,
+} from '../services/comments/comments-model';
 import {RouterModel} from '../services/router/router-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {ConfigModel} from '../services/config/config-model';
@@ -57,22 +60,6 @@ export function createTestAppContext(): AppContext & Finalizable {
       assertIsDefined(routerModel, 'routerModel');
       assertIsDefined(restApiService, 'restApiService');
       return new ChangeModel(routerModel, restApiService);
-    },
-    commentsModel: (ctx: Partial<AppContext>) => {
-      const routerModel = ctx.routerModel;
-      const changeModel = ctx.changeModel;
-      const restApiService = ctx.restApiService;
-      const reportingService = ctx.reportingService;
-      assertIsDefined(routerModel, 'routerModel');
-      assertIsDefined(changeModel, 'changeModel');
-      assertIsDefined(restApiService, 'restApiService');
-      assertIsDefined(reportingService, 'reportingService');
-      return new CommentsModel(
-        routerModel,
-        changeModel,
-        restApiService,
-        reportingService
-      );
     },
     checksModel: (ctx: Partial<AppContext>) => {
       const routerModel = ctx.routerModel;
@@ -108,10 +95,18 @@ export function createTestAppContext(): AppContext & Finalizable {
 
 export function createTestDependencies(
   appContext: AppContext
-): Map<DependencyToken<unknown>, Finalizable> {
+): Map<DependencyToken<unknown>, Provider<Finalizable>> {
   const dependencies = new Map();
-  const browserModel = new BrowserModel(appContext.userModel!);
+  const browserModel = () => new BrowserModel(appContext.userModel!);
   dependencies.set(browserModelToken, browserModel);
+
+  const commentsModel = () => new CommentsModel(
+    appContext.routerModel,
+    appContext.changeModel,
+    appContext.restApiService,
+    appContext.reportingService
+  );
+  dependencies.set(commentsModelToken, commentsModel);
 
   return dependencies;
 }

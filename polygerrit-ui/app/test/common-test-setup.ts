@@ -114,10 +114,15 @@ const finalizers: Finalizable[] = [];
 
 function injectDependency<T>(
   dependency: DependencyToken<T>,
-  service: T & Finalizable
+  provider: Provider<T & Finalizable>
 ) {
-  injectedDependencies.set(dependency, () => service);
-  finalizers.push(service);
+  let service: (T & Finalizable) | undefined = undefined;
+  injectedDependencies.set(dependency, () => {
+    if (service) return service;
+    service = provider();
+    finalizers.push(service);
+    return service;
+  });
 }
 
 function resolveDependency(evt: DependencyRequestEvent<unknown>) {

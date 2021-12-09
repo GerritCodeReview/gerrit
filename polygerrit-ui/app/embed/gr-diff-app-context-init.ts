@@ -78,9 +78,6 @@ export function createDiffAppContext(): AppContext & Finalizable {
     changeModel: (_ctx: Partial<AppContext>) => {
       throw new Error('changeModel is not implemented');
     },
-    commentsModel: (_ctx: Partial<AppContext>) => {
-      throw new Error('commentsModel is not implemented');
-    },
     checksModel: (_ctx: Partial<AppContext>) => {
       throw new Error('checksModel is not implemented');
     },

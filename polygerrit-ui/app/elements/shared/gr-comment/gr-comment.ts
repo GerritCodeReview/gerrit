@@ -30,6 +30,7 @@ import '../gr-account-label/gr-account-label';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
+import {resolve} from '../../../services/dependency';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
@@ -55,6 +56,7 @@ import {
 import {fire, fireEvent} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Key, Modifier} from '../../../utils/dom-util';
+import {commentsModelToken} from '../../../services/comments/comments-model';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {ShortcutController} from '../../lit/shortcut-controller';
@@ -230,7 +232,8 @@ export class GrComment extends LitElement {
 
   private readonly changeModel = getAppContext().changeModel;
 
-  private readonly commentsModel = getAppContext().commentsModel;
+  // Private but used in tests.
+  readonly commentsModel = resolve(this, commentsModelToken);
 
   private readonly userModel = getAppContext().userModel;
 
@@ -1092,7 +1095,7 @@ export class GrComment extends LitElement {
       if (messageToSave === '') {
         // Don't try to discard UnsavedInfo. Nothing to do then.
         if (this.comment.id) {
-          await this.commentsModel.discardDraft(this.comment.id);
+          await this.commentsModel().discardDraft(this.comment.id);
         }
       } else {
         // No need to make a backend call when nothing has changed.
@@ -1115,7 +1118,7 @@ export class GrComment extends LitElement {
   /** For sharing between save() and autoSave(). */
   private rawSave(message: string, options: {showToast: boolean}) {
     if (!isDraftOrUnsaved(this.comment)) throw new Error('not a draft');
-    return this.commentsModel.saveDraft(
+    return this.commentsModel().saveDraft(
       {
         ...this.comment,
         message,

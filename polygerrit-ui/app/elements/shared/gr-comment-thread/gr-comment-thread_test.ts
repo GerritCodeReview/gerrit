@@ -28,7 +28,6 @@ import {
 import {
   mockPromise,
   queryAndAssert,
-  stubComments,
   stubRestApi,
   waitUntilCalled,
   MockPromise,
@@ -234,7 +233,9 @@ suite('gr-comment-thread tests', () => {
 
     setup(async () => {
       savePromise = mockPromise<DraftInfo>();
-      stub = stubComments('saveDraft').returns(savePromise);
+      stub = sinon
+        .stub(element.commentsModel(), 'saveDraft')
+        .returns(savePromise);
 
       element.thread = createThread(c1, {...c2, unresolved: true});
       await element.updateComplete;

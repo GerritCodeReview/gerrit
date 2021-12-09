@@ -297,7 +297,7 @@ export class GrChecksRun extends LitElement {
 
   renderStatusLink() {
     const link = this.run.statusLink;
-    if (!link) return;
+    if (!link) return this.renderResultLink();
     return html`
       <a href="${link}" target="_blank" @click="${this.onLinkClick}"
         ><iron-icon
@@ -306,6 +306,28 @@ export class GrChecksRun extends LitElement {
           aria-label="external link to run status details"
         ></iron-icon>
         <paper-tooltip offset="5">Link to run status details</paper-tooltip>
+      </a>
+    `;
+  }
+
+  /**
+   * If the run does not have a status link and we only have one result, then
+   * it is worthwhile showing the primary link of that result instead.
+   */
+  renderResultLink() {
+    if (this.run.results?.length !== 1) return;
+    const link = this.run.results?.[0].links?.[0];
+    if (!link || !link.primary) return;
+    return html`
+      <a href="${link.url}" target="_blank" @click="${this.onLinkClick}"
+        ><iron-icon
+          class="statusLinkIcon"
+          icon="gr-icons:launch"
+          aria-label="external link to details of first result"
+        ></iron-icon>
+        <paper-tooltip offset="5">
+          Link to details of first result
+        </paper-tooltip>
       </a>
     `;
   }

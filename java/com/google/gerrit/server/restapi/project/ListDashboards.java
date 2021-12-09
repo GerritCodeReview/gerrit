@@ -100,7 +100,7 @@ public class ListDashboards implements RestReadView<ProjectResource> {
     return tree.values();
   }
 
-  private List<DashboardInfo> scan(ProjectState state, String project, boolean setDefault)
+  private ImmutableList<DashboardInfo> scan(ProjectState state, String project, boolean setDefault)
       throws ResourceNotFoundException, IOException, PermissionBackendException {
     if (!state.statePermitsRead()) {
       return ImmutableList.of();
@@ -118,13 +118,13 @@ public class ListDashboards implements RestReadView<ProjectResource> {
           // Do nothing.
         }
       }
-      return all;
+      return ImmutableList.copyOf(all);
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(project, e);
     }
   }
 
-  private List<DashboardInfo> scanDashboards(
+  private ImmutableList<DashboardInfo> scanDashboards(
       Project definingProject,
       Repository git,
       RevWalk rw,
@@ -155,6 +155,6 @@ public class ListDashboards implements RestReadView<ProjectResource> {
         }
       }
     }
-    return list;
+    return ImmutableList.copyOf(list);
   }
 }

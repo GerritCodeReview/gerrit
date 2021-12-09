@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -37,7 +38,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -63,7 +63,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return Response.ok(relatedChangesInfo);
   }
 
-  public List<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)
+  public ImmutableList<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)
       throws IOException, PermissionBackendException {
     boolean isEdit = rsrc.getEdit().isPresent();
     PatchSet basePs = isEdit ? rsrc.getEdit().get().getBasePatchSet() : rsrc.getPatchSet();
@@ -92,10 +92,10 @@ public class GetRelated implements RestReadView<RevisionResource> {
     if (result.size() == 1) {
       RelatedChangeAndCommitInfo r = result.get(0);
       if (r.commit != null && r.commit.commit.equals(rsrc.getPatchSet().commitId().name())) {
-        return Collections.emptyList();
+        return ImmutableList.of();
       }
     }
-    return result;
+    return ImmutableList.copyOf(result);
   }
 
   static RelatedChangeAndCommitInfo newChangeAndCommit(

@@ -231,7 +231,7 @@ public class GroupsNoteDbConsistencyChecker {
 
   public static void ensureConsistentWithGroupNameNotes(
       Repository allUsersRepo, InternalGroup group) throws IOException {
-    List<ConsistencyCheckInfo.ConsistencyProblemInfo> problems =
+    ImmutableList<ConsistencyCheckInfo.ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, group.getNameKey(), group.getGroupUUID());
     problems.forEach(GroupsNoteDbConsistencyChecker::logConsistencyProblem);
@@ -246,7 +246,7 @@ public class GroupsNoteDbConsistencyChecker {
    * @return a list of {@code ConsistencyProblemInfo} containing the problem details.
    */
   @VisibleForTesting
-  static List<ConsistencyProblemInfo> checkWithGroupNameNotes(
+  static ImmutableList<ConsistencyProblemInfo> checkWithGroupNameNotes(
       Repository allUsersRepo, AccountGroup.NameKey groupName, AccountGroup.UUID groupUUID)
       throws IOException {
     try {
@@ -273,7 +273,7 @@ public class GroupsNoteDbConsistencyChecker {
         problems.add(
             warning("group note of name '%s' claims to represent name of '%s'", name, actualName));
       }
-      return problems;
+      return ImmutableList.copyOf(problems);
     } catch (ConfigInvalidException e) {
       return ImmutableList.of(
           warning("fail to check consistency with group name notes: %s", e.getMessage()));

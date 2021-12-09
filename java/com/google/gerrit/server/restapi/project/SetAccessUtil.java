@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
@@ -42,7 +43,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -66,10 +66,10 @@ public class SetAccessUtil {
     this.pluginPermissionsUtil = pluginPermissionsUtil;
   }
 
-  List<AccessSection> getAccessSections(Map<String, AccessSectionInfo> sectionInfos)
+  ImmutableList<AccessSection> getAccessSections(Map<String, AccessSectionInfo> sectionInfos)
       throws UnprocessableEntityException {
     if (sectionInfos == null) {
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
 
     List<AccessSection> sections = new ArrayList<>(sectionInfos.size());
@@ -120,7 +120,7 @@ public class SetAccessUtil {
       }
       sections.add(accessSection.build());
     }
-    return sections;
+    return ImmutableList.copyOf(sections);
   }
 
   /**

@@ -30,7 +30,7 @@ public class FastForwardOnly extends SubmitStrategy {
   }
 
   @Override
-  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
+  public ImmutableList<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
     List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
 
     Map<BranchNameKey, CodeReviewCommit> branchToCommit = new HashMap<>();
@@ -57,7 +57,7 @@ public class FastForwardOnly extends SubmitStrategy {
         ops.add(new NotFastForwardOp(c));
       }
     }
-    return ops;
+    return ImmutableList.copyOf(ops);
   }
 
   private class NotFastForwardOp extends SubmitStrategyOp {

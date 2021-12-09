@@ -174,7 +174,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     String nameLC = name.toLowerCase(Locale.US);
     SortedMap<String, GroupReference> matches = namesToGroups.tailMap(nameLC);
     if (matches.isEmpty()) {
-      return Collections.emptyList();
+      return new ArrayList<>();
     }
 
     List<GroupReference> r = new ArrayList<>(matches.size());

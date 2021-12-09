@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.registration;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
@@ -80,10 +81,10 @@ public class PrivateInternals_DynamicTypes {
     return Collections.unmodifiableMap(m);
   }
 
-  public static List<RegistrationHandle> attachItems(
+  public static ImmutableList<RegistrationHandle> attachItems(
       Injector src, String pluginName, Map<TypeLiteral<?>, DynamicItem<?>> items) {
     if (src == null || items == null || items.isEmpty()) {
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
 
     List<RegistrationHandle> handles = new ArrayList<>(4);
@@ -103,13 +104,13 @@ public class PrivateInternals_DynamicTypes {
       remove(handles);
       throw e;
     }
-    return handles;
+    return ImmutableList.copyOf(handles);
   }
 
-  public static List<RegistrationHandle> attachSets(
+  public static ImmutableList<RegistrationHandle> attachSets(
       Injector src, String pluginName, Map<TypeLiteral<?>, DynamicSet<?>> sets) {
     if (src == null || sets == null || sets.isEmpty()) {
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
 
     List<RegistrationHandle> handles = new ArrayList<>(4);
@@ -131,13 +132,13 @@ public class PrivateInternals_DynamicTypes {
       remove(handles);
       throw e;
     }
-    return handles;
+    return ImmutableList.copyOf(handles);
   }
 
-  public static List<RegistrationHandle> attachMaps(
+  public static ImmutableList<RegistrationHandle> attachMaps(
       Injector src, String pluginName, Map<TypeLiteral<?>, DynamicMap<?>> maps) {
     if (src == null || maps == null || maps.isEmpty()) {
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
 
     List<RegistrationHandle> handles = new ArrayList<>(4);
@@ -160,7 +161,7 @@ public class PrivateInternals_DynamicTypes {
       remove(handles);
       throw e;
     }
-    return handles;
+    return ImmutableList.copyOf(handles);
   }
 
   public static LifecycleListener registerInParentInjectors() {

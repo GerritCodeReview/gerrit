@@ -17,9 +17,9 @@ package com.google.gerrit.server.mail.send;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CommentFormatter {
@@ -47,9 +47,9 @@ public class CommentFormatter {
    * @param source The raw, unescaped comment in the Gerrit wiki-like format.
    * @return List of block objects, each with unescaped comment content.
    */
-  public static List<Block> parse(@Nullable String source) {
+  public static ImmutableList<Block> parse(@Nullable String source) {
     if (isNullOrEmpty(source)) {
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
 
     List<Block> result = new ArrayList<>();
@@ -64,7 +64,7 @@ public class CommentFormatter {
         result.add(makeParagraph(p));
       }
     }
-    return result;
+    return ImmutableList.copyOf(result);
   }
 
   /**

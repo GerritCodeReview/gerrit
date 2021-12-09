@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.BranchNameKey;
@@ -293,5 +294,5 @@ public abstract class SubmitStrategy {
     }
   }
 
-  protected abstract List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge);
+  protected abstract ImmutableList<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge);
 }

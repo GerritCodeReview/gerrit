@@ -112,8 +112,8 @@ public class WalkSorter {
     return Iterables.concat(sortedByProject);
   }
 
-  private List<PatchSetData> sortProject(Project.NameKey project, Collection<ChangeData> in)
-      throws IOException {
+  private ImmutableList<PatchSetData> sortProject(
+      Project.NameKey project, Collection<ChangeData> in) throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(retainBody);
@@ -181,7 +181,7 @@ public class WalkSorter {
           }
         }
       }
-      return result;
+      return ImmutableList.copyOf(result);
     }
   }
 

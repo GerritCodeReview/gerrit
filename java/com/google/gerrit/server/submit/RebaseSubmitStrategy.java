@@ -15,9 +15,9 @@
 package com.google.gerrit.server.submit;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 import static com.google.gerrit.server.submit.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.BooleanProjectConfig;
@@ -56,7 +56,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   }
 
   @Override
-  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
+  public ImmutableList<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
     List<CodeReviewCommit> sorted;
     try {
       sorted = args.rebaseSorter.sort(toMerge);
@@ -92,7 +92,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         // found a merge commit that depends on a normal change, this means we are required to merge
         // the whole series at once
         sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, sorted);
-        return sorted.stream().map(n -> new MergeIfNecessaryOp(n)).collect(toList());
+        return sorted.stream().map(n -> new MergeIfNecessaryOp(n)).collect(toImmutableList());
       }
       foundNonMerge = true;
     }
@@ -114,7 +114,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       }
       first = false;
     }
-    return ops;
+    return ImmutableList.copyOf(ops);
   }
 
   private class RebaseRootOp extends SubmitStrategyOp {

@@ -41,6 +41,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -809,17 +810,17 @@ public class ChangeJson {
     out.submitter = accountLoader.get(s.get().accountId());
   }
 
-  private Collection<ChangeMessageInfo> messages(ChangeData cd) {
+  private ImmutableList<ChangeMessageInfo> messages(ChangeData cd) {
     List<ChangeMessage> messages = cmUtil.byChange(cd.notes());
     if (messages.isEmpty()) {
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
 
     List<ChangeMessageInfo> result = Lists.newArrayListWithCapacity(messages.size());
     for (ChangeMessage message : messages) {
       result.add(createChangeMessageInfo(message, accountLoader));
     }
-    return result;
+    return ImmutableList.copyOf(result);
   }
 
   private Collection<AccountInfo> removableReviewers(ChangeData cd, ChangeInfo out)

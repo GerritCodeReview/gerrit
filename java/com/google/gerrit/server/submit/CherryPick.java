@@ -45,7 +45,7 @@ public class CherryPick extends SubmitStrategy {
   }
 
   @Override
-  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
+  public ImmutableList<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
     List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     boolean first = true;
@@ -62,7 +62,7 @@ public class CherryPick extends SubmitStrategy {
       }
       first = false;
     }
-    return ops;
+    return ImmutableList.copyOf(ops);
   }
 
   private class CherryPickRootOp extends SubmitStrategyOp {

@@ -91,7 +91,7 @@ suite('gr-diff-view tests', () => {
       ]});
       await flush();
 
-      element.commentsModel.setState({
+      element.commentsModel().setState({
         comments: {},
         robotComments: {},
         drafts: {},
@@ -145,7 +145,7 @@ suite('gr-diff-view tests', () => {
       });
 
       test('comment url resolves to comment.patch_set vs latest', () => {
-        element.commentsModel.setState({
+        element.commentsModel().setState({
           comments: {
             '/COMMIT_MSG': [
               {
@@ -219,7 +219,7 @@ suite('gr-diff-view tests', () => {
     test('unchanged diff X vs latest from comment links navigates to base vs X'
         , () => {
           const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-          element.commentsModel.setState({
+          element.commentsModel().setState({
             comments: {
               '/COMMIT_MSG': [
                 {
@@ -272,7 +272,7 @@ suite('gr-diff-view tests', () => {
     test('unchanged diff Base vs latest from comment does not navigate'
         , () => {
           const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-          element.commentsModel.setState({
+          element.commentsModel().setState({
             comments: {
               '/COMMIT_MSG': [
                 {
@@ -353,7 +353,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('diff toast to go to latest is shown and not base', async () => {
-      element.commentsModel.setState({
+      element.commentsModel().setState({
         comments: {
           '/COMMIT_MSG': [
             {

@@ -51,6 +51,8 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
+import {commentsModelToken} from '../../../services/comments/comments-model';
+import {resolve} from '../../../services/dependency';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -126,13 +128,13 @@ export class GrPatchRangeSelect extends LitElement {
   private readonly reporting: ReportingService =
     getAppContext().reportingService;
 
-  private readonly commentsModel = getAppContext().commentsModel;
+  private readonly commentsModel = resolve(this, commentsModelToken);
 
-  constructor() {
-    super();
+  override connectedCallback() {
+    super.connectedCallback();
     subscribe(
       this,
-      this.commentsModel.changeComments$,
+      this.commentsModel().changeComments$,
       x => (this.changeComments = x)
     );
   }

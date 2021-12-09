@@ -114,16 +114,21 @@ const finalizers: Finalizable[] = [];
 
 function injectDependency<T>(
   dependency: DependencyToken<T>,
-  service: T & Finalizable
+  provider: Provider<T & Finalizable>
 ) {
-  injectedDependencies.set(dependency, () => service);
-  finalizers.push(service);
+  let service: (T & Finalizable) | undefined = undefined;
+  injectedDependencies.set(dependency, () => {
+    if (service) return service;
+    service = provider();
+    finalizers.push(service);
+    return service;
+  });
 }
 
 function resolveDependency(evt: DependencyRequestEvent<unknown>) {
-  const service = injectedDependencies.get(evt.dependency);
-  if (service) {
-    evt.callback(service());
+  const provider = injectedDependencies.get(evt.dependency);
+  if (provider) {
+    evt.callback(provider());
   } else {
     throw new DependencyError(
       evt.dependency,
@@ -143,8 +148,8 @@ setup(() => {
   injectAppContext(appContext);
   finalizers.push(appContext);
   const dependencies = createTestDependencies(appContext);
-  for (const [token, service] of dependencies) {
-    injectDependency(token, service);
+  for (const [token, provider] of dependencies) {
+    injectDependency(token, provider);
   }
   document.addEventListener('request-dependency', resolveDependency);
   // The following calls is nessecary to avoid influence of previously executed

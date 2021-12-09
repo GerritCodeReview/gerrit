@@ -96,9 +96,6 @@ export function createDiffAppContext(): AppContext & Finalizable {
     routerModel: (_ctx: Partial<AppContext>) => {
       throw new Error('routerModel is not implemented');
     },
-    shortcutsService: (_ctx: Partial<AppContext>) => {
-      throw new Error('shortcutsService is not implemented');
-    },
   };
   return create<AppContext>(appRegistry);
 }

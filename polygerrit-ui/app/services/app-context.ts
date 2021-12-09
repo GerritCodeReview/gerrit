@@ -26,7 +26,6 @@ import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-typ
 import {StorageService} from './storage/gr-storage';
 import {UserModel} from './user/user-model';
 import {RouterModel} from './router/router-model';
-import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {ConfigModel} from './config/config-model';
 
 export interface AppContext {
@@ -42,7 +41,6 @@ export interface AppContext {
   storageService: StorageService;
   configModel: ConfigModel;
   userModel: UserModel;
-  shortcutsService: ShortcutsService;
 }
 
 /**

@@ -29,7 +29,10 @@ import {GrStorageService} from './storage/gr-storage_impl';
 import {UserModel} from './user/user-model';
 import {CommentsModel, commentsModelToken} from './comments/comments-model';
 import {RouterModel} from './router/router-model';
-import {ShortcutsService} from './shortcuts/shortcuts-service';
+import {
+  ShortcutsService,
+  shortcutsServiceToken,
+} from './shortcuts/shortcuts-service';
 import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel} from './config/config-model';
 import {BrowserModel, browserModelToken} from './browser/browser-model';
@@ -89,11 +92,6 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new UserModel(ctx.restApiService!);
     },
-    shortcutsService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.userModel, 'userModel');
-      assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ShortcutsService(ctx.userModel, ctx.reportingService!);
-    },
   };
   return create<AppContext>(appRegistry);
 }
@@ -112,6 +110,12 @@ export function createAppDependencies(
     appContext.reportingService
   );
   dependencies.set(commentsModelToken, commentsModel);
+
+  const shortcutsService = new ShortcutsService(
+    appContext.userModel,
+    appContext.reportingService
+  );
+  dependencies.set(shortcutsServiceToken, shortcutsService);
 
   return dependencies;
 }

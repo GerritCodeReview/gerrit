@@ -22,7 +22,6 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-commit-info/gr-commit-info';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-file-list-header_html';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -46,7 +45,8 @@ import {
   Shortcut,
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {getAppContext} from '../../../services/app-context';
+import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
+import {resolve, DIPolymerElement} from '../../../services/dependency';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -63,7 +63,7 @@ export interface GrFileListHeader {
 }
 
 @customElement('gr-file-list-header')
-export class GrFileListHeader extends PolymerElement {
+export class GrFileListHeader extends DIPolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -134,7 +134,7 @@ export class GrFileListHeader extends PolymerElement {
   @property({type: Object})
   revisionInfo?: RevisionInfo;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcuts = resolve(this, shortcutsServiceToken);
 
   _expandAllDiffs() {
     fireEvent(this, 'expand-diffs');
@@ -204,6 +204,6 @@ export class GrFileListHeader extends PolymerElement {
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-    return this.shortcuts.createTitle(shortcutName, section);
+    return this.getShortcuts().createTitle(shortcutName, section);
   }
 }

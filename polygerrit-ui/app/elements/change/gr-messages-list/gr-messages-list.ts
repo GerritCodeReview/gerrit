@@ -51,6 +51,7 @@ import {
   ParsedChangeInfo,
 } from '../../../types/types';
 import {commentsModelToken} from '../../../services/comments/comments-model';
+import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
 
 /**
@@ -259,7 +260,7 @@ export class GrMessagesList extends DIPolymerElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcuts = resolve(this, shortcutsServiceToken);
 
   private subscriptions: Subscription[] = [];
 
@@ -414,13 +415,13 @@ export class GrMessagesList extends DIPolymerElement {
 
   _computeExpandAllTitle(_expandAllState?: string) {
     if (_expandAllState === ExpandAllState.COLLAPSE_ALL) {
-      return this.shortcuts.createTitle(
+      return this.getShortcuts().createTitle(
         Shortcut.COLLAPSE_ALL_MESSAGES,
         ShortcutSection.ACTIONS
       );
     }
     if (_expandAllState === ExpandAllState.EXPAND_ALL) {
-      return this.shortcuts.createTitle(
+      return this.getShortcuts().createTitle(
         Shortcut.EXPAND_ALL_MESSAGES,
         ShortcutSection.ACTIONS
       );

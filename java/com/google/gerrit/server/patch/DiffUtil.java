@@ -15,9 +15,16 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
+import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -27,6 +34,40 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * ModifiedFilesCache}.
  */
 public class DiffUtil {
+
+  /**
+   * Return the {@code modifiedFiles} input list while merging rewritten entries.
+   *
+   * <p>Background: In some cases, JGit returns two diff entries (ADDED/DELETED, RENAMED/DELETED,
+   * etc...) for the same file path. This happens e.g. when a file's mode is changed between
+   * patchsets, for example converting a symlink file to a regular file. We identify this case and
+   * return a single modified file with changeType = {@link ChangeType#REWRITE}.
+   */
+  public static List<ModifiedFile> mergeRewrittenModifiedFiles(List<ModifiedFile> modifiedFiles) {
+    List<ModifiedFile> result = new ArrayList<>();
+    ListMultimap<String, ModifiedFile> byPath = ArrayListMultimap.create();
+    modifiedFiles.stream()
+        .forEach(
+            f -> {
+              if (f.changeType() == ChangeType.DELETED) {
+                byPath.get(f.oldPath().get()).add(f);
+              } else {
+                byPath.get(f.newPath().get()).add(f);
+              }
+            });
+    for (String path : byPath.keySet()) {
+      List<ModifiedFile> entries = byPath.get(path);
+      if (entries.size() == 1) {
+        result.add(entries.get(0));
+      } else {
+        // More than one. Return a single REWRITE entry.
+        // Convert the first entry (prioritized according to change type enum order) to REWRITE
+        entries.sort(Comparator.comparingInt(o -> o.changeType().ordinal()));
+        result.add(entries.get(0).toBuilder().changeType(ChangeType.REWRITE).build());
+      }
+    }
+    return result;
+  }
 
   /**
    * Returns the Git tree object ID pointed to by the commitId parameter.

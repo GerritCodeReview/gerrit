@@ -16,10 +16,11 @@
  */
 
 import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard';
+import '../../shared/gr-change-status/gr-change-status';
 import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
-import {changeIsMerged} from '../../../utils/change-util';
+import {changeStatuses} from '../../../utils/change-util';
 import {getRequirements, iconForStatus} from '../../../utils/label-util';
 
 @customElement('gr-change-list-column-requirements')
@@ -56,16 +57,41 @@ export class GrChangeListColumRequirements extends LitElement {
           color: var(--deemphasized-text-color);
           margin-left: var(--spacing-s);
         }
+        :host {
+          align-items: center;
+          display: inline-flex;
+        }
+        .comma {
+          padding-right: var(--spacing-xs);
+        }
+        /* Used to hide the leading separator comma for statuses. */
+        .comma:first-of-type {
+          display: none;
+        }
       `,
     ];
   }
 
   override render() {
-    const satisfiedIcon = iconForStatus(SubmitRequirementStatus.SATISFIED);
-    if (changeIsMerged(this.change)) {
-      return this.renderState(satisfiedIcon, 'Merged');
-    }
+    const commentIcon = this.renderCommentIcon();
+    return html`${this.renderChangeStatus()} ${commentIcon}`;
+  }
 
+  renderChangeStatus() {
+    if (!this.change) return;
+    const statuses = changeStatuses(this.change);
+    if (statuses.length > 0) {
+      return statuses.map(
+        status => html`
+          <div class="comma">,</div>
+          <gr-change-status flat .status=${status}></gr-change-status>
+        `
+      );
+    }
+    return this.renderActiveStatus();
+  }
+
+  renderActiveStatus() {
     const submitRequirements = getRequirements(this.change);
     if (!submitRequirements.length) return html`n/a`;
     const numRequirements = submitRequirements.length;
@@ -76,19 +102,20 @@ export class GrChangeListColumRequirements extends LitElement {
     ).length;
 
     if (numSatisfied === numRequirements) {
-      return this.renderState(satisfiedIcon, 'Ready');
+      return this.renderState(
+        iconForStatus(SubmitRequirementStatus.SATISFIED),
+        'Ready'
+      );
     }
 
     const numUnsatisfied = submitRequirements.filter(
       req => req.status === SubmitRequirementStatus.UNSATISFIED
     ).length;
 
-    const state = this.renderState(
+    return this.renderState(
       iconForStatus(SubmitRequirementStatus.UNSATISFIED),
       this.renderSummary(numUnsatisfied, numRequirements)
     );
-    const commentIcon = this.renderCommentIcon();
-    return html`${state}${commentIcon}`;
   }
 
   renderState(icon: string, aggregation: string | TemplateResult) {

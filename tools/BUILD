@@ -409,7 +409,7 @@ java_package_configuration(
         "-Xep:TemporalAccessorGetChronoField:ERROR",
         "-Xep:TestParametersNotInitialized:ERROR",
         "-Xep:TheoryButNoTheories:ERROR",
-        # "-Xep:ThreadJoinLoop:WARN",
+        "-Xep:ThreadJoinLoop:ERROR",
         "-Xep:ThreadLocalUsage:ERROR",
         # "-Xep:ThreadPriorityCheck:WARN",
         "-Xep:ThreeLetterTimeZoneID:ERROR",

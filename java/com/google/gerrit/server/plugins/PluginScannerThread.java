@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.util.concurrent.Uninterruptibles;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -45,10 +46,6 @@ class PluginScannerThread extends Thread {
 
   void end() {
     done.countDown();
-    try {
-      join();
-    } catch (InterruptedException e) {
-      // Ignored
-    }
+    Uninterruptibles.joinUninterruptibly(this);
   }
 }

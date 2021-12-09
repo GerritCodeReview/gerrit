@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46a5bbe3_e1bae40a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-09T20:28:21Z",
+      "side": 1,
+      "message": "Should the icon be red given it\u0027s an error?",
+      "revId": "2311f525a5fd2071e11f8037bd62bd4ff17b8654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

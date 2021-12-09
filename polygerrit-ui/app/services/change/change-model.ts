@@ -232,16 +232,18 @@ export class ChangeModel implements Finalizable {
       this.currentPatchNum$.subscribe(
         currentPatchNum => (this.currentPatchNum = currentPatchNum)
       ),
+      combineLatest([this.currentPatchNum$, this.changeNum$])
+        .pipe(
+          switchMap(([currentPatchNum, changeNum]) => {
+            if (!changeNum || !currentPatchNum) {
+              this.updateStateReviewedFiles([]);
+              return of(undefined);
+            }
+            return from(this.fetchReviewedFiles(currentPatchNum!, changeNum!));
+          })
+        )
+        .subscribe(),
     ];
-    combineLatest([this.currentPatchNum$, this.changeNum$]).pipe(
-      switchMap(([currentPatchNum, changeNum]) => {
-        if (!changeNum || !currentPatchNum) {
-          this.updateStateReviewedFiles([]);
-          return of(undefined);
-        }
-        return from(this.fetchReviewedFiles(currentPatchNum!, changeNum!));
-      })
-    );
   }
 
   finalize() {

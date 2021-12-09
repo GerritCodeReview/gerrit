@@ -28,6 +28,9 @@ link:http://eclipse.org/egit/[EGit,role=external,window=_blank] in Eclipse, is s
 Still there are some client-side tools for Gerrit, which can be used
 optionally:
 
+* link:https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens[
+  Gitlens VS Code Extension,role=external,window=_blank]: Gerrit integration
+  with Visual Studio Code.
 * link:http://eclipse.org/mylyn/[Mylyn Gerrit Connector,role=external,window=_blank]: Gerrit
   integration with Mylyn
 * link:https://github.com/uwolfer/gerrit-intellij-plugin[Gerrit

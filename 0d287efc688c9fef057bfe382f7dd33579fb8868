@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fea01c32_87cc08be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-09T13:04:12Z",
+      "side": 1,
+      "message": "Wow, that was subtle. I really like how SR is starting to look!",
+      "revId": "0d287efc688c9fef057bfe382f7dd33579fb8868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

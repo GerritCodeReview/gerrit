@@ -24,8 +24,11 @@ import {
   ShortcutSection,
   SectionView,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {getAppContext} from '../../../services/app-context';
-import {ShortcutViewListener} from '../../../services/shortcuts/shortcuts-service';
+import {
+  shortcutsServiceToken,
+  ShortcutViewListener,
+} from '../../../services/shortcuts/shortcuts-service';
+import {resolve} from '../../../services/dependency';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -54,7 +57,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
 
   private readonly shortcutListener: ShortcutViewListener;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcuts = resolve(this, shortcutsServiceToken);
 
   constructor() {
     super();
@@ -167,11 +170,11 @@ export class GrKeyboardShortcutsDialog extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.shortcuts.addListener(this.shortcutListener);
+    this.getShortcuts().addListener(this.shortcutListener);
   }
 
   override disconnectedCallback() {
-    this.shortcuts.removeListener(this.shortcutListener);
+    this.getShortcuts().removeListener(this.shortcutListener);
     super.disconnectedCallback();
   }
 

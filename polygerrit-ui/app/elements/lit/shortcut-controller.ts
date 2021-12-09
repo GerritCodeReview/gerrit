@@ -16,19 +16,15 @@
  */
 import {ReactiveController, ReactiveControllerHost} from 'lit';
 import {Binding} from '../../utils/dom-util';
-import {ShortcutsService} from '../../services/shortcuts/shortcuts-service';
-import {getAppContext} from '../../services/app-context';
-
+import {shortcutsServiceToken} from '../../services/shortcuts/shortcuts-service';
+import {resolve} from '../../services/dependency';
 interface ShortcutListener {
   binding: Binding;
   listener: (e: KeyboardEvent) => void;
 }
 
 type Cleanup = () => void;
-
 export class ShortcutController implements ReactiveController {
-  private readonly service: ShortcutsService = getAppContext().shortcutsService;
-
   private readonly listenersLocal: ShortcutListener[] = [];
 
   private readonly listenersGlobal: ShortcutListener[] = [];
@@ -52,18 +48,15 @@ export class ShortcutController implements ReactiveController {
   }
 
   hostConnected() {
+    const service = resolve(this.host, shortcutsServiceToken)();
     for (const {binding, listener} of this.listenersLocal) {
-      const cleanup = this.service.addShortcut(this.host, binding, listener, {
+      const cleanup = service.addShortcut(this.host, binding, listener, {
         shouldSuppress: false,
       });
       this.cleanups.push(cleanup);
     }
     for (const {binding, listener} of this.listenersGlobal) {
-      const cleanup = this.service.addShortcut(
-        document.body,
-        binding,
-        listener
-      );
+      const cleanup = service.addShortcut(document.body, binding, listener);
       this.cleanups.push(cleanup);
     }
   }

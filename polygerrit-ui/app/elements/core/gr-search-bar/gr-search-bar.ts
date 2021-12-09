@@ -35,6 +35,7 @@ import {getDocsBaseUrl} from '../../../utils/url-util';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
+import {DIPolymerElement} from '../../../services/dependency';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -147,7 +148,7 @@ export interface GrSearchBar {
 }
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
+const base = KeyboardShortcutMixin(DIPolymerElement);
 
 @customElement('gr-search-bar')
 export class GrSearchBar extends base {

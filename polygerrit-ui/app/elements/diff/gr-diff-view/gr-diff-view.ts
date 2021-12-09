@@ -120,6 +120,7 @@ import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 import {browserModelToken} from '../../../services/browser/browser-model';
 import {commentsModelToken} from '../../../services/comments/comments-model';
+import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
@@ -372,7 +373,7 @@ export class GrDiffView extends base {
   // Private but used in tests.
   readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcuts = resolve(this, shortcutsServiceToken);
 
   _throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
@@ -1812,7 +1813,7 @@ export class GrDiffView extends base {
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-    return this.shortcuts.createTitle(shortcutName, section);
+    return this.getShortcuts().createTitle(shortcutName, section);
   }
 }
 

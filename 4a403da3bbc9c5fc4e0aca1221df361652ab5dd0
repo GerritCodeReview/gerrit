@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "324b99bb_0d91a6df",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-09T09:27:55Z",
+      "side": 1,
+      "message": "Add a TODO about removing the old status column when SRs are rolled out.",
+      "revId": "4a403da3bbc9c5fc4e0aca1221df361652ab5dd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

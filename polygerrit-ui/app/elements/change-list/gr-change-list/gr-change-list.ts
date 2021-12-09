@@ -22,7 +22,6 @@ import '../../shared/gr-cursor-manager/gr-cursor-manager';
 import '../gr-change-list-item/gr-change-list-item';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-list_html';
 import {getAppContext} from '../../../services/app-context';
 import {
@@ -57,6 +56,7 @@ import {
 } from '../../../utils/label-util';
 import {addGlobalShortcut, Key} from '../../../utils/dom-util';
 import {unique} from '../../../utils/common-util';
+import {DIPolymerElement} from '../../../services/dependency';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -88,7 +88,7 @@ export interface GrChangeList {
 }
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
+const base = KeyboardShortcutMixin(DIPolymerElement);
 
 @customElement('gr-change-list')
 export class GrChangeList extends base {

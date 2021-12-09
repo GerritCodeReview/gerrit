@@ -420,6 +420,7 @@ export declare interface ChangeInfo {
   contains_git_conflicts?: boolean;
   internalHost?: string; // TODO(TS): provide an explanation what is its
   submit_requirements?: SubmitRequirementResultInfo[];
+  submit_records?: SubmitRecordInfo[];
 }
 
 // The ID of the change in the format "'<project>~<branch>~<Change-Id>'"
@@ -1101,6 +1102,63 @@ export enum SubmitRequirementStatus {
   UNSATISFIED = 'UNSATISFIED',
   OVERRIDDEN = 'OVERRIDDEN',
   NOT_APPLICABLE = 'NOT_APPLICABLE',
+  ERROR = 'ERROR',
 }
 
 export type UrlEncodedRepoName = BrandType<string, '_urlEncodedRepoName'>;
+
+/**
+ * The SubmitRecordInfo entity describes results from a submit_rule.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#submit-record-info
+ */
+export declare interface SubmitRecordInfo {
+  rule_name: string;
+  status?: SubmitRecordInfoStatus;
+  labels?: SubmitRecordInfoLabel[];
+  requirements?: Requirement[];
+  error_message?: string;
+}
+
+export enum SubmitRecordInfoStatus {
+  OK = 'OK',
+  NOT_READY = 'NOT_READY',
+  CLOSED = 'CLOSED',
+  FORCED = 'FORCED',
+  RULE_ERROR = 'RULE_ERROR',
+}
+
+export enum LabelStatus {
+  /**
+   * This label provides what is necessary for submission.
+   */
+  OK = 'OK',
+  /**
+   * This label prevents the change from being submitted.
+   */
+  REJECT = 'REJECT',
+  /**
+   * The label may be set, but it's neither necessary for submission
+   * nor does it block submission if set.
+   */
+  MAY = 'MAY',
+  /**
+   * The label is required for submission, but has not been satisfied.
+   */
+  NEED = 'NEED',
+  /**
+   * The label is required for submission, but is impossible to complete.
+   * The likely cause is access has not been granted correctly by the
+   * project owner or site administrator.
+   */
+  IMPOSSIBLE = 'IMPOSSIBLE',
+  OPTIONAL = 'OPTIONAL',
+}
+
+/**
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#submit-record-info
+ */
+export declare interface SubmitRecordInfoLabel {
+  label: string;
+  status: LabelStatus;
+  appliedBy: AccountInfo;
+}

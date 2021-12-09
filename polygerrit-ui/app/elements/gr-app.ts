@@ -66,12 +66,12 @@ export class GrApp extends DIPolymerElement {
   private finalizables: Finalizable[] = [];
 
   override connectedCallback() {
-    super.connectedCallback();
     const dependencies = createAppDependencies(appContext);
     for (const [token, service] of dependencies) {
       this.finalizables.push(service);
       provide(this, token, () => service);
     }
+    super.connectedCallback();
   }
 
   override disconnectedCallback() {

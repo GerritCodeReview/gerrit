@@ -170,6 +170,30 @@
       },
       "revId": "92b5db7b5d42d7f74c800b8c9f657ea8f6f0cb72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3770cd4d_77de733f",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-09T04:35:47Z",
+      "side": 1,
+      "message": "Why not downgrade the ES client version? There\u0027s no mapping from low-level rest client to ES server version [1]. We should be able to go back to a 6.* version like 6.8.20 [2] which uses httpcore* versions 4.4.5 again. And then this is resolved fully on stable-3.5 where we don\u0027t have the client at all.\n\n[1] https://www.elastic.co/guide/en/elasticsearch/client/java-rest/7.0/java-rest-low-usage-maven.html\n[2] https://search.maven.org/artifact/org.elasticsearch.client/elasticsearch-rest-client/6.8.20/jar",
+      "parentUuid": "f25503a4_b2a52a27",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 24
+      },
+      "revId": "92b5db7b5d42d7f74c800b8c9f657ea8f6f0cb72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

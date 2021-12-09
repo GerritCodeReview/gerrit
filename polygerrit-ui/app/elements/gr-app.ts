@@ -66,12 +66,16 @@ export class GrApp extends DIPolymerElement {
   private finalizables: Finalizable[] = [];
 
   override connectedCallback() {
-    super.connectedCallback();
+    // NOTE: Polymer renders its template synchronously as part of
+    // super.connectedCallback. This means that we need to provide the
+    // dependencies before.  After migration to lit, super.connectedCallback
+    // can come first again.
     const dependencies = createAppDependencies(appContext);
     for (const [token, service] of dependencies) {
       this.finalizables.push(service);
       provide(this, token, () => service);
     }
+    super.connectedCallback();
   }
 
   override disconnectedCallback() {

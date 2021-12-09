@@ -106,6 +106,47 @@
       "parentUuid": "c89db837_ffaf5e10",
       "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff448950_1c49b55a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-12-09T16:06:16Z",
+      "side": 1,
+      "message": "\u003e Ok, if I\u0027m understanding correctly so far, it sounds like there\u0027s a desired mapping of PSAs to the voting user\u0027s (Google internal?) credentials?\n\nThat\u0027s right. Giving PSAs a UUID will make them referenceable (for anyone and for different use cases). For example: You can reference the UUID in reflog entry that was written when it was granted. That will survive forced rewrites such as NoteDb upgrades where the SHA1 changes.\n\n\u003e A thought just occurred to me, is to this support the Verified History [1] requirement of SLSA?\n\nThis generally supports SLSAs. For SLSAs, you could trust your installation that it would only ever authenticate users with the right set of credentials and privileges. As additional security measure, you can also check things once more before a change gets submitted. To do that, you\u0027d want to link the PSA to some record of the credentials that were used to grant the PSA. That\u0027s where UUIDs help.\n\nThey also help with copied and persisted votes to show where/when the vote was granted originally (SHA1s could be used, but complicate things when the NoteDb branch gets rewritten).",
+      "parentUuid": "65550d20_c3a05bd4",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2d5568a_008518b0",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-12-09T16:06:16Z",
+      "side": 1,
+      "message": "it seems we use , as separator. shall we do that for the UUID as well? if it would make parsing easier maybe we could even prefix the UUID with \"UUID: \".",
+      "range": {
+        "startLine": 884,
+        "startChar": 57,
+        "endLine": 884,
+        "endChar": 58
+      },
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

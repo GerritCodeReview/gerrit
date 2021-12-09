@@ -1845,7 +1845,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deletedCommentContentIsNotCachedInPortedComments() throws Exception {
+  public void deletedCommentContentIsNotPorted() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId = changeOps.newChange().create();
     PatchSet.Id patchsetId1 = changeOps.change(changeId).currentPatchset().get().patchsetId();
@@ -1859,9 +1859,9 @@ public class PortedCommentsIT extends AbstractDaemonTest {
         .revision(patchsetId1.get())
         .comment(commentUuid)
         .delete(new DeleteCommentInput());
-    CommentInfo portedComment = getPortedComment(patchsetId2, commentUuid);
+    List<CommentInfo> portedComments = flatten(getPortedComments(patchsetId2));
 
-    assertThat(portedComment).message().doesNotContain("Confidential content");
+    assertThatList(portedComments).isEmpty();
   }
 
   @Test

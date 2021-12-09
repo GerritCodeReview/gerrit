@@ -18,14 +18,11 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
@@ -40,7 +37,6 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -143,7 +139,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
               .bTree(bTree)
               .renameScore(key.renameScore())
               .build();
-      List<ModifiedFile> modifiedFiles = mergeRewrittenEntries(gitCache.get(gitKey));
+      List<ModifiedFile> modifiedFiles = DiffUtil.mergeRewrittenModifiedFiles(gitCache.get(gitKey));
       if (key.aCommit().equals(ObjectId.zeroId())) {
         return ImmutableList.copyOf(modifiedFiles);
       }
@@ -205,38 +201,6 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
       // One of the above file paths could be /dev/null but we need not explicitly check for this
       // value as the set of file paths shouldn't contain it.
       return touchedFilePaths.contains(oldFilePath) || touchedFilePaths.contains(newFilePath);
-    }
-
-    /**
-     * Return the {@code modifiedFiles} input list while merging rewritten entries.
-     *
-     * <p>Background: In some cases, JGit returns two diff entries (ADDED/DELETED, RENAMED/DELETED,
-     * etc...) for the same file path. This happens e.g. when a file's mode is changed between
-     * patchsets, for example converting a symlink file to a regular file. We identify this case and
-     * return a single modified file with changeType = {@link ChangeType#REWRITE}.
-     */
-    private static List<ModifiedFile> mergeRewrittenEntries(List<ModifiedFile> modifiedFiles) {
-      List<ModifiedFile> result = new ArrayList<>();
-      ListMultimap<String, ModifiedFile> byPath = ArrayListMultimap.create();
-      modifiedFiles.stream()
-          .forEach(
-              f -> {
-                if (f.changeType() == ChangeType.DELETED) {
-                  byPath.get(f.oldPath().get()).add(f);
-                } else {
-                  byPath.get(f.newPath().get()).add(f);
-                }
-              });
-      for (String path : byPath.keySet()) {
-        List<ModifiedFile> entries = byPath.get(path);
-        if (entries.size() == 1) {
-          result.add(entries.get(0));
-        } else {
-          // More than one. Return a single REWRITE entry.
-          result.add(entries.get(0).toBuilder().changeType(ChangeType.REWRITE).build());
-        }
-      }
-      return result;
     }
   }
 }

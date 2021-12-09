@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.Config;
@@ -404,14 +405,17 @@ public class DiffOperationsImpl implements DiffOperations {
         df.setDetectRenames(false);
         diffEntries = df.scan(oldCommit.equals(ObjectId.zeroId()) ? null : oldCommit, newCommit);
       }
-      return diffEntries.stream()
-          .map(
-              entry ->
-                  ModifiedFile.builder()
-                      .changeType(toChangeType(entry.getChangeType()))
-                      .oldPath(getGitPath(entry.getOldPath()))
-                      .newPath(getGitPath(entry.getNewPath()))
-                      .build())
+      List<ModifiedFile> modifiedFiles =
+          diffEntries.stream()
+              .map(
+                  entry ->
+                      ModifiedFile.builder()
+                          .changeType(toChangeType(entry.getChangeType()))
+                          .oldPath(getGitPath(entry.getOldPath()))
+                          .newPath(getGitPath(entry.getNewPath()))
+                          .build())
+              .collect(Collectors.toList());
+      return DiffUtil.mergeRewrittenModifiedFiles(modifiedFiles).stream()
           .collect(ImmutableMap.toImmutableMap(ModifiedFile::getDefaultPath, Function.identity()));
     } catch (IOException e) {
       throw new DiffNotAvailableException(

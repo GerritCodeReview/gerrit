@@ -17,12 +17,13 @@ package com.google.gerrit.server.patch;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.DiffOperationsTest.FileEntity.FileType;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -35,6 +36,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -68,12 +70,15 @@ public class DiffOperationsTest {
 
   @Test
   public void diffModifiedFileAgainstParent() throws Exception {
-    ImmutableMap<String, String> oldFiles =
-        ImmutableMap.of(fileName1, fileContent1, fileName2, fileContent2);
+    ImmutableList<FileEntity> oldFiles =
+        ImmutableList.of(
+            new FileEntity(fileName1, fileContent1), new FileEntity(fileName2, fileContent2));
     ObjectId oldCommitId = createCommit(repo, null, oldFiles);
 
-    ImmutableMap<String, String> newFiles =
-        ImmutableMap.of(fileName1, fileContent1, fileName2, fileContent2 + "\nnew line here");
+    ImmutableList<FileEntity> newFiles =
+        ImmutableList.of(
+            new FileEntity(fileName1, fileContent1),
+            new FileEntity(fileName2, fileContent2 + "\nnew line here"));
     ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
 
     FileDiffOutput diffOutput =
@@ -88,19 +93,18 @@ public class DiffOperationsTest {
 
   @Test
   public void diffAgainstAutoMergePersistsAutoMergeInRepo() throws Exception {
-    ObjectId parent1 = createCommit(repo, null, ImmutableMap.of("file_1.txt", "file 1 content"));
-    ObjectId parent2 = createCommit(repo, null, ImmutableMap.of("file_2.txt", "file 2 content"));
+    ObjectId parent1 =
+        createCommit(repo, null, ImmutableList.of(new FileEntity("file_1.txt", "file 1 content")));
+    ObjectId parent2 =
+        createCommit(repo, null, ImmutableList.of(new FileEntity("file_2.txt", "file 2 content")));
 
     ObjectId merge =
         createMergeCommit(
             repo,
-            ImmutableMap.of(
-                "file_1.txt",
-                "file 1 content",
-                "file_2.txt",
-                "file 2 content",
-                "file_3.txt",
-                "file 3 content"),
+            ImmutableList.of(
+                new FileEntity("file_1.txt", "file 1 content"),
+                new FileEntity("file_2.txt", "file 2 content"),
+                new FileEntity("file_3.txt", "file 3 content")),
             parent1,
             parent2);
 
@@ -118,12 +122,15 @@ public class DiffOperationsTest {
 
   @Test
   public void loadModifiedFiles() throws Exception {
-    ImmutableMap<String, String> oldFiles =
-        ImmutableMap.of(fileName1, fileContent1, fileName2, fileContent2);
+    ImmutableList<FileEntity> oldFiles =
+        ImmutableList.of(
+            new FileEntity(fileName1, fileContent1), new FileEntity(fileName2, fileContent2));
     ObjectId oldCommitId = createCommit(repo, null, oldFiles);
 
-    ImmutableMap<String, String> newFiles =
-        ImmutableMap.of(fileName1, fileContent1, fileName2, fileContent2 + "\nnew line here");
+    ImmutableList<FileEntity> newFiles =
+        ImmutableList.of(
+            new FileEntity(fileName1, fileContent1),
+            new FileEntity(fileName2, fileContent2 + "\nnew line here"));
     ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
 
     Repository repository = repoManager.openRepository(testProjectName);
@@ -147,13 +154,49 @@ public class DiffOperationsTest {
   }
 
   @Test
-  public void loadModifiedFilesAgainstParent() throws Exception {
-    ImmutableMap<String, String> oldFiles =
-        ImmutableMap.of(fileName1, fileContent1, fileName2, fileContent2);
+  public void loadModifiedFiles_withSymlinkConvertedToRegularFile() throws Exception {
+    // Commit 1: Create a regular fileName1 with fileContent1
+    ImmutableList<FileEntity> oldFiles = ImmutableList.of(new FileEntity(fileName1, fileContent1));
     ObjectId oldCommitId = createCommit(repo, null, oldFiles);
 
-    ImmutableMap<String, String> newFiles =
-        ImmutableMap.of(fileName1, fileContent1, fileName2, fileContent2 + "\nnew line here");
+    // Commit 2: Create a symlink with name FileName1 pointing to target file "target"
+    ImmutableList<FileEntity> newFiles =
+        ImmutableList.of(new FileEntity(fileName1, "target", FileType.SYMLINK));
+    ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
+
+    Repository repository = repoManager.openRepository(testProjectName);
+    ObjectReader objectReader = repository.newObjectReader();
+
+    Map<String, ModifiedFile> modifiedFiles =
+        diffOperations.loadModifiedFiles(
+            testProjectName,
+            newCommitId,
+            oldCommitId,
+            DiffOptions.DEFAULTS,
+            new RevWalk(objectReader),
+            repository.getConfig());
+
+    assertThat(modifiedFiles)
+        .containsExactly(
+            fileName1,
+            ModifiedFile.builder()
+                .changeType(ChangeType.REWRITE)
+                .oldPath(Optional.empty())
+                .newPath(Optional.of(fileName1))
+                .build());
+  }
+
+  @Test
+  public void loadModifiedFilesAgainstParent() throws Exception {
+    ImmutableList<FileEntity> oldFiles =
+        ImmutableList.of(
+            new FileEntity(fileName1, fileContent1), new FileEntity(fileName2, fileContent2));
+    ObjectId oldCommitId = createCommit(repo, null, oldFiles);
+
+    ImmutableList<FileEntity> newFiles =
+        ImmutableList.of(
+            new FileEntity(fileName1, fileContent1),
+            new FileEntity(fileName2, fileContent2 + "\nnew line here"));
     ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
 
     Repository repository = repoManager.openRepository(testProjectName);
@@ -176,22 +219,38 @@ public class DiffOperationsTest {
                 .build());
   }
 
+  static class FileEntity {
+    String name;
+    String content;
+    FileType type;
+
+    enum FileType {
+      REGULAR,
+      SYMLINK
+    };
+
+    FileEntity(String name, String content) {
+      this(name, content, FileType.REGULAR);
+    }
+
+    FileEntity(String name, String content, FileType type) {
+      this.name = name;
+      this.content = content;
+      this.type = type;
+    }
+  }
+
   private ObjectId createMergeCommit(
-      Repository repo,
-      ImmutableMap<String, String> fileNameToContent,
-      ObjectId parent1,
-      ObjectId parent2)
+      Repository repo, ImmutableList<FileEntity> fileEntities, ObjectId parent1, ObjectId parent2)
       throws IOException {
-    ObjectId treeId = createTree(repo, fileNameToContent);
+    ObjectId treeId = createTree(repo, fileEntities);
     return createCommitInRepo(repo, treeId, parent1, parent2);
   }
 
   private ObjectId createCommit(
-      Repository repo,
-      @Nullable ObjectId parentCommit,
-      ImmutableMap<String, String> fileNameToContent)
+      Repository repo, @Nullable ObjectId parentCommit, ImmutableList<FileEntity> fileEntities)
       throws IOException {
-    ObjectId treeId = createTree(repo, fileNameToContent);
+    ObjectId treeId = createTree(repo, fileEntities);
     return parentCommit == null
         ? createCommitInRepo(repo, treeId)
         : createCommitInRepo(repo, treeId, parentCommit);
@@ -217,17 +276,21 @@ public class DiffOperationsTest {
     }
   }
 
-  private static ObjectId createTree(
-      Repository repo, ImmutableMap<String, String> fileNameToContent) throws IOException {
+  private static ObjectId createTree(Repository repo, ImmutableList<FileEntity> fileEntities)
+      throws IOException {
     try (ObjectInserter oi = repo.newObjectInserter();
         ObjectReader reader = repo.newObjectReader();
         RevWalk rw = new RevWalk(reader); ) {
       TreeFormatter formatter = new TreeFormatter();
-      for (Map.Entry<String, String> entry : fileNameToContent.entrySet()) {
-        String fileName = entry.getKey();
-        String fileContent = entry.getValue();
+      for (FileEntity fileEntity : fileEntities) {
+        String fileName = fileEntity.name;
+        String fileContent = fileEntity.content;
         ObjectId fileObjId = createBlob(repo, fileContent);
-        formatter.append(fileName, rw.lookupBlob(fileObjId));
+        if (fileEntity.type.equals(FileType.REGULAR)) {
+          formatter.append(fileName, rw.lookupBlob(fileObjId));
+        } else {
+          formatter.append(fileName, FileMode.SYMLINK, fileObjId);
+        }
       }
       ObjectId treeId = oi.insert(formatter);
       oi.flush();

@@ -39,6 +39,7 @@ import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
 import {RouterModel} from '../router/router-model';
 import {Finalizable} from '../registry';
+import {define} from '../dependency';
 import {combineLatest, Subscription} from 'rxjs';
 import {fire, fireAlert, fireEvent} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
@@ -220,6 +221,7 @@ export function deleteDraft(
   return setDiscardedDraft(nextState, discardedDraft);
 }
 
+export const commentsModelToken = define<CommentsModel>('comments-model');
 export class CommentsModel implements Finalizable {
   private readonly privateState$: BehaviorSubject<CommentState> =
     new BehaviorSubject(initialState);

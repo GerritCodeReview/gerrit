@@ -90,6 +90,7 @@ import {Subscription} from 'rxjs';
 import {DisplayLine, RenderPreferences} from '../../../api/diff';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
 import {browserModelToken} from '../../../services/browser/browser-model';
+import {commentsModelToken} from '../../../services/comments/comments-model';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -269,7 +270,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   private readonly browserModel = resolve(this, browserModelToken);
 
-  private readonly commentsModel = getAppContext().commentsModel;
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -323,7 +324,7 @@ export class GrDiffHost extends DIPolymerElement {
       this._loggedIn = loggedIn;
     });
     this.subscriptions.push(
-      this.commentsModel.changeComments$.subscribe(changeComments => {
+      this.getCommentsModel().changeComments$.subscribe(changeComments => {
         this.changeComments = changeComments;
       })
     );

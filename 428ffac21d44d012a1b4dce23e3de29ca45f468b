@@ -16,6 +16,24 @@
       "message": "This was intentionally dropped?",
       "revId": "428ffac21d44d012a1b4dce23e3de29ca45f468b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0733b41_9987de44",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column/gr-change-list-column.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-09T08:59:31Z",
+      "side": 0,
+      "message": "Yes, it was moved to iron-icon.check-ricle-filled { margin-right: var(--spacing-xs)}",
+      "parentUuid": "4686bf00_b1f7aa7a",
+      "revId": "428ffac21d44d012a1b4dce23e3de29ca45f468b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

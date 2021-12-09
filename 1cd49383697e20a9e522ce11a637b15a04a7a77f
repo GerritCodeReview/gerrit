@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c6a0c36_8e719a6a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-09T10:10:36Z",
+      "side": 1,
+      "message": "should we be renaming to provider?\nthis.browserModel().xyz is strange to me",
+      "range": {
+        "startLine": 270,
+        "startChar": 19,
+        "endLine": 270,
+        "endChar": 31
+      },
+      "revId": "1cd49383697e20a9e522ce11a637b15a04a7a77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

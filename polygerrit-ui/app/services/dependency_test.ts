@@ -45,8 +45,8 @@ class BarImpl implements BarService {
   }
 }
 
-@customElement('foo-provider')
-export class FooProviderElement extends LitElement {
+@customElement('lit-foo-provider')
+export class LitFooProviderElement extends LitElement {
   @query('bar-provider')
   bar?: BarProviderElement;
 
@@ -64,6 +64,22 @@ export class FooProviderElement extends LitElement {
     } else {
       return undefined;
     }
+  }
+}
+
+@polyCustomElement('polymer-foo-provider')
+export class PolymerFooProviderElement extends DIPolymerElement {
+  bar() {
+    return this.$.bar as BarProviderElement;
+  }
+
+  override connectedCallback() {
+    provide(this, fooToken, () => new FooImpl('foo'));
+    super.connectedCallback();
+  }
+
+  static get template() {
+    return polyHtml`<bar-provider id="bar"></bar-provider>`;
   }
 }
 
@@ -128,14 +144,21 @@ export class LeafPolymerElement extends DIPolymerElement {
 
 suite('Dependency', () => {
   test('It instantiates', async () => {
-    const fixture = fixtureFromElement('foo-provider');
+    const fixture = fixtureFromElement('lit-foo-provider');
     const element = fixture.instantiate();
     await element.updateComplete;
     assert.isDefined(element.bar?.litChild?.barRef());
   });
 
+  test('It instantiates in polymer', async () => {
+    const fixture = fixtureFromElement('polymer-foo-provider');
+    const element = fixture.instantiate();
+    await element.bar().updateComplete;
+    assert.isDefined(element.bar().litChild?.barRef());
+  });
+
   test('It works by connecting and reconnecting', async () => {
-    const fixture = fixtureFromElement('foo-provider');
+    const fixture = fixtureFromElement('lit-foo-provider');
     const element = fixture.instantiate();
     await element.updateComplete;
     assert.isDefined(element.bar?.litChild?.barRef());
@@ -150,7 +173,7 @@ suite('Dependency', () => {
   });
 
   test('It works by connecting and reconnecting Polymer', async () => {
-    const fixture = fixtureFromElement('foo-provider');
+    const fixture = fixtureFromElement('lit-foo-provider');
     const element = fixture.instantiate();
     await element.updateComplete;
 
@@ -167,7 +190,8 @@ suite('Dependency', () => {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'foo-provider': FooProviderElement;
+    'lit-foo-provider': LitFooProviderElement;
+    'polymer-foo-provider': PolymerFooProviderElement;
     'bar-provider': BarProviderElement;
     'leaf-lit-element': LeafLitElement;
     'leaf-polymer-element': LeafPolymerElement;

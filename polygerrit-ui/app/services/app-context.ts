@@ -25,7 +25,6 @@ import {ChecksModel} from './checks/checks-model';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 import {StorageService} from './storage/gr-storage';
 import {UserModel} from './user/user-model';
-import {CommentsModel} from './comments/comments-model';
 import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {ConfigModel} from './config/config-model';
@@ -38,7 +37,6 @@ export interface AppContext {
   authService: AuthService;
   restApiService: RestApiService;
   changeModel: ChangeModel;
-  commentsModel: CommentsModel;
   checksModel: ChecksModel;
   jsApiService: JsApiService;
   storageService: StorageService;

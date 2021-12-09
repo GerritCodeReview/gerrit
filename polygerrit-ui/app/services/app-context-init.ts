@@ -27,7 +27,7 @@ import {ChecksModel} from './checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
 import {UserModel} from './user/user-model';
-import {CommentsModel} from './comments/comments-model';
+import {CommentsModel, commentsModelToken} from './comments/comments-model';
 import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {assertIsDefined} from '../utils/common-util';
@@ -62,22 +62,6 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(routerModel, 'routerModel');
       assertIsDefined(restApiService, 'restApiService');
       return new ChangeModel(routerModel, restApiService);
-    },
-    commentsModel: (ctx: Partial<AppContext>) => {
-      const routerModel = ctx.routerModel;
-      const changeModel = ctx.changeModel;
-      const restApiService = ctx.restApiService;
-      const reportingService = ctx.reportingService;
-      assertIsDefined(routerModel, 'routerModel');
-      assertIsDefined(changeModel, 'changeModel');
-      assertIsDefined(restApiService, 'restApiService');
-      assertIsDefined(reportingService, 'reportingService');
-      return new CommentsModel(
-        routerModel,
-        changeModel,
-        restApiService,
-        reportingService
-      );
     },
     checksModel: (ctx: Partial<AppContext>) => {
       const routerModel = ctx.routerModel;
@@ -120,6 +104,14 @@ export function createAppDependencies(
   const dependencies = new Map();
   const browserModel = new BrowserModel(appContext.userModel!);
   dependencies.set(browserModelToken, browserModel);
+
+  const commentsModel = new CommentsModel(
+    appContext.routerModel,
+    appContext.changeModel,
+    appContext.restApiService,
+    appContext.reportingService
+  );
+  dependencies.set(commentsModelToken, commentsModel);
 
   return dependencies;
 }

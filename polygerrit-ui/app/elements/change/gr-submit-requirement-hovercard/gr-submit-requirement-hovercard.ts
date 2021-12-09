@@ -23,6 +23,7 @@ import {
   isDetailedLabelInfo,
   SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
 } from '../../../api/rest-api';
 import {
   canVote,
@@ -41,6 +42,7 @@ import {getAppContext} from '../../../services/app-context';
 import {assertIsDefined} from '../../../utils/common-util';
 import {CURRENT} from '../../../utils/patch-set-util';
 import {fireReload} from '../../../utils/event-util';
+import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -67,6 +69,7 @@ export class GrSubmitRequirementHovercard extends base {
   static override get styles() {
     return [
       fontStyles,
+      submitRequirementsStyles,
       base.styles || [],
       css`
         #container {
@@ -120,13 +123,6 @@ export class GrSubmitRequirementHovercard extends base {
         .expression {
           color: var(--gray-foreground);
         }
-        iron-icon.check-circle-filled,
-        iron-icon.overridden {
-          color: var(--success-foreground);
-        }
-        iron-icon.block {
-          color: var(--deemphasized-text-color);
-        }
         .button iron-icon {
           color: inherit;
         }
@@ -174,12 +170,21 @@ export class GrSubmitRequirementHovercard extends base {
   }
 
   private renderDescription() {
-    if (!this.requirement?.description) return;
+    let description = this.requirement?.description;
+    if (this.requirement?.status === SubmitRequirementStatus.ERROR) {
+      const submitRecord = this.change?.submit_records?.filter(
+        record => record.rule_name === this.requirement?.name
+      );
+      if (submitRecord?.length === 1 && submitRecord[0].error_message) {
+        description = submitRecord[0].error_message;
+      }
+    }
+    if (!description) return;
     return html`<div class="section description">
       <div class="sectionIcon">
         <iron-icon icon="gr-icons:description"></iron-icon>
       </div>
-      <div class="sectionContent">${this.requirement.description}</div>
+      <div class="sectionContent">${description}</div>
     </div>`;
   }
 

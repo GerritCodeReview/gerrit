@@ -42,19 +42,18 @@ import {
   QuickLabelInfo,
   Timestamp,
 } from '../../../types/common';
-import {assertNever, hasOwnProperty} from '../../../utils/common-util';
+import {hasOwnProperty} from '../../../utils/common-util';
 import {pluralize} from '../../../utils/string-util';
 import {
   getRequirements,
   iconForStatus,
   showNewSubmitRequirements,
-  StandardLabels,
 } from '../../../utils/label-util';
-import {SubmitRequirementStatus} from '../../../api/rest-api';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
+import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 
 enum ChangeSize {
   XS = 10,
@@ -132,6 +131,7 @@ export class GrChangeListItem extends LitElement {
     return [
       changeListStyles,
       sharedStyles,
+      submitRequirementsStyles,
       css`
         :host {
           display: table-row;
@@ -239,10 +239,6 @@ export class GrChangeListItem extends LitElement {
         .u-red,
         .u-red iron-icon {
           color: var(--negative-red-text-color);
-        }
-        .u-deemphasized,
-        .u-deemphasized iron-icon {
-          color: var(--deemphasized-text-color);
         }
         .u-gray-background {
           background-color: var(--table-header-background-color);
@@ -548,6 +544,18 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderChangeHasLabelIcon(labelName: string) {
+    if (showNewSubmitRequirements(this.flagsService, this.change)) {
+      const requirements = getRequirements(this.change).filter(
+        sr => sr.name === labelName
+      );
+      if (requirements.length === 1) {
+        const icon = iconForStatus(requirements[0].status);
+        return html`<iron-icon
+          class="${icon}"
+          icon="gr-icons:${icon}"
+        ></iron-icon>`;
+      }
+    }
     if (this.computeLabelIcon(labelName) === '')
       return html`<span>${this.computeLabelValue(labelName)}</span>`;
 
@@ -608,27 +616,8 @@ export class GrChangeListItem extends LitElement {
         sr => sr.name === labelName
       );
       if (requirements.length === 1) {
-        const status = requirements[0].status;
-        if (labelName === StandardLabels.CODE_REVIEW) {
-          classes.push('codeReview');
-        }
         classes.push('requirement');
-        switch (status) {
-          case SubmitRequirementStatus.SATISFIED:
-            classes.push('u-green');
-            break;
-          case SubmitRequirementStatus.UNSATISFIED:
-            classes.push('u-deemphasized');
-            break;
-          case SubmitRequirementStatus.OVERRIDDEN:
-            classes.push('u-green');
-            break;
-          case SubmitRequirementStatus.NOT_APPLICABLE:
-            classes.push('u-gray-background');
-            break;
-          default:
-            assertNever(status, `Unsupported status: ${status}`);
-        }
+        // Do not add label category classes.
         return classes.sort().join(' ');
       }
     }
@@ -657,14 +646,6 @@ export class GrChangeListItem extends LitElement {
 
   // private but used in test
   computeLabelIcon(labelName: string): string {
-    if (showNewSubmitRequirements(this.flagsService, this.change)) {
-      const requirements = getRequirements(this.change).filter(
-        sr => sr.name === labelName
-      );
-      if (requirements.length === 1) {
-        return `gr-icons:${iconForStatus(requirements[0].status)}`;
-      }
-    }
     const category = this.computeLabelCategory(labelName);
     switch (category) {
       case LabelCategory.APPROVED:

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "786bdae5_6a500b80",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-10T11:41:34Z",
+      "side": 1,
+      "message": "should this doc be updated too to have FORCED in status list?",
+      "range": {
+        "startLine": 1098,
+        "startChar": 3,
+        "endLine": 1098,
+        "endChar": 108
+      },
+      "revId": "ba1f9addb4ecab09f4140b97cec439af288568bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

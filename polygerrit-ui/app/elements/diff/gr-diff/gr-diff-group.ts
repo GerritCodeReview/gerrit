@@ -16,6 +16,7 @@
  */
 import {BLANK_LINE, GrDiffLine, GrDiffLineType} from './gr-diff-line';
 import {LineRange, Side} from '../../../api/diff';
+import {LineNumber} from './gr-diff-line';
 
 export enum GrDiffGroupType {
   /** Unchanged context. */
@@ -412,6 +413,15 @@ export class GrDiffGroup {
   /** Returns true if it is, or contains, a skip group. */
   hasSkipGroup() {
     return !!this.skip || this.contextGroups?.some(g => !!g.skip);
+  }
+
+  containsLine(side: Side, line: LineNumber) {
+    if (line === 'FILE' || line === 'LOST') {
+      // For FILE and LOST, beforeNumber and afterNumber are the same
+      return this.lines[0]?.beforeNumber === line;
+    }
+    const lineRange = this.lineRange[side];
+    return lineRange.start_line <= line && lineRange.end_line;
   }
 
   private _updateRangeWithNewLine(line: GrDiffLine) {

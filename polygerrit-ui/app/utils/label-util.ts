@@ -252,6 +252,8 @@ export function iconForStatus(status: SubmitRequirementStatus) {
       return 'overridden';
     case SubmitRequirementStatus.NOT_APPLICABLE:
       return 'info';
+    case SubmitRequirementStatus.ERROR:
+      return 'error';
     default:
       assertNever(status, `Unsupported status: ${status}`);
   }

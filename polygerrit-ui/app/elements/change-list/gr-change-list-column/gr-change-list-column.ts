@@ -22,6 +22,7 @@ import {customElement, property} from 'lit/decorators';
 import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
 import {changeStatuses} from '../../../utils/change-util';
 import {getRequirements, iconForStatus} from '../../../utils/label-util';
+import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 
 @customElement('gr-change-list-column-requirements')
 export class GrChangeListColumRequirements extends LitElement {
@@ -30,6 +31,7 @@ export class GrChangeListColumRequirements extends LitElement {
 
   static override get styles() {
     return [
+      submitRequirementsStyles,
       css`
         iron-icon {
           width: var(--line-height-normal, 20px);
@@ -39,9 +41,6 @@ export class GrChangeListColumRequirements extends LitElement {
         iron-icon.block,
         iron-icon.check-circle-filled {
           margin-right: var(--spacing-xs);
-        }
-        iron-icon.block {
-          color: var(--deemphasized-text-color);
         }
         iron-icon.commentIcon {
           color: var(--deemphasized-text-color);

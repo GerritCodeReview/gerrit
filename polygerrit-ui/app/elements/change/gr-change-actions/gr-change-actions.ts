@@ -114,7 +114,7 @@ const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
 const ERR_REVISION_ACTIONS = 'Couldn’t load revision actions.';
 
-enum LabelStatus {
+export enum LabelStatus {
   /**
    * This label provides what is necessary for submission.
    */

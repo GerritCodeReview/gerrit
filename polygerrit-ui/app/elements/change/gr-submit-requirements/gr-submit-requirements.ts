@@ -55,6 +55,7 @@ import '../../shared/gr-vote-chip/gr-vote-chip';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import {PrimaryTab} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
+import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -79,6 +80,7 @@ export class GrSubmitRequirements extends LitElement {
   static override get styles() {
     return [
       fontStyles,
+      submitRequirementsStyles,
       css`
         :host([suppress-title]) .metadata-title {
           display: none;
@@ -93,13 +95,6 @@ export class GrSubmitRequirements extends LitElement {
         iron-icon {
           width: var(--line-height-normal, 20px);
           height: var(--line-height-normal, 20px);
-        }
-        iron-icon.check-circle-filled,
-        iron-icon.overridden {
-          color: var(--success-foreground);
-        }
-        iron-icon.block {
-          color: var(--deemphasized-text-color);
         }
         .requirements,
         section.trigger-votes {
@@ -240,6 +235,9 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   renderVotesAndChecksChips(requirement: SubmitRequirementResultInfo) {
+    if (requirement.status === SubmitRequirementStatus.ERROR) {
+      return html`<span class="error">Error</span>`;
+    }
     const requirementLabels = extractAssociatedLabels(requirement);
     const allLabels = this.change?.labels ?? {};
     const associatedLabels = Object.keys(allLabels).filter(label =>

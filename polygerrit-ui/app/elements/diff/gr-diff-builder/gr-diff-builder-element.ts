@@ -320,7 +320,13 @@ export class GrDiffBuilderElement extends PolymerElement {
     this._builder.emitGroup(group, sectionEl);
   }
 
-  showContext(newGroups: GrDiffGroup[], sectionEl: HTMLElement) {
+  /**
+   * Replace the provided section by rendering the provided groups.
+   *
+   * @param newGroups The groups to be rendered in the place of the section.
+   * @param sectionEl The context section that should be expanded from.
+   */
+  rerenderSection(newGroups: readonly GrDiffGroup[], sectionEl: HTMLElement) {
     if (!this._builder) return;
     const groups = this._builder.groups;
 
@@ -328,7 +334,7 @@ export class GrDiffBuilderElement extends PolymerElement {
     groups.splice(contextIndex, 1, ...newGroups);
 
     for (const newGroup of newGroups) {
-      this._builder.emitGroup(newGroup, sectionEl);
+      this.emitGroup(newGroup, sectionEl);
     }
     if (sectionEl.parentNode) {
       sectionEl.parentNode.removeChild(sectionEl);

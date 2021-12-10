@@ -126,6 +126,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05eacf1d_5b1dadb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-10T09:11:29Z",
+      "side": 1,
+      "message": "Than you Patrick for the detailed comment!",
+      "parentUuid": "ff448950_1c49b55a",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2d5568a_008518b0",
@@ -139,6 +157,30 @@
       "writtenOn": "2021-12-09T16:06:16Z",
       "side": 1,
       "message": "it seems we use , as separator. shall we do that for the UUID as well? if it would make parsing easier maybe we could even prefix the UUID with \"UUID: \".",
+      "range": {
+        "startLine": 884,
+        "startChar": 57,
+        "endLine": 884,
+        "endChar": 58
+      },
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dd3a8b0_0b125a0f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-10T09:11:29Z",
+      "side": 1,
+      "message": "With the current string format, I would keep it with \u0027 \u0027 delimiter for identities. This saves us from having different code path for present/missing UUIDs.\n\nI agree the parsing gets more complicated, if we extend it any further, this should definitely be migrated to json.",
+      "parentUuid": "d2d5568a_008518b0",
       "range": {
         "startLine": 884,
         "startChar": 57,

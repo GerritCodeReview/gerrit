@@ -1103,6 +1103,7 @@ export enum SubmitRequirementStatus {
   OVERRIDDEN = 'OVERRIDDEN',
   NOT_APPLICABLE = 'NOT_APPLICABLE',
   ERROR = 'ERROR',
+  FORCED = 'FORCED',
 }
 
 export type UrlEncodedRepoName = BrandType<string, '_urlEncodedRepoName'>;

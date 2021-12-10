@@ -95,6 +95,15 @@ export function isResponsive(responsiveMode: DiffResponsiveMode) {
   );
 }
 
+/**
+ * Base class for different diff builders, like side-by-side, unified etc.
+ *
+ * The builder takes GrDiffGroups, and builds the corresponding DOM elements,
+ * called sections. Only the builder should add or remove sections from the
+ * DOM. Callers can use the spliceGroups method to add groups that
+ * will then be rendered - or remove groups whose sections will then be
+ * removed from the DOM.
+ */
 export abstract class GrDiffBuilder {
   private readonly _diff: DiffInfo;
 
@@ -106,7 +115,7 @@ export abstract class GrDiffBuilder {
 
   protected readonly _outputEl: HTMLElement;
 
-  readonly groups: GrDiffGroup[];
+  protected readonly groups: GrDiffGroup[];
 
   private blameInfo: BlameInfo[] | null;
 
@@ -181,7 +190,36 @@ export abstract class GrDiffBuilder {
 
   abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
 
-  emitGroup(group: GrDiffGroup, beforeSection: HTMLElement | null) {
+  getIndexOfSection(sectionEl: HTMLElement) {
+    return this.groups.findIndex(group => group.element === sectionEl);
+  }
+
+  spliceGroups(
+    start: number,
+    deleteCount: number,
+    ...addedGroups: GrDiffGroup[]
+  ) {
+    const sectionBeforeWhichToInsert = this.groups[start].element ?? null;
+    // Update the groups array
+    const deletedGroups = this.groups.splice(
+      start,
+      deleteCount,
+      ...addedGroups
+    );
+
+    // Add new sections for the new groups
+    for (const addedGroup of addedGroups) {
+      this.emitGroup(addedGroup, sectionBeforeWhichToInsert);
+    }
+    // Remove sections corresponding to deleted groups from the DOM
+    for (const deletedGroup of deletedGroups) {
+      const section = deletedGroup.element;
+      section?.parentNode?.removeChild(section);
+    }
+    return deletedGroups;
+  }
+
+  private emitGroup(group: GrDiffGroup, beforeSection: HTMLElement | null) {
     const element = this.buildSectionElement(group);
     this._outputEl.insertBefore(element, beforeSection);
     group.element = element;

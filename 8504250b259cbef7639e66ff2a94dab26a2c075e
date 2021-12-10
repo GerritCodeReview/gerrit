@@ -16,6 +16,24 @@
       "message": "nit: try block can end here",
       "revId": "8504250b259cbef7639e66ff2a94dab26a2c075e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e69ab9b_90c1e686",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-10T12:05:32Z",
+      "side": 1,
+      "message": "Tried it, but we need the results in lines 122-124. I\u0027d keep as is instead of declaring the three results variables before the \"try\" statement.",
+      "parentUuid": "5b669c55_f99db63c",
+      "revId": "8504250b259cbef7639e66ff2a94dab26a2c075e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

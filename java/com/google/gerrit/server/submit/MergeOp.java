@@ -351,8 +351,8 @@ public class MergeOp implements AutoCloseable {
     return allowClosed ? SUBMIT_RULE_OPTIONS_ALLOW_CLOSED : SUBMIT_RULE_OPTIONS;
   }
 
-  private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed) {
-    return cd.submitRecords(submitRuleOptions(allowClosed));
+  private static List<SubmitRecord> getSubmitRecords(ChangeData cd) {
+    return cd.submitRecords(submitRuleOptions(/* allowClosed= */ false));
   }
 
   private void checkSubmitRulesAndState(ChangeSet cs, boolean allowMerged)
@@ -382,15 +382,23 @@ public class MergeOp implements AutoCloseable {
     commitStatus.maybeFailVerbose();
   }
 
-  private void bypassSubmitRules(ChangeSet cs, boolean allowClosed) {
+  private void bypassSubmitRules(ChangeSet cs) {
     checkArgument(
         !cs.furtherHiddenChanges(), "cannot bypass submit rules for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
-      List<SubmitRecord> records = new ArrayList<>(getSubmitRecords(cd, allowClosed));
+      Change change = cd.change();
+      if (change == null) {
+        throw new StorageException("Change not found");
+      }
+      if (change.isClosed()) {
+        // No need to check submit rules if the change is closed.
+        continue;
+      }
+      List<SubmitRecord> records = new ArrayList<>(getSubmitRecords(cd));
       SubmitRecord forced = new SubmitRecord();
       forced.status = SubmitRecord.Status.FORCED;
       records.add(forced);
-      cd.setSubmitRecords(submitRuleOptions(allowClosed), records);
+      cd.setSubmitRecords(submitRuleOptions(/* allowClosed= */ false), records);
     }
   }
 
@@ -503,7 +511,7 @@ public class MergeOp implements AutoCloseable {
                     checkSubmitRulesAndState(filteredNoteDbChangeSet, isRetry);
                   } else {
                     logger.atFine().log("Bypassing submit rules");
-                    bypassSubmitRules(filteredNoteDbChangeSet, isRetry);
+                    bypassSubmitRules(filteredNoteDbChangeSet);
                   }
                   integrateIntoHistory(filteredNoteDbChangeSet, submissionExecutor);
                   return null;

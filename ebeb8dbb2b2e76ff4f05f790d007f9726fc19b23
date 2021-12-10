@@ -34,6 +34,24 @@
       "parentUuid": "59f08127_2c770040",
       "revId": "ebeb8dbb2b2e76ff4f05f790d007f9726fc19b23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c16fe4b8_03a5469c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-12-10T16:45:43Z",
+      "side": 1,
+      "message": "Thanks, fixed!\n\nThis is a problem with Polymer that we won\u0027t have with Lit.",
+      "parentUuid": "c69f1486_d3ec00ba",
+      "revId": "ebeb8dbb2b2e76ff4f05f790d007f9726fc19b23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

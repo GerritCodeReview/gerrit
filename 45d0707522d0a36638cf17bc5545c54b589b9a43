@@ -46,6 +46,30 @@
       },
       "revId": "45d0707522d0a36638cf17bc5545c54b589b9a43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8782bd8_99255c3f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-12-10T12:43:08Z",
+      "side": 1,
+      "message": "I think you need to upload new patchset with the comment still. +2",
+      "parentUuid": "39bbc2db_a86bca47",
+      "range": {
+        "startLine": 551,
+        "startChar": 0,
+        "endLine": 551,
+        "endChar": 36
+      },
+      "revId": "45d0707522d0a36638cf17bc5545c54b589b9a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

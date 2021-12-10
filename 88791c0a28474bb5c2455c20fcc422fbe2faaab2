@@ -87,6 +87,30 @@
       },
       "revId": "88791c0a28474bb5c2455c20fcc422fbe2faaab2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f45e2b71_783d44b5",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-10T08:57:57Z",
+      "side": 1,
+      "message": "You\u0027re right. We reload the changes on merge (I missed that and was thinking we might use indexed backed data).\n\nWe\u0027re fine then.\n\nhttps://gerrit.googlesource.com/gerrit/+/9d634283a3a282e3d88a90189a45f3cae5ccca84/java/com/google/gerrit/server/submit/MergeOp.java#504",
+      "parentUuid": "66bb4d38_91be6cce",
+      "range": {
+        "startLine": 312,
+        "startChar": 64,
+        "endLine": 312,
+        "endChar": 87
+      },
+      "revId": "88791c0a28474bb5c2455c20fcc422fbe2faaab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

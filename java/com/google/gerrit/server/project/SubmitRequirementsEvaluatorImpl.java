@@ -28,6 +28,8 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -46,6 +48,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final ProjectCache projectCache;
   private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
   private final SubmitRequirementsUtil submitRequirementsUtil;
+  private final OneOffRequestContext requestContext;
 
   public static Module module() {
     return new AbstractModule() {
@@ -63,11 +66,13 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       Provider<SubmitRequirementChangeQueryBuilder> queryBuilder,
       ProjectCache projectCache,
       PluginSetContext<SubmitRequirement> globalSubmitRequirements,
-      SubmitRequirementsUtil submitRequirementsUtil) {
+      SubmitRequirementsUtil submitRequirementsUtil,
+      OneOffRequestContext requestContext) {
     this.queryBuilder = queryBuilder;
     this.projectCache = projectCache;
     this.globalSubmitRequirements = globalSubmitRequirements;
     this.submitRequirementsUtil = submitRequirementsUtil;
+    this.requestContext = requestContext;
   }
 
   @Override
@@ -93,27 +98,32 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   @Override
   public SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd) {
-    SubmitRequirementExpressionResult blockingResult =
-        evaluateExpression(sr.submittabilityExpression(), cd);
+    try (ManualRequestContext ignored = requestContext.open()) {
+      // Use a request context to execute predicates as an internal user with expanded visibility.
+      // This is so that the evaluation does not depend on who is running the current request (e.g.
+      // a "ownerin" predicate with group that is not visible to the person making this request).
+      SubmitRequirementExpressionResult blockingResult =
+          evaluateExpression(sr.submittabilityExpression(), cd);
 
-    Optional<SubmitRequirementExpressionResult> applicabilityResult =
-        sr.applicabilityExpression().isPresent()
-            ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
-            : Optional.empty();
+      Optional<SubmitRequirementExpressionResult> applicabilityResult =
+          sr.applicabilityExpression().isPresent()
+              ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
+              : Optional.empty();
 
-    Optional<SubmitRequirementExpressionResult> overrideResult =
-        sr.overrideExpression().isPresent()
-            ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
-            : Optional.empty();
+      Optional<SubmitRequirementExpressionResult> overrideResult =
+          sr.overrideExpression().isPresent()
+              ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
+              : Optional.empty();
 
-    return SubmitRequirementResult.builder()
-        .legacy(Optional.of(false))
-        .submitRequirement(sr)
-        .patchSetCommitId(cd.currentPatchSet().commitId())
-        .submittabilityExpressionResult(blockingResult)
-        .applicabilityExpressionResult(applicabilityResult)
-        .overrideExpressionResult(overrideResult)
-        .build();
+      return SubmitRequirementResult.builder()
+          .legacy(Optional.of(false))
+          .submitRequirement(sr)
+          .patchSetCommitId(cd.currentPatchSet().commitId())
+          .submittabilityExpressionResult(blockingResult)
+          .applicabilityExpressionResult(applicabilityResult)
+          .overrideExpressionResult(overrideResult)
+          .build();
+    }
   }
 
   @Override

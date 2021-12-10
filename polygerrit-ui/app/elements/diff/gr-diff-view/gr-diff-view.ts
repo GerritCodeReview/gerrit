@@ -152,6 +152,19 @@ export interface GrDiffView {
   };
 }
 
+export interface ResolvablePromise<T> extends Promise<T> {
+  resolve: (value?: T) => void;
+}
+
+export function createResolvablePromise<T = unknown>(): ResolvablePromise<T> {
+  let res: (value?: T) => void;
+  const promise: ResolvablePromise<T> = new Promise<T | undefined>(resolve => {
+    res = resolve;
+  }) as ResolvablePromise<T>;
+  promise.resolve = res!;
+  return promise;
+}
+
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = KeyboardShortcutMixin(DIPolymerElement);
 
@@ -382,8 +395,11 @@ export class GrDiffView extends base {
 
   private subscriptions: Subscription[] = [];
 
+  private connectedPromise = createResolvablePromise();
+
   override connectedCallback() {
     super.connectedCallback();
+    this.connectedPromise.resolve();
     this._throttledToggleFileReviewed = throttleWrap(_ =>
       this._handleToggleFileReviewed()
     );
@@ -471,6 +487,7 @@ export class GrDiffView extends base {
       s.unsubscribe();
     }
     this.subscriptions = [];
+    this.connectedPromise = createResolvablePromise();
     super.disconnectedCallback();
   }
 
@@ -1106,7 +1123,7 @@ export class GrDiffView extends base {
     );
   }
 
-  _paramsChanged(value: AppElementParams) {
+ async _paramsChanged(value: AppElementParams) {
     if (value.view !== GerritView.DIFF) {
       return;
     }
@@ -1164,7 +1181,8 @@ export class GrDiffView extends base {
         )
       );
     }
-    promises.push(until(this.getCommentsModel().commentsLoading$, isFalse));
+    promises.push(this.waitUntilCommentsLoaded())
+
 
     this.$.diffHost.cancel();
     this.$.diffHost.clearDiffContent();
@@ -1217,6 +1235,11 @@ export class GrDiffView extends base {
         // another file, then we load the blame for this file too
         if (this._isBlameLoaded) this._loadBlame();
       });
+  }
+
+  private async waitUntilCommentsLoaded() {
+    await this.connectedPromise;
+    await until(this.getCommentsModel().commentsLoading$, isFalse);
   }
 
   /**

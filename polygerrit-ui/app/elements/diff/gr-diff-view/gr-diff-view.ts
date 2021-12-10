@@ -121,6 +121,7 @@ import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dial
 import {browserModelToken} from '../../../services/browser/browser-model';
 import {commentsModelToken} from '../../../services/comments/comments-model';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
+import {BehaviorSubject} from 'rxjs';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const LOADING_BLAME = 'Loading blame...';
@@ -382,8 +383,11 @@ export class GrDiffView extends base {
 
   private subscriptions: Subscription[] = [];
 
+  private connected$ = new BehaviorSubject(false);
+
   override connectedCallback() {
     super.connectedCallback();
+    this.connected$.next(true);
     this._throttledToggleFileReviewed = throttleWrap(_ =>
       this._handleToggleFileReviewed()
     );
@@ -471,6 +475,7 @@ export class GrDiffView extends base {
       s.unsubscribe();
     }
     this.subscriptions = [];
+    this.connected$.next(false);
     super.disconnectedCallback();
   }
 
@@ -1106,7 +1111,7 @@ export class GrDiffView extends base {
     );
   }
 
-  _paramsChanged(value: AppElementParams) {
+ async _paramsChanged(value: AppElementParams) {
     if (value.view !== GerritView.DIFF) {
       return;
     }
@@ -1164,7 +1169,7 @@ export class GrDiffView extends base {
         )
       );
     }
-    promises.push(until(this.getCommentsModel().commentsLoading$, isFalse));
+    promises.push(this.waitUntilCommentsLoaded())
 
     this.$.diffHost.cancel();
     this.$.diffHost.clearDiffContent();
@@ -1217,6 +1222,11 @@ export class GrDiffView extends base {
         // another file, then we load the blame for this file too
         if (this._isBlameLoaded) this._loadBlame();
       });
+  }
+
+  private async waitUntilCommentsLoaded() {
+    await until(this.connected$, c => c);
+    await until(this.getCommentsModel().commentsLoading$, isFalse);
   }
 
   /**

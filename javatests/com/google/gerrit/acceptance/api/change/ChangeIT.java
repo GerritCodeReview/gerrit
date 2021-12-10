@@ -134,6 +134,7 @@ import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.groups.GroupApi;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -6105,6 +6106,35 @@ public class ChangeIT extends AbstractDaemonTest {
         change.submitRequirements, "My-Requirement", Status.FORCED, /* isLegacy= */ false);
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.FORCED, /* isLegacy= */ true);
+  }
+
+  @Test
+  public void submitRequirement_evaluatedWithInternalUserCredentials() throws Exception {
+    GroupInput in = new GroupInput();
+    in.name = "invisible-group";
+    in.visibleToAll = false;
+    in.ownerId = adminGroupUuid().get();
+    gApi.groups().create(in);
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("My-Requirement")
+            .setApplicabilityExpression(SubmitRequirementExpression.of("ownerin:invisible-group"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("is:true"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    requestScopeOperations.setApiUser(user.id());
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    SubmitRequirementResultInfo srResult =
+        change.submitRequirements.stream()
+            .filter(sr -> sr.name.equals("My-Requirement"))
+            .collect(MoreCollectors.onlyElement());
+    assertThat(srResult.status).isEqualTo(Status.NOT_APPLICABLE);
   }
 
   @Test

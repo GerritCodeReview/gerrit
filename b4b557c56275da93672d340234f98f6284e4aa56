@@ -34,6 +34,41 @@
       "parentUuid": "9c153410_998d0136",
       "revId": "b4b557c56275da93672d340234f98f6284e4aa56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afe91a3b_dca9362d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-12-10T11:13:30Z",
+      "side": 1,
+      "message": "OK, then let\u0027s go with this solution.",
+      "parentUuid": "fc83b4d6_41c23f86",
+      "revId": "b4b557c56275da93672d340234f98f6284e4aa56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c1df2e3_21d899d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-12-10T11:13:30Z",
+      "side": 1,
+      "message": "One improvement I can see is to also allow users to filter by tag in the current \"Filter by regular expression\" box.\nSo have a filter box \"Filter by tag or regular expression\" to make this feature also discoverable from the input field. Also since the tag will be in this input field, it would also be consistent for users to write an input (a string) and see the results linked to this tag. WDYT?",
+      "revId": "b4b557c56275da93672d340234f98f6284e4aa56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -436,7 +436,7 @@ public class MailProcessorIT extends AbstractMailIT {
     String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", COMMENT_TEXT, null, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
-    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    List<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(b.build());
     assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
 
@@ -465,7 +465,7 @@ public class MailProcessorIT extends AbstractMailIT {
     String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, COMMENT_TEXT, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
-    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    List<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(b.build());
     assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
 
@@ -490,7 +490,7 @@ public class MailProcessorIT extends AbstractMailIT {
     String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, COMMENT_TEXT);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
-    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    List<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(b.build());
     assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
 
@@ -576,7 +576,7 @@ public class MailProcessorIT extends AbstractMailIT {
             null);
     mailMessage.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
-    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    List<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(mailMessage.build());
     assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
 

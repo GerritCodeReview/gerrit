@@ -27,7 +27,6 @@ import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
-import java.util.Date;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -68,13 +67,13 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     PersonIdent author = commit.getAuthorIdent();
     assertThat(author.getName()).isEqualTo("Gerrit User 1");
     assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
-    assertThat(author.getWhen()).isEqualTo(new Date(c.getCreatedOn().getTime() + 1000));
+    assertThat(author.getWhen().getTime()).isEqualTo(c.getCreatedOn().getTime() + 1000);
     assertThat(author.getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT-7:00"));
 
     PersonIdent committer = commit.getCommitterIdent();
     assertThat(committer.getName()).isEqualTo("Gerrit Server");
     assertThat(committer.getEmailAddress()).isEqualTo("noreply@gerrit.com");
-    assertThat(committer.getWhen()).isEqualTo(author.getWhen());
+    assertThat(committer.getWhen().getTime()).isEqualTo(author.getWhen().getTime());
     assertThat(committer.getTimeZone()).isEqualTo(author.getTimeZone());
   }
 
@@ -184,13 +183,13 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     PersonIdent author = commit.getAuthorIdent();
     assertThat(author.getName()).isEqualTo("Gerrit User 1");
     assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
-    assertThat(author.getWhen()).isEqualTo(new Date(c.getCreatedOn().getTime() + 2000));
+    assertThat(author.getWhen().getTime()).isEqualTo(c.getCreatedOn().getTime() + 2000);
     assertThat(author.getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT-7:00"));
 
     PersonIdent committer = commit.getCommitterIdent();
     assertThat(committer.getName()).isEqualTo("Gerrit Server");
     assertThat(committer.getEmailAddress()).isEqualTo("noreply@gerrit.com");
-    assertThat(committer.getWhen()).isEqualTo(author.getWhen());
+    assertThat(committer.getWhen().getTime()).isEqualTo(author.getWhen().getTime());
     assertThat(committer.getTimeZone()).isEqualTo(author.getTimeZone());
   }
 

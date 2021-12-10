@@ -1397,12 +1397,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     String patchSetRef = change.getPatchSetId().toRefName();
     try (AutoCloseable ignored = disableChangeIndex();
         Repository repo = repoManager.openRepository(project)) {
-      Collection<Ref> singleRef = ImmutableList.of(repo.exactRef(patchSetRef));
-      Collection<Ref> filteredRefs =
-          permissionBackend
-              .user(user(admin))
-              .project(project)
-              .filter(singleRef, repo, RefFilterOptions.defaults());
+      ImmutableList<Ref> singleRef = ImmutableList.of(repo.exactRef(patchSetRef));
+      ImmutableList<Ref> filteredRefs =
+          ImmutableList.copyOf(
+              permissionBackend
+                  .user(user(admin))
+                  .project(project)
+                  .filter(singleRef, repo, RefFilterOptions.defaults()));
       assertThat(filteredRefs).isEqualTo(singleRef);
     }
   }

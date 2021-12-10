@@ -430,7 +430,7 @@ java_package_configuration(
         "-Xep:TypeParameterShadowing:ERROR",
         "-Xep:TypeParameterUnusedInFormals:ERROR",
         "-Xep:URLEqualsHashCode:ERROR",
-        # "-Xep:UndefinedEquals:WARN",
+        "-Xep:UndefinedEquals:ERROR",
         "-Xep:UnescapedEntity:ERROR",
         "-Xep:UnnecessaryAssignment:ERROR",
         "-Xep:UnnecessaryCheckNotNull:ERROR",

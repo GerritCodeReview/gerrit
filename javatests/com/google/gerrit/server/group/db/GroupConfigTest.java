@@ -1068,7 +1068,7 @@ public class GroupConfigTest {
     }
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
-    assertThat(revCommit.getCommitterIdent().getWhen()).isEqualTo(createdOn);
+    assertThat(revCommit.getCommitterIdent().getWhen().getTime()).isEqualTo(createdOn.getTime());
     assertThat(revCommit.getCommitterIdent().getTimeZone().getRawOffset())
         .isEqualTo(timeZone.getRawOffset());
   }
@@ -1101,7 +1101,7 @@ public class GroupConfigTest {
     }
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
-    assertThat(revCommit.getAuthorIdent().getWhen()).isEqualTo(createdOn);
+    assertThat(revCommit.getAuthorIdent().getWhen().getTime()).isEqualTo(createdOn.getTime());
     assertThat(revCommit.getAuthorIdent().getTimeZone().getRawOffset())
         .isEqualTo(timeZone.getRawOffset());
   }
@@ -1160,7 +1160,7 @@ public class GroupConfigTest {
     }
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
-    assertThat(revCommit.getCommitterIdent().getWhen()).isEqualTo(updatedOn);
+    assertThat(revCommit.getCommitterIdent().getWhen().getTime()).isEqualTo(updatedOn.getTime());
     assertThat(revCommit.getCommitterIdent().getTimeZone().getRawOffset())
         .isEqualTo(timeZone.getRawOffset());
   }
@@ -1188,7 +1188,7 @@ public class GroupConfigTest {
     }
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
-    assertThat(revCommit.getAuthorIdent().getWhen()).isEqualTo(updatedOn);
+    assertThat(revCommit.getAuthorIdent().getWhen().getTime()).isEqualTo(updatedOn.getTime());
     assertThat(revCommit.getAuthorIdent().getTimeZone().getRawOffset())
         .isEqualTo(timeZone.getRawOffset());
   }

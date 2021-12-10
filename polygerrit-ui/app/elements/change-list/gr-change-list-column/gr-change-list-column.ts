@@ -23,6 +23,7 @@ import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
 import {changeStatuses} from '../../../utils/change-util';
 import {getRequirements, iconForStatus} from '../../../utils/label-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
+import {pluralize} from '../../../utils/string-util';
 
 @customElement('gr-change-list-column-requirements')
 export class GrChangeListColumRequirements extends LitElement {
@@ -141,6 +142,10 @@ export class GrChangeListColumRequirements extends LitElement {
     return html`<iron-icon
       icon="gr-icons:comment"
       class="commentIcon"
+      .title="${pluralize(
+        this.change?.unresolved_comment_count,
+        'unresolved comment'
+      )}"
     ></iron-icon>`;
   }
 }

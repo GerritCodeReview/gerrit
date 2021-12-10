@@ -201,8 +201,7 @@ export abstract class GrDiffBuilder {
       let groupStartLine = 0;
       let groupEndLine = 0;
       if (side) {
-        const range =
-          side === Side.LEFT ? group.lineRange.left : group.lineRange.right;
+        const range = group.lineRange[side];
         groupStartLine = range.start_line;
         groupEndLine = range.end_line;
       }

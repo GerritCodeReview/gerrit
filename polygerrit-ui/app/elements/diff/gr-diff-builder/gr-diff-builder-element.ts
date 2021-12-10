@@ -141,6 +141,8 @@ export class GrDiffBuilderElement extends PolymerElement {
   @property({type: Object})
   _builder?: GrDiffBuilder;
 
+  // This is written to only from the processor via property notify
+  // And then passed to the builder via a property observer.
   @property({type: Array})
   _groups: GrDiffGroup[] = [];
 
@@ -315,11 +317,6 @@ export class GrDiffBuilderElement extends PolymerElement {
     );
   }
 
-  emitGroup(group: GrDiffGroup, sectionEl: HTMLElement) {
-    if (!this._builder) return;
-    this._builder.emitGroup(group, sectionEl);
-  }
-
   /**
    * Replace the provided section by rendering the provided groups.
    *
@@ -328,17 +325,9 @@ export class GrDiffBuilderElement extends PolymerElement {
    */
   rerenderSection(newGroups: readonly GrDiffGroup[], sectionEl: HTMLElement) {
     if (!this._builder) return;
-    const groups = this._builder.groups;
 
-    const contextIndex = groups.findIndex(group => group.element === sectionEl);
-    groups.splice(contextIndex, 1, ...newGroups);
-
-    for (const newGroup of newGroups) {
-      this.emitGroup(newGroup, sectionEl);
-    }
-    if (sectionEl.parentNode) {
-      sectionEl.parentNode.removeChild(sectionEl);
-    }
+    const contextIndex = this._builder.getIndexOfSection(sectionEl);
+    this._builder.spliceGroups(contextIndex, 1, ...newGroups);
 
     setTimeout(() => fireEvent(this, 'render-content'), 1);
   }
@@ -425,13 +414,10 @@ export class GrDiffBuilderElement extends PolymerElement {
     if (!changeRecord || !this._builder) {
       return;
     }
+    // Forward any splices to the builder
     for (const splice of changeRecord.indexSplices) {
-      let group;
-      for (let i = 0; i < splice.addedCount; i++) {
-        group = splice.object[splice.index + i];
-        this._builder.groups.push(group);
-        this._builder.emitGroup(group, null);
-      }
+      const added = splice.object.slice(splice.index, splice.index + splice.addedCount);
+      this._builder.spliceGroups(splice.index, splice.removed.length, ...added);
     }
   }
 

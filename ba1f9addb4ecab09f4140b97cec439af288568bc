@@ -22,6 +22,30 @@
       },
       "revId": "ba1f9addb4ecab09f4140b97cec439af288568bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94adea38_af9d986b",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-10T12:22:41Z",
+      "side": 1,
+      "message": "Yes, this doc will be updated by https://gerrit-review.googlesource.com/c/gerrit/+/324943/17/Documentation/rest-api-changes.txt",
+      "parentUuid": "786bdae5_6a500b80",
+      "range": {
+        "startLine": 1098,
+        "startChar": 3,
+        "endLine": 1098,
+        "endChar": 108
+      },
+      "revId": "ba1f9addb4ecab09f4140b97cec439af288568bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

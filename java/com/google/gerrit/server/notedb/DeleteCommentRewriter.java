@@ -159,6 +159,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
         HumanComment comment = curMap.get(key);
         if (key.equals(uuid)) {
           comment.message = newMessage;
+          comment.unresolved = false;
         }
         comments.add(comment);
       }

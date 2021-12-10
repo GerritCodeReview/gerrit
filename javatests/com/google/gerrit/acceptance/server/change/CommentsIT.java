@@ -221,6 +221,30 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deletedCommentsAreResolved() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String commentMessage = "to be deleted";
+    CommentInput comment =
+        CommentsUtil.newComment(
+            COMMIT_MSG, Side.REVISION, /*line= */ 0, commentMessage, /*unresolved= */ true);
+    CommentsUtil.addComments(gApi, changeId, revId, comment);
+
+    Map<String, List<CommentInfo>> results = getPublishedComments(changeId, revId);
+    CommentInfo oldComment = Iterables.getOnlyElement(results.get(COMMIT_MSG));
+
+    DeleteCommentInput input = new DeleteCommentInput("reason");
+    gApi.changes().id(changeId).revision(revId).comment(oldComment.id).delete(input);
+    CommentInfo updatedComment =
+        Iterables.getOnlyElement(getPublishedComments(changeId, revId).get(COMMIT_MSG));
+
+    assertThat(updatedComment.message).doesNotContain(commentMessage);
+    assertThat(updatedComment.unresolved).isFalse();
+  }
+
+  @Test
   public void patchsetLevelCommentEmailNotification() throws Exception {
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();

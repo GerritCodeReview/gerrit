@@ -89,7 +89,6 @@ export class GrSubmitRequirements extends LitElement {
           color: var(--deemphasized-text-color);
           padding-left: var(--metadata-horizontal-padding);
           margin: 0 0 var(--spacing-s);
-          border-top: 1px solid var(--border-color);
           padding-top: var(--spacing-s);
         }
         iron-icon {

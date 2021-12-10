@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ffc814f_7d872f0a",
+        "filename": ".bazelrc",
+        "patchSetId": 16
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-10T10:16:35Z",
+      "side": 1,
+      "message": "Yes, reverted. Done.",
+      "parentUuid": "90da5ca1_ced2a0dd",
+      "revId": "d7e9fa3aba1a4adb6538a2fd2e7f2bac9fdbd87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96ca1d04_7c38b4a9",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-12-10T09:35:32Z",
       "side": 1,
       "message": "unintended change?",
+      "revId": "d7e9fa3aba1a4adb6538a2fd2e7f2bac9fdbd87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10426976_b1b74bac",
+        "filename": "tools/BUILD",
+        "patchSetId": 16
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-10T10:16:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96ca1d04_7c38b4a9",
       "revId": "d7e9fa3aba1a4adb6538a2fd2e7f2bac9fdbd87c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

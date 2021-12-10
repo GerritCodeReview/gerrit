@@ -254,6 +254,8 @@ export function iconForStatus(status: SubmitRequirementStatus) {
       return 'info';
     case SubmitRequirementStatus.ERROR:
       return 'error';
+    case SubmitRequirementStatus.FORCED:
+      return 'check-circle-filled';
     default:
       assertNever(status, `Unsupported status: ${status}`);
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59f08127_2c770040",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-10T13:30:06Z",
+      "side": 1,
+      "message": "When open in dev helper:\nVM10607:1 Error: Could not resolve dependency \u0027shortcuts-service\u0027 in \u0027GR-CHANGE-VIEW\u0027\n    at DependencySubscriber.checkResolved (dependency.js:110)\n    at DependencySubscriber.get (dependency.js:94)\n    at HTMLElement.getShortcuts (dependency.js:27)\n    at HTMLElement.createTitle (gr-change-view.js:1733)\n    at runMethodEffect (property-effects.js:1038)\n    at Function._evaluateBinding (property-effects.js:3161)\n    at Object.runBindingEffect [as fn] (property-effects.js:785)\n    at runEffects (property-effects.js:140)\n    at baseRunEffects (property-effects.js:1958)\n    at HTMLElement._runEffectsForTemplate (property-effects.js:1967)\n\n",
+      "revId": "ebeb8dbb2b2e76ff4f05f790d007f9726fc19b23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

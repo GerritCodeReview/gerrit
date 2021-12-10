@@ -22,6 +22,30 @@
       },
       "revId": "44297ea94663b5c93ccdc6ce9d61047645a53aef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45d6d1a8_400bab91",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-10T13:34:43Z",
+      "side": 1,
+      "message": "There is isRemoval() boolean that is set for removals. Parsing string label/ int value out of the line is still in ChangeNotesParser, so this is just the raw string. Added a link to isRemoval().",
+      "parentUuid": "bbfe541f_63187238",
+      "range": {
+        "startLine": 271,
+        "startChar": 2,
+        "endLine": 272,
+        "endChar": 39
+      },
+      "revId": "44297ea94663b5c93ccdc6ce9d61047645a53aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

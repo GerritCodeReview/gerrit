@@ -21,7 +21,6 @@ import '../../shared/gr-icons/gr-icons';
 import '../gr-message/gr-message';
 import '../../../styles/gr-paper-styles';
 import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-messages-list_html';
 import {
   Shortcut,
@@ -51,6 +50,8 @@ import {
   FormattedReviewerUpdateInfo,
   ParsedChangeInfo,
 } from '../../../types/types';
+import {commentsModelToken} from '../../../services/comments/comments-model';
+import {resolve, DIPolymerElement} from '../../../services/dependency';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -194,7 +195,7 @@ export interface GrMessagesList {
 }
 
 @customElement('gr-messages-list')
-export class GrMessagesList extends PolymerElement {
+export class GrMessagesList extends DIPolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -252,7 +253,7 @@ export class GrMessagesList extends PolymerElement {
   private readonly userModel = getAppContext().userModel;
 
   // Private but used in tests.
-  readonly commentsModel = getAppContext().commentsModel;
+  readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly changeModel = getAppContext().changeModel;
 
@@ -265,7 +266,7 @@ export class GrMessagesList extends PolymerElement {
   override connectedCallback() {
     super.connectedCallback();
     this.subscriptions.push(
-      this.commentsModel.threads$.subscribe(x => {
+      this.getCommentsModel().threads$.subscribe(x => {
         this.commentThreads = x;
       })
     );

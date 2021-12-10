@@ -70,6 +70,8 @@ import {classMap} from 'lit/directives/class-map';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ValueChangedEvent} from '../../../types/events';
 import {notDeepEqual} from '../../../utils/deep-util';
+import {resolve} from '../../../services/dependency';
+import {commentsModelToken} from '../../../services/comments/comments-model';
 
 const NEWLINE_PATTERN = /\n/g;
 
@@ -245,7 +247,8 @@ export class GrCommentThread extends LitElement {
   @state()
   saving = false;
 
-  private readonly commentsModel = getAppContext().commentsModel;
+  // Private but used in tests.
+  readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly changeModel = getAppContext().changeModel;
 
@@ -783,7 +786,7 @@ export class GrCommentThread extends LitElement {
     } else {
       try {
         this.saving = true;
-        await this.commentsModel.saveDraft(unsaved);
+        await this.getCommentsModel().saveDraft(unsaved);
       } finally {
         this.saving = false;
       }

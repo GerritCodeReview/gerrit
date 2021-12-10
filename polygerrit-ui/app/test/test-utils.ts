@@ -23,7 +23,6 @@ import {SinonSpy, SinonStub} from 'sinon';
 import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
-import {CommentsModel} from '../services/comments/comments-model';
 import {UserModel} from '../services/user/user-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {queryAndAssert, query} from '../utils/common-util';
@@ -110,10 +109,6 @@ export function stubRestApi<K extends keyof RestApiService>(method: K) {
 
 export function spyRestApi<K extends keyof RestApiService>(method: K) {
   return sinon.spy(getAppContext().restApiService, method);
-}
-
-export function stubComments<K extends keyof CommentsModel>(method: K) {
-  return sinon.stub(getAppContext().commentsModel, method);
 }
 
 export function stubUsers<K extends keyof UserModel>(method: K) {

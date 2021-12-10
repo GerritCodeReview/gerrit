@@ -84,8 +84,11 @@ export const htmlTemplate = html`
       --arrow-color: var(--warning-foreground);
       display: inline-block;
     }
-    .separatedSection {
+    .oldSeparatedSection {
       margin-top: var(--spacing-l);
+      padding: var(--spacing-m) 0;
+    }
+    .separatedSection {
       padding: var(--spacing-m) 0;
     }
     .hashtag gr-linked-chip,
@@ -460,22 +463,24 @@ export const htmlTemplate = html`
         </template>
       </span>
     </section>
-    <div class="separatedSection">
-      <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
+    <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
+      <div class="separatedSection">
         <gr-submit-requirements
           change="[[change]]"
           account="[[account]]"
           mutable="[[_mutable]]"
         ></gr-submit-requirements>
-      </template>
-      <template is="dom-if" if="[[!_showNewSubmitRequirements(change)]]">
+      </div>
+    </template>
+    <template is="dom-if" if="[[!_showNewSubmitRequirements(change)]]">
+      <div class="oldSeparatedSection">
         <gr-change-requirements
           change="{{change}}"
           account="[[account]]"
           mutable="[[_mutable]]"
         ></gr-change-requirements>
-      </template>
-    </div>
+      </div>
+    </template>
     <section
       id="webLinks"
       hidden$="[[!_computeWebLinks(commitInfo, serverConfig)]]"

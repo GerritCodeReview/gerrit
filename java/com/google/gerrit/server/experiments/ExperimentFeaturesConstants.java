@@ -30,14 +30,6 @@ public class ExperimentFeaturesConstants {
       "GerritBackendRequestFeature__store_submit_requirements_on_merge";
 
   /**
-   * Allow legacy {@link com.google.gerrit.entities.SubmitRecord}s to be converted and returned as
-   * submit requirements by the {@link
-   * com.google.gerrit.server.project.SubmitRequirementsEvaluator}.
-   */
-  public static final String GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS =
-      "GerritBackendRequestFeature__enable_submit_requirements";
-
-  /**
    * Allow SubmitRequirements to be computed freshly on dashboards irrespective of the value we
    * retrieved from the change index.
    */

@@ -225,12 +225,7 @@ export abstract class GrDiffBuilder {
     group.element = element;
   }
 
-  getGroupsByLineRange(
-    startLine: LineNumber,
-    endLine: LineNumber,
-    side?: Side
-  ) {
-    const groups = [];
+  getIndexByLine(line: LineNumber, side: Side): number {
     for (let i = 0; i < this.groups.length; i++) {
       const group = this.groups[i];
       if (group.lines.length === 0) {
@@ -252,11 +247,21 @@ export abstract class GrDiffBuilder {
         // Line was removed or added.
         groupEndLine = groupStartLine;
       }
-      if (startLine <= groupEndLine && endLine >= groupStartLine) {
-        groups.push(group);
+      if (line <= groupEndLine && line >= groupStartLine) {
+        return i;
       }
     }
-    return groups;
+    return -1;
+  }
+
+  private getGroupsByLineRange(
+    startLine: LineNumber,
+    endLine: LineNumber,
+    side: Side
+  ) {
+    const startIndex = this.getIndexByLine(startLine, side);
+    const endIndex = this.getIndexByLine(endLine, side);
+    return this.groups.slice(startIndex, endIndex);
   }
 
   getContentTdByLine(

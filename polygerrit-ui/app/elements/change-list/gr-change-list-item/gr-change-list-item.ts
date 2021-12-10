@@ -545,9 +545,13 @@ export class GrChangeListItem extends LitElement {
 
   private renderChangeHasLabelIcon(labelName: string) {
     if (showNewSubmitRequirements(this.flagsService, this.change)) {
-      const requirements = getRequirements(this.change).filter(
+      let requirements = getRequirements(this.change).filter(
         sr => sr.name === labelName
       );
+      // TODO(milutin): Remove this after migration from legacy requirements.
+      if (requirements.length > 1) {
+        requirements = requirements.filter(sr => !sr.is_legacy);
+      }
       if (requirements.length === 1) {
         const icon = iconForStatus(requirements[0].status);
         return html`<iron-icon

@@ -117,7 +117,7 @@ export function createAppContext(): AppContext & Finalizable {
 export function createAppDependencies(
   appContext: AppContext
 ): Map<DependencyToken<unknown>, Finalizable> {
-  const dependencies = new Map();
+  const dependencies = new Map<DependencyToken<unknown>, Finalizable>();
   const browserModel = new BrowserModel(appContext.userModel!);
   dependencies.set(browserModelToken, browserModel);
 

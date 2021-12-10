@@ -16,6 +16,24 @@
       "message": "Some UX comments about the filtering interaction: \n* Change the input in the filter box to a chip similar to the one in the check result row. (see screenshot in the bug)\n* Also add the option for users to remove the chip with a `X` or if using `Backspace` in the filter",
       "revId": "b4b557c56275da93672d340234f98f6284e4aa56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc83b4d6_41c23f86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-10T07:11:00Z",
+      "side": 1,
+      "message": "Thanks, Delphine! I like those ideas very much, but unfortunately they would take a substantial amount of time to implement (and maintain). Comparing the cost with the benefit I would prefer to keep the change as is and spend the time on other outstanding issues. I think clicking on tag chips is a nice long tail feature that can sometimes help some users, but it is not a primary user journey, and as such can maybe have less polish. WDYT?",
+      "parentUuid": "9c153410_998d0136",
+      "revId": "b4b557c56275da93672d340234f98f6284e4aa56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

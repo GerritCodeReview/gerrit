@@ -65,6 +65,7 @@ import {GrRegistrationDialog} from './settings/gr-registration-dialog/gr-registr
 import {
   AppElementJustRegisteredParams,
   AppElementParams,
+  AppElementSearchParam,
   isAppElementJustRegisteredParams,
 } from './gr-app-types';
 import {GrMainHeader} from './core/gr-main-header/gr-main-header';
@@ -76,6 +77,7 @@ import {
   PageErrorEventDetail,
   RpcLogEvent,
   TitleChangeEventDetail,
+  ValueChangedEvent,
 } from '../types/events';
 import {ViewState} from '../types/types';
 import {GerritView} from '../services/router/router-model';
@@ -617,6 +619,11 @@ export class GrAppElement extends base {
     return window.localStorage.getItem('dark-theme')
       ? 'app-theme-dark'
       : 'app-theme-light';
+  }
+
+  _handleSearchQueryChanged(e: ValueChangedEvent) {
+    if (!this.params) return;
+    (this.params as AppElementSearchParam).query = e.detail.value;
   }
 }
 

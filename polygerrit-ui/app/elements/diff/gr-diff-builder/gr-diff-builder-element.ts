@@ -44,7 +44,11 @@ import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
 import {DiffViewMode, RenderPreferences} from '../../../api/diff';
 import {createDefaultDiffPrefs, Side} from '../../../constants/constants';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
-import {GrDiffGroup} from '../gr-diff/gr-diff-group';
+import {
+  GrDiffGroup,
+  GrDiffGroupType,
+  hideInContextControl,
+} from '../gr-diff/gr-diff-group';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
@@ -334,6 +338,41 @@ export class GrDiffBuilderElement extends PolymerElement {
     return this.diffElement.querySelector(
       `.lineNum[data-value="${lineNumber}"]${sideSelector}`
     );
+  }
+
+  /**
+   * When the line is hidden behind a context expander, expand it.
+   *
+   * @param lineNum A line number to expand. Using number here because other special case line numbers are never hidden, so it does not make sense to expand them.
+   * @param side The side the line number refer to.
+   */
+  unhideLine(lineNum: number, side: Side) {
+    if (!this._builder) return;
+    const groupIndex = this.$.processor.groups.findIndex(group =>
+      group.containsLine(side, lineNum)
+    );
+    const group = this._groups[groupIndex];
+    // If it's already visible, great!
+    if (group.type !== GrDiffGroupType.CONTEXT_CONTROL) return;
+    const lineRange = group.lineRange[side];
+    const lineOffset = lineNum - lineRange.start_line;
+    const newGroups = [];
+    const groups = hideInContextControl(group.contextGroups, 0, lineOffset - 1);
+    // If there is a context group, it will be the first group because we start hiding from 0 offset
+    if (groups[0].type === GrDiffGroupType.CONTEXT_CONTROL) {
+      newGroups.push(groups.shift()!);
+    }
+    newGroups.push(
+      ...hideInContextControl(
+        groups,
+        lineOffset + 1,
+        // Both ends inclusive, so difference is the offset of the last line.
+        // But we need to pass the first line not to hide, which is the element
+        // after.
+        lineRange.end_line - lineRange.start_line + 1
+      )
+    );
+    this._builder.spliceGroups(groupIndex, 1, ...newGroups);
   }
 
   /**

@@ -33,13 +33,14 @@ const basicFixture = fixtureFromElement('gr-main-header');
 suite('gr-main-header tests', () => {
   let element: GrMainHeader;
 
-  setup(() => {
+  setup(async () => {
     stubRestApi('probePath').returns(Promise.resolve(false));
-    stub('gr-main-header', '_loadAccount').callsFake(() => Promise.resolve());
+    stub('gr-main-header', 'loadAccount').callsFake(() => Promise.resolve());
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
-  test('link visibility', () => {
+  test('link visibility', async () => {
     element.loading = true;
     assert.isTrue(isHidden(query(element, '.accountContainer')));
 
@@ -50,8 +51,8 @@ suite('gr-main-header tests', () => {
     assert.isFalse(isHidden(query(element, '.registerButton')));
     assert.isTrue(isHidden(query(element, '.registerDiv')));
 
-    element._account = createAccountDetailWithId(1);
-    flush();
+    element.account = createAccountDetailWithId(1);
+    await element.updateComplete;
     assert.isTrue(isHidden(query(element, 'gr-account-dropdown')));
     assert.isTrue(isHidden(query(element, '.settingsButton')));
 
@@ -67,7 +68,7 @@ suite('gr-main-header tests', () => {
       [
         {url: 'https://awesometown.com/#hashyhash', name: '', target: ''},
         {url: 'url', name: '', target: '_blank'},
-      ].map(element._createHeaderLink),
+      ].map(element.createHeaderLink),
       [
         {url: 'https://awesometown.com/#hashyhash', name: ''},
         {url: 'url', name: ''},
@@ -105,7 +106,7 @@ suite('gr-main-header tests', () => {
 
     // When no admin links are passed, it should use the default.
     assert.deepEqual(
-      element._computeLinks(
+      element.computeLinks(
         /* userLinks= */ [],
         adminLinks,
         /* topMenus= */ [],
@@ -118,7 +119,7 @@ suite('gr-main-header tests', () => {
       })
     );
     assert.deepEqual(
-      element._computeLinks(
+      element.computeLinks(
         userLinks,
         adminLinks,
         /* topMenus= */ [],
@@ -146,11 +147,11 @@ suite('gr-main-header tests', () => {
       },
     ];
 
-    assert.deepEqual(element._getDocLinks(null, docLinks), []);
-    assert.deepEqual(element._getDocLinks('', docLinks), []);
-    assert.deepEqual(element._getDocLinks('base', []), []);
+    assert.deepEqual(element.getDocLinks(null, docLinks), []);
+    assert.deepEqual(element.getDocLinks('', docLinks), []);
+    assert.deepEqual(element.getDocLinks('base', []), []);
 
-    assert.deepEqual(element._getDocLinks('base', docLinks), [
+    assert.deepEqual(element.getDocLinks('base', docLinks), [
       {
         name: 'Table of Contents',
         target: '_blank',
@@ -158,7 +159,7 @@ suite('gr-main-header tests', () => {
       },
     ]);
 
-    assert.deepEqual(element._getDocLinks('base/', docLinks), [
+    assert.deepEqual(element.getDocLinks('base/', docLinks), [
       {
         name: 'Table of Contents',
         target: '_blank',
@@ -189,7 +190,7 @@ suite('gr-main-header tests', () => {
       },
     ];
     assert.deepEqual(
-      element._computeLinks(
+      element.computeLinks(
         /* userLinks= */ [],
         adminLinks,
         topMenus,
@@ -241,7 +242,7 @@ suite('gr-main-header tests', () => {
       },
     ];
     assert.deepEqual(
-      element._computeLinks(
+      element.computeLinks(
         /* userLinks= */ [],
         adminLinks,
         topMenus,
@@ -298,7 +299,7 @@ suite('gr-main-header tests', () => {
       },
     ];
     assert.deepEqual(
-      element._computeLinks(
+      element.computeLinks(
         /* userLinks= */ [],
         adminLinks,
         topMenus,
@@ -352,7 +353,7 @@ suite('gr-main-header tests', () => {
       },
     ];
     assert.deepEqual(
-      element._computeLinks(
+      element.computeLinks(
         /* userLinks= */ [],
         /* adminLinks= */ [],
         topMenus,
@@ -398,7 +399,7 @@ suite('gr-main-header tests', () => {
       },
     ];
     assert.deepEqual(
-      element._computeLinks(
+      element.computeLinks(
         userLinks,
         /* adminLinks= */ [],
         topMenus,
@@ -450,7 +451,7 @@ suite('gr-main-header tests', () => {
       },
     ];
     assert.deepEqual(
-      element._computeLinks(
+      element.computeLinks(
         /* userLinks= */ [],
         adminLinks,
         topMenus,
@@ -473,7 +474,7 @@ suite('gr-main-header tests', () => {
   });
 
   test('shows feedback icon when URL provided', async () => {
-    assert.isEmpty(element._feedbackURL);
+    assert.isEmpty(element.feedbackURL);
     assert.isNotOk(query(element, '.feedbackButton > a'));
 
     const url = 'report_bug_url';
@@ -484,10 +485,10 @@ suite('gr-main-header tests', () => {
         report_bug_url: url,
       },
     };
-    element._retrieveFeedbackURL(config);
-    await flush();
+    element.retrieveFeedbackURL(config);
+    await element.updateComplete;
 
-    assert.equal(element._feedbackURL, url);
+    assert.equal(element.feedbackURL, url);
     assert.ok(query(element, '.feedbackButton > a'));
   });
 
@@ -501,15 +502,15 @@ suite('gr-main-header tests', () => {
         editable_account_fields: [],
       },
     };
-    element._retrieveRegisterURL(config);
-    assert.equal(element._registerURL, config.auth.register_url);
-    assert.equal(element._registerText, 'Sign up');
+    element.retrieveRegisterURL(config);
+    assert.equal(element.registerURL, config.auth.register_url);
+    assert.equal(element.registerText, 'Sign up');
     assert.isFalse(isHidden(query(element, '.registerDiv')));
 
     config.auth.register_text = 'Create account';
-    element._retrieveRegisterURL(config);
-    assert.equal(element._registerURL, config.auth.register_url);
-    assert.equal(element._registerText, config.auth.register_text);
+    element.retrieveRegisterURL(config);
+    assert.equal(element.registerURL, config.auth.register_url);
+    assert.equal(element.registerText, config.auth.register_text);
     assert.isFalse(isHidden(query(element, '.registerDiv')));
   });
 
@@ -522,9 +523,9 @@ suite('gr-main-header tests', () => {
         editable_account_fields: [],
       },
     };
-    element._retrieveRegisterURL(config);
-    assert.equal(element._registerURL, '');
-    assert.equal(element._registerText, 'Sign up');
+    element.retrieveRegisterURL(config);
+    assert.equal(element.registerURL, '');
+    assert.equal(element.registerText, 'Sign up');
     assert.isTrue(isHidden(query(element, '.registerDiv')));
   });
 });

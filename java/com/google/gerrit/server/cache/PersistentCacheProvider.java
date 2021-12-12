@@ -30,7 +30,6 @@ import java.time.Duration;
 
 class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
     implements Provider<Cache<K, V>>, PersistentCacheBinding<K, V>, PersistentCacheDef<K, V> {
-  private final CacheBackend backend;
   private int version;
   private long diskLimit;
   private CacheSerializer<K> keySerializer;
@@ -40,19 +39,9 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
 
   PersistentCacheProvider(
       CacheModule module, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
-    this(module, name, keyType, valType, CacheBackend.CAFFEINE);
-  }
-
-  PersistentCacheProvider(
-      CacheModule module,
-      String name,
-      TypeLiteral<K> keyType,
-      TypeLiteral<V> valType,
-      CacheBackend backend) {
-    super(module, name, keyType, valType, backend);
+    super(module, name, keyType, valType);
     version = -1;
     diskLimit = 128 << 20;
-    this.backend = backend;
   }
 
   @Inject(optional = true)
@@ -141,8 +130,8 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
     freeze();
     CacheLoader<K, V> ldr = loader();
     return ldr != null
-        ? persistentCacheFactory.build(this, ldr, backend)
-        : persistentCacheFactory.build(this, backend);
+        ? persistentCacheFactory.build(this, ldr)
+        : persistentCacheFactory.build(this);
   }
 
   private static <T> void checkSerializer(

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b846a6a_ed6e6b07",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-13T23:50:51Z",
+      "side": 1,
+      "message": "This probably needs to be static to be shared across SchemaVersions?",
+      "revId": "bb9d5cbd8ebd2456272512c083b7ebffbdb204fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

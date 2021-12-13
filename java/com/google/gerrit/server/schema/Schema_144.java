@@ -101,6 +101,7 @@ public class Schema_144 extends SchemaVersion {
         }
         inserter.flush();
         bru.execute(rw, NullProgressMonitor.INSTANCE);
+        runGcInBackground(repoManager, allUsersName, ui);
       }
     } catch (IOException | ConfigInvalidException e) {
       throw new OrmException("Failed to migrate external IDs to NoteDb", e);

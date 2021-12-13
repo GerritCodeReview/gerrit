@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6cd542e_cafec1c7",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-13T19:12:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c70202d1_73a6b350",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 10
+      },
+      "revId": "e74f7bda54dd5a1c6c30e1d28b9cd56d65507150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "311bec59_82cbaaed",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a81a33c4_d34dc519",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-13T19:12:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "311bec59_82cbaaed",
+      "range": {
+        "startLine": 333,
+        "startChar": 17,
+        "endLine": 333,
+        "endChar": 39
+      },
+      "revId": "e74f7bda54dd5a1c6c30e1d28b9cd56d65507150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de111fe9_e6924747",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-12-09T23:27:55Z",
       "side": 1,
       "message": "Combine with the method above now?\n\nThe catch on 189 is only for the openRepository() call, but maybe it\u0027s fine to convert the UncheckedIOException on to RuntimeException (like line 200)? UncheckedIOException extends RuntimeException.",
+      "revId": "e74f7bda54dd5a1c6c30e1d28b9cd56d65507150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4969baa_fecc0ee5",
+        "filename": "java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-13T19:12:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de111fe9_e6924747",
       "revId": "e74f7bda54dd5a1c6c30e1d28b9cd56d65507150",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

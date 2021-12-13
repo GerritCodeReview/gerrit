@@ -6,10 +6,12 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetApproval.UUID;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
 import java.util.Date;
+import javax.inject.Singleton;
 
 /**
  * Implementation of {@link PatchSetApprovalUuidGenerator} that returns predictable {@link UUID}.
  */
+@Singleton
 public class TestPatchSetApprovalUuidGenerator implements PatchSetApprovalUuidGenerator {
 
   private int invocationCount = 0;

@@ -474,6 +474,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.removeApproval(LabelId.CODE_REVIEW);
     update.commit();
 
+    notes = newNotes(c);
+    assertThat(notes.getApprovals().keySet()).hasSize(1);
+    PatchSetApproval removedPsa =
+        Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+    assertThat(removedPsa.key()).isEqualTo(originalPsa.key());
+    assertThat(removedPsa.value()).isEqualTo(0);
     // Add approval with the same author, label, value to the current patch set
     update = newUpdate(c, changeOwner);
     update.putApproval(LabelId.CODE_REVIEW, (short) -1);
@@ -488,7 +494,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(reAddedPsa.value()).isEqualTo(originalPsa.value());
     // The re-added approval has a different UUID
     assertParsedUuid(reAddedPsa);
-    assertThat(reAddedPsa.uuid().get()).isNotEqualTo(originalPsa.uuid());
+    assertThat(reAddedPsa.uuid().get()).isNotEqualTo(originalPsa.uuid().get());
   }
 
   @Test
@@ -532,7 +538,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // The re-added approval has a different UUID
     assertParsedUuid(reAddedPsa);
-    assertThat(reAddedPsa.uuid().get()).isNotEqualTo(originalPsa.uuid());
+    assertThat(reAddedPsa.uuid().get()).isNotEqualTo(originalPsa.uuid().get());
   }
 
   @Test

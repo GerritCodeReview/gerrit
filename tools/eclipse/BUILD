@@ -9,7 +9,6 @@ load(
 )
 
 TEST_DEPS = [
-    "//javatests/com/google/gerrit/elasticsearch:elasticsearch_test_utils",
     "//javatests/com/google/gerrit/server:server_tests",
 ]
 

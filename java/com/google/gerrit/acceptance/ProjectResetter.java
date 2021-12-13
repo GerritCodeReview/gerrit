@@ -307,7 +307,7 @@ public class ProjectResetter implements AutoCloseable {
         Sets.union(
             projectsWithConfigChanges(restoredRefsByProject),
             projectsWithConfigChanges(deletedRefsByProject))) {
-      projectCache.evict(project);
+      projectCache.evictAndReindex(project);
     }
   }
 

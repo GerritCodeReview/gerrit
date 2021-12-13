@@ -56,6 +56,11 @@ if a log field is not present, a "-" is substituted:
   CPU time in kernel mode is `total_cpu - user_cpu`.
 * `memory`: memory allocated in bytes to execute command. -1 if the JVM does
   not support this metric.
+* `command status`: the overall result of the git command over HTTP. Currently
+   populated only for the transfer phase of `git-upload-pack` commands.
+   Possible values:
+** `-1`: The `git-upload-pack` transfer was ultimately not successful
+** `0`: The `git-upload-pack` transfer was ultimately successful
 
 Example:
 ```

@@ -183,7 +183,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
           ConfigUtil.getTimeUnit(
               cfg,
               "cache",
-              "diff",
+              GIT_DIFF,
               "timeout",
               TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
               TimeUnit.MILLISECONDS);

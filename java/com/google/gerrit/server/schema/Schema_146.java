@@ -100,9 +100,6 @@ public class Schema_146 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     ui.message("Migrating accounts");
     Set<Entry<Account.Id, Timestamp>> accounts = scanAccounts(db, ui).entrySet();
-    ui.message("Run full gc as preparation for the migration");
-    gc(ui);
-    ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
     Set<List<Entry<Account.Id, Timestamp>>> batches =
         Sets.newHashSet(Iterables.partition(accounts, 500));
     ExecutorService pool = createExecutor(ui);
@@ -159,9 +156,7 @@ public class Schema_146 extends SchemaVersion {
         inserter.flush();
         bru.execute(rw, NullProgressMonitor.INSTANCE);
         if (inserter instanceof PackInserter && packs.incrementAndGet() % 50 == 0) {
-          ui.message("Run full gc");
-          gc(ui);
-          ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
+          runGcInBackground(repoManager, allUsersName, ui);
         }
       }
       showProgress(ui, migratedAccounts.addAndGet(batch.size()));

@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -26,6 +27,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
@@ -34,15 +36,21 @@ import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.MissingMetaObjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 
 public class GetChange
@@ -53,6 +61,7 @@ public class GetChange
   private final DynamicSet<ChangePluginDefinedInfoFactory> pdiFactories;
   private final EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
   private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
+  private final GitRepositoryManager repoMgr;
 
   @Option(name = "-o", usage = "Output options")
   public void addOption(ListChangesOption o) {
@@ -73,9 +82,13 @@ public class GetChange
   }
 
   @Inject
-  GetChange(ChangeJson.Factory json, DynamicSet<ChangePluginDefinedInfoFactory> pdiFactories) {
+  GetChange(
+      ChangeJson.Factory json,
+      DynamicSet<ChangePluginDefinedInfoFactory> pdiFactories,
+      GitRepositoryManager repoMgr) {
     this.json = json;
     this.pdiFactories = pdiFactories;
+    this.repoMgr = repoMgr;
   }
 
   @Override
@@ -89,10 +102,11 @@ public class GetChange
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc)
-      throws BadRequestException, PreconditionFailedException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws RestApiException {
     try {
-      return Response.withMustRevalidate(newChangeJson().format(rsrc.getChange(), getMetaRevId()));
+      Change change = rsrc.getChange();
+      ObjectId changeMetaRevId = getMetaRevId(change);
+      return Response.withMustRevalidate(newChangeJson().format(change, changeMetaRevId));
     } catch (MissingMetaObjectException e) {
       throw new PreconditionFailedException(e.getMessage());
     }
@@ -103,7 +117,7 @@ public class GetChange
   }
 
   @Nullable
-  private ObjectId getMetaRevId() throws BadRequestException {
+  private ObjectId getMetaRevId(Change change) throws RestApiException {
     if (metaRevId.isEmpty()) {
       return null;
     }
@@ -111,11 +125,13 @@ public class GetChange
     // It might be interesting to also allow {SHA1}^^, so callers can walk back into history
     // without having to fetch the entire /meta ref. If we do so, we have to be careful that
     // the error messages can't be abused to fetch hidden data.
+    ObjectId metaRevObjectId;
     try {
-      return ObjectId.fromString(metaRevId);
+      metaRevObjectId = ObjectId.fromString(metaRevId);
     } catch (InvalidObjectIdException e) {
       throw new BadRequestException("invalid meta SHA1: " + metaRevId, e);
     }
+    return verifyMetaId(change, metaRevObjectId);
   }
 
   private ChangeJson newChangeJson() {
@@ -126,5 +142,35 @@ public class GetChange
       Collection<ChangeData> cds) {
     return PluginDefinedAttributesFactories.createAll(
         cds, this, Streams.stream(pdiFactories.entries()));
+  }
+
+  private ObjectId verifyMetaId(Change change, @Nullable ObjectId id) throws RestApiException {
+    if (id == null) {
+      return null;
+    }
+
+    String changeMetaRefName = RefNames.changeMetaRef(change.getId());
+    try (Repository repo = repoMgr.openRepository(change.getProject());
+        RevWalk rw = new RevWalk(repo)) {
+      rw.setRetainBody(false);
+      Ref ref = repo.getRefDatabase().exactRef(changeMetaRefName);
+      RevCommit tip = rw.parseCommit(ref.getObjectId());
+      rw.markStart(tip);
+      for (RevCommit rev : rw) {
+        if (id.equals(rev)) {
+          return id;
+        }
+      }
+    } catch (IOException e) {
+      throw RestApiException.wrap(
+          "I/O error while reading meta-ref id="
+              + id.getName()
+              + " from change "
+              + change.getChangeId(),
+          e);
+    }
+
+    throw new PreconditionFailedException(
+        id.getName() + " not reachable from " + changeMetaRefName);
   }
 }

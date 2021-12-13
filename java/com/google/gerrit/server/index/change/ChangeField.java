@@ -913,14 +913,22 @@ public class ChangeField {
       intRange(ChangeQueryBuilder.FIELD_ADDED)
           .build(
               cd -> cd.changedLines().isPresent() ? cd.changedLines().get().insertions : null,
-              (cd, field) -> cd.setLinesInserted(field));
+              (cd, field) -> {
+                if (field != null) {
+                  cd.setLinesInserted(field);
+                }
+              });
 
   /** The number of deleted lines in this change. */
   public static final FieldDef<ChangeData, Integer> DELETED =
       intRange(ChangeQueryBuilder.FIELD_DELETED)
           .build(
               cd -> cd.changedLines().isPresent() ? cd.changedLines().get().deletions : null,
-              (cd, field) -> cd.setLinesDeleted(field));
+              (cd, field) -> {
+                if (field != null) {
+                  cd.setLinesDeleted(field);
+                }
+              });
 
   /** The total number of modified lines in this change. */
   public static final FieldDef<ChangeData, Integer> DELTA =

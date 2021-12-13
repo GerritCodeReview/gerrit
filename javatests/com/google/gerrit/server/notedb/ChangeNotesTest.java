@@ -488,7 +488,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(reAddedPsa.value()).isEqualTo(originalPsa.value());
     // The re-added approval has a different UUID
     assertParsedUuid(reAddedPsa);
-    assertThat(reAddedPsa.uuid().get()).isNotEqualTo(originalPsa.uuid());
+    assertThat(reAddedPsa.uuid().get()).isNotEqualTo(originalPsa.uuid().get());
   }
 
   @Test
@@ -532,7 +532,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // The re-added approval has a different UUID
     assertParsedUuid(reAddedPsa);
-    assertThat(reAddedPsa.uuid().get()).isNotEqualTo(originalPsa.uuid());
+    assertThat(reAddedPsa.uuid().get()).isNotEqualTo(originalPsa.uuid().get());
   }
 
   @Test

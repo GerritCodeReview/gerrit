@@ -162,6 +162,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5fefc33_3886c5d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-13T21:31:56Z",
+      "side": 1,
+      "message": "Ack. Thanks!",
+      "parentUuid": "382149c5_7dc611c9",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2d5568a_008518b0",

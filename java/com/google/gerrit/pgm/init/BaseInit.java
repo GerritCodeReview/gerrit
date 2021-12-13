@@ -33,7 +33,6 @@ import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.LibraryDownload;
 import com.google.gerrit.pgm.init.index.IndexManagerOnInit;
 import com.google.gerrit.pgm.init.index.IndexModuleOnInit;
-import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
 import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -416,8 +415,6 @@ public class BaseInit extends SiteProgram {
       IndexType indexType = IndexModule.getIndexType(dbInjector);
       if (indexType.isLucene()) {
         modules.add(new LuceneIndexModuleOnInit());
-      } else if (indexType.isElasticsearch()) {
-        modules.add(new ElasticIndexModuleOnInit());
       } else if (indexType.isFake()) {
         try {
           Class<?> clazz = Class.forName("com.google.gerrit.index.testing.FakeIndexModuleOnInit");

@@ -26,6 +26,5 @@ java_library(
         "//lib/commons:dbcp",
         "//lib/flogger:api",
         "//lib/guice",
-        "//lib/log:log4j",
     ],
 )

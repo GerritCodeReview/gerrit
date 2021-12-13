@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03a22182_b739b3e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-13T15:06:56Z",
+      "side": 1,
+      "message": "Hi Maria, this is needed for our google3 imports. After adaptation, I found the test is failing. Could you please take a look?",
+      "revId": "8067c89719e3d62d3c568a7af4e54c3561699122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

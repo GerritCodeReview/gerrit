@@ -18,6 +18,5 @@ java_library(
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",
         "//lib/guice",
-        "//lib/log:log4j",
     ],
 )

@@ -45,10 +45,6 @@ The _Lucene_ search index is stored in the `${SITE}/index` folder.
 It can be recomputed from primary data in the git repositories but
 reindexing may take a long time hence backing up the index makes sense
 for production installations.
-+
-If you have chosen to use _Elastic Search_ for indexing,
-refer to its
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html[backup documentation,role=external,window=_blank].
 
 [#optional-backup-cache]
 Caches::

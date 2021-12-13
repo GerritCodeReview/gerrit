@@ -42,11 +42,6 @@ public class NullProjectCache implements ProjectCache {
   }
 
   @Override
-  public void evict(Project p) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public void evict(NameKey p) {
     throw new UnsupportedOperationException();
   }
@@ -78,6 +73,16 @@ public class NullProjectCache implements ProjectCache {
 
   @Override
   public void onCreateProject(NameKey newProjectName) throws IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void evictAndReindex(Project p) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void evictAndReindex(NameKey p) {
     throw new UnsupportedOperationException();
   }
 }

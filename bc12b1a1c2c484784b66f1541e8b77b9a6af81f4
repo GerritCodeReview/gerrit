@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3beb73e3_8afc4fa2",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-13T21:53:53Z",
+      "side": 1,
+      "message": "s/repoName/project/?",
+      "range": {
+        "startLine": 328,
+        "startChar": 56,
+        "endLine": 328,
+        "endChar": 64
+      },
+      "revId": "bc12b1a1c2c484784b66f1541e8b77b9a6af81f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff54018e_9c4026e2",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-13T21:53:53Z",
+      "side": 1,
+      "message": "Not necessarily All-Users now.",
+      "range": {
+        "startLine": 342,
+        "startChar": 34,
+        "endLine": 342,
+        "endChar": 43
+      },
+      "revId": "bc12b1a1c2c484784b66f1541e8b77b9a6af81f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

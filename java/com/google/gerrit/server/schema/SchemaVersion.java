@@ -345,7 +345,22 @@ public abstract class SchemaVersion {
     backgroundGcThread.execute(new GcTask(project, repoManager, ui));
   }
 
-  protected void gc(Repository repo, UpdateUI ui, ProgressMonitor pm, Stopwatch sw)
+  protected static ObjectId emptyTree(ObjectInserter oi) throws IOException {
+    return oi.insert(Constants.OBJ_TREE, new byte[] {});
+  }
+
+  protected static ObjectInserter getPackInserterFirst(Repository repo) {
+    if (repo instanceof FileRepository) {
+      return ((FileRepository) repo).getObjectDatabase().newPackInserter();
+    }
+    return repo.getObjectDatabase().newInserter();
+  }
+
+  private static long countDone(Collection<Future> futures) {
+    return futures.stream().filter(Future::isDone).count();
+  }
+
+  private void gc(Repository repo, UpdateUI ui, ProgressMonitor pm, Stopwatch sw)
       throws IOException, ParseException {
     FileRepository r = (FileRepository) repo;
     GC gc = new GC(r);
@@ -360,21 +375,6 @@ public abstract class SchemaVersion {
         String.format("... (%.3f s) gc --prune=now", sw.elapsed(TimeUnit.MILLISECONDS) / 1000d));
     gc.setExpire(new Date());
     gc.gc();
-  }
-
-  protected static ObjectId emptyTree(ObjectInserter oi) throws IOException {
-    return oi.insert(Constants.OBJ_TREE, new byte[] {});
-  }
-
-  protected static ObjectInserter getPackInserterFirst(Repository repo) {
-    if (repo instanceof FileRepository) {
-      return ((FileRepository) repo).getObjectDatabase().newPackInserter();
-    }
-    return repo.getObjectDatabase().newInserter();
-  }
-
-  private static long countDone(Collection<Future> futures) {
-    return futures.stream().filter(Future::isDone).count();
   }
 
   private class GcTask implements Runnable {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76771ac2_8de36540",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2021-12-13T15:25:28Z",
+      "side": 1,
+      "message": "Due to log4j2 version uses -1",
+      "revId": "1e4f7bbde281849e427bc0cf0d191ef985ee8a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0f9fee7_50a739ef",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2021-12-13T15:25:28Z",
+      "side": 1,
+      "message": "Ensure using a version \u003e\u003d2.15 due to  CVE-2021-44228.",
+      "revId": "1e4f7bbde281849e427bc0cf0d191ef985ee8a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

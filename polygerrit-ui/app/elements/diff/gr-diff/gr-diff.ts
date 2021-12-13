@@ -199,7 +199,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   @property({type: String, observer: '_viewModeObserver'})
   viewMode = DiffViewMode.SIDE_BY_SIDE;
 
-  @property({type: Object})
+  @property({type: Object, observer: '_lineOfInterestObserver'})
   lineOfInterest?: DisplayLine;
 
   /**
@@ -722,6 +722,10 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   _lineWrappingObserver() {
     this._prefsChanged(this.prefs);
+  }
+
+  _lineOfInterestObserver() {
+    this._debounceRenderDiffTable();
   }
 
   _useNewImageDiffUiObserver() {

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44bf56d1_6f2ae6a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-13T12:06:50Z",
+      "side": 1,
+      "message": "Nice. Thanks!",
+      "revId": "4d495847b76a6396ff00c5eebea732a5d3c792f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8b5acca_6b4ef04d",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-13T12:06:50Z",
+      "side": 1,
+      "message": "render() is fairly long, maybe split off a dedicated method for the account container",
+      "revId": "4d495847b76a6396ff00c5eebea732a5d3c792f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df5a0455_e48684e0",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-13T12:06:50Z",
+      "side": 1,
+      "message": "Nit: Hiding is nicer by not rendering it at all.",
+      "revId": "4d495847b76a6396ff00c5eebea732a5d3c792f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e7ef20f_de9122d2",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-13T12:06:50Z",
+      "side": 1,
+      "message": "Maybe use fire() util.",
+      "revId": "4d495847b76a6396ff00c5eebea732a5d3c792f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c3ad359_e556b9e5",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-13T12:06:50Z",
+      "side": 1,
+      "message": "Maybe use ValueChangedEvent.",
+      "revId": "4d495847b76a6396ff00c5eebea732a5d3c792f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

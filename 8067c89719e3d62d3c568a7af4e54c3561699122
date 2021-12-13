@@ -16,6 +16,23 @@
       "message": "Hi Maria, this is needed for our google3 imports. After adaptation, I found the test is failing. Could you please take a look?",
       "revId": "8067c89719e3d62d3c568a7af4e54c3561699122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6869981c_979c190e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-13T15:07:18Z",
+      "side": 1,
+      "message": "Thanks Youssef, I made another change at the same time:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/326214",
+      "revId": "8067c89719e3d62d3c568a7af4e54c3561699122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

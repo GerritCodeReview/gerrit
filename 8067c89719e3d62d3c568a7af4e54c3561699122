@@ -33,6 +33,23 @@
       "message": "Thanks Youssef, I made another change at the same time:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/326214",
       "revId": "8067c89719e3d62d3c568a7af4e54c3561699122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e26a8925_7d1709ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-13T15:08:38Z",
+      "side": 1,
+      "message": "Ah, thanks. Just found you added https://gerrit-review.googlesource.com/c/gerrit/+/326214. I willl abandon this change then.",
+      "revId": "8067c89719e3d62d3c568a7af4e54c3561699122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

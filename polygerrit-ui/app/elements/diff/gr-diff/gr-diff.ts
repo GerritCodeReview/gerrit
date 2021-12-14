@@ -545,7 +545,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   _handleDiffContextExpanded(e: CustomEvent<DiffContextExpandedEventDetail>) {
     // Don't stop propagation. The host may listen for reporting or resizing.
-    this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
+    this.$.diffBuilder.rerenderSection(e.detail.groups, e.detail.section);
   }
 
   _handleTap(e: CustomEvent) {

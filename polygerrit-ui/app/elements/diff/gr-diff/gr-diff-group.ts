@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {BLANK_LINE, GrDiffLine, GrDiffLineType} from './gr-diff-line';
-import {LineRange} from '../../../api/diff';
+import {LineRange, Side} from '../../../api/diff';
 
 export enum GrDiffGroupType {
   /** Unchanged context. */
@@ -42,7 +42,7 @@ export interface GrDiffLinePair {
  * originated from an `ab` chunk, or from an `a`+`b` chunk with
  * `common: true`.
  *
- * If the hidden range is 1 line or less, nothing is hidden and no context
+ * If the hidden range is 3 lines or less, nothing is hidden and no context
  * control group is created.
  *
  * @param groups Common groups, ordered by their line ranges.
@@ -54,7 +54,7 @@ export interface GrDiffLinePair {
  *     start line, left and right respectively.
  */
 export function hideInContextControl(
-  groups: GrDiffGroup[],
+  groups: readonly GrDiffGroup[],
   hiddenStart: number,
   hiddenEnd: number
 ): GrDiffGroup[] {
@@ -65,7 +65,7 @@ export function hideInContextControl(
 
   let before: GrDiffGroup[] = [];
   let hidden = groups;
-  let after: GrDiffGroup[] = [];
+  let after: readonly GrDiffGroup[] = [];
 
   const numHidden = hiddenEnd - hiddenStart;
 
@@ -91,7 +91,7 @@ export function hideInContextControl(
   const result = [...before];
   if (hidden.length) {
     const ctxGroup = new GrDiffGroup(GrDiffGroupType.CONTEXT_CONTROL, []);
-    ctxGroup.contextGroups = hidden;
+    ctxGroup.contextGroups = [...hidden];
     result.push(ctxGroup);
   }
   result.push(...after);
@@ -173,7 +173,7 @@ function _splitGroupInTwo(
  *   list of groups before and the list of groups after the split.
  */
 function _splitCommonGroups(
-  groups: GrDiffGroup[],
+  groups: readonly GrDiffGroup[],
   split: number
 ): GrDiffGroup[][] {
   if (groups.length === 0) return [[], []];
@@ -210,14 +210,14 @@ function _splitCommonGroups(
   return [beforeGroups, afterGroups];
 }
 
-/**
- * A chunk of the diff that should be rendered together.
- *
- * @constructor
- * @param {!GrDiffGroupType} type
- * @param {!Array<!GrDiffLine>=} opt_lines
- */
 export class GrDiffGroup {
+  /**
+   * A chunk of the diff that should be rendered together.
+   *
+   * @constructor
+   * @param type
+   * @param opt_lines
+   */
   constructor(readonly type: GrDiffGroupType, lines: GrDiffLine[] = []) {
     lines.forEach((line: GrDiffLine) => this.addLine(line));
   }
@@ -250,8 +250,8 @@ export class GrDiffGroup {
 
   /** Both start and end line are inclusive. */
   lineRange = {
-    left: {start_line: 0, end_line: 0} as LineRange,
-    right: {start_line: 0, end_line: 0} as LineRange,
+    [Side.LEFT]: {start_line: 0, end_line: 0} as LineRange,
+    [Side.RIGHT]: {start_line: 0, end_line: 0} as LineRange,
   };
 
   moveDetails?: {

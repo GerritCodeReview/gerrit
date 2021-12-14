@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a4d8b22_99472ab3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-14T13:52:32Z",
+      "side": 1,
+      "message": "Nice!!!",
+      "revId": "e1c15ff15d00de8bc6f28db19139e47ba4b7a70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71590dd0_f82a2592",
+        "filename": "polygerrit-ui/app/services/model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-14T13:52:32Z",
+      "side": 1,
+      "message": "Optional: Maybe subject$ could even be private when adding this?\n\n  protected updateState(partial: Partial\u003cT\u003e) {\n    this.subject$.next({\n      ...this.subject$.getValue(),\n      ...partial,\n    });\n  }",
+      "revId": "e1c15ff15d00de8bc6f28db19139e47ba4b7a70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

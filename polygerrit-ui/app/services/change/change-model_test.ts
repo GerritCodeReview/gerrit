@@ -110,7 +110,7 @@ suite('change service tests', () => {
     let state: ChangeState | undefined = {
       loadingStatus: LoadingStatus.NOT_LOADED,
     };
-    changeModel.changeState$
+    changeModel.state$
       .pipe(takeUntil(testCompleted))
       .subscribe(s => (state = s));
 
@@ -139,7 +139,7 @@ suite('change service tests', () => {
     let state: ChangeState | undefined = {
       loadingStatus: LoadingStatus.NOT_LOADED,
     };
-    changeModel.changeState$
+    changeModel.state$
       .pipe(takeUntil(testCompleted))
       .subscribe(s => (state = s));
     changeModel.routerModel.setState({
@@ -168,7 +168,7 @@ suite('change service tests', () => {
     let state: ChangeState | undefined = {
       loadingStatus: LoadingStatus.NOT_LOADED,
     };
-    changeModel.changeState$
+    changeModel.state$
       .pipe(takeUntil(testCompleted))
       .subscribe(s => (state = s));
     changeModel.routerModel.setState({
@@ -206,7 +206,7 @@ suite('change service tests', () => {
     let state: ChangeState | undefined = {
       loadingStatus: LoadingStatus.NOT_LOADED,
     };
-    changeModel.changeState$
+    changeModel.state$
       .pipe(takeUntil(testCompleted))
       .subscribe(s => (state = s));
     changeModel.routerModel.setState({

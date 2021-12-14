@@ -25,7 +25,6 @@ import {
   combineLatest,
   from,
   fromEvent,
-  BehaviorSubject,
   Observable,
   Subscription,
   forkJoin,
@@ -50,6 +49,7 @@ import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {Finalizable} from '../registry';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
+import {Model} from '../model';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -111,24 +111,19 @@ const initialState: ChangeState = {
   loadingStatus: LoadingStatus.NOT_LOADED,
 };
 
-export class ChangeModel implements Finalizable {
-  private readonly privateState$ = new BehaviorSubject(initialState);
-
-  public readonly changeState$: Observable<ChangeState> =
-    this.privateState$.asObservable();
-
+export class ChangeModel extends Model<ChangeState> implements Finalizable {
   public readonly change$ = select(
-    this.privateState$,
+    this.state$,
     changeState => changeState.change
   );
 
   public readonly changeLoadingStatus$ = select(
-    this.privateState$,
+    this.state$,
     changeState => changeState.loadingStatus
   );
 
   public readonly diffPath$ = select(
-    this.privateState$,
+    this.state$,
     changeState => changeState?.diffPath
   );
 
@@ -156,7 +151,7 @@ export class ChangeModel implements Finalizable {
      * out inconsistent state, e.g. router changeNum already updated, change not
      * yet reset to undefined.
      */
-    combineLatest([this.routerModel.routerState$, this.changeState$])
+    combineLatest([this.routerModel.state$, this.state$])
       .pipe(
         filter(([routerState, changeState]) => {
           const changeNum = changeState.change?._number;
@@ -184,6 +179,7 @@ export class ChangeModel implements Finalizable {
     readonly routerModel: RouterModel,
     readonly restApiService: RestApiService
   ) {
+    super(initialState);
     this.subscriptions = [
       combineLatest([this.routerModel.routerChangeNum$, this.reload$])
         .pipe(
@@ -298,11 +294,11 @@ export class ChangeModel implements Finalizable {
   }
 
   getState(): ChangeState {
-    return this.privateState$.getValue();
+    return this.subject$.getValue();
   }
 
   // Private but used in tests
   setState(state: ChangeState) {
-    this.privateState$.next(state);
+    this.subject$.next(state);
   }
 }

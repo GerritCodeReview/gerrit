@@ -99,7 +99,8 @@ export const htmlTemplate = html`
   <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
   <gr-main-header
     id="mainHeader"
-    search-query="{{params.query}}"
+    search-query="[[params.query]]"
+    on-search-query-changed="_handleSearchQueryChanged"
     on-mobile-search="_mobileSearchToggle"
     on-show-keyboard-shortcuts="handleShowKeyboardShortcuts"
     mobile-search-hidden="[[!mobileSearch]]"

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71603d80_5dbb823f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-14T20:11:53Z",
+      "side": 1,
+      "message": "Matthias, since you raised https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15378 I\u0027m hoping you can review. @Edwin, can you do LC+1?",
+      "revId": "2ee091fce0de456073b6d9a8f3119ae9c71c345b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

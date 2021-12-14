@@ -72,8 +72,18 @@ public abstract class SubmitRequirementExpressionResult {
       Status status,
       ImmutableList<String> passingAtoms,
       ImmutableList<String> failingAtoms) {
+    return create(
+        expression, status, passingAtoms, failingAtoms, Optional.empty());
+  }
+
+  public static SubmitRequirementExpressionResult create(
+      SubmitRequirementExpression expression,
+      Status status,
+      ImmutableList<String> passingAtoms,
+      ImmutableList<String> failingAtoms,
+      Optional<String> errorMessage) {
     return new AutoValue_SubmitRequirementExpressionResult(
-        expression, status, Optional.empty(), passingAtoms, failingAtoms);
+        expression, status, errorMessage, passingAtoms, failingAtoms);
   }
 
   public static SubmitRequirementExpressionResult error(

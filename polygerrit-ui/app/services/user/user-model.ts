@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {from, of, BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {from, of, Observable, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {
   DiffPreferencesInfo as DiffPreferencesInfoAPI,
@@ -33,6 +33,7 @@ import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
 import {Finalizable} from '../registry';
 import {select} from '../../utils/observable-util';
+import {Model} from '../model';
 
 export interface UserState {
   /**
@@ -44,15 +45,9 @@ export interface UserState {
   capabilities?: AccountCapabilityInfo;
 }
 
-export class UserModel implements Finalizable {
-  private readonly privateState$: BehaviorSubject<UserState> =
-    new BehaviorSubject({
-      preferences: createDefaultPreferences(),
-      diffPreferences: createDefaultDiffPrefs(),
-    });
-
+export class UserModel extends Model<UserState> implements Finalizable {
   readonly account$: Observable<AccountDetailInfo | undefined> = select(
-    this.privateState$,
+    this.state$,
     userState => userState.account
   );
 
@@ -63,7 +58,7 @@ export class UserModel implements Finalizable {
   );
 
   readonly capabilities$: Observable<AccountCapabilityInfo | undefined> =
-    select(this.userState$, userState => userState.capabilities);
+    select(this.state$, userState => userState.capabilities);
 
   readonly isAdmin$: Observable<boolean> = select(
     this.capabilities$,
@@ -71,12 +66,12 @@ export class UserModel implements Finalizable {
   );
 
   readonly preferences$: Observable<PreferencesInfo> = select(
-    this.privateState$,
+    this.state$,
     userState => userState.preferences
   );
 
   readonly diffPreferences$: Observable<DiffPreferencesInfo> = select(
-    this.privateState$,
+    this.state$,
     userState => userState.diffPreferences
   );
 
@@ -87,11 +82,11 @@ export class UserModel implements Finalizable {
 
   private subscriptions: Subscription[] = [];
 
-  get userState$(): Observable<UserState> {
-    return this.privateState$;
-  }
-
   constructor(readonly restApiService: RestApiService) {
+    super({
+      preferences: createDefaultPreferences(),
+      diffPreferences: createDefaultDiffPrefs(),
+    });
     this.subscriptions = [
       from(this.restApiService.getAccount()).subscribe(
         (account?: AccountDetailInfo) => {
@@ -167,22 +162,22 @@ export class UserModel implements Finalizable {
   }
 
   setPreferences(preferences: PreferencesInfo) {
-    const current = this.privateState$.getValue();
-    this.privateState$.next({...current, preferences});
+    const current = this.subject$.getValue();
+    this.subject$.next({...current, preferences});
   }
 
   setDiffPreferences(diffPreferences: DiffPreferencesInfo) {
-    const current = this.privateState$.getValue();
-    this.privateState$.next({...current, diffPreferences});
+    const current = this.subject$.getValue();
+    this.subject$.next({...current, diffPreferences});
   }
 
   setCapabilities(capabilities?: AccountCapabilityInfo) {
-    const current = this.privateState$.getValue();
-    this.privateState$.next({...current, capabilities});
+    const current = this.subject$.getValue();
+    this.subject$.next({...current, capabilities});
   }
 
   private setAccount(account?: AccountDetailInfo) {
-    const current = this.privateState$.getValue();
-    this.privateState$.next({...current, account});
+    const current = this.subject$.getValue();
+    this.subject$.next({...current, account});
   }
 }

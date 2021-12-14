@@ -1397,11 +1397,11 @@ suite('gr-file-list tests', () => {
 
     test('_computeSizeBarsClass', () => {
       assert.equal(element._computeSizeBarsClass(false, 'foo/bar.baz'),
-          'sizeBars desktop hide');
+          'sizeBars hide');
       assert.equal(element._computeSizeBarsClass(true, '/COMMIT_MSG'),
-          'sizeBars desktop invisible');
+          'sizeBars invisible');
       assert.equal(element._computeSizeBarsClass(true, 'foo/bar.baz'),
-          'sizeBars desktop ');
+          'sizeBars ');
     });
   });
 

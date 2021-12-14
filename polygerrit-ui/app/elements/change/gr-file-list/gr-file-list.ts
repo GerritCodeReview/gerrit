@@ -1564,7 +1564,7 @@ export class GrFileList extends base {
     } else if (!this._showBarsForPath(path)) {
       hideClass = 'invisible';
     }
-    return `sizeBars desktop ${hideClass}`;
+    return `sizeBars ${hideClass}`;
   }
 
   /**

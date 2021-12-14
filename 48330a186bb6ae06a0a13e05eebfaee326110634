@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9c084b5_779c38a5",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-14T11:59:36Z",
+      "side": 1,
+      "message": "Because we don\u0027t want to change the appearance of the tag div. The *role* should just be a button. \u003cdiv role\u003d\"button\"\u003e would be an alternative. Would you prefer that?",
+      "parentUuid": "7ecfe416_7ffb933d",
+      "range": {
+        "startLine": 539,
+        "startChar": 17,
+        "endLine": 539,
+        "endChar": 23
+      },
+      "revId": "48330a186bb6ae06a0a13e05eebfaee326110634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b89acf99_89f06083",
         "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2021-12-14T11:37:14Z",
       "side": 1,
       "message": "Why when `oldValue \u003d\u003d\u003d newValue` the `filterInput.value` is change to empty? I would assume just calling `return` (do nothing)",
+      "range": {
+        "startLine": 1147,
+        "startChar": 29,
+        "endLine": 1147,
+        "endChar": 55
+      },
+      "revId": "48330a186bb6ae06a0a13e05eebfaee326110634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5ad1e09_88398502",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-14T11:59:36Z",
+      "side": 1,
+      "message": "This is for being able to toggle the filter. Click to add. Click again to remove. Makes sense?",
+      "parentUuid": "b89acf99_89f06083",
       "range": {
         "startLine": 1147,
         "startChar": 29,

@@ -88,7 +88,7 @@ export class GrContextControls extends LitElement {
 
   @property({type: Object}) section?: HTMLElement;
 
-  @property({type: Object}) contextGroups: GrDiffGroup[] = [];
+  @property({type: Object}) group?: GrDiffGroup;
 
   @property({type: String, reflect: true})
   showConfig: GrContextControlsShowConfig = 'both';
@@ -242,8 +242,10 @@ export class GrContextControls extends LitElement {
   }
 
   private numLines() {
-    const {leftStart, leftEnd} = this.contextRange();
-    return leftEnd - leftStart + 1;
+    // In context groups, there is the same number of lines left and right
+    const left = this.group!.lineRange.left;
+    // Both start and end inclusive, so we need to add 1.
+    return left.end_line - left.start_line + 1;
   }
 
   private createExpandAllButtonContainer() {
@@ -262,6 +264,7 @@ export class GrContextControls extends LitElement {
     linesToExpand: number,
     tooltip?: TemplateResult
   ) {
+    if (!this.group) return;
     let text = '';
     let groups: GrDiffGroup[] = []; // The groups that replace this one if tapped.
     let ariaLabel = '';
@@ -279,10 +282,10 @@ export class GrContextControls extends LitElement {
         // Expanding content would require load of more data
         text += ' (too large)';
       }
-      groups.push(...this.contextGroups);
+      groups.push(...this.group.contextGroups);
     } else if (type === ContextButtonType.ABOVE) {
       groups = hideInContextControl(
-        this.contextGroups,
+        this.group.contextGroups,
         linesToExpand,
         this.numLines()
       );
@@ -291,7 +294,7 @@ export class GrContextControls extends LitElement {
       ariaLabel = `Show ${pluralize(linesToExpand, 'line')} above`;
     } else if (type === ContextButtonType.BELOW) {
       groups = hideInContextControl(
-        this.contextGroups,
+        this.group.contextGroups,
         0,
         this.numLines() - linesToExpand
       );
@@ -300,7 +303,7 @@ export class GrContextControls extends LitElement {
       ariaLabel = `Show ${pluralize(linesToExpand, 'line')} below`;
     } else if (type === ContextButtonType.BLOCK_ABOVE) {
       groups = hideInContextControl(
-        this.contextGroups,
+        this.group.contextGroups,
         linesToExpand,
         this.numLines()
       );
@@ -309,7 +312,7 @@ export class GrContextControls extends LitElement {
       ariaLabel = 'Show block above';
     } else if (type === ContextButtonType.BLOCK_BELOW) {
       groups = hideInContextControl(
-        this.contextGroups,
+        this.group.contextGroups,
         0,
         this.numLines() - linesToExpand
       );
@@ -352,19 +355,8 @@ export class GrContextControls extends LitElement {
     return (e: Event) => {
       e.stopPropagation();
       if (type === ContextButtonType.ALL && this.partialContent) {
-        const {leftStart, leftEnd, rightStart, rightEnd} = this.contextRange();
-        const lineRange = {
-          left: {
-            start_line: leftStart,
-            end_line: leftEnd,
-          },
-          right: {
-            start_line: rightStart,
-            end_line: rightEnd,
-          },
-        };
         fire(this, 'content-load-needed', {
-          lineRange,
+          lineRange: this.group!.lineRange,
         });
       } else {
         assertIsDefined(this.section, 'section');
@@ -415,7 +407,7 @@ export class GrContextControls extends LitElement {
    * Checks if the collapsed section contains unavailable content (skip chunks).
    */
   private get partialContent() {
-    return this.contextGroups.some(c => !!c.skip);
+    return this.group?.contextGroups.some(c => !!c.skip);
   }
 
   /**
@@ -435,14 +427,14 @@ export class GrContextControls extends LitElement {
       aboveBlockButton = this.createBlockButton(
         ContextButtonType.BLOCK_ABOVE,
         this.numLines(),
-        this.contextRange().rightStart - 1
+        this.group!.lineRange.right.start_line - 1
       );
     }
     if (this.showBelow()) {
       belowBlockButton = this.createBlockButton(
         ContextButtonType.BLOCK_BELOW,
         this.numLines(),
-        this.contextRange().rightEnd + 1
+        this.group!.lineRange.right.end_line + 1
       );
     }
     if (aboveBlockButton || belowBlockButton) {
@@ -502,21 +494,8 @@ export class GrContextControls extends LitElement {
     return this.createContextButton(buttonType, linesToExpand, tooltip);
   }
 
-  private contextRange() {
-    return {
-      leftStart: this.contextGroups[0].lineRange.left.start_line,
-      leftEnd:
-        this.contextGroups[this.contextGroups.length - 1].lineRange.left
-          .end_line,
-      rightStart: this.contextGroups[0].lineRange.right.start_line,
-      rightEnd:
-        this.contextGroups[this.contextGroups.length - 1].lineRange.right
-          .end_line,
-    };
-  }
-
   private hasValidProperties() {
-    return !!(this.diff && this.section && this.contextGroups?.length);
+    return !!(this.diff && this.section && this.group?.contextGroups?.length);
   }
 
   override render() {

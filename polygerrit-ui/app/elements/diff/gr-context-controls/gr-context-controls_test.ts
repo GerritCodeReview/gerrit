@@ -39,7 +39,7 @@ suite('gr-context-control tests', () => {
     await flush();
   });
 
-  function createContextGroups(options: {offset?: number; count?: number}) {
+  function createContextGroup(options: {offset?: number; count?: number}) {
     const offset = options.offset || 0;
     const numLines = options.count || 10;
     const lines = [];
@@ -50,12 +50,13 @@ suite('gr-context-control tests', () => {
       line.text = 'lorem upsum';
       lines.push(line);
     }
-
-    return [new GrDiffGroup(GrDiffGroupType.BOTH, lines)];
+    const result = new GrDiffGroup(GrDiffGroupType.CONTEXT_CONTROL);
+    result.contextGroups = [new GrDiffGroup(GrDiffGroupType.BOTH, lines)];
+    return result;
   }
 
   test('no +10 buttons for 10 or less lines', async () => {
-    element.contextGroups = createContextGroups({count: 10});
+    element.group = createContextGroup({count: 10});
 
     await flush();
 
@@ -67,7 +68,7 @@ suite('gr-context-control tests', () => {
   });
 
   test('context control at the top', async () => {
-    element.contextGroups = createContextGroups({offset: 0, count: 20});
+    element.group = createContextGroup({offset: 0, count: 20});
     element.showConfig = 'below';
 
     await flush();
@@ -85,7 +86,7 @@ suite('gr-context-control tests', () => {
   });
 
   test('context control in the middle', async () => {
-    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
 
     await flush();
@@ -105,7 +106,7 @@ suite('gr-context-control tests', () => {
   });
 
   test('context control at the bottom', async () => {
-    element.contextGroups = createContextGroups({offset: 30, count: 20});
+    element.group = createContextGroup({offset: 30, count: 20});
     element.showConfig = 'above';
 
     await flush();
@@ -131,7 +132,7 @@ suite('gr-context-control tests', () => {
 
   test('context control with block expansion at the top', async () => {
     prepareForBlockExpansion([]);
-    element.contextGroups = createContextGroups({offset: 0, count: 20});
+    element.group = createContextGroup({offset: 0, count: 20});
     element.showConfig = 'below';
 
     await flush();
@@ -160,7 +161,7 @@ suite('gr-context-control tests', () => {
 
   test('context control with block expansion in the middle', async () => {
     prepareForBlockExpansion([]);
-    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
 
     await flush();
@@ -197,7 +198,7 @@ suite('gr-context-control tests', () => {
 
   test('context control with block expansion at the bottom', async () => {
     prepareForBlockExpansion([]);
-    element.contextGroups = createContextGroups({offset: 30, count: 20});
+    element.group = createContextGroup({offset: 30, count: 20});
     element.showConfig = 'above';
 
     await flush();
@@ -237,7 +238,7 @@ suite('gr-context-control tests', () => {
         children: [],
       },
     ]);
-    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
 
     await flush();
@@ -289,7 +290,7 @@ suite('gr-context-control tests', () => {
         ],
       },
     ]);
-    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
 
     await flush();
@@ -335,7 +336,7 @@ suite('gr-context-control tests', () => {
         ],
       },
     ]);
-    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
     await flush();
 
@@ -353,7 +354,7 @@ suite('gr-context-control tests', () => {
   test('+Block tooltip shows "all common lines" for empty syntax tree', async () => {
     prepareForBlockExpansion([]);
 
-    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
     await flush();
 

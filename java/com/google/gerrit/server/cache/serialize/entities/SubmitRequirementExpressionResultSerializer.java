@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.cache.serialize.entities;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.server.cache.proto.Cache.SubmitRequirementExpressionResultProto;
+import java.util.Optional;
 
 /**
  * Serializer of a {@link SubmitRequirementExpressionResult} to {@link
@@ -30,7 +32,8 @@ public class SubmitRequirementExpressionResultSerializer {
         SubmitRequirementExpression.create(proto.getExpression()),
         SubmitRequirementExpressionResult.Status.valueOf(proto.getStatus()),
         proto.getPassingAtomsList().stream().collect(ImmutableList.toImmutableList()),
-        proto.getFailingAtomsList().stream().collect(ImmutableList.toImmutableList()));
+        proto.getFailingAtomsList().stream().collect(ImmutableList.toImmutableList()),
+        Optional.ofNullable(Strings.emptyToNull(proto.getErrorMessage())));
   }
 
   public static SubmitRequirementExpressionResultProto serialize(
@@ -40,6 +43,7 @@ public class SubmitRequirementExpressionResultSerializer {
         .setStatus(r.status().name())
         .addAllPassingAtoms(r.passingAtoms())
         .addAllFailingAtoms(r.failingAtoms())
+        .setErrorMessage(r.errorMessage().orElse(""))
         .build();
   }
 }

@@ -29,7 +29,6 @@ import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../checks/gr-checks-action';
 import {
-  firstPrimaryLink,
   getResultsOf,
   hasCompletedWithoutResults,
   hasResults,
@@ -657,18 +656,17 @@ export class GrChangeSummary extends LitElement {
     if (category === Category.SUCCESS || category === Category.INFO) {
       return this.renderChecksChipsCollapsed(runs, category, count);
     }
-    return this.renderChecksChipsExpanded(runs, category, count);
+    return this.renderChecksChipsExpanded(runs, category);
   }
 
   renderChecksChipRunning() {
     const runs = this.runs.filter(isRunning);
-    return this.renderChecksChipsExpanded(runs, RunStatus.RUNNING, () => []);
+    return this.renderChecksChipsExpanded(runs, RunStatus.RUNNING);
   }
 
   renderChecksChipsExpanded(
     runs: CheckRun[],
-    statusOrCategory: RunStatus | Category,
-    resultFilter: (run: CheckRun) => CheckResult[]
+    statusOrCategory: RunStatus | Category
   ) {
     if (runs.length === 0) return;
     const showAll = this.showAllChips.get(statusOrCategory) ?? false;
@@ -678,7 +676,7 @@ export class GrChangeSummary extends LitElement {
     return html`${runs
       .slice(0, count)
       .map(run =>
-        this.renderChecksChipDetailed(run, statusOrCategory, resultFilter)
+        this.renderChecksChipDetailed(run, statusOrCategory)
       )}${this.renderChecksChipPlusMore(statusOrCategory, more)}`;
   }
 
@@ -721,13 +719,10 @@ export class GrChangeSummary extends LitElement {
 
   private renderChecksChipDetailed(
     run: CheckRun,
-    statusOrCategory: RunStatus | Category,
-    resultFilter: (run: CheckRun) => CheckResult[]
+    statusOrCategory: RunStatus | Category
   ) {
-    const allPrimaryLinks = resultFilter(run)
-      .map(firstPrimaryLink)
-      .filter(notUndefined);
-    const links = allPrimaryLinks.length === 1 ? allPrimaryLinks : [];
+    const links = [];
+    if (run.statusLink) links.push(run.statusLink);
     const text = `${run.checkName}`;
     const tabState: ChecksTabState = {
       checkName: run.checkName,

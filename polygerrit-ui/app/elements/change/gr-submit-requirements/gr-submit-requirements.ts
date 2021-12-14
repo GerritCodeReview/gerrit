@@ -21,7 +21,7 @@ import '../gr-change-summary/gr-change-summary';
 import '../../shared/gr-limited-text/gr-limited-text';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
-import {notUndefined, ParsedChangeInfo} from '../../../types/types';
+import {ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfo,
   isDetailedLabelInfo,
@@ -45,11 +45,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {charsOnly} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {CheckRun} from '../../../services/checks/checks-model';
-import {
-  firstPrimaryLink,
-  getResultsOf,
-  hasResultsOf,
-} from '../../../services/checks/checks-util';
+import {getResultsOf, hasResultsOf} from '../../../services/checks/checks-util';
 import {Category} from '../../../api/checks';
 import '../../shared/gr-vote-chip/gr-vote-chip';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
@@ -294,12 +290,10 @@ export class GrSubmitRequirements extends LitElement {
       0
     );
     if (runsCount === 0) return;
-    const allPrimaryLinks = requirementRuns
-      .map(run => run.results ?? [])
-      .flat()
-      .map(firstPrimaryLink)
-      .filter(notUndefined);
-    const links = allPrimaryLinks.length === 1 ? allPrimaryLinks : [];
+    const links = [];
+    if (requirementRuns.length === 1 && requirementRuns[0].statusLink) {
+      links.push(requirementRuns[0].statusLink);
+    }
     return html`<gr-checks-chip
       .text=${`${runsCount}`}
       .links=${links}

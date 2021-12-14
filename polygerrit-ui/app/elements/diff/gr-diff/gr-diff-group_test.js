@@ -182,11 +182,7 @@ suite('gr-diff-group tests', () => {
     suite('with skip chunks', () => {
       setup(() => {
         const skipGroup = new GrDiffGroup(GrDiffGroupType.BOTH);
-        skipGroup.skip = 60;
-        skipGroup.lineRange = {
-          left: {start_line: 8, end_line: 67},
-          right: {start_line: 10, end_line: 69},
-        };
+        skipGroup.setSkip(8, 10, 60);
         groups = [
           new GrDiffGroup(GrDiffGroupType.BOTH, [
             new GrDiffLine(GrDiffLineType.BOTH, 5, 7),

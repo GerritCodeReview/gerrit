@@ -59,6 +59,30 @@ public abstract class SubmitRequirementResult {
    */
   public abstract Optional<Boolean> forced();
 
+  public Optional<String> errorMessage() {
+    if (!status().equals(Status.ERROR)) {
+      return Optional.empty();
+    }
+    if (applicabilityExpressionResult().isPresent()
+        && applicabilityExpressionResult().get().errorMessage().isPresent()) {
+      return Optional.of(
+          "Applicability expression result has an error: "
+              + applicabilityExpressionResult().get().errorMessage().get());
+    }
+    if (submittabilityExpressionResult().errorMessage().isPresent()) {
+      return Optional.of(
+          "Submittability expression result has an error: "
+              + submittabilityExpressionResult().errorMessage().get());
+    }
+    if (overrideExpressionResult().isPresent()
+        && overrideExpressionResult().get().errorMessage().isPresent()) {
+      return Optional.of(
+          "Override expression result has an error: "
+              + overrideExpressionResult().get().errorMessage().get());
+    }
+    return Optional.of("No error logged.");
+  }
+
   @Memoized
   public Status status() {
     if (forced().orElse(false)) {

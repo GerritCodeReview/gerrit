@@ -373,10 +373,10 @@ export class GrDiffProcessor extends PolymerElement {
     group.ignoredWhitespaceOnly = !!chunk.common;
     if (chunk.skip) {
       group.lineRange = {
-        left: {start_line: offsetLeft, end_line: offsetLeft + chunk.skip - 1},
+        left: {start_line: offsetLeft, end_line: offsetLeft + chunk.skip},
         right: {
           start_line: offsetRight,
-          end_line: offsetRight + chunk.skip - 1,
+          end_line: offsetRight + chunk.skip,
         },
       };
     }

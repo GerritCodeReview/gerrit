@@ -93,6 +93,30 @@
       },
       "revId": "9dd63ea40d2e2fa9be02488f2bfd162e6f0120b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfd73087_255f5c44",
+        "filename": "java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-14T20:39:16Z",
+      "side": 1,
+      "message": "\u003e Or is there an additional mechanism inside gc() which makes it avoid running more than once concurrently?\n\nyes, it acquires a lock(defined in line 84) to avoid running concurrently.",
+      "parentUuid": "e7f0a58d_2b74d27d",
+      "range": {
+        "startLine": 160,
+        "startChar": 10,
+        "endLine": 160,
+        "endChar": 17
+      },
+      "revId": "9dd63ea40d2e2fa9be02488f2bfd162e6f0120b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

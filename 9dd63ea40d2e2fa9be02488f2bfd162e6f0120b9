@@ -69,6 +69,30 @@
       },
       "revId": "9dd63ea40d2e2fa9be02488f2bfd162e6f0120b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7f0a58d_2b74d27d",
+        "filename": "java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-12-14T20:31:05Z",
+      "side": 1,
+      "message": "Hmm, I think this was already buggy. It seems to use an AtomicInteger to avoid triggering the gc from multiple threads, but this seems to assume that the previous gc finished before creating another 50 packs? If not, then it can already be running more than once? Or is there an additional mechanism inside gc() which makes it avoid running more than once concurrently?",
+      "parentUuid": "89ebf621_f43cb63a",
+      "range": {
+        "startLine": 160,
+        "startChar": 10,
+        "endLine": 160,
+        "endChar": 17
+      },
+      "revId": "9dd63ea40d2e2fa9be02488f2bfd162e6f0120b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

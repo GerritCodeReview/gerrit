@@ -45,6 +45,30 @@
       },
       "revId": "9dd63ea40d2e2fa9be02488f2bfd162e6f0120b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89ebf621_f43cb63a",
+        "filename": "java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-14T20:11:37Z",
+      "side": 1,
+      "message": "I did not remove it as we wanted to do an inline GC every 50 packs. However, I see that it can run when \u0027backgroundGcThread\u0027 is also running a GC. So, we\u0027ll need to ensure that does not happen. \n\nAlternatively, what do you think about triggering a single GC at the end?",
+      "parentUuid": "9d1d4118_3f64e8a9",
+      "range": {
+        "startLine": 160,
+        "startChar": 10,
+        "endLine": 160,
+        "endChar": 17
+      },
+      "revId": "9dd63ea40d2e2fa9be02488f2bfd162e6f0120b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

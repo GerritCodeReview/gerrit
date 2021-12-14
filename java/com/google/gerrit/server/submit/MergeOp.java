@@ -332,7 +332,8 @@ public class MergeOp implements AutoCloseable {
         case ERROR:
           throw new ResourceConflictException(
               String.format(
-                  "submit requirement '%s' has an error.", srResult.submitRequirement().name()));
+                  "submit requirement '%s' has an error: %s",
+                  srResult.submitRequirement().name(), srResult.errorMessage().orElse("")));
 
         case UNSATISFIED:
           throw new ResourceConflictException(

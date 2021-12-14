@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.LabelType;
@@ -149,7 +150,10 @@ public class SubmitRequirementsAdapter {
               .submitRequirement(sr)
               .submittabilityExpressionResult(
                   createExpressionResult(
-                      sr.submittabilityExpression(), mapStatus(record), ImmutableList.of(ruleName)))
+                      sr.submittabilityExpression(),
+                      mapStatus(record),
+                      ImmutableList.of(ruleName),
+                      record.errorMessage))
               .patchSetCommitId(psCommitId)
               .forced(Optional.of(isForced))
               .build());
@@ -247,6 +251,19 @@ public class SubmitRequirementsAdapter {
         status,
         status == Status.PASS ? atoms : ImmutableList.of(),
         status == Status.FAIL ? atoms : ImmutableList.of());
+  }
+
+  private static SubmitRequirementExpressionResult createExpressionResult(
+      SubmitRequirementExpression expression,
+      Status status,
+      ImmutableList<String> atoms,
+      String errorMessage) {
+    return SubmitRequirementExpressionResult.create(
+        expression,
+        status,
+        status == Status.PASS ? atoms : ImmutableList.of(),
+        status == Status.FAIL ? atoms : ImmutableList.of(),
+        Optional.ofNullable(Strings.emptyToNull(errorMessage)));
   }
 
   private static Optional<LabelType> getLabelType(List<LabelType> labelTypes, String labelName) {

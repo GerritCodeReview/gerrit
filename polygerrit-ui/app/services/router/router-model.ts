@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 
-import {BehaviorSubject, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../registry';
 import {NumericChangeId, PatchSetNum} from '../../types/common';
+import {Model} from '../model';
 
 export enum GerritView {
   ADMIN = 'admin',
@@ -43,9 +44,7 @@ export interface RouterState {
   patchNum?: PatchSetNum;
 }
 
-export class RouterModel implements Finalizable {
-  private readonly privateState$ = new BehaviorSubject<RouterState>({});
-
+export class RouterModel extends Model<RouterState> implements Finalizable {
   readonly routerView$: Observable<GerritView | undefined>;
 
   readonly routerChangeNum$: Observable<NumericChangeId | undefined>;
@@ -53,15 +52,16 @@ export class RouterModel implements Finalizable {
   readonly routerPatchNum$: Observable<PatchSetNum | undefined>;
 
   constructor() {
-    this.routerView$ = this.privateState$.pipe(
+    super({});
+    this.routerView$ = this.state$.pipe(
       map(state => state.view),
       distinctUntilChanged()
     );
-    this.routerChangeNum$ = this.privateState$.pipe(
+    this.routerChangeNum$ = this.state$.pipe(
       map(state => state.changeNum),
       distinctUntilChanged()
     );
-    this.routerPatchNum$ = this.privateState$.pipe(
+    this.routerPatchNum$ = this.state$.pipe(
       map(state => state.patchNum),
       distinctUntilChanged()
     );
@@ -70,17 +70,13 @@ export class RouterModel implements Finalizable {
   finalize() {}
 
   setState(state: RouterState) {
-    this.privateState$.next(state);
+    this.subject$.next(state);
   }
 
   updateState(partial: Partial<RouterState>) {
-    this.privateState$.next({
-      ...this.privateState$.getValue(),
+    this.subject$.next({
+      ...this.subject$.getValue(),
       ...partial,
     });
-  }
-
-  get routerState$(): Observable<RouterState> {
-    return this.privateState$;
   }
 }

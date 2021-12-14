@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
+import {Observable, combineLatest} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../registry';
 import {define} from '../dependency';
 import {DiffViewMode} from '../../api/diff';
 import {UserModel} from '../user/user-model';
+import {Model} from '../model';
 
 // This value is somewhat arbitrary and not based on research or calculations.
 const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 850;
@@ -36,17 +37,12 @@ const initialState: BrowserState = {};
 
 export const browserModelToken = define<BrowserModel>('browser-model');
 
-export class BrowserModel implements Finalizable {
-  private readonly privateState$ = new BehaviorSubject(initialState);
-
+export class BrowserModel extends Model<BrowserState> implements Finalizable {
   readonly diffViewMode$: Observable<DiffViewMode>;
 
-  get viewState$(): Observable<BrowserState> {
-    return this.privateState$;
-  }
-
   constructor(readonly userModel: UserModel) {
-    const screenWidth$ = this.privateState$.pipe(
+    super(initialState);
+    const screenWidth$ = this.state$.pipe(
       map(
         state =>
           !!state.screenWidth &&
@@ -79,7 +75,7 @@ export class BrowserModel implements Finalizable {
 
   // Private but used in tests.
   setScreenWidth(screenWidth: number) {
-    this.privateState$.next({...this.privateState$.getValue(), screenWidth});
+    this.subject$.next({...this.subject$.getValue(), screenWidth});
   }
 
   finalize() {}

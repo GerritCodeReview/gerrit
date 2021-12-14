@@ -15,31 +15,22 @@
  * limitations under the License.
  */
 import {ConfigInfo, RepoName, ServerInfo} from '../../types/common';
-import {BehaviorSubject, from, Observable, of, Subscription} from 'rxjs';
+import {from, of, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {Finalizable} from '../registry';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
 import {select} from '../../utils/observable-util';
+import {Model} from '../model';
 
 export interface ConfigState {
   repoConfig?: ConfigInfo;
   serverConfig?: ServerInfo;
 }
 
-export class ConfigModel implements Finalizable {
-  // TODO: Figure out how to best enforce immutability of all states. Use Immer?
-  // Use DeepReadOnly?
-  private initialState: ConfigState = {};
-
-  private privateState$ = new BehaviorSubject(this.initialState);
-
-  // Re-exporting as Observable so that you can only subscribe, but not emit.
-  public configState$: Observable<ConfigState> =
-    this.privateState$.asObservable();
-
+export class ConfigModel extends Model<ConfigState> implements Finalizable {
   public repoConfig$ = select(
-    this.privateState$,
+    this.state$,
     configState => configState.repoConfig
   );
 
@@ -49,7 +40,7 @@ export class ConfigModel implements Finalizable {
   );
 
   public serverConfig$ = select(
-    this.privateState$,
+    this.state$,
     configState => configState.serverConfig
   );
 
@@ -59,6 +50,7 @@ export class ConfigModel implements Finalizable {
     readonly changeModel: ChangeModel,
     readonly restApiService: RestApiService
   ) {
+    super({});
     this.subscriptions = [
       from(this.restApiService.getConfig()).subscribe((config?: ServerInfo) => {
         this.updateServerConfig(config);
@@ -77,13 +69,13 @@ export class ConfigModel implements Finalizable {
   }
 
   updateRepoConfig(repoConfig?: ConfigInfo) {
-    const current = this.privateState$.getValue();
-    this.privateState$.next({...current, repoConfig});
+    const current = this.subject$.getValue();
+    this.subject$.next({...current, repoConfig});
   }
 
   updateServerConfig(serverConfig?: ServerInfo) {
-    const current = this.privateState$.getValue();
-    this.privateState$.next({...current, serverConfig});
+    const current = this.subject$.getValue();
+    this.subject$.next({...current, serverConfig});
   }
 
   finalize() {

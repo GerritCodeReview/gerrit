@@ -1,4 +1,5 @@
 # Keep following lines sorted according to `LC_COLLATE=C sort`
+*.code-workspace
 *.eml
 *.iml
 *.log

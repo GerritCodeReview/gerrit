@@ -369,17 +369,8 @@ export class GrDiffProcessor extends PolymerElement {
     group.keyLocation = !!chunk.keyLocation;
     group.dueToRebase = !!chunk.due_to_rebase;
     group.moveDetails = chunk.move_details;
-    group.skip = chunk.skip;
+    if (chunk.skip) group.setSkip(offsetLeft, offsetRight, chunk.skip);
     group.ignoredWhitespaceOnly = !!chunk.common;
-    if (chunk.skip) {
-      group.lineRange = {
-        left: {start_line: offsetLeft, end_line: offsetLeft + chunk.skip - 1},
-        right: {
-          start_line: offsetRight,
-          end_line: offsetRight + chunk.skip - 1,
-        },
-      };
-    }
     return group;
   }
 

@@ -238,18 +238,62 @@ export class GrDiffGroup {
 
   element?: HTMLElement;
 
-  lines: GrDiffLine[] = [];
+  get lines(): readonly GrDiffLine[] {
+    return this.linesInternal;
+  }
 
-  adds: GrDiffLine[] = [];
+  get adds(): readonly GrDiffLine[] {
+    return this.addsInternal;
+  }
 
-  removes: GrDiffLine[] = [];
+  get removes(): readonly GrDiffLine[] {
+    return this.removesInternal;
+  }
 
-  contextGroups: GrDiffGroup[] = [];
+  get skip(): number | undefined {
+    return this.skipInternal;
+  }
 
-  skip?: number;
+  get contextGroups(): readonly GrDiffGroup[] {
+    return this.contextGroupsInternal;
+  }
 
-  /** Both start and end line are inclusive. */
-  lineRange = {
+  set contextGroups(contextGroups: readonly GrDiffGroup[]) {
+    // Copy to ensure the caller cannot change this after the fact and
+    // mess up our line range.
+    this.contextGroupsInternal = [...contextGroups];
+    if (contextGroups.length > 0) {
+      this.lineRangeInternal.left.start_line =
+        contextGroups[0].lineRange.left.start_line;
+      this.lineRangeInternal.left.end_line =
+        contextGroups[contextGroups.length - 1].lineRange.left.end_line;
+      this.lineRangeInternal.right.start_line =
+        contextGroups[0].lineRange.right.start_line;
+      this.lineRangeInternal.right.end_line =
+        contextGroups[contextGroups.length - 1].lineRange.right.end_line;
+    }
+  }
+
+  get lineRange(): Readonly<{
+    [Side.LEFT]: Readonly<LineRange>;
+    [Side.RIGHT]: Readonly<LineRange>;
+  }> {
+    return this.lineRangeInternal;
+  }
+
+  // Private because these should not be mutated without updating lineRange
+
+  private readonly linesInternal: GrDiffLine[] = [];
+
+  private readonly addsInternal: GrDiffLine[] = [];
+
+  private readonly removesInternal: GrDiffLine[] = [];
+
+  private skipInternal?: number;
+
+  private contextGroupsInternal: GrDiffGroup[] = [];
+
+  private readonly lineRangeInternal = {
     [Side.LEFT]: {start_line: 0, end_line: 0} as LineRange,
     [Side.RIGHT]: {start_line: 0, end_line: 0} as LineRange,
   };
@@ -275,8 +319,12 @@ export class GrDiffGroup {
     return group;
   }
 
+  // TODO: Consider making this private.
+  // This is never called externally (except in tests) and this API
+  // makes it necessary to update the range for every line, instead of ones
+  // for the first and last line only (as they are sorted).
   addLine(line: GrDiffLine) {
-    this.lines.push(line);
+    this.linesInternal.push(line);
 
     const notDelta =
       this.type === GrDiffGroupType.BOTH ||
@@ -289,11 +337,20 @@ export class GrDiffGroup {
     }
 
     if (line.type === GrDiffLineType.ADD) {
-      this.adds.push(line);
+      this.addsInternal.push(line);
     } else if (line.type === GrDiffLineType.REMOVE) {
-      this.removes.push(line);
+      this.removesInternal.push(line);
     }
     this._updateRange(line);
+  }
+
+  setSkip(offsetLeft: number, offsetRight: number, skip: number) {
+    this.skipInternal = skip;
+    this.lineRangeInternal.left.start_line = offsetLeft;
+    // -1 because the end is inclusive
+    this.lineRangeInternal.left.end_line = offsetLeft + skip - 1;
+    this.lineRangeInternal.right.start_line = offsetRight;
+    this.lineRangeInternal.left.end_line = offsetRight + skip - 1;
   }
 
   getSideBySidePairs(): GrDiffLinePair[] {
@@ -338,10 +395,10 @@ export class GrDiffGroup {
         this.lineRange.right.start_line === 0 ||
         line.afterNumber < this.lineRange.right.start_line
       ) {
-        this.lineRange.right.start_line = line.afterNumber;
+        this.lineRangeInternal.right.start_line = line.afterNumber;
       }
       if (line.afterNumber > this.lineRange.right.end_line) {
-        this.lineRange.right.end_line = line.afterNumber;
+        this.lineRangeInternal.right.end_line = line.afterNumber;
       }
     }
 
@@ -353,10 +410,10 @@ export class GrDiffGroup {
         this.lineRange.left.start_line === 0 ||
         line.beforeNumber < this.lineRange.left.start_line
       ) {
-        this.lineRange.left.start_line = line.beforeNumber;
+        this.lineRangeInternal.left.start_line = line.beforeNumber;
       }
       if (line.beforeNumber > this.lineRange.left.end_line) {
-        this.lineRange.left.end_line = line.beforeNumber;
+        this.lineRangeInternal.left.end_line = line.beforeNumber;
       }
     }
   }

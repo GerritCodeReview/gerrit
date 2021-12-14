@@ -69,6 +69,24 @@
       "message": "One improvement I can see is to also allow users to filter by tag in the current \"Filter by regular expression\" box.\nSo have a filter box \"Filter by tag or regular expression\" to make this feature also discoverable from the input field. Also since the tag will be in this input field, it would also be consistent for users to write an input (a string) and see the results linked to this tag. WDYT?",
       "revId": "b4b557c56275da93672d340234f98f6284e4aa56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d696f7c_c6e733a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-14T09:22:10Z",
+      "side": 1,
+      "message": "Changed the wording.",
+      "parentUuid": "8c1df2e3_21d899d1",
+      "revId": "b4b557c56275da93672d340234f98f6284e4aa56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

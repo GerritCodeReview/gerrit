@@ -892,6 +892,9 @@ export class GrChecksResults extends LitElement {
         .categoryHeader .statusIcon.success {
           color: var(--success-foreground);
         }
+        .categoryHeader.empty iron-icon.statusIcon {
+          color: var(--deemphasized-text-color);
+        }
         .categoryHeader .filtered {
           color: var(--deemphasized-text-color);
         }
@@ -1204,6 +1207,7 @@ export class GrChecksResults extends LitElement {
     const icon = expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
     const isShowAll = this.isShowAll.get(category) ?? false;
     const resultCount = filtered.length;
+    const empty = resultCount === 0 ? 'empty' : '';
     const resultLimit = isShowAll ? 1000 : 20;
     const showAllButton = this.renderShowAllButton(
       category,
@@ -1214,7 +1218,7 @@ export class GrChecksResults extends LitElement {
     return html`
       <div class="${expandedClass}">
         <h3
-          class="categoryHeader ${catString} heading-3"
+          class="categoryHeader ${catString} ${empty} heading-3"
           @click="${() => this.toggleExpanded(category)}"
         >
           <iron-icon class="expandIcon" icon="${icon}"></iron-icon>

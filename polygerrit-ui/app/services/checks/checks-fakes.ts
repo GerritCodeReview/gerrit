@@ -416,3 +416,13 @@ export const fakeLinks: Link[] = [
     icon: LinkIcon.HELP_PAGE,
   },
 ];
+
+export const fakeRun5: CheckRun = {
+  pluginName: 'f5',
+  internalRunId: 'f5',
+  checkName: 'FAKE Of Tomorrow',
+  status: RunStatus.SCHEDULED,
+  isSingleAttempt: true,
+  isLatestAttempt: true,
+  attemptDetails: [],
+};

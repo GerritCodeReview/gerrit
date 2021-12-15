@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cbda952_5bf543dc",
+        "filename": "java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-12-15T17:38:23Z",
+      "side": 1,
+      "message": "This was added between PS14 and 15, but it\u0027s not from either of the parent branches. Can you explain it?",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 17
+      },
+      "revId": "8726928418b7878aa5739057dfddd2df35091b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "300551b2_1896eb64",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-12-15T17:38:23Z",
+      "side": 1,
+      "message": "Same as CommandFactoryProvider",
+      "revId": "8726928418b7878aa5739057dfddd2df35091b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

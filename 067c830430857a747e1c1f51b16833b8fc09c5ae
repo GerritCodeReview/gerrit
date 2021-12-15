@@ -33,6 +33,40 @@
       "message": "ping, can this get a +2 and LC+1?",
       "revId": "067c830430857a747e1c1f51b16833b8fc09c5ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1779b352_b4fe3c2e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-12-15T17:38:23Z",
+      "side": 1,
+      "message": "Why did you remove this?",
+      "revId": "067c830430857a747e1c1f51b16833b8fc09c5ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79e8ab8a_6f86c3b6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-12-15T17:38:23Z",
+      "side": 1,
+      "message": "and this?",
+      "revId": "067c830430857a747e1c1f51b16833b8fc09c5ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

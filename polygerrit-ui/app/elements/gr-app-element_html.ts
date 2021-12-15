@@ -113,8 +113,10 @@ export const htmlTemplate = html`
       <gr-smart-search
         id="search"
         label="Search for changes"
-        search-query="{{params.query}}"
+        search-query="[[params.query]]"
+        server-config="[[_serverConfig]]"
         hidden="[[!mobileSearch]]"
+        on-search-query-changed="_handleSearchQueryChanged"
       >
       </gr-smart-search>
     </template>

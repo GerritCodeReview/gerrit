@@ -52,6 +52,11 @@ public class DisabledChangeIndex implements ChangeIndex {
   }
 
   @Override
+  public void insert(ChangeData obj) {
+    throw new UnsupportedOperationException("ChangeIndex is disabled");
+  }
+
+  @Override
   public void replace(ChangeData obj) {
     throw new UnsupportedOperationException("ChangeIndex is disabled");
   }

@@ -11,7 +11,6 @@ java_library(
 acceptance_tests(
     srcs = glob(
         ["*IT.java"],
-        exclude = ["ElasticIndexIT.java"],
     ),
     group = "ssh",
     labels = ["ssh"],
@@ -20,23 +19,6 @@ acceptance_tests(
         ":util",
         "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/logging",
-        "//lib/commons:compress",
-    ],
-)
-
-acceptance_tests(
-    srcs = ["ElasticIndexIT.java"],
-    group = "elastic",
-    labels = [
-        "docker",
-        "elastic",
-        "exclusive",
-        "ssh",
-    ],
-    deps = [
-        ":util",
-        "//java/com/google/gerrit/elasticsearch",
-        "//javatests/com/google/gerrit/elasticsearch:elasticsearch_test_utils",
         "//lib/commons:compress",
     ],
 )

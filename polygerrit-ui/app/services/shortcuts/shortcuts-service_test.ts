@@ -167,7 +167,6 @@ suite('shortcuts-service tests', () => {
       });
 
       service.attachHost(document.createElement('div'), [
-        {shortcut: Shortcut.SEARCH, listener: _ => {}},
         {shortcut: Shortcut.GO_TO_OPENED_CHANGES, listener: _ => {}},
       ]);
       assert.deepEqual(mapToObject(service.activeShortcutsBySection()), {
@@ -182,11 +181,6 @@ suite('shortcuts-service tests', () => {
           },
         ],
         [ShortcutSection.EVERYWHERE]: [
-          {
-            shortcut: Shortcut.SEARCH,
-            text: 'Search',
-            bindings: [{key: '/'}],
-          },
           {
             shortcut: Shortcut.GO_TO_OPENED_CHANGES,
             text: 'Go to Opened Changes',
@@ -211,7 +205,6 @@ suite('shortcuts-service tests', () => {
         {shortcut: Shortcut.NEXT_FILE, listener: _ => {}},
         {shortcut: Shortcut.NEXT_LINE, listener: _ => {}},
         {shortcut: Shortcut.SAVE_COMMENT, listener: _ => {}},
-        {shortcut: Shortcut.SEARCH, listener: _ => {}},
       ]);
       assert.deepEqual(mapToObject(service.directoryView()), {
         [ShortcutSection.DIFFS]: [
@@ -233,7 +226,6 @@ suite('shortcuts-service tests', () => {
           },
         ],
         [ShortcutSection.EVERYWHERE]: [
-          {binding: [['/']], text: 'Search'},
           {binding: [['g', 'o']], text: 'Go to Opened Changes'},
         ],
         [ShortcutSection.NAVIGATION]: [

@@ -39,6 +39,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
+import com.google.gerrit.server.query.change.IsSubmittablePredicate;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -182,6 +183,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
   private Predicate<ChangeData> rewriteImpl(
       Predicate<ChangeData> in, ChangeIndex index, QueryOptions opts, MutableInteger leafTerms)
       throws QueryParseException {
+    in = IsSubmittablePredicate.rewrite(in);
     if (isIndexPredicate(in, index)) {
       if (++leafTerms.value > config.maxTerms()) {
         throw new TooManyTermsInQueryException();

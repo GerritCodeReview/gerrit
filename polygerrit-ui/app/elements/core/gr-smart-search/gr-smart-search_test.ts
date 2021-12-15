@@ -26,8 +26,9 @@ const basicFixture = fixtureFromElement('gr-smart-search');
 suite('gr-smart-search tests', () => {
   let element: GrSmartSearch;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
   test('Autocompletes accounts', () => {
@@ -39,7 +40,7 @@ suite('gr-smart-search tests', () => {
         },
       ])
     );
-    return element._fetchAccounts('owner', 'fr').then(s => {
+    return element.fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
     });
   });
@@ -54,12 +55,12 @@ suite('gr-smart-search tests', () => {
       ])
     );
     element
-      ._fetchAccounts('owner', 's')
+      .fetchAccounts('owner', 's')
       .then(s => {
         assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
         assert.deepEqual(s[1], {text: 'owner:self'});
       })
-      .then(() => element._fetchAccounts('owner', 'selfs'))
+      .then(() => element.fetchAccounts('owner', 'selfs'))
       .then(s => {
         assert.notEqual(s[0], {text: 'owner:self'});
       });
@@ -75,12 +76,12 @@ suite('gr-smart-search tests', () => {
       ])
     );
     return element
-      ._fetchAccounts('owner', 'm')
+      .fetchAccounts('owner', 'm')
       .then(s => {
         assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
         assert.deepEqual(s[1], {text: 'owner:me'});
       })
-      .then(() => element._fetchAccounts('owner', 'meme'))
+      .then(() => element.fetchAccounts('owner', 'meme'))
       .then(s => {
         assert.notEqual(s[0], {text: 'owner:me'});
       });
@@ -94,7 +95,7 @@ suite('gr-smart-search tests', () => {
         gerrittest: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
       })
     );
-    return element._fetchGroups('ownerin', 'pol').then(s => {
+    return element.fetchGroups('ownerin', 'pol').then(s => {
       assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
     });
   });
@@ -103,7 +104,7 @@ suite('gr-smart-search tests', () => {
     stubRestApi('getSuggestedProjects').callsFake(() =>
       Promise.resolve({Polygerrit: {id: 'test' as UrlEncodedRepoName}})
     );
-    return element._fetchProjects('project', 'pol').then(s => {
+    return element.fetchProjects('project', 'pol').then(s => {
       assert.deepEqual(s[0], {text: 'project:Polygerrit'});
     });
   });
@@ -116,7 +117,7 @@ suite('gr-smart-search tests', () => {
         gerrittest: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
       })
     );
-    return element._fetchGroups('ownerin', 'gerrit').then(s => {
+    return element.fetchGroups('ownerin', 'gerrit').then(s => {
       assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
       assert.deepEqual(s[1], {text: 'ownerin:gerrit'});
       assert.deepEqual(s[2], {text: 'ownerin:gerrittest'});
@@ -127,7 +128,7 @@ suite('gr-smart-search tests', () => {
     stubRestApi('getSuggestedAccounts').callsFake(() =>
       Promise.resolve([{name: 'fred'}])
     );
-    return element._fetchAccounts('owner', 'fr').then(s => {
+    return element.fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:"fred"', label: 'fred'});
     });
   });
@@ -136,7 +137,7 @@ suite('gr-smart-search tests', () => {
     stubRestApi('getSuggestedAccounts').callsFake(() =>
       Promise.resolve([{email: 'fred@goog.co' as EmailAddress}])
     );
-    return element._fetchAccounts('owner', 'fr').then(s => {
+    return element.fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: ''});
     });
   });

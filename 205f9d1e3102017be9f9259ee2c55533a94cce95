@@ -73,6 +73,24 @@
       "message": "I don\u0027t know about the style guide, but personally I don\u0027t like implicit getters at all. I would prefer a method `getLines()` instead.\n\nAlso, encapsulation only has a benefit, if you return a cloned array, right? Do you avoid that for performance reasons?",
       "revId": "205f9d1e3102017be9f9259ee2c55533a94cce95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d5f53e8_860e3583",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-12-15T10:30:59Z",
+      "side": 1,
+      "message": "I\u0027ll address you other comments, but this one is a bit open ended and debatable, so I will send you my point of view directly before making changes here:\n\nRegarding returning a copy: That is indeed a bit of a compromise. Returning a readonly array means the array cannot be mutated (unless you cast, but I think that is \"bad intent\" and we do not really need to protect against that). You can hovever mutate the line and group objects contained in the arrays. We could prevent that by returning a `readonly Readonly\u003cGrDiffGroup\u003e[]` the equivalent of the good old C++ `const T *const`. I can give that a shot. There is a bit of a trade-off here about how explicit you want to be, but I generally like how the type system then catches when you accidentally mess up.\nFor the setter I do make a copy, because if the array is coming from the caller, then indeed there is no type system magic to express that ownership has now passed and no-one must hold a reference to the object.\n\nMy stance on ES5 getters/setters is: I like them when the user does not need to know that they are calling a getter/setter. I only add the getter here because TypeScript does not have a succinct way to say: This field must only be written to in this class. We are not doing any work in the getter, it\u0027s basically a direct field access, accept that it lets me put a \"readonly\" on the return type and prevents users from accidentally writing it.\nThe issue is a bit more controversial for the contextGroup ES5 setter: There we do some work. I have a personal preference for the ES5 setter, because that makes this change transparent to other callers, which is kind of nice. If tomorrow we change our mind and only update lineRange lazily by computing that on the fly in an ES5 getter, and removing all these getters which can then just expose the public properties that can be then be freely mutated directly, none of the callers need to know. The same is of course true if you always use explcit getters/setters as you would in Java - just the mix of real functions and direct property access in JS/TS would make you update all callers each time.\n\nOne change we could also make to circumvent some of this: Outside of tests, I don\u0027t think we ever need to mutate groups (e.g. add lines). We could change the tests to construct new instances, make all fields readonly, and would then not need any of the getters.\nIf we go down that route, I would ideally also want to  turn this one class into an abstract base class with three subclasses (GrContextGroup, GrSkipGroup, GrCodeGroup) which enforce that only compatible fields are set, and use polymorphism instead of switch cases to handle the different kinds of groups.\nThat is a larger change though, and this felt like a relatively self-contained improvement over the status quo where stuff is compute all over the place that really should be centralized in this class. I think I would prefer to keep this step along the way and consider the larger change separately.\nWhat do you think?",
+      "parentUuid": "58ec735e_3cef5cc8",
+      "revId": "205f9d1e3102017be9f9259ee2c55533a94cce95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

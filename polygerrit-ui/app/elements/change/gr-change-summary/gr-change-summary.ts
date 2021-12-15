@@ -177,7 +177,7 @@ export class GrChecksChip extends LitElement {
   text = '';
 
   @property()
-  links: Link[] = [];
+  links: string[] = [];
 
   static override get styles() {
     return [
@@ -343,7 +343,7 @@ export class GrChecksChip extends LitElement {
     return this.links.map(
       link => html`
         <a
-          href="${link.url}"
+          href="${link}"
           target="_blank"
           @click="${this.onLinkClick}"
           @keydown="${this.onLinkKeyDown}"

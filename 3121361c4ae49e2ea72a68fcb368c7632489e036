@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "54335580_fa332836",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-15T12:27:02Z",
+      "side": 1,
+      "message": "Btw. \n\nRunStatus in checks.ts doesn\u0027t have scheduled.\n\nSo \n\u003cgr-checks-chip\n      .statusOrCategory\u003d\"${statusOrCategory}\"\n\nis not typed safe.",
+      "revId": "3121361c4ae49e2ea72a68fcb368c7632489e036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc77f1e5_dd2bf8ba",
         "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
         "patchSetId": 2

@@ -336,6 +336,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ac5a06f_efb6f410",
+        "filename": "lib/highlightjs/package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-12-15T23:37:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "354d4d66_d6d0aa1d",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 92
+      },
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1ca883c_dab8f38d",

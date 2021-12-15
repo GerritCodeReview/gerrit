@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93d3ee66_3b01ca5b",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3032,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-15T15:21:59Z",
+      "side": 1,
+      "message": "This line is failing when run with Lucene backend (does not match with any docs). Still looking why.",
+      "revId": "eb80978c0b35f8d020b14bd748e311dd1dfd812b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

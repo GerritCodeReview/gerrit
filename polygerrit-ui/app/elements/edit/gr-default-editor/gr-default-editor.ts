@@ -16,7 +16,27 @@
  */
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, query} from 'lit/decorators';
+
+import {EditorView, ViewUpdate, ViewPlugin, keymap, highlightSpecialChars, drawSelection, highlightActiveLine} from "@codemirror/view"
+import {EditorState, Annotation} from "@codemirror/state"
+import {history, historyKeymap} from "@codemirror/history"
+import {foldGutter, foldKeymap} from "@codemirror/fold"
+import {indentOnInput} from "@codemirror/language"
+import {lineNumbers, highlightActiveLineGutter} from "@codemirror/gutter"
+import {defaultKeymap} from "@codemirror/commands"
+import {bracketMatching} from "@codemirror/matchbrackets"
+import {closeBrackets, closeBracketsKeymap} from "@codemirror/closebrackets"
+import {searchKeymap, highlightSelectionMatches} from "@codemirror/search"
+import {autocompletion, completionKeymap} from "@codemirror/autocomplete"
+import {commentKeymap} from "@codemirror/comment"
+import {defaultHighlightStyle} from "@codemirror/highlight"
+import {lintKeymap} from "@codemirror/lint"
+
+import {markdown} from "@codemirror/lang-markdown"
+
+const SetTextCalled = Annotation.define();
+
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,46 +53,136 @@ export class GrDefaultEditor extends LitElement {
    */
 
   @property({type: String})
-  fileContent = '';
+  set fileContent(t: string) {
+    if (this.editor) {
+      this.setText(t);
+    } else {
+      this._fileContent = t;
+    }
+  }
+
+  @property()
+  additionalCursors: Array<{ name: string; position: number; color: string }> =
+    [];
+
+  _fileContent: string | undefined;
+
+  editor!: EditorView;
+
+  @query('#editor')
+  _editorEl!: HTMLElement;
 
   static override get styles() {
     return [
       sharedStyles,
       css`
-        textarea {
-          border: none;
-          box-sizing: border-box;
-          font-family: var(--monospace-font-family);
-          font-size: var(--font-size-code);
-          /* usually 16px = 12px + 4px */
-          line-height: calc(var(--font-size-code) + var(--spacing-s));
-          min-height: 60vh;
-          resize: none;
-          white-space: pre;
-          width: 100%;
+        :host {
+          display: flex;
         }
-        textarea:focus {
-          outline: none;
+        .cursor {
+          position: fixed;
         }
-      `,
+      `
     ];
   }
 
   override render() {
-    return html` <textarea
-      id="textarea"
-      .value="${this.fileContent}"
-      @input=${this._handleTextareaInput}
-    ></textarea>`;
+    return html`<div style="flex: 1;" id="editor"></div>`;
   }
 
-  _handleTextareaInput(e: Event) {
-    this.dispatchEvent(
-      new CustomEvent('content-change', {
-        detail: {value: (e.target as HTMLTextAreaElement).value},
-        bubbles: true,
-        composed: true,
-      })
-    );
+  override firstUpdated() {
+    this.editor = new EditorView({
+        state: EditorState.create({
+		doc: this.fileContent,
+		extensions: [
+		  lineNumbers(),
+		  highlightActiveLineGutter(),
+		  highlightSpecialChars(),
+		  history(),
+		  foldGutter(),
+		  drawSelection(),
+		  EditorState.allowMultipleSelections.of(true),
+		  indentOnInput(),
+		  defaultHighlightStyle.fallback,
+		  bracketMatching(),
+		  closeBrackets(),
+		  autocompletion(),
+		  highlightActiveLine(),
+		  highlightSelectionMatches(),
+		  keymap.of([
+		    ...closeBracketsKeymap,
+		    ...defaultKeymap,
+		    ...searchKeymap,
+		    ...historyKeymap,
+		    ...foldKeymap,
+		    ...commentKeymap,
+		    ...completionKeymap,
+		    ...lintKeymap
+		  ]),
+                  markdown(),
+		  this.eventPlugin()
+		]
+	}),
+	parent: this._editorEl as Element,
+      });
+    if (this._fileContent) {
+      this.setText(this._fileContent);
+    }
+    this.requestUpdate();
+
   }
+
+  setText(t: string) {
+    const { selection } = this.editor.state;
+
+    const textLength = t.length;
+    const anchor =
+      selection.main.anchor > textLength ? textLength : selection.main.anchor;
+
+    this.editor.dispatch({
+      annotations: [SetTextCalled.of([])],
+      changes: [
+        {
+          from: 0,
+          to: this.editor.state.doc.length,
+          insert: t,
+        },
+      ],
+      selection: {
+        anchor,
+      },
+    });
+
+    this.editor.scrollPosIntoView(anchor);
+  }
+
+  eventPlugin() {
+    const thisEl = this;
+    return ViewPlugin.fromClass(
+      class {
+        update(update: ViewUpdate) {
+          if (
+            update.transactions.length > 0 &&
+            update.transactions[0].annotation(SetTextCalled)
+          ) {
+            return;
+          }
+
+          if (!update.docChanged) return;
+
+          var text = "";
+	  for (let subtext of update.state.doc.iter()) {
+		  text += subtext;
+	  }
+	  thisEl.dispatchEvent(
+	      new CustomEvent('content-change', {
+		      detail: {value: text},
+		      bubbles: true,
+		      composed: true,
+	      })
+          );
+        }
+      });
+  }
+
 }

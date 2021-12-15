@@ -45,7 +45,7 @@ import {fire, fireAlert, fireEvent} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
-import {Interaction} from '../../constants/reporting';
+import {Interaction, Timing} from '../../constants/reporting';
 import {assertIsDefined} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {pluralize} from '../../utils/string-util';
@@ -439,6 +439,8 @@ export class CommentsModel implements Finalizable {
     const changeNum = this.changeNum;
     this.report(Interaction.SAVE_COMMENT, draft);
     if (showToast) this.showStartRequest();
+    const timing = isUnsaved(draft) ? Timing.DRAFT_CREATE : Timing.DRAFT_UPDATE;
+    const timer = this.reporting.getTimer(timing);
     const result = await this.restApiService.saveDiffDraft(
       changeNum,
       draft.patch_set,
@@ -460,6 +462,7 @@ export class CommentsModel implements Finalizable {
       __draft: true,
       __unsaved: undefined,
     };
+    timer.end({id: updatedDraft.id});
     if (showToast) this.showEndRequest();
     this.updateState(s => setDraft(s, updatedDraft));
     this.report(Interaction.COMMENT_SAVED, updatedDraft);
@@ -478,11 +481,13 @@ export class CommentsModel implements Finalizable {
     const changeNum = this.changeNum;
     this.report(Interaction.DISCARD_COMMENT, draft);
     this.showStartRequest();
+    const timer = this.reporting.getTimer(Timing.DRAFT_DISCARD);
     const result = await this.restApiService.deleteDiffDraft(
       changeNum,
       draft.patch_set,
       {id: draft.id}
     );
+    timer.end({id: draft.id});
     if (changeNum !== this.changeNum) throw new Error('change changed');
     if (!result.ok) {
       this.handleFailedDraftRequest();

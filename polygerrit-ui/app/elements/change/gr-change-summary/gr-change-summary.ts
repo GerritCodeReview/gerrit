@@ -29,13 +29,14 @@ import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../checks/gr-checks-action';
 import {
+  compareByWorstCategory,
   getResultsOf,
   hasCompletedWithoutResults,
   hasResults,
   hasResultsOf,
   iconFor,
-  isRunning,
-  isRunningOrHasCompleted,
+  isRunningOrScheduled,
+  isRunningScheduledOrCompleted,
   isStatus,
   labelFor,
 } from '../../../services/checks/checks-util';
@@ -287,18 +288,22 @@ export class GrChecksChip extends LitElement {
         .checksChip.check-circle-outline iron-icon {
           color: var(--success-foreground);
         }
-        .checksChip.timelapse {
+        .checksChip.timelapse,
+        .checksChip.scheduled {
           border-color: var(--gray-foreground);
           background: var(--gray-background);
         }
-        .checksChip.timelapse:hover {
+        .checksChip.timelapse:hover,
+        .checksChip.scheduled:hover {
           background: var(--gray-background-hover);
           box-shadow: var(--elevation-level-1);
         }
-        .checksChip.timelapse:focus-within {
+        .checksChip.timelapse:focus-within,
+        .checksChip.scheduled:focus-within {
           background: var(--gray-background-focus);
         }
-        .checksChip.timelapse iron-icon {
+        .checksChip.timelapse iron-icon,
+        .checksChip.scheduled iron-icon {
           color: var(--gray-foreground);
         }
       `,
@@ -642,7 +647,7 @@ export class GrChangeSummary extends LitElement {
   renderChecksZeroState() {
     if (Object.keys(this.errorMessages).length > 0) return;
     if (this.loginCallback) return;
-    if (this.runs.some(isRunningOrHasCompleted)) return;
+    if (this.runs.some(isRunningScheduledOrCompleted)) return;
     const msg = this.someProvidersAreLoading ? 'Loading results' : 'No results';
     return html`<span role="status" class="loading zeroState">${msg}</span>`;
   }
@@ -660,7 +665,9 @@ export class GrChangeSummary extends LitElement {
   }
 
   renderChecksChipRunning() {
-    const runs = this.runs.filter(isRunning);
+    const runs = this.runs
+      .filter(isRunningOrScheduled)
+      .sort(compareByWorstCategory);
     return this.renderChecksChipsExpanded(runs, RunStatus.RUNNING);
   }
 
@@ -728,6 +735,14 @@ export class GrChangeSummary extends LitElement {
       checkName: run.checkName,
       statusOrCategory,
     };
+    // Scheduled runs are rendered in the RUNNING section, but the icon of the
+    // chip must be the one for SCHEDULED.
+    if (
+      statusOrCategory === RunStatus.RUNNING &&
+      run.status === RunStatus.SCHEDULED
+    ) {
+      statusOrCategory = RunStatus.SCHEDULED;
+    }
     const handler = () => this.onChipClick(tabState);
     return html`<gr-checks-chip
       .statusOrCategory="${statusOrCategory}"
@@ -756,7 +771,7 @@ export class GrChangeSummary extends LitElement {
     const hasNonRunningChip = this.runs.some(
       run => hasCompletedWithoutResults(run) || hasResults(run)
     );
-    const hasRunningChip = this.runs.some(isRunning);
+    const hasRunningChip = this.runs.some(isRunningOrScheduled);
     return html`
       <div>
         <table>

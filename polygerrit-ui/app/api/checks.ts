@@ -186,7 +186,11 @@ export declare interface CheckRun {
    * RUNNABLE:  Not run (yet). Mostly useful for runs that the user can trigger
    *            (see actions) and for indicating that a check was not run at a
    *            later attempt. Cannot contain results.
-   * RUNNING:   Subsumes "scheduled".
+   * RUNNING:   The run is in progress.
+   * SCHEDULED: Refinement of RUNNING: The run was triggered, but is not yet
+   *            running. It may have to wait for resources or for some other run
+   *            to finish. The UI treats this mostly identical to RUNNING, but
+   *            uses a differnt icon.
    * COMPLETED: The attempt of the run has finished. Does not indicate at all
    *            whether the run was successful or not. Outcomes can and should
    *            be modeled using the CheckResult entity.
@@ -221,7 +225,7 @@ export declare interface CheckRun {
    * each plugin. The most important actions (which get special UI treatment)
    * are:
    * "Run" for RUNNABLE and COMPLETED runs.
-   * "Cancel" for RUNNING runs.
+   * "Cancel" for RUNNING and SCHEDULED runs.
    */
   actions?: Action[];
 
@@ -316,9 +320,11 @@ export declare interface ActionResult {
   errorMessage?: string;
 }
 
+/** See CheckRun.status for documentation. */
 export enum RunStatus {
   RUNNABLE = 'RUNNABLE',
   RUNNING = 'RUNNING',
+  SCHEDULED = 'SCHEDULED',
   COMPLETED = 'COMPLETED',
 }
 

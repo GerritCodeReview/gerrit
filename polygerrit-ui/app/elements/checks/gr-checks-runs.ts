@@ -45,6 +45,7 @@ import {
   fakeRun2,
   fakeRun3,
   fakeRun4Att,
+  fakeRun5,
 } from '../../services/checks/checks-fakes';
 import {assertIsDefined} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
@@ -108,7 +109,8 @@ export class GrChecksRun extends LitElement {
         .chip.check-circle-outline {
           border-left: var(--thick-border) solid var(--success-foreground);
         }
-        .chip.timelapse {
+        .chip.timelapse,
+        .chip.scheduled {
           border-left: var(--thick-border) solid var(--border-color);
         }
         .chip.placeholder {
@@ -704,6 +706,13 @@ export class GrChecksRuns extends LitElement {
       [],
       ChecksPatchset.LATEST
     );
+    this.checksModel.updateStateSetResults(
+      'f5',
+      [],
+      [],
+      [],
+      ChecksPatchset.LATEST
+    );
   }
 
   all() {
@@ -742,6 +751,13 @@ export class GrChecksRuns extends LitElement {
       [],
       ChecksPatchset.LATEST
     );
+    this.checksModel.updateStateSetResults(
+      'f5',
+      [fakeRun5],
+      [],
+      [],
+      ChecksPatchset.LATEST
+    );
   }
 
   toggle(
@@ -763,13 +779,21 @@ export class GrChecksRuns extends LitElement {
   renderSection(status: RunStatus) {
     const runs = this.runs
       .filter(r => r.isLatestAttempt)
-      .filter(r => r.status === status)
+      .filter(
+        r =>
+          r.status === status ||
+          (status === RunStatus.RUNNING && r.status === RunStatus.SCHEDULED)
+      )
       .filter(r => this.filterRegExp.test(r.checkName))
       .sort(compareByWorstCategory);
     if (runs.length === 0) return;
     const expanded = this.isSectionExpanded.get(status) ?? true;
     const expandedClass = expanded ? 'expanded' : 'collapsed';
     const icon = expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
+    let header = headerForStatus(status);
+    if (runs.some(r => r.status === RunStatus.SCHEDULED)) {
+      header = `${header} / ${headerForStatus(RunStatus.SCHEDULED)}`;
+    }
     return html`
       <div class="${status.toLowerCase()} ${expandedClass}">
         <div
@@ -777,7 +801,7 @@ export class GrChecksRuns extends LitElement {
           @click="${() => this.toggleExpanded(status)}"
         >
           <iron-icon class="expandIcon" icon="${icon}"></iron-icon>
-          <h3 class="heading-3">${headerForStatus(status)}</h3>
+          <h3 class="heading-3">${header}</h3>
         </div>
         <div class="sectionRuns">${runs.map(run => this.renderRun(run))}</div>
       </div>
@@ -833,6 +857,9 @@ export class GrChecksRuns extends LitElement {
         >
         <gr-button link @click="${() => this.toggle('f4', fakeRun4Att)}}"
           >4</gr-button
+        >
+        <gr-button link @click="${() => this.toggle('f5', [fakeRun5])}"
+          >5</gr-button
         >
         <gr-button link @click="${this.all}">all</gr-button>
       </div>

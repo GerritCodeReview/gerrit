@@ -334,8 +334,15 @@ export class GrHovercardRun extends base {
   }
 
   private computeChipIcon() {
-    if (this.run?.status === RunStatus.COMPLETED) return 'check';
-    if (this.run?.status === RunStatus.RUNNING) return 'timelapse';
+    if (this.run?.status === RunStatus.COMPLETED) {
+      return 'check';
+    }
+    if (this.run?.status === RunStatus.RUNNING) {
+      return iconFor(RunStatus.RUNNING);
+    }
+    if (this.run?.status === RunStatus.SCHEDULED) {
+      return iconFor(RunStatus.SCHEDULED);
+    }
     return '';
   }
 

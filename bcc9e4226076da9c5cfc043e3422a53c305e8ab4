@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9df1f45_f1454697",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-15T10:31:10Z",
+      "side": 1,
+      "message": "We should\u0027ve merged this with https://gerrit-review.googlesource.com/c/gerrit/+/326520. All SRs show up on the change page because Prolog used to filter SRs for refs/meta/config.",
+      "revId": "bcc9e4226076da9c5cfc043e3422a53c305e8ab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

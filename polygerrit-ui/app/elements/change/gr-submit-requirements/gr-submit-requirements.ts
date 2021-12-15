@@ -19,7 +19,7 @@ import '../gr-submit-requirement-hovercard/gr-submit-requirement-hovercard';
 import '../gr-trigger-vote-hovercard/gr-trigger-vote-hovercard';
 import '../gr-change-summary/gr-change-summary';
 import '../../shared/gr-limited-text/gr-limited-text';
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {ParsedChangeInfo} from '../../../types/types';
 import {
@@ -69,6 +69,9 @@ export class GrSubmitRequirements extends LitElement {
 
   @property({type: Boolean, attribute: 'disable-hovercards'})
   disableHovercards = false;
+
+  @property({type: Boolean, attribute: 'disable-endpoints'})
+  disableEndpoints = false;
 
   @state()
   runs: CheckRun[] = [];
@@ -190,7 +193,6 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   renderRequirement(requirement: SubmitRequirementResultInfo) {
-    const endpointName = this.calculateEndpointName(requirement.name);
     return html`
       <tr id="requirement-${charsOnly(requirement.name)}">
         <td>${this.renderStatus(requirement.status)}</td>
@@ -202,21 +204,39 @@ export class GrSubmitRequirements extends LitElement {
           ></gr-limited-text>
         </td>
         <td>
-          <gr-endpoint-decorator class="votes-cell" name="${endpointName}">
-            <gr-endpoint-param
-              name="change"
-              .value=${this.change}
-            ></gr-endpoint-param>
-            <gr-endpoint-param
-              name="requirement"
-              .value=${requirement}
-            ></gr-endpoint-param>
-            ${this.renderVotesAndChecksChips(requirement)}
-            ${this.renderOverrideLabels(requirement)}
-          </gr-endpoint-decorator>
+          ${this.renderEndpoint(
+            requirement,
+            html`${this.renderVotesAndChecksChips(requirement)}
+            ${this.renderOverrideLabels(requirement)}`
+          )}
         </td>
       </tr>
     `;
+  }
+
+  renderEndpoint(
+    requirement: SubmitRequirementResultInfo,
+    slot: TemplateResult
+  ) {
+    if (this.disableEndpoints) {
+      return slot;
+    } else {
+      const endpointName = this.calculateEndpointName(requirement.name);
+      return html`<gr-endpoint-decorator
+        class="votes-cell"
+        name="${endpointName}"
+      >
+        <gr-endpoint-param
+          name="change"
+          .value=${this.change}
+        ></gr-endpoint-param>
+        <gr-endpoint-param
+          name="requirement"
+          .value=${requirement}
+        ></gr-endpoint-param>
+        ${slot}
+      </gr-endpoint-decorator>`;
+    }
   }
 
   renderStatus(status: SubmitRequirementStatus) {

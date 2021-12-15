@@ -46,6 +46,7 @@ export class GrSubmitRequirementDashboardHovercard extends base {
         .change=${this.change}
         disable-hovercards
         suppress-title
+        disable-endpoints
       ></gr-submit-requirements>
     </div>`;
   }

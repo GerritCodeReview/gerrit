@@ -37,6 +37,7 @@ export const htmlTemplate = html`
       max-width: 1px;
       overflow: hidden;
       display: none;
+      vertical-align: top;
     }
     div[role='gridcell']
       > div.comments

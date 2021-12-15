@@ -17,8 +17,8 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-search-bar';
-import '../../../scripts/util';
 import {GrSearchBar} from './gr-search-bar';
+import '../../../scripts/util';
 import {stubRestApi, mockPromise} from '../../../test/test-utils';
 import {_testOnly_clearDocsBaseUrlCache} from '../../../utils/url-util';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
@@ -28,6 +28,9 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
+import {queryAndAssert} from '../../../test/test-utils';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
 
 const basicFixture = fixtureFromElement('gr-search-bar');
 
@@ -36,12 +39,13 @@ suite('gr-search-bar tests', () => {
 
   setup(async () => {
     element = basicFixture.instantiate();
-    await flush();
+    await element.updateComplete;
   });
 
-  test('value is propagated to _inputVal', () => {
+  test('value is propagated to inputVal', async () => {
     element.value = 'foo';
-    assert.equal(element._inputVal, 'foo');
+    await element.updateComplete;
+    assert.equal(element.inputVal, 'foo');
   });
 
   const getActiveElement = () =>
@@ -52,12 +56,17 @@ suite('gr-search-bar tests', () => {
   test('enter in search input fires event', async () => {
     const promise = mockPromise();
     element.addEventListener('handle-search', () => {
-      assert.notEqual(getActiveElement(), element.$.searchInput);
+      assert.notEqual(
+        getActiveElement(),
+        queryAndAssert<GrAutocomplete>(element, '#searchInput')
+      );
       promise.resolve();
     });
     element.value = 'test';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     MockInteractions.pressAndReleaseKeyOn(
-      element.$.searchInput.$.input,
+      queryAndAssert<HTMLInputElement>(searchInput, '#input'),
       13,
       null,
       'enter'
@@ -65,11 +74,21 @@ suite('gr-search-bar tests', () => {
     await promise;
   });
 
-  test('input blurred after commit', () => {
-    const blurSpy = sinon.spy(element.$.searchInput.$.input, 'blur');
-    element.$.searchInput.text = 'fate/stay';
+  test('input blurred after commit', async () => {
+    const blurSpy = sinon.spy(
+      queryAndAssert<PaperInputElement>(
+        queryAndAssert<GrAutocomplete>(element, '#searchInput'),
+        '#input'
+      ),
+      'blur'
+    );
+    queryAndAssert<GrAutocomplete>(element, '#searchInput').text = 'fate/stay';
+    await element.updateComplete;
     MockInteractions.pressAndReleaseKeyOn(
-      element.$.searchInput.$.input,
+      queryAndAssert<PaperInputElement>(
+        queryAndAssert<GrAutocomplete>(element, '#searchInput'),
+        '#input'
+      ),
       13,
       null,
       'enter'
@@ -77,12 +96,14 @@ suite('gr-search-bar tests', () => {
     assert.isTrue(blurSpy.called);
   });
 
-  test('empty search query does not trigger nav', () => {
+  test('empty search query does not trigger nav', async () => {
     const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = '';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     MockInteractions.pressAndReleaseKeyOn(
-      element.$.searchInput.$.input,
+      queryAndAssert<HTMLInputElement>(searchInput, '#input'),
       13,
       null,
       'enter'
@@ -90,12 +111,14 @@ suite('gr-search-bar tests', () => {
     assert.isFalse(searchSpy.called);
   });
 
-  test('Predefined query op with no predication doesnt trigger nav', () => {
+  test('Predefined query op with no predication doesnt trigger nav', async () => {
     const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'added:';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     MockInteractions.pressAndReleaseKeyOn(
-      element.$.searchInput.$.input,
+      queryAndAssert<HTMLInputElement>(searchInput, '#input'),
       13,
       null,
       'enter'
@@ -103,12 +126,14 @@ suite('gr-search-bar tests', () => {
     assert.isFalse(searchSpy.called);
   });
 
-  test('predefined predicate query triggers nav', () => {
+  test('predefined predicate query triggers nav', async () => {
     const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'age:1week';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     MockInteractions.pressAndReleaseKeyOn(
-      element.$.searchInput.$.input,
+      queryAndAssert<HTMLInputElement>(searchInput, '#input'),
       13,
       null,
       'enter'
@@ -116,12 +141,14 @@ suite('gr-search-bar tests', () => {
     assert.isTrue(searchSpy.called);
   });
 
-  test('undefined predicate query triggers nav', () => {
+  test('undefined predicate query triggers nav', async () => {
     const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'random:1week';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     MockInteractions.pressAndReleaseKeyOn(
-      element.$.searchInput.$.input,
+      queryAndAssert<HTMLInputElement>(searchInput, '#input'),
       13,
       null,
       'enter'
@@ -129,12 +156,14 @@ suite('gr-search-bar tests', () => {
     assert.isTrue(searchSpy.called);
   });
 
-  test('empty undefined predicate query triggers nav', () => {
+  test('empty undefined predicate query triggers nav', async () => {
     const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'random:';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     MockInteractions.pressAndReleaseKeyOn(
-      element.$.searchInput.$.input,
+      queryAndAssert<HTMLInputElement>(searchInput, '#input'),
       13,
       null,
       'enter'
@@ -142,58 +171,70 @@ suite('gr-search-bar tests', () => {
     assert.isTrue(searchSpy.called);
   });
 
-  test('keyboard shortcuts', () => {
-    const focusSpy = sinon.spy(element.$.searchInput, 'focus');
-    const selectAllSpy = sinon.spy(element.$.searchInput, 'selectAll');
+  test('keyboard shortcuts', async () => {
+    const focusSpy = sinon.spy(
+      queryAndAssert<GrAutocomplete>(element, '#searchInput'),
+      'focus'
+    );
+    const selectAllSpy = sinon.spy(
+      queryAndAssert<GrAutocomplete>(element, '#searchInput'),
+      'selectAll'
+    );
     MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
     assert.isTrue(focusSpy.called);
     assert.isTrue(selectAllSpy.called);
   });
 
-  suite('_getSearchSuggestions', () => {
-    setup(() => {
-      // Ensure that config.change.mergeability_computation_behavior is not set.
+  suite('getSearchSuggestions', () => {
+    setup(async () => {
+      stubRestApi('getConfig').returns(
+        Promise.resolve({
+          ...createServerInfo(),
+          change: {
+            ...createChangeConfig(),
+            mergeability_computation_behavior:
+              'NEVER' as MergeabilityComputationBehavior,
+          },
+        })
+      );
+
       element = basicFixture.instantiate();
+      await element.updateComplete;
     });
 
-    test('Autocompletes accounts', () => {
-      sinon
-        .stub(element, 'accountSuggestions')
-        .callsFake(() => Promise.resolve([{text: 'owner:fred@goog.co'}]));
-      return element._getSearchSuggestions('owner:fr').then(s => {
-        assert.equal(s[0].value, 'owner:fred@goog.co');
-      });
+    test('Autocompletes accounts', async () => {
+      element.accountSuggestions = () =>
+        Promise.resolve([{text: 'owner:fred@goog.co'}]);
+      await element.updateComplete;
+      const s = await element.getSearchSuggestions('owner:fr');
+      assert.equal(s[0].value, 'owner:fred@goog.co');
     });
 
     test('Autocompletes groups', async () => {
-      sinon
-        .stub(element, 'groupSuggestions')
-        .callsFake(() =>
-          Promise.resolve([
-            {text: 'ownerin:Polygerrit'},
-            {text: 'ownerin:gerrit'},
-          ])
-        );
-      const s = await element._getSearchSuggestions('ownerin:pol');
+      element.groupSuggestions = () =>
+        Promise.resolve([
+          {text: 'ownerin:Polygerrit'},
+          {text: 'ownerin:gerrit'},
+        ]);
+      await element.updateComplete;
+      const s = await element.getSearchSuggestions('ownerin:pol');
       assert.equal(s[0].value, 'ownerin:Polygerrit');
     });
 
     test('Autocompletes projects', async () => {
-      sinon
-        .stub(element, 'projectSuggestions')
-        .callsFake(() =>
-          Promise.resolve([
-            {text: 'project:Polygerrit'},
-            {text: 'project:gerrit'},
-            {text: 'project:gerrittest'},
-          ])
-        );
-      const s = await element._getSearchSuggestions('project:pol');
+      element.projectSuggestions = () =>
+        Promise.resolve([
+          {text: 'project:Polygerrit'},
+          {text: 'project:gerrit'},
+          {text: 'project:gerrittest'},
+        ]);
+      await element.updateComplete;
+      const s = await element.getSearchSuggestions('project:pol');
       assert.equal(s[0].value, 'project:Polygerrit');
     });
 
     test('Autocompletes simple searches', async () => {
-      const s = await element._getSearchSuggestions('is:o');
+      const s = await element.getSearchSuggestions('is:o');
       assert.equal(s[0].name, 'is:open');
       assert.equal(s[0].value, 'is:open');
       assert.equal(s[1].name, 'is:owner');
@@ -201,12 +242,12 @@ suite('gr-search-bar tests', () => {
     });
 
     test('Does not autocomplete with no match', async () => {
-      const s = await element._getSearchSuggestions('asdasdasdasd');
+      const s = await element.getSearchSuggestions('asdasdasdasd');
       assert.equal(s.length, 0);
     });
 
     test('Autocompletes without is:mergable when disabled', async () => {
-      const s = await element._getSearchSuggestions('is:mergeab');
+      const s = await element.getSearchSuggestions('is:mergeab');
       assert.isEmpty(s);
     });
   });
@@ -229,11 +270,11 @@ suite('gr-search-bar tests', () => {
         );
 
         element = basicFixture.instantiate();
-        await flush();
+        await element.updateComplete;
       });
 
       test('Autocompltes with is:mergable when enabled', async () => {
-        const s = await element._getSearchSuggestions('is:mergeab');
+        const s = await element.getSearchSuggestions('is:mergeab');
         assert.equal(s.length, 2);
         assert.equal(s[0].name, 'is:mergeable');
         assert.equal(s[0].value, 'is:mergeable');
@@ -257,20 +298,21 @@ suite('gr-search-bar tests', () => {
 
       _testOnly_clearDocsBaseUrlCache();
       element = basicFixture.instantiate();
-      await flush();
+      await element.updateComplete;
     });
 
     test('compute help doc url with correct path', () => {
       assert.equal(element.docBaseUrl, 'https://doc.com/');
       assert.equal(
-        element._computeHelpDocLink(element.docBaseUrl),
+        element.computeHelpDocLink(),
         'https://doc.com/user-search.html'
       );
     });
 
     test('compute help doc url fallback to gerrit url', () => {
+      element.docBaseUrl = null;
       assert.equal(
-        element._computeHelpDocLink(null),
+        element.computeHelpDocLink(),
         'https://gerrit-review.googlesource.com/documentation/' +
           'user-search.html'
       );

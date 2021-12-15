@@ -15,16 +15,6 @@
  * limitations under the License.
  */
 import '../../shared/gr-autocomplete/gr-autocomplete';
-import '../../../styles/shared-styles';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-search-bar_html';
-import {
-  KeyboardShortcutMixin,
-  Shortcut,
-  ShortcutListener,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {customElement, property} from '@polymer/decorators';
 import {ServerInfo} from '../../../types/common';
 import {
   AutocompleteQuery,
@@ -34,7 +24,17 @@ import {
 import {getDocsBaseUrl} from '../../../utils/url-util';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
-import {listen} from '../../../services/shortcuts/shortcuts-service';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html, css} from 'lit';
+import {
+  customElement,
+  property,
+  state,
+  query as queryDec,
+} from 'lit/decorators';
+import {ShortcutController} from '../../lit/shortcut-controller';
+import {query as queryUtil} from '../../../utils/common-util';
+import {assertIsDefined} from '../../../utils/common-util';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -140,34 +140,18 @@ export interface SearchBarHandleSearchDetail {
   inputVal: string;
 }
 
-export interface GrSearchBar {
-  $: {
-    searchInput: GrAutocomplete;
-  };
-}
-
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-search-bar')
-export class GrSearchBar extends base {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  private searchOperators = new Set(SEARCH_OPERATORS_WITH_NEGATIONS_SET);
-
+export class GrSearchBar extends LitElement {
   /**
    * Fired when a search is committed
    *
    * @event handle-search
    */
 
-  @property({type: String, notify: true, observer: '_valueChanged'})
-  value = '';
+  @queryDec('#searchInput') protected searchInput?: GrAutocomplete;
 
-  @property({type: Object})
-  query: AutocompleteQuery;
+  @property({type: String})
+  value = '';
 
   @property({type: Object})
   projectSuggestions: SuggestionProvider = () => Promise.resolve([]);
@@ -179,31 +163,35 @@ export class GrSearchBar extends base {
   accountSuggestions: SuggestionProvider = () => Promise.resolve([]);
 
   @property({type: String})
-  _inputVal = '';
-
-  @property({type: Number})
-  _threshold = 1;
-
-  @property({type: String})
   label = '';
 
-  @property({type: String})
-  docBaseUrl: string | null = null;
+  // private but used in test
+  @state() inputVal = '';
+
+  // private but used in test
+  @state() docBaseUrl: string | null = null;
+
+  @state() private query: AutocompleteQuery;
+
+  @state() private threshold = 1;
+
+  private searchOperators = new Set(SEARCH_OPERATORS_WITH_NEGATIONS_SET);
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly shortcuts = new ShortcutController(this);
+
   constructor() {
     super();
-    this.query = (input: string) => this._getSearchSuggestions(input);
+    this.query = (input: string) => this.getSearchSuggestions(input);
+    this.shortcuts.addGlobal({key: '/'}, () => this.handleSearch());
   }
 
   override connectedCallback() {
     super.connectedCallback();
     this.restApiService.getConfig().then((serverConfig?: ServerInfo) => {
       const mergeability =
-        serverConfig &&
-        serverConfig.change &&
-        serverConfig.change.mergeability_computation_behavior;
+        serverConfig?.change?.mergeability_computation_behavior;
       if (
         mergeability ===
           MergeabilityComputationBehavior.API_REF_UPDATED_AND_CHANGE_REINDEX ||
@@ -211,7 +199,7 @@ export class GrSearchBar extends base {
           MergeabilityComputationBehavior.REF_UPDATED_AND_CHANGE_REINDEX
       ) {
         // add 'is:mergeable' to searchOperators
-        this._addOperator('is:mergeable');
+        this.addOperator('is:mergeable');
       }
       if (serverConfig) {
         getDocsBaseUrl(serverConfig, this.restApiService).then(baseUrl => {
@@ -221,33 +209,92 @@ export class GrSearchBar extends base {
     });
   }
 
-  _computeHelpDocLink(docBaseUrl: string | null) {
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        form {
+          display: flex;
+        }
+        gr-autocomplete {
+          background-color: var(--view-background-color);
+          border-radius: var(--border-radius);
+          flex: 1;
+          outline: none;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <form>
+        <gr-autocomplete
+          id="searchInput"
+          .label=${this.label}
+          show-search-icon
+          .text=${this.inputVal}
+          .query=${this.query}
+          allow-non-suggested-values
+          multi
+          .threshold=${this.threshold}
+          tab-complete
+          verticalOffset="30"
+          @commit=${(e: Event) => {
+            this.handleInputCommit(e);
+          }}
+          @text-changed=${(e: CustomEvent) => {
+            this.handleSearchTextChanged(e);
+          }}
+        >
+          <a
+            class="help"
+            slot="suffix"
+            href=${this.computeHelpDocLink()}
+            target="_blank"
+            tabindex="-1"
+          >
+            <iron-icon
+              icon="gr-icons:help-outline"
+              title="read documentation"
+            ></iron-icon>
+          </a>
+        </gr-autocomplete>
+      </form>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('value')) {
+      this.valueChanged();
+    }
+  }
+
+  // private but used in test
+  computeHelpDocLink() {
     // fallback to gerrit's official doc
     let baseUrl =
-      docBaseUrl || 'https://gerrit-review.googlesource.com/documentation/';
+      this.docBaseUrl ||
+      'https://gerrit-review.googlesource.com/documentation/';
     if (baseUrl.endsWith('/')) {
       baseUrl = baseUrl.substring(0, baseUrl.length - 1);
     }
     return `${baseUrl}/user-search.html`;
   }
 
-  _addOperator(name: string, include_neg = true) {
+  private addOperator(name: string, include_neg = true) {
     this.searchOperators.add(name);
     if (include_neg) {
       this.searchOperators.add(`-${name}`);
     }
   }
 
-  override keyboardShortcuts(): ShortcutListener[] {
-    return [listen(Shortcut.SEARCH, _ => this._handleSearch())];
+  private valueChanged() {
+    this.inputVal = this.value;
   }
 
-  _valueChanged(value: string) {
-    this._inputVal = value;
-  }
-
-  _handleInputCommit(e: Event) {
-    this._preventDefaultAndNavigateToInputVal(e);
+  private handleInputCommit(e: Event) {
+    this.preventDefaultAndNavigateToInputVal(e);
   }
 
   /**
@@ -256,18 +303,18 @@ export class GrSearchBar extends base {
    * - e.target is the gr-autocomplete widget (#searchInput)
    * - e.target is the input element wrapped within #searchInput
    */
-  _preventDefaultAndNavigateToInputVal(e: Event) {
+  private preventDefaultAndNavigateToInputVal(e: Event) {
     e.preventDefault();
-    const target = (dom(e) as EventApi).rootTarget as PolymerElement;
+    const target = e.composedPath()[0] as HTMLElement;
     // If the target is the #searchInput or has a sub-input component, that
     // is what holds the focus as opposed to the target from the DOM event.
-    if (target.$['input']) {
-      (target.$['input'] as HTMLElement).blur();
+    if (queryUtil(target, '#input')) {
+      queryUtil<HTMLElement>(target, '#input')!.blur();
     } else {
       target.blur();
     }
-    if (!this._inputVal) return;
-    const trimmedInput = this._inputVal.trim();
+    if (!this.inputVal) return;
+    const trimmedInput = this.inputVal.trim();
     if (trimmedInput) {
       const predefinedOpOnlyQuery = [...this.searchOperators].some(
         op => op.endsWith(':') && op === trimmedInput
@@ -276,7 +323,7 @@ export class GrSearchBar extends base {
         return;
       }
       const detail: SearchBarHandleSearchDetail = {
-        inputVal: this._inputVal,
+        inputVal: this.inputVal,
       };
       this.dispatchEvent(
         new CustomEvent('handle-search', {
@@ -288,13 +335,13 @@ export class GrSearchBar extends base {
 
   /**
    * Determine what array of possible suggestions should be provided
-   * to _getSearchSuggestions.
+   * to getSearchSuggestions.
    *
    * @param input - The full search term, in lowercase.
    * @return This returns a promise that resolves to an array of
    * suggestion objects.
    */
-  _fetchSuggestions(input: string): Promise<AutocompleteSuggestion[]> {
+  private fetchSuggestions(input: string): Promise<AutocompleteSuggestion[]> {
     // Split the input on colon to get a two part predicate/expression.
     const splitInput = input.split(':');
     const predicate = splitInput[0];
@@ -341,14 +388,16 @@ export class GrSearchBar extends base {
    * @param input - The complete search query.
    * @return This returns a promise that resolves to an array of
    * suggestions.
+   *
+   * private but used in test
    */
-  _getSearchSuggestions(input: string): Promise<AutocompleteSuggestion[]> {
+  getSearchSuggestions(input: string): Promise<AutocompleteSuggestion[]> {
     // Allow spaces within quoted terms.
     const tokens = input.match(TOKENIZE_REGEX);
     if (tokens === null) return Promise.resolve([]);
     const trimmedInput = tokens[tokens.length - 1].toLowerCase();
 
-    return this._fetchSuggestions(trimmedInput).then(suggestions => {
+    return this.fetchSuggestions(trimmedInput).then(suggestions => {
       if (!suggestions || !suggestions.length) {
         return [];
       }
@@ -386,9 +435,14 @@ export class GrSearchBar extends base {
     });
   }
 
-  _handleSearch() {
-    this.$.searchInput.focus();
-    this.$.searchInput.selectAll();
+  private handleSearch() {
+    assertIsDefined(this.searchInput, 'searchInput');
+    this.searchInput.focus();
+    this.searchInput.selectAll();
+  }
+
+  private handleSearchTextChanged(e: CustomEvent) {
+    this.inputVal = e.detail.value;
   }
 }
 

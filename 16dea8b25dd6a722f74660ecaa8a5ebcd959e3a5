@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ce552af_fcd02cb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-12-15T08:26:25Z",
+      "side": 1,
+      "message": "the latest 0.5x release mentioned in the release notes is 0.59.84, the latest tagged is 0.59.124, could we update to this version or does it have incompatible changes compared to 0.50.x ?\n\nhttps://github.com/vsch/flexmark-java/blob/master/VERSION.md#05984",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "16dea8b25dd6a722f74660ecaa8a5ebcd959e3a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f69304_9ddb3b83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-12-15T08:26:25Z",
+      "side": 1,
+      "message": "- Why do we use commonmark in gitiles and flexmark in core ?\n- The commonmark version 0.10.0 currently used by gitiles is also outdated (latest release is 0.18.1)",
+      "revId": "16dea8b25dd6a722f74660ecaa8a5ebcd959e3a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

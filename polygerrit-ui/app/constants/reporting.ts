@@ -92,6 +92,12 @@ export enum Timing {
   FILE_EXPAND_ALL = 'ExpandAllDiffs',
   // This measures the same interval as ExpandAllDiffs, but the result is divided by the number of diffs expanded.
   FILE_EXPAND_ALL_AVG = 'ExpandAllPerDiff',
+  // Time for making the REST API call of creating a draft comment.
+  DRAFT_CREATE = 'CreateDraftComment',
+  // Time for making the REST API call of update a draft comment.
+  DRAFT_UPDATE = 'UpdateDraftComment',
+  // Time for making the REST API call of deleting a draft comment.
+  DRAFT_DISCARD = 'DiscardDraftComment',
 }
 
 export enum Interaction {

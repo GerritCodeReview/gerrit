@@ -33,6 +33,23 @@
       "message": "This change was merged with direct push\n\nhttps://gerrit.googlesource.com/gerrit/+/377423a4895005f2a264354290682c1250d527ef%5E%21/#F0\n\nI think we still need to reindex the project cache so that new label types are picked up.",
       "revId": "bcc9e4226076da9c5cfc043e3422a53c305e8ab4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f974d29_14ec1c28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-15T11:42:48Z",
+      "side": 1,
+      "message": "I\u0027ve restored the project config \u0026 rules.pl to their original states with [1] and created another change to re-land removing rules.pl with label functions properly. https://gerrit-review.googlesource.com/c/gerrit/+/326525\n\n[1] https://gerrit.googlesource.com/gerrit/+/146b2eba1fdd5a75d4743d9fbaf8a4381ec2e391",
+      "revId": "bcc9e4226076da9c5cfc043e3422a53c305e8ab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

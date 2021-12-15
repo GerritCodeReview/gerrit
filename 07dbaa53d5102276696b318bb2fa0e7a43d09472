@@ -39,6 +39,30 @@
       },
       "revId": "07dbaa53d5102276696b318bb2fa0e7a43d09472",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06452a52_67841321",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-15T18:24:00Z",
+      "side": 1,
+      "message": "It\u0027s not bumped in sshd 2.7.0 (that I saw). Don\u0027t we try to keep the same version?",
+      "parentUuid": "16dbfb02_92d3ab9a",
+      "range": {
+        "startLine": 62,
+        "startChar": 46,
+        "endLine": 62,
+        "endChar": 52
+      },
+      "revId": "07dbaa53d5102276696b318bb2fa0e7a43d09472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

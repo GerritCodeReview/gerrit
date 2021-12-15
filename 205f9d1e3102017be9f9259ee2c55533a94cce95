@@ -91,6 +91,24 @@
       "parentUuid": "58ec735e_3cef5cc8",
       "revId": "205f9d1e3102017be9f9259ee2c55533a94cce95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "114c39ca_dc1dce66",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-15T11:33:57Z",
+      "side": 1,
+      "message": "Wow, long reply. Thank you!\n\nActually I did not see the `readonly` in the return type. Given that, I think I am just fine.\n\nBut yeah, not exposing the properties at all and the subclassing makes sense for the future.",
+      "parentUuid": "5d5f53e8_860e3583",
+      "revId": "205f9d1e3102017be9f9259ee2c55533a94cce95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

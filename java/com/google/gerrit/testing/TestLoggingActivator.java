@@ -14,15 +14,12 @@
 
 package com.google.gerrit.testing;
 
-import static org.apache.log4j.Logger.getLogger;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class TestLoggingActivator {
   private static final ImmutableMap<String, Level> LOG_LEVELS =
@@ -30,45 +27,45 @@ public class TestLoggingActivator {
           .put("com.google.gerrit", getGerritLogLevel())
 
           // Silence non-critical messages from MINA SSHD.
-          .put("org.apache.mina", Level.WARN)
-          .put("org.apache.sshd.client", Level.WARN)
-          .put("org.apache.sshd.common", Level.WARN)
-          .put("org.apache.sshd.server", Level.WARN)
+          .put("org.apache.mina", Level.WARNING)
+          .put("org.apache.sshd.client", Level.WARNING)
+          .put("org.apache.sshd.common", Level.WARNING)
+          .put("org.apache.sshd.server", Level.WARNING)
           .put("org.apache.sshd.common.keyprovider.FileKeyPairProvider", Level.INFO)
-          .put("com.google.gerrit.sshd.GerritServerSession", Level.WARN)
+          .put("com.google.gerrit.sshd.GerritServerSession", Level.WARNING)
 
           // Silence non-critical messages from mime-util.
-          .put("eu.medsea.mimeutil", Level.WARN)
+          .put("eu.medsea.mimeutil", Level.WARNING)
 
           // Silence non-critical messages from openid4java.
-          .put("org.apache.xml", Level.WARN)
-          .put("org.openid4java", Level.WARN)
-          .put("org.openid4java.consumer.ConsumerManager", Level.FATAL)
-          .put("org.openid4java.discovery.Discovery", Level.ERROR)
-          .put("org.openid4java.server.RealmVerifier", Level.ERROR)
-          .put("org.openid4java.message.AuthSuccess", Level.ERROR)
+          .put("org.apache.xml", Level.WARNING)
+          .put("org.openid4java", Level.WARNING)
+          .put("org.openid4java.consumer.ConsumerManager", Level.SEVERE)
+          .put("org.openid4java.discovery.Discovery", Level.SEVERE)
+          .put("org.openid4java.server.RealmVerifier", Level.SEVERE)
+          .put("org.openid4java.message.AuthSuccess", Level.SEVERE)
 
           // Silence non-critical messages from apache.http.
-          .put("org.apache.http", Level.WARN)
+          .put("org.apache.http", Level.WARNING)
 
           // Silence non-critical messages from Jetty.
-          .put("org.eclipse.jetty", Level.WARN)
+          .put("org.eclipse.jetty", Level.WARNING)
 
           // Silence non-critical messages from JGit.
-          .put("org.eclipse.jgit.transport.PacketLineIn", Level.WARN)
-          .put("org.eclipse.jgit.transport.PacketLineOut", Level.WARN)
-          .put("org.eclipse.jgit.internal.transport.sshd", Level.WARN)
-          .put("org.eclipse.jgit.util.FileUtils", Level.WARN)
-          .put("org.eclipse.jgit.internal.storage.file.FileSnapshot", Level.WARN)
-          .put("org.eclipse.jgit.util.FS", Level.WARN)
-          .put("org.eclipse.jgit.util.SystemReader", Level.WARN)
+          .put("org.eclipse.jgit.transport.PacketLineIn", Level.WARNING)
+          .put("org.eclipse.jgit.transport.PacketLineOut", Level.WARNING)
+          .put("org.eclipse.jgit.internal.transport.sshd", Level.WARNING)
+          .put("org.eclipse.jgit.util.FileUtils", Level.WARNING)
+          .put("org.eclipse.jgit.internal.storage.file.FileSnapshot", Level.WARNING)
+          .put("org.eclipse.jgit.util.FS", Level.WARNING)
+          .put("org.eclipse.jgit.util.SystemReader", Level.WARNING)
 
           // Silence non-critical messages from Elasticsearch.
-          .put("org.elasticsearch", Level.WARN)
+          .put("org.elasticsearch", Level.WARNING)
 
           // Silence non-critical messages from Docker for Elasticsearch query tests.
-          .put("org.testcontainers", Level.WARN)
-          .put("com.github.dockerjava.core", Level.WARN)
+          .put("org.testcontainers", Level.WARNING)
+          .put("com.github.dockerjava.core", Level.WARNING)
           .build();
 
   private static Level getGerritLogLevel() {
@@ -76,27 +73,44 @@ public class TestLoggingActivator {
     if (value.isEmpty()) {
       value = Strings.nullToEmpty(System.getProperty("gerrit.logLevel"));
     }
-    return Level.toLevel(value, Level.INFO);
+
+    try {
+      return Level.parse(value);
+    } catch (IllegalArgumentException e) {
+      // for backwards compatibility handle log4j log levels
+      if (value.equalsIgnoreCase("FATAL") || value.equalsIgnoreCase("ERROR")) {
+        return Level.SEVERE;
+      }
+      if (value.equalsIgnoreCase("WARN")) {
+        return Level.WARNING;
+      }
+      if (value.equalsIgnoreCase("DEBUG")) {
+        return Level.FINE;
+      }
+      if (value.equalsIgnoreCase("TRACE")) {
+        return Level.FINEST;
+      }
+
+      return Level.INFO;
+    }
   }
 
   public static void configureLogging() {
-    LogManager.resetConfiguration();
+    LogManager.getLogManager().reset();
     FloggerInitializer.initBackend();
 
-    PatternLayout layout = new PatternLayout();
-    layout.setConversionPattern("%-5p %c %x: %m%n");
+    ConsoleHandler dst = new ConsoleHandler();
+    dst.setLevel(Level.FINEST);
 
-    ConsoleAppender dst = new ConsoleAppender();
-    dst.setLayout(layout);
-    dst.setTarget("System.err");
-    dst.setThreshold(Level.DEBUG);
-    dst.activateOptions();
+    Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).addHandler(dst);
 
-    Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
-    root.addAppender(dst);
-
-    LOG_LEVELS.entrySet().stream().forEach(e -> getLogger(e.getKey()).setLevel(e.getValue()));
+    LOG_LEVELS.entrySet().stream()
+        .forEach(
+            e -> {
+              Logger logger = Logger.getLogger(e.getKey());
+              logger.setLevel(e.getValue());
+              logger.addHandler(dst);
+            });
   }
 
   private TestLoggingActivator() {}

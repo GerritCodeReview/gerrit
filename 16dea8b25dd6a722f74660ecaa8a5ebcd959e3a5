@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f95a30c7_75619e38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-15T18:22:46Z",
+      "side": 1,
+      "message": "\u003e the latest 0.5x release mentioned in the release notes is 0.59.84, the latest tagged is 0.59.124, could we update to this version or does it have incompatible changes compared to 0.50.x ?\n\nTheir numbering is strange. 0.59.* seems to be a dev branch leading up to 0.60.X. The very first 0.59.1 has a breaking change: https://github.com/vsch/flexmark-java/blob/master/VERSION.md#0591",
+      "parentUuid": "0ce552af_fcd02cb5",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "16dea8b25dd6a722f74660ecaa8a5ebcd959e3a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a5f69304_9ddb3b83",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2021-12-15T08:26:25Z",
       "side": 1,
       "message": "- Why do we use commonmark in gitiles and flexmark in core ?\n- The commonmark version 0.10.0 currently used by gitiles is also outdated (latest release is 0.18.1)",
+      "revId": "16dea8b25dd6a722f74660ecaa8a5ebcd959e3a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21f45465_2f269eab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-15T18:22:46Z",
+      "side": 1,
+      "message": "\u003e - Why do we use commonmark in gitiles and flexmark in core ?\n\nI know core moved to flexmark from pegdown. It\u0027s used for rendering plugin md docs.\n\n\u003e - The commonmark version 0.10.0 currently used by gitiles is also outdated (latest release is 0.18.1)\n\nYeah, we have a lot of outdated deps. I figure any progress is good.",
+      "parentUuid": "a5f69304_9ddb3b83",
       "revId": "16dea8b25dd6a722f74660ecaa8a5ebcd959e3a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

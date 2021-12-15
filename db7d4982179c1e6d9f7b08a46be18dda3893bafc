@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50e6b9db_b595e4e3",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-15T17:39:45Z",
+      "side": 1,
+      "message": "I think we could further reduce calls to fetch server-configs (as it\u0027s done in gr-app-elemt). But one thing is it doesn\u0027t do this (subscription model in gr-app-element). If i was to copy this into gr-app-element, would that work? Or should i leave things for now?",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 6
+      },
+      "revId": "db7d4982179c1e6d9f7b08a46be18dda3893bafc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

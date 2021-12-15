@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b91a05a_ccc3b04a",
+        "filename": "java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-15T18:34:37Z",
+      "side": 1,
+      "message": "It\u0027s from the JGit bump that I added as a parent of this on the master branch.",
+      "parentUuid": "8cbda952_5bf543dc",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 17
+      },
+      "revId": "8726928418b7878aa5739057dfddd2df35091b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "300551b2_1896eb64",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-12-15T17:38:23Z",
       "side": 1,
       "message": "Same as CommandFactoryProvider",
+      "revId": "8726928418b7878aa5739057dfddd2df35091b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a34bf96a_f2179db8",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-15T18:34:37Z",
+      "side": 1,
+      "message": "It\u0027s from the JGit bump that I added as a parent of this on the master branch.",
+      "parentUuid": "300551b2_1896eb64",
       "revId": "8726928418b7878aa5739057dfddd2df35091b1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

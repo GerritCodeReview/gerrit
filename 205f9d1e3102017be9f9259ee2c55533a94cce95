@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76cc45f5_10c6634f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-15T09:24:34Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "205f9d1e3102017be9f9259ee2c55533a94cce95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ba53be6_a8318790",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-15T09:24:34Z",
+      "side": 1,
+      "message": "We are fairly strict about not using `!`. Instead we would typically do `assertIsDefined` explicitly. It is a bit annoying with Lit/Polymer properties, but we don\u0027t have a better solution to that.",
+      "range": {
+        "startLine": 430,
+        "startChar": 18,
+        "endLine": 430,
+        "endChar": 19
+      },
+      "revId": "205f9d1e3102017be9f9259ee2c55533a94cce95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55744446_02982ea8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-15T09:24:34Z",
+      "side": 1,
+      "message": "It would be nice, if the class had a comment or if the constructor comment would be expanded a bit.",
+      "revId": "205f9d1e3102017be9f9259ee2c55533a94cce95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58ec735e_3cef5cc8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-15T09:24:34Z",
+      "side": 1,
+      "message": "I don\u0027t know about the style guide, but personally I don\u0027t like implicit getters at all. I would prefer a method `getLines()` instead.\n\nAlso, encapsulation only has a benefit, if you return a cloned array, right? Do you avoid that for performance reasons?",
+      "revId": "205f9d1e3102017be9f9259ee2c55533a94cce95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

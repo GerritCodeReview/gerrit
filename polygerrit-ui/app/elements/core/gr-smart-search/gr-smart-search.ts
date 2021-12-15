@@ -15,11 +15,8 @@
  * limitations under the License.
  */
 import '../gr-search-bar/gr-search-bar';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-smart-search_html';
 import {GerritNav} from '../gr-navigation/gr-navigation';
 import {getUserName} from '../../../utils/display-name-util';
-import {customElement, property} from '@polymer/decorators';
 import {AccountInfo, ServerInfo} from '../../../types/common';
 import {
   SearchBarHandleSearchDetail,
@@ -27,6 +24,9 @@ import {
 } from '../gr-search-bar/gr-search-bar';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
+import {LitElement, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
+import {fire} from '../../../utils/event-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
@@ -36,49 +36,47 @@ declare global {
   interface HTMLElementEventMap {
     'handle-search': CustomEvent<SearchBarHandleSearchDetail>;
   }
+  interface HTMLElementTagNameMap {
+    'gr-smart-search': GrSmartSearch;
+  }
 }
 
 @customElement('gr-smart-search')
-export class GrSmartSearch extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrSmartSearch extends LitElement {
   @property({type: String})
   searchQuery = '';
 
   @property({type: Object})
-  _config?: ServerInfo;
-
-  @property({type: Object})
-  _projectSuggestions: SuggestionProvider = (predicate, expression) =>
-    this._fetchProjects(predicate, expression);
-
-  @property({type: Object})
-  _groupSuggestions: SuggestionProvider = (predicate, expression) =>
-    this._fetchGroups(predicate, expression);
-
-  @property({type: Object})
-  _accountSuggestions: SuggestionProvider = (predicate, expression) =>
-    this._fetchAccounts(predicate, expression);
+  serverConfig?: ServerInfo;
 
   @property({type: String})
   label = '';
 
   private readonly restApiService = getAppContext().restApiService;
 
-  override connectedCallback() {
-    super.connectedCallback();
-    this.restApiService.getConfig().then(cfg => {
-      this._config = cfg;
-    });
-  }
-
-  _handleSearch(e: CustomEvent<SearchBarHandleSearchDetail>) {
-    const input = e.detail.inputVal;
-    if (input) {
-      GerritNav.navigateToSearchQuery(input);
-    }
+  override render() {
+    const accountSuggestions: SuggestionProvider = (predicate, expression) =>
+      this.fetchAccounts(predicate, expression);
+    const groupSuggestions: SuggestionProvider = (predicate, expression) =>
+      this.fetchGroups(predicate, expression);
+    const projectSuggestions: SuggestionProvider = (predicate, expression) =>
+      this.fetchProjects(predicate, expression);
+    return html`
+      <gr-search-bar
+        id="search"
+        .label=${this.label}
+        .value=${this.searchQuery}
+        .projectSuggestions=${projectSuggestions}
+        .groupSuggestions=${groupSuggestions}
+        .accountSuggestions=${accountSuggestions}
+        @handle-search=${(e: CustomEvent<SearchBarHandleSearchDetail>) => {
+          this.handleSearch(e);
+        }}
+        @value-changed=${(e: CustomEvent) => {
+          this.handleSearchValueChanged(e);
+        }}
+      ></gr-search-bar>
+    `;
   }
 
   /**
@@ -88,8 +86,10 @@ export class GrSmartSearch extends PolymerElement {
    * 'project'
    * @param expression - The second part of the search term, e.g.
    * 'gerr'
+   *
+   * private but used in test
    */
-  _fetchProjects(
+  fetchProjects(
     predicate: string,
     expression: string
   ): Promise<AutocompleteSuggestion[]> {
@@ -113,8 +113,10 @@ export class GrSmartSearch extends PolymerElement {
    * 'ownerin'
    * @param expression - The second part of the search term, e.g.
    * 'polyger'
+   *
+   * private but used in test
    */
-  _fetchGroups(
+  fetchGroups(
     predicate: string,
     expression: string
   ): Promise<AutocompleteSuggestion[]> {
@@ -141,8 +143,10 @@ export class GrSmartSearch extends PolymerElement {
    * 'owner'
    * @param expression - The second part of the search term, e.g.
    * 'kasp'
+   *
+   * private but used in test
    */
-  _fetchAccounts(
+  fetchAccounts(
     predicate: string,
     expression: string
   ): Promise<AutocompleteSuggestion[]> {
@@ -155,7 +159,7 @@ export class GrSmartSearch extends PolymerElement {
         if (!accounts) {
           return [];
         }
-        return this._mapAccountsHelper(accounts, predicate);
+        return this.mapAccountsHelper(accounts, predicate);
       })
       .then(accounts => {
         // When the expression supplied is a beginning substring of 'self',
@@ -170,12 +174,12 @@ export class GrSmartSearch extends PolymerElement {
       });
   }
 
-  _mapAccountsHelper(
+  private mapAccountsHelper(
     accounts: AccountInfo[],
     predicate: string
   ): AutocompleteSuggestion[] {
     return accounts.map(account => {
-      const userName = getUserName(this._config, account);
+      const userName = getUserName(this.serverConfig, account);
       return {
         label: account.name || '',
         text: account.email
@@ -184,10 +188,15 @@ export class GrSmartSearch extends PolymerElement {
       };
     });
   }
-}
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-smart-search': GrSmartSearch;
+  private handleSearch(e: CustomEvent<SearchBarHandleSearchDetail>) {
+    const input = e.detail.inputVal;
+    if (input) {
+      GerritNav.navigateToSearchQuery(input);
+    }
+  }
+
+  private handleSearchValueChanged(e: CustomEvent) {
+    fire(this, 'search-query-changed', {value: e.detail.value});
   }
 }

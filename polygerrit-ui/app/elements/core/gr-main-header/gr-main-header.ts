@@ -149,6 +149,8 @@ export class GrMainHeader extends LitElement {
   // private but used in test
   @state() feedbackURL = '';
 
+  @state() private serverConfig?: ServerInfo;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly jsAPI = getAppContext().jsApiService;
@@ -176,6 +178,7 @@ export class GrMainHeader extends LitElement {
     this.subscriptions.push(
       this.configModel.serverConfig$.subscribe(config => {
         if (!config) return;
+        this.serverConfig = config;
         this.retrieveFeedbackURL(config);
         this.retrieveRegisterURL(config);
         getDocsBaseUrl(config, this.restApiService).then(docBaseUrl => {
@@ -379,6 +382,7 @@ export class GrMainHeader extends LitElement {
         id="search"
         label="Search for changes"
         .searchQuery=${this.searchQuery}
+        .serverConfig=${this.serverConfig}
         @search-query-changed=${(e: ValueChangedEvent) => {
           this.handleSearchQueryBindValueChanged(e);
         }}

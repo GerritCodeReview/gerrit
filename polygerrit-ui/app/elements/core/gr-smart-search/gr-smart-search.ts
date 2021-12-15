@@ -69,6 +69,7 @@ export class GrSmartSearch extends LitElement {
         .projectSuggestions=${projectSuggestions}
         .groupSuggestions=${groupSuggestions}
         .accountSuggestions=${accountSuggestions}
+        .serverConfig=${this.serverConfig}
         @handle-search=${(e: CustomEvent<SearchBarHandleSearchDetail>) => {
           this.handleSearch(e);
         }}

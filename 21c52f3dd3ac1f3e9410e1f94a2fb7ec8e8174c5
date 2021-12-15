@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e467d1d_5b74f5dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-15T22:44:39Z",
+      "side": 1,
+      "message": "This should be done in the codemirror-editor plugin.",
+      "revId": "21c52f3dd3ac1f3e9410e1f94a2fb7ec8e8174c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

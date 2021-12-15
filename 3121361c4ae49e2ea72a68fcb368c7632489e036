@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc77f1e5_dd2bf8ba",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-15T12:12:37Z",
+      "side": 1,
+      "message": "Btw. is this ok, when iconFor would return check-circle-outline?",
+      "range": {
+        "startLine": 338,
+        "startChar": 14,
+        "endLine": 338,
+        "endChar": 19
+      },
+      "revId": "3121361c4ae49e2ea72a68fcb368c7632489e036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2c5b5f1_fe054745",
+        "filename": "polygerrit-ui/app/services/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-15T12:12:37Z",
+      "side": 1,
+      "message": "Maybe we can drop export, since this is used only in checks-util",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 6
+      },
+      "revId": "3121361c4ae49e2ea72a68fcb368c7632489e036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ecf83f5_eb8dea34",
+        "filename": "polygerrit-ui/app/services/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-12-15T12:12:37Z",
+      "side": 1,
+      "message": "You don\u0027t need Scheduled here? Or is it ok that it is undefined in  worstCategory.",
+      "range": {
+        "startLine": 280,
+        "startChar": 2,
+        "endLine": 280,
+        "endChar": 16
+      },
+      "revId": "3121361c4ae49e2ea72a68fcb368c7632489e036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

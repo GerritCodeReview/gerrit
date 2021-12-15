@@ -107,7 +107,6 @@ export enum Shortcut {
   OPEN_FIRST_FILE = 'OPEN_FIRST_FILE',
   OPEN_LAST_FILE = 'OPEN_LAST_FILE',
 
-  SEARCH = 'SEARCH',
   SEND_REPLY = 'SEND_REPLY',
   EMOJI_DROPDOWN = 'EMOJI_DROPDOWN',
   TOGGLE_BLAME = 'TOGGLE_BLAME',
@@ -137,7 +136,6 @@ function describe(
   }
 }
 
-describe(Shortcut.SEARCH, ShortcutSection.EVERYWHERE, 'Search', {key: '/'});
 describe(
   Shortcut.OPEN_SHORTCUT_HELP_DIALOG,
   ShortcutSection.EVERYWHERE,

@@ -726,7 +726,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
             Predicate.not(new SubmittablePredicate(SubmitRecord.Status.RULE_ERROR)));
       }
       checkFieldAvailable(ChangeField.IS_SUBMITTABLE, "is:submittable");
-      return new BooleanPredicate(ChangeField.IS_SUBMITTABLE);
+      return Predicate.and(
+          new BooleanPredicate(ChangeField.IS_SUBMITTABLE),
+          Predicate.not(ChangeStatusPredicate.closed()));
     }
 
     if ("ignored".equalsIgnoreCase(value)) {

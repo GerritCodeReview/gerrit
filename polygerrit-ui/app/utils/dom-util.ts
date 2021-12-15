@@ -316,6 +316,7 @@ export enum Key {
   RIGHT = 'ArrowRight',
   UP = 'ArrowUp',
   DOWN = 'ArrowDown',
+  SEARCH = 'SEARCH',
 }
 
 export enum Modifier {

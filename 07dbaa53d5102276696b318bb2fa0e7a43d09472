@@ -16,6 +16,29 @@
       "message": "@Matthias, this is a bump to the tip of JGit stable-5.13, which is enough to get all the SSHD changes and the commits we have in Gerrit stable-3.5 already, but less than you have in your JGit bump Ifc313c1. I think we\u0027ll still want that bump too, but I\u0027m proposing this smaller one initially to get us past some of the merge pain.\n\n@Chris, can you LC+1 please?",
       "revId": "07dbaa53d5102276696b318bb2fa0e7a43d09472",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16dbfb02_92d3ab9a",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-12-15T09:08:14Z",
+      "side": 1,
+      "message": "also update mina-core to 2.0.22 ?",
+      "range": {
+        "startLine": 62,
+        "startChar": 46,
+        "endLine": 62,
+        "endChar": 52
+      },
+      "revId": "07dbaa53d5102276696b318bb2fa0e7a43d09472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

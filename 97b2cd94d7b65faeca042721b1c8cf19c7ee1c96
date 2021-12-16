@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f37c69e_d751f9d9",
+        "filename": "lib/highlightjs/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-12-16T08:53:08Z",
+      "side": 1,
+      "message": "Does it even make sense to create our own highlight.js which then has to be fetched by the client?\nShould we instead include it into our main app bundle?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "97b2cd94d7b65faeca042721b1c8cf19c7ee1c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

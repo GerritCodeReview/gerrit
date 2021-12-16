@@ -16,6 +16,24 @@
       "message": "Does the inclusion of \u0027context metadata\u0027 [1] impact the content of our log messages?\n\nAlso, these per() methods [2] that comes as part of this upgrade look useful!\n\n[1] https://github.com/google/flogger/commit/9d7d2c6a099a9c0c31d584fe2dd062d8fa1ba7a4\n[2] https://github.com/google/flogger/commit/69c74802098e9f83ae903e23a7e73e2f25351eea",
       "revId": "02c9e62de80a1604a64f8b6e2aedf7210f0aa415",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8676af05_959b462e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T14:42:40Z",
+      "side": 1,
+      "message": "\u003e Does the inclusion of \u0027context metadata\u0027 [1] impact the content of our log messages?\n\nI don\u0027t think so. This is the SLF4J backend which we are not using. The log4j backend that we use already includes context metadata with flogger 0.6.\n\n\u003e Also, these per() methods [2] that comes as part of this upgrade look useful!\n+1, looks useful",
+      "parentUuid": "2b00a485_e90e5336",
+      "revId": "02c9e62de80a1604a64f8b6e2aedf7210f0aa415",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

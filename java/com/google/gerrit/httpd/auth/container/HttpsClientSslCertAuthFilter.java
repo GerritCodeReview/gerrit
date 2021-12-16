@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.auth.container;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.AccountException;
@@ -36,8 +35,6 @@ import javax.servlet.ServletResponse;
 
 @Singleton
 class HttpsClientSslCertAuthFilter implements Filter {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private static final Pattern REGEX_USERID = Pattern.compile("CN=([^,]*)");
 
   private final DynamicItem<WebSession> webSession;
@@ -80,7 +77,6 @@ class HttpsClientSslCertAuthFilter implements Filter {
       arsp = accountManager.authenticate(areq);
     } catch (AccountException e) {
       String err = "Unable to authenticate user \"" + userName + "\"";
-      logger.atSevere().withCause(e).log(err);
       throw new ServletException(err, e);
     }
     webSession.get().login(arsp, true);

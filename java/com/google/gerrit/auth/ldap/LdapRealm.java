@@ -199,7 +199,7 @@ class LdapRealm extends AbstractRealm {
       String configOption, String suppliedValue, boolean disabledByBackend) {
     if (disabledByBackend && !Strings.isNullOrEmpty(suppliedValue)) {
       String msg = String.format("LDAP backend doesn't support: ldap.%s", configOption);
-      logger.atSevere().log(msg);
+      logger.atSevere().log("%s", msg);
       throw new IllegalArgumentException(msg);
     }
   }

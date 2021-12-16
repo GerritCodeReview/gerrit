@@ -152,7 +152,7 @@ public class SubmitDryRun {
       case INHERIT:
       default:
         String errorMsg = "No submit strategy for: " + submitType;
-        logger.atSevere().log(errorMsg);
+        logger.atSevere().log("%s", errorMsg);
         throw new StorageException(errorMsg);
     }
   }

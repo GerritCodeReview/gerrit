@@ -64,8 +64,7 @@ class PluginServletContext {
         String msg =
             String.format(
                 "%s does not implement %s", PluginServletContext.class, method.toGenericString());
-        logger.atSevere().withCause(e).log(msg);
-        throw new NoSuchMethodError(msg);
+        throw new NoSuchMethodError(msg).initCause(e);
       }
       return handler.invoke(this, args);
     }

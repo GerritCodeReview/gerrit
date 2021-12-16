@@ -128,8 +128,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
           .check(ChangePermission.READ);
     } catch (AuthException e) {
       String msg = String.format("change %s not found", change);
-      logger.atSevere().withCause(e).log(msg);
-      throw error(msg);
+      throw error(msg, e);
     }
 
     return AccountPredicates.cansee(args, changeNotes.get());

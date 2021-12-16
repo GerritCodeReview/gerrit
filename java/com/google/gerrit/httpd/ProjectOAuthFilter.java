@@ -158,8 +158,8 @@ class ProjectOAuthFilter implements Filter {
         accountCache.getByUsername(authInfo.username).filter(a -> a.account().isActive());
     if (!who.isPresent()) {
       logger.atWarning().log(
-          authenticationFailedMsg(authInfo.username, req)
-              + ": account inactive or not provisioned in Gerrit");
+          "%s: account inactive or not provisioned in Gerrit",
+          authenticationFailedMsg(authInfo.username, req));
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
@@ -180,7 +180,7 @@ class ProjectOAuthFilter implements Filter {
       ws.setAccessPathOk(AccessPath.REST_API, true);
       return true;
     } catch (AccountException e) {
-      logger.atWarning().withCause(e).log(authenticationFailedMsg(authInfo.username, req));
+      logger.atWarning().withCause(e).log("%s", authenticationFailedMsg(authInfo.username, req));
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }

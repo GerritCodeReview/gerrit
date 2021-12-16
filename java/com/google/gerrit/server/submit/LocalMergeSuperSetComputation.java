@@ -253,7 +253,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private void logErrorAndThrow(String msg) {
-    logger.atSevere().log(msg);
+    logger.atSevere().log("%s", msg);
     throw new StorageException(msg);
   }
 }

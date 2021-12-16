@@ -196,7 +196,7 @@ public class SwitchSecureStore extends SiteProgram {
           return jar;
         }
       } catch (IOException e) {
-        logger.atSevere().withCause(e).log(e.getMessage());
+        logger.atSevere().withCause(e).log("%s", e.getMessage());
       }
     }
     return null;

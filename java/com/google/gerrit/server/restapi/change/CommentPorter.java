@@ -194,10 +194,9 @@ public class CommentPorter {
                 patchsetComments));
       } else {
         logger.atWarning().log(
-            String.format(
-                "Some comments which should be ported refer to the non-existent patchset %s of"
-                    + " change %d. Omitting %d affected comments.",
-                originalPatchsetId, notes.getChangeId().get(), patchsetComments.size()));
+            "Some comments which should be ported refer to the non-existent patchset %s of"
+                + " change %d. Omitting %d affected comments.",
+            originalPatchsetId, notes.getChangeId().get(), patchsetComments.size());
       }
     }
     return portedComments.build();
@@ -255,8 +254,8 @@ public class CommentPorter {
         mappings = loadMappings(project, change, originalPatchset, targetPatchset, side);
       } catch (Exception e) {
         logger.atWarning().withCause(e).log(
-            "Could not determine some necessary diff mappings for porting comments on change %s from"
-                + " patchset %s to patchset %s. Mapping %d affected comments to the fallback"
+            "Could not determine some necessary diff mappings for porting comments on change %s"
+                + " from patchset %s to patchset %s. Mapping %d affected comments to the fallback"
                 + " destination.",
             change.getChangeId(),
             originalPatchset.id().getId(),

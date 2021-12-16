@@ -53,7 +53,6 @@ public class LibModuleLoader {
       return (Class<Module>) Class.forName(className);
     } catch (ClassNotFoundException | LinkageError e) {
       String msg = "Cannot load LibModule " + className;
-      logger.atSevere().withCause(e).log(msg);
       throw new ProvisionException(msg, e);
     }
   }

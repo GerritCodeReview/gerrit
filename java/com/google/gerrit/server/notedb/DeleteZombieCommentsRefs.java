@@ -141,7 +141,7 @@ public class DeleteZombieCommentsRefs {
   }
 
   private void logInfo(String message) {
-    logger.atInfo().log(message);
+    logger.atInfo().log("%s", message);
     uiConsumer.accept(message);
   }
 

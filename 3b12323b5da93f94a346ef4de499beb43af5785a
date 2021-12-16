@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afe37687_98365ab4",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T18:37:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bc734a2_40d515cc",
+      "range": {
+        "startLine": 141,
+        "startChar": 28,
+        "endLine": 141,
+        "endChar": 49
+      },
+      "revId": "3b12323b5da93f94a346ef4de499beb43af5785a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d9dba11_145902f5",
@@ -54,6 +78,24 @@
       "writtenOn": "2021-12-16T17:59:49Z",
       "side": 1,
       "message": "I see that this was mostly copied, but it doesn\u0027t feel right. It feels more like: s/Must/Intended to/",
+      "revId": "3b12323b5da93f94a346ef4de499beb43af5785a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23fe6b13_42ea6a48",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T18:37:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d9dba11_145902f5",
       "revId": "3b12323b5da93f94a346ef4de499beb43af5785a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a479ed80_b33579d1",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T18:37:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29f16432_226d9ad5",
+      "range": {
+        "startLine": 155,
+        "startChar": 16,
+        "endLine": 155,
+        "endChar": 31
+      },
+      "revId": "3b12323b5da93f94a346ef4de499beb43af5785a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d21bc7d4_561b8c8c",
@@ -94,6 +160,24 @@
       "writtenOn": "2021-12-16T17:59:49Z",
       "side": 1,
       "message": "s/Must/Intended to/",
+      "revId": "3b12323b5da93f94a346ef4de499beb43af5785a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55db21a1_a20743f6",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T18:37:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d21bc7d4_561b8c8c",
       "revId": "3b12323b5da93f94a346ef4de499beb43af5785a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -115,6 +199,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "938a1df8_7c61c1bb",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T18:37:59Z",
+      "side": 1,
+      "message": "It might change. I have created a variable for it now.",
+      "parentUuid": "88849bd6_5a3fda13",
+      "revId": "3b12323b5da93f94a346ef4de499beb43af5785a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1641d331_74cbaaa2",
@@ -128,6 +230,30 @@
       "writtenOn": "2021-12-16T17:59:49Z",
       "side": 1,
       "message": "Would it make more sense to add a getTotalDisplay() method to each Task instead of this somewhat complicated logic here?",
+      "range": {
+        "startLine": 438,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 22
+      },
+      "revId": "3b12323b5da93f94a346ef4de499beb43af5785a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99725733_29ebe42f",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T18:37:59Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "1641d331_74cbaaa2",
       "range": {
         "startLine": 438,
         "startChar": 0,

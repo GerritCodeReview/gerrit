@@ -347,6 +347,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc8c1871_2f7ceda3",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T18:37:59Z",
+      "side": 1,
+      "message": "EndMonitor is no longer used.",
+      "parentUuid": "9c657891_69303772",
+      "revId": "a47994d8e9a2ffd42de99bfb6c871c6620a00384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45c5b7ce_e5cf9687",

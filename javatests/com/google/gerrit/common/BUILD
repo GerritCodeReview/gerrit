@@ -11,6 +11,7 @@ junit_tests(
         "//lib:guava",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/log:log4j",
         "//lib/truth",
     ],
 )

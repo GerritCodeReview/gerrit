@@ -239,19 +239,6 @@ suite('gr-message tests', () => {
       assert.isNotOk(element._computeShowOnBehalfOf(message));
     });
 
-    ['Trybot-Ready', 'Tryjob-Request', 'Commit-Queue'].forEach(label => {
-      test(`${label} ignored for color voting`, () => {
-        element.message = {
-          ...createChangeMessage(),
-          author: {},
-          expanded: false,
-          message: `Patch Set 1: ${label}+1`,
-        };
-        assert.isNotOk(query(element, '.negativeVote'));
-        assert.isNotOk(query(element, '.positiveVote'));
-      });
-    });
-
     test('clicking on date link fires event', () => {
       element.message = {
         ...createChangeMessage(),

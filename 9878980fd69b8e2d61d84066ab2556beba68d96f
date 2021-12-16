@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cfc5b9c_e3676773",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-12-16T18:48:53Z",
+      "side": 1,
+      "message": "That\u0027s nice and easy to understand now!",
+      "revId": "9878980fd69b8e2d61d84066ab2556beba68d96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

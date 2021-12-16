@@ -337,6 +337,27 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       .filter(r => r !== undefined)
   );
 
+  public allResultsLatest$ = select(this.checksLatest$, state =>
+    Object.values(state)
+      .reduce(
+        (allResults: RunResult[], providerState: ChecksProviderState) => [
+          ...allResults,
+          ...providerState.runs.reduce(
+            (results: RunResult[], run: CheckRun) => {
+              const runResults: RunResult[] =
+                run.results?.map(r => {
+                  return {...run, ...r};
+                }) ?? [];
+              return results.concat(runResults ?? []);
+            },
+            []
+          ),
+        ],
+        []
+      )
+      .filter(r => r !== undefined)
+  );
+
   constructor(
     readonly routerModel: RouterModel,
     readonly changeModel: ChangeModel,

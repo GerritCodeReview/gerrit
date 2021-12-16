@@ -21,6 +21,7 @@ rollup_bundle(
     entry_point = "preprocessor.ts",
     format = "cjs",
     rollup_bin = "//tools/node_tools:rollup-bin",
+    silent = True,
     deps = [
         ":preprocessor",
         "@tools_npm//rollup-plugin-node-resolve",
@@ -33,6 +34,7 @@ rollup_bundle(
     entry_point = "links-updater.ts",
     format = "cjs",
     rollup_bin = "//tools/node_tools:rollup-bin",
+    silent = True,
     deps = [
         ":preprocessor",
         "@tools_npm//rollup-plugin-node-resolve",

@@ -159,6 +159,26 @@ interface ChecksState {
   };
 }
 
+/**
+ * Can be used in `reduce()` to collect all results from all runs from all
+ * providers into one array.
+ */
+function collectRunResults(
+  allResults: RunResult[],
+  providerState: ChecksProviderState
+) {
+  return [
+    ...allResults,
+    ...providerState.runs.reduce((results: RunResult[], run: CheckRun) => {
+      const runResults: RunResult[] =
+        run.results?.map(r => {
+          return {...run, ...r};
+        }) ?? [];
+      return results.concat(runResults ?? []);
+    }, []),
+  ];
+}
+
 export interface ErrorMessages {
   /* Maps plugin name to error message. */
   [name: string]: string;
@@ -323,17 +343,13 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
 
   public allResultsSelected$ = select(this.checksSelected$, state =>
     Object.values(state)
-      .reduce(
-        (allResults: CheckResult[], providerState: ChecksProviderState) => [
-          ...allResults,
-          ...providerState.runs.reduce(
-            (results: CheckResult[], run: CheckRun) =>
-              results.concat(run.results ?? []),
-            []
-          ),
-        ],
-        []
-      )
+      .reduce(collectRunResults, [])
+      .filter(r => r !== undefined)
+  );
+
+  public allResultsLatest$ = select(this.checksLatest$, state =>
+    Object.values(state)
+      .reduce(collectRunResults, [])
       .filter(r => r !== undefined)
   );
 

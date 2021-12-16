@@ -747,7 +747,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('getThreadEls() returns .comment-threads', () => {
-    const threadEl = document.createElement('div');
+    const threadEl = document.createElement('gr-comment-thread');
     threadEl.className = 'comment-thread';
     element.$.diff.appendChild(threadEl);
     assert.deepEqual(element.getThreadEls(), [threadEl]);

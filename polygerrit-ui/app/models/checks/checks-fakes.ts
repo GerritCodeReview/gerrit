@@ -99,7 +99,7 @@ export const fakeRun1: CheckRun = {
   checkName: 'FAKE Super Check',
   startedTimestamp: new Date(new Date().getTime() - 5 * 60 * 1000),
   finishedTimestamp: new Date(new Date().getTime() + 5 * 60 * 1000),
-  patchset: 1,
+  patchset: 2,
   labelName: 'Verified',
   isSingleAttempt: true,
   isLatestAttempt: true,
@@ -109,26 +109,17 @@ export const fakeRun1: CheckRun = {
       internalResultId: 'f1r0',
       category: Category.WARNING,
       summary: 'We think that you could improve this.',
-      message: `There is a lot to be said. A lot. I say, a lot.\n
+      message: `There is a lot to be said. A lot. I say, a lot.
                 So please keep reading.`,
       tags: [{name: 'INTERRUPTED', color: TagColor.PURPLE}, {name: 'WINDOWS'}],
       codePointers: [
         {
           path: '/COMMIT_MSG',
           range: {
-            start_line: 10,
-            start_character: 0,
-            end_line: 10,
-            end_character: 0,
-          },
-        },
-        {
-          path: 'polygerrit-ui/app/api/checks.ts',
-          range: {
-            start_line: 5,
-            start_character: 0,
-            end_line: 7,
-            end_character: 0,
+            start_line: 7,
+            start_character: 5,
+            end_line: 9,
+            end_character: 20,
           },
         },
       ],
@@ -154,6 +145,42 @@ export const fakeRun1: CheckRun = {
           icon: LinkIcon.IMAGE,
         },
       ],
+    },
+    {
+      internalResultId: 'f1r1',
+      category: Category.INFO,
+      summary: 'Suspicious Author',
+      message: 'Do you personally know this person?',
+      codePointers: [
+        {
+          path: '/COMMIT_MSG',
+          range: {
+            start_line: 2,
+            start_character: 0,
+            end_line: 2,
+            end_character: 0,
+          },
+        },
+      ],
+      links: [],
+    },
+    {
+      internalResultId: 'f1r2',
+      category: Category.ERROR,
+      summary: 'Suspicious Date',
+      message: 'That was a holiday, you know.',
+      codePointers: [
+        {
+          path: '/COMMIT_MSG',
+          range: {
+            start_line: 3,
+            start_character: 0,
+            end_line: 3,
+            end_character: 0,
+          },
+        },
+      ],
+      links: [],
     },
   ],
   status: RunStatus.RUNNING,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bfa0462_4a152479",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-12-16T21:42:11Z",
+      "side": 1,
+      "message": "I think you specifically want to clarify that this allows others schemas to then proceed without waiting for the GC to complete. This is relevant because this is probably the first time we allow some work from separate schemas potentially overlap with each other.",
+      "range": {
+        "startLine": 14,
+        "startChar": 44,
+        "endLine": 14,
+        "endChar": 50
+      },
+      "revId": "90c3fabbc4db9da4ef5f2e772624266a72c34a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

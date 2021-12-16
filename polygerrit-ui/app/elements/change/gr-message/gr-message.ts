@@ -53,7 +53,7 @@ import {
 import {isServiceUser, replaceTemplates} from '../../../utils/account-util';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?[Pp]atch [Ss]et \d+:\s*(.*)/;
-const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
+const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.:]?$/;
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
 const VOTE_RESET_TEXT = '0 (vote reset)';

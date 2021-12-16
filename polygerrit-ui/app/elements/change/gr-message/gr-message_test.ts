@@ -518,6 +518,23 @@ suite('gr-message tests', () => {
       assert.isFalse(scoreChips[2].classList.contains('min'));
     });
 
+    test('Uploaded and rebased', () => {
+      element.message = {
+        ...createChangeMessage(),
+        author: {},
+        expanded: false,
+        message:
+          'Uploaded patch set 4: Commit-Queue+1: Patch Set 3 was rebased.',
+      };
+      element.labelExtremes = {
+        'Commit-Queue': {max: 2, min: -2},
+      };
+      flush();
+      const scoreChips = queryAll(element, '.score');
+      assert.equal(scoreChips.length, 1);
+      assert.isTrue(scoreChips[0].classList.contains('positive'));
+    });
+
     test('removed votes', () => {
       element.message = {
         ...createChangeMessage(),

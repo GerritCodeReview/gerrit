@@ -99,7 +99,7 @@ public class AbandonUtil {
             msg.append(" ").append(change.getId().get());
           }
           msg.append(".");
-          logger.atSevere().withCause(e).log(msg.toString());
+          logger.atSevere().withCause(e).log("%s", msg);
         }
       }
       logger.atInfo().log("Auto-Abandoned %d of %d changes.", count, changesToAbandon.size());

@@ -54,7 +54,7 @@ public class DownloadConfig {
       for (String s : allSchemes) {
         String core = toCoreScheme(s);
         if (core == null) {
-          logger.atWarning().log("not a core download scheme: " + s);
+          logger.atWarning().log("not a core download scheme: %s", s);
           continue;
         }
         normalized.add(core);

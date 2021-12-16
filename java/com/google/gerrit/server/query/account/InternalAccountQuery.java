@@ -82,7 +82,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
       Joiner.on(", ")
           .appendTo(
               msg, accountStates.stream().map(a -> a.account().id().toString()).collect(toList()));
-      logger.atWarning().log(msg.toString());
+      logger.atWarning().log("%s", msg);
     }
     return null;
   }

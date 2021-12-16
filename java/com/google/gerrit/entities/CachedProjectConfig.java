@@ -226,7 +226,7 @@ public abstract class CachedProjectConfig {
       try {
         parsedProjectLevelConfigsBuilder().put(configFileName, ImmutableConfig.parse(config));
       } catch (ConfigInvalidException e) {
-        logger.atInfo().withCause(e).log("Config for " + configFileName + " not parsable");
+        logger.atInfo().withCause(e).log("Config for %s not parsable", configFileName);
       }
       return this;
     }

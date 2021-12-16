@@ -54,7 +54,7 @@ public class Version {
         return vs;
       }
     } catch (IOException e) {
-      logger.atSevere().withCause(e).log(e.getMessage());
+      logger.atSevere().withCause(e).log("%s", e.getMessage());
       return "(unknown version)";
     }
   }

@@ -677,7 +677,7 @@ class GitwebServlet extends HttpServlet {
                         .collect(Collectors.joining("\n"))
                         .trim();
                 if (!err.isEmpty()) {
-                  logger.atSevere().log(err);
+                  logger.atSevere().log("%s", err);
                 }
               } catch (IOException e) {
                 logger.atSevere().withCause(e).log("Unexpected error copying stderr from CGI");

@@ -98,7 +98,7 @@ public class ChangeFileContentModification implements TreeModification {
       } catch (IOException e) {
         String message =
             String.format("Could not change the content of %s", dirCacheEntry.getPathString());
-        logger.atSevere().withCause(e).log(message);
+        logger.atSevere().withCause(e).log("%s", message);
       } catch (InvalidObjectIdException e) {
         logger.atSevere().withCause(e).log("Invalid object id in submodule link");
       }

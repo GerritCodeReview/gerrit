@@ -19,7 +19,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.HashedPassword;
@@ -32,7 +31,6 @@ import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class ExternalIdFactory {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
@@ -301,15 +299,17 @@ public class ExternalIdFactory {
       }
       return accountId;
     } catch (IllegalArgumentException e) {
-      String msg =
-          String.format(
-              "Value %s for '%s.%s.%s' is invalid, expected account ID",
-              accountIdStr,
-              ExternalId.EXTERNAL_ID_SECTION,
-              externalIdKeyStr,
-              ExternalId.ACCOUNT_ID_KEY);
-      logger.atSevere().withCause(e).log(msg);
-      throw invalidConfig(noteId, msg);
+      ConfigInvalidException newException =
+          invalidConfig(
+              noteId,
+              String.format(
+                  "Value %s for '%s.%s.%s' is invalid, expected account ID",
+                  accountIdStr,
+                  ExternalId.EXTERNAL_ID_SECTION,
+                  externalIdKeyStr,
+                  ExternalId.ACCOUNT_ID_KEY));
+      newException.initCause(e);
+      throw newException;
     }
   }
 

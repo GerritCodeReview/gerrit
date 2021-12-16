@@ -736,7 +736,7 @@ public class BatchUpdate implements AutoCloseable {
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
     if (RequestId.isSet()) {
-      logger.atFine().log(msg);
+      logger.atFine().log("%s", msg);
     }
   }
 

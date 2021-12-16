@@ -309,7 +309,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
     @Override
     public FileVisitResult visitFileFailed(Path file, IOException e) {
-      logger.atWarning().log(e.getMessage());
+      logger.atWarning().log("%s", e.getMessage());
       return FileVisitResult.CONTINUE;
     }
 

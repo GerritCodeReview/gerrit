@@ -785,8 +785,7 @@ public class MergeUtil {
       try {
         failed(rw, mergeTip, n, getCommitMergeStatus(e.getReason()));
       } catch (IOException e2) {
-        logger.atSevere().withCause(e2).log("Failed to set merge failure status for " + n.name());
-        throw new StorageException("Cannot merge " + n.name(), e);
+        throw new StorageException("Cannot merge " + n.name(), e2);
       }
     } catch (IOException e) {
       throw new StorageException("Cannot merge " + n.name(), e);

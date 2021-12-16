@@ -186,7 +186,7 @@ class ProjectBasicAuthFilter implements Filter {
       if (passwordVerifier.checkPassword(who.externalIds(), username, password)) {
         return succeedAuthentication(who, null);
       }
-      logger.atWarning().withCause(e).log(authenticationFailedMsg(username, req));
+      logger.atWarning().withCause(e).log("%s", authenticationFailedMsg(username, req));
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     } catch (AuthenticationFailedException e) {
@@ -200,7 +200,7 @@ class ProjectBasicAuthFilter implements Filter {
       rsp.sendError(SC_SERVICE_UNAVAILABLE);
       return false;
     } catch (AccountException e) {
-      logger.atWarning().withCause(e).log(authenticationFailedMsg(username, req));
+      logger.atWarning().withCause(e).log("%s", authenticationFailedMsg(username, req));
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
@@ -214,8 +214,8 @@ class ProjectBasicAuthFilter implements Filter {
   private boolean failAuthentication(Response rsp, String username, HttpServletRequest req)
       throws IOException {
     logger.atWarning().log(
-        authenticationFailedMsg(username, req)
-            + ": password does not match the one stored in Gerrit");
+        "%s: password does not match the one stored in Gerrit",
+        authenticationFailedMsg(username, req));
     rsp.sendError(SC_UNAUTHORIZED);
     return false;
   }

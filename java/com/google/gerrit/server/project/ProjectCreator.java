@@ -135,10 +135,6 @@ public class ProjectCreator {
           e);
     } catch (RepositoryNotFoundException badName) {
       throw new BadRequestException("invalid project name: " + nameKey, badName);
-    } catch (ConfigInvalidException e) {
-      String msg = "Cannot create " + nameKey;
-      logger.atSevere().withCause(e).log(msg);
-      throw e;
     }
   }
 

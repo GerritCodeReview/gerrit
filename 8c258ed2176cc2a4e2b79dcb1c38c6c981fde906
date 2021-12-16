@@ -251,6 +251,30 @@
       },
       "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fff1d58b_ada1d055",
+        "filename": "java/com/google/gerrit/server/git/receive/LazyPostReceiveHookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-12-16T11:56:48Z",
+      "side": 1,
+      "message": "meh, must have copy pasted wrong. thanks.",
+      "parentUuid": "1981f1b1_dc03707f",
+      "range": {
+        "startLine": 75,
+        "startChar": 32,
+        "endLine": 75,
+        "endChar": 33
+      },
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5e730fa_a4ddffe3",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T19:12:15Z",
+      "side": 1,
+      "message": "Do you think making this method synchronized will fix it?",
+      "parentUuid": "69e8b163_f52a36df",
+      "revId": "b65b575002cd231d05592af8d7dc3684fc232fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "831bb5cd_4f8e646f",
         "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
         "patchSetId": 7

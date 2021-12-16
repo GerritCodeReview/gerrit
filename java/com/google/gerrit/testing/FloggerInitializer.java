@@ -25,7 +25,7 @@ public class FloggerInitializer {
   public static void initBackend() {
     System.setProperty(
         FLOGGER_BACKEND_PROPERTY,
-        "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance");
+        "com.google.common.flogger.backend.system.SimpleBackendFactory#getInstance");
     System.setProperty(FLOGGER_LOGGING_CONTEXT, LoggingContext.class.getName() + "#getInstance");
   }
 }

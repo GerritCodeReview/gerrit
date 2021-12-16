@@ -107,6 +107,7 @@ export function isStatus(catStat?: Category | RunStatus): catStat is RunStatus {
   return (
     catStat === RunStatus.COMPLETED ||
     catStat === RunStatus.RUNNABLE ||
+    catStat === RunStatus.SCHEDULED ||
     catStat === RunStatus.RUNNING
   );
 }
@@ -127,6 +128,8 @@ export function labelFor(catStat: Category | RunStatus) {
       return 'runnable';
     case RunStatus.RUNNING:
       return 'running';
+    case RunStatus.SCHEDULED:
+      return 'scheduled';
     default:
       assertNever(catStat, `Unsupported category/status: ${catStat}`);
   }
@@ -149,6 +152,8 @@ export function iconFor(catStat: Category | RunStatus) {
       return 'placeholder';
     case RunStatus.RUNNING:
       return 'timelapse';
+    case RunStatus.SCHEDULED:
+      return 'scheduled';
     default:
       assertNever(catStat, `Unsupported category/status: ${catStat}`);
   }
@@ -175,6 +180,8 @@ export function headerForStatus(status: RunStatus) {
       return 'Not run';
     case RunStatus.RUNNING:
       return 'Running';
+    case RunStatus.SCHEDULED:
+      return 'Scheduled';
     default:
       assertNever(status, `Unsupported status: ${status}`);
   }
@@ -187,6 +194,7 @@ function primaryActionName(status: RunStatus) {
     case RunStatus.RUNNABLE:
       return PRIMARY_STATUS_ACTIONS.RUN;
     case RunStatus.RUNNING:
+    case RunStatus.SCHEDULED:
       return undefined;
     default:
       assertNever(status, `Unsupported status: ${status}`);
@@ -218,12 +226,16 @@ export function hasCompleted(run: CheckRun) {
   return run.status === RunStatus.COMPLETED;
 }
 
-export function isRunning(run: CheckRun) {
-  return run.status === RunStatus.RUNNING;
+export function isRunningOrScheduled(run: CheckRun) {
+  return run.status === RunStatus.RUNNING || run.status === RunStatus.SCHEDULED;
 }
 
-export function isRunningOrHasCompleted(run: CheckRun) {
-  return run.status === RunStatus.COMPLETED || run.status === RunStatus.RUNNING;
+export function isRunningScheduledOrCompleted(run: CheckRun) {
+  return (
+    run.status === RunStatus.COMPLETED ||
+    run.status === RunStatus.RUNNING ||
+    run.status === RunStatus.SCHEDULED
+  );
 }
 
 export function hasCompletedWithoutResults(run: CheckRun) {
@@ -257,10 +269,13 @@ export function getResultsOf(run: CheckRun, category: Category) {
 }
 
 export function compareByWorstCategory(a: CheckRun, b: CheckRun) {
-  return level(worstCategory(b)) - level(worstCategory(a));
+  const catComp = catLevel(worstCategory(b)) - catLevel(worstCategory(a));
+  if (catComp !== 0) return catComp;
+  const statusComp = runLevel(b.status) - runLevel(a.status);
+  return statusComp;
 }
 
-export function level(cat?: Category) {
+function catLevel(cat?: Category) {
   if (!cat) return -1;
   switch (cat) {
     case Category.SUCCESS:
@@ -271,6 +286,21 @@ export function level(cat?: Category) {
       return 2;
     case Category.ERROR:
       return 3;
+  }
+}
+
+function runLevel(status: RunStatus) {
+  switch (status) {
+    case RunStatus.COMPLETED:
+      return 0;
+    case RunStatus.RUNNABLE:
+      return 1;
+    case RunStatus.RUNNING:
+      return 2;
+    case RunStatus.SCHEDULED:
+      return 3;
+    default:
+      assertNever(status, `Unsupported status: ${status}`);
   }
 }
 

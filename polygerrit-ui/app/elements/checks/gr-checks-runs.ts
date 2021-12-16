@@ -743,108 +743,6 @@ export class GrChecksRuns extends LitElement {
     }
   }
 
-  none() {
-    this.getChecksModel().updateStateSetResults(
-      'f0',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f1',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f2',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f3',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f4',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f5',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-  }
-
-  all() {
-    this.getChecksModel().updateStateSetResults(
-      'f0',
-      [fakeRun0],
-      fakeActions,
-      fakeLinks,
-      'ETA: 1 min',
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f1',
-      [fakeRun1],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f2',
-      [fakeRun2],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f3',
-      [fakeRun3],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f4',
-      fakeRun4Att,
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f5',
-      [fakeRun5],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-  }
-
   toggle(
     plugin: string,
     runs: CheckRun[],
@@ -926,7 +824,9 @@ export class GrChecksRuns extends LitElement {
     return html`
       <div class="testing">
         <div>Toggle fake runs by clicking buttons:</div>
-        <gr-button link @click="${() => setAllFakeRuns(this.getChecksModel())}"
+        <gr-button
+          link
+          @click="${() => clearAllFakeRuns(this.getChecksModel())}"
           >none</gr-button
         >
         <gr-button
@@ -956,9 +856,7 @@ export class GrChecksRuns extends LitElement {
         <gr-button link @click="${() => this.toggle('f5', [fakeRun5])}"
           >5</gr-button
         >
-        <gr-button
-          link
-          @click="${() => clearAllFakeRuns(this.getChecksModel())}"
+        <gr-button link @click="${() => setAllFakeRuns(this.getChecksModel())}"
           >all</gr-button
         >
       </div>

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {check} from './common-util';
 
 /**
  * Event emitted from polymer elements.
@@ -277,14 +276,12 @@ export function whenVisible(
 ) {
   const observer = new IntersectionObserver(
     (entries: IntersectionObserverEntry[]) => {
-      check(
-        entries.length === 1,
-        `Expected 1 intersection observer entry, but got ${entries.length}.`
-      );
-      const entry = entries[0];
-      if (entry.isIntersecting) {
-        observer.unobserve(entry.target);
-        callback();
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          observer.unobserve(entry.target);
+          callback();
+          return;
+        }
       }
     },
     {rootMargin: `${marginPx}px`}

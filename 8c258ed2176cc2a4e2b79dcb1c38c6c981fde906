@@ -1,0 +1,256 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf132475_5287401c",
+        "filename": "java/com/google/gerrit/gpg/PushCertificateChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "Should this be \u0027%s\u0027?",
+      "range": {
+        "startLine": 109,
+        "startChar": 42,
+        "endLine": 109,
+        "endChar": 43
+      },
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "764148e1_22109250",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "Should this be \u0027%s\u0027?",
+      "range": {
+        "startLine": 189,
+        "startChar": 43,
+        "endLine": 189,
+        "endChar": 44
+      },
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31360645_f5dc4b4f",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "Should this be \u0027%s\u0027?",
+      "range": {
+        "startLine": 203,
+        "startChar": 43,
+        "endLine": 203,
+        "endChar": 44
+      },
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53e2f9cf_007b183e",
+        "filename": "java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "[optional] now this can be inlined",
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "986e8694_d12ea1cf",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "Should this be \u0027%s\u0027?",
+      "range": {
+        "startLine": 680,
+        "startChar": 41,
+        "endLine": 680,
+        "endChar": 42
+      },
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e012b9d4_622ed700",
+        "filename": "java/com/google/gerrit/httpd/plugins/PluginServletContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "[optional] inline this",
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e82e67f9_9dc7e56d",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "Should this be \u0027%s\u0027?",
+      "range": {
+        "startLine": 128,
+        "startChar": 46,
+        "endLine": 128,
+        "endChar": 47
+      },
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed1ad071_d8ff2c2f",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "[optional] Could be inlined now",
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7cc0fea_b86a2b36",
+        "filename": "java/com/google/gerrit/server/args4j/AccountIdHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "Inline?",
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "412c2ddf_af492c80",
+        "filename": "java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "Should this be \u0027%s\u0027?",
+      "range": {
+        "startLine": 102,
+        "startChar": 46,
+        "endLine": 102,
+        "endChar": 47
+      },
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61be7619_6e9d55cf",
+        "filename": "java/com/google/gerrit/server/edit/tree/ChangeFileContentModification.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "Should this be \u0027%s\u0027?",
+      "range": {
+        "startLine": 101,
+        "startChar": 44,
+        "endLine": 101,
+        "endChar": 45
+      },
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1981f1b1_dc03707f",
+        "filename": "java/com/google/gerrit/server/git/receive/LazyPostReceiveHookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-16T11:41:18Z",
+      "side": 1,
+      "message": "Should this be \u0027%s\u0027?\n\nProbably also in further files.",
+      "range": {
+        "startLine": 75,
+        "startChar": 32,
+        "endLine": 75,
+        "endChar": 33
+      },
+      "revId": "8c258ed2176cc2a4e2b79dcb1c38c6c981fde906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

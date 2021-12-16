@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0c8c32a_648f1164",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T21:53:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92518535_004e45ec",
+      "revId": "ae6367e0947d24d44a1b955c20fa7bbb7c6fd8c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d9d597f_8aa6219b",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1161e100_31919a7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T21:53:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d9d597f_8aa6219b",
+      "revId": "ae6367e0947d24d44a1b955c20fa7bbb7c6fd8c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35acdd65_1ac689f3",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-12-16T21:26:01Z",
       "side": 1,
       "message": "Are these move related to this change?",
+      "revId": "ae6367e0947d24d44a1b955c20fa7bbb7c6fd8c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e004f0aa_d9813b59",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T21:53:27Z",
+      "side": 1,
+      "message": "Yes, the gc() helper can now be private as we no longer call it in schema 146(or any other schema).",
+      "parentUuid": "35acdd65_1ac689f3",
       "revId": "ae6367e0947d24d44a1b955c20fa7bbb7c6fd8c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

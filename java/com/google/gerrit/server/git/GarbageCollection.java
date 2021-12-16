@@ -131,7 +131,7 @@ public class GarbageCollection {
       }
       b.append(s);
     }
-    logger.atInfo().log(b.toString());
+    logger.atInfo().log("%s", b);
   }
 
   private static void logGcConfiguration(
@@ -171,7 +171,7 @@ public class GarbageCollection {
     print(writer, "failed.\n\n");
     StringBuilder b = new StringBuilder();
     b.append("[").append(projectName.get()).append("]");
-    logger.atSevere().withCause(e).log(b.toString());
+    logger.atSevere().withCause(e).log("%s", b);
   }
 
   private static void print(PrintWriter writer, String message) {

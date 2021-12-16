@@ -327,7 +327,7 @@ public class ReplyAttentionSetUpdates {
       // message here, then it would be possible to probe whether an account exists.
     } catch (AuthException ex) {
       // adding users without permission to the attention set should fail silently.
-      logger.atFine().log(ex.getMessage());
+      logger.atFine().log("%s", ex.getMessage());
     }
   }
 
@@ -352,7 +352,7 @@ public class ReplyAttentionSetUpdates {
       // message here, then it would be possible to probe whether an account exists.
     } catch (AuthException ex) {
       // this should never happen since removing users with permissions should work.
-      logger.atSevere().log(ex.getMessage());
+      logger.atSevere().log("%s", ex.getMessage());
     }
   }
 

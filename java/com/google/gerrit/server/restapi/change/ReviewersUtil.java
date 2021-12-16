@@ -413,7 +413,7 @@ public class ReviewersUtil {
     GroupAsReviewer result = new GroupAsReviewer();
     int maxAllowed = suggestReviewers.getMaxAllowed();
     int maxAllowedWithoutConfirmation = suggestReviewers.getMaxAllowedWithoutConfirmation();
-    logger.atFine().log("maxAllowedWithoutConfirmation: " + maxAllowedWithoutConfirmation);
+    logger.atFine().log("maxAllowedWithoutConfirmation: %s", maxAllowedWithoutConfirmation);
 
     if (!ReviewerModifier.isLegalReviewerGroup(group.getUUID())) {
       logger.atFine().log("Ignore group %s that is not legal as reviewer", group.getUUID());

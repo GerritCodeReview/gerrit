@@ -321,7 +321,7 @@ public class PrologRuleEvaluator {
 
   private SubmitRecord ruleError(String err, Exception e) {
     if (opts.logErrors()) {
-      logger.atSevere().withCause(e).log(err);
+      logger.atSevere().withCause(e).log("%s", err);
       return createRuleError(DEFAULT_MSG);
     }
     logger.atFine().log("rule error: %s", err);
@@ -400,7 +400,7 @@ public class PrologRuleEvaluator {
 
   private SubmitTypeRecord typeError(String err, Exception e) {
     if (opts.logErrors()) {
-      logger.atSevere().withCause(e).log(err);
+      logger.atSevere().withCause(e).log("%s", err);
       return typeError(DEFAULT_MSG);
     }
     return SubmitTypeRecord.error(err);

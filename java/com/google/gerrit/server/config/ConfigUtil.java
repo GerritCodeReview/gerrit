@@ -145,7 +145,7 @@ public class ConfigUtil {
             list.add(getEnum(section, subsection, setting, string, all));
           } catch (IllegalArgumentException ex) {
             // It's better to ignore a wrongly configured enum, rather than fail to load Gerrit.
-            logger.atWarning().log(ex.getMessage());
+            logger.atWarning().log("%s", ex.getMessage());
           }
         }
       }

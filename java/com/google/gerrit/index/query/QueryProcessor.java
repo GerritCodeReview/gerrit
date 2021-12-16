@@ -245,7 +245,7 @@ public abstract class QueryProcessor<T> {
         // max for this user. The only way to see if there are more entities is to
         // ask for one more result from the query.
         QueryOptions opts = createOptions(indexConfig, start, limit + 1, getRequestedFields());
-        logger.atFine().log("Query options: " + opts);
+        logger.atFine().log("Query options: %s", opts);
         Predicate<T> pred = rewriter.rewrite(q, opts);
         if (enforceVisibility) {
           pred = enforceVisibility(pred);

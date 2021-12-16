@@ -145,7 +145,7 @@ public class AutoMerger {
       return existingCommit.get();
     }
     counter.increment(OperationType.IN_MEMORY_WRITE);
-    logger.atInfo().log("Computing in-memory AutoMerge for " + merge.name());
+    logger.atInfo().log("Computing in-memory AutoMerge for %s", merge.name());
     try (Timer1.Context<OperationType> ignored = latency.start(OperationType.IN_MEMORY_WRITE)) {
       return rw.parseCommit(createAutoMergeCommit(repo.getConfig(), rw, ins, merge, mergeStrategy));
     }

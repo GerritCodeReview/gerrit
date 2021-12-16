@@ -286,7 +286,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       setMerged(ctx, commit, message(ctx, commit, s));
     } catch (StorageException err) {
       String msg = "Error updating change status for " + id;
-      logger.atSevere().withCause(err).log(msg);
+      logger.atSevere().withCause(err).log("%s", msg);
       args.commitStatus.logProblem(id, msg);
       // It's possible this happened before updating anything in the db, but
       // it's hard to know for sure, so just return true below to be safe.

@@ -90,9 +90,9 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
         }
       }
     } catch (StorageException e) {
-      String msg = "database is down";
-      logger.atSevere().withCause(e).log(msg);
-      throw new CmdLineException(owner, localizable(msg));
+      CmdLineException newException = new CmdLineException(owner, localizable("database is down"));
+      newException.initCause(e);
+      throw newException;
     } catch (IOException e) {
       throw new CmdLineException(owner, "Failed to load account", e);
     } catch (ConfigInvalidException e) {

@@ -269,7 +269,7 @@ public class DeleteRef {
         msg = format("Cannot delete %s: %s", cmd.getRefName(), cmd.getResult());
         break;
     }
-    logger.atSevere().log(msg);
+    logger.atSevere().log("%s", msg);
     errorMessages.append(msg);
     errorMessages.append("\n");
   }

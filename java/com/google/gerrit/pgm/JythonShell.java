@@ -173,7 +173,7 @@ public class JythonShell {
         logger.atSevere().log("Cannot load resource %s", p);
       }
     } catch (IOException e) {
-      logger.atSevere().withCause(e).log(e.getMessage());
+      logger.atSevere().withCause(e).log("%s", e.getMessage());
     }
   }
 

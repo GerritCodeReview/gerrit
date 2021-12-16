@@ -441,7 +441,7 @@ public class CommitValidators {
         // This happens e.g. for cherrypicks.
         if (!receiveEvent.command.getRefName().startsWith(REFS_CHANGES)) {
           logger.atWarning().withCause(e).log(
-              "Failed to validate file count for commit: %s", receiveEvent.commit.toString());
+              "Failed to validate file count for commit: %s", receiveEvent.commit);
         }
       }
       return Collections.emptyList();
@@ -778,9 +778,7 @@ public class CommitValidators {
         }
         return Collections.emptyList();
       } catch (IOException e) {
-        String m = "error checking banned commits";
-        logger.atWarning().withCause(e).log(m);
-        throw new CommitValidationException(m, e);
+        throw new CommitValidationException("error checking banned commits", e);
       }
     }
   }
@@ -820,7 +818,6 @@ public class CommitValidators {
           return msgs;
         } catch (IOException | ConfigInvalidException e) {
           String m = "error validating external IDs";
-          logger.atWarning().withCause(e).log(m);
           throw new CommitValidationException(m, e);
         }
       }
@@ -877,7 +874,6 @@ public class CommitValidators {
         }
       } catch (IOException e) {
         String m = String.format("Validating update for account %s failed", accountId.get());
-        logger.atSevere().withCause(e).log(m);
         throw new CommitValidationException(m, e);
       }
       return Collections.emptyList();

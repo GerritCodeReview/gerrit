@@ -287,9 +287,9 @@ public class GroupsNoteDbConsistencyChecker {
 
   public static void logConsistencyProblem(ConsistencyProblemInfo p) {
     if (p.status == ConsistencyProblemInfo.Status.WARNING) {
-      logger.atWarning().log(p.message);
+      logger.atWarning().log("%s", p.message);
     } else {
-      logger.atSevere().log(p.message);
+      logger.atSevere().log("%s", p.message);
     }
   }
 

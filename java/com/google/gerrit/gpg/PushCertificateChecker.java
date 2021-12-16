@@ -106,7 +106,7 @@ public abstract class PushCertificateChecker {
       }
     } catch (PGPException | IOException e) {
       String msg = "Internal error checking push certificate";
-      logger.atSevere().withCause(e).log(msg);
+      logger.atSevere().withCause(e).log("%s", msg);
       results.add(CheckResult.bad(msg));
     }
 

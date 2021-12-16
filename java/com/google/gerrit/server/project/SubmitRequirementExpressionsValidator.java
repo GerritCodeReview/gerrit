@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
@@ -46,8 +45,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * {@link ProjectConfig} is cached in the project cache).
  */
 public class SubmitRequirementExpressionsValidator implements CommitValidationListener {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final DiffOperations diffOperations;
   private final ProjectConfig.Factory projectConfigFactory;
   private final SubmitRequirementsEvaluator submitRequirementsEvaluator;
@@ -86,16 +83,15 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
       }
       return ImmutableList.of();
     } catch (IOException | DiffNotAvailableException | ConfigInvalidException e) {
-      String errorMessage =
+      throw new CommitValidationException(
           String.format(
               "failed to validate submit requirement expressions in %s for revision %s in ref %s"
                   + " of project %s",
               ProjectConfig.PROJECT_CONFIG,
               event.commit.getName(),
               RefNames.REFS_CONFIG,
-              event.project.getNameKey());
-      logger.atSevere().withCause(e).log(errorMessage);
-      throw new CommitValidationException(errorMessage, e);
+              event.project.getNameKey()),
+          e);
     }
   }
 

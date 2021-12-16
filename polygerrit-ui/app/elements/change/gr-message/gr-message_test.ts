@@ -239,19 +239,6 @@ suite('gr-message tests', () => {
       assert.isNotOk(element._computeShowOnBehalfOf(message));
     });
 
-    ['Trybot-Ready', 'Tryjob-Request', 'Commit-Queue'].forEach(label => {
-      test(`${label} ignored for color voting`, () => {
-        element.message = {
-          ...createChangeMessage(),
-          author: {},
-          expanded: false,
-          message: `Patch Set 1: ${label}+1`,
-        };
-        assert.isNotOk(query(element, '.negativeVote'));
-        assert.isNotOk(query(element, '.positiveVote'));
-      });
-    });
-
     test('clicking on date link fires event', () => {
       element.message = {
         ...createChangeMessage(),
@@ -529,6 +516,23 @@ suite('gr-message tests', () => {
 
       assert.isTrue(scoreChips[2].classList.contains('positive'));
       assert.isFalse(scoreChips[2].classList.contains('min'));
+    });
+
+    test('Uploaded and rebased', () => {
+      element.message = {
+        ...createChangeMessage(),
+        author: {},
+        expanded: false,
+        message:
+          'Uploaded patch set 4: Commit-Queue+1: Patch Set 3 was rebased.',
+      };
+      element.labelExtremes = {
+        'Commit-Queue': {max: 2, min: -2},
+      };
+      flush();
+      const scoreChips = queryAll(element, '.score');
+      assert.equal(scoreChips.length, 1);
+      assert.isTrue(scoreChips[0].classList.contains('positive'));
     });
 
     test('removed votes', () => {

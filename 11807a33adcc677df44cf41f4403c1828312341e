@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "154aef8e_242aed16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T17:34:48Z",
+      "side": 1,
+      "message": "Below cmd was used to run tests:\n\nbazelisk test --test_env\u003dGERRIT_NOTEDB\u003dON --java_toolchain\u003d//tools:error_prone_warnings_toolchain --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky,-elastic //...\n",
+      "revId": "11807a33adcc677df44cf41f4403c1828312341e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -82,6 +82,36 @@ declare global {
   }
 }
 
+export const tagStyles = css`
+  .tag {
+    color: var(--primary-text-color);
+    display: inline-block;
+    border-radius: 20px;
+    background-color: var(--tag-background);
+    padding: 0 var(--spacing-m);
+    margin-left: var(--spacing-s);
+    cursor: pointer;
+  }
+  .tag.gray {
+    background-color: var(--tag-gray);
+  }
+  .tag.yellow {
+    background-color: var(--tag-yellow);
+  }
+  .tag.pink {
+    background-color: var(--tag-pink);
+  }
+  .tag.purple {
+    background-color: var(--tag-purple);
+  }
+  .tag.cyan {
+    background-color: var(--tag-cyan);
+  }
+  .tag.brown {
+    background-color: var(--tag-brown);
+  }
+`;
+
 @customElement('gr-result-row')
 class GrResultRow extends LitElement {
   @query('td.nameCol div.name')
@@ -114,6 +144,7 @@ class GrResultRow extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      tagStyles,
       css`
         :host {
           display: contents;
@@ -215,33 +246,6 @@ class GrResultRow extends LitElement {
         }
         tr.detailsRow.collapsed {
           display: none;
-        }
-        td .summary-cell .tags .tag {
-          color: var(--primary-text-color);
-          display: inline-block;
-          border-radius: 20px;
-          background-color: var(--tag-background);
-          padding: 0 var(--spacing-m);
-          margin-left: var(--spacing-s);
-          cursor: pointer;
-        }
-        td .summary-cell .tag.gray {
-          background-color: var(--tag-gray);
-        }
-        td .summary-cell .tag.yellow {
-          background-color: var(--tag-yellow);
-        }
-        td .summary-cell .tag.pink {
-          background-color: var(--tag-pink);
-        }
-        td .summary-cell .tag.purple {
-          background-color: var(--tag-purple);
-        }
-        td .summary-cell .tag.cyan {
-          background-color: var(--tag-cyan);
-        }
-        td .summary-cell .tag.brown {
-          background-color: var(--tag-brown);
         }
         .actions gr-checks-action,
         .actions gr-dropdown {
@@ -556,6 +560,9 @@ class GrResultExpanded extends LitElement {
   @property({attribute: false})
   result?: RunResult;
 
+  @property({type: Boolean})
+  hideCodePointers = false;
+
   @state()
   repoConfig?: ConfigInfo;
 
@@ -639,6 +646,7 @@ class GrResultExpanded extends LitElement {
   }
 
   private renderCodePointers() {
+    if (this.hideCodePointers) return;
     const pointers = this.result?.codePointers ?? [];
     if (pointers.length === 0) return;
     const links = pointers.map(pointer => {

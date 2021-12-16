@@ -55,6 +55,7 @@ import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Execution} from '../../constants/reporting';
 import {fireAlert, fireEvent} from '../../utils/event-util';
 import {RouterModel} from '../router/router-model';
+import {fakeRun1} from './checks-fakes';
 
 /**
  * The checks model maintains the state of checks for two patchsets: the latest
@@ -320,6 +321,27 @@ export class ChecksModel implements Finalizable {
       .filter(r => r !== undefined)
   );
 
+  public allResultsLatest$ = select(this.checksLatest$, state =>
+    Object.values(state)
+      .reduce(
+        (allResults: RunResult[], providerState: ChecksProviderState) => [
+          ...allResults,
+          ...providerState.runs.reduce(
+            (results: RunResult[], run: CheckRun) => {
+              const runResults: RunResult[] =
+                run.results?.map(r => {
+                  return {...run, ...r};
+                }) ?? [];
+              return results.concat(runResults ?? []);
+            },
+            []
+          ),
+        ],
+        []
+      )
+      .filter(r => r !== undefined)
+  );
+
   constructor(
     readonly routerModel: RouterModel,
     readonly changeModel: ChangeModel,
@@ -353,6 +375,7 @@ export class ChecksModel implements Finalizable {
     );
     this.reloadListener = () => this.reloadAll();
     document.addEventListener('reload', this.reloadListener);
+    this.updateStateSetResults('f1', [fakeRun1], [], [], ChecksPatchset.LATEST);
   }
 
   finalize() {

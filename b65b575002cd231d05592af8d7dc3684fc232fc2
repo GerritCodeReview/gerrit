@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bd1e5d0a_e7d0e2fb",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T19:27:07Z",
+      "side": 1,
+      "message": "Attempted to fix in next PS",
+      "parentUuid": "f5e730fa_a4ddffe3",
+      "revId": "b65b575002cd231d05592af8d7dc3684fc232fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "831bb5cd_4f8e646f",
         "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
         "patchSetId": 7
@@ -49,6 +67,24 @@
       "writtenOn": "2021-12-16T18:57:15Z",
       "side": 1,
       "message": "This feels a bit like a miss-use of equals(). Normally you would compare the projects(keys) externally to this class.",
+      "revId": "b65b575002cd231d05592af8d7dc3684fc232fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "124d7aeb_380e760f",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-16T19:27:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "831bb5cd_4f8e646f",
       "revId": "b65b575002cd231d05592af8d7dc3684fc232fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

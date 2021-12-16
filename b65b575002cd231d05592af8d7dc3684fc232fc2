@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d872824_0981990c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-12-16T21:24:18Z",
+      "side": 1,
+      "message": "There is no explanation as to why doing this in the bg is better?",
+      "revId": "b65b575002cd231d05592af8d7dc3684fc232fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "69e8b163_f52a36df",
         "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
         "patchSetId": 7

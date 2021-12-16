@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b00a485_e90e5336",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-12-16T14:30:57Z",
+      "side": 1,
+      "message": "Does the inclusion of \u0027context metadata\u0027 [1] impact the content of our log messages?\n\nAlso, these per() methods [2] that comes as part of this upgrade look useful!\n\n[1] https://github.com/google/flogger/commit/9d7d2c6a099a9c0c31d584fe2dd062d8fa1ba7a4\n[2] https://github.com/google/flogger/commit/69c74802098e9f83ae903e23a7e73e2f25351eea",
+      "revId": "02c9e62de80a1604a64f8b6e2aedf7210f0aa415",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

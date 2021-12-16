@@ -422,7 +422,11 @@ export declare interface CheckResult {
   links?: Link[];
 
   /**
-   * Links to lines of code. The referenced path must be part of this patchset.
+   * Link to lines of code. The referenced path must be part of this patchset.
+   *
+   * Only one code pointer is supported. If the array contains, more than one
+   * pointer, then all the other pointers will be ignored. Support for multiple
+   * code pointers will only added on demand.
    */
   codePointers?: CodePointer[];
 

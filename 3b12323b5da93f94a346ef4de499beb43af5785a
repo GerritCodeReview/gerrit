@@ -253,6 +253,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "007a09b5_17c51fcb",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-12-16T19:32:46Z",
+      "side": 1,
+      "message": "Doh, I missed that, sorry!",
+      "parentUuid": "60295be4_e2c659dc",
+      "revId": "3b12323b5da93f94a346ef4de499beb43af5785a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1641d331_74cbaaa2",

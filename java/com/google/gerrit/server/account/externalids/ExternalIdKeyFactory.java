@@ -65,9 +65,23 @@ public class ExternalIdKeyFactory {
    * @return the created external ID key
    */
   public ExternalId.Key create(@Nullable String scheme, String id) {
+    return create(scheme, id, isUserNameCaseInsensitive);
+  }
+
+  /**
+   * Creates an external ID key.
+   *
+   * @param scheme the scheme name, must not contain colons (':'). E.g. {@link
+   *     ExternalId#SCHEME_USERNAME}.
+   * @param id the external ID, must not contain colons (':')
+   * @param userNameCaseInsensitive whether the external ID key is matched case insensitively
+   * @return the created external ID key
+   */
+  public ExternalId.Key create(
+      @Nullable String scheme, String id, boolean userNameCaseInsensitive) {
     if (scheme != null
         && (scheme.equals(ExternalId.SCHEME_USERNAME) || scheme.equals(ExternalId.SCHEME_GERRIT))) {
-      return ExternalId.Key.create(scheme, id, isUserNameCaseInsensitive);
+      return ExternalId.Key.create(scheme, id, userNameCaseInsensitive);
     }
 
     return ExternalId.Key.create(scheme, id, false);

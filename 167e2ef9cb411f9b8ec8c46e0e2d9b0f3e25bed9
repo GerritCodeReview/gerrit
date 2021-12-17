@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26edb2e0_71b96964",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2021-12-17T17:32:53Z",
+      "side": 1,
+      "message": "Android license? Is this correct",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 53
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72a1a5c2_6d87521b",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2021-12-17T17:32:53Z",
+      "side": 1,
+      "message": "nit to rename stupid to unexpected",
+      "range": {
+        "startLine": 99,
+        "startChar": 25,
+        "endLine": 99,
+        "endChar": 31
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "568e6435_80d73beb",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2021-12-17T17:32:53Z",
+      "side": 1,
+      "message": "if it is not expanded thoughts on doing a \n\nthis.isExpanded ? nothing : this.result.message\n\nto avoid rendering the DOM",
+      "range": {
+        "startLine": 151,
+        "startChar": 9,
+        "endLine": 153,
+        "endChar": 16
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c7f5ca1_c69338c8",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2021-12-17T17:32:53Z",
+      "side": 1,
+      "message": "even if something is hidden it is technically still reachable via tabbing, is this the intention? if not +1 to using the nothing render approach",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 43
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87887549_0952c7aa",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2021-12-17T17:32:53Z",
+      "side": 1,
+      "message": "render nothing instead of undefined",
+      "range": {
+        "startLine": 178,
+        "startChar": 26,
+        "endLine": 178,
+        "endChar": 32
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

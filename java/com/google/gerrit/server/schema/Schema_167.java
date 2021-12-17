@@ -121,6 +121,7 @@ public class Schema_167 extends SchemaVersion {
 
       inserter.flush();
       RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
+      runGcInBackground(repoManager, allUsersName, ui);
     } catch (IOException | ConfigInvalidException e) {
       throw new OrmException(
           String.format("Failed to migrate groups to NoteDb for %s", allUsersName.get()), e);

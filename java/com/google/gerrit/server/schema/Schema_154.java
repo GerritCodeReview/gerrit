@@ -100,6 +100,7 @@ public class Schema_154 extends SchemaVersion {
         inserter.flush();
         bru.execute(rw, pm);
         pm.endTask();
+        runGcInBackground(repoManager, allUsersName, ui);
       }
     } catch (IOException | ConfigInvalidException e) {
       throw new OrmException("Migrating accounts to NoteDb failed", e);

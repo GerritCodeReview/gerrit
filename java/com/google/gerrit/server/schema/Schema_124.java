@@ -116,6 +116,7 @@ public class Schema_124 extends SchemaVersion {
       }
       inserter.flush();
       bru.execute(rw, NullProgressMonitor.INSTANCE);
+      runGcInBackground(repoManager, allUsersName, ui);
     } catch (ConfigInvalidException | IOException ex) {
       throw new OrmException(ex);
     }

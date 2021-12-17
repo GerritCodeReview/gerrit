@@ -105,6 +105,7 @@ public class Schema_161 extends SchemaVersion {
         bru.addCommand(new ReceiveCommand(ref.getTarget().getObjectId(), id, ref.getName()));
       }
       bru.execute(rw, new TextProgressMonitor());
+      runGcInBackground(repoManager, allUsersName, ui);
     } catch (IOException | IllegalLabelException ex) {
       throw new OrmException(ex);
     }

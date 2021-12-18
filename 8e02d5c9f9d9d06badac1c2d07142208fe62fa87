@@ -52,6 +52,23 @@
       "parentUuid": "1e4911b9_733dc978",
       "revId": "8e02d5c9f9d9d06badac1c2d07142208fe62fa87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4edd2efa_3bebf394",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-18T02:29:51Z",
+      "side": 1,
+      "message": "Gerrit v3.2 is EOL now: are we sure we want to make such big changes on it?",
+      "revId": "8e02d5c9f9d9d06badac1c2d07142208fe62fa87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

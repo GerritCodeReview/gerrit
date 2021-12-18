@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 public class FakeStoredValue implements StoredValue {
   private final Object field;
 
-  FakeStoredValue(Object field) {
+  public FakeStoredValue(Object field) {
     this.field = field;
   }
 

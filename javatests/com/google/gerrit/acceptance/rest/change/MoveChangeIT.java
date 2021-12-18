@@ -176,11 +176,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
     BranchNameKey newBranch =
         BranchNameKey.create(r1.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
-    ResourceConflictException thrown =
-        assertThrows(
-            ResourceConflictException.class,
-            () -> move(GitUtil.getChangeId(testRepo, c).get(), newBranch.branch()));
-    assertThat(thrown).hasMessageThat().contains("Merge commit cannot be moved");
+    String changeId = GitUtil.getChangeId(testRepo, c).get();
+    move(changeId, newBranch.branch());
+    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("moveTest");
   }
 
   @Test

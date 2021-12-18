@@ -1,0 +1,44 @@
+= gerrit migrate-externalids-to-insensitive
+
+== NAME
+gerrit migrate-externalids-to-insensitive - Migrate external-ids to case insensitive.
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit migrate-externalids-to-insensitive_
+--
+
+== DESCRIPTION
+This command allows to trigger online conversion of `username` and
+`gerrit` external IDs to be handled case insensitively. This is done by
+recomputing the name of the note from the sha1 sum of the all lowercase
+external ID key, instead of preserving the key capitalization.
+
+The command requires link:#auth.userNameCaseInsensitive[auth.userNameCaseInsensitive] and
+link:#auth.userNameCaseInsensitiveMigrationMode[auth.userNameCaseInsensitiveMigrationMode] to
+be set to true to perform the migration.
+
+After the successful migration
+link:#auth.userNameCaseInsensitiveMigrationMode[auth.userNameCaseInsensitiveMigrationMode] is
+set to false.
+
+== ACCESS
+Caller must be a member of the privileged 'Administrators' group.
+
+== SCRIPTING
+This command is intended to be used in scripts.
+
+== EXAMPLES
+Start the online external ids migration:
+
+----
+$ ssh -p 29418 review.example.com gerrit migrate-externalids-to-insensitive
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -200,9 +200,6 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
           RevWalk revWalk = new RevWalk(repo)) {
         RevCommit currPatchsetRevCommit =
             revWalk.parseCommit(psUtil.current(ctx.getNotes()).commitId());
-        if (currPatchsetRevCommit.getParentCount() > 1) {
-          throw new ResourceConflictException("Merge commit cannot be moved");
-        }
 
         ObjectId refId = repo.resolve(input.destinationBranch);
         // Check if destination ref exists in project repo

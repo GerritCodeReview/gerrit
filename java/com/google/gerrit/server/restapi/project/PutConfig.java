@@ -163,7 +163,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       md.setMessage("Modified project settings\n");
       try {
         projectConfig.commit(md);
-        projectCache.evict(projectConfig.getProject());
+        projectCache.evictAndReindex(projectConfig.getProject());
         md.getRepository().setGitwebDescription(projectConfig.getProject().getDescription());
       } catch (IOException e) {
         if (e.getCause() instanceof ConfigInvalidException) {

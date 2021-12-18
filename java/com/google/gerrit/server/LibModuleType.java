@@ -18,13 +18,16 @@ package com.google.gerrit.server;
 public enum LibModuleType {
 
   /** Module for the sysInjector. */
-  SYS_MODULE("Module"),
+  SYS_MODULE_TYPE("Module"),
 
   /** BatchModule for the sysInjector */
-  SYS_BATCH_MODULE("BatchModule"),
+  SYS_BATCH_MODULE_TYPE("BatchModule"),
 
   /** Module for the dbInjector. */
-  DB_MODULE("DbModule");
+  DB_MODULE_TYPE("DbModule"),
+
+  /** Module for the implementation of the indexing backend. */
+  INDEX_MODULE_TYPE("IndexModule");
 
   private final String configKey;
 

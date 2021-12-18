@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsNoteDbConsistencyChecker;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -54,15 +55,18 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
   private final ListeningExecutorService executor;
   private final GroupCache groupCache;
   private final Groups groups;
+  private final IsFirstInsertForEntry isFirstInsertForEntry;
 
   @Inject
   AllGroupsIndexer(
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       GroupCache groupCache,
-      Groups groups) {
+      Groups groups,
+      IsFirstInsertForEntry isFirstInsertForEntry) {
     this.executor = executor;
     this.groupCache = groupCache;
     this.groups = groups;
+    this.isFirstInsertForEntry = isFirstInsertForEntry;
   }
 
   @Override
@@ -96,9 +100,14 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
           executor.submit(
               () -> {
                 try {
+                  groupCache.evict(uuid);
                   InternalGroup internalGroup = reindexedGroups.get(uuid);
                   if (internalGroup != null) {
-                    index.replace(internalGroup);
+                    if (isFirstInsertForEntry.equals(IsFirstInsertForEntry.YES)) {
+                      index.insert(internalGroup);
+                    } else {
+                      index.replace(internalGroup);
+                    }
                   } else {
                     index.delete(uuid);
 

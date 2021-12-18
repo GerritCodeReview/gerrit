@@ -226,7 +226,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       ObjectId oldId = pc.getRevision();
       ObjectId newId = pc.commit(md);
       assertThat(newId).isNotEqualTo(oldId);
-      projectCache.evict(pc.getProject());
+      projectCache.evictAndReindex(pc.getProject());
     }
   }
 

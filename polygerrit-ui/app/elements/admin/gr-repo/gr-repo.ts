@@ -736,7 +736,10 @@ export class GrRepo extends LitElement {
       <h3 class="heading-3">Plugins</h3>
       ${pluginData.map(
         item => html`
-          <gr-repo-plugin-config .pluginData=${item}></gr-repo-plugin-config>
+          <gr-repo-plugin-config
+            .pluginData=${item}
+            ?disabled=${this.readOnly}
+          ></gr-repo-plugin-config>
         `
       )}
     </div>`;

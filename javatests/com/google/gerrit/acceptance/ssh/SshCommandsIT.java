@@ -81,7 +81,8 @@ public class SshCommandsIT extends AbstractDaemonTest {
           "set-reviewers",
           "set-topic",
           "stream-events",
-          "test-submit");
+          "test-submit",
+          "migrate-externalids-to-insensitive");
 
   private static final ImmutableList<String> EMPTY = ImmutableList.of();
   private static final ImmutableMap<String, List<String>> MASTER_COMMANDS =

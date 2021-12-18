@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.common.ChangeInfoDifference;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
@@ -98,13 +99,13 @@ public class GetMetaDiff
 
   @Override
   public Response<ChangeInfoDifference> apply(ChangeResource resource)
-      throws BadRequestException, PreconditionFailedException, IOException {
+      throws RestApiException, IOException {
     return Response.ok(
         ChangeInfoDiffer.getDifference(getOldChangeInfo(resource), getNewChangeInfo(resource)));
   }
 
   private ChangeInfo getOldChangeInfo(ChangeResource resource)
-      throws BadRequestException, IOException, PreconditionFailedException {
+      throws RestApiException, IOException {
     GetChange getChange = createGetChange();
     getChange.setMetaRevId(getOldMetaRevId(resource));
     ChangeInfo oldChangeInfo;
@@ -137,7 +138,7 @@ public class GetMetaDiff
   }
 
   private ChangeInfo getNewChangeInfo(ChangeResource resource)
-      throws BadRequestException, PreconditionFailedException, IOException {
+      throws RestApiException, IOException {
     GetChange getChange = createGetChange();
     getChange.setMetaRevId(getNewMetaRevId(resource));
     return getChange.apply(resource).value();

@@ -56,8 +56,7 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
   @Inject private TestCommentHelper testCommentHelper;
 
   /** Resource to bind a child collection. */
-  public static final TypeLiteral<RestView<TestPluginResource>> TEST_KIND =
-      new TypeLiteral<RestView<TestPluginResource>>() {};
+  public static final TypeLiteral<RestView<TestPluginResource>> TEST_KIND = new TypeLiteral<>() {};
 
   private static final String PLUGIN_NAME = "my-plugin";
 

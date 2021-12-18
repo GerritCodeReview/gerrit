@@ -30,7 +30,7 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
-load("//tools:nongoogle.bzl", "TESTCONTAINERS_VERSION", "declare_nongoogle_deps")
+load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
 load("//tools:deps.bzl", "CAFFEINE_VERS", "java_dependencies")
 
 http_archive(
@@ -48,6 +48,7 @@ load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 # Creates a default toolchain config for RBE.
 rbe_autoconfig(
     name = "rbe_jdk11",
+    bazel_version = "4.0.0",
     java_home = "/usr/lib/jvm/11.29.3-ca-jdk11.0.2/reduced",
     use_checked_in_confs = "Force",
 )

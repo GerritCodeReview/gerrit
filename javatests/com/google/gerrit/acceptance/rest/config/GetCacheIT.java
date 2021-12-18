@@ -18,8 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.server.restapi.config.ListCaches.CacheInfo;
-import com.google.gerrit.server.restapi.config.ListCaches.CacheType;
+import com.google.gerrit.server.cache.CacheInfo;
 import org.junit.Test;
 
 public class GetCacheIT extends AbstractDaemonTest {
@@ -31,7 +30,7 @@ public class GetCacheIT extends AbstractDaemonTest {
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
 
     assertThat(result.name).isEqualTo("accounts");
-    assertThat(result.type).isEqualTo(CacheType.MEM);
+    assertThat(result.type).isEqualTo(CacheInfo.CacheType.MEM);
     assertThat(result.entries.mem).isAtLeast(1L);
     assertThat(result.averageGet).isNotNull();
     assertThat(result.averageGet).endsWith("s");

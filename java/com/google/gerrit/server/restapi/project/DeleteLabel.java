@@ -90,7 +90,7 @@ public class DeleteLabel implements RestModifyView<LabelResource, InputWithCommi
       config.commit(md);
     }
 
-    projectCache.evict(rsrc.getProject().getProjectState().getProject());
+    projectCache.evictAndReindex(rsrc.getProject().getProjectState().getProject());
 
     return Response.none();
   }

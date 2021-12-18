@@ -125,7 +125,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       }
 
       config.commit(md);
-      projectCache.evict(config.getProject());
+      projectCache.evictAndReindex(config.getProject());
       createGroupPermissionSyncer.syncIfNeeded();
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());

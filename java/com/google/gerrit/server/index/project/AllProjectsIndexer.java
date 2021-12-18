@@ -27,6 +27,7 @@ import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -48,12 +49,16 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
 
   private final ListeningExecutorService executor;
   private final ProjectCache projectCache;
+  private final IsFirstInsertForEntry isFirstInsertForEntry;
 
   @Inject
   AllProjectsIndexer(
-      @IndexExecutor(BATCH) ListeningExecutorService executor, ProjectCache projectCache) {
+      @IndexExecutor(BATCH) ListeningExecutorService executor,
+      ProjectCache projectCache,
+      IsFirstInsertForEntry isFirstInsertForEntry) {
     this.executor = executor;
     this.projectCache = projectCache;
+    this.isFirstInsertForEntry = isFirstInsertForEntry;
   }
 
   @Override
@@ -79,8 +84,13 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
               () -> {
                 try {
                   projectCache.evict(name);
-                  index.replace(
-                      projectCache.get(name).orElseThrow(illegalState(name)).toProjectData());
+                  ProjectData projectData =
+                      projectCache.get(name).orElseThrow(illegalState(name)).toProjectData();
+                  if (isFirstInsertForEntry.equals(IsFirstInsertForEntry.YES)) {
+                    index.insert(projectData);
+                  } else {
+                    index.replace(projectData);
+                  }
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();
                 } catch (Exception e) {

@@ -479,7 +479,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       // TODO(dborowitz): Move to BatchUpdate? Would also allow us to run once
       // per project even if multiple changes to refs/meta/config are submitted.
       if (RefNames.REFS_CONFIG.equals(getDest().branch())) {
-        args.projectCache.evict(getProject());
+        args.projectCache.evictAndReindex(getProject());
         ProjectState p =
             args.projectCache.get(getProject()).orElseThrow(illegalState(getProject()));
         try (Repository git = args.repoManager.openRepository(getProject())) {

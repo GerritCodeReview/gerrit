@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
+import static com.google.gerrit.httpd.GitOverHttpServlet.GIT_COMMAND_STATUS_HEADER;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.httpd.RequestMetricsFilter;
@@ -55,6 +57,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   protected static final String P_CPU_TOTAL = "Cpu-Total";
   protected static final String P_CPU_USER = "Cpu-User";
   protected static final String P_MEMORY = "Memory";
+  protected static final String P_COMMAND_STATUS = "Command-Status";
 
   private final AsyncAppender async;
 
@@ -117,6 +120,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
     set(event, P_LATENCY, System.currentTimeMillis() - req.getTimeStamp());
     set(event, P_REFERER, req.getHeader("Referer"));
     set(event, P_USER_AGENT, req.getHeader("User-Agent"));
+    set(event, P_COMMAND_STATUS, rsp.getHeader(GIT_COMMAND_STATUS_HEADER));
 
     RequestMetricsFilter.Context ctx =
         (RequestMetricsFilter.Context) req.getAttribute(RequestMetricsFilter.METRICS_CONTEXT);

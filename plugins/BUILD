@@ -82,7 +82,6 @@ EXPORTS = [
     "//lib/guice:javax_inject",
     "//lib/httpcomponents:httpclient",
     "//lib/httpcomponents:httpcore",
-    "//lib/jackson:jackson-core",
     "//lib:jgit-servlet",
     "//lib:jgit",
     "//lib:jsr305",

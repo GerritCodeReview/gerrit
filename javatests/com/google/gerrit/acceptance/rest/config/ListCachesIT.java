@@ -21,8 +21,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.server.restapi.config.ListCaches.CacheInfo;
-import com.google.gerrit.server.restapi.config.ListCaches.CacheType;
+import com.google.gerrit.server.cache.CacheInfo;
 import com.google.gson.reflect.TypeToken;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +39,7 @@ public class ListCachesIT extends AbstractDaemonTest {
 
     assertThat(result).containsKey("accounts");
     CacheInfo accountsCacheInfo = result.get("accounts");
-    assertThat(accountsCacheInfo.type).isEqualTo(CacheType.MEM);
+    assertThat(accountsCacheInfo.type).isEqualTo(CacheInfo.CacheType.MEM);
     assertThat(accountsCacheInfo.entries.mem).isAtLeast(1L);
     assertThat(accountsCacheInfo.averageGet).isNotNull();
     assertThat(accountsCacheInfo.averageGet).endsWith("s");

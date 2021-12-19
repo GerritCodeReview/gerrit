@@ -14,18 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../test/common-test-setup-karma.js';
-import './gr-change-list.js';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {mockPromise, pressKey} from '../../../test/test-utils.js';
-import {YOUR_TURN} from '../../core/gr-navigation/gr-navigation.js';
-import {Key} from '../../../utils/dom-util.js';
+import '../../../test/common-test-setup-karma';
+import './gr-change-list';
+import {GrChangeList} from './gr-change-list';
+import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  mockPromise,
+  pressKey,
+  query,
+  queryAll,
+  queryAndAssert,
+  stubFlags,
+} from '../../../test/test-utils';
+import {YOUR_TURN} from '../../core/gr-navigation/gr-navigation';
+import {Key} from '../../../utils/dom-util';
+import {TimeFormat} from '../../../constants/constants';
+import {AccountId, NumericChangeId} from '../../../types/common';
+import {
+  createChange,
+  createServerInfo,
+} from '../../../test/test-data-generators';
+import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 
 const basicFixture = fixtureFromElement('gr-change-list');
 
 suite('gr-change-list basic tests', () => {
-  let element;
+  let element: GrChangeList;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -36,7 +51,7 @@ suite('gr-change-list basic tests', () => {
       element = basicFixture.instantiate();
       element.account = undefined;
       element.preferences = undefined;
-      element._config = {};
+      element._config = createServerInfo();
     });
 
     test('show number disabled', () => {
@@ -49,11 +64,11 @@ suite('gr-change-list basic tests', () => {
       element = basicFixture.instantiate();
       element.preferences = {
         legacycid_in_change_table: true,
-        time_format: 'HHMM_12',
+        time_format: TimeFormat.HHMM_12,
         change_table: [],
       };
-      element.account = {_account_id: 1001};
-      element._config = {};
+      element.account = {_account_id: 1001 as AccountId};
+      element._config = createServerInfo();
       flush();
     });
 
@@ -67,11 +82,11 @@ suite('gr-change-list basic tests', () => {
       element = basicFixture.instantiate();
       // legacycid_in_change_table is not set when false.
       element.preferences = {
-        time_format: 'HHMM_12',
+        time_format: TimeFormat.HHMM_12,
         change_table: [],
       };
-      element.account = {_account_id: 1001};
-      element._config = {};
+      element.account = {_account_id: 1001 as AccountId};
+      element._config = createServerInfo();
       flush();
     });
 
@@ -81,68 +96,96 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('computed fields', () => {
-    assert.equal(element._computeLabelNames(
-        [{results: [{_number: 0, labels: {}}]}]).length, 0);
-    assert.equal(element._computeLabelNames([
-      {results: [
-        {_number: 0, labels: {Verified: {approved: {}}}},
+    assert.equal(
+      element._computeLabelNames([
         {
-          _number: 1,
-          labels: {
-            'Verified': {approved: {}},
-            'Code-Review': {approved: {}},
-          },
+          results: [
+            {...createChange(), _number: 0 as NumericChangeId, labels: {}},
+          ],
         },
+      ]).length,
+      0
+    );
+    assert.equal(
+      element._computeLabelNames([
         {
-          _number: 2,
-          labels: {
-            'Verified': {approved: {}},
-            'Library-Compliance': {approved: {}},
-          },
+          results: [
+            {
+              ...createChange(),
+              _number: 0 as NumericChangeId,
+              labels: {Verified: {approved: {}}},
+            },
+            {
+              ...createChange(),
+              _number: 1 as NumericChangeId,
+              labels: {
+                Verified: {approved: {}},
+                'Code-Review': {approved: {}},
+              },
+            },
+            {
+              ...createChange(),
+              _number: 2 as NumericChangeId,
+              labels: {
+                Verified: {approved: {}},
+                'Library-Compliance': {approved: {}},
+              },
+            },
+          ],
         },
-      ]},
-    ]).length, 3);
+      ]).length,
+      3
+    );
 
     assert.equal(element._computeLabelShortcut('Code-Review'), 'CR');
     assert.equal(element._computeLabelShortcut('Verified'), 'V');
     assert.equal(element._computeLabelShortcut('Library-Compliance'), 'LC');
     assert.equal(element._computeLabelShortcut('PolyGerrit-Review'), 'PR');
     assert.equal(element._computeLabelShortcut('polygerrit-review'), 'PR');
-    assert.equal(element._computeLabelShortcut(
-        'Invalid-Prolog-Rules-Label-Name--Verified'), 'V');
-    assert.equal(element._computeLabelShortcut(
-        'Some-Special-Label-7'), 'SSL7');
-    assert.equal(element._computeLabelShortcut('--Too----many----dashes---'),
-        'TMD');
-    assert.equal(element._computeLabelShortcut(
-        'Really-rather-entirely-too-long-of-a-label-name'), 'RRETL');
+    assert.equal(
+      element._computeLabelShortcut(
+        'Invalid-Prolog-Rules-Label-Name--Verified'
+      ),
+      'V'
+    );
+    assert.equal(element._computeLabelShortcut('Some-Special-Label-7'), 'SSL7');
+    assert.equal(
+      element._computeLabelShortcut('--Too----many----dashes---'),
+      'TMD'
+    );
+    assert.equal(
+      element._computeLabelShortcut(
+        'Really-rather-entirely-too-long-of-a-label-name'
+      ),
+      'RRETL'
+    );
   });
 
   test('colspans', () => {
-    element.sections = [
-      {results: [{}]},
-    ];
+    element.sections = [{results: [{...createChange()}]}];
     flush();
-    const tdItemCount = element.root.querySelectorAll(
-        'td').length;
+    const tdItemCount = queryAll<HTMLTableElement>(element, 'td').length;
 
-    const changeTableColumns = [];
-    const labelNames = [];
-    assert.equal(tdItemCount, element._computeColspan(
-        {}, changeTableColumns, labelNames));
+    const changeTableColumns: string[] | undefined = [];
+    const labelNames: string[] | undefined = [];
+    assert.equal(
+      tdItemCount,
+      element._computeColspan(
+        {results: [{...createChange()}]},
+        changeTableColumns,
+        labelNames
+      )
+    );
   });
 
   test('keyboard shortcuts', async () => {
     sinon.stub(element, '_computeLabelNames');
-    element.sections = [
-      {results: new Array(1)},
-      {results: new Array(2)},
-    ];
+    element.sections = [{results: new Array(1)}, {results: new Array(2)}];
     element.selectedIndex = 0;
     element.changes = [
-      {_number: 0},
-      {_number: 1},
-      {_number: 2},
+      {...createChange(), _number: 0 as NumericChangeId},
+      {...createChange(), _number: 1 as NumericChangeId},
+      {...createChange(), _number: 2 as NumericChangeId},
     ];
     await flush();
     const promise = mockPromise();
@@ -150,8 +193,10 @@ suite('gr-change-list basic tests', () => {
       promise.resolve();
     });
     await promise;
-    const elementItems = element.root.querySelectorAll(
-        'gr-change-list-item');
+    const elementItems = queryAll<GrChangeListItem>(
+      element,
+      'gr-change-list-item'
+    );
     assert.equal(elementItems.length, 3);
 
     assert.isTrue(elementItems[0].hasAttribute('selected'));
@@ -165,14 +210,20 @@ suite('gr-change-list basic tests', () => {
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
     assert.equal(element.selectedIndex, 2);
     pressKey(element, Key.ENTER);
-    assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
-        'Should navigate to /c/2/');
+    assert.deepEqual(
+      navStub.lastCall.args[0],
+      {...createChange(), _number: 2 as NumericChangeId},
+      'Should navigate to /c/2/'
+    );
 
     pressKey(element, 'k');
     assert.equal(element.selectedIndex, 1);
     pressKey(element, Key.ENTER);
-    assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
-        'Should navigate to /c/1/');
+    assert.deepEqual(
+      navStub.lastCall.args[0],
+      {...createChange(), _number: 1 as NumericChangeId},
+      'Should navigate to /c/1/'
+    );
 
     pressKey(element, 'k');
     pressKey(element, 'k');
@@ -183,66 +234,85 @@ suite('gr-change-list basic tests', () => {
   test('no changes', () => {
     element.changes = [];
     flush();
-    const listItems = element.root.querySelectorAll(
-        'gr-change-list-item');
+    const listItems = queryAll<GrChangeListItem>(
+      element,
+      'gr-change-list-item'
+    );
     assert.equal(listItems.length, 0);
-    const noChangesMsg =
-        element.root.querySelector('.noChanges');
+    const noChangesMsg = queryAndAssert<HTMLTableRowElement>(
+      element,
+      '.noChanges'
+    );
     assert.ok(noChangesMsg);
   });
 
   test('empty sections', () => {
     element.sections = [{results: []}, {results: []}];
     flush();
-    const listItems = element.root.querySelectorAll(
-        'gr-change-list-item');
+    const listItems = queryAll<GrChangeListItem>(
+      element,
+      'gr-change-list-item'
+    );
     assert.equal(listItems.length, 0);
-    const noChangesMsg = element.root.querySelectorAll(
-        '.noChanges');
+    const noChangesMsg = queryAll<HTMLTableRowElement>(element, '.noChanges');
     assert.equal(noChangesMsg.length, 2);
   });
 
   suite('empty section', () => {
     test('not shown on empty non-outgoing sections', () => {
-      const section = {results: []};
+      const section = {name: 'test', query: 'test', results: []};
       assert.isTrue(element._isEmpty(section));
       assert.equal(element._getSpecialEmptySlot(section), '');
     });
 
     test('shown on empty outgoing sections', () => {
-      const section = {results: [], isOutgoing: true};
+      const section = {
+        name: 'test',
+        query: 'test',
+        results: [],
+        isOutgoing: true,
+      };
       assert.isTrue(element._isEmpty(section));
       assert.equal(element._getSpecialEmptySlot(section), 'empty-outgoing');
     });
 
     test('shown on empty outgoing sections', () => {
-      const section = {results: [], name: YOUR_TURN.name};
+      const section = {name: YOUR_TURN.name, query: 'test', results: []};
       assert.isTrue(element._isEmpty(section));
       assert.equal(element._getSpecialEmptySlot(section), 'empty-your-turn');
     });
 
     test('not shown on non-empty outgoing sections', () => {
-      const section = {isOutgoing: true, results: [
-        {_number: 0, labels: {Verified: {approved: {}}}}]};
+      const section = {
+        name: 'test',
+        query: 'test',
+        isOutgoing: true,
+        results: [
+          {
+            ...createChange(),
+            _number: 0 as NumericChangeId,
+            labels: {Verified: {approved: {}}},
+          },
+        ],
+      };
       assert.isFalse(element._isEmpty(section));
     });
   });
 
   suite('empty column preference', () => {
-    let element;
+    let element: GrChangeList;
 
     setup(() => {
+      stubFlags('isEnabled').returns(true);
       element = basicFixture.instantiate();
-      element.sections = [
-        {results: [{}]},
-      ];
-      element.account = {_account_id: 1001};
+      element.sections = [{results: [{...createChange()}]}];
+      element.account = {_account_id: 1001 as AccountId};
       element.preferences = {
         legacycid_in_change_table: true,
-        time_format: 'HHMM_12',
+        time_format: TimeFormat.HHMM_12,
         change_table: [],
       };
-      element._config = {};
+      element._config = createServerInfo();
       flush();
     });
 
@@ -251,26 +321,26 @@ suite('gr-change-list basic tests', () => {
     });
 
     test('all columns visible', () => {
-      for (const column of element.changeTableColumns) {
+      for (const column of element.changeTableColumns!) {
         const elementClass = '.' + column.trim().toLowerCase();
-        assert.isFalse(element.shadowRoot
-            .querySelector(elementClass).hidden);
+        assert.isFalse(
+          queryAndAssert<HTMLElement>(element, elementClass)!.hidden
+        );
       }
     });
   });
 
   suite('full column preference', () => {
-    let element;
+    let element: GrChangeList;
 
     setup(() => {
+      stubFlags('isEnabled').returns(true);
       element = basicFixture.instantiate();
-      element.sections = [
-        {results: [{}]},
-      ];
-      element.account = {_account_id: 1001};
+      element.sections = [{results: [{...createChange()}]}];
+      element.account = {_account_id: 1001 as AccountId};
       element.preferences = {
         legacycid_in_change_table: true,
-        time_format: 'HHMM_12',
+        time_format: TimeFormat.HHMM_12,
         change_table: [
           'Subject',
           'Status',
@@ -284,31 +354,31 @@ suite('gr-change-list basic tests', () => {
           ' Status ',
         ],
       };
-      element._config = {};
+      element._config = createServerInfo();
       flush();
     });
 
     test('all columns visible', () => {
-      for (const column of element.changeTableColumns) {
+      for (const column of element.changeTableColumns!) {
         const elementClass = '.' + column.trim().toLowerCase();
-        assert.isFalse(element.shadowRoot
-            .querySelector(elementClass).hidden);
+        assert.isFalse(
+          queryAndAssert<HTMLElement>(element, elementClass).hidden
+        );
       }
     });
   });
 
   suite('partial column preference', () => {
-    let element;
+    let element: GrChangeList;
 
     setup(() => {
+      stubFlags('isEnabled').returns(true);
       element = basicFixture.instantiate();
-      element.sections = [
-        {results: [{}]},
-      ];
-      element.account = {_account_id: 1001};
+      element.sections = [{results: [{...createChange()}]}];
+      element.account = {_account_id: 1001 as AccountId};
       element.preferences = {
         legacycid_in_change_table: true,
-        time_format: 'HHMM_12',
+        time_format: TimeFormat.HHMM_12,
         change_table: [
           'Subject',
           'Status',
@@ -321,17 +391,17 @@ suite('gr-change-list basic tests', () => {
           ' Status ',
         ],
       };
-      element._config = {};
+      element._config = createServerInfo();
       flush();
     });
 
     test('all columns except repo visible', () => {
-      for (const column of element.changeTableColumns) {
+      for (const column of element.changeTableColumns!) {
         const elementClass = '.' + column.trim().toLowerCase();
         if (column === 'Repo') {
-          assert.isNotOk(element.shadowRoot.querySelector(elementClass));
+          assert.isNotOk(query<HTMLElement>(element, elementClass));
         } else {
-          assert.isOk(element.shadowRoot.querySelector(elementClass));
+          assert.isOk(queryAndAssert<HTMLElement>(element, elementClass));
         }
       }
     });
@@ -343,38 +413,36 @@ suite('gr-change-list basic tests', () => {
   });
 
   suite('random column does not exist', () => {
-    let element;
+    let element: GrChangeList;
 
     /* This would only exist if somebody manually updated the config
     file. */
     setup(() => {
       element = basicFixture.instantiate();
-      element.account = {_account_id: 1001};
+      element.account = {_account_id: 1001 as AccountId};
       element.preferences = {
         legacycid_in_change_table: true,
-        time_format: 'HHMM_12',
-        change_table: [
-          'Bad',
-        ],
+        time_format: TimeFormat.HHMM_12,
+        change_table: ['Bad'],
       };
       flush();
     });
 
     test('bad column does not exist', () => {
-      const elementClass = '.bad';
-      assert.isNotOk(element.shadowRoot
-          .querySelector(elementClass));
+      assert.isNotOk(query<HTMLElement>(element, '.bad'));
     });
   });
 
   suite('dashboard queries', () => {
-    let element;
+    let element: GrChangeList;
 
     setup(() => {
       element = basicFixture.instantiate();
     });
 
-    teardown(() => { sinon.restore(); });
+    teardown(() => {
+      sinon.restore();
+    });
 
     test('query without age and limit unchanged', () => {
       const query = 'status:closed owner:me';
@@ -419,7 +487,7 @@ suite('gr-change-list basic tests', () => {
   });
 
   suite('gr-change-list sections', () => {
-    let element;
+    let element: GrChangeList;
 
     setup(() => {
       element = basicFixture.instantiate();
@@ -430,23 +498,23 @@ suite('gr-change-list basic tests', () => {
       element.sections = [
         {
           results: [
-            {_number: 0},
-            {_number: 1},
-            {_number: 2},
+            {...createChange(), _number: 0 as NumericChangeId},
+            {...createChange(), _number: 1 as NumericChangeId},
+            {...createChange(), _number: 2 as NumericChangeId},
           ],
         },
         {
           results: [
-            {_number: 3},
-            {_number: 4},
-            {_number: 5},
+            {...createChange(), _number: 3 as NumericChangeId},
+            {...createChange(), _number: 4 as NumericChangeId},
+            {...createChange(), _number: 5 as NumericChangeId},
           ],
         },
         {
           results: [
-            {_number: 6},
-            {_number: 7},
-            {_number: 8},
+            {...createChange(), _number: 6 as NumericChangeId},
+            {...createChange(), _number: 7 as NumericChangeId},
+            {...createChange(), _number: 8 as NumericChangeId},
           ],
         },
       ];
@@ -456,8 +524,10 @@ suite('gr-change-list basic tests', () => {
         promise.resolve();
       });
       await promise;
-      const elementItems = element.root.querySelectorAll(
-          'gr-change-list-item');
+      const elementItems = queryAll<GrChangeListItem>(
+        element,
+        'gr-change-list-item'
+      );
       assert.equal(elementItems.length, 9);
 
       pressKey(element, 'j');
@@ -468,22 +538,31 @@ suite('gr-change-list basic tests', () => {
       assert.equal(element.selectedIndex, 2);
 
       pressKey(element, Key.ENTER);
-      assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
-          'Should navigate to /c/2/');
+      assert.deepEqual(
+        navStub.lastCall.args[0],
+        {...createChange(), _number: 2 as NumericChangeId},
+        'Should navigate to /c/2/'
+      );
 
       pressKey(element, 'k');
       assert.equal(element.selectedIndex, 1);
       pressKey(element, Key.ENTER);
-      assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
-          'Should navigate to /c/1/');
+      assert.deepEqual(
+        navStub.lastCall.args[0],
+        {...createChange(), _number: 1 as NumericChangeId},
+        'Should navigate to /c/1/'
+      );
 
       pressKey(element, 'j');
       pressKey(element, 'j');
       pressKey(element, 'j');
       assert.equal(element.selectedIndex, 4);
       pressKey(element, Key.ENTER);
-      assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
-          'Should navigate to /c/4/');
+      assert.deepEqual(
+        navStub.lastCall.args[0],
+        {...createChange(), _number: 4 as NumericChangeId},
+        'Should navigate to /c/4/'
+      );
     });
 
     test('_computeItemAbsoluteIndex', () => {
@@ -506,4 +585,3 @@ suite('gr-change-list basic tests', () => {
     });
   });
 });
-

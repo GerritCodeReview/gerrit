@@ -123,24 +123,24 @@ def declare_nongoogle_deps():
     # Google internal dependencies: these are developed at Google, so there is
     # no concern about version skew.
 
-    FLOGGER_VERS = "0.6"
+    FLOGGER_VERS = "0.7.3"
 
     maven_jar(
         name = "flogger",
         artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
-        sha1 = "155dc6e303a58f7bbff5d2cd1a259de86827f4fe",
+        sha1 = "d08bf8276d2bbb1435951e88b3f067092285b9fb",
     )
 
     maven_jar(
         name = "flogger-log4j-backend",
         artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
-        sha1 = "9743841bf10309163effd8ddf882b5d5190cc9d9",
+        sha1 = "7486b1c0138647cd7714eccb8ce37b5f2ae20a76",
     )
 
     maven_jar(
         name = "flogger-system-backend",
         artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
-        sha1 = "0f0ccf8923c6c315f2f57b108bcc6e46ccd88777",
+        sha1 = "4bee7ebbd97c63ca7fb17529aeb49a57b670d061",
     )
 
     maven_jar(

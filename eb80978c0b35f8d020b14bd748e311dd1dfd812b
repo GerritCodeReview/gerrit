@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "26f8e6a6_12462498",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-20T15:08:40Z",
+      "side": 1,
+      "message": "\u003e Your suggestion sounds like a reasonable addition to me\n\nI think this would be the proper fix.\n\n\u003e but this will require re-indexing all changes (performing index upgrade) \n\u003e unfortunately.\n\nYes, that\u0027s why I had concerns with storing the submittable flag in the index (https://gerrit-review.googlesource.com/c/gerrit/+/323185/16..20//COMMIT_MSG#b13).\n\nI think it\u0027s possible to fix this with change query rewriting (I\u0027ll upload a new patch set to demonstrate this). But I would do this only as an intermediate solution.\n\nI would propose to:\n\n1. fix this now by rewriting the query\n\n2. fix the index:\na) make a new change index schema version with an IS_SUBMITTABLE_2 field that is populated correctly (or drop the field and have a queryable submit requirements field instead)\nb) use the IS_SUBMITTABLE_2 field if it\u0027s available in the schema\nc) execute the rewriting only if an older schema version is run\n\n3. do an index upgrade somewhen later when it\u0027s needed for other reasons\n\nWDYT?\n\nOther question: Why do we use \"Predicate.not(ChangeStatusPredicate.closed())\" here?  \nWouldn\u0027t it be easier to read if this was just \"ChangeStatusPredicate.open()\" (doesn\u0027t make a difference for the issue at hand)?\n\nAlso, I would expect that \"is:submittable OR -is:submittable\" matches all changes.\nHence if \"is:submittable\" only matches changes that are open and submittable, I think \"-is:submittable\" should match closed changes and unsubmittable open changes, right? I\u0027m asking because it\u0027s it\u0027s not covered by the test.",
+      "parentUuid": "f784bfa7_4b6930be",
+      "range": {
+        "startLine": 729,
+        "startChar": 6,
+        "endLine": 731,
+        "endChar": 57
+      },
+      "revId": "eb80978c0b35f8d020b14bd748e311dd1dfd812b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93d3ee66_3b01ca5b",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1
@@ -132,6 +156,24 @@
       "side": 1,
       "message": "\u003e Can ChangeIndexRewriter#getPossibleStatus(Predicate) be fixed to detect the statuses in the query correctly?\n\nIt works correctly. It traverses the query tree bottom up and returns the available statuses (or their complement at each level). So a query with\n  * -(status:new -(status:merged OR status:abandoned))\n\nwill\n  * first return status\u003d{MERGED, ABANDONED} from the right leaf\n  * negate this leaf (because of the - sign on the right) and returns {NEW}\n  * joins it with status\u003d{NEW} from LHS, result \u003d {NEW}\n  * negate the whole thing, returning {MERGED, ABANDONED}\n  \nThe result set only contains MERGED, ABANDONED, hence the query will run against the closed sub-index, neglecting the open sub-index.\n\n\u003e I wouldn\u0027t drop this optimization without understanding how it would effect performance of change queries. \n\nI\u0027m also against that. Dropping it would mean it\u0027s not used anywhere, whilst we only need it for one specific use case (is:submittable).\n\nI spent some time trying to rewrite the query in a way that includes both OPEN/CLOSED sub-indexes in the negation case but couldn\u0027t.",
       "parentUuid": "d44e0413_5a37e162",
+      "revId": "eb80978c0b35f8d020b14bd748e311dd1dfd812b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98baa552_e8b1e229",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3032,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-20T15:08:40Z",
+      "side": 1,
+      "message": "I see. I made a proposal here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/326533/1/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java\n\nI think fixing this by rewriting the query works, I\u0027ll upload a new patch set for this.",
+      "parentUuid": "8a0c6f84_f286c0d8",
       "revId": "eb80978c0b35f8d020b14bd748e311dd1dfd812b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

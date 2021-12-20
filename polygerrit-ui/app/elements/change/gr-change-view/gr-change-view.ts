@@ -2147,29 +2147,28 @@ export class GrChangeView extends base {
 
     if (isLocationChange) {
       this._editingCommitMessage = false;
-      const relatedChangesLoaded = coreDataPromise.then(() => {
-        let relatedChangesPromise:
-          | Promise<RelatedChangesInfo | undefined>
-          | undefined;
-        const patchNum = this._computeLatestPatchNum(this._allPatchSets);
-        if (this._change && patchNum) {
-          relatedChangesPromise = this.restApiService
-            .getRelatedChanges(this._change._number, patchNum)
-            .then(response => {
-              if (this._change && response) {
-                this.hasParent = this._calculateHasParent(
-                  this._change.change_id,
-                  response.changes
-                );
-              }
-              return response;
-            });
-        }
-        // TODO: use returned Promise
-        this.getRelatedChangesList()?.reload(relatedChangesPromise);
-      });
-      allDataPromises.push(relatedChangesLoaded);
     }
+    const relatedChangesLoaded = coreDataPromise.then(() => {
+      let relatedChangesPromise:
+        | Promise<RelatedChangesInfo | undefined>
+        | undefined;
+      const patchNum = this._computeLatestPatchNum(this._allPatchSets);
+      if (this._change && patchNum) {
+        relatedChangesPromise = this.restApiService
+          .getRelatedChanges(this._change._number, patchNum)
+          .then(response => {
+            if (this._change && response) {
+              this.hasParent = this._calculateHasParent(
+                this._change.change_id,
+                response.changes
+              );
+            }
+            return response;
+          });
+      }
+      return this.getRelatedChangesList()?.reload(relatedChangesPromise);
+    });
+    allDataPromises.push(relatedChangesLoaded);
 
     Promise.all(allDataPromises).then(() => {
       // Loading of commments data is no longer part of this reporting

@@ -21,10 +21,12 @@ import {GrDiffGroup, GrDiffGroupType, hideInContextControl} from './gr-diff-grou
 
 suite('gr-diff-group tests', () => {
   test('delta line pairs', () => {
-    let group = new GrDiffGroup(GrDiffGroupType.DELTA);
     const l1 = new GrDiffLine(GrDiffLineType.ADD, 0, 128);
     const l2 = new GrDiffLine(GrDiffLineType.ADD, 0, 129);
     const l3 = new GrDiffLine(GrDiffLineType.REMOVE, 64, 0);
+    let group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines: [
+      l1, l2, l3,
+    ]});
     group.addLine(l1);
     group.addLine(l2);
     group.addLine(l3);
@@ -42,7 +44,7 @@ suite('gr-diff-group tests', () => {
       {left: BLANK_LINE, right: l2},
     ]);
 
-    group = new GrDiffGroup(GrDiffGroupType.DELTA, [l1, l2, l3]);
+    group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines: [l1, l2, l3]});
     assert.deepEqual(group.lines, [l1, l2, l3]);
     assert.deepEqual(group.adds, [l1, l2]);
     assert.deepEqual(group.removes, [l3]);
@@ -59,7 +61,8 @@ suite('gr-diff-group tests', () => {
     const l2 = new GrDiffLine(GrDiffLineType.BOTH, 65, 129);
     const l3 = new GrDiffLine(GrDiffLineType.BOTH, 66, 130);
 
-    let group = new GrDiffGroup(GrDiffGroupType.BOTH, [l1, l2, l3]);
+    const group = new GrDiffGroup({
+      type: GrDiffGroupType.BOTH, lines: [l1, l2, l3]});
 
     assert.deepEqual(group.lines, [l1, l2, l3]);
     assert.deepEqual(group.adds, []);
@@ -70,19 +73,7 @@ suite('gr-diff-group tests', () => {
       right: {start_line: 128, end_line: 130},
     });
 
-    let pairs = group.getSideBySidePairs();
-    assert.deepEqual(pairs, [
-      {left: l1, right: l1},
-      {left: l2, right: l2},
-      {left: l3, right: l3},
-    ]);
-
-    group = new GrDiffGroup(GrDiffGroupType.CONTEXT_CONTROL, [l1, l2, l3]);
-    assert.deepEqual(group.lines, [l1, l2, l3]);
-    assert.deepEqual(group.adds, []);
-    assert.deepEqual(group.removes, []);
-
-    pairs = group.getSideBySidePairs();
+    const pairs = group.getSideBySidePairs();
     assert.deepEqual(pairs, [
       {left: l1, right: l1},
       {left: l2, right: l2},
@@ -95,27 +86,20 @@ suite('gr-diff-group tests', () => {
     const l2 = new GrDiffLine(GrDiffLineType.REMOVE);
     const l3 = new GrDiffLine(GrDiffLineType.BOTH);
 
-    let group = new GrDiffGroup(GrDiffGroupType.BOTH);
-    assert.throws(group.addLine.bind(group, l1));
-    assert.throws(group.addLine.bind(group, l2));
-    assert.doesNotThrow(group.addLine.bind(group, l3));
-
-    group = new GrDiffGroup(GrDiffGroupType.CONTEXT_CONTROL);
-    assert.throws(group.addLine.bind(group, l1));
-    assert.throws(group.addLine.bind(group, l2));
-    assert.doesNotThrow(group.addLine.bind(group, l3));
+    assert.throws(() =>
+      new GrDiffGroup({type: GrDiffGroupType.BOTH, lines: [l1, l2, l3]}));
   });
 
   suite('hideInContextControl', () => {
     let groups;
     setup(() => {
       groups = [
-        new GrDiffGroup(GrDiffGroupType.BOTH, [
+        new GrDiffGroup({type: GrDiffGroupType.BOTH, lines: [
           new GrDiffLine(GrDiffLineType.BOTH, 5, 7),
           new GrDiffLine(GrDiffLineType.BOTH, 6, 8),
           new GrDiffLine(GrDiffLineType.BOTH, 7, 9),
-        ]),
-        new GrDiffGroup(GrDiffGroupType.DELTA, [
+        ]}),
+        new GrDiffGroup({type: GrDiffGroupType.DELTA, lines: [
           new GrDiffLine(GrDiffLineType.REMOVE, 8),
           new GrDiffLine(GrDiffLineType.ADD, 0, 10),
           new GrDiffLine(GrDiffLineType.REMOVE, 9),
@@ -124,12 +108,12 @@ suite('gr-diff-group tests', () => {
           new GrDiffLine(GrDiffLineType.ADD, 0, 12),
           new GrDiffLine(GrDiffLineType.REMOVE, 11),
           new GrDiffLine(GrDiffLineType.ADD, 0, 13),
-        ]),
-        new GrDiffGroup(GrDiffGroupType.BOTH, [
+        ]}),
+        new GrDiffGroup({type: GrDiffGroupType.BOTH, lines: [
           new GrDiffLine(GrDiffLineType.BOTH, 12, 14),
           new GrDiffLine(GrDiffLineType.BOTH, 13, 15),
           new GrDiffLine(GrDiffLineType.BOTH, 14, 16),
-        ]),
+        ]}),
       ];
     });
 
@@ -181,24 +165,23 @@ suite('gr-diff-group tests', () => {
 
     suite('with skip chunks', () => {
       setup(() => {
-        const skipGroup = new GrDiffGroup(GrDiffGroupType.BOTH);
-        skipGroup.skip = 60;
-        skipGroup.lineRange = {
-          left: {start_line: 8, end_line: 67},
-          right: {start_line: 10, end_line: 69},
-        };
+        const skipGroup = new GrDiffGroup({
+          type: GrDiffGroupType.BOTH,
+          skip: 60,
+          offsetLeft: 8,
+          offsetRight: 10});
         groups = [
-          new GrDiffGroup(GrDiffGroupType.BOTH, [
+          new GrDiffGroup({type: GrDiffGroupType.BOTH, lines: [
             new GrDiffLine(GrDiffLineType.BOTH, 5, 7),
             new GrDiffLine(GrDiffLineType.BOTH, 6, 8),
             new GrDiffLine(GrDiffLineType.BOTH, 7, 9),
-          ]),
+          ]}),
           skipGroup,
-          new GrDiffGroup(GrDiffGroupType.BOTH, [
+          new GrDiffGroup({type: GrDiffGroupType.BOTH, lines: [
             new GrDiffLine(GrDiffLineType.BOTH, 68, 70),
             new GrDiffLine(GrDiffLineType.BOTH, 69, 71),
             new GrDiffLine(GrDiffLineType.BOTH, 70, 72),
-          ]),
+          ]}),
         ];
       });
 

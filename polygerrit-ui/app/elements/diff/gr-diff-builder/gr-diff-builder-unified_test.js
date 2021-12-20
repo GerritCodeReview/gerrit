@@ -52,7 +52,7 @@ suite('GrDiffBuilderUnified tests', () => {
       lines[1].text = '  print "Hello World";';
       lines[2].text = '  return True';
 
-      group = new GrDiffGroup(GrDiffGroupType.BOTH, lines);
+      group = new GrDiffGroup({type: GrDiffGroupType.BOTH, lines});
     });
 
     test('creates the section', () => {
@@ -104,7 +104,7 @@ suite('GrDiffBuilderUnified tests', () => {
       ];
       lines[0].text = 'def hello_world():';
       lines[1].text = '  print "Hello World"';
-      const group = new GrDiffGroup(GrDiffGroupType.DELTA, lines);
+      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
       group.moveDetails = {changed: false};
 
       const sectionEl = diffBuilder.buildSectionElement(group);
@@ -127,7 +127,7 @@ suite('GrDiffBuilderUnified tests', () => {
       ];
       lines[0].text = 'def hello_world():';
       lines[1].text = '  print "Hello World"';
-      const group = new GrDiffGroup(GrDiffGroupType.DELTA, lines);
+      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
       group.moveDetails = {changed: false};
 
       const sectionEl = diffBuilder.buildSectionElement(group);
@@ -160,7 +160,7 @@ suite('GrDiffBuilderUnified tests', () => {
       lines[2].text = 'def hello_universe()';
       lines[3].text = '  print "Hello Universe"';
 
-      group = new GrDiffGroup(GrDiffGroupType.DELTA, lines);
+      group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
     });
 
     test('creates the section', () => {

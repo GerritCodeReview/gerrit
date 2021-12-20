@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f784bfa7_4b6930be",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-20T12:28:08Z",
+      "side": 1,
+      "message": "We made that decision (keep closed changes out of the predicate\u0027s decision) earlier https://gerrit-review.googlesource.com/c/gerrit/+/323185/comment/4ae298b5_b28632d3/.\n\nYour suggestion sounds like a reasonable addition to me, but this will require re-indexing all changes (performing index upgrade) unfortunately.",
+      "parentUuid": "2d5f77c4_34569db4",
+      "range": {
+        "startLine": 729,
+        "startChar": 6,
+        "endLine": 731,
+        "endChar": 57
+      },
+      "revId": "eb80978c0b35f8d020b14bd748e311dd1dfd812b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93d3ee66_3b01ca5b",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1
@@ -90,6 +114,24 @@
       "side": 1,
       "message": "Can ChangeIndexRewriter#getPossibleStatus(Predicate) be fixed to detect the statuses in the query correctly?\n\n\u003e With the current code state in [1] I believe this behaviour is wrong.\n\u003e I\u0027d always use both open and closed indexes in queries and neglect this\n\u003e optimization. \n\nI wouldn\u0027t drop this optimization without understanding how it would effect performance of change queries. \n\nAlso if this optimization is dropped, there is probably no more reason to keep the indexes for open and closed changes separate? Hence in this case we should cleanup and merge them, and drop all code complexity that comes from having these indexes separately.",
       "parentUuid": "b1320b1c_03a3d655",
+      "revId": "eb80978c0b35f8d020b14bd748e311dd1dfd812b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a0c6f84_f286c0d8",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3032,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-20T12:28:08Z",
+      "side": 1,
+      "message": "\u003e Can ChangeIndexRewriter#getPossibleStatus(Predicate) be fixed to detect the statuses in the query correctly?\n\nIt works correctly. It traverses the query tree bottom up and returns the available statuses (or their complement at each level). So a query with\n  * -(status:new -(status:merged OR status:abandoned))\n\nwill\n  * first return status\u003d{MERGED, ABANDONED} from the right leaf\n  * negate this leaf (because of the - sign on the right) and returns {NEW}\n  * joins it with status\u003d{NEW} from LHS, result \u003d {NEW}\n  * negate the whole thing, returning {MERGED, ABANDONED}\n  \nThe result set only contains MERGED, ABANDONED, hence the query will run against the closed sub-index, neglecting the open sub-index.\n\n\u003e I wouldn\u0027t drop this optimization without understanding how it would effect performance of change queries. \n\nI\u0027m also against that. Dropping it would mean it\u0027s not used anywhere, whilst we only need it for one specific use case (is:submittable).\n\nI spent some time trying to rewrite the query in a way that includes both OPEN/CLOSED sub-indexes in the negation case but couldn\u0027t.",
+      "parentUuid": "d44e0413_5a37e162",
       "revId": "eb80978c0b35f8d020b14bd748e311dd1dfd812b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

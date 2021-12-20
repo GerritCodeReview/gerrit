@@ -23,6 +23,7 @@ import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isValid
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -530,6 +531,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public void upsertSubmitRequirement(SubmitRequirement requirement) {
     submitRequirementSections.put(requirement.name(), requirement);
+  }
+
+  @VisibleForTesting
+  public void clearSubmitRequirements() {
+    submitRequirementSections = new LinkedHashMap<>();
   }
 
   /** Adds or replaces the given {@link LabelType} in this config. */

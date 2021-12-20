@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import java.io.ByteArrayOutputStream;
@@ -73,7 +74,13 @@ class RevisionNoteBuilder {
   final Map<Comment.Key, Comment> put;
   private final Set<Comment.Key> delete;
 
-  private List<SubmitRequirementResult> submitRequirementResults;
+  /**
+   * Submit requirement results to be stored in the revision note. If this field is null, we don't
+   * store results in the revision note. Otherwise, we store a "submit requirements" section in the
+   * revision note even if it's empty.
+   */
+  @Nullable private List<SubmitRequirementResult> submitRequirementResults;
+
   private String pushCert;
 
   private RevisionNoteBuilder(RevisionNote<? extends Comment> base) {
@@ -90,7 +97,6 @@ class RevisionNoteBuilder {
       put = new HashMap<>();
       pushCert = null;
     }
-    submitRequirementResults = new ArrayList<>();
     delete = new HashSet<>();
   }
 
@@ -109,7 +115,18 @@ class RevisionNoteBuilder {
     put.put(comment.key, comment);
   }
 
+  /**
+   * Call this method to designate that we should store submit requirement results in the revision
+   * note. Even if no results are added, an empty submit requirements section will be added.
+   */
+  void createEmptySubmitRequirementResults() {
+    submitRequirementResults = new ArrayList<>();
+  }
+
   void putSubmitRequirementResult(SubmitRequirementResult result) {
+    if (submitRequirementResults == null) {
+      submitRequirementResults = new ArrayList<>();
+    }
     submitRequirementResults.add(result);
   }
 
@@ -140,19 +157,19 @@ class RevisionNoteBuilder {
 
   private void buildNoteJson(ChangeNoteJson noteUtil, OutputStream out) throws IOException {
     ListMultimap<Integer, Comment> comments = buildCommentMap();
-    if (submitRequirementResults.isEmpty() && comments.isEmpty() && pushCert == null) {
+    if (submitRequirementResults == null && comments.isEmpty() && pushCert == null) {
       return;
     }
 
     RevisionNoteData data = new RevisionNoteData();
     data.comments = COMMENT_ORDER.sortedCopy(comments.values());
     data.pushCert = pushCert;
-    if (!submitRequirementResults.isEmpty()) {
-      data.submitRequirementResults =
-          submitRequirementResults.stream()
-              .sorted(SUBMIT_REQUIREMENT_RESULT_COMPARATOR)
-              .collect(Collectors.toList());
-    }
+    data.submitRequirementResults =
+        submitRequirementResults == null
+            ? null
+            : submitRequirementResults.stream()
+                .sorted(SUBMIT_REQUIREMENT_RESULT_COMPARATOR)
+                .collect(Collectors.toList());
 
     try (OutputStreamWriter osw = new OutputStreamWriter(out, UTF_8)) {
       noteUtil.getGson().toJson(data, osw);

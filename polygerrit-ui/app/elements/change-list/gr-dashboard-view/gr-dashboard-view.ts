@@ -450,12 +450,8 @@ export class GrDashboardView extends PolymerElement {
     this.$.commandsDialog.open();
   }
 
-  /**
-   * Returns `this` as the visibility observer target for the keyboard shortcut
-   * mixin to decide whether shortcuts should be enabled or not.
-   */
-  _computeObserverTarget() {
-    return this;
+  _handleSelectedIndexChanged(e: CustomEvent) {
+    this._selectedChangeIndex = Number(e.detail.value);
   }
 }
 

@@ -39,7 +39,7 @@ import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
-import {ValueChangedEvent} from '../../../types/events';
+import {SelectionIndexChangeEvent} from '../gr-change-list/gr-change-list';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -194,13 +194,12 @@ export class GrChangeListView extends LitElement {
           .preferences=${this.preferences}
           .selectedIndex=${this.viewState.selectedChangeIndex}
           .showStar=${loggedIn}
-          @selected-index-changed=${(e: ValueChangedEvent) => {
+          @selected-index-changed=${(e: SelectionIndexChangeEvent) => {
             this.handleSelectedIndexChanged(e);
           }}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
-          .observerTarget=${this}
         ></gr-change-list>
         ${this.renderChangeListViewNav()}
       </div>
@@ -419,9 +418,9 @@ export class GrChangeListView extends LitElement {
     );
   }
 
-  private handleSelectedIndexChanged(e: ValueChangedEvent) {
+  private handleSelectedIndexChanged(e: SelectionIndexChangeEvent) {
     if (!this.viewState) return;
-    this.viewState.selectedChangeIndex = Number(e.detail.value);
+    this.viewState.selectedChangeIndex = e.detail.value;
     fire(this, 'view-state-changed', {value: this.viewState});
   }
 }

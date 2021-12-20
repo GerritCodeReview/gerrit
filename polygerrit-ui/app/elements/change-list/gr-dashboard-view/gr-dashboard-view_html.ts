@@ -78,8 +78,9 @@ export const htmlTemplate = html`
       show-star=""
       account="[[account]]"
       preferences="[[preferences]]"
-      selected-index="{{_selectedChangeIndex}}"
+      selected-index="[[_selectedChangeIndex]]"
       sections="[[_results]]"
+      on-selected-index-changed="_handleSelectedIndexChanged"
       on-toggle-star="_handleToggleStar"
       observer-target="[[_computeObserverTarget()]]"
     >

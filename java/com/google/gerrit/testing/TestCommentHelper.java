@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 /** Test helper for dealing with comments/drafts. */
 public class TestCommentHelper {
@@ -64,7 +65,7 @@ public class TestCommentHelper {
     gApi.changes().id(changeId).current().createDraft(in);
   }
 
-  public Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
+  public List<CommentInfo> getPublishedComments(String changeId) throws Exception {
     return gApi.changes().id(changeId).commentsRequest().get().values().stream()
         .flatMap(Collection::stream)
         .collect(toList());

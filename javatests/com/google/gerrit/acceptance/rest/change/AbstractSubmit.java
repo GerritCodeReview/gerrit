@@ -1361,7 +1361,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertAuthorAndCommitDateEquals(RevCommit commit) {
-    assertThat(commit.getAuthorIdent().getWhen()).isEqualTo(commit.getCommitterIdent().getWhen());
+    assertThat(commit.getAuthorIdent().getWhen().getTime())
+        .isEqualTo(commit.getCommitterIdent().getWhen().getTime());
     assertThat(commit.getAuthorIdent().getTimeZone())
         .isEqualTo(commit.getCommitterIdent().getTimeZone());
   }

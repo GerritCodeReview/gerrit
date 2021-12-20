@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.common.collect.Iterables;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
@@ -45,7 +46,10 @@ public class ChangeMessageInfo {
           && Objects.equals(realAuthor, cmi.realAuthor)
           && Objects.equals(date, cmi.date)
           && Objects.equals(message, cmi.message)
-          && Objects.equals(accountsInMessage, cmi.accountsInMessage)
+          && ((accountsInMessage == null && cmi.accountsInMessage == null)
+              || (accountsInMessage != null
+                  && cmi.accountsInMessage != null
+                  && Iterables.elementsEqual(accountsInMessage, cmi.accountsInMessage)))
           && Objects.equals(_revisionNumber, cmi._revisionNumber);
     }
     return false;

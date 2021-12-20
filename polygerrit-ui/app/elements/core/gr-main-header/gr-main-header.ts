@@ -37,7 +37,7 @@ import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {fire, fireEvent} from '../../../utils/event-util';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
@@ -379,7 +379,7 @@ export class GrMainHeader extends LitElement {
         id="search"
         label="Search for changes"
         .searchQuery=${this.searchQuery}
-        @bind-value-changed=${(e: BindValueChangeEvent) => {
+        @search-query-changed=${(e: ValueChangedEvent) => {
           this.handleSearchQueryBindValueChanged(e);
         }}
       ></gr-smart-search>
@@ -648,7 +648,7 @@ export class GrMainHeader extends LitElement {
     fireEvent(this, 'mobile-search');
   }
 
-  private handleSearchQueryBindValueChanged(e: BindValueChangeEvent) {
+  private handleSearchQueryBindValueChanged(e: ValueChangedEvent) {
     fire(this, 'search-query-changed', {value: e.detail.value});
   }
 }

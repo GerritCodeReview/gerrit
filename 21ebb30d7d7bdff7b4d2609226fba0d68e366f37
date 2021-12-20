@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49709a51_27ee2cfd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-20T19:38:13Z",
+      "side": 1,
+      "message": "Because of an issue with Jgit GC, this change leaves All-Users.git in a bad state. The GC triggered in schema 119(and all subsequent GCs) fail with a MissingObjectException. This is likely because the packfile created in schema 123 is deleted by the background GC triggered in 119 as it is not yet associated to any refs(i.e at the point when packfile is flushed but the atomic BatchRefUpdate is still running). Enabling preserved packs does not mitigate this issue as well. Jgit GC will likely need an update to be able to handle this correctly.",
+      "revId": "21ebb30d7d7bdff7b4d2609226fba0d68e366f37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

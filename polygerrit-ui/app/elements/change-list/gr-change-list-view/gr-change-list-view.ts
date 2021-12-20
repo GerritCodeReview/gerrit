@@ -313,6 +313,11 @@ export class GrChangeListView extends PolymerElement {
   _computeObserverTarget() {
     return this;
   }
+
+  _handleSelectedIndexChanged(e: CustomEvent) {
+    if (!this.viewState) return;
+    this.viewState.selectedChangeIndex = Number(e.detail.view);
+  }
 }
 
 declare global {

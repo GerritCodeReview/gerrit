@@ -124,12 +124,6 @@ def java_dependencies():
     )
 
     maven_jar(
-        name = "impl-log4j",
-        artifact = "org.slf4j:slf4j-log4j12:" + SLF4J_VERS,
-        sha1 = "12f5c685b71c3027fd28bcf90528ec4ec74bf818",
-    )
-
-    maven_jar(
         name = "jcl-over-slf4j",
         artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
         sha1 = "33fbc2d93de829fa5e263c5ce97f5eab8f57d53e",

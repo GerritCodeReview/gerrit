@@ -220,17 +220,20 @@ export class ShortcutsService implements Finalizable {
    * help page about active shortcuts. Returns a cleanup function for removing
    * the bindings and the help page entry.
    */
-  addShortcutListener(s: ShortcutListener) {
+  addShortcutListener(
+    shortcut: Shortcut,
+    listener: (e: KeyboardEvent) => void
+  ) {
     const cleanups: (() => void)[] = [];
-    this.activeShortcuts.add(s.shortcut);
+    this.activeShortcuts.add(shortcut);
     cleanups.push(() => {
-      this.activeShortcuts.delete(s.shortcut);
+      this.activeShortcuts.delete(shortcut);
       this.notifyViewListeners();
     });
-    const bindings = this.getBindingsForShortcut(s.shortcut);
+    const bindings = this.getBindingsForShortcut(shortcut);
     for (const binding of bindings ?? []) {
       if (binding.docOnly) continue;
-      cleanups.push(this.addShortcut(document.body, binding, s.listener));
+      cleanups.push(this.addShortcut(document.body, binding, listener));
     }
     this.notifyViewListeners();
     return () => {
@@ -244,7 +247,7 @@ export class ShortcutsService implements Finalizable {
   attachHost(host: HTMLElement, shortcuts: ShortcutListener[]) {
     const cleanups: (() => void)[] = [];
     for (const s of shortcuts) {
-      cleanups.push(this.addShortcutListener(s));
+      cleanups.push(this.addShortcutListener(s.shortcut, s.listener));
     }
     this.cleanupsPerHost.set(host, cleanups);
   }

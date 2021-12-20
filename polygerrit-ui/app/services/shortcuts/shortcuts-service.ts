@@ -71,7 +71,7 @@ export class ShortcutsService implements Finalizable {
    * show a shortcut help dialog that only shows the shortcuts that are
    * currently relevant.
    */
-  private readonly activeShortcuts = new Map<HTMLElement, Shortcut[]>();
+  private readonly activeShortcuts = new Set<Shortcut>();
 
   /**
    * Keeps track of cleanup callbacks (which remove keyboard listeners) that
@@ -214,13 +214,14 @@ export class ShortcutsService implements Finalizable {
     return this.bindings.get(shortcut);
   }
 
+  /**
+   * Being called by the Polymer specific KeyboardShortcutMixin.
+   */
   attachHost(host: HTMLElement, shortcuts: ShortcutListener[]) {
-    this.activeShortcuts.set(
-      host,
-      shortcuts.map(s => s.shortcut)
-    );
     const cleanups: (() => void)[] = [];
     for (const s of shortcuts) {
+      this.activeShortcuts.add(s.shortcut);
+      cleanups.push(() => this.activeShortcuts.delete(s.shortcut));
       const bindings = this.getBindingsForShortcut(s.shortcut);
       for (const binding of bindings ?? []) {
         if (binding.docOnly) continue;
@@ -232,7 +233,6 @@ export class ShortcutsService implements Finalizable {
   }
 
   detachHost(host: HTMLElement) {
-    this.activeShortcuts.delete(host);
     const cleanups = this.cleanupsPerHost.get(host);
     for (const cleanup of cleanups ?? []) cleanup();
     this.notifyViewListeners();
@@ -264,20 +264,13 @@ export class ShortcutsService implements Finalizable {
   }
 
   activeShortcutsBySection() {
-    const activeShortcuts = new Set<Shortcut>();
-    for (const shortcuts of this.activeShortcuts.values()) {
-      for (const shortcut of shortcuts) {
-        activeShortcuts.add(shortcut);
-      }
-    }
-
     const activeShortcutsBySection = new Map<
       ShortcutSection,
       ShortcutHelpItem[]
     >();
     config.forEach((shortcutList, section) => {
       shortcutList.forEach(shortcutHelp => {
-        if (activeShortcuts.has(shortcutHelp.shortcut)) {
+        if (this.activeShortcuts.has(shortcutHelp.shortcut)) {
           if (!activeShortcutsBySection.has(section)) {
             activeShortcutsBySection.set(section, []);
           }

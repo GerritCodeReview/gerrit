@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e30bb2fc_3427dcf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-20T09:59:52Z",
+      "side": 1,
+      "message": "Friendly ping. I added a long comment for why a test is failing and proposed a way to proceed.",
+      "revId": "eb80978c0b35f8d020b14bd748e311dd1dfd812b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93d3ee66_3b01ca5b",

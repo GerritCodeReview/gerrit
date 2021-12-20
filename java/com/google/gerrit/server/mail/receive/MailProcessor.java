@@ -301,7 +301,9 @@ public class MailProcessor {
               .collect(ImmutableList.toImmutableList());
       CommentValidationContext commentValidationCtx =
           CommentValidationContext.create(
-              cd.change().getChangeId(), cd.change().getProject().get());
+              cd.change().getChangeId(),
+              cd.change().getProject().get(),
+              cd.change().getDest().branch());
       ImmutableList<CommentValidationFailure> commentValidationFailures =
           PublishCommentUtil.findInvalidComments(
               commentValidationCtx, commentValidators, parsedCommentsForValidation);

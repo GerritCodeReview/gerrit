@@ -117,6 +117,7 @@ public class PostReviewIT extends AbstractDaemonTest {
           COMMENT_TEXT.length());
 
   @Captor private ArgumentCaptor<ImmutableList<CommentForValidation>> captor;
+  @Captor private ArgumentCaptor<CommentValidationContext> captorCtx;
 
   private static final Correspondence<CommentForValidation, CommentForValidation>
       COMMENT_CORRESPONDENCE =
@@ -152,7 +153,7 @@ public class PostReviewIT extends AbstractDaemonTest {
   @Test
   public void validateCommentsInInput_commentOK() throws Exception {
     PushOneCommit.Result r = createChange();
-    when(mockCommentValidator.validateComments(eq(contextFor(r)), captor.capture()))
+    when(mockCommentValidator.validateComments(captorCtx.capture(), captor.capture()))
         .thenReturn(ImmutableList.of());
 
     ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
@@ -165,6 +166,7 @@ public class PostReviewIT extends AbstractDaemonTest {
 
     assertValidatorCalledWith(CHANGE_MESSAGE_FOR_VALIDATION, FILE_COMMENT_FOR_VALIDATION);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
+    assertThat(captorCtx.getAllValues()).containsExactly(contextFor(r));
   }
 
   @Test
@@ -985,7 +987,9 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   private static CommentValidationContext contextFor(PushOneCommit.Result result) {
     return CommentValidationContext.create(
-        result.getChange().getId().get(), result.getChange().project().get());
+        result.getChange().getId().get(),
+        result.getChange().project().get(),
+        result.getChange().change().getDest().branch());
   }
 
   private void assertValidatorCalledWith(CommentForValidation... commentsForValidation) {

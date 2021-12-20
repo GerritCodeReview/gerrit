@@ -5137,6 +5137,277 @@ public class ChangeIT extends AbstractDaemonTest {
       value =
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
+  public void submitRequirement_loadedFromTheLatestRevisionNoteForClosedChanges() throws Exception {
+    for (SubmitType submitType : SubmitType.values()) {
+      Project.NameKey project = createProjectForPush(submitType);
+      TestRepository<InMemoryRepository> repo = cloneProject(project);
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("Code-Review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
+
+      PushOneCommit.Result r =
+          createChange(repo, "master", "Add a file", "foo", "content", "topic");
+      String changeId = r.getChangeId();
+
+      // Abandon change. Submit requirements get stored in the revision note of patch-set 1.
+      gApi.changes().id(changeId).abandon();
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Restore the change.
+      gApi.changes().id(changeId).restore();
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Upload a second patch-set, fulfill the CR submit requirement.
+      amendChange(changeId, "refs/for/master", user, repo);
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.revisions).hasSize(2);
+      voteLabel(changeId, "Code-Review", 2);
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+
+      // Abandon the change.
+      gApi.changes().id(changeId).abandon();
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
+  public void submitRequirement_abandonRestoreUpdateMerge() throws Exception {
+    for (SubmitType submitType : SubmitType.values()) {
+      Project.NameKey project = createProjectForPush(submitType);
+      TestRepository<InMemoryRepository> repo = cloneProject(project);
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("Code-Review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
+
+      PushOneCommit.Result r =
+          createChange(repo, "master", "Add a file", "foo", "content", "topic");
+      String changeId = r.getChangeId();
+
+      // Abandon change. Submit requirements get stored in the revision note of patch-set 1.
+      gApi.changes().id(changeId).abandon();
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Restore the change.
+      gApi.changes().id(changeId).restore();
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Update the change.
+      amendChange(changeId, "refs/for/master", user, repo);
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.revisions).hasSize(2);
+      voteLabel(changeId, "Code-Review", 2);
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+
+      // Merge the change.
+      gApi.changes().id(changeId).current().submit();
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
+  public void submitRequirement_returnsEmpty_ForAbandonedChangeWithPreviouslyStoredSRs()
+      throws Exception {
+    for (SubmitType submitType : SubmitType.values()) {
+      Project.NameKey project = createProjectForPush(submitType);
+      TestRepository<InMemoryRepository> repo = cloneProject(project);
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("Code-Review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
+
+      PushOneCommit.Result r =
+          createChange(repo, "master", "Add a file", "foo", "content", "topic");
+      String changeId = r.getChangeId();
+
+      // Abandon change. Submit requirements get stored in the revision note of patch-set 1.
+      gApi.changes().id(changeId).abandon();
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Clear SRs for the project and update code-review label to be non-blocking.
+      clearSubmitRequirements(project);
+      LabelType cr =
+          TestLabels.codeReview().toBuilder().setFunction(LabelFunction.NO_BLOCK).build();
+      try (ProjectConfigUpdate u = updateProject(project)) {
+        u.getConfig().upsertLabelType(cr);
+        u.save();
+      }
+
+      // Restore the change. No SRs apply.
+      gApi.changes().id(changeId).restore();
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).isEmpty();
+
+      // Abandon the change. Still, no SRs apply.
+      gApi.changes().id(changeId).abandon();
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).isEmpty();
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
+  public void submitRequirement_returnsEmpty_ForMergedChangeWithPreviouslyStoredSRs()
+      throws Exception {
+    for (SubmitType submitType : SubmitType.values()) {
+      Project.NameKey project = createProjectForPush(submitType);
+      TestRepository<InMemoryRepository> repo = cloneProject(project);
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("Code-Review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
+
+      PushOneCommit.Result r =
+          createChange(repo, "master", "Add a file", "foo", "content", "topic");
+      String changeId = r.getChangeId();
+
+      // Abandon change. Submit requirements get stored in the revision note of patch-set 1.
+      gApi.changes().id(changeId).abandon();
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Clear SRs for the project and update code-review label to be non-blocking.
+      clearSubmitRequirements(project);
+      LabelType cr =
+          TestLabels.codeReview().toBuilder().setFunction(LabelFunction.NO_BLOCK).build();
+      try (ProjectConfigUpdate u = updateProject(project)) {
+        u.getConfig().upsertLabelType(cr);
+        u.save();
+      }
+
+      // Restore the change. No SRs apply.
+      gApi.changes().id(changeId).restore();
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).isEmpty();
+
+      // Merge the change. Still, no SRs apply.
+      gApi.changes().id(changeId).current().submit();
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).isEmpty();
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
+  public void submitRequirement_withMultipleAbandonAndRestore() throws Exception {
+    for (SubmitType submitType : SubmitType.values()) {
+      Project.NameKey project = createProjectForPush(submitType);
+      TestRepository<InMemoryRepository> repo = cloneProject(project);
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("Code-Review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
+
+      PushOneCommit.Result r =
+          createChange(repo, "master", "Add a file", "foo", "content", "topic");
+      String changeId = r.getChangeId();
+
+      // Abandon change. Submit requirements get stored in the revision note of patch-set 1.
+      gApi.changes().id(changeId).abandon();
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Restore the change.
+      gApi.changes().id(changeId).restore();
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Abandon the change again.
+      gApi.changes().id(changeId).abandon();
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+      // Restore, vote CR=+2, and abandon again. Make sure the requirement is now satisfied.
+      gApi.changes().id(changeId).restore();
+      voteLabel(changeId, "Code-Review", 2);
+      gApi.changes().id(changeId).abandon();
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_retrievedFromNoteDbForAbandonedChanges() throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);

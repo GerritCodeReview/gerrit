@@ -37,6 +37,11 @@ class ChangeRevisionNote extends RevisionNote<HumanComment> {
   private final Comment.Status status;
   private String pushCert;
 
+  /**
+   * Submit requirement results stored in this revision note. If null, then no SRs were stored in
+   * the revision note . Otherwise, there were stored SRs in this revision note. The list could be
+   * empty, meaning that no SRs were configured for the project.
+   */
   private ImmutableList<SubmitRequirementResult> submitRequirementsResult;
 
   ChangeRevisionNote(
@@ -46,6 +51,11 @@ class ChangeRevisionNote extends RevisionNote<HumanComment> {
     this.status = status;
   }
 
+  /**
+   * Returns null if no submit requirements were stored in the revision note. Otherwise, this method
+   * returns a list of submit requirements, which can probably be empty if there were no SRs
+   * configured for the project at the time when the SRs were stored.
+   */
   public ImmutableList<SubmitRequirementResult> getSubmitRequirementsResult() {
     checkParsed();
     return submitRequirementsResult;
@@ -70,7 +80,7 @@ class ChangeRevisionNote extends RevisionNote<HumanComment> {
     }
     this.submitRequirementsResult =
         data.submitRequirementResults == null
-            ? ImmutableList.of()
+            ? null
             : ImmutableList.copyOf(data.submitRequirementResults);
     return data.comments;
   }

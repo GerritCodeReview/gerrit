@@ -52,6 +52,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 import com.google.common.collect.TreeBasedTable;
@@ -138,7 +139,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<HumanComment> comments = new ArrayList<>();
-  private final List<SubmitRequirementResult> submitRequirementResults = new ArrayList<>();
 
   private String commitSubject;
   private String subject;
@@ -172,6 +172,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private RobotCommentUpdate robotCommentUpdate;
   private DeleteCommentRewriter deleteCommentRewriter;
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
+  private List<SubmitRequirementResult> submitRequirementResults;
 
   @AssistedInject
   private ChangeUpdate(
@@ -326,6 +327,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void putSubmitRequirementResults(Collection<SubmitRequirementResult> rs) {
+    if (submitRequirementResults == null) {
+      submitRequirementResults = new ArrayList<>();
+    }
     submitRequirementResults.addAll(rs);
   }
 
@@ -515,7 +519,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   /** Returns the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, IOException {
-    if (submitRequirementResults.isEmpty() && comments.isEmpty() && pushCert == null) {
+    if (submitRequirementResults == null && comments.isEmpty() && pushCert == null) {
       return null;
     }
     RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
@@ -525,8 +529,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       c.tag = tag;
       cache.get(c.getCommitId()).putComment(c);
     }
-    for (SubmitRequirementResult sr : submitRequirementResults) {
-      cache.get(sr.patchSetCommitId()).putSubmitRequirementResult(sr);
+    if (submitRequirementResults != null) {
+      if (submitRequirementResults.isEmpty()) {
+        ObjectId latestPsCommitId =
+            Iterables.getLast(getNotes().getPatchSets().values()).commitId();
+        cache.get(latestPsCommitId).createEmptySubmitRequirementResults();
+      } else {
+        for (SubmitRequirementResult sr : submitRequirementResults) {
+          cache.get(sr.patchSetCommitId()).putSubmitRequirementResult(sr);
+        }
+      }
     }
     if (pushCert != null) {
       checkState(commit != null);

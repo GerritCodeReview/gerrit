@@ -1646,6 +1646,13 @@ public abstract class AbstractDaemonTest {
     }
   }
 
+  protected void clearSubmitRequirements(Project.NameKey project) throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().clearSubmitRequirements();
+      u.save();
+    }
+  }
+
   protected void configLabel(String label, LabelFunction func) throws Exception {
     configLabel(label, func, ImmutableList.of());
   }

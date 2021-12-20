@@ -215,27 +215,43 @@ export class ShortcutsService implements Finalizable {
   }
 
   /**
+   * Looks up bindings for the given shortcut and calls addShortcut() for each
+   * of them. Also adds the shortcut to `activeShortcuts` and thus to the
+   * help page about active shortcuts. Returns a cleanup function for removing
+   * the bindings and the help page entry.
+   */
+  addShortcutListener(s: ShortcutListener) {
+    const cleanups: (() => void)[] = [];
+    this.activeShortcuts.add(s.shortcut);
+    cleanups.push(() => {
+      this.activeShortcuts.delete(s.shortcut);
+      this.notifyViewListeners();
+    });
+    const bindings = this.getBindingsForShortcut(s.shortcut);
+    for (const binding of bindings ?? []) {
+      if (binding.docOnly) continue;
+      cleanups.push(this.addShortcut(document.body, binding, s.listener));
+    }
+    this.notifyViewListeners();
+    return () => {
+      for (const cleanup of cleanups ?? []) cleanup();
+    };
+  }
+
+  /**
    * Being called by the Polymer specific KeyboardShortcutMixin.
    */
   attachHost(host: HTMLElement, shortcuts: ShortcutListener[]) {
     const cleanups: (() => void)[] = [];
     for (const s of shortcuts) {
-      this.activeShortcuts.add(s.shortcut);
-      cleanups.push(() => this.activeShortcuts.delete(s.shortcut));
-      const bindings = this.getBindingsForShortcut(s.shortcut);
-      for (const binding of bindings ?? []) {
-        if (binding.docOnly) continue;
-        cleanups.push(this.addShortcut(document.body, binding, s.listener));
-      }
+      cleanups.push(this.addShortcutListener(s));
     }
     this.cleanupsPerHost.set(host, cleanups);
-    this.notifyViewListeners();
   }
 
   detachHost(host: HTMLElement) {
     const cleanups = this.cleanupsPerHost.get(host);
     for (const cleanup of cleanups ?? []) cleanup();
-    this.notifyViewListeners();
     return true;
   }
 

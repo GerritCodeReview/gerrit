@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9579726b_0314800b",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-20T11:10:37Z",
+      "side": 1,
+      "message": "nit: can be inlined now",
+      "revId": "6d5a594ac33855ef131f023af62a614b94e130d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46c8a473_4da8cf47",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-20T11:10:37Z",
+      "side": 1,
+      "message": "nit: can be inlined now",
+      "revId": "6d5a594ac33855ef131f023af62a614b94e130d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

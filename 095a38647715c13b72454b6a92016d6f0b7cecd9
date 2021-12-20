@@ -16,6 +16,24 @@
       "message": "This should still have a TraceTimer",
       "revId": "095a38647715c13b72454b6a92016d6f0b7cecd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bd3dfd1_802f17b1",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-12-20T18:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0544022a_246fb2f1",
+      "revId": "095a38647715c13b72454b6a92016d6f0b7cecd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

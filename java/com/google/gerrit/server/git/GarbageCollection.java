@@ -86,7 +86,12 @@ public class GarbageCollection {
       try (Repository repo = repoManager.openRepository(p)) {
         logGcConfiguration(p, repo, aggressive);
         print(writer, "collecting garbage for \"" + p + "\":\n");
-        GarbageCollectCommand gc = Git.wrap(repo).gc();
+        GarbageCollectCommand gc =
+            Git.wrap(
+                    repo instanceof DelegateRepository
+                        ? ((DelegateRepository) repo).delegate()
+                        : repo)
+                .gc();
         gc.setAggressive(aggressive);
         logGcInfo(p, "before:", gc.getStatistics());
         gc.setProgressMonitor(

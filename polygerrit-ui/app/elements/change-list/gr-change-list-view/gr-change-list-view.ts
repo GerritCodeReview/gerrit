@@ -200,7 +200,6 @@ export class GrChangeListView extends LitElement {
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
-          .observerTarget=${this}
         ></gr-change-list>
         ${this.renderChangeListViewNav()}
       </div>

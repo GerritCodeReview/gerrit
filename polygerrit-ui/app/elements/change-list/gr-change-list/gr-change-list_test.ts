@@ -17,10 +17,8 @@
 import '../../../test/common-test-setup-karma';
 import './gr-change-list';
 import {GrChangeList} from './gr-change-list';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
-  mockPromise,
   pressKey,
   query,
   queryAll,
@@ -47,11 +45,12 @@ suite('gr-change-list basic tests', () => {
   });
 
   suite('test show change number not logged in', () => {
-    setup(() => {
+    setup(async () => {
       element = basicFixture.instantiate();
       element.account = undefined;
       element.preferences = undefined;
       element._config = createServerInfo();
+      await element.updateComplete;
     });
 
     test('show number disabled', () => {
@@ -60,7 +59,7 @@ suite('gr-change-list basic tests', () => {
   });
 
   suite('test show change number preference enabled', () => {
-    setup(() => {
+    setup(async () => {
       element = basicFixture.instantiate();
       element.preferences = {
         legacycid_in_change_table: true,
@@ -69,7 +68,7 @@ suite('gr-change-list basic tests', () => {
       };
       element.account = {_account_id: 1001 as AccountId};
       element._config = createServerInfo();
-      flush();
+      await element.updateComplete;
     });
 
     test('show number enabled', () => {
@@ -78,7 +77,7 @@ suite('gr-change-list basic tests', () => {
   });
 
   suite('test show change number preference disabled', () => {
-    setup(() => {
+    setup(async () => {
       element = basicFixture.instantiate();
       // legacycid_in_change_table is not set when false.
       element.preferences = {
@@ -87,7 +86,7 @@ suite('gr-change-list basic tests', () => {
       };
       element.account = {_account_id: 1001 as AccountId};
       element._config = createServerInfo();
-      flush();
+      await element.updateComplete;
     });
 
     test('show number disabled', () => {
@@ -161,9 +160,9 @@ suite('gr-change-list basic tests', () => {
     );
   });
 
-  test('colspans', () => {
+  test('colspans', async () => {
     element.sections = [{results: [{...createChange()}]}];
-    flush();
+    await element.updateComplete;
     const tdItemCount = queryAll<HTMLTableElement>(element, 'td').length;
 
     const changeTableColumns: string[] | undefined = [];
@@ -187,12 +186,7 @@ suite('gr-change-list basic tests', () => {
       {...createChange(), _number: 1 as NumericChangeId},
       {...createChange(), _number: 2 as NumericChangeId},
     ];
-    await flush();
-    const promise = mockPromise();
-    afterNextRender(element, () => {
-      promise.resolve();
-    });
-    await promise;
+    await element.updateComplete;
     const elementItems = queryAll<GrChangeListItem>(
       element,
       'gr-change-list-item'
@@ -201,15 +195,18 @@ suite('gr-change-list basic tests', () => {
 
     assert.isTrue(elementItems[0].hasAttribute('selected'));
     pressKey(element, 'j');
+    await element.updateComplete;
     assert.equal(element.selectedIndex, 1);
     assert.isTrue(elementItems[1].hasAttribute('selected'));
     pressKey(element, 'j');
+    await element.updateComplete;
     assert.equal(element.selectedIndex, 2);
     assert.isTrue(elementItems[2].hasAttribute('selected'));
 
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
     assert.equal(element.selectedIndex, 2);
     pressKey(element, Key.ENTER);
+    await element.updateComplete;
     assert.deepEqual(
       navStub.lastCall.args[0],
       {...createChange(), _number: 2 as NumericChangeId},
@@ -217,8 +214,10 @@ suite('gr-change-list basic tests', () => {
     );
 
     pressKey(element, 'k');
+    await element.updateComplete;
     assert.equal(element.selectedIndex, 1);
     pressKey(element, Key.ENTER);
+    await element.updateComplete;
     assert.deepEqual(
       navStub.lastCall.args[0],
       {...createChange(), _number: 1 as NumericChangeId},
@@ -231,9 +230,9 @@ suite('gr-change-list basic tests', () => {
     assert.equal(element.selectedIndex, 0);
   });
 
-  test('no changes', () => {
+  test('no changes', async () => {
     element.changes = [];
-    flush();
+    await element.updateComplete;
     const listItems = queryAll<GrChangeListItem>(
       element,
       'gr-change-list-item'
@@ -246,9 +245,9 @@ suite('gr-change-list basic tests', () => {
     assert.ok(noChangesMsg);
   });
 
-  test('empty sections', () => {
+  test('empty sections', async () => {
     element.sections = [{results: []}, {results: []}];
-    flush();
+    await element.updateComplete;
     const listItems = queryAll<GrChangeListItem>(
       element,
       'gr-change-list-item'
@@ -302,7 +301,7 @@ suite('gr-change-list basic tests', () => {
   suite('empty column preference', () => {
     let element: GrChangeList;
 
-    setup(() => {
+    setup(async () => {
       stubFlags('isEnabled').returns(true);
       element = basicFixture.instantiate();
       element.sections = [{results: [{...createChange()}]}];
@@ -313,7 +312,7 @@ suite('gr-change-list basic tests', () => {
         change_table: [],
       };
       element._config = createServerInfo();
-      flush();
+      await element.updateComplete;
     });
 
     test('show number enabled', () => {
@@ -333,7 +332,7 @@ suite('gr-change-list basic tests', () => {
   suite('full column preference', () => {
     let element: GrChangeList;
 
-    setup(() => {
+    setup(async () => {
       stubFlags('isEnabled').returns(true);
       element = basicFixture.instantiate();
       element.sections = [{results: [{...createChange()}]}];
@@ -355,7 +354,7 @@ suite('gr-change-list basic tests', () => {
         ],
       };
       element._config = createServerInfo();
-      flush();
+      await element.updateComplete;
     });
 
     test('all columns visible', () => {
@@ -371,7 +370,7 @@ suite('gr-change-list basic tests', () => {
   suite('partial column preference', () => {
     let element: GrChangeList;
 
-    setup(() => {
+    setup(async () => {
       stubFlags('isEnabled').returns(true);
       element = basicFixture.instantiate();
       element.sections = [{results: [{...createChange()}]}];
@@ -392,7 +391,7 @@ suite('gr-change-list basic tests', () => {
         ],
       };
       element._config = createServerInfo();
-      flush();
+      await element.updateComplete;
     });
 
     test('all columns except repo visible', () => {
@@ -417,7 +416,7 @@ suite('gr-change-list basic tests', () => {
 
     /* This would only exist if somebody manually updated the config
     file. */
-    setup(() => {
+    setup(async () => {
       element = basicFixture.instantiate();
       element.account = {_account_id: 1001 as AccountId};
       element.preferences = {
@@ -425,7 +424,7 @@ suite('gr-change-list basic tests', () => {
         time_format: TimeFormat.HHMM_12,
         change_table: ['Bad'],
       };
-      flush();
+      await element.updateComplete;
     });
 
     test('bad column does not exist', () => {
@@ -518,12 +517,7 @@ suite('gr-change-list basic tests', () => {
           ],
         },
       ];
-      await flush();
-      const promise = mockPromise();
-      afterNextRender(element, () => {
-        promise.resolve();
-      });
-      await promise;
+      await element.updateComplete;
       const elementItems = queryAll<GrChangeListItem>(
         element,
         'gr-change-list-item'

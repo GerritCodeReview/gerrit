@@ -50,9 +50,10 @@ suite('gr-context-control tests', () => {
       line.text = 'lorem upsum';
       lines.push(line);
     }
-    const result = new GrDiffGroup(GrDiffGroupType.CONTEXT_CONTROL);
-    result.contextGroups = [new GrDiffGroup(GrDiffGroupType.BOTH, lines)];
-    return result;
+    return new GrDiffGroup({
+      type: GrDiffGroupType.CONTEXT_CONTROL,
+      contextGroups: [new GrDiffGroup({type: GrDiffGroupType.BOTH, lines})],
+    });
   }
 
   test('no +10 buttons for 10 or less lines', async () => {

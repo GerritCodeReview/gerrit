@@ -17,11 +17,15 @@ package com.google.gerrit.acceptance.pgm;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.schema.NoteDbSchemaVersion;
 import com.google.gerrit.server.schema.Schema_184;
+import com.google.gerrit.server.schema.Schema_185;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.inject.Inject;
 import org.junit.Test;
@@ -62,6 +66,32 @@ public class Schema_184IT extends AbstractDaemonTest {
     upgrade.upgrade(args, new TestUpdateUI());
     assertThat(hasGroup(SERVICE_USERS)).isTrue();
     assertThat(hasGroup(NON_INTERACTIVE_USERS)).isFalse();
+  }
+
+  @Test
+  public void as() throws Exception {
+    PushOneCommit.Result c = createChange();
+    gApi.changes().id(c.getChangeId()).current().review(ReviewInput.recommend());
+
+    // this amends are reworks so votes will not be copied.
+    amendChange(c.getChangeId());
+    amendChange(c.getChangeId());
+    amendChange(c.getChangeId());
+
+    // votes don't exist on the new patch-set.
+    assertThat(gApi.changes().id(c.getChangeId()).current().votes()).isEmpty();
+
+    // change the project config to make the vote that was not copied to be copied once we do the
+    // schema upgrade.
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(/* copyAnyScore= */ true));
+      u.save();
+    }
+
+    Schema_185 upgrade = new Schema_185();
+    upgrade.upgrade(args, new TestUpdateUI());
+    assertThat(gApi.changes().id(c.getChangeId()).current().votes()).isNotEmpty();
   }
 
   private boolean hasGroup(AccountGroup.NameKey key) {

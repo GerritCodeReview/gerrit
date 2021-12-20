@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4a31f9b_a9c33678",
+        "filename": "polygerrit-ui/app/elements/core/gr-smart-search/gr-smart-search.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-20T10:47:27Z",
+      "side": 1,
+      "message": "These 3 states are never re-assigned, so they are just constant functions. Let\u0027s inline them into the render method.",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 49
+      },
+      "revId": "4315cae9d50908946e734511683bfa43a5e40c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da9c33bb_8d6ff3c4",
+        "filename": "polygerrit-ui/app/elements/core/gr-smart-search/gr-smart-search.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-20T10:47:27Z",
+      "side": 1,
+      "message": "Let\u0027s try without sharedStyles. Ultimately we want to get rid of that.",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 24
+      },
+      "revId": "4315cae9d50908946e734511683bfa43a5e40c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

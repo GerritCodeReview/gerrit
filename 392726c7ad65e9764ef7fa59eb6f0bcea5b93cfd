@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3735dfd_e5f50558",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-20T16:39:45Z",
+      "side": 1,
+      "message": "I got confused by this, can you maybe rephrase?\n\nIf I read the code correctly it doesn\u0027t read the SR\u0027s from the latest patch set, but from the last patch set for which SR\u0027s have been stored? Am I reading the code wrong?",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "066e274b_acaaec8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-20T16:39:45Z",
+      "side": 1,
+      "message": "Maybe clearer: revision that was current/latest at the time of abandon",
+      "range": {
+        "startLine": 11,
+        "startChar": 61,
+        "endLine": 11,
+        "endChar": 71
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4b38075_8acefba4",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-20T16:39:45Z",
+      "side": 1,
+      "message": "Can you rephrase this? It\u0027s confusing to me, since there is only ever one latest patch set, hence iterating over it in reverse order makes no sense. I think what the code does is looking up the submit requirements from the last patch set for which submit requirements have been stored?",
+      "range": {
+        "startLine": 865,
+        "startChar": 5,
+        "endLine": 865,
+        "endChar": 99
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b775f1d_65021d8a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-20T16:39:45Z",
+      "side": 1,
+      "message": "Can this happen? Under which condition does patchSets contain an entry for which no commit is present?",
+      "range": {
+        "startLine": 874,
+        "startChar": 6,
+        "endLine": 875,
+        "endChar": 17
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "741e7bfb_100c7b06",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-20T16:39:45Z",
+      "side": 1,
+      "message": "Can it happen that psCommit is missing in rns?",
+      "range": {
+        "startLine": 878,
+        "startChar": 10,
+        "endLine": 878,
+        "endChar": 37
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7279eaaa_945a0c80",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-20T16:39:45Z",
+      "side": 1,
+      "message": "Could the following happen:\n\n1. change is created and has non-empty submit requirements\n2. change is abandoned and non-empty submit requirements are stored\n3. change is restored and reworked\n4. no submit requirements apply to the change (either because of the rework or because the config has changed)\n5. change is abandoned, this time with empty submit requirements\n\nWould we wrongly load the non-empty submit requirements that have been stored in step 2 now?",
+      "range": {
+        "startLine": 879,
+        "startChar": 13,
+        "endLine": 879,
+        "endChar": 73
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54d2b9d5_db3f123c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-20T16:39:45Z",
+      "side": 1,
+      "message": "Maybe also add tests to cover:\n\n1. abandon, restore, update: \n\nSR\u0027s should be freshly computed now since the change is open.\n\nThe SR that have been stored on abandon should be ignored. I wonder, should the NoteDb parser in this case actually return no SR\u0027s?\n\n2. abandon, restore, update, merge:\n\nIn this case only the SR\u0027s that have been stored on merge should be returned.",
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

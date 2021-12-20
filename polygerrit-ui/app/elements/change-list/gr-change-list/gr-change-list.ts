@@ -15,31 +15,19 @@
  * limitations under the License.
  */
 
-import '../../../styles/gr-change-list-styles';
-import '../../../styles/gr-font-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
 import '../gr-change-list-item/gr-change-list-item';
+import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-change-list_html';
 import {getAppContext} from '../../../services/app-context';
 import {
-  KeyboardShortcutMixin,
-  Shortcut,
-  ShortcutListener,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {
   GerritNav,
-  DashboardSection,
   YOUR_TURN,
   CLOSED,
 } from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {isOwner} from '../../../utils/change-util';
-import {customElement, property, observe} from '@polymer/decorators';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {
   AccountInfo,
@@ -48,15 +36,26 @@ import {
   PreferencesInput,
 } from '../../../types/common';
 import {hasAttention} from '../../../utils/attention-set-util';
-import {fireEvent, fireReload} from '../../../utils/event-util';
+import {fire, fireEvent, fireReload} from '../../../utils/event-util';
 import {ScrollMode} from '../../../constants/constants';
-import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {
   getRequirements,
   showNewSubmitRequirements,
 } from '../../../utils/label-util';
 import {addGlobalShortcut, Key} from '../../../utils/dom-util';
 import {unique} from '../../../utils/common-util';
+import {changeListStyles} from '../../../styles/gr-change-list-styles';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html, css} from 'lit';
+import {
+  customElement,
+  property /* ,
+  state,*/,
+} from 'lit/decorators';
+import {ShortcutController} from '../../lit/shortcut-controller';
+import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {queryAll} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
 
 const NUMBER_FIXED_COLUMNS = 3;
@@ -79,24 +78,15 @@ export const columnNames = [
 ];
 
 export interface ChangeListSection {
+  countLabel?: string;
+  isOutgoing?: boolean;
   name?: string;
   query?: string;
   results: ChangeInfo[];
 }
 
-export interface GrChangeList {
-  $: {};
-}
-
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-change-list')
-export class GrChangeList extends base {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrChangeList extends LitElement {
   /**
    * Fired when next page key shortcut was pressed.
    *
@@ -116,7 +106,7 @@ export class GrChangeList extends base {
   @property({type: Object})
   account: AccountInfo | undefined = undefined;
 
-  @property({type: Array, observer: '_changesChanged'})
+  @property({type: Array})
   changes?: ChangeInfo[];
 
   /**
@@ -126,13 +116,10 @@ export class GrChangeList extends base {
   @property({type: Array})
   sections: ChangeListSection[] = [];
 
-  @property({type: Array, computed: '_computeLabelNames(sections)'})
-  labelNames?: string[];
-
   @property({type: Array})
   _dynamicHeaderEndpoints?: string[];
 
-  @property({type: Number, notify: true})
+  @property({type: Number})
   selectedIndex?: number;
 
   @property({type: Boolean})
@@ -163,17 +150,7 @@ export class GrChangeList extends base {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  override keyboardShortcuts(): ShortcutListener[] {
-    return [
-      listen(Shortcut.CURSOR_NEXT_CHANGE, _ => this._nextChange()),
-      listen(Shortcut.CURSOR_PREV_CHANGE, _ => this._prevChange()),
-      listen(Shortcut.NEXT_PAGE, _ => this._nextPage()),
-      listen(Shortcut.PREV_PAGE, _ => this._prevPage()),
-      listen(Shortcut.OPEN_CHANGE, _ => this.openChange()),
-      listen(Shortcut.TOGGLE_CHANGE_STAR, _ => this._toggleChangeStar()),
-      listen(Shortcut.REFRESH_CHANGE_LIST, _ => this._refreshChangeList()),
-    ];
-  }
+  private readonly shortcuts = new ShortcutController(this);
 
   private cursor = new GrCursorManager();
 
@@ -181,18 +158,29 @@ export class GrChangeList extends base {
     super();
     this.cursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.cursor.focusOnMove = true;
+    this.shortcuts.addAbstract(Shortcut.CURSOR_NEXT_CHANGE, () =>
+      this._nextChange()
+    );
+    this.shortcuts.addAbstract(Shortcut.CURSOR_PREV_CHANGE, () =>
+      this._prevChange()
+    );
+    this.shortcuts.addAbstract(Shortcut.NEXT_PAGE, () => this._nextPage());
+    this.shortcuts.addAbstract(Shortcut.PREV_PAGE, () => this._prevPage());
+    this.shortcuts.addAbstract(Shortcut.OPEN_CHANGE, () => this.openChange());
+    this.shortcuts.addAbstract(Shortcut.TOGGLE_CHANGE_STAR, () =>
+      this._toggleChangeStar()
+    );
+    this.shortcuts.addAbstract(Shortcut.REFRESH_CHANGE_LIST, () =>
+      this._refreshChangeList()
+    );
     addGlobalShortcut({key: Key.ENTER}, () => this.openChange());
-  }
-
-  override ready() {
-    super.ready();
-    this.restApiService.getConfig().then(config => {
-      this._config = config;
-    });
   }
 
   override connectedCallback() {
     super.connectedCallback();
+    this.restApiService.getConfig().then(config => {
+      this._config = config;
+    });
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -206,37 +194,270 @@ export class GrChangeList extends base {
     super.disconnectedCallback();
   }
 
+  static override get styles() {
+    return [
+      changeListStyles,
+      fontStyles,
+      sharedStyles,
+      css`
+        #changeList {
+          border-collapse: collapse;
+          width: 100%;
+        }
+        .section-count-label {
+          color: var(--deemphasized-text-color);
+          font-family: var(--font-family);
+          font-size: var(--font-size-small);
+          font-weight: var(--font-weight-normal);
+          line-height: var(--line-height-small);
+        }
+        a.section-title:hover {
+          text-decoration: none;
+        }
+        a.section-title:hover .section-count-label {
+          text-decoration: none;
+        }
+        a.section-title:hover .section-name {
+          text-decoration: underline;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    const labelNames = this._computeLabelNames(this.sections);
+    return html`
+      <table id="changeList">
+        ${this.sections.map((changeSection, sectionIndex) =>
+          this.renderChangeSections(changeSection, sectionIndex, labelNames)
+        )}
+      </table>
+    `;
+  }
+
+  private renderChangeSections(
+    changeSection: ChangeListSection,
+    sectionIndex: number,
+    labelNames: string[]
+  ) {
+    return html`
+      ${this.renderCHangeSectionName(changeSection, labelNames)}
+      <tbody class="groupContent">
+        ${this._isEmpty(changeSection)
+          ? this.renderEmptyChangeSection(changeSection, labelNames)
+          : this.renderChangeSection(changeSection, labelNames)}
+        ${changeSection.results.map((change, index) =>
+          this.renderChangeSectionResults(
+            changeSection,
+            change,
+            index,
+            sectionIndex,
+            labelNames
+          )
+        )}
+      </tbody>
+    `;
+  }
+
+  private renderCHangeSectionName(
+    changeSection: ChangeListSection,
+    labelNames: string[]
+  ) {
+    if (!changeSection.name) return;
+
+    return html`
+      <tbody>
+        <tr class="groupHeader">
+          <td aria-hidden="true" class="leftPadding"></td>
+          <td aria-hidden="true" class="star" ?hidden=${!this.showStar}></td>
+          <td
+            class="cell"
+            colspan="${this._computeColspan(
+              changeSection,
+              this.visibleChangeTableColumns,
+              labelNames
+            )}"
+          >
+            <h2 class="heading-3">
+              <a
+                href="${this._sectionHref(changeSection.query)}"
+                class="section-title"
+              >
+                <span class="section-name">${changeSection.name}</span>
+                <span class="section-count-label"
+                  >${changeSection.countLabel}</span
+                >
+              </a>
+            </h2>
+          </td>
+        </tr>
+      </tbody>
+    `;
+  }
+
+  private renderEmptyChangeSection(
+    changeSection: ChangeListSection,
+    labelNames: string[]
+  ) {
+    return html`
+      <tr class="noChanges">
+        <td class="leftPadding" ?aria-hidden="true"></td>
+        <td
+          class="star"
+          ?aria-hidden=${!this.showStar}
+          ?hidden=${!this.showStar}
+        ></td>
+        <td
+          class="cell"
+          colspan="${this._computeColspan(
+            changeSection,
+            this.visibleChangeTableColumns,
+            labelNames
+          )}"
+        >
+          ${this._getSpecialEmptySlot(changeSection)
+            ? html`<slot
+                name="${this._getSpecialEmptySlot(changeSection)}"
+              ></slot>`
+            : 'No changes'}
+        </td>
+      </tr>
+    `;
+  }
+
+  private renderChangeSection(
+    changeSection: ChangeListSection,
+    labelNames: string[]
+  ) {
+    return html`
+      <tr class="groupTitle">
+        <td class="leftPadding" ?aria-hidden="true"></td>
+        <td
+          class="star"
+          aria-label="Star status column"
+          ?hidden=${!this.showStar}
+        ></td>
+        <td class="number" ?hidden=${!this.showNumber}>#</td>
+        ${this._computeColumns(
+          changeSection,
+          this.visibleChangeTableColumns
+        ).map(item => this.renderColumn(item))}
+        ${labelNames?.map(labelName => this.renderLabelNames(labelName))}
+        ${this._dynamicHeaderEndpoints?.map(pluginHeader =>
+          this.renderPluginEndpoint(pluginHeader)
+        )}
+      </tr>
+    `;
+  }
+
+  private renderColumn(item: string) {
+    return html`<td class="${this._lowerCase(item)}">${item}</td>`;
+  }
+
+  private renderLabelNames(labelName: string) {
+    return html`
+      <td class="label" title="${labelName}">
+        ${this._computeLabelShortcut(labelName)}
+      </td>
+    `;
+  }
+
+  private renderPluginEndpoint(pluginHeader: string) {
+    return html`
+      <td class="endpoint">
+        <gr-endpoint-decorator .name="${pluginHeader}"></gr-endpoint-decorator>
+      </td>
+    `;
+  }
+
+  private renderChangeSectionResults(
+    changeSection: ChangeListSection,
+    change: ChangeInfo,
+    index: number,
+    sectionIndex: number,
+    labelNames: string[]
+  ) {
+    return html`
+      <gr-change-list-item
+        .account=${this.account}
+        ?selected=${this._computeItemSelected(
+          sectionIndex,
+          index,
+          this.selectedIndex
+        )}
+        .highlight=${this._computeItemHighlight(
+          this.account,
+          change,
+          changeSection.name
+        )}
+        .change=${change}
+        .config=${this._config}
+        .sectionName=${changeSection.name}
+        .visibleChangeTableColumns=${this._computeColumns(
+          changeSection,
+          this.visibleChangeTableColumns
+        )}
+        .showNumber=${this.showNumber}
+        .showStar=${this.showStar}
+        ?tabindex=${this._computeTabIndex(
+          sectionIndex,
+          index,
+          this.isCursorMoving,
+          this.selectedIndex
+        )}
+        .labelNames=${labelNames}
+        aria-label=${this._computeAriaLabel(change, changeSection.name)}
+      ></gr-change-list-item>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (
+      changedProperties.has('account') ||
+      changedProperties.has('preferences') ||
+      changedProperties.has('_config') ||
+      changedProperties.has('sections')
+    ) {
+      this._computePreferences();
+    }
+
+    if (changedProperties.has('changes')) {
+      this._changesChanged();
+    }
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('sections')) {
+      this._sectionsChanged();
+    }
+  }
+
   _lowerCase(column: string) {
     return column.toLowerCase();
   }
 
-  @observe('account', 'preferences', '_config', 'sections')
-  _computePreferences(
-    account?: AccountInfo,
-    preferences?: PreferencesInput,
-    config?: ServerInfo,
-    sections?: ChangeListSection[]
-  ) {
-    if (!config) {
-      return;
-    }
+  _computePreferences() {
+    if (!this._config) return;
 
-    const changes = (sections ?? []).map(section => section.results).flat();
+    const changes = (this.sections ?? [])
+      .map(section => section.results)
+      .flat();
     this.changeTableColumns = columnNames;
     this.showNumber = false;
     this.visibleChangeTableColumns = this.changeTableColumns.filter(col =>
-      this._isColumnEnabled(col, config, changes)
+      this._isColumnEnabled(col, this._config, changes)
     );
-    if (account && preferences) {
-      this.showNumber = !!(
-        preferences && preferences.legacycid_in_change_table
-      );
-      if (preferences.change_table && preferences.change_table.length > 0) {
-        const prefColumns = preferences.change_table.map(column =>
+    if (this.account && this.preferences) {
+      this.showNumber = !!this.preferences?.legacycid_in_change_table;
+      if (
+        this.preferences?.change_table &&
+        this.preferences.change_table.length > 0
+      ) {
+        const prefColumns = this.preferences.change_table.map(column =>
           column === 'Project' ? 'Repo' : column
         );
         this.visibleChangeTableColumns = prefColumns.filter(col =>
-          this._isColumnEnabled(col, config, changes)
+          this._isColumnEnabled(col, this._config, changes)
         );
       }
     }
@@ -347,8 +568,8 @@ export class GrChangeList extends base {
       .slice(0, MAX_SHORTCUT_CHARS);
   }
 
-  _changesChanged(changes: ChangeInfo[]) {
-    this.sections = changes ? [{results: changes}] : [];
+  _changesChanged() {
+    this.sections = this.changes ? [{results: this.changes}] : [];
   }
 
   _processQuery(query: string) {
@@ -361,7 +582,8 @@ export class GrChangeList extends base {
     return tokens.join(' ');
   }
 
-  _sectionHref(query: string) {
+  _sectionHref(query?: string) {
+    if (!query) return;
     return GerritNav.getUrlForSearchQuery(this._processQuery(query));
   }
 
@@ -384,7 +606,7 @@ export class GrChangeList extends base {
   _computeItemSelected(
     sectionIndex: number,
     index: number,
-    selectedIndex: number
+    selectedIndex?: number
   ) {
     const idx = this._computeItemAbsoluteIndex(sectionIndex, index);
     return idx === selectedIndex;
@@ -393,8 +615,8 @@ export class GrChangeList extends base {
   _computeTabIndex(
     sectionIndex: number,
     index: number,
-    selectedIndex: number,
-    isCursorMoving: boolean
+    isCursorMoving: boolean,
+    selectedIndex?: number
   ) {
     if (isCursorMoving) return 0;
     return this._computeItemSelected(sectionIndex, index, selectedIndex)
@@ -421,6 +643,7 @@ export class GrChangeList extends base {
     this.cursor.next();
     this.isCursorMoving = false;
     this.selectedIndex = this.cursor.index;
+    fire(this, 'selected-index-changed', {value: String(this.cursor.index)});
   }
 
   _prevChange() {
@@ -428,6 +651,7 @@ export class GrChangeList extends base {
     this.cursor.previous();
     this.isCursorMoving = false;
     this.selectedIndex = this.cursor.index;
+    fire(this, 'selected-index-changed', {value: String(this.cursor.index)});
   }
 
   openChange() {
@@ -440,12 +664,7 @@ export class GrChangeList extends base {
   }
 
   _prevPage() {
-    this.dispatchEvent(
-      new CustomEvent('previous-page', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'previous-page');
   }
 
   _refreshChangeList() {
@@ -476,27 +695,23 @@ export class GrChangeList extends base {
   }
 
   _getListItems() {
-    const items = this.root?.querySelectorAll('gr-change-list-item');
+    const items = queryAll<GrChangeListItem>(this, 'gr-change-list-item');
     return !items ? [] : Array.from(items);
   }
 
-  @observe('sections.*')
   _sectionsChanged() {
-    // Flush DOM operations so that the list item elements will be loaded.
-    afterNextRender(this, () => {
-      this.cursor.stops = this._getListItems();
-      this.cursor.moveToStart();
-      if (this.selectedIndex) this.cursor.setCursorAtIndex(this.selectedIndex);
-    });
+    this.cursor.stops = this._getListItems();
+    this.cursor.moveToStart();
+    if (this.selectedIndex) this.cursor.setCursorAtIndex(this.selectedIndex);
   }
 
-  _getSpecialEmptySlot(section: DashboardSection) {
+  _getSpecialEmptySlot(section: ChangeListSection) {
     if (section.isOutgoing) return 'empty-outgoing';
     if (section.name === YOUR_TURN.name) return 'empty-your-turn';
     return '';
   }
 
-  _isEmpty(section: DashboardSection) {
+  _isEmpty(section: ChangeListSection) {
     return !section.results?.length;
   }
 

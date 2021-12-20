@@ -72,7 +72,7 @@ public class LazyPostReceiveHookChain implements PostReceiveHook {
             String.format(
                 "%s request failed for project %s with [%s]",
                 REPOSITORY_SIZE_GROUP, project, a.errorMessage());
-        logger.atWarning().log(msg);
+        logger.atWarning().log("%s", msg);
         throw new RuntimeException(msg);
       }
     }

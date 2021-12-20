@@ -291,7 +291,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         // we don't have concrete proof that improving packfile locality would help.
         notesFactory.scan(repo, project, id -> (id.get() % slices) == slice).forEach(r -> index(r));
       } catch (RepositoryNotFoundException rnfe) {
-        logger.atSevere().log(rnfe.getMessage());
+        logger.atSevere().log("%s", rnfe.getMessage());
       } finally {
         OnlineReindexMode.end();
       }
@@ -321,7 +321,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         this.failed.update(1);
       }
 
-      logger.atWarning().withCause(e).log(error);
+      logger.atWarning().withCause(e).log("%s", error);
       verboseWriter.println(error);
     }
 

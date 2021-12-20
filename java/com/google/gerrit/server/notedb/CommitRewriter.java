@@ -477,7 +477,7 @@ public class CommitRewriter {
           }
           detailedVerificationStatus.append("Commit author:\n");
           detailedVerificationStatus.append(fixedAuthorIdent.toString());
-          logger.atWarning().log(detailedVerificationStatus.toString());
+          logger.atWarning().log("%s", detailedVerificationStatus.toString());
         }
       }
       boolean needsFix =
@@ -1180,7 +1180,8 @@ public class CommitRewriter {
       // Filter further so we match both email & name
       if (possibleReplacements.size() > 1) {
         logger.atWarning().log(
-            "Fixing ref %s, multiple accounts found with the same email address, while replacing %s",
+            "Fixing ref %s, multiple accounts found with the same email address, while replacing"
+                + " %s",
             changeFixProgress.changeMetaRef, accountInfo);
         possibleReplacements =
             possibleReplacements.entrySet().stream()

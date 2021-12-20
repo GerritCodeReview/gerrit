@@ -108,7 +108,7 @@ public class RefOperationValidators {
         String.format(
             "Ref \"%s\" %S in project %s validation failed",
             event.command.getRefName(), event.command.getType(), event.project.getName());
-    logger.atSevere().log(header);
+    logger.atSevere().log("%s", header);
     throw new RefOperationValidationException(
         header, messages.stream().filter(ValidationMessage::isError).collect(toImmutableList()));
   }

@@ -24,13 +24,17 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 
 /** Wrapper around {@link Repository} that delegates all calls to the wrapped {@link Repository}. */
-class DelegateRepository extends Repository {
+public class DelegateRepository extends Repository {
 
   private final Repository delegate;
 
-  DelegateRepository(Repository delegate) {
+  protected DelegateRepository(Repository delegate) {
     super(toBuilder(delegate));
     this.delegate = delegate;
+  }
+
+  public Repository delegate() {
+    return delegate;
   }
 
   @Override

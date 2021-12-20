@@ -90,9 +90,12 @@ export function hideInContextControl(
 
   const result = [...before];
   if (hidden.length) {
-    const ctxGroup = new GrDiffGroup(GrDiffGroupType.CONTEXT_CONTROL, []);
-    ctxGroup.contextGroups = [...hidden];
-    result.push(ctxGroup);
+    result.push(
+      new GrDiffGroup({
+        type: GrDiffGroupType.CONTEXT_CONTROL,
+        contextGroups: [...hidden],
+      })
+    );
   }
   result.push(...after);
   return result;
@@ -210,57 +213,112 @@ function _splitCommonGroups(
   return [beforeGroups, afterGroups];
 }
 
+export interface GrMoveDetails {
+  changed: boolean;
+  range?: {
+    start: number;
+    end: number;
+  };
+}
+
+/** A chunk of the diff that should be rendered together. */
 export class GrDiffGroup {
-  /**
-   * A chunk of the diff that should be rendered together.
-   *
-   * @constructor
-   * @param type
-   * @param opt_lines
-   */
-  constructor(readonly type: GrDiffGroupType, lines: GrDiffLine[] = []) {
-    lines.forEach((line: GrDiffLine) => this.addLine(line));
+  constructor(
+    options:
+      | {
+          type: GrDiffGroupType.BOTH | GrDiffGroupType.DELTA;
+          lines?: GrDiffLine[];
+          skip?: undefined;
+          moveDetails?: GrMoveDetails;
+          dueToRebase?: boolean;
+          ignoredWhitespaceOnly?: boolean;
+          keyLocation?: boolean;
+        }
+      | {
+          type: GrDiffGroupType.BOTH | GrDiffGroupType.DELTA;
+          lines?: undefined;
+          skip: number;
+          offsetLeft: number;
+          offsetRight: number;
+          moveDetails?: GrMoveDetails;
+          dueToRebase?: boolean;
+          ignoredWhitespaceOnly?: boolean;
+          keyLocation?: boolean;
+        }
+      | {
+          type: GrDiffGroupType.CONTEXT_CONTROL;
+          contextGroups: GrDiffGroup[];
+        }
+  ) {
+    this.type = options.type;
+    if (
+      options.type === GrDiffGroupType.BOTH ||
+      options.type === GrDiffGroupType.DELTA
+    ) {
+      this.moveDetails = options.moveDetails;
+      this.dueToRebase = options.dueToRebase ?? false;
+      this.ignoredWhitespaceOnly = options.ignoredWhitespaceOnly ?? false;
+      this.keyLocation = options.keyLocation ?? false;
+      if (options.skip && options.lines) {
+        throw new Error('Cannot set skip and lines');
+      }
+      this.skip = options.skip;
+      if (options.skip) {
+        this.lineRange = {
+          left: {
+            start_line: options.offsetLeft,
+            end_line: options.offsetLeft + options.skip - 1,
+          },
+          right: {
+            start_line: options.offsetRight,
+            end_line: options.offsetRight + options.skip - 1,
+          },
+        };
+      }
+      for (const line of options.lines ?? []) {
+        this.addLine(line);
+      }
+    }
+    if (options.type === GrDiffGroupType.CONTEXT_CONTROL) {
+      this.contextGroups = options.contextGroups;
+    }
   }
 
-  dueToRebase = false;
+  readonly type: GrDiffGroupType;
+
+  readonly dueToRebase: boolean = false;
 
   /**
    * True means all changes in this line are whitespace changes that should
    * not be highlighted as changed as per the user settings.
    */
-  ignoredWhitespaceOnly = false;
+  readonly ignoredWhitespaceOnly: boolean = false;
 
   /**
    * True means it should not be collapsed (because it was in the URL, or
    * there is a comment on that line)
    */
-  keyLocation = false;
+  readonly keyLocation: boolean = false;
 
-  element?: HTMLElement;
+  readonly lines: GrDiffLine[] = [];
 
-  lines: GrDiffLine[] = [];
+  readonly adds: GrDiffLine[] = [];
 
-  adds: GrDiffLine[] = [];
+  readonly removes: GrDiffLine[] = [];
 
-  removes: GrDiffLine[] = [];
+  readonly contextGroups: GrDiffGroup[] = [];
 
-  contextGroups: GrDiffGroup[] = [];
-
-  skip?: number;
+  readonly skip?: number;
 
   /** Both start and end line are inclusive. */
-  lineRange = {
+  readonly lineRange = {
     [Side.LEFT]: {start_line: 0, end_line: 0} as LineRange,
     [Side.RIGHT]: {start_line: 0, end_line: 0} as LineRange,
   };
 
-  moveDetails?: {
-    changed: boolean;
-    range?: {
-      start: number;
-      end: number;
-    };
-  };
+  readonly moveDetails?: GrMoveDetails;
+
+  element?: HTMLElement;
 
   /**
    * Creates a new group with the same properties but different lines.
@@ -269,13 +327,22 @@ export class GrDiffGroup {
    * rendering of the old lines, so that would not make sense.
    */
   cloneWithLines(lines: GrDiffLine[]): GrDiffGroup {
-    const group = new GrDiffGroup(this.type, lines);
-    group.dueToRebase = this.dueToRebase;
-    group.ignoredWhitespaceOnly = this.ignoredWhitespaceOnly;
+    if (
+      this.type !== GrDiffGroupType.BOTH &&
+      this.type !== GrDiffGroupType.DELTA
+    ) {
+      throw new Error('Cannot clone context group with lines');
+    }
+    const group = new GrDiffGroup({
+      type: this.type,
+      lines,
+      dueToRebase: this.dueToRebase,
+      ignoredWhitespaceOnly: this.ignoredWhitespaceOnly,
+    });
     return group;
   }
 
-  addLine(line: GrDiffLine) {
+  private addLine(line: GrDiffLine) {
     this.lines.push(line);
 
     const notDelta =
@@ -323,7 +390,7 @@ export class GrDiffGroup {
     return pairs;
   }
 
-  _updateRange(line: GrDiffLine) {
+  private _updateRange(line: GrDiffLine) {
     if (
       line.beforeNumber === 'FILE' ||
       line.afterNumber === 'FILE' ||

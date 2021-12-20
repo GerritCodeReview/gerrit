@@ -51,7 +51,7 @@ suite('gr-context-control tests', () => {
       lines.push(line);
     }
 
-    return [new GrDiffGroup(GrDiffGroupType.BOTH, lines)];
+    return [new GrDiffGroup({type: GrDiffGroupType.BOTH, lines})];
   }
 
   test('no +10 buttons for 10 or less lines', async () => {

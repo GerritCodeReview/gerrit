@@ -1230,7 +1230,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         throws CommentsRejectedException {
       CommentValidationContext commentValidationCtx =
           CommentValidationContext.create(
-              ctx.getChange().getChangeId(), ctx.getChange().getProject().get());
+              ctx.getChange().getChangeId(),
+              ctx.getChange().getProject().get(),
+              ctx.getChange().getDest().branch());
       String changeMessage = Strings.nullToEmpty(in.message).trim();
       ImmutableList<CommentForValidation> draftsForValidation =
           Stream.concat(

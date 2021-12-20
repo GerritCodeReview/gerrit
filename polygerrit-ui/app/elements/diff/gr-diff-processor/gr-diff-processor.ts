@@ -365,22 +365,27 @@ export class GrDiffProcessor extends PolymerElement {
     const type =
       chunk.ab || chunk.skip ? GrDiffGroupType.BOTH : GrDiffGroupType.DELTA;
     const lines = this._linesFromChunk(chunk, offsetLeft, offsetRight);
-    const group = new GrDiffGroup(type, lines);
-    group.keyLocation = !!chunk.keyLocation;
-    group.dueToRebase = !!chunk.due_to_rebase;
-    group.moveDetails = chunk.move_details;
-    group.skip = chunk.skip;
-    group.ignoredWhitespaceOnly = !!chunk.common;
+    const options = {
+      moveDetails: chunk.move_details,
+      dueToRebase: !!chunk.due_to_rebase,
+      ignoredWhitespaceOnly: !!chunk.common,
+      keyLocation: !!chunk.keyLocation,
+    };
     if (chunk.skip) {
-      group.lineRange = {
-        left: {start_line: offsetLeft, end_line: offsetLeft + chunk.skip - 1},
-        right: {
-          start_line: offsetRight,
-          end_line: offsetRight + chunk.skip - 1,
-        },
-      };
+      return new GrDiffGroup({
+        type,
+        skip: chunk.skip,
+        offsetLeft,
+        offsetRight,
+        ...options,
+      });
+    } else {
+      return new GrDiffGroup({
+        type,
+        lines,
+        ...options,
+      });
     }
-    return group;
   }
 
   _linesFromChunk(chunk: DiffContent, offsetLeft: number, offsetRight: number) {
@@ -456,7 +461,7 @@ export class GrDiffProcessor extends PolymerElement {
     const line = new GrDiffLine(GrDiffLineType.BOTH);
     line.beforeNumber = number;
     line.afterNumber = number;
-    return new GrDiffGroup(GrDiffGroupType.BOTH, [line]);
+    return new GrDiffGroup({type: GrDiffGroupType.BOTH, lines: [line]});
   }
 
   /**

@@ -457,6 +457,10 @@ export class GrDashboardView extends PolymerElement {
   _computeObserverTarget() {
     return this;
   }
+
+  _handleSelectedIndexChanged(e: CustomEvent) {
+    this._selectedChangeIndex = Number(e.detail.value);
+  }
 }
 
 declare global {

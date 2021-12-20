@@ -72,10 +72,11 @@ export const htmlTemplate = html`
     ></gr-user-header>
     <gr-change-list
       account="[[account]]"
-      changes="{{_changes}}"
+      changes="[[_changes]]"
       preferences="[[preferences]]"
-      selected-index="{{viewState.selectedChangeIndex}}"
+      selected-index="[[viewState.selectedChangeIndex]]"
       show-star="[[_loggedIn]]"
+      on-selected-index-changed="_handleSelectedIndexChanged"
       on-toggle-star="_handleToggleStar"
       observer-target="[[_computeObserverTarget()]]"
     ></gr-change-list>

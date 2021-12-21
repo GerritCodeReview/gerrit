@@ -1614,6 +1614,17 @@ export class GrRouter extends PolymerElement {
 
     const tab = ctx.queryMap.get('tab');
     if (tab) params.tab = tab;
+    const filter = ctx.queryMap.get('filter');
+    if (filter) params.filter = filter;
+    const select = ctx.queryMap.get('select');
+    if (select) params.select = select;
+    const attempt = ctx.queryMap.get('attempt');
+    if (attempt) {
+      const attemptInt = parseInt(attempt);
+      if (!isNaN(attemptInt) && attemptInt > 0) {
+        params.attempt = attemptInt;
+      }
+    }
 
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);

@@ -23,7 +23,7 @@ import './gr-checks-results';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {ActionTriggeredEvent} from '../../services/checks/checks-util';
 import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
-import {ChecksTabState} from '../../types/events';
+import {TabState} from '../../types/events';
 import {getAppContext} from '../../services/app-context';
 import {subscribe} from '../lit/subscription-controller';
 
@@ -40,7 +40,7 @@ export class GrChecksTab extends LitElement {
   results: CheckResult[] = [];
 
   @property({type: Object})
-  tabState?: ChecksTabState;
+  tabState?: TabState;
 
   @state()
   checksPatchsetNumber: PatchSetNumber | undefined = undefined;
@@ -121,13 +121,13 @@ export class GrChecksTab extends LitElement {
           .runs="${this.runs}"
           .selectedRuns="${this.selectedRuns}"
           .selectedAttempts="${this.selectedAttempts}"
-          .tabState="${this.tabState}"
+          .tabState="${this.tabState?.checksTab}"
           @run-selected="${this.handleRunSelected}"
           @attempt-selected="${this.handleAttemptSelected}"
         ></gr-checks-runs>
         <gr-checks-results
           class="results"
-          .tabState="${this.tabState}"
+          .tabState="${this.tabState?.checksTab}"
           .runs="${this.runs}"
           .selectedRuns="${this.selectedRuns}"
           .selectedAttempts="${this.selectedAttempts}"
@@ -139,11 +139,52 @@ export class GrChecksTab extends LitElement {
 
   protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
-    if (changedProperties.has('tabState')) {
-      if (this.tabState) {
-        this.selectedRuns = [];
+    if (changedProperties.has('tabState')) this.applyTabState();
+    if (changedProperties.has('runs')) this.applyTabState();
+  }
+
+  /**
+   * Clearing the tabState means that from now on the user interaction counts,
+   * not the content of the URL (which is where tabState is populated from).
+   */
+  private clearTabState() {
+    this.tabState = {};
+  }
+
+  /**
+   * We want to keep applying the tabState to newly incoming check runs until
+   * the user explicitly interacts with the selection or the attempts, which
+   * will result in clearTabState() being called.
+   */
+  private applyTabState() {
+    if (!this.tabState?.checksTab) return;
+    // Note that .filter is processed by <gr-checks-runs>.
+    const {select, filter, attempt} = this.tabState?.checksTab;
+    if (!select) {
+      this.selectedRuns = [];
+      this.selectedAttempts = new Map<string, number>();
+      return;
+    }
+    const regexpSelect = new RegExp(select, 'i');
+    // We do not allow selection of runs that are invisible because of the
+    // filter.
+    const regexpFilter = new RegExp(filter ?? '', 'i');
+    const selectedRuns = this.runs.filter(
+      run =>
+        regexpSelect.test(run.checkName) && regexpFilter.test(run.checkName)
+    );
+    this.selectedRuns = selectedRuns.map(run => run.checkName);
+    const selectedAttempts = new Map<string, number>();
+    if (attempt) {
+      for (const run of selectedRuns) {
+        if (run.isSingleAttempt) continue;
+        const hasAttempt = run.attemptDetails.some(
+          detail => detail.attempt === attempt
+        );
+        if (hasAttempt) selectedAttempts.set(run.checkName, attempt);
       }
     }
+    this.selectedAttempts = selectedAttempts;
   }
 
   handleActionTriggered(action: Action, run?: CheckRun) {
@@ -151,6 +192,7 @@ export class GrChecksTab extends LitElement {
   }
 
   handleRunSelected(e: RunSelectedEvent) {
+    this.clearTabState();
     if (e.detail.reset) {
       this.selectedRuns = [];
       this.selectedAttempts = new Map();
@@ -162,6 +204,7 @@ export class GrChecksTab extends LitElement {
   }
 
   handleAttemptSelected(e: AttemptSelectedEvent) {
+    this.clearTabState();
     const {checkName, attempt} = e.detail;
     this.selectedAttempts.set(checkName, attempt);
     // Force property update.
@@ -169,6 +212,7 @@ export class GrChecksTab extends LitElement {
   }
 
   toggleSelected(checkName: string) {
+    this.clearTabState();
     if (this.selectedRuns.includes(checkName)) {
       this.selectedRuns = this.selectedRuns.filter(r => r !== checkName);
       this.selectedAttempts.set(checkName, undefined);

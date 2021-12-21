@@ -162,12 +162,14 @@ import {
   ParsedChangeInfo,
 } from '../../../types/types';
 import {
+  ChecksTabState,
   CloseFixPreviewEvent,
   EditableContentSaveEvent,
   EventType,
   OpenFixPreviewEvent,
   ShowAlertEventDetail,
   SwitchTabEvent,
+  SwitchTabEventDetail,
   TabState,
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -894,7 +896,7 @@ export class GrChangeView extends base {
         this._selectedTabPluginHeader = '';
       }
     }
-    this._tabState = e.detail.tabState;
+    if (e.detail.tabState) this._tabState = e.detail.tabState;
   }
 
   /**
@@ -1353,14 +1355,22 @@ export class GrChangeView extends base {
     let primaryTab = PrimaryTab.FILES;
     if (params?.tab) {
       primaryTab = params?.tab as PrimaryTab;
-    } else if (params && 'commentId' in params) {
+    } else if (params?.commentId) {
       primaryTab = PrimaryTab.COMMENT_THREADS;
     }
+    const detail: SwitchTabEventDetail = {
+      tab: primaryTab,
+    };
+    if (primaryTab === PrimaryTab.CHECKS) {
+      const state: ChecksTabState = {};
+      detail.tabState = {checksTab: state};
+      if (params?.filter) state.filter = params?.filter;
+      if (params?.select) state.select = params?.select;
+      if (params?.attempt) state.attempt = params?.attempt;
+    }
     this._setActivePrimaryTab(
-      new CustomEvent('initActiveTab', {
-        detail: {
-          tab: primaryTab,
-        },
+      new CustomEvent(EventType.SHOW_PRIMARY_TAB, {
+        detail,
       })
     );
   }

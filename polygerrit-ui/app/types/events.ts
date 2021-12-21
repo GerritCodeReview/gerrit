@@ -240,6 +240,12 @@ export enum CommentTabState {
 export interface ChecksTabState {
   statusOrCategory?: RunStatus | Category;
   checkName?: string;
+  /** regular expression for filtering runs */
+  filter?: string;
+  /** regular expression for selecting runs */
+  select?: string;
+  /** selected attempt for selected runs */
+  attempt?: number;
 }
 export type SwitchTabEvent = CustomEvent<SwitchTabEventDetail>;
 

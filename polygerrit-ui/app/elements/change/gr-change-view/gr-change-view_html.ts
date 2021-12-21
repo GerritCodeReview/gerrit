@@ -310,13 +310,9 @@ export const htmlTemplate = html`
     }
   </style>
   <div class="container loading" hidden$="[[!_loading]]">Loading...</div>
-  <!-- TODO(taoalpha): remove on-show-checks-table,
-    Gerrit should not have any thing too special for a plugin,
-    replace with a generic event: show-primary-tab. -->
   <div
     id="mainContent"
     class="container"
-    on-show-checks-table="_setActivePrimaryTab"
     hidden$="{{_loading}}"
     aria-hidden="[[_changeViewAriaHidden]]"
   >
@@ -565,7 +561,7 @@ export const htmlTemplate = html`
         <h3 class="assistive-tech-only">Comments</h3>
         <gr-thread-list
           threads="[[_commentThreads]]"
-          comment-tab-state="[[_tabState.commentTab]]"
+          comment-tab-state="[[_tabState]]"
           only-show-robot-comments-with-human-reply=""
           unresolved-only="[[unresolvedOnly]]"
           scroll-comment-id="[[scrollCommentId]]"
@@ -577,10 +573,7 @@ export const htmlTemplate = html`
         if="[[_isTabActive(_constants.PrimaryTab.CHECKS, _activeTabs)]]"
       >
         <h3 class="assistive-tech-only">Checks</h3>
-        <gr-checks-tab
-          id="checksTab"
-          tab-state="[[_tabState.checksTab]]"
-        ></gr-checks-tab>
+        <gr-checks-tab id="checksTab" tab-state="[[_tabState]]"></gr-checks-tab>
       </template>
       <template
         is="dom-if"

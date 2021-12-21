@@ -359,8 +359,12 @@ export class GrChecksRuns extends LitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
+  /**
+   * We prefer `undefined` over a RegExp with '', because `.source` yields
+   * a strange '(?:)' for ''.
+   */
   @state()
-  filterRegExp = new RegExp('');
+  filterRegExp?: RegExp;
 
   @property({attribute: false})
   runs: CheckRun[] = [];
@@ -520,7 +524,20 @@ export class GrChecksRuns extends LitElement {
 
   protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
+    // This update is done is response to setting this.filterRegExp below, but
+    // this.filterInput not yet being available at that point.
+    if (this.filterInput && !this.filterInput.value && this.filterRegExp) {
+      this.filterInput.value = this.filterRegExp.source;
+    }
     if (changedProperties.has('tabState') && this.tabState) {
+      // Note that tabState.select and tabState.attempt are processed by
+      // <gr-checks-tab>.
+      if (
+        this.tabState.filter &&
+        this.tabState.filter !== this.filterRegExp?.source
+      ) {
+        this.filterRegExp = new RegExp(this.tabState.filter, 'i');
+      }
       const {statusOrCategory} = this.tabState;
       if (
         statusOrCategory === RunStatus.RUNNING ||
@@ -667,7 +684,11 @@ export class GrChecksRuns extends LitElement {
 
   onInput() {
     assertIsDefined(this.filterInput, 'filter <input> element');
-    this.filterRegExp = new RegExp(this.filterInput.value, 'i');
+    if (this.filterInput.value) {
+      this.filterRegExp = new RegExp(this.filterInput.value, 'i');
+    } else {
+      this.filterRegExp = undefined;
+    }
   }
 
   none() {
@@ -784,7 +805,7 @@ export class GrChecksRuns extends LitElement {
           r.status === status ||
           (status === RunStatus.RUNNING && r.status === RunStatus.SCHEDULED)
       )
-      .filter(r => this.filterRegExp.test(r.checkName))
+      .filter(r => !this.filterRegExp || this.filterRegExp.test(r.checkName))
       .sort(compareByWorstCategory);
     if (runs.length === 0) return;
     const expanded = this.isSectionExpanded.get(status) ?? true;
@@ -827,11 +848,7 @@ export class GrChecksRuns extends LitElement {
   }
 
   showFilter(): boolean {
-    const show = this.runs.length > 10;
-    if (!show && this.filterRegExp.source.length > 0) {
-      this.filterRegExp = new RegExp('');
-    }
-    return show;
+    return this.runs.length > 10 || !!this.filterRegExp;
   }
 
   renderFakeControls() {

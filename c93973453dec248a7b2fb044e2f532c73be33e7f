@@ -16,6 +16,24 @@
       "message": "Now that I look at it again, I find it slighly ugly that I made type one of the options parameters: At the callsite, one does not benefit from the `type:`, because that is anyways clear from referencing the enum. I could instead use constructor overloads, like so:\n\nconstructor(type: GrDiffGroupType.BOTH|GrDiffGroupType.DELTA, options: {lines...})\nconstructor(type: GrDiffGroupType.BOTH|GrDiffGroupType.DELTA, options: {skip...})\nconstructor(type: GrDiffGroupType.CONTEXT_CONTROL, options: {contextGroups:...})\nconstructor(type: GrDiffGroupType, options: unknown) {\n  ...\n}\n\nDo you like that much more? I wonder if it\u0027s worth to refactor this and all callsites one more time...",
       "revId": "c93973453dec248a7b2fb044e2f532c73be33e7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "115fd414_fc66a069",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-21T14:38:59Z",
+      "side": 1,
+      "message": "Seems slightly nicer, but up to you really.",
+      "parentUuid": "cc6fbd08_c1e5a5f9",
+      "revId": "c93973453dec248a7b2fb044e2f532c73be33e7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

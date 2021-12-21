@@ -97,7 +97,6 @@ ignore_templates_list = [
     "elements/admin/gr-permission/gr-permission_html.ts",
     "elements/admin/gr-repo-access/gr-repo-access_html.ts",
     "elements/admin/gr-rule-editor/gr-rule-editor_html.ts",
-    "elements/change-list/gr-change-list-view/gr-change-list-view_html.ts",
     "elements/change-list/gr-change-list/gr-change-list_html.ts",
     "elements/change-list/gr-dashboard-view/gr-dashboard-view_html.ts",
     "elements/change/gr-change-actions/gr-change-actions_html.ts",

@@ -57,6 +57,7 @@ import {
 } from '../../../utils/label-util';
 import {addGlobalShortcut, Key} from '../../../utils/dom-util';
 import {unique} from '../../../utils/common-util';
+import {ValueChangedEvent} from '../../../types/events';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -506,6 +507,9 @@ export class GrChangeList extends base {
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'selected-index-changed': ValueChangedEvent;
+  }
   interface HTMLElementTagNameMap {
     'gr-change-list': GrChangeList;
   }

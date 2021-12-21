@@ -79,7 +79,7 @@ import {
   TitleChangeEventDetail,
   ValueChangedEvent,
 } from '../types/events';
-import {ViewState} from '../types/types';
+import {ChangeListViewState, ViewState} from '../types/types';
 import {GerritView} from '../services/router/router-model';
 import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
@@ -624,6 +624,14 @@ export class GrAppElement extends base {
   _handleSearchQueryChanged(e: ValueChangedEvent) {
     if (!this.params) return;
     (this.params as AppElementSearchParam).query = e.detail.value;
+  }
+
+  _handleViewStateChanged(e: ValueChangedEvent<ChangeListViewState>) {
+    if (!this._viewState) return;
+    this._viewState.changeListView = {
+      ...this._viewState.changeListView,
+      ...e.detail.value,
+    };
   }
 }
 

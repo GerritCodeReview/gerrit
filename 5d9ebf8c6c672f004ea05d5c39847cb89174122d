@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c94903f_b1a4cade",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-21T07:40:09Z",
+      "side": 1,
+      "message": "Verified CodeStyle with the following command:\n\n  google-java-format -r java/com/google/gerrit/server/git/GitRepositoryManagerModule.java | git status | grep \"Git\"\n\nand it returned no changes.\n\nAlso created an alternative version of module and tested in the local setup that it works as expected.",
+      "revId": "5d9ebf8c6c672f004ea05d5c39847cb89174122d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

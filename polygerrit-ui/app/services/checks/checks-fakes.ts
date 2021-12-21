@@ -165,7 +165,6 @@ export const fakeRun2: CheckRun = {
   internalRunId: 'f2',
   checkName: 'FAKE Mega Analysis',
   statusDescription: 'This run is nearly completed, but not quite.',
-  statusLink: 'https://www.google.com/',
   checkDescription:
     'From what the title says you can tell that this check analyses.',
   checkLink: 'https://www.google.com/',

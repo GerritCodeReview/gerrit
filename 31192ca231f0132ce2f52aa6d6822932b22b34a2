@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b512bc78_a432d2a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-21T07:36:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48ecc63b_c99412f4",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "31192ca231f0132ce2f52aa6d6822932b22b34a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7adc0e7e_014d9417",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5e37b0f_d46e79cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-21T07:36:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7adc0e7e_014d9417",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "31192ca231f0132ce2f52aa6d6822932b22b34a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20e0f372_335ab3e7",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-12-21T01:58:44Z",
       "side": 1,
       "message": "replaceable?",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 10,
+        "endChar": 57
+      },
+      "revId": "31192ca231f0132ce2f52aa6d6822932b22b34a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e972c25_23cef42b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-21T07:36:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20e0f372_335ab3e7",
       "range": {
         "startLine": 10,
         "startChar": 48,

@@ -97,7 +97,6 @@ export const fakeRun1: CheckRun = {
   pluginName: 'f1',
   internalRunId: 'f1',
   checkName: 'FAKE Super Check',
-  statusLink: 'https://www.google.com/',
   startedTimestamp: new Date(new Date().getTime() - 5 * 60 * 1000),
   finishedTimestamp: new Date(new Date().getTime() + 5 * 60 * 1000),
   patchset: 1,

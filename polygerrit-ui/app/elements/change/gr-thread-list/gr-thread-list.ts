@@ -36,7 +36,7 @@ import {
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {CommentTabState} from '../../../types/events';
+import {CommentTabState, TabState} from '../../../types/events';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {css, html, LitElement, PropertyValues} from 'lit';
@@ -167,7 +167,7 @@ export class GrThreadList extends LitElement {
   hideDropdown = false;
 
   @property({type: Object, attribute: 'comment-tab-state'})
-  commentTabState?: CommentTabState;
+  commentTabState?: TabState;
 
   @property({type: String, attribute: 'scroll-comment-id'})
   scrollCommentId?: UrlEncodedCommentId;
@@ -216,7 +216,7 @@ export class GrThreadList extends LitElement {
   }
 
   private onCommentTabStateUpdate() {
-    switch (this.commentTabState) {
+    switch (this.commentTabState?.commentTab) {
       case CommentTabState.UNRESOLVED:
         this.handleOnlyUnresolved();
         break;

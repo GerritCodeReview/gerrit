@@ -95,10 +95,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();
-    when(mockCommentValidator.validateComments(
-            CommentValidationContext.create(
-                result.getChange().getId().get(), result.getChange().project().get()),
-            ImmutableList.of(COMMENT_FOR_VALIDATION)))
+    when(mockCommentValidator.validateComments(captureCtx.capture(), capture.capture()))
         .thenReturn(ImmutableList.of());
     DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
     testCommentHelper.addDraft(changeId, revId, comment);
@@ -107,6 +104,12 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     amendResult.assertOkStatus();
     amendResult.assertNotMessage("Comment validation failure:");
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+
+    assertThat(captureCtx.getAllValues()).hasSize(1);
+    assertThat(captureCtx.getValue().getProject()).isEqualTo(result.getChange().project().get());
+    assertThat(captureCtx.getValue().getChangeId()).isEqualTo(result.getChange().getId().get());
+    assertThat(captureCtx.getValue().getRefName()).isEqualTo("refs/heads/master");
+    assertThat(capture.getValue()).containsExactly(COMMENT_FOR_VALIDATION);
   }
 
   @Test
@@ -182,7 +185,9 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     String revId = result.getCommit().getName();
     when(mockCommentValidator.validateComments(
             CommentValidationContext.create(
-                result.getChange().getId().get(), result.getChange().project().get()),
+                result.getChange().getId().get(),
+                result.getChange().project().get(),
+                result.getChange().change().getDest().branch()),
             ImmutableList.of(COMMENT_FOR_VALIDATION)))
         .thenReturn(ImmutableList.of(COMMENT_FOR_VALIDATION.failValidation("Oh no!")));
     DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
@@ -215,6 +220,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
 
     assertThat(captureCtx.getValue().getProject()).isEqualTo(result.getChange().project().get());
     assertThat(captureCtx.getValue().getChangeId()).isEqualTo(result.getChange().getId().get());
+    assertThat(captureCtx.getValue().getRefName()).isEqualTo("refs/heads/master");
 
     assertThat(capture.getAllValues().get(0))
         .containsExactly(

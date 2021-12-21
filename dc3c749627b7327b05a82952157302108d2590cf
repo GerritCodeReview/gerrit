@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93026da2_e8ba508d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-21T11:44:52Z",
+      "side": 1,
+      "message": "Should this be done on stable-3.3 as a precaution? WDYT?",
+      "revId": "dc3c749627b7327b05a82952157302108d2590cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

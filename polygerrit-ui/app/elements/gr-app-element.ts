@@ -77,7 +77,6 @@ import {
   PageErrorEventDetail,
   RpcLogEvent,
   TitleChangeEventDetail,
-  ValueChangedEvent,
 } from '../types/events';
 import {ViewState} from '../types/types';
 import {GerritView} from '../services/router/router-model';
@@ -619,11 +618,6 @@ export class GrAppElement extends base {
     return window.localStorage.getItem('dark-theme')
       ? 'app-theme-dark'
       : 'app-theme-light';
-  }
-
-  _handleSearchQueryChanged(e: ValueChangedEvent) {
-    if (!this.params) return;
-    (this.params as AppElementSearchParam).query = e.detail.value;
   }
 }
 

@@ -21,7 +21,7 @@ import {GrChangeListView} from './gr-change-list-view';
 import {page} from '../../../utils/page-wrapper-utils';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import 'lodash/lodash';
-import {mockPromise, stubRestApi} from '../../../test/test-utils';
+import {mockPromise, query, stubRestApi} from '../../../test/test-utils';
 import {createChange} from '../../../test/test-data-generators.js';
 import {
   ChangeInfo,
@@ -38,177 +38,198 @@ const COMMIT_HASH = '12345678';
 suite('gr-change-list-view tests', () => {
   let element: GrChangeListView;
 
-  setup(() => {
+  setup(async () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getChanges').returns(Promise.resolve([]));
     stubRestApi('getAccountDetails').returns(Promise.resolve(undefined));
     stubRestApi('getAccountStatus').returns(Promise.resolve(undefined));
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
   teardown(async () => {
-    await flush();
+    await element.updateComplete;
   });
 
-  test('_computePage', () => {
-    assert.equal(element._computePage(0, 25), 1);
-    assert.equal(element._computePage(50, 25), 3);
+  test('computePage', () => {
+    element.offset = 0;
+    element.changesPerPage = 25;
+    assert.equal(element.computePage(), 1);
+    element.offset = 50;
+    element.changesPerPage = 25;
+    assert.equal(element.computePage(), 3);
   });
 
-  test('_limitFor', () => {
+  test('limitFor', () => {
     const defaultLimit = 25;
-    const _limitFor = (q: string) => element._limitFor(q, defaultLimit);
-    assert.equal(_limitFor(''), defaultLimit);
-    assert.equal(_limitFor('limit:10'), 10);
-    assert.equal(_limitFor('xlimit:10'), defaultLimit);
-    assert.equal(_limitFor('x(limit:10'), 10);
+    const limitFor = (q: string) => element.limitFor(q, defaultLimit);
+    assert.equal(limitFor(''), defaultLimit);
+    assert.equal(limitFor('limit:10'), 10);
+    assert.equal(limitFor('xlimit:10'), defaultLimit);
+    assert.equal(limitFor('x(limit:10'), 10);
   });
 
-  test('_computeNavLink', () => {
+  test('computeNavLink', () => {
     const getUrlStub = sinon
       .stub(GerritNav, 'getUrlForSearchQuery')
       .returns('');
-    const query = 'status:open';
-    let offset = 0;
+    element.query = 'status:open';
+    element.offset = 0;
+    element.changesPerPage = 5;
     let direction = 1;
-    const changesPerPage = 5;
 
-    element._computeNavLink(query, offset, direction, changesPerPage);
+    element.computeNavLink(direction);
     assert.equal(getUrlStub.lastCall.args[1], 5);
 
     direction = -1;
-    element._computeNavLink(query, offset, direction, changesPerPage);
+    element.computeNavLink(direction);
     assert.equal(getUrlStub.lastCall.args[1], 0);
 
-    offset = 5;
+    element.offset = 5;
     direction = 1;
-    element._computeNavLink(query, offset, direction, changesPerPage);
+    element.computeNavLink(direction);
     assert.equal(getUrlStub.lastCall.args[1], 10);
   });
 
-  test('_computePrevArrowClass', () => {
-    let offset = 0;
-    assert.equal(element._computePrevArrowClass(offset), 'hide');
-    offset = 5;
-    assert.equal(element._computePrevArrowClass(offset), '');
+  test('prevArrow', async () => {
+    element.changes = _.times(25, _.constant(createChange())) as ChangeInfo[];
+    element.offset = 0;
+    element.loading = false;
+    await element.updateComplete;
+    assert.isNotOk(query(element, '#prevArrow'));
+
+    element.offset = 5;
+    await element.updateComplete;
+    assert.isOk(query(element, '#prevArrow'));
   });
 
-  test('_computeNextArrowClass', () => {
-    let changes: ChangeInfo[] = _.times(
+  test('nextArrow', async () => {
+    element.changes = _.times(
       25,
       _.constant({...createChange(), _more_changes: true})
-    );
-    assert.equal(element._computeNextArrowClass(changes), '');
-    changes = _.times(25, _.constant(createChange()));
-    assert.equal(element._computeNextArrowClass(changes), 'hide');
+    ) as ChangeInfo[];
+    element.loading = false;
+    await element.updateComplete;
+    assert.isOk(query(element, '#nextArrow'));
+
+    element.changes = _.times(25, _.constant(createChange())) as ChangeInfo[];
+    await element.updateComplete;
+    assert.isNotOk(query(element, '#nextArrow'));
   });
 
-  test('_computeNavClass', () => {
-    let loading = true;
-    assert.equal(element._computeNavClass(loading), 'hide');
-    loading = false;
-    assert.equal(element._computeNavClass(loading), 'hide');
-    element._changes = [];
-    assert.equal(element._computeNavClass(loading), 'hide');
-    element._changes = _.times(5, _.constant(createChange()));
-    assert.equal(element._computeNavClass(loading), '');
-  });
-
-  test('_handleNextPage', () => {
+  test('handleNextPage', async () => {
     const showStub = sinon.stub(page, 'show');
-    element._changesPerPage = 10;
-    element.$.nextArrow.hidden = true;
-    element._handleNextPage();
+    element.changes = _.times(25, _.constant(createChange())) as ChangeInfo[];
+    element.changesPerPage = 10;
+    element.loading = false;
+    await element.updateComplete;
+    element.handleNextPage();
     assert.isFalse(showStub.called);
-    element.$.nextArrow.hidden = false;
-    element._handleNextPage();
+
+    element.changes = _.times(
+      25,
+      _.constant({...createChange(), _more_changes: true})
+    ) as ChangeInfo[];
+    element.loading = false;
+    await element.updateComplete;
+    element.handleNextPage();
     assert.isTrue(showStub.called);
   });
 
-  test('_handlePreviousPage', () => {
+  test('handlePreviousPage', async () => {
     const showStub = sinon.stub(page, 'show');
-    element._changesPerPage = 10;
-    element.$.prevArrow.hidden = true;
-    element._handlePreviousPage();
+    element.offset = 0;
+    element.changes = _.times(25, _.constant(createChange())) as ChangeInfo[];
+    element.changesPerPage = 10;
+    element.loading = false;
+    await element.updateComplete;
+    element.handlePreviousPage();
     assert.isFalse(showStub.called);
-    element.$.prevArrow.hidden = false;
-    element._handlePreviousPage();
+
+    element.offset = 25;
+    await element.updateComplete;
+    element.handlePreviousPage();
     assert.isTrue(showStub.called);
   });
 
-  test('_userId query', async () => {
-    assert.isNull(element._userId);
-    element._query = 'owner: foo@bar';
-    element._changes = [
+  test('userId query', async () => {
+    assert.isNull(element.userId);
+    element.query = 'owner: foo@bar';
+    element.changes = [
       {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
     ];
-    await flush();
-    assert.equal(element._userId, 'foo@bar' as EmailAddress);
+    await element.updateComplete;
+    assert.equal(element.userId, 'foo@bar' as EmailAddress);
 
-    element._query = 'foo bar baz';
-    element._changes = [
+    element.query = 'foo bar baz';
+    element.changes = [
       {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
     ];
-    assert.isNull(element._userId);
+    await element.updateComplete;
+    assert.isNull(element.userId);
   });
 
-  test('_userId query without email', async () => {
-    assert.isNull(element._userId);
-    element._query = 'owner: foo@bar';
-    element._changes = [{...createChange(), owner: {}}];
-    await flush();
-    assert.isNull(element._userId);
+  test('userId query without email', async () => {
+    assert.isNull(element.userId);
+    element.query = 'owner: foo@bar';
+    element.changes = [{...createChange(), owner: {}}];
+    await element.updateComplete;
+    assert.isNull(element.userId);
   });
 
-  test('_repo query', async () => {
-    assert.isNull(element._repo);
-    element._query = 'project: test-repo';
-    element._changes = [
+  test('repo query', async () => {
+    assert.isNull(element.repo);
+    element.query = 'project: test-repo';
+    element.changes = [
       {
         ...createChange(),
         owner: {email: 'foo@bar' as EmailAddress},
         project: 'test-repo' as RepoName,
       },
     ];
-    await flush();
-    assert.equal(element._repo, 'test-repo' as RepoName);
-    element._query = 'foo bar baz';
-    element._changes = [
+    await element.updateComplete;
+    assert.equal(element.repo, 'test-repo' as RepoName);
+
+    element.query = 'foo bar baz';
+    element.changes = [
       {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
     ];
-    assert.isNull(element._repo);
+    await element.updateComplete;
+    assert.isNull(element.repo);
   });
 
-  test('_repo query with open status', async () => {
-    assert.isNull(element._repo);
-    element._query = 'project:test-repo status:open';
-    element._changes = [
+  test('repo query with open status', async () => {
+    assert.isNull(element.repo);
+    element.query = 'project:test-repo status:open';
+    element.changes = [
       {
         ...createChange(),
         owner: {email: 'foo@bar' as EmailAddress},
         project: 'test-repo' as RepoName,
       },
     ];
-    await flush();
-    assert.equal(element._repo, 'test-repo' as RepoName);
-    element._query = 'foo bar baz';
-    element._changes = [
+    await element.updateComplete;
+    assert.equal(element.repo, 'test-repo' as RepoName);
+
+    element.query = 'foo bar baz';
+    element.changes = [
       {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
     ];
-    assert.isNull(element._repo);
+    await element.updateComplete;
+    assert.isNull(element.repo);
   });
 
   suite('query based navigation', () => {
     setup(() => {});
 
     teardown(async () => {
-      await flush();
+      await element.updateComplete;
       sinon.restore();
     });
 
     test('Searching for a change ID redirects to change', async () => {
       const change = {...createChange(), _number: 1 as NumericChangeId};
-      sinon.stub(element, '_getChanges').returns(Promise.resolve([change]));
+      sinon.stub(element, 'getChanges').returns(Promise.resolve([change]));
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
         assert.equal(url, change);
@@ -226,7 +247,7 @@ suite('gr-change-list-view tests', () => {
 
     test('Searching for a change num redirects to change', async () => {
       const change = {...createChange(), _number: 1 as NumericChangeId};
-      sinon.stub(element, '_getChanges').returns(Promise.resolve([change]));
+      sinon.stub(element, 'getChanges').returns(Promise.resolve([change]));
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
         assert.equal(url, change);
@@ -240,7 +261,7 @@ suite('gr-change-list-view tests', () => {
 
     test('Commit hash redirects to change', async () => {
       const change = {...createChange(), _number: 1 as NumericChangeId};
-      sinon.stub(element, '_getChanges').returns(Promise.resolve([change]));
+      sinon.stub(element, 'getChanges').returns(Promise.resolve([change]));
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
         assert.equal(url, change);
@@ -257,7 +278,7 @@ suite('gr-change-list-view tests', () => {
     });
 
     test('Searching for an invalid change ID searches', async () => {
-      sinon.stub(element, '_getChanges').returns(Promise.resolve([]));
+      sinon.stub(element, 'getChanges').returns(Promise.resolve([]));
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
       element.params = {
@@ -265,13 +286,13 @@ suite('gr-change-list-view tests', () => {
         query: CHANGE_ID,
         offset: '',
       };
-      await flush();
+      await element.updateComplete;
 
       assert.isFalse(stub.called);
     });
 
     test('Change ID with multiple search results searches', async () => {
-      sinon.stub(element, '_getChanges').returns(Promise.resolve(undefined));
+      sinon.stub(element, 'getChanges').returns(Promise.resolve(undefined));
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
       element.params = {
@@ -279,7 +300,7 @@ suite('gr-change-list-view tests', () => {
         query: CHANGE_ID,
         offset: '',
       };
-      await flush();
+      await element.updateComplete;
 
       assert.isFalse(stub.called);
     });

@@ -401,7 +401,7 @@ java_package_configuration(
         "-Xep:StreamToString:ERROR",
         "-Xep:StringBuilderInitWithChar:ERROR",
         "-Xep:StringEquality:ERROR",
-        # "-Xep:StringSplitter:WARN",
+        "-Xep:StringSplitter:ERROR",
         "-Xep:SubstringOfZero:ERROR",
         "-Xep:SuppressWarningsDeprecated:ERROR",
         "-Xep:SwigMemoryLeak:ERROR",

@@ -26,11 +26,14 @@ import static com.google.gerrit.sshd.SshLog.P_USER_CPU;
 import static com.google.gerrit.sshd.SshLog.P_USER_NAME;
 import static com.google.gerrit.sshd.SshLog.P_WAIT;
 
+import com.google.common.base.Splitter;
 import com.google.gerrit.util.logging.JsonLayout;
 import com.google.gerrit.util.logging.JsonLogEntry;
+import java.util.List;
 import org.apache.log4j.spi.LoggingEvent;
 
 public class SshLogJsonLayout extends JsonLayout {
+  private static final Splitter SPLITTER = Splitter.on(" ");
 
   @Override
   public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
@@ -81,18 +84,18 @@ public class SshLogJsonLayout extends JsonLayout {
 
       String metricString = getMdcString(event, P_MESSAGE);
       if (metricString != null && !metricString.isEmpty()) {
-        String[] ssh_metrics = metricString.split(" ");
-        this.timeNegotiating = ssh_metrics[0];
-        this.timeSearchReuse = ssh_metrics[1];
-        this.timeSearchSizes = ssh_metrics[2];
-        this.timeCounting = ssh_metrics[3];
-        this.timeCompressing = ssh_metrics[4];
-        this.timeWriting = ssh_metrics[5];
-        this.timeTotal = ssh_metrics[6];
-        this.bitmapIndexMisses = ssh_metrics[7];
-        this.deltasTotal = ssh_metrics[8];
-        this.objectsTotal = ssh_metrics[9];
-        this.bytesTotal = ssh_metrics[10];
+        List<String> ssh_metrics = SPLITTER.splitToList(" ");
+        this.timeNegotiating = ssh_metrics.get(0);
+        this.timeSearchReuse = ssh_metrics.get(1);
+        this.timeSearchSizes = ssh_metrics.get(2);
+        this.timeCounting = ssh_metrics.get(3);
+        this.timeCompressing = ssh_metrics.get(4);
+        this.timeWriting = ssh_metrics.get(5);
+        this.timeTotal = ssh_metrics.get(6);
+        this.bitmapIndexMisses = ssh_metrics.get(7);
+        this.deltasTotal = ssh_metrics.get(8);
+        this.objectsTotal = ssh_metrics.get(9);
+        this.bytesTotal = ssh_metrics.get(10);
       }
     }
   }

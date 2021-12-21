@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.ssh;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -37,7 +38,6 @@ import org.junit.Test;
 @NoHttpd
 @UseSsh
 public class QueryIT extends AbstractDaemonTest {
-
   private static Gson gson = new Gson();
 
   @Test
@@ -313,10 +313,10 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   private static List<ChangeAttribute> getChanges(String rawResponse) {
-    String[] lines = rawResponse.split("\\n");
-    List<ChangeAttribute> changes = new ArrayList<>(lines.length - 1);
-    for (int i = 0; i < lines.length - 1; i++) {
-      changes.add(gson.fromJson(lines[i], ChangeAttribute.class));
+    List<String> lines = Splitter.on("\n").omitEmptyStrings().splitToList(rawResponse);
+    List<ChangeAttribute> changes = new ArrayList<>(lines.size() - 1);
+    for (int i = 0; i < lines.size() - 1; i++) {
+      changes.add(gson.fromJson(lines.get(i), ChangeAttribute.class));
     }
     return changes;
   }

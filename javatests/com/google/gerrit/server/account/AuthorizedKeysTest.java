@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.base.Splitter;
 import com.google.gerrit.entities.Account;
 import java.util.ArrayList;
 import java.util.List;
@@ -125,18 +126,22 @@ public class AuthorizedKeysTest {
   public void getters() throws Exception {
     AccountSshKey key = AccountSshKey.create(accountId, 1, KEY1);
     assertThat(key.sshPublicKey()).isEqualTo(KEY1);
-    assertThat(key.algorithm()).isEqualTo(KEY1.split(" ")[0]);
-    assertThat(key.encodedKey()).isEqualTo(KEY1.split(" ")[1]);
-    assertThat(key.comment()).isEqualTo(KEY1.split(" ")[2]);
+
+    List<String> keyParts = Splitter.on(" ").splitToList(KEY1);
+    assertThat(key.algorithm()).isEqualTo(keyParts.get(0));
+    assertThat(key.encodedKey()).isEqualTo(keyParts.get(1));
+    assertThat(key.comment()).isEqualTo(keyParts.get(2));
   }
 
   @Test
   public void keyWithNewLines() throws Exception {
     AccountSshKey key = AccountSshKey.create(accountId, 1, KEY1_WITH_NEWLINES);
     assertThat(key.sshPublicKey()).isEqualTo(KEY1);
-    assertThat(key.algorithm()).isEqualTo(KEY1.split(" ")[0]);
-    assertThat(key.encodedKey()).isEqualTo(KEY1.split(" ")[1]);
-    assertThat(key.comment()).isEqualTo(KEY1.split(" ")[2]);
+
+    List<String> keyParts = Splitter.on(" ").splitToList(KEY1);
+    assertThat(key.algorithm()).isEqualTo(keyParts.get(0));
+    assertThat(key.encodedKey()).isEqualTo(keyParts.get(1));
+    assertThat(key.comment()).isEqualTo(keyParts.get(2));
   }
 
   private static String toWindowsLineEndings(String s) {

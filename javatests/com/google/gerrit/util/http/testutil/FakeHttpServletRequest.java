@@ -269,8 +269,8 @@ public class FakeHttpServletRequest implements HttpServletRequest {
         .filter(s -> !s.isEmpty())
         .map(
             (String cookieValue) -> {
-              String[] kv = cookieValue.split("=");
-              return new Cookie(kv[0], kv[1]);
+              List<String> kv = Splitter.on("=").splitToList(cookieValue);
+              return new Cookie(kv.get(0), kv.get(1));
             })
         .collect(toList())
         .toArray(new Cookie[0]);

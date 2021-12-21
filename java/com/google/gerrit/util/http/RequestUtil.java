@@ -14,10 +14,14 @@
 
 package com.google.gerrit.util.http;
 
+import com.google.common.base.Splitter;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 /** Utilities for manipulating HTTP request objects. */
 public class RequestUtil {
+  private static final Splitter SPLITTER = Splitter.on("/");
+
   /** HTTP request attribute for storing the Throwable that caused an error condition. */
   private static final String ATTRIBUTE_ERROR_TRACE =
       RequestUtil.class.getName() + "/ErrorTraceThrowable";
@@ -80,11 +84,11 @@ public class RequestUtil {
       encodedPathInfo = encodedPathInfo.substring(2);
     }
 
-    String[] parts = encodedPathInfo.split("/");
-    StringBuilder result = new StringBuilder(parts.length);
-    for (int i = 0; i < parts.length; i = i + 2) {
+    List<String> parts = SPLITTER.splitToList(encodedPathInfo);
+    StringBuilder result = new StringBuilder(parts.size());
+    for (int i = 0; i < parts.size(); i = i + 2) {
       result.append("/");
-      result.append(parts[i]);
+      result.append(parts.get(i));
     }
     return result.toString();
   }

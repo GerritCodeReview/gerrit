@@ -27,6 +27,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -1085,7 +1086,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo out = gApi.changes().create(in).get();
     assertThat(out.project).isEqualTo(in.project);
     assertThat(RefNames.fullName(out.branch)).isEqualTo(RefNames.fullName(in.branch));
-    assertThat(out.subject).isEqualTo(in.subject.split("\n")[0]);
+    assertThat(out.subject).isEqualTo(Splitter.on("\n").splitToList(in.subject).get(0));
     assertThat(out.topic).isEqualTo(in.topic);
     assertThat(out.status).isEqualTo(in.status);
     if (in.isPrivate) {
@@ -1109,7 +1110,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo out = gApi.changes().createAsInfo(in);
     assertThat(out.project).isEqualTo(in.project);
     assertThat(RefNames.fullName(out.branch)).isEqualTo(RefNames.fullName(in.branch));
-    assertThat(out.subject).isEqualTo(in.subject.split("\n")[0]);
+    assertThat(out.subject).isEqualTo(Splitter.on("\n").splitToList(in.subject).get(0));
     assertThat(out.topic).isEqualTo(in.topic);
     assertThat(out.status).isEqualTo(in.status);
     if (in.isPrivate) {

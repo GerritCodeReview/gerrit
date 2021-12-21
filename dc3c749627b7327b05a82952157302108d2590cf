@@ -16,6 +16,24 @@
       "message": "Should this be done on stable-3.3 as a precaution? WDYT?",
       "revId": "dc3c749627b7327b05a82952157302108d2590cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09f9f8b6_ec371d89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-21T12:00:59Z",
+      "side": 1,
+      "message": "Not sure, we are doing this upgrade now as a precaution in case we ever upgrade to log4j2. I expect this log4j upgrade, if it will be done, to happen in master (unless log4j1 is still found to be vulnerable in a way that affects Gerrit).\n\nSo I think it\u0027s fine to do it only in master for now. But if anyone wants to do the cherry-pick to a stable branch that\u0027s also fine.",
+      "parentUuid": "93026da2_e8ba508d",
+      "revId": "dc3c749627b7327b05a82952157302108d2590cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

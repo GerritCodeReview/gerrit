@@ -16,6 +16,24 @@
       "message": "Here is a preview of what a mostly readonly class would look like.\n\nThe following changes I would still make as part of this change if we agree this is the way to go:\n* update all JS tests\n* move the lineRange computation for contextGroups into the class from the context_expander \n\nThese are larger changes that we could discuss but that can probably be done as follow ups to avoid making this a huge and hard to review change:\n* (a) introducing inheritance for the different group types, or (b) move more logic out of the class and make it interfaces with a factory instead.\n* enforce more invariants also on the class level, like encoding which combinations can be read together\n* breaking the dependency on the rendered element - GrDiffGroup.element seems like a layer violation to me, but that is again a somewhat separate concern\n* moving `getSideBySidePair` into `GrDiffBuilderSideBySide`, the only caller for this very specific method that probably never makes sense in another context.\n\nWould love to hear your thoughts before I go further down this road though.",
       "revId": "cdb6577eee256ca52d71784cd8a92c4a4c7fb1ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c523b9ee_69b3e0c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-12-21T13:37:00Z",
+      "side": 1,
+      "message": "I have now updated the tests ad moved the computation of lineRange for context groups. Resolving this comment.",
+      "parentUuid": "5351fb40_02684d9a",
+      "revId": "cdb6577eee256ca52d71784cd8a92c4a4c7fb1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

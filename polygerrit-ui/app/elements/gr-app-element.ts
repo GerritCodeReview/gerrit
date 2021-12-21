@@ -87,6 +87,7 @@ import {assertIsDefined} from '../utils/common-util';
 import {listen} from '../services/shortcuts/shortcuts-service';
 import {resolve, DIPolymerElement} from '../services/dependency';
 import {browserModelToken} from '../services/browser/browser-model';
+import {ViewStateChangeEvent} from './change-list/gr-change-list-view/gr-change-list-view';
 
 interface ErrorInfo {
   text: string;
@@ -624,6 +625,14 @@ export class GrAppElement extends base {
   _handleSearchQueryChanged(e: ValueChangedEvent) {
     if (!this.params) return;
     (this.params as AppElementSearchParam).query = e.detail.value;
+  }
+
+  _handleViewStateChanged(e: ViewStateChangeEvent) {
+    if (!this._viewState) return;
+    this._viewState.changeListView = {
+      ...this._viewState.changeListView,
+      ...e.detail.value,
+    };
   }
 }
 

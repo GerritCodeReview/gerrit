@@ -34,6 +34,24 @@
       "parentUuid": "a2a80c35_b4c47127",
       "revId": "cc6a802a6d0ebb5835b484776d10b591006c4092",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceb1986e_4065e980",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-12-21T15:48:08Z",
+      "side": 1,
+      "message": "Actually, I\u0027ll ping Sasa but I\u0027ll keep the code unchanged because honoring the ref name now would mean a change of behavior.",
+      "parentUuid": "5f89e1ee_fa3b6fdf",
+      "revId": "cc6a802a6d0ebb5835b484776d10b591006c4092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

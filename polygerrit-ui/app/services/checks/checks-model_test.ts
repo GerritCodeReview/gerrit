@@ -120,6 +120,7 @@ suite('checks-model tests', () => {
       RUNS,
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     assert.isFalse(current.loading);
@@ -132,6 +133,7 @@ suite('checks-model tests', () => {
       RUNS,
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     assert.isFalse(current.loading);
@@ -144,6 +146,7 @@ suite('checks-model tests', () => {
       RUNS,
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     assert.lengthOf(current.runs, 1);
@@ -156,6 +159,7 @@ suite('checks-model tests', () => {
       RUNS,
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     assert.equal(

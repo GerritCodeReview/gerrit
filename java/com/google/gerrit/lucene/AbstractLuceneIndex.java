@@ -107,6 +107,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final Set<NrtFuture> notDoneNrtFutures;
   private ScheduledExecutorService autoCommitExecutor;
 
+  @SuppressWarnings("ThreadPriorityCheck")
   AbstractLuceneIndex(
       Schema<V> schema,
       SitePaths sitePaths,

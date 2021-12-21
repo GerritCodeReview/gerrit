@@ -152,6 +152,7 @@ public class WorkQueue {
    * @param threadPriority thread priority.
    * @param withMetrics whether to create metrics.
    */
+  @SuppressWarnings("ThreadPriorityCheck")
   public ScheduledThreadPoolExecutor createQueue(
       int poolsize, String queueName, int threadPriority, boolean withMetrics) {
     Executor executor = new Executor(poolsize, queueName);

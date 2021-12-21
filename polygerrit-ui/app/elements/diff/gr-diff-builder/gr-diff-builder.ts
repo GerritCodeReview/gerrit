@@ -368,14 +368,14 @@ export abstract class GrDiffBuilder {
 
   _createContextControls(
     section: HTMLElement,
-    contextGroups: GrDiffGroup[],
+    group: GrDiffGroup,
     viewMode: DiffViewMode
   ) {
-    const leftStart = contextGroups[0].lineRange.left.start_line;
-    const leftEnd =
-      contextGroups[contextGroups.length - 1].lineRange.left.end_line;
-    const firstGroupIsSkipped = !!contextGroups[0].skip;
-    const lastGroupIsSkipped = !!contextGroups[contextGroups.length - 1].skip;
+    const leftStart = group.lineRange.left.start_line;
+    const leftEnd = group.lineRange.left.end_line;
+    const firstGroupIsSkipped = !!group.contextGroups[0].skip;
+    const lastGroupIsSkipped =
+      !!group.contextGroups[group.contextGroups.length - 1].skip;
 
     const containsWholeFile = this._numLinesLeft === leftEnd - leftStart + 1;
     const showAbove =
@@ -390,7 +390,7 @@ export abstract class GrDiffBuilder {
     section.appendChild(
       this._createContextControlRow(
         section,
-        contextGroups,
+        group,
         showAbove,
         showBelow,
         viewMode
@@ -409,7 +409,7 @@ export abstract class GrDiffBuilder {
    */
   _createContextControlRow(
     section: HTMLElement,
-    contextGroups: GrDiffGroup[],
+    group: GrDiffGroup,
     showAbove: boolean,
     showBelow: boolean,
     viewMode: DiffViewMode
@@ -443,7 +443,7 @@ export abstract class GrDiffBuilder {
     contextControls.diff = this._diff;
     contextControls.renderPreferences = this._renderPrefs;
     contextControls.section = section;
-    contextControls.contextGroups = contextGroups;
+    contextControls.group = group;
     contextControls.showConfig = showConfig;
     cell.appendChild(contextControls);
     return row;

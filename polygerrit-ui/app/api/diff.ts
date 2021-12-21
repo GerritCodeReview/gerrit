@@ -286,7 +286,9 @@ export enum CoverageType {
 }
 
 export declare interface LineRange {
+  /** 1-based, inclusive. */
   start_line: number;
+  /** 1-based, inclusive. */
   end_line: number;
 }
 

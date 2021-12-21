@@ -60,6 +60,7 @@ import {getAppContext} from '../../services/app-context';
 import {KnownExperimentId} from '../../services/flags/flags';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
+import {durationString} from '../../utils/date-util';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
@@ -96,6 +97,10 @@ export class GrChecksRun extends LitElement {
         }
         .name {
           font-weight: var(--font-weight-bold);
+        }
+        .eta {
+          color: var(--deemphasized-text-color);
+          padding-left: var(--spacing-s);
         }
         .chip.error {
           border-left: var(--thick-border) solid var(--error-foreground);
@@ -243,6 +248,7 @@ export class GrChecksRun extends LitElement {
           <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
+          ${this.renderETA()}
         </div>
         <div class="middle">
           <gr-checks-attempt .run="${this.run}"></gr-checks-attempt>
@@ -295,6 +301,13 @@ export class GrChecksRun extends LitElement {
     if (!this.isSelected(detail)) {
       fireAttemptSelected(this, this.run.checkName, detail.attempt);
     }
+  }
+
+  renderETA() {
+    if (this.run.status !== RunStatus.RUNNING) return;
+    if (!this.run.finishedTimestamp) return;
+    const eta = durationString(new Date(), this.run.finishedTimestamp, true);
+    return html`<span class="eta">ETA: ${eta}</span>`;
   }
 
   renderStatusLink() {

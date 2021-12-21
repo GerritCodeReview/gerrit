@@ -236,6 +236,10 @@ export declare interface CheckRun {
 
   scheduledTimestamp?: Date;
   startedTimestamp?: Date;
+  /**
+   * For RUNNING runs this is considered to be an estimate of when the run will
+   * be finished.
+   */
   finishedTimestamp?: Date;
 
   /**

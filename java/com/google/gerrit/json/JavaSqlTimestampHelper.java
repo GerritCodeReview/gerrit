@@ -14,12 +14,19 @@
 
 package com.google.gerrit.json;
 
+import com.google.common.base.Splitter;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 /** Utility to parse Timestamp from a string. */
 public class JavaSqlTimestampHelper {
+
+  private static final Splitter TIMESTAMP_SPLITTER = Splitter.on(" ");
+  private static final Splitter DATE_SPLITTER = Splitter.on("-");
+  private static final Splitter TIME_SPLITTER = Splitter.on(":");
+
   /**
    * Parse a string into a timestamp.
    *
@@ -32,22 +39,22 @@ public class JavaSqlTimestampHelper {
    * @return resulting timestamp.
    */
   public static Timestamp parseTimestamp(String s) {
-    String[] components = s.split(" ");
-    if (components.length < 1 || components.length > 3) {
+    List<String> components = TIMESTAMP_SPLITTER.splitToList(s);
+    if (components.size() < 1 || components.size() > 3) {
       throw new IllegalArgumentException("Expected date and optional time: " + s);
     }
-    String date = components[0];
-    String time = components.length >= 2 ? components[1] : null;
-    int off = components.length == 3 ? parseTimeZone(components[2]) : 0;
-    String[] dSplit = date.split("-");
-    if (dSplit.length != 3) {
+    String date = components.get(0);
+    String time = components.size() >= 2 ? components.get(1) : null;
+    int off = components.size() == 3 ? parseTimeZone(components.get(2)) : 0;
+    List<String> dSplit = DATE_SPLITTER.splitToList(date);
+    if (dSplit.size() != 3) {
       throw new IllegalArgumentException("Invalid date format: " + date);
     }
     int yy, mm, dd;
     try {
-      yy = Integer.parseInt(dSplit[0]);
-      mm = Integer.parseInt(dSplit[1]) - 1;
-      dd = Integer.parseInt(dSplit[2]);
+      yy = Integer.parseInt(dSplit.get(0));
+      mm = Integer.parseInt(dSplit.get(1)) - 1;
+      dd = Integer.parseInt(dSplit.get(2));
     } catch (NumberFormatException e) {
       throw new IllegalArgumentException("Invalid date format: " + date, e);
     }
@@ -65,13 +72,13 @@ public class JavaSqlTimestampHelper {
           t = time;
           f = 0;
         }
-        String[] tSplit = t.split(":");
-        if (tSplit.length != 3) {
+        List<String> tSplit = TIME_SPLITTER.splitToList(t);
+        if (tSplit.size() != 3) {
           throw new IllegalArgumentException("Invalid time format: " + time);
         }
-        hh = Integer.parseInt(tSplit[0]);
-        mi = Integer.parseInt(tSplit[1]);
-        ss = Integer.parseInt(tSplit[2]);
+        hh = Integer.parseInt(tSplit.get(0));
+        mi = Integer.parseInt(tSplit.get(1));
+        ss = Integer.parseInt(tSplit.get(2));
         ns = (int) Math.round(f * 1e9);
       } catch (NumberFormatException e) {
         throw new IllegalArgumentException("Invalid time format: " + time, e);

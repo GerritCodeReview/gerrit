@@ -205,22 +205,22 @@ public class SshCommandsIT extends AbstractDaemonTest {
   private List<String> parseCommandsFromGerritHelpText(String helpText) {
     List<String> commands = new ArrayList<>();
 
-    String[] lines = helpText.split("\\n");
+    List<String> lines = Splitter.on("\n").splitToList(helpText);
 
     // Skip all lines including the line starting with "Available commands"
     int row = 0;
     do {
       row++;
-    } while (row < lines.length && !lines[row - 1].startsWith("Available commands"));
+    } while (row < lines.size() && !lines.get(row - 1).startsWith("Available commands"));
 
     // Skip all empty lines
-    while (lines[row].trim().isEmpty()) {
+    while (lines.get(row).trim().isEmpty()) {
       row++;
     }
 
     // Parse commands from all lines that are indented (start with a space)
-    while (row < lines.length && lines[row].startsWith(" ")) {
-      String line = lines[row].trim();
+    while (row < lines.size() && lines.get(row).startsWith(" ")) {
+      String line = lines.get(row).trim();
       // Abort on empty line
       if (line.isEmpty()) {
         break;

@@ -478,6 +478,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   private final Arguments args;
   protected Map<String, String> hasOperandAliases = Collections.emptyMap();
 
+  private static final Splitter RULE_SPLITTER = Splitter.on("=");
+  private static final Splitter PLUGIN_SPLITTER = Splitter.on("_");
+  private static final Splitter LABEL_SPLITTER = Splitter.on(",");
+
   @Inject
   ChangeQueryBuilder(Arguments args) {
     this(mydef, args);
@@ -582,16 +586,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> rule(String value) throws QueryParseException {
     String ruleNameArg = value;
     String statusArg = null;
-    String[] queryArgs = value.split("=");
-    if (queryArgs.length > 2) {
+    List<String> queryArgs = RULE_SPLITTER.splitToList(value);
+    if (queryArgs.size() > 2) {
       throw new QueryParseException(
           "Invalid query arguments. Correct format is 'rule:<rule_name>=<status>' "
               + "with <rule_name> in the form of <plugin>~<rule>. For Gerrit core rules, "
               + "rule name should be specified either as gerrit~<rule> or <rule>.");
     }
-    if (queryArgs.length == 2) {
-      ruleNameArg = queryArgs[0];
-      statusArg = queryArgs[1];
+    if (queryArgs.size() == 2) {
+      ruleNameArg = queryArgs.get(0);
+      statusArg = queryArgs.get(1);
     }
 
     // If ruleName is not prefixed by the plugin name, add the "gerrit~" prefix to it.
@@ -632,7 +636,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     // for plugins the value will be operandName_pluginName
-    List<String> names = Lists.newArrayList(Splitter.on('_').split(value));
+    List<String> names = PLUGIN_SPLITTER.splitToList(value);
     if (names.size() == 2) {
       ChangeHasOperandFactory op = args.hasOperands.get(names.get(1), names.get(0));
       if (op != null) {
@@ -748,7 +752,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     // for plugins the value will be operandName_pluginName
-    List<String> names = Lists.newArrayList(Splitter.on('_').split(value));
+    List<String> names = PLUGIN_SPLITTER.splitToList(value);
     if (names.size() == 2) {
       ChangeIsOperandFactory op = args.isOperands.get(names.get(1), names.get(0));
       if (op != null) {
@@ -966,7 +970,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     // label:Code-Review+2,owner
     // label:Code-Review+2,user=owner
     // label:Code-Review+1,count=2
-    List<String> splitReviewer = Lists.newArrayList(Splitter.on(',').limit(2).split(name));
+    List<String> splitReviewer = LABEL_SPLITTER.limit(2).splitToList(name);
     name = splitReviewer.get(0); // remove all but the vote piece, e.g.'CodeReview=1'
 
     if (splitReviewer.size() == 2) {

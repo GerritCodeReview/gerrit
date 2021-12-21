@@ -19,6 +19,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.GerritServer.TestSshServerAddress;
@@ -31,6 +32,7 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
+import java.util.List;
 import org.junit.Test;
 
 @NoHttpd
@@ -59,17 +61,19 @@ public class PeerKeysAuthIT extends StandaloneSiteTest {
       // Generate private/public key for user
       execute(ImmutableList.<String>builder().add(SSH_KEYGEN_CMD).build());
 
-      String[] parts =
-          new String(Files.readAllBytes(sitePaths.data_dir.resolve("id_rsa.pub")), UTF_8)
-              .split(" ");
+      List<String> parts =
+          Splitter.on(" ")
+              .splitToList(
+                  new String(Files.readAllBytes(sitePaths.data_dir.resolve("id_rsa.pub")), UTF_8));
 
       // Loose algorithm at index 0, verify the format: "key comment"
       Files.write(
-          sitePaths.peer_keys, String.format("%s %s", parts[1], parts[2]).getBytes(ISO_8859_1));
+          sitePaths.peer_keys,
+          String.format("%s %s", parts.get(1), parts.get(2)).getBytes(ISO_8859_1));
       assertContent(execGerritVersionCommand());
 
       // Only preserve the key material: no algorithm and no comment
-      Files.write(sitePaths.peer_keys, parts[1].getBytes(ISO_8859_1));
+      Files.write(sitePaths.peer_keys, parts.get(1).getBytes(ISO_8859_1));
       assertContent(execGerritVersionCommand());
 
       // Wipe out the content of the peer keys file

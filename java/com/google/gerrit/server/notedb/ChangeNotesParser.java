@@ -113,6 +113,9 @@ import org.eclipse.jgit.util.RawParseUtils;
 class ChangeNotesParser {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private static final Splitter RULE_SPLITTER = Splitter.on(": ");
+  private static final Splitter HASHTAG_SPLITTER = Splitter.on(",");
+
   // Private final members initialized in the constructor.
   private final ChangeNoteJson changeNoteJson;
   private final NoteDbMetrics metrics;
@@ -682,7 +685,7 @@ class ChangeNotesParser {
     } else if (hashtagsLines.get(0).isEmpty()) {
       hashtags = ImmutableSet.of();
     } else {
-      hashtags = Sets.newHashSet(Splitter.on(',').split(hashtagsLines.get(0)));
+      hashtags = Sets.newHashSet(HASHTAG_SPLITTER.split(hashtagsLines.get(0)));
     }
   }
 
@@ -1058,7 +1061,7 @@ class ChangeNotesParser {
       } else {
         checkFooter(rec != null, FOOTER_SUBMITTED_WITH, line);
         if (line.startsWith("Rule-Name: ")) {
-          String ruleName = line.split(": ")[1];
+          String ruleName = RULE_SPLITTER.splitToList(line).get(1);
           rec.ruleName = ruleName;
           continue;
         }

@@ -16,11 +16,19 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import './gr-change-list-view.js';
-import {page} from '../../../utils/page-wrapper-utils.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import 'lodash/lodash.js';
-import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
+import './gr-change-list-view';
+import {GrChangeListView} from './gr-change-list-view';
+import {page} from '../../../utils/page-wrapper-utils';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import 'lodash/lodash';
+import {mockPromise, stubRestApi} from '../../../test/test-utils';
+import {createChange} from '../../../test/test-data-generators.js';
+import {
+  ChangeInfo,
+  EmailAddress,
+  NumericChangeId,
+  RepoName,
+} from '../../../api/rest-api.js';
 
 const basicFixture = fixtureFromElement('gr-change-list-view');
 
@@ -28,13 +36,13 @@ const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
 const COMMIT_HASH = '12345678';
 
 suite('gr-change-list-view tests', () => {
-  let element;
+  let element: GrChangeListView;
 
   setup(() => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getChanges').returns(Promise.resolve([]));
-    stubRestApi('getAccountDetails').returns(Promise.resolve({}));
-    stubRestApi('getAccountStatus').returns(Promise.resolve({}));
+    stubRestApi('getAccountDetails').returns(Promise.resolve(undefined));
+    stubRestApi('getAccountStatus').returns(Promise.resolve(undefined));
     element = basicFixture.instantiate();
   });
 
@@ -49,7 +57,7 @@ suite('gr-change-list-view tests', () => {
 
   test('_limitFor', () => {
     const defaultLimit = 25;
-    const _limitFor = q => element._limitFor(q, defaultLimit);
+    const _limitFor = (q: string) => element._limitFor(q, defaultLimit);
     assert.equal(_limitFor(''), defaultLimit);
     assert.equal(_limitFor('limit:10'), 10);
     assert.equal(_limitFor('xlimit:10'), defaultLimit);
@@ -57,8 +65,9 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('_computeNavLink', () => {
-    const getUrlStub = sinon.stub(GerritNav, 'getUrlForSearchQuery')
-        .returns('');
+    const getUrlStub = sinon
+      .stub(GerritNav, 'getUrlForSearchQuery')
+      .returns('');
     const query = 'status:open';
     let offset = 0;
     let direction = 1;
@@ -85,9 +94,12 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('_computeNextArrowClass', () => {
-    let changes = _.times(25, _.constant({_more_changes: true}));
+    let changes: ChangeInfo[] = _.times(
+      25,
+      _.constant({...createChange(), _more_changes: true})
+    );
     assert.equal(element._computeNextArrowClass(changes), '');
-    changes = _.times(25, _.constant({}));
+    changes = _.times(25, _.constant(createChange()));
     assert.equal(element._computeNextArrowClass(changes), 'hide');
   });
 
@@ -98,7 +110,7 @@ suite('gr-change-list-view tests', () => {
     assert.equal(element._computeNavClass(loading), 'hide');
     element._changes = [];
     assert.equal(element._computeNavClass(loading), 'hide');
-    element._changes = _.times(5, _.constant({}));
+    element._changes = _.times(5, _.constant(createChange()));
     assert.equal(element._computeNavClass(loading), '');
   });
 
@@ -127,19 +139,23 @@ suite('gr-change-list-view tests', () => {
   test('_userId query', async () => {
     assert.isNull(element._userId);
     element._query = 'owner: foo@bar';
-    element._changes = [{owner: {email: 'foo@bar'}}];
+    element._changes = [
+      {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
+    ];
     await flush();
-    assert.equal(element._userId, 'foo@bar');
+    assert.equal(element._userId, 'foo@bar' as EmailAddress);
 
     element._query = 'foo bar baz';
-    element._changes = [{owner: {email: 'foo@bar'}}];
+    element._changes = [
+      {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
+    ];
     assert.isNull(element._userId);
   });
 
   test('_userId query without email', async () => {
     assert.isNull(element._userId);
     element._query = 'owner: foo@bar';
-    element._changes = [{owner: {}}];
+    element._changes = [{...createChange(), owner: {}}];
     await flush();
     assert.isNull(element._userId);
   });
@@ -147,28 +163,43 @@ suite('gr-change-list-view tests', () => {
   test('_repo query', async () => {
     assert.isNull(element._repo);
     element._query = 'project: test-repo';
-    element._changes = [{owner: {email: 'foo@bar'}, project: 'test-repo'}];
+    element._changes = [
+      {
+        ...createChange(),
+        owner: {email: 'foo@bar' as EmailAddress},
+        project: 'test-repo' as RepoName,
+      },
+    ];
     await flush();
-    assert.equal(element._repo, 'test-repo');
+    assert.equal(element._repo, 'test-repo' as RepoName);
     element._query = 'foo bar baz';
-    element._changes = [{owner: {email: 'foo@bar'}}];
+    element._changes = [
+      {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
+    ];
     assert.isNull(element._repo);
   });
 
   test('_repo query with open status', async () => {
     assert.isNull(element._repo);
     element._query = 'project:test-repo status:open';
-    element._changes = [{owner: {email: 'foo@bar'}, project: 'test-repo'}];
+    element._changes = [
+      {
+        ...createChange(),
+        owner: {email: 'foo@bar' as EmailAddress},
+        project: 'test-repo' as RepoName,
+      },
+    ];
     await flush();
-    assert.equal(element._repo, 'test-repo');
+    assert.equal(element._repo, 'test-repo' as RepoName);
     element._query = 'foo bar baz';
-    element._changes = [{owner: {email: 'foo@bar'}}];
+    element._changes = [
+      {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
+    ];
     assert.isNull(element._repo);
   });
 
   suite('query based navigation', () => {
-    setup(() => {
-    });
+    setup(() => {});
 
     teardown(async () => {
       await flush();
@@ -176,74 +207,81 @@ suite('gr-change-list-view tests', () => {
     });
 
     test('Searching for a change ID redirects to change', async () => {
-      const change = {_number: 1};
-      sinon.stub(element, '_getChanges')
-          .returns(Promise.resolve([change]));
+      const change = {...createChange(), _number: 1 as NumericChangeId};
+      sinon.stub(element, '_getChanges').returns(Promise.resolve([change]));
       const promise = mockPromise();
-      sinon.stub(GerritNav, 'navigateToChange').callsFake(
-          (url, opt) => {
-            assert.equal(url, change);
-            assert.isTrue(opt.redirect);
-            promise.resolve();
-          });
+      sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
+        assert.equal(url, change);
+        assert.isTrue(opt!.redirect);
+        promise.resolve();
+      });
 
-      element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
+      element.params = {
+        view: GerritNav.View.SEARCH,
+        query: CHANGE_ID,
+        offset: '',
+      };
       await promise;
     });
 
     test('Searching for a change num redirects to change', async () => {
-      const change = {_number: 1};
-      sinon.stub(element, '_getChanges')
-          .returns(Promise.resolve([change]));
+      const change = {...createChange(), _number: 1 as NumericChangeId};
+      sinon.stub(element, '_getChanges').returns(Promise.resolve([change]));
       const promise = mockPromise();
-      sinon.stub(GerritNav, 'navigateToChange').callsFake(
-          (url, opt) => {
-            assert.equal(url, change);
-            assert.isTrue(opt.redirect);
-            promise.resolve();
-          });
+      sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
+        assert.equal(url, change);
+        assert.isTrue(opt!.redirect);
+        promise.resolve();
+      });
 
-      element.params = {view: GerritNav.View.SEARCH, query: '1'};
+      element.params = {view: GerritNav.View.SEARCH, query: '1', offset: ''};
       await promise;
     });
 
     test('Commit hash redirects to change', async () => {
-      const change = {_number: 1};
-      sinon.stub(element, '_getChanges')
-          .returns(Promise.resolve([change]));
+      const change = {...createChange(), _number: 1 as NumericChangeId};
+      sinon.stub(element, '_getChanges').returns(Promise.resolve([change]));
       const promise = mockPromise();
-      sinon.stub(GerritNav, 'navigateToChange').callsFake(
-          (url, opt) => {
-            assert.equal(url, change);
-            assert.isTrue(opt.redirect);
-            promise.resolve();
-          });
+      sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
+        assert.equal(url, change);
+        assert.isTrue(opt!.redirect);
+        promise.resolve();
+      });
 
-      element.params = {view: GerritNav.View.SEARCH, query: COMMIT_HASH};
+      element.params = {
+        view: GerritNav.View.SEARCH,
+        query: COMMIT_HASH,
+        offset: '',
+      };
       await promise;
     });
 
     test('Searching for an invalid change ID searches', async () => {
-      sinon.stub(element, '_getChanges')
-          .returns(Promise.resolve([]));
+      sinon.stub(element, '_getChanges').returns(Promise.resolve([]));
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
-      element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
+      element.params = {
+        view: GerritNav.View.SEARCH,
+        query: CHANGE_ID,
+        offset: '',
+      };
       await flush();
 
       assert.isFalse(stub.called);
     });
 
     test('Change ID with multiple search results searches', async () => {
-      sinon.stub(element, '_getChanges')
-          .returns(Promise.resolve([{}, {}]));
+      sinon.stub(element, '_getChanges').returns(Promise.resolve(undefined));
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
-      element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
+      element.params = {
+        view: GerritNav.View.SEARCH,
+        query: CHANGE_ID,
+        offset: '',
+      };
       await flush();
 
       assert.isFalse(stub.called);
     });
   });
 });
-

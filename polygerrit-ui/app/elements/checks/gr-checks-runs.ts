@@ -38,6 +38,7 @@ import {
   ErrorMessages,
 } from '../../models/checks/checks-model';
 import {
+  clearAllFakeRuns,
   fakeActions,
   fakeLinks,
   fakeRun0,
@@ -46,6 +47,7 @@ import {
   fakeRun3,
   fakeRun4Att,
   fakeRun5,
+  setAllFakeRuns,
 } from '../../models/checks/checks-fakes';
 import {assertIsDefined} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
@@ -374,8 +376,12 @@ export class GrChecksRuns extends LitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
+  /**
+   * We prefer `undefined` over a RegExp with '', because `.source` yields
+   * a strange '(?:)' for ''.
+   */
   @state()
-  filterRegExp = new RegExp('');
+  filterRegExp?: RegExp;
 
   @property({attribute: false})
   runs: CheckRun[] = [];
@@ -535,7 +541,20 @@ export class GrChecksRuns extends LitElement {
 
   protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
+    // This update is done is response to setting this.filterRegExp below, but
+    // this.filterInput not yet being available at that point.
+    if (this.filterInput && !this.filterInput.value && this.filterRegExp) {
+      this.filterInput.value = this.filterRegExp.source;
+    }
     if (changedProperties.has('tabState') && this.tabState) {
+      // Note that tabState.select and tabState.attempt are processed by
+      // <gr-checks-tab>.
+      if (
+        this.tabState.filter &&
+        this.tabState.filter !== this.filterRegExp?.source
+      ) {
+        this.filterRegExp = new RegExp(this.tabState.filter, 'i');
+      }
       const {statusOrCategory} = this.tabState;
       if (
         statusOrCategory === RunStatus.RUNNING ||
@@ -684,109 +703,11 @@ export class GrChecksRuns extends LitElement {
 
   onInput() {
     assertIsDefined(this.filterInput, 'filter <input> element');
-    this.filterRegExp = new RegExp(this.filterInput.value, 'i');
-  }
-
-  none() {
-    this.getChecksModel().updateStateSetResults(
-      'f0',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f1',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f2',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f3',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f4',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f5',
-      [],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-  }
-
-  all() {
-    this.getChecksModel().updateStateSetResults(
-      'f0',
-      [fakeRun0],
-      fakeActions,
-      fakeLinks,
-      'ETA: 1 min',
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f1',
-      [fakeRun1],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f2',
-      [fakeRun2],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f3',
-      [fakeRun3],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f4',
-      fakeRun4Att,
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
-    this.getChecksModel().updateStateSetResults(
-      'f5',
-      [fakeRun5],
-      [],
-      [],
-      undefined,
-      ChecksPatchset.LATEST
-    );
+    if (this.filterInput.value) {
+      this.filterRegExp = new RegExp(this.filterInput.value, 'i');
+    } else {
+      this.filterRegExp = undefined;
+    }
   }
 
   toggle(
@@ -815,7 +736,7 @@ export class GrChecksRuns extends LitElement {
           r.status === status ||
           (status === RunStatus.RUNNING && r.status === RunStatus.SCHEDULED)
       )
-      .filter(r => this.filterRegExp.test(r.checkName))
+      .filter(r => !this.filterRegExp || this.filterRegExp.test(r.checkName))
       .sort(compareByWorstCategory);
     if (runs.length === 0) return;
     const expanded = this.isSectionExpanded.get(status) ?? true;
@@ -858,11 +779,7 @@ export class GrChecksRuns extends LitElement {
   }
 
   showFilter(): boolean {
-    const show = this.runs.length > 10;
-    if (!show && this.filterRegExp.source.length > 0) {
-      this.filterRegExp = new RegExp('');
-    }
-    return show;
+    return this.runs.length > 10 || !!this.filterRegExp;
   }
 
   renderFakeControls() {
@@ -870,7 +787,9 @@ export class GrChecksRuns extends LitElement {
     return html`
       <div class="testing">
         <div>Toggle fake runs by clicking buttons:</div>
-        <gr-button link @click="${this.none}">none</gr-button>
+        <gr-button link @click="${() => setAllFakeRuns(this.getChecksModel())}"
+          >none</gr-button
+        >
         <gr-button
           link
           @click="${() =>
@@ -898,7 +817,11 @@ export class GrChecksRuns extends LitElement {
         <gr-button link @click="${() => this.toggle('f5', [fakeRun5])}"
           >5</gr-button
         >
-        <gr-button link @click="${this.all}">all</gr-button>
+        <gr-button
+          link
+          @click="${() => clearAllFakeRuns(this.getChecksModel())}"
+          >all</gr-button
+        >
       </div>
     `;
   }

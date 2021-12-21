@@ -132,6 +132,12 @@ export interface AppElementChangeViewParams {
   commentId?: UrlEncodedCommentId;
   forceReload?: boolean;
   tab?: string;
+  /** regular expression for filtering check runs */
+  filter?: string;
+  /** regular expression for selecting check runs */
+  select?: string;
+  /** selected attempt for selected check runs */
+  attempt?: number;
 }
 
 export interface AppElementJustRegisteredParams {

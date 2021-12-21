@@ -16,6 +16,24 @@
       "message": "That would be changing its public signature: can this be done in stable-3.3 instead?",
       "revId": "1481c1d49cdeb45f9130273f760494b708deeb24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "871cd77a_34180642",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-12-21T07:52:02Z",
+      "side": 1,
+      "message": "Yeah... how about reducing the scope to the bare minimum? See the PS#2, WDYT?\nOtherwise it will result in a messy FileRepository override (and potentially extra resources consumption) in a library for stable-3.2... unless we don\u0027t care about stable-3.2 anymore ;)",
+      "parentUuid": "b5fc83d7_04e9c7f9",
+      "revId": "1481c1d49cdeb45f9130273f760494b708deeb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

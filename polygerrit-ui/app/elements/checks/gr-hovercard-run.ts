@@ -240,28 +240,62 @@ export class GrHovercardRun extends base {
     )
       return;
 
+    const scheduled =
+      this.run?.scheduledTimestamp && !this.run?.startedTimestamp
+        ? html`<div class="row">
+            <div class="title">Scheduled</div>
+            <div>${fromNow(this.run.scheduledTimestamp)}</div>
+          </div>`
+        : '';
+
+    const started = this.run.startedTimestamp
+      ? html`<div class="row">
+          <div class="title">Started</div>
+          <div>${fromNow(this.run.startedTimestamp)}</div>
+        </div>`
+      : '';
+
+    const finished =
+      this.run.finishedTimestamp && this.run?.status === RunStatus.COMPLETED
+        ? html`<div class="row">
+            <div class="title">Ended</div>
+            <div>${fromNow(this.run.finishedTimestamp)}</div>
+          </div>`
+        : '';
+
+    const completed =
+      this.run?.startedTimestamp &&
+      this.run?.finishedTimestamp &&
+      this.run?.status === RunStatus.COMPLETED
+        ? html`<div class="row">
+            <div class="title">Completion</div>
+            <div>
+              ${durationString(
+                this.run.startedTimestamp,
+                this.run.finishedTimestamp,
+                true
+              )}
+            </div>
+          </div>`
+        : '';
+
+    const eta =
+      this.run?.finishedTimestamp && this.run?.status === RunStatus.RUNNING
+        ? html`<div class="row">
+            <div class="title">ETA</div>
+            <div>
+              ${durationString(new Date(), this.run.finishedTimestamp, true)}
+            </div>
+          </div>`
+        : '';
+
     return html`
       <div class="section">
         <div class="sectionIcon">
           <iron-icon class="small" icon="gr-icons:schedule"></iron-icon>
         </div>
         <div class="sectionContent">
-          <div ?hidden="${this.hideScheduled()}" class="row">
-            <div class="title">Scheduled</div>
-            <div>${this.computeDuration(this.run.scheduledTimestamp)}</div>
-          </div>
-          <div ?hidden="${!this.run.startedTimestamp}" class="row">
-            <div class="title">Started</div>
-            <div>${this.computeDuration(this.run.startedTimestamp)}</div>
-          </div>
-          <div ?hidden="${!this.run.finishedTimestamp}" class="row">
-            <div class="title">Ended</div>
-            <div>${this.computeDuration(this.run.finishedTimestamp)}</div>
-          </div>
-          <div ?hidden="${this.hideCompletion()}" class="row">
-            <div class="title">Completion</div>
-            <div>${this.computeCompletionDuration()}</div>
-          </div>
+          ${scheduled} ${started} ${finished} ${completed} ${eta}
         </div>
       </div>
     `;
@@ -346,19 +380,6 @@ export class GrHovercardRun extends base {
     return '';
   }
 
-  private computeCompletionDuration() {
-    if (!this.run?.finishedTimestamp || !this.run?.startedTimestamp) return '';
-    return durationString(
-      this.run.startedTimestamp,
-      this.run.finishedTimestamp,
-      true
-    );
-  }
-
-  private computeDuration(date?: Date) {
-    return date ? fromNow(date) : '';
-  }
-
   private computeHostName(link?: string) {
     return link ? new URL(link).hostname : '';
   }
@@ -366,14 +387,6 @@ export class GrHovercardRun extends base {
   private hideAttempts() {
     const attemptCount = this.run?.attemptDetails?.length;
     return attemptCount === undefined || attemptCount < 2;
-  }
-
-  private hideScheduled() {
-    return !this.run?.scheduledTimestamp || !!this.run?.startedTimestamp;
-  }
-
-  private hideCompletion() {
-    return !this.run?.startedTimestamp || !this.run?.finishedTimestamp;
   }
 }
 

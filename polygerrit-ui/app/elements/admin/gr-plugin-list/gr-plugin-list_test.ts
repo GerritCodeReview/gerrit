@@ -18,7 +18,6 @@
 import '../../../test/common-test-setup-karma';
 import './gr-plugin-list';
 import {GrPluginList, PluginInfoWithName} from './gr-plugin-list';
-import 'lodash/lodash';
 import {
   addListenerForTest,
   mockPromise,

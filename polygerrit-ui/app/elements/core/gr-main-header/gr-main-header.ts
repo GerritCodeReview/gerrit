@@ -37,8 +37,7 @@ import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
-import {ValueChangedEvent} from '../../../types/events';
-import {fire, fireEvent} from '../../../utils/event-util';
+import {fireEvent} from '../../../utils/event-util';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -103,9 +102,6 @@ const AUTH_TYPES_WITH_REGISTER_URL: Set<AuthType> = new Set([
 ]);
 
 declare global {
-  interface HTMLElementEventMap {
-    'search-query-changed': ValueChangedEvent;
-  }
   interface HTMLElementTagNameMap {
     'gr-main-header': GrMainHeader;
   }
@@ -383,9 +379,6 @@ export class GrMainHeader extends LitElement {
         label="Search for changes"
         .searchQuery=${this.searchQuery}
         .serverConfig=${this.serverConfig}
-        @search-query-changed=${(e: ValueChangedEvent) => {
-          this.handleSearchQueryBindValueChanged(e);
-        }}
       ></gr-smart-search>
       <gr-endpoint-decorator
         class="hideOnMobile"
@@ -650,9 +643,5 @@ export class GrMainHeader extends LitElement {
     e.preventDefault();
     e.stopPropagation();
     fireEvent(this, 'mobile-search');
-  }
-
-  private handleSearchQueryBindValueChanged(e: ValueChangedEvent) {
-    fire(this, 'search-query-changed', {value: e.detail.value});
   }
 }

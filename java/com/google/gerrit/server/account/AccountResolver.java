@@ -538,12 +538,12 @@ public class AccountResolver {
    * @throws IOException if an error occurs.
    */
   public Result resolve(String input) throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, visibilitySupplierCanSee(), accountActivityPredicate());
+    return searchImpl(input, searchers, this::canSeePredicate, AccountResolver::isActive);
   }
 
   public Result resolve(String input, Predicate<AccountState> accountActivityPredicate)
       throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, visibilitySupplierCanSee(), accountActivityPredicate);
+    return searchImpl(input, searchers, this::canSeePredicate, accountActivityPredicate);
   }
 
   /**
@@ -556,17 +556,17 @@ public class AccountResolver {
    * instead will be stored as a link to the corresponding Gerrit Account.
    */
   public Result resolveIncludeInactive(String input) throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, visibilitySupplierCanSee(), all());
+    return searchImpl(input, searchers, this::canSeePredicate, AccountResolver::allVisible);
   }
 
   public Result resolveIgnoreVisibility(String input) throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, visibilitySupplierAll(), accountActivityPredicate());
+    return searchImpl(input, searchers, this::allVisiblePredicate, AccountResolver::isActive);
   }
 
   public Result resolveIgnoreVisibility(
       String input, Predicate<AccountState> accountActivityPredicate)
       throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, visibilitySupplierAll(), accountActivityPredicate);
+    return searchImpl(input, searchers, this::allVisiblePredicate, accountActivityPredicate);
   }
 
   /**
@@ -595,7 +595,7 @@ public class AccountResolver {
   @Deprecated
   public Result resolveByNameOrEmail(String input) throws ConfigInvalidException, IOException {
     return searchImpl(
-        input, nameOrEmailSearchers, visibilitySupplierCanSee(), accountActivityPredicate());
+        input, nameOrEmailSearchers, this::canSeePredicate, AccountResolver::isActive);
   }
 
   /**
@@ -614,26 +614,29 @@ public class AccountResolver {
     return searchImpl(
         input,
         ImmutableList.of(new ByNameAndEmail(), new ByEmail(), new ByFullName(), new ByUsername()),
-        visibilitySupplierCanSee(),
-        accountActivityPredicate());
+        this::canSeePredicate,
+        AccountResolver::isActive);
   }
 
-  private Supplier<Predicate<AccountState>> visibilitySupplierCanSee() {
-    return () -> accountControlFactory.get()::canSee;
+  private Predicate<AccountState> canSeePredicate() {
+    return this::canSee;
   }
 
-  private Supplier<Predicate<AccountState>> visibilitySupplierAll() {
-    return () -> all();
+  private boolean canSee(AccountState accountState) {
+    return accountControlFactory.get().canSee(accountState);
   }
 
-  private Predicate<AccountState> all() {
-    return accountState -> {
-      return true;
-    };
+  private Predicate<AccountState> allVisiblePredicate() {
+    return AccountResolver::allVisible;
   }
 
-  private Predicate<AccountState> accountActivityPredicate() {
-    return (AccountState accountState) -> accountState.account().isActive();
+  /** @param accountState account state for which the visibility should be checked */
+  private static boolean allVisible(AccountState accountState) {
+    return true;
+  }
+
+  private static boolean isActive(AccountState accountState) {
+    return accountState.account().isActive();
   }
 
   @VisibleForTesting

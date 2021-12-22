@@ -445,7 +445,7 @@ public class MailProcessorIT extends AbstractMailIT {
     assertThat(message.body()).contains("rejected one or more comments");
 
     // ensure the message header contains a valid message id.
-    assertThat(((StringEmailHeader) (message.headers().get("Message-ID"))).getString())
+    assertThat(((StringEmailHeader) message.headers().get("Message-ID")).getString())
         .containsMatch("<someid-REJECTION-HTML@" + new URL(canonicalWebUrl.get()).getHost() + ">");
   }
 

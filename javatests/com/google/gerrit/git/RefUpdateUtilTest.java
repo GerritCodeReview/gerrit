@@ -33,44 +33,38 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class RefUpdateUtilTest {
-  private static final Consumer<ReceiveCommand> OK = c -> c.setResult(ReceiveCommand.Result.OK);
-  private static final Consumer<ReceiveCommand> LOCK_FAILURE =
-      c -> c.setResult(ReceiveCommand.Result.LOCK_FAILURE);
-  private static final Consumer<ReceiveCommand> REJECTED =
-      c -> c.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON);
-  private static final Consumer<ReceiveCommand> ABORTED =
-      c -> {
-        c.setResult(ReceiveCommand.Result.NOT_ATTEMPTED);
-        ReceiveCommand.abort(ImmutableList.of(c));
-        checkState(
-            c.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED
-                && c.getResult() != ReceiveCommand.Result.LOCK_FAILURE
-                && c.getResult() != ReceiveCommand.Result.OK,
-            "unexpected state after abort: %s",
-            c);
-      };
-
   @Test
   public void checkBatchRefUpdateResults() throws Exception {
     checkResults();
-    checkResults(OK);
-    checkResults(OK, OK);
+    checkResults(RefUpdateUtilTest::ok);
+    checkResults(RefUpdateUtilTest::ok, RefUpdateUtilTest::ok);
 
-    assertIoException(REJECTED);
-    assertIoException(OK, REJECTED);
-    assertIoException(LOCK_FAILURE, REJECTED);
-    assertIoException(LOCK_FAILURE, OK);
-    assertIoException(LOCK_FAILURE, REJECTED, OK);
-    assertIoException(LOCK_FAILURE, LOCK_FAILURE, REJECTED);
-    assertIoException(LOCK_FAILURE, ABORTED, REJECTED);
-    assertIoException(LOCK_FAILURE, ABORTED, OK);
+    assertIoException(RefUpdateUtilTest::rejected);
+    assertIoException(RefUpdateUtilTest::ok, RefUpdateUtilTest::rejected);
+    assertIoException(RefUpdateUtilTest::lockFailure, RefUpdateUtilTest::rejected);
+    assertIoException(RefUpdateUtilTest::lockFailure, RefUpdateUtilTest::ok);
+    assertIoException(
+        RefUpdateUtilTest::lockFailure, RefUpdateUtilTest::rejected, RefUpdateUtilTest::ok);
+    assertIoException(
+        RefUpdateUtilTest::lockFailure,
+        RefUpdateUtilTest::lockFailure,
+        RefUpdateUtilTest::rejected);
+    assertIoException(
+        RefUpdateUtilTest::lockFailure, RefUpdateUtilTest::aborted, RefUpdateUtilTest::rejected);
+    assertIoException(
+        RefUpdateUtilTest::lockFailure, RefUpdateUtilTest::aborted, RefUpdateUtilTest::ok);
 
-    assertLockFailureException(LOCK_FAILURE);
-    assertLockFailureException(LOCK_FAILURE, LOCK_FAILURE);
-    assertLockFailureException(LOCK_FAILURE, LOCK_FAILURE, ABORTED);
-    assertLockFailureException(LOCK_FAILURE, LOCK_FAILURE, ABORTED, ABORTED);
-    assertLockFailureException(ABORTED);
-    assertLockFailureException(ABORTED, ABORTED);
+    assertLockFailureException(RefUpdateUtilTest::lockFailure);
+    assertLockFailureException(RefUpdateUtilTest::lockFailure, RefUpdateUtilTest::lockFailure);
+    assertLockFailureException(
+        RefUpdateUtilTest::lockFailure, RefUpdateUtilTest::lockFailure, RefUpdateUtilTest::aborted);
+    assertLockFailureException(
+        RefUpdateUtilTest::lockFailure,
+        RefUpdateUtilTest::lockFailure,
+        RefUpdateUtilTest::aborted,
+        RefUpdateUtilTest::aborted);
+    assertLockFailureException(RefUpdateUtilTest::aborted);
+    assertLockFailureException(RefUpdateUtilTest::aborted, RefUpdateUtilTest::aborted);
   }
 
   @SafeVarargs
@@ -109,5 +103,28 @@ public class RefUpdateUtilTest {
       }
       return bru;
     }
+  }
+
+  private static void ok(ReceiveCommand c) {
+    c.setResult(ReceiveCommand.Result.OK);
+  }
+
+  private static void lockFailure(ReceiveCommand c) {
+    c.setResult(ReceiveCommand.Result.LOCK_FAILURE);
+  }
+
+  private static void rejected(ReceiveCommand c) {
+    c.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON);
+  }
+
+  private static void aborted(ReceiveCommand c) {
+    c.setResult(ReceiveCommand.Result.NOT_ATTEMPTED);
+    ReceiveCommand.abort(ImmutableList.of(c));
+    checkState(
+        c.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED
+            && c.getResult() != ReceiveCommand.Result.LOCK_FAILURE
+            && c.getResult() != ReceiveCommand.Result.OK,
+        "unexpected state after abort: %s",
+        c);
   }
 }

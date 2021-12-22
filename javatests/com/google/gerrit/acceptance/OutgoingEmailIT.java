@@ -126,7 +126,7 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
 
   private static String getMessageId(FakeEmailSender sender) {
     return ((StringEmailHeader)
-            (Iterables.getOnlyElement(sender.getMessages()).headers().get("Message-ID")))
+            Iterables.getOnlyElement(sender.getMessages()).headers().get("Message-ID"))
         .getString();
   }
 

@@ -62,7 +62,7 @@ public class IdGenerator {
   private static short hi16(int in) {
     return (short)
         ( //
-        ((in >>> 24 & 0xff))
+        (in >>> 24 & 0xff)
             | //
             ((in >>> 16 & 0xff) << 8) //
         );
@@ -71,7 +71,7 @@ public class IdGenerator {
   private static short lo16(int in) {
     return (short)
         ( //
-        ((in >>> 8 & 0xff))
+        (in >>> 8 & 0xff)
             | //
             ((in & 0xff) << 8) //
         );

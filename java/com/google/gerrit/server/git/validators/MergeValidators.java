@@ -235,7 +235,7 @@ public class MergeValidators {
             String oldValue =
                 destProject.getPluginConfig(e.getPluginName()).getString(e.getExportName());
 
-            if ((!Objects.equals(value, oldValue)) && !configEntry.isEditable(destProject)) {
+            if (!Objects.equals(value, oldValue) && !configEntry.isEditable(destProject)) {
               throw new MergeValidationException(PLUGIN_VALUE_NOT_EDITABLE);
             }
 

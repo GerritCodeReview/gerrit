@@ -1939,9 +1939,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
    */
   private static ImmutableList<CommentInfo> flatten(
       Map<String, List<CommentInfo>> commentsPerFile) {
-    return commentsPerFile.values().stream()
-        .flatMap(Collection::stream)
-        .collect((toImmutableList()));
+    return commentsPerFile.values().stream().flatMap(Collection::stream).collect(toImmutableList());
   }
 
   // Unfortunately, we don't get an absolutely helpful error message when using this correspondence

@@ -201,8 +201,6 @@ public class AccountsUpdate {
   /** Single instance that accumulates updates from the batch. */
   private ExternalIdNotes externalIdNotes;
 
-  private static final Runnable DO_NOTHING = () -> {};
-
   @AssistedInject
   @SuppressWarnings("BindingAnnotationWithoutInject")
   AccountsUpdate(
@@ -225,8 +223,8 @@ public class AccountsUpdate {
         extIdNotesLoader,
         serverIdent,
         createPersonIdent(serverIdent, Optional.empty()),
-        DO_NOTHING,
-        DO_NOTHING);
+        AccountsUpdate::doNothing,
+        AccountsUpdate::doNothing);
   }
 
   @AssistedInject
@@ -252,8 +250,8 @@ public class AccountsUpdate {
         extIdNotesLoader,
         serverIdent,
         createPersonIdent(serverIdent, Optional.of(currentUser)),
-        DO_NOTHING,
-        DO_NOTHING);
+        AccountsUpdate::doNothing,
+        AccountsUpdate::doNothing);
   }
 
   @VisibleForTesting
@@ -585,6 +583,8 @@ public class AccountsUpdate {
     metaDataUpdate.getCommitBuilder().setAuthor(authorIdent);
     return metaDataUpdate;
   }
+
+  private static void doNothing() {};
 
   @FunctionalInterface
   private interface ExecutableUpdate {

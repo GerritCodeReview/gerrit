@@ -142,6 +142,7 @@ suite('checks-model tests', () => {
   });
 
   test('model.updateStateSetResults', () => {
+    model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
     model.updateStateSetResults(
       PLUGIN_NAME,
       RUNS,
@@ -155,6 +156,7 @@ suite('checks-model tests', () => {
   });
 
   test('model.updateStateUpdateResult', () => {
+    model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
     model.updateStateSetResults(
       PLUGIN_NAME,
       RUNS,

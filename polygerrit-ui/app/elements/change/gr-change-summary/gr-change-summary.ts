@@ -62,6 +62,8 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
+import {Interaction} from '../../../constants/reporting';
+import {roleDetails} from '../../../utils/change-util';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -180,6 +182,8 @@ export class GrChecksChip extends LitElement {
 
   @property()
   links: string[] = [];
+
+  private readonly reporting = getAppContext().reportingService;
 
   static override get styles() {
     return [
@@ -368,6 +372,10 @@ export class GrChecksChip extends LitElement {
   private onLinkClick(e: MouseEvent) {
     // Prevents onChipClick() from reacting to <a> link clicks.
     e.stopPropagation();
+    this.reporting.reportInteraction(Interaction.CHECKS_CHIP_LINK_CLICKED, {
+      text: this.text,
+      status: this.statusOrCategory,
+    });
   }
 }
 
@@ -409,13 +417,17 @@ export class GrChangeSummary extends LitElement {
   @state()
   messages: string[] = [];
 
-  private showAllChips = new Map<RunStatus | Category, boolean>();
+  private readonly showAllChips = new Map<RunStatus | Category, boolean>();
 
-  private getCommentsModel = resolve(this, commentsModelToken);
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private userModel = getAppContext().userModel;
+  private readonly userModel = getAppContext().userModel;
 
-  private getChecksModel = resolve(this, checksModelToken);
+  private readonly getChecksModel = resolve(this, checksModelToken);
+
+  private readonly changeModel = getAppContext().changeModel;
+
+  private readonly reporting = getAppContext().reportingService;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -599,11 +611,18 @@ export class GrChangeSummary extends LitElement {
 
   private renderAction(action?: Action) {
     if (!action) return;
-    return html`<gr-checks-action .action="${action}"></gr-checks-action>`;
+    return html`<gr-checks-action
+      context="summary"
+      .action="${action}"
+    ></gr-checks-action>`;
   }
 
   private handleAction(e: CustomEvent<Action>) {
-    this.getChecksModel().triggerAction(e.detail);
+    this.getChecksModel().triggerAction(
+      e.detail,
+      undefined,
+      'summary-dropdown'
+    );
   }
 
   private renderOverflow(items: DropdownLink[], disabledIds: string[] = []) {
@@ -771,6 +790,11 @@ export class GrChangeSummary extends LitElement {
   }
 
   private onChipClick(state: ChecksTabState) {
+    this.reporting.reportInteraction(Interaction.CHECKS_CHIP_CLICKED, {
+      statusOrCategory: state.statusOrCategory,
+      checkName: state.checkName,
+      ...roleDetails(this.changeModel.getChange(), this.selfAccount),
+    });
     fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
       checksTab: state,
     });

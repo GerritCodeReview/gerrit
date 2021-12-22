@@ -355,6 +355,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dcfdc25_4cecad32",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-22T15:13:52Z",
+      "side": 1,
+      "message": "Done.\n\nI differentiated between two states:\n1) When SRs are not stored in the revision note: SRs \u003d null.\n2) When SRs are stored but empty: SRs \u003d []",
+      "parentUuid": "bc7642e5_64bfce97",
+      "range": {
+        "startLine": 879,
+        "startChar": 13,
+        "endLine": 879,
+        "endChar": 73
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54d2b9d5_db3f123c",
@@ -404,6 +428,24 @@
       "side": 1,
       "message": "\u003e It always returns SRs from NoteDb but we don\u0027t use them,\n\nExactly this is bad. It means that NoteDb returns wrong SRs and the caller has to know that they must not be used. I think we should fix this. Maybe throw an exception if a caller tries to read SR\u0027s from NoteDb when the change is open? Also the javadoc should be pretty clear about this (maybe it already is?).",
       "parentUuid": "9133fe52_867a4737",
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3ebe554_3b666727",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5140,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-22T15:13:52Z",
+      "side": 1,
+      "message": "Done. I added a throw declaration in ChangeNotes#getSubmitRequirementsResult().",
+      "parentUuid": "a90f3ebd_20121e13",
       "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

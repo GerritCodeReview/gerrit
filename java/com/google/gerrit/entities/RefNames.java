@@ -14,8 +14,10 @@
 
 package com.google.gerrit.entities;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.UsedAt;
+import java.util.List;
 
 /** Constants and utilities for Gerrit-specific ref names. */
 public class RefNames {
@@ -125,6 +127,8 @@ public class RefNames {
           REFS_USERS,
           REFS_STARRED_CHANGES,
           REFS_REJECT_COMMITS);
+
+  private static final Splitter SPLITTER = Splitter.on("/");
 
   public static String fullName(String ref) {
     return (ref.startsWith(REFS) || ref.equals(HEAD)) ? ref : REFS_HEADS + ref;
@@ -344,16 +348,16 @@ public class RefNames {
       return null;
     }
 
-    String[] parts = name.split("/");
-    int n = parts.length;
+    List<String> parts = SPLITTER.splitToList(name);
+    int n = parts.size();
     if (n < 2) {
       return null;
     }
 
     // Last 2 digits.
     int le;
-    for (le = 0; le < parts[0].length(); le++) {
-      if (!Character.isDigit(parts[0].charAt(le))) {
+    for (le = 0; le < parts.get(0).length(); le++) {
+      if (!Character.isDigit(parts.get(0).charAt(le))) {
         return null;
       }
     }
@@ -363,8 +367,8 @@ public class RefNames {
 
     // Full ID.
     int ie;
-    for (ie = 0; ie < parts[1].length(); ie++) {
-      if (!Character.isDigit(parts[1].charAt(ie))) {
+    for (ie = 0; ie < parts.get(1).length(); ie++) {
+      if (!Character.isDigit(parts.get(1).charAt(ie))) {
         if (ie == 0) {
           return null;
         }
@@ -372,8 +376,8 @@ public class RefNames {
       }
     }
 
-    int shard = Integer.parseInt(parts[0]);
-    int id = Integer.parseInt(parts[1].substring(0, ie));
+    int shard = Integer.parseInt(parts.get(0));
+    int id = Integer.parseInt(parts.get(1).substring(0, ie));
 
     if (id % 100 != shard) {
       return null;
@@ -387,20 +391,20 @@ public class RefNames {
       return null;
     }
 
-    String[] parts = name.split("/");
-    int n = parts.length;
+    List<String> parts = SPLITTER.splitToList(name);
+    int n = parts.size();
     if (n != 2) {
       return null;
     }
 
     // First 2 chars.
-    if (parts[0].length() != 2) {
+    if (parts.get(0).length() != 2) {
       return null;
     }
 
     // Full UUID.
-    String uuid = parts[1];
-    if (!uuid.startsWith(parts[0])) {
+    String uuid = parts.get(1);
+    if (!uuid.startsWith(parts.get(0))) {
       return null;
     }
 
@@ -421,16 +425,16 @@ public class RefNames {
       return null;
     }
 
-    String[] parts = name.split("/");
-    int n = parts.length;
+    List<String> parts = SPLITTER.splitToList(name);
+    int n = parts.size();
     if (n < 2) {
       return null;
     }
 
     // Last 2 digits.
     int le;
-    for (le = 0; le < parts[0].length(); le++) {
-      if (!Character.isDigit(parts[0].charAt(le))) {
+    for (le = 0; le < parts.get(0).length(); le++) {
+      if (!Character.isDigit(parts.get(0).charAt(le))) {
         return null;
       }
     }
@@ -440,8 +444,8 @@ public class RefNames {
 
     // Full ID.
     int ie;
-    for (ie = 0; ie < parts[1].length(); ie++) {
-      if (!Character.isDigit(parts[1].charAt(ie))) {
+    for (ie = 0; ie < parts.get(1).length(); ie++) {
+      if (!Character.isDigit(parts.get(1).charAt(ie))) {
         if (ie == 0) {
           return null;
         }
@@ -449,8 +453,8 @@ public class RefNames {
       }
     }
 
-    int shard = Integer.parseInt(parts[0]);
-    int id = Integer.parseInt(parts[1].substring(0, ie));
+    int shard = Integer.parseInt(parts.get(0));
+    int id = Integer.parseInt(parts.get(1).substring(0, ie));
 
     if (id % 100 != shard) {
       return null;

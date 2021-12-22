@@ -25,6 +25,7 @@ import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE
 import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_REGEX;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -227,6 +228,8 @@ public class CommitRewriter {
   private static final Pattern NAME_EMAIL_PATTERN = Pattern.compile("(.*) (\\<.*\\>|\\(.*\\))");
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final Splitter COMMIT_MESSAGE_SPLITTER = Splitter.onPattern("\\r?\\n");
 
   private final ChangeNotes.Factory changeNotesFactory;
   private final AccountCache accountCache;
@@ -690,15 +693,16 @@ public class CommitRewriter {
         || !originalChangeMessage.startsWith(REMOVED_VOTES_CHANGE_MESSAGE_START)) {
       return Optional.empty();
     }
-    String[] lines = originalChangeMessage.split("\\r?\\n");
+    List<String> lines = COMMIT_MESSAGE_SPLITTER.splitToList(originalChangeMessage);
     StringBuilder fixedLines = new StringBuilder();
     boolean anyFixed = false;
-    for (int i = 1; i < lines.length; i++) {
-      if (lines[i].isEmpty()) {
+    for (int i = 1; i < lines.size(); i++) {
+      String line = lines.get(i);
+      if (line.isEmpty()) {
         continue;
       }
-      Matcher matcher = REMOVED_VOTES_CHANGE_MESSAGE_PATTERN.matcher(lines[i]);
-      String replacementLine = lines[i];
+      Matcher matcher = REMOVED_VOTES_CHANGE_MESSAGE_PATTERN.matcher(line);
+      String replacementLine = line;
       if (matcher.matches() && !NON_REPLACE_ACCOUNT_PATTERN.matcher(matcher.group(2)).matches()) {
         anyFixed = true;
         Optional<String> reviewerReplacement =

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -50,7 +51,8 @@ public class SetReviewersIT extends AbstractDaemonTest {
 
   @Test
   public void byCommitHash() throws Exception {
-    String id = change.getCommit().getId().toString().split("\\s+")[1];
+    String id =
+        Splitter.onPattern("\\s+").splitToList(change.getCommit().getId().toString()).get(1);
     addReviewer(id);
     removeReviewer(id);
   }

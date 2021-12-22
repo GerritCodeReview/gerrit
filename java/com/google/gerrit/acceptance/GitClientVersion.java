@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance;
 
 import static java.util.stream.Collectors.joining;
 
+import com.google.common.base.Splitter;
+import java.util.List;
 import java.util.stream.IntStream;
 
 /** Class to parse and represent version of git-core client */
@@ -38,11 +40,11 @@ public class GitClientVersion implements Comparable<GitClientVersion> {
    */
   public GitClientVersion(String version) {
     // "git version x.y.z", at Google "git version x.y.z.gXXXXXXXXXX-goog"
-    String parts[] = version.split(" ")[2].split("\\.");
-    int numParts = Math.min(parts.length, 3); // ignore Google-specific part of the version
+    List<String> parts = Splitter.on(".").splitToList(Splitter.on(" ").splitToList(version).get(2));
+    int numParts = Math.min(parts.size(), 3); // ignore Google-specific part of the version
     v = new int[numParts];
     for (int i = 0; i < numParts; i++) {
-      v[i] = Integer.valueOf(parts[i]);
+      v[i] = Integer.valueOf(parts.get(i));
     }
   }
 

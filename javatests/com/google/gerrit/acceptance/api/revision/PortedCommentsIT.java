@@ -24,6 +24,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static java.util.stream.Collectors.joining;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.Correspondence;
@@ -60,7 +61,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 public class PortedCommentsIT extends AbstractDaemonTest {
-
   @Inject private ChangeOperations changeOps;
   @Inject private AccountOperations accountOps;
   @Inject private RequestScopeOperations requestScopeOps;
@@ -178,10 +178,10 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     assertThat(portedComments).hasSize(1);
     int portedLine = portedComments.get(0).line;
     BinaryResult fileContent = gApi.changes().id(changeId.get()).current().file(fileName).content();
-    String[] lines = fileContent.asString().split("\n");
+    List<String> lines = Splitter.on("\n").splitToList(fileContent.asString());
     // Comment has shifted to L9 instead of L10 because of the deletion of line 4.
     assertThat(portedLine).isEqualTo(9);
-    assertThat(lines[portedLine - 1]).isEqualTo("Line 10");
+    assertThat(lines.get(portedLine - 1)).isEqualTo("Line 10");
   }
 
   @Test

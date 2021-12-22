@@ -356,16 +356,6 @@ export abstract class GrDiffBuilder {
     }
   }
 
-  getSectionsByLineRange(
-    startLine: LineNumber,
-    endLine: LineNumber,
-    side: Side
-  ) {
-    return this.getGroupsByLineRange(startLine, endLine, side).map(
-      group => group.element
-    );
-  }
-
   _createContextControls(
     section: HTMLElement,
     group: GrDiffGroup,

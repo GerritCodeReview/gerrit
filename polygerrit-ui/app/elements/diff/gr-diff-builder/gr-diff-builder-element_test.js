@@ -749,7 +749,7 @@ suite('gr-diff-builder tests', () => {
     });
   });
 
-  suite('rendering', () => {
+  suite.only('rendering', () => {
     let content;
     let outputEl;
     let keyLocations;
@@ -775,6 +775,7 @@ suite('gr-diff-builder tests', () => {
         },
       ];
       element = basicFixture.instantiate();
+      sinon.stub(element, 'dispatchEvent')
       outputEl = element.querySelector('#diffTable');
       keyLocations = {left: {}, right: {}};
       sinon.stub(element, '_getDiffBuilder').callsFake(() => {
@@ -792,39 +793,36 @@ suite('gr-diff-builder tests', () => {
       await element.render(keyLocations, prefs);
     });
 
-    test('addColumns is called', async () => {
-      await element.render(keyLocations, {});
+    test('addColumns is called', () => {
       assert.isTrue(element._builder.addColumns.called);
     });
 
-    test('getSectionsByLineRange one line', () => {
+    test('getGroupsByLineRange one line', () => {
       const section = outputEl.querySelector('stub:nth-of-type(3)');
-      const sections = element._builder.getSectionsByLineRange(1, 1, 'left');
-      assert.equal(sections.length, 1);
-      assert.strictEqual(sections[0], section);
+      const groups = element._builder.getGroupsByLineRange(1, 1, 'left');
+      assert.equal(groups.length, 1);
+      assert.strictEqual(groups[0].element, section);
     });
 
-    test('getSectionsByLineRange over diff', () => {
+    test('getGroupsByLineRange over diff', () => {
       const section = [
         outputEl.querySelector('stub:nth-of-type(3)'),
         outputEl.querySelector('stub:nth-of-type(4)'),
       ];
-      const sections = element._builder.getSectionsByLineRange(1, 2, 'left');
-      assert.equal(sections.length, 2);
-      assert.strictEqual(sections[0], section[0]);
-      assert.strictEqual(sections[1], section[1]);
+      const groups = element._builder.getGroupsByLineRange(1, 2, 'left');
+      assert.equal(groups.length, 2);
+      assert.strictEqual(groups[0].element, section[0]);
+      assert.strictEqual(groups[1].element, section[1]);
     });
 
     test('render-start and render-content are fired', async () => {
-      const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
-      await element.render(keyLocations, {});
-      const firedEventTypes = dispatchEventStub.getCalls()
+      const firedEventTypes = element.dispatchEvent.getCalls()
           .map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-start');
       assert.include(firedEventTypes, 'render-content');
     });
 
-    test('cancel', () => {
+    test('cancel cancels the processor', () => {
       const processorCancelStub = sinon.stub(element.$.processor, 'cancel');
       element.cancel();
       assert.isTrue(processorCancelStub.called);

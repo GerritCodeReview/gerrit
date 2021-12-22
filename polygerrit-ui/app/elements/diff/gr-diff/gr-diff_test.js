@@ -497,21 +497,6 @@ suite('gr-diff tests', () => {
       await promise;
     });
 
-    test('_handleTap context', async () => {
-      const rerenderSectionStub =
-          sinon.stub(element.$.diffBuilder, 'rerenderSection');
-      const el = document.createElement('div');
-      el.className = 'showContext';
-      const promise = mockPromise();
-      el.addEventListener('click', e => {
-        element._handleDiffContextExpanded(e);
-        assert.isTrue(rerenderSectionStub.called);
-        promise.resolve();
-      });
-      el.click();
-      await promise;
-    });
-
     test('_handleTap content', async () => {
       const content = document.createElement('div');
       const lineEl = document.createElement('div');

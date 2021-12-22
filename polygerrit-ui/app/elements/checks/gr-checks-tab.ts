@@ -160,6 +160,7 @@ export class GrChecksTab extends LitElement {
   }
 
   handleRunSelected(e: RunSelectedEvent) {
+    this.reporting.reportInteraction(Interaction.CHECKS_RUN_SELECTED, e.detail);
     if (e.detail.reset) {
       this.selectedRuns = [];
       this.selectedAttempts = new Map();
@@ -171,6 +172,10 @@ export class GrChecksTab extends LitElement {
   }
 
   handleAttemptSelected(e: AttemptSelectedEvent) {
+    this.reporting.reportInteraction(
+      Interaction.CHECKS_ATTEMPT_SELECTED,
+      e.detail
+    );
     const {checkName, attempt} = e.detail;
     this.selectedAttempts.set(checkName, attempt);
     // Force property update.

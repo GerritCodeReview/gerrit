@@ -61,6 +61,7 @@ import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {commentsModelToken} from '../../../services/comments/comments-model';
 import {resolve} from '../../../services/dependency';
+import {Interaction} from '../../../constants/reporting';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -179,6 +180,8 @@ export class GrChecksChip extends LitElement {
 
   @property()
   links: string[] = [];
+
+  private readonly reporting = getAppContext().reportingService;
 
   static override get styles() {
     return [
@@ -367,6 +370,10 @@ export class GrChecksChip extends LitElement {
   private onLinkClick(e: MouseEvent) {
     // Prevents onChipClick() from reacting to <a> link clicks.
     e.stopPropagation();
+    this.reporting.reportInteraction(Interaction.CHECKS_CHIP_LINK_CLICKED, {
+      text: this.text,
+      status: this.statusOrCategory,
+    });
   }
 }
 
@@ -412,6 +419,8 @@ export class GrChangeSummary extends LitElement {
   private userModel = getAppContext().userModel;
 
   private checksModel = getAppContext().checksModel;
+
+  private readonly reporting = getAppContext().reportingService;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -754,6 +763,7 @@ export class GrChangeSummary extends LitElement {
   }
 
   private onChipClick(state: ChecksTabState) {
+    this.reporting.reportInteraction(Interaction.CHECKS_CHIP_CLICKED, state);
     fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
       checksTab: state,
     });

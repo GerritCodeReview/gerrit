@@ -86,10 +86,8 @@ import {
   changeIsMerged,
   changeIsOpen,
   changeStatuses,
-  isCc,
   isInvolved,
-  isOwner,
-  isReviewer,
+  roleDetails,
 } from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -2104,11 +2102,9 @@ export class GrChangeView extends base {
       .then(() => {
         this.reporting.timeEnd(Timing.CHANGE_RELOAD);
         if (isLocationChange) {
-          this.reporting.changeDisplayed({
-            isOwner: isOwner(this._change, this._account),
-            isReviewer: isReviewer(this._change, this._account),
-            isCc: isCc(this._change, this._account),
-          });
+          this.reporting.changeDisplayed(
+            roleDetails(this._change, this._account)
+          );
         }
       });
 

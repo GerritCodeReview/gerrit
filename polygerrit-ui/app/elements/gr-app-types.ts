@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {
+  DashboardSection,
   GenerateUrlParameters,
   GroupDetailView,
   RepoDetailView,
@@ -42,7 +43,7 @@ export interface AppElementDashboardParams {
   project?: RepoName;
   dashboard: DashboardId;
   user?: string;
-  sections: Array<{name: string; query: string}>;
+  sections?: DashboardSection[];
   title?: string;
 }
 

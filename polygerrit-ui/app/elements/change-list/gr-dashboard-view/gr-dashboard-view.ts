@@ -43,7 +43,7 @@ import {
   PreferencesInput,
   RepoName,
 } from '../../../types/common';
-import {AppElementDashboardParams, AppElementParams} from '../../gr-app-types';
+import {AppElementDashboardParams} from '../../gr-app-types';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrCreateCommandsDialog} from '../gr-create-commands-dialog/gr-create-commands-dialog';
 import {
@@ -98,7 +98,7 @@ export class GrDashboardView extends PolymerElement {
   viewState?: DashboardViewState;
 
   @property({type: Object})
-  params?: AppElementParams;
+  params?: AppElementDashboardParams;
 
   @property({type: Array})
   _results?: DashboardChange[];
@@ -192,7 +192,7 @@ export class GrDashboardView extends PolymerElement {
     return 'Dashboard for ' + user;
   }
 
-  _isViewActive(params: AppElementParams): params is AppElementDashboardParams {
+  _isViewActive(params: AppElementDashboardParams) {
     return params.view === GerritView.DASHBOARD;
   }
 
@@ -217,7 +217,7 @@ export class GrDashboardView extends PolymerElement {
   /**
    * Reloads the element.
    */
-  _reload(params?: AppElementParams) {
+  _reload(params?: AppElementDashboardParams) {
     if (!params || !this._isViewActive(params)) {
       return Promise.resolve();
     }
@@ -350,7 +350,7 @@ export class GrDashboardView extends PolymerElement {
     return `(${numChanges}${andMore})`;
   }
 
-  _computeUserHeaderClass(params: AppElementParams) {
+  _computeUserHeaderClass(params?: AppElementDashboardParams) {
     if (
       !params ||
       params.view !== GerritView.DASHBOARD ||

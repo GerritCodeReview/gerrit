@@ -95,6 +95,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
   private AllUsersAsyncUpdate updateAllUsersAsync;
+  private boolean allowNonFastForward;
   private boolean executed;
   private String refLogMessage;
   private PersonIdent refLogIdent;
@@ -147,6 +148,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
       Repository repo, RevWalk rw, @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
     checkState(changeRepo == null, "change repo already initialized");
     changeRepo = new OpenRepo(repo, rw, ins, cmds, false);
+    return this;
+  }
+
+  public NoteDbUpdateManager setAllowNonFastForward(boolean allowNonFastForward) {
+    this.allowNonFastForward = allowNonFastForward;
     return this;
   }
 
@@ -377,7 +383,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
     bru.setAtomic(true);
     or.cmds.addTo(bru);
-    bru.setAllowNonFastForwards(true);
+    bru.setAllowNonFastForwards(allowNonFastForward);
     for (BatchUpdateListener listener : batchUpdateListeners) {
       bru = listener.beforeUpdateRefs(bru);
     }

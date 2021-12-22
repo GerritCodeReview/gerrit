@@ -3069,6 +3069,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             false);
     update.setPatchSetId(ps2);
     update.putComment(HumanComment.Status.DRAFT, comment2);
+    update.setAllowNonFastForward(true);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -3077,6 +3078,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps2);
     update.deleteComment(comment2);
+    update.setAllowNonFastForward(true);
     update.commit();
 
     notes = newNotes(c);
@@ -3435,6 +3437,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     draftUpdate.putComment(comment2);
     try (NoteDbUpdateManager manager = updateManagerFactory.create(c.getProject())) {
       manager.add(draftUpdate);
+      manager.setAllowNonFastForward(true);
       manager.execute();
     }
 

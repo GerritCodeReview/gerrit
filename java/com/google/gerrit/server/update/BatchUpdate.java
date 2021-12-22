@@ -385,6 +385,7 @@ public class BatchUpdate implements AutoCloseable {
   private final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
   private final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
 
+  private boolean allowNonFastForward = false;
   private RepoView repoView;
   private BatchRefUpdate batchRefUpdate;
   private boolean executed;
@@ -532,6 +533,11 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
+  public BatchUpdate setAllowNonFastForward(boolean allowNonFastForward) {
+    this.allowNonFastForward = allowNonFastForward;
+    return this;
+  }
+
   public BatchUpdate addRepoOnlyOp(RepoOnlyOp op) {
     checkArgument(!(op instanceof BatchUpdateOp), "use addOp()");
     repoOnlyOps.add(op);
@@ -655,6 +661,7 @@ public class BatchUpdate implements AutoCloseable {
             updateManagerFactory
                 .create(project)
                 .setBatchUpdateListeners(batchUpdateListeners)
+                .setAllowNonFastForward(allowNonFastForward)
                 .setChangeRepo(
                     repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
             dryrun);

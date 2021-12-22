@@ -238,6 +238,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public ObjectId commit() throws IOException {
     try (NoteDbUpdateManager updateManager = updateManagerFactory.create(getProjectName())) {
       updateManager.add(this);
+      updateManager.setAllowNonFastForward(allowNonFastForward);
       updateManager.execute();
     }
     return getResult();

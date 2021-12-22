@@ -54,6 +54,7 @@ public abstract class AbstractChangeUpdate {
   @Nullable protected PatchSet.Id psId;
   private ObjectId result;
   boolean rootOnly;
+  boolean allowNonFastForward;
 
   AbstractChangeUpdate(
       ChangeNotes notes,
@@ -148,6 +149,10 @@ public abstract class AbstractChangeUpdate {
   public void setPatchSetId(PatchSet.Id psId) {
     checkArgument(psId == null || psId.changeId().equals(getId()));
     this.psId = psId;
+  }
+
+  public void setAllowNonFastForward(boolean allowNonFastForward) {
+    this.allowNonFastForward = allowNonFastForward;
   }
 
   public Account.Id getAccountId() {

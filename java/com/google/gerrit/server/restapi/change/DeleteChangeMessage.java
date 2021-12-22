@@ -90,7 +90,10 @@ public class DeleteChangeMessage
         new DeleteChangeMessageOp(resource.getChangeMessageId(), newChangeMessage);
     try (BatchUpdate batchUpdate =
         updateFactory.create(resource.getChangeResource().getProject(), user, TimeUtil.nowTs())) {
-      batchUpdate.addOp(resource.getChangeId(), deleteChangeMessageOp).execute();
+      batchUpdate
+          .addOp(resource.getChangeId(), deleteChangeMessageOp)
+          .setAllowNonFastForward(true)
+          .execute();
     }
 
     ChangeMessageInfo updatedMessageInfo =

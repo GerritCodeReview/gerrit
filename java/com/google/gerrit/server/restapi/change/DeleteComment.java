@@ -85,7 +85,10 @@ public class DeleteComment implements RestModifyView<HumanCommentResource, Delet
     DeleteCommentOp deleteCommentOp = new DeleteCommentOp(rsrc, newMessage);
     try (BatchUpdate batchUpdate =
         updateFactory.create(rsrc.getRevisionResource().getProject(), user, TimeUtil.nowTs())) {
-      batchUpdate.addOp(rsrc.getRevisionResource().getChange().getId(), deleteCommentOp).execute();
+      batchUpdate
+          .setAllowNonFastForward(true)
+          .addOp(rsrc.getRevisionResource().getChange().getId(), deleteCommentOp)
+          .execute();
     }
 
     ChangeNotes updatedNotes =

@@ -57,6 +57,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
         updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getComment().key);
       bu.addOp(rsrc.getChange().getId(), op);
+      bu.setAllowNonFastForward(true);
       bu.execute();
     }
     return Response.none();

@@ -113,6 +113,7 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
       try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, author, now)) {
         batchUpdate.setRepository(repository, revWalk, objectInserter);
         batchUpdate.addOp(changeNotes.getChangeId(), commentAdditionOp);
+        batchUpdate.setAllowNonFastForward(true);
         batchUpdate.execute();
       }
       return commentAdditionOp.createdCommentUuid;

@@ -847,7 +847,9 @@ class ReceiveCommits {
           MergeOpRepoManager orm = ormProvider.get()) {
         bu.setRepository(repo, rw, ins);
         bu.setRefLogMessage("push");
-
+        bu.setAllowNonFastForward(
+            cmds.stream()
+                .anyMatch(cmd -> cmd.getType().equals(ReceiveCommand.Type.UPDATE_NONFASTFORWARD)));
         int added = 0;
         for (ReceiveCommand cmd : cmds) {
           if (cmd.getResult() == NOT_ATTEMPTED) {

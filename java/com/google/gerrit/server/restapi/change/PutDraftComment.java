@@ -90,6 +90,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
         updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getComment().key, in);
       bu.addOp(rsrc.getChange().getId(), op);
+      bu.setAllowNonFastForward(true);
       bu.execute();
       return Response.ok(
           commentJson.get().setFillAccounts(false).newHumanCommentFormatter().format(op.comment));

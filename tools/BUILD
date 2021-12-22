@@ -411,7 +411,7 @@ java_package_configuration(
         "-Xep:TheoryButNoTheories:ERROR",
         "-Xep:ThreadJoinLoop:ERROR",
         "-Xep:ThreadLocalUsage:ERROR",
-        # "-Xep:ThreadPriorityCheck:WARN",
+        "-Xep:ThreadPriorityCheck:ERROR",
         "-Xep:ThreeLetterTimeZoneID:ERROR",
         "-Xep:ThrowIfUncheckedKnownChecked:ERROR",
         "-Xep:ThrowNull:ERROR",

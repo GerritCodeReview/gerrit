@@ -42,7 +42,7 @@ export interface AppElementDashboardParams {
   project?: RepoName;
   dashboard: DashboardId;
   user?: string;
-  sections: Array<{name: string; query: string}>;
+  sections?: Array<{name: string; query: string}>;
   title?: string;
 }
 

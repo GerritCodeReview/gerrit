@@ -60,6 +60,8 @@ import {getAppContext} from '../../services/app-context';
 import {KnownExperimentId} from '../../services/flags/flags';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
+import {Interaction} from '../../constants/reporting';
+import {Deduping} from '../../api/reporting';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
@@ -198,6 +200,8 @@ export class GrChecksRun extends LitElement {
   @state()
   shouldRender = false;
 
+  private readonly reporting = getAppContext().reportingService;
+
   override firstUpdated() {
     assertIsDefined(this.chipElement, 'chip element');
     whenVisible(this.chipElement, () => (this.shouldRender = true), 200);
@@ -315,6 +319,10 @@ export class GrChecksRun extends LitElement {
   private onLinkClick(e: MouseEvent) {
     // Prevents handleChipClick() from reacting to <a> link clicks.
     e.stopPropagation();
+    this.reporting.reportInteraction(Interaction.CHECKS_RUN_LINK_CLICKED, {
+      checkName: this.run.checkName,
+      status: this.run.status,
+    });
   }
 
   renderFilterIcon() {
@@ -392,6 +400,8 @@ export class GrChecksRuns extends LitElement {
   private flagService = getAppContext().flagsService;
 
   private checksModel = getAppContext().checksModel;
+
+  private readonly reporting = getAppContext().reportingService;
 
   constructor() {
     super();
@@ -632,6 +642,9 @@ export class GrChecksRuns extends LitElement {
           ?disabled=${runButtonDisabled}
           @click="${() => {
             actions.forEach(action => this.checksModel.triggerAction(action));
+            this.reporting.reportInteraction(
+              Interaction.CHECKS_RUNS_SELECTED_TRIGGERED
+            );
           }}"
           >Run Selected</gr-button
         >
@@ -653,7 +666,7 @@ export class GrChecksRuns extends LitElement {
           aria-label="${this.collapsed
             ? 'Expand runs panel'
             : 'Collapse runs panel'}"
-          @click="${() => (this.collapsed = !this.collapsed)}"
+          @click="${this.toggleCollapsed}"
           ><iron-icon
             class="expandIcon"
             icon="${this.collapsed
@@ -665,8 +678,20 @@ export class GrChecksRuns extends LitElement {
     `;
   }
 
+  private toggleCollapsed() {
+    this.collapsed = !this.collapsed;
+    this.reporting.reportInteraction(Interaction.CHECKS_RUNS_PANEL_TOGGLE, {
+      collapsed: this.collapsed,
+    });
+  }
+
   onInput() {
     assertIsDefined(this.filterInput, 'filter <input> element');
+    this.reporting.reportInteraction(
+      Interaction.CHECKS_RUN_FILTER_CHANGED,
+      {},
+      {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
+    );
     this.filterRegExp = new RegExp(this.filterInput.value, 'i');
   }
 
@@ -811,6 +836,10 @@ export class GrChecksRuns extends LitElement {
   toggleExpanded(status: RunStatus) {
     const expanded = this.isSectionExpanded.get(status) ?? true;
     this.isSectionExpanded.set(status, !expanded);
+    this.reporting.reportInteraction(Interaction.CHECKS_RUN_SECTION_TOGGLE, {
+      status,
+      expanded: !expanded,
+    });
     this.requestUpdate();
   }
 

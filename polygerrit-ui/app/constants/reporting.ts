@@ -98,6 +98,8 @@ export enum Timing {
   DRAFT_UPDATE = 'UpdateDraftComment',
   // Time for making the REST API call of deleting a draft comment.
   DRAFT_DISCARD = 'DiscardDraftComment',
+  // Time to load checks from all providers for the first time.
+  CHECKS_LOAD = 'ChecksLoad',
 }
 
 export enum Interaction {
@@ -109,4 +111,20 @@ export enum Interaction {
   DISCARD_COMMENT = 'discard-comment',
   COMMENT_DISCARDED = 'comment-discarded',
   CHECKS_TAB_RENDERED = 'checks-tab-rendered',
+  CHECKS_CHIP_CLICKED = 'checks-chip-clicked',
+  CHECKS_CHIP_LINK_CLICKED = 'checks-chip-link-clicked',
+  CHECKS_RESULT_ROW_TOGGLE = 'checks-result-row-toggle',
+  CHECKS_ACTION_TRIGGERED = 'checks-action-triggered',
+  CHECKS_TAG_CLICKED = 'checks-tag-clicked',
+  CHECKS_RESULT_FILTER_CHANGED = 'checks-result-filter-changed',
+  CHECKS_RESULT_SECTION_TOGGLE = 'checks-result-section-toggle',
+  CHECKS_RESULT_SECTION_SHOW_ALL = 'checks-result-section-show-all',
+  CHECKS_RUN_SELECTED = 'checks-run-selected',
+  CHECKS_RUN_LINK_CLICKED = 'checks-run-link-clicked',
+  CHECKS_RUN_FILTER_CHANGED = 'checks-run-filter-changed',
+  CHECKS_RUN_SECTION_TOGGLE = 'checks-run-section-toggle',
+  CHECKS_ATTEMPT_SELECTED = 'checks-attempt-selected',
+  CHECKS_RUNS_PANEL_TOGGLE = 'checks-runs-panel-toggle',
+  CHECKS_RUNS_SELECTED_TRIGGERED = 'checks-runs-selected-triggered',
+  CHECKS_STATS = 'checks-stats',
 }

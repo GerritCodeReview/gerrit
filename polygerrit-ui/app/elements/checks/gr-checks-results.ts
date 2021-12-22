@@ -67,6 +67,8 @@ import {DropdownLink} from '../shared/gr-dropdown/gr-dropdown';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
 import {fire} from '../../utils/event-util';
+import {Interaction} from '../../constants/reporting';
+import {Deduping} from '../../api/reporting';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -105,6 +107,8 @@ class GrResultRow extends LitElement {
   private changeModel = getAppContext().changeModel;
 
   private checksModel = getAppContext().checksModel;
+
+  private readonly reporting = getAppContext().reportingService;
 
   constructor() {
     super();
@@ -398,6 +402,10 @@ class GrResultRow extends LitElement {
   private tagClick(e: MouseEvent, tagName: string) {
     e.preventDefault();
     e.stopPropagation();
+    this.reporting.reportInteraction(Interaction.CHECKS_TAG_CLICKED, {
+      tagName,
+      checkName: this.result?.checkName,
+    });
     fire(this, 'checks-results-filter', {filterRegExp: tagName});
   }
 
@@ -414,6 +422,10 @@ class GrResultRow extends LitElement {
   private toggleExpanded() {
     if (!this.isExpandable) return;
     this.isExpanded = !this.isExpanded;
+    this.reporting.reportInteraction(Interaction.CHECKS_RESULT_ROW_TOGGLE, {
+      expanded: this.isExpanded,
+      checkName: this.result?.checkName,
+    });
   }
 
   renderSummary(text?: string) {
@@ -758,6 +770,8 @@ export class GrChecksResults extends LitElement {
   private readonly changeModel = getAppContext().changeModel;
 
   private readonly checksModel = getAppContext().checksModel;
+
+  private readonly reporting = getAppContext().reportingService;
 
   constructor() {
     super();
@@ -1211,6 +1225,11 @@ export class GrChecksResults extends LitElement {
 
   onFilterInputChange() {
     assertIsDefined(this.filterInput, 'filter <input> element');
+    this.reporting.reportInteraction(
+      Interaction.CHECKS_RESULT_FILTER_CHANGED,
+      {},
+      {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
+    );
     this.filterRegExp = new RegExp(this.filterInput.value, 'i');
   }
 
@@ -1304,6 +1323,13 @@ export class GrChecksResults extends LitElement {
   toggleShowAll(category: Category) {
     const current = this.isShowAll.get(category) ?? false;
     this.isShowAll.set(category, !current);
+    this.reporting.reportInteraction(
+      Interaction.CHECKS_RESULT_SECTION_SHOW_ALL,
+      {
+        category,
+        showAll: !current,
+      }
+    );
     this.requestUpdate();
   }
 
@@ -1370,6 +1396,10 @@ export class GrChecksResults extends LitElement {
     assertIsDefined(expanded, 'expanded must have been set in initial render');
     this.isSectionExpanded.set(category, !expanded);
     this.isSectionExpandedByUser.set(category, true);
+    this.reporting.reportInteraction(Interaction.CHECKS_RESULT_SECTION_TOGGLE, {
+      expanded: !expanded,
+      category,
+    });
     this.requestUpdate();
   }
 

@@ -32,9 +32,11 @@ import {
   catchError,
   filter,
   switchMap,
+  take,
   takeUntil,
   takeWhile,
   throttleTime,
+  withLatestFrom,
 } from 'rxjs/operators';
 import {
   Action,
@@ -46,13 +48,15 @@ import {
   ChecksProvider,
   FetchResponse,
   ResponseCode,
+  Category,
+  RunStatus,
 } from '../../api/checks';
 import {ChangeModel} from '../change/change-model';
 import {ChangeInfo, NumericChangeId, PatchSetNumber} from '../../types/common';
 import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
-import {Execution} from '../../constants/reporting';
+import {Execution, Interaction, Timing} from '../../constants/reporting';
 import {fireAlert, fireEvent} from '../../utils/event-util';
 import {RouterModel} from '../router/router-model';
 
@@ -198,6 +202,13 @@ export class ChecksModel implements Finalizable {
     state => Object.keys(state).length > 0
   );
 
+  private firstLoadCompleted$ = select(this.checksLatest$, state => {
+    const providers = Object.values(state);
+    if (providers.length === 0) return false;
+    if (providers.some(p => p.loading || p.firstTimeLoad)) return false;
+    return true;
+  });
+
   public someProvidersAreLoadingFirstTime$ = select(this.checksLatest$, state =>
     Object.values(state).some(
       provider => provider.loading && provider.firstTimeLoad
@@ -325,6 +336,7 @@ export class ChecksModel implements Finalizable {
     readonly changeModel: ChangeModel,
     readonly reporting: ReportingService
   ) {
+    this.reporting.time(Timing.CHECKS_LOAD);
     this.subscriptions = [
       this.changeModel.changeNum$.subscribe(x => (this.changeNum = x)),
       this.checkToPluginMap$.subscribe(map => {
@@ -343,6 +355,13 @@ export class ChecksModel implements Finalizable {
           this.setPatchset(latestPs);
         }
       }),
+      this.firstLoadCompleted$
+        .pipe(
+          filter(completed => !!completed),
+          take(1),
+          withLatestFrom(this.checksLatest$)
+        )
+        .subscribe(([_, state]) => this.reportStats(state)),
     ];
     this.visibilityChangeListener = () => {
       this.documentVisibilityChange$.next(undefined);
@@ -353,6 +372,46 @@ export class ChecksModel implements Finalizable {
     );
     this.reloadListener = () => this.reloadAll();
     document.addEventListener('reload', this.reloadListener);
+  }
+
+  private reportStats(state: {[name: string]: ChecksProviderState}) {
+    const stats = {
+      providerCount: 0,
+      providerErrorCount: 0,
+      providerLoginCount: 0,
+      providerActionCount: 0,
+      providerLinkCount: 0,
+      errorCount: 0,
+      warningCount: 0,
+      infoCount: 0,
+      successCount: 0,
+      runnableCount: 0,
+      scheduledCount: 0,
+      runningCount: 0,
+      completedCount: 0,
+    };
+    const providers = Object.values(state);
+    for (const provider of providers) {
+      stats.providerCount++;
+      if (provider.errorMessage) stats.providerErrorCount++;
+      if (provider.loginCallback) stats.providerLoginCount++;
+      if (provider.actions?.length) stats.providerActionCount++;
+      if (provider.links?.length) stats.providerLinkCount++;
+      for (const run of provider.runs) {
+        if (run.status === RunStatus.RUNNABLE) stats.runnableCount++;
+        if (run.status === RunStatus.SCHEDULED) stats.scheduledCount++;
+        if (run.status === RunStatus.RUNNING) stats.runningCount++;
+        if (run.status === RunStatus.COMPLETED) stats.completedCount++;
+        for (const result of run.results ?? []) {
+          if (result.category === Category.ERROR) stats.errorCount++;
+          if (result.category === Category.WARNING) stats.warningCount++;
+          if (result.category === Category.INFO) stats.infoCount++;
+          if (result.category === Category.SUCCESS) stats.successCount++;
+        }
+      }
+    }
+    this.reporting.timeEnd(Timing.CHECKS_LOAD);
+    this.reporting.reportInteraction(Interaction.CHECKS_STATS, stats);
   }
 
   finalize() {
@@ -462,10 +521,11 @@ export class ChecksModel implements Finalizable {
     }
     const nextState = {...this.privateState$.getValue()};
     const pluginState = this.getPluginState(nextState, patchset);
+    const oldState = pluginState[pluginName];
     pluginState[pluginName] = {
-      ...pluginState[pluginName],
+      ...oldState,
       loading: false,
-      firstTimeLoad: false,
+      firstTimeLoad: oldState.loading ? false : oldState.firstTimeLoad,
       errorMessage: undefined,
       loginCallback: undefined,
       runs: runs.map(run => {
@@ -578,6 +638,10 @@ export class ChecksModel implements Finalizable {
     if (!this.changeNum) return;
     const patchSet = run?.patchset ?? this.latestPatchNum;
     if (!patchSet) return;
+    this.reporting.reportInteraction(Interaction.CHECKS_ACTION_TRIGGERED, {
+      checkName: run?.checkName,
+      actionName: action.name,
+    });
     const promise = action.callback(
       this.changeNum,
       patchSet,

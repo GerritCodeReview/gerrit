@@ -122,7 +122,8 @@ export const htmlTemplate = html`
       <gr-change-list-view
         params="[[params]]"
         account="[[_account]]"
-        view-state="{{_viewState.changeListView}}"
+        view-state="[[_viewState.changeListView]]"
+        on-view-state-changed="_handleViewStateChanged"
       ></gr-change-list-view>
     </template>
     <template is="dom-if" if="[[_showDashboardView]]" restamp="true">

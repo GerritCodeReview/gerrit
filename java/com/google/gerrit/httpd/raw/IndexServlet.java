@@ -74,7 +74,6 @@ public class IndexServlet extends HttpServlet {
     SoySauce.Renderer renderer;
     try {
       Map<String, String[]> parameterMap = req.getParameterMap();
-      String requestUrl = req.getRequestURL() == null ? null : req.getRequestURL().toString();
       // TODO(hiesel): Remove URL ordainer as parameter once Soy is consistent
       ImmutableMap<String, Object> templateData =
           IndexHtmlUtil.templateData(
@@ -85,7 +84,7 @@ public class IndexServlet extends HttpServlet {
               faviconPath,
               parameterMap,
               urlOrdainer,
-              requestUrl);
+              getRequestUrl(req));
       renderer = soySauce.renderTemplate("com.google.gerrit.httpd.raw.Index").setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);
@@ -97,5 +96,14 @@ public class IndexServlet extends HttpServlet {
     try (OutputStream w = rsp.getOutputStream()) {
       w.write(renderer.renderHtml().get().toString().getBytes(UTF_8));
     }
+  }
+
+  @SuppressWarnings("JdkObsolete")
+  @Nullable
+  private static String getRequestUrl(HttpServletRequest req) {
+    if (req.getRequestURL() == null) {
+      return null;
+    }
+    return req.getRequestURL().toString();
   }
 }

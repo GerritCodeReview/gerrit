@@ -78,16 +78,20 @@ public class RequireSslFilter implements Filter {
       //
       final String url;
       if (isLocalHost(req)) {
-        final StringBuffer b = req.getRequestURL();
-        b.replace(0, b.indexOf(":"), "https");
-        url = b.toString();
-
+        url = getLocalHostUrl(req);
       } else {
         url = urlProvider.get() + req.getServletPath();
       }
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
       rsp.setHeader("Location", url);
     }
+  }
+
+  @SuppressWarnings("JdkObsolete")
+  private static String getLocalHostUrl(HttpServletRequest req) {
+    StringBuffer b = req.getRequestURL();
+    b.replace(0, b.indexOf(":"), "https");
+    return b.toString();
   }
 
   private static boolean isSecure(HttpServletRequest req) {

@@ -825,11 +825,16 @@ public class RestApiServlet extends HttpServlet {
       if (isRead(request)) {
         logger.atWarning().log(
             "request %s performed a ref update %s although the request is a READ request",
-            request.getRequestURL().toString(), refUpdateFormat);
+            getRequestUrl(request), refUpdateFormat);
       }
       response.addHeader(X_GERRIT_UPDATED_REF, refUpdateFormat);
     }
     globals.webSession.get().resetRefUpdatedEvents();
+  }
+
+  @SuppressWarnings("JdkObsolete")
+  private static String getRequestUrl(HttpServletRequest req) {
+    return req.getRequestURL().toString();
   }
 
   private String getEtagWithRetry(

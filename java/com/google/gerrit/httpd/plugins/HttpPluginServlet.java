@@ -520,7 +520,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     macros.put("URL", url);
 
     Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@").matcher(md);
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     while (m.find()) {
       String key = m.group(2);
       String val = macros.get(key);

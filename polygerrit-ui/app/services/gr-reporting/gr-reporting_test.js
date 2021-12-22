@@ -18,6 +18,7 @@
 import '../../test/common-test-setup-karma.js';
 import {GrReporting, DEFAULT_STARTUP_TIMERS, initErrorReporter} from './gr-reporting_impl.js';
 import {getAppContext} from '../app-context.js';
+import {Deduping} from '../../api/reporting.js';
 suite('gr-reporting tests', () => {
   let service;
 
@@ -345,6 +346,44 @@ suite('gr-reporting tests', () => {
         }
     ));
     assert.equal(dispatchStub.getCall(2).args[0].detail.eventStart, 42);
+  });
+
+  test('dedup', () => {
+    assert.isFalse(service._dedup('a', undefined, undefined));
+    assert.isFalse(service._dedup('a', undefined, undefined));
+
+    let deduping = Deduping.EVENT_ONCE_PER_SESSION;
+    assert.isFalse(service._dedup('b', {x: 'foo'}, deduping));
+    assert.isTrue(service._dedup('b', {x: 'foo'}, deduping));
+    assert.isTrue(service._dedup('b', {x: 'bar'}, deduping));
+
+    deduping = Deduping.DETAILS_ONCE_PER_SESSION;
+    assert.isFalse(service._dedup('c', {x: 'foo'}, deduping));
+    assert.isTrue(service._dedup('c', {x: 'foo'}, deduping));
+    assert.isFalse(service._dedup('c', {x: 'bar'}, deduping));
+    assert.isTrue(service._dedup('c', {x: 'bar'}, deduping));
+
+    deduping = Deduping.EVENT_ONCE_PER_CHANGE;
+    service.setChangeId(1);
+    assert.isFalse(service._dedup('d', {x: 'foo'}, deduping));
+    assert.isTrue(service._dedup('d', {x: 'foo'}, deduping));
+    assert.isTrue(service._dedup('d', {x: 'bar'}, deduping));
+    service.setChangeId(2);
+    assert.isFalse(service._dedup('d', {x: 'foo'}, deduping));
+    assert.isTrue(service._dedup('d', {x: 'foo'}, deduping));
+    assert.isTrue(service._dedup('d', {x: 'bar'}, deduping));
+
+    deduping = Deduping.DETAILS_ONCE_PER_CHANGE;
+    service.setChangeId(1);
+    assert.isFalse(service._dedup('e', {x: 'foo'}, deduping));
+    assert.isTrue(service._dedup('e', {x: 'foo'}, deduping));
+    assert.isFalse(service._dedup('e', {x: 'bar'}, deduping));
+    assert.isTrue(service._dedup('e', {x: 'bar'}, deduping));
+    service.setChangeId(2);
+    assert.isFalse(service._dedup('e', {x: 'foo'}, deduping));
+    assert.isTrue(service._dedup('e', {x: 'foo'}, deduping));
+    assert.isFalse(service._dedup('e', {x: 'bar'}, deduping));
+    assert.isTrue(service._dedup('e', {x: 'bar'}, deduping));
   });
 
   suite('plugins', () => {

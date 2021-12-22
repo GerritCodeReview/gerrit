@@ -18,7 +18,7 @@ import {FlagsService} from '../flags/flags';
 import {EventValue, ReportingService, Timer} from './gr-reporting';
 import {hasOwnProperty} from '../../utils/common-util';
 import {NumericChangeId} from '../../types/common';
-import {EventDetails} from '../../api/reporting';
+import {Deduping, EventDetails, ReportingOptions} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
 import {Finalizable} from '../registry';
 import {
@@ -285,10 +285,10 @@ export class GrReporting implements ReportingService, Finalizable {
   private slowRpcList: SlowRpcCall[] = [];
 
   /**
-   * Keeps track of which ids were already reported to have been executed.
-   * Execution ids should only be reported once per session.
+   * Keeps track of which ids were already reported for events that should only
+   * be reported once per session.
    */
-  private executionReported = new Set<string>();
+  private reportedIds = new Set<string>();
 
   public readonly hiddenDurationTimer = new HiddenDurationTimer();
 
@@ -815,7 +815,43 @@ export class GrReporting implements ReportingService, Finalizable {
     );
   }
 
-  reportInteraction(eventName: string | Interaction, details: EventDetails) {
+  /**
+   * Returns true when the event was deduped and thus should not be reported.
+   */
+  _dedup(
+    eventName: string | Interaction,
+    details: EventDetails,
+    deduping?: Deduping
+  ): boolean {
+    if (!deduping) return false;
+    let id = '';
+    switch (deduping) {
+      case Deduping.DETAILS_ONCE_PER_CHANGE:
+        id = `${eventName}-${this.reportChangeId}-${JSON.stringify(details)}`;
+        break;
+      case Deduping.DETAILS_ONCE_PER_SESSION:
+        id = `${eventName}-${JSON.stringify(details)}`;
+        break;
+      case Deduping.EVENT_ONCE_PER_CHANGE:
+        id = `${eventName}-${this.reportChangeId}`;
+        break;
+      case Deduping.EVENT_ONCE_PER_SESSION:
+        id = `${eventName}`;
+        break;
+      default:
+        throw new Error(`Invalid 'deduping' option '${deduping}'.`);
+    }
+    if (this.reportedIds.has(id)) return true;
+    this.reportedIds.add(id);
+    return false;
+  }
+
+  reportInteraction(
+    eventName: string | Interaction,
+    details: EventDetails,
+    options?: ReportingOptions
+  ) {
+    if (this._dedup(eventName, details, options?.deduping)) return;
     this.reporter(
       INTERACTION.TYPE,
       INTERACTION.CATEGORY.DEFAULT,
@@ -827,9 +863,7 @@ export class GrReporting implements ReportingService, Finalizable {
   }
 
   reportExecution(name: Execution, details?: EventDetails) {
-    const id = `${name}${JSON.stringify(details)}`;
-    if (this.executionReported.has(id)) return;
-    this.executionReported.add(id);
+    if (this._dedup(name, details, Deduping.DETAILS_ONCE_PER_SESSION)) return;
     this.reporter(
       LIFECYCLE.TYPE,
       LIFECYCLE.CATEGORY.EXECUTION,

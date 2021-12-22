@@ -351,8 +351,8 @@ public class DiffOperationsImpl implements DiffOperations {
 
   private static boolean allDueToRebase(FileDiffOutput fileDiffOutput) {
     return fileDiffOutput.allEditsDueToRebase()
-        && (!(fileDiffOutput.changeType() == ChangeType.RENAMED
-            || fileDiffOutput.changeType() == ChangeType.COPIED));
+        && !(fileDiffOutput.changeType() == ChangeType.RENAMED
+            || fileDiffOutput.changeType() == ChangeType.COPIED);
   }
 
   private boolean isMergeAgainstParent(ComparisonType cmp, Project.NameKey project, ObjectId commit)

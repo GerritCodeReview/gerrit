@@ -75,7 +75,7 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
   }
 
   private void checkIdentifiedUser() throws AuthException {
-    if (!(user.get().isIdentifiedUser())) {
+    if (!user.get().isIdentifiedUser()) {
       throw new AuthException("drafts only available to authenticated users");
     }
   }

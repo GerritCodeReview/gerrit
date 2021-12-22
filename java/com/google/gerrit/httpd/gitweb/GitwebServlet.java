@@ -133,7 +133,7 @@ class GitwebServlet extends HttpServlet {
     this.deniedActions = new HashSet<>();
 
     final String url = gitwebConfig.getUrl();
-    if ((url != null) && (!url.equals("gitweb"))) {
+    if (url != null && !url.equals("gitweb")) {
       URI uri = null;
       try {
         uri = new URI(url);

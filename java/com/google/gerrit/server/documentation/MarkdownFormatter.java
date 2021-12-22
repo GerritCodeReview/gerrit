@@ -83,7 +83,7 @@ public class MarkdownFormatter {
   }
 
   private MutableDataHolder markDownOptions() {
-    int options = ALL & ~(HARDWRAPS);
+    int options = ALL & ~HARDWRAPS;
     if (suppressHtml) {
       options |= SUPPRESS_ALL_HTML;
     }

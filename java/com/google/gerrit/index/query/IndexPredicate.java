@@ -35,7 +35,7 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
    * complexity was reduced to the bare minimum at the cost of small discrepancies to the Unicode
    * spec.
    */
-  private static final Splitter FULL_TEXT_SPLITTER = Splitter.on(CharMatcher.anyOf(" ,.-:\\/_\n"));
+  private static final Splitter FULL_TEXT_SPLITTER = Splitter.on(CharMatcher.anyOf(" ,.-:\\/_=\n"));
 
   private final FieldDef<I, ?> def;
 

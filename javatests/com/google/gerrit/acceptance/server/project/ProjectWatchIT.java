@@ -52,7 +52,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     nc.setName("new-patch-set");
     nc.setHeader(NotifyConfig.Header.CC);
     nc.setNotify(EnumSet.of(NotifyType.NEW_PATCHSETS));
-    nc.setFilter("message:sekret");
+    nc.setFilter("message:subject-with-tokens");
 
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().putNotifyConfig("watch", nc.build());
@@ -67,7 +67,13 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     r =
         pushFactory
-            .create(admin.newIdent(), testRepo, "super sekret subject", "a", "a2", r.getChangeId())
+            .create(
+                admin.newIdent(),
+                testRepo,
+                "super sekret subject\n\n" + "subject-with-tokens=secret subject",
+                "a",
+                "a2",
+                r.getChangeId())
             .to("refs/for/master");
     r.assertOkStatus();
 

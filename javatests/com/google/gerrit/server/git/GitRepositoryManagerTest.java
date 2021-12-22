@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.entities.Project.NameKey;
-import java.util.SortedSet;
+import java.util.NavigableSet;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,7 +53,7 @@ public class GitRepositoryManagerTest {
     }
 
     @Override
-    public SortedSet<NameKey> list() {
+    public NavigableSet<NameKey> list() {
       throw new UnsupportedOperationException("Not implemented");
     }
   }

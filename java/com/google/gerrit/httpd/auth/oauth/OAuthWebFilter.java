@@ -31,9 +31,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Map;
+import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.SortedSet;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -175,7 +175,7 @@ class OAuthWebFilter implements Filter {
   }
 
   private void pickSSOServiceProvider() throws ServletException {
-    SortedSet<String> plugins = oauthServiceProviders.plugins();
+    NavigableSet<String> plugins = oauthServiceProviders.plugins();
     if (plugins.isEmpty()) {
       throw new ServletException("OAuth service provider wasn't installed");
     }

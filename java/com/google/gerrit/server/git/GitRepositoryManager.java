@@ -18,7 +18,7 @@ import com.google.gerrit.entities.Project;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.SortedSet;
+import java.util.NavigableSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
@@ -74,7 +74,7 @@ public interface GitRepositoryManager {
       throws RepositoryNotFoundException, RepositoryExistsException, IOException;
 
   /** Returns set of all known projects, sorted by natural NameKey order. */
-  SortedSet<Project.NameKey> list();
+  NavigableSet<Project.NameKey> list();
 
   /**
    * Check if garbage collection can be performed by the repository manager.

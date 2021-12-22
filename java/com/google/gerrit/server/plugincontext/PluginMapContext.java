@@ -22,7 +22,7 @@ import com.google.gerrit.server.plugincontext.PluginContext.ExtensionConsumer;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.inject.Inject;
 import java.util.Iterator;
-import java.util.SortedSet;
+import java.util.NavigableSet;
 
 /**
  * Context to invoke extensions from a {@link DynamicMap}.
@@ -135,7 +135,7 @@ public class PluginMapContext<T> implements Iterable<PluginMapEntryContext<T>> {
    * @return sorted list of the plugins that have registered implementations for this extension
    *     point
    */
-  public SortedSet<String> plugins() {
+  public NavigableSet<String> plugins() {
     return dynamicMap.plugins();
   }
 

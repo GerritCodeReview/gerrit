@@ -14,16 +14,16 @@
 
 package com.google.gerrit.testing;
 
-import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.inject.Inject;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedSet;
+import java.util.NavigableSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -111,12 +111,12 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   }
 
   @Override
-  public synchronized SortedSet<Project.NameKey> list() {
-    SortedSet<Project.NameKey> names = Sets.newTreeSet();
+  public synchronized NavigableSet<Project.NameKey> list() {
+    NavigableSet<Project.NameKey> names = Sets.newTreeSet();
     for (DfsRepository repo : repos.values()) {
       names.add(Project.nameKey(repo.getDescription().getRepositoryName()));
     }
-    return ImmutableSortedSet.copyOf(names);
+    return Collections.unmodifiableNavigableSet(names);
   }
 
   public synchronized void deleteRepository(Project.NameKey name) {

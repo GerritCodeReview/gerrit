@@ -59,11 +59,7 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
       sectionEl.classList.add('ignoredWhitespaceOnly');
     }
     if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
-      this._createContextControls(
-        sectionEl,
-        group.contextGroups,
-        DiffViewMode.UNIFIED
-      );
+      this._createContextControls(sectionEl, group, DiffViewMode.UNIFIED);
       return sectionEl;
     }
 

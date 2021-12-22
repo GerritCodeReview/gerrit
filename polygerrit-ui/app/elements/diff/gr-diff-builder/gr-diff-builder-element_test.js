@@ -252,31 +252,34 @@ suite('gr-diff-builder tests', () => {
 
   suite('_isTotal', () => {
     test('is total for add', () => {
-      const group = new GrDiffGroup(GrDiffGroupType.DELTA);
+      const lines = [];
       for (let idx = 0; idx < 10; idx++) {
-        group.addLine(new GrDiffLine(GrDiffLineType.ADD));
+        lines.push(new GrDiffLine(GrDiffLineType.ADD));
       }
+      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
       assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
     });
 
     test('is total for remove', () => {
-      const group = new GrDiffGroup(GrDiffGroupType.DELTA);
+      const lines = [];
       for (let idx = 0; idx < 10; idx++) {
-        group.addLine(new GrDiffLine(GrDiffLineType.REMOVE));
+        lines.push(new GrDiffLine(GrDiffLineType.REMOVE));
       }
+      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
       assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
     });
 
     test('not total for empty', () => {
-      const group = new GrDiffGroup(GrDiffGroupType.BOTH);
+      const group = new GrDiffGroup({type: GrDiffGroupType.BOTH});
       assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
     });
 
     test('not total for non-delta', () => {
-      const group = new GrDiffGroup(GrDiffGroupType.DELTA);
+      const lines = [];
       for (let idx = 0; idx < 10; idx++) {
-        group.addLine(new GrDiffLine(GrDiffLineType.BOTH));
+        lines.push(new GrDiffLine(GrDiffLineType.BOTH));
       }
+      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
       assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
     });
   });

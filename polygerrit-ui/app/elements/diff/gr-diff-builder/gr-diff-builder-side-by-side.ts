@@ -60,11 +60,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
       sectionEl.classList.add('ignoredWhitespaceOnly');
     }
     if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
-      this._createContextControls(
-        sectionEl,
-        group.contextGroups,
-        DiffViewMode.SIDE_BY_SIDE
-      );
+      this._createContextControls(sectionEl, group, DiffViewMode.SIDE_BY_SIDE);
       return sectionEl;
     }
 

@@ -22,7 +22,7 @@ import './gr-diff-builder-side-by-side';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-builder-element_html';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {GrDiffBuilder} from './gr-diff-builder';
+import {DiffContextExpandedEventDetail, GrDiffBuilder} from './gr-diff-builder';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
@@ -48,6 +48,7 @@ import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
+import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
@@ -192,6 +193,19 @@ export class GrDiffBuilderElement extends PolymerElement {
    */
   @property({type: Object})
   _cancelableRenderPromise: CancelablePromise<unknown> | null = null;
+
+  constructor() {
+    super();
+    afterNextRender(this, () => {
+      this.addEventListener(
+        'diff-context-expanded',
+        (e: CustomEvent<DiffContextExpandedEventDetail>) => {
+          // Don't stop propagation. The host may listen for reporting or resizing.
+          this.rerenderSection(e.detail.groups, e.detail.section);
+        }
+      );
+    });
+  }
 
   override disconnectedCallback() {
     if (this._builder) {

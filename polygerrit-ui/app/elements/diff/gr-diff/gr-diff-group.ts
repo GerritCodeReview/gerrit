@@ -409,6 +409,11 @@ export class GrDiffGroup {
     return pairs;
   }
 
+  /** Returns true if it is, or contains, a skip group. */
+  hasSkipGroup() {
+    return !!this.skip || this.contextGroups?.some(g => !!g.skip);
+  }
+
   private _updateRangeWithNewLine(line: GrDiffLine) {
     if (
       line.beforeNumber === 'FILE' ||

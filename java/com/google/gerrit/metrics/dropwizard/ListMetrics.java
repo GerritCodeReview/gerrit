@@ -26,7 +26,7 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
+import java.util.NavigableMap;
 import java.util.TreeMap;
 import org.kohsuke.args4j.Option;
 
@@ -55,7 +55,7 @@ class ListMetrics implements RestReadView<ConfigResource> {
       throws AuthException, PermissionBackendException {
     permissionBackend.currentUser().check(GlobalPermission.VIEW_CACHES);
 
-    SortedMap<String, MetricJson> out = new TreeMap<>();
+    NavigableMap<String, MetricJson> out = new TreeMap<>();
     List<String> prefixes = new ArrayList<>(query.size());
     for (String q : query) {
       if (q.endsWith("/")) {

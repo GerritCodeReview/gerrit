@@ -84,7 +84,6 @@ import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {
-  DiffContextExpandedEventDetail,
   getResponsiveMode,
   isResponsive,
 } from '../gr-diff-builder/gr-diff-builder';
@@ -543,11 +542,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     return classes.join(' ');
   }
 
-  _handleDiffContextExpanded(e: CustomEvent<DiffContextExpandedEventDetail>) {
-    // Don't stop propagation. The host may listen for reporting or resizing.
-    this.$.diffBuilder.rerenderSection(e.detail.groups, e.detail.section);
-  }
-
   _handleTap(e: CustomEvent) {
     const el = (dom(e) as EventApi).localTarget as Element;
 
@@ -858,18 +852,17 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this._showWarning = false;
 
     const keyLocations = this._computeKeyLocations();
-    const bypassPrefs = this._getBypassPrefs(this.prefs);
-    this.$.diffBuilder
-      .render(keyLocations, bypassPrefs, this.renderPrefs)
-      .then(() => {
-        this.dispatchEvent(
-          new CustomEvent('render', {
-            bubbles: true,
-            composed: true,
-            detail: {contentRendered: true},
-          })
-        );
-      });
+    this.$.diffBuilder.prefs = this._getBypassPrefs(this.prefs);
+    this.$.diffBuilder.renderPrefs = this.renderPrefs;
+    this.$.diffBuilder.render(keyLocations).then(() => {
+      this.dispatchEvent(
+        new CustomEvent('render', {
+          bubbles: true,
+          composed: true,
+          detail: {contentRendered: true},
+        })
+      );
+    });
   }
 
   _handleRenderContent() {

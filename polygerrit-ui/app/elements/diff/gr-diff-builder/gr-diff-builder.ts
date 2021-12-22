@@ -226,38 +226,22 @@ export abstract class GrDiffBuilder {
     group.element = element;
   }
 
-  getGroupsByLineRange(
+  private getGroupsByLineRange(
     startLine: LineNumber,
     endLine: LineNumber,
-    side?: Side
+    side: Side
   ) {
-    const groups = [];
-    for (let i = 0; i < this.groups.length; i++) {
-      const group = this.groups[i];
-      if (group.lines.length === 0) {
-        continue;
-      }
-      let groupStartLine = 0;
-      let groupEndLine = 0;
-      if (side) {
-        const range = group.lineRange[side];
-        groupStartLine = range.start_line;
-        groupEndLine = range.end_line;
-      }
-
-      if (groupStartLine === 0) {
-        // Line was removed or added.
-        groupStartLine = groupEndLine;
-      }
-      if (groupEndLine === 0) {
-        // Line was removed or added.
-        groupEndLine = groupStartLine;
-      }
-      if (startLine <= groupEndLine && endLine >= groupStartLine) {
-        groups.push(group);
-      }
-    }
-    return groups;
+    const startIndex = this.groups.findIndex(group =>
+      group.containsLine(side, startLine)
+    );
+    const endIndex = this.groups.findIndex(group =>
+      group.containsLine(side, endLine)
+    );
+    // The filter preserves the legacy behavior to only return non-context
+    // groups
+    return this.groups
+      .slice(startIndex, endIndex + 1)
+      .filter(group => group.lines.length > 0);
   }
 
   getContentTdByLine(

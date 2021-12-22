@@ -279,7 +279,7 @@ export class GrContextControls extends LitElement {
         : this.showAbove()
         ? 'aboveButton'
         : 'belowButton';
-      if (this.partialContent) {
+      if (this.group?.hasSkipGroup()) {
         // Expanding content would require load of more data
         text += ' (too large)';
       }
@@ -356,7 +356,7 @@ export class GrContextControls extends LitElement {
     return (e: Event) => {
       assertIsDefined(this.group);
       e.stopPropagation();
-      if (type === ContextButtonType.ALL && this.partialContent) {
+      if (type === ContextButtonType.ALL && this.group?.hasSkipGroup()) {
         fire(this, 'content-load-needed', {
           lineRange: this.group.lineRange,
         });
@@ -406,13 +406,6 @@ export class GrContextControls extends LitElement {
   }
 
   /**
-   * Checks if the collapsed section contains unavailable content (skip chunks).
-   */
-  private get partialContent() {
-    return this.group?.contextGroups.some(c => !!c.skip);
-  }
-
-  /**
    * Creates a container div with block expansion buttons (above and/or below).
    */
   private createBlockExpansionButtons() {
@@ -420,7 +413,7 @@ export class GrContextControls extends LitElement {
     if (
       !this.showPartialLinks() ||
       !this.renderPreferences?.use_block_expansion ||
-      this.partialContent
+      this.group?.hasSkipGroup()
     ) {
       return undefined;
     }

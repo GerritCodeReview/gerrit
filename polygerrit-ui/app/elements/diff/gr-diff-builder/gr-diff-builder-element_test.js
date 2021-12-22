@@ -28,6 +28,7 @@ import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {DiffViewMode} from '../../../api/diff.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 
 const basicFixture = fixtureFromTemplate(html`
     <gr-diff-builder>
@@ -45,6 +46,14 @@ const mockDiffFixture = fixtureFromTemplate(html`
     </gr-diff-builder>
 `);
 
+// GrDiffBuilderElement forces these prefs to be set - tests that do not care
+// about these values can just set these defaults.
+const DEFAULT_PREFS = {
+  line_length: 10,
+  show_tabs: true,
+  tab_size: 4,
+};
+
 suite('gr-diff-builder tests', () => {
   let prefs;
   let element;
@@ -58,11 +67,7 @@ suite('gr-diff-builder tests', () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getProjectConfig').returns(Promise.resolve({}));
     stubBaseUrl('/r');
-    prefs = {
-      line_length: 10,
-      show_tabs: true,
-      tab_size: 4,
-    };
+    prefs = {...DEFAULT_PREFS};
     builder = new GrDiffBuilder({content: []}, prefs);
   });
 
@@ -139,18 +144,18 @@ suite('gr-diff-builder tests', () => {
         test(`line_length used for regular files under ${mode}`, () => {
           element.path = '/a.txt';
           element.viewMode = mode;
-          builder = element._getDiffBuilder(
-              {}, {tab_size: 4, line_length: 50}
-          );
+          element.diff = {};
+          element.prefs = {tab_size: 4, line_length: 50};
+          builder = element._getDiffBuilder();
           assert.equal(builder._prefs.line_length, 50);
         });
 
         test(`line_length ignored for commit msg under ${mode}`, () => {
           element.path = '/COMMIT_MSG';
           element.viewMode = mode;
-          builder = element._getDiffBuilder(
-              {}, {tab_size: 4, line_length: 50}
-          );
+          element.diff = {};
+          element.prefs = {tab_size: 4, line_length: 50};
+          builder = element._getDiffBuilder();
           assert.equal(builder._prefs.line_length, 72);
         });
       });
@@ -234,8 +239,8 @@ suite('gr-diff-builder tests', () => {
   });
 
   test('_handlePreferenceError throws with invalid preference', () => {
-    const prefs = {tab_size: 0};
-    assert.throws(() => element._getDiffBuilder(element.diff, prefs));
+    element.prefs = {tab_size: 0};
+    assert.throws(() => element._getDiffBuilder());
   });
 
   test('_handlePreferenceError triggers alert and javascript error', () => {
@@ -693,7 +698,6 @@ suite('gr-diff-builder tests', () => {
   suite('rendering text, images and binary files', () => {
     let processStub;
     let keyLocations;
-    let prefs;
     let content;
 
     setup(() => {
@@ -702,10 +706,8 @@ suite('gr-diff-builder tests', () => {
       processStub = sinon.stub(element.$.processor, 'process')
           .returns(Promise.resolve());
       keyLocations = {left: {}, right: {}};
-      prefs = {
-        line_length: 10,
-        show_tabs: true,
-        tab_size: 4,
+      element.prefs = {
+        ...DEFAULT_PREFS,
         context: -1,
         syntax_highlighting: true,
       };
@@ -722,7 +724,7 @@ suite('gr-diff-builder tests', () => {
 
     test('text', () => {
       element.diff = {content};
-      return element.render(keyLocations, prefs).then(() => {
+      return element.render(keyLocations).then(() => {
         assert.isTrue(processStub.calledOnce);
         assert.isFalse(processStub.lastCall.args[1]);
       });
@@ -731,7 +733,7 @@ suite('gr-diff-builder tests', () => {
     test('image', () => {
       element.diff = {content, binary: true};
       element.isImageDiff = true;
-      return element.render(keyLocations, prefs).then(() => {
+      return element.render(keyLocations).then(() => {
         assert.isTrue(processStub.calledOnce);
         assert.isTrue(processStub.lastCall.args[1]);
       });
@@ -739,7 +741,7 @@ suite('gr-diff-builder tests', () => {
 
     test('binary', () => {
       element.diff = {content, binary: true};
-      return element.render(keyLocations, prefs).then(() => {
+      return element.render(keyLocations).then(() => {
         assert.isTrue(processStub.calledOnce);
         assert.isTrue(processStub.lastCall.args[1]);
       });
@@ -752,13 +754,7 @@ suite('gr-diff-builder tests', () => {
     let keyLocations;
 
     setup(async () => {
-      const prefs = {
-        line_length: 10,
-        show_tabs: true,
-        tab_size: 4,
-        context: -1,
-        syntax_highlighting: true,
-      };
+      const prefs = {...DEFAULT_PREFS};
       content = [
         {
           a: ['all work and no play make andybons a dull boy'],
@@ -787,7 +783,8 @@ suite('gr-diff-builder tests', () => {
         return builder;
       });
       element.diff = {content};
-      await element.render(keyLocations, prefs);
+      element.prefs = prefs;
+      await element.render(keyLocations);
     });
 
     test('addColumns is called', () => {
@@ -826,11 +823,73 @@ suite('gr-diff-builder tests', () => {
     });
   });
 
+  suite('context hiding and expanding', () => {
+    setup(async () => {
+      element = basicFixture.instantiate();
+      const afterNextRenderPromise = new Promise((resolve, reject) => {
+        afterNextRender(element, resolve);
+      });
+      element.diff = {
+        content: [
+          {ab: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => `unchanged ${i}`)},
+          {a: ['before'], b: ['after']},
+          {ab: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => `unchanged ${10 + i}`)},
+        ],
+      };
+      element.viewMode = DiffViewMode.SIDE_BY_SIDE;
+
+      const keyLocations = {left: {}, right: {}};
+      element.prefs = {
+        ...DEFAULT_PREFS,
+        context: 1,
+      };
+      await element.render(keyLocations);
+      // Make sure all listeners are installed.
+      await afterNextRenderPromise;
+    });
+
+    test('hides lines behind two context controls', () => {
+      const contextControls = element.querySelectorAll('gr-context-controls');
+      assert.equal(contextControls.length, 2);
+
+      const diffRows = element.querySelectorAll('.diff-row');
+      // The first two are LOST and FILE line
+      assert.equal(diffRows.length, 2 + 1 + 1 + 1);
+      assert.include(diffRows[2].textContent, 'unchanged 10');
+      assert.include(diffRows[3].textContent, 'before');
+      assert.include(diffRows[3].textContent, 'after');
+      assert.include(diffRows[4].textContent, 'unchanged 11');
+    });
+
+    test('clicking +x common lines expands those lines', () => {
+      const contextControls = element.querySelectorAll('gr-context-controls');
+      const topExpandCommonButton = contextControls[0].shadowRoot
+          .querySelectorAll('.showContext')[0];
+      assert.include(topExpandCommonButton.textContent, '+9 common lines');
+      topExpandCommonButton.click();
+      const diffRows = element.querySelectorAll('.diff-row');
+      // The first two are LOST and FILE line
+      assert.equal(diffRows.length, 2 + 10 + 1 + 1);
+      assert.include(diffRows[2].textContent, 'unchanged 1');
+      assert.include(diffRows[3].textContent, 'unchanged 2');
+      assert.include(diffRows[4].textContent, 'unchanged 3');
+      assert.include(diffRows[5].textContent, 'unchanged 4');
+      assert.include(diffRows[6].textContent, 'unchanged 5');
+      assert.include(diffRows[7].textContent, 'unchanged 6');
+      assert.include(diffRows[8].textContent, 'unchanged 7');
+      assert.include(diffRows[9].textContent, 'unchanged 8');
+      assert.include(diffRows[10].textContent, 'unchanged 9');
+      assert.include(diffRows[11].textContent, 'unchanged 10');
+      assert.include(diffRows[12].textContent, 'before');
+      assert.include(diffRows[12].textContent, 'after');
+      assert.include(diffRows[13].textContent, 'unchanged 11');
+    });
+  });
+
   suite('mock-diff', () => {
     let element;
     let builder;
     let diff;
-    let prefs;
     let keyLocations;
 
     setup(async () => {
@@ -838,14 +897,14 @@ suite('gr-diff-builder tests', () => {
       diff = getMockDiffResponse();
       element.diff = diff;
 
-      prefs = {
+      keyLocations = {left: {}, right: {}};
+
+      element.prefs = {
         line_length: 80,
         show_tabs: true,
         tab_size: 4,
       };
-      keyLocations = {left: {}, right: {}};
-
-      await element.render(keyLocations, prefs);
+      await element.render(keyLocations);
       builder = element._builder;
     });
 
@@ -983,7 +1042,7 @@ suite('gr-diff-builder tests', () => {
     test('_getLineNumberEl unified left', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      await element.render(keyLocations, prefs);
+      await element.render(keyLocations);
       builder = element._builder;
 
       const contentEl = builder.getContentByLine(5, 'left',
@@ -996,7 +1055,7 @@ suite('gr-diff-builder tests', () => {
     test('_getLineNumberEl unified right', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      await element.render(keyLocations, prefs);
+      await element.render(keyLocations);
       builder = element._builder;
 
       const contentEl = builder.getContentByLine(5, 'right',
@@ -1033,7 +1092,7 @@ suite('gr-diff-builder tests', () => {
     test('_getNextContentOnSide unified left', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      await element.render(keyLocations, prefs);
+      await element.render(keyLocations);
       builder = element._builder;
 
       const startElem = builder.getContentByLine(5, 'left',
@@ -1050,7 +1109,7 @@ suite('gr-diff-builder tests', () => {
     test('_getNextContentOnSide unified right', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      await element.render(keyLocations, prefs);
+      await element.render(keyLocations);
       builder = element._builder;
 
       const startElem = builder.getContentByLine(5, 'right',

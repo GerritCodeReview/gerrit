@@ -111,13 +111,13 @@ public class ProjectWatch {
   }
 
   public static class Watchers {
-    static class List {
+    static class WatcherList {
       protected final Set<Account.Id> accounts = new HashSet<>();
       protected final Set<Address> emails = new HashSet<>();
 
-      private static List union(List... others) {
-        List union = new List();
-        for (List other : others) {
+      private static WatcherList union(WatcherList... others) {
+        WatcherList union = new WatcherList();
+        for (WatcherList other : others) {
           union.accounts.addAll(other.accounts);
           union.emails.addAll(other.emails);
         }
@@ -125,15 +125,15 @@ public class ProjectWatch {
       }
     }
 
-    protected final List to = new List();
-    protected final List cc = new List();
-    protected final List bcc = new List();
+    protected final WatcherList to = new WatcherList();
+    protected final WatcherList cc = new WatcherList();
+    protected final WatcherList bcc = new WatcherList();
 
-    List all() {
-      return List.union(to, cc, bcc);
+    WatcherList all() {
+      return WatcherList.union(to, cc, bcc);
     }
 
-    List list(NotifyConfig.Header header) {
+    WatcherList list(NotifyConfig.Header header) {
       switch (header) {
         case TO:
           return to;
@@ -171,7 +171,7 @@ public class ProjectWatch {
     }
   }
 
-  private void deliverToMembers(Watchers.List matching, AccountGroup.UUID startUUID) {
+  private void deliverToMembers(Watchers.WatcherList matching, AccountGroup.UUID startUUID) {
     Set<AccountGroup.UUID> seen = new HashSet<>();
     List<AccountGroup.UUID> q = new ArrayList<>();
 

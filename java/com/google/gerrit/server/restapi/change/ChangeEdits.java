@@ -127,10 +127,11 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<Object> apply(ChangeResource resource, IdString id, FileContentInput input)
+    public Response<Object> apply(
+        ChangeResource resource, IdString id, FileContentInput fileContentInput)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
-      putEdit.apply(resource, id.get(), input);
+      putEdit.apply(resource, id.get(), fileContentInput);
       return Response.none();
     }
   }
@@ -146,7 +147,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<Object> apply(ChangeResource rsrc, IdString id, Input in)
+    public Response<Object> apply(ChangeResource rsrc, IdString id, Input input)
         throws IOException, AuthException, BadRequestException, ResourceConflictException,
             PermissionBackendException {
       return deleteContent.apply(rsrc, id.get());
@@ -249,15 +250,16 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<Object> apply(ChangeResource resource, Post.Input input)
+    public Response<Object> apply(ChangeResource resource, Post.Input postInput)
         throws AuthException, BadRequestException, IOException, ResourceConflictException,
             PermissionBackendException {
       Project.NameKey project = resource.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
-        if (isRestoreFile(input)) {
-          editModifier.restoreFile(repository, resource.getNotes(), input.restorePath);
-        } else if (isRenameFile(input)) {
-          editModifier.renameFile(repository, resource.getNotes(), input.oldPath, input.newPath);
+        if (isRestoreFile(postInput)) {
+          editModifier.restoreFile(repository, resource.getNotes(), postInput.restorePath);
+        } else if (isRenameFile(postInput)) {
+          editModifier.renameFile(
+              repository, resource.getNotes(), postInput.oldPath, postInput.newPath);
         } else {
           editModifier.createEdit(repository, resource.getNotes());
         }
@@ -267,14 +269,14 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       return Response.none();
     }
 
-    private static boolean isRestoreFile(Input input) {
-      return input != null && !Strings.isNullOrEmpty(input.restorePath);
+    private static boolean isRestoreFile(Post.Input postInput) {
+      return postInput != null && !Strings.isNullOrEmpty(postInput.restorePath);
     }
 
-    private static boolean isRenameFile(Input input) {
-      return input != null
-          && !Strings.isNullOrEmpty(input.oldPath)
-          && !Strings.isNullOrEmpty(input.newPath);
+    private static boolean isRenameFile(Post.Input postInput) {
+      return postInput != null
+          && !Strings.isNullOrEmpty(postInput.oldPath)
+          && !Strings.isNullOrEmpty(postInput.newPath);
     }
   }
 
@@ -300,37 +302,38 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<Object> apply(ChangeEditResource rsrc, FileContentInput input)
+    public Response<Object> apply(ChangeEditResource rsrc, FileContentInput fileContentInput)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
-      return apply(rsrc.getChangeResource(), rsrc.getPath(), input);
+      return apply(rsrc.getChangeResource(), rsrc.getPath(), fileContentInput);
     }
 
-    public Response<Object> apply(ChangeResource rsrc, String path, FileContentInput input)
+    public Response<Object> apply(
+        ChangeResource rsrc, String path, FileContentInput fileContentInput)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
 
-      if (input.content == null && input.binary_content == null) {
+      if (fileContentInput.content == null && fileContentInput.binary_content == null) {
         throw new BadRequestException("either content or binary_content is required");
       }
 
       RawInput newContent;
-      if (input.binary_content != null) {
-        Matcher m = BINARY_DATA_PATTERN.matcher(input.binary_content);
+      if (fileContentInput.binary_content != null) {
+        Matcher m = BINARY_DATA_PATTERN.matcher(fileContentInput.binary_content);
         if (m.matches() && BASE64.equals(m.group(2))) {
           newContent = RawInputUtil.create(Base64.decode(m.group(3)));
         } else {
           throw new BadRequestException("binary_content must be encoded as base64 data uri");
         }
       } else {
-        newContent = input.content;
+        newContent = fileContentInput.content;
       }
 
-      if (Patch.COMMIT_MSG.equals(path) && input.binary_content == null) {
-        EditMessage.Input editCommitMessageInput = new EditMessage.Input();
-        editCommitMessageInput.message =
+      if (Patch.COMMIT_MSG.equals(path) && fileContentInput.binary_content == null) {
+        EditMessage.Input editMessageInput = new EditMessage.Input();
+        editMessageInput.message =
             new String(ByteStreams.toByteArray(newContent.getInputStream()), UTF_8);
-        return editMessage.apply(rsrc, editCommitMessageInput);
+        return editMessage.apply(rsrc, editMessageInput);
       }
 
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
@@ -471,16 +474,16 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<Object> apply(ChangeResource rsrc, Input input)
+    public Response<Object> apply(ChangeResource rsrc, EditMessage.Input editMessageInput)
         throws AuthException, IOException, BadRequestException, ResourceConflictException,
             PermissionBackendException {
-      if (input == null || Strings.isNullOrEmpty(input.message)) {
+      if (editMessageInput == null || Strings.isNullOrEmpty(editMessageInput.message)) {
         throw new BadRequestException("commit message must be provided");
       }
 
       Project.NameKey project = rsrc.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
-        editModifier.modifyMessage(repository, rsrc.getNotes(), input.message);
+        editModifier.modifyMessage(repository, rsrc.getNotes(), editMessageInput.message);
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

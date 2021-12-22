@@ -26,6 +26,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
+import com.google.gerrit.server.mail.send.ProjectWatch.Watchers.WatcherList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,11 +81,11 @@ public abstract class NotificationEmail extends OutgoingEmail {
   protected abstract Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig);
 
   /** Add users or email addresses to the TO, CC, or BCC list. */
-  protected void add(RecipientType type, Watchers.List list) {
-    for (Account.Id user : list.accounts) {
+  protected void add(RecipientType type, WatcherList watcherList) {
+    for (Account.Id user : watcherList.accounts) {
       add(type, user);
     }
-    for (Address addr : list.emails) {
+    for (Address addr : watcherList.emails) {
       add(type, addr);
     }
   }

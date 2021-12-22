@@ -387,7 +387,7 @@ java_package_configuration(
         "-Xep:ReturnFromVoid:ERROR",
         "-Xep:ReturnValueIgnored:ERROR",
         "-Xep:RxReturnValueIgnored:ERROR",
-        # "-Xep:SameNameButDifferent:WARN",
+        "-Xep:SameNameButDifferent:ERROR",
         "-Xep:SelfAssignment:ERROR",
         "-Xep:SelfComparison:ERROR",
         "-Xep:SelfEquals:ERROR",

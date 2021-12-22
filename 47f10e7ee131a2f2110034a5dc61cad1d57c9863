@@ -1,0 +1,233 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bab353e_afe177d7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:56:09Z",
+      "side": 1,
+      "message": "Maybe use ValueChangedEvent\u003cnumber\u003e instead.",
+      "revId": "47f10e7ee131a2f2110034a5dc61cad1d57c9863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d91540e_c1c5c47e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:56:09Z",
+      "side": 1,
+      "message": "Maybe rename to just `renderSections`.",
+      "range": {
+        "startLine": 238,
+        "startChar": 10,
+        "endLine": 238,
+        "endChar": 30
+      },
+      "revId": "47f10e7ee131a2f2110034a5dc61cad1d57c9863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90500eb8_84159a20",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:56:09Z",
+      "side": 1,
+      "message": "Maybe rename to `renderSectionHeader`.",
+      "revId": "47f10e7ee131a2f2110034a5dc61cad1d57c9863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "431fabc8_cff62492",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:56:09Z",
+      "side": 1,
+      "message": "Maybe rename to `renderNoChanges` or `renderNoChangesRow` or `renderEmptyContent`.",
+      "revId": "47f10e7ee131a2f2110034a5dc61cad1d57c9863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa784ef0_742ad16d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:56:09Z",
+      "side": 1,
+      "message": "Maybe rename to `renderColumnHeaders`.",
+      "range": {
+        "startLine": 320,
+        "startChar": 10,
+        "endLine": 320,
+        "endChar": 29
+      },
+      "revId": "47f10e7ee131a2f2110034a5dc61cad1d57c9863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c4f6159_c6add934",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:56:09Z",
+      "side": 1,
+      "message": "renderHeaderCell",
+      "range": {
+        "startLine": 344,
+        "startChar": 10,
+        "endLine": 344,
+        "endChar": 22
+      },
+      "revId": "47f10e7ee131a2f2110034a5dc61cad1d57c9863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3668a5e3_67bccfcb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:56:09Z",
+      "side": 1,
+      "message": "renderLabelHeader",
+      "range": {
+        "startLine": 348,
+        "startChar": 10,
+        "endLine": 348,
+        "endChar": 26
+      },
+      "revId": "47f10e7ee131a2f2110034a5dc61cad1d57c9863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39ec567d_b70740d5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:56:09Z",
+      "side": 1,
+      "message": "renderEndpointHeader",
+      "range": {
+        "startLine": 356,
+        "startChar": 10,
+        "endLine": 356,
+        "endChar": 30
+      },
+      "revId": "47f10e7ee131a2f2110034a5dc61cad1d57c9863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d96a6719_9207f0e5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:56:09Z",
+      "side": 1,
+      "message": "renderChangeRow",
+      "range": {
+        "startLine": 364,
+        "startChar": 10,
+        "endLine": 364,
+        "endChar": 36
+      },
+      "revId": "47f10e7ee131a2f2110034a5dc61cad1d57c9863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd65145c_731a24f1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:56:09Z",
+      "side": 1,
+      "message": "You can pull this and others into variables before the html`` template:\n\n   const selected \u003d this.computeItemSelected(\n     sectionIndex,\n     index,\n     this.selectedIndex\n   );\n   \nThen use them here just as\n\n  ?selected\u003d${selected}\n  \nAnd maybe also inline some or all of the compute methods.",
+      "range": {
+        "startLine": 374,
+        "startChar": 20,
+        "endLine": 378,
+        "endChar": 9
+      },
+      "revId": "47f10e7ee131a2f2110034a5dc61cad1d57c9863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab30bb80_2997bea0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:56:09Z",
+      "side": 1,
+      "message": "Is there a specific reason why this is in `updated` and not in `willUpdate`?",
+      "revId": "47f10e7ee131a2f2110034a5dc61cad1d57c9863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

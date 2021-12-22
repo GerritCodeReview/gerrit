@@ -18,9 +18,7 @@ import com.google.common.base.Joiner;
 import java.util.regex.Pattern;
 
 public enum ElasticVersion {
-  V7_6("7.6.*"),
-  V7_7("7.7.*"),
-  V7_8("7.8.*");
+  V7_16("7.16.*");
 
   private final String version;
   private final Pattern pattern;

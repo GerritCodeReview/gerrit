@@ -28,6 +28,10 @@ export class GrChecksAction extends LitElement {
   @property({type: Object})
   eventTarget: HTMLElement | null = null;
 
+  /** In what context is <gr-checks-action> rendered? Just for reporting. */
+  @property({type: String})
+  context = 'unknown';
+
   private getChecksModel = resolve(this, checksModelToken);
 
   override connectedCallback() {
@@ -80,7 +84,7 @@ export class GrChecksAction extends LitElement {
 
   handleClick(e: Event) {
     e.stopPropagation();
-    this.getChecksModel().triggerAction(this.action);
+    this.getChecksModel().triggerAction(this.action, undefined, this.context);
   }
 }
 

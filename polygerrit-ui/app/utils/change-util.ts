@@ -234,6 +234,18 @@ export function isInvolved(
   return owner || uploader || reviewer || cc;
 }
 
+export function roleDetails(
+  change?: ChangeInfo | ParsedChangeInfo,
+  account?: AccountInfo
+) {
+  return {
+    isOwner: isOwner(change, account),
+    isUploader: isUploader(change, account),
+    isReviewer: isReviewer(change, account),
+    isCc: isCc(change, account),
+  };
+}
+
 export function getCurrentRevision(change?: ChangeInfo | ParsedChangeInfo) {
   if (!change?.revisions || !change?.current_revision) return undefined;
   return change.revisions[change.current_revision];

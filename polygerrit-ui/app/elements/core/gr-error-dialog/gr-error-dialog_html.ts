@@ -45,7 +45,7 @@ export const htmlTemplate = html`
     <div class="main" slot="main">[[text]]</div>
     <gr-button
       id="signIn"
-      class$="signInLink"
+      class="signInLink"
       hidden$="[[!showSignInButton]]"
       link=""
       slot="footer"

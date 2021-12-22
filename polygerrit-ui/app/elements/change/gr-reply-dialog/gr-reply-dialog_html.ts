@@ -29,11 +29,6 @@ export const htmlTemplate = html`
     :host([disabled]) .container {
       opacity: 0.5;
     }
-    .container {
-      display: flex;
-      flex-direction: column;
-      max-height: 100%;
-    }
     section {
       border-top: 1px solid var(--border-color);
       flex-shrink: 0;
@@ -261,7 +256,7 @@ export const htmlTemplate = html`
     }
 
   </style>
-  <div class$="container" tabindex="-1">
+  <div tabindex="-1">
     <section class="peopleContainer">
       <gr-endpoint-decorator name="reply-reviewers">
         <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
@@ -404,7 +399,7 @@ export const htmlTemplate = html`
         Saving comments...
       </span>
     </section>
-    <div class$="stickyBottom newReplyDialog">
+    <div class="stickyBottom newReplyDialog">
       <gr-endpoint-decorator name="reply-bottom">
         <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
         <section

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e481d335_1b1ae35c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-22T10:41:44Z",
+      "side": 1,
+      "message": "Yes, you\u0027re reading the code right. I rephrased the commit message.",
+      "parentUuid": "e3735dfd_e5f50558",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "066e274b_acaaec8f",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-12-20T16:39:45Z",
       "side": 1,
       "message": "Maybe clearer: revision that was current/latest at the time of abandon",
+      "range": {
+        "startLine": 11,
+        "startChar": 61,
+        "endLine": 11,
+        "endChar": 71
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b21ebb_5c47770d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-22T10:41:44Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "066e274b_acaaec8f",
       "range": {
         "startLine": 11,
         "startChar": 61,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea17d17d_43edf794",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-22T10:41:44Z",
+      "side": 1,
+      "message": "Yes the code is looking up SRs from the last PS for which SRs are stored. I rephrased the comment.",
+      "parentUuid": "e4b38075_8acefba4",
+      "range": {
+        "startLine": 865,
+        "startChar": 5,
+        "endLine": 865,
+        "endChar": 99
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b775f1d_65021d8a",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-12-20T16:39:45Z",
       "side": 1,
       "message": "Can this happen? Under which condition does patchSets contain an entry for which no commit is present?",
+      "range": {
+        "startLine": 874,
+        "startChar": 6,
+        "endLine": 875,
+        "endChar": 17
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeb2d768_8c9087bd",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-22T10:41:44Z",
+      "side": 1,
+      "message": "That\u0027s a guarding condition, since this field is optional in the builder. But I assume this can never happen.",
+      "parentUuid": "3b775f1d_65021d8a",
       "range": {
         "startLine": 874,
         "startChar": 6,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a782b2_6ab00968",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-22T10:41:44Z",
+      "side": 1,
+      "message": "I\u0027m not exactly sure if it can happen, but I added this as a guarding condition to avoid NPEs.",
+      "parentUuid": "741e7bfb_100c7b06",
+      "range": {
+        "startLine": 878,
+        "startChar": 10,
+        "endLine": 878,
+        "endChar": 37
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7279eaaa_945a0c80",
@@ -139,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14fd08fb_374204db",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-22T10:41:44Z",
+      "side": 1,
+      "message": "\u003e Would we wrongly load the non-empty submit requirements that have been stored in step 2 now?\n\nNop, I has a test for it [1]. The test does the following:\n\n1) Create a change\n2) Abandon. SRs are stored with PS1 (assert SR results are correct)\n3) Restore the change (assert SR results are correct)\n4) Abandon again (assert SR results are correct)\n5) Restore. Fulfill one SR (vote +2)\n6) Abandon. Now new SR results are stored with same PS1\n7) query and assert latest SRs (the fulfilled one) are returned.\n\nThe other test in [2] does nearly the same, with the difference that it uploads a new PS after step 5. New results are stored with PS2 and are returned correctly.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/326785/1/javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java#5190\n\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/326785/1/javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java#5140",
+      "parentUuid": "7279eaaa_945a0c80",
+      "range": {
+        "startLine": 879,
+        "startChar": 13,
+        "endLine": 879,
+        "endChar": 73
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54d2b9d5_db3f123c",
@@ -152,6 +296,24 @@
       "writtenOn": "2021-12-20T16:39:45Z",
       "side": 1,
       "message": "Maybe also add tests to cover:\n\n1. abandon, restore, update: \n\nSR\u0027s should be freshly computed now since the change is open.\n\nThe SR that have been stored on abandon should be ignored. I wonder, should the NoteDb parser in this case actually return no SR\u0027s?\n\n2. abandon, restore, update, merge:\n\nIn this case only the SR\u0027s that have been stored on merge should be returned.",
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9133fe52_867a4737",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5140,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-22T10:41:44Z",
+      "side": 1,
+      "message": "1. This test does that. we restore the change, upload a new PS, then vote on CR to fulfill the SR. I added an additional assert statement after that vote (before we abandon again).\n\n\u003e The SR that have been stored on abandon should be ignored. I wonder, should the NoteDb parser in this case actually return no SR\u0027s?\n\nIt always returns SRs from NoteDb but we don\u0027t use them, since we have a separate codepaths for open/closed changes in ChangeData#submitRequirements. For open changes, we always compute SRs freshly.\n\n2. I added a test for it.",
+      "parentUuid": "54d2b9d5_db3f123c",
       "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

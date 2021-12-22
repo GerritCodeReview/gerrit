@@ -309,6 +309,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a85bbca9_9799ca67",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-22T13:33:37Z",
+      "side": 1,
+      "message": "Got your point. Yes you\u0027re right. Nice catch!\n\nBTW, if no SRs apply; we still store their results as not_applicable in NoteDb. But your assumptions would probably lead to wrong behaviour if there are \"No SRs for the project\".\n\nI\u0027ll fix this and add a test.",
+      "parentUuid": "89124022_57e3acd2",
+      "range": {
+        "startLine": 879,
+        "startChar": 13,
+        "endLine": 879,
+        "endChar": 73
+      },
+      "revId": "392726c7ad65e9764ef7fa59eb6f0bcea5b93cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54d2b9d5_db3f123c",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1

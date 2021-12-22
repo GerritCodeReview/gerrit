@@ -42,7 +42,7 @@ import {
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
 import {DiffViewMode, RenderPreferences} from '../../../api/diff';
-import {Side} from '../../../constants/constants';
+import {createDefaultDiffPrefs, Side} from '../../../constants/constants';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
@@ -139,6 +139,12 @@ export class GrDiffBuilderElement extends PolymerElement {
   path?: string;
 
   @property({type: Object})
+  prefs: DiffPreferencesInfo = createDefaultDiffPrefs();
+
+  @property({type: Object})
+  renderPrefs?: RenderPreferences;
+
+  @property({type: Object})
   _builder?: GrDiffBuilder;
 
   // This is written to only from the processor via property notify
@@ -213,19 +219,15 @@ export class GrDiffBuilderElement extends PolymerElement {
     return coverageRanges.filter(range => range && range.side === 'right');
   }
 
-  render(
-    keyLocations: KeyLocations,
-    prefs: DiffPreferencesInfo,
-    renderPrefs?: RenderPreferences
-  ) {
+  render(keyLocations: KeyLocations) {
     // Setting up annotation layers must happen after plugins are
     // installed, and |render| satisfies the requirement, however,
     // |attached| doesn't because in the diff view page, the element is
     // attached before plugins are installed.
     this._setupAnnotationLayers();
 
-    this._showTabs = !!prefs.show_tabs;
-    this._showTrailingWhitespace = !!prefs.show_whitespace_errors;
+    this._showTabs = this.prefs.show_tabs;
+    this._showTrailingWhitespace = this.prefs.show_whitespace_errors;
 
     // Stop the processor if it's running.
     this.cancel();
@@ -236,13 +238,16 @@ export class GrDiffBuilderElement extends PolymerElement {
     if (!this.diff) {
       throw Error('Cannot render a diff without DiffInfo.');
     }
-    this._builder = this._getDiffBuilder(this.diff, prefs, renderPrefs);
+    this._builder = this._getDiffBuilder();
 
-    this.$.processor.context = prefs.context;
+    this.$.processor.context = this.prefs.context;
     this.$.processor.keyLocations = keyLocations;
 
     this._clearDiffContent();
-    this._builder.addColumns(this.diffElement, getLineNumberCellWidth(prefs));
+    this._builder.addColumns(
+      this.diffElement,
+      getLineNumberCellWidth(this.prefs)
+    );
 
     const isBinary = !!(this.isImageDiff || this.diff.binary);
 
@@ -348,20 +353,19 @@ export class GrDiffBuilderElement extends PolymerElement {
     throw Error(`Invalid preference value: ${pref}`);
   }
 
-  _getDiffBuilder(
-    diff: DiffInfo,
-    prefs: DiffPreferencesInfo,
-    renderPrefs?: RenderPreferences
-  ): GrDiffBuilder {
-    if (isNaN(prefs.tab_size) || prefs.tab_size <= 0) {
+  _getDiffBuilder(): GrDiffBuilder {
+    if (!this.diff) {
+      throw Error('Cannot render a diff without DiffInfo.');
+    }
+    if (isNaN(this.prefs.tab_size) || this.prefs.tab_size <= 0) {
       this._handlePreferenceError('tab size');
     }
 
-    if (isNaN(prefs.line_length) || prefs.line_length <= 0) {
+    if (isNaN(this.prefs.line_length) || this.prefs.line_length <= 0) {
       this._handlePreferenceError('diff width');
     }
 
-    const localPrefs = {...prefs};
+    const localPrefs = {...this.prefs};
     if (this.path === COMMIT_MSG_PATH) {
       // override line_length for commit msg the same way as
       // in gr-diff
@@ -371,32 +375,32 @@ export class GrDiffBuilderElement extends PolymerElement {
     let builder = null;
     if (this.isImageDiff) {
       builder = new GrDiffBuilderImage(
-        diff,
+        this.diff,
         localPrefs,
         this.diffElement,
         this.baseImage,
         this.revisionImage,
-        renderPrefs,
+        this.renderPrefs,
         this.useNewImageDiffUi
       );
-    } else if (diff.binary) {
+    } else if (this.diff.binary) {
       // If the diff is binary, but not an image.
-      return new GrDiffBuilderBinary(diff, localPrefs, this.diffElement);
+      return new GrDiffBuilderBinary(this.diff, localPrefs, this.diffElement);
     } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
       builder = new GrDiffBuilderSideBySide(
-        diff,
+        this.diff,
         localPrefs,
         this.diffElement,
         this._layers,
-        renderPrefs
+        this.renderPrefs
       );
     } else if (this.viewMode === DiffViewMode.UNIFIED) {
       builder = new GrDiffBuilderUnified(
-        diff,
+        this.diff,
         localPrefs,
         this.diffElement,
         this._layers,
-        renderPrefs
+        this.renderPrefs
       );
     }
     if (!builder) {

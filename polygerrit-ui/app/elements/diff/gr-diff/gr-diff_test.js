@@ -183,9 +183,9 @@ suite('gr-diff tests', () => {
       element.changeNum = 123;
       element.patchRange = {basePatchNum: 1, patchNum: 2};
       element.path = 'file.txt';
-
-      element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder(
-          getMockDiffResponse(), {...MINIMAL_PREFS});
+      element.$.diffBuilder.diff = getMockDiffResponse();
+      element.$.diffBuilder.prefs = {...MINIMAL_PREFS};
+      element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder();
 
       // No thread groups.
       assert.isNotOk(element._getThreadGroupForLine(contentEl));
@@ -859,7 +859,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.equal(element._safetyBypass, -1);
-      assert.equal(renderStub.firstCall.args[1].context, -1);
+      assert.equal(element.$.diffBuilder.prefs.context, -1);
     });
 
     test('toggles collapse context from bypass', async () => {
@@ -872,7 +872,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.isNull(element._safetyBypass);
-      assert.equal(renderStub.firstCall.args[1].context, 3);
+      assert.equal(element.$.diffBuilder.prefs.context, 3);
     });
 
     test('toggles collapse context from pref using default', async () => {
@@ -884,7 +884,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, -1);
       assert.equal(element._safetyBypass, 10);
-      assert.equal(renderStub.firstCall.args[1].context, 10);
+      assert.equal(element.$.diffBuilder.prefs.context, 10);
     });
   });
 

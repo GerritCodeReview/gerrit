@@ -84,7 +84,6 @@ import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {
-  DiffContextExpandedEventDetail,
   getResponsiveMode,
   isResponsive,
 } from '../gr-diff-builder/gr-diff-builder';
@@ -541,11 +540,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (loggedIn) classes.push('canComment');
     if (displayLine) classes.push('displayLine');
     return classes.join(' ');
-  }
-
-  _handleDiffContextExpanded(e: CustomEvent<DiffContextExpandedEventDetail>) {
-    // Don't stop propagation. The host may listen for reporting or resizing.
-    this.$.diffBuilder.rerenderSection(e.detail.groups, e.detail.section);
   }
 
   _handleTap(e: CustomEvent) {

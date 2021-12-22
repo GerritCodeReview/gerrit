@@ -570,7 +570,6 @@ export const htmlTemplate = html`
   <div
     class$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]"
     on-click="_handleTap"
-    on-diff-context-expanded="_handleDiffContextExpanded"
   >
     <gr-diff-selection diff="[[diff]]">
       <gr-diff-highlight

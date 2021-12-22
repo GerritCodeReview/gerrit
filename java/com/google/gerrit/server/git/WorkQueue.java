@@ -30,7 +30,6 @@ import com.google.gerrit.server.logging.LoggingContextAwareRunnable;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -83,10 +82,6 @@ public class WorkQueue {
       listener().to(Lifecycle.class);
     }
   }
-
-  private static final UncaughtExceptionHandler LOG_UNCAUGHT_EXCEPTION =
-      (t, e) ->
-          logger.atSevere().withCause(e).log("WorkQueue thread %s threw exception", t.getName());
 
   private final ScheduledExecutorService defaultQueue;
   private final IdGenerator idGenerator;
@@ -260,7 +255,7 @@ public class WorkQueue {
             public Thread newThread(Runnable task) {
               final Thread t = parent.newThread(task);
               t.setName(queueName + "-" + tid.getAndIncrement());
-              t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
+              t.setUncaughtExceptionHandler(WorkQueue::logUncaughtException);
               return t;
             }
           });
@@ -443,6 +438,10 @@ public class WorkQueue {
     Collection<Task<?>> getTasks() {
       return all.values();
     }
+  }
+
+  private static void logUncaughtException(Thread t, Throwable e) {
+    logger.atSevere().withCause(e).log("WorkQueue thread %s threw exception", t.getName());
   }
 
   /**

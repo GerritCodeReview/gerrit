@@ -59,7 +59,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
@@ -156,16 +155,6 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
   }
 
   static class Loader extends CacheLoader<GitFileDiffCacheKey, GitFileDiff> {
-    /**
-     * Extractor for the file path from a {@link DiffEntry}. Returns the old file path if the entry
-     * corresponds to a deleted file, otherwise it returns the new file path.
-     */
-    private static final Function<DiffEntry, String> pathExtractor =
-        (DiffEntry entry) ->
-            entry.getChangeType().equals(ChangeType.DELETE)
-                ? entry.getOldPath()
-                : entry.getNewPath();
-
     private final GitRepositoryManager repoManager;
     private final ExecutorService diffExecutor;
     private final long timeoutMillis;
@@ -291,10 +280,10 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
               diffOptions.newTree());
 
       return diffEntries.stream()
-          .filter(d -> filePathsSet.contains(pathExtractor.apply(d)))
+          .filter(d -> filePathsSet.contains(extractPath(d)))
           .collect(
               Multimaps.toMultimap(
-                  d -> pathExtractor.apply(d),
+                  Loader::extractPath,
                   identity(),
                   MultimapBuilder.treeKeys().arrayListValues()::build));
     }
@@ -377,6 +366,16 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
         Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
         throw new IOException(e.getMessage(), e.getCause());
       }
+    }
+
+    /**
+     * Extract the file path from a {@link DiffEntry}. Returns the old file path if the entry
+     * corresponds to a deleted file, otherwise it returns the new file path.
+     */
+    private static String extractPath(DiffEntry diffEntry) {
+      return diffEntry.getChangeType().equals(ChangeType.DELETE)
+          ? diffEntry.getOldPath()
+          : diffEntry.getNewPath();
     }
   }
 

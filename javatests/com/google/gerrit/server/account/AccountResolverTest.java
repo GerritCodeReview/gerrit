@@ -96,15 +96,15 @@ public class AccountResolverTest {
             new TestSearcher("foo", false, newAccount(1)),
             new TestSearcher("bar", false, newAccount(2), newAccount(3)));
 
-    Result result = search("foo", searchers, allVisible());
+    Result result = search("foo", searchers, AccountResolverTest::allVisiblePredicate);
     assertThat(result.input()).isEqualTo("foo");
     assertThat(result.asIdSet()).containsExactlyElementsIn(ids(1));
 
-    result = search("bar", searchers, allVisible());
+    result = search("bar", searchers, AccountResolverTest::allVisiblePredicate);
     assertThat(result.input()).isEqualTo("bar");
     assertThat(result.asIdSet()).containsExactlyElementsIn(ids(2, 3));
 
-    result = search("baz", searchers, allVisible());
+    result = search("baz", searchers, AccountResolverTest::allVisiblePredicate);
     assertThat(result.input()).isEqualTo("baz");
     assertThat(result.asIdSet()).isEmpty();
   }
@@ -115,11 +115,11 @@ public class AccountResolverTest {
         ImmutableList.of(
             new TestSearcher("f.*", true), new TestSearcher("foo|bar", false, newAccount(1)));
 
-    Result result = search("foo", searchers, allVisible());
+    Result result = search("foo", searchers, AccountResolverTest::allVisiblePredicate);
     assertThat(result.input()).isEqualTo("foo");
     assertThat(result.asIdSet()).isEmpty();
 
-    result = search("bar", searchers, allVisible());
+    result = search("bar", searchers, AccountResolverTest::allVisiblePredicate);
     assertThat(result.input()).isEqualTo("bar");
     assertThat(result.asIdSet()).containsExactlyElementsIn(ids(1));
   }
@@ -129,7 +129,7 @@ public class AccountResolverTest {
     ImmutableList<Searcher<?>> searchers =
         ImmutableList.of(new TestSearcher("foo", false, newAccount(1), newAccount(2)));
 
-    assertThat(search("foo", searchers, allVisible()).asIdSet())
+    assertThat(search("foo", searchers, AccountResolverTest::allVisiblePredicate).asIdSet())
         .containsExactlyElementsIn(ids(1, 2));
     assertThat(search("foo", searchers, only(2)).asIdSet()).containsExactlyElementsIn(ids(2));
   }
@@ -152,7 +152,7 @@ public class AccountResolverTest {
             new TestSearcher("foo", false, newInactiveAccount(1)),
             new TestSearcher("f.*", false, newInactiveAccount(2)));
 
-    Result result = search("foo", searchers, allVisible());
+    Result result = search("foo", searchers, AccountResolverTest::allVisiblePredicate);
     // Searchers always short-circuit when finding a non-empty result list, and this one didn't
     // filter out inactive results, so the second searcher never ran.
     assertThat(result.asIdSet()).containsExactlyElementsIn(ids(1));
@@ -168,7 +168,7 @@ public class AccountResolverTest {
     searcher2.setCallerShouldFilterOutInactiveCandidates();
     ImmutableList<Searcher<?>> searchers = ImmutableList.of(searcher1, searcher2);
 
-    Result result = search("foo", searchers, allVisible(), (a) -> true);
+    Result result = search("foo", searchers, AccountResolverTest::allVisiblePredicate, (a) -> true);
     // Searchers always short-circuit when finding a non-empty result list,
     // and this one didn't filter out inactive results,
     // so the second searcher never ran.
@@ -185,8 +185,9 @@ public class AccountResolverTest {
     searcher2.setCallerShouldFilterOutInactiveCandidates();
     ImmutableList<Searcher<?>> searchers = ImmutableList.of(searcher1, searcher2);
 
-    Result result = search("foo", searchers, allVisible());
-    assertThat(search("foo", searchers, allVisible()).asIdSet()).containsExactlyElementsIn(ids(2));
+    Result result = search("foo", searchers, AccountResolverTest::allVisiblePredicate);
+    assertThat(search("foo", searchers, AccountResolverTest::allVisiblePredicate).asIdSet())
+        .containsExactlyElementsIn(ids(2));
     // No info about inactive results exposed if there was at least one active result.
     assertThat(filteredInactiveIds(result)).isEmpty();
   }
@@ -199,7 +200,7 @@ public class AccountResolverTest {
     searcher2.setCallerShouldFilterOutInactiveCandidates();
     ImmutableList<Searcher<?>> searchers = ImmutableList.of(searcher1, searcher2);
 
-    Result result = search("foo", searchers, allVisible());
+    Result result = search("foo", searchers, AccountResolverTest::allVisiblePredicate);
     assertThat(result.asIdSet()).isEmpty();
     assertThat(filteredInactiveIds(result)).containsExactlyElementsIn(ids(1, 2));
   }
@@ -217,7 +218,7 @@ public class AccountResolverTest {
 
     // searcher1 matched, but filtered out all candidates because account2 is inactive. Actual
     // result came from searcher2 instead.
-    Result result = search("foo", searchers, allVisible());
+    Result result = search("foo", searchers, AccountResolverTest::allVisiblePredicate);
     assertThat(result.asIdSet()).containsExactlyElementsIn(ids(1, 2));
   }
 
@@ -233,7 +234,7 @@ public class AccountResolverTest {
 
     // searcher1 matched and then filtered out all candidates because account2 is inactive, but
     // still short-circuited.
-    Result result = search("foo", searchers, allVisible());
+    Result result = search("foo", searchers, AccountResolverTest::allVisiblePredicate);
     assertThat(result.asIdSet()).isEmpty();
     assertThat(filteredInactiveIds(result)).containsExactlyElementsIn(ids(2));
   }
@@ -242,11 +243,10 @@ public class AccountResolverTest {
   public void asUniqueWithNoResults() throws Exception {
     String input = "foo";
     ImmutableList<Searcher<?>> searchers = ImmutableList.of();
-    Supplier<Predicate<AccountState>> visibilitySupplier = allVisible();
     UnresolvableAccountException thrown =
         assertThrows(
             UnresolvableAccountException.class,
-            () -> search(input, searchers, visibilitySupplier).asUnique());
+            () -> search(input, searchers, AccountResolverTest::allVisiblePredicate).asUnique());
     assertThat(thrown).hasMessageThat().isEqualTo("Account 'foo' not found");
   }
 
@@ -255,7 +255,11 @@ public class AccountResolverTest {
     AccountState account = newAccount(1);
     ImmutableList<Searcher<?>> searchers =
         ImmutableList.of(new TestSearcher("foo", false, account));
-    assertThat(search("foo", searchers, allVisible()).asUnique().account().id())
+    assertThat(
+            search("foo", searchers, AccountResolverTest::allVisiblePredicate)
+                .asUnique()
+                .account()
+                .id())
         .isEqualTo(account.account().id());
   }
 
@@ -266,7 +270,7 @@ public class AccountResolverTest {
     UnresolvableAccountException thrown =
         assertThrows(
             UnresolvableAccountException.class,
-            () -> search("foo", searchers, allVisible()).asUnique());
+            () -> search("foo", searchers, AccountResolverTest::allVisiblePredicate).asUnique());
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo(
@@ -339,7 +343,7 @@ public class AccountResolverTest {
       ImmutableList<Searcher<?>> searchers,
       Supplier<Predicate<AccountState>> visibilitySupplier)
       throws Exception {
-    return search(input, searchers, visibilitySupplier, activityPrediate());
+    return search(input, searchers, visibilitySupplier, AccountResolverTest::isActive);
   }
 
   private Result search(
@@ -372,12 +376,17 @@ public class AccountResolverTest {
     return Arrays.stream(ids).mapToObj(Account::id).collect(toImmutableSet());
   }
 
-  private static Supplier<Predicate<AccountState>> allVisible() {
-    return () -> a -> true;
+  private static Predicate<AccountState> allVisiblePredicate() {
+    return AccountResolverTest::allVisible;
   }
 
-  private Predicate<AccountState> activityPrediate() {
-    return (AccountState accountState) -> accountState.account().isActive();
+  /** @param accountState account state for which the visibility should be checked */
+  private static boolean allVisible(AccountState accountState) {
+    return true;
+  }
+
+  private static boolean isActive(AccountState accountState) {
+    return accountState.account().isActive();
   }
 
   private static Supplier<Predicate<AccountState>> only(int... ids) {

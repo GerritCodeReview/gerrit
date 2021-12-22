@@ -434,7 +434,7 @@ java_package_configuration(
         "-Xep:UnescapedEntity:ERROR",
         "-Xep:UnnecessaryAssignment:ERROR",
         "-Xep:UnnecessaryCheckNotNull:ERROR",
-        # "-Xep:UnnecessaryLambda:WARN",
+        "-Xep:UnnecessaryLambda:ERROR",
         "-Xep:UnnecessaryMethodInvocationMatcher:ERROR",
         "-Xep:UnnecessaryMethodReference:ERROR",
         # "-Xep:UnnecessaryParentheses:WARN",

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -46,16 +47,21 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void newPatchSetsNotifyConfig() throws Exception {
-    Address addr = Address.create("Watcher", "watcher@example.com");
-    NotifyConfig.Builder nc = NotifyConfig.builder();
-    nc.addAddress(addr);
-    nc.setName("new-patch-set");
-    nc.setHeader(NotifyConfig.Header.CC);
-    nc.setNotify(EnumSet.of(NotifyType.NEW_PATCHSETS));
-    nc.setFilter("message:sekret");
-
+    ImmutableList<String> messageFilters =
+        ImmutableList.of("message:subject-with-tokens", "message:subject-with-tokens=secret");
+    ImmutableList.Builder<Address> watchers = ImmutableList.builder();
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().putNotifyConfig("watch", nc.build());
+      for (int i = 0; i < messageFilters.size(); i++) {
+        Address addr = Address.create("Watcher#" + i, String.format("watcher-%s@example.com", i));
+        watchers.add(addr);
+        NotifyConfig.Builder nc = NotifyConfig.builder();
+        nc.addAddress(addr);
+        nc.setName("new-patch-set" + i);
+        nc.setHeader(NotifyConfig.Header.CC);
+        nc.setNotify(EnumSet.of(NotifyType.NEW_PATCHSETS));
+        nc.setFilter(messageFilters.get(i));
+        u.getConfig().putNotifyConfig("watch" + i, nc.build());
+      }
       u.save();
     }
 
@@ -67,7 +73,13 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     r =
         pushFactory
-            .create(admin.newIdent(), testRepo, "super sekret subject", "a", "a2", r.getChangeId())
+            .create(
+                admin.newIdent(),
+                testRepo,
+                "super sekret subject\n\nsubject-with-tokens=secret subject",
+                "a",
+                "a2",
+                r.getChangeId())
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -80,7 +92,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(addr);
+    assertThat(m.rcpt()).containsAtLeastElementsIn(watchers.build());
     assertThat(m.body()).contains("Change subject: super sekret subject\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 2\n");
   }

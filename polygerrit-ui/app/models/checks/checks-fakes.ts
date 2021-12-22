@@ -429,6 +429,12 @@ export const fakeRun5: CheckRun = {
 };
 
 export function clearAllFakeRuns(model: ChecksModel) {
+  model.updateStateSetProvider('f0', ChecksPatchset.LATEST);
+  model.updateStateSetProvider('f1', ChecksPatchset.LATEST);
+  model.updateStateSetProvider('f2', ChecksPatchset.LATEST);
+  model.updateStateSetProvider('f3', ChecksPatchset.LATEST);
+  model.updateStateSetProvider('f4', ChecksPatchset.LATEST);
+  model.updateStateSetProvider('f5', ChecksPatchset.LATEST);
   model.updateStateSetResults(
     'f0',
     [],
@@ -480,6 +486,12 @@ export function clearAllFakeRuns(model: ChecksModel) {
 }
 
 export function setAllFakeRuns(model: ChecksModel) {
+  model.updateStateSetProvider('f0', ChecksPatchset.LATEST);
+  model.updateStateSetProvider('f1', ChecksPatchset.LATEST);
+  model.updateStateSetProvider('f2', ChecksPatchset.LATEST);
+  model.updateStateSetProvider('f3', ChecksPatchset.LATEST);
+  model.updateStateSetProvider('f4', ChecksPatchset.LATEST);
+  model.updateStateSetProvider('f5', ChecksPatchset.LATEST);
   model.updateStateSetResults(
     'f0',
     [fakeRun0],

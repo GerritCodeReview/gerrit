@@ -16,7 +16,6 @@
  */
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
-import {Action} from '../../api/checks';
 import {
   CheckResult,
   CheckRun,
@@ -25,7 +24,6 @@ import {
 import './gr-checks-runs';
 import './gr-checks-results';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
-import {ActionTriggeredEvent} from '../../models/checks/checks-util';
 import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
 import {TabState} from '../../types/events';
 import {getAppContext} from '../../services/app-context';
@@ -74,14 +72,6 @@ export class GrChecksTab extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  constructor() {
-    super();
-
-    this.addEventListener('action-triggered', (e: ActionTriggeredEvent) =>
-      this.handleActionTriggered(e.detail.action, e.detail.run)
-    );
-  }
-
   override connectedCallback(): void {
     super.connectedCallback();
     subscribe(
@@ -128,7 +118,10 @@ export class GrChecksTab extends LitElement {
   override render() {
     this.reporting.reportInteraction(
       Interaction.CHECKS_TAB_RENDERED,
-      this.tabState,
+      {
+        checkName: this.tabState?.checksTab?.checkName,
+        statusOrCategory: this.tabState?.checksTab?.statusOrCategory,
+      },
       {deduping: Deduping.DETAILS_ONCE_PER_CHANGE}
     );
     return html`
@@ -205,12 +198,12 @@ export class GrChecksTab extends LitElement {
     this.selectedAttempts = selectedAttempts;
   }
 
-  handleActionTriggered(action: Action, run?: CheckRun) {
-    this.getChecksModel().triggerAction(action, run);
-  }
-
   handleRunSelected(e: RunSelectedEvent) {
     this.clearTabState();
+    this.reporting.reportInteraction(Interaction.CHECKS_RUN_SELECTED, {
+      checkName: e.detail.checkName,
+      reset: e.detail.reset,
+    });
     if (e.detail.reset) {
       this.selectedRuns = [];
       this.selectedAttempts = new Map();
@@ -223,6 +216,10 @@ export class GrChecksTab extends LitElement {
 
   handleAttemptSelected(e: AttemptSelectedEvent) {
     this.clearTabState();
+    this.reporting.reportInteraction(Interaction.CHECKS_ATTEMPT_SELECTED, {
+      checkName: e.detail.checkName,
+      attempt: e.detail.attempt,
+    });
     const {checkName, attempt} = e.detail;
     this.selectedAttempts.set(checkName, attempt);
     // Force property update.

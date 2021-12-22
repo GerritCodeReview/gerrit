@@ -65,6 +65,8 @@ import {fontStyles} from '../../styles/gr-font-styles';
 import {durationString} from '../../utils/date-util';
 import {resolve} from '../../models/dependency';
 import {checksModelToken} from '../../models/checks/checks-model';
+import {Interaction} from '../../constants/reporting';
+import {Deduping} from '../../api/reporting';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
@@ -207,6 +209,8 @@ export class GrChecksRun extends LitElement {
   @state()
   shouldRender = false;
 
+  private readonly reporting = getAppContext().reportingService;
+
   override firstUpdated() {
     assertIsDefined(this.chipElement, 'chip element');
     whenVisible(this.chipElement, () => (this.shouldRender = true), 200);
@@ -260,7 +264,10 @@ export class GrChecksRun extends LitElement {
         </div>
         <div class="right">
           ${action
-            ? html`<gr-checks-action .action="${action}"></gr-checks-action>`
+            ? html`<gr-checks-action
+                context="runs"
+                .action="${action}"
+              ></gr-checks-action>`
             : ''}
         </div>
       </div>
@@ -332,6 +339,10 @@ export class GrChecksRun extends LitElement {
   private onLinkClick(e: MouseEvent) {
     // Prevents handleChipClick() from reacting to <a> link clicks.
     e.stopPropagation();
+    this.reporting.reportInteraction(Interaction.CHECKS_RUN_LINK_CLICKED, {
+      checkName: this.run.checkName,
+      status: this.run.status,
+    });
   }
 
   renderFilterIcon() {
@@ -413,6 +424,8 @@ export class GrChecksRuns extends LitElement {
   private flagService = getAppContext().flagsService;
 
   private getChecksModel = resolve(this, checksModelToken);
+
+  private readonly reporting = getAppContext().reportingService;
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -665,8 +678,16 @@ export class GrChecksRuns extends LitElement {
           link
           ?disabled=${runButtonDisabled}
           @click="${() => {
-            actions.forEach(action =>
-              this.getChecksModel().triggerAction(action)
+            actions.forEach(action => {
+              if (!action) return;
+              this.getChecksModel().triggerAction(
+                action,
+                undefined,
+                'run-selected'
+              );
+            });
+            this.reporting.reportInteraction(
+              Interaction.CHECKS_RUNS_SELECTED_TRIGGERED
             );
           }}"
           >Run Selected</gr-button
@@ -689,7 +710,7 @@ export class GrChecksRuns extends LitElement {
           aria-label="${this.collapsed
             ? 'Expand runs panel'
             : 'Collapse runs panel'}"
-          @click="${() => (this.collapsed = !this.collapsed)}"
+          @click="${this.toggleCollapsed}"
           ><iron-icon
             class="expandIcon"
             icon="${this.collapsed
@@ -701,13 +722,127 @@ export class GrChecksRuns extends LitElement {
     `;
   }
 
+  private toggleCollapsed() {
+    this.collapsed = !this.collapsed;
+    this.reporting.reportInteraction(Interaction.CHECKS_RUNS_PANEL_TOGGLE, {
+      collapsed: this.collapsed,
+    });
+  }
+
   onInput() {
     assertIsDefined(this.filterInput, 'filter <input> element');
+    this.reporting.reportInteraction(
+      Interaction.CHECKS_RUN_FILTER_CHANGED,
+      {},
+      {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
+    );
     if (this.filterInput.value) {
       this.filterRegExp = new RegExp(this.filterInput.value, 'i');
     } else {
       this.filterRegExp = undefined;
     }
+  }
+
+  none() {
+    this.getChecksModel().updateStateSetResults(
+      'f0',
+      [],
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    this.getChecksModel().updateStateSetResults(
+      'f1',
+      [],
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    this.getChecksModel().updateStateSetResults(
+      'f2',
+      [],
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    this.getChecksModel().updateStateSetResults(
+      'f3',
+      [],
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    this.getChecksModel().updateStateSetResults(
+      'f4',
+      [],
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    this.getChecksModel().updateStateSetResults(
+      'f5',
+      [],
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+  }
+
+  all() {
+    this.getChecksModel().updateStateSetResults(
+      'f0',
+      [fakeRun0],
+      fakeActions,
+      fakeLinks,
+      'ETA: 1 min',
+      ChecksPatchset.LATEST
+    );
+    this.getChecksModel().updateStateSetResults(
+      'f1',
+      [fakeRun1],
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    this.getChecksModel().updateStateSetResults(
+      'f2',
+      [fakeRun2],
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    this.getChecksModel().updateStateSetResults(
+      'f3',
+      [fakeRun3],
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    this.getChecksModel().updateStateSetResults(
+      'f4',
+      fakeRun4Att,
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    this.getChecksModel().updateStateSetResults(
+      'f5',
+      [fakeRun5],
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
   }
 
   toggle(
@@ -763,6 +898,10 @@ export class GrChecksRuns extends LitElement {
   toggleExpanded(status: RunStatus) {
     const expanded = this.isSectionExpanded.get(status) ?? true;
     this.isSectionExpanded.set(status, !expanded);
+    this.reporting.reportInteraction(Interaction.CHECKS_RUN_SECTION_TOGGLE, {
+      status,
+      expanded: !expanded,
+    });
     this.requestUpdate();
   }
 

@@ -108,4 +108,5 @@ export enum Interaction {
   COMMENT_SAVED = 'comment-saved',
   DISCARD_COMMENT = 'discard-comment',
   COMMENT_DISCARDED = 'comment-discarded',
+  CHECKS_TAB_RENDERED = 'checks-tab-rendered',
 }

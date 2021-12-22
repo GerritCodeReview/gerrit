@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ca82137_88ace915",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:10:05Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "2987b383ec38e87c77ee2a30b7a84dfacd65ba9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b1c080c_d4fd459a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-12-22T08:10:05Z",
+      "side": 1,
+      "message": "Maybe just use ValueChangedEvent\u003cChangeListViewState\u003e instead of creating a new type.",
+      "revId": "2987b383ec38e87c77ee2a30b7a84dfacd65ba9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -28,6 +28,8 @@ import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {DiffViewMode} from '../../../api/diff.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import { assertTaggedTemplateExpression } from '@babel/types';
+import { afterNextRender } from '@polymer/polymer/lib/utils/render-status';
 
 const basicFixture = fixtureFromTemplate(html`
     <gr-diff-builder>
@@ -45,6 +47,14 @@ const mockDiffFixture = fixtureFromTemplate(html`
     </gr-diff-builder>
 `);
 
+// GrDiffBuilderElement forces these prefs to be set - tests that do not care
+// about these values can just set these defaults.
+const DEFAULT_PREFS = {
+  line_length: 10,
+  show_tabs: true,
+  tab_size: 4,
+};
+
 suite('gr-diff-builder tests', () => {
   let prefs;
   let element;
@@ -58,11 +68,7 @@ suite('gr-diff-builder tests', () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getProjectConfig').returns(Promise.resolve({}));
     stubBaseUrl('/r');
-    prefs = {
-      line_length: 10,
-      show_tabs: true,
-      tab_size: 4,
-    };
+    prefs = {...DEFAULT_PREFS};
     builder = new GrDiffBuilder({content: []}, prefs);
   });
 
@@ -703,9 +709,7 @@ suite('gr-diff-builder tests', () => {
           .returns(Promise.resolve());
       keyLocations = {left: {}, right: {}};
       prefs = {
-        line_length: 10,
-        show_tabs: true,
-        tab_size: 4,
+        ...DEFAULT_PREFS,
         context: -1,
         syntax_highlighting: true,
       };
@@ -752,13 +756,7 @@ suite('gr-diff-builder tests', () => {
     let keyLocations;
 
     setup(async () => {
-      const prefs = {
-        line_length: 10,
-        show_tabs: true,
-        tab_size: 4,
-        context: -1,
-        syntax_highlighting: true,
-      };
+      const prefs = {...DEFAULT_PREFS};
       content = [
         {
           a: ['all work and no play make andybons a dull boy'],
@@ -823,6 +821,64 @@ suite('gr-diff-builder tests', () => {
       const processorCancelStub = sinon.stub(element.$.processor, 'cancel');
       element.cancel();
       assert.isTrue(processorCancelStub.called);
+    });
+  });
+
+  suite('context hiding and expanding', () => {
+    setup(async () => {
+      element = basicFixture.instantiate();
+      const afterNextRenderPromise = new Promise((resolve, reject) => {
+        afterNextRender(element, resolve);
+      });
+      element.diff = {
+        content: [
+          {ab: [1, 2, 3, 4, 5].map(i => `unchanged ${i}`)},
+          {a: ['before'], b: ['after']},
+          {ab: [6, 7, 8, 9, 10].map(i => `unchanged ${i}`)},
+        ],
+      };
+      element.viewMode = DiffViewMode.SIDE_BY_SIDE;
+
+      const keyLocations = {left: {}, right: {}};
+      const prefs = {
+        ...DEFAULT_PREFS,
+        context: 1,
+      };
+      await element.render(keyLocations, prefs);
+      // Make sure all listeners are installed.
+      await afterNextRenderPromise;
+    });
+
+    test('hides lines behind two context controls', () => {
+      const contextControls = element.querySelectorAll('gr-context-controls');
+      assert.equal(contextControls.length, 2);
+
+      const diffRows = element.querySelectorAll('.diff-row');
+      // The first two are LOST and FILE line
+      assert.equal(diffRows.length, 2 + 1 + 1 + 1);
+      assert.include(diffRows[2].textContent, 'unchanged 5');
+      assert.include(diffRows[3].textContent, 'before');
+      assert.include(diffRows[3].textContent, 'after');
+      assert.include(diffRows[4].textContent, 'unchanged 6');
+    });
+
+    test('clicking +10 shows 10 more lines', () => {
+      const contextControls = element.querySelectorAll('gr-context-controls');
+      const topExpandCommonButton = contextControls[0].shadowRoot
+          .querySelectorAll('.showContext')[0];
+      assert.include(topExpandCommonButton.textContent, '+4 common lines');
+      topExpandCommonButton.click();
+      const diffRows = element.querySelectorAll('.diff-row');
+      // The first two are LOST and FILE line
+      assert.equal(diffRows.length, 2 + 5 + 1 + 1);
+      assert.include(diffRows[2].textContent, 'unchanged 1');
+      assert.include(diffRows[3].textContent, 'unchanged 2');
+      assert.include(diffRows[4].textContent, 'unchanged 3');
+      assert.include(diffRows[5].textContent, 'unchanged 4');
+      assert.include(diffRows[6].textContent, 'unchanged 5');
+      assert.include(diffRows[7].textContent, 'before');
+      assert.include(diffRows[7].textContent, 'after');
+      assert.include(diffRows[8].textContent, 'unchanged 6');
     });
   });
 

@@ -26,7 +26,6 @@ import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomple
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {fire} from '../../../utils/event-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
@@ -72,9 +71,6 @@ export class GrSmartSearch extends LitElement {
         .serverConfig=${this.serverConfig}
         @handle-search=${(e: CustomEvent<SearchBarHandleSearchDetail>) => {
           this.handleSearch(e);
-        }}
-        @value-changed=${(e: CustomEvent) => {
-          this.handleSearchValueChanged(e);
         }}
       ></gr-search-bar>
     `;
@@ -195,9 +191,5 @@ export class GrSmartSearch extends LitElement {
     if (input) {
       GerritNav.navigateToSearchQuery(input);
     }
-  }
-
-  private handleSearchValueChanged(e: CustomEvent) {
-    fire(this, 'search-query-changed', {value: e.detail.value});
   }
 }

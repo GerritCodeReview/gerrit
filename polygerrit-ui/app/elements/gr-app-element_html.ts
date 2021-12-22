@@ -100,7 +100,6 @@ export const htmlTemplate = html`
   <gr-main-header
     id="mainHeader"
     search-query="[[params.query]]"
-    on-search-query-changed="_handleSearchQueryChanged"
     on-mobile-search="_mobileSearchToggle"
     on-show-keyboard-shortcuts="handleShowKeyboardShortcuts"
     mobile-search-hidden="[[!mobileSearch]]"
@@ -116,7 +115,6 @@ export const htmlTemplate = html`
         search-query="[[params.query]]"
         server-config="[[_serverConfig]]"
         hidden="[[!mobileSearch]]"
-        on-search-query-changed="_handleSearchQueryChanged"
       >
       </gr-smart-search>
     </template>

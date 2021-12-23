@@ -140,6 +140,30 @@
       },
       "revId": "76970e5043b6f069dd65ad143c1392f7a8edd0d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef1e4df2_f1ce4cfe",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-23T15:43:25Z",
+      "side": 1,
+      "message": "Nice! Thank you for giving it a try!",
+      "parentUuid": "1bb478c7_78523699",
+      "range": {
+        "startLine": 388,
+        "startChar": 18,
+        "endLine": 388,
+        "endChar": 37
+      },
+      "revId": "76970e5043b6f069dd65ad143c1392f7a8edd0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -223,7 +223,7 @@ public class DeleteReviewerOp extends ReviewerOp {
 
   private Iterable<PatchSetApproval> approvals(ChangeContext ctx, Account.Id accountId) {
     Iterable<PatchSetApproval> approvals;
-    approvals = ctx.getNotes().getApprovalsWithCopied().values();
+    approvals = approvalsUtil.byChange(ctx.getNotes()).values();
     return Iterables.filter(approvals, psa -> accountId.equals(psa.accountId()));
   }
 

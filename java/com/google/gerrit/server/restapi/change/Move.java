@@ -260,8 +260,11 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
      * proposal: https://gerrit-review.googlesource.com/c/gerrit/+/129171
      */
     private void updateApprovals(
-        ChangeContext ctx, ChangeUpdate update, PatchSet.Id psId, Project.NameKey project) {
-      for (PatchSetApproval psa : approvalsUtil.byPatchSet(ctx.getNotes(), psId)) {
+        ChangeContext ctx, ChangeUpdate update, PatchSet.Id psId, Project.NameKey project)
+        throws IOException {
+      for (PatchSetApproval psa :
+          approvalsUtil.byPatchSet(
+              ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
         ProjectState projectState = projectCache.get(project).orElseThrow(illegalState(project));
         Optional<LabelType> type =
             projectState.getLabelTypes(ctx.getNotes()).byLabel(psa.labelId());

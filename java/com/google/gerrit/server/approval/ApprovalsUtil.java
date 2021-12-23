@@ -352,9 +352,10 @@ public class ApprovalsUtil {
       PatchSet patchSet,
       RevWalk revWalk,
       Config repoConfig,
-      ChangeUpdate changeUpdate) {
+      ChangeUpdate changeUpdate,
+      boolean legacyIncludePreviousPatchsets) {
     approvalInference
-        .forPatchSet(notes, patchSet, revWalk, repoConfig)
+        .forPatchSet(notes, patchSet, revWalk, repoConfig, legacyIncludePreviousPatchsets)
         .forEach(a -> changeUpdate.putCopiedApproval(a));
   }
 

@@ -57,8 +57,9 @@ public class PatchFile {
       throws IOException {
     this.repo = repo;
     this.diff =
-        modifiedFiles.values().stream()
-            .filter(f -> f.newPath().isPresent() && f.newPath().get().equals(fileName))
+        modifiedFiles.entrySet().stream()
+            .filter(f -> f.getKey().equals(fileName))
+            .map(Map.Entry::getValue)
             .findFirst()
             .orElse(FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));
 

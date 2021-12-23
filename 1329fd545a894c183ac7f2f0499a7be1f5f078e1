@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f68277c_c36795a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-23T01:17:33Z",
+      "side": 1,
+      "message": "It looks like ES fails to start on our Docker daemon:\n$ sudo docker run -ti docker.io/blacktop/elasticsearch:7.16.2\ncould not find java in ES_JAVA_HOME at /usr/lib/jvm/java-11-openjdk/bin/java\ncould not find java in ES_JAVA_HOME at /usr/lib/jvm/java-11-openjdk/bin/java\n\nLooking for a solution/workaround",
+      "revId": "1329fd545a894c183ac7f2f0499a7be1f5f078e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -101,7 +101,11 @@ class ApprovalCopier {
    * patch-set.
    */
   Iterable<PatchSetApproval> forPatchSet(
-      ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
+      ChangeNotes notes,
+      PatchSet ps,
+      RevWalk rw,
+      Config repoConfig,
+      boolean legacyIncludePreviousPatchsets) {
     ProjectState project;
     try (TraceTimer traceTimer =
         TraceContext.newTimer(
@@ -115,7 +119,8 @@ class ApprovalCopier {
               .get(notes.getProjectName())
               .orElseThrow(illegalState(notes.getProjectName()));
       Collection<PatchSetApproval> approvals =
-          getForPatchSetWithoutNormalization(notes, project, ps, rw, repoConfig);
+          getForPatchSetWithoutNormalization(
+              notes, project, ps, rw, repoConfig, legacyIncludePreviousPatchsets);
       return labelNormalizer.normalize(notes, approvals).getNormalized();
     }
   }
@@ -343,7 +348,12 @@ class ApprovalCopier {
   }
 
   private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(
-      ChangeNotes notes, ProjectState project, PatchSet patchSet, RevWalk rw, Config repoConfig) {
+      ChangeNotes notes,
+      ProjectState project,
+      PatchSet patchSet,
+      RevWalk rw,
+      Config repoConfig,
+      boolean legacyIncludePreviousPatchsets) {
     checkState(
         project.getNameKey().equals(notes.getProjectName()),
         "project must match %s, %s",
@@ -368,8 +378,16 @@ class ApprovalCopier {
       return resultByUser.values();
     }
 
-    ImmutableList<PatchSetApproval> priorApprovalsIncludingCopied =
-        notes.load().getApprovalsWithCopied().get(priorPatchSet.getKey());
+    Collection<PatchSetApproval> priorApprovalsIncludingCopied =
+        legacyIncludePreviousPatchsets
+            ? getForPatchSetWithoutNormalization(
+                notes,
+                project,
+                priorPatchSet.getValue(),
+                rw,
+                repoConfig,
+                legacyIncludePreviousPatchsets)
+            : notes.load().getApprovalsWithCopied().get(priorPatchSet.getKey());
 
     // Add labels from the previous patch set to the result in case the label isn't already there
     // and settings as well as change kind allow copying.

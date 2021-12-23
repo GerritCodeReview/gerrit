@@ -21,6 +21,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -350,6 +351,31 @@ public class ApprovalsUtil {
 
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet patchSet) {
     return approvalInference.forPatchSet(notes, patchSet, /* rw= */ null, /* repoConfig= */ null);
+  }
+
+  /**
+   * This method should only be used when we want to dynamically compute the approvals. Generally,
+   * the copied approvals are available in {@link ChangeNotes}. However, if the patch-set is just
+   * being created, we need to dynamically compute the approvals so that we can persist them in
+   * storage. The {@link RevWalk} and {@link Config} objects that are being used to create the new
+   * patch-set are required for this method. Here we also add those votes to the provided {@link
+   * ChangeUpdate} object.
+   */
+  public void persistCopiedApprovals(
+      ChangeNotes notes,
+      PatchSet patchSet,
+      RevWalk revWalk,
+      Config repoConfig,
+      ChangeUpdate changeUpdate) {
+    Set<PatchSetApproval> current =
+        ImmutableSet.copyOf(notes.getApprovalsWithCopied().get(notes.getCurrentPatchSet().id()));
+    Set<PatchSetApproval> inferred =
+        ImmutableSet.copyOf(approvalInference.forPatchSet(notes, patchSet, revWalk, repoConfig));
+    for (PatchSetApproval psa : inferred) {
+      if (!current.contains(psa)) {
+        changeUpdate.putCopiedApproval(psa);
+      }
+    }
   }
 
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {

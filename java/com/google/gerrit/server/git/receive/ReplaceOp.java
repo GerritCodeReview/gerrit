@@ -345,8 +345,9 @@ public class ReplaceOp implements BatchUpdateOp {
       update.putReviewer(ctx.getAccountId(), REVIEWER);
     }
 
-    approvalsUtil.persistCopiedApprovals(
-        ctx.getNotes(), newPatchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
+    // Approvals that are being set in the new patch-set during this operation are not available yet
+    // outside of the scope of this method. Only copied approvals are set here.
+    approvalsUtil.byPatchSet(ctx.getNotes(), newPatchSet).forEach(a -> update.putCopiedApproval(a));
 
     mailMessage = insertChangeMessage(update, ctx, reviewMessage);
     if (mergedByPushOp == null) {
@@ -457,7 +458,12 @@ public class ReplaceOp implements BatchUpdateOp {
     // We optimize here and only retrieve current when approvals provided
     if (!approvals.isEmpty()) {
       for (PatchSetApproval a :
-          approvalsUtil.byPatchSetUser(ctx.getNotes(), priorPatchSetId, ctx.getAccountId())) {
+          approvalsUtil.byPatchSetUser(
+              ctx.getNotes(),
+              priorPatchSetId,
+              ctx.getAccountId(),
+              ctx.getRevWalk(),
+              ctx.getRepoView().getConfig())) {
         if (a.isLegacySubmit()) {
           continue;
         }

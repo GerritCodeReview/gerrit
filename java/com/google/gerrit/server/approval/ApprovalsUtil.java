@@ -26,6 +26,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
@@ -41,7 +42,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
-import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -98,7 +98,7 @@ public class ApprovalsUtil {
   private final ApprovalInference approvalInference;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
-  private final LabelNormalizer labelNormalizer;
+  private final ApprovalCache approvalCache;
 
   @VisibleForTesting
   @Inject
@@ -106,11 +106,11 @@ public class ApprovalsUtil {
       ApprovalInference approvalInference,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
-      LabelNormalizer labelNormalizer) {
+      ApprovalCache approvalCache) {
     this.approvalInference = approvalInference;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
-    this.labelNormalizer = labelNormalizer;
+    this.approvalCache = approvalCache;
   }
 
   /**
@@ -339,42 +339,30 @@ public class ApprovalsUtil {
     }
   }
 
-  public ListMultimap<PatchSet.Id, PatchSetApproval> byChangeExcludingCopiedApprovals(
-      ChangeNotes notes) {
+  public ListMultimap<PatchSet.Id, PatchSetApproval> byChange(ChangeNotes notes) {
     return notes.load().getApprovals();
   }
 
-  /**
-   * This method should only be used when we want to dynamically compute the approvals. Generally,
-   * the copied approvals are available in {@link ChangeNotes}. However, if the patch-set is just
-   * being created, we need to dynamically compute the approvals so that we can persist them in
-   * storage. The {@link RevWalk} and {@link Config} objects that are being used to create the new
-   * patch-set are required for this method. Here we also add those votes to the provided {@link
-   * ChangeUpdate} object.
-   */
-  public void persistCopiedApprovals(
-      ChangeNotes notes,
-      PatchSet patchSet,
-      RevWalk revWalk,
-      Config repoConfig,
-      ChangeUpdate changeUpdate) {
-    approvalInference
-        .forPatchSet(notes, patchSet, revWalk, repoConfig)
-        .forEach(a -> changeUpdate.putCopiedApproval(a));
+  public Iterable<PatchSetApproval> byPatchSet(
+      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
+    return approvalInference.forPatchSet(notes, psId, rw, repoConfig);
   }
 
-  /**
-   * Gets {@link PatchSetApproval}s for a specified patch-set. The result includes copied votes but
-   * does not include deleted labels.
-   *
-   * @param notes changenotes of the change.
-   * @param psId patch-set id for the change and patch-set we want to get approvals.
-   * @return all approvals for the specified patch-set, including copied votes, not including
-   *     deleted labels.
-   */
+  public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet patchSet) {
+    return approvalInference.forPatchSet(notes, patchSet, /* rw= */ null, /* repoConfig= */ null);
+  }
+
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
-    List<PatchSetApproval> approvalsNotNormalized = notes.load().getApprovalsWithCopied().get(psId);
-    return labelNormalizer.normalize(notes, approvalsNotNormalized).getNormalized();
+    return approvalCache.get(notes, psId);
+  }
+
+  public Iterable<PatchSetApproval> byPatchSetUser(
+      ChangeNotes notes,
+      PatchSet.Id psId,
+      Account.Id accountId,
+      @Nullable RevWalk rw,
+      @Nullable Config repoConfig) {
+    return filterApprovals(byPatchSet(notes, psId, rw, repoConfig), accountId);
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(
@@ -387,8 +375,8 @@ public class ApprovalsUtil {
       return null;
     }
     try {
-      // Submit approval is never copied.
-      return getSubmitter(c, byChangeExcludingCopiedApprovals(notes).get(c));
+      // Submit approval is never copied, so bypass expensive byPatchSet call.
+      return getSubmitter(c, byChange(notes).get(c));
     } catch (StorageException e) {
       return null;
     }

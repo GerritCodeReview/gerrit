@@ -348,10 +348,13 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
   }
 
-  private LabelNormalizer.Result approve(ChangeContext ctx, ChangeUpdate update) {
+  private LabelNormalizer.Result approve(ChangeContext ctx, ChangeUpdate update)
+      throws IOException {
     PatchSet.Id psId = update.getPatchSetId();
     Map<PatchSetApproval.Key, PatchSetApproval> byKey = new HashMap<>();
-    for (PatchSetApproval psa : args.approvalsUtil.byPatchSet(ctx.getNotes(), psId)) {
+    for (PatchSetApproval psa :
+        args.approvalsUtil.byPatchSet(
+            ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
       byKey.put(psa.key(), psa);
     }
 

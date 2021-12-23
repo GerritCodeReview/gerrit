@@ -1384,35 +1384,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertThat(nonCopiedSecondPatchsetRemovedVote.copied()).isFalse();
   }
 
-  @Test
-  public void reviewerStickyVotingCanBeRemoved() throws Exception {
-    // Code-Review will be sticky.
-    String label = LabelId.CODE_REVIEW;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
-      u.save();
-    }
-
-    PushOneCommit.Result r = createChange();
-
-    // Add a new vote by user
-    requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend());
-    requestScopeOperations.setApiUser(admin.id());
-
-    // Make a new patchset, keeping the Code-Review +1 vote.
-    amendChange(r.getChangeId());
-    assertVotes(detailedChange(r.getChangeId()), user, label, 1, null);
-
-    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
-
-    assertThat(r.getChange().notes().getApprovalsWithCopied()).isEmpty();
-
-    // Changes message has info about vote removed.
-    assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).messages()).message)
-        .contains("Code-Review+1 by User");
-  }
-
   private void assertChangeKindCacheContains(ObjectId prior, ObjectId next) {
     ChangeKind kind =
         changeKindCache.getIfPresent(ChangeKindCacheImpl.Key.create(prior, next, "recursive"));

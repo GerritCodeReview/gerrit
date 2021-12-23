@@ -22,6 +22,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -34,6 +35,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 public interface NoteDbSchemaVersion {
   @Singleton
   class Arguments {
+    final Injector dbInjector;
     final GitRepositoryManager repoManager;
     final AllProjectsName allProjects;
     final AllUsersName allUsers;
@@ -44,6 +46,7 @@ public interface NoteDbSchemaVersion {
 
     @Inject
     Arguments(
+        Injector dbInjector,
         GitRepositoryManager repoManager,
         AllProjectsName allProjects,
         AllUsersName allUsers,
@@ -51,6 +54,7 @@ public interface NoteDbSchemaVersion {
         SystemGroupBackend systemGroupBackend,
         @GerritPersonIdent PersonIdent serverUser,
         GroupIndexCollection groupIndexCollection) {
+      this.dbInjector = dbInjector;
       this.repoManager = repoManager;
       this.allProjects = allProjects;
       this.allUsers = allUsers;

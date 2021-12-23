@@ -92,7 +92,7 @@ public class NoteDbSchemaUpdaterTest {
 
       args =
           new NoteDbSchemaVersion.Arguments(
-              repoManager, allProjectsName, allUsersName, null, null, null, null);
+              null, repoManager, allProjectsName, allUsersName, null, null, null, null);
       NoteDbSchemaVersionManager versionManager =
           new NoteDbSchemaVersionManager(allProjectsName, repoManager);
       updater =

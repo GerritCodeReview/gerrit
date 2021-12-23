@@ -15,6 +15,7 @@ acceptance_tests(
         ":util",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index/project",
+        "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/schema",
         "//lib/errorprone:annotations",
     ],

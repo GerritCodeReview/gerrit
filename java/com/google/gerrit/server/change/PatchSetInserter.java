@@ -308,7 +308,12 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     if (storeCopiedVotes) {
       approvalsUtil.persistCopiedApprovals(
-          ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
+          ctx.getNotes(),
+          patchSet,
+          ctx.getRevWalk(),
+          ctx.getRepoView().getConfig(),
+          update,
+          /* legacyIncludePreviousPatchsets= */ false);
     }
 
     return true;

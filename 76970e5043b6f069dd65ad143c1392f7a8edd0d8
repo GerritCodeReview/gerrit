@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cd2013e_96ba885d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-23T15:34:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01db8b4c_81644957",
+      "range": {
+        "startLine": 850,
+        "startChar": 8,
+        "endLine": 852,
+        "endChar": 99
+      },
+      "revId": "76970e5043b6f069dd65ad143c1392f7a8edd0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6171ad31_87d23349",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fb1977d_90964382",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-23T15:34:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6171ad31_87d23349",
+      "range": {
+        "startLine": 89,
+        "startChar": 11,
+        "endLine": 89,
+        "endChar": 39
+      },
+      "revId": "76970e5043b6f069dd65ad143c1392f7a8edd0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5813f895_4a4f3465",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-12-23T12:54:25Z",
       "side": 1,
       "message": "I think BatchUpdate might be too high-level for this setting.\n\nSince it looks like we only need it for a number of special cases:\n* direct pushes\n* draft comnments\n* note db rewrites\n\nI would keep this logic hidden in NoteDbUpdateManager.\nWe could just explicitly set it to \u0027true\u0027 if UPDATE_NONFASTFORWARD commands are present, or there are rewriters[1] or draftUpdates[2]\n\n[1]https://gerrit.googlesource.com/gerrit/+/fd092aae6e572fee23c828c3d32bc75b64487458/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java#124\n[2]https://gerrit.googlesource.com/gerrit/+/fd092aae6e572fee23c828c3d32bc75b64487458/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java#122",
+      "range": {
+        "startLine": 388,
+        "startChar": 18,
+        "endLine": 388,
+        "endChar": 37
+      },
+      "revId": "76970e5043b6f069dd65ad143c1392f7a8edd0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb478c7_78523699",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-23T15:34:23Z",
+      "side": 1,
+      "message": "Nice! I really liked this simplification.\n\nI did hide the implementation in NoteDbUpdateManager and it worked.",
+      "parentUuid": "5813f895_4a4f3465",
       "range": {
         "startLine": 388,
         "startChar": 18,

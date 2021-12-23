@@ -28,6 +28,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 
@@ -123,6 +125,64 @@ public class MultiProgressMonitor {
         return count;
       }
     }
+
+    public int getTotal() {
+      return total;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public String getTotalDisplay(int total) {
+      return String.valueOf(total);
+    }
+  }
+
+  /** Handle for a sub-task whose total work can be updated while the task is in progress. */
+  public class VolatileTask extends Task {
+    protected AtomicInteger volatileTotal;
+    protected AtomicBoolean isTotalFinalized = new AtomicBoolean(false);
+
+    public VolatileTask(String subTaskName) {
+      super(subTaskName, UNKNOWN);
+      volatileTotal = new AtomicInteger(UNKNOWN);
+    }
+
+    /**
+     * Update the total work for this sub-task.
+     *
+     * <p>Intended to be called from a worker thread.
+     *
+     * @param workUnits number of work units to be added to existing total work.
+     */
+    public void updateTotal(int workUnits) {
+      if (!isTotalFinalized.get()) {
+        volatileTotal.addAndGet(workUnits);
+      } else {
+        logger.atWarning().log(
+            "Total work has been finalized on sub-task " + getName() + " and cannot be updated");
+      }
+    }
+
+    /**
+     * Mark the total on this sub-task as unmodifiable.
+     *
+     * <p>Intended to be called from a worker thread.
+     */
+    public void finalizeTotal() {
+      isTotalFinalized.set(true);
+    }
+
+    @Override
+    public int getTotal() {
+      return volatileTotal.get();
+    }
+
+    @Override
+    public String getTotalDisplay(int total) {
+      return super.getTotalDisplay(total) + (isTotalFinalized.get() ? "" : "+");
+    }
   }
 
   private final OutputStream out;
@@ -180,6 +240,7 @@ public class MultiProgressMonitor {
    * calls {@link #end()}, the future has an additional {@code maxInterval} to finish before it is
    * forcefully cancelled and {@link ExecutionException} is thrown.
    *
+   * @see #waitForNonFinalTask(Future, long, TimeUnit)
    * @param workerFuture a future that returns when worker threads are finished.
    * @param timeoutTime overall timeout for the task; the future is forcefully cancelled if the task
    *     exceeds the timeout. Non-positive values indicate no timeout.
@@ -188,6 +249,45 @@ public class MultiProgressMonitor {
    *     cancelled, or timed out waiting for a worker to call {@link #end()}.
    */
   public <T> T waitFor(Future<T> workerFuture, long timeoutTime, TimeUnit timeoutUnit)
+      throws TimeoutException {
+    T t = waitForNonFinalTask(workerFuture, timeoutTime, timeoutUnit);
+    synchronized (this) {
+      if (!done) {
+        // The worker may not have called end() explicitly, which is likely a
+        // programming error.
+        logger.atWarning().log("MultiProgressMonitor worker did not call end() before returning");
+        end();
+      }
+    }
+    sendDone();
+    return t;
+  }
+
+  /**
+   * Wait for a non-final task managed by a {@link Future}, with no timeout.
+   *
+   * @see #waitForNonFinalTask(Future, long, TimeUnit)
+   */
+  public <T> T waitForNonFinalTask(Future<T> workerFuture) {
+    try {
+      return waitForNonFinalTask(workerFuture, 0, null);
+    } catch (TimeoutException e) {
+      throw new IllegalStateException("timout exception without setting a timeout", e);
+    }
+  }
+
+  /**
+   * Wait for a task managed by a {@link Future}. This call does not expect the worker thread to
+   * call {@link #end()}. It is intended to be used to track a non-final task.
+   *
+   * @param workerFuture a future that returns when worker threads are finished.
+   * @param timeoutTime overall timeout for the task; the future is forcefully cancelled if the task
+   *     exceeds the timeout. Non-positive values indicate no timeout.
+   * @param timeoutUnit unit for overall task timeout.
+   * @throws TimeoutException if this thread or a worker thread was interrupted, the worker was
+   *     cancelled, or timed out waiting for a worker to call {@link #end()}.
+   */
+  public <T> T waitForNonFinalTask(Future<T> workerFuture, long timeoutTime, TimeUnit timeoutUnit)
       throws TimeoutException {
     long overallStart = System.nanoTime();
     long deadline;
@@ -199,7 +299,7 @@ public class MultiProgressMonitor {
 
     synchronized (this) {
       long left = maxIntervalNanos;
-      while (!done) {
+      while (!workerFuture.isDone() && !done) {
         long start = System.nanoTime();
         try {
           NANOSECONDS.timedWait(this, left);
@@ -228,14 +328,8 @@ public class MultiProgressMonitor {
           left = maxIntervalNanos;
         }
         sendUpdate();
-        if (!done && workerFuture.isDone()) {
-          // The worker may not have called end() explicitly, which is likely a
-          // programming error.
-          logger.atWarning().log("MultiProgressMonitor worker did not call end() before returning");
-          end();
-        }
       }
-      sendDone();
+      wakeUp();
     }
 
     // The loop exits as soon as the worker calls end(), but we give it another
@@ -266,6 +360,18 @@ public class MultiProgressMonitor {
    */
   public Task beginSubTask(String subTask, int subTaskWork) {
     Task task = new Task(subTask, subTaskWork);
+    tasks.add(task);
+    return task;
+  }
+
+  /**
+   * Begin a sub-task whose total work can be updated.
+   *
+   * @param subTask sub-task name.
+   * @return sub-task handle.
+   */
+  public VolatileTask beginVolatileSubTask(String subTask) {
+    VolatileTask task = new VolatileTask(subTask);
     tasks.add(task);
     return task;
   }
@@ -313,6 +419,7 @@ public class MultiProgressMonitor {
       boolean first = true;
       for (Task t : tasks) {
         int count = t.getCount();
+        int total = t.getTotal();
         if (count == 0) {
           continue;
         }
@@ -327,10 +434,11 @@ public class MultiProgressMonitor {
         if (!Strings.isNullOrEmpty(t.name)) {
           s.append(t.name).append(": ");
         }
-        if (t.total == UNKNOWN) {
+        if (total == UNKNOWN) {
           s.append(count);
         } else {
-          s.append(String.format("%d%% (%d/%d)", count * 100 / t.total, count, t.total));
+          s.append(
+              String.format("%d%% (%d/%s)", count * 100 / total, count, t.getTotalDisplay(total)));
         }
       }
     }

@@ -377,7 +377,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
     bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
     bru.setAtomic(true);
     or.cmds.addTo(bru);
-    bru.setAllowNonFastForwards(true);
+    bru.setAllowNonFastForwards(
+        !draftUpdates.isEmpty() || !rewriters.isEmpty() || hasNonFastForwardUpdates(or.cmds));
     for (BatchUpdateListener listener : batchUpdateListeners) {
       bru = listener.beforeUpdateRefs(bru);
     }
@@ -457,5 +458,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
         openRepo.cmds.add(new ReceiveCommand(oldTip, currTip, refName));
       }
     }
+  }
+
+  private static boolean hasNonFastForwardUpdates(ChainedReceiveCommands receiveCommands) {
+    return receiveCommands.getCommands().values().stream()
+        .anyMatch(cmd -> cmd.getType().equals(ReceiveCommand.Type.UPDATE_NONFASTFORWARD));
   }
 }

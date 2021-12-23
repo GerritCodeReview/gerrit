@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01db8b4c_81644957",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-23T12:54:25Z",
+      "side": 1,
+      "message": "Why not putting it further down the stack and evaluate directly in NoteDbUpdateManager[1]?\n\nhttps://gerrit.googlesource.com/gerrit/+/fd092aae6e572fee23c828c3d32bc75b64487458/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java#380",
+      "range": {
+        "startLine": 850,
+        "startChar": 8,
+        "endLine": 852,
+        "endChar": 99
+      },
+      "revId": "76970e5043b6f069dd65ad143c1392f7a8edd0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6171ad31_87d23349",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-23T12:54:25Z",
+      "side": 1,
+      "message": "Looks like non-fast \u0027Non-fast-forward\u0027 comment updates are only needed for the draft comment (this is a separate BatchRefUpdate in All-Users)[1].\n\nIf that is the case, I would avoid allowwing non-fast-forward on the entire BatchUpdate and instead either evaluate in NoteDbManager directly or set to true only for ChangeDraftUpdate[2]\n\n\n[1]https://gerrit.googlesource.com/gerrit/+/fd092aae6e572fee23c828c3d32bc75b64487458/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java#393\n\n[2]https://gerrit.googlesource.com/gerrit/+/fd092aae6e572fee23c828c3d32bc75b64487458/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+      "range": {
+        "startLine": 89,
+        "startChar": 11,
+        "endLine": 89,
+        "endChar": 39
+      },
+      "revId": "76970e5043b6f069dd65ad143c1392f7a8edd0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5813f895_4a4f3465",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-12-23T12:54:25Z",
+      "side": 1,
+      "message": "I think BatchUpdate might be too high-level for this setting.\n\nSince it looks like we only need it for a number of special cases:\n* direct pushes\n* draft comnments\n* note db rewrites\n\nI would keep this logic hidden in NoteDbUpdateManager.\nWe could just explicitly set it to \u0027true\u0027 if UPDATE_NONFASTFORWARD commands are present, or there are rewriters[1] or draftUpdates[2]\n\n[1]https://gerrit.googlesource.com/gerrit/+/fd092aae6e572fee23c828c3d32bc75b64487458/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java#124\n[2]https://gerrit.googlesource.com/gerrit/+/fd092aae6e572fee23c828c3d32bc75b64487458/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java#122",
+      "range": {
+        "startLine": 388,
+        "startChar": 18,
+        "endLine": 388,
+        "endChar": 37
+      },
+      "revId": "76970e5043b6f069dd65ad143c1392f7a8edd0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

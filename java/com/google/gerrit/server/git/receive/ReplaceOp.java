@@ -346,7 +346,12 @@ public class ReplaceOp implements BatchUpdateOp {
     }
 
     approvalsUtil.persistCopiedApprovals(
-        ctx.getNotes(), newPatchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
+        ctx.getNotes(),
+        newPatchSet,
+        ctx.getRevWalk(),
+        ctx.getRepoView().getConfig(),
+        update,
+        /* legacyIncludePreviousPatchsets= */ false);
 
     mailMessage = insertChangeMessage(update, ctx, reviewMessage);
     if (mergedByPushOp == null) {

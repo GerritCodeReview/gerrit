@@ -14,14 +14,19 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -41,6 +46,10 @@ public interface NoteDbSchemaVersion {
     final SystemGroupBackend systemGroupBackend;
     final PersonIdent serverUser;
     final GroupIndexCollection groupIndexCollection;
+    final BatchUpdate.Factory updateFactory;
+    final Provider<CurrentUser> userProvider;
+    final ApprovalsUtil approvalsUtil;
+    final ProjectCache projectCache;
 
     @Inject
     Arguments(
@@ -50,7 +59,11 @@ public interface NoteDbSchemaVersion {
         ProjectConfig.Factory projectConfigFactory,
         SystemGroupBackend systemGroupBackend,
         @GerritPersonIdent PersonIdent serverUser,
-        GroupIndexCollection groupIndexCollection) {
+        GroupIndexCollection groupIndexCollection,
+        BatchUpdate.Factory updateFactory,
+        Provider<CurrentUser> userProvider,
+        ApprovalsUtil approvalsUtil,
+        ProjectCache projectCache) {
       this.repoManager = repoManager;
       this.allProjects = allProjects;
       this.allUsers = allUsers;
@@ -58,6 +71,10 @@ public interface NoteDbSchemaVersion {
       this.systemGroupBackend = systemGroupBackend;
       this.serverUser = serverUser;
       this.groupIndexCollection = groupIndexCollection;
+      this.updateFactory = updateFactory;
+      this.userProvider = userProvider;
+      this.approvalsUtil = approvalsUtil;
+      this.projectCache = projectCache;
     }
   }
 

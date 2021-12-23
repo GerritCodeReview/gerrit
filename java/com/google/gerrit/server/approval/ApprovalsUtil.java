@@ -21,6 +21,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -352,10 +353,19 @@ public class ApprovalsUtil {
       PatchSet patchSet,
       RevWalk revWalk,
       Config repoConfig,
-      ChangeUpdate changeUpdate) {
-    approvalInference
-        .forPatchSet(notes, patchSet, revWalk, repoConfig)
-        .forEach(a -> changeUpdate.putCopiedApproval(a));
+      ChangeUpdate changeUpdate,
+      boolean legacyIncludePreviousPatchsets) {
+    Set<PatchSetApproval> current =
+        ImmutableSet.copyOf(notes.getApprovalsWithCopied().get(notes.getCurrentPatchSet().id()));
+    Set<PatchSetApproval> inferred =
+        ImmutableSet.copyOf(
+            approvalInference.forPatchSet(
+                notes, patchSet, revWalk, repoConfig, legacyIncludePreviousPatchsets));
+    for (PatchSetApproval psa : inferred) {
+      if (!current.contains(psa)) {
+        changeUpdate.putCopiedApproval(psa);
+      }
+    }
   }
 
   /**

@@ -58,7 +58,7 @@ public class PatchFile {
     this.repo = repo;
     this.diff =
         modifiedFiles.values().stream()
-            .filter(f -> f.newPath().isPresent() && f.newPath().get().equals(fileName))
+            .filter(f -> f.getDefaultPath().equals(fileName))
             .findFirst()
             .orElse(FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));
 

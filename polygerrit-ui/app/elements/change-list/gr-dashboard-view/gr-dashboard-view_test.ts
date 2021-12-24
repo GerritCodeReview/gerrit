@@ -29,7 +29,6 @@ import {
   addListenerForTest,
   stubReporting,
   stubRestApi,
-  isHidden,
   mockPromise,
   queryAndAssert,
   query,
@@ -54,7 +53,7 @@ suite('gr-dashboard-view tests', () => {
   let paramsChangedPromise: Promise<any>;
   let getChangesStub: sinon.SinonStub;
 
-  setup(() => {
+  setup(async () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getAccountDetails').returns(
       Promise.resolve({
@@ -67,53 +66,54 @@ suite('gr-dashboard-view tests', () => {
     );
 
     element = basicFixture.instantiate();
+    await element.updateComplete;
     let resolver: (value?: any) => void;
     paramsChangedPromise = new Promise(resolve => {
       resolver = resolve;
     });
-    const paramsChanged = element._paramsChanged.bind(element);
+    const paramsChanged = element.paramsChanged.bind(element);
     sinon
-      .stub(element, '_paramsChanged')
+      .stub(element, 'paramsChanged')
       .callsFake(params => paramsChanged(params).then(() => resolver()));
   });
 
   suite('drafts banner functionality', () => {
-    suite('_maybeShowDraftsBanner', () => {
+    suite('maybeShowDraftsBanner', () => {
       test('not dashboard/self', () => {
-        element._maybeShowDraftsBanner({
+        element.maybeShowDraftsBanner({
           view: GerritView.DASHBOARD,
           user: 'notself',
           dashboard: '' as DashboardId,
         });
-        assert.isFalse(element._showDraftsBanner);
+        assert.isFalse(element.showDraftsBanner);
       });
 
       test('no drafts at all', () => {
-        element._results = [];
-        element._maybeShowDraftsBanner({
+        element.results = [];
+        element.maybeShowDraftsBanner({
           view: GerritView.DASHBOARD,
           user: 'self',
           dashboard: '' as DashboardId,
         });
-        assert.isFalse(element._showDraftsBanner);
+        assert.isFalse(element.showDraftsBanner);
       });
 
       test('no drafts on open changes', () => {
         const openChange = {...createChange(), status: ChangeStatus.NEW};
-        element._results = [
+        element.results = [
           {countLabel: '', name: '', query: 'has:draft', results: [openChange]},
         ];
-        element._maybeShowDraftsBanner({
+        element.maybeShowDraftsBanner({
           view: GerritView.DASHBOARD,
           user: 'self',
           dashboard: '' as DashboardId,
         });
-        assert.isFalse(element._showDraftsBanner);
+        assert.isFalse(element.showDraftsBanner);
       });
 
       test('no drafts on not open changes', () => {
         const notOpenChange = {...createChange(), status: '_' as ChangeStatus};
-        element._results = [
+        element.results = [
           {
             name: '',
             countLabel: '',
@@ -121,41 +121,41 @@ suite('gr-dashboard-view tests', () => {
             results: [notOpenChange],
           },
         ];
-        assert.isFalse(changeIsOpen(element._results![0].results[0]));
-        element._maybeShowDraftsBanner({
+        assert.isFalse(changeIsOpen(element.results![0].results[0]));
+        element.maybeShowDraftsBanner({
           view: GerritView.DASHBOARD,
           user: 'self',
           dashboard: '' as DashboardId,
         });
-        assert.isTrue(element._showDraftsBanner);
+        assert.isTrue(element.showDraftsBanner);
       });
     });
 
-    test('_showDraftsBanner', () => {
-      element._showDraftsBanner = false;
-      flush();
-      assert.isTrue(isHidden(queryAndAssert(element, '.banner')));
+    test('showDraftsBanner', async () => {
+      element.showDraftsBanner = false;
+      await element.updateComplete;
+      assert.isNotOk(query(element, '.banner'));
 
-      element._showDraftsBanner = true;
-      flush();
-      assert.isFalse(isHidden(queryAndAssert(element, '.banner')));
+      element.showDraftsBanner = true;
+      await element.updateComplete;
+      assert.isOk(query(element, '.banner'));
     });
 
-    test('delete tap opens dialog', () => {
+    test('delete tap opens dialog', async () => {
       const handleOpenDeleteDialogStub = sinon.stub(
         element,
-        '_handleOpenDeleteDialog'
+        'handleOpenDeleteDialog'
       );
-      element._showDraftsBanner = true;
-      flush();
+      element.showDraftsBanner = true;
+      await element.updateComplete;
 
       MockInteractions.tap(queryAndAssert(element, '.banner .delete'));
       assert.isTrue(handleOpenDeleteDialogStub.called);
     });
 
     test('delete comments flow', async () => {
-      sinon.spy(element, '_handleConfirmDelete');
-      const reloadStub = sinon.stub(element, '_reload');
+      sinon.spy(element, 'handleConfirmDelete');
+      const reloadStub = sinon.stub(element, 'reload');
 
       // Set up control over timing of when RPC resolves.
       let deleteDraftCommentsPromiseResolver: (
@@ -177,7 +177,7 @@ suite('gr-dashboard-view tests', () => {
       MockInteractions.tap(
         queryAndAssert<GrDialog>(element, '#confirmDeleteDialog').confirmButton!
       );
-      flush();
+      await element.updateComplete;
       assert.isTrue(deleteStub.calledWithExactly('-is:open'));
       assert.isTrue(
         queryAndAssert<GrDialog>(element, '#confirmDeleteDialog').disabled
@@ -193,38 +193,38 @@ suite('gr-dashboard-view tests', () => {
     });
   });
 
-  test('_computeTitle', () => {
-    assert.equal(element._computeTitle('self'), 'My Reviews');
-    assert.equal(element._computeTitle('not self'), 'Dashboard for not self');
+  test('computeTitle', () => {
+    assert.equal(element.computeTitle('self'), 'My Reviews');
+    assert.equal(element.computeTitle('not self'), 'Dashboard for not self');
   });
 
-  suite('_computeSectionCountLabel', () => {
+  suite('computeSectionCountLabel', () => {
     test('empty changes dont count label', () => {
-      assert.equal('', element._computeSectionCountLabel([]));
+      assert.equal('', element.computeSectionCountLabel([]));
     });
 
     test('1 change', () => {
-      assert.equal('(1)', element._computeSectionCountLabel([createChange()]));
+      assert.equal('(1)', element.computeSectionCountLabel([createChange()]));
     });
 
     test('2 changes', () => {
       assert.equal(
         '(2)',
-        element._computeSectionCountLabel([createChange(), createChange()])
+        element.computeSectionCountLabel([createChange(), createChange()])
       );
     });
 
     test('1 change and more', () => {
       assert.equal(
         '(1 and more)',
-        element._computeSectionCountLabel([
+        element.computeSectionCountLabel([
           {...createChange(), _more_changes: true},
         ])
       );
     });
   });
 
-  suite('_isViewActive', () => {
+  suite('isViewActive', () => {
     test('content is refreshed when user param is updated', async () => {
       element.params = {
         view: GerritView.DASHBOARD,
@@ -240,7 +240,7 @@ suite('gr-dashboard-view tests', () => {
         view: GerritView.DASHBOARD,
         dashboard: '' as DashboardId,
       };
-      flush();
+      element.updateComplete;
       assert.equal(getChangesStub.callCount, 0);
 
       element.params = {
@@ -248,7 +248,7 @@ suite('gr-dashboard-view tests', () => {
         user: '',
         dashboard: '' as DashboardId,
       };
-      flush();
+      element.updateComplete;
       assert.equal(getChangesStub.callCount, 0);
     });
   });
@@ -317,8 +317,8 @@ suite('gr-dashboard-view tests', () => {
     ]);
   });
 
-  suite('_getProjectDashboard', () => {
-    test('dashboard with foreach', () => {
+  suite('getProjectDashboard', () => {
+    test('dashboard with foreach', async () => {
       stubRestApi('getDashboard').callsFake(() =>
         Promise.resolve({
           id: '' as DashboardId,
@@ -335,23 +335,23 @@ suite('gr-dashboard-view tests', () => {
           ],
         })
       );
-      element
-        ._getProjectDashboard('project' as RepoName, '' as DashboardId)
-        .then(dashboard => {
-          assert.deepEqual(dashboard, {
-            title: 'title',
-            sections: [
-              {name: 'section 1', query: 'query 1 foreach for project'},
-              {
-                name: 'section 2',
-                query: 'project query 2 foreach for project',
-              },
-            ],
-          });
-        });
+      const dashboard = await element.getProjectDashboard(
+        'project' as RepoName,
+        '' as DashboardId
+      );
+      assert.deepEqual(dashboard, {
+        title: 'title',
+        sections: [
+          {name: 'section 1', query: 'query 1 foreach for project'},
+          {
+            name: 'section 2',
+            query: 'project query 2 foreach for project',
+          },
+        ],
+      });
     });
 
-    test('dashboard without foreach', () => {
+    test('dashboard without foreach', async () => {
       stubRestApi('getDashboard').callsFake(() =>
         Promise.resolve({
           id: '' as DashboardId,
@@ -367,21 +367,21 @@ suite('gr-dashboard-view tests', () => {
           ],
         })
       );
-      element
-        ._getProjectDashboard('project' as RepoName, '' as DashboardId)
-        .then(dashboard => {
-          assert.deepEqual(dashboard, {
-            title: 'title',
-            sections: [
-              {name: 'section 1', query: 'query 1'},
-              {name: 'section 2', query: 'project query 2'},
-            ],
-          });
-        });
+      const dashboard = await element.getProjectDashboard(
+        'project' as RepoName,
+        '' as DashboardId
+      );
+      assert.deepEqual(dashboard, {
+        title: 'title',
+        sections: [
+          {name: 'section 1', query: 'query 1'},
+          {name: 'section 2', query: 'project query 2'},
+        ],
+      });
     });
   });
 
-  test('hideIfEmpty sections', () => {
+  test('hideIfEmpty sections', async () => {
     const sections = [
       {name: 'test1', query: 'test1', hideIfEmpty: true},
       {name: 'test2', query: 'test2', hideIfEmpty: true},
@@ -389,13 +389,12 @@ suite('gr-dashboard-view tests', () => {
     getChangesStub.restore();
     stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
 
-    element._fetchDashboardChanges({sections}, false).then(() => {
-      assert.equal(element._results!.length, 1);
-      assert.equal(element._results![0].name, 'test1');
-    });
+    await element.fetchDashboardChanges({sections}, false);
+    assert.equal(element.results!.length, 1);
+    assert.equal(element.results![0].name, 'test1');
   });
 
-  test('sets slot name to section name if custom state is requested', () => {
+  test('sets slot name to section name if custom state is requested', async () => {
     const sections = [
       {name: 'Outgoing reviews', query: 'test1'},
       {name: 'test2', query: 'test2'},
@@ -403,11 +402,10 @@ suite('gr-dashboard-view tests', () => {
     getChangesStub.restore();
     stubRestApi('getChanges').returns(Promise.resolve([[], []]));
 
-    element._fetchDashboardChanges({sections}, false).then(() => {
-      assert.equal(element._results!.length, 2);
-      assert.equal(element._results![0].emptyStateSlotName, 'outgoing-slot');
-      assert.isNotOk(element._results![1].emptyStateSlotName);
-    });
+    await element.fetchDashboardChanges({sections}, false);
+    assert.equal(element.results!.length, 2);
+    assert.equal(element.results![0].emptyStateSlotName, 'outgoing-slot');
+    assert.isNotOk(element.results![1].emptyStateSlotName);
   });
 
   test('toggling star will update change everywhere', () => {
@@ -424,7 +422,7 @@ suite('gr-dashboard-view tests', () => {
       id: '4' as ChangeInfoId,
       starred: false,
     };
-    element._results = [
+    element.results = [
       {name: '', countLabel: '', query: 'has:draft', results: [change]},
       {
         name: '',
@@ -434,7 +432,7 @@ suite('gr-dashboard-view tests', () => {
       },
     ];
 
-    element._handleToggleStar(
+    element.handleToggleStar(
       new CustomEvent('toggle-star', {
         detail: {
           change,
@@ -448,10 +446,10 @@ suite('gr-dashboard-view tests', () => {
     assert.isFalse(differentChange.starred);
   });
 
-  test('_showNewUserHelp', () => {
-    element._loading = false;
-    element._showNewUserHelp = false;
-    flush();
+  test('showNewUserHelp', async () => {
+    element.loading = false;
+    element.showNewUserHelp = false;
+    await element.updateComplete;
 
     assert.equal(
       queryAndAssert<HTMLDivElement>(
@@ -462,8 +460,8 @@ suite('gr-dashboard-view tests', () => {
     );
     query<GrCreateChangeHelp>(element, 'gr-create-change-help');
     assert.isNotOk(query<GrCreateChangeHelp>(element, 'gr-create-change-help'));
-    element._showNewUserHelp = true;
-    flush();
+    element.showNewUserHelp = true;
+    await element.updateComplete;
 
     assert.notEqual(
       queryAndAssert<HTMLDivElement>(
@@ -475,42 +473,36 @@ suite('gr-dashboard-view tests', () => {
     assert.isOk(query<GrCreateChangeHelp>(element, 'gr-create-change-help'));
   });
 
-  test('_computeUserHeaderClass', () => {
-    assert.equal(element._computeUserHeaderClass(undefined), 'hide');
-    assert.equal(
-      element._computeUserHeaderClass({
-        view: GerritView.DASHBOARD,
-        dashboard: '' as DashboardId,
-        user: 'self',
-      }),
-      'hide'
-    );
-    assert.equal(
-      element._computeUserHeaderClass({
-        view: GerritView.DASHBOARD,
-        dashboard: '' as DashboardId,
-        user: 'user',
-      }),
-      ''
-    );
-    assert.equal(
-      element._computeUserHeaderClass({
-        view: GerritView.DASHBOARD,
-        dashboard: '' as DashboardId,
-        project: 'p' as RepoName,
-        user: 'user',
-      }),
-      'hide'
-    );
-    assert.equal(
-      element._computeUserHeaderClass({
-        view: GerritView.DASHBOARD,
-        dashboard: '' as DashboardId,
-        project: 'p' as RepoName,
-        user: 'user',
-      }),
-      'hide'
-    );
+  test('gr-user-header', async () => {
+    element.params = undefined;
+    await element.updateComplete;
+    assert.isNotOk(query(element, 'gr-user-header'));
+
+    element.params = {
+      view: GerritView.DASHBOARD,
+      dashboard: '' as DashboardId,
+      user: 'self',
+    };
+    await element.updateComplete;
+    assert.isNotOk(query(element, 'gr-user-header'));
+
+    element.loading = false;
+    element.params = {
+      view: GerritView.DASHBOARD,
+      dashboard: '' as DashboardId,
+      user: 'user',
+    };
+    await element.updateComplete;
+    assert.isOk(query(element, 'gr-user-header'));
+
+    element.params = {
+      view: GerritView.DASHBOARD,
+      dashboard: '' as DashboardId,
+      project: 'p' as RepoName,
+      user: 'user',
+    };
+    await element.updateComplete;
+    assert.isNotOk(query(element, 'gr-user-header'));
   });
 
   test('404 page', async () => {
@@ -585,9 +577,9 @@ suite('gr-dashboard-view tests', () => {
       project: 'project' as RepoName,
       user: '101001',
     };
-    flush();
+    await element.updateComplete;
     stubReporting('dashboardDisplayed');
     await paramsChangedPromise;
-    assert.equal(element._selectedChangeIndex, 23);
+    assert.equal(element.selectedChangeIndex, 23);
   });
 });

@@ -80,6 +80,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     }
   }
 
+  // Testing ES validation on the CI
   private static final String CHANGES = "changes";
 
   private final ChangeMapping mapping;

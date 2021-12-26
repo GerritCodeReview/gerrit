@@ -16,6 +16,24 @@
       "message": "bunch of tests are failing because of guice issues, I\u0027ll fix it.",
       "revId": "1d92836a90416a9e7bea4c634116669040bf72d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16023456_13dda41b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-12-26T11:07:37Z",
+      "side": 1,
+      "message": "I need to do:\nfactory(BatchUpdate.Factory.class) in SchemaModule, but that is not working since there are other dependencies such as ChangeIndexer. Trying to add ChangeIndexer also fails:\n    bind(ListeningExecutorService.class)\n        .annotatedWith(CacheRefreshExecutor.class)\n        .toInstance(newDirectExecutorService());\n    factory(ChangeIndexer.Factory.class);\n\n@Provides\n@Singleton\nChangeIndexer getChangeIndexer(\n    @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,\n    ChangeIndexer.Factory factory,\n    ChangeIndexCollection indexes) {\n  // Bind default indexer to interactive executor; callers who need a\n  // different executor can use the factory directly.\n  return factory.create(executor, indexes);\n}\n\n\ncurrent error is no implemenation for ListeningExecutorService with IndexExecutor Interactive.\n\nI\u0027ll try to get back to it later",
+      "parentUuid": "e9ed8ff8_35e16b22",
+      "revId": "1d92836a90416a9e7bea4c634116669040bf72d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

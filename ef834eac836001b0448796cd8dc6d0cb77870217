@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "e10d12c7_3fab7497",
         "filename": "/COMMIT_MSG",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Wouldn\u0027t this effectively mean that this change is blocked till we drop support for java 8?",
       "revId": "ef834eac836001b0448796cd8dc6d0cb77870217",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "fd1f7da6_fa90a94b",
         "filename": "/COMMIT_MSG",
@@ -32,8 +33,25 @@
       "message": "Probably yes. Another option is to have two different Gerrit release lines: \"Java 8\" and \"Java 11 and newer versions\" - based. Consider the situation, if some Gerrit stakeholders are blocked with Java 8 for the next years.",
       "parentUuid": "e10d12c7_3fab7497",
       "revId": "ef834eac836001b0448796cd8dc6d0cb77870217",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bef9793_a448a4e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-26T16:42:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fd1f7da6_fa90a94b",
+      "revId": "ef834eac836001b0448796cd8dc6d0cb77870217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

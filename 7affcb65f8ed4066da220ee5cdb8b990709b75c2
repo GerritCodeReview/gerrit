@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc7df116_69ad8c6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-26T20:28:22Z",
+      "side": 1,
+      "message": "Unrelated to this change but can we not upgrade git on buster to use the version from buster-backports?",
+      "revId": "7affcb65f8ed4066da220ee5cdb8b990709b75c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

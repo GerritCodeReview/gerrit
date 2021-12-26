@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b163146_8c1ce2af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-12-26T22:47:57Z",
+      "side": 1,
+      "message": "are the files under webapp/WEB-INF/extra/jetty7 [1] still used ?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/12079",
+      "revId": "cd7afff0a7c7ef49cf50ecf0286878f46195aad3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

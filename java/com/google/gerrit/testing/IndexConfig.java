@@ -43,16 +43,6 @@ public class IndexConfig {
     return cfg;
   }
 
-  public static Config createForElasticsearch() {
-    Config cfg = create();
-
-    // For some reason enabling the staleness checker increases the flakiness of the Elasticsearch
-    // tests. Hence disable the staleness checker.
-    cfg.setBoolean("index", null, "autoReindexIfStale", false);
-
-    return cfg;
-  }
-
   public static Config createForFake() {
     return create();
   }

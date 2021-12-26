@@ -137,7 +137,7 @@ public abstract class SiteProgram extends AbstractProgram {
       return Guice.createInjector(
           PRODUCTION,
           ModuleOverloader.override(
-              modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE)));
+              modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE_TYPE)));
     } catch (CreationException ce) {
       Message first = ce.getErrorMessages().iterator().next();
       Throwable why = first.getCause();

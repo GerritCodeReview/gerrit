@@ -40,6 +40,16 @@ public interface Index<K, V> {
   void close();
 
   /**
+   * Insert a document into the index.
+   *
+   * <p>Results may not be immediately visible to searchers, but should be visible within a
+   * reasonable amount of time.
+   *
+   * @param obj document object
+   */
+  void insert(V obj);
+
+  /**
    * Update a document in the index.
    *
    * <p>Semantically equivalent to deleting the document and reinserting it with new field values. A

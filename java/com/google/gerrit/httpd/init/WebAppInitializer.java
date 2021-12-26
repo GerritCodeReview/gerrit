@@ -19,7 +19,6 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.auth.AuthModule;
-import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
@@ -53,6 +52,7 @@ import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks.StartupChecksModule;
 import com.google.gerrit.server.account.AccountDeactivator.AccountDeactivatorModule;
 import com.google.gerrit.server.account.InternalAccountDirectory.InternalAccountDirectoryModule;
+import com.google.gerrit.server.account.externalids.ExternalIdCaseSensitivityMigrator;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.audit.AuditModule;
@@ -82,6 +82,7 @@ import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader.OnlineUpgraderModule;
 import com.google.gerrit.server.index.VersionManager;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
 import com.google.gerrit.server.mail.receive.MailReceiver.MailReceiverModule;
 import com.google.gerrit.server.mail.send.SmtpEmailSender.SmtpEmailSenderModule;
@@ -106,6 +107,7 @@ import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.SshSessionFactoryInitializer;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
+import com.google.gerrit.sshd.commands.ExternalIdCommandsModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.gerrit.sshd.commands.SequenceCommandsModule;
 import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand.LfsPluginAuthCommandModule;
@@ -290,7 +292,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new AuthConfigModule());
     return cfgInjector.createChildInjector(
         ModuleOverloader.override(
-            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE)));
+            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE_TYPE)));
   }
 
   private Injector createSysInjector() {
@@ -357,16 +359,15 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new ChangeCleanupRunnerModule());
     modules.add(new AccountDeactivatorModule());
     modules.add(new DefaultProjectNameLockManagerModule());
+    modules.add(new ExternalIdCaseSensitivityMigrator.ExternalIdCaseSensitivityMigratorModule());
     return dbInjector.createChildInjector(
         ModuleOverloader.override(
-            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE)));
+            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE_TYPE)));
   }
 
   private Module createIndexModule() {
     if (indexType.isLucene()) {
-      return LuceneIndexModule.latestVersion(false);
-    } else if (indexType.isElasticsearch()) {
-      return ElasticIndexModule.latestVersion(false);
+      return LuceneIndexModule.latestVersion(false, AutoFlush.ENABLED);
     } else if (indexType.isFake()) {
       // Use Reflection so that we can omit the fake index binary in production code. Test code does
       // compile the component in.
@@ -400,6 +401,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
             sysInjector.getInstance(LfsPluginAuthCommandModule.class)));
     modules.add(new IndexCommandsModule(sysInjector));
     modules.add(new SequenceCommandsModule());
+    modules.add(new ExternalIdCommandsModule());
     return sysInjector.createChildInjector(modules);
   }
 

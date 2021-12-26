@@ -60,8 +60,7 @@ import org.kohsuke.args4j.Option;
 public class PluginProvidedRootRestApiBindingsIT extends AbstractDaemonTest {
 
   /** Resource to bind a child collection. */
-  public static final TypeLiteral<RestView<TestPluginResource>> TEST_KIND =
-      new TypeLiteral<RestView<TestPluginResource>>() {};
+  public static final TypeLiteral<RestView<TestPluginResource>> TEST_KIND = new TypeLiteral<>() {};
 
   private static final String PLUGIN_NAME = "my-plugin";
 

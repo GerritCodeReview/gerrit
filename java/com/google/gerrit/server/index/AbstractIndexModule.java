@@ -33,6 +33,7 @@ import org.eclipse.jgit.lib.Config;
  * index implementations, such as {@link com.google.gerrit.lucene.LuceneIndexModule}.
  */
 public abstract class AbstractIndexModule extends AbstractModule {
+  public static final String INDEX_MODULE = "index-module";
 
   private final int threads;
   private final Map<String, Integer> singleVersions;

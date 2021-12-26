@@ -17,10 +17,11 @@ package com.google.gerrit.pgm;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
-import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.IndexType;
@@ -29,16 +30,26 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.server.LibModuleLoader;
+import com.google.gerrit.server.ModuleOverloader;
+import com.google.gerrit.server.cache.CacheDisplay;
+import com.google.gerrit.server.cache.CacheInfo;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.index.options.AutoFlush;
+import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.util.ReplicaUtil;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.multibindings.OptionalBinder;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -49,13 +60,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
 
 public class Reindex extends SiteProgram {
-  @Option(name = "--threads", usage = "Number of threads to use for indexing")
-  private int threads = Runtime.getRuntime().availableProcessors();
+  @Option(
+      name = "--threads",
+      usage = "Number of threads to use for indexing. Default is index.batchThreads from config.")
+  private int threads = 0;
 
   @Option(
       name = "--changes-schema-version",
@@ -71,12 +86,20 @@ public class Reindex extends SiteProgram {
   @Option(name = "--index", usage = "Only reindex specified indices")
   private List<String> indices = new ArrayList<>();
 
+  @Option(
+      name = "--disable-cache-stats",
+      usage =
+          "Disables printing the cache statistics."
+              + "Defaults to true when reindex is run from init on a new site, false otherwise")
+  private boolean disableCacheStats;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private Injector cfgInjector;
   private Config globalConfig;
 
   @Inject private Collection<IndexDefinition<?, ?, ?>> indexDefs;
+  @Inject private DynamicMap<Cache<?, ?>> cacheMap;
 
   @Override
   public int run() throws Exception {
@@ -100,6 +123,9 @@ public class Reindex extends SiteProgram {
 
     try {
       boolean ok = list ? list() : reindex();
+      if (!disableCacheStats) {
+        printCacheStats();
+      }
       return ok ? 0 : 1;
     } catch (Exception e) {
       throw die(e.getMessage(), e);
@@ -152,10 +178,9 @@ public class Reindex extends SiteProgram {
     Module indexModule;
     IndexType indexType = IndexModule.getIndexType(dbInjector);
     if (indexType.isLucene()) {
-      indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);
-    } else if (indexType.isElasticsearch()) {
       indexModule =
-          ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);
+          LuceneIndexModule.singleVersionWithExplicitVersions(
+              versions, threads, replica, AutoFlush.DISABLED);
     } else if (indexType.isFake()) {
       // Use Reflection so that we can omit the fake index binary in production code. Test code does
       // compile the component in.
@@ -175,6 +200,16 @@ public class Reindex extends SiteProgram {
       throw new IllegalStateException("unsupported index.type = " + indexType);
     }
     modules.add(indexModule);
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            super.configure();
+            OptionalBinder.newOptionalBinder(binder(), IsFirstInsertForEntry.class)
+                .setBinding()
+                .toInstance(IsFirstInsertForEntry.YES);
+          }
+        });
     modules.add(new BatchProgramModule(dbInjector));
     modules.add(
         new FactoryModule() {
@@ -184,7 +219,9 @@ public class Reindex extends SiteProgram {
           }
         });
 
-    return dbInjector.createChildInjector(modules);
+    return dbInjector.createChildInjector(
+        ModuleOverloader.override(
+            modules, LibModuleLoader.loadReindexModules(cfgInjector, versions, threads, replica)));
   }
 
   private void overrideConfig() {
@@ -222,6 +259,22 @@ public class Reindex extends SiteProgram {
     System.out.format(
         "Index %s in version %d is %sready\n",
         def.getName(), index.getSchema().getVersion(), result.success() ? "" : "NOT ");
+
     return result.success();
+  }
+
+  private void printCacheStats() {
+    try (Writer sw = new StringWriter()) {
+      sw.write("Cache Statistics at the end of reindexing\n");
+      new CacheDisplay(
+              sw,
+              StreamSupport.stream(cacheMap.spliterator(), false)
+                  .map(e -> new CacheInfo(e.getExportName(), e.get()))
+                  .collect(Collectors.toList()))
+          .displayCaches();
+      System.out.print(sw.toString());
+    } catch (Exception e) {
+      System.out.format("Error displaying the cache statistics\n" + e.getMessage());
+    }
   }
 }

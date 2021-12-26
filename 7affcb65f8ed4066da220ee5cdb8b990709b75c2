@@ -16,6 +16,24 @@
       "message": "Unrelated to this change but can we not upgrade git on buster to use the version from buster-backports?",
       "revId": "7affcb65f8ed4066da220ee5cdb8b990709b75c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9eab2a8_b2bc286d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-26T22:27:55Z",
+      "side": 1,
+      "message": "Good point. I tried hard indeed, to build new Docker image with git-core release with enabled Git protocol V2, publish it on GCE and teach RBE to use that custom Docker image in gerrit build. Unfortunately, the code review was staled, see change 260873.",
+      "parentUuid": "cc7df116_69ad8c6a",
+      "revId": "7affcb65f8ed4066da220ee5cdb8b990709b75c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

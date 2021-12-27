@@ -80,13 +80,13 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
         r =
             rp.getRepository().getRefDatabase().getRefs().stream()
                 .collect(toMap(Ref::getName, x -> x));
+        rp.setAdvertisedRefs(r, history(r.values(), rp));
       } catch (ServiceMayNotContinueException e) {
         throw e;
       } catch (IOException e) {
         throw new ServiceMayNotContinueException(e);
       }
     }
-    rp.setAdvertisedRefs(r, history(r.values(), rp));
   }
 
   private Set<ObjectId> history(Collection<Ref> refs, ReceivePack rp) {

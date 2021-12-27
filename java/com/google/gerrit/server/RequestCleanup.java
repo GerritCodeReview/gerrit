@@ -16,8 +16,8 @@ package com.google.gerrit.server;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.inject.servlet.RequestScoped;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 /** Registers cleanup activities to be completed when a scope ends. */
@@ -25,7 +25,7 @@ import java.util.List;
 public class RequestCleanup implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final List<Runnable> cleanup = new LinkedList<>();
+  private final List<Runnable> cleanup = new ArrayList<>();
   private boolean ran;
 
   /** Register a task to be completed after the request ends. */

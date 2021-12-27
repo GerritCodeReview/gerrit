@@ -33,7 +33,7 @@ import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorServ
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -67,7 +67,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     super(memCacheFactory, cfg, site);
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
-    caches = new LinkedList<>();
+    caches = new ArrayList<>();
     this.cacheMap = cacheMap;
 
     if (diskEnabled) {

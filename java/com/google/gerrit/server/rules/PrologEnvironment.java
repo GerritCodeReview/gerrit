@@ -35,10 +35,10 @@ import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.PredicateEncoder;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.Config;
@@ -73,7 +73,7 @@ public class PrologEnvironment extends BufferingPrologControl {
     setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
     args = a;
     storedValues = new HashMap<>();
-    cleanup = new LinkedList<>();
+    cleanup = new ArrayList<>();
   }
 
   public Args getArgs() {

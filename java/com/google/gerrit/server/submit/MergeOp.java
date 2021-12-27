@@ -509,7 +509,7 @@ public class MergeOp implements AutoCloseable {
           if (!changeData.change().getStatus().equals(Status.NEW)) {
             logger.atFine().log(
                 "Change %s has status %s due to stale index, so it is skipped during submit",
-                changeData.getId().toString(), changeData.change().getStatus().name());
+                changeData.getId(), changeData.change().getStatus().name());
             continue;
           }
           filteredChanges.add(changeData);

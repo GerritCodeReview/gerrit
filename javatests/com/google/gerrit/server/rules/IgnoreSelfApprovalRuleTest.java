@@ -27,7 +27,6 @@ import com.google.gerrit.entities.PatchSetApproval;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import org.junit.Test;
 
@@ -84,7 +83,7 @@ public class IgnoreSelfApprovalRuleTest {
     return PatchSetApproval.builder()
         .key(PatchSetApproval.key(PS_ID, accountId, labelId))
         .value(value)
-        .granted(Date.from(Instant.now()))
+        .granted(Instant.now())
         .build();
   }
 

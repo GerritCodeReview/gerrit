@@ -85,7 +85,7 @@ public class ApprovalsUtil {
         PatchSetApproval.builder()
             .key(PatchSetApproval.key(psId, user.getAccountId(), labelId))
             .value(value)
-            .granted(when);
+            .granted(when.toInstant());
     user.updateRealAccountId(b::realAccountId);
     return b;
   }
@@ -208,7 +208,7 @@ public class ApprovalsUtil {
           PatchSetApproval.builder()
               .key(PatchSetApproval.key(psId, account, labelId))
               .value(0)
-              .granted(update.getWhen())
+              .granted(update.getWhen().toInstant())
               .build());
       update.putReviewer(account, REVIEWER);
     }

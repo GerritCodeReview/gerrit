@@ -68,6 +68,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -286,11 +287,11 @@ public abstract class AbstractChangeNotesTest {
     return c;
   }
 
-  protected static Timestamp truncate(Timestamp ts) {
-    return new Timestamp((ts.getTime() / 1000) * 1000);
+  protected static Instant truncate(Instant ts) {
+    return Instant.ofEpochMilli((ts.toEpochMilli() / 1000) * 1000);
   }
 
-  protected static Timestamp after(Change c, long millis) {
-    return new Timestamp(c.getCreatedOn().getTime() + millis);
+  protected static Instant after(Change c, long millis) {
+    return Instant.ofEpochMilli(c.getCreatedOn().getTime() + millis);
   }
 }

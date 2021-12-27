@@ -475,7 +475,7 @@ public class CommitRewriter {
           }
           detailedVerificationStatus.append("Commit author:\n");
           detailedVerificationStatus.append(fixedAuthorIdent.toString());
-          logger.atWarning().log(detailedVerificationStatus.toString());
+          logger.atWarning().log("%s", detailedVerificationStatus);
         }
       }
       boolean needsFix =

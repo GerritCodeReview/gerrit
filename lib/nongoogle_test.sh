@@ -16,6 +16,7 @@ cglib-3_2
 commons-io
 dropwizard-core
 eddsa
+error-prone-annotations
 flogger
 flogger-log4j-backend
 flogger-system-backend

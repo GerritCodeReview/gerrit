@@ -76,9 +76,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.NavigableSet;
 import java.util.Optional;
 import java.util.SortedMap;
-import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Stream;
@@ -680,7 +680,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   private void printProjectTree(
       final PrintWriter stdout, TreeMap<Project.NameKey, ProjectNode> treeMap) {
-    final SortedSet<ProjectNode> sortedNodes = new TreeSet<>();
+    final NavigableSet<ProjectNode> sortedNodes = new TreeSet<>();
 
     // Builds the inheritance tree using a list.
     //

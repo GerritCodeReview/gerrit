@@ -15,7 +15,7 @@
 package com.google.gerrit.server.util;
 
 import java.io.PrintWriter;
-import java.util.SortedSet;
+import java.util.NavigableSet;
 
 public class TreeFormatter {
 
@@ -24,7 +24,7 @@ public class TreeFormatter {
 
     boolean isVisible();
 
-    SortedSet<? extends TreeNode> getChildren();
+    NavigableSet<? extends TreeNode> getChildren();
   }
 
   public static final String NOT_VISIBLE_NODE = "(x)";
@@ -40,7 +40,7 @@ public class TreeFormatter {
     this.stdout = stdout;
   }
 
-  public void printTree(SortedSet<? extends TreeNode> rootNodes) {
+  public void printTree(NavigableSet<? extends TreeNode> rootNodes) {
     if (rootNodes.isEmpty()) {
       return;
     }
@@ -66,7 +66,7 @@ public class TreeFormatter {
 
   private void printTree(TreeNode node, int level, boolean isLast) {
     printNode(node, level, isLast);
-    final SortedSet<? extends TreeNode> childNodes = node.getChildren();
+    final NavigableSet<? extends TreeNode> childNodes = node.getChildren();
     int i = 0;
     final int size = childNodes.size();
     for (TreeNode childNode : childNodes) {

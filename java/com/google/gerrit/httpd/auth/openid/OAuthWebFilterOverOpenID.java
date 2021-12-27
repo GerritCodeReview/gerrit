@@ -21,8 +21,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.SortedMap;
-import java.util.SortedSet;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -79,9 +79,9 @@ class OAuthWebFilterOverOpenID implements Filter {
   }
 
   private void pickSSOServiceProvider() {
-    SortedSet<String> plugins = oauthServiceProviders.plugins();
+    NavigableSet<String> plugins = oauthServiceProviders.plugins();
     if (plugins.size() == 1) {
-      SortedMap<String, Provider<OAuthServiceProvider>> services =
+      NavigableMap<String, Provider<OAuthServiceProvider>> services =
           oauthServiceProviders.byPlugin(Iterables.getOnlyElement(plugins));
       if (services.size() == 1) {
         ssoProvider = Iterables.getOnlyElement(services.values()).get();

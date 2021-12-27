@@ -31,7 +31,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.SortedMap;
+import java.util.NavigableMap;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -46,7 +46,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 public class ToolsCatalog {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final SortedMap<String, Entry> toc;
+  private final NavigableMap<String, Entry> toc;
 
   @Inject
   ToolsCatalog() throws IOException {
@@ -73,8 +73,8 @@ public class ToolsCatalog {
     return toc.get(name);
   }
 
-  private static SortedMap<String, Entry> readToc() throws IOException {
-    SortedMap<String, Entry> toc = new TreeMap<>();
+  private static NavigableMap<String, Entry> readToc() throws IOException {
+    NavigableMap<String, Entry> toc = new TreeMap<>();
     final BufferedReader br =
         new BufferedReader(new InputStreamReader(new ByteArrayInputStream(read("TOC")), UTF_8));
     String line;
@@ -108,7 +108,7 @@ public class ToolsCatalog {
     }
     toc.put(top.getPath(), top);
 
-    return Collections.unmodifiableSortedMap(toc);
+    return Collections.unmodifiableNavigableMap(toc);
   }
 
   @Nullable

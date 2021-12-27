@@ -19,7 +19,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.util.TreeFormatter.TreeNode;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.SortedSet;
+import java.util.NavigableSet;
 import java.util.TreeSet;
 
 /** Node of a Project in a tree formatted by {@link ListProjects}. */
@@ -32,7 +32,7 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   private final Project project;
   private final boolean isVisible;
 
-  private final SortedSet<ProjectNode> children = new TreeSet<>();
+  private final NavigableSet<ProjectNode> children = new TreeSet<>();
 
   @Inject
   protected ProjectNode(
@@ -72,7 +72,7 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   }
 
   @Override
-  public SortedSet<? extends ProjectNode> getChildren() {
+  public NavigableSet<? extends ProjectNode> getChildren() {
     return children;
   }
 

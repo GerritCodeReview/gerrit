@@ -45,9 +45,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Optional;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.TreeMap;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -89,7 +89,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   private final ImmutableSet<String> reservedNames;
-  private final SortedMap<String, GroupReference> namesToGroups;
+  private final NavigableMap<String, GroupReference> namesToGroups;
   private final ImmutableSet<String> names;
   private final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
   private final ImmutableSet<AccountGroup.UUID> externalUserMemberships;
@@ -97,7 +97,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   @Inject
   @VisibleForTesting
   public SystemGroupBackend(@GerritServerConfig Config cfg) {
-    SortedMap<String, GroupReference> n = new TreeMap<>();
+    NavigableMap<String, GroupReference> n = new TreeMap<>();
     ImmutableMap.Builder<AccountGroup.UUID, GroupReference> u = ImmutableMap.builder();
 
     ImmutableSet.Builder<String> reservedNamesBuilder = ImmutableSet.builder();
@@ -112,7 +112,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       u.put(ref.getUUID(), ref);
     }
     reservedNames = reservedNamesBuilder.build();
-    namesToGroups = Collections.unmodifiableSortedMap(n);
+    namesToGroups = Collections.unmodifiableNavigableMap(n);
     names =
         ImmutableSet.copyOf(
             namesToGroups.values().stream().map(GroupReference::getName).collect(toSet()));
@@ -172,7 +172,8 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
     String nameLC = name.toLowerCase(Locale.US);
-    SortedMap<String, GroupReference> matches = namesToGroups.tailMap(nameLC);
+    NavigableMap<String, GroupReference> matches =
+        namesToGroups.tailMap(nameLC, /* inclusive= */ true);
     if (matches.isEmpty()) {
       return new ArrayList<>();
     }

@@ -23,7 +23,7 @@ import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.SortedSet;
+import java.util.NavigableSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -65,7 +65,7 @@ public class GitRepositoryManagerOnInit implements GitRepositoryManager {
   }
 
   @Override
-  public SortedSet<Project.NameKey> list() {
+  public NavigableSet<Project.NameKey> list() {
     throw new UnsupportedOperationException("not implemented");
   }
 

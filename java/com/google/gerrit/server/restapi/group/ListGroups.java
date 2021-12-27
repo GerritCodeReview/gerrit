@@ -57,8 +57,8 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.NavigableMap;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -235,8 +235,9 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Response<SortedMap<String, GroupInfo>> apply(TopLevelResource resource) throws Exception {
-    SortedMap<String, GroupInfo> output = new TreeMap<>();
+  public Response<NavigableMap<String, GroupInfo>> apply(TopLevelResource resource)
+      throws Exception {
+    NavigableMap<String, GroupInfo> output = new TreeMap<>();
     for (GroupInfo info : get()) {
       output.put(MoreObjects.firstNonNull(info.name, "Group " + Url.decode(info.id)), info);
       info.name = null;

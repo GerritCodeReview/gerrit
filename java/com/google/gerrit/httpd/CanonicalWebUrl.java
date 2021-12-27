@@ -37,6 +37,7 @@ public class CanonicalWebUrl {
     return url != null ? url : computeFromRequest(req);
   }
 
+  @SuppressWarnings("JdkObsolete")
   static String computeFromRequest(HttpServletRequest req) {
     StringBuffer url = req.getRequestURL();
     try {

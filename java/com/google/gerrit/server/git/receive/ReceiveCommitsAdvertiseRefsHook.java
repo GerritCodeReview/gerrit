@@ -91,7 +91,11 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
         .filter(ReceiveCommitsAdvertiseRefsHook::skip)
         .collect(toImmutableList())
         .forEach(r -> advertisedRefs.remove(r));
-    rp.setAdvertisedRefs(advertisedRefs, advertiseOpenChanges(rp.getRepository()));
+    try {
+      rp.setAdvertisedRefs(advertisedRefs, advertiseOpenChanges(rp.getRepository()));
+    } catch (IOException e) {
+      throw new ServiceMayNotContinueException(e);
+    }
   }
 
   private Set<ObjectId> advertiseOpenChanges(Repository repo)

@@ -833,8 +833,8 @@ public class RestApiServlet extends HttpServlet {
   }
 
   @SuppressWarnings("JdkObsolete")
-  private static String getRequestUrl(HttpServletRequest req) {
-    return req.getRequestURL().toString();
+  private static StringBuffer getRequestUrl(HttpServletRequest req) {
+    return req.getRequestURL();
   }
 
   private String getEtagWithRetry(

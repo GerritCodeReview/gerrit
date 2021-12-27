@@ -31,9 +31,8 @@ import com.google.gerrit.index.testing.FakeStoredValue;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestTimeUtil;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -55,17 +54,22 @@ public class ChangeFieldTest {
 
   @Test
   public void reviewerFieldValues() {
-    Table<ReviewerStateInternal, Account.Id, Timestamp> t = HashBasedTable.create();
-    Timestamp t1 = TimeUtil.nowTs();
+    Table<ReviewerStateInternal, Account.Id, Instant> t = HashBasedTable.create();
+
+    // Timestamps are stored as epoch millis in the reviewer field. Epoch millis are less precise
+    // than Instants which have nanosecond precision. Create Instants with millisecond precision
+    // here so that so the comparison for assertion works.
+    Instant t1 = Instant.ofEpochMilli(Instant.now().toEpochMilli());
+    Instant t2 = Instant.ofEpochMilli(Instant.now().toEpochMilli());
+
     t.put(ReviewerStateInternal.REVIEWER, Account.id(1), t1);
-    Timestamp t2 = TimeUtil.nowTs();
     t.put(ReviewerStateInternal.CC, Account.id(2), t2);
     ReviewerSet reviewers = ReviewerSet.fromTable(t);
 
     List<String> values = ChangeField.getReviewerFieldValues(reviewers);
     assertThat(values)
         .containsExactly(
-            "REVIEWER,1", "REVIEWER,1," + t1.getTime(), "CC,2", "CC,2," + t2.getTime());
+            "REVIEWER,1", "REVIEWER,1," + t1.toEpochMilli(), "CC,2", "CC,2," + t2.toEpochMilli());
 
     assertThat(ChangeField.parseReviewerFieldValues(Change.id(1), values)).isEqualTo(reviewers);
   }

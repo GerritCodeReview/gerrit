@@ -48,6 +48,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -495,7 +496,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    Timestamp updateTimestamp = new Timestamp(serverIdent.getWhen().getTime());
+    Instant updateTimestamp = Instant.ofEpochMilli(serverIdent.getWhen().getTime());
     ImmutableList<ReviewerStatusUpdate> expectedReviewerUpdates =
         ImmutableList.of(
             ReviewerStatusUpdate.create(
@@ -579,18 +580,18 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    Timestamp updateTimestamp = new Timestamp(serverIdent.getWhen().getTime());
+    Instant updateTimestamp = Instant.ofEpochMilli(serverIdent.getWhen().getTime());
     ImmutableList<ReviewerStatusUpdate> expectedReviewerUpdates =
         ImmutableList.of(
             ReviewerStatusUpdate.create(
-                new Timestamp(addReviewerUpdate.when.getTime()),
+                Instant.ofEpochMilli(addReviewerUpdate.when.getTime()),
                 changeOwner.getAccountId(),
                 otherUserId,
                 REVIEWER),
             ReviewerStatusUpdate.create(
                 updateTimestamp, changeOwner.getAccountId(), otherUserId, REMOVED),
             ReviewerStatusUpdate.create(
-                new Timestamp(addCcUpdate.when.getTime()),
+                Instant.ofEpochMilli(addCcUpdate.when.getTime()),
                 changeOwner.getAccountId(),
                 otherUserId,
                 CC),
@@ -715,7 +716,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    Timestamp updateTimestamp = new Timestamp(serverIdent.getWhen().getTime());
+    Instant updateTimestamp = Instant.ofEpochMilli(serverIdent.getWhen().getTime());
     ImmutableList<PatchSetApproval> expectedApprovals =
         ImmutableList.of(
             PatchSetApproval.builder()
@@ -852,7 +853,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    Timestamp updateTimestamp = new Timestamp(serverIdent.getWhen().getTime());
+    Instant updateTimestamp = Instant.ofEpochMilli(serverIdent.getWhen().getTime());
     ImmutableList<PatchSetApproval> expectedApprovals =
         ImmutableList.of(
             PatchSetApproval.builder()

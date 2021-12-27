@@ -19,7 +19,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 @Immutable
@@ -38,7 +38,7 @@ public enum PatchSetApprovalProtoConverter
         Entities.PatchSetApproval.newBuilder()
             .setKey(patchSetApprovalKeyProtoConverter.toProto(patchSetApproval.key()))
             .setValue(patchSetApproval.value())
-            .setGranted(patchSetApproval.granted().getTime())
+            .setGranted(patchSetApproval.granted().toEpochMilli())
             .setPostSubmit(patchSetApproval.postSubmit())
             .setCopied(patchSetApproval.copied());
 
@@ -62,7 +62,7 @@ public enum PatchSetApprovalProtoConverter
         PatchSetApproval.builder()
             .key(patchSetApprovalKeyProtoConverter.fromProto(proto.getKey()))
             .value(proto.getValue())
-            .granted(new Timestamp(proto.getGranted()))
+            .granted(Instant.ofEpochMilli(proto.getGranted()))
             .postSubmit(proto.getPostSubmit())
             .copied(proto.getCopied());
     if (proto.hasUuid()) {

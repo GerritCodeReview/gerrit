@@ -373,7 +373,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                 PatchSetApproval.builder()
                     .key(psa.key())
                     .value(0)
-                    .granted(update.getWhen())
+                    .granted(Instant.ofEpochMilli(update.getWhen().getTime()))
                     .build()));
   }
 
@@ -923,7 +923,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     LabelId.create(LabelId.CODE_REVIEW)))
             .value(1)
             .copied(true)
-            .granted(TimeUtil.nowTs())
+            .granted(Instant.now())
             .tag("tag")
             .realAccountId(otherUserId)
             .build());
@@ -975,7 +975,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     LabelId.create(LabelId.CODE_REVIEW)))
             .value(1)
             .copied(true)
-            .granted(TimeUtil.nowTs())
+            .granted(Instant.now())
             .build());
     update.commit();
 
@@ -1008,7 +1008,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     LabelId.create(LabelId.CODE_REVIEW)))
             .value(1)
             .copied(true)
-            .granted(TimeUtil.nowTs())
+            .granted(Instant.now())
             .tag(strangeTag)
             .build());
     update.commit();
@@ -1037,7 +1037,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     LabelId.create(LabelId.CODE_REVIEW)))
             .value(1)
             .copied(true)
-            .granted(TimeUtil.nowTs())
+            .granted(Instant.now())
             .build());
     update.putCopiedApproval(
         PatchSetApproval.builder()
@@ -1048,7 +1048,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     LabelId.create(LabelId.VERIFIED)))
             .value(1)
             .copied(true)
-            .granted(TimeUtil.nowTs())
+            .granted(Instant.now())
             .build());
     update.commit();
 
@@ -1073,7 +1073,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     LabelId.create(LabelId.CODE_REVIEW)))
             .value(2)
             .copied(true)
-            .granted(TimeUtil.nowTs())
+            .granted(Instant.now())
             .build());
     update.commit();
 
@@ -1097,11 +1097,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    Timestamp ts = new Timestamp(update.getWhen().getTime());
+    Instant ts = Instant.ofEpochMilli(update.getWhen().getTime());
     assertThat(notes.getReviewers())
         .isEqualTo(
             ReviewerSet.fromTable(
-                ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
+                ImmutableTable.<ReviewerStateInternal, Account.Id, Instant>builder()
                     .put(REVIEWER, Account.id(1), ts)
                     .put(REVIEWER, Account.id(2), ts)
                     .build()));
@@ -1116,11 +1116,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    Timestamp ts = new Timestamp(update.getWhen().getTime());
+    Instant ts = Instant.ofEpochMilli(update.getWhen().getTime());
     assertThat(notes.getReviewers())
         .isEqualTo(
             ReviewerSet.fromTable(
-                ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
+                ImmutableTable.<ReviewerStateInternal, Account.Id, Instant>builder()
                     .put(REVIEWER, Account.id(1), ts)
                     .put(CC, Account.id(2), ts)
                     .build()));
@@ -1134,7 +1134,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    Timestamp ts = new Timestamp(update.getWhen().getTime());
+    Instant ts = Instant.ofEpochMilli(update.getWhen().getTime());
     assertThat(notes.getReviewers())
         .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(REVIEWER, Account.id(2), ts)));
 
@@ -1143,7 +1143,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    ts = new Timestamp(update.getWhen().getTime());
+    ts = Instant.ofEpochMilli(update.getWhen().getTime());
     assertThat(notes.getReviewers())
         .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(CC, Account.id(2), ts)));
   }
@@ -4016,7 +4016,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             .key(originalPsa.key())
             .value(originalPsa.value())
             .copied(true)
-            .granted(TimeUtil.nowTs())
+            .granted(Instant.now())
             .tag(originalPsa.tag())
             .uuid(originalPsa.uuid())
             .realAccountId(originalPsa.realAccountId())

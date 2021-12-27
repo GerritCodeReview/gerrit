@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.pgm.init.InitPlugins.JAR;
 import static com.google.gerrit.pgm.init.InitPlugins.PLUGIN_DIR;
 
@@ -25,7 +26,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -39,9 +39,7 @@ public class WarDistribution implements PluginsDistribution {
     File myWar = GerritLauncher.getDistributionArchive();
     if (myWar.isFile()) {
       try (ZipFile zf = new ZipFile(myWar)) {
-        Enumeration<? extends ZipEntry> e = zf.entries();
-        while (e.hasMoreElements()) {
-          ZipEntry ze = e.nextElement();
+        for (ZipEntry ze : entriesOf(zf)) {
           if (ze.isDirectory()) {
             continue;
           }
@@ -64,5 +62,9 @@ public class WarDistribution implements PluginsDistribution {
   public List<String> listPluginNames() throws FileNotFoundException {
     // not yet used
     throw new UnsupportedOperationException();
+  }
+
+  private static Iterable<? extends ZipEntry> entriesOf(ZipFile zipFile) {
+    return zipFile.stream().collect(toImmutableList());
   }
 }

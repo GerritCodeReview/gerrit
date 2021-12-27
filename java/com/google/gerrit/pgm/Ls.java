@@ -14,10 +14,11 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.util.AbstractProgram;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -26,9 +27,7 @@ public class Ls extends AbstractProgram {
   @Override
   public int run() throws IOException {
     try (ZipFile zf = new ZipFile(GerritLauncher.getDistributionArchive())) {
-      final Enumeration<? extends ZipEntry> e = zf.entries();
-      while (e.hasMoreElements()) {
-        final ZipEntry ze = e.nextElement();
+      for (ZipEntry ze : entriesOf(zf)) {
         String name = ze.getName();
         boolean show = false;
         show |= name.startsWith("WEB-INF/");
@@ -48,5 +47,9 @@ public class Ls extends AbstractProgram {
       }
     }
     return 0;
+  }
+
+  private static Iterable<? extends ZipEntry> entriesOf(ZipFile zipFile) {
+    return zipFile.stream().collect(toImmutableList());
   }
 }

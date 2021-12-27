@@ -73,7 +73,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Enumeration;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -568,9 +568,7 @@ class GitwebServlet extends HttpServlet {
     env.set("SERVER_PROTOCOL", req.getProtocol());
     env.set("SERVER_SOFTWARE", getServletContext().getServerInfo());
 
-    final Enumeration<String> hdrs = enumerateHeaderNames(req);
-    while (hdrs.hasMoreElements()) {
-      final String name = hdrs.nextElement();
+    for (String name : getHeaderNames(req)) {
       final String value = req.getHeader(name);
       env.set("HTTP_" + name.toUpperCase().replace('-', '_'), value);
     }
@@ -687,10 +685,6 @@ class GitwebServlet extends HttpServlet {
         .start();
   }
 
-  private static Enumeration<String> enumerateHeaderNames(HttpServletRequest req) {
-    return req.getHeaderNames();
-  }
-
   private void readCgiHeaders(HttpServletResponse res, InputStream in) throws IOException {
     String line;
     while (!(line = readLine(in)).isEmpty()) {
@@ -729,6 +723,11 @@ class GitwebServlet extends HttpServlet {
       buf.append((char) b);
     }
     return buf.toString().trim();
+  }
+
+  @SuppressWarnings("JdkObsolete")
+  private static Iterable<String> getHeaderNames(HttpServletRequest req) {
+    return Collections.list(req.getHeaderNames());
   }
 
   /** private utility class that manages the Environment passed to exec. */

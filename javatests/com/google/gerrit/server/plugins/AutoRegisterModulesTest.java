@@ -27,11 +27,11 @@ import com.google.gerrit.sshd.SshCommand;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.jar.Manifest;
+import java.util.stream.Stream;
 import org.junit.Test;
 
 public class AutoRegisterModulesTest {
@@ -94,7 +94,7 @@ public class AutoRegisterModulesTest {
     }
 
     @Override
-    public Enumeration<PluginEntry> entries() {
+    public Stream<PluginEntry> entries() {
       return null;
     }
   }

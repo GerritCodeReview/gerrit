@@ -22,6 +22,30 @@
       },
       "revId": "c0a7e43a0a0c62add81e9122e79ee0e86950a38a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f06ab74_10bd098c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-27T08:56:04Z",
+      "side": 1,
+      "message": "Our process for fixing the error prone issues was:\n\n1. Enable all new checks on error level that were not present in the code base and\n   add all other checks as comment in tools/BUILD.\n   \n2. File one issue for each check that is commented out and needs fixes.\n\n3. Process these issues one by one, which means having 1 change per error prone\n   check that gets fixed and enabled (in some cases where fixing needed to touch\n   a lot of code we also had several changes for 1 error prone check).\n   \nIf you already have the fix implemented, you may skip filing an issue and just upload the change, but I think one change per error prone fix would be nice.\n\nThanks for looking into this!",
+      "parentUuid": "96de5b2c_d7959445",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 13
+      },
+      "revId": "c0a7e43a0a0c62add81e9122e79ee0e86950a38a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

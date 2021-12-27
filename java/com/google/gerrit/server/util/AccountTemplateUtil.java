@@ -82,7 +82,7 @@ public class AccountTemplateUtil {
   /** Builds user-readable text from text, that might contain {@link #ACCOUNT_TEMPLATE}. */
   public String replaceTemplates(String messageTemplate) {
     Matcher matcher = ACCOUNT_TEMPLATE_PATTERN.matcher(messageTemplate);
-    StringBuffer out = new StringBuffer();
+    StringBuilder out = new StringBuilder();
     while (matcher.find()) {
       String accountId = matcher.group(1);
       String unrecognizedAccount = "Unrecognized Gerrit Account " + accountId;

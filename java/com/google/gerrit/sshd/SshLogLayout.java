@@ -40,7 +40,7 @@ public final class SshLogLayout extends Layout {
 
   @Override
   public String format(LoggingEvent event) {
-    final StringBuffer buf = new StringBuffer(128);
+    final StringBuilder buf = new StringBuilder(128);
 
     buf.append('[');
     buf.append(timestampFormatter.format(event.getTimeStamp()));
@@ -75,7 +75,7 @@ public final class SshLogLayout extends Layout {
     return buf.toString();
   }
 
-  private void req(String key, StringBuffer buf, LoggingEvent event) {
+  private void req(String key, StringBuilder buf, LoggingEvent event) {
     Object val = event.getMDC(key);
     buf.append(' ');
     if (val != null) {

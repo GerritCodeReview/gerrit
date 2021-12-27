@@ -53,6 +53,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -85,7 +86,7 @@ public class ApprovalsUtil {
         PatchSetApproval.builder()
             .key(PatchSetApproval.key(psId, user.getAccountId(), labelId))
             .value(value)
-            .granted(when);
+            .granted(Instant.ofEpochMilli(when.getTime()));
     user.updateRealAccountId(b::realAccountId);
     return b;
   }
@@ -208,7 +209,7 @@ public class ApprovalsUtil {
           PatchSetApproval.builder()
               .key(PatchSetApproval.key(psId, account, labelId))
               .value(0)
-              .granted(update.getWhen())
+              .granted(Instant.ofEpochMilli(update.getWhen().getTime()))
               .build());
       update.putReviewer(account, REVIEWER);
     }

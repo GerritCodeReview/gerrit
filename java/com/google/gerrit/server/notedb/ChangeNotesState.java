@@ -103,8 +103,8 @@ public abstract class ChangeNotesState {
       ObjectId metaId,
       Change.Id changeId,
       Change.Key changeKey,
-      Timestamp createdOn,
-      Timestamp lastUpdatedOn,
+      Instant createdOn,
+      Instant lastUpdatedOn,
       Account.Id owner,
       String serverId,
       String branch,
@@ -136,7 +136,7 @@ public abstract class ChangeNotesState {
       @Nullable Change.Id revertOf,
       @Nullable PatchSet.Id cherryPickOf,
       int updateCount,
-      @Nullable Timestamp mergedOn) {
+      @Nullable Instant mergedOn) {
     requireNonNull(
         metaId,
         () ->
@@ -151,8 +151,8 @@ public abstract class ChangeNotesState {
         .columns(
             ChangeColumns.builder()
                 .changeKey(changeKey)
-                .createdOn(createdOn)
-                .lastUpdatedOn(lastUpdatedOn)
+                .createdOn(new Timestamp(createdOn.toEpochMilli()))
+                .lastUpdatedOn(new Timestamp(lastUpdatedOn.toEpochMilli()))
                 .owner(owner)
                 .branch(branch)
                 .status(status)
@@ -185,7 +185,7 @@ public abstract class ChangeNotesState {
         .publishedComments(publishedComments)
         .submitRequirementsResult(submitRequirementResults)
         .updateCount(updateCount)
-        .mergedOn(mergedOn)
+        .mergedOn(mergedOn != null ? new Timestamp(mergedOn.toEpochMilli()) : null)
         .build();
   }
 
@@ -581,26 +581,26 @@ public abstract class ChangeNotesState {
     }
 
     private static ReviewerSetEntryProto toReviewerSetEntry(
-        Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> c) {
+        Table.Cell<ReviewerStateInternal, Account.Id, Instant> c) {
       return ReviewerSetEntryProto.newBuilder()
           .setState(REVIEWER_STATE_CONVERTER.reverse().convert(c.getRowKey()))
           .setAccountId(c.getColumnKey().get())
-          .setTimestampMillis(c.getValue().getTime())
+          .setTimestampMillis(c.getValue().toEpochMilli())
           .build();
     }
 
     private static ReviewerByEmailSetEntryProto toReviewerByEmailSetEntry(
-        Table.Cell<ReviewerStateInternal, Address, Timestamp> c) {
+        Table.Cell<ReviewerStateInternal, Address, Instant> c) {
       return ReviewerByEmailSetEntryProto.newBuilder()
           .setState(REVIEWER_STATE_CONVERTER.reverse().convert(c.getRowKey()))
           .setAddress(c.getColumnKey().toHeaderString())
-          .setTimestampMillis(c.getValue().getTime())
+          .setTimestampMillis(c.getValue().toEpochMilli())
           .build();
     }
 
     private static ReviewerStatusUpdateProto toReviewerStatusUpdateProto(ReviewerStatusUpdate u) {
       return ReviewerStatusUpdateProto.newBuilder()
-          .setTimestampMillis(u.date().getTime())
+          .setTimestampMillis(u.date().toEpochMilli())
           .setUpdatedBy(u.updatedBy().get())
           .setReviewer(u.reviewer().get())
           .setState(REVIEWER_STATE_CONVERTER.reverse().convert(u.state()))
@@ -620,7 +620,7 @@ public abstract class ChangeNotesState {
     private static AssigneeStatusUpdateProto toAssigneeStatusUpdateProto(AssigneeStatusUpdate u) {
       AssigneeStatusUpdateProto.Builder builder =
           AssigneeStatusUpdateProto.newBuilder()
-              .setTimestampMillis(u.date().getTime())
+              .setTimestampMillis(u.date().toEpochMilli())
               .setUpdatedBy(u.updatedBy().get())
               .setHasCurrentAssignee(u.currentAssignee().isPresent());
 
@@ -719,26 +719,25 @@ public abstract class ChangeNotesState {
     }
 
     private static ReviewerSet toReviewerSet(List<ReviewerSetEntryProto> protos) {
-      ImmutableTable.Builder<ReviewerStateInternal, Account.Id, Timestamp> b =
+      ImmutableTable.Builder<ReviewerStateInternal, Account.Id, Instant> b =
           ImmutableTable.builder();
       for (ReviewerSetEntryProto e : protos) {
         b.put(
             REVIEWER_STATE_CONVERTER.convert(e.getState()),
             Account.id(e.getAccountId()),
-            new Timestamp(e.getTimestampMillis()));
+            Instant.ofEpochMilli(e.getTimestampMillis()));
       }
       return ReviewerSet.fromTable(b.build());
     }
 
     private static ReviewerByEmailSet toReviewerByEmailSet(
         List<ReviewerByEmailSetEntryProto> protos) {
-      ImmutableTable.Builder<ReviewerStateInternal, Address, Timestamp> b =
-          ImmutableTable.builder();
+      ImmutableTable.Builder<ReviewerStateInternal, Address, Instant> b = ImmutableTable.builder();
       for (ReviewerByEmailSetEntryProto e : protos) {
         b.put(
             REVIEWER_STATE_CONVERTER.convert(e.getState()),
             Address.parse(e.getAddress()),
-            new Timestamp(e.getTimestampMillis()));
+            Instant.ofEpochMilli(e.getTimestampMillis()));
       }
       return ReviewerByEmailSet.fromTable(b.build());
     }
@@ -749,7 +748,7 @@ public abstract class ChangeNotesState {
       for (ReviewerStatusUpdateProto proto : protos) {
         b.add(
             ReviewerStatusUpdate.create(
-                new Timestamp(proto.getTimestampMillis()),
+                Instant.ofEpochMilli(proto.getTimestampMillis()),
                 Account.id(proto.getUpdatedBy()),
                 Account.id(proto.getReviewer()),
                 REVIEWER_STATE_CONVERTER.convert(proto.getState())));
@@ -791,7 +790,7 @@ public abstract class ChangeNotesState {
       for (AssigneeStatusUpdateProto proto : protos) {
         b.add(
             AssigneeStatusUpdate.create(
-                new Timestamp(proto.getTimestampMillis()),
+                Instant.ofEpochMilli(proto.getTimestampMillis()),
                 Account.id(proto.getUpdatedBy()),
                 proto.getHasCurrentAssignee()
                     ? Optional.of(Account.id(proto.getCurrentAssignee()))

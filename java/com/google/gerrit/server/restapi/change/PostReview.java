@@ -137,6 +137,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -1456,7 +1457,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           PatchSetApproval.Builder b =
               c.toBuilder()
                   .value(ent.getValue())
-                  .granted(ctx.getWhen())
+                  .granted(Instant.ofEpochMilli(ctx.getWhen().getTime()))
                   .tag(Optional.ofNullable(in.tag));
           ctx.getUser().updateRealAccountId(b::realAccountId);
           c = b.build();
@@ -1473,7 +1474,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           c =
               ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
                   .tag(Optional.ofNullable(in.tag))
-                  .granted(ctx.getWhen())
+                  .granted(Instant.ofEpochMilli(ctx.getWhen().getTime()))
                   .build();
           ups.add(c);
           addLabelDelta(normName, c.value());

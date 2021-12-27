@@ -123,6 +123,12 @@ def declare_nongoogle_deps():
     # Google internal dependencies: these are developed at Google, so there is
     # no concern about version skew.
 
+    maven_jar(
+        name = "error-prone-annotations",
+        artifact = "com.google.errorprone:error_prone_annotations:2.3.3",
+        sha1 = "42aa5155a54a87d70af32d4b0d06bf43779de0e2",
+    )
+
     FLOGGER_VERS = "0.7.4"
 
     maven_jar(

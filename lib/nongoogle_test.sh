@@ -19,6 +19,7 @@ docker-java-transport
 dropwizard-core
 duct-tape
 eddsa
+error-prone-annotations
 flogger
 flogger-log4j-backend
 flogger-system-backend

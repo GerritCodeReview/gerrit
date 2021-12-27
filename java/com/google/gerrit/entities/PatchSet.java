@@ -22,6 +22,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.InlineMe;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,9 @@ public abstract class PatchSet {
    * @deprecated use isChangeRef instead.
    */
   @Deprecated
+  @InlineMe(
+      replacement = "PatchSet.isChangeRef(name)",
+      imports = "com.google.gerrit.entities.PatchSet")
   public static boolean isRef(String name) {
     return isChangeRef(name);
   }

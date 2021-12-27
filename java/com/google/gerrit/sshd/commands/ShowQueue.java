@@ -35,8 +35,9 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.sshd.server.Environment;
@@ -178,19 +179,23 @@ final class ShowQueue extends SshCommand {
   }
 
   private static String time(long now, long delay) {
-    Date when = new Date(now + delay);
+    Instant when = Instant.ofEpochMilli(now + delay);
     return format(when, delay);
   }
 
-  private static String startTime(Date when) {
-    return format(when, TimeUtil.nowMs() - when.getTime());
+  private static String startTime(Instant when) {
+    return format(when, TimeUtil.nowMs() - when.toEpochMilli());
   }
 
-  private static String format(Date when, long timeFromNow) {
+  private static String format(Instant when, long timeFromNow) {
     if (timeFromNow < 24 * 60 * 60 * 1000L) {
-      return new SimpleDateFormat("HH:mm:ss.SSS").format(when);
+      return DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
+          .withZone(ZoneId.systemDefault())
+          .format(when);
     }
-    return new SimpleDateFormat("MMM-dd HH:mm").format(when);
+    return DateTimeFormatter.ofPattern("MMM-dd HH:mm")
+        .withZone(ZoneId.systemDefault())
+        .format(when);
   }
 
   private static String format(Task.State state) {

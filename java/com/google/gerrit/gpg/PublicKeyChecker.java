@@ -32,9 +32,9 @@ import static org.bouncycastle.openpgp.PGPSignature.KEY_REVOCATION;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -62,7 +62,7 @@ public class PublicKeyChecker {
   private PublicKeyStore store;
   private Map<Long, Fingerprint> trusted;
   private int maxTrustDepth;
-  private Date effectiveTime = new Date();
+  private Instant effectiveTime = Instant.now();
 
   /**
    * Enable web-of-trust checks.
@@ -111,12 +111,12 @@ public class PublicKeyChecker {
    * @param effectiveTime effective time.
    * @return a reference to this object.
    */
-  public PublicKeyChecker setEffectiveTime(Date effectiveTime) {
+  public PublicKeyChecker setEffectiveTime(Instant effectiveTime) {
     this.effectiveTime = effectiveTime;
     return this;
   }
 
-  protected Date getEffectiveTime() {
+  protected Instant getEffectiveTime() {
     return effectiveTime;
   }
 
@@ -183,13 +183,13 @@ public class PublicKeyChecker {
     return CheckResult.create(status, problems);
   }
 
-  private CheckResult checkBasic(PGPPublicKey key, Date now) {
+  private CheckResult checkBasic(PGPPublicKey key, Instant now) {
     List<String> problems = new ArrayList<>(2);
     gatherRevocationProblems(key, now, problems);
 
     long validMs = key.getValidSeconds() * 1000;
     if (validMs != 0) {
-      long msSinceCreation = now.getTime() - key.getCreationTime().getTime();
+      long msSinceCreation = now.toEpochMilli() - getCreationTime(key).toEpochMilli();
       if (msSinceCreation > validMs) {
         problems.add("Key is expired");
       }
@@ -197,7 +197,7 @@ public class PublicKeyChecker {
     return CheckResult.create(problems);
   }
 
-  private void gatherRevocationProblems(PGPPublicKey key, Date now, List<String> problems) {
+  private void gatherRevocationProblems(PGPPublicKey key, Instant now, List<String> problems) {
     try {
       List<PGPSignature> revocations = new ArrayList<>();
       Map<Long, RevocationKey> revokers = new HashMap<>();
@@ -216,7 +216,7 @@ public class PublicKeyChecker {
   }
 
   private static boolean isRevocationValid(
-      PGPSignature revocation, RevocationReason reason, Date now) {
+      PGPSignature revocation, RevocationReason reason, Instant now) {
     // RFC4880 states:
     // "If a key has been revoked because of a compromise, all signatures
     // created by that key are suspect. However, if it was merely superseded or
@@ -226,11 +226,14 @@ public class PublicKeyChecker {
     // consider the revocation reason and timestamp when checking whether a
     // signature (data or certification) is valid.
     return reason.getRevocationReason() == KEY_COMPROMISED
-        || revocation.getCreationTime().before(now);
+        || PushCertificateChecker.getCreationTime(revocation).isBefore(now);
   }
 
   private PGPSignature scanRevocations(
-      PGPPublicKey key, Date now, List<PGPSignature> revocations, Map<Long, RevocationKey> revokers)
+      PGPPublicKey key,
+      Instant now,
+      List<PGPSignature> revocations,
+      Map<Long, RevocationKey> revokers)
       throws PGPException {
     @SuppressWarnings("unchecked")
     Iterator<PGPSignature> allSigs = key.getSignatures();
@@ -305,7 +308,7 @@ public class PublicKeyChecker {
       if (rk.getAlgorithm() != revoker.getAlgorithm()) {
         continue;
       }
-      if (!checkBasic(rk, revocation.getCreationTime()).isOk()) {
+      if (!checkBasic(rk, PushCertificateChecker.getCreationTime(revocation)).isOk()) {
         // Revoker's key was expired or revoked at time of revocation, so the
         // revocation is invalid.
         continue;
@@ -468,5 +471,10 @@ public class PublicKeyChecker {
       return "Certification trusts to depth " + level + ", but depth " + required + " is required";
     }
     return null;
+  }
+
+  @SuppressWarnings("JdkObsolete")
+  private static Instant getCreationTime(PGPPublicKey key) {
+    return key.getCreationTime().toInstant();
   }
 }

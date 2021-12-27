@@ -36,7 +36,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -119,7 +119,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
   public static class TaskInfo {
     public String id;
     public Task.State state;
-    public Timestamp startTime;
+    public Instant startTime;
     public long delay;
     public String command;
     public String remoteName;
@@ -129,7 +129,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
     public TaskInfo(Task<?> task) {
       this.id = HexFormat.fromInt(task.getTaskId());
       this.state = task.getState();
-      this.startTime = new Timestamp(task.getStartTime().getTime());
+      this.startTime = task.getStartTime();
       this.delay = task.getDelay(TimeUnit.MILLISECONDS);
       this.command = task.toString();
       this.queueName = task.getQueueName();

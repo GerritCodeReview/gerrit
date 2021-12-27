@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -125,5 +126,11 @@ public class ChangeInfo {
 
   public ChangeInfo(Map<String, RevisionInfo> revisions) {
     this.revisions = ImmutableMap.copyOf(revisions);
+  }
+
+  @SuppressWarnings("JdkObsolete")
+  public void setSubmitted(Instant when, AccountInfo who) {
+    submitted = new Timestamp(when.toEpochMilli());
+    submitter = who;
   }
 }

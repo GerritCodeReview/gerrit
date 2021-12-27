@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.ReviewerState;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 public class ReviewerUpdateInfo {
@@ -23,6 +24,17 @@ public class ReviewerUpdateInfo {
   public AccountInfo updatedBy;
   public AccountInfo reviewer;
   public ReviewerState state;
+
+  public ReviewerUpdateInfo() {}
+
+  @SuppressWarnings("JdkObsolete")
+  public ReviewerUpdateInfo(
+      Instant updated, AccountInfo updatedBy, AccountInfo reviewer, ReviewerState state) {
+    this.updated = new Timestamp(updated.toEpochMilli());
+    this.updatedBy = updatedBy;
+    this.reviewer = reviewer;
+    this.state = state;
+  }
 
   @Override
   public boolean equals(Object o) {

@@ -45,11 +45,11 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import java.time.Instant;
 import java.util.List;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -213,7 +213,7 @@ public class LabelNormalizerTest {
     return PatchSetApproval.builder()
         .key(PatchSetApproval.key(change.currentPatchSetId(), accountId, LabelId.create(label)))
         .value(value)
-        .granted(TimeUtil.nowTs())
+        .granted(Instant.now())
         .build();
   }
 

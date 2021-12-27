@@ -435,11 +435,10 @@ public class ChangeField {
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {
     List<String> r = new ArrayList<>(reviewers.asTable().size() * 2);
-    for (Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> c :
-        reviewers.asTable().cellSet()) {
+    for (Table.Cell<ReviewerStateInternal, Account.Id, Instant> c : reviewers.asTable().cellSet()) {
       String v = getReviewerFieldValue(c.getRowKey(), c.getColumnKey());
       r.add(v);
-      r.add(v + ',' + c.getValue().getTime());
+      r.add(v + ',' + c.getValue().toEpochMilli());
     }
     return r;
   }
@@ -451,7 +450,7 @@ public class ChangeField {
   @VisibleForTesting
   static List<String> getReviewerByEmailFieldValues(ReviewerByEmailSet reviewersByEmail) {
     List<String> r = new ArrayList<>(reviewersByEmail.asTable().size() * 2);
-    for (Table.Cell<ReviewerStateInternal, Address, Timestamp> c :
+    for (Table.Cell<ReviewerStateInternal, Address, Instant> c :
         reviewersByEmail.asTable().cellSet()) {
       String v = getReviewerByEmailFieldValue(c.getRowKey(), c.getColumnKey());
       r.add(v);
@@ -460,7 +459,7 @@ public class ChangeField {
         Address emailOnly = Address.create(c.getColumnKey().email());
         r.add(getReviewerByEmailFieldValue(c.getRowKey(), emailOnly));
       }
-      r.add(v + ',' + c.getValue().getTime());
+      r.add(v + ',' + c.getValue().toEpochMilli());
     }
     return r;
   }
@@ -470,8 +469,7 @@ public class ChangeField {
   }
 
   public static ReviewerSet parseReviewerFieldValues(Change.Id changeId, Iterable<String> values) {
-    ImmutableTable.Builder<ReviewerStateInternal, Account.Id, Timestamp> b =
-        ImmutableTable.builder();
+    ImmutableTable.Builder<ReviewerStateInternal, Account.Id, Instant> b = ImmutableTable.builder();
     for (String v : values) {
 
       int i = v.indexOf(',');
@@ -513,7 +511,7 @@ public class ChangeField {
             "Failed to parse timestamp of reviewer field from change %s: %s", changeId.get(), v);
         continue;
       }
-      Timestamp timestamp = new Timestamp(l);
+      Instant timestamp = Instant.ofEpochMilli(l);
 
       b.put(reviewerState.get(), accountId.get(), timestamp);
     }
@@ -522,7 +520,7 @@ public class ChangeField {
 
   public static ReviewerByEmailSet parseReviewerByEmailFieldValues(
       Change.Id changeId, Iterable<String> values) {
-    ImmutableTable.Builder<ReviewerStateInternal, Address, Timestamp> b = ImmutableTable.builder();
+    ImmutableTable.Builder<ReviewerStateInternal, Address, Instant> b = ImmutableTable.builder();
     for (String v : values) {
       int i = v.indexOf(',');
       if (i < 0) {
@@ -566,7 +564,7 @@ public class ChangeField {
             changeId.get(), v);
         continue;
       }
-      Timestamp timestamp = new Timestamp(l);
+      Instant timestamp = Instant.ofEpochMilli(l);
 
       b.put(reviewerState.get(), address, timestamp);
     }

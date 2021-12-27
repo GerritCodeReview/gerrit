@@ -19,7 +19,7 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /**
  * Set of reviewers on a change that do not have a Gerrit account and were added by email instead.
@@ -30,8 +30,7 @@ import java.sql.Timestamp;
 public class ReviewerByEmailSet {
   private static final ReviewerByEmailSet EMPTY = new ReviewerByEmailSet(ImmutableTable.of());
 
-  public static ReviewerByEmailSet fromTable(
-      Table<ReviewerStateInternal, Address, Timestamp> table) {
+  public static ReviewerByEmailSet fromTable(Table<ReviewerStateInternal, Address, Instant> table) {
     return new ReviewerByEmailSet(table);
   }
 
@@ -39,10 +38,10 @@ public class ReviewerByEmailSet {
     return EMPTY;
   }
 
-  private final ImmutableTable<ReviewerStateInternal, Address, Timestamp> table;
+  private final ImmutableTable<ReviewerStateInternal, Address, Instant> table;
   private ImmutableSet<Address> users;
 
-  private ReviewerByEmailSet(Table<ReviewerStateInternal, Address, Timestamp> table) {
+  private ReviewerByEmailSet(Table<ReviewerStateInternal, Address, Instant> table) {
     this.table = ImmutableTable.copyOf(table);
   }
 
@@ -58,7 +57,7 @@ public class ReviewerByEmailSet {
     return table.row(state).keySet();
   }
 
-  public ImmutableTable<ReviewerStateInternal, Address, Timestamp> asTable() {
+  public ImmutableTable<ReviewerStateInternal, Address, Instant> asTable() {
     return table;
   }
 

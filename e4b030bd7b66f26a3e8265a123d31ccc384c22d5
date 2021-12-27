@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61d87aae_e7c9dec0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-27T10:41:51Z",
+      "side": 1,
+      "message": "PTAL, I found some further Enumeration usages to be fixed.",
+      "revId": "e4b030bd7b66f26a3e8265a123d31ccc384c22d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

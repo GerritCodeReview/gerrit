@@ -16,6 +16,23 @@
       "message": "Friendly ping.",
       "revId": "9c2edc30a5056bfd91a4bf199d463c1847223d20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25157844_710807b5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeRevisionNote.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-27T11:53:19Z",
+      "side": 1,
+      "message": "Here and below, please annotate with @Nullable, or maybe use Optional\u003cImmutableList\u003c\u003cSubmitRequirementResult\u003e\u003e?",
+      "revId": "9c2edc30a5056bfd91a4bf199d463c1847223d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

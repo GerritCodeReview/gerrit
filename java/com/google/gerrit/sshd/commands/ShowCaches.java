@@ -24,6 +24,8 @@ import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.cache.CacheDisplay;
+import com.google.gerrit.server.cache.CacheInfo;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -35,8 +37,6 @@ import com.google.gerrit.server.restapi.config.GetSummary.SummaryInfo;
 import com.google.gerrit.server.restapi.config.GetSummary.TaskSummaryInfo;
 import com.google.gerrit.server.restapi.config.GetSummary.ThreadSummaryInfo;
 import com.google.gerrit.server.restapi.config.ListCaches;
-import com.google.gerrit.server.restapi.config.ListCaches.CacheInfo;
-import com.google.gerrit.server.restapi.config.ListCaches.CacheType;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -123,52 +123,8 @@ final class ShowCaches extends SshCommand {
     stdout.format("%-25s %-20s   uptime %16s\n", "", "", uptime(now.getTime() - serverStarted));
     stdout.print('\n');
 
-    stdout.print(
-        String.format( //
-            "%1s %-" + nw + "s|%-21s|  %-5s |%-9s|\n" //
-            ,
-            "" //
-            ,
-            "Name" //
-            ,
-            "Entries" //
-            ,
-            "AvgGet" //
-            ,
-            "Hit Ratio" //
-            ));
-    stdout.print(
-        String.format( //
-            "%1s %-" + nw + "s|%6s %6s %7s|  %-5s  |%-4s %-4s|\n" //
-            ,
-            "" //
-            ,
-            "" //
-            ,
-            "Mem" //
-            ,
-            "Disk" //
-            ,
-            "Space" //
-            ,
-            "" //
-            ,
-            "Mem" //
-            ,
-            "Disk" //
-            ));
-    stdout.print("--");
-    for (int i = 0; i < nw; i++) {
-      stdout.print('-');
-    }
-    stdout.print("+---------------------+---------+---------+\n");
-
     try {
-      Collection<CacheInfo> caches = getCaches();
-      printMemoryCoreCaches(caches);
-      printMemoryPluginCaches(caches);
-      printDiskCaches(caches);
-      stdout.print('\n');
+      new CacheDisplay(stdout, nw, getCaches()).displayCaches();
 
       boolean showJvm;
       try {
@@ -207,52 +163,6 @@ final class ShowCaches extends SshCommand {
       cache.name = entry.getKey();
     }
     return caches.values();
-  }
-
-  private void printMemoryCoreCaches(Collection<CacheInfo> caches) {
-    for (CacheInfo cache : caches) {
-      if (!cache.name.contains("-") && CacheType.MEM.equals(cache.type)) {
-        printCache(cache);
-      }
-    }
-  }
-
-  private void printMemoryPluginCaches(Collection<CacheInfo> caches) {
-    for (CacheInfo cache : caches) {
-      if (cache.name.contains("-") && CacheType.MEM.equals(cache.type)) {
-        printCache(cache);
-      }
-    }
-  }
-
-  private void printDiskCaches(Collection<CacheInfo> caches) {
-    for (CacheInfo cache : caches) {
-      if (CacheType.DISK.equals(cache.type)) {
-        printCache(cache);
-      }
-    }
-  }
-
-  private void printCache(CacheInfo cache) {
-    stdout.print(
-        String.format(
-            "%1s %-" + nw + "s|%6s %6s %7s| %7s |%4s %4s|\n",
-            CacheType.DISK.equals(cache.type) ? "D" : "",
-            cache.name,
-            nullToEmpty(cache.entries.mem),
-            nullToEmpty(cache.entries.disk),
-            Strings.nullToEmpty(cache.entries.space),
-            Strings.nullToEmpty(cache.averageGet),
-            formatAsPercent(cache.hitRatio.mem),
-            formatAsPercent(cache.hitRatio.disk)));
-  }
-
-  private static String nullToEmpty(Long l) {
-    return l != null ? String.valueOf(l) : "";
-  }
-
-  private static String formatAsPercent(Integer i) {
-    return i != null ? String.valueOf(i) + "%" : "";
   }
 
   private void memSummary(MemSummaryInfo memSummary) {

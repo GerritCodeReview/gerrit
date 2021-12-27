@@ -93,6 +93,10 @@ import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Test;
 
 public class ExternalIdIT extends AbstractDaemonTest {
+  private static final boolean IS_USER_NAME_CASE_INSENSITIVE_MIGRATION_MODE = false;
+  private static final boolean CASE_SENSITIVE_USERNAME = false;
+  private static final boolean CASE_INSENSITIVE_USERNAME = true;
+
   @Inject @ServerInitiated private Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private ExternalIds externalIds;
   @Inject private ExternalIdReader externalIdReader;
@@ -852,6 +856,131 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
+  @GerritConfig(name = "auth.userNameCaseInsensitiveMigrationMode", value = "true")
+  public void createCaseInsensitiveMigrationModeExternalIdBeforeTheMigration() throws Exception {
+    Account.Id accountId = Account.id(66);
+    boolean isUserNameCaseInsensitive = false;
+
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+
+      createExternalId(
+          md, extIdNotes, SCHEME_GERRIT, "JaneDoe", accountId, isUserNameCaseInsensitive);
+      createExternalId(
+          md, extIdNotes, SCHEME_USERNAME, "JaneDoe", accountId, isUserNameCaseInsensitive);
+
+      assertThat(getAccountId(extIdNotes, SCHEME_GERRIT, "JaneDoe")).isEqualTo(accountId.get());
+      assertThat(getExternalId(extIdNotes, SCHEME_GERRIT, "janedoe").isPresent()).isFalse();
+
+      assertThat(getAccountId(extIdNotes, SCHEME_USERNAME, "JaneDoe")).isEqualTo(accountId.get());
+      assertThat(getExternalId(extIdNotes, SCHEME_USERNAME, "janedoe").isPresent()).isFalse();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
+  @GerritConfig(name = "auth.userNameCaseInsensitiveMigrationMode", value = "true")
+  public void createCaseInsensitiveMigrationModeExternalIdAccountAfterTheMigration()
+      throws Exception {
+    Account.Id accountId = Account.id(66);
+    boolean isUserNameCaseInsensitive = true;
+
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+
+      createExternalId(
+          md, extIdNotes, SCHEME_GERRIT, "JaneDoe", accountId, isUserNameCaseInsensitive);
+      createExternalId(
+          md, extIdNotes, SCHEME_USERNAME, "JaneDoe", accountId, isUserNameCaseInsensitive);
+
+      assertThat(getAccountId(extIdNotes, SCHEME_GERRIT, "JaneDoe")).isEqualTo(accountId.get());
+      assertThat(getAccountId(extIdNotes, SCHEME_GERRIT, "janedoe")).isEqualTo(accountId.get());
+
+      assertThat(getAccountId(extIdNotes, SCHEME_USERNAME, "JaneDoe")).isEqualTo(accountId.get());
+      assertThat(getAccountId(extIdNotes, SCHEME_USERNAME, "janedoe")).isEqualTo(accountId.get());
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
+  @GerritConfig(name = "auth.userNameCaseInsensitiveMigrationMode", value = "true")
+  public void shouldTolerateDuplicateExternalIdsWhenInMigrationMode() throws Exception {
+    Account.Id firstAccountId = Account.id(1);
+    Account.Id secondAccountId = Account.id(2);
+
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+
+      createExternalId(
+          md, extIdNotes, SCHEME_GERRIT, "janedoe", firstAccountId, CASE_SENSITIVE_USERNAME);
+      createExternalId(
+          md, extIdNotes, SCHEME_GERRIT, "JaneDoe", secondAccountId, CASE_SENSITIVE_USERNAME);
+
+      ExternalId.Key firstAccountExternalId =
+          externalIdKeyFactory.create(SCHEME_GERRIT, "janedoe", CASE_INSENSITIVE_USERNAME);
+      assertThat(externalIds.get(firstAccountExternalId).get().accountId())
+          .isEqualTo(firstAccountId);
+
+      ExternalId.Key secondAccountExternalId =
+          externalIdKeyFactory.create(SCHEME_GERRIT, "JaneDoe", CASE_INSENSITIVE_USERNAME);
+      assertThat(externalIds.get(secondAccountExternalId).get().accountId())
+          .isEqualTo(secondAccountId);
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
+  @GerritConfig(name = "auth.userNameCaseInsensitiveMigrationMode", value = "true")
+  public void createCaseInsensitiveMigrationModeExternalIdAccountDuringTheMigration()
+      throws Exception {
+    Account.Id accountId = Account.id(66);
+    boolean userNameCaseInsensitive = true;
+
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+
+      createExternalId(
+          md, extIdNotes, SCHEME_GERRIT, "JonDoe", accountId, !userNameCaseInsensitive);
+      createExternalId(
+          md, extIdNotes, SCHEME_USERNAME, "JonDoe", accountId, !userNameCaseInsensitive);
+
+      createExternalId(
+          md, extIdNotes, SCHEME_GERRIT, "JaneDoe", accountId, userNameCaseInsensitive);
+      createExternalId(
+          md, extIdNotes, SCHEME_USERNAME, "JaneDoe", accountId, userNameCaseInsensitive);
+
+      assertThat(getAccountId(extIdNotes, SCHEME_GERRIT, "JonDoe")).isEqualTo(accountId.get());
+      assertThat(getExternalId(extIdNotes, SCHEME_GERRIT, "jondoe").isPresent()).isFalse();
+
+      assertThat(getAccountId(extIdNotes, SCHEME_USERNAME, "JonDoe")).isEqualTo(accountId.get());
+
+      assertThat(getExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isFalse();
+
+      assertThat(getAccountId(extIdNotes, SCHEME_GERRIT, "JaneDoe")).isEqualTo(accountId.get());
+
+      assertThat(getAccountId(extIdNotes, SCHEME_GERRIT, "janedoe")).isEqualTo(accountId.get());
+
+      assertThat(getAccountId(extIdNotes, SCHEME_USERNAME, "JaneDoe")).isEqualTo(accountId.get());
+      assertThat(getAccountId(extIdNotes, SCHEME_USERNAME, "janedoe")).isEqualTo(accountId.get());
+    }
+  }
+
+  protected int getAccountId(ExternalIdNotes extIdNotes, String scheme, String id)
+      throws IOException, ConfigInvalidException {
+    return getExternalId(extIdNotes, scheme, id).get().accountId().get();
+  }
+
+  protected Optional<ExternalId> getExternalId(ExternalIdNotes extIdNotes, String scheme, String id)
+      throws IOException, ConfigInvalidException {
+    return extIdNotes.get(externalIdKeyFactory.create(scheme, id));
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
   public void createCaseSensitiveExternalId_SchemeWithoutUsername() throws Exception {
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
@@ -869,10 +998,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
     ExternalId extId = externalIdFactory.create(scheme, id, accountId);
     extIdNotes.insert(extId);
     extIdNotes.commit(md);
-    assertThat(extIdNotes.get(externalIdKeyFactory.create(scheme, id)).get().accountId().get())
-        .isEqualTo(accountId.get());
-    assertThat(extIdNotes.get(externalIdKeyFactory.create(scheme, id.toLowerCase())).isPresent())
-        .isFalse();
+    assertThat(getAccountId(extIdNotes, scheme, id)).isEqualTo(accountId.get());
+    assertThat(getExternalId(extIdNotes, scheme, id.toLowerCase()).isPresent()).isFalse();
   }
 
   private void testCaseInsensitiveExternalIdKey(
@@ -881,15 +1008,29 @@ public class ExternalIdIT extends AbstractDaemonTest {
     ExternalId extId = externalIdFactory.create(scheme, id, accountId);
     extIdNotes.insert(extId);
     extIdNotes.commit(md);
-    assertThat(extIdNotes.get(externalIdKeyFactory.create(scheme, id)).get().accountId().get())
-        .isEqualTo(accountId.get());
-    assertThat(
-            extIdNotes
-                .get(externalIdKeyFactory.create(scheme, id.toLowerCase()))
-                .get()
-                .accountId()
-                .get())
-        .isEqualTo(accountId.get());
+    assertThat(getAccountId(extIdNotes, scheme, id)).isEqualTo(accountId.get());
+    assertThat(getAccountId(extIdNotes, scheme, id.toLowerCase())).isEqualTo(accountId.get());
+  }
+
+  /**
+   * Create external id object
+   *
+   * <p>This method skips gerrit.config auth.userNameCaseInsensitiveMigrationMode and allow to
+   * create case sensitive/insensitive external id
+   */
+  protected void createExternalId(
+      MetaDataUpdate md,
+      ExternalIdNotes extIdNotes,
+      String scheme,
+      String id,
+      Account.Id accountId,
+      boolean isUserNameCaseInsensitive)
+      throws IOException {
+    ExternalId extId =
+        externalIdFactory.create(
+            externalIdKeyFactory.create(scheme, id, isUserNameCaseInsensitive), accountId);
+    extIdNotes.insert(extId);
+    extIdNotes.commit(md);
   }
 
   private boolean isPartialCacheReloadingEnabled() {
@@ -918,7 +1059,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       // Inserting an external ID "behind Gerrit's back" means that the caches are not updated.
       ExternalIdNotes extIdNotes =
-          ExternalIdNotes.loadNoCacheUpdate(allUsers, repo, externalIdFactory);
+          ExternalIdNotes.loadNoCacheUpdate(
+              allUsers, repo, externalIdFactory, IS_USER_NAME_CASE_INSENSITIVE_MIGRATION_MODE);
       extIdNotes.insert(extId);
       try (MetaDataUpdate metaDataUpdate =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {

@@ -114,7 +114,7 @@ public class SetParent
       md.setAuthor(user);
       md.setMessage(msg);
       config.commit(md);
-      cache.evict(rsrc.getProjectState().getProject());
+      cache.evictAndReindex(rsrc.getProjectState().getProject());
 
       Project.NameKey parent = config.getProject().getParent(allProjects);
       requireNonNull(parent);

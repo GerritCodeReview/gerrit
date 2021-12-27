@@ -1,5 +1,4 @@
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
-load("//tools:nongoogle.bzl", "TESTCONTAINERS_VERSION")
 
 CAFFEINE_VERS = "2.8.5"
 ANTLR_VERS = "3.5.2"
@@ -11,7 +10,7 @@ MAIL_VERS = "1.6.0"
 MIME4J_VERS = "0.8.1"
 OW2_VERS = "9.0"
 AUTO_VALUE_VERSION = "1.7.4"
-AUTO_VALUE_GSON_VERSION = "1.3.0"
+AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
 PROLOG_REPO = GERRIT
 GITILES_VERS = "0.4-1"
@@ -461,19 +460,19 @@ def java_dependencies():
     maven_jar(
         name = "auto-value-gson-runtime",
         artifact = "com.ryanharter.auto.value:auto-value-gson-runtime:" + AUTO_VALUE_GSON_VERSION,
-        sha1 = "a69a9db5868bb039bd80f60661a771b643eaba59",
+        sha1 = "addda2ae6cce9f855788274df5de55dde4de7b71",
     )
 
     maven_jar(
         name = "auto-value-gson-extension",
         artifact = "com.ryanharter.auto.value:auto-value-gson-extension:" + AUTO_VALUE_GSON_VERSION,
-        sha1 = "6a61236d17b58b05e32b4c532bcb348280d2212b",
+        sha1 = "0c4c01a3e10e5b10df2e5f5697efa4bb3f453ac1",
     )
 
     maven_jar(
         name = "auto-value-gson-factory",
         artifact = "com.ryanharter.auto.value:auto-value-gson-factory:" + AUTO_VALUE_GSON_VERSION,
-        sha1 = "b1f01918c0d6cb1f5482500e6b9e62589334dbb0",
+        sha1 = "9ed8d79144ee8d60cc94cc11f847b5ed8ee9f19c",
     )
 
     maven_jar(
@@ -596,13 +595,6 @@ def java_dependencies():
         artifact = "com.h2database:h2:1.3.176",
         sha1 = "fd369423346b2f1525c413e33f8cf95b09c92cbd",
     )
-
-    # Base the following org.apache.httpcomponents versions on what
-    # elasticsearch-rest-client explicitly depends on, except for
-    # commons-codec (non-http) which is not necessary yet. Note that
-    # below httpcore version(s) differs from the HTTPCOMP_VERS range,
-    # upstream: that specific dependency has no HTTPCOMP_VERS version
-    # equivalent currently.
 
     maven_jar(
         name = "fluent-hc",
@@ -730,20 +722,4 @@ def java_dependencies():
         name = "objenesis",
         artifact = "org.objenesis:objenesis:3.0.1",
         sha1 = "11cfac598df9dc48bb9ed9357ed04212694b7808",
-    )
-
-    # When upgrading elasticsearch-rest-client, also upgrade httpcore-nio
-    # and httpasyncclient as necessary in tools/nongoogle.bzl. Consider
-    # also the other org.apache.httpcomponents dependencies in
-    # WORKSPACE.
-    maven_jar(
-        name = "elasticsearch-rest-client",
-        artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.8.1",
-        sha1 = "59feefe006a96a39f83b0dfb6780847e06c1d0a8",
-    )
-
-    maven_jar(
-        name = "testcontainers-elasticsearch",
-        artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-        sha1 = "595e3a50f59cd3c1d281ca6c1bc4037e277a1353",
     )

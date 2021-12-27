@@ -85,6 +85,7 @@ export const htmlTemplate = html`
           id="input"
           on-keydown="_handleInputKeydown"
           bind-value="{{_newValue}}"
+          disabled$="[[disabled]]"
         />
       </iron-input>
       <gr-button

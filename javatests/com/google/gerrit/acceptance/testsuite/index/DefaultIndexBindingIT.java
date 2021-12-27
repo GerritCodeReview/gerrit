@@ -15,7 +15,9 @@
 package com.google.gerrit.acceptance.testsuite.index;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assume.assumeTrue;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.testing.AbstractFakeIndex;
@@ -35,6 +37,10 @@ public class DefaultIndexBindingIT extends AbstractDaemonTest {
 
   @Test
   public void fakeIsBoundByDefault() throws Exception {
+    String gerritIndexTypeEnv = System.getenv("GERRIT_INDEX_TYPE");
+    assumeTrue(
+        Strings.isNullOrEmpty(gerritIndexTypeEnv) || gerritIndexTypeEnv.equalsIgnoreCase("fake"));
+
     assertThat(System.getProperty(IndexType.SYS_PROP)).isEmpty();
     assertThat(changeIndex.getSearchIndex()).isInstanceOf(AbstractFakeIndex.FakeChangeIndex.class);
   }

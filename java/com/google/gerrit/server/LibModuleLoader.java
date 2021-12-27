@@ -22,8 +22,10 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.ProvisionException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 
 /** Loads configured Guice modules from {@code gerrit.installModule}. */
@@ -35,6 +37,33 @@ public class LibModuleLoader {
     return Arrays.stream(cfg.getStringList("gerrit", null, "install" + moduleType.getConfigKey()))
         .map(m -> createModule(parent, m))
         .collect(toList());
+  }
+
+  public static List<Module> loadReindexModules(
+      Injector parent, Map<String, Integer> versions, int threads, boolean replica) {
+    Config cfg = getConfig(parent);
+    return Arrays.stream(
+            cfg.getStringList(
+                "gerrit", null, "install" + LibModuleType.INDEX_MODULE_TYPE.getConfigKey()))
+        .map(m -> createReindexModule(m, versions, threads, replica))
+        .collect(toList());
+  }
+
+  private static Module createReindexModule(
+      String className, Map<String, Integer> versions, int threads, boolean replica) {
+    Class<Module> clazz = loadModule(className);
+    try {
+
+      Method m =
+          clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class, boolean.class);
+
+      Module module = (Module) m.invoke(null, versions, threads, replica);
+      logger.atInfo().log("Installed module %s", className);
+      return module;
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log("Unable to load libModule for %s", className);
+      throw new IllegalStateException(e);
+    }
   }
 
   private static Config getConfig(Injector i) {

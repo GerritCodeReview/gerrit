@@ -14,10 +14,7 @@ cat << EOF > $TMP/want
 backward-codecs
 cglib-3_2
 commons-io
-docker-java-api
-docker-java-transport
 dropwizard-core
-duct-tape
 eddsa
 error-prone-annotations
 flogger
@@ -28,13 +25,8 @@ guava-testlib
 guice-assistedinject
 guice-library
 guice-servlet
-httpasyncclient
-httpcore-nio
 j2objc
-jackson-annotations
-jackson-core
 jimfs
-jna
 jruby
 lucene-analyzers-common
 lucene-core
@@ -48,13 +40,11 @@ soy
 sshd-mina
 sshd-osgi
 sshd-sftp
-testcontainers
 truth
 truth-java8-extension
 truth-liteproto-extension
 truth-proto-extension
 tukaani-xz
-visible-assertions
 xerces
 EOF
 

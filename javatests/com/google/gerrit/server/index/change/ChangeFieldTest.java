@@ -25,15 +25,19 @@ import com.google.common.collect.Table;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LegacySubmitRequirement;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.index.testing.FakeStoredValue;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -127,6 +131,20 @@ public class ChangeFieldTest {
     r.requirements = Collections.singletonList(sr);
 
     assertStoredRecordRoundTrip(r);
+  }
+
+  @Test
+  public void tolerateNullValuesForInsertion() {
+    Project.NameKey project = Project.nameKey("project");
+    ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
+    assertThat(ChangeField.ADDED.setIfPossible(cd, new FakeStoredValue(null))).isTrue();
+  }
+
+  @Test
+  public void tolerateNullValuesForDeletion() {
+    Project.NameKey project = Project.nameKey("project");
+    ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
+    assertThat(ChangeField.DELETED.setIfPossible(cd, new FakeStoredValue(null))).isTrue();
   }
 
   private static SubmitRecord record(SubmitRecord.Status status, SubmitRecord.Label... labels) {

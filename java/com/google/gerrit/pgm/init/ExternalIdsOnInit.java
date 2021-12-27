@@ -21,6 +21,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -41,17 +42,20 @@ public class ExternalIdsOnInit {
   private final SitePaths site;
   private final AllUsersName allUsers;
   private final ExternalIdFactory externalIdFactory;
+  private final AuthConfig authConfig;
 
   @Inject
   public ExternalIdsOnInit(
       InitFlags flags,
       SitePaths site,
       AllUsersNameOnInitProvider allUsers,
-      ExternalIdFactory externalIdFactory) {
+      ExternalIdFactory externalIdFactory,
+      AuthConfig authConfig) {
     this.flags = flags;
     this.site = site;
     this.allUsers = new AllUsersName(allUsers.get());
     this.externalIdFactory = externalIdFactory;
+    this.authConfig = authConfig;
   }
 
   public synchronized void insert(String commitMessage, Collection<ExternalId> extIds)
@@ -60,7 +64,11 @@ public class ExternalIdsOnInit {
     if (path != null) {
       try (Repository allUsersRepo = new FileRepository(path)) {
         ExternalIdNotes extIdNotes =
-            ExternalIdNotes.loadNoCacheUpdate(allUsers, allUsersRepo, externalIdFactory);
+            ExternalIdNotes.loadNoCacheUpdate(
+                allUsers,
+                allUsersRepo,
+                externalIdFactory,
+                authConfig.isUserNameCaseInsensitiveMigrationMode());
         extIdNotes.insert(extIds);
         try (MetaDataUpdate metaDataUpdate =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, allUsersRepo)) {

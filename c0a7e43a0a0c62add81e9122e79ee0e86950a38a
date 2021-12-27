@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96de5b2c_d7959445",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-27T08:00:09Z",
+      "side": 1,
+      "message": "@Edwin, @Dmitrii, you worked recently on fixing violations in the code base flagged by error prone. What is the best way to proceed here? Split that change to single changes per EP bug pattern?\n\nNote, that this change is updating to Bazel release candidate 5.0.rc3, and we should wait with the Bazel upgrade until final release 5.0 is shipped.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 13
+      },
+      "revId": "c0a7e43a0a0c62add81e9122e79ee0e86950a38a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

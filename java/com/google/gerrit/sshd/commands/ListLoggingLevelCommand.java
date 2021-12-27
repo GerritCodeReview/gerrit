@@ -20,7 +20,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import java.util.Enumeration;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 import org.apache.log4j.LogManager;
@@ -37,19 +37,22 @@ public class ListLoggingLevelCommand extends SshCommand {
   @Argument(index = 0, required = false, metaVar = "NAME", usage = "used to match loggers")
   private String name;
 
-  @SuppressWarnings("unchecked")
   @Override
   protected void run() {
     enableGracefulStop();
     Map<String, String> logs = new TreeMap<>();
-    for (Enumeration<Logger> logger = LogManager.getCurrentLoggers(); logger.hasMoreElements(); ) {
-      Logger log = logger.nextElement();
-      if (name == null || log.getName().contains(name)) {
-        logs.put(log.getName(), log.getEffectiveLevel().toString());
+    for (Logger logger : getCurrentLoggers()) {
+      if (name == null || logger.getName().contains(name)) {
+        logs.put(logger.getName(), logger.getEffectiveLevel().toString());
       }
     }
     for (Map.Entry<String, String> e : logs.entrySet()) {
       stdout.println(e.getKey() + ": " + e.getValue());
     }
+  }
+
+  @SuppressWarnings({"unchecked", "JdkObsolete"})
+  private static Iterable<Logger> getCurrentLoggers() {
+    return Collections.list(LogManager.getCurrentLoggers());
   }
 }

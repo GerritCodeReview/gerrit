@@ -68,7 +68,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -447,8 +446,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
           return false;
         };
 
-    List<PluginEntry> entries =
-        Collections.list(scanner.entries()).stream().filter(filter).collect(toList());
+    List<PluginEntry> entries = scanner.entries().filter(filter).collect(toList());
     for (PluginEntry entry : entries) {
       String name = entry.getName().substring(prefix.length());
       if (name.startsWith("cmd-")) {

@@ -20,7 +20,6 @@ import static com.google.common.collect.Iterables.transform;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
@@ -31,7 +30,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +40,7 @@ import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+import java.util.stream.Stream;
 import org.eclipse.jgit.util.IO;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -78,9 +77,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
       classObjToClassDescr.put(annotation, descriptor);
     }
 
-    Enumeration<JarEntry> e = jarFile.entries();
-    while (e.hasMoreElements()) {
-      JarEntry entry = e.nextElement();
+    for (JarEntry entry : entriesOf(jarFile)) {
       if (skip(entry)) {
         continue;
       }
@@ -137,9 +134,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
     String name = superClass.replace('.', '/');
 
     List<String> classes = new ArrayList<>();
-    Enumeration<JarEntry> e = jarFile.entries();
-    while (e.hasMoreElements()) {
-      JarEntry entry = e.nextElement();
+    for (JarEntry entry : entriesOf(jarFile)) {
       if (skip(entry)) {
         continue;
       }
@@ -294,10 +289,9 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
   }
 
   @Override
-  public Enumeration<PluginEntry> entries() {
-    return Collections.enumeration(
-        Lists.transform(
-            Collections.list(jarFile.entries()),
+  public Stream<PluginEntry> entries() {
+    return jarFile.stream()
+        .map(
             jarEntry -> {
               try {
                 return resourceOf(jarEntry);
@@ -305,7 +299,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
                 throw new IllegalArgumentException(
                     "Cannot convert jar entry " + jarEntry + " to a resource", e);
               }
-            }));
+            });
   }
 
   @Override
@@ -332,5 +326,9 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
       return Collections.emptyMap();
     }
     return Maps.transformEntries(attributes, (key, value) -> (String) value);
+  }
+
+  private static Iterable<JarEntry> entriesOf(JarFile jarFile) {
+    return jarFile.stream()::iterator;
   }
 }

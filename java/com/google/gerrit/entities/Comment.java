@@ -88,7 +88,7 @@ public abstract class Comment {
         Key k = (Key) o;
         return Objects.equals(uuid, k.uuid)
             && Objects.equals(filename, k.filename)
-            && Objects.equals(patchSetId, k.patchSetId);
+            && patchSetId == k.patchSetId;
       }
       return false;
     }
@@ -113,7 +113,7 @@ public abstract class Comment {
     @Override
     public boolean equals(Object o) {
       if (o instanceof Identity) {
-        return Objects.equals(id, ((Identity) o).id);
+        return id == ((Identity) o).id;
       }
       return false;
     }
@@ -180,10 +180,10 @@ public abstract class Comment {
     public boolean equals(Object o) {
       if (o instanceof Range) {
         Range r = (Range) o;
-        return Objects.equals(startLine, r.startLine)
-            && Objects.equals(startChar, r.startChar)
-            && Objects.equals(endLine, r.endLine)
-            && Objects.equals(endChar, r.endChar);
+        return startLine == r.startLine
+            && startChar == r.startChar
+            && endLine == r.endLine
+            && endChar == r.endChar;
       }
       return false;
     }

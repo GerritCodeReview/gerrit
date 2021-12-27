@@ -310,7 +310,7 @@ public abstract class ExternalId implements Serializable {
     ExternalId o = (ExternalId) obj;
     return Objects.equals(key(), o.key())
         && Objects.equals(accountId(), o.accountId())
-        && Objects.equals(isCaseInsensitive(), o.isCaseInsensitive())
+        && isCaseInsensitive() == o.isCaseInsensitive()
         && Objects.equals(email(), o.email())
         && Objects.equals(password(), o.password());
   }

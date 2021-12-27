@@ -70,10 +70,10 @@ public abstract class Comment {
     public boolean equals(Object o) {
       if (o instanceof Range) {
         Range r = (Range) o;
-        return Objects.equals(startLine, r.startLine)
-            && Objects.equals(startCharacter, r.startCharacter)
-            && Objects.equals(endLine, r.endLine)
-            && Objects.equals(endCharacter, r.endCharacter);
+        return startLine == r.startLine
+            && startCharacter == r.startCharacter
+            && endLine == r.endLine
+            && endCharacter == r.endCharacter;
       }
       return false;
     }

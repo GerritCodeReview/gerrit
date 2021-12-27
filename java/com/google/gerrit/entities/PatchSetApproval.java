@@ -16,8 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Shorts;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.Instant;
 import java.util.Optional;
 
 /** An approval (or negative approval) on a patch set. */
@@ -97,11 +96,7 @@ public abstract class PatchSetApproval {
       return value(Shorts.checkedCast(value));
     }
 
-    public abstract Builder granted(Timestamp granted);
-
-    public Builder granted(Date granted) {
-      return granted(new Timestamp(granted.getTime()));
-    }
+    public abstract Builder granted(Instant granted);
 
     public abstract Builder tag(String tag);
 
@@ -147,7 +142,7 @@ public abstract class PatchSetApproval {
    */
   public abstract short value();
 
-  public abstract Timestamp granted();
+  public abstract Instant granted();
 
   public abstract Optional<String> tag();
 

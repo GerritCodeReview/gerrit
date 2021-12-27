@@ -28,8 +28,7 @@ import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.Instant;
 import java.util.Optional;
 import org.junit.Test;
 
@@ -46,7 +45,7 @@ public class PatchSetApprovalProtoConverterTest {
                     PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
             .uuid(Optional.of(PatchSetApproval.uuid("577fb248e474018276351785930358ec0450e9f7")))
             .value(456)
-            .granted(new Date(987654L))
+            .granted(Instant.ofEpochMilli(987654L))
             .tag("tag-21")
             .realAccountId(Account.id(612))
             .postSubmit(true)
@@ -84,7 +83,7 @@ public class PatchSetApprovalProtoConverterTest {
                 PatchSetApproval.key(
                     PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
             .value(456)
-            .granted(new Date(987654L))
+            .granted(Instant.ofEpochMilli(987654L))
             .build();
 
     Entities.PatchSetApproval proto = protoConverter.toProto(patchSetApproval);
@@ -117,7 +116,7 @@ public class PatchSetApprovalProtoConverterTest {
                     PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
             .uuid(Optional.of(PatchSetApproval.uuid("577fb248e474018276351785930358ec0450e9f7")))
             .value(456)
-            .granted(new Date(987654L))
+            .granted(Instant.ofEpochMilli(987654L))
             .tag("tag-21")
             .realAccountId(Account.id(612))
             .postSubmit(true)
@@ -137,7 +136,7 @@ public class PatchSetApprovalProtoConverterTest {
                 PatchSetApproval.key(
                     PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
             .value(456)
-            .granted(new Date(987654L))
+            .granted(Instant.ofEpochMilli(987654L))
             .build();
 
     PatchSetApproval convertedPatchSetApproval =
@@ -167,7 +166,7 @@ public class PatchSetApprovalProtoConverterTest {
     assertThat(patchSetApproval.labelId()).isEqualTo(LabelId.create("label-8"));
     // Default values for unset protobuf fields which can't be unset in the entity object.
     assertThat(patchSetApproval.value()).isEqualTo(0);
-    assertThat(patchSetApproval.granted()).isEqualTo(new Timestamp(0));
+    assertThat(patchSetApproval.granted()).isEqualTo(Instant.ofEpochMilli(0));
     assertThat(patchSetApproval.postSubmit()).isEqualTo(false);
     assertThat(patchSetApproval.copied()).isEqualTo(false);
   }
@@ -181,7 +180,7 @@ public class PatchSetApprovalProtoConverterTest {
                 .put("key", PatchSetApproval.Key.class)
                 .put("uuid", new TypeLiteral<Optional<PatchSetApproval.UUID>>() {}.getType())
                 .put("value", short.class)
-                .put("granted", Timestamp.class)
+                .put("granted", Instant.class)
                 .put("tag", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("realAccountId", Account.Id.class)
                 .put("postSubmit", boolean.class)

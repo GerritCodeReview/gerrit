@@ -1916,6 +1916,36 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(commentMessage.body()).contains("PS2, Line 1: content\n" + "Comment text");
   }
 
+  @Test
+  public void commentsOnDeletedFileIsIncludedInEmails() throws Exception {
+    // Create a change with a file.
+    createChange("subject", "f1.txt", "content");
+
+    // Stack a second change that deletes the file.
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    gApi.changes().id(changeId).edit().deleteFile("f1.txt");
+    gApi.changes().id(changeId).edit().publish();
+    String currentRevision = gApi.changes().id(changeId).get().currentRevision;
+
+    // Add a comment on the deleted file on the parent side.
+    email.clear();
+    CommentInput commentInput =
+        CommentsUtil.newComment(
+            "f1.txt",
+            Side.PARENT,
+            /* line= */ 1,
+            /* message= */ "Comment text",
+            /* unresolved= */ false);
+    CommentsUtil.addComments(gApi, changeId, currentRevision, commentInput);
+
+    // Assert email contains the comment text.
+    assertThat(email.getMessages()).hasSize(1);
+    Message commentMessage = email.getMessages().get(0);
+    assertThat(commentMessage.body()).contains("Patch Set 2:\n\n(1 comment)\n\nFile f1.txt:");
+    assertThat(commentMessage.body()).contains("PS2, Line 1: content\nComment text");
+  }
+
   private List<CommentInfo> getRevisionComments(String changeId, String revId) throws Exception {
     return getPublishedComments(changeId, revId).values().stream()
         .flatMap(List::stream)

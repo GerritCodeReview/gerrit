@@ -31,9 +31,9 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.lang.reflect.Field;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -496,7 +496,7 @@ public class WorkQueue {
     private final Executor executor;
     private final int taskId;
     private final AtomicBoolean running;
-    private final Date startTime;
+    private final Instant startTime;
 
     Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
       this.runnable = runnable;
@@ -504,7 +504,7 @@ public class WorkQueue {
       this.executor = executor;
       this.taskId = taskId;
       this.running = new AtomicBoolean();
-      this.startTime = new Date();
+      this.startTime = Instant.now();
     }
 
     public int getTaskId() {
@@ -527,7 +527,7 @@ public class WorkQueue {
       return State.SLEEPING;
     }
 
-    public Date getStartTime() {
+    public Instant getStartTime() {
       return startTime;
     }
 

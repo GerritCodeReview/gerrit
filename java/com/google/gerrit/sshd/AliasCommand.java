@@ -22,7 +22,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
@@ -120,8 +120,8 @@ public class AliasCommand extends BaseCommand {
     }
   }
 
-  private static LinkedList<String> chain(CommandName command) {
-    LinkedList<String> chain = new LinkedList<>();
+  private static Iterable<String> chain(CommandName command) {
+    ArrayDeque<String> chain = new ArrayDeque<>();
     while (command != null) {
       chain.addFirst(command.value());
       command = Commands.parentOf(command);

@@ -48,7 +48,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -199,10 +199,10 @@ public class LabelsJson {
   private ApprovalInfo approvalInfo(
       AccountLoader accountLoader,
       Account.Id id,
-      Integer value,
-      VotingRangeInfo permittedVotingRange,
-      String tag,
-      Timestamp date) {
+      @Nullable Integer value,
+      @Nullable VotingRangeInfo permittedVotingRange,
+      @Nullable String tag,
+      @Nullable Instant date) {
     ApprovalInfo ai = new ApprovalInfo(id.get(), value, permittedVotingRange, tag, date);
     accountLoader.put(ai);
     return ai;
@@ -309,7 +309,7 @@ public class LabelsJson {
         if (info != null) {
           info.value = Integer.valueOf(val);
           info.permittedVotingRange = pvr.getOrDefault(type.get().getName(), null);
-          info.date = psa.granted();
+          info.setDate(psa.granted());
           info.tag = psa.tag().orElse(null);
           if (psa.postSubmit()) {
             info.postSubmit = true;
@@ -442,7 +442,7 @@ public class LabelsJson {
         Integer value;
         VotingRangeInfo permittedVotingRange = pvr.getOrDefault(lt.get().getName(), null);
         String tag = null;
-        Timestamp date = null;
+        Instant date = null;
         PatchSetApproval psa = current.get(accountId, lt.get().getName());
         if (psa != null) {
           value = Integer.valueOf(psa.value());

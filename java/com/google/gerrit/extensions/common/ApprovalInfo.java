@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -62,15 +63,35 @@ public class ApprovalInfo extends AccountInfo {
 
   public ApprovalInfo(
       Integer id,
-      Integer value,
+      @Nullable Integer value,
       @Nullable VotingRangeInfo permittedVotingRange,
       @Nullable String tag,
-      Timestamp date) {
+      @Nullable Timestamp date) {
     super(id);
     this.value = value;
     this.permittedVotingRange = permittedVotingRange;
     this.date = date;
     this.tag = tag;
+  }
+
+  public ApprovalInfo(
+      Integer id,
+      @Nullable Integer value,
+      @Nullable VotingRangeInfo permittedVotingRange,
+      @Nullable String tag,
+      @Nullable Instant date) {
+    super(id);
+    this.value = value;
+    this.permittedVotingRange = permittedVotingRange;
+    this.tag = tag;
+    if (date != null) {
+      setDate(date);
+    }
+  }
+
+  @SuppressWarnings("JdkObsolete")
+  public void setDate(Instant date) {
+    this.date = Timestamp.from(date);
   }
 
   @Override

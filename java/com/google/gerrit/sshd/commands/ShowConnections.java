@@ -34,8 +34,9 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
@@ -171,10 +172,13 @@ final class ShowConnections extends SshCommand {
   }
 
   private static String time(long now, long time) {
+    Instant instant = Instant.ofEpochMilli(time);
     if (now - time < 24 * 60 * 60 * 1000L) {
-      return new SimpleDateFormat("HH:mm:ss").format(new Date(time));
+      return DateTimeFormatter.ofPattern("HH:mm:ss")
+          .withZone(ZoneId.systemDefault())
+          .format(instant);
     }
-    return new SimpleDateFormat("MMM-dd").format(new Date(time));
+    return DateTimeFormatter.ofPattern("MMM-dd").withZone(ZoneId.systemDefault()).format(instant);
   }
 
   private static String age(long age) {

@@ -38,11 +38,12 @@ import static org.bouncycastle.openpgp.PGPSignature.DIRECT_KEY;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.gpg.testing.TestKey;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -212,9 +213,11 @@ public class PublicKeyCheckerTest {
     String problem = "Key is revoked (key material has been compromised): test6 compromised";
     assertProblems(k, problem);
 
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    PublicKeyChecker checker =
-        new PublicKeyChecker().setStore(store).setEffectiveTime(df.parse("2010-01-01 12:00:00"));
+    Instant instant =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            .withZone(ZoneId.systemDefault())
+            .parse("2010-01-01 12:00:00", Instant::from);
+    PublicKeyChecker checker = new PublicKeyChecker().setStore(store).setEffectiveTime(instant);
     assertProblems(checker, k, problem);
   }
 
@@ -360,8 +363,8 @@ public class PublicKeyCheckerTest {
         + " is valid, but key is not trusted";
   }
 
-  private static Date parseDate(String str) throws Exception {
-    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse(str);
+  private static Instant parseDate(String str) throws Exception {
+    return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z").parse(str, Instant::from);
   }
 
   private static List<String> list(String first, String[] rest) {

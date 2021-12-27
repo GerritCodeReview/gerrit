@@ -21,6 +21,7 @@ def gerrit_plugin(
         provided_deps = [],
         srcs = [],
         resources = [],
+        resource_jars = [],
         manifest_entries = [],
         dir_name = None,
         target_suffix = "",
@@ -35,8 +36,6 @@ def gerrit_plugin(
         **kwargs
     )
 
-    static_jars = []
-
     if not dir_name:
         dir_name = name
 
@@ -49,7 +48,7 @@ def gerrit_plugin(
         main_class = "Dummy",
         runtime_deps = [
             ":%s__plugin" % name,
-        ] + static_jars,
+        ] + resource_jars,
         deploy_env = deploy_env,
         visibility = ["//visibility:public"],
         **kwargs

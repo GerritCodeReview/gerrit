@@ -775,11 +775,12 @@ public class ChangeJson {
     List<ReviewerStatusUpdate> reviewerUpdates = cd.reviewerUpdates();
     List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
     for (ReviewerStatusUpdate c : reviewerUpdates) {
-      ReviewerUpdateInfo change = new ReviewerUpdateInfo();
-      change.updated = c.date();
-      change.state = c.state().asReviewerState();
-      change.updatedBy = accountLoader.get(c.updatedBy());
-      change.reviewer = accountLoader.get(c.reviewer());
+      ReviewerUpdateInfo change =
+          new ReviewerUpdateInfo(
+              c.date(),
+              accountLoader.get(c.updatedBy()),
+              accountLoader.get(c.reviewer()),
+              c.state().asReviewerState());
       result.add(change);
     }
     return result;
@@ -801,8 +802,7 @@ public class ChangeJson {
     if (!s.isPresent()) {
       return;
     }
-    out.submitted = s.get().granted();
-    out.submitter = accountLoader.get(s.get().accountId());
+    out.setSubmitted(s.get().granted(), accountLoader.get(s.get().accountId()));
   }
 
   private ImmutableList<ChangeMessageInfo> messages(ChangeData cd) {

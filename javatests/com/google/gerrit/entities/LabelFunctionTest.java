@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import org.junit.Test;
 
@@ -94,7 +93,7 @@ public class LabelFunctionTest {
     return PatchSetApproval.builder()
         .key(PatchSetApproval.key(PS_ID, Account.id(10000 + value), LABEL_ID))
         .value(value)
-        .granted(Date.from(Instant.now()))
+        .granted(Instant.now())
         .build();
   }
 

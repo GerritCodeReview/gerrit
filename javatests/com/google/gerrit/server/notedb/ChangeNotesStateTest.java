@@ -376,7 +376,7 @@ public class ChangeNotesStateTest {
                     PatchSet.id(ID, 1), Account.id(2001), LabelId.create(LabelId.CODE_REVIEW)))
             .value(1)
             .tag("tag")
-            .granted(new Timestamp(1212L))
+            .granted(Instant.ofEpochMilli(1212L))
             .build();
     Entities.PatchSetApproval psa1 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a1);
     ByteString a1Bytes = Protos.toByteString(psa1);
@@ -389,7 +389,7 @@ public class ChangeNotesStateTest {
             .value(-1)
             .tag("tag")
             .copied(true)
-            .granted(new Timestamp(3434L))
+            .granted(Instant.ofEpochMilli(3434L))
             .build();
     Entities.PatchSetApproval psa2 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a2);
     ByteString a2Bytes = Protos.toByteString(psa2);
@@ -419,7 +419,7 @@ public class ChangeNotesStateTest {
             .uuid(Optional.of(PatchSetApproval.uuid("577fb248e474018276351785930358ec0450e9f7")))
             .value(1)
             .tag("tag")
-            .granted(new Timestamp(1212L))
+            .granted(Instant.ofEpochMilli(1212L))
             .build();
     Entities.PatchSetApproval psa1 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a1);
     ByteString a1Bytes = Protos.toByteString(psa1);
@@ -433,7 +433,7 @@ public class ChangeNotesStateTest {
             .value(-1)
             .tag("tag")
             .copied(true)
-            .granted(new Timestamp(3434L))
+            .granted(Instant.ofEpochMilli(3434L))
             .build();
     Entities.PatchSetApproval psa2 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a2);
     ByteString a2Bytes = Protos.toByteString(psa2);
@@ -459,9 +459,13 @@ public class ChangeNotesStateTest {
         newBuilder()
             .reviewers(
                 ReviewerSet.fromTable(
-                    ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
-                        .put(ReviewerStateInternal.CC, Account.id(2001), new Timestamp(1212L))
-                        .put(ReviewerStateInternal.REVIEWER, Account.id(2002), new Timestamp(3434L))
+                    ImmutableTable.<ReviewerStateInternal, Account.Id, Instant>builder()
+                        .put(
+                            ReviewerStateInternal.CC, Account.id(2001), Instant.ofEpochMilli(1212L))
+                        .put(
+                            ReviewerStateInternal.REVIEWER,
+                            Account.id(2002),
+                            Instant.ofEpochMilli(3434L))
                         .build()))
             .build(),
         ChangeNotesStateProto.newBuilder()
@@ -487,15 +491,15 @@ public class ChangeNotesStateTest {
         newBuilder()
             .reviewersByEmail(
                 ReviewerByEmailSet.fromTable(
-                    ImmutableTable.<ReviewerStateInternal, Address, Timestamp>builder()
+                    ImmutableTable.<ReviewerStateInternal, Address, Instant>builder()
                         .put(
                             ReviewerStateInternal.CC,
                             Address.create("Name1", "email1@example.com"),
-                            new Timestamp(1212L))
+                            Instant.ofEpochMilli(1212L))
                         .put(
                             ReviewerStateInternal.REVIEWER,
                             Address.create("Name2", "email2@example.com"),
-                            new Timestamp(3434L))
+                            Instant.ofEpochMilli(3434L))
                         .build()))
             .build(),
         ChangeNotesStateProto.newBuilder()
@@ -525,7 +529,7 @@ public class ChangeNotesStateTest {
                         ImmutableTable.of(
                             ReviewerStateInternal.CC,
                             Address.create("emailonly@example.com"),
-                            new Timestamp(1212L))))
+                            Instant.ofEpochMilli(1212L))))
                 .build(),
             ChangeNotesStateProto.newBuilder()
                 .setMetaId(SHA_BYTES)
@@ -553,9 +557,13 @@ public class ChangeNotesStateTest {
         newBuilder()
             .pendingReviewers(
                 ReviewerSet.fromTable(
-                    ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
-                        .put(ReviewerStateInternal.CC, Account.id(2001), new Timestamp(1212L))
-                        .put(ReviewerStateInternal.REVIEWER, Account.id(2002), new Timestamp(3434L))
+                    ImmutableTable.<ReviewerStateInternal, Account.Id, Instant>builder()
+                        .put(
+                            ReviewerStateInternal.CC, Account.id(2001), Instant.ofEpochMilli(1212L))
+                        .put(
+                            ReviewerStateInternal.REVIEWER,
+                            Account.id(2002),
+                            Instant.ofEpochMilli(3434L))
                         .build()))
             .build(),
         ChangeNotesStateProto.newBuilder()
@@ -581,15 +589,15 @@ public class ChangeNotesStateTest {
         newBuilder()
             .pendingReviewersByEmail(
                 ReviewerByEmailSet.fromTable(
-                    ImmutableTable.<ReviewerStateInternal, Address, Timestamp>builder()
+                    ImmutableTable.<ReviewerStateInternal, Address, Instant>builder()
                         .put(
                             ReviewerStateInternal.CC,
                             Address.create("Name1", "email1@example.com"),
-                            new Timestamp(1212L))
+                            Instant.ofEpochMilli(1212L))
                         .put(
                             ReviewerStateInternal.REVIEWER,
                             Address.create("Name2", "email2@example.com"),
-                            new Timestamp(3434L))
+                            Instant.ofEpochMilli(3434L))
                         .build()))
             .build(),
         ChangeNotesStateProto.newBuilder()
@@ -629,12 +637,12 @@ public class ChangeNotesStateTest {
             .reviewerUpdates(
                 ImmutableList.of(
                     ReviewerStatusUpdate.create(
-                        new Timestamp(1212L),
+                        Instant.ofEpochMilli(1212L),
                         Account.id(1000),
                         Account.id(2002),
                         ReviewerStateInternal.CC),
                     ReviewerStatusUpdate.create(
-                        new Timestamp(3434L),
+                        Instant.ofEpochMilli(3434L),
                         Account.id(1000),
                         Account.id(2001),
                         ReviewerStateInternal.REVIEWER)))
@@ -796,9 +804,11 @@ public class ChangeNotesStateTest {
             .assigneeUpdates(
                 ImmutableList.of(
                     AssigneeStatusUpdate.create(
-                        new Timestamp(1212L), Account.id(1000), Optional.of(Account.id(2001))),
+                        Instant.ofEpochMilli(1212L),
+                        Account.id(1000),
+                        Optional.of(Account.id(2001))),
                     AssigneeStatusUpdate.create(
-                        new Timestamp(3434L), Account.id(1000), Optional.empty())))
+                        Instant.ofEpochMilli(3434L), Account.id(1000), Optional.empty())))
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
@@ -1024,7 +1034,7 @@ public class ChangeNotesStateTest {
                 .put("key", PatchSetApproval.Key.class)
                 .put("uuid", new TypeLiteral<Optional<PatchSetApproval.UUID>>() {}.getType())
                 .put("value", short.class)
-                .put("granted", Timestamp.class)
+                .put("granted", Instant.class)
                 .put("tag", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("realAccountId", Account.Id.class)
                 .put("postSubmit", boolean.class)
@@ -1040,7 +1050,7 @@ public class ChangeNotesStateTest {
             ImmutableMap.of(
                 "table",
                 new TypeLiteral<
-                    ImmutableTable<ReviewerStateInternal, Account.Id, Timestamp>>() {}.getType(),
+                    ImmutableTable<ReviewerStateInternal, Account.Id, Instant>>() {}.getType(),
                 "accounts",
                 new TypeLiteral<ImmutableSet<Account.Id>>() {}.getType()));
   }
@@ -1052,7 +1062,7 @@ public class ChangeNotesStateTest {
             ImmutableMap.of(
                 "table",
                 new TypeLiteral<
-                    ImmutableTable<ReviewerStateInternal, Address, Timestamp>>() {}.getType(),
+                    ImmutableTable<ReviewerStateInternal, Address, Instant>>() {}.getType(),
                 "users",
                 new TypeLiteral<ImmutableSet<Address>>() {}.getType()));
   }
@@ -1062,7 +1072,7 @@ public class ChangeNotesStateTest {
     assertThatSerializedClass(ReviewerStatusUpdate.class)
         .hasAutoValueMethods(
             ImmutableMap.of(
-                "date", Timestamp.class,
+                "date", Instant.class,
                 "updatedBy", Account.Id.class,
                 "reviewer", Account.Id.class,
                 "state", ReviewerStateInternal.class));
@@ -1074,7 +1084,7 @@ public class ChangeNotesStateTest {
         .hasAutoValueMethods(
             ImmutableMap.of(
                 "date",
-                Timestamp.class,
+                Instant.class,
                 "updatedBy",
                 Account.Id.class,
                 "currentAssignee",

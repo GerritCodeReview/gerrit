@@ -23,7 +23,7 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Enumeration;
+import java.util.Collections;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -58,27 +58,23 @@ public class SetLoggingLevelCommand extends SshCommand {
   @Argument(index = 1, required = false, metaVar = "NAME", usage = "used to match loggers")
   private String name;
 
-  @SuppressWarnings("unchecked")
   @Override
   protected void run() throws MalformedURLException {
     enableGracefulStop();
     if (level == LevelOption.RESET) {
       reset();
     } else {
-      for (Enumeration<Logger> logger = LogManager.getCurrentLoggers();
-          logger.hasMoreElements(); ) {
-        Logger log = logger.nextElement();
-        if (name == null || log.getName().contains(name)) {
-          log.setLevel(Level.toLevel(level.name()));
+      for (Logger logger : getCurrentLoggers()) {
+        if (name == null || logger.getName().contains(name)) {
+          logger.setLevel(Level.toLevel(level.name()));
         }
       }
     }
   }
 
-  @SuppressWarnings("unchecked")
   private static void reset() throws MalformedURLException {
-    for (Enumeration<Logger> logger = LogManager.getCurrentLoggers(); logger.hasMoreElements(); ) {
-      logger.nextElement().setLevel(null);
+    for (Logger logger : getCurrentLoggers()) {
+      logger.setLevel(null);
     }
 
     String path = System.getProperty(JAVA_OPTIONS_LOG_CONFIG);
@@ -87,5 +83,10 @@ public class SetLoggingLevelCommand extends SshCommand {
     } else {
       PropertyConfigurator.configure(new URL(path));
     }
+  }
+
+  @SuppressWarnings({"unchecked", "JdkObsolete"})
+  private static Iterable<Logger> getCurrentLoggers() {
+    return Collections.list(LogManager.getCurrentLoggers());
   }
 }

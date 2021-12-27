@@ -19,10 +19,10 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.nio.file.NoSuchFileException;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.Optional;
 import java.util.jar.Manifest;
+import java.util.stream.Stream;
 
 /**
  * Scans the plugin returning classes and resources.
@@ -58,8 +58,8 @@ public interface PluginContentScanner {
         }
 
         @Override
-        public Enumeration<PluginEntry> entries() {
-          return Collections.emptyEnumeration();
+        public Stream<PluginEntry> entries() {
+          return Stream.empty();
         }
       };
 
@@ -122,5 +122,5 @@ public interface PluginContentScanner {
    *
    * @return the enumeration of all resources found
    */
-  Enumeration<PluginEntry> entries();
+  Stream<PluginEntry> entries();
 }

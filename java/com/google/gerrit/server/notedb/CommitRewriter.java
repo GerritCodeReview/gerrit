@@ -773,7 +773,7 @@ public class CommitRewriter {
     // Pre fix, try to replace with something meaningful.
     // Retrieve reviewer accounts from cache and try to match by their name.
     onAddReviewerMatcher.reset();
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     while (onAddReviewerMatcher.find()) {
       String reviewerName = normalizeOnCodeOwnerAddReviewerMatch(onAddReviewerMatcher.group(1));
       Optional<String> replacementName =

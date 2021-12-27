@@ -190,7 +190,7 @@ class OAuthSession {
     } else if (claimedId.isPresent() && !actualId.isPresent()) {
       // Claimed account already exists: link to it.
       //
-      logger.atInfo().log("OAuth2: linking claimed identity to %s", claimedId.get().toString());
+      logger.atInfo().log("OAuth2: linking claimed identity to %s", claimedId.get());
       try {
         accountManager.link(claimedId.get(), req);
       } catch (ConfigInvalidException e) {

@@ -226,7 +226,7 @@ java_package_configuration(
         "-Xep:JavaLocalTimeGetNano:ERROR",
         "-Xep:JavaPeriodGetDays:ERROR",
         "-Xep:JavaTimeDefaultTimeZone:ERROR",
-        "-Xep:JavaUtilDate:ERROR",
+        "-Xep:JavaUtilDate:WARN",
         # "-Xep:JdkObsolete:WARN",
         "-Xep:JodaConstructors:ERROR",
         "-Xep:JodaDateTimeConstants:ERROR",

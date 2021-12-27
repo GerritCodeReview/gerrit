@@ -76,7 +76,7 @@ public abstract class RequestScopePropagator {
   public final <T> Callable<T> wrap(Callable<T> callable) {
     final RequestContext callerContext = requireNonNull(local.getContext());
     final Callable<T> wrapped = wrapImpl(context(callerContext, cleanup(callable)));
-    return new Callable<T>() {
+    return new Callable<>() {
       @Override
       public T call() throws Exception {
         if (callerContext == local.getContext()) {
@@ -169,7 +169,7 @@ public abstract class RequestScopePropagator {
 
   protected <T> Callable<T> context(RequestContext context, Callable<T> callable) {
     return () -> {
-      RequestContext old = local.setContext(context::getUser);
+      RequestContext old = local.setContext(context);
       try {
         return callable.call();
       } finally {

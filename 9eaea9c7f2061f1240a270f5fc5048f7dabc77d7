@@ -16,6 +16,23 @@
       "message": "Remerged both ways.",
       "revId": "9eaea9c7f2061f1240a270f5fc5048f7dabc77d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5f29bb7_70153dee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-27T10:59:57Z",
+      "side": 1,
+      "message": "LC vote is needed, because elasticsearch-rest-client and testcontainers-elasticsearch dependencies were removed.",
+      "revId": "9eaea9c7f2061f1240a270f5fc5048f7dabc77d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

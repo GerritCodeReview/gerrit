@@ -564,7 +564,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   /** Returns {@link Optional} value of time when the change was merged. */
   public Optional<Timestamp> getMergedOn() {
-    return Optional.ofNullable(state.mergedOn());
+    return Optional.ofNullable(state.mergedOn()).map(Timestamp::from);
   }
 
   public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(Account.Id author) {

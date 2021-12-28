@@ -151,8 +151,8 @@ public abstract class ChangeNotesState {
         .columns(
             ChangeColumns.builder()
                 .changeKey(changeKey)
-                .createdOn(Timestamp.from(createdOn))
-                .lastUpdatedOn(Timestamp.from(lastUpdatedOn))
+                .createdOn(createdOn)
+                .lastUpdatedOn(lastUpdatedOn)
                 .owner(owner)
                 .branch(branch)
                 .status(status)
@@ -185,7 +185,7 @@ public abstract class ChangeNotesState {
         .publishedComments(publishedComments)
         .submitRequirementsResult(submitRequirementResults)
         .updateCount(updateCount)
-        .mergedOn(mergedOn != null ? Timestamp.from(mergedOn) : null)
+        .mergedOn(mergedOn)
         .build();
   }
 
@@ -203,9 +203,9 @@ public abstract class ChangeNotesState {
 
     abstract Change.Key changeKey();
 
-    abstract Timestamp createdOn();
+    abstract Instant createdOn();
 
-    abstract Timestamp lastUpdatedOn();
+    abstract Instant lastUpdatedOn();
 
     abstract Account.Id owner();
 
@@ -249,9 +249,9 @@ public abstract class ChangeNotesState {
 
       abstract Builder changeKey(Change.Key changeKey);
 
-      abstract Builder createdOn(Timestamp createdOn);
+      abstract Builder createdOn(Instant createdOn);
 
-      abstract Builder lastUpdatedOn(Timestamp lastUpdatedOn);
+      abstract Builder lastUpdatedOn(Instant lastUpdatedOn);
 
       abstract Builder owner(Account.Id owner);
 
@@ -334,7 +334,7 @@ public abstract class ChangeNotesState {
   abstract int updateCount();
 
   @Nullable
-  abstract Timestamp mergedOn();
+  abstract Instant mergedOn();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = requireNonNull(columns(), "columns are required");
@@ -358,7 +358,7 @@ public abstract class ChangeNotesState {
     change.setKey(c.changeKey());
     change.setOwner(c.owner());
     change.setDest(BranchNameKey.create(change.getProject(), c.branch()));
-    change.setCreatedOn(c.createdOn());
+    change.setCreatedOn(Timestamp.from(c.createdOn()));
     copyNonConstructorColumnsTo(change);
   }
 
@@ -368,7 +368,7 @@ public abstract class ChangeNotesState {
       change.setStatus(c.status());
     }
     change.setTopic(Strings.emptyToNull(c.topic()));
-    change.setLastUpdatedOn(c.lastUpdatedOn().toInstant());
+    change.setLastUpdatedOn(c.lastUpdatedOn());
     change.setSubmissionId(c.submissionId());
     if (!assigneeUpdates().isEmpty()) {
       change.setAssignee(assigneeUpdates().get(0).currentAssignee().orElse(null));
@@ -456,7 +456,7 @@ public abstract class ChangeNotesState {
 
     abstract Builder updateCount(int updateCount);
 
-    abstract Builder mergedOn(Timestamp mergedOn);
+    abstract Builder mergedOn(Instant mergedOn);
 
     abstract ChangeNotesState build();
   }
@@ -536,7 +536,7 @@ public abstract class ChangeNotesState {
                       SubmitRequirementProtoConverter.INSTANCE.toProto(sr)));
       b.setUpdateCount(object.updateCount());
       if (object.mergedOn() != null) {
-        b.setMergedOnMillis(object.mergedOn().getTime());
+        b.setMergedOnMillis(object.mergedOn().toEpochMilli());
         b.setHasMergedOn(true);
       }
 
@@ -547,8 +547,8 @@ public abstract class ChangeNotesState {
       ChangeColumnsProto.Builder b =
           ChangeColumnsProto.newBuilder()
               .setChangeKey(cols.changeKey().get())
-              .setCreatedOnMillis(cols.createdOn().getTime())
-              .setLastUpdatedOnMillis(cols.lastUpdatedOn().getTime())
+              .setCreatedOnMillis(cols.createdOn().toEpochMilli())
+              .setLastUpdatedOnMillis(cols.lastUpdatedOn().toEpochMilli())
               .setOwner(cols.owner().get())
               .setBranch(cols.branch());
       if (cols.currentPatchSetId() != null) {
@@ -678,7 +678,8 @@ public abstract class ChangeNotesState {
                       .map(sr -> SubmitRequirementProtoConverter.INSTANCE.fromProto(sr))
                       .collect(toImmutableList()))
               .updateCount(proto.getUpdateCount())
-              .mergedOn(proto.getHasMergedOn() ? new Timestamp(proto.getMergedOnMillis()) : null);
+              .mergedOn(
+                  proto.getHasMergedOn() ? Instant.ofEpochMilli(proto.getMergedOnMillis()) : null);
       return b.build();
     }
 
@@ -686,8 +687,8 @@ public abstract class ChangeNotesState {
       ChangeColumns.Builder b =
           ChangeColumns.builder()
               .changeKey(Change.key(proto.getChangeKey()))
-              .createdOn(new Timestamp(proto.getCreatedOnMillis()))
-              .lastUpdatedOn(new Timestamp(proto.getLastUpdatedOnMillis()))
+              .createdOn(Instant.ofEpochMilli(proto.getCreatedOnMillis()))
+              .lastUpdatedOn(Instant.ofEpochMilli(proto.getLastUpdatedOnMillis()))
               .owner(Account.id(proto.getOwner()))
               .branch(proto.getBranch());
       if (proto.getHasCurrentPatchSetId()) {

@@ -92,8 +92,8 @@ public class ChangeNotesStateTest {
     cols =
         ChangeColumns.builder()
             .changeKey(Change.key(CHANGE_KEY))
-            .createdOn(new Timestamp(123456L))
-            .lastUpdatedOn(new Timestamp(234567L))
+            .createdOn(Instant.ofEpochMilli(123456L))
+            .lastUpdatedOn(Instant.ofEpochMilli(234567L))
             .owner(Account.id(1000))
             .branch("refs/heads/master")
             .subject("Test change")
@@ -135,7 +135,9 @@ public class ChangeNotesStateTest {
   @Test
   public void serializeCreatedOn() throws Exception {
     assertRoundTrip(
-        newBuilder().columns(cols.toBuilder().createdOn(new Timestamp(98765L)).build()).build(),
+        newBuilder()
+            .columns(cols.toBuilder().createdOn(Instant.ofEpochMilli(98765L)).build())
+            .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
@@ -146,7 +148,9 @@ public class ChangeNotesStateTest {
   @Test
   public void serializeLastUpdatedOn() throws Exception {
     assertRoundTrip(
-        newBuilder().columns(cols.toBuilder().lastUpdatedOn(new Timestamp(98765L)).build()).build(),
+        newBuilder()
+            .columns(cols.toBuilder().lastUpdatedOn(Instant.ofEpochMilli(98765L)).build())
+            .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
@@ -338,7 +342,7 @@ public class ChangeNotesStateTest {
             .id(PatchSet.id(ID, 1))
             .commitId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
             .uploader(Account.id(2000))
-            .createdOn(cols.createdOn().toInstant())
+            .createdOn(cols.createdOn())
             .build();
     Entities.PatchSet ps1Proto = PatchSetProtoConverter.INSTANCE.toProto(ps1);
     ByteString ps1Bytes = Protos.toByteString(ps1Proto);
@@ -349,7 +353,7 @@ public class ChangeNotesStateTest {
             .id(PatchSet.id(ID, 2))
             .commitId(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"))
             .uploader(Account.id(3000))
-            .createdOn(cols.lastUpdatedOn().toInstant())
+            .createdOn(cols.lastUpdatedOn())
             .build();
     Entities.PatchSet ps2Proto = PatchSetProtoConverter.INSTANCE.toProto(ps2);
     ByteString ps2Bytes = Protos.toByteString(ps2Proto);
@@ -975,7 +979,7 @@ public class ChangeNotesStateTest {
                     "submitRequirementsResult",
                     new TypeLiteral<ImmutableList<SubmitRequirementResult>>() {}.getType())
                 .put("updateCount", int.class)
-                .put("mergedOn", Timestamp.class)
+                .put("mergedOn", Instant.class)
                 .build());
   }
 
@@ -985,8 +989,8 @@ public class ChangeNotesStateTest {
         .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
                 .put("changeKey", Change.Key.class)
-                .put("createdOn", Timestamp.class)
-                .put("lastUpdatedOn", Timestamp.class)
+                .put("createdOn", Instant.class)
+                .put("lastUpdatedOn", Instant.class)
                 .put("owner", Account.Id.class)
                 .put("branch", String.class)
                 .put("currentPatchSetId", PatchSet.Id.class)
@@ -1122,7 +1126,7 @@ public class ChangeNotesStateTest {
   @Test
   public void serializeMergedOn() throws Exception {
     assertRoundTrip(
-        newBuilder().mergedOn(new Timestamp(234567L)).build(),
+        newBuilder().mergedOn(Instant.ofEpochMilli(234567L)).build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())

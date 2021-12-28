@@ -870,6 +870,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
+  public Predicate<ChangeData> prefixhashtag(String hashtag) throws QueryParseException {
+    if (hashtag.startsWith("^")) {
+      return new RegexHashtagPredicate(hashtag);
+    }
+    if (hashtag.isEmpty()) {
+      return ChangePredicates.hashtag(hashtag);
+    }
+
+    checkFieldAvailable(ChangeField.PREFIX_HASHTAG, "prefixhashtag");
+    return ChangePredicates.prefixHashtag(hashtag);
+  }
+
+  @Operator
   public Predicate<ChangeData> topic(String name) {
     return ChangePredicates.exactTopic(name);
   }
@@ -883,6 +896,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return ChangePredicates.exactTopic(name);
     }
     return ChangePredicates.fuzzyTopic(name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> prefixtopic(String name) {
+    if (name.startsWith("^")) {
+      return new RegexTopicPredicate(name);
+    }
+    if (name.isEmpty()) {
+      return ChangePredicates.exactTopic(name);
+    }
+    return ChangePredicates.prefixTopic(name);
   }
 
   @Operator

@@ -21,8 +21,7 @@ import com.google.inject.TypeLiteral;
 import java.util.List;
 
 public class FixResource implements RestResource {
-  public static final TypeLiteral<RestView<FixResource>> FIX_KIND =
-      new TypeLiteral<RestView<FixResource>>() {};
+  public static final TypeLiteral<RestView<FixResource>> FIX_KIND = new TypeLiteral<>() {};
 
   private final List<FixReplacement> fixReplacements;
   private final RevisionResource revisionResource;

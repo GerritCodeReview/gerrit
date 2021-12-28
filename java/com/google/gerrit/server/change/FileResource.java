@@ -21,8 +21,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
 public class FileResource implements RestResource {
-  public static final TypeLiteral<RestView<FileResource>> FILE_KIND =
-      new TypeLiteral<RestView<FileResource>>() {};
+  public static final TypeLiteral<RestView<FileResource>> FILE_KIND = new TypeLiteral<>() {};
 
   private final RevisionResource rev;
   private final Patch.Key key;

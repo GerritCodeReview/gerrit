@@ -31,7 +31,7 @@ import com.google.inject.TypeLiteral;
  */
 public class ChangeEditResource implements RestResource {
   public static final TypeLiteral<RestView<ChangeEditResource>> CHANGE_EDIT_KIND =
-      new TypeLiteral<RestView<ChangeEditResource>>() {};
+      new TypeLiteral<>() {};
 
   private final ChangeResource change;
   private final ChangeEdit edit;

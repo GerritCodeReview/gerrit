@@ -20,8 +20,7 @@ import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.TypeLiteral;
 
 class MetricResource extends ConfigResource {
-  static final TypeLiteral<RestView<MetricResource>> METRIC_KIND =
-      new TypeLiteral<RestView<MetricResource>>() {};
+  static final TypeLiteral<RestView<MetricResource>> METRIC_KIND = new TypeLiteral<>() {};
 
   private final String name;
   private final Metric metric;

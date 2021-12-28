@@ -26,6 +26,5 @@ import com.google.inject.TypeLiteral;
  * collection.
  */
 public class AccessResource implements RestResource {
-  public static final TypeLiteral<RestView<AccessResource>> ACCESS_KIND =
-      new TypeLiteral<RestView<AccessResource>>() {};
+  public static final TypeLiteral<RestView<AccessResource>> ACCESS_KIND = new TypeLiteral<>() {};
 }

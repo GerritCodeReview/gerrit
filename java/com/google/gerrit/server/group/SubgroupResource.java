@@ -21,7 +21,7 @@ import com.google.inject.TypeLiteral;
 
 public class SubgroupResource extends GroupResource {
   public static final TypeLiteral<RestView<SubgroupResource>> SUBGROUP_KIND =
-      new TypeLiteral<RestView<SubgroupResource>>() {};
+      new TypeLiteral<>() {};
 
   private final GroupDescription.Basic member;
 

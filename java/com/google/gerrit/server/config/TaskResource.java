@@ -19,8 +19,7 @@ import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.inject.TypeLiteral;
 
 public class TaskResource extends ConfigResource {
-  public static final TypeLiteral<RestView<TaskResource>> TASK_KIND =
-      new TypeLiteral<RestView<TaskResource>>() {};
+  public static final TypeLiteral<RestView<TaskResource>> TASK_KIND = new TypeLiteral<>() {};
 
   private final Task<?> task;
 

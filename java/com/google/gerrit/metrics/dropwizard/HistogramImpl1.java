@@ -26,7 +26,7 @@ class HistogramImpl1<F1> extends BucketedHistogram implements BucketedMetric {
   }
 
   Histogram1<F1> histogram1() {
-    return new Histogram1<F1>() {
+    return new Histogram1<>() {
       @Override
       public void record(F1 field1, long value) {
         total.record(value);

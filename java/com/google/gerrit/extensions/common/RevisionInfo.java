@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.ChangeKind;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,6 +50,11 @@ public class RevisionInfo {
 
   public RevisionInfo(AccountInfo uploader) {
     this.uploader = uploader;
+  }
+
+  @SuppressWarnings("JdkObsolete")
+  public void setCreated(Instant date) {
+    this.created = new Timestamp(date.toEpochMilli());
   }
 
   @Override

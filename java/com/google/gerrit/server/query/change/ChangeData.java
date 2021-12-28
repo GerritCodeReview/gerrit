@@ -92,11 +92,11 @@ import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.project.SubmitRequirementsUtil;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -276,7 +276,7 @@ public class ChangeData {
             .id(PatchSet.id(id, currentPatchSetId))
             .commitId(commitId)
             .uploader(Account.id(1000))
-            .createdOn(TimeUtil.nowTs())
+            .createdOn(Instant.now())
             .build();
     return cd;
   }

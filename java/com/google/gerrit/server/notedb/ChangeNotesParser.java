@@ -629,7 +629,7 @@ class ChangeNotesParser {
         .id(psId)
         .commitId(rev)
         .uploader(accountId)
-        .createdOn(new Timestamp(ts.toEpochMilli()));
+        .createdOn(ts);
     // Fields not set here:
     // * Groups, parsed earlier in parseGroups.
     // * Description, parsed earlier in parseDescription.

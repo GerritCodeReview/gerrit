@@ -338,7 +338,7 @@ public class ChangeNotesStateTest {
             .id(PatchSet.id(ID, 1))
             .commitId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
             .uploader(Account.id(2000))
-            .createdOn(cols.createdOn())
+            .createdOn(Instant.ofEpochMilli(cols.createdOn().getTime()))
             .build();
     Entities.PatchSet ps1Proto = PatchSetProtoConverter.INSTANCE.toProto(ps1);
     ByteString ps1Bytes = Protos.toByteString(ps1Proto);
@@ -349,7 +349,7 @@ public class ChangeNotesStateTest {
             .id(PatchSet.id(ID, 2))
             .commitId(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"))
             .uploader(Account.id(3000))
-            .createdOn(cols.lastUpdatedOn())
+            .createdOn(Instant.ofEpochMilli(cols.lastUpdatedOn().getTime()))
             .build();
     Entities.PatchSet ps2Proto = PatchSetProtoConverter.INSTANCE.toProto(ps2);
     ByteString ps2Bytes = Protos.toByteString(ps2Proto);
@@ -1012,7 +1012,7 @@ public class ChangeNotesStateTest {
                 .put("id", PatchSet.Id.class)
                 .put("commitId", ObjectId.class)
                 .put("uploader", Account.Id.class)
-                .put("createdOn", Timestamp.class)
+                .put("createdOn", Instant.class)
                 .put("groups", new TypeLiteral<ImmutableList<String>>() {}.getType())
                 .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("description", new TypeLiteral<Optional<String>>() {}.getType())

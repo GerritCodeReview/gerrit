@@ -22,7 +22,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
@@ -159,7 +159,7 @@ public abstract class PatchSet {
 
     public abstract Builder uploader(Account.Id uploader);
 
-    public abstract Builder createdOn(Timestamp createdOn);
+    public abstract Builder createdOn(Instant createdOn);
 
     public abstract Builder groups(Iterable<String> groups);
 
@@ -206,7 +206,7 @@ public abstract class PatchSet {
    * Gerrit, and the old data erroneously did not include a {@code createdOn}, then this method will
    * return a timestamp of 0.
    */
-  public abstract Timestamp createdOn();
+  public abstract Instant createdOn();
 
   /**
    * Opaque group identifier, usually assigned during creation.

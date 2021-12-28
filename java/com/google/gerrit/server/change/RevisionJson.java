@@ -285,7 +285,7 @@ public class RevisionJson {
     out.isCurrent = in.id().equals(c.currentPatchSetId());
     out._number = in.id().get();
     out.ref = in.refName();
-    out.created = in.createdOn();
+    out.setCreated(in.createdOn());
     out.uploader = accountLoader.get(in.uploader());
     out.fetch = makeFetchMap(cd, in);
     out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);

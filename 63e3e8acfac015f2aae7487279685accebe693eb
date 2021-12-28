@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2711c5a7_879bc58c",
+        "filename": "java/com/google/gerrit/common/AddressRecord.java_disabled",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T13:45:04Z",
+      "side": 1,
+      "message": "What\u0027s this?",
+      "revId": "63e3e8acfac015f2aae7487279685accebe693eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25dc5fa0_17ed7693",
+        "filename": "javatests/com/google/gerrit/pgm/init/api/#AllProjectsConfigTest.java#",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T13:45:04Z",
+      "side": 1,
+      "message": "Unintended to commit this file?",
+      "revId": "63e3e8acfac015f2aae7487279685accebe693eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "211803bc_7775b7cc",
       "revId": "385d25a7828d2c49a7d69913cff1cf82ac8e0aa0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ec44a65_a9225b24",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T09:47:41Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "609ca2c6_76db0d08",
+      "revId": "385d25a7828d2c49a7d69913cff1cf82ac8e0aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

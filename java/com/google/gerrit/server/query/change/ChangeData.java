@@ -450,7 +450,7 @@ public class ChangeData {
         return Collections.emptyList();
       }
       Optional<DiffSummary> p = getDiffSummary();
-      currentFiles = p.map(DiffSummary::getPaths).orElse(Collections.emptyList());
+      currentFiles = p.map(DiffSummary::paths).orElse(ImmutableList.of());
     }
     return currentFiles;
   }

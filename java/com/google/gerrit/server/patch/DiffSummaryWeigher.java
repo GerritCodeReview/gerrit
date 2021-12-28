@@ -30,7 +30,7 @@ public class DiffSummaryWeigher implements Weigher<DiffSummaryKey, DiffSummary> 
             + 2 * 4 // Size of DiffSummary
             + 16
             + 8; // String[]
-    for (String p : value.getPaths()) {
+    for (String p : value.paths()) {
       size +=
           16
               + 8

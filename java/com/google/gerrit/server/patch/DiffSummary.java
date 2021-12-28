@@ -14,62 +14,49 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
-import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
-
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.cache.proto.Cache.DiffSummaryProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.zip.DeflaterOutputStream;
-import java.util.zip.InflaterInputStream;
 
-public class DiffSummary implements Serializable {
-  private static final long serialVersionUID = DiffSummaryKey.serialVersionUID;
+@AutoValue
+public abstract class DiffSummary {
+  public abstract ImmutableList<String> paths();
 
-  private transient String[] paths;
-  private transient int insertions;
-  private transient int deletions;
+  public abstract int insertions();
 
-  public DiffSummary(String[] paths, int insertions, int deletions) {
-    this.paths = paths;
-    this.insertions = insertions;
-    this.deletions = deletions;
-  }
+  public abstract int deletions();
 
-  public List<String> getPaths() {
-    return Collections.unmodifiableList(Arrays.asList(paths));
+  public static DiffSummary create(ImmutableList<String> paths, int insertions, int deletions) {
+    return new AutoValue_DiffSummary(paths, insertions, deletions);
   }
 
   public ChangedLines getChangedLines() {
-    return new ChangedLines(insertions, deletions);
+    return new ChangedLines(insertions(), deletions());
   }
 
-  private void writeObject(ObjectOutputStream output) throws IOException {
-    writeVarInt32(output, insertions);
-    writeVarInt32(output, deletions);
-    writeVarInt32(output, paths.length);
-    try (DeflaterOutputStream out = new DeflaterOutputStream(output)) {
-      for (String p : paths) {
-        writeString(out, p);
-      }
+  public enum Serializer implements CacheSerializer<DiffSummary> {
+    INSTANCE;
+
+    @Override
+    public byte[] serialize(DiffSummary diffSummary) {
+      return DiffSummaryProto.newBuilder()
+          .setInsertions(diffSummary.insertions())
+          .setDeletions(diffSummary.deletions())
+          .addAllPaths(diffSummary.paths())
+          .build()
+          .toByteArray();
     }
-  }
 
-  private void readObject(ObjectInputStream input) throws IOException {
-    insertions = readVarInt32(input);
-    deletions = readVarInt32(input);
-    paths = new String[readVarInt32(input)];
-    try (InflaterInputStream in = new InflaterInputStream(input)) {
-      for (int i = 0; i < paths.length; i++) {
-        paths[i] = readString(in);
-      }
+    @Override
+    public DiffSummary deserialize(byte[] in) {
+      DiffSummaryProto proto = Protos.parseUnchecked(DiffSummaryProto.parser(), in);
+      return DiffSummary.create(
+          proto.getPathsList().stream().collect(ImmutableList.toImmutableList()),
+          proto.getInsertions(),
+          proto.getDeletions());
     }
   }
 }

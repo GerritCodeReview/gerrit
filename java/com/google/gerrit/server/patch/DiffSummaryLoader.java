@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
@@ -84,6 +85,7 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
           break;
       }
     }
-    return new DiffSummary(r.stream().sorted().toArray(String[]::new), linesInserted, linesDeleted);
+    return DiffSummary.create(
+        r.stream().sorted().collect(ImmutableList.toImmutableList()), linesInserted, linesDeleted);
   }
 }

@@ -755,3 +755,20 @@ message IntraLineDiffProto {
   string status = 1; // ENUM as string
   repeated Edit edits = 2;
 }
+
+// Serialized form of com.google.gerrit.server.patch.DiffSummaryKey
+// Next ID: 5
+message DiffSummaryKeyProto {
+  bytes old_id = 1;
+  int32 parent_num = 2;
+  bytes new_id = 3;
+  string whitespace = 4; // ENUM as string
+}
+
+// Serialized form of com.google.gerrit.server.patch.DiffSummary
+// Next ID: 4
+message DiffSummaryProto {
+  repeated string paths = 1;
+  int32 insertions = 2;
+  int32 deletions = 3;
+}

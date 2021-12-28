@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45669bc8_9713e8fd",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T22:13:32Z",
+      "side": 1,
+      "message": "Re-add here the javadoc from the waitFor method?\n\n   * @param cancellationTimeoutTime timeout for the task to react to the cancellation signal; if the\n   *     task doesn\u0027t terminate within this time it is forcefully cancelled; non-positive values\n   *     indicate no timeout.\n   * @param cancellationTimeoutUnit unit for the cancellation timeout.",
+      "revId": "192c3b3293d5d202fb4b6b40e944e5f878d8ed10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

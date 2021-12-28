@@ -16,6 +16,23 @@
       "message": "Done.",
       "revId": "411b4c5b3dca96e5a83c7ff93975bd1d9f218224",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "733f3d06_d30c8a3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T14:06:50Z",
+      "side": 1,
+      "message": "I have one question about this. Does this build with java 8 (I believe these type annotations are required with java 8)? \n\nAt [1] we still claim to support java 8. Is this outdated? Or should we propose to the ESC to drop java 8 support now?\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#installation",
+      "revId": "411b4c5b3dca96e5a83c7ff93975bd1d9f218224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

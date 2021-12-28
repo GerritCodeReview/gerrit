@@ -14,101 +14,102 @@
 
 package com.google.gerrit.server.patch;
 
-import static org.eclipse.jgit.lib.ObjectIdSerializer.read;
-import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
-import static org.eclipse.jgit.lib.ObjectIdSerializer.write;
-import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
-
+import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.Objects;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.cache.proto.Cache.DiffSummaryKeyProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
-public class DiffSummaryKey implements Serializable {
-  public static final long serialVersionUID = 1L;
+@AutoValue
+public abstract class DiffSummaryKey {
+  /**
+   * The 20 bytes SHA-1 commit ID of the old commit used in the diff. This is set to {@link
+   * Optional#empty()} if {@link #newId()} is a root commit or the diff is against the auto-merge.
+   */
+  @Nullable
+  public abstract Optional<ObjectId> oldId();
 
-  /** see PatchListKey#oldId */
-  private transient ObjectId oldId;
+  /**
+   * The one-based parent number that indicates which parent {@link #oldId()} is for the {@link
+   * #newId()} commit. This is set to {@link Optional#empty()} if {@link #oldId()} is the auto-merge
+   * commit.
+   */
+  @Nullable
+  public abstract Optional<Integer> parentNum();
 
-  /** see PatchListKey#parentNum */
-  private transient Integer parentNum;
+  /** The 20 bytes SHA-1 commit ID of the new commit used in the diff. */
+  public abstract ObjectId newId();
 
-  private transient ObjectId newId;
-  private transient Whitespace whitespace;
+  public abstract Whitespace whitespace();
 
   public static DiffSummaryKey fromPatchListKey(PatchListKey plk) {
-    return new DiffSummaryKey(
-        plk.getOldId(), plk.getParentNum(), plk.getNewId(), plk.getWhitespace());
+    return create(plk.getOldId(), plk.getParentNum(), plk.getNewId(), plk.getWhitespace());
   }
 
-  private DiffSummaryKey(ObjectId oldId, Integer parentNum, ObjectId newId, Whitespace whitespace) {
-    this.oldId = oldId;
-    this.parentNum = parentNum;
-    this.newId = newId;
-    this.whitespace = whitespace;
+  @VisibleForTesting
+  public static DiffSummaryKey create(
+      @Nullable ObjectId oldId,
+      @Nullable Integer parentNum,
+      ObjectId newId,
+      Whitespace whitespace) {
+    return new AutoValue_DiffSummaryKey(
+        Optional.ofNullable(oldId), Optional.ofNullable(parentNum), newId, whitespace);
   }
 
   PatchListKey toPatchListKey() {
-    return new PatchListKey(oldId, parentNum, newId, whitespace);
+    return new PatchListKey(oldId().orElse(null), parentNum().orElse(null), newId(), whitespace());
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(oldId, parentNum, newId, whitespace);
-  }
+  public enum Serializer implements CacheSerializer<DiffSummaryKey> {
+    INSTANCE;
 
-  @Override
-  public boolean equals(Object o) {
-    if (o instanceof DiffSummaryKey) {
-      DiffSummaryKey k = (DiffSummaryKey) o;
-      return Objects.equals(oldId, k.oldId)
-          && Objects.equals(parentNum, k.parentNum)
-          && Objects.equals(newId, k.newId)
-          && whitespace == k.whitespace;
+    @Override
+    public byte[] serialize(DiffSummaryKey diffSummaryKey) {
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
+      DiffSummaryKeyProto.Builder builder =
+          DiffSummaryKeyProto.newBuilder()
+              .setNewId(idConverter.toByteString(diffSummaryKey.newId()))
+              .setWhitespace(diffSummaryKey.whitespace().name());
+      if (diffSummaryKey.oldId().isPresent()) {
+        builder.setOldId(idConverter.toByteString(diffSummaryKey.oldId().get()));
+      }
+      if (diffSummaryKey.parentNum().isPresent()) {
+        builder.setParentNum(diffSummaryKey.parentNum().get());
+      }
+      return Protos.toByteArray(builder.build());
     }
-    return false;
+
+    @Override
+    public DiffSummaryKey deserialize(byte[] in) {
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
+      DiffSummaryKeyProto proto = Protos.parseUnchecked(DiffSummaryKeyProto.parser(), in);
+      return DiffSummaryKey.create(
+          proto.getOldId().isEmpty() ? null : idConverter.fromByteString(proto.getOldId()),
+          proto.getParentNum() == 0 ? null : proto.getParentNum(),
+          idConverter.fromByteString(proto.getNewId()),
+          Whitespace.valueOf(proto.getWhitespace()));
+    }
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     StringBuilder n = new StringBuilder();
     n.append("DiffSummaryKey[");
-    n.append(oldId != null ? oldId.name() : "BASE");
+    n.append(oldId().isPresent() ? oldId().get().name() : "BASE");
     n.append("..");
-    n.append(newId.name());
+    n.append(newId().name());
     n.append(" ");
-    if (parentNum != null) {
-      n.append(parentNum);
+    if (parentNum().isPresent()) {
+      n.append(parentNum().get());
       n.append(" ");
     }
-    n.append(whitespace.name());
+    n.append(whitespace().name());
     n.append("]");
     return n.toString();
-  }
-
-  private void writeObject(ObjectOutputStream out) throws IOException {
-    write(out, oldId);
-    out.writeInt(parentNum == null ? 0 : parentNum);
-    writeWithoutMarker(out, newId);
-    Character c = PatchListKey.WHITESPACE_TYPES.get(whitespace);
-    if (c == null) {
-      throw new IOException("Invalid whitespace type: " + whitespace);
-    }
-    out.writeChar(c);
-  }
-
-  private void readObject(ObjectInputStream in) throws IOException {
-    oldId = read(in);
-    int n = in.readInt();
-    parentNum = n == 0 ? null : Integer.valueOf(n);
-    newId = readWithoutMarker(in);
-    char t = in.readChar();
-    whitespace = PatchListKey.WHITESPACE_TYPES.inverse().get(t);
-    if (whitespace == null) {
-      throw new IOException("Invalid whitespace type code: " + t);
-    }
   }
 }

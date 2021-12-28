@@ -53,7 +53,10 @@ public class PatchListCacheImpl implements PatchListCache {
         persist(DIFF_SUMMARY, DiffSummaryKey.class, DiffSummary.class)
             .maximumWeight(10 << 20)
             .weigher(DiffSummaryWeigher.class)
-            .diskLimit(1 << 30);
+            .diskLimit(1 << 30)
+            .version(1)
+            .keySerializer(DiffSummaryKey.Serializer.INSTANCE)
+            .valueSerializer(DiffSummary.Serializer.INSTANCE);
 
         bind(PatchListCacheImpl.class);
         bind(PatchListCache.class).to(PatchListCacheImpl.class);

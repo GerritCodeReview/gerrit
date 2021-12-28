@@ -16,6 +16,24 @@
       "message": "FYI, I was wondering whether ReceiveCommands of type DELETE wouldn\u0027t require setting allowNonFastForward too. Answer: This is not needed since for DELETE BatchRefUpdate hard-codes force update to true [1] even if allowNonFastForward is false. \n\n[optional] Maybe include this info into this comment here?\n\n[1] https://gerrit.googlesource.com/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java#642",
       "revId": "385d25a7828d2c49a7d69913cff1cf82ac8e0aa0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "609ca2c6_76db0d08",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-28T09:40:51Z",
+      "side": 1,
+      "message": "Yes, it works without the need to set it explicitly. I left as is and added a comment.",
+      "parentUuid": "211803bc_7775b7cc",
+      "revId": "385d25a7828d2c49a7d69913cff1cf82ac8e0aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

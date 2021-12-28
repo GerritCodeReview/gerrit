@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a02c8b9_7e553953",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T20:04:37Z",
+      "side": 1,
+      "message": "There are conflicts with this series: [1].\n\n[1] https://gerrit-review.googlesource.com/q/hashtag:ekempin-request-cancellation-and-deadlines-2021",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 59
+      },
+      "revId": "ef594c1ed96469467d550a2b119d3d0a4f91525f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f340b3a_362ada00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T20:04:37Z",
+      "side": 1,
+      "message": "There are non trivial conflicts from these two cha",
+      "revId": "ef594c1ed96469467d550a2b119d3d0a4f91525f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

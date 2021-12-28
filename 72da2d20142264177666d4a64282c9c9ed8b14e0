@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d0476ad_2e2f85fd",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:56:10Z",
+      "side": 1,
+      "message": "t.toInstant()",
+      "range": {
+        "startLine": 129,
+        "startChar": 16,
+        "endLine": 129,
+        "endChar": 49
+      },
+      "revId": "72da2d20142264177666d4a64282c9c9ed8b14e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39defc16_b2884e8b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailMetadataIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:56:10Z",
+      "side": 1,
+      "message": "Iterables.getLast(result).date.toInstant()",
+      "range": {
+        "startLine": 103,
+        "startChar": 31,
+        "endLine": 103,
+        "endChar": 93
+      },
+      "revId": "72da2d20142264177666d4a64282c9c9ed8b14e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

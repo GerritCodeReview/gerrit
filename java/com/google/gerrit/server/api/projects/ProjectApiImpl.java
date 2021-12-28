@@ -507,7 +507,7 @@ public class ProjectApiImpl implements ProjectApi {
 
   @Override
   public ListRefsRequest<BranchInfo> branches() {
-    return new ListRefsRequest<BranchInfo>() {
+    return new ListRefsRequest<>() {
       @Override
       public List<BranchInfo> get() throws RestApiException {
         try {
@@ -521,7 +521,7 @@ public class ProjectApiImpl implements ProjectApi {
 
   @Override
   public ListRefsRequest<TagInfo> tags() {
-    return new ListRefsRequest<TagInfo>() {
+    return new ListRefsRequest<>() {
       @Override
       public List<TagInfo> get() throws RestApiException {
         try {

@@ -18,6 +18,5 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
 public class TopMenuResource extends ConfigResource {
-  public static final TypeLiteral<RestView<TopMenuResource>> TOP_MENU_KIND =
-      new TypeLiteral<RestView<TopMenuResource>>() {};
+  public static final TypeLiteral<RestView<TopMenuResource>> TOP_MENU_KIND = new TypeLiteral<>() {};
 }

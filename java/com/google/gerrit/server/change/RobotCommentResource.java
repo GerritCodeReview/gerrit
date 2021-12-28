@@ -23,7 +23,7 @@ import com.google.inject.TypeLiteral;
 
 public class RobotCommentResource implements RestResource {
   public static final TypeLiteral<RestView<RobotCommentResource>> ROBOT_COMMENT_KIND =
-      new TypeLiteral<RestView<RobotCommentResource>>() {};
+      new TypeLiteral<>() {};
 
   private final RevisionResource rev;
   private final RobotComment comment;

@@ -1,0 +1,4 @@
+package com.google.gerrit.common;
+
+@SuppressWarnings("UnusedVariable")
+public record AddressRecord(String street, String postCode, String town, String country) {}

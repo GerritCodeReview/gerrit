@@ -22,7 +22,7 @@ import com.google.inject.TypeLiteral;
 /** REST resource that represents an entry in the attention set of a change. */
 public class AttentionSetEntryResource implements RestResource {
   public static final TypeLiteral<RestView<AttentionSetEntryResource>> ATTENTION_SET_ENTRY_KIND =
-      new TypeLiteral<RestView<AttentionSetEntryResource>>() {};
+      new TypeLiteral<>() {};
 
   public interface Factory {
     AttentionSetEntryResource create(ChangeResource change, Account.Id id);

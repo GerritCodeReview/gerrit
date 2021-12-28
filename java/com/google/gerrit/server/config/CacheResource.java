@@ -21,8 +21,7 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 
 public class CacheResource extends ConfigResource {
-  public static final TypeLiteral<RestView<CacheResource>> CACHE_KIND =
-      new TypeLiteral<RestView<CacheResource>>() {};
+  public static final TypeLiteral<RestView<CacheResource>> CACHE_KIND = new TypeLiteral<>() {};
 
   private final String name;
   private final Provider<Cache<?, ?>> cacheProvider;

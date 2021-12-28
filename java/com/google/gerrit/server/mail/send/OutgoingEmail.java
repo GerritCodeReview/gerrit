@@ -42,9 +42,9 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -324,7 +324,7 @@ public abstract class OutgoingEmail {
     setupSoyContext();
 
     smtpFromAddress = args.fromAddressGenerator.get().from(fromId);
-    setHeader(FieldName.DATE, new Date());
+    setHeader(FieldName.DATE, Instant.now());
     headers.put(FieldName.FROM, new EmailHeader.AddressList(smtpFromAddress));
     headers.put(FieldName.TO, new EmailHeader.AddressList());
     headers.put(FieldName.CC, new EmailHeader.AddressList());
@@ -398,7 +398,7 @@ public abstract class OutgoingEmail {
     headers.remove(name);
   }
 
-  protected void setHeader(String name, Date date) {
+  protected void setHeader(String name, Instant date) {
     headers.put(name, new EmailHeader.Date(date));
   }
 

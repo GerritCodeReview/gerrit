@@ -30,11 +30,10 @@ import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.inject.Inject;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +99,8 @@ public class MailMetadataIT extends AbstractDaemonTest {
     expectedHeaders.put("Gerrit-MessageType", "comment");
     expectedHeaders.put("Gerrit-Commit", newChange.getCommit().getId().name());
     expectedHeaders.put("Gerrit-ChangeURL", changeURL);
-    expectedHeaders.put("Gerrit-Comment-Date", Iterables.getLast(result).date);
+    expectedHeaders.put(
+        "Gerrit-Comment-Date", Instant.ofEpochMilli(Iterables.getLast(result).date.getTime()));
 
     assertHeaders(message.headers(), expectedHeaders);
 
@@ -116,9 +116,9 @@ public class MailMetadataIT extends AbstractDaemonTest {
       if (entry.getValue() instanceof String) {
         assertThat(have)
             .containsEntry("X-" + entry.getKey(), new StringEmailHeader((String) entry.getValue()));
-      } else if (entry.getValue() instanceof Date) {
+      } else if (entry.getValue() instanceof Instant) {
         assertThat(have)
-            .containsEntry("X-" + entry.getKey(), new EmailHeader.Date((Date) entry.getValue()));
+            .containsEntry("X-" + entry.getKey(), new EmailHeader.Date((Instant) entry.getValue()));
       } else {
         throw new Exception(
             "Object has unsupported type: "
@@ -133,14 +133,13 @@ public class MailMetadataIT extends AbstractDaemonTest {
     for (Map.Entry<String, Object> entry : want.entrySet()) {
       if (entry.getValue() instanceof String) {
         assertThat(body).contains(entry.getKey() + ": " + entry.getValue());
-      } else if (entry.getValue() instanceof Timestamp) {
+      } else if (entry.getValue() instanceof Instant) {
         assertThat(body)
             .contains(
                 entry.getKey()
                     + ": "
                     + MailProcessingUtil.rfcDateformatter.format(
-                        ZonedDateTime.ofInstant(
-                            ((Timestamp) entry.getValue()).toInstant(), ZoneId.of("UTC"))));
+                        ZonedDateTime.ofInstant((Instant) entry.getValue(), ZoneId.of("UTC"))));
       } else {
         throw new Exception(
             "Object has unsupported type: "

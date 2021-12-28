@@ -22,6 +22,30 @@
       },
       "revId": "4fc596b54be8bba079ac51129903f2d3de7a2073",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be0f93be_fe2d3d20",
+        "filename": "java/com/google/gerrit/entities/EmailHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T09:52:41Z",
+      "side": 1,
+      "message": "Done. Forgot to amend before push.",
+      "parentUuid": "9dc88532_c5e89dc2",
+      "range": {
+        "startLine": 154,
+        "startChar": 22,
+        "endLine": 154,
+        "endChar": 29
+      },
+      "revId": "4fc596b54be8bba079ac51129903f2d3de7a2073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

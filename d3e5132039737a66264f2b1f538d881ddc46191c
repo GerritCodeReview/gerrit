@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff636414_2c49edfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T08:14:14Z",
+      "side": 1,
+      "message": "Middle or long term: Can\u0027t we break the API and avoid converting Timestamp to Instant back and forth and replace all occurrences of Timestamp with Instant and adapt Gson serialization/deserialization machinery?",
+      "range": {
+        "startLine": 12,
+        "startChar": 39,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dab5548d_a588dde7",
+        "filename": "java/com/google/gerrit/extensions/common/ApprovalInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T08:14:14Z",
+      "side": 1,
+      "message": "private?",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 8
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "187e7f50_412e36e2",
+        "filename": "java/com/google/gerrit/server/AssigneeStatusUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T08:14:14Z",
+      "side": 1,
+      "message": "Would it make sense to rename this?",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6c644cc_6cabb5dc",
+        "filename": "java/com/google/gerrit/server/ReviewerStatusUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T08:14:14Z",
+      "side": 1,
+      "message": "Rename?",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8585146b_bca46ca3",
+        "filename": "java/com/google/gerrit/server/ReviewerStatusUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T08:14:14Z",
+      "side": 1,
+      "message": "Rename?",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d28c96a0_da2936d0",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T08:14:14Z",
+      "side": 1,
+      "message": "Rename?",
+      "range": {
+        "startLine": 514,
+        "startChar": 14,
+        "endLine": 514,
+        "endChar": 23
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da34f28f_0e925553",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeFieldTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T08:14:14Z",
+      "side": 1,
+      "message": "remove second \"so\"?",
+      "range": {
+        "startLine": 61,
+        "startChar": 20,
+        "endLine": 61,
+        "endChar": 23
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e81addf3_67de861a",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T08:14:14Z",
+      "side": 1,
+      "message": "Rename?",
+      "range": {
+        "startLine": 499,
+        "startChar": 12,
+        "endLine": 499,
+        "endChar": 27
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

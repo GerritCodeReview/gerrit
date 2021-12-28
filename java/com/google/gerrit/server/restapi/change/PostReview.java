@@ -764,7 +764,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         DiffSummaryKey.fromPatchListKey(
             PatchListKey.againstDefaultBase(newId, Whitespace.IGNORE_NONE));
     DiffSummary ds = patchListCache.getDiffSummary(key, revision.getProject());
-    return new HashSet<>(ds.getPaths());
+    return new HashSet<>(ds.paths());
   }
 
   private static void ensurePathRefersToAvailableOrMagicFile(

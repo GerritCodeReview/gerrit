@@ -279,6 +279,30 @@
       },
       "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2321051f_0e1e9d1c",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T12:07:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e81addf3_67de861a",
+      "range": {
+        "startLine": 499,
+        "startChar": 12,
+        "endLine": 499,
+        "endChar": 27
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

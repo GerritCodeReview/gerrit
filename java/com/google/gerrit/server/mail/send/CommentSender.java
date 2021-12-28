@@ -555,6 +555,6 @@ public class CommentSender extends ReplyToChangeSender {
   private String getCommentTimestamp() {
     // Grouping is currently done by timestamp.
     return MailProcessingUtil.rfcDateformatter.format(
-        ZonedDateTime.ofInstant(timestamp.toInstant(), ZoneId.of("UTC")));
+        ZonedDateTime.ofInstant(timestamp, ZoneId.of("UTC")));
   }
 }

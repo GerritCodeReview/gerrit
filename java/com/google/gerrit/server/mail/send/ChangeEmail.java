@@ -54,8 +54,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -87,7 +87,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
   protected String changeMessage;
-  protected Timestamp timestamp;
+  protected Instant timestamp;
 
   protected ProjectState projectState;
   protected Set<Account.Id> authors;
@@ -126,7 +126,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   public void setChangeMessage(String cm, Timestamp t) {
     changeMessage = cm;
-    timestamp = t;
+    timestamp = t.toInstant();
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
@@ -191,7 +191,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     super.init();
     if (timestamp != null) {
-      setHeader(FieldName.DATE, new Date(timestamp.getTime()));
+      setHeader(FieldName.DATE, timestamp);
     }
     setChangeSubjectHeader();
     setHeader(MailHeader.CHANGE_ID.fieldName(), "" + change.getKey().get());

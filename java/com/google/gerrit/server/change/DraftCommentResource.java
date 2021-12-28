@@ -25,7 +25,7 @@ import com.google.inject.TypeLiteral;
 
 public class DraftCommentResource implements RestResource {
   public static final TypeLiteral<RestView<DraftCommentResource>> DRAFT_COMMENT_KIND =
-      new TypeLiteral<RestView<DraftCommentResource>>() {};
+      new TypeLiteral<>() {};
 
   private final RevisionResource rev;
   private final HumanComment comment;

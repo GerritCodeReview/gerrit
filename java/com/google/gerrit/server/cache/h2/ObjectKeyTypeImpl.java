@@ -47,7 +47,7 @@ class ObjectKeyTypeImpl<K> implements KeyType<K> {
 
   @Override
   public Funnel<K> funnel() {
-    return new Funnel<K>() {
+    return new Funnel<>() {
       private static final long serialVersionUID = 1L;
 
       @Override

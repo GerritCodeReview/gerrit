@@ -23,7 +23,7 @@ import com.google.inject.TypeLiteral;
 /** A change message resource. */
 public class ChangeMessageResource implements RestResource {
   public static final TypeLiteral<RestView<ChangeMessageResource>> CHANGE_MESSAGE_KIND =
-      new TypeLiteral<RestView<ChangeMessageResource>>() {};
+      new TypeLiteral<>() {};
 
   private final ChangeResource changeResource;
   private final ChangeMessageInfo changeMessage;

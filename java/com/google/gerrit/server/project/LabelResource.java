@@ -20,8 +20,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
 public class LabelResource implements RestResource {
-  public static final TypeLiteral<RestView<LabelResource>> LABEL_KIND =
-      new TypeLiteral<RestView<LabelResource>>() {};
+  public static final TypeLiteral<RestView<LabelResource>> LABEL_KIND = new TypeLiteral<>() {};
 
   private final ProjectResource project;
   private final LabelType labelType;

@@ -384,7 +384,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       }
       ImmutableList<FieldBundle> fieldBundles =
           documents.stream().map(rawDocumentMapper).collect(toImmutableList());
-      return new ResultSet<FieldBundle>() {
+      return new ResultSet<>() {
         @Override
         public Iterator<FieldBundle> iterator() {
           return fieldBundles.iterator();

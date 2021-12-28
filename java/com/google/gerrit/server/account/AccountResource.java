@@ -23,20 +23,16 @@ import com.google.inject.TypeLiteral;
 import java.util.Set;
 
 public class AccountResource implements RestResource {
-  public static final TypeLiteral<RestView<AccountResource>> ACCOUNT_KIND =
-      new TypeLiteral<RestView<AccountResource>>() {};
+  public static final TypeLiteral<RestView<AccountResource>> ACCOUNT_KIND = new TypeLiteral<>() {};
 
-  public static final TypeLiteral<RestView<Capability>> CAPABILITY_KIND =
-      new TypeLiteral<RestView<Capability>>() {};
+  public static final TypeLiteral<RestView<Capability>> CAPABILITY_KIND = new TypeLiteral<>() {};
 
-  public static final TypeLiteral<RestView<Email>> EMAIL_KIND =
-      new TypeLiteral<RestView<Email>>() {};
+  public static final TypeLiteral<RestView<Email>> EMAIL_KIND = new TypeLiteral<>() {};
 
-  public static final TypeLiteral<RestView<SshKey>> SSH_KEY_KIND =
-      new TypeLiteral<RestView<SshKey>>() {};
+  public static final TypeLiteral<RestView<SshKey>> SSH_KEY_KIND = new TypeLiteral<>() {};
 
   public static final TypeLiteral<RestView<StarredChange>> STARRED_CHANGE_KIND =
-      new TypeLiteral<RestView<StarredChange>>() {};
+      new TypeLiteral<>() {};
 
   private final IdentifiedUser user;
 
@@ -106,8 +102,7 @@ public class AccountResource implements RestResource {
   }
 
   public static class Star implements RestResource {
-    public static final TypeLiteral<RestView<Star>> STAR_KIND =
-        new TypeLiteral<RestView<Star>>() {};
+    public static final TypeLiteral<RestView<Star>> STAR_KIND = new TypeLiteral<>() {};
 
     private final IdentifiedUser user;
     private final ChangeResource change;

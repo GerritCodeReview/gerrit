@@ -33,7 +33,7 @@ public class DisabledMetricMaker extends MetricMaker {
 
   @Override
   public <F1> Counter1<F1> newCounter(String name, Description desc, Field<F1> field1) {
-    return new Counter1<F1>() {
+    return new Counter1<>() {
       @Override
       public void incrementBy(F1 field1, long value) {}
 
@@ -45,7 +45,7 @@ public class DisabledMetricMaker extends MetricMaker {
   @Override
   public <F1, F2> Counter2<F1, F2> newCounter(
       String name, Description desc, Field<F1> field1, Field<F2> field2) {
-    return new Counter2<F1, F2>() {
+    return new Counter2<>() {
       @Override
       public void incrementBy(F1 field1, F2 field2, long value) {}
 
@@ -57,7 +57,7 @@ public class DisabledMetricMaker extends MetricMaker {
   @Override
   public <F1, F2, F3> Counter3<F1, F2, F3> newCounter(
       String name, Description desc, Field<F1> field1, Field<F2> field2, Field<F3> field3) {
-    return new Counter3<F1, F2, F3>() {
+    return new Counter3<>() {
       @Override
       public void incrementBy(F1 field1, F2 field2, F3 field3, long value) {}
 
@@ -125,7 +125,7 @@ public class DisabledMetricMaker extends MetricMaker {
 
   @Override
   public <F1> Histogram1<F1> newHistogram(String name, Description desc, Field<F1> field1) {
-    return new Histogram1<F1>() {
+    return new Histogram1<>() {
       @Override
       public void record(F1 field1, long value) {}
 
@@ -137,7 +137,7 @@ public class DisabledMetricMaker extends MetricMaker {
   @Override
   public <F1, F2> Histogram2<F1, F2> newHistogram(
       String name, Description desc, Field<F1> field1, Field<F2> field2) {
-    return new Histogram2<F1, F2>() {
+    return new Histogram2<>() {
       @Override
       public void record(F1 field1, F2 field2, long value) {}
 
@@ -149,7 +149,7 @@ public class DisabledMetricMaker extends MetricMaker {
   @Override
   public <F1, F2, F3> Histogram3<F1, F2, F3> newHistogram(
       String name, Description desc, Field<F1> field1, Field<F2> field2, Field<F3> field3) {
-    return new Histogram3<F1, F2, F3>() {
+    return new Histogram3<>() {
       @Override
       public void record(F1 field1, F2 field2, F3 field3, long value) {}
 
@@ -161,7 +161,7 @@ public class DisabledMetricMaker extends MetricMaker {
   @Override
   public <V> CallbackMetric0<V> newCallbackMetric(
       String name, Class<V> valueClass, Description desc) {
-    return new CallbackMetric0<V>() {
+    return new CallbackMetric0<>() {
       @Override
       public void set(V value) {}
 
@@ -173,7 +173,7 @@ public class DisabledMetricMaker extends MetricMaker {
   @Override
   public <F1, V> CallbackMetric1<F1, V> newCallbackMetric(
       String name, Class<V> valueClass, Description desc, Field<F1> field1) {
-    return new CallbackMetric1<F1, V>() {
+    return new CallbackMetric1<>() {
       @Override
       public void set(F1 field1, V value) {}
 

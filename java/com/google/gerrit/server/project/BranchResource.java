@@ -21,8 +21,7 @@ import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.lib.Ref;
 
 public class BranchResource extends RefResource {
-  public static final TypeLiteral<RestView<BranchResource>> BRANCH_KIND =
-      new TypeLiteral<RestView<BranchResource>>() {};
+  public static final TypeLiteral<RestView<BranchResource>> BRANCH_KIND = new TypeLiteral<>() {};
 
   private final String refName;
   private final String revision;

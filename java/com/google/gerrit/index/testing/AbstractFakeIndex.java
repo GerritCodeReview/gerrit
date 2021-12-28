@@ -121,7 +121,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
               .limit(opts.limit())
               .collect(toImmutableList());
     }
-    return new DataSource<V>() {
+    return new DataSource<>() {
       @Override
       public int getCardinality() {
         return results.size();

@@ -19,8 +19,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.TypeLiteral;
 
 public class MemberResource extends GroupResource {
-  public static final TypeLiteral<RestView<MemberResource>> MEMBER_KIND =
-      new TypeLiteral<RestView<MemberResource>>() {};
+  public static final TypeLiteral<RestView<MemberResource>> MEMBER_KIND = new TypeLiteral<>() {};
 
   private final IdentifiedUser user;
 

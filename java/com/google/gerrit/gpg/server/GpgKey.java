@@ -21,8 +21,7 @@ import com.google.inject.TypeLiteral;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 
 public class GpgKey extends AccountResource {
-  public static final TypeLiteral<RestView<GpgKey>> GPG_KEY_KIND =
-      new TypeLiteral<RestView<GpgKey>>() {};
+  public static final TypeLiteral<RestView<GpgKey>> GPG_KEY_KIND = new TypeLiteral<>() {};
 
   private final PGPPublicKeyRing keyRing;
 

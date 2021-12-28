@@ -146,7 +146,7 @@ public abstract class DynamicMap<T> implements Iterable<Extension<T>> {
   @Override
   public Iterator<Extension<T>> iterator() {
     final Iterator<Map.Entry<NamePair, Provider<T>>> i = items.entrySet().iterator();
-    return new Iterator<Extension<T>>() {
+    return new Iterator<>() {
       @Override
       public boolean hasNext() {
         return i.hasNext();

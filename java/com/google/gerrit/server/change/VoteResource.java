@@ -19,8 +19,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
 public class VoteResource implements RestResource {
-  public static final TypeLiteral<RestView<VoteResource>> VOTE_KIND =
-      new TypeLiteral<RestView<VoteResource>>() {};
+  public static final TypeLiteral<RestView<VoteResource>> VOTE_KIND = new TypeLiteral<>() {};
 
   private final ReviewerResource reviewer;
   private final String label;

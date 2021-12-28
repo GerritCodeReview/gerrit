@@ -35,7 +35,7 @@ public abstract class CacheModule extends FactoryModule {
   public static final String MEMORY_MODULE = "cache-memory";
   public static final String PERSISTENT_MODULE = "cache-persistent";
 
-  private static final TypeLiteral<Cache<?, ?>> ANY_CACHE = new TypeLiteral<Cache<?, ?>>() {};
+  private static final TypeLiteral<Cache<?, ?>> ANY_CACHE = new TypeLiteral<>() {};
 
   /**
    * Declare a named in-memory cache.

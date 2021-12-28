@@ -19,8 +19,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
 public class PluginResource implements RestResource {
-  public static final TypeLiteral<RestView<PluginResource>> PLUGIN_KIND =
-      new TypeLiteral<RestView<PluginResource>>() {};
+  public static final TypeLiteral<RestView<PluginResource>> PLUGIN_KIND = new TypeLiteral<>() {};
 
   private final Plugin plugin;
   private final String name;

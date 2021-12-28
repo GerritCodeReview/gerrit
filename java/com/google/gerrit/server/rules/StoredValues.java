@@ -70,7 +70,7 @@ public final class StoredValues {
   }
 
   public static final StoredValue<RevCommit> COMMIT =
-      new StoredValue<RevCommit>() {
+      new StoredValue<>() {
         @Override
         public RevCommit createValue(Prolog engine) {
           Change change = getChange(engine);
@@ -86,7 +86,7 @@ public final class StoredValues {
       };
 
   public static final StoredValue<Map<String, FileDiffOutput>> DIFF_LIST =
-      new StoredValue<Map<String, FileDiffOutput>>() {
+      new StoredValue<>() {
         @Override
         public Map<String, FileDiffOutput> createValue(Prolog engine) {
           PrologEnvironment env = (PrologEnvironment) engine.control;
@@ -113,7 +113,7 @@ public final class StoredValues {
   // It should be minimized or cached to reduce pause time
   // when evaluating Prolog submit rules.
   public static final StoredValue<GitRepositoryManager> REPO_MANAGER =
-      new StoredValue<GitRepositoryManager>() {
+      new StoredValue<>() {
         @Override
         public GitRepositoryManager createValue(Prolog engine) {
           PrologEnvironment env = (PrologEnvironment) engine.control;
@@ -122,7 +122,7 @@ public final class StoredValues {
       };
 
   public static final StoredValue<PluginConfigFactory> PLUGIN_CONFIG_FACTORY =
-      new StoredValue<PluginConfigFactory>() {
+      new StoredValue<>() {
         @Override
         public PluginConfigFactory createValue(Prolog engine) {
           PrologEnvironment env = (PrologEnvironment) engine.control;
@@ -131,7 +131,7 @@ public final class StoredValues {
       };
 
   public static final StoredValue<Repository> REPOSITORY =
-      new StoredValue<Repository>() {
+      new StoredValue<>() {
         @Override
         public Repository createValue(Prolog engine) {
           PrologEnvironment env = (PrologEnvironment) engine.control;
@@ -150,7 +150,7 @@ public final class StoredValues {
       };
 
   public static final StoredValue<PermissionBackend> PERMISSION_BACKEND =
-      new StoredValue<PermissionBackend>() {
+      new StoredValue<>() {
         @Override
         protected PermissionBackend createValue(Prolog engine) {
           PrologEnvironment env = (PrologEnvironment) engine.control;
@@ -159,7 +159,7 @@ public final class StoredValues {
       };
 
   public static final StoredValue<AnonymousUser> ANONYMOUS_USER =
-      new StoredValue<AnonymousUser>() {
+      new StoredValue<>() {
         @Override
         protected AnonymousUser createValue(Prolog engine) {
           PrologEnvironment env = (PrologEnvironment) engine.control;
@@ -168,7 +168,7 @@ public final class StoredValues {
       };
 
   public static final StoredValue<Map<Account.Id, IdentifiedUser>> USERS =
-      new StoredValue<Map<Account.Id, IdentifiedUser>>() {
+      new StoredValue<>() {
         @Override
         protected Map<Account.Id, IdentifiedUser> createValue(Prolog engine) {
           return new HashMap<>();

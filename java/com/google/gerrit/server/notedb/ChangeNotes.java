@@ -487,11 +487,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   /**
    * Returns the evaluated submit requirements for the change. We only intend to store submit
-   * requirements in NoteDb for closed changes, hence the result will be an empty list for active
-   * changes, or a list of submit requirements results otherwise. For closed changes, the results
-   * represent the state of evaluating submit requirements for this change when it was merged.
+   * requirements in NoteDb for closed changes. For closed changes, the results represent the state
+   * of evaluating submit requirements for this change when it was merged or abandoned.
+   *
+   * @throws UnsupportedOperationException if submit requirements are requested for an open change.
    */
   public ImmutableList<SubmitRequirementResult> getSubmitRequirementsResult() {
+    if (state.columns().status().isOpen()) {
+      throw new UnsupportedOperationException(
+          String.format(
+              "Cannot request stored submit requirements"
+                  + " for an open change: project = %s, change ID = %d",
+              getProjectName(), state.changeId().get()));
+    }
     return state.submitRequirementsResult();
   }
 

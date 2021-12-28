@@ -863,8 +863,28 @@ class ChangeNotesParser {
       for (HumanComment c : e.getValue().getEntities()) {
         humanComments.put(e.getKey(), c);
       }
-      for (SubmitRequirementResult sr : e.getValue().getSubmitRequirementsResult()) {
-        submitRequirementResults.add(sr);
+    }
+
+    // Lookup submit requirement results from the revision notes of the last PS that has stored
+    // submit requirements. This is important for cases where the change was abandoned/un-abandoned
+    // multiple times. With each abandon, we store submit requirement results in NoteDb, so we can
+    // end up having stored SRs in many revision notes. We should only return SRs from the last
+    // PS of them.
+    for (PatchSet.Builder ps :
+        patchSets.values().stream()
+            .sorted(comparingInt((PatchSet.Builder p) -> p.id().get()).reversed())
+            .collect(Collectors.toList())) {
+      Optional<ObjectId> maybePsCommitId = ps.commitId();
+      if (!maybePsCommitId.isPresent()) {
+        continue;
+      }
+      ObjectId psCommitId = maybePsCommitId.get();
+      if (rns.containsKey(psCommitId)
+          && rns.get(psCommitId).getSubmitRequirementsResult() != null) {
+        rns.get(psCommitId)
+            .getSubmitRequirementsResult()
+            .forEach(sr -> submitRequirementResults.add(sr));
+        break;
       }
     }
 

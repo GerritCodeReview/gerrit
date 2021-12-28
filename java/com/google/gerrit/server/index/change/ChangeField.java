@@ -152,6 +152,10 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> FUZZY_TOPIC =
       fullText("topic5").build(ChangeField::getTopic);
 
+  /** Topic, a short annotation on the branch. */
+  public static final FieldDef<ChangeData, String> PREFIX_TOPIC =
+      prefix("topic6").build(ChangeField::getTopic);
+
   /** Submission id assigned by MergeOp. */
   public static final FieldDef<ChangeData, String> SUBMISSIONID =
       exact(ChangeQueryBuilder.FIELD_SUBMISSIONID).build(changeGetter(Change::getSubmissionId));
@@ -193,6 +197,11 @@ public class ChangeField {
   /** Hashtags as fulltext field for in-string search. */
   public static final FieldDef<ChangeData, Iterable<String>> FUZZY_HASHTAG =
       fullText("hashtag2")
+          .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
+
+  /** Hashtags as prefix field for in-string search. */
+  public static final FieldDef<ChangeData, Iterable<String>> PREFIX_HASHTAG =
+      prefix("hashtag3")
           .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
 
   /** Hashtags with original case. */

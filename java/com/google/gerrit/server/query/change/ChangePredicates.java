@@ -207,6 +207,11 @@ public class ChangePredicates {
     return new ChangeIndexPredicate(ChangeField.FUZZY_TOPIC, topic);
   }
 
+  /** Returns a predicate that matches changes in the provided {@code topic}. Used with prefixes */
+  public static Predicate<ChangeData> prefixTopic(String topic) {
+    return new ChangeIndexPredicate(ChangeField.PREFIX_TOPIC, topic);
+  }
+
   /** Returns a predicate that matches changes submitted in the provided {@code changeSet}. */
   public static Predicate<ChangeData> submissionId(String changeSet) {
     return new ChangeIndexPredicate(ChangeField.SUBMISSIONID, changeSet);
@@ -229,6 +234,15 @@ public class ChangePredicates {
     // Use toLowerCase without locale to match behavior in ChangeField.
     return new ChangeIndexPredicate(
         ChangeField.FUZZY_HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
+  }
+
+  /**
+   * Returns a predicate that matches changes in the provided {@code hashtag}. Used with prefixes
+   */
+  public static Predicate<ChangeData> prefixHashtag(String hashtag) {
+    // Use toLowerCase without locale to match behavior in ChangeField.
+    return new ChangeIndexPredicate(
+        ChangeField.PREFIX_HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
   }
 
   /** Returns a predicate that matches changes that modified the provided {@code file}. */

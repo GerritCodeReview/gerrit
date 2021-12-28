@@ -264,6 +264,11 @@ Changes whose designated topic matches 'TOPIC' exactly.  This is
 often combined with 'branch:' and 'project:' operators to select
 all related changes in a series.
 
+[[prefixtopic]]
+prefixtopic:'TOPIC'::
++
+Changes whose designated topic start with 'TOPIC'.
+
 [[inhashtag]]
 inhashtag:'HASHTAG'::
 +
@@ -278,6 +283,12 @@ library,role=external,window=_blank] is used for evaluation of such patterns.
 hashtag:'HASHTAG'::
 +
 Changes whose link:intro-user.html#hashtags[hashtag] matches 'HASHTAG'.
+The match is case-insensitive.
+
+[[prefixhashtag]]
+prefixhashtag:'HASHTAG'::
++
+Changes whose link:intro-user.html#hashtags[hashtag] start with 'HASHTAG'.
 The match is case-insensitive.
 
 [[cherrypickof]]

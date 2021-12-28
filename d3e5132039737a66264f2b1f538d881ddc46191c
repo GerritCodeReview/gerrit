@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b39d6815_1484e0d7",
+        "filename": "java/com/google/gerrit/server/AssigneeStatusUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:25:41Z",
+      "side": 1,
+      "message": "Marking as resolved.",
+      "parentUuid": "d811d7e0_457ea646",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6c644cc_6cabb5dc",
@@ -155,6 +179,30 @@
       "writtenOn": "2021-12-28T08:14:14Z",
       "side": 1,
       "message": "Rename?",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2f220ce_4b032808",
+        "filename": "java/com/google/gerrit/server/ReviewerStatusUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:25:41Z",
+      "side": 1,
+      "message": "Marking as resolved.",
+      "parentUuid": "a6c644cc_6cabb5dc",
       "range": {
         "startLine": 26,
         "startChar": 14,
@@ -188,6 +236,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99f77b62_25edf6a3",
+        "filename": "java/com/google/gerrit/server/ReviewerStatusUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:25:41Z",
+      "side": 1,
+      "message": "Marking as resolved.",
+      "parentUuid": "8585146b_bca46ca3",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d28c96a0_da2936d0",
@@ -201,6 +273,30 @@
       "writtenOn": "2021-12-28T08:14:14Z",
       "side": 1,
       "message": "Rename?",
+      "range": {
+        "startLine": 514,
+        "startChar": 14,
+        "endLine": 514,
+        "endChar": 23
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f0f73d2_e2889db1",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:25:41Z",
+      "side": 1,
+      "message": "Marking as resolved",
+      "parentUuid": "d28c96a0_da2936d0",
       "range": {
         "startLine": 514,
         "startChar": 14,

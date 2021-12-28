@@ -27,7 +27,7 @@ import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class PatchSetProtoConverterTest {
             .id(PatchSet.id(Change.id(103), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
-            .createdOn(new Timestamp(930349320L))
+            .createdOn(Instant.ofEpochMilli(930349320L))
             .groups(ImmutableList.of("group1", " group2"))
             .pushCertificate("my push certificate")
             .description("This is a patch set description.")
@@ -74,7 +74,7 @@ public class PatchSetProtoConverterTest {
             .id(PatchSet.id(Change.id(103), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
-            .createdOn(new Timestamp(930349320L))
+            .createdOn(Instant.ofEpochMilli(930349320L))
             .build();
 
     Entities.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
@@ -100,7 +100,7 @@ public class PatchSetProtoConverterTest {
             .id(PatchSet.id(Change.id(103), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
-            .createdOn(new Timestamp(930349320L))
+            .createdOn(Instant.ofEpochMilli(930349320L))
             .groups(ImmutableList.of("group1", " group2"))
             .pushCertificate("my push certificate")
             .description("This is a patch set description.")
@@ -118,7 +118,7 @@ public class PatchSetProtoConverterTest {
             .id(PatchSet.id(Change.id(103), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
-            .createdOn(new Timestamp(930349320L))
+            .createdOn(Instant.ofEpochMilli(930349320L))
             .build();
 
     PatchSet convertedPatchSet =
@@ -143,7 +143,7 @@ public class PatchSetProtoConverterTest {
                 .id(PatchSet.id(Change.id(103), 73))
                 .commitId(ObjectId.fromString("0000000000000000000000000000000000000000"))
                 .uploader(Account.id(0))
-                .createdOn(new Timestamp(0))
+                .createdOn(Instant.ofEpochMilli(0))
                 .build());
   }
 
@@ -156,7 +156,7 @@ public class PatchSetProtoConverterTest {
                 .put("id", PatchSet.Id.class)
                 .put("commitId", ObjectId.class)
                 .put("uploader", Account.Id.class)
-                .put("createdOn", Timestamp.class)
+                .put("createdOn", Instant.class)
                 .put("groups", new TypeLiteral<ImmutableList<String>>() {}.getType())
                 .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("description", new TypeLiteral<Optional<String>>() {}.getType())

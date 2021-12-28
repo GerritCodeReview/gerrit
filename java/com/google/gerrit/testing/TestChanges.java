@@ -31,6 +31,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Injector;
+import java.time.Instant;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.junit.TestRepository;
@@ -72,7 +73,7 @@ public class TestChanges {
         .id(id)
         .commitId(ObjectId.fromString(revision))
         .uploader(userId)
-        .createdOn(TimeUtil.nowTs())
+        .createdOn(Instant.now())
         .build();
   }
 

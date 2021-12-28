@@ -20,7 +20,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -42,7 +42,7 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
             .setId(patchSetIdConverter.toProto(patchSet.id()))
             .setCommitId(objectIdConverter.toProto(patchSet.commitId()))
             .setUploaderAccountId(accountIdConverter.toProto(patchSet.uploader()))
-            .setCreatedOn(patchSet.createdOn().getTime());
+            .setCreatedOn(patchSet.createdOn().toEpochMilli());
     List<String> groups = patchSet.groups();
     if (!groups.isEmpty()) {
       builder.setGroups(PatchSet.joinGroups(groups));
@@ -84,7 +84,10 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
             proto.hasUploaderAccountId()
                 ? accountIdConverter.fromProto(proto.getUploaderAccountId())
                 : Account.id(0))
-        .createdOn(proto.hasCreatedOn() ? new Timestamp(proto.getCreatedOn()) : new Timestamp(0));
+        .createdOn(
+            proto.hasCreatedOn()
+                ? Instant.ofEpochMilli(proto.getCreatedOn())
+                : Instant.ofEpochMilli(0));
 
     return builder.build();
   }

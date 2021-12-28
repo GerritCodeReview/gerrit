@@ -21,8 +21,8 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
+import java.time.Instant;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -46,7 +46,7 @@ public class ChangeDataTest {
         .id(PatchSet.id(changeId, num))
         .commitId(ObjectId.zeroId())
         .uploader(Account.id(1234))
-        .createdOn(TimeUtil.nowTs())
+        .createdOn(Instant.now())
         .build();
   }
 }

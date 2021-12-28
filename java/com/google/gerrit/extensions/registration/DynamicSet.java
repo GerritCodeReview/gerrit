@@ -153,7 +153,7 @@ public class DynamicSet<T> implements Iterable<T> {
   @Override
   public Iterator<T> iterator() {
     Iterator<Extension<T>> entryIterator = entries().iterator();
-    return new Iterator<T>() {
+    return new Iterator<>() {
       @Override
       public boolean hasNext() {
         return entryIterator.hasNext();
@@ -170,7 +170,7 @@ public class DynamicSet<T> implements Iterable<T> {
   public Iterable<Extension<T>> entries() {
     final Iterator<AtomicReference<Extension<T>>> itr = items.iterator();
     return () ->
-        new Iterator<Extension<T>>() {
+        new Iterator<>() {
           private Extension<T> next;
 
           @Override

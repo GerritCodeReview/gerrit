@@ -72,6 +72,6 @@ public class FakeQueryBuilder extends ChangeQueryBuilder {
   }
 
   private Predicate<ChangeData> predicate(String name, String value) {
-    return new OperatorPredicate<ChangeData>(name, value) {};
+    return new OperatorPredicate<>(name, value) {};
   }
 }

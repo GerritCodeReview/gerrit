@@ -20,8 +20,7 @@ import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class CommitResource implements RestResource {
-  public static final TypeLiteral<RestView<CommitResource>> COMMIT_KIND =
-      new TypeLiteral<RestView<CommitResource>>() {};
+  public static final TypeLiteral<RestView<CommitResource>> COMMIT_KIND = new TypeLiteral<>() {};
 
   private final ProjectResource project;
   private final RevCommit commit;

@@ -22,8 +22,7 @@ import com.google.inject.TypeLiteral;
 import java.util.Optional;
 
 public class GroupResource implements RestResource {
-  public static final TypeLiteral<RestView<GroupResource>> GROUP_KIND =
-      new TypeLiteral<RestView<GroupResource>>() {};
+  public static final TypeLiteral<RestView<GroupResource>> GROUP_KIND = new TypeLiteral<>() {};
 
   private final GroupControl control;
 

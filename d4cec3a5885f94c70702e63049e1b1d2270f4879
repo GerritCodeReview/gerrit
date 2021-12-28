@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "030b4d2b_c5f0fd7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T18:41:03Z",
+      "side": 1,
+      "message": "This was Java 8 incompatible change. When this upgrade is merged, Gerrit cannot be built with Java 8 anymore. I think that\u0027s fine.",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 41
+      },
+      "revId": "d4cec3a5885f94c70702e63049e1b1d2270f4879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

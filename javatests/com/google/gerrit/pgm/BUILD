@@ -4,6 +4,7 @@ load("//tools/bzl:license.bzl", "license_test")
 junit_tests(
     name = "pgm_tests",
     srcs = glob(["**/*.java"]),
+    tags = ["no_rbe"],
     deps = [
         "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/pgm/init/api",

@@ -1,0 +1,389 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "534d0f7f_5ccf025f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "While working more on this series, I realised that:\n\n* There is a better way to convert Instant to Timestamp and vice versa\n\n  - use \u0027Timestamp.from(instant)\u0027 instead of\n    \u0027new Timestamp(instant.toEpochMillis())\u0027\n  \n  - use \u0027timestamp.toInstant()\u0027 instead of\n    \u0027Instant.ofEpochMillis(timestamp.getTime())\u0027\n  \n* Instant.now() is not equivalent to TimeUtil.nowTs() as it doesn\u0027t take\n  clock steps that are set for testing into account. Instead we should\n  use TimeUtil.now().\n  \nI re-reviewed this change with regards to these issues and will fix them with a new patch set. Afterwards I will do the same for the follow-up changes. \n  ",
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af6a5c1b_4743591d",
+        "filename": "java/com/google/gerrit/extensions/common/ApprovalInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: Timestamp.from(date)",
+      "range": {
+        "startLine": 94,
+        "startChar": 16,
+        "endLine": 94,
+        "endChar": 50
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aa30282_3ddc7985",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: Timestamp.from(date)",
+      "range": {
+        "startLine": 133,
+        "startChar": 16,
+        "endLine": 133,
+        "endChar": 50
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c58a33e7_3a06eb82",
+        "filename": "java/com/google/gerrit/extensions/common/ReviewerUpdateInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: Timestamp.from(date)",
+      "range": {
+        "startLine": 33,
+        "startChar": 19,
+        "endLine": 33,
+        "endChar": 57
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfefcc23_5871cce8",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: when.toInstant()",
+      "range": {
+        "startLine": 89,
+        "startChar": 21,
+        "endLine": 89,
+        "endChar": 57
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2721871_bfc4eed1",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: update.getWhen().toInstant()",
+      "range": {
+        "startLine": 212,
+        "startChar": 23,
+        "endLine": 212,
+        "endChar": 71
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52ea0a69_75e6e6e8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: Timestamp.from(ts)",
+      "range": {
+        "startLine": 632,
+        "startChar": 19,
+        "endLine": 632,
+        "endChar": 51
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc29ca0b_c0cf0c03",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: Timestamp.from(ts)",
+      "range": {
+        "startLine": 830,
+        "startChar": 12,
+        "endLine": 830,
+        "endChar": 44
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f179e9a7_318c4b8f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: Timestamp.from(instant)",
+      "range": {
+        "startLine": 154,
+        "startChar": 27,
+        "endLine": 155,
+        "endChar": 75
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "003a692d_ee5d8094",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: Timestamp.from(instant)",
+      "range": {
+        "startLine": 188,
+        "startChar": 37,
+        "endLine": 188,
+        "endChar": 75
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2169d64a_712e5286",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1460,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: ctx.getWhen().toInstant()",
+      "range": {
+        "startLine": 1460,
+        "startChar": 27,
+        "endLine": 1460,
+        "endChar": 72
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baf813cf_525a0f04",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: ctx.getWhen().toInstant()",
+      "range": {
+        "startLine": 1477,
+        "startChar": 27,
+        "endLine": 1477,
+        "endChar": 72
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3df140b_609ff59e",
+        "filename": "javatests/com/google/gerrit/server/change/LabelNormalizerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "TimeUtil.now()",
+      "range": {
+        "startLine": 216,
+        "startChar": 17,
+        "endLine": 216,
+        "endChar": 30
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "405dfdb3_0d06a250",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeFieldTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "TimeUtil.nowMs() (here and below)",
+      "range": {
+        "startLine": 62,
+        "startChar": 38,
+        "endLine": 62,
+        "endChar": 66
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e90b2e8_c97b698b",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: update.getWhen().toInstant()",
+      "range": {
+        "startLine": 376,
+        "startChar": 29,
+        "endLine": 376,
+        "endChar": 77
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d1e0611_f4996ad7",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "TimeUtil.now()",
+      "range": {
+        "startLine": 926,
+        "startChar": 21,
+        "endLine": 926,
+        "endChar": 34
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f29dd55a_74bd9ad0",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T12:03:22Z",
+      "side": 1,
+      "message": "better: serverIdent.getWhen().toInstant() (and 5 more times below)",
+      "range": {
+        "startLine": 499,
+        "startChar": 30,
+        "endLine": 499,
+        "endChar": 83
+      },
+      "revId": "d41df7e3516813993ae053e1a7e8d158d8cf2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

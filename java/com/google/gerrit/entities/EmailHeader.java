@@ -19,7 +19,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.MoreObjects;
 import java.io.IOException;
 import java.io.Writer;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -127,13 +129,13 @@ public abstract class EmailHeader {
   }
 
   public static class Date extends EmailHeader {
-    private final java.util.Date value;
+    private final Instant value;
 
-    public Date(java.util.Date v) {
+    public Date(Instant v) {
       value = v;
     }
 
-    public java.util.Date getDate() {
+    public Instant getDate() {
       return value;
     }
 
@@ -144,10 +146,12 @@ public abstract class EmailHeader {
 
     @Override
     public void write(Writer w) throws IOException {
-      final SimpleDateFormat fmt;
-      // Mon, 1 Jun 2009 10:49:44 -0700
-      fmt = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US);
-      w.write(fmt.format(value));
+      // Mon, 1 Jun 2009 10:49:44 +0000
+      w.write(
+          DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss Z")
+              .withLocale(Locale.US)
+              .withZone(ZoneId.of("UTC"))
+              .format((value)));
     }
 
     @Override
@@ -157,7 +161,7 @@ public abstract class EmailHeader {
 
     @Override
     public boolean equals(Object o) {
-      return (o instanceof Date) && value.getTime() == ((Date) o).value.getTime();
+      return (o instanceof Date) && Objects.equals(value, ((Date) o).value);
     }
 
     @Override

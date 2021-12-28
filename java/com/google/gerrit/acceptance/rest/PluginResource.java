@@ -20,6 +20,5 @@ import com.google.inject.TypeLiteral;
 
 public class PluginResource extends ConfigResource {
 
-  static final TypeLiteral<RestView<PluginResource>> PLUGIN_KIND =
-      new TypeLiteral<RestView<PluginResource>>() {};
+  static final TypeLiteral<RestView<PluginResource>> PLUGIN_KIND = new TypeLiteral<>() {};
 }

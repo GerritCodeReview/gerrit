@@ -21,8 +21,7 @@ import com.google.inject.TypeLiteral;
 import java.util.concurrent.TimeUnit;
 
 public class ConfigResource implements RestResource {
-  public static final TypeLiteral<RestView<ConfigResource>> CONFIG_KIND =
-      new TypeLiteral<RestView<ConfigResource>>() {};
+  public static final TypeLiteral<RestView<ConfigResource>> CONFIG_KIND = new TypeLiteral<>() {};
 
   /**
    * Default cache control that gets set on the 'Cache-Control' header for responses on this

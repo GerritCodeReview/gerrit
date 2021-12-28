@@ -20,8 +20,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
 
 public class TagResource extends RefResource {
-  public static final TypeLiteral<RestView<TagResource>> TAG_KIND =
-      new TypeLiteral<RestView<TagResource>>() {};
+  public static final TypeLiteral<RestView<TagResource>> TAG_KIND = new TypeLiteral<>() {};
 
   private final TagInfo tagInfo;
 

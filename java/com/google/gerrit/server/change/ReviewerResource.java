@@ -29,7 +29,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 public class ReviewerResource implements RestResource {
   public static final TypeLiteral<RestView<ReviewerResource>> REVIEWER_KIND =
-      new TypeLiteral<RestView<ReviewerResource>>() {};
+      new TypeLiteral<>() {};
 
   public interface Factory {
     ReviewerResource create(ChangeResource change, Account.Id id);

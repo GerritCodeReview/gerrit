@@ -21,8 +21,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
 
 public class ProjectResource implements RestResource {
-  public static final TypeLiteral<RestView<ProjectResource>> PROJECT_KIND =
-      new TypeLiteral<RestView<ProjectResource>>() {};
+  public static final TypeLiteral<RestView<ProjectResource>> PROJECT_KIND = new TypeLiteral<>() {};
 
   private final ProjectState projectState;
   private final CurrentUser user;

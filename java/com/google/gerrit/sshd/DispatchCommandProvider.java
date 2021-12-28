@@ -91,7 +91,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     return m;
   }
 
-  private static final TypeLiteral<Command> type = new TypeLiteral<Command>() {};
+  private static final TypeLiteral<Command> type = new TypeLiteral<>() {};
 
   private List<Binding<Command>> allCommands() {
     return injector.findBindingsByType(type);

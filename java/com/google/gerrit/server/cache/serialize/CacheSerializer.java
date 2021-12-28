@@ -31,7 +31,7 @@ public interface CacheSerializer<T> {
    * @return serializer of type {@code T}.
    */
   static <T, D> CacheSerializer<T> convert(CacheSerializer<D> delegate, Converter<T, D> converter) {
-    return new CacheSerializer<T>() {
+    return new CacheSerializer<>() {
       @Override
       public byte[] serialize(T object) {
         return delegate.serialize(converter.convert(object));

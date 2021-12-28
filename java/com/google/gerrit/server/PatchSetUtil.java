@@ -39,7 +39,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -106,7 +105,7 @@ public class PatchSetUtil {
         .id(psId)
         .commitId(commit)
         .uploader(update.getAccountId())
-        .createdOn(new Timestamp(update.getWhen().getTime()))
+        .createdOn(update.getWhen().toInstant())
         .groups(groups)
         .pushCertificate(Optional.ofNullable(pushCertificate))
         .description(Optional.ofNullable(description))

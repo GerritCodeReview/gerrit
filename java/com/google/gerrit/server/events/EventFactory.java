@@ -437,7 +437,7 @@ public class EventFactory {
     p.number = patchSet.number();
     p.ref = patchSet.refName();
     p.uploader = asAccountAttribute(patchSet.uploader());
-    p.createdOn = patchSet.createdOn().getTime() / 1000L;
+    p.createdOn = patchSet.createdOn().getEpochSecond();
     PatchSet.Id pId = patchSet.id();
     try {
       p.parents = new ArrayList<>();

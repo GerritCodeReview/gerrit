@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12901aef_007d9345",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T08:36:54Z",
+      "side": 1,
+      "message": "Yes, thanks for suggesting this. I think doing this makes sense, but probably this should be the last step of our migration away from Date/Timestamp. For now included this thought into the commit message.",
+      "parentUuid": "ff636414_2c49edfd",
+      "range": {
+        "startLine": 12,
+        "startChar": 39,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dab5548d_a588dde7",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebebeef8_e82205e1",
+        "filename": "java/com/google/gerrit/extensions/common/ApprovalInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T08:36:54Z",
+      "side": 1,
+      "message": "It\u0027s called from LabelsJson, so it can\u0027t be private unfortunately.",
+      "parentUuid": "dab5548d_a588dde7",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 8
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "187e7f50_412e36e2",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-12-28T08:14:14Z",
       "side": 1,
       "message": "Would it make sense to rename this?",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d811d7e0_457ea646",
+        "filename": "java/com/google/gerrit/server/AssigneeStatusUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T08:36:54Z",
+      "side": 1,
+      "message": "I thought about renaming methods and fields, but Instant represents a date/timestamp so I thought the old names actually still fit. WDYT?",
+      "parentUuid": "187e7f50_412e36e2",
       "range": {
         "startLine": 30,
         "startChar": 26,
@@ -152,6 +224,30 @@
       "writtenOn": "2021-12-28T08:14:14Z",
       "side": 1,
       "message": "remove second \"so\"?",
+      "range": {
+        "startLine": 61,
+        "startChar": 20,
+        "endLine": 61,
+        "endChar": 23
+      },
+      "revId": "d3e5132039737a66264f2b1f538d881ddc46191c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76f46bc1_ae013e9a",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeFieldTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-28T08:36:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da34f28f_0e925553",
       "range": {
         "startLine": 61,
         "startChar": 20,

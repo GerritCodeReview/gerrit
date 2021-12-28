@@ -20,7 +20,6 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.server.cache.serialize.JavaCacheSerializer;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
@@ -35,7 +34,7 @@ public abstract class CacheModule extends FactoryModule {
   public static final String MEMORY_MODULE = "cache-memory";
   public static final String PERSISTENT_MODULE = "cache-persistent";
 
-  private static final TypeLiteral<Cache<?, ?>> ANY_CACHE = new TypeLiteral<Cache<?, ?>>() {};
+  private static final TypeLiteral<Cache<?, ?>> ANY_CACHE = new TypeLiteral<>() {};
 
   /**
    * Declare a named in-memory cache.
@@ -157,10 +156,7 @@ public abstract class CacheModule extends FactoryModule {
         (Key<PersistentCacheDef<K, V>>) Key.get(cacheDefType, Names.named(name));
     bind(cacheDefKey).toInstance(m);
 
-    // TODO(dborowitz): Once default Java serialization is removed, leave no default.
-    return m.version(0)
-        .keySerializer(new JavaCacheSerializer<>())
-        .valueSerializer(new JavaCacheSerializer<>());
+    return m.version(0);
   }
 
   private <K, V> void bindCache(

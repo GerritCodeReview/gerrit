@@ -42,6 +42,7 @@ import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.restapi.change.CommentPorter.Metrics;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
@@ -239,7 +240,7 @@ public class CommentPorterTest {
         .id(id)
         .commitId(dummyObjectId)
         .uploader(Account.id(123))
-        .createdOn(new Timestamp(12345))
+        .createdOn(Instant.ofEpochMilli(12345))
         .build();
   }
 

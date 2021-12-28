@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "782646ac_3dbe9d3c",
+        "filename": "java/com/google/gerrit/common/AddressRecord.java_disabled",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T13:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0908378f_72996d23",
+      "revId": "63e3e8acfac015f2aae7487279685accebe693eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25dc5fa0_17ed7693",
@@ -49,6 +67,24 @@
       "writtenOn": "2021-12-28T13:45:04Z",
       "side": 1,
       "message": "Unintended to commit this file?",
+      "revId": "63e3e8acfac015f2aae7487279685accebe693eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07cfca7f_e2c84f86",
+        "filename": "javatests/com/google/gerrit/pgm/init/api/#AllProjectsConfigTest.java#",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-28T13:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25dc5fa0_17ed7693",
       "revId": "63e3e8acfac015f2aae7487279685accebe693eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

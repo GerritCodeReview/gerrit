@@ -16,6 +16,24 @@
       "message": "JGit edits are still mutable. We should define own edit entities {normal, replace} that are immutable such that we prevent any probable modifications to edits.",
       "revId": "08003af59c806ac9320ebf30c13abb93665401d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d9f62c5_c621b7df",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-28T15:52:00Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "3ea828b1_8757e020",
+      "revId": "08003af59c806ac9320ebf30c13abb93665401d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

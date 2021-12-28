@@ -944,7 +944,7 @@ public class MergeOp implements AutoCloseable {
     try {
       for (ChangeData cd : queryProvider.get().byProjectOpen(destProject)) {
         try (BatchUpdate bu =
-            batchUpdateFactory.create(destProject, internalUserFactory.create(), ts)) {
+            batchUpdateFactory.create(destProject, internalUserFactory.create(), ts.toInstant())) {
           bu.addOp(
               cd.getId(),
               new BatchUpdateOp() {

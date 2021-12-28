@@ -4152,7 +4152,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         Project.nameKey(repo.getRepository().getDescription().getRepositoryName());
     Account.Id ownerId = owner != null ? owner : userId;
     IdentifiedUser user = userFactory.create(ownerId);
-    try (BatchUpdate bu = updateFactory.create(project, user, createdOn)) {
+    try (BatchUpdate bu = updateFactory.create(project, user, createdOn.toInstant())) {
       bu.insertChange(ins);
       bu.execute();
       return ins.getChange();
@@ -4172,7 +4172,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .create(changeNotesFactory.createChecked(c), PatchSet.id(c.getId(), n), commit)
             .setFireRevisionCreated(false)
             .setValidate(false);
-    try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.nowTs());
+    try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.now());
         ObjectInserter oi = repo.getRepository().newObjectInserter();
         ObjectReader reader = oi.newReader();
         RevWalk rw = new RevWalk(reader)) {

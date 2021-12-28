@@ -54,8 +54,7 @@ public class DeleteChange
     }
     rsrc.permissions().check(ChangePermission.DELETE);
 
-    try (BatchUpdate bu =
-        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
       Change.Id id = rsrc.getChange().getId();
       bu.addOp(id, opFactory.create(id));
       bu.execute();

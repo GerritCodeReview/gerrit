@@ -53,6 +53,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -80,12 +81,12 @@ public class ApprovalsUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static PatchSetApproval.Builder newApproval(
-      PatchSet.Id psId, CurrentUser user, LabelId labelId, int value, Date when) {
+      PatchSet.Id psId, CurrentUser user, LabelId labelId, int value, Instant when) {
     PatchSetApproval.Builder b =
         PatchSetApproval.builder()
             .key(PatchSetApproval.key(psId, user.getAccountId(), labelId))
             .value(value)
-            .granted(when.toInstant());
+            .granted(when);
     user.updateRealAccountId(b::realAccountId);
     return b;
   }
@@ -304,7 +305,9 @@ public class ApprovalsUtil {
         throw new BadRequestException(
             String.format("label \"%s\" is not a configured label", vote.getKey()));
       }
-      cells.add(newApproval(ps.id(), user, lt.get().getLabelId(), vote.getValue(), ts).build());
+      cells.add(
+          newApproval(ps.id(), user, lt.get().getLabelId(), vote.getValue(), ts.toInstant())
+              .build());
     }
     for (PatchSetApproval psa : cells) {
       update.putApproval(psa.label(), psa.value());

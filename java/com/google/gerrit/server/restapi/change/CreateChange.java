@@ -399,7 +399,7 @@ public class CreateChange
         ins.setValidationOptions(validationOptions.build());
       }
 
-      try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {
+      try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now.toInstant())) {
         bu.setRepository(git, rw, oi);
         bu.setNotify(
             notifyResolver.resolve(

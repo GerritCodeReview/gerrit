@@ -251,7 +251,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
   private void markMergedChangePrivate(Change.Id changeId) throws Exception {
     try (BatchUpdate u =
         batchUpdateFactory.create(
-            project, identifiedUserFactory.create(admin.id()), TimeUtil.nowTs())) {
+            project, identifiedUserFactory.create(admin.id()), TimeUtil.now())) {
       u.addOp(
               changeId,
               new BatchUpdateOp() {

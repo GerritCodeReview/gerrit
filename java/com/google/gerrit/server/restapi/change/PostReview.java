@@ -354,7 +354,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     output.labels = input.labels;
 
     try (BatchUpdate bu =
-        updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
+        updateFactory.create(
+            revision.getChange().getProject(), revision.getUser(), ts.toInstant())) {
       Account account = revision.getUser().asIdentifiedUser().getAccount();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
@@ -1101,7 +1102,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           comment,
           approvals,
           oldApprovals,
-          ctx.getWhen());
+          Timestamp.from(ctx.getWhen()));
     }
 
     /**
@@ -1203,7 +1204,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                     parent);
           } else {
             // In ChangeUpdate#putComment() the draft with the same ID will be deleted.
-            comment.writtenOn = ctx.getWhen();
+            comment.writtenOn = Timestamp.from(ctx.getWhen());
             comment.side = inputComment.side();
             comment.message = inputComment.message;
           }
@@ -1456,7 +1457,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           PatchSetApproval.Builder b =
               c.toBuilder()
                   .value(ent.getValue())
-                  .granted(ctx.getWhen().toInstant())
+                  .granted(ctx.getWhen())
                   .tag(Optional.ofNullable(in.tag));
           ctx.getUser().updateRealAccountId(b::realAccountId);
           c = b.build();
@@ -1473,7 +1474,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           c =
               ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
                   .tag(Optional.ofNullable(in.tag))
-                  .granted(ctx.getWhen().toInstant())
+                  .granted(ctx.getWhen())
                   .build();
           ups.add(c);
           addLabelDelta(normName, c.value());

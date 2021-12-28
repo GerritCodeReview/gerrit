@@ -33,7 +33,7 @@ import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -66,7 +66,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
         PatchSet patchSet,
         IdentifiedUser user,
         @Assisted("message") String message,
-        Timestamp timestamp,
+        Instant timestamp,
         List<? extends Comment> comments,
         @Assisted("patchSetComment") String patchSetComment,
         List<LabelVote> labels,
@@ -84,7 +84,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final PatchSet patchSet;
   private final IdentifiedUser user;
   private final String message;
-  private final Timestamp timestamp;
+  private final Instant timestamp;
   private final List<? extends Comment> comments;
   private final String patchSetComment;
   private final List<LabelVote> labels;
@@ -102,7 +102,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       @Assisted PatchSet patchSet,
       @Assisted IdentifiedUser user,
       @Assisted("message") String message,
-      @Assisted Timestamp timestamp,
+      @Assisted Instant timestamp,
       @Assisted List<? extends Comment> comments,
       @Nullable @Assisted("patchSetComment") String patchSetComment,
       @Assisted List<LabelVote> labels,

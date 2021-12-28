@@ -54,7 +54,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
   public Response<CommentInfo> apply(DraftCommentResource rsrc, Input input)
       throws RestApiException, UpdateException {
     try (BatchUpdate bu =
-        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
       Op op = new Op(rsrc.getComment().key);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();

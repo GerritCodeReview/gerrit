@@ -56,7 +56,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -123,7 +123,7 @@ public class DeleteDraftComments
     HumanCommentFormatter humanCommentFormatter =
         commentJsonProvider.get().newHumanCommentFormatter();
     Account.Id accountId = rsrc.getUser().getAccountId();
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     Map<Project.NameKey, BatchUpdate> updates = new LinkedHashMap<>();
     List<Op> ops = new ArrayList<>();
     for (ChangeData cd :

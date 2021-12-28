@@ -68,9 +68,10 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +123,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public interface Factory {
-    BatchUpdate create(Project.NameKey project, CurrentUser user, Timestamp when);
+    BatchUpdate create(Project.NameKey project, CurrentUser user, Instant when);
   }
 
   public static void execute(
@@ -252,7 +253,7 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     @Override
-    public Timestamp getWhen() {
+    public Instant getWhen() {
       return when;
     }
 
@@ -327,7 +328,7 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     private ChangeUpdate getNewChangeUpdate(PatchSet.Id psId) {
-      ChangeUpdate u = changeUpdateFactory.create(notes, user, when);
+      ChangeUpdate u = changeUpdateFactory.create(notes, user, Date.from(when));
       if (newChanges.containsKey(notes.getChangeId())) {
         u.setAllowWriteToNewRef(true);
       }
@@ -376,7 +377,7 @@ public class BatchUpdate implements AutoCloseable {
 
   private final Project.NameKey project;
   private final CurrentUser user;
-  private final Timestamp when;
+  private final Instant when;
   private final TimeZone tz;
 
   private final ListMultimap<Change.Id, BatchUpdateOp> ops =
@@ -405,7 +406,7 @@ public class BatchUpdate implements AutoCloseable {
       GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
-      @Assisted Timestamp when) {
+      @Assisted Instant when) {
     this.repoManager = repoManager;
     this.changeDataFactory = changeDataFactory;
     this.changeNotesFactory = changeNotesFactory;
@@ -659,7 +660,7 @@ public class BatchUpdate implements AutoCloseable {
                     repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
             dryrun);
     if (user.isIdentifiedUser()) {
-      handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
+      handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(Date.from(when), tz));
     }
     handle.manager.setRefLogMessage(refLogMessage);
     handle.manager.setPushCertificate(pushCert);

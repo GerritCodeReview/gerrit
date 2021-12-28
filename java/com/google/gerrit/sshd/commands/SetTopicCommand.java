@@ -84,8 +84,7 @@ public class SetTopicCommand extends SshCommand {
 
     for (ChangeResource r : changes.values()) {
       SetTopicOp op = topicOpFactory.create(topic);
-      try (BatchUpdate u =
-          updateFactory.create(r.getChange().getProject(), user, TimeUtil.nowTs())) {
+      try (BatchUpdate u = updateFactory.create(r.getChange().getProject(), user, TimeUtil.now())) {
         u.addOp(r.getId(), op);
         u.execute();
       }

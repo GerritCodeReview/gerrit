@@ -57,7 +57,7 @@ public class PutDescription
 
     Op op = new Op(input != null ? input : new DescriptionInput(), rsrc.getPatchSet().id());
     try (BatchUpdate u =
-        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
       u.addOp(rsrc.getChange().getId(), op);
       u.execute();
     }

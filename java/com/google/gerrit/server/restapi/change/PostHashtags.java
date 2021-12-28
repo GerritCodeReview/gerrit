@@ -48,7 +48,7 @@ public class PostHashtags
     req.permissions().check(ChangePermission.EDIT_HASHTAGS);
 
     try (BatchUpdate bu =
-        updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.now())) {
       SetHashtagsOp op = hashtagsFactory.create(input);
       bu.addOp(req.getId(), op);
       bu.execute();

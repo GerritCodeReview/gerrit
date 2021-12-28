@@ -732,7 +732,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   }
 
   private BatchUpdate newUpdate(Account.Id owner) {
-    return batchUpdateFactory.create(project, userFactory.create(owner), TimeUtil.nowTs());
+    return batchUpdateFactory.create(project, userFactory.create(owner), TimeUtil.now());
   }
 
   private ChangeNotes insertChange() throws Exception {

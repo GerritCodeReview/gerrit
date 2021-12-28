@@ -368,7 +368,7 @@ public abstract class ChangeNotesState {
       change.setStatus(c.status());
     }
     change.setTopic(Strings.emptyToNull(c.topic()));
-    change.setLastUpdatedOn(c.lastUpdatedOn());
+    change.setLastUpdatedOn(c.lastUpdatedOn().toInstant());
     change.setSubmissionId(c.submissionId());
     if (!assigneeUpdates().isEmpty()) {
       change.setAssignee(assigneeUpdates().get(0).currentAssignee().orElse(null));

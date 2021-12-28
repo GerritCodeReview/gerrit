@@ -166,8 +166,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         RevCommit mergeTip = args.mergeTip.getCurrentTip();
         args.rw.parseBody(mergeTip);
         String cherryPickCmtMsg = args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
-        PersonIdent committer =
-            args.caller.newCommitterIdent(ctx.getWhen(), args.serverIdent.getTimeZone());
+        PersonIdent committer = ctx.newCommitterIdent(args.caller);
         try {
           newCommit =
               args.mergeUtil.createCherryPickFromCommit(
@@ -304,8 +303,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
           && !args.subscriptionGraph.hasSubscription(args.destBranch)) {
         mergeTip.moveTipTo(toMerge, toMerge);
       } else {
-        PersonIdent caller =
-            ctx.getIdentifiedUser().newCommitterIdent(ctx.getWhen(), ctx.getTimeZone());
+        PersonIdent caller = ctx.newCommitterIdent();
         CodeReviewCommit newTip =
             args.mergeUtil.mergeOneCommit(
                 caller,

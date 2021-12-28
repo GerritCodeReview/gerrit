@@ -38,7 +38,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -106,7 +106,7 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
     try (Repository repository = repositoryManager.openRepository(project);
         ObjectInserter objectInserter = repository.newObjectInserter();
         RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
-      Timestamp now = TimeUtil.nowTs();
+      Instant now = TimeUtil.now();
 
       IdentifiedUser author = getAuthor(commentCreation);
       CommentAdditionOp commentAdditionOp = new CommentAdditionOp(commentCreation);
@@ -165,8 +165,7 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
       short side = commentCreation.side().orElse(CommentSide.PATCHSET_COMMIT).getNumericSide();
       Boolean unresolved = commentCreation.unresolved().orElse(null);
       String parentUuid = commentCreation.parentUuid().orElse(null);
-      Timestamp createdOn =
-          commentCreation.createdOn().map(Timestamp::from).orElse(context.getWhen());
+      Instant createdOn = commentCreation.createdOn().orElse(context.getWhen());
       HumanComment newComment =
           commentsUtil.newHumanComment(
               context.getNotes(),
@@ -202,7 +201,7 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
     try (Repository repository = repositoryManager.openRepository(project);
         ObjectInserter objectInserter = repository.newObjectInserter();
         RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
-      Timestamp now = TimeUtil.nowTs();
+      Instant now = TimeUtil.now();
 
       IdentifiedUser author = getAuthor(robotCommentCreation);
       RobotCommentAdditionOp robotCommentAdditionOp =

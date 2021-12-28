@@ -126,7 +126,7 @@ public class Abandon
     AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
     AbandonOp op = abandonOpFactory.create(accountState, msgTxt);
     ChangeData changeData = changeDataFactory.create(notes.getProjectName(), notes.getChangeId());
-    try (BatchUpdate u = updateFactory.create(notes.getProjectName(), user, TimeUtil.nowTs())) {
+    try (BatchUpdate u = updateFactory.create(notes.getProjectName(), user, TimeUtil.now())) {
       u.setNotify(notify);
       u.addOp(notes.getChangeId(), op);
       u.addOp(

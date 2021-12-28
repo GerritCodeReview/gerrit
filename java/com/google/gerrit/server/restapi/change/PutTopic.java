@@ -63,7 +63,7 @@ public class PutTopic
 
     SetTopicOp op = topicOpFactory.create(sanitizedInput.topic);
     try (BatchUpdate u =
-        updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.now())) {
       u.addOp(req.getId(), op);
       u.execute();
     }

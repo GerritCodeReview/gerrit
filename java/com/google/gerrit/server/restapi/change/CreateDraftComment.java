@@ -82,8 +82,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
           String.format("Invalid inReplyTo, comment %s not found", in.inReplyTo));
     }
 
-    try (BatchUpdate bu =
-        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
       Op op = new Op(rsrc.getPatchSet().id(), in);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();

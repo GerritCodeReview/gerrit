@@ -24,8 +24,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Date;
 import java.util.TimeZone;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -66,7 +68,7 @@ public interface Context {
    *
    * @return timestamp.
    */
-  Timestamp getWhen();
+  Instant getWhen();
 
   /**
    * Get the time zone in which this update takes place.
@@ -133,5 +135,34 @@ public interface Context {
    */
   default Account.Id getAccountId() {
     return getIdentifiedUser().getAccountId();
+  }
+
+  /**
+   * Creates a new {@link PersonIdent} with {@link #getWhen()} as timestamp.
+   *
+   * @param personIdent {@link PersonIdent} to be copied
+   * @return copied {@link PersonIdent} with {@link #getWhen()} as timestamp
+   */
+  default PersonIdent newPersonIdent(PersonIdent personIdent) {
+    return new PersonIdent(personIdent, getWhen().toEpochMilli(), personIdent.getTimeZoneOffset());
+  }
+
+  /**
+   * Creates a committer {@link PersonIdent} for {@link #getIdentifiedUser()}.
+   *
+   * @return the created committer {@link PersonIdent}
+   */
+  default PersonIdent newCommitterIdent() {
+    return newCommitterIdent(getIdentifiedUser());
+  }
+
+  /**
+   * Creates a committer {@link PersonIdent} for the given user.
+   *
+   * @param user user for which a committer {@link PersonIdent} should be created
+   * @return the created committer {@link PersonIdent}
+   */
+  default PersonIdent newCommitterIdent(IdentifiedUser user) {
+    return user.newCommitterIdent(Date.from(getWhen()), getTimeZone());
   }
 }

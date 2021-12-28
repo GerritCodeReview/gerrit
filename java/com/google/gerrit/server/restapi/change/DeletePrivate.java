@@ -62,8 +62,7 @@ public class DeletePrivate implements RestModifyView<ChangeResource, InputWithMe
     }
 
     SetPrivateOp op = setPrivateOpFactory.create(false, input);
-    try (BatchUpdate u =
-        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate u = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
       u.addOp(rsrc.getId(), op).execute();
     }
 

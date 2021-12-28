@@ -52,7 +52,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Collection;
@@ -124,9 +123,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     patchSetInfo = psi;
   }
 
-  public void setChangeMessage(String cm, Timestamp t) {
+  public void setChangeMessage(String cm, Instant t) {
     changeMessage = cm;
-    timestamp = t.toInstant();
+    timestamp = t;
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */

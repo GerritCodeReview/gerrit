@@ -48,6 +48,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
@@ -138,10 +139,10 @@ public class ChangeOperationsImpl implements ChangeOperations {
     try (Repository repository = repositoryManager.openRepository(project);
         ObjectInserter objectInserter = repository.newObjectInserter();
         RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
-      Timestamp now = TimeUtil.nowTs();
+      Instant now = TimeUtil.now();
       IdentifiedUser changeOwner = getChangeOwner(changeCreation);
       PersonIdent authorAndCommitter =
-          changeOwner.newCommitterIdent(now, serverIdent.getTimeZone());
+          changeOwner.newCommitterIdent(Date.from(now), serverIdent.getTimeZone());
       ObjectId commitId =
           createCommit(repository, revWalk, objectInserter, changeCreation, authorAndCommitter);
 
@@ -431,7 +432,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
       try (Repository repository = repositoryManager.openRepository(project);
           ObjectInserter objectInserter = repository.newObjectInserter();
           RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
-        Timestamp now = TimeUtil.nowTs();
+        Instant now = TimeUtil.now();
         ObjectId newPatchsetCommit =
             createPatchsetCommit(
                 repository, revWalk, objectInserter, changeNotes, patchsetCreation, now);
@@ -457,7 +458,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
         ObjectInserter objectInserter,
         ChangeNotes changeNotes,
         TestPatchsetCreation patchsetCreation,
-        Timestamp now)
+        Instant now)
         throws IOException, BadRequestException {
       ObjectId oldPatchsetCommitId = changeNotes.getCurrentPatchSet().commitId();
       RevCommit oldPatchsetCommit = repository.parseCommit(oldPatchsetCommitId);
@@ -473,7 +474,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
               patchsetCreation.commitMessage().orElseGet(oldPatchsetCommit::getFullMessage));
 
       PersonIdent author = getAuthor(oldPatchsetCommit);
-      PersonIdent committer = getCommitter(oldPatchsetCommit, now);
+      PersonIdent committer = getCommitter(oldPatchsetCommit, Timestamp.from(now));
       return createCommit(objectInserter, tree, parentCommitIds, author, committer, commitMessage);
     }
 

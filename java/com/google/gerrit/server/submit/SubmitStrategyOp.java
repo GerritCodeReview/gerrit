@@ -50,6 +50,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -514,7 +515,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
           mergedPatchSet,
           args.accountCache.get(submitter.accountId()).orElse(null),
           args.mergeTip.getCurrentTip().name(),
-          ctx.getWhen());
+          Timestamp.from(ctx.getWhen()));
     }
   }
 

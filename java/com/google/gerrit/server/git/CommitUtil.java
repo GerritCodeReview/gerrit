@@ -55,6 +55,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -146,7 +147,7 @@ public class CommitUtil {
    * @return ObjectId that represents the newly created commit.
    */
   public Change.Id createRevertChange(
-      ChangeNotes notes, CurrentUser user, RevertInput input, Timestamp timestamp)
+      ChangeNotes notes, CurrentUser user, RevertInput input, Instant timestamp)
       throws RestApiException, UpdateException, ConfigInvalidException, IOException {
     String message = Strings.emptyToNull(input.message);
 
@@ -174,7 +175,7 @@ public class CommitUtil {
    * @return ObjectId that represents the newly created commit.
    */
   public ObjectId createRevertCommit(
-      String message, ChangeNotes notes, CurrentUser user, Timestamp ts)
+      String message, ChangeNotes notes, CurrentUser user, Instant ts)
       throws RestApiException, IOException {
 
     try (Repository git = repoManager.openRepository(notes.getProjectName());
@@ -206,7 +207,7 @@ public class CommitUtil {
       String message,
       ChangeNotes notes,
       CurrentUser user,
-      Timestamp ts,
+      Instant ts,
       ObjectInserter oi,
       RevWalk revWalk,
       @Nullable ObjectId generatedChangeId)
@@ -220,7 +221,7 @@ public class CommitUtil {
 
     PersonIdent committerIdent = serverIdent.get();
     PersonIdent authorIdent =
-        user.asIdentifiedUser().newCommitterIdent(ts, committerIdent.getTimeZone());
+        user.asIdentifiedUser().newCommitterIdent(Timestamp.from(ts), committerIdent.getTimeZone());
 
     RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
     revWalk.parseHeaders(parentToCommitToRevert);
@@ -255,7 +256,7 @@ public class CommitUtil {
       ChangeNotes notes,
       CurrentUser user,
       @Nullable ObjectId generatedChangeId,
-      Timestamp ts,
+      Instant ts,
       ObjectInserter oi,
       RevWalk revWalk,
       Repository git)
@@ -310,7 +311,9 @@ public class CommitUtil {
     @Override
     public void postUpdate(PostUpdateContext ctx) throws Exception {
       changeReverted.fire(
-          ctx.getChangeData(change), ctx.getChangeData(ins.getChange()), ctx.getWhen());
+          ctx.getChangeData(change),
+          ctx.getChangeData(ins.getChange()),
+          Timestamp.from(ctx.getWhen()));
       try {
         RevertedSender emailSender = revertedSenderFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());

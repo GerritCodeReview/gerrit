@@ -114,7 +114,7 @@ public class Rebase
         ObjectReader reader = oi.newReader();
         RevWalk rw = CodeReviewCommit.newRevWalk(reader);
         BatchUpdate bu =
-            updateFactory.create(change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+            updateFactory.create(change.getProject(), rsrc.getUser(), TimeUtil.now())) {
       if (!change.isNew()) {
         throw new ResourceConflictException("change is " + ChangeUtil.status(change));
       } else if (!hasOneParent(rw, rsrc.getPatchSet())) {

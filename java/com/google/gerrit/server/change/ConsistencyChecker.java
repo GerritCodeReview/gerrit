@@ -626,7 +626,7 @@ public class ConsistencyChecker {
   }
 
   private BatchUpdate newBatchUpdate() {
-    return updateFactory.create(change().getProject(), user.get(), TimeUtil.nowTs());
+    return updateFactory.create(change().getProject(), user.get(), TimeUtil.now());
   }
 
   private void fixPatchSetRef(ProblemInfo p, PatchSet ps) {

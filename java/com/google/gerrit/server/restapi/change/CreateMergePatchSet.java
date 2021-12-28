@@ -199,7 +199,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       PatchSet.Id nextPsId = ChangeUtil.nextPatchSetId(ps.id());
       PatchSetInserter psInserter =
           patchSetInserterFactory.create(rsrc.getNotes(), nextPsId, newCommit);
-      try (BatchUpdate bu = updateFactory.create(project, me, now)) {
+      try (BatchUpdate bu = updateFactory.create(project, me, now.toInstant())) {
         bu.setRepository(git, rw, oi);
         bu.setNotify(NotifyResolver.Result.none());
         psInserter

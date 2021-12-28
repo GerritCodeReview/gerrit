@@ -163,7 +163,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public static Change newChange(Project.NameKey project, Change.Id changeId) {
       return new Change(
-          null, changeId, null, BranchNameKey.create(project, "INVALID_NOTE_DB_ONLY"), null);
+          null,
+          changeId,
+          null,
+          BranchNameKey.create(project, "INVALID_NOTE_DB_ONLY"),
+          (Timestamp) null);
     }
 
     public ChangeNotes create(Project.NameKey project, Change.Id changeId) {

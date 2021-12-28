@@ -34,6 +34,7 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -94,7 +95,8 @@ public class DeleteChangeOp implements BatchUpdateOp {
                     .map(p -> p.commitId().name())
                     .orElse("n/a")));
     ctx.deleteChange();
-    changeDeleted.fire(changeDataFactory.create(ctx.getChange()), ctx.getAccount(), ctx.getWhen());
+    changeDeleted.fire(
+        changeDataFactory.create(ctx.getChange()), ctx.getAccount(), Timestamp.from(ctx.getWhen()));
     return true;
   }
 

@@ -58,6 +58,7 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -331,11 +332,16 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     if (fireRevisionCreated) {
       revisionCreated.fire(
-          ctx.getChangeData(change), patchSet, ctx.getAccount(), ctx.getWhen(), notify);
+          ctx.getChangeData(change),
+          patchSet,
+          ctx.getAccount(),
+          Timestamp.from(ctx.getWhen()),
+          notify);
     }
 
     if (workInProgress != null && oldWorkInProgressState != workInProgress) {
-      wipStateChanged.fire(ctx.getChangeData(change), patchSet, ctx.getAccount(), ctx.getWhen());
+      wipStateChanged.fire(
+          ctx.getChangeData(change), patchSet, ctx.getAccount(), Timestamp.from(ctx.getWhen()));
     }
   }
 

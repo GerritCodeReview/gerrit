@@ -51,6 +51,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -133,7 +134,7 @@ public class CommentsUtil {
   public HumanComment newHumanComment(
       ChangeNotes changeNotes,
       CurrentUser currentUser,
-      Timestamp when,
+      Instant when,
       String path,
       PatchSet.Id psId,
       short side,
@@ -158,7 +159,7 @@ public class CommentsUtil {
         new HumanComment(
             new Comment.Key(ChangeUtil.messageUuid(), path, psId.get()),
             currentUser.getAccountId(),
-            when,
+            Timestamp.from(when),
             side,
             message,
             serverId,
@@ -180,7 +181,7 @@ public class CommentsUtil {
         new RobotComment(
             new Comment.Key(ChangeUtil.messageUuid(), path, psId.get()),
             ctx.getUser().getAccountId(),
-            ctx.getWhen(),
+            Timestamp.from(ctx.getWhen()),
             side,
             message,
             serverId,

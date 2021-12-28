@@ -840,7 +840,7 @@ class ReceiveCommits {
       Map<BranchNameKey, ReceiveCommand> branches;
       try (BatchUpdate bu =
               batchUpdateFactory.create(
-                  project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
+                  project.getNameKey(), user.materializedCopy(), TimeUtil.now());
           ObjectInserter ins = repo.newObjectInserter();
           ObjectReader reader = ins.newReader();
           RevWalk rw = new RevWalk(reader);
@@ -1026,7 +1026,7 @@ class ReceiveCommits {
 
       try (BatchUpdate bu =
               batchUpdateFactory.create(
-                  project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
+                  project.getNameKey(), user.materializedCopy(), TimeUtil.now());
           ObjectInserter ins = repo.newObjectInserter();
           ObjectReader reader = ins.newReader();
           RevWalk rw = new RevWalk(reader)) {
@@ -3456,7 +3456,7 @@ class ReceiveCommits {
                 "autoCloseChanges",
                 updateFactory -> {
                   try (BatchUpdate bu =
-                          updateFactory.create(projectState.getNameKey(), user, TimeUtil.nowTs());
+                          updateFactory.create(projectState.getNameKey(), user, TimeUtil.now());
                       ObjectInserter ins = repo.newObjectInserter();
                       ObjectReader reader = ins.newReader();
                       RevWalk rw = new RevWalk(reader)) {

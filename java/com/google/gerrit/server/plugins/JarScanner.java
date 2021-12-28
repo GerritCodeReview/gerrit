@@ -15,6 +15,7 @@
 package com.google.gerrit.server.plugins;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.Iterables.transform;
 
 import com.google.common.base.Strings;
@@ -329,6 +330,6 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
   }
 
   private static Iterable<JarEntry> entriesOf(JarFile jarFile) {
-    return jarFile.stream()::iterator;
+    return jarFile.stream().collect(toImmutableList());
   }
 }

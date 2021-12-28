@@ -953,6 +953,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("intopic:gerrit", change6, change5);
     assertQuery("topic:\"\"", change_no_topic);
     assertQuery("intopic:\"\"", change_no_topic);
+
+    assertQuery("prefixtopic:feature", change4, change2, change1);
+    assertQuery("prefixtopic:Cher", change3);
+    assertQuery("prefixtopic:feature22");
   }
 
   @Test
@@ -2174,6 +2178,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("inhashtag:foo", changes.get(1), changes.get(0));
     assertQuery("inhashtag:bbb", changes.get(0));
     assertQuery("inhashtag:tag", changes.get(1));
+  }
+
+  @Test
+  public void byHashtagPrefix() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.FUZZY_HASHTAG)).isTrue();
+    List<Change> changes = setUpHashtagChanges();
+    assertQuery("prefixhashtag:a", changes.get(1), changes.get(0));
+    assertQuery("prefixhashtag:aa", changes.get(0));
+    assertQuery("prefixhashtag:a ", changes.get(1));
   }
 
   @Test

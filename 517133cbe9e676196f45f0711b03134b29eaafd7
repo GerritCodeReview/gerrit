@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ee87422_790b2078",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-29T14:35:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01aa36c5_8beb63ef",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "517133cbe9e676196f45f0711b03134b29eaafd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d465fa74_72665b59",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-20T09:12:44Z",
       "side": 1,
       "message": "Can you please also cover the tag push case in a test?\nThis test may be added in the AbstractPushTag class.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "517133cbe9e676196f45f0711b03134b29eaafd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68b03cd7_11c25e03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-29T14:35:50Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d465fa74_72665b59",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -96,6 +144,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c07893d5_692b8fbc",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1322,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-29T14:35:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "051eb9ba_ce6374cd",
+      "range": {
+        "startLine": 1322,
+        "startChar": 21,
+        "endLine": 1322,
+        "endChar": 65
+      },
+      "revId": "517133cbe9e676196f45f0711b03134b29eaafd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "884fbb94_4ac580f1",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 1
@@ -131,6 +203,30 @@
       "side": 1,
       "message": "Yes, this comment would be helpful to have.",
       "parentUuid": "884fbb94_4ac580f1",
+      "range": {
+        "startLine": 1429,
+        "startChar": 4,
+        "endLine": 1429,
+        "endChar": 22
+      },
+      "revId": "517133cbe9e676196f45f0711b03134b29eaafd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7fafed0_f3d68f59",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-12-29T14:35:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d22ef64_02f1ca22",
       "range": {
         "startLine": 1429,
         "startChar": 4,

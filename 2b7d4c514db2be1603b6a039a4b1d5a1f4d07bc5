@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1eaba666_f6f63dfe",
+        "filename": "java/com/google/gerrit/extensions/api/projects/TagInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T21:44:42Z",
+      "side": 1,
+      "message": "Optional: Annotate with @Nullable.",
+      "range": {
+        "startLine": 45,
+        "startChar": 82,
+        "endLine": 45,
+        "endChar": 97
+      },
+      "revId": "2b7d4c514db2be1603b6a039a4b1d5a1f4d07bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

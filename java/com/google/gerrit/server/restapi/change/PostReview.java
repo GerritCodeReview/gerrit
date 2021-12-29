@@ -137,6 +137,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -448,7 +449,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       // Sending emails and events from ReviewersOps was suppressed so we can send a single batch
       // email/event here.
       batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
-      batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
+      batchReviewerEvents(
+          revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts.toInstant());
     }
 
     return Response.ok(output);
@@ -531,7 +533,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeData cd,
       PatchSet patchSet,
       List<ReviewerModification> reviewerModifications,
-      Timestamp when) {
+      Instant when) {
     List<AccountState> newlyAddedReviewers = new ArrayList<>();
 
     // There are no events for CCs and reviewers added/deleted by email.
@@ -1102,7 +1104,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           comment,
           approvals,
           oldApprovals,
-          Timestamp.from(ctx.getWhen()));
+          ctx.getWhen());
     }
 
     /**

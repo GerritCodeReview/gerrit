@@ -80,7 +80,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -614,7 +613,7 @@ public class RevertSubmission
       changeReverted.fire(
           ctx.getChangeData(change),
           ctx.getChangeData(changeNotesFactory.createChecked(ctx.getProject(), revertChangeId)),
-          Timestamp.from(ctx.getWhen()));
+          ctx.getWhen());
       try {
         RevertedSender emailSender = revertedSenderFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());

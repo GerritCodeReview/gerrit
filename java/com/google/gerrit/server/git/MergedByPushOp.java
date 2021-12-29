@@ -38,7 +38,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -212,11 +211,7 @@ public class MergedByPushOp implements BatchUpdateOp {
                 }));
 
     changeMerged.fire(
-        ctx.getChangeData(change),
-        patchSet,
-        ctx.getAccount(),
-        mergeResultRevId,
-        Timestamp.from(ctx.getWhen()));
+        ctx.getChangeData(change), patchSet, ctx.getAccount(), mergeResultRevId, ctx.getWhen());
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {

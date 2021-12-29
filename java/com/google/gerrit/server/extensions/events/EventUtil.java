@@ -36,7 +36,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -111,7 +111,7 @@ public class EventUtil {
   }
 
   public Map<String, ApprovalInfo> approvals(
-      AccountState accountState, Map<String, Short> approvals, Timestamp ts) {
+      AccountState accountState, Map<String, Short> approvals, Instant ts) {
     Map<String, ApprovalInfo> result = new HashMap<>();
     for (Map.Entry<String, Short> e : approvals.entrySet()) {
       Integer value = e.getValue() != null ? Integer.valueOf(e.getValue()) : null;

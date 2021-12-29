@@ -25,7 +25,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Helper class to fire an event when a user has been set as assignee on a change. */
 @Singleton
@@ -42,7 +42,7 @@ public class AssigneeChanged {
   }
 
   public void fire(
-      ChangeData changeData, AccountState accountState, AccountState oldAssignee, Timestamp when) {
+      ChangeData changeData, AccountState accountState, AccountState oldAssignee, Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -63,7 +63,7 @@ public class AssigneeChanged {
   private static class Event extends AbstractChangeEvent implements AssigneeChangedListener.Event {
     private final AccountInfo oldAssignee;
 
-    Event(ChangeInfo change, AccountInfo editor, AccountInfo oldAssignee, Timestamp when) {
+    Event(ChangeInfo change, AccountInfo editor, AccountInfo oldAssignee, Instant when) {
       super(change, editor, when, NotifyHandling.ALL);
       this.oldAssignee = oldAssignee;
     }

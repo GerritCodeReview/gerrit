@@ -32,7 +32,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.sql.Timestamp;
 
 public class SetPrivateOp implements BatchUpdateOp {
   public interface Factory {
@@ -90,8 +89,7 @@ public class SetPrivateOp implements BatchUpdateOp {
   @Override
   public void postUpdate(PostUpdateContext ctx) {
     if (!isNoOp) {
-      privateStateChanged.fire(
-          ctx.getChangeData(change), ps, ctx.getAccount(), Timestamp.from(ctx.getWhen()));
+      privateStateChanged.fire(ctx.getChangeData(change), ps, ctx.getAccount(), ctx.getWhen());
     }
   }
 

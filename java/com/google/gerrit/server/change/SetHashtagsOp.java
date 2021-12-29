@@ -40,7 +40,6 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -150,7 +149,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
           updatedHashtags,
           toAdd,
           toRemove,
-          Timestamp.from(ctx.getWhen()));
+          ctx.getWhen());
     }
   }
 

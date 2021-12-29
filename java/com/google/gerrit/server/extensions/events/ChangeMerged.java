@@ -32,7 +32,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Helper class to fire an event when a change has been merged. */
 @Singleton
@@ -49,11 +49,7 @@ public class ChangeMerged {
   }
 
   public void fire(
-      ChangeData changeData,
-      PatchSet ps,
-      AccountState merger,
-      String newRevisionId,
-      Timestamp when) {
+      ChangeData changeData, PatchSet ps, AccountState merger, String newRevisionId, Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -86,7 +82,7 @@ public class ChangeMerged {
         RevisionInfo revision,
         AccountInfo merger,
         String newRevisionId,
-        Timestamp when) {
+        Instant when) {
       super(change, revision, merger, when, NotifyHandling.ALL);
       this.newRevisionId = newRevisionId;
     }

@@ -53,7 +53,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -311,9 +310,7 @@ public class CommitUtil {
     @Override
     public void postUpdate(PostUpdateContext ctx) throws Exception {
       changeReverted.fire(
-          ctx.getChangeData(change),
-          ctx.getChangeData(ins.getChange()),
-          Timestamp.from(ctx.getWhen()));
+          ctx.getChangeData(change), ctx.getChangeData(ins.getChange()), ctx.getWhen());
       try {
         RevertedSender emailSender = revertedSenderFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());

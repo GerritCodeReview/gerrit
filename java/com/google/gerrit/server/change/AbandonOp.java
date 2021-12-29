@@ -34,7 +34,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.sql.Timestamp;
 
 public class AbandonOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -130,7 +129,7 @@ public class AbandonOp implements BatchUpdateOp {
         patchSet,
         accountState,
         msgTxt,
-        Timestamp.from(ctx.getWhen()),
+        ctx.getWhen(),
         notify.handling());
   }
 }

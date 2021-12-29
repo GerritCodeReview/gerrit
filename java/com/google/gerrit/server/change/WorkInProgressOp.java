@@ -34,7 +34,6 @@ import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
 
 /* Set work in progress or ready for review state on a change */
 public class WorkInProgressOp implements BatchUpdateOp {
@@ -125,8 +124,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(PostUpdateContext ctx) {
-    stateChanged.fire(
-        ctx.getChangeData(change), ps, ctx.getAccount(), Timestamp.from(ctx.getWhen()));
+    stateChanged.fire(ctx.getChangeData(change), ps, ctx.getAccount(), ctx.getWhen());
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (workInProgress
         || notify.handling().compareTo(NotifyHandling.OWNER_REVIEWERS) < 0

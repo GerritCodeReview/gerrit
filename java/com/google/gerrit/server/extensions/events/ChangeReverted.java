@@ -23,7 +23,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Helper class to fire an event when a change has been reverted. */
 @Singleton
@@ -39,7 +39,7 @@ public class ChangeReverted {
     this.util = util;
   }
 
-  public void fire(ChangeData changeData, ChangeData revertChangeData, Timestamp when) {
+  public void fire(ChangeData changeData, ChangeData revertChangeData, Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -55,7 +55,7 @@ public class ChangeReverted {
   private static class Event extends AbstractChangeEvent implements ChangeRevertedListener.Event {
     private final ChangeInfo revertChange;
 
-    Event(ChangeInfo change, ChangeInfo revertChange, Timestamp when) {
+    Event(ChangeInfo change, ChangeInfo revertChange, Instant when) {
       super(change, revertChange.owner, when, NotifyHandling.ALL);
       this.revertChange = revertChange;
     }

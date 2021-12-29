@@ -16,7 +16,7 @@ package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Interface to be extended by Events with a Change. */
 public interface ChangeEvent extends GerritEvent {
@@ -29,5 +29,5 @@ public interface ChangeEvent extends GerritEvent {
 
   AccountInfo getWho();
 
-  Timestamp getWhen();
+  Instant getWhen();
 }

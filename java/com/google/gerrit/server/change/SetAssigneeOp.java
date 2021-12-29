@@ -36,7 +36,6 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import java.sql.Timestamp;
 
 public class SetAssigneeOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -136,6 +135,6 @@ public class SetAssigneeOp implements BatchUpdateOp {
         ctx.getChangeData(change),
         ctx.getAccount(),
         oldAssignee != null ? oldAssignee.state() : null,
-        Timestamp.from(ctx.getWhen()));
+        ctx.getWhen());
   }
 }

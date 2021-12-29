@@ -51,7 +51,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 
 @Singleton
 public class Restore
@@ -163,7 +162,7 @@ public class Restore
           patchSet,
           ctx.getAccount(),
           Strings.emptyToNull(input.message),
-          Timestamp.from(ctx.getWhen()));
+          ctx.getWhen());
     }
   }
 

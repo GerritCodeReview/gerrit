@@ -81,7 +81,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.util.Providers;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -503,11 +502,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     revisionCreated.fire(
-        ctx.getChangeData(notes),
-        newPatchSet,
-        ctx.getAccount(),
-        Timestamp.from(ctx.getWhen()),
-        notify);
+        ctx.getChangeData(notes), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
     try {
       fireApprovalsEvent(ctx);
     } catch (Exception e) {
@@ -595,7 +590,7 @@ public class ReplaceOp implements BatchUpdateOp {
         null,
         allApprovals,
         oldApprovals,
-        Timestamp.from(ctx.getWhen()));
+        ctx.getWhen());
   }
 
   public PatchSet getPatchSet() {

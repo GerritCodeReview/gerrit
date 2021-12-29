@@ -25,7 +25,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Helper class to fire an event when the topic of a change has been edited. */
 @Singleton
@@ -41,8 +41,7 @@ public class TopicEdited {
     this.util = util;
   }
 
-  public void fire(
-      ChangeData changeData, AccountState account, String oldTopicName, Timestamp when) {
+  public void fire(ChangeData changeData, AccountState account, String oldTopicName, Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -59,7 +58,7 @@ public class TopicEdited {
   private static class Event extends AbstractChangeEvent implements TopicEditedListener.Event {
     private final String oldTopic;
 
-    Event(ChangeInfo change, AccountInfo editor, String oldTopic, Timestamp when) {
+    Event(ChangeInfo change, AccountInfo editor, String oldTopic, Instant when) {
       super(change, editor, when, NotifyHandling.ALL);
       this.oldTopic = oldTopic;
     }

@@ -76,7 +76,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -392,7 +391,7 @@ public class MailProcessor {
           mailMessage,
           approvals,
           approvals,
-          Timestamp.from(ctx.getWhen()));
+          ctx.getWhen());
     }
 
     private String generateChangeMessage() {

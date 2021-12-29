@@ -32,7 +32,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Helper class to fire an event when a change has been abandoned. */
 @Singleton
@@ -53,7 +53,7 @@ public class ChangeAbandoned {
       PatchSet ps,
       AccountState abandoner,
       String reason,
-      Timestamp when,
+      Instant when,
       NotifyHandling notifyHandling) {
     if (listeners.isEmpty()) {
       return;
@@ -89,7 +89,7 @@ public class ChangeAbandoned {
         RevisionInfo revision,
         AccountInfo abandoner,
         String reason,
-        Timestamp when,
+        Instant when,
         NotifyHandling notifyHandling) {
       super(change, revision, abandoner, when, notifyHandling);
       this.reason = reason;

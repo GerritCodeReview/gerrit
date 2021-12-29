@@ -23,17 +23,17 @@ import com.google.gerrit.server.args4j.AccountGroupIdHandler;
 import com.google.gerrit.server.args4j.AccountGroupUUIDHandler;
 import com.google.gerrit.server.args4j.AccountIdHandler;
 import com.google.gerrit.server.args4j.ChangeIdHandler;
+import com.google.gerrit.server.args4j.InstantHandler;
 import com.google.gerrit.server.args4j.ObjectIdHandler;
 import com.google.gerrit.server.args4j.PatchSetIdHandler;
 import com.google.gerrit.server.args4j.ProjectHandler;
 import com.google.gerrit.server.args4j.SocketAddressHandler;
-import com.google.gerrit.server.args4j.TimestampHandler;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
 import com.google.gerrit.util.cli.OptionHandlers;
 import java.net.SocketAddress;
-import java.sql.Timestamp;
+import java.time.Instant;
 import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.spi.OptionHandler;
 
@@ -49,11 +49,11 @@ public class CmdLineParserModule extends FactoryModule {
     registerOptionHandler(AccountGroup.Id.class, AccountGroupIdHandler.class);
     registerOptionHandler(AccountGroup.UUID.class, AccountGroupUUIDHandler.class);
     registerOptionHandler(Change.Id.class, ChangeIdHandler.class);
+    registerOptionHandler(Instant.class, InstantHandler.class);
     registerOptionHandler(ObjectId.class, ObjectIdHandler.class);
     registerOptionHandler(PatchSet.Id.class, PatchSetIdHandler.class);
     registerOptionHandler(ProjectState.class, ProjectHandler.class);
     registerOptionHandler(SocketAddress.class, SocketAddressHandler.class);
-    registerOptionHandler(Timestamp.class, TimestampHandler.class);
   }
 
   private <T> void registerOptionHandler(Class<T> type, Class<? extends OptionHandler<T>> impl) {

@@ -51,6 +51,24 @@
       "parentUuid": "733f3d06_d30c8a3d",
       "revId": "411b4c5b3dca96e5a83c7ff93975bd1d9f218224",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a588f104_946e4752",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-29T07:25:37Z",
+      "side": 1,
+      "message": "Thanks for checking! If JGit did the same change there is indeed no way back for us and this change is fine.\n\nI still feel like dropping Java 8 support is something we should properly announce and document (I believe this didn\u0027t happen yet?). I can file an issue for the ESC to follow up on this.",
+      "parentUuid": "557dfae5_3dc205f2",
+      "revId": "411b4c5b3dca96e5a83c7ff93975bd1d9f218224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

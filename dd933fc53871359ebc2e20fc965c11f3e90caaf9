@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "933f3d55_3d77a526",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T08:42:07Z",
+      "side": 1,
+      "message": "Ok. As you said we could do it later.",
+      "parentUuid": "738aed41_909e1780",
+      "range": {
+        "startLine": 133,
+        "startChar": 8,
+        "endLine": 133,
+        "endChar": 38
+      },
+      "revId": "dd933fc53871359ebc2e20fc965c11f3e90caaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "561a738c_2933b7a1",

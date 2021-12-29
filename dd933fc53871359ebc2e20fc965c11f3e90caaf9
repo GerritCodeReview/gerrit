@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0a82922a_2cc4de85",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T08:13:38Z",
+      "side": 1,
+      "message": "\u003e My concern was that starting to modify events will require adapting all code that listens to events [...]\n\nAdd a new fire method that accepts instant instance and do conversion there and delegate to the existing fire method? We should also add a TODO comment there, that the old method should be removed, once all caller site were adapted.",
+      "parentUuid": "6814fa3e_e4541adb",
+      "range": {
+        "startLine": 133,
+        "startChar": 8,
+        "endLine": 133,
+        "endChar": 38
+      },
+      "revId": "dd933fc53871359ebc2e20fc965c11f3e90caaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "561a738c_2933b7a1",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 1
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "We could adapt this method too, but this method has another 16 callers that would then need to be adapted. I think I prefer to do this in a follow-up change to not make this change even bigger.",
       "parentUuid": "561a738c_2933b7a1",
+      "range": {
+        "startLine": 310,
+        "startChar": 10,
+        "endLine": 310,
+        "endChar": 86
+      },
+      "revId": "dd933fc53871359ebc2e20fc965c11f3e90caaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a604507c_d6c7ec0e",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T08:13:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6a5cdd0d_732fb4d6",
       "range": {
         "startLine": 310,
         "startChar": 10,
@@ -132,6 +180,30 @@
       "side": 1,
       "message": "This one looks like it shouldn\u0027t be too hard to change (only 4 callers), but since this method is in IdentifiedUser I thought I will change it in the same change that adapts newCommitterIdent there (a change that migrates all dates in IdentifiedUser).",
       "parentUuid": "ec4017a7_1b891ab0",
+      "range": {
+        "startLine": 663,
+        "startChar": 60,
+        "endLine": 663,
+        "endChar": 74
+      },
+      "revId": "dd933fc53871359ebc2e20fc965c11f3e90caaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06de5e1f_5f30af7c",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T08:13:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb836895_b696495d",
       "range": {
         "startLine": 663,
         "startChar": 60,

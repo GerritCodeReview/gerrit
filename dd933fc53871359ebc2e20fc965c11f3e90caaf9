@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "738aed41_909e1780",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-29T08:35:19Z",
+      "side": 1,
+      "message": "Not sure what\u0027s the benefit of this. This is not 1 fire method but n different fire methods. Whether we do the conversion of Instant to Timestamp at each of the n callers, or inside each of the n fire methods, doesn\u0027t make a big difference.",
+      "parentUuid": "0a82922a_2cc4de85",
+      "range": {
+        "startLine": 133,
+        "startChar": 8,
+        "endLine": 133,
+        "endChar": 38
+      },
+      "revId": "dd933fc53871359ebc2e20fc965c11f3e90caaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "561a738c_2933b7a1",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 1

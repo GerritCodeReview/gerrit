@@ -116,7 +116,15 @@ public class ProjectBasicAuthFilterTest {
 
     doReturn(new WebSessionManager.Key(AUTH_COOKIE_VALUE)).when(webSessionManager).createKey(any());
     WebSessionManager.Val webSessionValue =
-        new WebSessionManager.Val(AUTH_ACCOUNT_ID, 0L, false, null, 0L, "", "");
+        WebSessionManager.Val.builder()
+            .accountId(AUTH_ACCOUNT_ID)
+            .refreshCookieAt(0L)
+            .persistentCookie(false)
+            .externalId(null)
+            .expiresAt(0L)
+            .sessionId("")
+            .auth("")
+            .build();
     doReturn(webSessionValue)
         .when(webSessionManager)
         .createVal(any(), any(), eq(false), any(), any(), any());

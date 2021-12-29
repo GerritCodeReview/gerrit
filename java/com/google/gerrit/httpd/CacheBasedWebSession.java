@@ -86,7 +86,7 @@ public abstract class CacheBasedWebSession extends WebSession {
         authFromQueryParameter(token);
       }
     }
-    if (val != null && !checkAccountStatus(val.getAccountId())) {
+    if (val != null && !checkAccountStatus(val.accountId())) {
       val = null;
       okPaths.clear();
     }
@@ -100,7 +100,7 @@ public abstract class CacheBasedWebSession extends WebSession {
     key = new WebSessionManager.Key(cookie);
     val = manager.get(key);
     String token = request.getHeader(XsrfConstants.XSRF_HEADER_NAME);
-    if (val != null && token != null && token.equals(val.getAuth())) {
+    if (val != null && token != null && token.equals(val.auth())) {
       okPaths.add(AccessPath.REST_API);
     }
   }
@@ -133,7 +133,7 @@ public abstract class CacheBasedWebSession extends WebSession {
   @Override
   @Nullable
   public String getXGerritAuth() {
-    return isSignedIn() ? val.getAuth() : null;
+    return isSignedIn() ? val.auth() : null;
   }
 
   @Override
@@ -160,7 +160,7 @@ public abstract class CacheBasedWebSession extends WebSession {
     if (user == null) {
       if (isSignedIn()) {
 
-        user = identified.create(val.getAccountId(), getUserProperties(val));
+        user = identified.create(val.accountId(), getUserProperties(val));
       } else {
         user = anonymousProvider.get();
       }
@@ -169,11 +169,11 @@ public abstract class CacheBasedWebSession extends WebSession {
   }
 
   private static PropertyMap getUserProperties(@Nullable WebSessionManager.Val val) {
-    if (val == null || val.getExternalId() == null) {
+    if (val == null || val.externalId() == null) {
       return PropertyMap.EMPTY;
     }
     return PropertyMap.builder()
-        .put(CurrentUser.LAST_LOGIN_EXTERNAL_ID_PROPERTY_KEY, val.getExternalId())
+        .put(CurrentUser.LAST_LOGIN_EXTERNAL_ID_PROPERTY_KEY, val.externalId())
         .build();
   }
 
@@ -194,14 +194,23 @@ public abstract class CacheBasedWebSession extends WebSession {
     key = manager.createKey(id);
     val = manager.createVal(key, id, rememberMe, identity, null, null);
     saveCookie();
-    user = identified.create(val.getAccountId(), getUserProperties(val));
+    user = identified.create(val.accountId(), getUserProperties(val));
   }
 
   /** Set the user account for this current request only. */
   @Override
   public void setUserAccountId(Account.Id id) {
     key = new WebSessionManager.Key("id:" + id);
-    val = new WebSessionManager.Val(id, 0, false, null, 0, null, null);
+    val =
+        WebSessionManager.Val.builder()
+            .accountId(id)
+            .refreshCookieAt(0L)
+            .persistentCookie(false)
+            .externalId(null)
+            .expiresAt(0L)
+            .sessionId(null)
+            .auth(null)
+            .build();
     user = identified.runAs(id, user, PropertyMap.EMPTY);
   }
 
@@ -218,7 +227,7 @@ public abstract class CacheBasedWebSession extends WebSession {
 
   @Override
   public String getSessionId() {
-    return val != null ? val.getSessionId() : null;
+    return val != null ? val.sessionId() : null;
   }
 
   private boolean checkAccountStatus(Account.Id id) {

@@ -22,6 +22,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser.RequestFactory;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.serialize.StringCacheSerializer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -42,7 +43,10 @@ public class H2CacheBasedWebSession extends CacheBasedWebSession {
         persist(WebSessionManager.CACHE_NAME, String.class, Val.class)
             .maximumWeight(1024) // reasonable default for many sites
             // expire sessions if they are inactive
-            .expireAfterWrite(Duration.ofMinutes(CacheBasedWebSession.MAX_AGE_MINUTES));
+            .expireAfterWrite(Duration.ofMinutes(CacheBasedWebSession.MAX_AGE_MINUTES))
+            .keySerializer(StringCacheSerializer.INSTANCE)
+            .valueSerializer(Val.Serializer.INSTANCE)
+            .version(1);
         install(new FactoryModuleBuilder().build(WebSessionManagerFactory.class));
         DynamicItem.itemOf(binder(), WebSession.class);
         DynamicItem.bind(binder(), WebSession.class)

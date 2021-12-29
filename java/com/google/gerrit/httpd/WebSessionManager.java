@@ -15,12 +15,7 @@
 package com.google.gerrit.httpd;
 
 import static com.google.gerrit.httpd.CacheBasedWebSession.MAX_AGE_MINUTES;
-import static com.google.gerrit.server.ioutil.BasicSerialization.readFixInt64;
-import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
-import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt64;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 import static com.google.gerrit.server.util.time.TimeUtil.nowMs;
 import static java.util.concurrent.TimeUnit.HOURS;
@@ -28,22 +23,23 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.cache.Cache;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.gerrit.server.cache.proto.Cache.WebSessionValueProto;
+import com.google.gerrit.server.cache.proto.Cache.WebSessionValueProto.ExternalIdKey;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.security.SecureRandom;
-import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 public class WebSessionManager {
@@ -87,7 +83,7 @@ public class WebSessionManager {
       prng.nextBytes(rnd);
 
       buf = new ByteArrayOutputStream(3 + nonceLen);
-      writeVarInt32(buf, (int) Val.serialVersionUID);
+      writeVarInt32(buf, (int) 1);
       writeVarInt32(buf, who.get());
       writeBytes(buf, rnd);
 
@@ -98,10 +94,10 @@ public class WebSessionManager {
   }
 
   Val createVal(Key key, Val val) {
-    Account.Id who = val.getAccountId();
-    boolean remember = val.isPersistentCookie();
-    ExternalId.Key lastLogin = val.getExternalId();
-    return createVal(key, who, remember, lastLogin, val.sessionId, val.auth);
+    Account.Id who = val.accountId();
+    boolean remember = val.persistentCookie();
+    ExternalId.Key lastLogin = val.externalId();
+    return createVal(key, who, remember, lastLogin, val.sessionId(), val.auth());
   }
 
   Val createVal(
@@ -129,13 +125,22 @@ public class WebSessionManager {
       auth = newUniqueToken(who);
     }
 
-    Val val = new Val(who, refreshCookieAt, remember, lastLogin, expiresAt, sid, auth);
+    Val val =
+        Val.builder()
+            .accountId(who)
+            .refreshCookieAt(refreshCookieAt)
+            .persistentCookie(remember)
+            .externalId(lastLogin)
+            .expiresAt(expiresAt)
+            .sessionId(sid)
+            .auth(auth)
+            .build();
     self.put(key.token, val);
     return val;
   }
 
   int getCookieAge(Val val) {
-    if (val.isPersistentCookie()) {
+    if (val.persistentCookie()) {
       // Client may store the cookie until we would remove it from our
       // own cache, after which it will certainly be invalid.
       //
@@ -151,7 +156,7 @@ public class WebSessionManager {
 
   Val get(Key key) {
     Val val = self.getIfPresent(key.token);
-    if (val != null && val.expiresAt <= nowMs()) {
+    if (val != null && val.expiresAt() <= nowMs()) {
       self.invalidate(key.token);
       return null;
     }
@@ -184,137 +189,93 @@ public class WebSessionManager {
     }
   }
 
-  public static final class Val implements Serializable {
-    static final long serialVersionUID = 2L;
+  @AutoValue
+  public abstract static class Val {
+    public abstract long expiresAt();
 
-    @Inject private static transient ExternalIdKeyFactory externalIdKeyFactory;
+    public abstract Account.Id accountId();
 
-    private transient Account.Id accountId;
-    private transient long refreshCookieAt;
-    private transient boolean persistentCookie;
-    private transient ExternalId.Key externalId;
-    private transient long expiresAt;
-    private transient String sessionId;
-    private transient String auth;
+    @Nullable
+    abstract ExternalId.Key externalId();
 
-    Val(
-        Account.Id accountId,
-        long refreshCookieAt,
-        boolean persistentCookie,
-        ExternalId.Key externalId,
-        long expiresAt,
-        String sessionId,
-        String auth) {
-      this.accountId = accountId;
-      this.refreshCookieAt = refreshCookieAt;
-      this.persistentCookie = persistentCookie;
-      this.externalId = externalId;
-      this.expiresAt = expiresAt;
-      this.sessionId = sessionId;
-      this.auth = auth;
-    }
+    @Nullable
+    abstract String sessionId();
 
-    public long getExpiresAt() {
-      return expiresAt;
-    }
+    @Nullable
+    abstract String auth();
 
-    /**
-     * Parse an Account.Id.
-     *
-     * <p>This is public so that plugins that implement a web session, can also implement a way to
-     * clear per user sessions.
-     *
-     * @return account ID.
-     */
-    public Account.Id getAccountId() {
-      return accountId;
-    }
+    abstract boolean persistentCookie();
 
-    ExternalId.Key getExternalId() {
-      return externalId;
-    }
-
-    String getSessionId() {
-      return sessionId;
-    }
-
-    String getAuth() {
-      return auth;
-    }
+    abstract long refreshCookieAt();
 
     boolean needsCookieRefresh() {
-      return refreshCookieAt <= nowMs();
+      return refreshCookieAt() <= nowMs();
     }
 
-    boolean isPersistentCookie() {
-      return persistentCookie;
+    static Val.Builder builder() {
+      return new AutoValue_WebSessionManager_Val.Builder();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-      writeVarInt32(out, 1);
-      writeVarInt32(out, accountId.get());
+    @AutoValue.Builder
+    abstract static class Builder {
+      abstract Builder expiresAt(long val);
 
-      writeVarInt32(out, 2);
-      writeFixInt64(out, refreshCookieAt);
+      abstract Builder accountId(Account.Id val);
 
-      writeVarInt32(out, 3);
-      writeVarInt32(out, persistentCookie ? 1 : 0);
+      abstract Builder externalId(@Nullable ExternalId.Key val);
 
-      if (externalId != null) {
-        writeVarInt32(out, 4);
-        writeString(out, externalId.toString());
-      }
+      abstract Builder sessionId(@Nullable String val);
 
-      if (sessionId != null) {
-        writeVarInt32(out, 5);
-        writeString(out, sessionId);
-      }
+      abstract Builder auth(@Nullable String val);
 
-      writeVarInt32(out, 6);
-      writeFixInt64(out, expiresAt);
+      abstract Builder persistentCookie(boolean val);
 
-      if (auth != null) {
-        writeVarInt32(out, 7);
-        writeString(out, auth);
-      }
+      abstract Builder refreshCookieAt(long val);
 
-      writeVarInt32(out, 0);
+      abstract Val build();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException {
-      PARSE:
-      for (; ; ) {
-        final int tag = readVarInt32(in);
-        switch (tag) {
-          case 0:
-            break PARSE;
-          case 1:
-            accountId = Account.id(readVarInt32(in));
-            continue;
-          case 2:
-            refreshCookieAt = readFixInt64(in);
-            continue;
-          case 3:
-            persistentCookie = readVarInt32(in) != 0;
-            continue;
-          case 4:
-            externalId = externalIdKeyFactory.parse(readString(in));
-            continue;
-          case 5:
-            sessionId = readString(in);
-            continue;
-          case 6:
-            expiresAt = readFixInt64(in);
-            continue;
-          case 7:
-            auth = readString(in);
-            continue;
-          default:
-            throw new IOException("Unknown tag found in object: " + tag);
+    public enum Serializer implements CacheSerializer<Val> {
+      INSTANCE;
+
+      @Override
+      public byte[] serialize(Val object) {
+        WebSessionValueProto.Builder builder =
+            WebSessionValueProto.newBuilder()
+                .setExpiresAt(object.expiresAt())
+                .setAccountId(object.accountId().get())
+                .setPersistentCookie(object.persistentCookie())
+                .setRefreshCookieAt(object.refreshCookieAt());
+        if (object.externalId() != null) {
+          builder.setExternalId(
+              ExternalIdKey.newBuilder()
+                  .setKey(object.externalId().get())
+                  .setIsKeyInsensitive(object.externalId().isCaseInsensitive())
+                  .build());
         }
+        if (object.sessionId() != null) {
+          builder.setSessionId(object.sessionId());
+        }
+        if (object.auth() != null) {
+          builder.setAuth(object.auth());
+        }
+        return builder.build().toByteArray();
       }
-      if (expiresAt == 0) {
-        expiresAt = refreshCookieAt + TimeUnit.HOURS.toMillis(2);
+
+      @Override
+      public Val deserialize(byte[] in) {
+        WebSessionValueProto proto = Protos.parseUnchecked(WebSessionValueProto.parser(), in);
+        return Val.builder()
+            .expiresAt(proto.getExpiresAt())
+            .accountId(Account.id(proto.getAccountId()))
+            .externalId(
+                ExternalId.Key.parse(
+                    proto.getExternalId().getKey(), proto.getExternalId().getIsKeyInsensitive()))
+            .sessionId(proto.getSessionId())
+            .auth(proto.getAuth())
+            .persistentCookie(proto.getPersistentCookie())
+            .refreshCookieAt(proto.getRefreshCookieAt())
+            .build();
       }
     }
   }

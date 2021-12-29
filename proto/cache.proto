@@ -772,3 +772,19 @@ message DiffSummaryProto {
   int32 insertions = 2;
   int32 deletions = 3;
 }
+
+// Next ID: 8
+message WebSessionValueProto {
+  message ExternalIdKey {
+    string key = 1;
+    bool is_key_insensitive = 2;
+  }
+
+  int32 account_id = 1;
+  int64 refresh_cookie_at = 2;
+  bool persistent_cookie = 3;
+  ExternalIdKey external_id = 4;
+  int64 expires_at = 5;
+  string session_id = 6;
+  string auth = 7;
+}

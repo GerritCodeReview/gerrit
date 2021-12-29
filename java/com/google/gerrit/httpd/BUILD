@@ -18,8 +18,10 @@ java_library(
         "//java/com/google/gerrit/launcher",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/metrics",
+        "//java/com/google/gerrit/proto",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/audit",
+        "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/ioutil",
@@ -42,5 +44,6 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
+        "//proto:cache_java_proto",
     ],
 )

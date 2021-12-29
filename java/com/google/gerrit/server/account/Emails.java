@@ -29,7 +29,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -118,7 +117,7 @@ public class Emails {
     UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());
-    u.setDate(new Timestamp(who.getWhen().getTime()));
+    u.setDate(who.getWhen().toInstant());
     u.setTimeZone(who.getTimeZoneOffset());
 
     // If only one account has access to this email address, select it

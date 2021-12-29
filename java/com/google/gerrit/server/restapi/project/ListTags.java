@@ -39,7 +39,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefFilter;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -197,12 +197,12 @@ public class ListTags implements RestReadView<ProjectResource> {
           tagger != null ? CommonConverters.toGitPerson(tagger) : null,
           canDelete,
           webLinks.isEmpty() ? null : webLinks,
-          tagger != null ? new Timestamp(tagger.getWhen().getTime()) : null);
+          tagger != null ? tagger.getWhen().toInstant() : null);
     }
 
-    Timestamp timestamp =
+    Instant timestamp =
         object instanceof RevCommit
-            ? new Timestamp(((RevCommit) object).getCommitterIdent().getWhen().getTime())
+            ? ((RevCommit) object).getCommitterIdent().getWhen().toInstant()
             : null;
 
     // Lightweight tag

@@ -34,6 +34,24 @@
       "parentUuid": "a681e9db_d88e4780",
       "revId": "d29be1948adc0623ff442217bd1928868a5a8026",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29c2aa87_c4de928b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T20:24:16Z",
+      "side": 1,
+      "message": "Done: [1].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/189192",
+      "parentUuid": "bcc0c620_08aae8b8",
+      "revId": "d29be1948adc0623ff442217bd1928868a5a8026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

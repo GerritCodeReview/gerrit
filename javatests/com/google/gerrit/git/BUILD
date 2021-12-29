@@ -7,7 +7,10 @@ junit_tests(
     size = "medium",
     timeout = "short",
     srcs = MEDIUM_TESTS,
-    tags = ["no_windows"],
+    tags = [
+        "no_rbe",
+        "no_windows",
+    ],
     deps = [
         "//java/com/google/gerrit/git",
         "//lib:guava",

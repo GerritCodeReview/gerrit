@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2244ea9_308a8cbe",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T06:51:50Z",
+      "side": 1,
+      "message": "Can we just adjust the fire method or add new one and pass in instant instance? Or do it later, when the rest of the code was adapted? This way we would avoid to change all caller sites. This measure would significantly reduce this change and avoid proliferation of: \"import java.sql.Timestamp\" statement that would be in itself a big plus.",
+      "range": {
+        "startLine": 133,
+        "startChar": 8,
+        "endLine": 133,
+        "endChar": 38
+      },
+      "revId": "dd933fc53871359ebc2e20fc965c11f3e90caaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "561a738c_2933b7a1",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T06:51:50Z",
+      "side": 1,
+      "message": "Can this method be adapted to accept instant instance to avoid conversion of caller sites? Or create a new method to convert rest caller sites later?",
+      "range": {
+        "startLine": 310,
+        "startChar": 10,
+        "endLine": 310,
+        "endChar": 86
+      },
+      "revId": "dd933fc53871359ebc2e20fc965c11f3e90caaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec4017a7_1b891ab0",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T06:51:50Z",
+      "side": 1,
+      "message": "Can this method be adapted to accept instant instance?",
+      "range": {
+        "startLine": 663,
+        "startChar": 60,
+        "endLine": 663,
+        "endChar": 74
+      },
+      "revId": "dd933fc53871359ebc2e20fc965c11f3e90caaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

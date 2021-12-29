@@ -28,9 +28,9 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,14 +57,14 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
         @Assisted("effective") Account.Id accountId,
         @Assisted("real") Account.Id realAccountId,
         PersonIdent authorIdent,
-        Date when);
+        Instant when);
 
     RobotCommentUpdate create(
         Change change,
         @Assisted("effective") Account.Id accountId,
         @Assisted("real") Account.Id realAccountId,
         PersonIdent authorIdent,
-        Date when);
+        Instant when);
   }
 
   private List<RobotComment> put = new ArrayList<>();
@@ -77,7 +77,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
-      @Assisted Date when) {
+      @Assisted Instant when) {
     super(noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
   }
 
@@ -89,7 +89,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
-      @Assisted Date when) {
+      @Assisted Instant when) {
     super(noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
   }
 

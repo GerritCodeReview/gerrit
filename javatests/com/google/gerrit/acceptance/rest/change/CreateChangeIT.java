@@ -594,7 +594,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
       PersonIdent expectedAuthor =
           changeNoteUtil.newAccountIdIdent(
-              getAccount(admin.id()).id(), c.created, serverIdent.get());
+              getAccount(admin.id()).id(), c.created.toInstant(), serverIdent.get());
       assertThat(commit.getAuthorIdent()).isEqualTo(expectedAuthor);
 
       assertThat(commit.getCommitterIdent())

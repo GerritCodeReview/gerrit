@@ -584,14 +584,11 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     ImmutableList<ReviewerStatusUpdate> expectedReviewerUpdates =
         ImmutableList.of(
             ReviewerStatusUpdate.create(
-                addReviewerUpdate.when.toInstant(),
-                changeOwner.getAccountId(),
-                otherUserId,
-                REVIEWER),
+                addReviewerUpdate.when, changeOwner.getAccountId(), otherUserId, REVIEWER),
             ReviewerStatusUpdate.create(
                 updateTimestamp, changeOwner.getAccountId(), otherUserId, REMOVED),
             ReviewerStatusUpdate.create(
-                addCcUpdate.when.toInstant(), changeOwner.getAccountId(), otherUserId, CC),
+                addCcUpdate.when, changeOwner.getAccountId(), otherUserId, CC),
             ReviewerStatusUpdate.create(
                 updateTimestamp, changeOwner.getAccountId(), otherUserId, REMOVED));
     ChangeNotes notesAfterRewrite = newNotes(c);
@@ -1257,17 +1254,17 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     ImmutableList<AttentionSetUpdate> attentionSetUpdatesBeforeRewrite =
         ImmutableList.of(
             AttentionSetUpdate.createFromRead(
-                invalidRemovedByClickUpdate.getWhen().toInstant(),
+                invalidRemovedByClickUpdate.getWhen(),
                 changeOwner.getAccountId(),
                 Operation.REMOVE,
                 String.format("Removed by %s by clicking the attention icon", otherUser.getName())),
             AttentionSetUpdate.createFromRead(
-                validAttentionSetUpdate.getWhen().toInstant(),
+                validAttentionSetUpdate.getWhen(),
                 changeOwner.getAccountId(),
                 Operation.ADD,
                 "Added by someone"),
             AttentionSetUpdate.createFromRead(
-                validAttentionSetUpdate.getWhen().toInstant(),
+                validAttentionSetUpdate.getWhen(),
                 otherUserId,
                 Operation.REMOVE,
                 "Removed by someone"),
@@ -1282,17 +1279,17 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 Operation.ADD,
                 "Added by someone using the hovercard menu"),
             AttentionSetUpdate.createFromRead(
-                invalidMultipleAttentionSetUpdate.getWhen().toInstant(),
+                invalidMultipleAttentionSetUpdate.getWhen(),
                 otherUserId,
                 Operation.REMOVE,
                 String.format("Removed by %s using the hovercard menu", otherUser.getName())),
             AttentionSetUpdate.createFromRead(
-                invalidMultipleAttentionSetUpdate.getWhen().toInstant(),
+                invalidMultipleAttentionSetUpdate.getWhen(),
                 changeOwner.getAccountId(),
                 Operation.ADD,
                 String.format("%s replied on the change", otherUser.getName())),
             AttentionSetUpdate.createFromRead(
-                invalidAttentionSetUpdate.getWhen().toInstant(),
+                invalidAttentionSetUpdate.getWhen(),
                 otherUserId,
                 Operation.ADD,
                 String.format("Added by %s using the hovercard menu", otherUser.getName())));
@@ -1300,17 +1297,17 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     ImmutableList<AttentionSetUpdate> attentionSetUpdatesAfterRewrite =
         ImmutableList.of(
             AttentionSetUpdate.createFromRead(
-                invalidRemovedByClickUpdate.getWhen().toInstant(),
+                invalidRemovedByClickUpdate.getWhen(),
                 changeOwner.getAccountId(),
                 Operation.REMOVE,
                 "Removed by someone by clicking the attention icon"),
             AttentionSetUpdate.createFromRead(
-                validAttentionSetUpdate.getWhen().toInstant(),
+                validAttentionSetUpdate.getWhen(),
                 changeOwner.getAccountId(),
                 Operation.ADD,
                 "Added by someone"),
             AttentionSetUpdate.createFromRead(
-                validAttentionSetUpdate.getWhen().toInstant(),
+                validAttentionSetUpdate.getWhen(),
                 otherUserId,
                 Operation.REMOVE,
                 "Removed by someone"),
@@ -1325,17 +1322,17 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 Operation.ADD,
                 "Added by someone using the hovercard menu"),
             AttentionSetUpdate.createFromRead(
-                invalidMultipleAttentionSetUpdate.getWhen().toInstant(),
+                invalidMultipleAttentionSetUpdate.getWhen(),
                 otherUserId,
                 Operation.REMOVE,
                 "Removed by someone using the hovercard menu"),
             AttentionSetUpdate.createFromRead(
-                invalidMultipleAttentionSetUpdate.getWhen().toInstant(),
+                invalidMultipleAttentionSetUpdate.getWhen(),
                 changeOwner.getAccountId(),
                 Operation.ADD,
                 "Someone replied on the change"),
             AttentionSetUpdate.createFromRead(
-                invalidAttentionSetUpdate.getWhen().toInstant(),
+                invalidAttentionSetUpdate.getWhen(),
                 otherUserId,
                 Operation.ADD,
                 "Added by someone using the hovercard menu"));
@@ -1430,22 +1427,22 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
       thirdAttentionSetUpdate.commit();
       attentionSetUpdatesBeforeRewrite.add(
           AttentionSetUpdate.createFromRead(
-              thirdAttentionSetUpdate.getWhen().toInstant(),
+              thirdAttentionSetUpdate.getWhen(),
               changeOwner.getAccountId(),
               Operation.REMOVE,
               String.format("Removed by %s by clicking the attention icon", okAccountName)),
           AttentionSetUpdate.createFromRead(
-              secondAttentionSetUpdate.getWhen().toInstant(),
+              secondAttentionSetUpdate.getWhen(),
               otherUserId,
               Operation.REMOVE,
               String.format("Removed by %s using the hovercard menu", okAccountName)),
           AttentionSetUpdate.createFromRead(
-              secondAttentionSetUpdate.getWhen().toInstant(),
+              secondAttentionSetUpdate.getWhen(),
               changeOwner.getAccountId(),
               Operation.ADD,
               String.format("%s replied on the change", okAccountName)),
           AttentionSetUpdate.createFromRead(
-              firstAttentionSetUpdate.getWhen().toInstant(),
+              firstAttentionSetUpdate.getWhen(),
               otherUserId,
               Operation.ADD,
               String.format("Added by %s using the hovercard menu", okAccountName)));
@@ -2426,7 +2423,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
   }
 
   private PersonIdent getAuthorIdent(Account account) {
-    Timestamp when = TimeUtil.nowTs();
-    return changeNoteUtil.newAccountIdIdent(account.id(), when, serverIdent);
+    return changeNoteUtil.newAccountIdIdent(account.id(), TimeUtil.now(), serverIdent);
   }
 }

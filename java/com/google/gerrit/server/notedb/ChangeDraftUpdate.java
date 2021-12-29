@@ -31,9 +31,9 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,14 +60,14 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         @Assisted("effective") Account.Id accountId,
         @Assisted("real") Account.Id realAccountId,
         PersonIdent authorIdent,
-        Date when);
+        Instant when);
 
     ChangeDraftUpdate create(
         Change change,
         @Assisted("effective") Account.Id accountId,
         @Assisted("real") Account.Id realAccountId,
         PersonIdent authorIdent,
-        Date when);
+        Instant when);
   }
 
   @AutoValue
@@ -101,7 +101,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
-      @Assisted Date when) {
+      @Assisted Instant when) {
     super(noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
   }
@@ -115,7 +115,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
-      @Assisted Date when) {
+      @Assisted Instant when) {
     super(noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
   }

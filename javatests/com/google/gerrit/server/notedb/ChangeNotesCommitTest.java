@@ -106,7 +106,7 @@ public class ChangeNotesCommitTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(change).load();
     ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
     PersonIdent author =
-        noteUtil.newAccountIdIdent(changeOwner.getAccount().id(), TimeUtil.nowTs(), serverIdent);
+        noteUtil.newAccountIdIdent(changeOwner.getAccount().id(), TimeUtil.now(), serverIdent);
     try (ObjectInserter ins = testRepo.getRepository().newObjectInserter()) {
       CommitBuilder cb = new CommitBuilder();
       cb.setParentId(notes.getRevision());

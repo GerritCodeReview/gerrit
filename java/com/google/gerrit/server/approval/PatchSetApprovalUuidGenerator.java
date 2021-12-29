@@ -19,7 +19,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetApproval.UUID;
 import com.google.inject.ImplementedBy;
-import java.util.Date;
+import java.time.Instant;
 
 /**
  * Generator for {@link PatchSetApproval.UUID}.
@@ -34,5 +34,6 @@ public interface PatchSetApprovalUuidGenerator {
    * Generates {@link PatchSetApproval.UUID} based on the properties of {@link PatchSetApproval}
    * that is being granted.
    */
-  UUID get(PatchSet.Id patchSetId, Account.Id accountId, String label, short value, Date granted);
+  UUID get(
+      PatchSet.Id patchSetId, Account.Id accountId, String label, short value, Instant granted);
 }

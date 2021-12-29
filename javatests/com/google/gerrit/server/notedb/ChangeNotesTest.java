@@ -373,7 +373,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                 PatchSetApproval.builder()
                     .key(psa.key())
                     .value(0)
-                    .granted(update.getWhen().toInstant())
+                    .granted(update.getWhen())
                     .build()));
   }
 
@@ -1097,7 +1097,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    Instant ts = update.getWhen().toInstant();
+    Instant ts = update.getWhen();
     assertThat(notes.getReviewers())
         .isEqualTo(
             ReviewerSet.fromTable(
@@ -1116,7 +1116,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    Instant ts = update.getWhen().toInstant();
+    Instant ts = update.getWhen();
     assertThat(notes.getReviewers())
         .isEqualTo(
             ReviewerSet.fromTable(
@@ -1134,7 +1134,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    Instant ts = update.getWhen().toInstant();
+    Instant ts = update.getWhen();
     assertThat(notes.getReviewers())
         .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(REVIEWER, Account.id(2), ts)));
 
@@ -1143,7 +1143,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    ts = update.getWhen().toInstant();
+    ts = update.getWhen();
     assertThat(notes.getReviewers())
         .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(CC, Account.id(2), ts)));
   }
@@ -3473,7 +3473,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             range.getEndLine(),
             otherUser,
             null,
-            new Timestamp(update1.getWhen().getTime()),
+            Timestamp.from(update1.getWhen()),
             "comment 1",
             (short) 1,
             commitId,
@@ -3490,7 +3490,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             range.getEndLine(),
             otherUser,
             null,
-            new Timestamp(update2.getWhen().getTime()),
+            Timestamp.from(update2.getWhen()),
             "comment 2",
             (short) 1,
             commitId,
@@ -3547,7 +3547,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             range.getEndLine(),
             changeOwner,
             null,
-            new Timestamp(update.getWhen().getTime()),
+            Timestamp.from(update.getWhen()),
             "comment",
             (short) 1,
             ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),

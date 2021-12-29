@@ -100,11 +100,12 @@ public class ChangeNoteUtil {
    * Returns a {@link PersonIdent} that contains the account ID, but not the user's name or email
    * address.
    */
-  public PersonIdent newAccountIdIdent(Account.Id accountId, Date when, PersonIdent serverIdent) {
+  public PersonIdent newAccountIdIdent(
+      Account.Id accountId, Instant when, PersonIdent serverIdent) {
     return new PersonIdent(
         getAccountIdAsUsername(accountId),
         getAccountIdAsEmailAddress(accountId),
-        when,
+        Date.from(when),
         serverIdent.getTimeZone());
   }
 

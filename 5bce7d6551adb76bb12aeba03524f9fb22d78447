@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1848fd0c_803953cf",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-29T13:40:11Z",
+      "side": 1,
+      "message": "Can\u0027t we just specify the US locale in both places (here and in ChangeField)?",
+      "revId": "5bce7d6551adb76bb12aeba03524f9fb22d78447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2910c13e_a44a74be",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-29T13:40:11Z",
+      "side": 1,
+      "message": "Please add documentation for the new prefixhashtag and prefixtopic predicates.",
+      "range": {
+        "startLine": 873,
+        "startChar": 31,
+        "endLine": 873,
+        "endChar": 44
+      },
+      "revId": "5bce7d6551adb76bb12aeba03524f9fb22d78447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cead9f4_1f2b1511",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-29T13:40:11Z",
+      "side": 1,
+      "message": "Not sure whether we need to support regexps for prefixhashtag (and prefixtopic below). If a regular expression is given, it\u0027s no longer a prefix match and hence confusing. Maybe just drop this?",
+      "range": {
+        "startLine": 874,
+        "startChar": 4,
+        "endLine": 876,
+        "endChar": 5
+      },
+      "revId": "5bce7d6551adb76bb12aeba03524f9fb22d78447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fff0fde_5daf960e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-29T13:40:11Z",
+      "side": 1,
+      "message": "Do we need to call checkFieldAvailable here too?",
+      "revId": "5bce7d6551adb76bb12aeba03524f9fb22d78447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

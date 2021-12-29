@@ -1456,7 +1456,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           PatchSetApproval.Builder b =
               c.toBuilder()
                   .value(ent.getValue())
-                  .granted(ctx.getWhen())
+                  .granted(ctx.getWhen().toInstant())
                   .tag(Optional.ofNullable(in.tag));
           ctx.getUser().updateRealAccountId(b::realAccountId);
           c = b.build();
@@ -1473,7 +1473,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           c =
               ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
                   .tag(Optional.ofNullable(in.tag))
-                  .granted(ctx.getWhen())
+                  .granted(ctx.getWhen().toInstant())
                   .build();
           ups.add(c);
           addLabelDelta(normName, c.value());

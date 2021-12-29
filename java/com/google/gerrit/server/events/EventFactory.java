@@ -437,7 +437,7 @@ public class EventFactory {
     p.number = patchSet.number();
     p.ref = patchSet.refName();
     p.uploader = asAccountAttribute(patchSet.uploader());
-    p.createdOn = patchSet.createdOn().getTime() / 1000L;
+    p.createdOn = patchSet.createdOn().getEpochSecond();
     PatchSet.Id pId = patchSet.id();
     try {
       p.parents = new ArrayList<>();
@@ -534,7 +534,7 @@ public class EventFactory {
     a.type = approval.labelId().get();
     a.value = Short.toString(approval.value());
     a.by = asAccountAttribute(approval.accountId());
-    a.grantedOn = approval.granted().getTime() / 1000L;
+    a.grantedOn = approval.granted().getEpochSecond();
     a.oldValue = null;
 
     Optional<LabelType> lt = labelTypes.byLabel(approval.labelId());

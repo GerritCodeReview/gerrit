@@ -213,7 +213,7 @@ public class LabelNormalizerTest {
     return PatchSetApproval.builder()
         .key(PatchSetApproval.key(change.currentPatchSetId(), accountId, LabelId.create(label)))
         .value(value)
-        .granted(TimeUtil.nowTs())
+        .granted(TimeUtil.now())
         .build();
   }
 

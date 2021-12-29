@@ -39,7 +39,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -165,7 +164,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
               .id(PatchSet.id(change.getId(), 0))
               .commitId(editCommit)
               .uploader(change.getUser().getAccountId())
-              .createdOn(new Timestamp(editCommit.getCommitterIdent().getWhen().getTime()))
+              .createdOn(editCommit.getCommitterIdent().getWhen().toInstant())
               .build();
       if (commitId == null || editCommit.equals(commitId)) {
         return ImmutableList.of(new RevisionResource(change, ps, edit));

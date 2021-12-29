@@ -35,7 +35,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.inject.Inject;
-import java.util.Date;
+import java.time.Instant;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
@@ -261,7 +261,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     PatchSetApproval approval =
         PatchSetApproval.builder()
             .postSubmit(false)
-            .granted(new Date())
+            .granted(Instant.now())
             .key(PatchSetApproval.key(psId, approver, LabelId.create("Code-Review")))
             .value(value)
             .build();

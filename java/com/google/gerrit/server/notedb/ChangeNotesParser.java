@@ -125,8 +125,8 @@ class ChangeNotesParser {
 
   // Private final but mutable members initialized in the constructor and filled
   // in during the parsing process.
-  private final Table<Account.Id, ReviewerStateInternal, Timestamp> reviewers;
-  private final Table<Address, ReviewerStateInternal, Timestamp> reviewersByEmail;
+  private final Table<Account.Id, ReviewerStateInternal, Instant> reviewers;
+  private final Table<Address, ReviewerStateInternal, Instant> reviewersByEmail;
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
   /** Holds only the most recent update per user. Older updates are discarded. */
@@ -151,8 +151,8 @@ class ChangeNotesParser {
   private Change.Status status;
   private String topic;
   private Set<String> hashtags;
-  private Timestamp createdOn;
-  private Timestamp lastUpdatedOn;
+  private Instant createdOn;
+  private Instant lastUpdatedOn;
   private Account.Id ownerId;
   private String serverId;
   private String changeId;
@@ -173,7 +173,7 @@ class ChangeNotesParser {
   // We only set the value once, based on the latest update (the actual value or Optional.empty() if
   // the latest record unsets the field).
   private Optional<PatchSet.Id> cherryPickOf;
-  private Timestamp mergedOn;
+  private Instant mergedOn;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -413,7 +413,7 @@ class ChangeNotesParser {
   }
 
   private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
-    Timestamp commitTimestamp = getCommitTimestamp(commit);
+    Instant commitTimestamp = getCommitTimestamp(commit);
 
     createdOn = commitTimestamp;
     parseTag(commit);
@@ -467,7 +467,7 @@ class ChangeNotesParser {
 
     parseSubmission(commit, commitTimestamp);
 
-    if (lastUpdatedOn == null || commitTimestamp.after(lastUpdatedOn)) {
+    if (lastUpdatedOn == null || commitTimestamp.isAfter(lastUpdatedOn)) {
       lastUpdatedOn = commitTimestamp;
     }
 
@@ -529,7 +529,7 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseSubmission(ChangeNotesCommit commit, Timestamp commitTimestamp)
+  private void parseSubmission(ChangeNotesCommit commit, Instant commitTimestamp)
       throws ConfigInvalidException {
     // Only parse the most recent sumbit commit (there should be exactly one).
     if (submissionId == null) {
@@ -612,7 +612,7 @@ class ChangeNotesParser {
     }
   }
 
-  private void parsePatchSet(PatchSet.Id psId, ObjectId rev, Account.Id accountId, Timestamp ts)
+  private void parsePatchSet(PatchSet.Id psId, ObjectId rev, Account.Id accountId, Instant ts)
       throws ConfigInvalidException {
     if (accountId == null) {
       throw parseException("patch set %s requires an identified user as uploader", psId.get());
@@ -707,7 +707,7 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseAssigneeUpdates(Timestamp ts, ChangeNotesCommit commit)
+  private void parseAssigneeUpdates(Instant ts, ChangeNotesCommit commit)
       throws ConfigInvalidException {
     String assigneeValue = parseOneFooter(commit, FOOTER_ASSIGNEE);
     if (assigneeValue != null) {
@@ -817,7 +817,7 @@ class ChangeNotesParser {
       Account.Id accountId,
       Account.Id realAccountId,
       ChangeNotesCommit commit,
-      Timestamp ts) {
+      Instant ts) {
     Optional<String> changeMsgString = getChangeMessageString(commit);
     if (!changeMsgString.isPresent()) {
       return false;
@@ -827,7 +827,7 @@ class ChangeNotesParser {
         ChangeMessage.create(
             ChangeMessage.key(psId.changeId(), commit.name()),
             accountId,
-            ts,
+            Timestamp.from(ts),
             psId,
             changeMsgString.get(),
             realAccountId,
@@ -902,7 +902,7 @@ class ChangeNotesParser {
   }
 
   /** Parses copied {@link PatchSetApproval}. */
-  private void parseCopiedApproval(PatchSet.Id psId, Timestamp ts, String line)
+  private void parseCopiedApproval(PatchSet.Id psId, Instant ts, String line)
       throws ConfigInvalidException {
     ParsedPatchSetApproval parsedPatchSetApproval = ChangeNoteUtil.parseCopiedApproval(line);
     checkFooter(
@@ -950,7 +950,7 @@ class ChangeNotesParser {
   }
 
   private void parseApproval(
-      PatchSet.Id psId, Account.Id accountId, Account.Id realAccountId, Timestamp ts, String line)
+      PatchSet.Id psId, Account.Id accountId, Account.Id realAccountId, Instant ts, String line)
       throws ConfigInvalidException {
     if (accountId == null) {
       throw parseException("patch set %s requires an identified user as uploader", psId.get());
@@ -970,7 +970,7 @@ class ChangeNotesParser {
       PatchSet.Id psId,
       Account.Id committerId,
       Account.Id realAccountId,
-      Timestamp ts,
+      Instant ts,
       ParsedPatchSetApproval parsedPatchSetApproval)
       throws ConfigInvalidException {
 
@@ -1004,7 +1004,7 @@ class ChangeNotesParser {
       PatchSet.Id psId,
       Account.Id committerId,
       Account.Id realAccountId,
-      Timestamp ts,
+      Instant ts,
       ParsedPatchSetApproval parsedPatchSetApproval)
       throws ConfigInvalidException {
 
@@ -1118,7 +1118,7 @@ class ChangeNotesParser {
     return parseIdent(a);
   }
 
-  private void parseReviewer(Timestamp ts, ReviewerStateInternal state, String line)
+  private void parseReviewer(Instant ts, ReviewerStateInternal state, String line)
       throws ConfigInvalidException {
     PersonIdent ident = RawParseUtils.parsePersonIdent(line);
     if (ident == null) {
@@ -1131,7 +1131,7 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseReviewerByEmail(Timestamp ts, ReviewerStateInternal state, String line)
+  private void parseReviewerByEmail(Instant ts, ReviewerStateInternal state, String line)
       throws ConfigInvalidException {
     Address adr;
     try {
@@ -1245,15 +1245,15 @@ class ChangeNotesParser {
    * @param commit the commit to return commit time.
    * @return the timestamp when the commit was applied.
    */
-  private Timestamp getCommitTimestamp(ChangeNotesCommit commit) {
-    return new Timestamp(commit.getCommitterIdent().getWhen().getTime());
+  private Instant getCommitTimestamp(ChangeNotesCommit commit) {
+    return commit.getCommitterIdent().getWhen().toInstant();
   }
 
   private void pruneReviewers() {
-    Iterator<Table.Cell<Account.Id, ReviewerStateInternal, Timestamp>> rit =
+    Iterator<Table.Cell<Account.Id, ReviewerStateInternal, Instant>> rit =
         reviewers.cellSet().iterator();
     while (rit.hasNext()) {
-      Table.Cell<Account.Id, ReviewerStateInternal, Timestamp> e = rit.next();
+      Table.Cell<Account.Id, ReviewerStateInternal, Instant> e = rit.next();
       if (e.getColumnKey() == ReviewerStateInternal.REMOVED) {
         rit.remove();
       }
@@ -1261,10 +1261,10 @@ class ChangeNotesParser {
   }
 
   private void pruneReviewersByEmail() {
-    Iterator<Table.Cell<Address, ReviewerStateInternal, Timestamp>> rit =
+    Iterator<Table.Cell<Address, ReviewerStateInternal, Instant>> rit =
         reviewersByEmail.cellSet().iterator();
     while (rit.hasNext()) {
-      Table.Cell<Address, ReviewerStateInternal, Timestamp> e = rit.next();
+      Table.Cell<Address, ReviewerStateInternal, Instant> e = rit.next();
       if (e.getColumnKey() == ReviewerStateInternal.REMOVED) {
         rit.remove();
       }

@@ -72,7 +72,7 @@ public class TestChanges {
         .id(id)
         .commitId(ObjectId.fromString(revision))
         .uploader(userId)
-        .createdOn(TimeUtil.nowTs())
+        .createdOn(TimeUtil.now())
         .build();
   }
 

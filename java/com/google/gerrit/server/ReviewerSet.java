@@ -25,7 +25,7 @@ import com.google.common.collect.Table;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /**
  * Set of reviewers on a change.
@@ -38,7 +38,7 @@ public class ReviewerSet {
 
   public static ReviewerSet fromApprovals(Iterable<PatchSetApproval> approvals) {
     PatchSetApproval first = null;
-    Table<ReviewerStateInternal, Account.Id, Timestamp> reviewers = HashBasedTable.create();
+    Table<ReviewerStateInternal, Account.Id, Instant> reviewers = HashBasedTable.create();
     for (PatchSetApproval psa : approvals) {
       if (first == null) {
         first = psa;
@@ -58,7 +58,7 @@ public class ReviewerSet {
     return new ReviewerSet(reviewers);
   }
 
-  public static ReviewerSet fromTable(Table<ReviewerStateInternal, Account.Id, Timestamp> table) {
+  public static ReviewerSet fromTable(Table<ReviewerStateInternal, Account.Id, Instant> table) {
     return new ReviewerSet(table);
   }
 
@@ -66,10 +66,10 @@ public class ReviewerSet {
     return EMPTY;
   }
 
-  private final ImmutableTable<ReviewerStateInternal, Account.Id, Timestamp> table;
+  private final ImmutableTable<ReviewerStateInternal, Account.Id, Instant> table;
   private ImmutableSet<Account.Id> accounts;
 
-  private ReviewerSet(Table<ReviewerStateInternal, Account.Id, Timestamp> table) {
+  private ReviewerSet(Table<ReviewerStateInternal, Account.Id, Instant> table) {
     this.table = ImmutableTable.copyOf(table);
   }
 
@@ -85,7 +85,7 @@ public class ReviewerSet {
     return table.row(state).keySet();
   }
 
-  public ImmutableTable<ReviewerStateInternal, Account.Id, Timestamp> asTable() {
+  public ImmutableTable<ReviewerStateInternal, Account.Id, Instant> asTable() {
     return table;
   }
 

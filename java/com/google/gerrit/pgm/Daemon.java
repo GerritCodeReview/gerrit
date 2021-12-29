@@ -144,6 +144,7 @@ import org.kohsuke.args4j.Option;
 
 /** Run SSH daemon portions of Gerrit. */
 public class Daemon extends SiteProgram {
+  // Test
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Option(name = "--enable-httpd", usage = "Enable the internal HTTP daemon")

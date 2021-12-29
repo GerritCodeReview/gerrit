@@ -69,6 +69,24 @@
       "parentUuid": "557dfae5_3dc205f2",
       "revId": "411b4c5b3dca96e5a83c7ff93975bd1d9f218224",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a832548_ee366af9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-29T07:32:17Z",
+      "side": 1,
+      "message": "Filed issue 15495 to follow up.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15495",
+      "parentUuid": "a588f104_946e4752",
+      "revId": "411b4c5b3dca96e5a83c7ff93975bd1d9f218224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

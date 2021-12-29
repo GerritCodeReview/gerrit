@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "327de33e_81dd9b4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-29T01:56:36Z",
+      "side": 1,
+      "message": "@Davido I\u0027ve run the verification using the *actual* RBE execution for the tests not tagged as \"no_rbe\"",
+      "revId": "30ab2cbde949b751a3fd7e53660acbdd11bfb294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

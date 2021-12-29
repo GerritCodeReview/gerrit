@@ -22,6 +22,30 @@
       },
       "revId": "d4cec3a5885f94c70702e63049e1b1d2270f4879",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38ee3a78_c84813e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-12-29T14:31:01Z",
+      "side": 1,
+      "message": "bumping the minimum Java version to 11 in f81a3fc91 was done intentionally to enable using Java 11 features in JGit",
+      "parentUuid": "030b4d2b_c5f0fd7c",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 41
+      },
+      "revId": "d4cec3a5885f94c70702e63049e1b1d2270f4879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,7 @@ junit_tests(
         "//lib:junit",
         "//lib/truth",
     ],
+    labels = ["no_rbe"],
 )
 
 junit_tests(

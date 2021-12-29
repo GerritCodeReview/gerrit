@@ -7,6 +7,7 @@ junit_tests(
     size = "medium",
     timeout = "short",
     srcs = MEDIUM_TESTS,
+    labels = ["no_rbe"],
     tags = ["no_windows"],
     deps = [
         "//java/com/google/gerrit/git",

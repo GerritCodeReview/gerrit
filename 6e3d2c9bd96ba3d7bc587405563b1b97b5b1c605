@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0746e77f_5588c503",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T21:40:49Z",
+      "side": 1,
+      "message": "This conversion could be easily avoided:\n\n1. Change index field type:\n\n    public static final FieldType\u003cInstant\u003e INSTANT \u003d new FieldType\u003c\u003e(\"INSTANT\");\n    \n2. Change field def:\n\n  public static FieldDef.Builder\u003cInstant\u003e timestamp(String name) {\n    return new FieldDef.Builder\u003c\u003e(FieldType.INSTANT, name);\n  }\n  \n3. Change how value is obtained, e.g. in AbstractLuceneIndex:\n\n   } else if (type \u003d\u003d FieldType.INSTANT) {\n      for (Object value : values.getValues()) {\n        addLongField(doc, name, store, ((Instant) value).toEpochMilli());\n      }\n   }\n   \nThis could be done later, though.",
+      "range": {
+        "startLine": 120,
+        "startChar": 41,
+        "endLine": 120,
+        "endChar": 83
+      },
+      "revId": "6e3d2c9bd96ba3d7bc587405563b1b97b5b1c605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

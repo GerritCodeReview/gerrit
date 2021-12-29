@@ -87,6 +87,24 @@
       "parentUuid": "a588f104_946e4752",
       "revId": "411b4c5b3dca96e5a83c7ff93975bd1d9f218224",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f9616fc_12d03fbb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-12-29T13:30:31Z",
+      "side": 1,
+      "message": "Looks like we are good. Luca confirmed in [1] that this had been announced. Sorry for the noise.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15495#c1",
+      "parentUuid": "3a832548_ee366af9",
+      "revId": "411b4c5b3dca96e5a83c7ff93975bd1d9f218224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

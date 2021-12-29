@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a681e9db_d88e4780",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T10:02:21Z",
+      "side": 1,
+      "message": "We should add new method to JGit. I can do it later. ",
+      "revId": "d29be1948adc0623ff442217bd1928868a5a8026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

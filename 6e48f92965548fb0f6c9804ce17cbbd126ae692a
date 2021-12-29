@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c252b2ee_058f388c",
+        "filename": "javatests/com/google/gerrit/pgm/init/api/#AllProjectsConfigTest.java#",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T07:36:51Z",
+      "side": 1,
+      "message": "Unintended addition?",
+      "revId": "6e48f92965548fb0f6c9804ce17cbbd126ae692a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

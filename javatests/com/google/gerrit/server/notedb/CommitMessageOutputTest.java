@@ -196,7 +196,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   @Test
   public void anonymousUser() throws Exception {
     Account anon =
-        Account.builder(Account.id(3), TimeUtil.nowTs())
+        Account.builder(Account.id(3), TimeUtil.now())
             .setMetaId("1234567812345678123456781234567812345678")
             .build();
     accountCache.put(anon);

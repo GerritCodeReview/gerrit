@@ -2511,7 +2511,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void patchLineCommentNotesFormatWeirdUser() throws Exception {
-    Account.Builder account = Account.builder(Account.id(3), TimeUtil.nowTs());
+    Account.Builder account = Account.builder(Account.id(3), TimeUtil.now());
     account.setFullName("Weird\n\u0002<User>\n");
     account.setPreferredEmail(" we\r\nird@ex>ample<.com");
     accountCache.put(account.build());

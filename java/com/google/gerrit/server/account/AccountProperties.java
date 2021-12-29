@@ -17,7 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import java.sql.Timestamp;
+import java.time.Instant;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -57,16 +57,13 @@ public class AccountProperties {
   public static final String KEY_STATUS = "status";
 
   private final Account.Id accountId;
-  private final Timestamp registeredOn;
+  private final Instant registeredOn;
   private final Config accountConfig;
   private @Nullable ObjectId metaId;
   private Account account;
 
   AccountProperties(
-      Account.Id accountId,
-      Timestamp registeredOn,
-      Config accountConfig,
-      @Nullable ObjectId metaId) {
+      Account.Id accountId, Instant registeredOn, Config accountConfig, @Nullable ObjectId metaId) {
     this.accountId = accountId;
     this.registeredOn = registeredOn;
     this.accountConfig = accountConfig;
@@ -80,7 +77,7 @@ public class AccountProperties {
     return account;
   }
 
-  public Timestamp getRegisteredOn() {
+  public Instant getRegisteredOn() {
     return registeredOn;
   }
 

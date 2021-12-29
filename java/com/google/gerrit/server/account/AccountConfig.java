@@ -34,8 +34,9 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -177,7 +178,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * @throws DuplicateKeyException if the user branch already exists
    */
   public Account getNewAccount() throws DuplicateKeyException {
-    return getNewAccount(TimeUtil.nowTs());
+    return getNewAccount(TimeUtil.now());
   }
 
   /**
@@ -186,7 +187,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * @return the new account
    * @throws DuplicateKeyException if the user branch already exists
    */
-  Account getNewAccount(Timestamp registeredOn) throws DuplicateKeyException {
+  Account getNewAccount(Instant registeredOn) throws DuplicateKeyException {
     checkLoaded();
     if (revision != null) {
       throw new DuplicateKeyException(String.format("account %s already exists", accountId));
@@ -216,7 +217,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       rw.reset();
       rw.markStart(revision);
       rw.sort(RevSort.REVERSE);
-      Timestamp registeredOn = new Timestamp(rw.next().getCommitTime() * 1000L);
+      Instant registeredOn = Instant.ofEpochMilli(rw.next().getCommitTime() * 1000L);
 
       Config accountConfig = readConfig(AccountProperties.ACCOUNT_CONFIG);
       loadedAccountProperties =
@@ -274,9 +275,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
         commit.setMessage("Create account\n");
       }
 
-      Timestamp registeredOn = loadedAccountProperties.get().getRegisteredOn();
-      commit.setAuthor(new PersonIdent(commit.getAuthor(), registeredOn));
-      commit.setCommitter(new PersonIdent(commit.getCommitter(), registeredOn));
+      Instant registeredOn = loadedAccountProperties.get().getRegisteredOn();
+      commit.setAuthor(new PersonIdent(commit.getAuthor(), Date.from(registeredOn)));
+      commit.setCommitter(new PersonIdent(commit.getCommitter(), Date.from(registeredOn)));
     }
 
     saveAccount();

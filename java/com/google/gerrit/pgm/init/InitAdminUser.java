@@ -120,7 +120,7 @@ public class InitAdminUser implements InitStep {
 
         Account persistedAccount =
             accounts.insert(
-                Account.builder(id, TimeUtil.nowTs()).setFullName(name).setPreferredEmail(email));
+                Account.builder(id, TimeUtil.now()).setFullName(name).setPreferredEmail(email));
         // Only two groups should exist at this point in time and hence iterating over all of them
         // is cheap.
         Optional<GroupReference> adminGroupReference =

@@ -362,7 +362,7 @@ public class FromAddressGeneratorProviderTest {
 
   private AccountState makeUser(String name, String email) {
     final Account.Id userId = Account.id(42);
-    final Account.Builder account = Account.builder(userId, TimeUtil.nowTs());
+    final Account.Builder account = Account.builder(userId, TimeUtil.now());
     account.setFullName(name);
     account.setPreferredEmail(email);
     return AccountState.forAccount(account.build());

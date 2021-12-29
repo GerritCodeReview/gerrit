@@ -30,7 +30,6 @@ import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.config.CachedPreferences;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
@@ -107,7 +106,7 @@ public abstract class CachedAccountDetails {
       Cache.AccountProto.Builder accountProto =
           Cache.AccountProto.newBuilder()
               .setId(account.id().get())
-              .setRegisteredOn(account.registeredOn().toInstant().toEpochMilli())
+              .setRegisteredOn(account.registeredOn().toEpochMilli())
               .setInactive(account.inactive())
               .setFullName(Strings.nullToEmpty(account.fullName()))
               .setDisplayName(Strings.nullToEmpty(account.displayName()))
@@ -143,7 +142,7 @@ public abstract class CachedAccountDetails {
       Account account =
           Account.builder(
                   Account.id(proto.getAccount().getId()),
-                  Timestamp.from(Instant.ofEpochMilli(proto.getAccount().getRegisteredOn())))
+                  Instant.ofEpochMilli(proto.getAccount().getRegisteredOn()))
               .setFullName(Strings.emptyToNull(proto.getAccount().getFullName()))
               .setDisplayName(Strings.emptyToNull(proto.getAccount().getDisplayName()))
               .setPreferredEmail(Strings.emptyToNull(proto.getAccount().getPreferredEmail()))

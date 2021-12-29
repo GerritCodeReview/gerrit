@@ -126,11 +126,11 @@ public abstract class AbstractChangeNotesTest {
     tr = new TestRepository<>(repo);
     rw = tr.getRevWalk();
     accountCache = new FakeAccountCache();
-    Account.Builder co = Account.builder(Account.id(1), TimeUtil.nowTs());
+    Account.Builder co = Account.builder(Account.id(1), TimeUtil.now());
     co.setFullName("Change Owner");
     co.setPreferredEmail("change@owner.com");
     accountCache.put(co.build());
-    Account.Builder ou = Account.builder(Account.id(2), TimeUtil.nowTs());
+    Account.Builder ou = Account.builder(Account.id(2), TimeUtil.now());
     ou.setFullName("Other Account");
     ou.setPreferredEmail("other@account.com");
     accountCache.put(ou.build());

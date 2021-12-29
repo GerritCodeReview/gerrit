@@ -1060,7 +1060,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
   public void fixRemoveVoteChangeMessageWithNoFooterLabel_matchDuplicateAccounts()
       throws Exception {
     Account duplicateCodeOwner =
-        Account.builder(Account.id(4), TimeUtil.nowTs())
+        Account.builder(Account.id(4), TimeUtil.now())
             .setFullName(changeOwner.getName())
             .setPreferredEmail("other@test.com")
             .build();
@@ -1751,16 +1751,16 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
   public void fixCodeOwnersOnAddReviewerChangeMessage() throws Exception {
 
     Account reviewer =
-        Account.builder(Account.id(3), TimeUtil.nowTs())
+        Account.builder(Account.id(3), TimeUtil.now())
             .setFullName("Reviewer User")
             .setPreferredEmail("reviewer@account.com")
             .build();
     accountCache.put(reviewer);
     Account duplicateCodeOwner =
-        Account.builder(Account.id(4), TimeUtil.nowTs()).setFullName(changeOwner.getName()).build();
+        Account.builder(Account.id(4), TimeUtil.now()).setFullName(changeOwner.getName()).build();
     accountCache.put(duplicateCodeOwner);
     Account duplicateReviewer =
-        Account.builder(Account.id(5), TimeUtil.nowTs()).setFullName(reviewer.getName()).build();
+        Account.builder(Account.id(5), TimeUtil.now()).setFullName(reviewer.getName()).build();
     accountCache.put(duplicateReviewer);
     Change c = newChange();
     ImmutableList.Builder<ObjectId> commitsToFix = new ImmutableList.Builder<>();
@@ -2218,7 +2218,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         getChangeUpdateBody(c, "Assignee deleted: " + otherUser.getName()),
         getAuthorIdent(changeOwner.getAccount()));
     Account reviewer =
-        Account.builder(Account.id(3), TimeUtil.nowTs())
+        Account.builder(Account.id(3), TimeUtil.now())
             .setFullName("Reviewer User")
             .setPreferredEmail("reviewer@account.com")
             .build();

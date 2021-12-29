@@ -36,7 +36,7 @@ public class AccountFieldTest {
   @Test
   public void refStateFieldValues() throws Exception {
     AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
-    Account.Builder account = Account.builder(Account.id(1), TimeUtil.nowTs());
+    Account.Builder account = Account.builder(Account.id(1), TimeUtil.now());
     String metaId = "0e39795bb25dc914118224995c53c5c36923a461";
     account.setMetaId(metaId);
     List<String> values =
@@ -51,7 +51,7 @@ public class AccountFieldTest {
   public void externalIdStateFieldValues() throws Exception {
     Account.Id id = Account.id(1);
     Account account =
-        Account.builder(id, TimeUtil.nowTs())
+        Account.builder(id, TimeUtil.now())
             .setMetaId("1234567812345678123456781234567812345678")
             .build();
     ExternalId extId1 =

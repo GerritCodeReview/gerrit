@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Date;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
@@ -65,7 +66,8 @@ public class AccountsOnInit {
     try (Repository repo = new FileRepository(path);
         ObjectInserter oi = repo.newObjectInserter()) {
       PersonIdent ident =
-          new PersonIdent(new GerritPersonIdentProvider(flags.cfg).get(), account.registeredOn());
+          new PersonIdent(
+              new GerritPersonIdentProvider(flags.cfg).get(), Date.from(account.registeredOn()));
 
       Config accountConfig = new Config();
       AccountProperties.writeToAccountConfig(

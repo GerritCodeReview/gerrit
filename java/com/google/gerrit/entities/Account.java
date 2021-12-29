@@ -22,7 +22,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -123,7 +123,7 @@ public abstract class Account {
   public abstract Id id();
 
   /** Date and time the user registered with the review server. */
-  public abstract Timestamp registeredOn();
+  public abstract Instant registeredOn();
 
   /** Full name of the user ("Given-name Surname" style). */
   @Nullable
@@ -157,7 +157,7 @@ public abstract class Account {
    * @param newId unique id, see {@link com.google.gerrit.server.notedb.Sequences#nextAccountId()}.
    * @param registeredOn when the account was registered.
    */
-  public static Account.Builder builder(Account.Id newId, Timestamp registeredOn) {
+  public static Account.Builder builder(Account.Id newId, Instant registeredOn) {
     return new AutoValue_Account.Builder()
         .setInactive(false)
         .setId(newId)
@@ -230,9 +230,9 @@ public abstract class Account {
 
     abstract Builder setId(Id id);
 
-    public abstract Timestamp registeredOn();
+    public abstract Instant registeredOn();
 
-    abstract Builder setRegisteredOn(Timestamp registeredOn);
+    abstract Builder setRegisteredOn(Instant registeredOn);
 
     @Nullable
     public abstract String fullName();

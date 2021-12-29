@@ -117,7 +117,7 @@ public class AccountField {
       exact("preferredemail_exact").build(a -> a.account().preferredEmail());
 
   public static final FieldDef<AccountState, Timestamp> REGISTERED =
-      timestamp("registered").build(a -> a.account().registeredOn());
+      timestamp("registered").build(a -> Timestamp.from(a.account().registeredOn()));
 
   public static final FieldDef<AccountState, String> USERNAME =
       exact("username").build(a -> a.userName().map(String::toLowerCase).orElse(""));

@@ -109,7 +109,8 @@ public class TestChanges {
     try (Repository repo = repoManager.openRepository(c.getProject());
         TestRepository<Repository> tr = new TestRepository<>(repo)) {
       PersonIdent ident =
-          user.asIdentifiedUser().newCommitterIdent(update.getWhen(), TimeZone.getDefault());
+          user.asIdentifiedUser()
+              .newCommitterIdent(update.getWhen().toInstant(), TimeZone.getDefault());
       TestRepository<Repository>.CommitBuilder cb =
           tr.commit()
               .author(ident)

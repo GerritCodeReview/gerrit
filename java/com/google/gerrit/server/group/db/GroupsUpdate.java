@@ -248,7 +248,7 @@ public class GroupsUpdate {
   }
 
   private static PersonIdent createPersonIdent(PersonIdent ident, IdentifiedUser user) {
-    return user.newCommitterIdent(ident.getWhen(), ident.getTimeZone());
+    return user.newCommitterIdent(ident);
   }
 
   /**

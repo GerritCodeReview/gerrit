@@ -250,7 +250,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       }
       CommitBuilder cb = new CommitBuilder();
       PersonIdent committer = serverIdent.get();
-      cb.setAuthor(user.newCommitterIdent(committer.getWhen(), committer.getTimeZone()));
+      cb.setAuthor(user.newCommitterIdent(committer));
       cb.setCommitter(committer);
 
       RefUpdate.Result saveResult = store.save(cb);

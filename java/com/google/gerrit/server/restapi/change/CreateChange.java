@@ -84,8 +84,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
@@ -353,13 +354,14 @@ public class CreateChange
 
       RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
 
-      Timestamp now = TimeUtil.nowTs();
+      Instant now = TimeUtil.now();
 
       PersonIdent committer = me.newCommitterIdent(now, serverTimeZone);
       PersonIdent author =
           input.author == null
               ? committer
-              : new PersonIdent(input.author.name, input.author.email, now, serverTimeZone);
+              : new PersonIdent(
+                  input.author.name, input.author.email, Date.from(now), serverTimeZone);
 
       String commitMessage = getCommitMessage(input.subject, me);
 
@@ -399,7 +401,7 @@ public class CreateChange
         ins.setValidationOptions(validationOptions.build());
       }
 
-      try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now.toInstant())) {
+      try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {
         bu.setRepository(git, rw, oi);
         bu.setNotify(
             notifyResolver.resolve(

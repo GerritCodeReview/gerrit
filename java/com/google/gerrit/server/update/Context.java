@@ -25,7 +25,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Date;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -163,6 +162,6 @@ public interface Context {
    * @return the created committer {@link PersonIdent}
    */
   default PersonIdent newCommitterIdent(IdentifiedUser user) {
-    return user.newCommitterIdent(Date.from(getWhen()), getTimeZone());
+    return user.newCommitterIdent(getWhen(), getTimeZone());
   }
 }

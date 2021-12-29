@@ -52,7 +52,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -519,7 +518,7 @@ public class ChangeEditModifier {
 
   private PersonIdent getCommitterIdent(Instant commitTimestamp) {
     IdentifiedUser user = currentUser.get().asIdentifiedUser();
-    return user.newCommitterIdent(Timestamp.from(commitTimestamp), tz);
+    return user.newCommitterIdent(commitTimestamp, tz);
   }
 
   /**
@@ -841,7 +840,7 @@ public class ChangeEditModifier {
 
     private PersonIdent getRefLogIdent(Instant timestamp) {
       IdentifiedUser user = currentUser.get().asIdentifiedUser();
-      return user.newRefLogIdent(Timestamp.from(timestamp), tz);
+      return user.newRefLogIdent(timestamp, tz);
     }
 
     private void reindex(Change change) {

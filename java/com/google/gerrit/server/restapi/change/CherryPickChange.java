@@ -67,7 +67,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
@@ -306,8 +305,7 @@ public class CherryPickChange {
       CodeReviewCommit cherryPickCommit;
       ProjectState projectState =
           projectCache.get(dest.project()).orElseThrow(noSuchProject(dest.project()));
-      PersonIdent committerIdent =
-          identifiedUser.newCommitterIdent(Timestamp.from(timestamp), serverTimeZone);
+      PersonIdent committerIdent = identifiedUser.newCommitterIdent(timestamp, serverTimeZone);
 
       try {
         MergeUtil mergeUtil;

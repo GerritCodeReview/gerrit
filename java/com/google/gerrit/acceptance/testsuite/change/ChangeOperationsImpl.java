@@ -142,7 +142,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
       Instant now = TimeUtil.now();
       IdentifiedUser changeOwner = getChangeOwner(changeCreation);
       PersonIdent authorAndCommitter =
-          changeOwner.newCommitterIdent(Date.from(now), serverIdent.getTimeZone());
+          changeOwner.newCommitterIdent(now, serverIdent.getTimeZone());
       ObjectId commitId =
           createCommit(repository, revWalk, objectInserter, changeCreation, authorAndCommitter);
 

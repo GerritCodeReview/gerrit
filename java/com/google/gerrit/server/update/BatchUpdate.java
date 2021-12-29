@@ -660,7 +660,7 @@ public class BatchUpdate implements AutoCloseable {
                     repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
             dryrun);
     if (user.isIdentifiedUser()) {
-      handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(Date.from(when), tz));
+      handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
     }
     handle.manager.setRefLogMessage(refLogMessage);
     handle.manager.setPushCertificate(pushCert);

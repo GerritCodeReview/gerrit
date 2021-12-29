@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c9f3575_7974261e",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T20:44:57Z",
+      "side": 1,
+      "message": "Can this be avoided, if you pass in Instant instance and not timestamp instance in this method? So on caller site:\n\n  -    return apply(revision, input, TimeUtil.nowTs());\n  +    return apply(revision, input, TimeUtil.now());\n\nBut then another two lines in this method would have to be adapted with conversions:\n\n  -    ts \u003d Ordering.natural().max(ts, revision.getChange().getCreatedOn());\n  +    ts \u003d Ordering.natural().max(ts, revision.getChange().getCreatedOn().toInstant());\n\nand\n\n  -        updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {\n  +        updateFactory.create(revision.getChange().getProject(), revision.getUser(), Timestamp.from(ts))) {\n\nAnd the CommentsIT would also need to be adapted, so that the answer is: do it later?",
+      "range": {
+        "startLine": 453,
+        "startChar": 75,
+        "endLine": 453,
+        "endChar": 89
+      },
+      "revId": "2793d2bb6126a057f005c63e38035b9fa528b93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -43,8 +43,9 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Map;
 import org.apache.sshd.common.io.IoAcceptor;
@@ -115,11 +116,13 @@ final class ShowCaches extends SshCommand {
     enableGracefulStop();
     nw = columns - 50;
     Instant now = Instant.now();
+    DateTimeFormatter fmt =
+        DateTimeFormatter.ofPattern("HH:mm:ss   zzz").withZone(ZoneId.of("UTC"));
     stdout.format(
         "%-25s %-20s      now  %16s\n",
         "Gerrit Code Review",
         Version.getVersion() != null ? Version.getVersion() : "",
-        new SimpleDateFormat("HH:mm:ss   zzz").format(now));
+        fmt.format(now));
     stdout.format(
         "%-25s %-20s   uptime %16s\n", "", "", uptime(now.toEpochMilli() - serverStarted));
     stdout.print('\n');

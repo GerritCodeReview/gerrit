@@ -46,6 +46,23 @@
       },
       "revId": "78c143d2da923a482d4ed62d031c2d31e0c2a075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05a83546_3f1e3d83",
+        "filename": "modules/jgit",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-12-30T14:32:56Z",
+      "side": 0,
+      "message": "Was this intended?",
+      "revId": "78c143d2da923a482d4ed62d031c2d31e0c2a075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -63,6 +63,24 @@
       "message": "Was this intended?",
       "revId": "78c143d2da923a482d4ed62d031c2d31e0c2a075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5561118f_f10cd737",
+        "filename": "modules/jgit",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-30T20:24:36Z",
+      "side": 0,
+      "message": "Good point. This change is not yet ready to be merged in this state. That\u0027s why it\u0027s based on change 327096 that upgraded Gerrit to JGit@HEAD and also updated JGit to include Luca\u0027s dead lock fix merged up to main branch: [1] for issue 15491 and JGit\u0027s issue: [2].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/189208\n[2] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d577983",
+      "parentUuid": "05a83546_3f1e3d83",
+      "revId": "78c143d2da923a482d4ed62d031c2d31e0c2a075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

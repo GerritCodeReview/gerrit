@@ -19,9 +19,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import javax.servlet.http.HttpServletRequest;
 
 public class CanonicalWebUrl {
   private final Provider<String> configured;

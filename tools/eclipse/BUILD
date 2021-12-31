@@ -55,6 +55,5 @@ classpath_collector(
         "@gson//jar",
         "@guava//jar",
         "@javapoet//jar",
-        "@javax_inject//jar",
     ],
 )

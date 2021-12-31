@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;
-import javax.servlet.Filter;
+import jakarta.servlet.Filter;
 
 /** Configures filter for authenticating REST requests. */
 public class GerritAuthModule extends ServletModule {

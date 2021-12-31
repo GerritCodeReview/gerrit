@@ -274,7 +274,6 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
-        "//lib/guice:javax_inject",
         "//lib/ow2:ow2-asm",
         "//lib/ow2:ow2-asm-analysis",
         "//lib/ow2:ow2-asm-commons",

@@ -19,10 +19,10 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.util.http.CacheHeaders;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.HttpConnection;
@@ -72,7 +72,7 @@ class HiddenErrorHandler extends ErrorHandler {
   }
 
   private static void log(HttpServletRequest req) {
-    Throwable err = (Throwable) req.getAttribute("javax.servlet.error.exception");
+    Throwable err = (Throwable) req.getAttribute("jakarta.servlet.error.exception");
     if (err != null) {
       String uri = req.getRequestURI();
       if (!Strings.isNullOrEmpty(req.getQueryString())) {

@@ -48,7 +48,7 @@ public class SimpleTextMessage extends RawMailMessage {
           + "\tat com.google.gerrit.change.GetDetail.apply(GetDetail.java:26)\n"
           + "\tat  \n"
           + "com.google.gerrit.RestApiServlet.service(RestApiServlet.java:367)\n"
-          + "\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:717)\n"
+          + "\tat jakarta.servlet.http.HttpServlet.service(HttpServlet.java:717)\n"
           + "[...]\n"
           + "  Caused by: java.lang.NullPointerException\n"
           + "\tat  \n"

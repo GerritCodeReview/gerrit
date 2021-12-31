@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "25fa556e_a20b2241",
         "filename": "Documentation/dev-bazel.txt",
@@ -20,10 +21,10 @@
         "endChar": 5
       },
       "revId": "b055e2f0ef2ea7e25a36c126bbef6b95d0fd258d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "2ab7136f_bcd74df3",
         "filename": "Documentation/dev-bazel.txt",
@@ -44,10 +45,10 @@
         "endChar": 5
       },
       "revId": "b055e2f0ef2ea7e25a36c126bbef6b95d0fd258d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8e012fbb_1517c289",
         "filename": "WORKSPACE",
@@ -67,10 +68,10 @@
         "endChar": 14
       },
       "revId": "b055e2f0ef2ea7e25a36c126bbef6b95d0fd258d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "dfe2ffc9_2badffe5",
         "filename": "WORKSPACE",
@@ -91,10 +92,10 @@
         "endChar": 14
       },
       "revId": "b055e2f0ef2ea7e25a36c126bbef6b95d0fd258d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7e3f3b45_07e3bcc3",
         "filename": "WORKSPACE",
@@ -115,8 +116,31 @@
         "endChar": 14
       },
       "revId": "b055e2f0ef2ea7e25a36c126bbef6b95d0fd258d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acdae251_ec6f5b42",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-31T11:42:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7e3f3b45_07e3bcc3",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 14
+      },
+      "revId": "b055e2f0ef2ea7e25a36c126bbef6b95d0fd258d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

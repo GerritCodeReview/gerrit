@@ -9,7 +9,7 @@ flogger = "0.8"
 # Also update the GUAVA version in java/com/google/gerrit/extensions/BUILD
 # to keep Bazel and extension dependencies in sync.
 guava = "33.5.0-jre"
-guice = "6.0.0"
+guice = "7.0.0"
 lucene = "10.4.0"
 slf4j = "2.0.18"
 sshd = "2.17.1"

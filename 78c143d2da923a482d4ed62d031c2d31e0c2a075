@@ -81,6 +81,24 @@
       "parentUuid": "05a83546_3f1e3d83",
       "revId": "78c143d2da923a482d4ed62d031c2d31e0c2a075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18bef24a_a02da0d3",
+        "filename": "modules/jgit",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-31T12:08:35Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "5561118f_f10cd737",
+      "revId": "78c143d2da923a482d4ed62d031c2d31e0c2a075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

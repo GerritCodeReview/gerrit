@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.common.data.GlobalCapability.KILL_TASK;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.common.Input;

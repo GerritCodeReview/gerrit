@@ -21,16 +21,16 @@ import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 class GitLogoServlet extends HttpServlet {

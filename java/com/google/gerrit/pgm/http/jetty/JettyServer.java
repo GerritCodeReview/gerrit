@@ -32,6 +32,10 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.Filter;
+import jakarta.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionListener;
 import java.lang.management.ManagementFactory;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -46,11 +50,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
+import org.eclipse.jetty.ee10.servlet.DefaultServlet;
+import org.eclipse.jetty.ee10.servlet.FilterHolder;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.SessionHandler;
 import org.eclipse.jetty.http.HttpScheme;
+import org.eclipse.jetty.http.UriCompliance;
 import org.eclipse.jetty.io.ConnectionStatistics;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Connector;
@@ -64,15 +71,8 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.server.handler.StatisticsHandler;
-import org.eclipse.jetty.server.session.SessionHandler;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.BlockingArrayQueue;
-import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jgit.lib.Config;
@@ -257,15 +257,11 @@ public class JettyServer {
 
     Handler app = makeContext(env, cfg, sessionHandler);
     if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {
-      RequestLogHandler handler = new RequestLogHandler();
-      handler.setRequestLog(httpLogFactory.get());
-      handler.setHandler(app);
-      app = handler;
+      httpd.setRequestLog(httpLogFactory.get());
     }
     if (cfg.getBoolean("httpd", "registerMBeans", false)) {
       MBeanContainer mbean = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
       httpd.addEventListener(mbean);
-      httpd.addBean(Log.getRootLogger());
       httpd.addBean(mbean);
     }
 
@@ -280,6 +276,8 @@ public class JettyServer {
 
     httpd.setHandler(app);
     httpd.setStopAtShutdown(false);
+
+    bypassServlet6UriRules(httpd);
   }
 
   @VisibleForTesting
@@ -310,6 +308,8 @@ public class JettyServer {
       final int defaultPort;
       final ServerConnector c;
       HttpConfiguration config = defaultConfig(requestHeaderSize);
+
+      customizeUriCompliance(config);
 
       if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && !"https".equals(u.getScheme())) {
         throw new IllegalArgumentException(
@@ -371,11 +371,7 @@ public class JettyServer {
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
         config.addCustomizer(new ForwardedRequestCustomizer());
-        config.addCustomizer(
-            (connector, channelConfig, request) -> {
-              request.setScheme(HttpScheme.HTTPS.asString());
-              request.setSecure(true);
-            });
+        config.setSecureScheme(HttpScheme.HTTPS.asString());
         c = newServerConnector(server, acceptors, config);
 
       } else {
@@ -429,6 +425,36 @@ public class JettyServer {
     config.setSendServerVersion(false);
     config.setSendDateHeader(true);
     return config;
+  }
+
+  /**
+   * Allow ambiguous path separator and ambiguous path encoding violation.
+   *
+   * <p><em>WARNING</em> this is not recommended. This is a violation of the Servlet 6 spec rules.
+   *
+   * @param configuration HTTP configuration instance
+   */
+  private static void customizeUriCompliance(HttpConfiguration configuration) {
+    configuration.setUriCompliance(
+        UriCompliance.from(
+            Set.of(
+                UriCompliance.Violation.AMBIGUOUS_PATH_SEPARATOR,
+                UriCompliance.Violation.AMBIGUOUS_PATH_ENCODING)));
+  }
+
+  /**
+   * Bypass Servlet 6 spec rules on ambiguous URIs.
+   *
+   * <p><em>WARNING</em> this is not recommended. This is a violation of the Servlet 6 spec rules.
+   *
+   * @param httpd Jetty server instance
+   * @see <a href="https://github.com/jakartaee/servlet/issues/18">Servlet 6 changes to
+   *     getRequestURI / getRequestContextPath / getServletPath / getPathInfo</a>
+   */
+  private static void bypassServlet6UriRules(Server httpd) {
+    httpd
+        .getContainedBeans(ServletHandler.class)
+        .forEach(handler -> handler.setDecodeAmbiguousURIs(true));
   }
 
   static boolean isReverseProxied(URI[] listenUrls) {
@@ -522,12 +548,17 @@ public class JettyServer {
   private ContextHandler makeContext(
       final String contextPath, JettyEnv env, Config cfg, SessionHandler sessionHandler) {
     final ServletContextHandler app = new ServletContextHandler();
+    // app.getServletContext().get
 
     // This enables the use of sessions in Jetty, feature available
     // for Gerrit plug-ins to enable user-level sessions.
     //
     app.setSessionHandler(sessionHandler);
     app.setErrorHandler(new HiddenErrorHandler());
+
+    ServletHandler handler = new ServletHandler();
+    handler.setDecodeAmbiguousURIs(true);
+    app.setServletHandler(new ServletHandler());
 
     // This is the path we are accessed by clients within our domain.
     //

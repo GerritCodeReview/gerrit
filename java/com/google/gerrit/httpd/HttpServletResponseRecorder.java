@@ -15,11 +15,11 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.flogger.FluentLogger;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 
 /**
  * HttpServletResponse wrapper to allow response status code override.

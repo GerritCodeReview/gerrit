@@ -21,16 +21,15 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.git.QueueProvider;
+import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.inject.Provider;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.AsyncEvent;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import javax.servlet.AsyncContext;
-import javax.servlet.AsyncEvent;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import org.eclipse.jetty.server.Request;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -118,7 +117,7 @@ public class ProjectQoSFilterTest {
   }
 
   private ProjectQoSFilter.TaskThunk getTaskThunk() {
-    HttpServletRequest servletRequest = new FakeHttpServletRequest();
+    HttpServletRequest servletRequest = new FakeHttpServletRequestExt();
     Config config = new Config();
     String HTTP_MAX_WAIT = "1 minute";
     config.setString("httpd", null, "maxwait", HTTP_MAX_WAIT);
@@ -154,12 +153,7 @@ public class ProjectQoSFilterTest {
     }
   }
 
-  private static final class FakeHttpServletRequest extends HttpServletRequestWrapper {
-
-    FakeHttpServletRequest() {
-      super(new Request(null, null));
-    }
-
+  private static final class FakeHttpServletRequestExt extends FakeHttpServletRequest {
     @Override
     public String getRemoteHost() {
       return "1.2.3.4";

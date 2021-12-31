@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.auth.container;
 
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.jakarta.ServletModule;
 
 /** Servlets and support related to HTTP authentication. */
 public class HttpAuthModule extends ServletModule {

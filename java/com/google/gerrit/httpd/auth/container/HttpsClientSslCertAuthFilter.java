@@ -22,16 +22,16 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import java.io.IOException;
 import java.security.cert.X509Certificate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 
 @Singleton
 class HttpsClientSslCertAuthFilter implements Filter {
@@ -58,10 +58,10 @@ class HttpsClientSslCertAuthFilter implements Filter {
   public void doFilter(ServletRequest req, ServletResponse rsp, FilterChain chain)
       throws IOException, ServletException {
     X509Certificate[] certs =
-        (X509Certificate[]) req.getAttribute("javax.servlet.request.X509Certificate");
+        (X509Certificate[]) req.getAttribute("jakarta.servlet.request.X509Certificate");
     if (certs == null || certs.length == 0) {
       throw new ServletException(
-          "Couldn't get the attribute javax.servlet.request.X509Certificate from the request");
+          "Couldn't get the attribute jakarta.servlet.request.X509Certificate from the request");
     }
     String name = certs[0].getSubjectDN().getName();
     Matcher m = REGEX_USERID.matcher(name);

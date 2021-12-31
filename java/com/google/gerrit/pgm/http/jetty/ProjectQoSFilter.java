@@ -15,8 +15,8 @@
 package com.google.gerrit.pgm.http.jetty;
 
 import static com.google.gerrit.server.config.ConfigUtil.getTimeUnit;
+import static jakarta.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.server.CurrentUser;
@@ -28,26 +28,26 @@ import com.google.gerrit.sshd.CommandExecutorQueueProvider;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.jakarta.ServletModule;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.AsyncEvent;
+import jakarta.servlet.AsyncListener;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.servlet.AsyncContext;
-import javax.servlet.AsyncEvent;
-import javax.servlet.AsyncListener;
-import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
 
 /**

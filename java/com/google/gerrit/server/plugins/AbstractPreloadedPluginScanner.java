@@ -21,7 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.server.plugins.Plugin.ApiType;
 import com.google.inject.Module;
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.jakarta.ServletModule;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.lang.annotation.Annotation;

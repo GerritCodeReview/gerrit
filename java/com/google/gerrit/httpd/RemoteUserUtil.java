@@ -19,7 +19,7 @@ import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.io.BaseEncoding;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class RemoteUserUtil {
   /**

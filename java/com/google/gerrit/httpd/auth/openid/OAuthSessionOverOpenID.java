@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -37,14 +37,14 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.servlet.SessionScoped;
+import com.google.inject.jakarta.SessionScoped;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Optional;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** OAuth protocol implementation */

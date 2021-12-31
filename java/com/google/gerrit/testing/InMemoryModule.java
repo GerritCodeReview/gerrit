@@ -109,7 +109,7 @@ import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-import com.google.inject.servlet.RequestScoped;
+import com.google.inject.jakarta.RequestScoped;
 import com.google.inject.util.Providers;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -18,7 +18,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.inject.servlet.RequestScoped;
+import com.google.inject.jakarta.RequestScoped;
 import java.util.Optional;
 import java.util.function.Consumer;
 

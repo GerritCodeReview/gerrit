@@ -130,6 +130,7 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Stage;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -138,7 +139,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 

@@ -19,10 +19,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.extensions.restapi.RawInput;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.servlet.http.HttpServletRequest;
 
 public class RawInputUtil {
   public static RawInput create(String content) {

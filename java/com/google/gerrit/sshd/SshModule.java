@@ -37,7 +37,7 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.internal.UniqueAnnotations;
-import com.google.inject.servlet.RequestScoped;
+import com.google.inject.jakarta.RequestScoped;
 import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.List;

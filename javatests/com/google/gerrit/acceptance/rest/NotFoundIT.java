@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -23,23 +24,31 @@ import org.junit.Test;
 
 public class NotFoundIT extends AbstractDaemonTest {
   @Test
-  public void nonExistingRootCollection() throws Exception {
+  public void nonExistingRootCollectionGet() throws Exception {
     RestResponse response = adminRestSession.get("/non-existing/");
-    assertThat(response.getStatusCode()).isEqualTo(SC_NOT_FOUND);
-    assertThat(response.getEntityContent()).isEqualTo("Not Found");
-
-    response = adminRestSession.post("/non-existing/");
     assertThat(response.getStatusCode()).isEqualTo(SC_NOT_FOUND);
     assertThat(response.getEntityContent()).isEqualTo("Not Found");
   }
 
   @Test
-  public void nonExistingView() throws Exception {
+  public void nonExistingRootCollectionPost() throws Exception {
+    RestResponse response = adminRestSession.post("/non-existing/");
+    // TODO(davido): Change this back to NOT_FOUND, when this bug is fixed:
+    // https://github.com/jetty/jetty.project/issues/11889
+    assertThat(response.getStatusCode()).isEqualTo(SC_METHOD_NOT_ALLOWED);
+    assertThat(response.getEntityContent()).isEqualTo("Method Not Allowed");
+  }
+
+  @Test
+  public void nonExistingViewGet() throws Exception {
     RestResponse response = adminRestSession.get("/accounts/self/non-existing");
     assertThat(response.getStatusCode()).isEqualTo(SC_NOT_FOUND);
     assertThat(response.getEntityContent()).isEqualTo("Not found: non-existing");
+  }
 
-    response = adminRestSession.post("/accounts/self/non-existing");
+  @Test
+  public void nonExistingViewPost() throws Exception {
+    RestResponse response = adminRestSession.post("/accounts/self/non-existing");
     assertThat(response.getStatusCode()).isEqualTo(SC_NOT_FOUND);
     assertThat(response.getEntityContent()).isEqualTo("Not found: non-existing");
   }

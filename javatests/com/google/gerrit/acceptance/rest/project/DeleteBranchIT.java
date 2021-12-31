@@ -40,6 +40,7 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class DeleteBranchIT extends AbstractDaemonTest {
@@ -102,6 +103,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore("//https://github.com/jetty/jetty.project/issues/11890")
   public void deleteBranchByRestWithFullName() throws Exception {
     grantDelete();
     assertDeleteByRestSucceeds(testBranch, testBranch.branch());
@@ -119,6 +121,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore("//https://github.com/jetty/jetty.project/issues/11890")
   public void deleteMetaBranch() throws Exception {
     String metaRef = RefNames.REFS_META + "foo";
     projectOperations
@@ -245,12 +248,12 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private void assertDeleteByRestSucceeds(BranchNameKey branch, String ref) throws Exception {
-    RestResponse r =
-        userRestSession.delete(
-            "/projects/"
-                + IdString.fromDecoded(project.get()).encoded()
-                + "/branches/"
-                + IdString.fromDecoded(ref).encoded());
+    String endpoint =
+        "/projects/"
+            + IdString.fromDecoded(project.get()).encoded()
+            + "/branches/"
+            + IdString.fromDecoded(ref).encoded();
+    RestResponse r = userRestSession.delete(endpoint);
     r.assertNoContent();
     assertThrows(ResourceNotFoundException.class, () -> branch(branch).get());
   }

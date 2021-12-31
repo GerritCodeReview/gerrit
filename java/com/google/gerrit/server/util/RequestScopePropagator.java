@@ -22,7 +22,7 @@ import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.inject.Key;
 import com.google.inject.Scope;
-import com.google.inject.servlet.ServletScopes;
+import com.google.inject.jakarta.ServletScopes;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;

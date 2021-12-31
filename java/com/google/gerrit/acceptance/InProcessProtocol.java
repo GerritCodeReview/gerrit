@@ -60,7 +60,7 @@ import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.Scope;
-import com.google.inject.servlet.RequestScoped;
+import com.google.inject.jakarta.RequestScoped;
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.HashMap;

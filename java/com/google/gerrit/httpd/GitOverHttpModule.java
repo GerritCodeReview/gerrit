@@ -20,7 +20,7 @@ import com.google.gerrit.entities.CoreDownloadSchemes;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.jakarta.ServletModule;
 
 /** Configures Git access over HTTP with authentication. */
 public class GitOverHttpModule extends ServletModule {

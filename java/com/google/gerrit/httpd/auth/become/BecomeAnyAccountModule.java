@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.auth.become;
 
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.jakarta.ServletModule;
 
 public class BecomeAnyAccountModule extends ServletModule {
   @Override

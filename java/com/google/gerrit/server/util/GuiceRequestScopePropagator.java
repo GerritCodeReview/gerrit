@@ -20,7 +20,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
-import com.google.inject.servlet.ServletScopes;
+import com.google.inject.jakarta.ServletScopes;
 import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
 import java.lang.reflect.ParameterizedType;

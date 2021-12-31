@@ -16,7 +16,7 @@ package com.google.gerrit.httpd.auth.oauth;
 
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.jakarta.ServletModule;
 
 /** Servlets and support related to OAuth authentication. */
 public class OAuthModule extends ServletModule {

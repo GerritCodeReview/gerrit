@@ -22,8 +22,8 @@ import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.SystemReader;
 

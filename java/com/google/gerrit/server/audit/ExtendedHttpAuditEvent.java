@@ -20,7 +20,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /** Extended audit event. Adds request, resource and view data to HttpAuditEvent. */
 public class ExtendedHttpAuditEvent extends HttpAuditEvent {

@@ -20,7 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class RemoteUserUtil {
   /**

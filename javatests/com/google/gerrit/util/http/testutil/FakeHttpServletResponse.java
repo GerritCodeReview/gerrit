@@ -23,6 +23,10 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.net.HttpHeaders;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -30,10 +34,6 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Locale;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.WriteListener;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /** Simple fake implementation of {@link HttpServletResponse}. */
@@ -190,19 +190,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
   }
 
   @Override
-  @Deprecated
-  public String encodeRedirectUrl(String url) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public String encodeURL(String url) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  @Deprecated
-  public String encodeUrl(String url) {
     throw new UnsupportedOperationException();
   }
 
@@ -226,6 +214,15 @@ public class FakeHttpServletResponse implements HttpServletResponse {
   }
 
   @Override
+  public void sendRedirect(String location, int sc, boolean clearBuffer) throws IOException {
+    if (clearBuffer) {
+      resetBuffer();
+    }
+    setStatus(sc);
+    setHeader("Location", location);
+  }
+
+  @Override
   public void setDateHeader(String name, long value) {
     setHeader(name, Long.toString(value));
   }
@@ -244,13 +241,6 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public synchronized void setStatus(int sc) {
-    status = sc;
-    committed = true;
-  }
-
-  @Override
-  @Deprecated
-  public synchronized void setStatus(int sc, String msg) {
     status = sc;
     committed = true;
   }

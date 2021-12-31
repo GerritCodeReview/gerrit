@@ -15,8 +15,8 @@
 package com.google.gerrit.httpd.plugins;
 
 import com.google.common.base.Strings;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 class ContextMapper {
   private static final String PLUGINS_PREFIX = "/plugins/";

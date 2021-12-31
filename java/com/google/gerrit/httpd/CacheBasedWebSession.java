@@ -33,10 +33,10 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Provider;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.EnumSet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.http.server.GitSmartHttpTools;
 
 public abstract class CacheBasedWebSession extends WebSession {

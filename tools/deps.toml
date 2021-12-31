@@ -5,10 +5,10 @@ bouncyCastle = "1.84"
 byteBuddy = "1.18.8"
 caffeine = "2.9.2"
 commonmark = "0.24.0"
-gitiles = "1.6.0"
+gitiles = "2.0.0"
 greenmail = "1.5.5"
 httpcomp = "4.5.14"
-jetty = "9.4.57.v20241219"
+jetty = "12.1.9"
 mail = "1.6.0"
 mime4j = "0.8.1"
 ow2 = "9.9.1"
@@ -68,17 +68,17 @@ httpclient = { module = "org.apache.httpcomponents:httpclient", version.ref = "h
 httpcore = { module = "org.apache.httpcomponents:httpcore", version = "4.4.16" }
 icu4j = { module = "com.ibm.icu:icu4j", version = "78.2" }
 jakarta-inject-api = { module = "jakarta.inject:jakarta.inject-api", version = "2.0.1" }
+jakarta-servlet-api = { module = "jakarta.servlet:jakarta.servlet-api", version = "6.1.0" }
 JavaEWAH = { module = "com.googlecode.javaewah:JavaEWAH", version = "1.1.12" }
 javapoet = { module = "com.squareup:javapoet", version = "1.13.0" }
-javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 javax-mail = { module = "com.sun.mail:javax.mail", version.ref = "mail" }
-javax-servlet-api = { module = "javax.servlet:javax.servlet-api", version = "4.0.1" }
 jetty-http = { module = "org.eclipse.jetty:jetty-http", version.ref = "jetty" }
 jetty-io = { module = "org.eclipse.jetty:jetty-io", version.ref = "jetty" }
 jetty-jmx = { module = "org.eclipse.jetty:jetty-jmx", version.ref = "jetty" }
 jetty-security = { module = "org.eclipse.jetty:jetty-security", version.ref = "jetty" }
 jetty-server = { module = "org.eclipse.jetty:jetty-server", version.ref = "jetty" }
-jetty-servlet = { module = "org.eclipse.jetty:jetty-servlet", version.ref = "jetty" }
+jetty-servlet = { module = "org.eclipse.jetty.ee10:jetty-ee10-servlet", version.ref = "jetty" }
+jetty-session = { module = "org.eclipse.jetty:jetty-session", version.ref = "jetty" }
 jetty-util = { module = "org.eclipse.jetty:jetty-util", version.ref = "jetty" }
 jetty-util-ajax = { module = "org.eclipse.jetty:jetty-util-ajax", version.ref = "jetty" }
 json-smart = { module = "net.minidev:json-smart", version = "1.1.1" }

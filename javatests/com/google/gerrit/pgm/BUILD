@@ -10,15 +10,16 @@ junit_tests(
         "//java/com/google/gerrit/pgm/util",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/securestore/testing",
+        "//javatests/com/google/gerrit/util/http/testutil",
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-junit",
         "//lib:junit",
+        "//lib:servlet-api",
         "//lib/guice",
+        "//lib/jetty:server",
         "//lib/mockito",
         "//lib/truth",
-        "@jetty-server//jar",
-        "@servlet-api//jar",
     ],
 )
 

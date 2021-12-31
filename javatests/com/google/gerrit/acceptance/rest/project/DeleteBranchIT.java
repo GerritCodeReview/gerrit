@@ -245,12 +245,12 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private void assertDeleteByRestSucceeds(BranchNameKey branch, String ref) throws Exception {
-    RestResponse r =
-        userRestSession.delete(
-            "/projects/"
-                + IdString.fromDecoded(project.get()).encoded()
-                + "/branches/"
-                + IdString.fromDecoded(ref).encoded());
+    String endpoint =
+        "/projects/"
+            + IdString.fromDecoded(project.get()).encoded()
+            + "/branches/"
+            + IdString.fromDecoded(ref).encoded();
+    RestResponse r = userRestSession.delete(endpoint);
     r.assertNoContent();
     assertThrows(ResourceNotFoundException.class, () -> branch(branch).get());
   }

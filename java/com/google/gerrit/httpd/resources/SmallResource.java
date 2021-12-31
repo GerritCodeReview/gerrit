@@ -16,9 +16,9 @@ package com.google.gerrit.httpd.resources;
 
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public final class SmallResource extends Resource {
   private static final long serialVersionUID = 1L;

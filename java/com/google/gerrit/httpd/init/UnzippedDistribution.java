@@ -19,6 +19,7 @@ import static com.google.gerrit.pgm.init.InitPlugins.PLUGIN_DIR;
 
 import com.google.gerrit.pgm.init.PluginsDistribution;
 import com.google.inject.Singleton;
+import jakarta.servlet.ServletContext;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,7 +27,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.ServletContext;
 
 @Singleton
 class UnzippedDistribution implements PluginsDistribution {

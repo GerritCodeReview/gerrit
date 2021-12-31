@@ -25,10 +25,10 @@ import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.ServletModule;
+import jakarta.servlet.http.HttpServlet;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServlet;
 
 @SuppressWarnings("MutableGuiceModule")
 class HttpAutoRegisterModuleGenerator extends ServletModule implements ModuleGenerator {

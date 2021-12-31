@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Annotation applied to HttpServletRequest and HttpServletResponse when they are inherited from
  * Gerrit instead of being injected by a plugin's ServletModule. This means that the path returned
- * by 'javax.servlet.http.HttpServletRequest#getPathInfo()' is relative to the Gerrit root instead
+ * by 'jakarta.servlet.http.HttpServletRequest#getPathInfo()' is relative to the Gerrit root instead
  * of a path within the plugin's URL space.
  */
 @Target({ElementType.PARAMETER, ElementType.FIELD})

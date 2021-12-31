@@ -19,35 +19,46 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.util.http.CacheHeaders;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jetty.ee10.servlet.ServletContextRequest;
 import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpStatus;
-import org.eclipse.jetty.server.HttpConnection;
 import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.handler.ErrorHandler;
+import org.eclipse.jetty.server.internal.HttpConnection;
+import org.eclipse.jetty.util.Callback;
 
 class HiddenErrorHandler extends ErrorHandler {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
-  public void handle(
-      String target, Request baseRequest, HttpServletRequest req, HttpServletResponse res)
-      throws IOException {
+  public boolean handle(Request request, Response response, Callback callback) throws IOException {
     HttpConnection conn = HttpConnection.getCurrentConnection();
-    baseRequest.setHandled(true);
+    ServletContextRequest servletContextRequest = Request.as(request, ServletContextRequest.class);
+    HttpServletRequest httpServletRequest = servletContextRequest.getServletApiRequest();
+    HttpServletResponse httpServletResponse = servletContextRequest.getHttpServletResponse();
+    //    ServletContextHandler contextHandler =
+    // servletContextRequest.getServletContext().getServletContextHandler();
+
     try {
-      log(req);
+      log(httpServletRequest);
     } finally {
-      reply(conn, res);
+      response
+          .getHeaders()
+          .put(HttpHeader.CONTENT_TYPE.asString(), "text/plain; charset=ISO-8859-1");
+      reply(conn, response, httpServletResponse);
     }
+    callback.succeeded();
+    return true;
   }
 
-  private void reply(HttpConnection conn, HttpServletResponse res) throws IOException {
-    byte[] msg = message(conn);
-    res.setHeader(HttpHeader.CONTENT_TYPE.asString(), "text/plain; charset=ISO-8859-1");
+  private void reply(HttpConnection conn, Response response, HttpServletResponse res)
+      throws IOException {
+    byte[] msg = message(conn, response);
     res.setContentLength(msg.length);
     try {
       CacheHeaders.setNotCacheable(res);
@@ -58,21 +69,21 @@ class HiddenErrorHandler extends ErrorHandler {
     }
   }
 
-  private static byte[] message(HttpConnection conn) {
+  private static byte[] message(HttpConnection conn, Response response) {
     String msg;
     if (conn == null) {
       msg = "";
     } else {
-      msg = conn.getHttpChannel().getResponse().getReason();
-      if (msg == null) {
-        msg = HttpStatus.getMessage(conn.getHttpChannel().getResponse().getStatus());
-      }
+      //      msg = response.getReason();
+      //      if (msg == null) {
+      msg = HttpStatus.getMessage(response.getStatus());
+      //      }
     }
     return msg.getBytes(ISO_8859_1);
   }
 
   private static void log(HttpServletRequest req) {
-    Throwable err = (Throwable) req.getAttribute("javax.servlet.error.exception");
+    Throwable err = (Throwable) req.getAttribute("jakarta.servlet.error.exception");
     if (err != null) {
       String uri = req.getRequestURI();
       if (!Strings.isNullOrEmpty(req.getQueryString())) {

@@ -60,7 +60,6 @@ Apache2.0
 * guice:guice-assistedinject
 * guice:guice-library
 * guice:guice-servlet
-* guice:javax_inject
 * httpcomponents:httpclient
 * httpcomponents:httpcore
 * jetty:http

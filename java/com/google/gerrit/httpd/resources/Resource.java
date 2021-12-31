@@ -15,10 +15,10 @@
 package com.google.gerrit.httpd.resources;
 
 import com.google.gerrit.util.http.CacheHeaders;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public abstract class Resource implements Serializable {
   private static final long serialVersionUID = 1L;

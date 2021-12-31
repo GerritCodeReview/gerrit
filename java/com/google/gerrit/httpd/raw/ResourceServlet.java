@@ -19,12 +19,12 @@ import static com.google.common.net.HttpHeaders.ETAG;
 import static com.google.common.net.HttpHeaders.IF_MODIFIED_SINCE;
 import static com.google.common.net.HttpHeaders.IF_NONE_MATCH;
 import static com.google.common.net.HttpHeaders.LAST_MODIFIED;
+import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static jakarta.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
@@ -37,6 +37,9 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gerrit.util.http.RequestUtil;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -46,9 +49,6 @@ import java.nio.file.attribute.FileTime;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.zip.GZIPOutputStream;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Base class for serving static resources.

@@ -16,12 +16,12 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
 
 public class AllowRenderInFrameFilter extends AllRequestFilter {

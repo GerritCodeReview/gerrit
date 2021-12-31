@@ -24,13 +24,13 @@ import com.google.inject.Provider;
 import com.google.inject.servlet.ServletScopes;
 import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
+import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import javax.servlet.http.HttpServletRequest;
 
 /** Propagator for Guice's built-in servlet scope. */
 public class GuiceRequestScopePropagator extends RequestScopePropagator {

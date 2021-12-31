@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.restapi;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * RestView to read a resource without modification.

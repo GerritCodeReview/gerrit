@@ -7,7 +7,6 @@ java_library(
     exports = [
         ":guice-library",
         ":jakarta-inject",
-        ":javax_inject",
     ],
 )
 
@@ -46,11 +45,4 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = ["@external_deps//:jakarta_inject_jakarta_inject_api"],
-)
-
-java_library(
-    name = "javax_inject",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@external_deps//:javax_inject_javax_inject"],
 )

@@ -23,14 +23,14 @@
     "com.google.flogger:flogger-log4j-backend": 1730247028,
     "com.google.flogger:flogger-system-backend": 1522076251,
     "com.google.flogger:google-extensions": -355130314,
-    "com.google.gitiles:blame-cache": -1424275928,
-    "com.google.gitiles:gitiles-servlet": 1993647825,
+    "com.google.gitiles:blame-cache": 474094627,
+    "com.google.gitiles:gitiles-servlet": -402948916,
     "com.google.guava:failureaccess": -2032498474,
     "com.google.guava:guava": -1756621521,
     "com.google.guava:guava-testlib": -203887467,
-    "com.google.inject.extensions:guice-assistedinject": -1667539622,
-    "com.google.inject.extensions:guice-servlet": 569202692,
-    "com.google.inject:guice": -1660789120,
+    "com.google.inject.extensions:guice-assistedinject": -1960942629,
+    "com.google.inject.extensions:guice-servlet": 275799685,
+    "com.google.inject:guice": -1954192127,
     "com.google.j2objc:j2objc-annotations": -727464895,
     "com.google.jimfs:jimfs": -1004381565,
     "com.google.protobuf:protobuf-java": 1247529435,
@@ -119,10 +119,9 @@
     "io.github.java-diff-utils:java-diff-utils": 1296992014,
     "io.sweers.autotransient:autotransient": 1591678970,
     "jakarta.inject:jakarta.inject-api": 190564362,
+    "jakarta.servlet:jakarta.servlet-api": -3550902,
     "javax.activation:activation": -940616209,
     "javax.annotation:jsr250-api": -593155132,
-    "javax.inject:javax.inject": -297932879,
-    "javax.servlet:javax.servlet-api": 669233360,
     "junit:junit": -744267592,
     "log4j:log4j": 182326902,
     "net.bytebuddy:byte-buddy": 731630558,
@@ -168,9 +167,7 @@
     "org.commonmark:commonmark-ext-autolink": -1853742120,
     "org.commonmark:commonmark-ext-gfm-strikethrough": 350394231,
     "org.commonmark:commonmark-ext-gfm-tables": 1881582931,
-    "org.eclipse.jetty.ee8:jetty-ee8-nested": 674982267,
-    "org.eclipse.jetty.ee8:jetty-ee8-security": -882431918,
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet": -8438293,
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet": 754433625,
     "org.eclipse.jetty:jetty-http": 858419497,
     "org.eclipse.jetty:jetty-io": -1906364853,
     "org.eclipse.jetty:jetty-jmx": 1893313840,
@@ -201,7 +198,7 @@
     "org.slf4j:slf4j-ext": -916772347,
     "org.slf4j:slf4j-log4j12": -630224096,
     "org.slf4j:slf4j-reload4j": 1021466445,
-    "org.slf4j:slf4j-simple": -487947767,
+    "org.slf4j:slf4j-simple": 1999565066,
     "org.tukaani:xz": -1743168321,
     "repositories": 2019057769,
     "xerces:xercesImpl": -1165914651,
@@ -249,10 +246,10 @@
     "com.google.flogger:flogger:jar:sources": -1464119363,
     "com.google.flogger:google-extensions": 1202868209,
     "com.google.flogger:google-extensions:jar:sources": -1667103726,
-    "com.google.gitiles:blame-cache": 2017928431,
-    "com.google.gitiles:blame-cache:jar:sources": 467275313,
-    "com.google.gitiles:gitiles-servlet": 1918113734,
-    "com.google.gitiles:gitiles-servlet:jar:sources": -158011882,
+    "com.google.gitiles:blame-cache": -1617955230,
+    "com.google.gitiles:blame-cache:jar:sources": -1175062163,
+    "com.google.gitiles:gitiles-servlet": -1843141734,
+    "com.google.gitiles:gitiles-servlet:jar:sources": 807902589,
     "com.google.guava:failureaccess": 1715931538,
     "com.google.guava:failureaccess:jar:sources": 1303858893,
     "com.google.guava:guava": 555169272,
@@ -260,12 +257,12 @@
     "com.google.guava:guava-testlib:jar:sources": 1351030420,
     "com.google.guava:guava:jar:sources": 1246910673,
     "com.google.guava:listenablefuture": 1079558157,
-    "com.google.inject.extensions:guice-assistedinject": 773600044,
-    "com.google.inject.extensions:guice-assistedinject:jar:sources": 550961491,
-    "com.google.inject.extensions:guice-servlet": 350832471,
-    "com.google.inject.extensions:guice-servlet:jar:sources": -828654042,
-    "com.google.inject:guice": 1105471728,
-    "com.google.inject:guice:jar:sources": -2060215316,
+    "com.google.inject.extensions:guice-assistedinject": 2034828511,
+    "com.google.inject.extensions:guice-assistedinject:jar:sources": -1870885731,
+    "com.google.inject.extensions:guice-servlet": 1650751711,
+    "com.google.inject.extensions:guice-servlet:jar:sources": -1400796589,
+    "com.google.inject:guice": -600336652,
+    "com.google.inject:guice:jar:sources": -1090577816,
     "com.google.j2objc:j2objc-annotations": 1702790440,
     "com.google.j2objc:j2objc-annotations:jar:sources": -1254484583,
     "com.google.jimfs:jimfs": 375012684,
@@ -274,7 +271,7 @@
     "com.google.jsinterop:jsinterop-annotations:jar:sources": 694679492,
     "com.google.protobuf:protobuf-java": 1331070778,
     "com.google.protobuf:protobuf-java:jar:sources": 133270104,
-    "com.google.template:soy": -677841031,
+    "com.google.template:soy": -1334806901,
     "com.google.template:soy:jar:sources": 895044971,
     "com.google.truth.extensions:truth-java8-extension": 18757275,
     "com.google.truth.extensions:truth-java8-extension:jar:sources": 1257445795,
@@ -338,12 +335,12 @@
     "io.sweers.autotransient:autotransient:jar:sources": -703216994,
     "jakarta.inject:jakarta.inject-api": 188991469,
     "jakarta.inject:jakarta.inject-api:jar:sources": -1584622703,
+    "jakarta.servlet:jakarta.servlet-api": -1421863120,
+    "jakarta.servlet:jakarta.servlet-api:jar:sources": -2084357823,
     "javax.activation:activation": 1998212823,
     "javax.activation:activation:jar:sources": 2062811499,
     "javax.inject:javax.inject": 698155243,
     "javax.inject:javax.inject:jar:sources": 1222576539,
-    "javax.servlet:javax.servlet-api": 735808080,
-    "javax.servlet:javax.servlet-api:jar:sources": -2015355058,
     "junit:junit": -1256429642,
     "junit:junit:jar:sources": 940567721,
     "net.bytebuddy:byte-buddy": 1329808931,
@@ -428,14 +425,8 @@
     "org.commonmark:commonmark-ext-gfm-tables": -1205584749,
     "org.commonmark:commonmark-ext-gfm-tables:jar:sources": 1341057091,
     "org.commonmark:commonmark:jar:sources": -1511261547,
-    "org.eclipse.jetty.ee8:jetty-ee8-nested": 1313267244,
-    "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources": -595669194,
-    "org.eclipse.jetty.ee8:jetty-ee8-security": -1037245927,
-    "org.eclipse.jetty.ee8:jetty-ee8-security:jar:sources": 2004231816,
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet": 766140290,
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet:jar:sources": 717717325,
-    "org.eclipse.jetty.toolchain:jetty-servlet-api": 1364182673,
-    "org.eclipse.jetty.toolchain:jetty-servlet-api:jar:sources": 736604807,
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet": -1463944629,
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet:jar:sources": 1805155633,
     "org.eclipse.jetty:jetty-http": 497548743,
     "org.eclipse.jetty:jetty-http:jar:sources": 1180758023,
     "org.eclipse.jetty:jetty-io": -277302215,
@@ -468,7 +459,7 @@
     "org.nibor.autolink:autolink:jar:sources": -1863403724,
     "org.objenesis:objenesis": 1536526812,
     "org.objenesis:objenesis:jar:sources": 321662415,
-    "org.openid4java:openid4java": 1109904517,
+    "org.openid4java:openid4java": 1387124403,
     "org.openid4java:openid4java:jar:sources": -1312563952,
     "org.openjdk.jmh:jmh-core": 262505124,
     "org.openjdk.jmh:jmh-core:jar:sources": 814651627,
@@ -496,8 +487,8 @@
     "org.slf4j:slf4j-ext:jar:sources": 194861628,
     "org.slf4j:slf4j-reload4j": -1779685465,
     "org.slf4j:slf4j-reload4j:jar:sources": -1558574593,
-    "org.slf4j:slf4j-simple": -444090931,
-    "org.slf4j:slf4j-simple:jar:sources": 1767487902,
+    "org.slf4j:slf4j-simple": -1055624668,
+    "org.slf4j:slf4j-simple:jar:sources": 751828941,
     "org.tukaani:xz": -321288404,
     "org.tukaani:xz:jar:sources": -893332662,
     "xerces:xercesImpl": -1852819301,
@@ -652,17 +643,17 @@
     },
     "com.google.gitiles:blame-cache": {
       "shasums": {
-        "jar": "41dc6fe7d9967d3726cca4ff5e92247cd8c8da5ddc61b730077b8778c4829fcf",
-        "sources": "9e4d550f35331762434ec1bbd448d335971f00c8ee58c91500bc8fecad156a46"
+        "jar": "e8406559421ebddb77b1873c6ae36949e70fd606413551305b54ba90b2ce4e1f",
+        "sources": "2ad3eb805c7c402917a7e78a1ab2f4922715c4bdfdb75d6c20d7ec585d5ea777"
       },
-      "version": "1.6.0"
+      "version": "2.0.0"
     },
     "com.google.gitiles:gitiles-servlet": {
       "shasums": {
-        "jar": "08562ea7d57d881042e0598722e011e1c40bb69317065f2f5a67277f9c946be3",
-        "sources": "1a6556cde47342a29b93c0ebca969c728ec60b97cbee40bdf4a795ef8a0eb2b2"
+        "jar": "068e216ea5f56ad21cea125f19848d427bbc17c348d99e74733f4baa72def3a9",
+        "sources": "935e88cfae8f59b1277d1065b992d1f5f73a0fca2e9170e59644ca2232d2b973"
       },
-      "version": "1.6.0"
+      "version": "2.0.0"
     },
     "com.google.guava:failureaccess": {
       "shasums": {
@@ -693,24 +684,24 @@
     },
     "com.google.inject.extensions:guice-assistedinject": {
       "shasums": {
-        "jar": "f4d264534f213af7beb493273f72f02ef9eb4b229d71a0a80f003b7349dee6f9",
-        "sources": "be0f353df20cb375c30b2030de49ac93a6e171f4abbc66b94961baaf584ddfe3"
+        "jar": "c07125fff9372bd6562e986bc9f3092694db9649a79761683adc9da6ffeb33e6",
+        "sources": "3e9cc7aebd8b54994454950887d56aaa96835744c83735b5ccce6259cb38fd57"
       },
-      "version": "6.0.0"
+      "version": "7.0.0"
     },
     "com.google.inject.extensions:guice-servlet": {
       "shasums": {
-        "jar": "0450043d0770b816957856ff9d08209c31f801a31e820e53e45ac29468514002",
-        "sources": "60496058708186f6a27de1f553387337c90c5d2d0939326de175996fcf97baeb"
+        "jar": "4ffe9814891bde135983097e387fc273cf20f8c607d28a0dbe13eb2c472f5679",
+        "sources": "068629bbf7c10c24a6b4033cf8e3fcb9ba6bb6a3032ebb9752ed6ef7078b2c0a"
       },
-      "version": "6.0.0"
+      "version": "7.0.0"
     },
     "com.google.inject:guice": {
       "shasums": {
-        "jar": "b4d4f7ec5e8fc17b4f98dee9d3f6cf6ae3ae13e2e5ed4b2f7bbf09bc4bb675d5",
-        "sources": "656b82a85535ada22d251fbc4ab3e786e66997510d03325d168bc193c2148c09"
+        "jar": "de5b0e359bd7b03ca42806b368846efd95484380fe05ae2a4ea71bc338c59c00",
+        "sources": "34628dd3720066e77e29c418968f31481059583cbf0f15803d583f756f31a933"
       },
-      "version": "6.0.0"
+      "version": "7.0.0"
     },
     "com.google.j2objc:j2objc-annotations": {
       "shasums": {
@@ -969,6 +960,13 @@
       },
       "version": "2.0.1"
     },
+    "jakarta.servlet:jakarta.servlet-api": {
+      "shasums": {
+        "jar": "8a31f465f3593bf2351531a5c952014eb839da96a605b5825b93dd54714c48c4",
+        "sources": "6eb958543e0548bb93d2519e40224d13c8003b10cc615b5652bfd9899350bfb4"
+      },
+      "version": "6.1.0"
+    },
     "javax.activation:activation": {
       "shasums": {
         "jar": "ae475120e9fcd99b4b00b38329bd61cdc5eb754eee03fe66c01f50e137724f99",
@@ -982,13 +980,6 @@
         "sources": "c4b87ee2911c139c3daf498a781967f1eb2e75bc1a8529a2e7b328a15d0e433e"
       },
       "version": "1"
-    },
-    "javax.servlet:javax.servlet-api": {
-      "shasums": {
-        "jar": "83a03dd877d3674576f0da7b90755c8524af099ccf0607fc61aa971535ad7c60",
-        "sources": "a2826761ae88535afb0a3a049eacc846494e22627a1dcf14de37b956ca8748d6"
-      },
-      "version": "4.0.1"
     },
     "junit:junit": {
       "shasums": {
@@ -1284,33 +1275,12 @@
       },
       "version": "0.24.0"
     },
-    "org.eclipse.jetty.ee8:jetty-ee8-nested": {
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet": {
       "shasums": {
-        "jar": "d595ec4d116824a1d9cc921ce08d964dffd191512895c263db491316b9aa84e7",
-        "sources": "e77d8e809be22063041080736a34dc50204f2742f7838bd8d59d82d45e85f43e"
+        "jar": "7275d4bde7b0e790929bfba30efb2c13cf4eb3624bf03014f4d123366a1168e7",
+        "sources": "f0d39ce34f5f32d9fb50b47a2f5022e2ac2ba0055626252df355a6fc1ab51104"
       },
       "version": "12.1.9"
-    },
-    "org.eclipse.jetty.ee8:jetty-ee8-security": {
-      "shasums": {
-        "jar": "92af8672681672da01d41901a293ff970b47cbae052500f4fb4b1890ef03eab2",
-        "sources": "373d7aa39c2d687fb2d8b7d0272ea282f45088688243bea97c7427b49ec64a36"
-      },
-      "version": "12.1.9"
-    },
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet": {
-      "shasums": {
-        "jar": "82a66f9558a8b215c031aea35c436d30e0b4720abf662763bfc051b2febac525",
-        "sources": "3413e3d21b6b12ea45b6e2bb59657398248f0de6ce9072d6218a8151d251abfc"
-      },
-      "version": "12.1.9"
-    },
-    "org.eclipse.jetty.toolchain:jetty-servlet-api": {
-      "shasums": {
-        "jar": "89916c0360ad8be8b0b6bab41d9f0d5d03b742abb5e13aeeac06817c14fdf037",
-        "sources": "f6a7790d55a14a7c1d542d8b0246939ac720fe99e92fae3108c067c4266180fc"
-      },
-      "version": "4.0.9"
     },
     "org.eclipse.jetty:jetty-http": {
       "shasums": {
@@ -1524,10 +1494,10 @@
     },
     "org.slf4j:slf4j-simple": {
       "shasums": {
-        "jar": "ddfea59ac074c6d3e24ac2c38622d2d963895e17f70b38ed4bdae4d780be6964",
-        "sources": "30b660e79419bfcebd678e75bdfe3644eaf325f50253a68395d93634da5953df"
+        "jar": "8268bd018a5709b07209e0d8ca6221a37584ba1bc12ba985b8335a82c648bdd0",
+        "sources": "977f636bc90dc879c56cd6b6158abf0ee77a6f4619ab23342781a273b743786b"
       },
-      "version": "2.0.17"
+      "version": "2.0.18"
     },
     "org.tukaani:xz": {
       "shasums": {
@@ -1616,8 +1586,7 @@
     "com.google.inject:guice": [
       "aopalliance:aopalliance",
       "com.google.guava:guava",
-      "jakarta.inject:jakarta.inject-api",
-      "javax.inject:javax.inject"
+      "jakarta.inject:jakarta.inject-api"
     ],
     "com.google.jimfs:jimfs": [
       "com.google.guava:guava"
@@ -1794,21 +1763,11 @@
     "org.commonmark:commonmark-ext-gfm-tables": [
       "org.commonmark:commonmark"
     ],
-    "org.eclipse.jetty.ee8:jetty-ee8-nested": [
-      "org.eclipse.jetty.toolchain:jetty-servlet-api",
-      "org.eclipse.jetty:jetty-http",
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet": [
+      "jakarta.servlet:jakarta.servlet-api",
       "org.eclipse.jetty:jetty-security",
       "org.eclipse.jetty:jetty-server",
       "org.eclipse.jetty:jetty-session",
-      "org.slf4j:slf4j-api"
-    ],
-    "org.eclipse.jetty.ee8:jetty-ee8-security": [
-      "org.eclipse.jetty.ee8:jetty-ee8-nested",
-      "org.slf4j:slf4j-api"
-    ],
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet": [
-      "org.eclipse.jetty.ee8:jetty-ee8-nested",
-      "org.eclipse.jetty.ee8:jetty-ee8-security",
       "org.slf4j:slf4j-api"
     ],
     "org.eclipse.jetty:jetty-http": [
@@ -2592,6 +2551,12 @@
     "jakarta.inject:jakarta.inject-api": [
       "jakarta.inject"
     ],
+    "jakarta.servlet:jakarta.servlet-api": [
+      "jakarta.servlet",
+      "jakarta.servlet.annotation",
+      "jakarta.servlet.descriptor",
+      "jakarta.servlet.http"
+    ],
     "javax.activation:activation": [
       "com.sun.activation.registries",
       "com.sun.activation.viewers",
@@ -2599,12 +2564,6 @@
     ],
     "javax.inject:javax.inject": [
       "javax.inject"
-    ],
-    "javax.servlet:javax.servlet-api": [
-      "javax.servlet",
-      "javax.servlet.annotation",
-      "javax.servlet.descriptor",
-      "javax.servlet.http"
     ],
     "junit:junit": [
       "junit.extensions",
@@ -3749,24 +3708,14 @@
       "org.commonmark.ext.gfm.tables",
       "org.commonmark.ext.gfm.tables.internal"
     ],
-    "org.eclipse.jetty.ee8:jetty-ee8-nested": [
-      "org.eclipse.jetty.ee8.nested",
-      "org.eclipse.jetty.ee8.nested.jmx"
-    ],
-    "org.eclipse.jetty.ee8:jetty-ee8-security": [
-      "org.eclipse.jetty.ee8.security",
-      "org.eclipse.jetty.ee8.security.authentication"
-    ],
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet": [
-      "org.eclipse.jetty.ee8.servlet",
-      "org.eclipse.jetty.ee8.servlet.jmx",
-      "org.eclipse.jetty.ee8.servlet.listener"
-    ],
-    "org.eclipse.jetty.toolchain:jetty-servlet-api": [
-      "javax.servlet",
-      "javax.servlet.annotation",
-      "javax.servlet.descriptor",
-      "javax.servlet.http"
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet": [
+      "org.eclipse.jetty.ee10.servlet",
+      "org.eclipse.jetty.ee10.servlet.internal",
+      "org.eclipse.jetty.ee10.servlet.jmx",
+      "org.eclipse.jetty.ee10.servlet.listener",
+      "org.eclipse.jetty.ee10.servlet.security",
+      "org.eclipse.jetty.ee10.servlet.security.authentication",
+      "org.eclipse.jetty.ee10.servlet.util"
     ],
     "org.eclipse.jetty:jetty-http": [
       "org.eclipse.jetty.http",
@@ -4421,12 +4370,12 @@
       "io.sweers.autotransient:autotransient:jar:sources",
       "jakarta.inject:jakarta.inject-api",
       "jakarta.inject:jakarta.inject-api:jar:sources",
+      "jakarta.servlet:jakarta.servlet-api",
+      "jakarta.servlet:jakarta.servlet-api:jar:sources",
       "javax.activation:activation",
       "javax.activation:activation:jar:sources",
       "javax.inject:javax.inject",
       "javax.inject:javax.inject:jar:sources",
-      "javax.servlet:javax.servlet-api",
-      "javax.servlet:javax.servlet-api:jar:sources",
       "junit:junit",
       "junit:junit:jar:sources",
       "net.bytebuddy:byte-buddy",
@@ -4511,14 +4460,8 @@
       "org.commonmark:commonmark-ext-gfm-tables",
       "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
       "org.commonmark:commonmark:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-nested",
-      "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-security",
-      "org.eclipse.jetty.ee8:jetty-ee8-security:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-servlet",
-      "org.eclipse.jetty.ee8:jetty-ee8-servlet:jar:sources",
-      "org.eclipse.jetty.toolchain:jetty-servlet-api",
-      "org.eclipse.jetty.toolchain:jetty-servlet-api:jar:sources",
+      "org.eclipse.jetty.ee10:jetty-ee10-servlet",
+      "org.eclipse.jetty.ee10:jetty-ee10-servlet:jar:sources",
       "org.eclipse.jetty:jetty-http",
       "org.eclipse.jetty:jetty-http:jar:sources",
       "org.eclipse.jetty:jetty-io",
@@ -4717,12 +4660,12 @@
       "io.sweers.autotransient:autotransient:jar:sources",
       "jakarta.inject:jakarta.inject-api",
       "jakarta.inject:jakarta.inject-api:jar:sources",
+      "jakarta.servlet:jakarta.servlet-api",
+      "jakarta.servlet:jakarta.servlet-api:jar:sources",
       "javax.activation:activation",
       "javax.activation:activation:jar:sources",
       "javax.inject:javax.inject",
       "javax.inject:javax.inject:jar:sources",
-      "javax.servlet:javax.servlet-api",
-      "javax.servlet:javax.servlet-api:jar:sources",
       "junit:junit",
       "junit:junit:jar:sources",
       "net.bytebuddy:byte-buddy",
@@ -4807,14 +4750,8 @@
       "org.commonmark:commonmark-ext-gfm-tables",
       "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
       "org.commonmark:commonmark:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-nested",
-      "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-security",
-      "org.eclipse.jetty.ee8:jetty-ee8-security:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-servlet",
-      "org.eclipse.jetty.ee8:jetty-ee8-servlet:jar:sources",
-      "org.eclipse.jetty.toolchain:jetty-servlet-api",
-      "org.eclipse.jetty.toolchain:jetty-servlet-api:jar:sources",
+      "org.eclipse.jetty.ee10:jetty-ee10-servlet",
+      "org.eclipse.jetty.ee10:jetty-ee10-servlet:jar:sources",
       "org.eclipse.jetty:jetty-http",
       "org.eclipse.jetty:jetty-http:jar:sources",
       "org.eclipse.jetty:jetty-io",

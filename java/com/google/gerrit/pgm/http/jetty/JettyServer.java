@@ -32,6 +32,10 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.Filter;
+import jakarta.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionListener;
 import java.lang.management.ManagementFactory;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -48,15 +52,12 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
-import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
-import org.eclipse.jetty.ee8.nested.SessionHandler;
-import org.eclipse.jetty.ee8.servlet.DefaultServlet;
-import org.eclipse.jetty.ee8.servlet.FilterHolder;
-import org.eclipse.jetty.ee8.servlet.ServletContextHandler;
-import org.eclipse.jetty.ee8.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.DefaultServlet;
+import org.eclipse.jetty.ee10.servlet.FilterHolder;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.SessionHandler;
 import org.eclipse.jetty.http.HttpScheme;
 import org.eclipse.jetty.http.HttpURI;
 import org.eclipse.jetty.http.UriCompliance;
@@ -278,6 +279,8 @@ public class JettyServer {
 
     httpd.setHandler(app);
     httpd.setStopAtShutdown(false);
+
+    bypassServlet6UriRules(httpd);
   }
 
   @VisibleForTesting
@@ -476,6 +479,22 @@ public class JettyServer {
     return config;
   }
 
+  /**
+   * Bypass Servlet 6 specification rules on ambiguous URIs.
+   *
+   * <p><em>WARNING</em> this is not recommended. This is a violation of the Servlet 6 specification
+   * rules.
+   *
+   * @param httpd Jetty server instance
+   * @see <a href="https://github.com/jakartaee/servlet/issues/18">Servlet 6 changes to
+   *     getRequestURI / getRequestContextPath / getServletPath / getPathInfo</a>
+   */
+  private static void bypassServlet6UriRules(Server httpd) {
+    httpd
+        .getContainedBeans(ServletHandler.class)
+        .forEach(handler -> handler.setDecodeAmbiguousURIs(true));
+  }
+
   static boolean isReverseProxied(URI[] listenUrls) {
     for (URI u : listenUrls) {
       if ("http".equals(u.getScheme()) || "https".equals(u.getScheme())) {
@@ -581,6 +600,10 @@ public class JettyServer {
     app.setSessionHandler(sessionHandler);
     app.setErrorHandler(new HiddenErrorHandler());
 
+    ServletHandler handler = new ServletHandler();
+    handler.setDecodeAmbiguousURIs(true);
+    app.setServletHandler(handler);
+
     // This is the path we are accessed by clients within our domain.
     //
     app.setContextPath(contextPath);
@@ -650,8 +673,8 @@ public class JettyServer {
     ds.setInitParameter("gzip", "true");
 
     app.setWelcomeFiles(new String[0]);
-    // ee8 ContextHandler implements Supplier<org.eclipse.jetty.server.Handler>;
-    // unwrap to the core Handler for installation into the server's handler tree.
-    return app.get();
+    // ee10's ServletContextHandler extends core ContextHandler directly
+    // (unlike ee8 which wrapped it as Supplier<Handler>); install as-is.
+    return app;
   }
 }

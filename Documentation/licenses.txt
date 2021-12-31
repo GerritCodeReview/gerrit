@@ -65,13 +65,11 @@ Apache2.0
 * guice:guice-library
 * guice:guice-servlet
 * guice:jakarta-inject
-* guice:javax_inject
 * httpcomponents:httpclient
 * httpcomponents:httpcore
 * jetty:http
 * jetty:io
 * jetty:jmx
-* jetty:nested
 * jetty:security
 * jetty:server
 * jetty:servlet

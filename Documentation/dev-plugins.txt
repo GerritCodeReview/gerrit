@@ -590,7 +590,7 @@ Update of the project secondary index
 User login or logout interactively on the Web user interface.
 +
 The event listener is under the Gerrit http package to automatically
-inherit the javax.servlet.http dependencies and allowing to influence
+inherit the jakarta.servlet.http dependencies and allowing to influence
 the login or logout flow with additional redirections.
 
 * `com.google.gerrit.server.update.RetryListener`:
@@ -2247,9 +2247,9 @@ Servlets may use auto-registration to declare the URL they handle:
 ----
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.inject.Singleton;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Export("/print")
 @Singleton

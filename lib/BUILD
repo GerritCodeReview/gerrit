@@ -19,14 +19,14 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
+    exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
 )
 
 java_library(
     name = "servlet-api-without-neverlink",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
+    exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
 )
 
 java_library(
@@ -266,7 +266,6 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
-        "//lib/guice:javax_inject",
         "//lib/ow2:ow2-asm",
         "//lib/ow2:ow2-asm-analysis",
         "//lib/ow2:ow2-asm-commons",

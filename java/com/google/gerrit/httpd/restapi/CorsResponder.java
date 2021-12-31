@@ -25,7 +25,7 @@ import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.HttpHeaders.ORIGIN;
 import static com.google.common.net.HttpHeaders.VARY;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -36,11 +36,11 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.util.http.CacheHeaders;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
 
 /** Provides methods for processing CORS requests. */

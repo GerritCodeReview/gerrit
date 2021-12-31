@@ -384,7 +384,6 @@ The following values are currently supported for the group name:
 * git-protocol-v2
 * git-upload-archive
 * notedb
-* no_rbe
 * pgm
 * rest
 * server

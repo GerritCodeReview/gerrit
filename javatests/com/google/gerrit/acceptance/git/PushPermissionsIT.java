@@ -428,14 +428,14 @@ public class PushPermissionsIT extends AbstractDaemonTest {
       PushResult r = push(commit.getId().getName() + "::refs/main");
       RemoteRefUpdate refUpdate = r.getRemoteUpdates().stream().findFirst().get();
       assertThat(refUpdate.getStatus()).isEqualTo(Status.REJECTED_OTHER_REASON);
-      assertThat(refUpdate.getMessage()).contains("is neither Commit or Tag");
+      assertThat(refUpdate.getMessage()).contains("funny refname");
     }
 
     {
       PushResult r = push(commit.getTree().getId().getName() + ":refs/main");
       RemoteRefUpdate refUpdate = r.getRemoteUpdates().stream().findFirst().get();
       assertThat(refUpdate.getStatus()).isEqualTo(Status.REJECTED_OTHER_REASON);
-      assertThat(refUpdate.getMessage()).contains("is neither Commit or Tag");
+      assertThat(refUpdate.getMessage()).contains("funny refname");
     }
   }
 

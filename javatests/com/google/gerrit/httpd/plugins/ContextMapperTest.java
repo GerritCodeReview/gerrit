@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.plugins;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.Test;
 
 public class ContextMapperTest {

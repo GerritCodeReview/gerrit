@@ -20,9 +20,9 @@ import static com.google.gerrit.util.http.RequestUtil.getRestPathWithoutIds;
 import static org.mockito.Mockito.mock;
 
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.util.function.Supplier;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import org.junit.Test;
 
 public class RequestUtilTest {

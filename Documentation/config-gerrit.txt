@@ -3642,7 +3642,7 @@ By default, 5 minutes.
 
 [[httpd.filterClass]]httpd.filterClass::
 +
-Class that implements the javax.servlet.Filter interface
+Class that implements the jakarta.servlet.Filter interface
 for filtering any HTTP related traffic going through the Gerrit
 HTTP protocol.
 Class is loaded and configured in the Gerrit Jetty container

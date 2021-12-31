@@ -17,10 +17,10 @@ package com.google.gerrit.httpd.auth.openid;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /** Handles the {@code /OpenID} URL for web based single-sign-on. */
 @Singleton

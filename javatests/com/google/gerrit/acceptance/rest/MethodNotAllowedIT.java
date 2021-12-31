@@ -23,6 +23,14 @@ import org.apache.http.client.fluent.Request;
 import org.junit.Test;
 
 public class MethodNotAllowedIT extends AbstractDaemonTest {
+
+  @Test
+  public void nonExistingRootCollectionPost() throws Exception {
+    RestResponse response = adminRestSession.post("/non-existing/");
+    assertThat(response.getStatusCode()).isEqualTo(SC_METHOD_NOT_ALLOWED);
+    assertThat(response.getEntityContent()).isEqualTo("Method Not Allowed");
+  }
+
   @Test
   public void unsupportedPostOnRootCollection() throws Exception {
     RestResponse response = adminRestSession.post("/accounts/");

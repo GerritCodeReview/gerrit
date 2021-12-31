@@ -23,12 +23,8 @@ import org.junit.Test;
 
 public class NotFoundIT extends AbstractDaemonTest {
   @Test
-  public void nonExistingRootCollection() throws Exception {
+  public void nonExistingRootCollectionGet() throws Exception {
     RestResponse response = adminRestSession.get("/non-existing/");
-    assertThat(response.getStatusCode()).isEqualTo(SC_NOT_FOUND);
-    assertThat(response.getEntityContent()).isEqualTo("Not Found");
-
-    response = adminRestSession.post("/non-existing/");
     assertThat(response.getStatusCode()).isEqualTo(SC_NOT_FOUND);
     assertThat(response.getEntityContent()).isEqualTo("Not Found");
   }

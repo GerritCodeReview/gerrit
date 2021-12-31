@@ -20,15 +20,15 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 
 @Singleton
 public class RequestMetricsFilter implements Filter {
@@ -113,13 +113,6 @@ public class RequestMetricsFilter implements Filter {
     public void sendError(int sc) throws IOException {
       status(sc);
       super.sendError(sc);
-    }
-
-    @Override
-    @Deprecated
-    public void setStatus(int sc, String sm) {
-      status(sc);
-      super.setStatus(sc, sm);
     }
 
     @Override

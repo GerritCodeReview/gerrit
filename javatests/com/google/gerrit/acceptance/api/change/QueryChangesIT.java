@@ -18,8 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 import static java.util.stream.Collectors.toList;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

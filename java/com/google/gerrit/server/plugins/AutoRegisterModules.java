@@ -160,7 +160,7 @@ class AutoRegisterModules {
 
     if (is("org.apache.sshd.server.command.Command", clazz)) {
       sshGen.export(export, clazz);
-    } else if (is("javax.servlet.http.HttpServlet", clazz)) {
+    } else if (is("jakarta.servlet.http.HttpServlet", clazz)) {
       httpGen.export(export, clazz);
       listen(clazz, clazz);
     } else {

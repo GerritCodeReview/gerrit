@@ -33,7 +33,7 @@ import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
-import com.google.inject.servlet.RequestScoped;
+import com.google.inject.jakarta.RequestScoped;
 import java.net.SocketAddress;
 
 public class WebModule extends LifecycleModule {

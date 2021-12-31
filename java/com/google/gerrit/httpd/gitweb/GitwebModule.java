@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.gitweb;
 
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.jakarta.ServletModule;
 
 public class GitwebModule extends ServletModule {
   @Override

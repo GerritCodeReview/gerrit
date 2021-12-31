@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.auth.ldap;
 
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.jakarta.ServletModule;
 
 /** Configure username/password LDAP authentication. */
 public class LdapAuthModule extends ServletModule {

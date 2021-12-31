@@ -35,11 +35,11 @@ import com.google.gerrit.httpd.restapi.ProjectsRestApiServlet;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Key;
 import com.google.inject.internal.UniqueAnnotations;
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.jakarta.ServletModule;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Constants;
 
 class UrlModule extends ServletModule {

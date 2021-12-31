@@ -51,6 +51,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collections;
@@ -62,8 +64,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Tracks Guice bindings that should be exposed to loaded plugins.
@@ -593,33 +593,33 @@ public class PluginGuiceEnvironment {
       return false;
     }
 
-    if (is("javax.servlet.Filter", type)) {
+    if (is("jakarta.servlet.Filter", type)) {
       return false;
     }
-    if (is("javax.servlet.ServletContext", type)) {
+    if (is("jakarta.servlet.ServletContext", type)) {
       return false;
     }
-    if (is("javax.servlet.ServletRequest", type)) {
+    if (is("jakarta.servlet.ServletRequest", type)) {
       return false;
     }
-    if (is("javax.servlet.ServletResponse", type)) {
+    if (is("jakarta.servlet.ServletResponse", type)) {
       return false;
     }
-    if (is("javax.servlet.http.HttpServlet", type)) {
+    if (is("jakarta.servlet.http.HttpServlet", type)) {
       return false;
     }
-    if (is("javax.servlet.http.HttpServletRequest", type)) {
+    if (is("jakarta.servlet.http.HttpServletRequest", type)) {
       return false;
     }
-    if (is("javax.servlet.http.HttpServletResponse", type)) {
+    if (is("jakarta.servlet.http.HttpServletResponse", type)) {
       return false;
     }
-    if (is("javax.servlet.http.HttpSession", type)) {
+    if (is("jakarta.servlet.http.HttpSession", type)) {
       return false;
     }
     if (Map.class.isAssignableFrom(type)
         && key.getAnnotationType() != null
-        && "com.google.inject.servlet.RequestParameters"
+        && "com.google.inject.jakarta.RequestParameters"
             .equals(key.getAnnotationType().getName())) {
       return false;
     }

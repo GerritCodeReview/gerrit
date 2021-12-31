@@ -15,7 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.inject.servlet.RequestScoped;
+import com.google.inject.jakarta.RequestScoped;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

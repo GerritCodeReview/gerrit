@@ -24,11 +24,11 @@ import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.jakarta.ServletModule;
+import jakarta.servlet.http.HttpServlet;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServlet;
 
 class HttpAutoRegisterModuleGenerator extends ServletModule implements ModuleGenerator {
   private final Map<String, Class<HttpServlet>> serve = new HashMap<>();

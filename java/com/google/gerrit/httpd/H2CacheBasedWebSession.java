@@ -27,11 +27,11 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.jakarta.RequestScoped;
 import com.google.inject.name.Named;
-import com.google.inject.servlet.RequestScoped;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.time.Duration;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RequestScoped
 public class H2CacheBasedWebSession extends CacheBasedWebSession {

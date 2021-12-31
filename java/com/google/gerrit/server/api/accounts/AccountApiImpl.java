@@ -15,7 +15,7 @@
 package com.google.gerrit.server.api.accounts;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.accounts.AccountApi;

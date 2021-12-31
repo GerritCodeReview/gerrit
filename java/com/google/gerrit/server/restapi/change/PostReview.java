@@ -21,12 +21,12 @@ import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static jakarta.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;

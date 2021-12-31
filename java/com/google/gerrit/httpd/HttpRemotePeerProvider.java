@@ -17,12 +17,12 @@ package com.google.gerrit.httpd;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-import com.google.inject.servlet.RequestScoped;
+import com.google.inject.jakarta.RequestScoped;
+import jakarta.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
-import javax.servlet.http.HttpServletRequest;
 
 @RequestScoped
 class HttpRemotePeerProvider implements Provider<SocketAddress> {

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.auth.container;
 
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.jakarta.ServletModule;
 
 /** Servlets and support related to CLIENT_SSL_CERT_LDAP authentication. */
 public class HttpsClientSslCertModule extends ServletModule {

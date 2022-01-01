@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd72cd0a_9148d95e",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-01T22:04:28Z",
+      "side": 1,
+      "message": "Haven\u0027t you mentioned that they\u0027ve updated it and now the git version included is good for our tests?",
+      "range": {
+        "startLine": 686,
+        "startChar": 7,
+        "endLine": 686,
+        "endChar": 57
+      },
+      "revId": "432802469cb0caadd1aaec4c9534d1e754438498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

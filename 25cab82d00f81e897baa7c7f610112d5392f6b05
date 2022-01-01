@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82e06025_6732d358",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-01T18:31:31Z",
+      "side": 1,
+      "message": "Where is the change merged in Gerrit on stable-3.4 that fixes the issue? AFAIK it has been fixed on JGit but not yet updated in Gerrit.",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "25cab82d00f81e897baa7c7f610112d5392f6b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

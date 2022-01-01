@@ -22,6 +22,30 @@
       },
       "revId": "432802469cb0caadd1aaec4c9534d1e754438498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4d1e91e_b938e31e",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-01T23:05:21Z",
+      "side": 1,
+      "message": "GCE team has not updated official RBE docker image for Ubuntu 18.04. It\u0027s still using outdated git-core version 2.17.1, while we need at least 2.18.\n\nWhat this change is doing, is defining our custom docker image, see included Dockerfile and description.\n\nI have built this new custom docker image and published it to Gerrit bucket on GCE.\n\nAfter doing it, I have rebuilt rbe_config to point to that custom docker image. This step is documented in this repository: [1], see README.md, the relevant change is the docker image provided to rbe_configs_gen command:\n\n  $ ./rbe_configs_gen \\\n       --bazel_version\u003d4.1.0 \\\n       --toolchain_container\u003dgcr.io/$PROJECT_NAME/rbe-ubuntu18-04:latest \\\n       --output_src_root\u003d/home/\u003cuser\u003e/projects/rbe_autoconfig \\\n       --exec_os\u003dlinux \\\n       --target_os\u003dlinux\n\nAs the last step, I conducted new release of rbe_autoconfig v3.0.0 and uploaded it to both: github and Google bucket.\n\n[1] https://github.com/davido/rbe_autoconfig\n[2] https://github.com/davido/rbe_autoconfig/releases/tag/v3.0.0",
+      "parentUuid": "dd72cd0a_9148d95e",
+      "range": {
+        "startLine": 686,
+        "startChar": 7,
+        "endLine": 686,
+        "endChar": 57
+      },
+      "revId": "432802469cb0caadd1aaec4c9534d1e754438498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

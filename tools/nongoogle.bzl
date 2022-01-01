@@ -1,4 +1,5 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 GUAVA_VERSION = "30.1-jre"
 
@@ -139,24 +140,33 @@ def declare_nongoogle_deps():
         sha1 = GUAVA_TESTLIB_BIN_SHA1,
     )
 
-    GUICE_VERS = "5.0.1"
+    GUICE_VERS = "6.0.0"
 
-    maven_jar(
+    java_import_external(
         name = "guice-library",
-        artifact = "com.google.inject:guice:" + GUICE_VERS,
-        sha1 = "0dae7556b441cada2b4f0a2314eb68e1ff423429",
+        jar_sha256 = "09525a3ca45dea883339af7f378bc973003fc97be1ed91663f33ad52164a590f",
+        jar_urls = [
+            "https://github.com/davido/guice/releases/download/6.0.0/guice-6.0.0.jar",
+        ],
+        licenses = ["unencumbered"],
     )
 
-    maven_jar(
+    java_import_external(
         name = "guice-assistedinject",
-        artifact = "com.google.inject.extensions:guice-assistedinject:" + GUICE_VERS,
-        sha1 = "62e02f2aceb7d90ba354584dacc018c1e94ff01c",
+        jar_sha256 = "270d803be6688e981b41f4e19a63c679af2375a19161f0f0624ecfa3b9028f0f",
+        jar_urls = [
+            "https://github.com/davido/guice/releases/download/6.0.0/guice-assistedinject-6.0.0.jar",
+        ],
+        licenses = ["unencumbered"],
     )
 
-    maven_jar(
+    java_import_external(
         name = "guice-servlet",
-        artifact = "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
-        sha1 = "f527009d51f172a2e6937bfb55fcb827e2e2386b",
+        jar_sha256 = "73a8c75daa0b66b0e26bd976b2cb8d80cc2a58484cfecd24ed2e28a4ea3f474b",
+        jar_urls = [
+            "https://github.com/davido/guice/releases/download/6.0.0/guice-servlet-6.0.0.jar",
+        ],
+        licenses = ["unencumbered"],
     )
 
     # Keep this version of Soy synchronized with the version used in Gitiles.

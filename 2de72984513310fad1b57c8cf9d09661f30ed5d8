@@ -39,6 +39,24 @@
       "message": "Why do we need to update JGit module on most stable Gerrit release line 3.3? What critical security vulnerabilities or other critical issues need to be fixed?\n\nIn a couple of weeks, we will release next gerrit release: 3.6 and 3.3 release line will be discontinued. As you can see, from the list of JGit\u0027s commits in the commit message: two commits introduced critical regressions...",
       "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63c990e8_697e0a65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-02T00:36:41Z",
+      "side": 1,
+      "message": "\u003e Why do we need to update JGit module on most stable Gerrit release line 3.3? What critical security vulnerabilities or other critical issues need to be fixed?\n\nWell, fed0ab9ba produced a deadlock, which is a critical issue IMHO.\nThe fact that we discovered only on master was just a coincidence: it could have happened in any use-case.\n\n\u003e In a couple of weeks\n\nWe typically release in May, which leaves us around 5 months of life of Gerrit v3.3 before declaring it EOL.\n\n\u003e we will release next gerrit release: 3.6 and 3.3 release line will be discontinued. As you can see, from the list of JGit\u0027s commits in the commit message: two commits introduced critical regressions.\n\nThe bug fixed by fed0ab9ba has been there for a very long time, however, it would make sense to fix only on non-EOL releases of Gerrit IMHO.",
+      "parentUuid": "67f66806_f6f8657a",
+      "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

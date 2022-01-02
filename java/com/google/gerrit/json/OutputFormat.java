@@ -18,6 +18,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Standard output format used by an API call. */
 public enum OutputFormat {
@@ -55,6 +56,7 @@ public enum OutputFormat {
     GsonBuilder gb =
         new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .registerTypeAdapter(Instant.class, new InstantDeserializer())
             .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer())
             .registerTypeAdapterFactory(new EnumTypeAdapterFactory());
     if (this == OutputFormat.JSON) {

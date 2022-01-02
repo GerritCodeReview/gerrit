@@ -81,6 +81,24 @@
       "parentUuid": "67f66806_f6f8657a",
       "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a3cb65d_c4b40560",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-02T06:00:29Z",
+      "side": 1,
+      "message": "\u003e Well, fed0ab9ba produced a deadlock, which is a critical issue IMHO.\n\nfed0ab9ba is not included in JGit version used on stable-3.3 branch, so that there is no need to fix a no-problem, isn\u0027t it?\n\nMoreover\n\n  f829f5f83 RefDirectory.scanRef: Re-use file existence check done in snapshot creation\n  \nkilled Windows compatibility in JGit and was reverted later.\n\nHowever, given that both commits not included in current version used in JGit module on stable-3.3 branch, there is nothing to be fixed.\n\nWe should stop introducing critical regressions on most stable Gerrit release lines.\n\nFWIW: JGit maintainers should do the same and reject any invasive changes on very stable (not to mention ancient) JGit branches and only accept improvements and optimizations only on main branch.",
+      "parentUuid": "63c990e8_697e0a65",
+      "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

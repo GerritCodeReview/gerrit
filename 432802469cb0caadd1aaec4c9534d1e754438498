@@ -70,6 +70,23 @@
       },
       "revId": "432802469cb0caadd1aaec4c9534d1e754438498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "912be6e5_760d9269",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-02T13:10:09Z",
+      "side": 1,
+      "message": "I figured, that easily, we could even switch to using Ubuntu 20.04 on RBE:\n\n  +FROM gcr.io/cloud-marketplace/google/ubuntu2004:latest\n  +\n  +RUN apt-get -y update \u0026\u0026 \\\n  +    apt-get -y install git \u0026\u0026 \\\n  +    apt-get -y install golang \u0026\u0026 \\\n  +    apt-get -y install openjdk-17-jdk openjdk-17-jre openjdk-17-jdk-headless \u0026\u0026 \\\n  +    apt-get -y install unzip zip \u0026\u0026 \\\n  +    apt-get -y install python3 \u0026\u0026 \\\n  +    apt-get -y install wget \u0026\u0026 \\\n  +    apt-get -y install vim \u0026\u0026 \\\n  +    apt-get clean\n\nThat way built Docker image works as expected locally. I have not tried to use it on RBE yet.",
+      "revId": "432802469cb0caadd1aaec4c9534d1e754438498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

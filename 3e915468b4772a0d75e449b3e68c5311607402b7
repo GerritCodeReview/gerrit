@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "938e9c8f_526c8659",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-03T13:13:27Z",
+      "side": 1,
+      "message": "Can we add a test?",
+      "revId": "3e915468b4772a0d75e449b3e68c5311607402b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8393cba2_48667cf8",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-03T13:13:27Z",
+      "side": 1,
+      "message": "Can we add javadoc here to explain why this exists? Basically a summary of the change description.",
+      "revId": "3e915468b4772a0d75e449b3e68c5311607402b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b909bf7a_06e9c046",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-03T13:13:27Z",
+      "side": 1,
+      "message": "This should have a more descriptive name.",
+      "revId": "3e915468b4772a0d75e449b3e68c5311607402b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c84ee8d5_7095d53c",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-03T13:13:27Z",
+      "side": 1,
+      "message": "@Nullable",
+      "revId": "3e915468b4772a0d75e449b3e68c5311607402b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19cb3d9d_bc1ecce6",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-03T13:13:27Z",
+      "side": 1,
+      "message": "nit: \"Instant type\" (lower case suggests coffee ;-)\nAlso this seems to be copied from below. Shouldn\u0027t it say something like \"Expected JsonPrimitive for Instant type\"?",
+      "revId": "3e915468b4772a0d75e449b3e68c5311607402b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4746e87c_c6de501e",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-03T13:13:27Z",
+      "side": 1,
+      "message": "This is surprising. Is 0 actually serialized as an empty string?",
+      "revId": "3e915468b4772a0d75e449b3e68c5311607402b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b3ceee9_25e37f94",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-03T13:13:27Z",
+      "side": 1,
+      "message": "Extract to a static final field?\n\nActually maybe DateTimeFormatter.ofPattern(...).withZone(...) could be a (static final) field, or would that be a threading issue?",
+      "range": {
+        "startLine": 53,
+        "startChar": 18,
+        "endLine": 53,
+        "endChar": 34
+      },
+      "revId": "3e915468b4772a0d75e449b3e68c5311607402b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

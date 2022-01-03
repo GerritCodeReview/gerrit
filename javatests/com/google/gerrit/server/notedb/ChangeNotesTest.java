@@ -1278,8 +1278,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getMergedOn()).isPresent();
-    Timestamp mergedOn = notes.getMergedOn().get();
-    assertThat(mergedOn.getTime()).isEqualTo(notes.getChange().getLastUpdatedOn().toEpochMilli());
+    Instant mergedOn = notes.getMergedOn().get();
+    assertThat(mergedOn).isEqualTo(notes.getChange().getLastUpdatedOn());
 
     // Next update does not change mergedOn date.
     update = newUpdate(c, changeOwner);
@@ -1287,8 +1287,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getMergedOn().get()).isEqualTo(mergedOn);
-    assertThat(notes.getMergedOn().get().getTime())
-        .isLessThan(notes.getChange().getLastUpdatedOn().toEpochMilli());
+    assertThat(notes.getMergedOn().get()).isLessThan(notes.getChange().getLastUpdatedOn());
   }
 
   @Test
@@ -1305,8 +1304,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getMergedOn()).isPresent();
-    Timestamp mergedOn = notes.getMergedOn().get();
-    assertThat(mergedOn.getTime()).isEqualTo(notes.getChange().getLastUpdatedOn().toEpochMilli());
+    Instant mergedOn = notes.getMergedOn().get();
+    assertThat(mergedOn).isEqualTo(notes.getChange().getLastUpdatedOn());
 
     incrementPatchSet(c);
     update = newUpdate(c, changeOwner);
@@ -1320,8 +1319,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     assertThat(notes.getMergedOn().get()).isGreaterThan(mergedOn);
-    assertThat(notes.getMergedOn().get().getTime())
-        .isEqualTo(notes.getChange().getLastUpdatedOn().toEpochMilli());
+    assertThat(notes.getMergedOn().get()).isEqualTo(notes.getChange().getLastUpdatedOn());
   }
 
   @Test

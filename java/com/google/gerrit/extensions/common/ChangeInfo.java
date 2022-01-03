@@ -129,6 +129,16 @@ public class ChangeInfo {
   }
 
   @SuppressWarnings("JdkObsolete")
+  public void setCreated(Instant when) {
+    created = Timestamp.from(when);
+  }
+
+  @SuppressWarnings("JdkObsolete")
+  public void setUpdated(Instant when) {
+    updated = Timestamp.from(when);
+  }
+
+  @SuppressWarnings("JdkObsolete")
   public void setSubmitted(Instant when, AccountInfo who) {
     submitted = Timestamp.from(when);
     submitter = who;

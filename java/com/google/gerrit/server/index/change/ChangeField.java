@@ -158,7 +158,9 @@ public class ChangeField {
 
   /** Last update time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
-      timestamp("updated2").stored().build(changeGetter(Change::getLastUpdatedOn));
+      timestamp("updated2")
+          .stored()
+          .build(changeGetter(change -> Timestamp.from(change.getLastUpdatedOn())));
 
   /** When this change was merged, time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> MERGED_ON =

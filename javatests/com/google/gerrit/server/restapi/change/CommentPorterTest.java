@@ -232,7 +232,7 @@ public class CommentPorterTest {
         changeId,
         Account.id(123),
         BranchNameKey.create(project, "myBranch"),
-        new Timestamp(12345));
+        Instant.ofEpochMilli(12345));
   }
 
   private PatchSet createPatchset(PatchSet.Id id) {

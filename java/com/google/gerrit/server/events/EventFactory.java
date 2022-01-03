@@ -139,7 +139,7 @@ public class EventFactory {
     a.owner = asAccountAttribute(change.getOwner());
     a.assignee = asAccountAttribute(change.getAssignee());
     a.status = change.getStatus();
-    a.createdOn = change.getCreatedOn().getTime() / 1000L;
+    a.createdOn = change.getCreatedOn().getEpochSecond();
     a.wip = change.isWorkInProgress() ? true : null;
     a.isPrivate = change.isPrivate() ? true : null;
     a.cherryPickOfChange =
@@ -175,7 +175,7 @@ public class EventFactory {
 
   /** Extend the existing {@link ChangeAttribute} with additional fields. */
   public void extend(ChangeAttribute a, Change change) {
-    a.lastUpdated = change.getLastUpdatedOn().getTime() / 1000L;
+    a.lastUpdated = change.getLastUpdatedOn().getEpochSecond();
     a.open = change.isNew();
   }
 

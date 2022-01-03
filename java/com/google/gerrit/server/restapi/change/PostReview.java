@@ -275,10 +275,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
           ConfigInvalidException, PatchListNotAvailableException {
-    return apply(revision, input, TimeUtil.nowTs());
+    return apply(revision, input, TimeUtil.now());
   }
 
-  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Timestamp ts)
+  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Instant ts)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
           ConfigInvalidException, PatchListNotAvailableException {
     // Respect timestamp, but truncate at change created-on time.
@@ -355,8 +355,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     output.labels = input.labels;
 
     try (BatchUpdate bu =
-        updateFactory.create(
-            revision.getChange().getProject(), revision.getUser(), ts.toInstant())) {
+        updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
       Account account = revision.getUser().asIdentifiedUser().getAccount();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
@@ -449,8 +448,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       // Sending emails and events from ReviewersOps was suppressed so we can send a single batch
       // email/event here.
       batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
-      batchReviewerEvents(
-          revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts.toInstant());
+      batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
     }
 
     return Response.ok(output);

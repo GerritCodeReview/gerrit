@@ -97,6 +97,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -358,7 +359,7 @@ public class ChangeData {
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
-  private Optional<Timestamp> mergedOn;
+  private Optional<Instant> mergedOn;
   private ImmutableSetMultimap<NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
 
@@ -709,7 +710,7 @@ public class ChangeData {
    * @throws StorageException if {@code lazyLoad} is off, {@link ChangeNotes} can not be loaded
    *     because we do not expect to call the database.
    */
-  public Optional<Timestamp> getMergedOn() throws StorageException {
+  public Optional<Instant> getMergedOn() throws StorageException {
     if (mergedOn == null) {
       // The value was not loaded yet, try to get from the database.
       mergedOn = notes().getMergedOn();
@@ -718,7 +719,7 @@ public class ChangeData {
   }
 
   /** Sets the value e.g. when loading from index. */
-  public void setMergedOn(@Nullable Timestamp mergedOn) {
+  public void setMergedOn(@Nullable Instant mergedOn) {
     this.mergedOn = Optional.ofNullable(mergedOn);
   }
 

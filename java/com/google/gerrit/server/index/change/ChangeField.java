@@ -166,7 +166,9 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Timestamp> MERGED_ON =
       timestamp(ChangeQueryBuilder.FIELD_MERGED_ON)
           .stored()
-          .build(cd -> cd.getMergedOn().orElse(null), (cd, field) -> cd.setMergedOn(field));
+          .build(
+              cd -> cd.getMergedOn().map(Timestamp::from).orElse(null),
+              (cd, field) -> cd.setMergedOn(field != null ? field.toInstant() : null));
 
   /** List of full file paths modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> PATH =

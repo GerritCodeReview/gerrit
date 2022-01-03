@@ -135,6 +135,30 @@
       },
       "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d954dfc_58b354aa",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-03T13:29:19Z",
+      "side": 1,
+      "message": "I filed issue 15507 to follow-up on making the usage of timezones consistent.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15507",
+      "parentUuid": "5ea9369e_d530783c",
+      "range": {
+        "startLine": 64,
+        "startChar": 22,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

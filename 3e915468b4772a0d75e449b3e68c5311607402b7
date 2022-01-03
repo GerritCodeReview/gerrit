@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "047dc40b_f3c9db15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-03T13:19:53Z",
+      "side": 1,
+      "message": "Looks like this needs some more work. To not be blocked on this, I will make an alternate fix in the meantime (revert the type change in that one Info class that was anyway not intended to be done yet).",
+      "revId": "3e915468b4772a0d75e449b3e68c5311607402b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8393cba2_48667cf8",

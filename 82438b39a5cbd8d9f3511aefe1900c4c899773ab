@@ -111,6 +111,30 @@
       },
       "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ea9369e_d530783c",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-03T13:21:43Z",
+      "side": 1,
+      "message": "\u003e Yes, we definitely should find a way to cover this by a test. I was actually very surprised that none of the tests failed with this.\n\nIt should be trivial to add test coverage. We seralize TaskInfo as json string. And expected that a string representation of the startTime attribute:\n\n    public Instant startTime;\n    \nis a valid timestamp. Without this fix, it\u0027s not, but only nanos and seconds, as attributes from Instant instance.",
+      "parentUuid": "a2443a45_9602d2cc",
+      "range": {
+        "startLine": 64,
+        "startChar": 22,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

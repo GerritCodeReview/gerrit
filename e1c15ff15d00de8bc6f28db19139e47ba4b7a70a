@@ -33,6 +33,24 @@
       "message": "Optional: Maybe subject$ could even be private when adding this?\n\n  protected updateState(partial: Partial\u003cT\u003e) {\n    this.subject$.next({\n      ...this.subject$.getValue(),\n      ...partial,\n    });\n  }",
       "revId": "e1c15ff15d00de8bc6f28db19139e47ba4b7a70a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "574ae01e_e55d52d2",
+        "filename": "polygerrit-ui/app/services/model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-03T09:14:50Z",
+      "side": 1,
+      "message": "There\u0027s also `getValue()` and `complete()` that are used by the subclasses currently. I think I will leave it usable by subclasses.",
+      "parentUuid": "71590dd0_f82a2592",
+      "revId": "e1c15ff15d00de8bc6f28db19139e47ba4b7a70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

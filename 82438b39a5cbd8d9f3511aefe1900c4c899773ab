@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d8eded6_b18b3c20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-03T08:14:56Z",
+      "side": 1,
+      "message": "Thanks for uploading this fix. Much appreciated!",
+      "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f25642d_61e7e172",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-03T08:14:56Z",
+      "side": 1,
+      "message": "Should this rather be ZoneId.of(\"UTC\") to always use UTC same as in SqlTimestampDeserializer [1]? \n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/json/SqlTimestampDeserializer.java#31",
+      "range": {
+        "startLine": 64,
+        "startChar": 22,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

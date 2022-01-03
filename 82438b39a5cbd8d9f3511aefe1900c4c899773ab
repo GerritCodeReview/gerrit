@@ -63,6 +63,30 @@
       },
       "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98685288_3c9de701",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-03T13:03:55Z",
+      "side": 1,
+      "message": "ZoneId.of(\"UTC\") vs. ZoneId.systemDefault(): I am concerned, that we are using two different approaches across the code. I copied/pasted this code from one of the places you used earlier in year series. Do we have a clear strategy what approach use in what situation?\n\nAlso, can we think of a junit test to prevent similar regressions in furture? I accidantely identified the broken json serialization, because of stringer encapsulation used in JDK 17.",
+      "parentUuid": "6bac123f_3d0957e3",
+      "range": {
+        "startLine": 64,
+        "startChar": 22,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

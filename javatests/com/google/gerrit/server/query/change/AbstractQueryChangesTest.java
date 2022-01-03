@@ -4311,7 +4311,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected static long lastUpdatedMs(Change c) {
-    return c.getLastUpdatedOn().getTime();
+    return c.getLastUpdatedOn().toEpochMilli();
   }
 
   // Get the last  updated time from ChangeApi

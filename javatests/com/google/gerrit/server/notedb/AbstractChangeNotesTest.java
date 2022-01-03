@@ -292,6 +292,6 @@ public abstract class AbstractChangeNotesTest {
   }
 
   protected static Instant after(Change c, long millis) {
-    return Instant.ofEpochMilli(c.getCreatedOn().getTime() + millis);
+    return Instant.ofEpochMilli(c.getCreatedOn().toEpochMilli() + millis);
   }
 }

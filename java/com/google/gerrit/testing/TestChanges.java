@@ -58,7 +58,7 @@ public class TestChanges {
             changeId,
             userId,
             BranchNameKey.create(project, "master"),
-            TimeUtil.nowTs());
+            TimeUtil.now());
     incrementPatchSet(c);
     return c;
   }

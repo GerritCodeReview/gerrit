@@ -27,8 +27,8 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.Gson;
-import java.sql.Timestamp;
 import org.junit.Test;
 
 public class EventDeserializerTest {
@@ -278,7 +278,7 @@ public class EventDeserializerTest {
             Change.id(1000),
             Account.id(1000),
             BranchNameKey.create(Project.nameKey("myproject"), "mybranch"),
-            new Timestamp(System.currentTimeMillis()));
+            TimeUtil.now());
     return change;
   }
 
@@ -335,7 +335,7 @@ public class EventDeserializerTest {
     a.commitMessage = "This is a test commit message";
     a.url = "http://somewhere.com";
     a.status = change.getStatus();
-    a.createdOn = change.getCreatedOn().getTime() / 1000L;
+    a.createdOn = change.getCreatedOn().getEpochSecond();
     a.wip = change.isWorkInProgress() ? true : null;
     a.isPrivate = change.isPrivate() ? true : null;
     return Suppliers.ofInstance(a);

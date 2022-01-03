@@ -67,7 +67,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     PersonIdent author = commit.getAuthorIdent();
     assertThat(author.getName()).isEqualTo("Gerrit User 1");
     assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
-    assertThat(author.getWhen().getTime()).isEqualTo(c.getCreatedOn().getTime() + 1000);
+    assertThat(author.getWhen().getTime()).isEqualTo(c.getCreatedOn().toEpochMilli() + 1000);
     assertThat(author.getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT-7:00"));
 
     PersonIdent committer = commit.getCommitterIdent();
@@ -183,7 +183,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     PersonIdent author = commit.getAuthorIdent();
     assertThat(author.getName()).isEqualTo("Gerrit User 1");
     assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
-    assertThat(author.getWhen().getTime()).isEqualTo(c.getCreatedOn().getTime() + 2000);
+    assertThat(author.getWhen().getTime()).isEqualTo(c.getCreatedOn().toEpochMilli() + 2000);
     assertThat(author.getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT-7:00"));
 
     PersonIdent committer = commit.getCommitterIdent();

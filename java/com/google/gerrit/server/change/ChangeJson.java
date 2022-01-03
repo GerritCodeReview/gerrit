@@ -553,8 +553,8 @@ public class ChangeJson {
       info.subject = c.getSubject();
       info.status = c.getStatus().asChangeStatus();
       info.owner = new AccountInfo(c.getOwner().get());
-      info.created = c.getCreatedOn();
-      info.updated = c.getLastUpdatedOn();
+      info.setCreated(c.getCreatedOn());
+      info.setUpdated(c.getLastUpdatedOn());
       info._number = c.getId().get();
       info.problems = result.problems();
       info.isPrivate = c.isPrivate() ? true : null;
@@ -642,8 +642,8 @@ public class ChangeJson {
     out.subject = in.getSubject();
     out.status = in.getStatus().asChangeStatus();
     out.owner = accountLoader.get(in.getOwner());
-    out.created = in.getCreatedOn();
-    out.updated = in.getLastUpdatedOn();
+    out.setCreated(in.getCreatedOn());
+    out.setUpdated(in.getLastUpdatedOn());
     out._number = in.getId().get();
     out.totalCommentCount = cd.totalCommentCount();
     out.unresolvedCommentCount = cd.unresolvedCommentCount();

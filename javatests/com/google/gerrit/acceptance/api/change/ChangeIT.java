@@ -211,6 +211,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1936,7 +1937,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
-    Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
+    Instant oldTs = rsrc.getChange().getLastUpdatedOn();
 
     addReviewer.call(r.getChangeId(), user.email());
 
@@ -2047,7 +2048,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
-    Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
+    Instant oldTs = rsrc.getChange().getLastUpdatedOn();
 
     // create a group named "ab" with one user: testUser
     String email = "abcd@example.com";
@@ -2096,7 +2097,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
-    Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
+    Instant oldTs = rsrc.getChange().getLastUpdatedOn();
 
     // create a group named "kobe" with one user: lee
     String testUserFullname = "kobebryant";
@@ -2197,7 +2198,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
-    Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
+    Instant oldTs = rsrc.getChange().getLastUpdatedOn();
 
     ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();

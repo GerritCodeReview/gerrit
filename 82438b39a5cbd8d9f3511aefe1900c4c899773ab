@@ -39,6 +39,30 @@
       },
       "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bac123f_3d0957e3",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-03T12:47:44Z",
+      "side": 1,
+      "message": "I hope you don\u0027t mind, that I updated your change to address this!\nWe need to submit this, since this is an issue that currently blocks our import (an we need to do an import due to another important fix).",
+      "parentUuid": "7f25642d_61e7e172",
+      "range": {
+        "startLine": 64,
+        "startChar": 22,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

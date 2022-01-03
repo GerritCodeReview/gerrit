@@ -52,6 +52,24 @@
       "parentUuid": "bcc0c620_08aae8b8",
       "revId": "d29be1948adc0623ff442217bd1928868a5a8026",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3961ca0_a965cd98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-03T11:07:45Z",
+      "side": 1,
+      "message": "Thanks!! LGTM (I currently fail to login at the Eclipse Gerrit server, hence cannot vote there).",
+      "parentUuid": "29c2aa87_c4de928b",
+      "revId": "d29be1948adc0623ff442217bd1928868a5a8026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

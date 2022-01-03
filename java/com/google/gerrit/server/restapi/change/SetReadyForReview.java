@@ -63,8 +63,7 @@ public class SetReadyForReview
       throw new ResourceConflictException("change is not work in progress");
     }
 
-    try (BatchUpdate bu =
-        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
       bu.setNotify(NotifyResolver.Result.create(firstNonNull(input.notify, NotifyHandling.ALL)));
       bu.addOp(rsrc.getChange().getId(), opFactory.create(false, input));
       bu.execute();

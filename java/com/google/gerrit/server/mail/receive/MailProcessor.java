@@ -76,6 +76,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -313,7 +314,7 @@ public class MailProcessor {
       }
 
       Op o = new Op(PatchSet.id(cd.getId(), metadata.patchSet), parsedComments, message.id());
-      BatchUpdate batchUpdate = buf.create(project, ctx.getUser(), TimeUtil.nowTs());
+      BatchUpdate batchUpdate = buf.create(project, ctx.getUser(), TimeUtil.now());
       batchUpdate.addOp(cd.getId(), o);
       batchUpdate.execute();
     }
@@ -391,7 +392,7 @@ public class MailProcessor {
           mailMessage,
           approvals,
           approvals,
-          ctx.getWhen());
+          Timestamp.from(ctx.getWhen()));
     }
 
     private String generateChangeMessage() {

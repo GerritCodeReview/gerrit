@@ -28,6 +28,7 @@ import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
+import java.time.Instant;
 import org.junit.Test;
 
 public class ChangeProtoConverterTest {
@@ -42,7 +43,7 @@ public class ChangeProtoConverterTest {
             Account.id(35),
             BranchNameKey.create(Project.nameKey("project 67"), "branch 74"),
             new Timestamp(987654L));
-    change.setLastUpdatedOn(new Timestamp(1234567L));
+    change.setLastUpdatedOn(Instant.ofEpochMilli(1234567L));
     change.setStatus(Change.Status.MERGED);
     change.setCurrentPatchSet(
         PatchSet.id(Change.id(14), 23), "subject XYZ", "original subject ABC");
@@ -199,7 +200,7 @@ public class ChangeProtoConverterTest {
             Account.id(35),
             BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
-    change.setLastUpdatedOn(new Timestamp(1234567L));
+    change.setLastUpdatedOn(Instant.ofEpochMilli(1234567L));
     change.setStatus(Change.Status.MERGED);
     change.setCurrentPatchSet(
         PatchSet.id(Change.id(14), 23), "subject XYZ", "original subject ABC");

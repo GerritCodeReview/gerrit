@@ -67,7 +67,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.ObjectId;
@@ -176,12 +177,12 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
         currentPsCommit = rw.parseCommit(ps.commitId());
       }
 
-      Timestamp now = TimeUtil.nowTs();
+      Instant now = TimeUtil.now();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author =
           in.author == null
               ? me.newCommitterIdent(now, serverTimeZone)
-              : new PersonIdent(in.author.name, in.author.email, now, serverTimeZone);
+              : new PersonIdent(in.author.name, in.author.email, Date.from(now), serverTimeZone);
       CodeReviewCommit newCommit =
           createMergeCommit(
               in,

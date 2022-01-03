@@ -163,7 +163,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public static Change newChange(Project.NameKey project, Change.Id changeId) {
       return new Change(
-          null, changeId, null, BranchNameKey.create(project, "INVALID_NOTE_DB_ONLY"), null);
+          null,
+          changeId,
+          null,
+          BranchNameKey.create(project, "INVALID_NOTE_DB_ONLY"),
+          (Timestamp) null);
     }
 
     public ChangeNotes create(Project.NameKey project, Change.Id changeId) {
@@ -568,7 +572,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   /** Returns {@link Optional} value of time when the change was merged. */
   public Optional<Timestamp> getMergedOn() {
-    return Optional.ofNullable(state.mergedOn());
+    return Optional.ofNullable(state.mergedOn()).map(Timestamp::from);
   }
 
   public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(Account.Id author) {

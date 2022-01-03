@@ -95,7 +95,7 @@ public class BatchUpdateTest {
     RevCommit masterCommit = repo.branch("master").commit().create();
     RevCommit branchCommit = repo.branch("branch").commit().parent(masterCommit).create();
 
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.addRepoOnlyOp(
           new RepoOnlyOp() {
             @Override
@@ -114,7 +114,7 @@ public class BatchUpdateTest {
   public void cannotExceedMaxUpdates() throws Exception {
     Change.Id id = createChangeWithUpdates(MAX_UPDATES);
     ObjectId oldMetaId = getMetaId(id);
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.addOp(id, new AddMessageOp("Excessive update"));
       ResourceConflictException thrown = assertThrows(ResourceConflictException.class, bu::execute);
       assertThat(thrown)
@@ -130,7 +130,7 @@ public class BatchUpdateTest {
     Change.Id id = createChangeWithPatchSets(2);
 
     ObjectId oldMetaId = getMetaId(id);
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.addOp(id, new AddMessageOp("Update on PS1", PatchSet.id(id, 1)));
       bu.addOp(id, new AddMessageOp("Update on PS2", PatchSet.id(id, 2)));
       ResourceConflictException thrown = assertThrows(ResourceConflictException.class, bu::execute);
@@ -146,7 +146,7 @@ public class BatchUpdateTest {
   public void exceedingMaxUpdatesAllowedWithCompleteNoOp() throws Exception {
     Change.Id id = createChangeWithUpdates(MAX_UPDATES);
     ObjectId oldMetaId = getMetaId(id);
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.addOp(
           id,
           new BatchUpdateOp() {
@@ -165,7 +165,7 @@ public class BatchUpdateTest {
   public void exceedingMaxUpdatesAllowedWithNoOpAfterPopulatingUpdate() throws Exception {
     Change.Id id = createChangeWithUpdates(MAX_UPDATES);
     ObjectId oldMetaId = getMetaId(id);
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.addOp(
           id,
           new BatchUpdateOp() {
@@ -185,7 +185,7 @@ public class BatchUpdateTest {
   public void exceedingMaxUpdatesAllowedWithSubmit() throws Exception {
     Change.Id id = createChangeWithUpdates(MAX_UPDATES);
     ObjectId oldMetaId = getMetaId(id);
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.addOp(id, new SubmitOp());
       bu.execute();
     }
@@ -197,7 +197,7 @@ public class BatchUpdateTest {
   public void exceedingMaxUpdatesAllowedWithSubmitAfterOtherOp() throws Exception {
     Change.Id id = createChangeWithPatchSets(2);
     ObjectId oldMetaId = getMetaId(id);
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.addOp(id, new AddMessageOp("Message on PS1", PatchSet.id(id, 1)));
       bu.addOp(id, new SubmitOp());
       bu.execute();
@@ -212,7 +212,7 @@ public class BatchUpdateTest {
   public void exceedingMaxUpdatesAllowedWithAbandon() throws Exception {
     Change.Id id = createChangeWithUpdates(MAX_UPDATES);
     ObjectId oldMetaId = getMetaId(id);
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.addOp(
           id,
           new BatchUpdateOp() {
@@ -235,7 +235,7 @@ public class BatchUpdateTest {
     Change.Id changeId = createChangeWithPatchSets(MAX_PATCH_SETS);
     ObjectId oldMetaId = getMetaId(changeId);
     ChangeNotes notes = changeNotesFactory.create(project, changeId);
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       ObjectId commitId =
           repo.amend(notes.getCurrentPatchSet().commitId()).message("kaboom").create();
       bu.addOp(
@@ -257,7 +257,7 @@ public class BatchUpdateTest {
     Change.Id changeId = createChangeWithUpdates(1);
     ChangeNotes notes = changeNotesFactory.create(project, changeId);
 
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       ObjectId commitId =
           repo.amend(notes.getCurrentPatchSet().commitId())
               .add("bar.txt", "bar")
@@ -285,7 +285,7 @@ public class BatchUpdateTest {
     int cacheSizeBefore = diffSummaryCache.asMap().size();
 
     // We don't want to depend on the test helper used above so we perform an explicit commit here.
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       ObjectId commitId =
           repo.amend(notes.getCurrentPatchSet().commitId())
               .add("bar.txt", "bar")
@@ -309,7 +309,7 @@ public class BatchUpdateTest {
     checkArgument(totalUpdates > 0);
     checkArgument(totalUpdates <= MAX_UPDATES);
     Change.Id id = Change.id(sequences.nextChangeId());
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.insertChange(
           changeInserterFactory.create(
               id, repo.commit().message("Change").insertChangeId().create(), "refs/heads/master"));
@@ -317,7 +317,7 @@ public class BatchUpdateTest {
     }
     assertThat(getUpdateCount(id)).isEqualTo(1);
     for (int i = 2; i <= totalUpdates; i++) {
-      try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
         bu.addOp(id, new AddMessageOp("Update " + i));
         bu.execute();
       }
@@ -331,7 +331,7 @@ public class BatchUpdateTest {
     Change.Id id = createChangeWithUpdates(MAX_UPDATES - 2);
     ChangeNotes notes = changeNotesFactory.create(project, id);
     for (int i = 2; i <= patchSets; ++i) {
-      try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
         ObjectId commitId =
             repo.amend(notes.getCurrentPatchSet().commitId()).message("PS" + i).create();
         bu.addOp(

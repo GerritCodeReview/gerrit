@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -155,8 +155,7 @@ public class BanCommit {
   }
 
   private PersonIdent createPersonIdent() {
-    Date now = new Date();
-    return currentUser.get().newCommitterIdent(now, tz);
+    return currentUser.get().newCommitterIdent(Instant.now(), tz);
   }
 
   private static String buildCommitMessage(List<ObjectId> bannedCommits, String reason) {

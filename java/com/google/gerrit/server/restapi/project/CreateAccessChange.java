@@ -152,7 +152,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
           ObjectReader objReader = objInserter.newReader();
           RevWalk rw = new RevWalk(objReader);
           BatchUpdate bu =
-              updateFactory.create(rsrc.getNameKey(), rsrc.getUser(), TimeUtil.nowTs())) {
+              updateFactory.create(rsrc.getNameKey(), rsrc.getUser(), TimeUtil.now())) {
         bu.setRepository(md.getRepository(), rw, objInserter);
         ChangeInserter ins = newInserter(changeId, commit);
         bu.insertChange(ins);

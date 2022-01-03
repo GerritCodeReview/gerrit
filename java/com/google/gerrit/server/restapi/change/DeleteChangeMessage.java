@@ -89,7 +89,7 @@ public class DeleteChangeMessage
     DeleteChangeMessageOp deleteChangeMessageOp =
         new DeleteChangeMessageOp(resource.getChangeMessageId(), newChangeMessage);
     try (BatchUpdate batchUpdate =
-        updateFactory.create(resource.getChangeResource().getProject(), user, TimeUtil.nowTs())) {
+        updateFactory.create(resource.getChangeResource().getProject(), user, TimeUtil.now())) {
       batchUpdate.addOp(resource.getChangeId(), deleteChangeMessageOp).execute();
     }
 

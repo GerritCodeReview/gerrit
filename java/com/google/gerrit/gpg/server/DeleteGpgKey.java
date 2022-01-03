@@ -95,7 +95,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
 
       CommitBuilder cb = new CommitBuilder();
       PersonIdent committer = serverIdent.get();
-      cb.setAuthor(rsrc.getUser().newCommitterIdent(committer.getWhen(), committer.getTimeZone()));
+      cb.setAuthor(rsrc.getUser().newCommitterIdent(committer));
       cb.setCommitter(committer);
       cb.setMessage("Delete public key " + keyIdToString(key.getKeyID()));
 

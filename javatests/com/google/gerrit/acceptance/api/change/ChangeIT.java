@@ -6660,7 +6660,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private void setChangeStatus(Change.Id id, Change.Status newStatus) throws Exception {
     try (BatchUpdate batchUpdate =
-        batchUpdateFactory.create(project, atrScope.get().getUser(), TimeUtil.nowTs())) {
+        batchUpdateFactory.create(project, atrScope.get().getUser(), TimeUtil.now())) {
       batchUpdate.addOp(id, new ChangeStatusUpdateOp(newStatus));
       batchUpdate.execute();
     }

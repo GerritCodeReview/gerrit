@@ -295,9 +295,7 @@ public class AccountsUpdate {
 
   private static PersonIdent createPersonIdent(
       PersonIdent serverIdent, Optional<IdentifiedUser> user) {
-    return user.isPresent()
-        ? user.get().newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone())
-        : serverIdent;
+    return user.isPresent() ? user.get().newCommitterIdent(serverIdent) : serverIdent;
   }
 
   /**

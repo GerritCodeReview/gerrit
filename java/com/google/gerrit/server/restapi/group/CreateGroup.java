@@ -212,7 +212,7 @@ public class CreateGroup
             createGroupArgs.uuid,
             GroupUuid.make(
                 createGroupArgs.getGroupName(),
-                self.get().newCommitterIdent(TimeUtil.nowTs(), serverTimeZone)));
+                self.get().newCommitterIdent(TimeUtil.now(), serverTimeZone)));
     InternalGroupCreation groupCreation =
         InternalGroupCreation.builder()
             .setGroupUUID(uuid)

@@ -22,6 +22,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Immutable
 public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Change> {
@@ -98,7 +99,7 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     Change change =
         new Change(key, changeId, owner, destination, new Timestamp(proto.getCreatedOn()));
     if (proto.hasLastUpdatedOn()) {
-      change.setLastUpdatedOn(new Timestamp(proto.getLastUpdatedOn()));
+      change.setLastUpdatedOn(Instant.ofEpochMilli(proto.getLastUpdatedOn()));
     }
     Change.Status status = Change.Status.forCode((char) proto.getStatus());
     if (status != null) {

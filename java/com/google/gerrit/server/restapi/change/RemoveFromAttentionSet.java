@@ -81,7 +81,7 @@ public class RemoveFromAttentionSet
     ChangeResource changeResource = attentionResource.getChangeResource();
     try (BatchUpdate bu =
         updateFactory.create(
-            changeResource.getProject(), changeResource.getUser(), TimeUtil.nowTs())) {
+            changeResource.getProject(), changeResource.getUser(), TimeUtil.now())) {
       RemoveFromAttentionSetOp op =
           opFactory.create(attentionResource.getAccountId(), input.reason, true);
       bu.addOp(changeResource.getId(), op);

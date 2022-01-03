@@ -135,7 +135,7 @@ public class MetaDataUpdate implements AutoCloseable {
 
     private PersonIdent createPersonIdent(IdentifiedUser user) {
       PersonIdent serverIdent = serverIdentProvider.get();
-      return user.newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone());
+      return user.newCommitterIdent(serverIdent);
     }
   }
 
@@ -215,11 +215,7 @@ public class MetaDataUpdate implements AutoCloseable {
 
   public void setAuthor(IdentifiedUser author) {
     this.author = author;
-    getCommitBuilder()
-        .setAuthor(
-            author.newCommitterIdent(
-                getCommitBuilder().getCommitter().getWhen(),
-                getCommitBuilder().getCommitter().getTimeZone()));
+    getCommitBuilder().setAuthor(author.newCommitterIdent(getCommitBuilder().getCommitter()));
   }
 
   public void setAllowEmpty(boolean allowEmpty) {

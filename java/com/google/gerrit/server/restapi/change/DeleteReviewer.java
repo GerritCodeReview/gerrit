@@ -58,7 +58,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, DeleteRe
         updateFactory.create(
             rsrc.getChangeResource().getProject(),
             rsrc.getChangeResource().getUser(),
-            TimeUtil.nowTs())) {
+            TimeUtil.now())) {
       bu.setNotify(getNotify(rsrc.getChange(), input));
       BatchUpdateOp op;
       if (rsrc.isByEmail()) {

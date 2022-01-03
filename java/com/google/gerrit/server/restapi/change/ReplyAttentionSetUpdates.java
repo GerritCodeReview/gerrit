@@ -151,7 +151,7 @@ public class ReplyAttentionSetUpdates {
             commentsUtil.newHumanComment(
                 changeNotes,
                 currentUser,
-                TimeUtil.nowTs(),
+                TimeUtil.now(),
                 commentInput.path,
                 commentInput.patchSet == null
                     ? changeNotes.getChange().currentPatchSetId()

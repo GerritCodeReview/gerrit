@@ -98,7 +98,7 @@ public class PutAssignee
     }
 
     try (BatchUpdate bu =
-        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
       SetAssigneeOp op = assigneeFactory.create(assignee);
       bu.addOp(rsrc.getId(), op);
 

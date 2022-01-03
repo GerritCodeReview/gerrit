@@ -49,7 +49,7 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.SocketAddress;
 import java.net.URL;
-import java.util.Date;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TimeZone;
@@ -427,10 +427,10 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   public PersonIdent newRefLogIdent() {
-    return newRefLogIdent(new Date(), TimeZone.getDefault());
+    return newRefLogIdent(Instant.now(), TimeZone.getDefault());
   }
 
-  public PersonIdent newRefLogIdent(Date when, TimeZone tz) {
+  public PersonIdent newRefLogIdent(Instant when, TimeZone tz) {
     final Account ua = getAccount();
 
     String name = ua.fullName();
@@ -450,14 +450,19 @@ public class IdentifiedUser extends CurrentUser {
               ? constructMailAddress(ua, "unknown")
               : ua.preferredEmail();
     }
-    return new PersonIdent(name, user, when, tz);
+
+    return newPersonIdent(name, user, when, tz);
   }
 
   private String constructMailAddress(Account ua, String host) {
     return getUserName().orElse("") + "|account-" + ua.id().toString() + "@" + host;
   }
 
-  public PersonIdent newCommitterIdent(Date when, TimeZone tz) {
+  public PersonIdent newCommitterIdent(PersonIdent ident) {
+    return newCommitterIdent(ident.getWhen().toInstant(), ident.getTimeZone());
+  }
+
+  public PersonIdent newCommitterIdent(Instant when, TimeZone tz) {
     final Account ua = getAccount();
     String name = ua.fullName();
     String email = ua.preferredEmail();
@@ -492,7 +497,7 @@ public class IdentifiedUser extends CurrentUser {
       }
     }
 
-    return new PersonIdent(name, email, when, tz);
+    return newPersonIdent(name, email, when, tz);
   }
 
   @Override
@@ -559,5 +564,19 @@ public class IdentifiedUser extends CurrentUser {
       return "unknown";
     }
     return host;
+  }
+
+  /**
+   * Create a {@link PersonIdent} from an {@code Instant} and a {@link TimeZone}.
+   *
+   * <p>We use the {@link PersonIdent#PersonIdent(String, String, long, int)} constructor to avoid
+   * doing a conversion to {@code java.util.Date} here. For the {@code int aTZ} argument, which is
+   * the time zone, we do the same computation as in {@link PersonIdent#PersonIdent(String, String,
+   * java.util.Date, TimeZone)} (just instead of getting the epoch millis from {@code
+   * java.util.Date} we get them from {@link Instant}).
+   */
+  private static PersonIdent newPersonIdent(String name, String email, Instant when, TimeZone tz) {
+    return new PersonIdent(
+        name, email, when.toEpochMilli(), tz.getOffset(when.toEpochMilli()) / (60 * 1000));
   }
 }

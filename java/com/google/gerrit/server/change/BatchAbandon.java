@@ -68,7 +68,7 @@ public class BatchAbandon {
       return;
     }
     AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
-    try (BatchUpdate u = updateFactory.create(project, user, TimeUtil.nowTs())) {
+    try (BatchUpdate u = updateFactory.create(project, user, TimeUtil.now())) {
       u.setNotify(notify);
       for (ChangeData change : changes) {
         if (!project.equals(change.project())) {

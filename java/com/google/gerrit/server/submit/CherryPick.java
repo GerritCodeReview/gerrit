@@ -102,8 +102,7 @@ public class CherryPick extends SubmitStrategy {
       args.rw.parseBody(mergeTip);
       String cherryPickCmtMsg = args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
 
-      PersonIdent committer =
-          args.caller.newCommitterIdent(ctx.getWhen(), args.serverIdent.getTimeZone());
+      PersonIdent committer = ctx.newCommitterIdent(args.caller);
       try {
         newCommit =
             args.mergeUtil.createCherryPickFromCommit(
@@ -196,7 +195,7 @@ public class CherryPick extends SubmitStrategy {
           && !args.subscriptionGraph.hasSubscription(args.destBranch)) {
         mergeTip.moveTipTo(toMerge, toMerge);
       } else {
-        PersonIdent myIdent = new PersonIdent(args.serverIdent, ctx.getWhen());
+        PersonIdent myIdent = ctx.newPersonIdent(args.serverIdent);
         CodeReviewCommit result =
             args.mergeUtil.mergeOneCommit(
                 myIdent,

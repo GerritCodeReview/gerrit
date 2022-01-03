@@ -47,7 +47,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -126,7 +126,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
         throw new ResourceConflictException("new and existing commit message are the same");
       }
 
-      Timestamp ts = TimeUtil.nowTs();
+      Instant ts = TimeUtil.now();
       try (BatchUpdate bu =
           updateFactory.create(resource.getChange().getProject(), userProvider.get(), ts)) {
         // Ensure that BatchUpdate will update the same repo
@@ -161,7 +161,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
       ObjectInserter objectInserter,
       RevCommit basePatchSetCommit,
       String commitMessage,
-      Timestamp timestamp)
+      Instant timestamp)
       throws IOException {
     CommitBuilder builder = new CommitBuilder();
     builder.setTreeId(basePatchSetCommit.getTree());

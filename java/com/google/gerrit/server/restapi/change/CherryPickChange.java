@@ -67,7 +67,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -170,7 +170,7 @@ public class CherryPickChange {
         patch.commitId(),
         input,
         dest,
-        TimeUtil.nowTs(),
+        TimeUtil.now(),
         null,
         null,
         null,
@@ -205,7 +205,7 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        sourceChange, project, sourceCommit, input, dest, TimeUtil.nowTs(), null, null, null, null);
+        sourceChange, project, sourceCommit, input, dest, TimeUtil.now(), null, null, null, null);
   }
 
   /**
@@ -243,7 +243,7 @@ public class CherryPickChange {
       ObjectId sourceCommit,
       CherryPickInput input,
       BranchNameKey dest,
-      Timestamp timestamp,
+      Instant timestamp,
       @Nullable Change.Id revertedChange,
       @Nullable ObjectId changeIdForNewChange,
       @Nullable Change.Id idForNewChange,

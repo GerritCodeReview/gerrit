@@ -64,6 +64,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -134,7 +135,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
 
     try (BatchUpdate bu =
         updateFactory.create(
-            change.getProject(), r.getChangeResource().getUser(), TimeUtil.nowTs())) {
+            change.getProject(), r.getChangeResource().getUser(), TimeUtil.now())) {
       bu.setNotify(
           notifyResolver.resolve(
               firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails));
@@ -266,7 +267,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
           input.notify,
           mailMessage,
           user.state(),
-          ctx.getWhen());
+          Timestamp.from(ctx.getWhen()));
     }
   }
 }

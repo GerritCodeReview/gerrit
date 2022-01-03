@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -505,6 +506,11 @@ public final class Change {
   Change() {}
 
   public Change(
+      Change.Key newKey, Change.Id newId, Account.Id ownedBy, BranchNameKey forBranch, Instant ts) {
+    this(newKey, newId, ownedBy, forBranch, Timestamp.from(ts));
+  }
+
+  public Change(
       Change.Key newKey,
       Change.Id newId,
       Account.Id ownedBy,
@@ -579,8 +585,8 @@ public final class Change {
     return lastUpdatedOn;
   }
 
-  public void setLastUpdatedOn(Timestamp now) {
-    lastUpdatedOn = now;
+  public void setLastUpdatedOn(Instant now) {
+    lastUpdatedOn = Timestamp.from(now);
   }
 
   public Account.Id getOwner() {

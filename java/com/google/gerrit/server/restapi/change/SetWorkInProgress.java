@@ -63,8 +63,7 @@ public class SetWorkInProgress
       throw new ResourceConflictException("change is already work in progress");
     }
 
-    try (BatchUpdate bu =
-        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
       bu.setNotify(NotifyResolver.Result.create(firstNonNull(input.notify, NotifyHandling.NONE)));
       bu.addOp(rsrc.getChange().getId(), opFactory.create(true, input));
       bu.execute();

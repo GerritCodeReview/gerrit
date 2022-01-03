@@ -392,7 +392,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     if (committerIdent != null) {
       cb.setCommitter(committerIdent);
     } else {
-      cb.setCommitter(ctx.getIdentifiedUser().newCommitterIdent(ctx.getWhen(), ctx.getTimeZone()));
+      cb.setCommitter(ctx.newCommitterIdent());
     }
     if (matchAuthorToCommitterDate) {
       cb.setAuthor(

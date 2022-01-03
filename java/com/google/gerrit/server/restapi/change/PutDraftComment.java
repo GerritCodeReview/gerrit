@@ -87,7 +87,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
           String.format("Invalid inReplyTo, comment %s not found", in.inReplyTo));
     }
     try (BatchUpdate bu =
-        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
       Op op = new Op(rsrc.getComment().key, in);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
@@ -140,7 +140,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       commentsUtil.putHumanComments(
           update,
           HumanComment.Status.DRAFT,
-          Collections.singleton(update(comment, in, ctx.getWhen())));
+          Collections.singleton(update(comment, in, Timestamp.from(ctx.getWhen()))));
       return true;
     }
   }

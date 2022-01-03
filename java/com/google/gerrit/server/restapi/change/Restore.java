@@ -51,6 +51,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 
 @Singleton
 public class Restore
@@ -100,7 +101,7 @@ public class Restore
 
     Op op = new Op(input);
     try (BatchUpdate u =
-        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
       u.addOp(rsrc.getId(), op).execute();
     }
     return Response.ok(json.noOptions().format(op.change));
@@ -162,7 +163,7 @@ public class Restore
           patchSet,
           ctx.getAccount(),
           Strings.emptyToNull(input.message),
-          ctx.getWhen());
+          Timestamp.from(ctx.getWhen()));
     }
   }
 

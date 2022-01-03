@@ -136,7 +136,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
                   resource
                       .getUser()
                       .asIdentifiedUser()
-                      .newCommitterIdent(TimeUtil.nowTs(), TimeZone.getDefault()));
+                      .newCommitterIdent(TimeUtil.now(), TimeZone.getDefault()));
         }
 
         Ref result = tag.call();

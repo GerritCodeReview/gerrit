@@ -70,8 +70,7 @@ public class PostReviewers
     if (modification.op == null) {
       return Response.ok(modification.result);
     }
-    try (BatchUpdate bu =
-        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
       bu.setNotify(resolveNotify(rsrc, input));
       Change.Id id = rsrc.getChange().getId();
       bu.addOp(id, modification.op);

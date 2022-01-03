@@ -159,7 +159,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     projectCache.get(project).orElseThrow(illegalState(project)).checkStatePermitsWrite();
 
     Op op = new Op(input);
-    try (BatchUpdate u = updateFactory.create(project, caller, TimeUtil.nowTs())) {
+    try (BatchUpdate u = updateFactory.create(project, caller, TimeUtil.now())) {
       u.addOp(change.getId(), op);
       u.execute();
     }

@@ -1126,7 +1126,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   private void setChangeStatusToNew(PushOneCommit.Result... changes) throws Throwable {
     for (PushOneCommit.Result change : changes) {
       try (BatchUpdate bu =
-          batchUpdateFactory.create(project, userFactory.create(admin.id()), TimeUtil.nowTs())) {
+          batchUpdateFactory.create(project, userFactory.create(admin.id()), TimeUtil.now())) {
         bu.addOp(
             change.getChange().getId(),
             new BatchUpdateOp() {

@@ -84,7 +84,7 @@ public class DeleteComment implements RestModifyView<HumanCommentResource, Delet
     String newMessage = getCommentNewMessage(user.asIdentifiedUser().getName(), input.reason);
     DeleteCommentOp deleteCommentOp = new DeleteCommentOp(rsrc, newMessage);
     try (BatchUpdate batchUpdate =
-        updateFactory.create(rsrc.getRevisionResource().getProject(), user, TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getRevisionResource().getProject(), user, TimeUtil.now())) {
       batchUpdate.addOp(rsrc.getRevisionResource().getChange().getId(), deleteCommentOp).execute();
     }
 

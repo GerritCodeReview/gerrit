@@ -185,7 +185,7 @@ public class ChangeEditUtil {
         message.append("Published edit on patch set ").append(basePatchSet.number()).append(".");
       }
 
-      try (BatchUpdate bu = updateFactory.create(change.getProject(), user, TimeUtil.nowTs())) {
+      try (BatchUpdate bu = updateFactory.create(change.getProject(), user, TimeUtil.now())) {
         bu.setRepository(repo, rw, oi);
         bu.setNotify(notify);
         bu.addOp(change.getId(), inserter.setMessage(message.toString()));

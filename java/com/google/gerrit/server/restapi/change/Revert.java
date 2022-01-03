@@ -47,7 +47,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -99,12 +98,11 @@ public class Revert
     if (patch == null) {
       throw new ResourceNotFoundException(changeIdToRevert.toString());
     }
-    Timestamp timestamp = TimeUtil.nowTs();
     return Response.ok(
         json.noOptions()
             .format(
                 rsrc.getProject(),
-                commitUtil.createRevertChange(notes, rsrc.getUser(), input, timestamp)));
+                commitUtil.createRevertChange(notes, rsrc.getUser(), input, TimeUtil.now())));
   }
 
   @Override

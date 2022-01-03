@@ -87,6 +87,30 @@
       },
       "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2443a45_9602d2cc",
+        "filename": "java/com/google/gerrit/json/InstantDeserializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-03T13:10:17Z",
+      "side": 1,
+      "message": "\u003e ZoneId.of(\"UTC\") vs. ZoneId.systemDefault(): I am concerned, that we are\n\u003e using two different approaches across the code. I copied/pasted this code\n\u003e from one of the places you used earlier in year series.\n\nYes, I noticed this too. Unfortunately this is currently inconsistent in our code base :(\n\n\u003e Do we have a clear strategy what approach use in what situation?\n\nFor the migration from Date/Timestamp to Instant, I\u0027m preserving the current behaviour. So if the old code used UTC, the new code should too.\n\nI agree that we should clean this up and agree one or the other (ZoneId.of(\"UTC\") vs. ZoneId.systemDefault()). I think I\u0027d prefer using UTC since then we are not depending on the system configuration.\n\n\u003e Also, can we think of a junit test to prevent similar regressions in furture?\n\nYes, we definitely should find a way to cover this by a test. I was actually very surprised that none of the tests failed with this.",
+      "parentUuid": "98685288_3c9de701",
+      "range": {
+        "startLine": 64,
+        "startChar": 22,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "82438b39a5cbd8d9f3511aefe1900c4c899773ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

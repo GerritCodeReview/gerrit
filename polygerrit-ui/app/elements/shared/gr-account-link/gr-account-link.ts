@@ -99,6 +99,12 @@ export class GrAccountLink extends LitElement {
           exportparts="gr-account-label-text: gr-account-link-text"
         >
         </gr-account-label>
+        <gr-endpoint-decorator name="account-status">
+          <gr-endpoint-param
+            name="accountId"
+            .value="${this.account._account_id}"
+          ></gr-endpoint-param>
+        </gr-endpoint-decorator>
       </a>
     </span>`;
   }

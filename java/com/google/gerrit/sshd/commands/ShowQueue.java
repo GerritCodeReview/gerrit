@@ -155,7 +155,7 @@ final class ShowQueue extends SshCommand {
         stdout.print(
             String.format(
                 "%8s %-12s %-12s %-4s %s\n",
-                task.id, start, startTime(task.startTime), "", command));
+                task.id, start, startTime(task.startTime.toInstant()), "", command));
       } else {
         String remoteName =
             task.remoteName != null ? task.remoteName + "/" + task.projectName : task.projectName;
@@ -165,7 +165,7 @@ final class ShowQueue extends SshCommand {
                 "%8s %-12s %-4s %s\n",
                 task.id,
                 start,
-                startTime(task.startTime),
+                startTime(task.startTime.toInstant()),
                 MoreObjects.firstNonNull(remoteName, "n/a")));
       }
     }

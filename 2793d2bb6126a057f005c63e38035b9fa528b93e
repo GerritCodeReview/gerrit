@@ -22,6 +22,30 @@
       },
       "revId": "2793d2bb6126a057f005c63e38035b9fa528b93e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aa76ee2_e52eaef9",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-03T12:34:13Z",
+      "side": 1,
+      "message": "Yes, let\u0027s do this in a later change 😄\n\nActually I thought that one of the existing follow-up changes would already take care of this, but it seems updating this was missed so far. It\u0027s now part of this new change [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/327257",
+      "parentUuid": "3c9f3575_7974261e",
+      "range": {
+        "startLine": 453,
+        "startChar": 75,
+        "endLine": 453,
+        "endChar": 89
+      },
+      "revId": "2793d2bb6126a057f005c63e38035b9fa528b93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "6e3d2c9bd96ba3d7bc587405563b1b97b5b1c605",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97961a7f_a96008ec",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-03T12:38:37Z",
+      "side": 1,
+      "message": "Yes, I would prefer to do this a bit later, since this will require changing our internal index implementation at Google. Changing the types from Date/Timestamp to Instant already requires quite some internal changes. I want to have this done, before changing the type of the index field. But what you suggest here is the way to go :)",
+      "parentUuid": "0746e77f_5588c503",
+      "range": {
+        "startLine": 120,
+        "startChar": 41,
+        "endLine": 120,
+        "endChar": 83
+      },
+      "revId": "6e3d2c9bd96ba3d7bc587405563b1b97b5b1c605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import {BehaviorSubject} from 'rxjs';
 import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
 import {
   CommentBasics,
@@ -50,6 +49,7 @@ import {assertIsDefined} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {pluralize} from '../../utils/string-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
+import {Model} from '../model';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -222,12 +222,9 @@ export function deleteDraft(
 }
 
 export const commentsModelToken = define<CommentsModel>('comments-model');
-export class CommentsModel implements Finalizable {
-  private readonly privateState$: BehaviorSubject<CommentState> =
-    new BehaviorSubject(initialState);
-
+export class CommentsModel extends Model<CommentState> implements Finalizable {
   public readonly commentsLoading$ = select(
-    this.privateState$,
+    this.state$,
     commentState =>
       commentState.comments === undefined ||
       commentState.robotComments === undefined ||
@@ -235,29 +232,29 @@ export class CommentsModel implements Finalizable {
   );
 
   public readonly comments$ = select(
-    this.privateState$,
+    this.state$,
     commentState => commentState.comments
   );
 
   public readonly drafts$ = select(
-    this.privateState$,
+    this.state$,
     commentState => commentState.drafts
   );
 
   public readonly portedComments$ = select(
-    this.privateState$,
+    this.state$,
     commentState => commentState.portedComments
   );
 
   public readonly discardedDrafts$ = select(
-    this.privateState$,
+    this.state$,
     commentState => commentState.discardedDrafts
   );
 
   // Emits a new value even if only a single draft is changed. Components should
   // aim to subsribe to something more specific.
   public readonly changeComments$ = select(
-    this.privateState$,
+    this.state$,
     commentState =>
       new ChangeComments(
         commentState.comments,
@@ -298,6 +295,7 @@ export class CommentsModel implements Finalizable {
     readonly restApiService: RestApiService,
     readonly reporting: ReportingService
   ) {
+    super(initialState);
     this.subscriptions.push(
       this.discardedDrafts$.subscribe(x => (this.discardedDrafts = x))
     );
@@ -360,13 +358,13 @@ export class CommentsModel implements Finalizable {
 
   // visible for testing
   updateState(reducer: (state: CommentState) => CommentState) {
-    const current = this.privateState$.getValue();
+    const current = this.subject$.getValue();
     this.setState(reducer({...current}));
   }
 
   // visible for testing
   setState(state: CommentState) {
-    this.privateState$.next(state);
+    this.subject$.next(state);
   }
 
   async reloadComments(changeNum: NumericChangeId): Promise<void> {

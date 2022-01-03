@@ -55,6 +55,7 @@ import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Execution} from '../../constants/reporting';
 import {fireAlert, fireEvent} from '../../utils/event-util';
 import {RouterModel} from '../router/router-model';
+import {Model} from '../model';
 
 /**
  * The checks model maintains the state of checks for two patchsets: the latest
@@ -150,7 +151,7 @@ export interface ErrorMessages {
   [name: string]: string;
 }
 
-export class ChecksModel implements Finalizable {
+export class ChecksModel extends Model<ChecksState> implements Finalizable {
   private readonly providers: {[name: string]: ChecksProvider} = {};
 
   private readonly reloadSubjects: {[name: string]: Subject<void>} = {};
@@ -169,25 +170,14 @@ export class ChecksModel implements Finalizable {
 
   private subscriptions: Subscription[] = [];
 
-  private readonly privateState$ = new BehaviorSubject<ChecksState>({
-    pluginStateLatest: {},
-    pluginStateSelected: {},
-  });
-
-  public checksState$: Observable<ChecksState> =
-    this.privateState$.asObservable();
-
   public checksSelectedPatchsetNumber$ = select(
-    this.checksState$,
+    this.state$,
     state => state.patchsetNumberSelected
   );
 
-  public checksLatest$ = select(
-    this.checksState$,
-    state => state.pluginStateLatest
-  );
+  public checksLatest$ = select(this.state$, state => state.pluginStateLatest);
 
-  public checksSelected$ = select(this.checksState$, state =>
+  public checksSelected$ = select(this.state$, state =>
     state.patchsetNumberSelected
       ? state.pluginStateSelected
       : state.pluginStateLatest
@@ -325,6 +315,10 @@ export class ChecksModel implements Finalizable {
     readonly changeModel: ChangeModel,
     readonly reporting: ReportingService
   ) {
+    super({
+      pluginStateLatest: {},
+      pluginStateSelected: {},
+    });
     this.subscriptions = [
       this.changeModel.changeNum$.subscribe(x => (this.changeNum = x)),
       this.checkToPluginMap$.subscribe(map => {
@@ -365,13 +359,13 @@ export class ChecksModel implements Finalizable {
       s.unsubscribe();
     }
     this.subscriptions = [];
-    this.privateState$.complete();
+    this.subject$.complete();
   }
 
   // Must only be used by the checks service or whatever is in control of this
   // model.
   updateStateSetProvider(pluginName: string, patchset: ChecksPatchset) {
-    const nextState = {...this.privateState$.getValue()};
+    const nextState = {...this.subject$.getValue()};
     const pluginState = this.getPluginState(nextState, patchset);
     pluginState[pluginName] = {
       pluginName,
@@ -381,7 +375,7 @@ export class ChecksModel implements Finalizable {
       actions: [],
       links: [],
     };
-    this.privateState$.next(nextState);
+    this.subject$.next(nextState);
   }
 
   getPluginState(
@@ -398,13 +392,13 @@ export class ChecksModel implements Finalizable {
   }
 
   updateStateSetLoading(pluginName: string, patchset: ChecksPatchset) {
-    const nextState = {...this.privateState$.getValue()};
+    const nextState = {...this.subject$.getValue()};
     const pluginState = this.getPluginState(nextState, patchset);
     pluginState[pluginName] = {
       ...pluginState[pluginName],
       loading: true,
     };
-    this.privateState$.next(nextState);
+    this.subject$.next(nextState);
   }
 
   updateStateSetError(
@@ -412,7 +406,7 @@ export class ChecksModel implements Finalizable {
     errorMessage: string,
     patchset: ChecksPatchset
   ) {
-    const nextState = {...this.privateState$.getValue()};
+    const nextState = {...this.subject$.getValue()};
     const pluginState = this.getPluginState(nextState, patchset);
     pluginState[pluginName] = {
       ...pluginState[pluginName],
@@ -423,7 +417,7 @@ export class ChecksModel implements Finalizable {
       runs: [],
       actions: [],
     };
-    this.privateState$.next(nextState);
+    this.subject$.next(nextState);
   }
 
   updateStateSetNotLoggedIn(
@@ -431,7 +425,7 @@ export class ChecksModel implements Finalizable {
     loginCallback: () => void,
     patchset: ChecksPatchset
   ) {
-    const nextState = {...this.privateState$.getValue()};
+    const nextState = {...this.subject$.getValue()};
     const pluginState = this.getPluginState(nextState, patchset);
     pluginState[pluginName] = {
       ...pluginState[pluginName],
@@ -442,7 +436,7 @@ export class ChecksModel implements Finalizable {
       runs: [],
       actions: [],
     };
-    this.privateState$.next(nextState);
+    this.subject$.next(nextState);
   }
 
   updateStateSetResults(
@@ -460,7 +454,7 @@ export class ChecksModel implements Finalizable {
         (a, b) => (a.attempt ?? -1) - (b.attempt ?? -1)
       );
     }
-    const nextState = {...this.privateState$.getValue()};
+    const nextState = {...this.subject$.getValue()};
     const pluginState = this.getPluginState(nextState, patchset);
     pluginState[pluginName] = {
       ...pluginState[pluginName],
@@ -490,7 +484,7 @@ export class ChecksModel implements Finalizable {
       actions: [...actions],
       links: [...links],
     };
-    this.privateState$.next(nextState);
+    this.subject$.next(nextState);
   }
 
   updateStateUpdateResult(
@@ -499,7 +493,7 @@ export class ChecksModel implements Finalizable {
     updatedResult: CheckResultApi,
     patchset: ChecksPatchset
   ) {
-    const nextState = {...this.privateState$.getValue()};
+    const nextState = {...this.subject$.getValue()};
     const pluginState = this.getPluginState(nextState, patchset);
     let runUpdated = false;
     const runs: CheckRun[] = pluginState[pluginName].runs.map(run => {
@@ -529,13 +523,13 @@ export class ChecksModel implements Finalizable {
       ...pluginState[pluginName],
       runs,
     };
-    this.privateState$.next(nextState);
+    this.subject$.next(nextState);
   }
 
   updateStateSetPatchset(patchsetNumber?: PatchSetNumber) {
-    const nextState = {...this.privateState$.getValue()};
+    const nextState = {...this.subject$.getValue()};
     nextState.patchsetNumberSelected = patchsetNumber;
-    this.privateState$.next(nextState);
+    this.subject$.next(nextState);
   }
 
   setPatchset(num?: PatchSetNumber) {

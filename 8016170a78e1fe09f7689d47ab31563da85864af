@@ -16,6 +16,23 @@
       "message": "pushed alternative solution using jgit\u0027s new ref cache \nI9e082413568d7a0a0c0b46cd0aca9eec5385e0d3",
       "revId": "8016170a78e1fe09f7689d47ab31563da85864af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a117d7c1_d5546ebc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-04T01:45:00Z",
+      "side": 1,
+      "message": "Gerrit v3.2 is now EOL: can this be abandoned now?",
+      "revId": "8016170a78e1fe09f7689d47ab31563da85864af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

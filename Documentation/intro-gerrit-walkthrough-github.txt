@@ -80,6 +80,7 @@ will not have to be pushed to the remote in Gerrit, at least not for the
 purposes of code review.
 
 *Commits*
+
 In Gerrit, a single commit is the unit of code that will be reviewed. With
 GitHub, you can commit to your branch as much as you like and the sum of all
 your commits on that branch will get reviewed. As a single commit gets reviewed

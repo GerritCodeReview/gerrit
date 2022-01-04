@@ -26,7 +26,7 @@ import com.google.gerrit.server.config.SitePaths;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.SortedSet;
+import java.util.NavigableSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -77,7 +77,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     assertThat(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString())
         .isEqualTo(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
 
-    SortedSet<Project.NameKey> repoList = repoManager.list();
+    NavigableSet<Project.NameKey> repoList = repoManager.list();
     assertThat(repoList).hasSize(1);
     assertThat(repoList.toArray(new Project.NameKey[repoList.size()]))
         .isEqualTo(new Project.NameKey[] {someProjectKey});
@@ -105,7 +105,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     assertThat(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString())
         .isEqualTo(alternateBasePath.toString());
 
-    SortedSet<Project.NameKey> repoList = repoManager.list();
+    NavigableSet<Project.NameKey> repoList = repoManager.list();
     assertThat(repoList).hasSize(1);
     assertThat(repoList.toArray(new Project.NameKey[repoList.size()]))
         .isEqualTo(new Project.NameKey[] {someProjectKey});
@@ -131,7 +131,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     createRepository(repoManager.getBasePath(basePathProject), misplacedProject2);
     createRepository(alternateBasePath, misplacedProject1);
 
-    SortedSet<Project.NameKey> repoList = repoManager.list();
+    NavigableSet<Project.NameKey> repoList = repoManager.list();
     assertThat(repoList).hasSize(2);
     assertThat(repoList.toArray(new Project.NameKey[repoList.size()]))
         .isEqualTo(new Project.NameKey[] {altPathProject, basePathProject});

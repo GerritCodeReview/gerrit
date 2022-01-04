@@ -35,6 +35,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class CommitMessageOutputTest extends AbstractChangeNotesTest {
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Test
   public void approvalsCommitFormatSimple() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
@@ -142,6 +145,9 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   public void submitCommitFormat() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);

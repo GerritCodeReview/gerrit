@@ -50,7 +50,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -474,7 +473,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
               patchsetCreation.commitMessage().orElseGet(oldPatchsetCommit::getFullMessage));
 
       PersonIdent author = getAuthor(oldPatchsetCommit);
-      PersonIdent committer = getCommitter(oldPatchsetCommit, Timestamp.from(now));
+      PersonIdent committer = getCommitter(oldPatchsetCommit, now);
       return createCommit(objectInserter, tree, parentCommitIds, author, committer, commitMessage);
     }
 
@@ -495,10 +494,13 @@ public class ChangeOperationsImpl implements ChangeOperations {
       return Optional.ofNullable(oldPatchsetCommit.getAuthorIdent()).orElse(serverIdent);
     }
 
-    private PersonIdent getCommitter(RevCommit oldPatchsetCommit, Timestamp now) {
+    // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+    // Instants
+    @SuppressWarnings("JdkObsolete")
+    private PersonIdent getCommitter(RevCommit oldPatchsetCommit, Instant now) {
       PersonIdent oldPatchsetCommitter =
           Optional.ofNullable(oldPatchsetCommit.getCommitterIdent()).orElse(serverIdent);
-      if (asSeconds(now) == asSeconds(oldPatchsetCommitter.getWhen())) {
+      if (asSeconds(now) == asSeconds(oldPatchsetCommitter.getWhen().toInstant())) {
         /* We need to ensure that the resulting commit SHA-1 is different from the old patchset.
          * In real situations, this automatically happens as two patchsets won't have exactly the
          * same commit timestamp even when the tree and commit message are the same. In tests,
@@ -506,13 +508,13 @@ public class ChangeOperationsImpl implements ChangeOperations {
          * We could of course require that tests must use TestTimeUtil#setClockStep but
          * that would be an unnecessary nuisance for test writers. Hence, go with a simple solution
          * here and simply add a second. */
-        now = Timestamp.from(now.toInstant().plusSeconds(1));
+        now = now.plusSeconds(1);
       }
-      return new PersonIdent(oldPatchsetCommitter, now);
+      return new PersonIdent(oldPatchsetCommitter, Timestamp.from(now));
     }
 
-    private long asSeconds(Date date) {
-      return date.getTime() / 1000;
+    private long asSeconds(Instant date) {
+      return date.getEpochSecond();
     }
 
     private ImmutableList<ObjectId> getParents(

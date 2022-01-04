@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31c6a345_0e71911f",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-04T07:07:05Z",
+      "side": 0,
+      "message": "You are reverting the changes from previous commit. It should be OK, but would be avoidable, if two commits are squashed, but then the commits would be bigger. So both ways are just fine.",
+      "range": {
+        "startLine": 1323,
+        "startChar": 4,
+        "endLine": 1324,
+        "endChar": 72
+      },
+      "revId": "7b57cedc77fa7e585425f382e3bc8c33254722c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

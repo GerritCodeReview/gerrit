@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b61c2bf8_a251abaf",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-04T07:07:05Z",
+      "side": 1,
+      "message": "This should be:\n\n  public static final FieldDef\u003cChangeData, Instant\u003e MERGED_ON\n  \nit can be its own change, but this adaptation should take place in this series.",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 166,
+        "endChar": 63
+      },
+      "revId": "c9bebfd0c2738785d48b2b78adcf968da3d246a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3b72772_85a29414",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-04T07:07:05Z",
+      "side": 1,
+      "message": "These attribute should be also converted to avoid conversion.",
+      "revId": "c9bebfd0c2738785d48b2b78adcf968da3d246a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

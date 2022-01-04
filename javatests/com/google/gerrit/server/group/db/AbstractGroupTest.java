@@ -30,7 +30,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -75,12 +75,12 @@ public class AbstractGroupTest {
     allUsersRepo.close();
   }
 
-  protected Timestamp getTipTimestamp(AccountGroup.UUID uuid) throws Exception {
+  protected Instant getTipTimestamp(AccountGroup.UUID uuid) throws Exception {
     try (RevWalk rw = new RevWalk(allUsersRepo)) {
       Ref ref = allUsersRepo.exactRef(RefNames.refsGroups(uuid));
       return ref == null
           ? null
-          : new Timestamp(rw.parseCommit(ref.getObjectId()).getAuthorIdent().getWhen().getTime());
+          : rw.parseCommit(ref.getObjectId()).getAuthorIdent().getWhen().toInstant();
     }
   }
 

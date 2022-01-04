@@ -31,7 +31,7 @@ import com.google.gerrit.server.notedb.NoteDbUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -166,7 +166,7 @@ public class AuditLogReader {
     return Optional.of(
         new AutoValue_AuditLogReader_ParsedCommit(
             authorId.get(),
-            new Timestamp(c.getAuthorIdent().getWhen().getTime()),
+            c.getAuthorIdent().getWhen().toInstant(),
             ImmutableList.copyOf(addedMembers),
             ImmutableList.copyOf(removedMembers),
             ImmutableList.copyOf(addedSubgroups),
@@ -257,7 +257,7 @@ public class AuditLogReader {
   abstract static class ParsedCommit {
     abstract Account.Id authorId();
 
-    abstract Timestamp when();
+    abstract Instant when();
 
     abstract ImmutableList<Account.Id> addedMembers();
 

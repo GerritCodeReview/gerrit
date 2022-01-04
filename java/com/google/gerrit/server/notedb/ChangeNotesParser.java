@@ -827,7 +827,7 @@ class ChangeNotesParser {
         ChangeMessage.create(
             ChangeMessage.key(psId.changeId(), commit.name()),
             accountId,
-            Timestamp.from(ts),
+            ts,
             psId,
             changeMsgString.get(),
             realAccountId,

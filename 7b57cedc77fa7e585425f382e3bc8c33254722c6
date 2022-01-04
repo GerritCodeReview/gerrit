@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbc18db0_8cb43fec",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-04T08:23:50Z",
+      "side": 1,
+      "message": "Same reason as in [1]. Doing this will require changing our internal index implementation. I prefer doing this at a later point in time.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/327177/1/java/com/google/gerrit/server/index/account/AccountField.java#120",
+      "parentUuid": "42076ce6_2a98283c",
+      "range": {
+        "startLine": 160,
+        "startChar": 2,
+        "endLine": 160,
+        "endChar": 61
+      },
+      "revId": "7b57cedc77fa7e585425f382e3bc8c33254722c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42cd9ef6_f98d2f84",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfcca3b5_5f1f407d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-04T08:23:50Z",
+      "side": 1,
+      "message": "Yes, at some point we should change this. But since this will break backwards compatibility of our Java extensions API we want to do it in a dedicated change and announce it properly. This is being tracked by issue 15508 [1]. Likely I will not be able to pick this up anytime soon.\n\nBut for now we can add a setter that suppresses the warning.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15508",
+      "parentUuid": "42cd9ef6_f98d2f84",
+      "range": {
+        "startLine": 947,
+        "startChar": 6,
+        "endLine": 947,
+        "endChar": 21
+      },
+      "revId": "7b57cedc77fa7e585425f382e3bc8c33254722c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d94f33a7_68f384f9",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-01-04T07:01:55Z",
       "side": 1,
       "message": "Can\u0027t this also be converted to Instant? Then we would just compare Instant instances instead of long values. I see this was done in follow-up change 327277, but given that the follow-up change is very small, may be it would make sense to squash them?",
+      "range": {
+        "startLine": 1290,
+        "startChar": 15,
+        "endLine": 1290,
+        "endChar": 34
+      },
+      "revId": "7b57cedc77fa7e585425f382e3bc8c33254722c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6000f0dc_2529f00b",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-04T08:23:50Z",
+      "side": 1,
+      "message": "When I decided to make this in 2 changes it was still unclear, how large the follow-up change would become. Maybe the follow-up change is not that large, but this change is, so I think it\u0027s better to keep this as separate changes, especially since it\u0027s already 2 changes and squashing it now would be extra work.",
+      "parentUuid": "d94f33a7_68f384f9",
       "range": {
         "startLine": 1290,
         "startChar": 15,

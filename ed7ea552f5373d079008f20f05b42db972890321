@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f6067db_3b6fa0ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-04T16:31:02Z",
+      "side": 1,
+      "message": "seems like this method name needs to be more clear that it only works for file comments?",
+      "range": {
+        "startLine": 707,
+        "startChar": 10,
+        "endLine": 707,
+        "endChar": 26
+      },
+      "revId": "ed7ea552f5373d079008f20f05b42db972890321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "310e078a_fad2a4f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-04T16:31:02Z",
+      "side": 1,
+      "message": "won\u0027t this not work for file comments now?",
+      "range": {
+        "startLine": 719,
+        "startChar": 10,
+        "endLine": 719,
+        "endChar": 24
+      },
+      "revId": "ed7ea552f5373d079008f20f05b42db972890321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,7 +34,7 @@ public class InternalGroupSerializerTest {
           .setOwnerGroupUUID(AccountGroup.uuid("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
           .setVisibleToAll(false)
           .setGroupUUID(AccountGroup.uuid("deadbeefdeadbeefdeadbeefdeadbeef12345678"))
-          .setCreatedOn(TimeUtil.nowTs())
+          .setCreatedOn(TimeUtil.now())
           .setMembers(ImmutableSet.of(Account.id(123), Account.id(321)))
           .setSubgroups(
               ImmutableSet.of(

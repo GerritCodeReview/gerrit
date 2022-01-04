@@ -21,7 +21,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Helper to (de)serialize values for caches. */
 public class InternalGroupSerializer {
@@ -33,7 +33,7 @@ public class InternalGroupSerializer {
             .setOwnerGroupUUID(AccountGroup.uuid(proto.getOwnerGroupUuid()))
             .setVisibleToAll(proto.getIsVisibleToAll())
             .setGroupUUID(AccountGroup.uuid(proto.getGroupUuid()))
-            .setCreatedOn(new Timestamp(proto.getCreatedOn()))
+            .setCreatedOn(Instant.ofEpochMilli(proto.getCreatedOn()))
             .setMembers(
                 proto.getMembersIdsList().stream()
                     .map(a -> Account.id(a))
@@ -62,7 +62,7 @@ public class InternalGroupSerializer {
             .setOwnerGroupUuid(autoValue.getOwnerGroupUUID().get())
             .setIsVisibleToAll(autoValue.isVisibleToAll())
             .setGroupUuid(autoValue.getGroupUUID().get())
-            .setCreatedOn(autoValue.getCreatedOn().getTime());
+            .setCreatedOn(autoValue.getCreatedOn().toEpochMilli());
 
     autoValue.getMembers().stream().forEach(m -> builder.addMembersIds(m.get()));
     autoValue.getSubgroups().stream().forEach(s -> builder.addSubgroupUuids(s.get()));

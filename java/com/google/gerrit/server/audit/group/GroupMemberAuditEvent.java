@@ -18,7 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @AutoValue
 public abstract class GroupMemberAuditEvent implements GroupAuditEvent {
@@ -26,7 +26,7 @@ public abstract class GroupMemberAuditEvent implements GroupAuditEvent {
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
       ImmutableSet<Account.Id> modifiedMembers,
-      Timestamp timestamp) {
+      Instant timestamp) {
     return new AutoValue_GroupMemberAuditEvent(actor, updatedGroup, modifiedMembers, timestamp);
   }
 
@@ -40,5 +40,5 @@ public abstract class GroupMemberAuditEvent implements GroupAuditEvent {
   public abstract ImmutableSet<Account.Id> getModifiedMembers();
 
   @Override
-  public abstract Timestamp getTimestamp();
+  public abstract Instant getTimestamp();
 }

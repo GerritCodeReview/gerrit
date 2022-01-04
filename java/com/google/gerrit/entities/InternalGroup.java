@@ -18,7 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.Instant;
 import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
@@ -42,7 +42,7 @@ public abstract class InternalGroup implements Serializable {
 
   public abstract AccountGroup.UUID getGroupUUID();
 
-  public abstract Timestamp getCreatedOn();
+  public abstract Instant getCreatedOn();
 
   public abstract ImmutableSet<Account.Id> getMembers();
 
@@ -71,7 +71,7 @@ public abstract class InternalGroup implements Serializable {
 
     public abstract Builder setGroupUUID(AccountGroup.UUID groupUuid);
 
-    public abstract Builder setCreatedOn(Timestamp createdOn);
+    public abstract Builder setCreatedOn(Instant createdOn);
 
     public abstract Builder setMembers(ImmutableSet<Account.Id> members);
 

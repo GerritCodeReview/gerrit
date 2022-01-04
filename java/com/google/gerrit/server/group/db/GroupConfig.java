@@ -35,8 +35,9 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -279,7 +280,7 @@ public class GroupConfig extends VersionedMetaData {
       rw.markStart(revision);
       rw.sort(RevSort.REVERSE);
       RevCommit earliestCommit = rw.next();
-      Timestamp createdOn = new Timestamp(earliestCommit.getCommitTime() * 1000L);
+      Instant createdOn = Instant.ofEpochSecond(earliestCommit.getCommitTime());
 
       Config config = readConfig(GROUP_CONFIG_FILE);
       ImmutableSet<Account.Id> members = readMembers();
@@ -299,6 +300,9 @@ public class GroupConfig extends VersionedMetaData {
     return c;
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkLoaded();
@@ -314,11 +318,11 @@ public class GroupConfig extends VersionedMetaData {
 
     // Commit timestamps are internally truncated to seconds. To return the correct 'createdOn' time
     // for new groups, we explicitly need to truncate the timestamp here.
-    Timestamp commitTimestamp =
+    Instant commitTimestamp =
         TimeUtil.truncateToSecond(
-            groupDelta.flatMap(GroupDelta::getUpdatedOn).orElseGet(TimeUtil::nowTs));
-    commit.setAuthor(new PersonIdent(commit.getAuthor(), commitTimestamp));
-    commit.setCommitter(new PersonIdent(commit.getCommitter(), commitTimestamp));
+            groupDelta.flatMap(GroupDelta::getUpdatedOn).orElseGet(TimeUtil::now));
+    commit.setAuthor(new PersonIdent(commit.getAuthor(), Date.from(commitTimestamp)));
+    commit.setCommitter(new PersonIdent(commit.getCommitter(), Date.from(commitTimestamp)));
 
     InternalGroup updatedGroup = updateGroup(commitTimestamp);
 
@@ -346,7 +350,7 @@ public class GroupConfig extends VersionedMetaData {
     return Optional.empty();
   }
 
-  private InternalGroup updateGroup(Timestamp commitTimestamp)
+  private InternalGroup updateGroup(Instant commitTimestamp)
       throws IOException, ConfigInvalidException {
     Config config = updateGroupProperties();
 
@@ -358,7 +362,7 @@ public class GroupConfig extends VersionedMetaData {
         loadedGroup.map(InternalGroup::getSubgroups).orElseGet(ImmutableSet::of);
     Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups = updateSubgroups(originalSubgroups);
 
-    Timestamp createdOn = loadedGroup.map(InternalGroup::getCreatedOn).orElse(commitTimestamp);
+    Instant createdOn = loadedGroup.map(InternalGroup::getCreatedOn).orElse(commitTimestamp);
 
     return createFrom(
         groupUuid,
@@ -453,7 +457,7 @@ public class GroupConfig extends VersionedMetaData {
       Config config,
       ImmutableSet<Account.Id> members,
       ImmutableSet<AccountGroup.UUID> subgroups,
-      Timestamp createdOn,
+      Instant createdOn,
       ObjectId refState)
       throws ConfigInvalidException {
     InternalGroup.Builder group = InternalGroup.builder();

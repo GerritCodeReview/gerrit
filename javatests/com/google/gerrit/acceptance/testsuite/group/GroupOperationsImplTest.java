@@ -31,7 +31,7 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 import org.junit.Test;
 
@@ -325,9 +325,9 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
     GroupInfo group = gApi.groups().create(createArbitraryGroupInput()).detail();
     AccountGroup.UUID groupUuid = AccountGroup.uuid(group.id);
 
-    Timestamp createdOn = groupOperations.group(groupUuid).get().createdOn();
+    Instant createdOn = groupOperations.group(groupUuid).get().createdOn();
 
-    assertThat(createdOn).isEqualTo(group.createdOn);
+    assertThat(createdOn).isEqualTo(group.createdOn.toInstant());
   }
 
   @Test

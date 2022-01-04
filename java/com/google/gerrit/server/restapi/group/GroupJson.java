@@ -121,7 +121,7 @@ public class GroupJson {
       }
     }
 
-    info.createdOn = internalGroup.getCreatedOn();
+    info.setCreatedOn(internalGroup.getCreatedOn());
 
     if (options.contains(MEMBERS)) {
       info.members = listMembers.get().getDirectMembers(internalGroup, groupControlSupplier.get());

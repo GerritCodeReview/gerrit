@@ -89,7 +89,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -248,7 +248,7 @@ public class MergeOp implements AutoCloseable {
   // Changes that were updated by this MergeOp.
   private final Map<Change.Id, Change> updatedChanges;
 
-  private Timestamp ts;
+  private Instant ts;
   private SubmissionId submissionId;
   private IdentifiedUser caller;
 
@@ -444,7 +444,7 @@ public class MergeOp implements AutoCloseable {
             firstNonNull(submitInput.notify, NotifyHandling.ALL), submitInput.notifyDetails);
     this.dryrun = dryrun;
     this.caller = caller;
-    this.ts = TimeUtil.nowTs();
+    this.ts = TimeUtil.now();
     this.submissionId = new SubmissionId(change);
 
     try (TraceContext traceContext =
@@ -514,7 +514,7 @@ public class MergeOp implements AutoCloseable {
                   boolean isRetry = attempt > 1;
                   if (isRetry) {
                     logger.atFine().log("Retrying, attempt #%d; skipping merged changes", attempt);
-                    this.ts = TimeUtil.nowTs();
+                    this.ts = TimeUtil.now();
                     openRepoManager();
                   }
                   this.commitStatus = new CommitStatus(filteredNoteDbChangeSet, isRetry);
@@ -944,7 +944,7 @@ public class MergeOp implements AutoCloseable {
     try {
       for (ChangeData cd : queryProvider.get().byProjectOpen(destProject)) {
         try (BatchUpdate bu =
-            batchUpdateFactory.create(destProject, internalUserFactory.create(), ts.toInstant())) {
+            batchUpdateFactory.create(destProject, internalUserFactory.create(), ts)) {
           bu.addOp(
               cd.getId(),
               new BatchUpdateOp() {

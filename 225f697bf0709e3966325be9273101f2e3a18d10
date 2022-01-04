@@ -16,6 +16,24 @@
       "message": "I\u0027m fine with this change, as long as it is on a non-EOL branch. ",
       "revId": "225f697bf0709e3966325be9273101f2e3a18d10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "733f8643_edac33c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-01-04T06:47:03Z",
+      "side": 1,
+      "message": "It seems that part of it was already done on `stable-3.3` all that left was to detect and use it in GC operation...",
+      "parentUuid": "98045ccd_6c1d0f1c",
+      "revId": "225f697bf0709e3966325be9273101f2e3a18d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

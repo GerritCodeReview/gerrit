@@ -15,7 +15,7 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 
 /** Membership of an {@link Account} in an {@link AccountGroup}. */
@@ -35,15 +35,15 @@ public abstract class AccountGroupMemberAudit {
 
     abstract Account.Id addedBy();
 
-    public abstract Builder addedOn(Timestamp addedOn);
+    public abstract Builder addedOn(Instant addedOn);
 
-    abstract Timestamp addedOn();
+    abstract Instant addedOn();
 
     abstract Builder removedBy(Account.Id removedBy);
 
-    abstract Builder removedOn(Timestamp removedOn);
+    abstract Builder removedOn(Instant removedOn);
 
-    public Builder removed(Account.Id removedBy, Timestamp removedOn) {
+    public Builder removed(Account.Id removedBy, Instant removedOn) {
       return removedBy(removedBy).removedOn(removedOn);
     }
 
@@ -60,11 +60,11 @@ public abstract class AccountGroupMemberAudit {
 
   public abstract Account.Id addedBy();
 
-  public abstract Timestamp addedOn();
+  public abstract Instant addedOn();
 
   public abstract Optional<Account.Id> removedBy();
 
-  public abstract Optional<Timestamp> removedOn();
+  public abstract Optional<Instant> removedOn();
 
   public abstract Builder toBuilder();
 

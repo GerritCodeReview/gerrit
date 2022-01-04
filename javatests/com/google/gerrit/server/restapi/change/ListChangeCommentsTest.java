@@ -23,6 +23,9 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -124,9 +127,11 @@ public class ListChangeCommentsTest {
   /** Create a new change message with an id, message, timestamp and tag */
   private static ChangeMessage newChangeMessage(String id, String message, String ts, String tag) {
     ChangeMessage.Key key = ChangeMessage.key(Change.id(1), id);
-    ChangeMessage cm =
-        ChangeMessage.create(
-            key, null, Timestamp.valueOf("2000-01-01 00:00:" + ts), null, message, null, tag);
+    Instant timestamp =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            .withZone(ZoneId.systemDefault())
+            .parse("2000-01-01 00:00:" + ts, Instant::from);
+    ChangeMessage cm = ChangeMessage.create(key, null, timestamp, null, message, null, tag);
     return cm;
   }
 

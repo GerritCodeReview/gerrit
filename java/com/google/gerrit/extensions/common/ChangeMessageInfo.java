@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import com.google.common.collect.Iterables;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -38,6 +39,13 @@ public class ChangeMessageInfo {
 
   public ChangeMessageInfo(String message) {
     this.message = message;
+  }
+
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
+  @SuppressWarnings("JdkObsolete")
+  public void setDate(Instant when) {
+    date = Timestamp.from(when);
   }
 
   @Override

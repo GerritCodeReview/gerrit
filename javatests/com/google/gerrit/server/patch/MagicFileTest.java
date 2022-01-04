@@ -95,6 +95,9 @@ public class MagicFileTest {
     assertThat(magicFile.getStartLineOfModifiableContent()).isEqualTo(1);
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Test
   public void commitMessageFileOfRootCommitContainsCorrectContent() throws Exception {
     try (Repository repository = repositoryManager.createRepository(Project.nameKey("repo1"));
@@ -146,6 +149,9 @@ public class MagicFileTest {
     }
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Test
   public void commitMessageFileOfNonMergeCommitContainsCorrectContent() throws Exception {
     try (Repository repository = repositoryManager.createRepository(Project.nameKey("repo1"));
@@ -202,6 +208,9 @@ public class MagicFileTest {
     }
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Test
   public void commitMessageFileOfMergeCommitContainsCorrectContent() throws Exception {
     try (Repository repository = repositoryManager.createRepository(Project.nameKey("repo1"));

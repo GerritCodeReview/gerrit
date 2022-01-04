@@ -75,6 +75,9 @@ public class AbstractGroupTest {
     allUsersRepo.close();
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   protected Instant getTipTimestamp(AccountGroup.UUID uuid) throws Exception {
     try (RevWalk rw = new RevWalk(allUsersRepo)) {
       Ref ref = allUsersRepo.exactRef(RefNames.refsGroups(uuid));

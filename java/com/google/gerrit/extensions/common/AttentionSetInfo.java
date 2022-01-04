@@ -28,8 +28,12 @@ import java.util.Objects;
 public class AttentionSetInfo {
   /** The user included in the attention set. */
   public AccountInfo account;
+
   /** The timestamp of the last update. */
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   public Timestamp lastUpdate;
+
   /** The human readable reason why the user was added. */
   public String reason;
 

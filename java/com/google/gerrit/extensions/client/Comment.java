@@ -36,7 +36,11 @@ public abstract class Comment {
 
   public Range range;
   public String inReplyTo;
+
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   public Timestamp updated;
+
   public String message;
 
   /**
@@ -45,6 +49,8 @@ public abstract class Comment {
    */
   public String commitId;
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public void setUpdated(Instant when) {
     updated = Timestamp.from(when);

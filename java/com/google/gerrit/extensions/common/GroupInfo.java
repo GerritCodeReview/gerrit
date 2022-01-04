@@ -26,7 +26,11 @@ public class GroupInfo extends GroupBaseInfo {
   public Integer groupId;
   public String owner;
   public String ownerId;
+
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   public Timestamp createdOn;
+
   public Boolean _moreGroups;
 
   // These fields are only supplied for internal groups, and only if requested.

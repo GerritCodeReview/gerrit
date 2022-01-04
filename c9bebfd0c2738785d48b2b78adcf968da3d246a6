@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c251f0a_bd5ef93f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-04T08:24:00Z",
+      "side": 1,
+      "message": "Same reason as in [1]. Doing this will require changing our internal index implementation. I prefer doing this at a later point in time.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/327177/1/java/com/google/gerrit/server/index/account/AccountField.java#120",
+      "parentUuid": "b61c2bf8_a251abaf",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 166,
+        "endChar": 63
+      },
+      "revId": "c9bebfd0c2738785d48b2b78adcf968da3d246a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3b72772_85a29414",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-01-04T07:07:05Z",
       "side": 1,
       "message": "These attribute should be also converted to avoid conversion.",
+      "revId": "c9bebfd0c2738785d48b2b78adcf968da3d246a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22d0e019_a605aa5b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-04T08:24:00Z",
+      "side": 1,
+      "message": "Yes, at some point we should change them. But since this will break backwards compatibility of our Java extensions API we want to do it in a dedicated change and announce it properly. This is being tracked by issue 15508 [1]. Likely I will not be able to pick this up anytime soon.\n\nBut for now we can add a getters that suppresses the warning.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15508",
+      "parentUuid": "a3b72772_85a29414",
       "revId": "c9bebfd0c2738785d48b2b78adcf968da3d246a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -20,13 +20,18 @@ import java.time.Instant;
 import java.util.Objects;
 
 public class ReviewerUpdateInfo {
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   public Timestamp updated;
+
   public AccountInfo updatedBy;
   public AccountInfo reviewer;
   public ReviewerState state;
 
   public ReviewerUpdateInfo() {}
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public ReviewerUpdateInfo(
       Instant updated, AccountInfo updatedBy, AccountInfo reviewer, ReviewerState state) {

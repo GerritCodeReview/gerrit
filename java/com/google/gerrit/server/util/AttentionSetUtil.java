@@ -28,7 +28,6 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -123,7 +122,7 @@ public class AttentionSetUtil {
             : null;
     return new AttentionSetInfo(
         accountLoader.get(attentionSetUpdate.account()),
-        Timestamp.from(attentionSetUpdate.timestamp()),
+        attentionSetUpdate.timestamp(),
         attentionSetUpdate.reason(),
         reasonAccount);
   }

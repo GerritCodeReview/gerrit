@@ -16,7 +16,7 @@ package com.google.gerrit.server.audit.group;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** An audit event for groups. */
 public interface GroupAuditEvent {
@@ -35,9 +35,9 @@ public interface GroupAuditEvent {
   AccountGroup.UUID getUpdatedGroup();
 
   /**
-   * Gets the {@link Timestamp} of the action.
+   * Gets the {@link Instant} of the action.
    *
-   * @return the {@link Timestamp} of the action.
+   * @return the {@link Instant} of the action.
    */
-  Timestamp getTimestamp();
+  Instant getTimestamp();
 }

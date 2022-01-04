@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -165,10 +166,14 @@ public class GroupsOnInit {
     return AuditLogFormatter.createBackedBy(ImmutableSet.of(account), ImmutableSet.of(), serverId);
   }
 
-  private void commit(Repository repository, GroupConfig groupConfig, Timestamp groupCreatedOn)
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
+  private void commit(Repository repository, GroupConfig groupConfig, Instant groupCreatedOn)
       throws IOException {
     PersonIdent personIdent =
-        new PersonIdent(new GerritPersonIdentProvider(flags.cfg).get(), groupCreatedOn);
+        new PersonIdent(
+            new GerritPersonIdentProvider(flags.cfg).get(), Timestamp.from(groupCreatedOn));
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate(repository, personIdent)) {
       groupConfig.commit(metaDataUpdate);
     }

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5feb5ee_276036d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-04T16:37:48Z",
+      "side": 1,
+      "message": "Added a comment. I\u0027m not sure what method name should be used since it is technically getting a url for a comment.",
+      "parentUuid": "4f6067db_3b6fa0ab",
+      "range": {
+        "startLine": 707,
+        "startChar": 10,
+        "endLine": 707,
+        "endChar": 26
+      },
+      "revId": "ed7ea552f5373d079008f20f05b42db972890321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "310e078a_fad2a4f9",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-04T16:31:02Z",
       "side": 1,
       "message": "won\u0027t this not work for file comments now?",
+      "range": {
+        "startLine": 719,
+        "startChar": 10,
+        "endLine": 719,
+        "endChar": 24
+      },
+      "revId": "ed7ea552f5373d079008f20f05b42db972890321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63f1ea0b_6dfd7cc6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-04T16:37:48Z",
+      "side": 1,
+      "message": "All comment links are supposed to go to the comments tab. Comments Tab can handle both patchset and non-patchset level comments.\nThis is simply fixing a regression from the major refactor and restoring the previous behaviour.",
+      "parentUuid": "310e078a_fad2a4f9",
       "range": {
         "startLine": 719,
         "startChar": 10,

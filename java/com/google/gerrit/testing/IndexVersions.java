@@ -27,7 +27,7 @@ import com.google.gerrit.index.SchemaDefinitions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
+import java.util.NavigableMap;
 import org.eclipse.jgit.lib.Config;
 
 public class IndexVersions {
@@ -90,7 +90,7 @@ public class IndexVersions {
       value = value.trim();
     }
 
-    SortedMap<Integer, Schema<V>> schemas = schemaDef.getSchemas();
+    NavigableMap<Integer, Schema<V>> schemas = schemaDef.getSchemas();
     if (!Strings.isNullOrEmpty(value)) {
       if (ALL.equals(value)) {
         return ImmutableList.copyOf(schemas.keySet());

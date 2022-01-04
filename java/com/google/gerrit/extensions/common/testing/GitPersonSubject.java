@@ -70,6 +70,11 @@ public class GitPersonSubject extends Subject {
     tz().isEqualTo(other.tz);
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   public void matches(PersonIdent ident) {
     isNotNull();
     name().isEqualTo(ident.getName());

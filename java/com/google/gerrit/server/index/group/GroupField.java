@@ -48,7 +48,7 @@ public class GroupField {
 
   /** Timestamp indicating when this group was created. */
   public static final FieldDef<InternalGroup, Timestamp> CREATED_ON =
-      timestamp("created_on").build(InternalGroup::getCreatedOn);
+      timestamp("created_on").build(internalGroup -> Timestamp.from(internalGroup.getCreatedOn()));
 
   /** Group name. */
   public static final FieldDef<InternalGroup, String> NAME =

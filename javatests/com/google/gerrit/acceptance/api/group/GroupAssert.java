@@ -42,7 +42,7 @@ public class GroupAssert {
     assertThat(toBoolean(info.options.visibleToAll)).isEqualTo(group.isVisibleToAll());
     assertThat(info.description).isEqualTo(group.getDescription());
     assertThat(Url.decode(info.ownerId)).isEqualTo(group.getOwnerGroupUUID().get());
-    assertThat(info.createdOn).isEqualTo(group.getCreatedOn());
+    assertThat(info.createdOn.toInstant()).isEqualTo(group.getCreatedOn());
   }
 
   public static boolean toBoolean(Boolean b) {

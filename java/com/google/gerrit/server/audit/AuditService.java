@@ -25,7 +25,7 @@ import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @Singleton
 public class AuditService implements GroupAuditService {
@@ -50,7 +50,7 @@ public class AuditService implements GroupAuditService {
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
       ImmutableSet<Account.Id> addedMembers,
-      Timestamp addedOn) {
+      Instant addedOn) {
     GroupMemberAuditEvent event =
         GroupMemberAuditEvent.create(actor, updatedGroup, addedMembers, addedOn);
     groupAuditListeners.runEach(l -> l.onAddMembers(event));
@@ -61,7 +61,7 @@ public class AuditService implements GroupAuditService {
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
       ImmutableSet<Account.Id> deletedMembers,
-      Timestamp deletedOn) {
+      Instant deletedOn) {
     GroupMemberAuditEvent event =
         GroupMemberAuditEvent.create(actor, updatedGroup, deletedMembers, deletedOn);
     groupAuditListeners.runEach(l -> l.onDeleteMembers(event));
@@ -72,7 +72,7 @@ public class AuditService implements GroupAuditService {
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
       ImmutableSet<AccountGroup.UUID> addedSubgroups,
-      Timestamp addedOn) {
+      Instant addedOn) {
     GroupSubgroupAuditEvent event =
         GroupSubgroupAuditEvent.create(actor, updatedGroup, addedSubgroups, addedOn);
     groupAuditListeners.runEach(l -> l.onAddSubgroups(event));
@@ -83,7 +83,7 @@ public class AuditService implements GroupAuditService {
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
       ImmutableSet<AccountGroup.UUID> deletedSubgroups,
-      Timestamp deletedOn) {
+      Instant deletedOn) {
     GroupSubgroupAuditEvent event =
         GroupSubgroupAuditEvent.create(actor, updatedGroup, deletedSubgroups, deletedOn);
     groupAuditListeners.runEach(l -> l.onDeleteSubgroups(event));

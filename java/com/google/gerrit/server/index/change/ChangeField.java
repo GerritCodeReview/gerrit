@@ -157,12 +157,14 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_SUBMISSIONID).build(changeGetter(Change::getSubmissionId));
 
   /** Last update time since January 1, 1970. */
+  // TODO(issue-15518): Migrate type for timestamp index fields from Timestamp to Instant
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
       timestamp("updated2")
           .stored()
           .build(changeGetter(change -> Timestamp.from(change.getLastUpdatedOn())));
 
   /** When this change was merged, time since January 1, 1970. */
+  // TODO(issue-15518): Migrate type for timestamp index fields from Timestamp to Instant
   public static final FieldDef<ChangeData, Timestamp> MERGED_ON =
       timestamp(ChangeQueryBuilder.FIELD_MERGED_ON)
           .stored()

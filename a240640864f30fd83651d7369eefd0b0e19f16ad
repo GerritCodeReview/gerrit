@@ -22,6 +22,30 @@
       },
       "revId": "a240640864f30fd83651d7369eefd0b0e19f16ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d17419de_3d13ecfb",
+        "filename": "java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-04T12:20:58Z",
+      "side": 1,
+      "message": "Yes, trying to format without specifying a timezone throws an exception.",
+      "parentUuid": "c8cf2648_b9bdb7e7",
+      "range": {
+        "startLine": 287,
+        "startChar": 78,
+        "endLine": 287,
+        "endChar": 94
+      },
+      "revId": "a240640864f30fd83651d7369eefd0b0e19f16ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

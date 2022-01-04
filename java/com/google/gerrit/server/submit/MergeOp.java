@@ -43,7 +43,7 @@ import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.SubmitTypeRecord;
-import com.google.gerrit.exceptions.InternalServerWithUserMessageException;
+import com.google.gerrit.exceptions.MergeUpdateException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -690,7 +690,7 @@ public class MergeOp implements AutoCloseable {
       if (e.getCause() instanceof IntegrationConflictException) {
         throw (IntegrationConflictException) e.getCause();
       }
-      throw new InternalServerWithUserMessageException(genericMergeError(cs), e);
+      throw new MergeUpdateException(genericMergeError(cs), e);
     }
   }
 

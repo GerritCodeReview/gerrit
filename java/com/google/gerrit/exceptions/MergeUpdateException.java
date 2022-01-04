@@ -14,10 +14,10 @@
 
 package com.google.gerrit.exceptions;
 
-public class InternalServerWithUserMessageException extends RuntimeException {
+public class MergeUpdateException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
-  public InternalServerWithUserMessageException(String msg, Throwable cause) {
+  public MergeUpdateException(String msg, Throwable cause) {
     super(msg, cause);
   }
 }

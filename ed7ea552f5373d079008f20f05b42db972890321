@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e8081c83_bd1610b2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-04T16:43:15Z",
+      "side": 1,
+      "message": "getUrlForFileComment() ?",
+      "parentUuid": "f5feb5ee_276036d3",
+      "range": {
+        "startLine": 707,
+        "startChar": 10,
+        "endLine": 707,
+        "endChar": 26
+      },
+      "revId": "ed7ea552f5373d079008f20f05b42db972890321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "310e078a_fad2a4f9",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
         "patchSetId": 2
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "All comment links are supposed to go to the comments tab. Comments Tab can handle both patchset and non-patchset level comments.\nThis is simply fixing a regression from the major refactor and restoring the previous behaviour.",
       "parentUuid": "310e078a_fad2a4f9",
+      "range": {
+        "startLine": 719,
+        "startChar": 10,
+        "endLine": 719,
+        "endChar": 24
+      },
+      "revId": "ed7ea552f5373d079008f20f05b42db972890321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44c12949_5978734f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-04T16:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63f1ea0b_6dfd7cc6",
       "range": {
         "startLine": 719,
         "startChar": 10,

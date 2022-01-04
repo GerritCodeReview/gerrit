@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 public class GitPerson {
@@ -22,6 +23,11 @@ public class GitPerson {
   public String email;
   public Timestamp date;
   public int tz;
+
+  @SuppressWarnings("JdkObsolete")
+  public void setDate(Instant when) {
+    date = Timestamp.from(when);
+  }
 
   @Override
   public boolean equals(Object o) {

@@ -172,6 +172,9 @@ public class ListTags implements RestReadView<ProjectResource> {
     throw new ResourceNotFoundException(id);
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   public static TagInfo createTagInfo(
       PermissionBackend.ForRef perm, Ref ref, RevWalk rw, ProjectState projectState, WebLinks links)
       throws IOException {

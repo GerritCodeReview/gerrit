@@ -14,7 +14,7 @@
 
 package com.google.gerrit.entities;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 public final class UserIdentity {
   /** Full name of the user. */
@@ -27,7 +27,7 @@ public final class UserIdentity {
   private String username;
 
   /** Time (in UTC) when the identity was constructed. */
-  private Timestamp when;
+  private Instant when;
 
   /** Offset from UTC */
   private int tz;
@@ -55,11 +55,11 @@ public final class UserIdentity {
     return username;
   }
 
-  public Timestamp getDate() {
+  public Instant getDate() {
     return when;
   }
 
-  public void setDate(Timestamp d) {
+  public void setDate(Instant d) {
     when = d;
   }
 

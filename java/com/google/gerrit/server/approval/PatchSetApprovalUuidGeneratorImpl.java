@@ -20,7 +20,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetApproval.UUID;
 import com.google.inject.Singleton;
 import java.security.MessageDigest;
-import java.util.Date;
+import java.time.Instant;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -32,14 +32,14 @@ import org.eclipse.jgit.lib.ObjectId;
 public class PatchSetApprovalUuidGeneratorImpl implements PatchSetApprovalUuidGenerator {
   @Override
   public UUID get(
-      PatchSet.Id patchSetId, Account.Id accountId, String label, short value, Date granted) {
+      PatchSet.Id patchSetId, Account.Id accountId, String label, short value, Instant granted) {
     MessageDigest md = Constants.newMessageDigest();
     md.update(
         Constants.encode("patchSetId " + patchSetId.getCommaSeparatedChangeAndPatchSetId() + "\n"));
     md.update(Constants.encode("accountId " + accountId + "\n"));
     md.update(Constants.encode("label " + label + "\n"));
     md.update(Constants.encode("value " + value + "\n"));
-    md.update(Constants.encode("granted " + granted.getTime() + "\n"));
+    md.update(Constants.encode("granted " + granted.toEpochMilli() + "\n"));
     md.update(Constants.encode(String.valueOf(Math.random())));
     return PatchSetApproval.uuid(ObjectId.fromRaw(md.digest()).name());
   }

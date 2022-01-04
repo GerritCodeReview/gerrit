@@ -39,7 +39,6 @@ import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
 
 @Singleton
 public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
@@ -113,10 +112,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
     @Override
     public void postUpdate(PostUpdateContext ctx) {
       assigneeChanged.fire(
-          ctx.getChangeData(change),
-          ctx.getAccount(),
-          deletedAssignee,
-          Timestamp.from(ctx.getWhen()));
+          ctx.getChangeData(change), ctx.getAccount(), deletedAssignee, ctx.getWhen());
     }
   }
 }

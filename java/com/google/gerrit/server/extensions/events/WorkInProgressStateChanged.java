@@ -31,7 +31,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Helper class to fire an event when the work-in-progress state of a change has been toggled. */
 @Singleton
@@ -42,7 +42,7 @@ public class WorkInProgressStateChanged {
       new WorkInProgressStateChanged() {
         @Override
         public void fire(
-            ChangeData changeData, PatchSet patchSet, AccountState account, Timestamp when) {}
+            ChangeData changeData, PatchSet patchSet, AccountState account, Instant when) {}
       };
 
   private final PluginSetContext<WorkInProgressStateChangedListener> listeners;
@@ -60,7 +60,7 @@ public class WorkInProgressStateChanged {
     this.util = null;
   }
 
-  public void fire(ChangeData changeData, PatchSet patchSet, AccountState account, Timestamp when) {
+  public void fire(ChangeData changeData, PatchSet patchSet, AccountState account, Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -85,7 +85,7 @@ public class WorkInProgressStateChanged {
   private static class Event extends AbstractRevisionEvent
       implements WorkInProgressStateChangedListener.Event {
 
-    protected Event(ChangeInfo change, RevisionInfo revision, AccountInfo who, Timestamp when) {
+    protected Event(ChangeInfo change, RevisionInfo revision, AccountInfo who, Instant when) {
       super(change, revision, who, when, NotifyHandling.ALL);
     }
   }

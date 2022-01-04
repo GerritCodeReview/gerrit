@@ -94,7 +94,7 @@ public class TestChanges {
                         injector.getInstance(AbstractChangeNotes.Args.class), c, shouldExist, null)
                     .load(),
                 user,
-                TimeUtil.nowTs(),
+                TimeUtil.now(),
                 Ordering.natural());
 
     ChangeNotes notes = update.getNotes();
@@ -109,8 +109,7 @@ public class TestChanges {
     try (Repository repo = repoManager.openRepository(c.getProject());
         TestRepository<Repository> tr = new TestRepository<>(repo)) {
       PersonIdent ident =
-          user.asIdentifiedUser()
-              .newCommitterIdent(update.getWhen().toInstant(), TimeZone.getDefault());
+          user.asIdentifiedUser().newCommitterIdent(update.getWhen(), TimeZone.getDefault());
       TestRepository<Repository>.CommitBuilder cb =
           tr.commit()
               .author(ident)

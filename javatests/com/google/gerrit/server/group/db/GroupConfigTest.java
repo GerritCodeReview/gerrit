@@ -1564,7 +1564,7 @@ public class GroupConfigTest {
   }
 
   private static Account createAccount(Account.Id id, String name) {
-    Account.Builder account = Account.builder(id, TimeUtil.nowTs());
+    Account.Builder account = Account.builder(id, TimeUtil.now());
     account.setFullName(name);
     return account.build();
   }

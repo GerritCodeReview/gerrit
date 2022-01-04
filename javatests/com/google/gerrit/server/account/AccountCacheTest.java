@@ -23,7 +23,6 @@ import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.config.CachedPreferences;
-import java.sql.Timestamp;
 import java.time.Instant;
 import org.junit.Test;
 
@@ -32,8 +31,7 @@ import org.junit.Test;
  * of the {@code AccountCache}.
  */
 public class AccountCacheTest {
-  private static final Account ACCOUNT =
-      Account.builder(Account.id(1), Timestamp.from(Instant.EPOCH)).build();
+  private static final Account ACCOUNT = Account.builder(Account.id(1), Instant.EPOCH).build();
   private static final Cache.AccountProto ACCOUNT_PROTO =
       Cache.AccountProto.newBuilder().setId(1).setRegisteredOn(0).build();
   private static final CachedAccountDetails.Serializer SERIALIZER =
@@ -42,7 +40,7 @@ public class AccountCacheTest {
   @Test
   public void account_roundTrip() throws Exception {
     Account account =
-        Account.builder(Account.id(1), Timestamp.from(Instant.EPOCH))
+        Account.builder(Account.id(1), Instant.EPOCH)
             .setFullName("foo bar")
             .setDisplayName("foo")
             .setActive(false)

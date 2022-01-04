@@ -25,7 +25,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Helper class to fire an event when a change has been deleted. */
 @Singleton
@@ -41,7 +41,7 @@ public class ChangeDeleted {
     this.util = util;
   }
 
-  public void fire(ChangeData changeData, AccountState deleter, Timestamp when) {
+  public void fire(ChangeData changeData, AccountState deleter, Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -55,7 +55,7 @@ public class ChangeDeleted {
 
   /** Event to be fired when a change has been deleted. */
   private static class Event extends AbstractChangeEvent implements ChangeDeletedListener.Event {
-    Event(ChangeInfo change, AccountInfo deleter, Timestamp when) {
+    Event(ChangeInfo change, AccountInfo deleter, Instant when) {
       super(change, deleter, when, NotifyHandling.ALL);
     }
   }

@@ -153,7 +153,7 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   private AccountState missing(Account.Id accountId) {
-    Account.Builder account = Account.builder(accountId, TimeUtil.nowTs());
+    Account.Builder account = Account.builder(accountId, TimeUtil.now());
     account.setActive(false);
     return AccountState.forAccount(account.build());
   }

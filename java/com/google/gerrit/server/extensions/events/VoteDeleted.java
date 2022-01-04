@@ -33,7 +33,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Map;
 
 /** Helper class to fire an event when a vote has been deleted from a change. */
@@ -59,7 +59,7 @@ public class VoteDeleted {
       NotifyHandling notify,
       String message,
       AccountState remover,
-      Timestamp when) {
+      Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -103,7 +103,7 @@ public class VoteDeleted {
         NotifyHandling notify,
         String message,
         AccountInfo remover,
-        Timestamp when) {
+        Instant when) {
       super(change, revision, remover, when, notify);
       this.reviewer = reviewer;
       this.approvals = approvals;

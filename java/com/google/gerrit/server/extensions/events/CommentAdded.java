@@ -33,7 +33,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Map;
 
 /** Helper class to fire an event when a comment or vote has been added to a change. */
@@ -57,7 +57,7 @@ public class CommentAdded {
       String comment,
       Map<String, Short> approvals,
       Map<String, Short> oldApprovals,
-      Timestamp when) {
+      Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -97,7 +97,7 @@ public class CommentAdded {
         String comment,
         Map<String, ApprovalInfo> approvals,
         Map<String, ApprovalInfo> oldApprovals,
-        Timestamp when) {
+        Instant when) {
       super(change, revision, author, when, NotifyHandling.ALL);
       this.comment = comment;
       this.approvals = approvals;

@@ -84,10 +84,10 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -121,10 +121,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {
-    ChangeUpdate create(ChangeNotes notes, CurrentUser user, Date when);
+    ChangeUpdate create(ChangeNotes notes, CurrentUser user, Instant when);
 
     ChangeUpdate create(
-        ChangeNotes notes, CurrentUser user, Date when, Comparator<String> labelNameComparator);
+        ChangeNotes notes, CurrentUser user, Instant when, Comparator<String> labelNameComparator);
   }
 
   private final NoteDbUpdateManager.Factory updateManagerFactory;
@@ -186,7 +186,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       PatchSetApprovalUuidGenerator patchSetApprovalUuidGenerator,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
-      @Assisted Date when,
+      @Assisted Instant when,
       ChangeNoteUtil noteUtil) {
     this(
         serverIdent,
@@ -223,7 +223,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       PatchSetApprovalUuidGenerator patchSetApprovalUuidGenerator,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
-      @Assisted Date when,
+      @Assisted Instant when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
     super(notes, user, serverIdent, noteUtil, when);

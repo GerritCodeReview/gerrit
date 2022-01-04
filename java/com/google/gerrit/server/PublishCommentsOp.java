@@ -37,7 +37,6 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,7 +144,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
         mailMessage,
         ImmutableMap.of(),
         ImmutableMap.of(),
-        Timestamp.from(ctx.getWhen()));
+        ctx.getWhen());
   }
 
   private boolean insertMessage(ChangeUpdate changeUpdate) {

@@ -26,7 +26,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Set;
 
@@ -50,7 +50,7 @@ public class HashtagsEdited {
       ImmutableSortedSet<String> hashtags,
       Set<String> added,
       Set<String> removed,
-      Timestamp when) {
+      Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -82,7 +82,7 @@ public class HashtagsEdited {
         Collection<String> updated,
         Collection<String> added,
         Collection<String> removed,
-        Timestamp when) {
+        Instant when) {
       super(change, editor, when, NotifyHandling.ALL);
       this.updatedHashtags = updated;
       this.addedHashtags = added;

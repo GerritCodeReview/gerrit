@@ -29,9 +29,10 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -104,8 +105,8 @@ public class JarPluginProvider implements ServerPluginProvider {
   }
 
   private static String tempNameFor(String name) {
-    SimpleDateFormat fmt = new SimpleDateFormat("yyMMdd_HHmm");
-    return PLUGIN_TMP_PREFIX + name + "_" + fmt.format(new Date()) + "_";
+    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyMMdd_HHmm").withZone(ZoneId.of("UTC"));
+    return PLUGIN_TMP_PREFIX + name + "_" + fmt.format(Instant.now()) + "_";
   }
 
   public static Path storeInTemp(String pluginName, InputStream in, SitePaths sitePaths)

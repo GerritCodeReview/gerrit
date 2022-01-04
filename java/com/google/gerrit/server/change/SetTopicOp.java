@@ -27,7 +27,6 @@ import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.sql.Timestamp;
 
 public class SetTopicOp implements BatchUpdateOp {
   public interface Factory {
@@ -81,8 +80,7 @@ public class SetTopicOp implements BatchUpdateOp {
   @Override
   public void postUpdate(PostUpdateContext ctx) {
     if (change != null) {
-      topicEdited.fire(
-          ctx.getChangeData(change), ctx.getAccount(), oldTopicName, Timestamp.from(ctx.getWhen()));
+      topicEdited.fire(ctx.getChangeData(change), ctx.getAccount(), oldTopicName, ctx.getWhen());
     }
   }
 }

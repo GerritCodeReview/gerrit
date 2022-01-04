@@ -49,7 +49,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -327,8 +326,7 @@ public class AccountsUpdate {
                 repo -> {
                   AccountConfig accountConfig = read(repo, accountId);
                   Account account =
-                      accountConfig.getNewAccount(
-                          new Timestamp(committerIdent.getWhen().getTime()));
+                      accountConfig.getNewAccount(committerIdent.getWhen().toInstant());
                   AccountState accountState = AccountState.forAccount(account);
                   AccountDelta.Builder deltaBuilder = AccountDelta.builder();
                   init.configure(accountState, deltaBuilder);

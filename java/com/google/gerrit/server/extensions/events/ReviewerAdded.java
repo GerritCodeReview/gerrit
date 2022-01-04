@@ -33,7 +33,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 /** Helper class to fire an event when reviewers have been added to a change. */
@@ -55,7 +55,7 @@ public class ReviewerAdded {
       PatchSet patchSet,
       List<AccountState> reviewers,
       AccountState adder,
-      Timestamp when) {
+      Instant when) {
     if (listeners.isEmpty() || reviewers.isEmpty()) {
       return;
     }
@@ -89,7 +89,7 @@ public class ReviewerAdded {
         RevisionInfo revision,
         List<AccountInfo> reviewers,
         AccountInfo adder,
-        Timestamp when) {
+        Instant when) {
       super(change, revision, adder, when, NotifyHandling.ALL);
       this.reviewers = reviewers;
     }

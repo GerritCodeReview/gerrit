@@ -220,7 +220,7 @@ public class DeleteReviewerOp extends ReviewerOp {
                 newApprovals,
                 oldApprovals,
                 notifyHandling,
-                Timestamp.from(ctx.getWhen()));
+                ctx.getWhen());
     if (sendEvent) {
       sendEvent();
     }

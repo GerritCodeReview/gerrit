@@ -33,7 +33,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Helper class to fire an event when a revision has been created for a change. */
 @Singleton
@@ -47,7 +47,7 @@ public class RevisionCreated {
             ChangeData changeData,
             PatchSet patchSet,
             AccountState uploader,
-            Timestamp when,
+            Instant when,
             NotifyResolver.Result notify) {}
       };
 
@@ -69,7 +69,7 @@ public class RevisionCreated {
       ChangeData changeData,
       PatchSet patchSet,
       AccountState uploader,
-      Timestamp when,
+      Instant when,
       NotifyResolver.Result notify) {
     if (listeners.isEmpty()) {
       return;
@@ -102,7 +102,7 @@ public class RevisionCreated {
         ChangeInfo change,
         RevisionInfo revision,
         AccountInfo uploader,
-        Timestamp when,
+        Instant when,
         NotifyHandling notify) {
       super(change, revision, uploader, when, notify);
     }

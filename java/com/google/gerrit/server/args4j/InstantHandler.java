@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,11 +16,10 @@ package com.google.gerrit.server.args4j;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -28,14 +27,14 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
-public class TimestampHandler extends OptionHandler<Timestamp> {
+public class InstantHandler extends OptionHandler<Instant> {
   public static final String TIMESTAMP_FORMAT = "yyyyMMdd_HHmm";
 
   @Inject
-  public TimestampHandler(
+  public InstantHandler(
       @Assisted CmdLineParser parser,
       @Assisted OptionDef option,
-      @Assisted Setter<Timestamp> setter) {
+      @Assisted Setter<Instant> setter) {
     super(parser, option, setter);
   }
 
@@ -43,11 +42,12 @@ public class TimestampHandler extends OptionHandler<Timestamp> {
   public int parseArguments(Parameters params) throws CmdLineException {
     String timestamp = params.getParameter(0);
     try {
-      DateFormat fmt = new SimpleDateFormat(TIMESTAMP_FORMAT);
-      fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
-      setter.addValue(new Timestamp(fmt.parse(timestamp).getTime()));
+      setter.addValue(
+          DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT)
+              .withZone(ZoneId.of("UTC"))
+              .parse(timestamp, Instant::from));
       return 1;
-    } catch (ParseException e) {
+    } catch (DateTimeParseException e) {
       throw new CmdLineException(
           owner,
           String.format("Invalid timestamp: %s; expected format: %s", timestamp, TIMESTAMP_FORMAT),

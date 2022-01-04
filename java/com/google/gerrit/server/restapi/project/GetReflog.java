@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommonConverters;
-import com.google.gerrit.server.args4j.TimestampHandler;
+import com.google.gerrit.server.args4j.InstantHandler;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -31,7 +31,7 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.ReflogEntry;
@@ -60,9 +60,9 @@ public class GetReflog implements RestReadView<BranchResource> {
       metaVar = "TIMESTAMP",
       usage =
           "timestamp from which the reflog entries should be listed (UTC, format: "
-              + TimestampHandler.TIMESTAMP_FORMAT
+              + InstantHandler.TIMESTAMP_FORMAT
               + ")")
-  public GetReflog setFrom(Timestamp from) {
+  public GetReflog setFrom(Instant from) {
     this.from = from;
     return this;
   }
@@ -72,16 +72,16 @@ public class GetReflog implements RestReadView<BranchResource> {
       metaVar = "TIMESTAMP",
       usage =
           "timestamp until which the reflog entries should be listed (UTC, format: "
-              + TimestampHandler.TIMESTAMP_FORMAT
+              + InstantHandler.TIMESTAMP_FORMAT
               + ")")
-  public GetReflog setTo(Timestamp to) {
+  public GetReflog setTo(Instant to) {
     this.to = to;
     return this;
   }
 
   private int limit;
-  private Timestamp from;
-  private Timestamp to;
+  private Instant from;
+  private Instant to;
 
   @Inject
   public GetReflog(GitRepositoryManager repoManager, PermissionBackend permissionBackend) {
@@ -115,8 +115,8 @@ public class GetReflog implements RestReadView<BranchResource> {
       } else {
         entries = limit > 0 ? new ArrayList<>(limit) : new ArrayList<>();
         for (ReflogEntry e : r.getReverseEntries()) {
-          Timestamp timestamp = new Timestamp(e.getWho().getWhen().getTime());
-          if ((from == null || from.before(timestamp)) && (to == null || to.after(timestamp))) {
+          Instant timestamp = e.getWho().getWhen().toInstant();
+          if ((from == null || from.isBefore(timestamp)) && (to == null || to.isAfter(timestamp))) {
             entries.add(e);
           }
           if (limit > 0 && entries.size() >= limit) {

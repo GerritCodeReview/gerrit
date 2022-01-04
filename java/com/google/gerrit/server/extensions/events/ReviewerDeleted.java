@@ -33,7 +33,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Map;
 
 /** Helper class to fire an event when a reviewer has been deleted from a change. */
@@ -59,7 +59,7 @@ public class ReviewerDeleted {
       Map<String, Short> newApprovals,
       Map<String, Short> oldApprovals,
       NotifyHandling notify,
-      Timestamp when) {
+      Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -104,7 +104,7 @@ public class ReviewerDeleted {
         Map<String, ApprovalInfo> newApprovals,
         Map<String, ApprovalInfo> oldApprovals,
         NotifyHandling notify,
-        Timestamp when) {
+        Instant when) {
       super(change, revision, remover, when, notify);
       this.reviewer = reviewer;
       this.comment = comment;

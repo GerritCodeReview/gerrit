@@ -81,7 +81,6 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -537,11 +536,7 @@ public class ChangeInserter implements InsertChangeOp {
      */
     if (fireRevisionCreated) {
       revisionCreated.fire(
-          ctx.getChangeData(change),
-          patchSet,
-          ctx.getAccount(),
-          Timestamp.from(ctx.getWhen()),
-          notify);
+          ctx.getChangeData(change), patchSet, ctx.getAccount(), ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
         List<LabelType> labels = projectState.getLabelTypes(change.getDest()).getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
@@ -563,7 +558,7 @@ public class ChangeInserter implements InsertChangeOp {
             null,
             allApprovals,
             oldApprovals,
-            Timestamp.from(ctx.getWhen()));
+            ctx.getWhen());
       }
     }
   }

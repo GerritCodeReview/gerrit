@@ -57,7 +57,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -209,7 +208,7 @@ public class ApprovalsUtil {
           PatchSetApproval.builder()
               .key(PatchSetApproval.key(psId, account, labelId))
               .value(0)
-              .granted(update.getWhen().toInstant())
+              .granted(update.getWhen())
               .build());
       update.putReviewer(account, REVIEWER);
     }
@@ -298,16 +297,14 @@ public class ApprovalsUtil {
     }
     checkApprovals(approvals, permissionBackend.user(user).change(update.getNotes()));
     List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
-    Date ts = update.getWhen();
+    Instant ts = update.getWhen();
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       Optional<LabelType> lt = labelTypes.byLabel(vote.getKey());
       if (!lt.isPresent()) {
         throw new BadRequestException(
             String.format("label \"%s\" is not a configured label", vote.getKey()));
       }
-      cells.add(
-          newApproval(ps.id(), user, lt.get().getLabelId(), vote.getValue(), ts.toInstant())
-              .build());
+      cells.add(newApproval(ps.id(), user, lt.get().getLabelId(), vote.getValue(), ts).build());
     }
     for (PatchSetApproval psa : cells) {
       update.putApproval(psa.label(), psa.value());

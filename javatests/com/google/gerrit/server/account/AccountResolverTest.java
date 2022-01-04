@@ -361,13 +361,13 @@ public class AccountResolverTest {
 
   private AccountState newAccount(int id) {
     return AccountState.forAccount(
-        Account.builder(Account.id(id), TimeUtil.nowTs())
+        Account.builder(Account.id(id), TimeUtil.now())
             .setMetaId("1234567812345678123456781234567812345678")
             .build());
   }
 
   private AccountState newInactiveAccount(int id) {
-    Account.Builder a = Account.builder(Account.id(id), TimeUtil.nowTs());
+    Account.Builder a = Account.builder(Account.id(id), TimeUtil.now());
     a.setActive(false);
     return AccountState.forAccount(a.build());
   }

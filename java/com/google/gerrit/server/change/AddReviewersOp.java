@@ -45,7 +45,6 @@ import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -223,11 +222,7 @@ public class AddReviewersOp extends ReviewerOp {
       eventSender =
           () ->
               reviewerAdded.fire(
-                  ctx.getChangeData(change),
-                  patchSet,
-                  reviewers,
-                  ctx.getAccount(),
-                  Timestamp.from(ctx.getWhen()));
+                  ctx.getChangeData(change), patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
       if (sendEvent) {
         sendEvent();
       }

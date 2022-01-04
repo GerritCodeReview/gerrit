@@ -499,7 +499,7 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(ref).isNotNull();
       RevCommit c = rw.parseCommit(ref.getObjectId());
       long timestampDiffMs =
-          Math.abs(c.getCommitTime() * 1000L - getAccount(accountId).registeredOn().getTime());
+          Math.abs(c.getCommitTime() * 1000L - getAccount(accountId).registeredOn().toEpochMilli());
       assertThat(timestampDiffMs).isAtMost(SECONDS.toMillis(1));
 
       // Check the 'account.config' file.
@@ -980,7 +980,8 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(detail.email).isEqualTo(email);
     assertThat(detail.secondaryEmails).containsExactly(secondaryEmail);
     assertThat(detail.status).isEqualTo(status);
-    assertThat(detail.registeredOn).isEqualTo(getAccount(foo.id()).registeredOn());
+    assertThat(detail.registeredOn.getTime())
+        .isEqualTo(getAccount(foo.id()).registeredOn().toEpochMilli());
     assertThat(detail.inactive).isNull();
     assertThat(detail._moreAccounts).isNull();
   }

@@ -712,7 +712,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
     return writeCommit(
         body,
-        noteUtil.newAccountIdIdent(changeOwner.getAccount().id(), TimeUtil.nowTs(), serverIdent),
+        noteUtil.newAccountIdIdent(changeOwner.getAccount().id(), TimeUtil.now(), serverIdent),
         false);
   }
 
@@ -724,7 +724,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
     return writeCommit(
         body,
-        noteUtil.newAccountIdIdent(changeOwner.getAccount().id(), TimeUtil.nowTs(), serverIdent),
+        noteUtil.newAccountIdIdent(changeOwner.getAccount().id(), TimeUtil.now(), serverIdent),
         initWorkInProgress);
   }
 

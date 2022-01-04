@@ -32,7 +32,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Helper class to fire an event when a change has been restored. */
 @Singleton
@@ -49,7 +49,7 @@ public class ChangeRestored {
   }
 
   public void fire(
-      ChangeData changeData, PatchSet ps, AccountState restorer, String reason, Timestamp when) {
+      ChangeData changeData, PatchSet ps, AccountState restorer, String reason, Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -83,7 +83,7 @@ public class ChangeRestored {
         RevisionInfo revision,
         AccountInfo restorer,
         String reason,
-        Timestamp when) {
+        Instant when) {
       super(change, revision, restorer, when, NotifyHandling.ALL);
       this.reason = reason;
     }

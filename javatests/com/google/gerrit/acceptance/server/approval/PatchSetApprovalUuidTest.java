@@ -10,7 +10,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGeneratorImpl;
 import com.google.gerrit.server.util.time.TimeUtil;
-import java.util.Date;
+import java.time.Instant;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -30,7 +30,7 @@ public class PatchSetApprovalUuidTest {
       PatchSet.Id patchSetId = PatchSet.id(Change.id(1), 1);
       Account.Id accountId = Account.id(1);
       String label = LabelId.CODE_REVIEW;
-      Date granted = TimeUtil.nowTs();
+      Instant granted = TimeUtil.now();
       PatchSetApproval.UUID uuid1 =
           patchSetApprovalUuidGenerator.get(patchSetId, accountId, label, value, granted);
       PatchSetApproval.UUID uuid2 =

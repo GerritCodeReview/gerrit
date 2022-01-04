@@ -31,7 +31,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /** Helper class to fire an event when the private flag of a change has been toggled. */
 @Singleton
@@ -47,7 +47,7 @@ public class PrivateStateChanged {
     this.util = util;
   }
 
-  public void fire(ChangeData changeData, PatchSet patchSet, AccountState account, Timestamp when) {
+  public void fire(ChangeData changeData, PatchSet patchSet, AccountState account, Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -72,7 +72,7 @@ public class PrivateStateChanged {
   private static class Event extends AbstractRevisionEvent
       implements PrivateStateChangedListener.Event {
 
-    protected Event(ChangeInfo change, RevisionInfo revision, AccountInfo who, Timestamp when) {
+    protected Event(ChangeInfo change, RevisionInfo revision, AccountInfo who, Instant when) {
       super(change, revision, who, when, NotifyHandling.ALL);
     }
   }

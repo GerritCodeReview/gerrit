@@ -717,7 +717,17 @@ export class GrCommentThread extends LitElement {
   }
 
   private handleCopyLink() {
-    const url = this.getUrlForComment();
+    const comment = this.getFirstComment();
+    if (!comment) return;
+    assertIsDefined(this.changeNum, 'changeNum');
+    assertIsDefined(this.repoName, 'repoName');
+    const url = generateAbsoluteUrl(
+      GerritNav.getUrlForCommentsTab(
+        this.changeNum!,
+        this.repoName!,
+        comment.id
+      )
+    );
     assertIsDefined(url, 'url for comment');
     navigator.clipboard.writeText(generateAbsoluteUrl(url)).then(() => {
       fireAlert(this, 'Link copied to clipboard');

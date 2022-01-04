@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fec36f69_c1b1bc96",
+        "filename": "java/com/google/gerrit/exceptions/MergeUpdateException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-04T09:55:31Z",
+      "side": 1,
+      "message": "What\u0027s special about this exception is that its message is exposed to the end user. When constructing this message the caller needs to be aware of this, so that not internal details are accidentally leaked. With the new name it\u0027s no longer obvious that the message is user visible.\n\nMaybe the rename is OK if you add a JavaDoc pointing out that the message is user-visible? Also maybe rename the \u0027msg\u0027 arg in the constructor to \"userVisibleMessage\" to make this more clear?",
+      "revId": "6d91c96a871d91a8d4c562979ffbd3134706c04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,10 +36,11 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -281,9 +282,10 @@ public class SmtpEmailSender implements EmailSender {
       setMissingHeader(hdrs, "Importance", importance);
     }
     if (expiryDays > 0) {
-      Date expiry = new Date(TimeUtil.nowMs() + expiryDays * 24 * 60 * 60 * 1000L);
-      setMissingHeader(
-          hdrs, "Expiry-Date", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));
+      Instant expiry = Instant.ofEpochMilli(TimeUtil.nowMs() + expiryDays * 24 * 60 * 60 * 1000L);
+      DateTimeFormatter fmt =
+          DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z").withZone(ZoneId.of("UTC"));
+      setMissingHeader(hdrs, "Expiry-Date", fmt.format(expiry));
     }
 
     String encodedBody;

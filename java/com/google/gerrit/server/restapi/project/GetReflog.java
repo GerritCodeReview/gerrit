@@ -89,6 +89,9 @@ public class GetReflog implements RestReadView<BranchResource> {
     this.permissionBackend = permissionBackend;
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Override
   public Response<List<ReflogEntryInfo>> apply(BranchResource rsrc)
       throws RestApiException, IOException, PermissionBackendException {

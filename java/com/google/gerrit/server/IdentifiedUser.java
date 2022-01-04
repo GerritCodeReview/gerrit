@@ -458,6 +458,9 @@ public class IdentifiedUser extends CurrentUser {
     return getUserName().orElse("") + "|account-" + ua.id().toString() + "@" + host;
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   public PersonIdent newCommitterIdent(PersonIdent ident) {
     return newCommitterIdent(ident.getWhen().toInstant(), ident.getTimeZone());
   }
@@ -575,6 +578,7 @@ public class IdentifiedUser extends CurrentUser {
    * java.util.Date, TimeZone)} (just instead of getting the epoch millis from {@code
    * java.util.Date} we get them from {@link Instant}).
    */
+  // TODO(issue-15517): Drop this method once JGit's PersonIdent class supports Instants
   private static PersonIdent newPersonIdent(String name, String email, Instant when, TimeZone tz) {
     return new PersonIdent(
         name, email, when.toEpochMilli(), tz.getOffset(when.toEpochMilli()) / (60 * 1000));

@@ -52,6 +52,13 @@ public abstract class Comment {
   // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
+  public Instant getUpdated() {
+    return updated.toInstant();
+  }
+
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
+  @SuppressWarnings("JdkObsolete")
   public void setUpdated(Instant when) {
     updated = Timestamp.from(when);
   }

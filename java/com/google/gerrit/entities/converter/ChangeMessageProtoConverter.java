@@ -20,7 +20,7 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 @Immutable
@@ -44,9 +44,9 @@ public enum ChangeMessageProtoConverter
     if (author != null) {
       builder.setAuthorId(accountIdConverter.toProto(author));
     }
-    Timestamp writtenOn = changeMessage.getWrittenOn();
+    Instant writtenOn = changeMessage.getWrittenOn();
     if (writtenOn != null) {
-      builder.setWrittenOn(writtenOn.getTime());
+      builder.setWrittenOn(writtenOn.toEpochMilli());
     }
     // Build proto with template representation of the message. Templates are parsed when message is
     // extracted from cache.
@@ -78,7 +78,7 @@ public enum ChangeMessageProtoConverter
         proto.hasKey() ? changeMessageKeyConverter.fromProto(proto.getKey()) : null;
     Account.Id author =
         proto.hasAuthorId() ? accountIdConverter.fromProto(proto.getAuthorId()) : null;
-    Timestamp writtenOn = proto.hasWrittenOn() ? new Timestamp(proto.getWrittenOn()) : null;
+    Instant writtenOn = proto.hasWrittenOn() ? Instant.ofEpochMilli(proto.getWrittenOn()) : null;
     PatchSet.Id patchSetId =
         proto.hasPatchset() ? patchSetIdConverter.fromProto(proto.getPatchset()) : null;
     // Only template representation of the message is stored in entity. Templates should be replaced

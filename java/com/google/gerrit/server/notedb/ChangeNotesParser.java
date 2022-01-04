@@ -1245,6 +1245,9 @@ class ChangeNotesParser {
    * @param commit the commit to return commit time.
    * @return the timestamp when the commit was applied.
    */
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   private Instant getCommitTimestamp(ChangeNotesCommit commit) {
     return commit.getCommitterIdent().getWhen().toInstant();
   }

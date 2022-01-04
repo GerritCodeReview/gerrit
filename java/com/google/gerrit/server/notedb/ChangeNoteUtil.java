@@ -100,6 +100,9 @@ public class ChangeNoteUtil {
    * Returns a {@link PersonIdent} that contains the account ID, but not the user's name or email
    * address.
    */
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   public PersonIdent newAccountIdIdent(
       Account.Id accountId, Instant when, PersonIdent serverIdent) {
     return new PersonIdent(

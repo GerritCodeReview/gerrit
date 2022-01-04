@@ -28,12 +28,16 @@ import java.time.Instant;
  */
 public class AccountDetailInfo extends AccountInfo {
   /** The timestamp of when the account was registered. */
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   public Timestamp registeredOn;
 
   public AccountDetailInfo(Integer id) {
     super(id);
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public void setRegisteredOn(Instant registeredOn) {
     this.registeredOn = Timestamp.from(registeredOn);

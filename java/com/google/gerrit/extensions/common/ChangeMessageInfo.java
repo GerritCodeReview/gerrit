@@ -25,7 +25,11 @@ public class ChangeMessageInfo {
   public String tag;
   public AccountInfo author;
   public AccountInfo realAuthor;
+
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   public Timestamp date;
+
   public String message;
   public Collection<AccountInfo> accountsInMessage;
   public Integer _revisionNumber;

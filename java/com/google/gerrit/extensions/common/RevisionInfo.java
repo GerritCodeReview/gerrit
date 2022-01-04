@@ -26,7 +26,11 @@ public class RevisionInfo {
   public transient boolean isCurrent;
   public ChangeKind kind;
   public int _number;
+
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   public Timestamp created;
+
   public AccountInfo uploader;
   public String ref;
   public Map<String, FetchInfo> fetch;
@@ -52,6 +56,8 @@ public class RevisionInfo {
     this.uploader = uploader;
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public void setCreated(Instant date) {
     this.created = Timestamp.from(date);

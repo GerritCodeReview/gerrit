@@ -63,6 +63,10 @@ public class TimeUtil {
     return new Timestamp((t.getTime() / 1000) * 1000);
   }
 
+  public static Instant truncateToSecond(Instant t) {
+    return Instant.ofEpochMilli(t.getEpochSecond() * 1000);
+  }
+
   @VisibleForTesting
   public static void setCurrentMillisSupplier(LongSupplier customCurrentMillisSupplier) {
     currentMillisSupplier = customCurrentMillisSupplier;

@@ -18,7 +18,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.AuditEvent;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 public interface GroupAuditService {
   void dispatch(AuditEvent action);
@@ -27,23 +27,23 @@ public interface GroupAuditService {
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
       ImmutableSet<Account.Id> addedMembers,
-      Timestamp addedOn);
+      Instant addedOn);
 
   void dispatchDeleteMembers(
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
       ImmutableSet<Account.Id> deletedMembers,
-      Timestamp deletedOn);
+      Instant deletedOn);
 
   void dispatchAddSubgroups(
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
       ImmutableSet<AccountGroup.UUID> addedSubgroups,
-      Timestamp addedOn);
+      Instant addedOn);
 
   void dispatchDeleteSubgroups(
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
       ImmutableSet<AccountGroup.UUID> deletedSubgroups,
-      Timestamp deletedOn);
+      Instant deletedOn);
 }

@@ -15,7 +15,7 @@
 package com.google.gerrit.entities;
 
 import com.google.gerrit.common.Nullable;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Set;
 
 /** Group methods exposed by the GroupBackend. */
@@ -55,7 +55,7 @@ public class GroupDescription {
 
     boolean isVisibleToAll();
 
-    Timestamp getCreatedOn();
+    Instant getCreatedOn();
 
     Set<Account.Id> getMembers();
 

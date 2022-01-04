@@ -50,7 +50,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -292,9 +292,9 @@ public class GroupsUpdate {
     try (TraceTimer ignored =
         TraceContext.newTimer(
             "Updating group", Metadata.builder().groupUuid(groupUuid.get()).build())) {
-      Optional<Timestamp> updatedOn = groupDelta.getUpdatedOn();
+      Optional<Instant> updatedOn = groupDelta.getUpdatedOn();
       if (!updatedOn.isPresent()) {
-        updatedOn = Optional.of(TimeUtil.nowTs());
+        updatedOn = Optional.of(TimeUtil.now());
         groupDelta = groupDelta.toBuilder().setUpdatedOn(updatedOn.get()).build();
       }
 
@@ -505,7 +505,7 @@ public class GroupsUpdate {
     }
   }
 
-  private void dispatchAuditEventsOnGroupUpdate(UpdateResult result, Timestamp updatedOn) {
+  private void dispatchAuditEventsOnGroupUpdate(UpdateResult result, Instant updatedOn) {
     if (!currentUser.isPresent()) {
       return;
     }

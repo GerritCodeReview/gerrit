@@ -23,7 +23,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.InternalGroup;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 public class InternalGroupDescription implements GroupDescription.Internal {
 
@@ -77,7 +77,7 @@ public class InternalGroupDescription implements GroupDescription.Internal {
   }
 
   @Override
-  public Timestamp getCreatedOn() {
+  public Instant getCreatedOn() {
     return internalGroup.getCreatedOn();
   }
 

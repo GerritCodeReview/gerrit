@@ -18,7 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 
 @AutoValue
@@ -40,7 +40,7 @@ public abstract class TestGroup {
 
   public abstract boolean visibleToAll();
 
-  public abstract Timestamp createdOn();
+  public abstract Instant createdOn();
 
   public abstract ImmutableSet<Account.Id> members();
 
@@ -67,7 +67,7 @@ public abstract class TestGroup {
 
     public abstract Builder visibleToAll(boolean visibleToAll);
 
-    public abstract Builder createdOn(Timestamp createdOn);
+    public abstract Builder createdOn(Instant createdOn);
 
     public abstract Builder members(ImmutableSet<Account.Id> members);
 

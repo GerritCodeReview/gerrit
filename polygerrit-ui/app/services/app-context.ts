@@ -27,7 +27,6 @@ import {StorageService} from './storage/gr-storage';
 import {UserModel} from '../models/user/user-model';
 import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
-import {ConfigModel} from '../models/config/config-model';
 
 export interface AppContext {
   routerModel: RouterModel;
@@ -40,7 +39,6 @@ export interface AppContext {
   checksModel: ChecksModel;
   jsApiService: JsApiService;
   storageService: StorageService;
-  configModel: ConfigModel;
   userModel: UserModel;
   shortcutsService: ShortcutsService;
 }

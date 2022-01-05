@@ -38,6 +38,8 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {fireEvent} from '../../../utils/event-util';
+import {resolve} from '../../../services/dependency';
+import {configModelToken} from '../../../models/config/config-model';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -153,7 +155,7 @@ export class GrMainHeader extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
-  private readonly configModel = getAppContext().configModel;
+  private readonly configModel = resolve(this, configModelToken);
 
   private subscriptions: Subscription[] = [];
 
@@ -172,7 +174,7 @@ export class GrMainHeader extends LitElement {
         })
     );
     this.subscriptions.push(
-      this.configModel.serverConfig$.subscribe(config => {
+      this.configModel().serverConfig$.subscribe(config => {
         if (!config) return;
         this.serverConfig = config;
         this.retrieveFeedbackURL(config);

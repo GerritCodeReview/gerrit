@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0318a00_c88d967e",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-05T16:11:28Z",
+      "side": 1,
+      "message": "Not necessary to investigate, but do you know what even the template issue is here that needs to be ignored?",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 27
+      },
+      "revId": "657e6d7fff34ed4b021196a50794a6ec3f58fb94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f593684e_81c7a6bf",
+        "filename": "polygerrit-ui/app/tsconfig.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-05T16:11:28Z",
+      "side": 1,
+      "message": "whatever\u0027s going on here should at least add a newline 😂",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 90
+      },
+      "revId": "657e6d7fff34ed4b021196a50794a6ec3f58fb94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

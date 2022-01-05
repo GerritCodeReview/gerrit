@@ -66,7 +66,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -163,11 +163,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public static Change newChange(Project.NameKey project, Change.Id changeId) {
       return new Change(
-          null,
-          changeId,
-          null,
-          BranchNameKey.create(project, "INVALID_NOTE_DB_ONLY"),
-          (Timestamp) null);
+          null, changeId, null, BranchNameKey.create(project, "INVALID_NOTE_DB_ONLY"), null);
     }
 
     public ChangeNotes create(Project.NameKey project, Change.Id changeId) {
@@ -571,8 +567,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   /** Returns {@link Optional} value of time when the change was merged. */
-  public Optional<Timestamp> getMergedOn() {
-    return Optional.ofNullable(state.mergedOn()).map(Timestamp::from);
+  public Optional<Instant> getMergedOn() {
+    return Optional.ofNullable(state.mergedOn());
   }
 
   public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(Account.Id author) {

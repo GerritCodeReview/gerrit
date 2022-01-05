@@ -47,7 +47,7 @@ import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -205,7 +205,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
       Comparator<ChangeData> lastUpdated =
           Comparator.comparing(cd -> cd.change().getLastUpdatedOn());
       Comparator<ChangeData> merged =
-          Comparator.comparing(cd -> cd.getMergedOn().orElse(new Timestamp(0)));
+          Comparator.comparing(cd -> cd.getMergedOn().orElse(Instant.ofEpochMilli(0)));
       Comparator<ChangeData> id = Comparator.comparing(cd -> cd.getId().get());
       return lastUpdated.thenComparing(merged).thenComparing(id).reversed();
     }

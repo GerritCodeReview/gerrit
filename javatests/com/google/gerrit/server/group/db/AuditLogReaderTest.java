@@ -24,7 +24,7 @@ import com.google.gerrit.entities.AccountGroupByIdAudit;
 import com.google.gerrit.entities.AccountGroupMemberAudit;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.server.account.GroupUuid;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Set;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
@@ -299,7 +299,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
   }
 
   private static AccountGroupMemberAudit createExpMemberAudit(
-      AccountGroup.Id groupId, Account.Id id, Account.Id addedBy, Timestamp addedOn) {
+      AccountGroup.Id groupId, Account.Id id, Account.Id addedBy, Instant addedOn) {
     return AccountGroupMemberAudit.builder()
         .groupId(groupId)
         .memberId(id)
@@ -309,7 +309,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
   }
 
   private static AccountGroupByIdAudit createExpGroupAudit(
-      AccountGroup.Id groupId, AccountGroup.UUID uuid, Account.Id addedBy, Timestamp addedOn) {
+      AccountGroup.Id groupId, AccountGroup.UUID uuid, Account.Id addedBy, Instant addedOn) {
     return AccountGroupByIdAudit.builder()
         .groupId(groupId)
         .includeUuid(uuid)

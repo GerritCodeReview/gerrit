@@ -69,7 +69,7 @@ import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -667,7 +667,7 @@ public class CommentsIT extends AbstractDaemonTest {
   public void putDraft() throws Exception {
     for (Integer line : lines) {
       PushOneCommit.Result r = createChange();
-      Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
+      Instant origLastUpdated = r.getChange().change().getLastUpdatedOn();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       String path = "file1";
@@ -914,7 +914,7 @@ public class CommentsIT extends AbstractDaemonTest {
   public void deleteDraft() throws Exception {
     for (Integer line : lines) {
       PushOneCommit.Result r = createChange();
-      Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
+      Instant origLastUpdated = r.getChange().change().getLastUpdatedOn();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       DraftInput draft = CommentsUtil.newDraft("file1", Side.REVISION, line, "comment 1");
@@ -930,7 +930,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void insertCommentsWithHistoricTimestamp() throws Exception {
-    Timestamp timestamp = new Timestamp(0);
+    Instant timestamp = Instant.ofEpochMilli(0);
     for (Integer line : lines) {
       String file = "file";
       String contents = "contents " + line;
@@ -939,11 +939,11 @@ public class CommentsIT extends AbstractDaemonTest {
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
-      Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
+      Instant origLastUpdated = r.getChange().change().getLastUpdatedOn();
 
       ReviewInput input = new ReviewInput();
       CommentInput comment = CommentsUtil.newComment(file, Side.REVISION, line, "comment 1", false);
-      comment.updated = timestamp;
+      comment.setUpdated(timestamp);
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       ChangeResource changeRsrc =

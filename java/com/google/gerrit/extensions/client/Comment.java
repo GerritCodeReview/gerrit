@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.client;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -43,6 +44,11 @@ public abstract class Comment {
    * comment applies.
    */
   public String commitId;
+
+  @SuppressWarnings("JdkObsolete")
+  public void setUpdated(Instant when) {
+    updated = Timestamp.from(when);
+  }
 
   public static class Range implements Comparable<Range> {
     private static final Comparator<Range> RANGE_COMPARATOR =

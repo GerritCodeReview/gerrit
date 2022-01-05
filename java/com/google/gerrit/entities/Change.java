@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Optional;
@@ -445,14 +444,14 @@ public final class Change {
   private Key changeKey;
 
   /** When this change was first introduced into the database. */
-  private Timestamp createdOn;
+  private Instant createdOn;
 
   /**
    * When was a meaningful modification last made to this record's data
    *
    * <p>Note, this update timestamp includes its children.
    */
-  private Timestamp lastUpdatedOn;
+  private Instant lastUpdatedOn;
 
   private Account.Id owner;
 
@@ -507,15 +506,6 @@ public final class Change {
 
   public Change(
       Change.Key newKey, Change.Id newId, Account.Id ownedBy, BranchNameKey forBranch, Instant ts) {
-    this(newKey, newId, ownedBy, forBranch, Timestamp.from(ts));
-  }
-
-  public Change(
-      Change.Key newKey,
-      Change.Id newId,
-      Account.Id ownedBy,
-      BranchNameKey forBranch,
-      Timestamp ts) {
     changeKey = newKey;
     changeId = newId;
     createdOn = ts;
@@ -573,20 +563,20 @@ public final class Change {
     assignee = a;
   }
 
-  public Timestamp getCreatedOn() {
+  public Instant getCreatedOn() {
     return createdOn;
   }
 
-  public void setCreatedOn(Timestamp ts) {
+  public void setCreatedOn(Instant ts) {
     createdOn = ts;
   }
 
-  public Timestamp getLastUpdatedOn() {
+  public Instant getLastUpdatedOn() {
     return lastUpdatedOn;
   }
 
   public void setLastUpdatedOn(Instant now) {
-    lastUpdatedOn = Timestamp.from(now);
+    lastUpdatedOn = now;
   }
 
   public Account.Id getOwner() {

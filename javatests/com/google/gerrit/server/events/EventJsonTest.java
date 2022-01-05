@@ -607,7 +607,7 @@ public class EventJsonTest {
         Change.id(CHANGE_NUM),
         Account.id(9999),
         BranchNameKey.create(Project.nameKey(PROJECT), BRANCH),
-        TimeUtil.nowTs());
+        TimeUtil.now());
   }
 
   private <T> Supplier<T> createSupplier(T value) {
@@ -625,7 +625,7 @@ public class EventJsonTest {
     a.commitMessage = COMMIT_MESSAGE;
     a.url = URL;
     a.status = change.getStatus();
-    a.createdOn = change.getCreatedOn().getTime() / 1000L;
+    a.createdOn = change.getCreatedOn().getEpochSecond();
     a.wip = change.isWorkInProgress() ? true : null;
     a.isPrivate = change.isPrivate() ? true : null;
     return Suppliers.ofInstance(a);

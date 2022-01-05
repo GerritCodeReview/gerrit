@@ -65,7 +65,6 @@ import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord;
 import com.google.gson.Gson;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -358,7 +357,7 @@ public abstract class ChangeNotesState {
     change.setKey(c.changeKey());
     change.setOwner(c.owner());
     change.setDest(BranchNameKey.create(change.getProject(), c.branch()));
-    change.setCreatedOn(Timestamp.from(c.createdOn()));
+    change.setCreatedOn(c.createdOn());
     copyNonConstructorColumnsTo(change);
   }
 

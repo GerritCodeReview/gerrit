@@ -240,7 +240,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   public String getChangeMessageThreadId() {
     return "<gerrit."
-        + change.getCreatedOn().getTime()
+        + change.getCreatedOn().toEpochMilli()
         + "."
         + change.getKey().get()
         + "@"

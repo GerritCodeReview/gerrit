@@ -158,13 +158,17 @@ public class ChangeField {
 
   /** Last update time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
-      timestamp("updated2").stored().build(changeGetter(Change::getLastUpdatedOn));
+      timestamp("updated2")
+          .stored()
+          .build(changeGetter(change -> Timestamp.from(change.getLastUpdatedOn())));
 
   /** When this change was merged, time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> MERGED_ON =
       timestamp(ChangeQueryBuilder.FIELD_MERGED_ON)
           .stored()
-          .build(cd -> cd.getMergedOn().orElse(null), (cd, field) -> cd.setMergedOn(field));
+          .build(
+              cd -> cd.getMergedOn().map(Timestamp::from).orElse(null),
+              (cd, field) -> cd.setMergedOn(field != null ? field.toInstant() : null));
 
   /** List of full file paths modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> PATH =

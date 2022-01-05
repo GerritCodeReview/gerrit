@@ -1278,7 +1278,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getMergedOn()).isPresent();
-    Timestamp mergedOn = notes.getMergedOn().get();
+    Instant mergedOn = notes.getMergedOn().get();
     assertThat(mergedOn).isEqualTo(notes.getChange().getLastUpdatedOn());
 
     // Next update does not change mergedOn date.
@@ -1304,7 +1304,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getMergedOn()).isPresent();
-    Timestamp mergedOn = notes.getMergedOn().get();
+    Instant mergedOn = notes.getMergedOn().get();
     assertThat(mergedOn).isEqualTo(notes.getChange().getLastUpdatedOn());
 
     incrementPatchSet(c);
@@ -1698,7 +1698,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void createdOnChangeNotes() throws Exception {
     Change c = newChange();
 
-    Timestamp createdOn = newNotes(c).getChange().getCreatedOn();
+    Instant createdOn = newNotes(c).getChange().getCreatedOn();
     assertThat(createdOn).isNotNull();
 
     // An update doesn't affect the createdOn timestamp.
@@ -1713,54 +1713,54 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
 
     ChangeNotes notes = newNotes(c);
-    Timestamp ts1 = notes.getChange().getLastUpdatedOn();
+    Instant ts1 = notes.getChange().getLastUpdatedOn();
     assertThat(ts1).isEqualTo(notes.getChange().getCreatedOn());
 
     // Various kinds of updates that update the timestamp.
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setTopic("topic"); // Change something to get a new commit.
     update.commit();
-    Timestamp ts2 = newNotes(c).getChange().getLastUpdatedOn();
+    Instant ts2 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts2).isGreaterThan(ts1);
 
     update = newUpdate(c, changeOwner);
     update.setChangeMessage("Some message");
     update.commit();
-    Timestamp ts3 = newNotes(c).getChange().getLastUpdatedOn();
+    Instant ts3 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts3).isGreaterThan(ts2);
 
     update = newUpdate(c, changeOwner);
     update.setHashtags(ImmutableSet.of("foo"));
     update.commit();
-    Timestamp ts4 = newNotes(c).getChange().getLastUpdatedOn();
+    Instant ts4 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts4).isGreaterThan(ts3);
 
     incrementPatchSet(c);
-    Timestamp ts5 = newNotes(c).getChange().getLastUpdatedOn();
+    Instant ts5 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts5).isGreaterThan(ts4);
 
     update = newUpdate(c, changeOwner);
     update.putApproval(LabelId.CODE_REVIEW, (short) 1);
     update.commit();
-    Timestamp ts6 = newNotes(c).getChange().getLastUpdatedOn();
+    Instant ts6 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts6).isGreaterThan(ts5);
 
     update = newUpdate(c, changeOwner);
     update.setStatus(Change.Status.ABANDONED);
     update.commit();
-    Timestamp ts7 = newNotes(c).getChange().getLastUpdatedOn();
+    Instant ts7 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts7).isGreaterThan(ts6);
 
     update = newUpdate(c, changeOwner);
     update.putReviewer(otherUser.getAccountId(), ReviewerStateInternal.REVIEWER);
     update.commit();
-    Timestamp ts8 = newNotes(c).getChange().getLastUpdatedOn();
+    Instant ts8 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts8).isGreaterThan(ts7);
 
     update = newUpdate(c, changeOwner);
     update.setGroups(ImmutableList.of("a", "b"));
     update.commit();
-    Timestamp ts9 = newNotes(c).getChange().getLastUpdatedOn();
+    Instant ts9 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts9).isGreaterThan(ts8);
 
     // Finish off by merging the change.
@@ -1774,7 +1774,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                 submitLabel(LabelId.VERIFIED, "OK", changeOwner.getAccountId()),
                 submitLabel("Alternative-Code-Review", "NEED", null))));
     update.commit();
-    Timestamp ts10 = newNotes(c).getChange().getLastUpdatedOn();
+    Instant ts10 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts10).isGreaterThan(ts9);
   }
 
@@ -1854,8 +1854,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(ps2.commitId()).isNotEqualTo(ps1.commitId());
     assertThat(ps2.commitId()).isEqualTo(commit);
     assertThat(ps2.uploader()).isEqualTo(otherUser.getAccountId());
-    assertThat(ps2.createdOn().toEpochMilli())
-        .isEqualTo(notes.getChange().getLastUpdatedOn().getTime());
+    assertThat(ps2.createdOn()).isEqualTo(notes.getChange().getLastUpdatedOn());
 
     // comment on ps1, current patch set is still ps2
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -3983,9 +3982,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   private AttentionSetUpdate addTimestamp(AttentionSetUpdate attentionSetUpdate, Change c) {
-    Timestamp timestamp = newNotes(c).getChange().getLastUpdatedOn();
+    Instant timestamp = newNotes(c).getChange().getLastUpdatedOn();
     return AttentionSetUpdate.createFromRead(
-        timestamp.toInstant(),
+        timestamp,
         attentionSetUpdate.account(),
         attentionSetUpdate.operation(),
         attentionSetUpdate.reason());

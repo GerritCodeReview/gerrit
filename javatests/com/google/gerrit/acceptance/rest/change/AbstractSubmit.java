@@ -1249,8 +1249,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     submit(r.getChangeId());
     assertThat(r.getChange().getMergedOn()).isPresent();
     ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
-    assertThat(r.getChange().getMergedOn().get()).isEqualTo(change.updated);
-    assertThat(r.getChange().getMergedOn().get()).isEqualTo(change.submitted);
+    assertThat(r.getChange().getMergedOn().get()).isEqualTo(change.getUpdated());
+    assertThat(r.getChange().getMergedOn().get()).isEqualTo(change.getSubmitted());
   }
 
   @Override

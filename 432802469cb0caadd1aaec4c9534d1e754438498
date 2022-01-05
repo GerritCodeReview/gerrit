@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5689c55a_78684beb",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-05T02:00:34Z",
+      "side": 1,
+      "message": "\u003e Forgot to mention the very last step, update WORKSPACE file in this change and reference new rbe_autoconfig release v3.0.0:\n\u003e \n\u003e   http_archive(\n\u003e     name \u003d \"rbe_jdk11\",\n\u003e     sha256 \u003d \"5939e2a4e56d1fc53b6c44c6db97ee068c9f4bd18e86c762f6ab8b4fff5e294b\",\n\u003e     strip_prefix \u003d \"rbe_autoconfig-3.0.0\",\n\u003e     urls \u003d [\n\u003e         \"https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v3.0.0.tar.gz\",\n\u003e         \"https://github.com/davido/rbe_autoconfig/archive/v3.0.0.tar.gz\",\n\u003e     ],\n\u003e   )\n\u003e   \n\u003e Should I update commit message and include all these steps there? Another thought, it would be good to move rbe_autoconfig github project from https://github.com/davido/rbe_autoconfig to gerrit-review and gerritcodereview github organization.\n\nYeah, it should be part of the gerrit-review.googlesource.com set of projects, as it will be needed to perform the project\u0027s validation.",
+      "parentUuid": "3362c1b4_782f6d5b",
+      "range": {
+        "startLine": 686,
+        "startChar": 7,
+        "endLine": 686,
+        "endChar": 57
+      },
+      "revId": "432802469cb0caadd1aaec4c9534d1e754438498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "912be6e5_760d9269",

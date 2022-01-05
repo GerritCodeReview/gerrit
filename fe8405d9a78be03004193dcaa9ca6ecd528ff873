@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "224a072d_98abd72d",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-05T15:22:03Z",
+      "side": 1,
+      "message": "Is this needed? Or in other words shouldn\u0027t all cases (\u0027GIT\u0027, \u0027REST_API\u0027, etc) be exactly the same now?",
+      "range": {
+        "startLine": 274,
+        "startChar": 15,
+        "endLine": 274,
+        "endChar": 56
+      },
+      "revId": "fe8405d9a78be03004193dcaa9ca6ecd528ff873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

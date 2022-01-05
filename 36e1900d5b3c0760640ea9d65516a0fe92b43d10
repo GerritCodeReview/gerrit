@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef93d324_8daffc04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-05T20:48:50Z",
+      "side": 1,
+      "message": "\u003e We cannot move it to stable-3.5 branch. Although the announcement in 3.5 Release Notes is claiming: [1].\n\u003e \n\u003e   Support for Java 8 dropped\n\u003e   The Java language level is now set to Java 11 for Gerrit, the support for Java 8 is dropped.\n\u003e   Gerrit source code may not be compatible with Java 8 anymore.\n\nMAY means that it *can* be compatible but you should not rely on it because things are likely to change. I could just push a change now on stable-3.5, which is validated and built against Java 11, and once is merged, I can change the MAY to IS.\n\n\u003e It\u0027s evidently not the case. Fetch stable-3.5 branch and build it with Java 8 source compatibility and produce Java 8 major byte code version 52:\n\nI agree and that\u0027s the bug you are fixing with this change. Java 8 builds should have not been possible on stable-3.5, otherwise people start relying on them and we will have eventually (again !) to support Java 8, which is EOL from ages.\n\n\u003e Final artifact is built and published with Java 11 only. However, given that the code is 100% Java 8 compatible, you could build Java 8 compatible release.war with this command yourself:\n\u003e   \n\u003e   $ bazelisk build --java_toolchain\u003d//tools:error_prone_warnings_toolchain :release\n\nI agree, but the \"is 100% Java 8 compatible\" should be changed to \"MAY be 100% Java 8 compatible\". It is very likely that we\u0027ll need to cherry-pick fixes from master to stable-3.5 at times and those will be likely to be Java 11 only.",
+      "parentUuid": "fcac7631_fb2deda1",
+      "revId": "36e1900d5b3c0760640ea9d65516a0fe92b43d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f03e5ee5_f089b47b",
         "filename": "tools/eclipse/project.py",
         "patchSetId": 1
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "Because for Java 11 it works out of the box, see .bazelrc file:\n\n  build --java_toolchain\u003d//tools:error_prone_warnings_toolchain_java11\n  \nIn case you would want to build with Post Java 11:\n\n  12, 13, 14, 15, 16, 17\n  \nyou may want to pass --java 17 option.\n\nNote, though, this should be changed, once change 291864 is merged.",
       "parentUuid": "f03e5ee5_f089b47b",
+      "range": {
+        "startLine": 52,
+        "startChar": 37,
+        "endLine": 52,
+        "endChar": 41
+      },
+      "revId": "36e1900d5b3c0760640ea9d65516a0fe92b43d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db99a44c_925eb6b2",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-05T20:48:50Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "f667dcc4_0107c880",
       "range": {
         "startLine": 52,
         "startChar": 37,

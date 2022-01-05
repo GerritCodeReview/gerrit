@@ -53,7 +53,7 @@ import {
   DependencyError,
   DependencyToken,
   Provider,
-} from '../services/dependency';
+} from '../models/dependency';
 
 declare global {
   interface Window {

@@ -52,7 +52,7 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
 import {commentsModelToken} from '../../../models/comments/comments-model';
-import {resolve} from '../../../services/dependency';
+import {resolve} from '../../../models/dependency';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;

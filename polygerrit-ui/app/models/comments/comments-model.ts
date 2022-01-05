@@ -38,7 +38,7 @@ import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
 import {RouterModel} from '../../services/router/router-model';
 import {Finalizable} from '../../services/registry';
-import {define} from '../../services/dependency';
+import {define} from '../dependency';
 import {combineLatest, Subscription} from 'rxjs';
 import {fire, fireAlert, fireEvent} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';

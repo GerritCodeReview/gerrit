@@ -198,7 +198,7 @@ import {
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../services/change/change-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
-import {resolve, DIPolymerElement} from '../../../services/dependency';
+import {resolve, DIPolymerElement} from '../../../models/dependency';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 

@@ -84,7 +84,7 @@ import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
 import {assertIsDefined} from '../utils/common-util';
 import {listen} from '../services/shortcuts/shortcuts-service';
-import {resolve, DIPolymerElement} from '../services/dependency';
+import {resolve, DIPolymerElement} from '../models/dependency';
 import {browserModelToken} from '../models/browser/browser-model';
 
 interface ErrorInfo {

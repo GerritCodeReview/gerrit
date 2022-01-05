@@ -27,7 +27,7 @@ import {FixIronA11yAnnouncer} from '../../../types/types';
 import {getAppContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
 import {browserModelToken} from '../../../models/browser/browser-model';
-import {resolve, DIPolymerElement} from '../../../services/dependency';
+import {resolve, DIPolymerElement} from '../../../models/dependency';
 
 @customElement('gr-diff-mode-selector')
 export class GrDiffModeSelector extends DIPolymerElement {

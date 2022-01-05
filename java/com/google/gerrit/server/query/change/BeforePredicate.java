@@ -34,7 +34,7 @@ public class BeforePredicate extends TimestampRangeChangePredicate {
 
   @Override
   public Instant getMinTimestamp() {
-    return Instant.ofEpochMilli(0);
+    return Instant.EPOCH;
   }
 
   @Override

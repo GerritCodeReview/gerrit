@@ -242,8 +242,8 @@ public class ChangeProtoConverterTest {
     assertThat(change.getKey()).isNull();
     assertThat(change.getOwner()).isNull();
     assertThat(change.getDest()).isNull();
-    assertThat(change.getCreatedOn()).isEqualTo(Instant.ofEpochMilli(0));
-    assertThat(change.getLastUpdatedOn()).isEqualTo(Instant.ofEpochMilli(0));
+    assertThat(change.getCreatedOn()).isEqualTo(Instant.EPOCH);
+    assertThat(change.getLastUpdatedOn()).isEqualTo(Instant.EPOCH);
     assertThat(change.getSubject()).isNull();
     assertThat(change.currentPatchSetId()).isNull();
     // Default values for unset protobuf fields which can't be unset in the entity object.

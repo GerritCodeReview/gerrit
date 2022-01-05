@@ -89,8 +89,8 @@ import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {DisplayLine, RenderPreferences} from '../../../api/diff';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
-import {browserModelToken} from '../../../services/browser/browser-model';
-import {commentsModelToken} from '../../../services/comments/comments-model';
+import {browserModelToken} from '../../../models/browser/browser-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 

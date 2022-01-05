@@ -33,7 +33,7 @@ import {
 } from '../../utils/dom-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Finalizable} from '../registry';
-import {UserModel} from '../user/user-model';
+import {UserModel} from '../../models/user/user-model';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
 

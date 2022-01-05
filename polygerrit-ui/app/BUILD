@@ -15,6 +15,7 @@ src_dirs = [
     "embed",
     "gr-diff",
     "mixins",
+    "models",
     "samples",
     "scripts",
     "services",

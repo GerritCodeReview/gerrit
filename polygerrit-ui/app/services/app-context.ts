@@ -24,10 +24,10 @@ import {ChangeModel} from './change/change-model';
 import {ChecksModel} from './checks/checks-model';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 import {StorageService} from './storage/gr-storage';
-import {UserModel} from './user/user-model';
+import {UserModel} from '../models/user/user-model';
 import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
-import {ConfigModel} from './config/config-model';
+import {ConfigModel} from '../models/config/config-model';
 
 export interface AppContext {
   routerModel: RouterModel;

@@ -36,19 +36,19 @@ import {
 } from '../../utils/comment-util';
 import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
-import {RouterModel} from '../router/router-model';
-import {Finalizable} from '../registry';
-import {define} from '../dependency';
+import {RouterModel} from '../../services/router/router-model';
+import {Finalizable} from '../../services/registry';
+import {define} from '../../services/dependency';
 import {combineLatest, Subscription} from 'rxjs';
 import {fire, fireAlert, fireEvent} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
-import {RestApiService} from '../gr-rest-api/gr-rest-api';
-import {ChangeModel} from '../change/change-model';
+import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {ChangeModel} from '../../services/change/change-model';
 import {Interaction, Timing} from '../../constants/reporting';
 import {assertIsDefined} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {pluralize} from '../../utils/string-util';
-import {ReportingService} from '../gr-reporting/gr-reporting';
+import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Model} from '../model';
 
 export interface CommentState {

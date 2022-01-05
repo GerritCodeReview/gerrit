@@ -29,9 +29,9 @@ import {
   createDefaultPreferences,
   createDefaultDiffPrefs,
 } from '../../constants/constants';
-import {RestApiService} from '../gr-rest-api/gr-rest-api';
+import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
-import {Finalizable} from '../registry';
+import {Finalizable} from '../../services/registry';
 import {select} from '../../utils/observable-util';
 import {Model} from '../model';
 

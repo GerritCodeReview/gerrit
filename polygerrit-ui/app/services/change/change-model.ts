@@ -49,7 +49,7 @@ import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {Finalizable} from '../registry';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
-import {Model} from '../model';
+import {Model} from '../../models/model';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',

@@ -116,6 +116,7 @@ public class AccountField {
   public static final FieldDef<AccountState, String> PREFERRED_EMAIL_EXACT =
       exact("preferredemail_exact").build(a -> a.account().preferredEmail());
 
+  // TODO(issue-15518): Migrate type for timestamp index fields from Timestamp to Instant
   public static final FieldDef<AccountState, Timestamp> REGISTERED =
       timestamp("registered").build(a -> Timestamp.from(a.account().registeredOn()));
 

@@ -544,7 +544,7 @@ public class EventFactory {
 
   public MessageAttribute asMessageAttribute(ChangeMessage message) {
     MessageAttribute a = new MessageAttribute();
-    a.timestamp = message.getWrittenOn().getTime() / 1000L;
+    a.timestamp = message.getWrittenOn().getEpochSecond();
     a.reviewer =
         message.getAuthor() != null
             ? asAccountAttribute(message.getAuthor())

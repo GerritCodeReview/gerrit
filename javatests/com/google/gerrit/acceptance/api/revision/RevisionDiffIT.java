@@ -57,7 +57,7 @@ import com.google.inject.Inject;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -2969,6 +2969,9 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     return "An unchanged patchset\n\nChange-Id: " + changeId;
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   private void assertDiffForNewFile(
       PushOneCommit.Result pushResult, String path, String expectedContentSideB) throws Exception {
     DiffInfo diff =
@@ -2987,16 +2990,18 @@ public class RevisionDiffIT extends AbstractDaemonTest {
           abbreviateName(parentCommit, 8, testRepo.getRevWalk().getObjectReader());
       headers.add("Parent:     " + parentCommitId + " (" + parentCommit.getShortMessage() + ")");
 
-      SimpleDateFormat dtfmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.US);
       PersonIdent author = c.getAuthorIdent();
-      dtfmt.setTimeZone(author.getTimeZone());
+      DateTimeFormatter fmt =
+          DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z")
+              .withLocale(Locale.US)
+              .withZone(author.getTimeZone().toZoneId());
       headers.add("Author:     " + author.getName() + " <" + author.getEmailAddress() + ">");
-      headers.add("AuthorDate: " + dtfmt.format(author.getWhen().getTime()));
+      headers.add("AuthorDate: " + fmt.format(author.getWhen().toInstant()));
 
       PersonIdent committer = c.getCommitterIdent();
-      dtfmt.setTimeZone(committer.getTimeZone());
+      fmt = fmt.withZone(committer.getTimeZone().toZoneId());
       headers.add("Commit:     " + committer.getName() + " <" + committer.getEmailAddress() + ">");
-      headers.add("CommitDate: " + dtfmt.format(committer.getWhen().getTime()));
+      headers.add("CommitDate: " + fmt.format(committer.getWhen().toInstant()));
       headers.add("");
     }
 

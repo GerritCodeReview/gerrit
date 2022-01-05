@@ -857,7 +857,7 @@ public class ChangeNotesStateTest {
         ChangeMessage.create(
             ChangeMessage.key(ID, "uuid1"),
             Account.id(1000),
-            new Timestamp(1212L),
+            Instant.ofEpochMilli(1212L),
             PatchSet.id(ID, 1));
     Entities.ChangeMessage m1Proto = ChangeMessageProtoConverter.INSTANCE.toProto(m1);
     ByteString m1Bytes = Protos.toByteString(m1Proto);
@@ -867,7 +867,7 @@ public class ChangeNotesStateTest {
         ChangeMessage.create(
             ChangeMessage.key(ID, "uuid2"),
             Account.id(2000),
-            new Timestamp(3434L),
+            Instant.ofEpochMilli(3434L),
             PatchSet.id(ID, 2));
     Entities.ChangeMessage m2Proto = ChangeMessageProtoConverter.INSTANCE.toProto(m2);
     ByteString m2Bytes = Protos.toByteString(m2Proto);
@@ -1145,7 +1145,7 @@ public class ChangeNotesStateTest {
             ImmutableMap.<String, Type>builder()
                 .put("key", ChangeMessage.Key.class)
                 .put("author", Account.Id.class)
-                .put("writtenOn", Timestamp.class)
+                .put("writtenOn", Instant.class)
                 .put("message", String.class)
                 .put("patchset", PatchSet.Id.class)
                 .put("tag", String.class)

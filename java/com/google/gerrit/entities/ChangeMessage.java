@@ -16,7 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -46,7 +46,7 @@ public final class ChangeMessage {
   @Nullable private Account.Id author;
 
   /** When this comment was drafted. */
-  private Timestamp writtenOn;
+  private Instant writtenOn;
 
   /**
    * The text left by the user or Gerrit system in template form, that is free of Gerrit User
@@ -66,14 +66,14 @@ public final class ChangeMessage {
   private ChangeMessage() {}
 
   public static ChangeMessage create(
-      final ChangeMessage.Key k, @Nullable Account.Id a, Timestamp wo, @Nullable PatchSet.Id psid) {
+      final ChangeMessage.Key k, @Nullable Account.Id a, Instant wo, @Nullable PatchSet.Id psid) {
     return create(k, a, wo, psid, /*messageTemplate=*/ null, /*realAuthor=*/ null, /*tag=*/ null);
   }
 
   public static ChangeMessage create(
       final ChangeMessage.Key k,
       @Nullable Account.Id a,
-      Timestamp wo,
+      Instant wo,
       @Nullable PatchSet.Id psid,
       @Nullable String messageTemplate,
       @Nullable Account.Id realAuthor,
@@ -103,7 +103,7 @@ public final class ChangeMessage {
     return realAuthor != null ? realAuthor : getAuthor();
   }
 
-  public Timestamp getWrittenOn() {
+  public Instant getWrittenOn() {
     return writtenOn;
   }
 

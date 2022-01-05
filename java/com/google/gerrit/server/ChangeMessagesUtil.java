@@ -145,7 +145,7 @@ public class ChangeMessagesUtil {
     ChangeMessageInfo cmi = new ChangeMessageInfo();
     cmi.id = message.getKey().uuid();
     cmi.author = accountLoader.get(message.getAuthor());
-    cmi.date = message.getWrittenOn();
+    cmi.setDate(message.getWrittenOn());
     cmi.message = message.getMessage();
     cmi.tag = message.getTag();
     cmi._revisionNumber = patchNum != null ? patchNum.get() : null;

@@ -18,7 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
 
@@ -107,7 +107,7 @@ public abstract class GroupDelta {
    * in the audit log. For this reason, specifying this field will have an effect on the resulting
    * audit log.
    */
-  public abstract Optional<Timestamp> getUpdatedOn();
+  public abstract Optional<Instant> getUpdatedOn();
 
   public abstract Builder toBuilder();
 
@@ -184,12 +184,12 @@ public abstract class GroupDelta {
     public abstract SubgroupModification getSubgroupModification();
 
     /**
-     * Defines the {@code Timestamp} to be used for the NoteDb commits of the update. If not
-     * specified, the current {@code Timestamp} when creating the commit will be used.
+     * Defines the {@code Instant} to be used for the NoteDb commits of the update. If not
+     * specified, the current {@code Instant} when creating the commit will be used.
      *
      * <p>See {@link #getUpdatedOn()}
      */
-    public abstract Builder setUpdatedOn(Timestamp timestamp);
+    public abstract Builder setUpdatedOn(Instant timestamp);
 
     public abstract GroupDelta build();
   }

@@ -47,8 +47,9 @@ public class GroupField {
       exact("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
 
   /** Timestamp indicating when this group was created. */
+  // TODO(issue-15518): Migrate type for timestamp index fields from Timestamp to Instant
   public static final FieldDef<InternalGroup, Timestamp> CREATED_ON =
-      timestamp("created_on").build(InternalGroup::getCreatedOn);
+      timestamp("created_on").build(internalGroup -> Timestamp.from(internalGroup.getCreatedOn()));
 
   /** Group name. */
   public static final FieldDef<InternalGroup, String> NAME =

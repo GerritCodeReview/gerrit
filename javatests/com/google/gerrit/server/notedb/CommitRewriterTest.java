@@ -321,6 +321,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.fixedRefDiff.keySet().size()).isEqualTo(expectedSecondRunResult);
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixAuthorIdent() throws Exception {
     Change c = newChange();
@@ -450,6 +453,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixReviewerFooterIdent() throws Exception {
     Change c = newChange();
@@ -533,6 +539,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixReviewerMessage() throws Exception {
     Change c = newChange();
@@ -660,6 +669,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixLabelFooterIdent() throws Exception {
     Change c = newChange();
@@ -794,6 +806,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixRemoveVoteChangeMessage() throws Exception {
     Change c = newChange();
@@ -1170,6 +1185,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixAttentionFooter() throws Exception {
     Change c = newChange();
@@ -1250,7 +1268,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
     notesBeforeRewrite.getAttentionSetUpdates();
-    Timestamp updateTimestamp = new Timestamp(serverIdent.getWhen().getTime());
+    Instant updateTimestamp = serverIdent.getWhen().toInstant();
     ImmutableList<AttentionSetUpdate> attentionSetUpdatesBeforeRewrite =
         ImmutableList.of(
             AttentionSetUpdate.createFromRead(
@@ -1269,12 +1287,12 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 Operation.REMOVE,
                 "Removed by someone"),
             AttentionSetUpdate.createFromRead(
-                updateTimestamp.toInstant(),
+                updateTimestamp,
                 changeOwner.getAccountId(),
                 Operation.REMOVE,
                 String.format("%s replied on the change", otherUser.getName())),
             AttentionSetUpdate.createFromRead(
-                updateTimestamp.toInstant(),
+                updateTimestamp,
                 otherUserId,
                 Operation.ADD,
                 "Added by someone using the hovercard menu"),
@@ -1312,12 +1330,12 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 Operation.REMOVE,
                 "Removed by someone"),
             AttentionSetUpdate.createFromRead(
-                updateTimestamp.toInstant(),
+                updateTimestamp,
                 changeOwner.getAccountId(),
                 Operation.REMOVE,
                 "Someone replied on the change"),
             AttentionSetUpdate.createFromRead(
-                updateTimestamp.toInstant(),
+                updateTimestamp,
                 otherUserId,
                 Operation.ADD,
                 "Added by someone using the hovercard menu"),

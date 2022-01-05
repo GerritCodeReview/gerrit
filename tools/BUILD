@@ -276,7 +276,7 @@ java_package_configuration(
         "-Xep:JavaPeriodGetDays:ERROR",
         "-Xep:JavaTimeDefaultTimeZone:ERROR",
         "-Xep:JavaUtilDate:WARN",
-        # "-Xep:JdkObsolete:WARN",
+        "-Xep:JdkObsolete:ERROR",
         "-Xep:JodaConstructors:ERROR",
         "-Xep:JodaDateTimeConstants:ERROR",
         "-Xep:JodaDurationWithMillis:ERROR",

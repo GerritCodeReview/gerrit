@@ -306,7 +306,7 @@ public class CommentsUtil {
   }
 
   private static boolean isAfter(CommentInfo c, ChangeMessage cm) {
-    return c.updated.after(cm.getWrittenOn());
+    return c.getUpdated().isAfter(cm.getWrittenOn());
   }
 
   /**

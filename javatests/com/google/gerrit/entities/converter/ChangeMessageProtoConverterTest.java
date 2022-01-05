@@ -27,7 +27,7 @@ import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
+import java.time.Instant;
 import org.junit.Test;
 
 public class ChangeMessageProtoConverterTest {
@@ -40,7 +40,7 @@ public class ChangeMessageProtoConverterTest {
         ChangeMessage.create(
             ChangeMessage.key(Change.id(543), "change-message-21"),
             Account.id(63),
-            new Timestamp(9876543),
+            Instant.ofEpochMilli(9876543),
             PatchSet.id(Change.id(34), 13),
             "This is a change message.",
             Account.id(10003),
@@ -73,7 +73,7 @@ public class ChangeMessageProtoConverterTest {
         ChangeMessage.create(
             ChangeMessage.key(Change.id(543), "change-message-21"),
             Account.id(63),
-            new Timestamp(9876543),
+            Instant.ofEpochMilli(9876543),
             PatchSet.id(Change.id(34), 13));
 
     Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
@@ -140,7 +140,7 @@ public class ChangeMessageProtoConverterTest {
         ChangeMessage.create(
             ChangeMessage.key(Change.id(543), "change-message-21"),
             Account.id(63),
-            new Timestamp(9876543),
+            Instant.ofEpochMilli(9876543),
             PatchSet.id(Change.id(34), 13),
             "This is a change message.",
             Account.id(10003),
@@ -157,7 +157,7 @@ public class ChangeMessageProtoConverterTest {
         ChangeMessage.create(
             ChangeMessage.key(Change.id(543), "change-message-21"),
             Account.id(63),
-            new Timestamp(9876543),
+            Instant.ofEpochMilli(9876543),
             PatchSet.id(Change.id(34), 13),
             String.format(
                 "This is a change message by %s and includes %s ",
@@ -178,7 +178,7 @@ public class ChangeMessageProtoConverterTest {
         ChangeMessage.create(
             ChangeMessage.key(Change.id(543), "change-message-21"),
             Account.id(63),
-            new Timestamp(9876543),
+            Instant.ofEpochMilli(9876543),
             PatchSet.id(Change.id(34), 13));
 
     ChangeMessage convertedChangeMessage =
@@ -205,7 +205,7 @@ public class ChangeMessageProtoConverterTest {
             ImmutableMap.<String, Type>builder()
                 .put("key", ChangeMessage.Key.class)
                 .put("author", Account.Id.class)
-                .put("writtenOn", Timestamp.class)
+                .put("writtenOn", Instant.class)
                 .put("message", String.class)
                 .put("patchset", PatchSet.Id.class)
                 .put("tag", String.class)

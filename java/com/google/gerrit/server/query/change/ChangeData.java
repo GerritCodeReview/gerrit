@@ -96,7 +96,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1339,7 +1338,7 @@ public class ChangeData {
 
     public abstract Account.Id author();
 
-    public abstract Timestamp ts();
+    public abstract Instant ts();
   }
 
   @AutoValue

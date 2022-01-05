@@ -24,7 +24,7 @@ import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
-import java.sql.Timestamp;
+import java.time.Instant;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class InternalGroupSubject extends Subject {
@@ -79,7 +79,7 @@ public class InternalGroupSubject extends Subject {
     return check("isVisibleToAll()").that(group.isVisibleToAll());
   }
 
-  public ComparableSubject<Timestamp> createdOn() {
+  public ComparableSubject<Instant> createdOn() {
     isNotNull();
     return check("getCreatedOn()").that(group.getCreatedOn());
   }

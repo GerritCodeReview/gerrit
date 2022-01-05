@@ -862,7 +862,7 @@ class ReceiveCommits {
 
         submissionExecutor.execute(ImmutableList.of(bu));
 
-        orm.setContext(TimeUtil.nowTs(), user, NotifyResolver.Result.none());
+        orm.setContext(TimeUtil.now(), user, NotifyResolver.Result.none());
         submissionExecutor.afterExecutions(orm);
 
         branches = bu.getSuccessfullyUpdatedBranches(false);

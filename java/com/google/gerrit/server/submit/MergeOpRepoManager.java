@@ -37,7 +37,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -112,7 +112,7 @@ public class MergeOpRepoManager implements AutoCloseable {
       if (update == null) {
         update =
             batchUpdateFactory
-                .create(getProjectName(), caller, ts.toInstant())
+                .create(getProjectName(), caller, ts)
                 .setRepository(repo, rw, ins)
                 .setNotify(notify)
                 .setOnSubmitValidators(onSubmitValidatorsFactory.create());
@@ -167,7 +167,7 @@ public class MergeOpRepoManager implements AutoCloseable {
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
 
-  private Timestamp ts;
+  private Instant ts;
   private IdentifiedUser caller;
   private NotifyResolver.Result notify;
 
@@ -185,7 +185,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     openRepos = new HashMap<>();
   }
 
-  public void setContext(Timestamp ts, IdentifiedUser caller, NotifyResolver.Result notify) {
+  public void setContext(Instant ts, IdentifiedUser caller, NotifyResolver.Result notify) {
     this.ts = requireNonNull(ts);
     this.caller = requireNonNull(caller);
     this.notify = requireNonNull(notify);

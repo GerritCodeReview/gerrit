@@ -29,8 +29,8 @@ import {
   TEST_NUMERIC_CHANGE_ID,
 } from '../../test/test-data-generators';
 import {stubRestApi, waitUntil, waitUntilCalled} from '../../test/test-utils';
-import {getAppContext} from '../app-context';
-import {GerritView} from '../router/router-model';
+import {getAppContext} from '../../services/app-context';
+import {GerritView} from '../../services/router/router-model';
 import {PathToCommentsInfoMap} from '../../types/common';
 
 suite('comments model tests', () => {

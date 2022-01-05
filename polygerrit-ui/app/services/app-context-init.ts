@@ -26,13 +26,13 @@ import {ChangeModel} from './change/change-model';
 import {ChecksModel} from './checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
-import {UserModel} from './user/user-model';
-import {CommentsModel, commentsModelToken} from './comments/comments-model';
+import {UserModel} from '../models/user/user-model';
+import {CommentsModel, commentsModelToken} from '../models/comments/comments-model';
 import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {assertIsDefined} from '../utils/common-util';
-import {ConfigModel} from './config/config-model';
-import {BrowserModel, browserModelToken} from './browser/browser-model';
+import {ConfigModel} from '../models/config/config-model';
+import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 
 /**
  * The AppContext lazy initializator for all services

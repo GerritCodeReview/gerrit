@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e43d3e28_d5617a36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-05T09:09:39Z",
+      "side": 1,
+      "message": "Does this also work with recent bazel release 5.0.0rc3?\n\nI can test it too, but basically, just cherry-pick this change 291864.",
+      "revId": "b01529ae86dbe2c44d7f6aa53050ddb97b89b7e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

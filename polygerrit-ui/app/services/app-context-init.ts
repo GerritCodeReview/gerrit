@@ -34,7 +34,7 @@ import {
 import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {assertIsDefined} from '../utils/common-util';
-import {ConfigModel} from '../models/config/config-model';
+import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 
 /**
@@ -81,13 +81,6 @@ export function createAppContext(): AppContext & Finalizable {
       return new GrJsApiInterface(reportingService!);
     },
     storageService: (_ctx: Partial<AppContext>) => new GrStorageService(),
-    configModel: (ctx: Partial<AppContext>) => {
-      const changeModel = ctx.changeModel;
-      const restApiService = ctx.restApiService;
-      assertIsDefined(changeModel, 'changeModel');
-      assertIsDefined(restApiService, 'restApiService');
-      return new ConfigModel(changeModel, restApiService);
-    },
     userModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new UserModel(ctx.restApiService!);
@@ -115,6 +108,12 @@ export function createAppDependencies(
     appContext.reportingService
   );
   dependencies.set(commentsModelToken, commentsModel);
+
+  const configModel = new ConfigModel(
+    appContext.changeModel,
+    appContext.restApiService
+  );
+  dependencies.set(configModelToken, configModel);
 
   return dependencies;
 }

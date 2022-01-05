@@ -66,6 +66,7 @@ import {CommentSide} from '../../../constants/constants';
 import {getRandomInt} from '../../../utils/math-util';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
+import {configModelToken} from '../../../models/config/config-model';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -237,7 +238,7 @@ export class GrComment extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
-  private readonly configModel = getAppContext().configModel;
+  private readonly configModel = resolve(this, configModelToken);
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -263,11 +264,7 @@ export class GrComment extends LitElement {
     super();
     subscribe(this, this.userModel.account$, x => (this.account = x));
     subscribe(this, this.userModel.isAdmin$, x => (this.isAdmin = x));
-    subscribe(
-      this,
-      this.configModel.repoCommentLinks$,
-      x => (this.commentLinks = x)
-    );
+
     subscribe(this, this.changeModel.repo$, x => (this.repoName = x));
     subscribe(this, this.changeModel.changeNum$, x => (this.changeNum = x));
     subscribe(
@@ -285,6 +282,15 @@ export class GrComment extends LitElement {
         });
       }
     }
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    subscribe(
+      this,
+      this.configModel().repoCommentLinks$,
+      x => (this.commentLinks = x)
+    );
   }
 
   override disconnectedCallback() {

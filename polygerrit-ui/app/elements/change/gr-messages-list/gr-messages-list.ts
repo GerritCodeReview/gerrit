@@ -50,7 +50,7 @@ import {
   FormattedReviewerUpdateInfo,
   ParsedChangeInfo,
 } from '../../../types/types';
-import {commentsModelToken} from '../../../services/comments/comments-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
 
 /**

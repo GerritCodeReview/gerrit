@@ -67,7 +67,6 @@ import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
@@ -266,7 +265,7 @@ public abstract class AbstractChangeNotesTest {
       int line,
       IdentifiedUser commenter,
       String parentUUID,
-      Timestamp t,
+      Instant t,
       String message,
       short side,
       ObjectId commitId,

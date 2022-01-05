@@ -50,7 +50,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -159,7 +158,7 @@ public class CommentsUtil {
         new HumanComment(
             new Comment.Key(ChangeUtil.messageUuid(), path, psId.get()),
             currentUser.getAccountId(),
-            Timestamp.from(when),
+            when,
             side,
             message,
             serverId,
@@ -181,7 +180,7 @@ public class CommentsUtil {
         new RobotComment(
             new Comment.Key(ChangeUtil.messageUuid(), path, psId.get()),
             ctx.getUser().getAccountId(),
-            Timestamp.from(ctx.getWhen()),
+            ctx.getWhen(),
             side,
             message,
             serverId,

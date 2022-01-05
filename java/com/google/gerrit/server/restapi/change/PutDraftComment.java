@@ -40,7 +40,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -140,12 +140,12 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       commentsUtil.putHumanComments(
           update,
           HumanComment.Status.DRAFT,
-          Collections.singleton(update(comment, in, Timestamp.from(ctx.getWhen()))));
+          Collections.singleton(update(comment, in, ctx.getWhen())));
       return true;
     }
   }
 
-  private static HumanComment update(HumanComment e, DraftInput in, Timestamp when) {
+  private static HumanComment update(HumanComment e, DraftInput in, Instant when) {
     if (in.side != null) {
       e.side = in.side();
     }
@@ -154,7 +154,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     }
     e.setLineNbrAndRange(in.line, in.range);
     e.message = in.message.trim();
-    e.writtenOn = when;
+    e.setWrittenOn(when);
     if (in.tag != null) {
       // TODO(dborowitz): Can we support changing tags via PUT?
       e.tag = in.tag;

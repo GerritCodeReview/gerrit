@@ -20,7 +20,6 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,7 @@ public class AbstractParserTest {
         new HumanComment(
             new Comment.Key(uuid, file, 1),
             Account.id(0),
-            new Timestamp(0L),
+            Instant.ofEpochMilli(0L),
             (short) 0,
             message,
             "",
@@ -73,7 +72,7 @@ public class AbstractParserTest {
         new HumanComment(
             new Comment.Key(uuid, file, 1),
             Account.id(0),
-            new Timestamp(0L),
+            Instant.ofEpochMilli(0L),
             (short) 0,
             message,
             "",

@@ -21,7 +21,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
-import java.sql.Timestamp;
+import java.time.Instant;
 import org.junit.Test;
 
 public class CommentThreadsTest {
@@ -126,13 +126,15 @@ public class CommentThreadsTest {
 
   @Test
   public void branchedThreadsAreFlattenedAccordingToDate() {
-    HumanComment root = writtenOn(createComment("root"), new Timestamp(1));
-    HumanComment sibling1 = writtenOn(asReply(createComment("sibling1"), "root"), new Timestamp(2));
-    HumanComment sibling2 = writtenOn(asReply(createComment("sibling2"), "root"), new Timestamp(3));
+    HumanComment root = writtenOn(createComment("root"), Instant.ofEpochMilli(1));
+    HumanComment sibling1 =
+        writtenOn(asReply(createComment("sibling1"), "root"), Instant.ofEpochMilli(2));
+    HumanComment sibling2 =
+        writtenOn(asReply(createComment("sibling2"), "root"), Instant.ofEpochMilli(3));
     HumanComment sibling1Child =
-        writtenOn(asReply(createComment("sibling1Child"), "sibling1"), new Timestamp(4));
+        writtenOn(asReply(createComment("sibling1Child"), "sibling1"), Instant.ofEpochMilli(4));
     HumanComment sibling2Child =
-        writtenOn(asReply(createComment("sibling2Child"), "sibling2"), new Timestamp(5));
+        writtenOn(asReply(createComment("sibling2Child"), "sibling2"), Instant.ofEpochMilli(5));
 
     ImmutableList<HumanComment> comments =
         ImmutableList.of(sibling2, sibling2Child, sibling1, sibling1Child, root);
@@ -146,9 +148,11 @@ public class CommentThreadsTest {
 
   @Test
   public void threadsConsiderParentRelationshipStrongerThanDate() {
-    HumanComment root = writtenOn(createComment("root"), new Timestamp(3));
-    HumanComment child1 = writtenOn(asReply(createComment("child1"), "root"), new Timestamp(2));
-    HumanComment child2 = writtenOn(asReply(createComment("child2"), "child1"), new Timestamp(1));
+    HumanComment root = writtenOn(createComment("root"), Instant.ofEpochMilli(3));
+    HumanComment child1 =
+        writtenOn(asReply(createComment("child1"), "root"), Instant.ofEpochMilli(2));
+    HumanComment child2 =
+        writtenOn(asReply(createComment("child2"), "child1"), Instant.ofEpochMilli(1));
 
     ImmutableList<HumanComment> comments = ImmutableList.of(child2, child1, root);
     ImmutableSet<CommentThread<HumanComment>> commentThreads =
@@ -161,9 +165,11 @@ public class CommentThreadsTest {
 
   @Test
   public void threadsFallBackToUuidOrderIfParentAndDateAreTheSame() {
-    HumanComment root = writtenOn(createComment("root"), new Timestamp(1));
-    HumanComment sibling1 = writtenOn(asReply(createComment("sibling1"), "root"), new Timestamp(2));
-    HumanComment sibling2 = writtenOn(asReply(createComment("sibling2"), "root"), new Timestamp(2));
+    HumanComment root = writtenOn(createComment("root"), Instant.ofEpochMilli(1));
+    HumanComment sibling1 =
+        writtenOn(asReply(createComment("sibling1"), "root"), Instant.ofEpochMilli(2));
+    HumanComment sibling2 =
+        writtenOn(asReply(createComment("sibling2"), "root"), Instant.ofEpochMilli(2));
 
     ImmutableList<HumanComment> comments = ImmutableList.of(sibling2, sibling1, root);
     ImmutableSet<CommentThread<HumanComment>> commentThreads =
@@ -224,13 +230,15 @@ public class CommentThreadsTest {
 
   @Test
   public void completeThreadWithBranchesCanBeRequestedByReplyToIntermediateComment() {
-    HumanComment root = writtenOn(createComment("root"), new Timestamp(1));
-    HumanComment sibling1 = writtenOn(asReply(createComment("sibling1"), "root"), new Timestamp(2));
-    HumanComment sibling2 = writtenOn(asReply(createComment("sibling2"), "root"), new Timestamp(3));
+    HumanComment root = writtenOn(createComment("root"), Instant.ofEpochMilli(1));
+    HumanComment sibling1 =
+        writtenOn(asReply(createComment("sibling1"), "root"), Instant.ofEpochMilli(2));
+    HumanComment sibling2 =
+        writtenOn(asReply(createComment("sibling2"), "root"), Instant.ofEpochMilli(3));
     HumanComment sibling1Child =
-        writtenOn(asReply(createComment("sibling1Child"), "sibling1"), new Timestamp(4));
+        writtenOn(asReply(createComment("sibling1Child"), "sibling1"), Instant.ofEpochMilli(4));
     HumanComment sibling2Child =
-        writtenOn(asReply(createComment("sibling2Child"), "sibling2"), new Timestamp(5));
+        writtenOn(asReply(createComment("sibling2Child"), "sibling2"), Instant.ofEpochMilli(5));
 
     HumanComment reply = asReply(createComment("sibling1"), "root");
 
@@ -262,7 +270,7 @@ public class CommentThreadsTest {
     return new HumanComment(
         new Comment.Key(commentUuid, "myFile", 1),
         Account.id(100),
-        new Timestamp(1234),
+        Instant.ofEpochMilli(1234),
         (short) 1,
         "Comment text",
         "serverId",
@@ -274,8 +282,8 @@ public class CommentThreadsTest {
     return comment;
   }
 
-  private static HumanComment writtenOn(HumanComment comment, Timestamp writtenOn) {
-    comment.writtenOn = writtenOn;
+  private static HumanComment writtenOn(HumanComment comment, Instant writtenOn) {
+    comment.setWrittenOn(writtenOn);
     return comment;
   }
 

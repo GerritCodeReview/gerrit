@@ -20,7 +20,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
-import java.sql.Timestamp;
+import java.time.Instant;
 import org.junit.Test;
 
 public class CommentThreadTest {
@@ -60,7 +60,7 @@ public class CommentThreadTest {
     return new HumanComment(
         new Comment.Key(commentUuid, "myFile", 1),
         Account.id(100),
-        new Timestamp(1234),
+        Instant.ofEpochMilli(1234),
         (short) 1,
         "Comment text",
         "serverId",

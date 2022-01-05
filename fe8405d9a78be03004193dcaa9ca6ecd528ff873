@@ -39,6 +39,30 @@
       },
       "revId": "fe8405d9a78be03004193dcaa9ca6ecd528ff873",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1129536b_38af0d70",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-05T15:46:49Z",
+      "side": 1,
+      "message": "Done\n\nIt shouldn\u0027t be needed now since it was a special condition for Project Owners.\n\nThere\u0027s still the special case when !GIT for Project Admins (which, as-a project admin, I feel is equally unnecessary but perhaps something that should be handled in a different commit).",
+      "parentUuid": "224a072d_98abd72d",
+      "range": {
+        "startLine": 274,
+        "startChar": 15,
+        "endLine": 274,
+        "endChar": 56
+      },
+      "revId": "fe8405d9a78be03004193dcaa9ca6ecd528ff873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,9 +16,9 @@ package com.google.gerrit.json;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.JsonPrimitive;
 import java.sql.Timestamp;
+import java.time.Instant;
 import org.junit.Test;
 
 public class SqlTimestampDeserializerTest {
@@ -28,6 +28,6 @@ public class SqlTimestampDeserializerTest {
   @Test
   public void emptyStringIsDeserializedToMagicTimestamp() {
     Timestamp timestamp = deserializer.deserialize(new JsonPrimitive(""), Timestamp.class, null);
-    assertThat(timestamp).isEqualTo(TimeUtil.never());
+    assertThat(timestamp).isEqualTo(Timestamp.from(Instant.EPOCH));
   }
 }

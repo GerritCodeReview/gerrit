@@ -26,8 +26,9 @@ suite('gr-storage tests', () => {
       getItem(key) { return this[key]; },
       removeItem(key) { delete this[key]; },
       setItem(key, value) {
-        // eslint-disable-next-line no-throw-literal
-        if (opt_quotaExceeded) { throw {code: 22}; /* Quota exceeded */ }
+        if (opt_quotaExceeded) {
+          throw new DOMException('error', 'QuotaExceededError');
+        }
         this[key] = value;
       },
     };

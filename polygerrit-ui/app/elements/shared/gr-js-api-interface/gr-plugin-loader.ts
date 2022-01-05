@@ -135,8 +135,8 @@ export class PluginLoader {
     if (!(url instanceof URL)) {
       try {
         url = new URL(url);
-      } catch (e) {
-        this._getReporting().error(e);
+      } catch (e: unknown) {
+        this._getReporting().error(new Error('url parse error'), undefined, e);
         return false;
       }
     }
@@ -183,8 +183,16 @@ export class PluginLoader {
     try {
       callback(plugin);
       this._pluginInstalled(url, plugin);
-    } catch (e) {
-      this._failToLoad(`${e.name}: ${e.message}`, src);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        this._failToLoad(`${e.name}: ${e.message}`, src);
+      } else {
+        this._getReporting().error(
+          new Error('plugin callback error'),
+          undefined,
+          e
+        );
+      }
     }
   }
 

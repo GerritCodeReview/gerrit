@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3b176eb_51913664",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-05T15:38:32Z",
+      "side": 1,
+      "message": "Thanks, PTAL",
+      "revId": "503674a2b875ed914a5484fc08aa683f5c2fb072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c771ebb7_20a61f5f",
@@ -14,6 +31,30 @@
       "writtenOn": "2022-01-05T15:32:41Z",
       "side": 1,
       "message": "this won\u0027t resolve in the constructor, right?",
+      "range": {
+        "startLine": 591,
+        "startChar": 25,
+        "endLine": 591,
+        "endChar": 39
+      },
+      "revId": "503674a2b875ed914a5484fc08aa683f5c2fb072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ba0652e_0b48c8bc",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-05T15:38:32Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "c771ebb7_20a61f5f",
       "range": {
         "startLine": 591,
         "startChar": 25,

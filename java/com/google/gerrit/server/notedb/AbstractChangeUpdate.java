@@ -56,6 +56,9 @@ public abstract class AbstractChangeUpdate {
   private ObjectId result;
   boolean rootOnly;
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   AbstractChangeUpdate(
       ChangeNotes notes,
       CurrentUser user,
@@ -73,6 +76,9 @@ public abstract class AbstractChangeUpdate {
     this.when = when;
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   AbstractChangeUpdate(
       ChangeNoteUtil noteUtil,
       PersonIdent serverIdent,
@@ -207,6 +213,9 @@ public abstract class AbstractChangeUpdate {
    *     deleted.
    * @throws IOException if a lower-level error occurred.
    */
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   final ObjectId apply(RevWalk rw, ObjectInserter ins, ObjectId curr) throws IOException {
     if (isEmpty()) {
       return null;

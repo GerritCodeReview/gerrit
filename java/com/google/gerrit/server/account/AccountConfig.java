@@ -258,6 +258,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     return c;
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkLoaded();

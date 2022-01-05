@@ -123,6 +123,9 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
     this.permissionBackend = permissionBackend;
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, MergePatchSetInput in)
       throws IOException, RestApiException, UpdateException, PermissionBackendException {

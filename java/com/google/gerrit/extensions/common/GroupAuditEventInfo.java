@@ -29,8 +29,13 @@ public abstract class GroupAuditEventInfo {
 
   public Type type;
   public AccountInfo user;
+
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   public Timestamp date;
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public static UserMemberAuditEventInfo createAddUserEvent(
       AccountInfo user, Timestamp date, AccountInfo member) {
@@ -42,6 +47,8 @@ public abstract class GroupAuditEventInfo {
     return new UserMemberAuditEventInfo(Type.ADD_USER, user, date, member);
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public static UserMemberAuditEventInfo createRemoveUserEvent(
       AccountInfo user, Optional<Timestamp> date, AccountInfo member) {
@@ -54,6 +61,8 @@ public abstract class GroupAuditEventInfo {
     return new UserMemberAuditEventInfo(Type.REMOVE_USER, user, date, member);
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public static GroupMemberAuditEventInfo createAddGroupEvent(
       AccountInfo user, Timestamp date, GroupInfo member) {
@@ -65,6 +74,8 @@ public abstract class GroupAuditEventInfo {
     return new GroupMemberAuditEventInfo(Type.ADD_GROUP, user, date, member);
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public static GroupMemberAuditEventInfo createRemoveGroupEvent(
       AccountInfo user, Optional<Timestamp> date, GroupInfo member) {
@@ -83,6 +94,8 @@ public abstract class GroupAuditEventInfo {
     this.date = date.orElse(null);
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   protected GroupAuditEventInfo(Type type, AccountInfo user, @Nullable Instant date) {
     this.type = type;

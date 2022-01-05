@@ -54,9 +54,13 @@ public class ChangeInfo {
   public String changeId;
   public String subject;
   public ChangeStatus status;
+
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   public Timestamp created;
   public Timestamp updated;
   public Timestamp submitted;
+
   public AccountInfo submitter;
   public Boolean starred;
   public Collection<String> stars;
@@ -128,31 +132,43 @@ public class ChangeInfo {
     this.revisions = ImmutableMap.copyOf(revisions);
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public Instant getCreated() {
     return created.toInstant();
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public void setCreated(Instant when) {
     created = Timestamp.from(when);
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public Instant getUpdated() {
     return updated.toInstant();
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public void setUpdated(Instant when) {
     updated = Timestamp.from(when);
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public Instant getSubmitted() {
     return submitted.toInstant();
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   @SuppressWarnings("JdkObsolete")
   public void setSubmitted(Instant when, AccountInfo who) {
     submitted = Timestamp.from(when);

@@ -15,13 +15,25 @@
 package com.google.gerrit.extensions.common;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 public class GitPerson {
   public String name;
   public String email;
+
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
   public Timestamp date;
+
   public int tz;
+
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
+  @SuppressWarnings("JdkObsolete")
+  public void setDate(Instant when) {
+    date = Timestamp.from(when);
+  }
 
   @Override
   public boolean equals(Object o) {

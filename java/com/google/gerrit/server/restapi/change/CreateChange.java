@@ -320,6 +320,9 @@ public class CreateChange
     }
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   private ChangeInfo createNewChange(
       ChangeInput input,
       IdentifiedUser me,

@@ -319,6 +319,9 @@ public class AccountsUpdate {
    * @throws IOException if creating the user branch fails due to an IO error
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   public AccountState insert(String message, Account.Id accountId, ConfigureDeltaFromState init)
       throws IOException, ConfigInvalidException {
     return execute(

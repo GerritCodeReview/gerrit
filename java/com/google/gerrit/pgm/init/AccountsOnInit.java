@@ -61,6 +61,9 @@ public class AccountsOnInit {
     this.allUsers = allUsers.get();
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   public Account insert(Account.Builder account) throws IOException {
     File path = getPath();
     try (Repository repo = new FileRepository(path);

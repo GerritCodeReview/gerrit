@@ -15,7 +15,6 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.extensions.common.GitPerson;
-import java.sql.Timestamp;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /**
@@ -26,11 +25,14 @@ import org.eclipse.jgit.lib.PersonIdent;
  * static utility methods.
  */
 public class CommonConverters {
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   public static GitPerson toGitPerson(PersonIdent ident) {
     GitPerson result = new GitPerson();
     result.name = ident.getName();
     result.email = ident.getEmailAddress();
-    result.date = new Timestamp(ident.getWhen().getTime());
+    result.setDate(ident.getWhen().toInstant());
     result.tz = ident.getTimeZoneOffset();
     return result;
   }

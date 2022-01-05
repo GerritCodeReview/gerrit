@@ -577,6 +577,9 @@ public class CommitRewriter {
     }
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   private boolean verifyPersonIdent(PersonIdent newIdent, PersonIdent originalIdent) {
     return newIdent.getTimeZoneOffset() == originalIdent.getTimeZoneOffset()
         && newIdent.getWhen().getTime() == originalIdent.getWhen().getTime()

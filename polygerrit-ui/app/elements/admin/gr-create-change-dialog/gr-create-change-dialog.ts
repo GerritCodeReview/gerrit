@@ -36,6 +36,8 @@ import {customElement, property, query, state} from 'lit/decorators';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
 import {subscribe} from '../../lit/subscription-controller';
+import {configModelToken} from '../../../models/config/config-model';
+import {resolve} from '../../../services/dependency';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -76,7 +78,7 @@ export class GrCreateChangeDialog extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly configModel = getAppContext().configModel;
+  private readonly configModel = resolve(this, configModelToken);
 
   constructor() {
     super();
@@ -87,7 +89,7 @@ export class GrCreateChangeDialog extends LitElement {
     super.connectedCallback();
     if (!this.repoName) return;
 
-    subscribe(this, this.configModel.serverConfig$, config => {
+    subscribe(this, this.configModel().serverConfig$, config => {
       this.privateChangesEnabled =
         config?.change?.disable_private_changes ?? false;
     });

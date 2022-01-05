@@ -22,12 +22,14 @@ import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../../services/change/change-model';
 import {select} from '../../utils/observable-util';
 import {Model} from '../model';
+import {define} from '../../services/dependency';
 
 export interface ConfigState {
   repoConfig?: ConfigInfo;
   serverConfig?: ServerInfo;
 }
 
+export const configModelToken = define<ConfigModel>('config-model');
 export class ConfigModel extends Model<ConfigState> implements Finalizable {
   public repoConfig$ = select(
     this.state$,

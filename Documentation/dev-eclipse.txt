@@ -31,9 +31,6 @@ and
 ----
 
 First, generate the Eclipse project by running the `tools/eclipse/project.py` script.
-If running Eclipse on Java 8, add the extra parameter
-`-e='--java_toolchain=//tools:error_prone_warnings_toolchain'`
-for generating a compatible project.
 
 Then, in Eclipse, choose 'Import existing project' and select the `gerrit` project
 from the current working directory.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2698041c_cb291c29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-05T19:33:44Z",
+      "side": 1,
+      "message": "The concern noted there is for deserialization of user input: \"Deserializing user input via the `Serializable` API is extremely dangerous\". I think we only deserialize objects we serialized? Does it make sense to remove that?",
+      "revId": "ef7cbd9e2eb109734154c27f20b6a621f30e8242",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

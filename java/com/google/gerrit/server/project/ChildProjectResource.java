@@ -21,7 +21,7 @@ import com.google.inject.TypeLiteral;
 
 public class ChildProjectResource implements RestResource {
   public static final TypeLiteral<RestView<ChildProjectResource>> CHILD_PROJECT_KIND =
-      new TypeLiteral<RestView<ChildProjectResource>>() {};
+      new TypeLiteral<>() {};
 
   private final ProjectResource parent;
   private final ProjectState child;

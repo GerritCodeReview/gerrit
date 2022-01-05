@@ -84,7 +84,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
     final DataSource<ChangeData> currSource = source;
     final ResultSet<ChangeData> rs = currSource.read();
 
-    return new ResultSet<ChangeData>() {
+    return new ResultSet<>() {
       @Override
       public Iterator<ChangeData> iterator() {
         return Iterables.transform(

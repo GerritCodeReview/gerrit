@@ -29,7 +29,7 @@ class CounterImplN extends BucketedCounter implements BucketedMetric {
   }
 
   <F1, F2> Counter2<F1, F2> counter2() {
-    return new Counter2<F1, F2>() {
+    return new Counter2<>() {
       @Override
       public void incrementBy(F1 field1, F2 field2, long value) {
         total.incrementBy(value);
@@ -44,7 +44,7 @@ class CounterImplN extends BucketedCounter implements BucketedMetric {
   }
 
   <F1, F2, F3> Counter3<F1, F2, F3> counter3() {
-    return new Counter3<F1, F2, F3>() {
+    return new Counter3<>() {
       @Override
       public void incrementBy(F1 field1, F2 field2, F3 field3, long value) {
         total.incrementBy(value);

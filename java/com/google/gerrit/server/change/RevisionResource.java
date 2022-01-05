@@ -35,7 +35,7 @@ import java.util.Optional;
 
 public class RevisionResource implements RestResource, HasETag {
   public static final TypeLiteral<RestView<RevisionResource>> REVISION_KIND =
-      new TypeLiteral<RestView<RevisionResource>>() {};
+      new TypeLiteral<>() {};
 
   public static RevisionResource createNonCacheable(ChangeResource change, PatchSet ps) {
     return new RevisionResource(change, ps, Optional.empty(), false);

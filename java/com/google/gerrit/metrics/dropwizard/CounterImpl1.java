@@ -26,7 +26,7 @@ class CounterImpl1<F1> extends BucketedCounter {
   }
 
   Counter1<F1> counter() {
-    return new Counter1<F1>() {
+    return new Counter1<>() {
       @Override
       public void incrementBy(F1 field1, long value) {
         total.incrementBy(value);

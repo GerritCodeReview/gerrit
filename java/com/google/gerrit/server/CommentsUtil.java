@@ -67,7 +67,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 @Singleton
 public class CommentsUtil {
   public static final Ordering<Comment> COMMENT_ORDER =
-      new Ordering<Comment>() {
+      new Ordering<>() {
         @Override
         public int compare(Comment c1, Comment c2) {
           return ComparisonChain.start()
@@ -81,7 +81,7 @@ public class CommentsUtil {
       };
 
   public static final Ordering<CommentInfo> COMMENT_INFO_ORDER =
-      new Ordering<CommentInfo>() {
+      new Ordering<>() {
         @Override
         public int compare(CommentInfo a, CommentInfo b) {
           return ComparisonChain.start()

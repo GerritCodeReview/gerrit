@@ -19,5 +19,5 @@ import com.google.inject.TypeLiteral;
 
 public class CapabilityResource extends ConfigResource {
   public static final TypeLiteral<RestView<CapabilityResource>> CAPABILITY_KIND =
-      new TypeLiteral<RestView<CapabilityResource>>() {};
+      new TypeLiteral<>() {};
 }

@@ -100,7 +100,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       new Scope() {
         @Override
         public <T> Provider<T> scope(Key<T> key, Provider<T> creator) {
-          return new Provider<T>() {
+          return new Provider<>() {
             @Override
             public T get() {
               Context ctx = current.get();

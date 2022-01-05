@@ -22,7 +22,7 @@ import org.eclipse.jgit.lib.Config;
 
 public class DashboardResource implements RestResource {
   public static final TypeLiteral<RestView<DashboardResource>> DASHBOARD_KIND =
-      new TypeLiteral<RestView<DashboardResource>>() {};
+      new TypeLiteral<>() {};
 
   public static DashboardResource projectDefault(ProjectState projectState, CurrentUser user) {
     return new DashboardResource(projectState, user, null, null, null, true);

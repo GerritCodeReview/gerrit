@@ -29,7 +29,7 @@ class HistogramImplN extends BucketedHistogram implements BucketedMetric {
   }
 
   <F1, F2> Histogram2<F1, F2> histogram2() {
-    return new Histogram2<F1, F2>() {
+    return new Histogram2<>() {
       @Override
       public void record(F1 field1, F2 field2, long value) {
         total.record(value);
@@ -44,7 +44,7 @@ class HistogramImplN extends BucketedHistogram implements BucketedMetric {
   }
 
   <F1, F2, F3> Histogram3<F1, F2, F3> histogram3() {
-    return new Histogram3<F1, F2, F3>() {
+    return new Histogram3<>() {
       @Override
       public void record(F1 field1, F2 field2, F3 field3, long value) {
         total.record(value);

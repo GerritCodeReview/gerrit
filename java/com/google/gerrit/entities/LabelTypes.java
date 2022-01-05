@@ -69,7 +69,7 @@ public class LabelTypes {
 
   public Comparator<String> nameComparator() {
     final Map<String, Integer> positions = positions();
-    return new Comparator<String>() {
+    return new Comparator<>() {
       @Override
       public int compare(String left, String right) {
         int lp = position(left);

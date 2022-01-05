@@ -23,7 +23,7 @@ import com.google.inject.TypeLiteral;
 
 public class HumanCommentResource implements RestResource {
   public static final TypeLiteral<RestView<HumanCommentResource>> COMMENT_KIND =
-      new TypeLiteral<RestView<HumanCommentResource>>() {};
+      new TypeLiteral<>() {};
 
   private final RevisionResource rev;
   private final HumanComment comment;

@@ -33,8 +33,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * <p>This is in the project package because it is accessed through the project/branch/file path.
  */
 public class FileResource implements RestResource {
-  public static final TypeLiteral<RestView<FileResource>> FILE_KIND =
-      new TypeLiteral<RestView<FileResource>>() {};
+  public static final TypeLiteral<RestView<FileResource>> FILE_KIND = new TypeLiteral<>() {};
 
   public static FileResource create(
       GitRepositoryManager repoManager, ProjectState projectState, ObjectId rev, String path)

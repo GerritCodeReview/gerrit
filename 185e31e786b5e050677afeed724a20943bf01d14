@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fcce591_ed3e4177",
+        "filename": "java/com/google/gerrit/server/group/db/GroupDelta.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-05T09:40:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "726bb761_e9b97581",
+      "range": {
+        "startLine": 187,
+        "startChar": 26,
+        "endLine": 187,
+        "endChar": 35
+      },
+      "revId": "185e31e786b5e050677afeed724a20943bf01d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5045008a_f584b876",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-05T09:32:52Z",
       "side": 1,
       "message": "Instant",
+      "range": {
+        "startLine": 188,
+        "startChar": 37,
+        "endLine": 188,
+        "endChar": 46
+      },
+      "revId": "185e31e786b5e050677afeed724a20943bf01d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fb0334b_e0843b08",
+        "filename": "java/com/google/gerrit/server/group/db/GroupDelta.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-05T09:40:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5045008a_f584b876",
       "range": {
         "startLine": 188,
         "startChar": 37,

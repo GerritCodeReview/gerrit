@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "287307e8_5df7d6a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-05T20:00:10Z",
+      "side": 1,
+      "message": "\u003e \u003e Let\u0027s say, I\u0027m a change owner and would like to remove a branch after this change is submitted and released: I cannot delete a branch any more. I read breaking changes and understand, that starting from this release I need to explicitly add \"Delete Reference\" permission. Now, I grant me this permission, myself, without asking anyone to grant it for me. After removal of this branch I forgot to revoke this permission. Second time I remove branch by mistake, without gerrit prohibiting me to do it. So that I could screw it up even with this change. So, it\u0027s comparable with the current state of affairs.\n\u003e \n\u003e I don\u0027t know were you\u0027re going with this line of reasoning. As you said: when this change is merged project owners would need to actively give themselves the permission to screw things up as-opposed-to the current state were they have the permission to screw things up by default, which is sort-of the point I\u0027m trying to make as a proponent of this change.\n\nJust to add to this, I think it would be great to have some way to add \"temp perms\" for exactly this use case (\"I need extra perms to do something once, but then I don\u0027t need/want them so that I don\u0027t make mistakes\"). It doesn\u0027t come up every day, but it\u0027s often enough that it would be nice to have Gerrit support it (somehow).",
+      "parentUuid": "21c9cea7_c9d9edb9",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "e5165ecdeb6ef8f37b58d28ffa425412a9153a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "514dcf26_664172c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

@@ -142,6 +142,7 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1781,8 +1782,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
     long startMs = TestTimeUtil.START.toEpochMilli();
-    Change change1 = insert(repo, newChange(repo), null, new Timestamp(startMs));
-    Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
+    Change change1 = insert(repo, newChange(repo), null, Instant.ofEpochMilli(startMs));
+    Change change2 =
+        insert(repo, newChange(repo), null, Instant.ofEpochMilli(startMs + thirtyHoursInMs));
 
     // Stop time so age queries use the same endpoint.
     TestTimeUtil.setClockStep(0, MILLISECONDS);
@@ -1821,8 +1823,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
     long startMs = TestTimeUtil.START.toEpochMilli();
-    Change change1 = insert(repo, newChange(repo), null, new Timestamp(startMs));
-    Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
+    Change change1 = insert(repo, newChange(repo), null, Instant.ofEpochMilli(startMs));
+    Change change2 =
+        insert(repo, newChange(repo), null, Instant.ofEpochMilli(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
     // Change1 was last updated on 2009-09-30 21:00:00 -0000
@@ -1872,8 +1875,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
     long startMs = TestTimeUtil.START.toEpochMilli();
-    Change change1 = insert(repo, newChange(repo), null, new Timestamp(startMs));
-    Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
+    Change change1 = insert(repo, newChange(repo), null, Instant.ofEpochMilli(startMs));
+    Change change2 =
+        insert(repo, newChange(repo), null, Instant.ofEpochMilli(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
     // Change1 was last updated on 2009-09-30 21:00:00 -0000
@@ -4149,25 +4153,22 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected Change insert(TestRepository<Repo> repo, ChangeInserter ins) throws Exception {
-    return insert(repo, ins, null, TimeUtil.nowTs());
+    return insert(repo, ins, null, TimeUtil.now());
   }
 
   protected Change insert(TestRepository<Repo> repo, ChangeInserter ins, @Nullable Account.Id owner)
       throws Exception {
-    return insert(repo, ins, owner, TimeUtil.nowTs());
+    return insert(repo, ins, owner, TimeUtil.now());
   }
 
   protected Change insert(
-      TestRepository<Repo> repo,
-      ChangeInserter ins,
-      @Nullable Account.Id owner,
-      Timestamp createdOn)
+      TestRepository<Repo> repo, ChangeInserter ins, @Nullable Account.Id owner, Instant createdOn)
       throws Exception {
     Project.NameKey project =
         Project.nameKey(repo.getRepository().getDescription().getRepositoryName());
     Account.Id ownerId = owner != null ? owner : userId;
     IdentifiedUser user = userFactory.create(ownerId);
-    try (BatchUpdate bu = updateFactory.create(project, user, createdOn.toInstant())) {
+    try (BatchUpdate bu = updateFactory.create(project, user, createdOn)) {
       bu.insertChange(ins);
       bu.execute();
       return ins.getChange();

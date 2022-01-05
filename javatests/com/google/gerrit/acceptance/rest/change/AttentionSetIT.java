@@ -2049,7 +2049,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     comment.side = Side.REVISION;
     comment.path = Patch.COMMIT_MSG;
     comment.message = "comment";
-    comment.updated = TimeUtil.nowTs();
+    comment.setUpdated(TimeUtil.now());
     comment.inReplyTo = id;
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));

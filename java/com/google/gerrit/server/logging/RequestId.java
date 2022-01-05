@@ -61,7 +61,7 @@ public class RequestId {
     h.putLong(Thread.currentThread().getId()).putUnencodedChars(MACHINE_ID);
     str =
         (resourceId != null ? resourceId + "-" : "")
-            + TimeUtil.nowTs().getTime()
+            + TimeUtil.now().toEpochMilli()
             + "-"
             + h.hash().toString().substring(0, 8);
   }

@@ -68,6 +68,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.time.Instant;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -114,11 +115,15 @@ public abstract class AbstractChangeNotesTest {
   protected Injector injector;
   private String systemTimeZone;
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Before
   public void setUpTestEnvironment() throws Exception {
     setTimeForTesting();
 
-    serverIdent = new PersonIdent("Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);
+    serverIdent =
+        new PersonIdent("Gerrit Server", "noreply@gerrit.com", Date.from(TimeUtil.now()), TZ);
     project = Project.nameKey("test-project");
     repoManager = new InMemoryRepositoryManager();
     repo = repoManager.createRepository(project);

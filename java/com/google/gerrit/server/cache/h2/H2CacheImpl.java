@@ -548,7 +548,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         c.touch = c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=? AND version=?");
       }
       try {
-        c.touch.setTimestamp(1, TimeUtil.nowTs());
+        c.touch.setTimestamp(1, new Timestamp(TimeUtil.nowMs()));
         keyType.set(c.touch, 2, key);
         c.touch.setInt(3, version);
         c.touch.executeUpdate();
@@ -581,7 +581,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           c.put.setBytes(2, valueSerializer.serialize(holder.value));
           c.put.setInt(3, version);
           c.put.setTimestamp(4, Timestamp.from(holder.created));
-          c.put.setTimestamp(5, TimeUtil.nowTs());
+          c.put.setTimestamp(5, new Timestamp(TimeUtil.nowMs()));
           c.put.executeUpdate();
           holder.clean = true;
         } finally {

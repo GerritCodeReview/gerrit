@@ -36,7 +36,7 @@ setPassiveTouchGestures(true);
 import {initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
 import {Finalizable} from '../services/registry';
-import {provide} from '../services/dependency';
+import {provide} from '../models/dependency';
 import {installPolymerResin} from '../scripts/polymer-resin-install';
 
 import {

@@ -32,7 +32,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
-import {resolve} from '../../../services/dependency';
+import {resolve} from '../../../models/dependency';
 
 @customElement('gr-confirm-submit-dialog')
 export class GrConfirmSubmitDialog extends LitElement {

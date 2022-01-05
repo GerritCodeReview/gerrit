@@ -17,7 +17,7 @@
 import {Observable, combineLatest} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../../services/registry';
-import {define} from '../../services/dependency';
+import {define} from '../dependency';
 import {DiffViewMode} from '../../api/diff';
 import {UserModel} from '../user/user-model';
 import {Model} from '../model';

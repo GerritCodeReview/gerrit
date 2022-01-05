@@ -60,7 +60,7 @@ import {modifierPressed} from '../../../utils/dom-util';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {commentsModelToken} from '../../../models/comments/comments-model';
-import {resolve} from '../../../services/dependency';
+import {resolve} from '../../../models/dependency';
 
 export enum SummaryChipStyles {
   INFO = 'info',

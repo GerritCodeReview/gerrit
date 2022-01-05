@@ -95,6 +95,6 @@
     "types/**/*",
     "utils/**/*",
     "test/**/*",
-    "tmpl_out/**/*" //Created by template checker in dev-mode
+    "tmpl_out/**/*" //Created by template checker in dev-mode, "models/dependency_test.ts"
   ]
 }

@@ -70,7 +70,7 @@ import {classMap} from 'lit/directives/class-map';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ValueChangedEvent} from '../../../types/events';
 import {notDeepEqual} from '../../../utils/deep-util';
-import {resolve} from '../../../services/dependency';
+import {resolve} from '../../../models/dependency';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 
 const NEWLINE_PATTERN = /\n/g;

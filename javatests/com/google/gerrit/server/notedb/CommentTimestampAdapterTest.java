@@ -34,7 +34,7 @@ public class CommentTimestampAdapterTest {
   /** Arbitrary time outside of a DST transition, as an ISO instant. */
   private static final String NON_DST_STR = "2017-02-07T10:20:30.123Z";
 
-  /** Arbitrary time outside of a DST transition, as a reasonable Java 8 representation. */
+  /** Arbitrary time outside of a DST transition, as a reasonable Java 11 representation. */
   private static final ZonedDateTime NON_DST = ZonedDateTime.parse(NON_DST_STR);
 
   /** {@link #NON_DST_STR} truncated to seconds. */

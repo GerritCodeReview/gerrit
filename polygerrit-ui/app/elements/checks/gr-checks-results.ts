@@ -67,7 +67,7 @@ import {DropdownLink} from '../shared/gr-dropdown/gr-dropdown';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
 import {fire} from '../../utils/event-util';
-import {resolve} from '../../services/dependency';
+import {resolve} from '../../models/dependency';
 import {configModelToken} from '../../models/config/config-model';
 
 /**

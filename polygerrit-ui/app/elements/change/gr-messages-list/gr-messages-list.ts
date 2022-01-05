@@ -51,7 +51,7 @@ import {
   ParsedChangeInfo,
 } from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
-import {resolve, DIPolymerElement} from '../../../services/dependency';
+import {resolve, DIPolymerElement} from '../../../models/dependency';
 
 /**
  * The content of the enum is also used in the UI for the button text.

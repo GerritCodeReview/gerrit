@@ -120,7 +120,7 @@ import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
-import {resolve, DIPolymerElement} from '../../../services/dependency';
+import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {BehaviorSubject} from 'rxjs';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';

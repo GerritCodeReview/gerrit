@@ -17,7 +17,7 @@
 
 // Init app context before any other imports
 import {create, Registry, Finalizable} from '../services/registry';
-import {DependencyToken} from '../services/dependency';
+import {DependencyToken} from '../models/dependency';
 import {assertIsDefined} from '../utils/common-util';
 import {AppContext} from '../services/app-context';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';

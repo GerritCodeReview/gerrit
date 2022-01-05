@@ -16,7 +16,7 @@
  */
 import {AppContext} from './app-context';
 import {create, Finalizable, Registry} from './registry';
-import {DependencyToken} from './dependency';
+import {DependencyToken} from '../models/dependency';
 import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';
 import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';

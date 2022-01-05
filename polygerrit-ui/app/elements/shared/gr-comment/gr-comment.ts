@@ -30,7 +30,7 @@ import '../gr-account-label/gr-account-label';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
-import {resolve} from '../../../services/dependency';
+import {resolve} from '../../../models/dependency';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {GrOverlay} from '../gr-overlay/gr-overlay';

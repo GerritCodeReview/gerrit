@@ -22,7 +22,7 @@ import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../../services/change/change-model';
 import {select} from '../../utils/observable-util';
 import {Model} from '../model';
-import {define} from '../../services/dependency';
+import {define} from '../dependency';
 
 export interface ConfigState {
   repoConfig?: ConfigInfo;

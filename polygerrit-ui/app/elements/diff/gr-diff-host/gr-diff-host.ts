@@ -88,7 +88,7 @@ import {Timing} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {DisplayLine, RenderPreferences} from '../../../api/diff';
-import {resolve, DIPolymerElement} from '../../../services/dependency';
+import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 

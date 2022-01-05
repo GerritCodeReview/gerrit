@@ -38,7 +38,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {fireEvent} from '../../../utils/event-util';
-import {resolve} from '../../../services/dependency';
+import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;

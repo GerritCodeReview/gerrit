@@ -37,7 +37,7 @@ import {BindValueChangeEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {resolve} from '../../../services/dependency';
+import {resolve} from '../../../models/dependency';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';

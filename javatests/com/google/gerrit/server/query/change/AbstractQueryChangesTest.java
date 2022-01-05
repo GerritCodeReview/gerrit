@@ -923,6 +923,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byTopic() throws Exception {
+
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChangeWithTopic(repo, "feature1");
     Change change1 = insert(repo, ins1);
@@ -953,6 +954,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("intopic:gerrit", change6, change5);
     assertQuery("topic:\"\"", change_no_topic);
     assertQuery("intopic:\"\"", change_no_topic);
+
+    assume().that(getSchema().hasField(ChangeField.PREFIX_TOPIC)).isTrue();
+    assertQuery("prefixtopic:feature", change4, change2, change1);
+    assertQuery("prefixtopic:Cher", change3);
+    assertQuery("prefixtopic:feature22");
   }
 
   @Test
@@ -2174,6 +2180,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("inhashtag:foo", changes.get(1), changes.get(0));
     assertQuery("inhashtag:bbb", changes.get(0));
     assertQuery("inhashtag:tag", changes.get(1));
+  }
+
+  @Test
+  public void byHashtagPrefix() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.PREFIX_HASHTAG)).isTrue();
+    List<Change> changes = setUpHashtagChanges();
+    assertQuery("prefixhashtag:a", changes.get(1), changes.get(0));
+    assertQuery("prefixhashtag:aa", changes.get(0));
+    assertQuery("prefixhashtag:bar", changes.get(1));
   }
 
   @Test

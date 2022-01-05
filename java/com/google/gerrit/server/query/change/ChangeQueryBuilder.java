@@ -870,6 +870,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
+  public Predicate<ChangeData> prefixhashtag(String hashtag) throws QueryParseException {
+    if (hashtag.isEmpty()) {
+      return ChangePredicates.hashtag(hashtag);
+    }
+
+    checkFieldAvailable(ChangeField.PREFIX_HASHTAG, "prefixhashtag");
+    return ChangePredicates.prefixHashtag(hashtag);
+  }
+
+  @Operator
   public Predicate<ChangeData> topic(String name) {
     return ChangePredicates.exactTopic(name);
   }
@@ -883,6 +893,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return ChangePredicates.exactTopic(name);
     }
     return ChangePredicates.fuzzyTopic(name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> prefixtopic(String name) throws QueryParseException {
+    if (name.isEmpty()) {
+      return ChangePredicates.exactTopic(name);
+    }
+
+    checkFieldAvailable(ChangeField.PREFIX_TOPIC, "prefixtopic");
+    return ChangePredicates.prefixTopic(name);
   }
 
   @Operator

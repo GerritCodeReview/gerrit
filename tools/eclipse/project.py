@@ -49,9 +49,7 @@ opts.add_argument('--name', help='name of the generated project',
 opts.add_argument('-b', '--batch', action='store_true',
                   dest='batch', help='Bazel batch option')
 opts.add_argument('-j', '--java', action='store',
-                  dest='java', help='Legacy Java 1.8 or post Java 11')
-opts.add_argument('-e', '--edge_java', action='store',
-                  dest='edge_java', help='Post Java 11 support (14|...)')
+                  dest='java', help='Post Java 11')
 opts.add_argument('--bazel',
                   help=('name of the bazel executable. Defaults to using'
                         ' bazelisk if found, or bazel if bazelisk is not'
@@ -85,7 +83,6 @@ def find_bazel():
 
 batch_option = '--batch' if args.batch else None
 custom_java = args.java
-edge_java = args.edge_java
 bazel_exe = find_bazel()
 
 
@@ -98,13 +95,9 @@ def _build_bazel_cmd(*args):
         if arg == "build":
             build = True
         cmd.append(arg)
-    if custom_java == '1.8':
-        cmd.append('--java_toolchain=//tools:error_prone_warnings_toolchain')
-    elif custom_java and not edge_java:
+    if custom_java:
         cmd.append('--host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java%s' % custom_java)
         cmd.append('--java_toolchain=@bazel_tools//tools/jdk:toolchain_java%s' % custom_java)
-        if edge_java and build:
-            cmd.append(edge_java)
     return cmd
 
 

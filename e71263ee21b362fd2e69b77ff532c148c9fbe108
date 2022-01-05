@@ -22,6 +22,30 @@
       },
       "revId": "e71263ee21b362fd2e69b77ff532c148c9fbe108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cfa49d2_0c39b38d",
+        "filename": "java/com/google/gerrit/testing/IndexVersions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-05T10:05:20Z",
+      "side": 1,
+      "message": "JdkObsolete is not only about Date, but also other classes such as SortedMap, SortedSet, LinkedList etc.: https://errorprone.info/bugpattern/JdkObsolete",
+      "parentUuid": "04876220_7d00bb92",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 16
+      },
+      "revId": "e71263ee21b362fd2e69b77ff532c148c9fbe108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

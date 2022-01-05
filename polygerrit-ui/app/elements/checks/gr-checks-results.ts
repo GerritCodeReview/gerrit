@@ -67,6 +67,8 @@ import {DropdownLink} from '../shared/gr-dropdown/gr-dropdown';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
 import {fire} from '../../utils/event-util';
+import {resolve} from '../../services/dependency';
+import {configModelToken} from '../../models/config/config-model';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -106,8 +108,8 @@ class GrResultRow extends LitElement {
 
   private checksModel = getAppContext().checksModel;
 
-  constructor() {
-    super();
+  override connectedCallback() {
+    super.connectedCallback();
     subscribe(this, this.changeModel.labels$, x => (this.labels = x));
   }
 
@@ -561,7 +563,7 @@ class GrResultExpanded extends LitElement {
 
   private changeModel = getAppContext().changeModel;
 
-  private configModel = getAppContext().configModel;
+  private configModel = resolve(this, configModelToken);
 
   static override get styles() {
     return [
@@ -586,7 +588,7 @@ class GrResultExpanded extends LitElement {
 
   constructor() {
     super();
-    subscribe(this, this.configModel.repoConfig$, x => (this.repoConfig = x));
+    subscribe(this, this.configModel().repoConfig$, x => (this.repoConfig = x));
   }
 
   override render() {

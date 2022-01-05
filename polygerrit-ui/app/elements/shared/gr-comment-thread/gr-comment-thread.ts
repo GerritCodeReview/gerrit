@@ -423,7 +423,7 @@ export class GrCommentThread extends LitElement {
 
   renderFilePath() {
     if (!this.showFilePath) return;
-    const href = this.getUrlForComment();
+    const href = this.getUrlForFileComment();
     const line = this.computeDisplayLine();
     return html`
       ${this.renderFileName()}
@@ -558,7 +558,7 @@ export class GrCommentThread extends LitElement {
   renderContextualDiff() {
     if (!this.changeNum || !this.showCommentContext || !this.diff) return;
     if (!this.thread?.path) return;
-    const href = this.getUrlForComment();
+    const href = this.getUrlForFileComment();
     return html`
       <div class="diff-container">
         <gr-diff
@@ -704,7 +704,8 @@ export class GrCommentThread extends LitElement {
     return undefined;
   }
 
-  private getUrlForComment() {
+  // Does not work for patchset level comments
+  private getUrlForFileComment() {
     if (!this.repoName || !this.changeNum || this.isNewThread()) {
       return undefined;
     }
@@ -717,7 +718,17 @@ export class GrCommentThread extends LitElement {
   }
 
   private handleCopyLink() {
-    const url = this.getUrlForComment();
+    const comment = this.getFirstComment();
+    if (!comment) return;
+    assertIsDefined(this.changeNum, 'changeNum');
+    assertIsDefined(this.repoName, 'repoName');
+    const url = generateAbsoluteUrl(
+      GerritNav.getUrlForCommentsTab(
+        this.changeNum!,
+        this.repoName!,
+        comment.id
+      )
+    );
     assertIsDefined(url, 'url for comment');
     navigator.clipboard.writeText(generateAbsoluteUrl(url)).then(() => {
       fireAlert(this, 'Link copied to clipboard');

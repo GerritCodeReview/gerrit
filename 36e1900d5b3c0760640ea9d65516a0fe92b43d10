@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e9ddb6a_8903bbdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-05T20:55:22Z",
+      "side": 1,
+      "message": "\u003e I agree, but the \"is 100% Java 8 compatible\" should be changed to \"MAY be 100% Java 8 compatible\". It is very likely that we\u0027ll need to cherry-pick fixes from master to stable-3.5 at times and those will be likely to be Java 11 only.\n\n+1",
+      "parentUuid": "ef93d324_8daffc04",
+      "revId": "36e1900d5b3c0760640ea9d65516a0fe92b43d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f03e5ee5_f089b47b",

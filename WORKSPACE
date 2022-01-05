@@ -872,12 +872,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "javax-annotation",
-    artifact = "javax.annotation:javax.annotation-api:1.3.2",
-    sha1 = "934c04d3cfef185a8008e7bf34331b79730a9d43",
-)
-
-maven_jar(
     name = "mockito",
     artifact = "org.mockito:mockito-core:3.3.3",
     sha1 = "4878395d4e63173f3825e17e5e0690e8054445f1",

@@ -166,7 +166,7 @@ public class PatchSetApprovalProtoConverterTest {
     assertThat(patchSetApproval.labelId()).isEqualTo(LabelId.create("label-8"));
     // Default values for unset protobuf fields which can't be unset in the entity object.
     assertThat(patchSetApproval.value()).isEqualTo(0);
-    assertThat(patchSetApproval.granted()).isEqualTo(Instant.ofEpochMilli(0));
+    assertThat(patchSetApproval.granted()).isEqualTo(Instant.EPOCH);
     assertThat(patchSetApproval.postSubmit()).isEqualTo(false);
     assertThat(patchSetApproval.copied()).isEqualTo(false);
   }

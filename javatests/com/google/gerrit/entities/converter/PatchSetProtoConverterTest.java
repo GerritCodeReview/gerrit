@@ -143,7 +143,7 @@ public class PatchSetProtoConverterTest {
                 .id(PatchSet.id(Change.id(103), 73))
                 .commitId(ObjectId.fromString("0000000000000000000000000000000000000000"))
                 .uploader(Account.id(0))
-                .createdOn(Instant.ofEpochMilli(0))
+                .createdOn(Instant.EPOCH)
                 .build());
   }
 

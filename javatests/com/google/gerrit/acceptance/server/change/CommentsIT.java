@@ -930,7 +930,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void insertCommentsWithHistoricTimestamp() throws Exception {
-    Instant timestamp = Instant.ofEpochMilli(0);
+    Instant timestamp = Instant.EPOCH;
     for (Integer line : lines) {
       String file = "file";
       String contents = "contents " + line;

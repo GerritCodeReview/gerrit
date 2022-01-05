@@ -57,7 +57,7 @@ public class AbstractParserTest {
         new HumanComment(
             new Comment.Key(uuid, file, 1),
             Account.id(0),
-            Instant.ofEpochMilli(0L),
+            Instant.EPOCH,
             (short) 0,
             message,
             "",
@@ -72,7 +72,7 @@ public class AbstractParserTest {
         new HumanComment(
             new Comment.Key(uuid, file, 1),
             Account.id(0),
-            Instant.ofEpochMilli(0L),
+            Instant.EPOCH,
             (short) 0,
             message,
             "",

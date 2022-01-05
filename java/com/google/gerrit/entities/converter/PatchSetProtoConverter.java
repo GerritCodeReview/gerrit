@@ -85,9 +85,7 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
                 ? accountIdConverter.fromProto(proto.getUploaderAccountId())
                 : Account.id(0))
         .createdOn(
-            proto.hasCreatedOn()
-                ? Instant.ofEpochMilli(proto.getCreatedOn())
-                : Instant.ofEpochMilli(0));
+            proto.hasCreatedOn() ? Instant.ofEpochMilli(proto.getCreatedOn()) : Instant.EPOCH);
 
     return builder.build();
   }

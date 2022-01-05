@@ -22,6 +22,30 @@
       },
       "revId": "1db382a849b40801c3d1aea32959d0c5c69a41f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1a6f758_e3b242cc",
+        "filename": "polygerrit-ui/app/tsconfig.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-05T14:37:11Z",
+      "side": 1,
+      "message": "Thanks, those were added automatically it seems.",
+      "parentUuid": "4020d4e5_ad7181e1",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 91
+      },
+      "revId": "1db382a849b40801c3d1aea32959d0c5c69a41f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Does this also work with recent bazel release 5.0.0rc3?\n\nI can test it too, but basically, just cherry-pick this change 291864.",
       "revId": "b01529ae86dbe2c44d7f6aa53050ddb97b89b7e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36c8ae79_f96715e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-05T09:37:05Z",
+      "side": 1,
+      "message": "I gave it a try and cherry-picked this change (and it\u0027s predecessor that bumps jgit) on top of the series:\n\n1. There are a few new error prone issues which seem to have been introduced in a stable branch since you made that change (AutoValueSubclassLeaked, FloggerStringConcatenation), but those are trivial to fix.\n  \n2. Usages of java.util.Date for which we suppressed the JdkObsolete warning (@SuppressWarnings(\"JdkObsolete\") are now flagged due to JavaUtilDate (not sure if JavaUtilDate would find new issues).",
+      "parentUuid": "e43d3e28_d5617a36",
+      "revId": "b01529ae86dbe2c44d7f6aa53050ddb97b89b7e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

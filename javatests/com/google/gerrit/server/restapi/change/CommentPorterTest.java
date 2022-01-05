@@ -41,7 +41,6 @@ import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.restapi.change.CommentPorter.Metrics;
 import com.google.gerrit.truth.NullAwareCorrespondence;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Optional;
@@ -263,7 +262,7 @@ public class CommentPorterTest {
     return new HumanComment(
         new Comment.Key(getUniqueUuid(), filePath, patchsetId.get()),
         Account.id(100),
-        new Timestamp(1234),
+        Instant.ofEpochMilli(1234),
         (short) 1,
         "Comment text",
         "serverId",

@@ -18,6 +18,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Comparator;
 import java.util.Objects;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -215,7 +216,10 @@ public abstract class Comment {
 
   public Identity author;
   protected Identity realAuthor;
+
+  // TODO(issue-15525): Migrate this field from Timestamp to Instant
   public Timestamp writtenOn;
+
   public short side;
   public String message;
   public String parentUuid;
@@ -233,13 +237,7 @@ public abstract class Comment {
   public String serverId;
 
   public Comment(Comment c) {
-    this(
-        new Key(c.key),
-        c.author.getId(),
-        new Timestamp(c.writtenOn.getTime()),
-        c.side,
-        c.message,
-        c.serverId);
+    this(new Key(c.key), c.author.getId(), c.writtenOn.toInstant(), c.side, c.message, c.serverId);
     this.lineNbr = c.lineNbr;
     this.realAuthor = c.realAuthor;
     this.parentUuid = c.parentUuid;
@@ -249,19 +247,18 @@ public abstract class Comment {
   }
 
   public Comment(
-      Key key,
-      Account.Id author,
-      Timestamp writtenOn,
-      short side,
-      String message,
-      String serverId) {
+      Key key, Account.Id author, Instant writtenOn, short side, String message, String serverId) {
     this.key = key;
     this.author = new Comment.Identity(author);
     this.realAuthor = this.author;
-    this.writtenOn = writtenOn;
+    this.writtenOn = Timestamp.from(writtenOn);
     this.side = side;
     this.message = message;
     this.serverId = serverId;
+  }
+
+  public void setWrittenOn(Instant writtenOn) {
+    this.writtenOn = Timestamp.from(writtenOn);
   }
 
   public void setLineNbrAndRange(

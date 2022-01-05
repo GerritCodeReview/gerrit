@@ -109,8 +109,10 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -557,14 +559,17 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThrows(AuthException.class, () -> gApi.groups().create(name("newGroup")));
   }
 
+  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
+  @SuppressWarnings("JdkObsolete")
   @Test
   public void createdOnFieldIsPopulatedForNewGroup() throws Exception {
     // NoteDb allows only second precision.
-    Timestamp testStartTime = TimeUtil.truncateToSecond(TimeUtil.nowTs());
+    Instant testStartTime = TimeUtil.truncateToSecond(TimeUtil.now());
     String newGroupName = name("newGroup");
     GroupInfo group = gApi.groups().create(newGroupName).get();
 
-    assertThat(group.createdOn).isAtLeast(testStartTime);
+    assertThat(group.createdOn.toInstant()).isAtLeast(testStartTime);
   }
 
   @Test
@@ -1603,6 +1608,9 @@ public class GroupsIT extends AbstractDaemonTest {
     return createCommit(repo, commitMessage, null);
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   private ObjectId createCommit(Repository repo, String commitMessage, @Nullable ObjectId treeId)
       throws IOException {
     try (ObjectInserter oi = repo.newObjectInserter()) {
@@ -1610,7 +1618,7 @@ public class GroupsIT extends AbstractDaemonTest {
         treeId = oi.insert(Constants.OBJ_TREE, new byte[] {});
       }
 
-      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.nowTs());
+      PersonIdent ident = new PersonIdent(serverIdent.get(), Date.from(TimeUtil.now()));
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(treeId);
       cb.setCommitter(ident);

@@ -44,10 +44,6 @@ public class TimeUtil {
     return Instant.ofEpochMilli(nowMs());
   }
 
-  public static Timestamp nowTs() {
-    return new Timestamp(nowMs());
-  }
-
   /**
    * Returns the magic timestamp representing no specific time.
    *
@@ -57,10 +53,6 @@ public class TimeUtil {
   public static Timestamp never() {
     // Always create a new object as timestamps are mutable.
     return new Timestamp(0);
-  }
-
-  public static Timestamp truncateToSecond(Timestamp t) {
-    return new Timestamp((t.getTime() / 1000) * 1000);
   }
 
   public static Instant truncateToSecond(Instant t) {

@@ -1006,7 +1006,7 @@ public class GroupConfigTest {
   @Test
   public void commitTimeMatchesDefaultCreatedOnOfNewGroup() throws Exception {
     // Git timestamps are only precise to the second.
-    long testStartAsSecondsSinceEpoch = TimeUtil.nowTs().getTime() / 1000;
+    long testStartAsSecondsSinceEpoch = TimeUtil.now().getEpochSecond();
 
     InternalGroupCreation groupCreation =
         InternalGroupCreation.builder()
@@ -1117,7 +1117,7 @@ public class GroupConfigTest {
   @Test
   public void commitTimeMatchesDefaultUpdatedOnOfUpdatedGroup() throws Exception {
     // Git timestamps are only precise to the second.
-    long testStartAsSecondsSinceEpoch = TimeUtil.nowTs().getTime() / 1000;
+    long testStartAsSecondsSinceEpoch = TimeUtil.now().getEpochSecond();
 
     createArbitraryGroup(groupUuid);
     GroupDelta groupDelta =
@@ -1554,10 +1554,13 @@ public class GroupConfigTest {
     }
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   private MetaDataUpdate createMetaDataUpdate() {
     PersonIdent serverIdent =
         new PersonIdent(
-            "Gerrit Server", "noreply@gerritcodereview.com", TimeUtil.nowTs(), timeZone);
+            "Gerrit Server", "noreply@gerritcodereview.com", Date.from(TimeUtil.now()), timeZone);
 
     MetaDataUpdate metaDataUpdate =
         new MetaDataUpdate(

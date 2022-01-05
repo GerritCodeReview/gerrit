@@ -62,7 +62,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -132,7 +131,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             1,
             changeOwner,
             null,
-            TimeUtil.nowTs(),
+            TimeUtil.now(),
             "Comment",
             (short) 1,
             commit,
@@ -194,7 +193,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             1,
             changeOwner,
             null,
-            TimeUtil.nowTs(),
+            TimeUtil.now(),
             "Comment",
             (short) 1,
             commit,
@@ -1887,7 +1886,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             1,
             changeOwner,
             null,
-            TimeUtil.nowTs(),
+            TimeUtil.now(),
             "Comment",
             (short) 1,
             commit,
@@ -1976,7 +1975,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // comment on ps2
     update = newUpdate(c, changeOwner);
     update.setPatchSetId(psId2);
-    Timestamp ts = TimeUtil.nowTs();
+    Instant ts = TimeUtil.now();
     update.putComment(
         HumanComment.Status.PUBLISHED,
         newComment(
@@ -2044,7 +2043,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     String uuid1 = "uuid1";
     String message1 = "comment 1";
     CommentRange range1 = new CommentRange(1, 1, 2, 1);
-    Timestamp time1 = TimeUtil.nowTs();
+    Instant time1 = TimeUtil.now();
     PatchSet.Id psId = c.currentPatchSetId();
     RevCommit tipCommit;
     try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project)) {
@@ -2293,7 +2292,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             0,
             otherUser,
             null,
-            TimeUtil.nowTs(),
+            TimeUtil.now(),
             "message",
             (short) 1,
             commitId,
@@ -2323,7 +2322,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             range.getEndLine(),
             otherUser,
             null,
-            TimeUtil.nowTs(),
+            TimeUtil.now(),
             "message",
             (short) 1,
             commitId,
@@ -2353,7 +2352,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             range.getEndLine(),
             otherUser,
             null,
-            TimeUtil.nowTs(),
+            TimeUtil.now(),
             "message",
             (short) 1,
             commitId,
@@ -2383,7 +2382,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             range.getEndLine(),
             otherUser,
             null,
-            TimeUtil.nowTs(),
+            TimeUtil.now(),
             "message",
             (short) 1,
             commitId,
@@ -2410,7 +2409,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     String message3 = "comment 3";
     CommentRange range1 = new CommentRange(1, 1, 2, 1);
     CommentRange range2 = new CommentRange(2, 1, 3, 1);
-    Timestamp time = TimeUtil.nowTs();
+    Instant time = TimeUtil.now();
     ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 
     HumanComment comment1 =
@@ -2480,7 +2479,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     String uuid = "uuid";
     String message = "comment";
     CommentRange range = new CommentRange(1, 1, 2, 1);
-    Timestamp time = TimeUtil.nowTs();
+    Instant time = TimeUtil.now();
     PatchSet.Id psId = c.currentPatchSetId();
     ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 
@@ -2520,7 +2519,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, user);
     String uuid = "uuid";
     CommentRange range = new CommentRange(1, 1, 2, 1);
-    Timestamp time = TimeUtil.nowTs();
+    Instant time = TimeUtil.now();
     PatchSet.Id psId = c.currentPatchSetId();
 
     HumanComment comment =
@@ -2558,7 +2557,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     String messageForBase = "comment for base";
     String messageForPS = "comment for ps";
     CommentRange range = new CommentRange(1, 1, 2, 1);
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     PatchSet.Id psId = c.currentPatchSetId();
 
     HumanComment commentForBase =
@@ -2617,8 +2616,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     short side = (short) 1;
 
     ChangeUpdate update = newUpdate(c, otherUser);
-    Timestamp timeForComment1 = TimeUtil.nowTs();
-    Timestamp timeForComment2 = TimeUtil.nowTs();
+    Instant timeForComment1 = TimeUtil.now();
+    Instant timeForComment2 = TimeUtil.now();
     HumanComment comment1 =
         newComment(
             psId,
@@ -2676,7 +2675,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     short side = (short) 1;
 
     ChangeUpdate update = newUpdate(c, otherUser);
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     HumanComment comment1 =
         newComment(
             psId,
@@ -2734,7 +2733,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     short side = (short) 1;
 
     ChangeUpdate update = newUpdate(c, otherUser);
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     HumanComment comment1 =
         newComment(
             ps1,
@@ -2757,7 +2756,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSet.Id ps2 = c.currentPatchSetId();
 
     update = newUpdate(c, otherUser);
-    now = TimeUtil.nowTs();
+    now = TimeUtil.now();
     HumanComment comment2 =
         newComment(
             ps2,
@@ -2794,7 +2793,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     short side = (short) 1;
 
     ChangeUpdate update = newUpdate(c, otherUser);
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     HumanComment comment1 =
         newComment(
             ps1,
@@ -2839,7 +2838,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     CommentRange range2 = new CommentRange(2, 2, 3, 3);
     String filename = "filename1";
     short side = (short) 1;
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     PatchSet.Id psId = c.currentPatchSetId();
 
     // Write two drafts on the same side of one patch set.
@@ -2909,7 +2908,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     CommentRange range1 = new CommentRange(1, 1, 2, 2);
     CommentRange range2 = new CommentRange(2, 2, 3, 3);
     String filename = "filename1";
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     PatchSet.Id psId = c.currentPatchSetId();
 
     // Write two drafts, one on each side of the patchset.
@@ -2984,7 +2983,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     short side = (short) 1;
 
     ChangeUpdate update = newUpdate(c, otherUser);
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     HumanComment comment =
         newComment(
             psId,
@@ -3029,7 +3028,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     short side = (short) 1;
 
     ChangeUpdate update = newUpdate(c, otherUser);
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     HumanComment comment1 =
         newComment(
             ps1,
@@ -3052,7 +3051,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSet.Id ps2 = c.currentPatchSetId();
 
     update = newUpdate(c, otherUser);
-    now = TimeUtil.nowTs();
+    now = TimeUtil.now();
     HumanComment comment2 =
         newComment(
             ps2,
@@ -3097,7 +3096,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     short side = (short) 1;
 
     ChangeUpdate update = newUpdate(c, otherUser);
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     HumanComment comment =
         newComment(
             ps1,
@@ -3130,7 +3129,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     short side = (short) 1;
 
     ChangeUpdate update = newUpdate(c, otherUser);
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     HumanComment draft =
         newComment(
             ps1,
@@ -3180,7 +3179,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     String uuid = "uuid";
     ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     String messageForBase = "comment for base";
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     PatchSet.Id psId = c.currentPatchSetId();
 
     HumanComment comment =
@@ -3212,7 +3211,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     String uuid = "uuid";
     ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     String messageForBase = "comment for base";
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     PatchSet.Id psId = c.currentPatchSetId();
 
     HumanComment comment =
@@ -3253,7 +3252,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(ps2);
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     HumanComment comment1 =
         newComment(
             ps1,
@@ -3311,7 +3310,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     HumanComment comment1 =
         newComment(
             ps1,
@@ -3385,7 +3384,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     short side = (short) 1;
 
     ChangeUpdate update = newUpdate(c, otherUser);
-    Timestamp now = TimeUtil.nowTs();
+    Instant now = TimeUtil.now();
     HumanComment comment1 =
         newComment(
             ps1,
@@ -3472,7 +3471,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             range.getEndLine(),
             otherUser,
             null,
-            Timestamp.from(update1.getWhen()),
+            update1.getWhen(),
             "comment 1",
             (short) 1,
             commitId,
@@ -3489,7 +3488,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             range.getEndLine(),
             otherUser,
             null,
-            Timestamp.from(update2.getWhen()),
+            update2.getWhen(),
             "comment 2",
             (short) 1,
             commitId,
@@ -3546,7 +3545,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             range.getEndLine(),
             changeOwner,
             null,
-            Timestamp.from(update.getWhen()),
+            update.getWhen(),
             "comment",
             (short) 1,
             ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),

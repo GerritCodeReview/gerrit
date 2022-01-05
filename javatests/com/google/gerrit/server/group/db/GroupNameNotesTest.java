@@ -45,6 +45,7 @@ import com.google.gerrit.truth.ListSubject;
 import com.google.gerrit.truth.OptionalSubject;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
@@ -557,8 +558,11 @@ public class GroupNameNotesTest {
     return GroupReference.create(AccountGroup.uuid(name + "-" + id), name);
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   private static PersonIdent newPersonIdent() {
-    return new PersonIdent(SERVER_NAME, SERVER_EMAIL, TimeUtil.nowTs(), TZ);
+    return new PersonIdent(SERVER_NAME, SERVER_EMAIL, Date.from(TimeUtil.now()), TZ);
   }
 
   private static ObjectId getNoteKey(GroupReference g) {

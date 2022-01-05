@@ -155,7 +155,7 @@ public class CommentTimestampAdapterTest {
         new HumanComment(
             new Comment.Key("uuid", "filename", 1),
             Account.id(100),
-            NON_DST_TS,
+            NON_DST_TS.toInstant(),
             (short) 0,
             "message",
             "serverId",

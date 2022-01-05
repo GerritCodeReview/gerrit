@@ -30,6 +30,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -220,9 +221,13 @@ public class VersionedMetaDataTest {
     return u;
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   private CommitBuilder newCommitBuilder() {
     CommitBuilder cb = new CommitBuilder();
-    PersonIdent author = new PersonIdent("J. Author", "author@example.com", TimeUtil.nowTs(), TZ);
+    PersonIdent author =
+        new PersonIdent("J. Author", "author@example.com", Date.from(TimeUtil.now()), TZ);
     cb.setAuthor(author);
     cb.setCommitter(
         new PersonIdent(

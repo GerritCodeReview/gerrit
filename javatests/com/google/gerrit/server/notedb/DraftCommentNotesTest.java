@@ -89,7 +89,7 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
         0,
         otherUser,
         null,
-        TimeUtil.nowTs(),
+        TimeUtil.now(),
         "comment",
         (short) 0,
         ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),

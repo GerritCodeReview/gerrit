@@ -14,7 +14,7 @@
 
 package com.google.gerrit.entities;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -29,7 +29,7 @@ public final class RobotComment extends Comment {
   public RobotComment(
       Key key,
       Account.Id author,
-      Timestamp writtenOn,
+      Instant writtenOn,
       short side,
       String message,
       String serverId,

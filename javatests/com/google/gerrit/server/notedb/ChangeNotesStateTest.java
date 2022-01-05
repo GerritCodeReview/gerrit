@@ -891,7 +891,7 @@ public class ChangeNotesStateTest {
         new HumanComment(
             new Comment.Key("uuid1", "file1", 1),
             Account.id(1001),
-            new Timestamp(1212L),
+            Instant.ofEpochMilli(1212L),
             (short) 1,
             "message 1",
             "serverId",
@@ -903,7 +903,7 @@ public class ChangeNotesStateTest {
         new HumanComment(
             new Comment.Key("uuid2", "file2", 2),
             Account.id(1002),
-            new Timestamp(3434L),
+            Instant.ofEpochMilli(3434L),
             (short) 2,
             "message 2",
             "serverId",

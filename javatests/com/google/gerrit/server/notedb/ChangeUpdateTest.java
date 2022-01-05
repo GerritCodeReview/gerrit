@@ -81,7 +81,7 @@ public class ChangeUpdateTest extends AbstractChangeNotesTest {
             1,
             changeOwner,
             null,
-            TimeUtil.nowTs(),
+            TimeUtil.now(),
             "Comment",
             (short) 1,
             commit,

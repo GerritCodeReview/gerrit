@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.server.util.time.TimeUtil;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 import org.junit.Test;
@@ -52,6 +51,6 @@ public class UseClockStepTest extends AbstractDaemonTest {
   @Test
   @UseClockStep(startAtEpoch = true)
   public void useClockStepWithStartAtEpoch() {
-    assertThat(TimeUtil.nowTs()).isEqualTo(Timestamp.from(Instant.EPOCH));
+    assertThat(TimeUtil.now()).isEqualTo(Instant.EPOCH);
   }
 }

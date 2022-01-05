@@ -31,6 +31,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -59,13 +60,16 @@ public class AbstractGroupTest {
   protected Account.Id userId;
   protected PersonIdent userIdent;
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   @Before
   public void abstractGroupTestSetUp() throws Exception {
     allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
     repoManager = new InMemoryRepositoryManager();
     allUsersRepo = repoManager.createRepository(allUsersName);
     serverAccountId = Account.id(SERVER_ACCOUNT_NUMBER);
-    serverIdent = new PersonIdent(SERVER_NAME, SERVER_EMAIL, TimeUtil.nowTs(), TZ);
+    serverIdent = new PersonIdent(SERVER_NAME, SERVER_EMAIL, Date.from(TimeUtil.now()), TZ);
     userId = Account.id(USER_ACCOUNT_NUMBER);
     userIdent = newPersonIdent(userId, serverIdent);
   }
@@ -112,8 +116,11 @@ public class AbstractGroupTest {
     return md;
   }
 
+  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
+  // Instants
+  @SuppressWarnings("JdkObsolete")
   protected static PersonIdent newPersonIdent() {
-    return new PersonIdent(SERVER_NAME, SERVER_EMAIL, TimeUtil.nowTs(), TZ);
+    return new PersonIdent(SERVER_NAME, SERVER_EMAIL, Date.from(TimeUtil.now()), TZ);
   }
 
   protected static PersonIdent newPersonIdent(Account.Id id, PersonIdent ident) {

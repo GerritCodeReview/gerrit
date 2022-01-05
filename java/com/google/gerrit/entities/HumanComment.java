@@ -14,7 +14,7 @@
 
 package com.google.gerrit.entities;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -33,7 +33,7 @@ public class HumanComment extends Comment {
   public HumanComment(
       Key key,
       Account.Id author,
-      Timestamp writtenOn,
+      Instant writtenOn,
       short side,
       String message,
       String serverId,

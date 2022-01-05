@@ -33,7 +33,7 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project.NameKey;
-import com.google.gerrit.exceptions.InternalServerWithUserMessageException;
+import com.google.gerrit.exceptions.MergeUpdateException;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -136,8 +136,8 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     ChangeMessageModifier modifier2 = (msg, orig, tip, dest) -> msg + "A-footer: value\n";
     try (Registration registration =
         extensionRegistry.newRegistration().add(modifier1).add(modifier2)) {
-      InternalServerWithUserMessageException thrown =
-          assertThrows(InternalServerWithUserMessageException.class, () -> submitWithRebase());
+      MergeUpdateException thrown =
+          assertThrows(MergeUpdateException.class, () -> submitWithRebase());
       Throwable cause = Throwables.getRootCause(thrown);
       assertThat(cause).isInstanceOf(RuntimeException.class);
       assertThat(cause).hasMessageThat().isEqualTo("boom");
@@ -153,8 +153,8 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
             .newRegistration()
             .add(modifier1, "modifier-1")
             .add(modifier2, "modifier-2")) {
-      InternalServerWithUserMessageException thrown =
-          assertThrows(InternalServerWithUserMessageException.class, () -> submitWithRebase());
+      MergeUpdateException thrown =
+          assertThrows(MergeUpdateException.class, () -> submitWithRebase());
       Throwable cause = Throwables.getRootCause(thrown);
       assertThat(cause).isInstanceOf(RuntimeException.class);
       assertThat(cause)

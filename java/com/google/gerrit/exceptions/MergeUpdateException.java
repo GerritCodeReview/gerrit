@@ -14,10 +14,15 @@
 
 package com.google.gerrit.exceptions;
 
-public class InternalServerWithUserMessageException extends RuntimeException {
+/**
+ * An exception used for changes that fail to merge. This exception has a user visible message
+ * unlike other {@link RuntimeException}s, because this is our way to improve the UX when
+ * submission/merges fail.
+ */
+public class MergeUpdateException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
-  public InternalServerWithUserMessageException(String msg, Throwable cause) {
-    super(msg, cause);
+  public MergeUpdateException(String userVisibleMessage, Throwable cause) {
+    super(userVisibleMessage, cause);
   }
 }

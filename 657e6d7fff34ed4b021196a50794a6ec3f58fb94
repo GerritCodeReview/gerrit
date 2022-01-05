@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88761904_3d6be625",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-05T16:14:19Z",
+      "side": 1,
+      "message": "Thanks for the quick review.",
+      "revId": "657e6d7fff34ed4b021196a50794a6ec3f58fb94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0318a00_c88d967e",
@@ -24,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0ace771_67ebc138",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-05T16:14:19Z",
+      "side": 1,
+      "message": "Good question, I\u0027ll see if I can clean this up in a follow-up",
+      "parentUuid": "d0318a00_c88d967e",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 27
+      },
+      "revId": "657e6d7fff34ed4b021196a50794a6ec3f58fb94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f593684e_81c7a6bf",
@@ -37,6 +78,30 @@
       "writtenOn": "2022-01-05T16:11:28Z",
       "side": 1,
       "message": "whatever\u0027s going on here should at least add a newline 😂",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 90
+      },
+      "revId": "657e6d7fff34ed4b021196a50794a6ec3f58fb94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89de1886_59af39cb",
+        "filename": "polygerrit-ui/app/tsconfig.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-05T16:14:19Z",
+      "side": 1,
+      "message": "😂 done",
+      "parentUuid": "f593684e_81c7a6bf",
       "range": {
         "startLine": 98,
         "startChar": 0,

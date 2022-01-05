@@ -23,7 +23,7 @@ import {SinonSpy, SinonStub} from 'sinon';
 import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
-import {UserModel} from '../services/user/user-model';
+import {UserModel} from '../models/user/user-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {queryAndAssert, query} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';

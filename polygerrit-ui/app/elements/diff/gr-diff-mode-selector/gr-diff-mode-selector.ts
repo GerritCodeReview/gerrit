@@ -26,7 +26,7 @@ import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announce
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {getAppContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
-import {browserModelToken} from '../../../services/browser/browser-model';
+import {browserModelToken} from '../../../models/browser/browser-model';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
 
 @customElement('gr-diff-mode-selector')

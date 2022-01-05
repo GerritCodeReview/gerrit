@@ -31,7 +31,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
-import {commentsModelToken} from '../../../services/comments/comments-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../services/dependency';
 
 @customElement('gr-confirm-submit-dialog')

@@ -86,8 +86,8 @@ import {RevisionInfo} from '../../shared/revision-info/revision-info';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {select} from '../../../utils/observable-util';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
-import {browserModelToken} from '../../../services/browser/browser-model';
-import {commentsModelToken} from '../../../services/comments/comments-model';
+import {browserModelToken} from '../../../models/browser/browser-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 

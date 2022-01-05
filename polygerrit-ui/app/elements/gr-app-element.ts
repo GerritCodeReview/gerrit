@@ -85,7 +85,7 @@ import {fireIronAnnounce} from '../utils/event-util';
 import {assertIsDefined} from '../utils/common-util';
 import {listen} from '../services/shortcuts/shortcuts-service';
 import {resolve, DIPolymerElement} from '../services/dependency';
-import {browserModelToken} from '../services/browser/browser-model';
+import {browserModelToken} from '../models/browser/browser-model';
 
 interface ErrorInfo {
   text: string;

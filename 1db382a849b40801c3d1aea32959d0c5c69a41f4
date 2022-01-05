@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4020d4e5_ad7181e1",
+        "filename": "polygerrit-ui/app/tsconfig.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-05T14:29:51Z",
+      "side": 1,
+      "message": "are these not covered by models/**/* ?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 91
+      },
+      "revId": "1db382a849b40801c3d1aea32959d0c5c69a41f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

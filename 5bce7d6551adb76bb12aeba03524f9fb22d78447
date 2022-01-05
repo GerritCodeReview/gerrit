@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfb3538a_25877e90",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-05T09:50:04Z",
+      "side": 1,
+      "message": "Yes, makes sense then. Thanks for checking!",
+      "parentUuid": "7a3eca6c_875b9495",
+      "revId": "5bce7d6551adb76bb12aeba03524f9fb22d78447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2910c13e_a44a74be",

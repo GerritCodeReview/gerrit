@@ -19,7 +19,7 @@ import {Observable} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../registry';
 import {NumericChangeId, PatchSetNum} from '../../types/common';
-import {Model} from '../model';
+import {Model} from '../../models/model';
 
 export enum GerritView {
   ADMIN = 'admin',

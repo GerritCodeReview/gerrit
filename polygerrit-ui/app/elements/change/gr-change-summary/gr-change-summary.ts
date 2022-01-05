@@ -59,7 +59,7 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {modifierPressed} from '../../../utils/dom-util';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {commentsModelToken} from '../../../services/comments/comments-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../services/dependency';
 
 export enum SummaryChipStyles {

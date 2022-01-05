@@ -55,7 +55,7 @@ import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Execution} from '../../constants/reporting';
 import {fireAlert, fireEvent} from '../../utils/event-util';
 import {RouterModel} from '../router/router-model';
-import {Model} from '../model';
+import {Model} from '../../models/model';
 
 /**
  * The checks model maintains the state of checks for two patchsets: the latest

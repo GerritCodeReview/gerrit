@@ -118,8 +118,8 @@ import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../services/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
-import {browserModelToken} from '../../../services/browser/browser-model';
-import {commentsModelToken} from '../../../services/comments/comments-model';
+import {browserModelToken} from '../../../models/browser/browser-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
 import {BehaviorSubject} from 'rxjs';
 

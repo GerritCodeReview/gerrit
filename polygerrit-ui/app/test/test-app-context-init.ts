@@ -29,18 +29,15 @@ import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_im
 import {ChangeModel} from '../services/change/change-model';
 import {ChecksModel} from '../services/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
-import {UserModel} from '../services/user/user-model';
+import {UserModel} from '../models/user/user-model';
 import {
   CommentsModel,
   commentsModelToken,
-} from '../services/comments/comments-model';
+} from '../models/comments/comments-model';
 import {RouterModel} from '../services/router/router-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
-import {ConfigModel} from '../services/config/config-model';
-import {
-  BrowserModel,
-  browserModelToken,
-} from '../services/browser/browser-model';
+import {ConfigModel} from '../models/config/config-model';
+import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {

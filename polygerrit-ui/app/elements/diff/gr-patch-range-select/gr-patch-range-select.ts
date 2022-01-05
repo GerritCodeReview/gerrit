@@ -51,7 +51,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
-import {commentsModelToken} from '../../../services/comments/comments-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../services/dependency';
 
 // Maximum length for patch set descriptions.

@@ -197,7 +197,7 @@ import {
 } from '../../../utils/attention-set-util';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../services/change/change-model';
-import {commentsModelToken} from '../../../services/comments/comments-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve, DIPolymerElement} from '../../../services/dependency';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;

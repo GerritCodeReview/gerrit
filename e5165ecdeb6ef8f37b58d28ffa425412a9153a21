@@ -218,6 +218,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db9dfd86_f25a485a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-05T20:47:01Z",
+      "side": 1,
+      "message": "\u003e Just to add to this, I think it would be great to have some way to add \"temp perms\" for exactly this use case [...]\n\n👍\n\nCheck: [1]. We did this dance multiple time:\n\n* specific branch is screwed up\n* Force push permission has been temporary granted\n* Force push has been done\n* Force push permission has been reverted\n\nIdeally, we would grant/issue one single force push ticket (with expiration time in say 60 seconds) for single push operation, without permanently adding and reverting (or forgetting to revert) force push permission:\n\nPer SSH (or REST API):\n\n  $ ssh gerrit-host gerrit issue-force-push-ticket\n  4711\n\n  $ git push -f HEAD:refs/for/master%force_push_ticket\u003d4711\n  \u003cdone\u003e\n\n[1] https://gerrit-review.googlesource.com/q/branch:refs/meta/config+message:revert",
+      "parentUuid": "287307e8_5df7d6a9",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "e5165ecdeb6ef8f37b58d28ffa425412a9153a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "514dcf26_664172c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f69010e9_edfddb78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-05T21:12:22Z",
+      "side": 1,
+      "message": "@Edwin, can you do LC+1 or should I add someone else?",
+      "revId": "0fca4c112566714512b8fb7ea6b9d54526fc6806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

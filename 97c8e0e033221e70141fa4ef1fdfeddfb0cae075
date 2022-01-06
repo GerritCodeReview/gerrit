@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d38c625_5881bb05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T05:02:36Z",
+      "side": 1,
+      "message": "There\u0027s been follow up on this on the list resulting in [1] being uploaded to add a schema migration and also with CMs. Resolving.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/326953",
+      "parentUuid": "9aee8af3_0bd4bf6d",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 21,
+        "endChar": 43
+      },
+      "revId": "97c8e0e033221e70141fa4ef1fdfeddfb0cae075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "728fd5a8_02df8b12",

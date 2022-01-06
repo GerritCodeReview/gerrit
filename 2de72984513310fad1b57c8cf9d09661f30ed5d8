@@ -117,6 +117,24 @@
       "parentUuid": "9a3cb65d_c4b40560",
       "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5b69f90_02f6b05a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-06T07:27:22Z",
+      "side": 1,
+      "message": "\u003e https://git.eclipse.org/r/c/jgit/jgit/+/187910 provides a very significant performance improvement for typical Gerrit repo scenarios.\n\nTo me this is not enough to touch stable-3.3 branch. It must be critical security vulnerability and/or significant performance degradation, that make usage of gerrit unusable in many or most use cases. Show me issues and reports filed by many Gerrit users and claiming that Gerrit/JGit users are suffering from severe performance degradation compared to Gerrit 3.2 release line?\n\nAs I said multiple times, improvements and performance optimizations take place on main branch only. Point.\n\nIf our documentation claiming otherwise we must fix that. We definitely not touch most stable gerrit branch that will be discontinued in few weeks (unless we are talking about critical security or severe regression issues).",
+      "parentUuid": "829e3b24_62477144",
+      "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -217,6 +217,30 @@
       },
       "revId": "432802469cb0caadd1aaec4c9534d1e754438498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df89de23_77c9b701",
+        "filename": "tools/platforms/Makefile",
+        "patchSetId": 10
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-06T14:24:31Z",
+      "side": 1,
+      "message": "At the time I wrote this change Ubuntu 18.04 had git-core 2.6 available. Meantime this is: 2.34.1. I updated the comments in both Makefile and Dockerfile. Done.",
+      "parentUuid": "4d80a447_77827b66",
+      "range": {
+        "startLine": 3,
+        "startChar": 50,
+        "endLine": 3,
+        "endChar": 54
+      },
+      "revId": "432802469cb0caadd1aaec4c9534d1e754438498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

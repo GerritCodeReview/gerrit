@@ -99,6 +99,24 @@
       "parentUuid": "63c990e8_697e0a65",
       "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "829e3b24_62477144",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T05:18:41Z",
+      "side": 1,
+      "message": "\u003e We should stop introducing critical regressions on most stable Gerrit release lines.\n\nI don\u0027t think anyone intends to introduce regressions of any kind on any branch. Do you think otherwise?\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/187910 provides a very significant performance improvement for typical Gerrit repo scenarios.\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-processes.html#dev-in-stable-branches is a bit vague on what\u0027s actually acceptable on a stable branch. One line says \"only bug-fixes and documentation updates\" and then the very next line starts a section detailing which \"new features could be acceptable\". I welcome additional guidance (aka updates to the doc pushed for review) that maintainers can agree upon.\n\nThe reality is that many/most Gerrit instances are not running the latest version. Partially that\u0027s because of concerns with stability and performance when upgrading. I think improving stability and performance on a stable branch makes it more likely admins will choose to upgrade sooner, because it\u0027s almost always less risky to go from one minor release to the next (3.3.5 -\u003e 3.3.6). Many instances hold off on even simple updates like that because of concerns. We want admins to upgrade and I think carrots are better than sticks (and I don\u0027t think we have a stick).",
+      "parentUuid": "9a3cb65d_c4b40560",
+      "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

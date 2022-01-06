@@ -153,6 +153,24 @@
       "parentUuid": "c5b69f90_02f6b05a",
       "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2756272e_99440702",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-06T19:12:05Z",
+      "side": 1,
+      "message": "Now that you are asking what happened to re-evaluate my approach: other projects have much stricter criteria to cherry-pick fixes to stable branches. One example is Bazel project, see e.g. [1] and similar threads on their issue tracker.\n\nHowever, I also see your point: impact on gerrit users with much stricter stable branches strategy. This series might be not the right place to start this move or even this discussion.\n\nBut I would be curious to better understand gerrit users estimations about stability of very stable branches, and readiness to apply minor updates with invasive changes, with the high risk to introduce critical regressions. (May be community managers could help here?)\n\nAnyway, I am removing my objection from this series. I will stay neutral here and let other maintainers to approve.\n\n[1] https://github.com/bazelbuild/bazel/issues/14013#issuecomment-1005757198",
+      "parentUuid": "0150bd39_e818fd7d",
+      "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

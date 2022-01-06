@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edc79bac_354b9bba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T20:41:24Z",
+      "side": 1,
+      "message": "\u003e I propose to use pytest to implement this test and add some assertions\n\nLooks reasonable, but I don\u0027t know anything about pytest really.",
+      "parentUuid": "d013bced_10e63964",
+      "revId": "267bfc2a1f1092c3847f4dd33778b10b1fd6071c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14df2c6a_3e8efc45",
@@ -43,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "188f7949_6bf0a81f",
+        "filename": "contrib/smoketest/smoke-test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T20:41:24Z",
+      "side": 1,
+      "message": "I think if we\u0027re going to go down this route, we should make it very easy to run these tests out of the box. Something like the docker setup used in https://gerrit.googlesource.com/plugins/task/+/refs/heads/master/test/docker/ (which, I will selfishly admit, I want to be able to run against \u0027master\u0027 anyway, but haven\u0027t yet spent the time on). I would be happy to help figure out how to wire this into Bazel.",
+      "parentUuid": "14df2c6a_3e8efc45",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "267bfc2a1f1092c3847f4dd33778b10b1fd6071c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ecf4f53_156f35ee",
         "filename": "contrib/smoketest/smoke-test.py",
         "patchSetId": 5
@@ -54,6 +96,24 @@
       "writtenOn": "2022-01-06T20:33:49Z",
       "side": 1,
       "message": "use admin/secret and http://localhost:8080 as default ?",
+      "revId": "267bfc2a1f1092c3847f4dd33778b10b1fd6071c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "179bcf11_e91288c1",
+        "filename": "contrib/smoketest/smoke-test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T20:41:24Z",
+      "side": 1,
+      "message": "See my comment about netrc as default for user/pass. I\u0027m good with your default for url.",
+      "parentUuid": "3ecf4f53_156f35ee",
       "revId": "267bfc2a1f1092c3847f4dd33778b10b1fd6071c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

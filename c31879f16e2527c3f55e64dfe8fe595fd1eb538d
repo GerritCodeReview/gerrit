@@ -113,6 +113,92 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "914efd7d_33f65ee8",
+        "filename": "contrib/smoke-test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T19:29:55Z",
+      "side": 1,
+      "message": "I don\u0027t see this used? Does this actually need any access to a local site?",
+      "range": {
+        "startLine": 20,
+        "startChar": 15,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "597e7422_a8fc384b",
+        "filename": "contrib/smoke-test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T19:29:55Z",
+      "side": 1,
+      "message": "It\u0027d be nice to build smoke test functionality into the pygerrit2 lib itself. Any interest in that?",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 14
+      },
+      "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b72c3782_8717383d",
+        "filename": "contrib/smoke-test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T19:29:55Z",
+      "side": 1,
+      "message": "Maybe fallback to using netrc auth if username and password aren\u0027t set? Doing so with requests is trivial: https://docs.python-requests.org/en/latest/user/authentication/#netrc-authentication",
+      "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a58bfc4e_860a421a",
+        "filename": "contrib/smoke-test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T19:29:55Z",
+      "side": 1,
+      "message": "can we remove tabs?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 1
+      },
+      "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9536936_a719f855",
         "filename": "contrib/smoke-test.py",
         "patchSetId": 3

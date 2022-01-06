@@ -16,6 +16,24 @@
       "message": "Do you see an easy way to add a test to make sure that GC won\u0027t break in the future for a delegated repostiory?",
       "revId": "3521ea581f8f9d22724a40946749e394e9c6931d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bd5ca61_cad0fbb8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-01-06T08:45:02Z",
+      "side": 1,
+      "message": "Done ;)",
+      "parentUuid": "87ce28ea_1e955f4d",
+      "revId": "3521ea581f8f9d22724a40946749e394e9c6931d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

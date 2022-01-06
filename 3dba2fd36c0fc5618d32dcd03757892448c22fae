@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4492ec48_8073659f",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T18:47:59Z",
+      "side": 1,
+      "message": "For future, we should preserve this kind of text (similar examples are below) when we actually remove the copy* configs.",
+      "range": {
+        "startLine": 348,
+        "startChar": 42,
+        "endLine": 350,
+        "endChar": 20
+      },
+      "revId": "3dba2fd36c0fc5618d32dcd03757892448c22fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9987d4f6_2219160d",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T18:47:59Z",
+      "side": 1,
+      "message": "For future, should this become a \u0027value:\u0027 predicate for copyCondition (that could be ORed for multiple values)?",
+      "range": {
+        "startLine": 445,
+        "startChar": 22,
+        "endLine": 445,
+        "endChar": 31
+      },
+      "revId": "3dba2fd36c0fc5618d32dcd03757892448c22fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

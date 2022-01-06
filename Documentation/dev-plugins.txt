@@ -2721,7 +2721,7 @@ A change can be submitted if all the plugins accept the change.
 Plugins may also decide not to vote on a given change by returning an
 `Optional.empty()` (ie: the plugin is not enabled for this repository).
 
-If a plugin decides not to vote, it's name will not be displayed in the UI and
+If a plugin decides not to vote, its name will not be displayed in the UI and
 it will not be recoded in the database.
 
 .Gerrit's Pre-submit handling with three plugins

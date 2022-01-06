@@ -135,6 +135,24 @@
       "parentUuid": "829e3b24_62477144",
       "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0150bd39_e818fd7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T18:31:35Z",
+      "side": 1,
+      "message": "\u003e \u003e https://git.eclipse.org/r/c/jgit/jgit/+/187910 provides a very significant performance improvement for typical Gerrit repo scenarios.\n\u003e \n\u003e To me this is not enough to touch stable-3.3 branch. It must be critical security vulnerability and/or significant performance degradation, that make usage of gerrit unusable in many or most use cases. Show me issues and reports filed by many Gerrit users and claiming that Gerrit/JGit users are suffering from severe performance degradation compared to Gerrit 3.2 release line?\n\nI don\u0027t think comparing to 3.2 is relevant. If there are ongoing issues with 3.2 (which there are) and 3.2 is EOL, providing a solution in 3.3 seems reasonable to me.\n\n\u003e \n\u003e As I said multiple times, improvements and performance optimizations take place on main branch only. Point.\n\u003e \n\u003e If our documentation claiming otherwise we must fix that. We definitely not touch most stable gerrit branch that will be discontinued in few weeks (unless we are talking about critical security or severe regression issues).\n\nI hear your point very clearly. I am curious however, did your thinking on this change in the last 1.5 years? I don\u0027t recall you having this strong of a stance on which changes should be allowed on stable branches previously and your change/review history suggests you were more accepting of changes beyond \"critical security vulnerability and/or significant performance degradation\". Did something specific happen for you to re-evaluate your approach? Feel free to take this into an email thread instead, since it\u0027s not really tied to this review.\n\nIf we\u0027re going to be stricter about what we allow on stable branches then I think we need to consider how that will impact users. Do we need a higher QA bar for stable releases in general? How do we make upgrades easier? Not questions/problems to answer/solve in this code review, but I think they matter for changing the policy the way you suggest.",
+      "parentUuid": "c5b69f90_02f6b05a",
+      "revId": "2de72984513310fad1b57c8cf9d09661f30ed5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

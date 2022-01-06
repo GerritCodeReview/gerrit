@@ -137,6 +137,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80230f2a_4f09bc24",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T00:38:20Z",
+      "side": 1,
+      "message": "I think it would be good to move to gerrit-review, but agree that we don\u0027t need to block this change on that.",
+      "parentUuid": "e414e8f4_65a0092a",
+      "range": {
+        "startLine": 686,
+        "startChar": 7,
+        "endLine": 686,
+        "endChar": 57
+      },
+      "revId": "432802469cb0caadd1aaec4c9534d1e754438498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "912be6e5_760d9269",
@@ -168,6 +192,29 @@
       "side": 1,
       "message": "This can be done later, if at all.",
       "parentUuid": "912be6e5_760d9269",
+      "revId": "432802469cb0caadd1aaec4c9534d1e754438498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d80a447_77827b66",
+        "filename": "tools/platforms/Makefile",
+        "patchSetId": 10
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-06T00:38:20Z",
+      "side": 1,
+      "message": "Why does this say \"\u003e2.6\" when what we want is \"\u003e\u003d2.18.0\"? (same question for tools/platforms/Dockerfile)",
+      "range": {
+        "startLine": 3,
+        "startChar": 50,
+        "endLine": 3,
+        "endChar": 54
+      },
       "revId": "432802469cb0caadd1aaec4c9534d1e754438498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

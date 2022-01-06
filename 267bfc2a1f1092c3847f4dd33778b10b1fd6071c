@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d013bced_10e63964",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-01-06T20:33:49Z",
+      "side": 1,
+      "message": "- moved to subdirectory\n- use pipenv to install dependencies and define runtime environment\n- add black and flake8 for auto-formatting and style checking\n\nI propose to use pytest to implement this test and add some assertions\n",
+      "revId": "267bfc2a1f1092c3847f4dd33778b10b1fd6071c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14df2c6a_3e8efc45",
+        "filename": "contrib/smoketest/smoke-test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-01-06T20:33:49Z",
+      "side": 1,
+      "message": "this is apparently not implemented in this script",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "267bfc2a1f1092c3847f4dd33778b10b1fd6071c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ecf4f53_156f35ee",
+        "filename": "contrib/smoketest/smoke-test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-01-06T20:33:49Z",
+      "side": 1,
+      "message": "use admin/secret and http://localhost:8080 as default ?",
+      "revId": "267bfc2a1f1092c3847f4dd33778b10b1fd6071c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

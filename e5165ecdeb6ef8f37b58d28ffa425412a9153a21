@@ -242,6 +242,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58377f6b_8ff7616a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-06T09:34:02Z",
+      "side": 1,
+      "message": "A ticket perm would be awesome, the grant-do-revert cycle is a quite common use-case.\nBut first we would have to make all permissions configurable and not granted by default.",
+      "parentUuid": "db9dfd86_f25a485a",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "e5165ecdeb6ef8f37b58d28ffa425412a9153a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "514dcf26_664172c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

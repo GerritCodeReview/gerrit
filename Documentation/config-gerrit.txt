@@ -2101,7 +2101,7 @@ variable.
 Gerrit advertises patch set downloads with the `repo download`
 command, assuming that all projects managed by this instance are
 generally worked on with the
-[repo multi-repository tool](https://gerrit.googlesource.com/git-repo).
+https://gerrit.googlesource.com/git-repo[repo multi-repository tool].
 This is not default, as not all instances will deploy repo.
 
 +

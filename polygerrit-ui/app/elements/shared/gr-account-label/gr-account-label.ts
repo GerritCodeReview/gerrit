@@ -17,6 +17,8 @@
 import '@polymer/iron-icon/iron-icon';
 import '../gr-avatar/gr-avatar';
 import '../gr-hovercard-account/gr-hovercard-account';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
@@ -254,14 +256,23 @@ export class GrAccountLabel extends LitElement {
           ? html`<gr-avatar .account="${account}" imageSize="32"></gr-avatar>`
           : ''}
         <span class="text" part="gr-account-label-text">
-          <span class="name"
-            >${this._computeName(account, this.firstName, this._config)}</span
-          >
+          <span class="name">
+            ${this._computeName(account, this.firstName, this._config)}
+          </span>
           ${!this.hideStatus && account.status
             ? html`<iron-icon
                 class="status"
                 icon="gr-icons:unavailable"
               ></iron-icon>`
+            : ''}
+          <!-- plugin status are shown regardless of hideStatus setting -->
+          ${account._account_id
+            ? html`<gr-endpoint-decorator name="account-status-icon">
+                <gr-endpoint-param
+                  name="accountId"
+                  .value="${account._account_id}"
+                ></gr-endpoint-param>
+              </gr-endpoint-decorator>`
             : ''}
         </span>
       </span>`;

@@ -16,6 +16,23 @@
       "message": "It\u0027s no longer pending; merged to JGit master as d30447e2699d217fe70b52c4fa74674445e48f64.",
       "revId": "fae006c4f0c9bc6851233739f4aea60f536abe18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0069c323_f90ce755",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2022-01-07T17:11:01Z",
+      "side": 1,
+      "message": "Concerning SSH, the highlights from Gerrit\u0027s server-side perspective are probably\n\n* SSHD-1216: Server-side implementation of the RFC 8332 server-sig-algs extension: the server announces that it prefers the SHA-2 signatures for RSA keys.\n* SSHD-1197: A race condition in key exchange fixed.\n* SSHD-1163: DH group exchange got a fix relating to RSA SHA-2 signatures.\n\nAdditionally, sshd 2.8.0 now supports (and prefers) the chacha20-poly1305@openssh.com cipher (SSHD-1017), and supports the curve25519 and curve448 KEX algorithms (SSHD-704).\n\nOfficial change list at [1].\n\nJGit at d30447e2 also contains a fix for SSHD-1231 (will be fixed upstream in sshd 2.9.0), but that\u0027s probably less interesting for Gerrit since it concerns the client side of sshd.\n\n[1] https://github.com/apache/mina-sshd/blob/master/docs/changes/2.8.0.md",
+      "revId": "fae006c4f0c9bc6851233739f4aea60f536abe18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

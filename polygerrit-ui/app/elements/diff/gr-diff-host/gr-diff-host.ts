@@ -412,11 +412,13 @@ export class GrDiffHost extends DIPolymerElement {
           this.reporting.timeEnd(Timing.DIFF_SYNTAX);
         }
       }
-    } catch (e) {
+    } catch (e: unknown) {
       if (e instanceof Response) {
         this._handleGetDiffError(e);
-      } else {
+      } else if (e instanceof Error) {
         this.reporting.error(e);
+      } else {
+        this.reporting.error(new Error('reload error'), undefined, e);
       }
     } finally {
       this.reporting.timeEnd(Timing.DIFF_TOTAL);

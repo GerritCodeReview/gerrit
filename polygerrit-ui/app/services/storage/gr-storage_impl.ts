@@ -139,16 +139,17 @@ export class GrStorageService implements StorageService, Finalizable {
     }
     try {
       this.storage.setItem(key, JSON.stringify(obj));
-    } catch (exc) {
-      // Catch for QuotaExceededError and disable writes on local storage the
-      // first time that it occurs.
-      if (exc.code === 22) {
-        this.exceededQuota = true;
-        console.warn('Local storage quota exceeded: disabling');
-        return;
-      } else {
-        throw exc;
+    } catch (exc: unknown) {
+      if (exc instanceof DOMException) {
+        // Catch for QuotaExceededError and disable writes on local storage the
+        // first time that it occurs.
+        if (exc.code === 22) {
+          this.exceededQuota = true;
+          console.warn('Local storage quota exceeded: disabling');
+          return;
+        }
       }
+      throw exc;
     }
   }
 }

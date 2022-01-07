@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea78ad32_abab1f8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2022-01-07T16:51:09Z",
+      "side": 1,
+      "message": "It\u0027s no longer pending; merged to JGit master as d30447e2699d217fe70b52c4fa74674445e48f64.",
+      "revId": "fae006c4f0c9bc6851233739f4aea60f536abe18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

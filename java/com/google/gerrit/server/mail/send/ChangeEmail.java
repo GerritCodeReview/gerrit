@@ -24,6 +24,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Patch;
@@ -60,6 +61,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import org.apache.james.mime4j.dom.field.FieldName;
@@ -96,17 +99,17 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected ChangeEmail(EmailArguments args, String messageClass, ChangeData changeData) {
     super(args, messageClass, changeData.change().getDest());
     this.changeData = changeData;
-    this.change = changeData.change();
-    this.emailOnlyAuthors = false;
-    this.emailOnlyAttentionSetIfEnabled = true;
-    this.currentAttentionSet = getAttentionSet();
+    change = changeData.change();
+    emailOnlyAuthors = false;
+    emailOnlyAttentionSetIfEnabled = true;
+    currentAttentionSet = getAttentionSet();
   }
 
   @Override
   public void setFrom(Account.Id id) {
     super.setFrom(id);
 
-    /** Is the from user in an email squelching group? */
+    // Is the from user in an email squelching group?
     try {
       args.permissionBackend.absentUser(id).check(GlobalPermission.EMAIL_REVIEWERS);
     } catch (AuthException | PermissionBackendException e) {
@@ -244,7 +247,7 @@ public abstract class ChangeEmail extends NotificationEmail {
         + "."
         + change.getKey().get()
         + "@"
-        + this.getGerritHost()
+        + getGerritHost()
         + ">";
   }
 
@@ -269,7 +272,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
       if (patchSet != null) {
         detail.append("---\n");
-        Map<String, FileDiffOutput> modifiedFiles = listModifiedFiles();
+        SortedMap<String, FileDiffOutput> modifiedFiles = new TreeMap<>(listModifiedFiles());
         for (FileDiffOutput fileDiff : modifiedFiles.values()) {
           if (fileDiff.newPath().isPresent() && Patch.isMagic(fileDiff.newPath().get())) {
             continue;
@@ -507,7 +510,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     soyContext.put("patchSetInfo", patchSetInfoData);
 
     footers.add(MailHeader.CHANGE_ID.withDelimiter() + change.getKey().get());
-    footers.add(MailHeader.CHANGE_NUMBER.withDelimiter() + Integer.toString(change.getChangeId()));
+    footers.add(MailHeader.CHANGE_NUMBER.withDelimiter() + change.getChangeId());
     footers.add(MailHeader.PATCH_SET.withDelimiter() + patchSet.number());
     footers.add(MailHeader.OWNER.withDelimiter() + getNameEmailFor(change.getOwner()));
     if (change.getAssignee() != null) {
@@ -559,7 +562,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     try {
       attentionSet =
           additionsOnly(changeData.attentionSet()).stream()
-              .map(a -> a.account())
+              .map(AttentionSetUpdate::account)
               .collect(Collectors.toSet());
     } catch (StorageException e) {
       logger.atWarning().withCause(e).log("Cannot get change attention set");
@@ -626,7 +629,8 @@ public abstract class ChangeEmail extends NotificationEmail {
    * @param sourceDiff the unified diff that we're converting to the map.
    * @return map of 'type' to a line's content.
    */
-  protected ImmutableList<ImmutableMap<String, String>> getDiffTemplateData(String sourceDiff) {
+  protected static ImmutableList<ImmutableMap<String, String>> getDiffTemplateData(
+      String sourceDiff) {
     ImmutableList.Builder<ImmutableMap<String, String>> result = ImmutableList.builder();
     Splitter lineSplitter = Splitter.on(System.getProperty("line.separator"));
     for (String diffLine : lineSplitter.split(sourceDiff)) {

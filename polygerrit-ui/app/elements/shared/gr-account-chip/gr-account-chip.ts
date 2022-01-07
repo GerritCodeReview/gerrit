@@ -96,6 +96,7 @@ export class GrAccountChip extends LitElement {
           border: 1px solid var(--border-color);
           display: inline-flex;
           padding: 0 1px;
+          --account-label-padding-horizontal: 6px;
         }
         :host:focus {
           border-color: transparent;
@@ -131,9 +132,6 @@ export class GrAccountChip extends LitElement {
     /* eslint-disable lit/prefer-static-styles */
     const customStyle = html`
       <style>
-        .container {
-          --account-label-padding-horizontal: 6px;
-        }
         gr-button.remove::part(paper-button),
         gr-button.remove:hover::part(paper-button),
         gr-button.remove:focus::part(paper-button) {

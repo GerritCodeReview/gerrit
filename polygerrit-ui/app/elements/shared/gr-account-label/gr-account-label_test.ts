@@ -75,6 +75,9 @@ suite('gr-account-label tests', () => {
         <span class="name">
           kermit
         </span>
+        <gr-endpoint-decorator name="account-status-icon">
+          <gr-endpoint-param name="accountId"></gr-endpoint-param>
+        </gr-endpoint-decorator>
       </span>
     </span>
     `);

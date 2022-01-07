@@ -45,9 +45,6 @@ suite('gr-account-link tests', () => {
           exportparts="gr-account-label-text: gr-account-link-text"
         >
         </gr-account-label>
-        <gr-endpoint-decorator name="account-status">
-          <gr-endpoint-param name="accountId"></gr-endpoint-param>
-        </gr-endpoint-decorator>
       </a>
     </span>
   `);

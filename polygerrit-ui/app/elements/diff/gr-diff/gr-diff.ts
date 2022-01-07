@@ -198,7 +198,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   @property({type: String, observer: '_viewModeObserver'})
   viewMode = DiffViewMode.SIDE_BY_SIDE;
 
-  @property({type: Object})
+  @property({type: Object, observer: '_lineOfInterestObserver'})
   lineOfInterest?: DisplayLine;
 
   /**
@@ -704,6 +704,14 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   _viewModeObserver() {
     this._prefsChanged(this.prefs);
+  }
+
+  _lineOfInterestObserver() {
+    if (this.loading) return;
+    if (!this.lineOfInterest) return;
+    const lineNum = this.lineOfInterest.lineNum;
+    if (typeof lineNum !== 'number') return;
+    this.$.diffBuilder.unhideLine(lineNum, this.lineOfInterest.side);
   }
 
   _cleanup() {

@@ -26,7 +26,7 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {DiffViewMode} from '../../../api/diff.js';
+import {DiffViewMode, Side} from '../../../api/diff.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 
@@ -883,6 +883,27 @@ suite('gr-diff-builder tests', () => {
       assert.include(diffRows[12].textContent, 'before');
       assert.include(diffRows[12].textContent, 'after');
       assert.include(diffRows[13].textContent, 'unchanged 11');
+    });
+
+    test('unhideLine shows the line with context', () => {
+      element.unhideLine(4, Side.LEFT);
+
+      const diffRows = element.querySelectorAll('.diff-row');
+      // The first two are LOST and FILE line
+      // Lines 3-5 (Line 4 plus 1 context in each direction) will be expanded
+      // Because context expanders do not hide <3 lines, lines 1-2 will also
+      // be shown.
+      // Lines 6-9 continue to be hidden
+      assert.equal(diffRows.length, 2 + 5 + 1 + 1 + 1);
+      assert.include(diffRows[2].textContent, 'unchanged 1');
+      assert.include(diffRows[3].textContent, 'unchanged 2');
+      assert.include(diffRows[4].textContent, 'unchanged 3');
+      assert.include(diffRows[5].textContent, 'unchanged 4');
+      assert.include(diffRows[6].textContent, 'unchanged 5');
+      assert.include(diffRows[7].textContent, 'unchanged 10');
+      assert.include(diffRows[8].textContent, 'before');
+      assert.include(diffRows[8].textContent, 'after');
+      assert.include(diffRows[9].textContent, 'unchanged 11');
     });
   });
 

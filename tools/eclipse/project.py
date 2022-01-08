@@ -24,7 +24,7 @@ import sys
 MAIN = '//tools/eclipse:classpath'
 AUTO = '//lib/auto:auto-value'
 
-def JRE(java_vers = '11'):
+def JRE(java_vers = '17'):
     return '/'.join([
         'org.eclipse.jdt.launching.JRE_CONTAINER',
         'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType',

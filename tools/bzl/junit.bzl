@@ -20,6 +20,8 @@
 
 load("@rules_java//java:defs.bzl", "java_test")
 
+JVM_OPT_ADD_OPENS_JAVA_UTIL_ALL_UNNAMED = "--add-opens java.base/java.util=ALL-UNNAMED"
+
 _OUTPUT = """import org.junit.runners.Suite;
 import org.junit.runner.RunWith;
 

@@ -3,29 +3,29 @@ build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
 
-# Builds using remotejdk_11, executes using remotejdk_11 or local_jdk
-build --java_language_version=11
-build --java_runtime_version=remotejdk_11
-build --tool_java_language_version=11
-build --tool_java_runtime_version=remotejdk_11
+# Builds using remotejdk_11, executes using remotejdk_11
+build:java11 --java_language_version=11
+build:java11 --java_runtime_version=remotejdk_11
+build:java11 --tool_java_language_version=11
+build:java11 --tool_java_runtime_version=remotejdk_11
 
-# Builds using remotejdk_17, executes using remotejdk_17 or local_jdk
-build:java17 --java_language_version=17
-build:java17 --java_runtime_version=remotejdk_17
-build:java17 --tool_java_language_version=17
-build:java17 --tool_java_runtime_version=remotejdk_17
+# Builds using remotejdk_17, executes using remotejdk_17
+build --java_language_version=17
+build --java_runtime_version=remotejdk_17
+build --tool_java_language_version=17
+build --tool_java_runtime_version=remotejdk_17
 
 # Builds and executes on RBE using remotejdk_11
-build:remote --java_language_version=11
-build:remote --java_runtime_version=remotejdk_11
-build:remote --tool_java_language_version=11
-build:remote --tool_java_runtime_version=remotejdk_11
+build:remote11 --java_language_version=11
+build:remote11 --java_runtime_version=remotejdk_11
+build:remote11 --tool_java_language_version=11
+build:remote11 --tool_java_runtime_version=remotejdk_11
 
 # Builds and executes on RBE using remotejdk_17
-build:remote17 --java_language_version=17
-build:remote17 --java_runtime_version=remotejdk_17
-build:remote17 --tool_java_language_version=17
-build:remote17 --tool_java_runtime_version=remotejdk_17
+build:remote --java_language_version=17
+build:remote --java_runtime_version=remotejdk_17
+build:remote --tool_java_language_version=17
+build:remote --tool_java_runtime_version=remotejdk_17
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.

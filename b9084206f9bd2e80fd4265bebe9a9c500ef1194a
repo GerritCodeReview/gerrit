@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c87febfc_77a9cc27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-08T16:49:33Z",
+      "side": 1,
+      "message": "We do run the parser on user input, so this DoS is very relevant. Thanks David!",
+      "revId": "b9084206f9bd2e80fd4265bebe9a9c500ef1194a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

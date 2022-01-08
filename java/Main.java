@@ -16,7 +16,7 @@
 public final class Main {
   private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
   private static final String FLOGGER_LOGGING_CONTEXT = "flogger.logging_context";
-  private static final Runtime.Version MIN_JAVA_VERSION = Runtime.Version.parse("11.0.10");
+  private static final Runtime.Version MIN_JAVA_VERSION = Runtime.Version.parse("17.0.5");
 
   // We don't do any real work here because we need to import
   // the archive lookup code and we cannot import a class in

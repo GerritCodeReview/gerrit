@@ -24,7 +24,8 @@ public class GitwebConfigTest {
 
   @Test
   public void validPathSeparator() {
-    for (char c : VALID_CHARACTERS.toCharArray()) {
+    for (int i = 0; i < VALID_CHARACTERS.length(); i++) {
+      char c = VALID_CHARACTERS.charAt(i);
       assertWithMessage("valid character rejected: " + c)
           .that(GitwebConfig.isValidPathSeparator(c))
           .isTrue();
@@ -33,7 +34,8 @@ public class GitwebConfigTest {
 
   @Test
   public void inalidPathSeparator() {
-    for (char c : SOME_INVALID_CHARACTERS.toCharArray()) {
+    for (int i = 0; i < SOME_INVALID_CHARACTERS.length(); i++) {
+      char c = SOME_INVALID_CHARACTERS.charAt(i);
       assertWithMessage("invalid character accepted: " + c)
           .that(GitwebConfig.isValidPathSeparator(c))
           .isFalse();

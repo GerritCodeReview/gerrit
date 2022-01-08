@@ -44,7 +44,6 @@ import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -165,7 +164,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     }
 
     if (suggest && (!suggestConfig || query.length() < suggestFrom)) {
-      return Response.ok(Collections.emptyList());
+      return Response.ok(ImmutableList.of());
     }
 
     Set<FillOptions> fillOptions = EnumSet.of(FillOptions.ID);

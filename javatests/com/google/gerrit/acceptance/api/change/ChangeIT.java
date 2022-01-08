@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
@@ -78,8 +79,8 @@ import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
@@ -94,6 +95,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.common.RuntimeVersion;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -153,6 +155,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -204,6 +207,8 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -240,7 +245,6 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Test;
 
-@NoHttpd
 @UseTimezone(timezone = "US/Eastern")
 @VerifyNoPiiInChangeNotes(true)
 public class ChangeIT extends AbstractDaemonTest {
@@ -2899,6 +2903,24 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(RefNames.fullName(info.branch)).isEqualTo(RefNames.fullName(in.branch));
     assertThat(info.subject).isEqualTo(in.subject);
     assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
+
+    // Add Test for JDK 17
+    RestResponse r =
+        adminRestSession.getJsonAccept(urlRevisionFiles(info.changeId, info.currentRevision));
+    Map<String, FileInfo> files = readContentFromJson(r, new TypeToken<Map<String, FileInfo>>() {});
+    assertThat(files).isEmpty();
+  }
+
+  private <T> T readContentFromJson(RestResponse r, TypeToken<T> typeToken) throws Exception {
+    r.assertOK();
+    try (JsonReader jsonReader = new JsonReader(r.getReader())) {
+      jsonReader.setLenient(true);
+      return newGson().fromJson(jsonReader, typeToken.getType());
+    }
+  }
+
+  private String urlRevisionFiles(String changeId, String revisionId) {
+    return "/changes/" + changeId + "/revisions/" + revisionId + "/files?reviewed";
   }
 
   @Test
@@ -5052,6 +5074,7 @@ public class ChangeIT extends AbstractDaemonTest {
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_storedForClosedChanges() throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
       TestRepository<InMemoryRepository> repo = cloneProject(project);
@@ -5098,6 +5121,7 @@ public class ChangeIT extends AbstractDaemonTest {
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_storedForAbandonedChanges() throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
       TestRepository<InMemoryRepository> repo = cloneProject(project);
@@ -5139,6 +5163,7 @@ public class ChangeIT extends AbstractDaemonTest {
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_loadedFromTheLatestRevisionNoteForClosedChanges() throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
       TestRepository<InMemoryRepository> repo = cloneProject(project);
@@ -5195,6 +5220,7 @@ public class ChangeIT extends AbstractDaemonTest {
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_abandonRestoreUpdateMerge() throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
       TestRepository<InMemoryRepository> repo = cloneProject(project);
@@ -5252,6 +5278,7 @@ public class ChangeIT extends AbstractDaemonTest {
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_returnsEmpty_ForAbandonedChangeWithPreviouslyStoredSRs()
       throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
       TestRepository<InMemoryRepository> repo = cloneProject(project);
@@ -5304,6 +5331,7 @@ public class ChangeIT extends AbstractDaemonTest {
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_returnsEmpty_ForMergedChangeWithPreviouslyStoredSRs()
       throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
       TestRepository<InMemoryRepository> repo = cloneProject(project);
@@ -5355,6 +5383,7 @@ public class ChangeIT extends AbstractDaemonTest {
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_withMultipleAbandonAndRestore() throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
       TestRepository<InMemoryRepository> repo = cloneProject(project);
@@ -5410,6 +5439,7 @@ public class ChangeIT extends AbstractDaemonTest {
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_retrievedFromNoteDbForAbandonedChanges() throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
       TestRepository<InMemoryRepository> repo = cloneProject(project);
@@ -5490,6 +5520,7 @@ public class ChangeIT extends AbstractDaemonTest {
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_retrievedFromNoteDbForClosedChanges() throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
@@ -5540,6 +5571,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void
       submitRequirements_returnOneEntryForMatchingLegacyAndNonLegacyResultsWithTheSameName_ifLegacySubmitRecordsAreEnabled()
           throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     // Configure a legacy submit requirement: label with a max with block function
     configLabel("build-cop-override", LabelFunction.MAX_WITH_BLOCK);
     projectOperations
@@ -5770,6 +5802,7 @@ public class ChangeIT extends AbstractDaemonTest {
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_backFilledFromIndexForClosedChanges() throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
@@ -6100,6 +6133,7 @@ public class ChangeIT extends AbstractDaemonTest {
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void globalSubmitRequirement_storedForClosedChanges() throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     SubmitRequirement globalSubmitRequirement =
         SubmitRequirement.builder()
             .setName("global-submit-requirement")
@@ -6353,6 +6387,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
       })
   public void submitRequirements_forcedByDirectSubmission() throws Exception {
+    assume().that(RuntimeVersion.isAtLeast17()).isFalse();
     projectOperations
         .project(project)
         .forUpdate()

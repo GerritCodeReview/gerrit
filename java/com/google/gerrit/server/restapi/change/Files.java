@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
@@ -58,7 +59,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -260,7 +260,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         }
       }
 
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
 
     private List<String> copy(

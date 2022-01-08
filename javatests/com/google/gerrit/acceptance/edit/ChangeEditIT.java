@@ -46,6 +46,7 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.FileContentInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
@@ -79,6 +80,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -121,6 +123,27 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(ps).isNotNull();
     addNewPatchSet(changeId);
     changeId2 = newChange2(admin.newIdent());
+  }
+
+  @Test
+  // TODO(davido): This test belongs to ChangeIT, but this class is annotated with @NoHttpd.
+  public void createEmptyChange() throws Exception {
+    ChangeInput in = new ChangeInput();
+    in.branch = Constants.MASTER;
+    in.subject = "Create a change from the API";
+    in.project = project.get();
+    ChangeInfo info = gApi.changes().create(in).get();
+    assertThat(info.project).isEqualTo(in.project);
+    assertThat(RefNames.fullName(info.branch)).isEqualTo(RefNames.fullName(in.branch));
+    assertThat(info.subject).isEqualTo(in.subject);
+    assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
+
+    // Add Test for JDK 17, that empty collection of reviewed files is returned
+    RestResponse r =
+        adminRestSession.getJsonAccept(
+            urlRevisionFilesReviewed(info.changeId, info.currentRevision));
+    Map<String, FileInfo> files = readContentFromJson(r, new TypeToken<Map<String, FileInfo>>() {});
+    assertThat(files).isEmpty();
   }
 
   @Test
@@ -1033,6 +1056,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   private String urlEditFile(String changeId, String fileName, boolean base) {
     return urlEdit(changeId) + "/" + fileName + (base ? "?base" : "");
+  }
+
+  private String urlRevisionFilesReviewed(String changeId, String revisionId) {
+    return urlRevisionFiles(changeId, revisionId) + "?reviewed";
   }
 
   private String urlRevisionFiles(String changeId, String revisionId) {

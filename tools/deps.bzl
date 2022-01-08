@@ -411,8 +411,8 @@ def java_dependencies():
 
     maven_jar(
         name = "jsoup",
-        artifact = "org.jsoup:jsoup:1.9.2",
-        sha1 = "5e3bda828a80c7a21dfbe2308d1755759c2fd7b4",
+        artifact = "org.jsoup:jsoup:1.14.2",
+        sha1 = "5504b065b7582af4291826ecef463ff6729c5054",
     )
 
     maven_jar(

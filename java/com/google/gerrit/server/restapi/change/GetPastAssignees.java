@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Response;
@@ -25,7 +26,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +43,7 @@ public class GetPastAssignees implements RestReadView<ChangeResource> {
 
     Set<Account.Id> pastAssignees = rsrc.getNotes().load().getPastAssignees();
     if (pastAssignees == null) {
-      return Response.ok(Collections.emptyList());
+      return Response.ok(ImmutableList.of());
     }
 
     AccountLoader accountLoader = accountLoaderFactory.create(true);

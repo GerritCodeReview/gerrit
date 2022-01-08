@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61c4a0b7_5bafbaf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-01-08T14:31:00Z",
+      "side": 1,
+      "message": "This will require some fixing within https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.ts#L448 and https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.ts#L464 as that\u0027s no longer supported in this version.\n\nThat param was deprecated now it’s removed in the version you are upgrading to.\n\nI was pointed to https://github.com/hexojs/hexo-util/pull/246/files#diff-23bd09b492fb22d0b078517e838293bfa0031ece18b7bfba1adf706d5b9592d0R126 for some hints on migrating. But I’m still not sure how to do that. I had a wip change but that doesn’t work https://gerrit-review.googlesource.com/c/gerrit/+/302862.",
+      "revId": "614a28feaf7d5b57012cc6f28f544441a8292f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

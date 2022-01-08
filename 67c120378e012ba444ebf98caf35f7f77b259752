@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c5886b_c1fafa36",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-08T09:17:15Z",
+      "side": 1,
+      "message": "Consider using sub-methods that return early rather than ternary operators, as this code tends to be quite dense to read.",
+      "revId": "67c120378e012ba444ebf98caf35f7f77b259752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

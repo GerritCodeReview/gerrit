@@ -79,6 +79,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -121,6 +122,23 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(ps).isNotNull();
     addNewPatchSet(changeId);
     changeId2 = newChange2(admin.newIdent());
+  }
+
+  @Test
+  // TODO(davido): This test belongs to ChangeIT, but this class is annotated with @NoHttpd.
+  public void createEmptyChange() throws Exception {
+    ChangeInfo info =
+        gApi.changes()
+            .create(new ChangeInput(project.get(), Constants.MASTER, "Empty change"))
+            .get();
+    assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
+
+    // Add Test for JDK 17, to verify that empty collection can be serialized.
+    RestResponse r =
+        adminRestSession.getJsonAccept(
+            urlRevisionFilesReviewed(info.changeId, info.currentRevision));
+    Map<String, FileInfo> files = readContentFromJson(r, new TypeToken<Map<String, FileInfo>>() {});
+    assertThat(files).isEmpty();
   }
 
   @Test
@@ -1033,6 +1051,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   private String urlEditFile(String changeId, String fileName, boolean base) {
     return urlEdit(changeId) + "/" + fileName + (base ? "?base" : "");
+  }
+
+  private String urlRevisionFilesReviewed(String changeId, String revisionId) {
+    return urlRevisionFiles(changeId, revisionId) + "?reviewed";
   }
 
   private String urlRevisionFiles(String changeId, String revisionId) {

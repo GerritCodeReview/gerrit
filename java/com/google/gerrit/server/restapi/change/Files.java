@@ -58,7 +58,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -260,7 +259,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         }
       }
 
-      return Collections.emptyList();
+      return new ArrayList<>();
     }
 
     private List<String> copy(

@@ -78,8 +78,8 @@ import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
@@ -153,6 +153,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -204,6 +205,8 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -240,7 +243,6 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Test;
 
-@NoHttpd
 @UseTimezone(timezone = "US/Eastern")
 @VerifyNoPiiInChangeNotes(true)
 public class ChangeIT extends AbstractDaemonTest {
@@ -2899,6 +2901,24 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(RefNames.fullName(info.branch)).isEqualTo(RefNames.fullName(in.branch));
     assertThat(info.subject).isEqualTo(in.subject);
     assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
+
+    // Added Test for JDK 17
+    RestResponse r =
+        adminRestSession.getJsonAccept(urlRevisionFiles(info.changeId, info.currentRevision));
+    Map<String, FileInfo> files = readContentFromJson(r, new TypeToken<Map<String, FileInfo>>() {});
+    assertThat(files).isEmpty();
+  }
+
+  private <T> T readContentFromJson(RestResponse r, TypeToken<T> typeToken) throws Exception {
+    r.assertOK();
+    try (JsonReader jsonReader = new JsonReader(r.getReader())) {
+      jsonReader.setLenient(true);
+      return newGson().fromJson(jsonReader, typeToken.getType());
+    }
+  }
+
+  private String urlRevisionFiles(String changeId, String revisionId) {
+    return "/changes/" + changeId + "/revisions/" + revisionId + "/files?reviewed";
   }
 
   @Test

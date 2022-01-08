@@ -281,7 +281,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @After
   public void resetTime() {
     TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
+    if (systemTimeZone != null) {
+      System.setProperty("user.timezone", systemTimeZone);
+      systemTimeZone = null;
+    }
   }
 
   @Test

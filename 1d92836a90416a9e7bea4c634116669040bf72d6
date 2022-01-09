@@ -34,6 +34,24 @@
       "parentUuid": "e9ed8ff8_35e16b22",
       "revId": "1d92836a90416a9e7bea4c634116669040bf72d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63de3586_7e001716",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2022-01-09T10:02:33Z",
+      "side": 1,
+      "message": "I did some other experimentations, but it looks like the way to go is to do something similar to this:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/147933/25/java/com/google/gerrit/server/schema/Schema_169.java\n\nThis will have several problems:\n1. approvalsUtil.persistCopiedApprovals will not work but we\u0027ll need to get the votes and write them directly to storage as done in Schema_169.\n2. A bunch of other stuff can\u0027t be used (BatchUpdate, Index, UserProvider).",
+      "parentUuid": "16023456_13dda41b",
+      "revId": "1d92836a90416a9e7bea4c634116669040bf72d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

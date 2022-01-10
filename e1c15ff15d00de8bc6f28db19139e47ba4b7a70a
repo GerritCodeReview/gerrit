@@ -69,6 +69,24 @@
       "parentUuid": "574ae01e_e55d52d2",
       "revId": "e1c15ff15d00de8bc6f28db19139e47ba4b7a70a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2833b241_2632bdf0",
+        "filename": "polygerrit-ui/app/services/model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-10T13:42:10Z",
+      "side": 1,
+      "message": "I think this simple pattern is better than a more complicated one that enforces more constraints. Hiding RxJS concepts from the subclasses isn\u0027t adding value when devs still need to appreciate RxJS subtleties in the rest of the codebase. Also, the Subject API isn\u0027t much bigger than .next(T), .getValue(), and .complete(). I don\u0027t see anything that would be bad/pattern-breaking for subclasses to access if they need to such as .error(e).\n\nI will leave it as a setup/boilerplate class and a place for pattern documentation. If you still feel it\u0027s valuable I won\u0027t prevent further work, but I don\u0027t want to do it myself.",
+      "parentUuid": "871c2e9b_e5e52107",
+      "revId": "e1c15ff15d00de8bc6f28db19139e47ba4b7a70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

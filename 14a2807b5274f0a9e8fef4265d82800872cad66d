@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce9dc985_e7570ef7",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-10T19:16:51Z",
+      "side": 1,
+      "message": "Btw. for each event we can make a query if event was created by reviewer or author by connecting with CHANGE_DISPLAYED which has isOwner, isReviewer, isCC.",
+      "parentUuid": "9e5aaa05_e5321f49",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 114,
+        "endChar": 21
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "caed5115_882bed74",
         "filename": "polygerrit-ui/app/constants/reporting.ts",
         "patchSetId": 2
@@ -42,6 +66,98 @@
         "startChar": 0,
         "endLine": 117,
         "endChar": 54
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a422da4_02f00072",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-10T19:16:51Z",
+      "side": 1,
+      "message": "I would prefer creating event details like\n {\nstatus: state.status;\ncheckName: state.checkName;\n}\n\nso we know what are we sending as event details and we don\u0027t send something unexpected by extending ChecksTabState.",
+      "range": {
+        "startLine": 766,
+        "startChar": 70,
+        "endLine": 766,
+        "endChar": 75
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3cc8cce_824a3b26",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-10T19:16:51Z",
+      "side": 1,
+      "message": "Same as in comment 177",
+      "range": {
+        "startLine": 163,
+        "startChar": 72,
+        "endLine": 163,
+        "endChar": 78
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01ef4247_082ede7a",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-10T19:16:51Z",
+      "side": 1,
+      "message": "I would prefer to create eventdetails, not to put whole e.detail as event datails. Already commented about it on previous comment.",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 14
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c82794fc_82ad16b4",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-10T19:16:51Z",
+      "side": 1,
+      "message": "btw. you can add event details into CHECKS_LOAD in timeEnd.",
+      "range": {
+        "startLine": 414,
+        "startChar": 4,
+        "endLine": 414,
+        "endChar": 69
       },
       "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef4e5374_bc0edbde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-10T19:01:05Z",
+      "side": 1,
+      "message": "Nice, I like how to generalize it. Btw. in past this kind of filtering was done on metrics plugin - so each host can decide which events to accept or filter.  But I think it\u0027s ok or even better if reporting api has this kind of logic already inside.",
+      "revId": "bd4c91b0aa5be387aa7a4f6f8b998acc2cd72524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

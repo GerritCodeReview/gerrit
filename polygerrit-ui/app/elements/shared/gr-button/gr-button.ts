@@ -27,7 +27,11 @@ declare global {
     'gr-button': GrButton;
   }
 }
-
+/**
+ * @attr {Boolean} no-uppercase - text in button is not uppercased
+ * @attr {Boolean} primary - set primary button color
+ * @attr {Boolean} secondary - set secondary button color
+ */
 @customElement('gr-button')
 export class GrButton extends LitElement {
   // Private but used in tests.

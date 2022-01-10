@@ -292,7 +292,7 @@ export class GrChangeList extends LitElement {
   ) {
     return html`
       <tr class="noChanges">
-        <td class="leftPadding" ?aria-hidden="true"></td>
+        <td class="leftPadding" aria-hidden="true"></td>
         <td
           class="star"
           ?aria-hidden=${!this.showStar}
@@ -318,7 +318,7 @@ export class GrChangeList extends LitElement {
   ) {
     return html`
       <tr class="groupTitle">
-        <td class="leftPadding" ?aria-hidden="true"></td>
+        <td class="leftPadding" aria-hidden="true"></td>
         <td
           class="star"
           aria-label="Star status column"

@@ -72,7 +72,7 @@ export class GrChecksAction extends LitElement {
   private renderTooltip() {
     if (!this.action.tooltip) return;
     return html`
-      <paper-tooltip offset="5" fit-to-visible-bounds>
+      <paper-tooltip offset="5" ?fitToVisibleBounds=${true}>
         ${this.action.tooltip}
       </paper-tooltip>
     `;

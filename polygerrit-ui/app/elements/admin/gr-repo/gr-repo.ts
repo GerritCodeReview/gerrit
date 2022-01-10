@@ -267,7 +267,7 @@ export class GrRepo extends LitElement {
           ?disabled=${this.readOnly}
           .text=${this.repoConfig?.description}
           @text-changed=${this.handleDescriptionTextChanged}
-        >
+        ></gr-textarea>
       </fieldset>
     `;
   }
@@ -599,7 +599,6 @@ export class GrRepo extends LitElement {
             id="maxGitObjSizeIronInput"
             .bindValue=${this.repoConfig?.max_object_size_limit
               ?.configured_value}
-            type="text"
             ?disabled=${this.readOnly}
             @bind-value-changed=${this.handleMaxGitObjSizeBindValueChanged}
           >

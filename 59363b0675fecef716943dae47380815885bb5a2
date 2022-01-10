@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95464186_a1473caf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-10T17:20:22Z",
+      "side": 1,
+      "message": "Clarified this is needed because ObjectId is serializable.\n\n\u003e we were about to get rid of the last bits of serialization\n\nThis is not needed for serialization, internally it is used when calculating hash.",
+      "parentUuid": "2bd3bea9_9a2fc0e0",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "59363b0675fecef716943dae47380815885bb5a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd96b61a_253eeded",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-01-10T13:09:34Z",
       "side": 1,
       "message": "Add\n\n  private static final long serialVersionUID \u003d 1L;\n  \nsince all classes that implement Serializable should define serialVersionUID.",
+      "revId": "59363b0675fecef716943dae47380815885bb5a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3c5c5ea_551d02c4",
+        "filename": "java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-10T17:20:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd96b61a_253eeded",
       "revId": "59363b0675fecef716943dae47380815885bb5a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e28cf11b_570f9388",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/CodeReviewCommitTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-10T17:20:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03936690_685fb716",
+      "revId": "59363b0675fecef716943dae47380815885bb5a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de4a7b0b_9f3cdc66",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81055ec6_a7c7cd57",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/CodeReviewCommitTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-10T17:20:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de4a7b0b_9f3cdc66",
+      "revId": "59363b0675fecef716943dae47380815885bb5a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "933e04ee_b27ccc04",
@@ -88,6 +166,30 @@
       "writtenOn": "2022-01-10T13:09:34Z",
       "side": 1,
       "message": "[optional] Would it be easier to use TestRepository to create the commit?\n\n  try (Repository repo \u003d repoManager.createRepository(project);\n    TestRepository\u003cRepository\u003e tr \u003d new TestRepository\u003c\u003e(repo)) {\n      PersonIdent ident \u003d new PersonIdent(new PersonIdent(\"Test Ident\", \"test@test.com\"));\n      return tr.commit()\n              .author(ident)\n              .committer(ident)\n              .message(\"Test commit\");\n              .create();",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "59363b0675fecef716943dae47380815885bb5a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aff770cf_2c181531",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/CodeReviewCommitTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-10T17:20:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "933e04ee_b27ccc04",
       "range": {
         "startLine": 59,
         "startChar": 4,

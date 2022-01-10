@@ -16,6 +16,24 @@
       "message": "We had issues in production since the rollout of v3.5: after an analysis of the problem we have identified the new performance metrics as the main cause.\n\nThe metrics endpoint was spiralling up, downloading over 5MBytes of data and taking up to 10s (or more) of execution times.\n\nWe had to disable it in production to resume the normal metrics collection in reasonable times.\n\nI\u0027ve raised Issue 15531.",
       "revId": "20ace9d2bd032e2b6825a552bb97c169e62ecb50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ac9160e_dd3ffdea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-10T13:12:55Z",
+      "side": 1,
+      "message": "Let\u0027s discuss this on the issue.",
+      "parentUuid": "27a9cdb0_576281ed",
+      "revId": "20ace9d2bd032e2b6825a552bb97c169e62ecb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

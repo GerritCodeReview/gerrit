@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d549088_81d3c350",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-10T14:42:30Z",
+      "side": 1,
+      "message": "Could you add a \"why\" to your commit msg? The what is pretty straightforward to deduce from the code.",
+      "revId": "d19e1edbd6a15d3fc8776529218931b79f4cf5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

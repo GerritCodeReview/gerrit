@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "514fec79_643e8666",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-10T14:59:13Z",
+      "side": 1,
+      "message": "How would we handle the ETA if the Check name is long?\n\nOne idea is to show ETA at the right and write the Checks name and add ... when it is longer than the container\n\nFoe example:\n`Superlongchecksna...ETA: 4 min`\n\nWe could also display `ETA: 4 min` instead of `ETA: 4 minutes` to make the text shorter.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "fa48e8aafbfa273386f66551ca75867692d8b9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

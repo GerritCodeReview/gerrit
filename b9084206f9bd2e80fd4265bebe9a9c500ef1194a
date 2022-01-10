@@ -33,6 +33,23 @@
       "message": "Han-Wen, can you LC+1 please?",
       "revId": "b9084206f9bd2e80fd4265bebe9a9c500ef1194a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7209fc14_680f77e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-01-10T17:01:18Z",
+      "side": 1,
+      "message": "this is not gonna fly, sorry. We use jsoup in 250,000 dependencies, and unfortunately, the authors decided to remove deprecated methods in 1.13.1, so upgrading this is a lot of work. I\u0027m checking if an upgrade to 1.12.2 is feasible.",
+      "revId": "b9084206f9bd2e80fd4265bebe9a9c500ef1194a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

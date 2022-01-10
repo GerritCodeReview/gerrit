@@ -23,7 +23,7 @@ import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
 import {GrRestApiServiceImpl} from '../elements/shared/gr-rest-api-interface/gr-rest-api-impl';
 import {ChangeModel} from './change/change-model';
-import {ChecksModel} from './checks/checks-model';
+import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
 import {UserModel} from '../models/user/user-model';
@@ -68,15 +68,6 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(userModel, 'userModel');
       return new ChangeModel(routerModel, restApiService, userModel);
     },
-    checksModel: (ctx: Partial<AppContext>) => {
-      const routerModel = ctx.routerModel;
-      const changeModel = ctx.changeModel;
-      const reportingService = ctx.reportingService;
-      assertIsDefined(routerModel, 'routerModel');
-      assertIsDefined(changeModel, 'changeModel');
-      assertIsDefined(reportingService, 'reportingService');
-      return new ChecksModel(routerModel, changeModel, reportingService);
-    },
     jsApiService: (ctx: Partial<AppContext>) => {
       const reportingService = ctx.reportingService;
       assertIsDefined(reportingService, 'reportingService');
@@ -116,6 +107,14 @@ export function createAppDependencies(
     appContext.restApiService
   );
   dependencies.set(configModelToken, configModel);
+
+  const checksModel = new ChecksModel(
+    appContext.routerModel,
+    appContext.changeModel,
+    appContext.reportingService
+  );
+
+  dependencies.set(checksModelToken, checksModel)
 
   return dependencies;
 }

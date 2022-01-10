@@ -32,7 +32,7 @@ import {
   Tag,
 } from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
-import {CheckRun, RunResult} from '../../services/checks/checks-model';
+import {CheckRun, RunResult} from '../../models/checks/checks-model';
 import {
   allResults,
   firstPrimaryLink,
@@ -43,7 +43,7 @@ import {
   otherPrimaryLinks,
   secondaryLinks,
   tooltipForLink,
-} from '../../services/checks/checks-util';
+} from '../../models/checks/checks-util';
 import {assertIsDefined, check} from '../../utils/common-util';
 import {modifierPressed, toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
@@ -69,6 +69,7 @@ import {fontStyles} from '../../styles/gr-font-styles';
 import {fire} from '../../utils/event-util';
 import {resolve} from '../../models/dependency';
 import {configModelToken} from '../../models/config/config-model';
+import {checksModelToken} from '../../models/checks/checks-model';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -106,7 +107,7 @@ class GrResultRow extends LitElement {
 
   private changeModel = getAppContext().changeModel;
 
-  private checksModel = getAppContext().checksModel;
+  private getChecksModel = resolve(this, checksModelToken);
 
   override connectedCallback() {
     super.connectedCallback();
@@ -511,7 +512,7 @@ class GrResultRow extends LitElement {
   }
 
   private handleAction(e: CustomEvent<Action>) {
-    this.checksModel.triggerAction(e.detail);
+    this.getChecksModel().triggerAction(e.detail);
   }
 
   private renderAction(action?: Action) {
@@ -757,23 +758,23 @@ export class GrChecksResults extends LitElement {
 
   private readonly changeModel = getAppContext().changeModel;
 
-  private readonly checksModel = getAppContext().checksModel;
+  private readonly getChecksModel = resolve(this, checksModelToken);
 
-  constructor() {
-    super();
+  override connectedCallback() {
+    super.connectedCallback();
     subscribe(
       this,
-      this.checksModel.topLevelActionsSelected$,
+      this.getChecksModel().topLevelActionsSelected$,
       x => (this.actions = x)
     );
     subscribe(
       this,
-      this.checksModel.topLevelLinksSelected$,
+      this.getChecksModel().topLevelLinksSelected$,
       x => (this.links = x)
     );
     subscribe(
       this,
-      this.checksModel.checksSelectedPatchsetNumber$,
+      this.getChecksModel().checksSelectedPatchsetNumber$,
       x => (this.checksPatchsetNumber = x)
     );
     subscribe(
@@ -783,7 +784,7 @@ export class GrChecksResults extends LitElement {
     );
     subscribe(
       this,
-      this.checksModel.someProvidersAreLoadingSelected$,
+      this.getChecksModel().someProvidersAreLoadingSelected$,
       x => (this.someProvidersAreLoading = x)
     );
   }
@@ -1140,7 +1141,7 @@ export class GrChecksResults extends LitElement {
   }
 
   private handleAction(e: CustomEvent<Action>) {
-    this.checksModel.triggerAction(e.detail);
+    this.getChecksModel().triggerAction(e.detail);
   }
 
   private handleFilter(e: ChecksResultsFilterEvent) {
@@ -1159,11 +1160,11 @@ export class GrChecksResults extends LitElement {
   private onPatchsetSelected(e: CustomEvent<{value: string}>) {
     const patchset = Number(e.detail.value);
     check(!isNaN(patchset), 'selected patchset must be a number');
-    this.checksModel.setPatchset(patchset as PatchSetNumber);
+    this.getChecksModel().setPatchset(patchset as PatchSetNumber);
   }
 
   private goToLatestPatchset() {
-    this.checksModel.setPatchset(undefined);
+    this.getChecksModel().setPatchset(undefined);
   }
 
   private createPatchsetDropdownItems() {

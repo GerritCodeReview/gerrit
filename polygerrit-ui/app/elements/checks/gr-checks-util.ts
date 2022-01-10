@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {CheckRun, RunResult} from '../../services/checks/checks-model';
+import {CheckRun, RunResult} from '../../models/checks/checks-model';
 
 export interface AttemptSelectedEventDetail {
   checkName: string;

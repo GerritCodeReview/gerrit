@@ -18,8 +18,8 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {Action} from '../../api/checks';
 import {checkRequiredProperty} from '../../utils/common-util';
-import {getAppContext} from '../../services/app-context';
-
+import {resolve} from '../../models/dependency';
+import {checksModelToken} from '../../models/checks/checks-model';
 @customElement('gr-checks-action')
 export class GrChecksAction extends LitElement {
   @property({type: Object})
@@ -28,7 +28,7 @@ export class GrChecksAction extends LitElement {
   @property({type: Object})
   eventTarget: HTMLElement | null = null;
 
-  private checksModel = getAppContext().checksModel;
+  private getChecksModel = resolve(this, checksModelToken);
 
   override connectedCallback() {
     super.connectedCallback();
@@ -80,7 +80,7 @@ export class GrChecksAction extends LitElement {
 
   handleClick(e: Event) {
     e.stopPropagation();
-    this.checksModel.triggerAction(this.action);
+    this.getChecksModel().triggerAction(this.action);
   }
 }
 

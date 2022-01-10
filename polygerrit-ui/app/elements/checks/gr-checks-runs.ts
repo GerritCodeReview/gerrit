@@ -31,12 +31,12 @@ import {
   PRIMARY_STATUS_ACTIONS,
   primaryRunAction,
   worstCategory,
-} from '../../services/checks/checks-util';
+} from '../../models/checks/checks-util';
 import {
   CheckRun,
   ChecksPatchset,
   ErrorMessages,
-} from '../../services/checks/checks-model';
+} from '../../models/checks/checks-model';
 import {
   fakeActions,
   fakeLinks,
@@ -46,7 +46,7 @@ import {
   fakeRun3,
   fakeRun4Att,
   fakeRun5,
-} from '../../services/checks/checks-fakes';
+} from '../../models/checks/checks-fakes';
 import {assertIsDefined} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
 import {
@@ -60,6 +60,8 @@ import {getAppContext} from '../../services/app-context';
 import {KnownExperimentId} from '../../services/flags/flags';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
+import {resolve} from '../../models/dependency';
+import {checksModelToken} from '../../models/checks/checks-model';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
@@ -391,23 +393,23 @@ export class GrChecksRuns extends LitElement {
 
   private flagService = getAppContext().flagsService;
 
-  private checksModel = getAppContext().checksModel;
+  private getChecksModel = resolve(this, checksModelToken);
 
-  constructor() {
-    super();
+  override connectedCallback(): void {
+    super.connectedCallback();
     subscribe(
       this,
-      this.checksModel.allRunsSelectedPatchset$,
+      this.getChecksModel().allRunsSelectedPatchset$,
       x => (this.runs = x)
     );
     subscribe(
       this,
-      this.checksModel.errorMessagesLatest$,
+      this.getChecksModel().errorMessagesLatest$,
       x => (this.errorMessages = x)
     );
     subscribe(
       this,
-      this.checksModel.loginCallbackLatest$,
+      this.getChecksModel().loginCallbackLatest$,
       x => (this.loginCallback = x)
     );
   }
@@ -631,7 +633,7 @@ export class GrChecksRuns extends LitElement {
           link
           ?disabled=${runButtonDisabled}
           @click="${() => {
-            actions.forEach(action => this.checksModel.triggerAction(action));
+            actions.forEach(action => this.getChecksModel().triggerAction(action));
           }}"
           >Run Selected</gr-button
         >
@@ -671,42 +673,42 @@ export class GrChecksRuns extends LitElement {
   }
 
   none() {
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f0',
       [],
       [],
       [],
       ChecksPatchset.LATEST
     );
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f1',
       [],
       [],
       [],
       ChecksPatchset.LATEST
     );
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f2',
       [],
       [],
       [],
       ChecksPatchset.LATEST
     );
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f3',
       [],
       [],
       [],
       ChecksPatchset.LATEST
     );
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f4',
       [],
       [],
       [],
       ChecksPatchset.LATEST
     );
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f5',
       [],
       [],
@@ -716,42 +718,42 @@ export class GrChecksRuns extends LitElement {
   }
 
   all() {
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f0',
       [fakeRun0],
       fakeActions,
       fakeLinks,
       ChecksPatchset.LATEST
     );
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f1',
       [fakeRun1],
       [],
       [],
       ChecksPatchset.LATEST
     );
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f2',
       [fakeRun2],
       [],
       [],
       ChecksPatchset.LATEST
     );
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f3',
       [fakeRun3],
       [],
       [],
       ChecksPatchset.LATEST
     );
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f4',
       fakeRun4Att,
       [],
       [],
       ChecksPatchset.LATEST
     );
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       'f5',
       [fakeRun5],
       [],
@@ -767,7 +769,7 @@ export class GrChecksRuns extends LitElement {
     links: Link[] = []
   ) {
     const newRuns = this.runs.includes(runs[0]) ? [] : runs;
-    this.checksModel.updateStateSetResults(
+    this.getChecksModel().updateStateSetResults(
       plugin,
       newRuns,
       actions,

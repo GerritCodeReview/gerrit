@@ -17,15 +17,17 @@
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {Action} from '../../api/checks';
-import {CheckResult, CheckRun} from '../../services/checks/checks-model';
+import {CheckResult, CheckRun} from '../../models/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
-import {ActionTriggeredEvent} from '../../services/checks/checks-util';
+import {ActionTriggeredEvent} from '../../models/checks/checks-util';
 import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {getAppContext} from '../../services/app-context';
 import {subscribe} from '../lit/subscription-controller';
+import {resolve} from '../../models/dependency';
+import {checksModelToken} from '../../models/checks/checks-model';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -63,23 +65,31 @@ export class GrChecksTab extends LitElement {
 
   private readonly changeModel = getAppContext().changeModel;
 
-  private readonly checksModel = getAppContext().checksModel;
+  private readonly getChecksModel = resolve(this, checksModelToken);
 
   constructor() {
     super();
+
+    this.addEventListener('action-triggered', (e: ActionTriggeredEvent) =>
+      this.handleActionTriggered(e.detail.action, e.detail.run)
+    );
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
     subscribe(
       this,
-      this.checksModel.allRunsSelectedPatchset$,
+      this.getChecksModel().allRunsSelectedPatchset$,
       x => (this.runs = x)
     );
     subscribe(
       this,
-      this.checksModel.allResultsSelected$,
+      this.getChecksModel().allResultsSelected$,
       x => (this.results = x)
     );
     subscribe(
       this,
-      this.checksModel.checksSelectedPatchsetNumber$,
+      this.getChecksModel().checksSelectedPatchsetNumber$,
       x => (this.checksPatchsetNumber = x)
     );
     subscribe(
@@ -88,10 +98,6 @@ export class GrChecksTab extends LitElement {
       x => (this.latestPatchsetNumber = x)
     );
     subscribe(this, this.changeModel.changeNum$, x => (this.changeNum = x));
-
-    this.addEventListener('action-triggered', (e: ActionTriggeredEvent) =>
-      this.handleActionTriggered(e.detail.action, e.detail.run)
-    );
   }
 
   static override get styles() {
@@ -147,7 +153,7 @@ export class GrChecksTab extends LitElement {
   }
 
   handleActionTriggered(action: Action, run?: CheckRun) {
-    this.checksModel.triggerAction(action, run);
+    this.getChecksModel().triggerAction(action, run);
   }
 
   handleRunSelected(e: RunSelectedEvent) {

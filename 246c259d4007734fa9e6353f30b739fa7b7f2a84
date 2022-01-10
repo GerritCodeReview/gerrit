@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd2c4d36_3f8cb07f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-10T06:13:49Z",
+      "side": 1,
+      "message": "Replace of  Collections.emptyList() with ImmutableList.of(), and Collections.emptyMap() with ImmutableMap.of() was fixed on gson@HEAD, but no new gson release was conducted yet, see [1].\n\n[1] https://github.com/google/gson/issues/1875",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 63
+      },
+      "revId": "246c259d4007734fa9e6353f30b739fa7b7f2a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

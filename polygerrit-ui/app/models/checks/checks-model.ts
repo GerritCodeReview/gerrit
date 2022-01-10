@@ -17,7 +17,7 @@
 import {AttemptDetail, createAttemptMap} from './checks-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
-import {Finalizable} from '../registry';
+import {Finalizable} from '../../services/registry';
 import {
   BehaviorSubject,
   combineLatest,
@@ -47,15 +47,16 @@ import {
   FetchResponse,
   ResponseCode,
 } from '../../api/checks';
-import {ChangeModel} from '../change/change-model';
+import {ChangeModel} from '../../services/change/change-model';
 import {ChangeInfo, NumericChangeId, PatchSetNumber} from '../../types/common';
 import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
-import {ReportingService} from '../gr-reporting/gr-reporting';
+import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Execution} from '../../constants/reporting';
 import {fireAlert, fireEvent} from '../../utils/event-util';
-import {RouterModel} from '../router/router-model';
-import {Model} from '../../models/model';
+import {RouterModel} from '../../services/router/router-model';
+import {Model} from '../model';
+import {define} from '../dependency';
 
 /**
  * The checks model maintains the state of checks for two patchsets: the latest
@@ -107,6 +108,8 @@ export interface CheckRun extends CheckRunApi {
 // with a bunch of results you will typically also want to know about the run
 // properties. So you can just combine them with {...run, ...result}.
 export type RunResult = CheckRun & CheckResult;
+
+export const checksModelToken = define<ChecksModel>('checks-model');
 
 export interface ChecksProviderState {
   pluginName: string;

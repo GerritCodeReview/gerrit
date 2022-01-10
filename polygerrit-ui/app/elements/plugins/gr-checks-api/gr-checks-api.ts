@@ -23,6 +23,7 @@ import {
   CheckRun,
 } from '../../../api/checks';
 import {getAppContext} from '../../../services/app-context';
+import {ChecksModel} from '../../../models/checks/checks-model';
 
 const DEFAULT_CONFIG: ChecksApiConfig = {
   fetchPollingIntervalSeconds: 60,
@@ -43,7 +44,7 @@ enum State {
 export class GrChecksApi implements ChecksPluginApi {
   private state = State.NOT_REGISTERED;
 
-  private readonly checksModel = getAppContext().checksModel;
+  private readonly checksModel!: ChecksModel;
 
   private readonly reporting = getAppContext().reportingService;
 

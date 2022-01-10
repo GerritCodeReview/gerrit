@@ -44,14 +44,15 @@ import {
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {charsOnly} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
-import {CheckRun} from '../../../services/checks/checks-model';
-import {getResultsOf, hasResultsOf} from '../../../services/checks/checks-util';
+import {CheckRun} from '../../../models/checks/checks-model';
+import {getResultsOf, hasResultsOf} from '../../../models/checks/checks-util';
 import {Category} from '../../../api/checks';
 import '../../shared/gr-vote-chip/gr-vote-chip';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import {PrimaryTab} from '../../../constants/constants';
-import {getAppContext} from '../../../services/app-context';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
+import {resolve} from '../../../models/dependency';
+import {checksModelToken} from '../../../models/checks/checks-model';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -140,13 +141,13 @@ export class GrSubmitRequirements extends LitElement {
     ];
   }
 
-  private readonly checksModel = getAppContext().checksModel;
+  private readonly getChecksModel = resolve(this, checksModelToken);
 
-  constructor() {
-    super();
+  override connectedCallback(): void {
+    super.connectedCallback();
     subscribe(
       this,
-      this.checksModel.allRunsLatestPatchsetLatestAttempt$,
+      this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
       x => (this.runs = x)
     );
   }

@@ -51,6 +51,24 @@
       "parentUuid": "5cce1a43_7f9b94cd",
       "revId": "b55410ad96b664145ec9f257aebd0789e8713e0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c547deb9_0fb896bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-01-10T14:35:09Z",
+      "side": 1,
+      "message": "google is on 1.18 with a bunch of weird patches to support \"gnu format sparse tar\" files, and the patches don\u0027t forward port :-(",
+      "parentUuid": "7779c9fa_12366ab5",
+      "revId": "b55410ad96b664145ec9f257aebd0789e8713e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

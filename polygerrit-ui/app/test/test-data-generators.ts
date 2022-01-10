@@ -123,7 +123,7 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../api/rest-api';
-import {RunResult} from '../services/checks/checks-model';
+import {RunResult} from '../models/checks/checks-model';
 import {Category, RunStatus} from '../api/checks';
 
 export function dateToTimestamp(date: Date): Timestamp {

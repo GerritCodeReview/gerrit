@@ -27,7 +27,7 @@ import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../services/flags/flags_impl';
 import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_impl';
 import {ChangeModel} from '../services/change/change-model';
-import {ChecksModel} from '../services/checks/checks-model';
+import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {UserModel} from '../models/user/user-model';
 import {
@@ -59,15 +59,6 @@ export function createTestAppContext(): AppContext & Finalizable {
       assertIsDefined(restApiService, 'restApiService');
       assertIsDefined(userModel, 'userModel');
       return new ChangeModel(routerModel, restApiService, userModel);
-    },
-    checksModel: (ctx: Partial<AppContext>) => {
-      const routerModel = ctx.routerModel;
-      const changeModel = ctx.changeModel;
-      const reportingService = ctx.reportingService;
-      assertIsDefined(routerModel, 'routerModel');
-      assertIsDefined(changeModel, 'changeModel');
-      assertIsDefined(reportingService, 'reportingService');
-      return new ChecksModel(routerModel, changeModel, reportingService);
     },
     jsApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
@@ -112,6 +103,14 @@ export function createTestDependencies(
   const configModel = () =>
     new ConfigModel(appContext.changeModel, appContext.restApiService);
   dependencies.set(configModelToken, configModel);
+
+  const checksModel = () => new ChecksModel(
+    appContext.routerModel,
+    appContext.changeModel,
+    appContext.reportingService
+  );
+
+  dependencies.set(checksModelToken, checksModel)
 
   return dependencies;
 }

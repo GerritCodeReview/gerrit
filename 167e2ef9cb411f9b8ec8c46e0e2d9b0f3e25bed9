@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "83b31ca8_847a9cec",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-10T18:48:37Z",
+      "side": 1,
+      "message": "NIT: There are several similarities between this file and gr-checks-results like expanding logic, css. Have you considered to refactor it in a way to have more code sharing?",
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "26edb2e0_71b96964",
         "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
         "patchSetId": 4
@@ -42,6 +59,29 @@
         "startChar": 25,
         "endLine": 99,
         "endChar": 31
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbdb7c1d_4c9a617f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-10T18:48:37Z",
+      "side": 1,
+      "message": "Maybe needs import.",
+      "range": {
+        "startLine": 138,
+        "startChar": 13,
+        "endLine": 138,
+        "endChar": 28
       },
       "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -111,6 +151,75 @@
         "startChar": 26,
         "endLine": 178,
         "endChar": 32
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58bba42e_ea619939",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-10T18:48:37Z",
+      "side": 1,
+      "message": "Maybe needs import",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 25
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9a065fd_99c5ea08",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-10T18:48:37Z",
+      "side": 1,
+      "message": "Nice! Thanks for shadow dom UT.",
+      "range": {
+        "startLine": 39,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 30
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6645211f_f741d532",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-10T18:48:37Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be this checked like\n```\nreturn result.codePointers.some(pointer \u003d\u003e pointer?.path \u003d\u003d\u003d this.path \u0026\u0026 !!pointer?.range)\n```\n\nIs it safe to check only first?",
+      "range": {
+        "startLine": 485,
+        "startChar": 28,
+        "endLine": 485,
+        "endChar": 52
       },
       "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

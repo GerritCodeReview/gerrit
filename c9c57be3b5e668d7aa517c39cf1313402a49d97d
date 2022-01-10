@@ -101,6 +101,23 @@
       "message": "Hello,\nIt\u0027s been few months since the last activity. Can I do something to move forward with this?",
       "revId": "c9c57be3b5e668d7aa517c39cf1313402a49d97d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "835aa829_5cd77a22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-01-10T15:44:25Z",
+      "side": 1,
+      "message": "Needs rebasing. Then we can merge it.",
+      "revId": "c9c57be3b5e668d7aa517c39cf1313402a49d97d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

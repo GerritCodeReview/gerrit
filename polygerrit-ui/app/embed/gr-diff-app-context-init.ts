@@ -78,9 +78,6 @@ export function createDiffAppContext(): AppContext & Finalizable {
     changeModel: (_ctx: Partial<AppContext>) => {
       throw new Error('changeModel is not implemented');
     },
-    checksModel: (_ctx: Partial<AppContext>) => {
-      throw new Error('checksModel is not implemented');
-    },
     jsApiService: (_ctx: Partial<AppContext>) => {
       throw new Error('jsApiService is not implemented');
     },

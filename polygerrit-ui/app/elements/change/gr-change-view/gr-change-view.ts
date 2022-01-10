@@ -199,6 +199,7 @@ import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../services/change/change-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
+import {checksModelToken} from '../../../models/checks/checks-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -599,7 +600,7 @@ export class GrChangeView extends base {
 
   readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly checksModel = getAppContext().checksModel;
+  private readonly checksModel = resolve(this, checksModelToken);
 
   readonly restApiService = getAppContext().restApiService;
 
@@ -658,7 +659,7 @@ export class GrChangeView extends base {
 
   private setupSubscriptions() {
     this.subscriptions.push(
-      this.checksModel.aPluginHasRegistered$.subscribe(b => {
+      this.checksModel().aPluginHasRegistered$.subscribe(b => {
         this._showChecksTab = b;
       })
     );

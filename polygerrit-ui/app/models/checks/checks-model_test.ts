@@ -25,7 +25,7 @@ import {
   ResponseCode,
   RunStatus,
 } from '../../api/checks';
-import {getAppContext} from '../app-context';
+import {getAppContext} from '../../services/app-context';
 import {createParsedChange} from '../../test/test-data-generators';
 import {waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {ParsedChangeInfo} from '../../types/types';

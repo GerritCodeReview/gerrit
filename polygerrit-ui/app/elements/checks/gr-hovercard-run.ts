@@ -17,13 +17,13 @@
 import {fontStyles} from '../../styles/gr-font-styles';
 import {customElement, property} from 'lit/decorators';
 import './gr-checks-action';
-import {CheckRun} from '../../services/checks/checks-model';
+import {CheckRun} from '../../models/checks/checks-model';
 import {
   AttemptDetail,
   iconFor,
   runActions,
   worstCategory,
-} from '../../services/checks/checks-util';
+} from '../../models/checks/checks-util';
 import {durationString, fromNow} from '../../utils/date-util';
 import {RunStatus} from '../../api/checks';
 import {ordinal} from '../../utils/string-util';

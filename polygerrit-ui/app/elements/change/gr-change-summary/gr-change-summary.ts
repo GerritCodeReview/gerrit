@@ -23,7 +23,7 @@ import {
   CheckResult,
   CheckRun,
   ErrorMessages,
-} from '../../../services/checks/checks-model';
+} from '../../../models/checks/checks-model';
 import {Action, Category, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
@@ -39,7 +39,7 @@ import {
   isRunningScheduledOrCompleted,
   isStatus,
   labelFor,
-} from '../../../services/checks/checks-util';
+} from '../../../models/checks/checks-util';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   CommentThread,
@@ -61,6 +61,7 @@ import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
+import {checksModelToken} from '../../../models/checks/checks-model';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -414,43 +415,43 @@ export class GrChangeSummary extends LitElement {
 
   private userModel = getAppContext().userModel;
 
-  private checksModel = getAppContext().checksModel;
+  private getChecksModel = resolve(this, checksModelToken);
 
   override connectedCallback() {
     super.connectedCallback();
     subscribe(
       this,
-      this.checksModel.allRunsLatestPatchsetLatestAttempt$,
+      this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
       x => (this.runs = x)
     );
     subscribe(
       this,
-      this.checksModel.aPluginHasRegistered$,
+      this.getChecksModel().aPluginHasRegistered$,
       x => (this.showChecksSummary = x)
     );
     subscribe(
       this,
-      this.checksModel.someProvidersAreLoadingFirstTime$,
+      this.getChecksModel().someProvidersAreLoadingFirstTime$,
       x => (this.someProvidersAreLoading = x)
     );
     subscribe(
       this,
-      this.checksModel.errorMessagesLatest$,
+      this.getChecksModel().errorMessagesLatest$,
       x => (this.errorMessages = x)
     );
     subscribe(
       this,
-      this.checksModel.loginCallbackLatest$,
+      this.getChecksModel().loginCallbackLatest$,
       x => (this.loginCallback = x)
     );
     subscribe(
       this,
-      this.checksModel.topLevelActionsLatest$,
+      this.getChecksModel().topLevelActionsLatest$,
       x => (this.actions = x)
     );
     subscribe(
       this,
-      this.checksModel.topLevelMessagesLatest$,
+      this.getChecksModel().topLevelMessagesLatest$,
       x => (this.messages = x)
     );
     subscribe(
@@ -602,7 +603,7 @@ export class GrChangeSummary extends LitElement {
   }
 
   private handleAction(e: CustomEvent<Action>) {
-    this.checksModel.triggerAction(e.detail);
+    this.getChecksModel().triggerAction(e.detail);
   }
 
   private renderOverflow(items: DropdownLink[], disabledIds: string[] = []) {

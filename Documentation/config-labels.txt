@@ -97,7 +97,7 @@ adding the following to `project.config` in `All-Projects`:
       value = -1 Fails
       value = 0 No score
       value = +1 Verified
-      copyAllScoresIfNoCodeChange = true
+      copyCondition = changekind:NO_CODE_CHANGE
 ----
 
 The range of values is:
@@ -270,6 +270,9 @@ Defaults to true.
 [[label_copyAnyScore]]
 === `label.Label-Name.copyAnyScore`
 
+*DEPRECATED: use `is:ANY` predicate in
+link:config-labels.html#label_copyCondition[copyCondition] instead*
+
 If true, any score for the label is copied forward when a new patch
 set is uploaded. Defaults to false.
 
@@ -328,12 +331,18 @@ copyCondition = is:MIN OR -change-kind:REWORK OR uploaderin:dead...beef
 [[label_copyMinScore]]
 === `label.Label-Name.copyMinScore`
 
+*DEPRECATED: use `is:MIN` predicate in
+link:config-labels.html#label_copyCondition[copyCondition] instead*
+
 If true, the lowest possible negative value for the label is copied
 forward when a new patch set is uploaded. Defaults to false, except
 for All-Projects which has it true by default.
 
 [[label_copyMaxScore]]
 === `label.Label-Name.copyMaxScore`
+
+*DEPRECATED: use `is:MAX` predicate in
+link:config-labels.html#label_copyCondition[copyCondition] instead*
 
 If true, the highest possible positive value for the label is copied
 forward when a new patch set is uploaded. This can be used to enable
@@ -342,6 +351,9 @@ submitting a change. Defaults to false.
 
 [[label_copyAllScoresIfListOfFilesDidNotChange]]
 === `label.Label-Name.copyAllScoresIfListOfFilesDidNotChange`
+
+*DEPRECATED: use `is:ANY AND has:unchanged-files` predicates in
+link:config-labels.html#label_copyCondition[copyCondition] instead*
 
 This policy is useful if you don't want to trigger CI or human
 verification again if the list of files didn't change.
@@ -358,6 +370,9 @@ Defaults to false.
 
 [[label_copyAllScoresOnMergeFirstParentUpdate]]
 === `label.Label-Name.copyAllScoresOnMergeFirstParentUpdate`
+
+*DEPRECATED: use `is:ANY AND changekind:MERGE_FIRST_PARENT_UPDATE` predicates
+in link:config-labels.html#label_copyCondition[copyCondition] instead*
 
 This policy is useful if you don't want to trigger CI or human
 verification again if your target branch moved on but the feature
@@ -376,6 +391,9 @@ Defaults to false.
 [[label_copyAllScoresOnTrivialRebase]]
 === `label.Label-Name.copyAllScoresOnTrivialRebase`
 
+*DEPRECATED: use `is:ANY AND changekind:TRIVIAL_REBASE` predicates
+in link:config-labels.html#label_copyCondition[copyCondition] instead*
+
 If true, all scores for the label are copied forward when a new patch set is
 uploaded that is a trivial rebase. A new patch set is considered to be trivial
 rebase if the commit message is the same as in the previous patch set and if it
@@ -393,6 +411,9 @@ Defaults to false.
 [[label_copyAllScoresIfNoCodeChange]]
 === `label.Label-Name.copyAllScoresIfNoCodeChange`
 
+*DEPRECATED: use `is:ANY AND changekind:NO_CODE_CHANGE` predicates in
+link:config-labels.html#label_copyCondition[copyCondition] instead*
+
 If true, all scores for the label are copied forward when a new patch set is
 uploaded that has the same parent tree as the previous patch set and the same
 code diff (including context lines) as the previous patch set. This means only
@@ -406,6 +427,9 @@ Defaults to false.
 
 [[label_copyAllScoresIfNoChange]]
 === `label.Label-Name.copyAllScoresIfNoChange`
+
+*DEPRECATED: use `is:ANY AND changekind:NO_CHANGE` predicates in
+link:config-labels.html#label_copyCondition[copyCondition] instead*
 
 If true, all scores for the label are copied forward when a new patch
 set is uploaded that has the same parent tree, code delta, and commit

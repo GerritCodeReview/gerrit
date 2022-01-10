@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2bd3bea9_9a2fc0e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-01-10T16:00:48Z",
+      "side": 1,
+      "message": "document why you\u0027re doing this for ppl that can\u0027t read this bug.\n\nin general, I thought Java serialization was frowned upon because it is a security concern, and we were about to get rid of the last bits of serialization by moving onto caffeine and killing the old diff cache.",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "59363b0675fecef716943dae47380815885bb5a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dd96b61a_253eeded",
         "filename": "java/com/google/gerrit/server/git/CodeReviewCommit.java",
         "patchSetId": 2

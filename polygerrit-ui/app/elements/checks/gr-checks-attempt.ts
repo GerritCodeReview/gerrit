@@ -16,7 +16,7 @@
  */
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {CheckRun} from '../../services/checks/checks-model';
+import {CheckRun} from '../../models/checks/checks-model';
 import {ordinal} from '../../utils/string-util';
 
 @customElement('gr-checks-attempt')

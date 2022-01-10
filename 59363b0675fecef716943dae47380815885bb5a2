@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd96b61a_253eeded",
+        "filename": "java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-10T13:09:34Z",
+      "side": 1,
+      "message": "Add\n\n  private static final long serialVersionUID \u003d 1L;\n  \nsince all classes that implement Serializable should define serialVersionUID.",
+      "revId": "59363b0675fecef716943dae47380815885bb5a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03936690_685fb716",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/CodeReviewCommitTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-10T13:09:34Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "59363b0675fecef716943dae47380815885bb5a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de4a7b0b_9f3cdc66",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/CodeReviewCommitTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-10T13:09:34Z",
+      "side": 1,
+      "message": "nit: do not import any NameKey class, but rather use Project.NameKey in the code",
+      "revId": "59363b0675fecef716943dae47380815885bb5a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "933e04ee_b27ccc04",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/CodeReviewCommitTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-10T13:09:34Z",
+      "side": 1,
+      "message": "[optional] Would it be easier to use TestRepository to create the commit?\n\n  try (Repository repo \u003d repoManager.createRepository(project);\n    TestRepository\u003cRepository\u003e tr \u003d new TestRepository\u003c\u003e(repo)) {\n      PersonIdent ident \u003d new PersonIdent(new PersonIdent(\"Test Ident\", \"test@test.com\"));\n      return tr.commit()\n              .author(ident)\n              .committer(ident)\n              .message(\"Test commit\");\n              .create();",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "59363b0675fecef716943dae47380815885bb5a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

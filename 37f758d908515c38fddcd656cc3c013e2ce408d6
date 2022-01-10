@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c89160d_626239b5",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-10T15:04:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef03b59b_134eb4a6",
+      "revId": "37f758d908515c38fddcd656cc3c013e2ce408d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e2edb74_73499389",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18579df4_0aa803e2",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-10T15:04:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e2edb74_73499389",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 28
+      },
+      "revId": "37f758d908515c38fddcd656cc3c013e2ce408d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd9f8246_f3a64785",
@@ -71,6 +113,24 @@
       "writtenOn": "2021-11-26T11:32:44Z",
       "side": 1,
       "message": "Maybe include loggedIn$ here similarly to currentPatchNum$ and changeNum$. Otherwise you run the risk that loggedIn$ fires too late compared to the other observables.",
+      "revId": "37f758d908515c38fddcd656cc3c013e2ce408d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91fea5c2_1f66bf99",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-10T15:04:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9f8246_f3a64785",
       "revId": "37f758d908515c38fddcd656cc3c013e2ce408d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

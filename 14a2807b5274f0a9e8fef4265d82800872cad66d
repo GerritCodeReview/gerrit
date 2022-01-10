@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e5aaa05_e5321f49",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-10T15:09:07Z",
+      "side": 1,
+      "message": "Are we also tracking:\n\n* if the Checks chip is clicked by a user who is a reviewer / who is an author?\n* if an error and or warning exists in the change when the chip is clicked?\n\nSee comment#4 in the bug: \nHow often are the checks chips clicked?\n(broken down by role and whether an error or warning exists)",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 114,
+        "endChar": 21
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caed5115_882bed74",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-10T15:09:07Z",
+      "side": 1,
+      "message": "Do we also diffentiate these actions?\n\n1.summary actions\n2.top-level actions\n(broken down by whether they are in the dropdown or not)",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 54
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

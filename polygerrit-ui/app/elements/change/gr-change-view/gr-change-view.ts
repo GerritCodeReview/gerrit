@@ -1314,6 +1314,7 @@ export class GrChangeView extends base {
       // need to reload anything and we render the change view component as is.
       document.documentElement.scrollTop = this.scrollPosition ?? 0;
       this.reporting.reportInteraction('change-view-re-rendered');
+      this.updateTitle(this._change);
       // We still need to check if post load tasks need to be done such as when
       // user wants to open the reply dialog when in the diff page, the change
       // page should open the reply dialog
@@ -1504,6 +1505,12 @@ export class GrChangeView extends base {
     this.set('viewState.patchRange', this._patchRange);
   }
 
+  private updateTitle(change?: ChangeInfo | ParsedChangeInfo) {
+    if (!change) return;
+    const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
+    fireTitleChange(this, title);
+  }
+
   _changeChanged(change?: ChangeInfo | ParsedChangeInfo) {
     if (!change || !this._patchRange || !this._allPatchSets) {
       return;
@@ -1519,9 +1526,7 @@ export class GrChangeView extends base {
     );
 
     this.set('_patchRange.basePatchNum', parent);
-
-    const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
-    fireTitleChange(this, title);
+    this.updateTitle(change);
   }
 
   /**

@@ -16,6 +16,24 @@
       "message": "Can this happen? I think not, because line 249 is only executed when loggedIn is true. Then I think you can remove the `loggedIn` field from this model?",
       "revId": "54f5dfd9b2d0d9ad5832776b8cf5c3af90ca79e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b992c1d_4afe7c89",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-10T15:20:06Z",
+      "side": 1,
+      "message": "Yeah, can be removed.\nRemoved.",
+      "parentUuid": "38fd3b20_8b9f4dae",
+      "revId": "54f5dfd9b2d0d9ad5832776b8cf5c3af90ca79e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

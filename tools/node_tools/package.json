@@ -25,6 +25,7 @@
   "license": "Apache-2.0",
   "private": true,
   "resolutions": {
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "wct-local": "2.1.6"
   }
 }

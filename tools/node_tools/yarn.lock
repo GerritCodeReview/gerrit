@@ -5341,10 +5341,9 @@ latest-version@^3.0.0:
   dependencies:
     package-json "^4.0.0"
 
-launchpad@^0.7.0:
+"launchpad@git://github.com/418sec/launchpad.git#de5aca11dc16a8e530195281c77614bdbb08e7be":
   version "0.7.5"
-  resolved "https://registry.yarnpkg.com/launchpad/-/launchpad-0.7.5.tgz#a16950c937572f10ef01c9be945a96f7aef8e427"
-  integrity sha512-gsYFgT8XKL3X2XZHPPPrgwM0JqeQwGpSWnzg7EYadBY3MirbQrTVq6L4fm6l7UE2T+7gnfuhiGkKr/xxuU/fdw==
+  resolved "git://github.com/418sec/launchpad.git#de5aca11dc16a8e530195281c77614bdbb08e7be"
   dependencies:
     async "^2.0.1"
     browserstack "^1.2.0"
@@ -8910,10 +8909,10 @@ wbuf@^1.1.0, wbuf@^1.7.2:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-wct-local@^2.1.1:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/wct-local/-/wct-local-2.1.5.tgz#f7986753e3ad9a35d39178a9989350523561fff1"
-  integrity sha512-eqoZhjGy4Xq2tY0uB46Grkw/ztq+/rC0ImbYKl62unFHXtOgal+kkvnxR3SLRFNM8ty9+ItgycPeH0IpTqVL+w==
+wct-local@2.1.16, wct-local@^2.1.1:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/wct-local/-/wct-local-2.1.6.tgz#2d099c52996e77265d16e03a5d6d897b77ea9967"
+  integrity sha512-jvTzgOIIfJ43H3DXUfruHPTQ/TJ269SDk4R2CfCpU13EYbwxn3U1B6L5NHYRFu/cgdJmOHraGrn/wREHH6xeXQ==
   dependencies:
     "@types/express" "^4.0.30"
     "@types/freeport" "^1.0.19"
@@ -8922,7 +8921,7 @@ wct-local@^2.1.1:
     chalk "^2.3.0"
     cleankill "^2.0.0"
     freeport "^1.0.4"
-    launchpad "^0.7.0"
+    launchpad "git://github.com/418sec/launchpad.git#de5aca11dc16a8e530195281c77614bdbb08e7be"
     selenium-standalone "^6.7.0"
     which "^1.0.8"
 

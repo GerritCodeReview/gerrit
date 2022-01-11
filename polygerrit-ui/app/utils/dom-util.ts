@@ -490,3 +490,17 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
   }
   return false;
 }
+
+export function whenRendered(el: HTMLElement, callback: () => void) {
+  if (el.clientHeight > 0) {
+    callback();
+    return;
+  }
+  const obs = new ResizeObserver(() => {
+    if (el.clientHeight > 0) {
+      callback();
+      obs.unobserve(el);
+    }
+  });
+  obs.observe(el);
+}

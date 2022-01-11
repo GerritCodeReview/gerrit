@@ -72,6 +72,8 @@ import {ValueChangedEvent} from '../../../types/events';
 import {notDeepEqual} from '../../../utils/deep-util';
 import {resolve} from '../../../models/dependency';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {waitUntil} from '../../../utils/async-util';
+import {whenRendered} from '../../../utils/dom-util';
 
 const NEWLINE_PATTERN = /\n/g;
 
@@ -596,6 +598,7 @@ export class GrCommentThread extends LitElement {
   }
 
   override willUpdate(changed: PropertyValues) {
+    console.log(`comment thread will update ${changed}`);
     this.firstWillUpdate();
     if (changed.has('thread')) {
       if (!this.isDraftOrUnsaved()) {
@@ -626,8 +629,10 @@ export class GrCommentThread extends LitElement {
 
   override firstUpdated() {
     if (this.shouldScrollIntoView) {
-      this.commentBox?.focus();
-      this.scrollIntoView();
+      whenRendered(this, () => {
+        this.commentBox?.focus();
+        this.scrollIntoView({block: 'center'});
+      });
     }
   }
 

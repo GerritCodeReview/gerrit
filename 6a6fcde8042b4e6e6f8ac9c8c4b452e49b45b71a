@@ -70,6 +70,24 @@
       "parentUuid": "4d56c93c_b9bbc4dc",
       "revId": "6a6fcde8042b4e6e6f8ac9c8c4b452e49b45b71a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12c26711_b76fe281",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-11T22:45:54Z",
+      "side": 0,
+      "message": "Right. Bazel release. Thanks for correcting me.",
+      "parentUuid": "6daa669c_b1deebeb",
+      "revId": "6a6fcde8042b4e6e6f8ac9c8c4b452e49b45b71a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -84,6 +84,16 @@ public class ChangeTest {
   }
 
   @Test
+  public void parseChangeLatestRefNames() {
+    assertRef(1, "refs/changes/01/1/latest");
+    assertRef(1234, "refs/changes/34/1234/latest");
+
+    assertNotRef("refs/changes/01/1/lat");
+    assertNotRef("refs/changes/01/1/LATEST");
+    assertNotRef("refs/changes/01/1/1/latest");
+  }
+
+  @Test
   public void parseRobotCommentRefNames() {
     assertRef(1, "refs/changes/01/1/robot-comments");
     assertRef(1234, "refs/changes/34/1234/robot-comments");

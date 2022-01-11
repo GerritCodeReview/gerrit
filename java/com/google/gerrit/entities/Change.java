@@ -130,6 +130,9 @@ public final class Change {
       }
       int ce = nextNonDigit(ref, cs);
       if (ref.substring(ce).equals(RefNames.META_SUFFIX)
+          /** Axis fork start */
+          || ref.substring(ce).equals(RefNames.LATEST_SUFFIX)
+          /** Axis fork end */
           || ref.substring(ce).equals(RefNames.ROBOT_COMMENTS_SUFFIX)
           || PatchSet.Id.fromRef(ref, ce) >= 0) {
         return Change.id(Integer.parseInt(ref.substring(cs, ce)));

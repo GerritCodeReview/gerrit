@@ -71,6 +71,12 @@ public class RefNames {
   /** Suffix of a meta ref in the NoteDb. */
   public static final String META_SUFFIX = "/meta";
 
+  /* Axis fork start */
+  /** Suffix of latest plugin ref. */
+  public static final String LATEST_SUFFIX = "/latest";
+
+  /* Axis fork end */
+
   /** Suffix of a ref that stores robot comments in the NoteDb. */
   public static final String ROBOT_COMMENTS_SUFFIX = "/robot-comments";
 

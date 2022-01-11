@@ -1040,7 +1040,7 @@ class ChangeNotesParser {
   }
 
   /**
-   * Identifies the {@link Account.Id} that issued the vote.
+   * Identifies the {@link com.google.gerrit.entities.Account.Id} that issued the vote.
    *
    * <p>There are potentially 3 accounts involved here: 1. The account from the commit, which is the
    * effective IdentifiedUser that produced the update. 2. The account in the label footer itself,

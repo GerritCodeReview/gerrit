@@ -469,7 +469,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
    * <p>2. NoteDb rewriters.
    *
    * <p>3. If any of the receive commands is of type {@link
-   * ReceiveCommand.Type#UPDATE_NONFASTFORWARD} (for example due to a force push).
+   * org.eclipse.jgit.transport.ReceiveCommand.Type#UPDATE_NONFASTFORWARD} (for example due to a
+   * force push).
    *
    * <p>Note that we don't need to explicitly allow non fast-forward updates for DELETE commands
    * since JGit forces the update implicitly in this case.

@@ -213,6 +213,10 @@ export class GrEditableLabel extends PolymerElement {
   }
 
   _handleEnter(event: KeyboardEvent) {
+    const grAutocomplete = this.getGrAutocomplete();
+    if (event.composedPath().some(el => el === grAutocomplete)) {
+      return;
+    }
     const inputContainer = queryAndAssert(this, '.inputContainer');
     const isEventFromInput = event
       .composedPath()
@@ -233,7 +237,7 @@ export class GrEditableLabel extends PolymerElement {
   }
 
   _handleCommit() {
-    this._save();
+    this.getInput()?.focus();
   }
 
   _computeLabelClass(readOnly?: boolean, value?: string, placeholder?: string) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b08ff5b4_41285053",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-11T21:36:21Z",
+      "side": 0,
+      "message": "Why not keep this and add a language version line?\n\n build --java_language_version\u003d8\n\nhttps://docs.bazel.build/versions/main/user-manual.html#flag--java_language_version",
+      "revId": "6a6fcde8042b4e6e6f8ac9c8c4b452e49b45b71a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

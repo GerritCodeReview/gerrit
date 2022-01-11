@@ -268,7 +268,7 @@ filegroup(
     ],
 )
 
-nodejs_binary(
+nodejs_test(
     name = "lit_analysis",
     data = [
         ":lit_analysis_src_code",
@@ -280,5 +280,9 @@ nodejs_binary(
         "--strict",
         "--rules.no-property-visibility-mismatch off",
         "--rules.no-incompatible-property-type off",
+    ],
+    tags = [
+        "local",
+        "manual",
     ],
 )

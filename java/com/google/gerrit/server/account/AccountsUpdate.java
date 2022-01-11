@@ -583,7 +583,7 @@ public class AccountsUpdate {
     return metaDataUpdate;
   }
 
-  private static void doNothing() {};
+  private static void doNothing() {}
 
   @FunctionalInterface
   private interface ExecutableUpdate {

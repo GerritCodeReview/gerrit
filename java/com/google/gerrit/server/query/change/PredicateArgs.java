@@ -50,7 +50,7 @@ public class PredicateArgs {
     Operator(String op) {
       this.op = op;
     }
-  };
+  }
 
   @AutoValue
   public abstract static class ValOp {

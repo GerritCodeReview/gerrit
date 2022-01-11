@@ -84,6 +84,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'is:open',
   'is:owner',
   'is:private',
+  'is:pure-revert',
   'is:reviewed',
   'is:reviewer',
   'is:starred',

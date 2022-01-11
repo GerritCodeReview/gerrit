@@ -354,7 +354,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     ChangeInfo changeInfo = gApi.changes().id(changeId).revert().get();
     String revertId = Integer.toString(changeInfo._number);
     ChangeData revertChangeData =
-        changeQueryProvider.get().byLegacyChangeId(Change.Id.parse(revertId)).get(0);
+        changeQueryProvider.get().byLegacyChangeId(Change.Id.tryParse(revertId).get()).get(0);
     result = evaluator.evaluateRequirement(sr, revertChangeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
   }

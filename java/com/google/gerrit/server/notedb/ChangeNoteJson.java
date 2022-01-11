@@ -74,7 +74,7 @@ public class ChangeNoteJson {
 
     @Override
     public Optional<Boolean> read(JsonReader in) throws IOException {
-      JsonElement parsed = new JsonParser().parse(in);
+      JsonElement parsed = JsonParser.parseReader(in);
       if (parsed == null) {
         return Optional.empty();
       }
@@ -101,7 +101,7 @@ public class ChangeNoteJson {
 
     @Override
     public ObjectId read(JsonReader in) throws IOException {
-      JsonElement parsed = new JsonParser().parse(in);
+      JsonElement parsed = JsonParser.parseReader(in);
       if (parsed.isJsonObject() && isJGitFormat(parsed)) {
         // Some object IDs may have been serialized using the JGit format using the five integers
         // w1, w2, w3, w4, w5. Detect this case so that we can deserialize properly.

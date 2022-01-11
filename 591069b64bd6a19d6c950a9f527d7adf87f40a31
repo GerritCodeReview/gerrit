@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a450a91_5cb283df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-11T09:47:14Z",
+      "side": 1,
+      "message": "Could you hold on this change? I\u0027m taking a slightly different approach by having a Paragraph consist of a set of spans.",
+      "revId": "591069b64bd6a19d6c950a9f527d7adf87f40a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

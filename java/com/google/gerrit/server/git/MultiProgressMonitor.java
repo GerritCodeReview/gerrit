@@ -309,7 +309,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
    * calls {@link #end()}, the future has an additional {@code maxInterval} to finish before it is
    * forcefully cancelled and {@link ExecutionException} is thrown.
    *
-   * @see #waitForNonFinalTask(Future, long, TimeUnit)
+   * @see #waitForNonFinalTask(Future, long, TimeUnit, long, TimeUnit)
    * @param workerFuture a future that returns when worker threads are finished.
    * @param taskTimeoutTime overall timeout for the task; the future gets a cancellation signal
    *     after this timeout is exceeded; non-positive values indicate no timeout.
@@ -350,7 +350,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
   /**
    * Wait for a non-final task managed by a {@link Future}, with no timeout.
    *
-   * @see #waitForNonFinalTask(Future, long, TimeUnit)
+   * @see #waitForNonFinalTask(Future, long, TimeUnit, long, TimeUnit)
    */
   public <T> T waitForNonFinalTask(Future<T> workerFuture) {
     try {

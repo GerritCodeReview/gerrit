@@ -54,6 +54,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
+import {ifDefined} from 'lit/directives/if-defined';
 
 enum ChangeSize {
   XS = 10,
@@ -81,7 +82,9 @@ declare global {
     'gr-change-list-item': GrChangeListItem;
   }
 }
-
+/**
+ * @attr {Boolean} selected - change list item is selected by cursor
+ */
 @customElement('gr-change-list-item')
 export class GrChangeListItem extends LitElement {
   /** The logged-in user's account, or null if no user is logged in. */
@@ -307,7 +310,7 @@ export class GrChangeListItem extends LitElement {
     return html`
       <td class="cell subject">
         <a
-          title="${this.change?.subject}"
+          title="${ifDefined(this.change?.subject)}"
           href="${changeUrl}"
           @click=${() => this.handleChangeClick()}
         >

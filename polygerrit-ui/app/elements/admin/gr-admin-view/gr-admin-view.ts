@@ -62,6 +62,7 @@ import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
+import {ifDefined} from 'lit/directives/if-defined';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -252,8 +253,7 @@ export class GrAdminView extends LitElement {
         </span>
         <gr-dropdown-list
           id="pageSelect"
-          lowercase
-          value=${this.computeSelectValue()}
+          value=${ifDefined(this.computeSelectValue())}
           .items=${this.subsectionLinks}
           @value-change=${this.handleSubsectionChange}
         >

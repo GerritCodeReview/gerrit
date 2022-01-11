@@ -137,7 +137,7 @@ export class GrRepoCommands extends LitElement {
             <gr-endpoint-decorator name="repo-command">
               <gr-endpoint-param name="config" .value=${this.repoConfig}>
               </gr-endpoint-param>
-              <gr-endpoint-param name="repoName" value="${this.repo}">
+              <gr-endpoint-param name="repoName" .value="${this.repo}">
               </gr-endpoint-param>
             </gr-endpoint-decorator>
           </div>

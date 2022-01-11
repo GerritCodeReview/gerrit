@@ -182,7 +182,7 @@ export class GrGroup extends LitElement {
             @text-changed=${this.handleNameTextChanged}
           ></gr-autocomplete>
         </span>
-        <span class="value" ?disabled=${this.computeGroupDisabled()}>
+        <span class="value">
           <gr-button
             id="inputUpdateNameBtn"
             ?disabled=${!groupNameEdited}
@@ -218,7 +218,7 @@ export class GrGroup extends LitElement {
           >
           </gr-autocomplete>
         </span>
-        <span class="value" ?disabled=${this.computeGroupDisabled()}>
+        <span class="value">
           <gr-button
             id="inputUpdateOwnerBtn"
             ?disabled=${!groupOwnerNameEdited}
@@ -250,7 +250,7 @@ export class GrGroup extends LitElement {
             @text-changed=${this.handleDescriptionTextChanged}
           ></gr-textarea>
         </div>
-        <span class="value" ?disabled=${this.computeGroupDisabled()}>
+        <span class="value">
           <gr-button
             ?disabled=${!groupDescriptionEdited}
             @click=${this.handleSaveDescription}
@@ -302,7 +302,7 @@ export class GrGroup extends LitElement {
             </gr-select>
           </span>
         </section>
-        <span class="value" ?disabled=${this.computeGroupDisabled()}>
+        <span class="value">
           <gr-button
             ?disabled=${!groupOptionsEdited}
             @click=${this.handleSaveOptions}

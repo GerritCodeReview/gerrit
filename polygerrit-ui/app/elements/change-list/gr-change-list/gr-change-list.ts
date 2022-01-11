@@ -27,7 +27,6 @@ import {
 } from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {isOwner} from '../../../utils/change-util';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {
   AccountInfo,
@@ -35,7 +34,6 @@ import {
   ServerInfo,
   PreferencesInput,
 } from '../../../types/common';
-import {hasAttention} from '../../../utils/attention-set-util';
 import {fire, fireEvent, fireReload} from '../../../utils/event-util';
 import {ScrollMode} from '../../../constants/constants';
 import {
@@ -55,7 +53,6 @@ import {queryAll} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
 
 const NUMBER_FIXED_COLUMNS = 3;
-const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
 const MAX_SHORTCUT_CHARS = 5;
 
@@ -364,11 +361,6 @@ export class GrChangeList extends LitElement {
     labelNames: string[]
   ) {
     const ariaLabel = this.computeAriaLabel(change, changeSection.name);
-    const highlight = this.computeItemHighlight(
-      this.account,
-      change,
-      changeSection.name
-    );
     const selected = this.computeItemSelected(
       sectionIndex,
       index,
@@ -385,7 +377,6 @@ export class GrChangeList extends LitElement {
       <gr-change-list-item
         .account=${this.account}
         ?selected=${selected}
-        .highlight=${highlight}
         .change=${change}
         .config=${this.config}
         .sectionName=${changeSection.name}
@@ -603,20 +594,6 @@ export class GrChangeList extends LitElement {
     return this.computeItemSelected(sectionIndex, index, selectedIndex)
       ? 0
       : undefined;
-  }
-
-  private computeItemHighlight(
-    account?: AccountInfo,
-    change?: ChangeInfo,
-    sectionName?: string
-  ) {
-    if (!change || !account) return false;
-    if (CLOSED_STATUS.indexOf(change.status) !== -1) return false;
-    return (
-      hasAttention(account, change) &&
-      !isOwner(change, account) &&
-      sectionName === YOUR_TURN.name
-    );
   }
 
   private nextChange() {

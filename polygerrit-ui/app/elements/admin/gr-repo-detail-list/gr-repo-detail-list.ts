@@ -49,6 +49,7 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators';
 import {BindValueChangeEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
+import {ifDefined} from 'lit/directives/if-defined';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
@@ -248,7 +249,7 @@ export class GrRepoDetailList extends LitElement {
     return html`
       <tr class="table">
         <td class="${this.detailType} name">
-          <a href=${this.computeFirstWebLink(item)}>
+          <a href=${ifDefined(this.computeFirstWebLink(item))}>
             ${this.stripRefs(item.ref, this.detailType)}
           </a>
         </td>
@@ -467,7 +468,7 @@ export class GrRepoDetailList extends LitElement {
 
   private computeFirstWebLink(repo: ProjectInfo | BranchInfo | TagInfo) {
     const webLinks = this.computeWeblink(repo);
-    return webLinks.length > 0 ? webLinks[0].url : null;
+    return webLinks.length > 0 ? webLinks[0].url : undefined;
   }
 
   // private but used in test

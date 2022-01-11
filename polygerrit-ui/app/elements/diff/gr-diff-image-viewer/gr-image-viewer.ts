@@ -30,6 +30,7 @@ import {RESEMBLEJS_LIBRARY_CONFIG} from '../../shared/gr-lib-loader/resemblejs_c
 
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
+import {ifDefined} from 'lit/directives/if-defined';
 import {classMap} from 'lit/directives/class-map';
 import {StyleInfo, styleMap} from 'lit/directives/style-map';
 
@@ -435,7 +436,7 @@ export class GrImageViewer extends LitElement {
             // layer.
             'pointer-events': this.showHighlight ? 'auto' : 'none',
           })}"
-          src="${this.diffHighlightSrc}"
+          src="${ifDefined(this.diffHighlightSrc)}"
         />
       </div>
     `;

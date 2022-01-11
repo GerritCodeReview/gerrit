@@ -16,6 +16,24 @@
       "message": "I\u0027m happy to +2, but want to give others (Luca?) a chance to raise any concerns overnight.",
       "revId": "dfbef4aa35aaa5fafcedd646975e7a976c28ffd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e016a567_122c372f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-11T22:59:10Z",
+      "side": 1,
+      "message": "Yeah, Luca\u0027s comment would be helpful. This change has a side effect:\n\n  $ JAVA_HOME\u003d\u003cpath_to_jdk_8\u003e bazel build :release\n\nwould produce different major byte code version before and after this change. Right now our official build images for 3.3 and 3.4 lines are built with Java 11 byte code and we should preserve that.\n\nWe should probably also change release build documentation or even scripts before submitting this change?\n\nIt\u0027s complicated 😞",
+      "parentUuid": "1d630d95_519f2fd2",
+      "revId": "dfbef4aa35aaa5fafcedd646975e7a976c28ffd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

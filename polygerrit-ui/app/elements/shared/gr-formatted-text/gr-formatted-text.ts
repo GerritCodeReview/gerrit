@@ -20,18 +20,56 @@ import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
+const INLINE_PATTERN = /(!?\[.+?\]\(.+?\)|`[^`]+?`)/;
+const EXTRACT_LINK_PATTERN = /\[(.+?)\]\((.+?)\)/;
 
-export type Block = ListBlock | QuoteBlock | TextBlock;
+export type Block = ListBlock | QuoteBlock | TextBlock | CodeBlock | PreBlock;
 export interface ListBlock {
   type: 'list';
-  items: string[];
+  items: ListItem[];
 }
 export interface QuoteBlock {
   type: 'quote';
   blocks: Block[];
 }
 export interface TextBlock {
-  type: 'paragraph' | 'code' | 'pre';
+  type: 'paragraph';
+  spans: Span[];
+}
+export interface CodeBlock {
+  type: 'code';
+  text: string;
+}
+export interface PreBlock {
+  type: 'pre';
+  text: string;
+}
+
+export interface ListItem {
+  spans: Span[];
+}
+
+export type Span = TextSpan | LinkSpan | ImgSpan | CodeSpan;
+
+export interface TextSpan {
+  type: 'text';
+  text: string;
+}
+
+export interface LinkSpan {
+  type: 'link';
+  text: string;
+  url: string;
+}
+
+export interface ImgSpan {
+  type: 'img';
+  text: string;
+  url: string;
+}
+
+export interface CodeSpan {
+  type: 'code';
   text: string;
 }
 
@@ -111,13 +149,16 @@ export class GrFormattedText extends LitElement {
   /**
    * Given a source string, parse into an array of block objects. Each block
    * has a `type` property which takes any of the following values.
-   * * 'paragraph'
+   * * 'paragraph' (Paragraph of regular text)
    * * 'quote' (Block quote.)
    * * 'pre' (Pre-formatted text.)
    * * 'list' (Unordered list.)
    * * 'code' (code blocks.)
    *
-   * For blocks of type 'paragraph', 'pre' and 'code' there is a `text`
+   * For blocks of type 'paragraph' there is a list of spans that is the content
+   * for that paragraph.
+   *
+   * For blocks of type 'pre' and 'code' there is a `text`
    * property that maps to a string of the block's content.
    *
    * For blocks of type 'list', there is an `items` property that maps to a
@@ -198,12 +239,49 @@ export class GrFormattedText extends LitElement {
         );
         result.push({
           type: 'paragraph',
-          text: lines.slice(i, endOfRegularLines).join('\n'),
+          spans: this._computeSpans(
+            lines.slice(i, endOfRegularLines).join('\n')
+          ),
         });
         i = endOfRegularLines - 1;
       }
     }
 
+    return result;
+  }
+
+  _computeSpans(content: string): Span[] {
+    const result: Span[] = [];
+    const textSpans = content.split(INLINE_PATTERN);
+    for (let i = 0; i < textSpans.length; ++i) {
+      // String.split always interleaves the matching groups with the
+      // non-matching text.
+      if (textSpans[i].length === 0) {
+        continue;
+      } else if (i % 2 === 0) {
+        result.push({type: 'text', text: textSpans[i]});
+      } else if (textSpans[i].startsWith('!')) {
+        const m = textSpans[i].slice(1).match(EXTRACT_LINK_PATTERN);
+        if (!m) {
+          result.push({type: 'text', text: textSpans[i]});
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const [_, text, url] = m;
+          result.push({type: 'img', text, url});
+        }
+      } else if (textSpans[i].startsWith('`')) {
+        result.push({type: 'code', text: textSpans[i].slice(1, -1)});
+      } else {
+        const m = textSpans[i].match(EXTRACT_LINK_PATTERN);
+        if (!m) {
+          result.push({type: 'text', text: textSpans[i]});
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const [_, text, url] = m;
+          result.push({type: 'link', text, url});
+        }
+      }
+    }
     return result;
   }
 
@@ -231,8 +309,14 @@ export class GrFormattedText extends LitElement {
    * @param lines The block containing the list.
    */
   private makeList(lines: string[]): Block {
-    const items = lines.map(line => line.substring(1).trim());
-    return {type: 'list', items};
+    return {
+      type: 'list',
+      items: lines.map(line => {
+        return {
+          spans: this._computeSpans(line.substring(1).trim()),
+        };
+      }),
+    };
   }
 
   private isRegularLine(line: string): boolean {
@@ -269,7 +353,7 @@ export class GrFormattedText extends LitElement {
     return /^\s+$/.test(line);
   }
 
-  private renderLinkedText(content: string, isPre?: boolean): TemplateResult {
+  private renderText(content: string, isPre?: boolean): TemplateResult {
     return html`
       <gr-linked-text
         class="${isPre ? 'pre' : ''}"
@@ -280,10 +364,49 @@ export class GrFormattedText extends LitElement {
     `;
   }
 
+  private renderInlineText(content: string, isPre?: boolean): TemplateResult {
+    return html`
+      <gr-linked-text
+        class="${isPre ? 'pre' : ''}"
+        .config=${this.config}
+        content=${content}
+        pre
+        inline
+      ></gr-linked-text>
+    `;
+  }
+
+  private renderLink(text: string, url: string): TemplateResult {
+    return html`<a href="${url}">${text}</a>`;
+  }
+
+  private renderImg(text: string, url: string): TemplateResult {
+    return html`<img src="${url}" alt="${text}"></img>`;
+  }
+
+  private renderSpan(span: Span): TemplateResult {
+    switch (span.type) {
+      case 'text':
+        return this.renderInlineText(span.text);
+      case 'link':
+        return this.renderLink(span.text, span.url);
+      case 'img':
+        return this.renderImg(span.text, span.url);
+      case 'code':
+        return this.renderInlineText(span.text, true);
+      default:
+        return html``;
+    }
+  }
+
+  private renderListItem(item: ListItem): TemplateResult {
+    return html`<li>${item.spans.map(span => this.renderSpan(span))}</li>`;
+  }
+
   private renderBlock(block: Block): TemplateResult {
     switch (block.type) {
       case 'paragraph':
-        return html`<p>${this.renderLinkedText(block.text)}</p>`;
+        return html`<p>${block.spans.map(span => this.renderSpan(span))}</p>`;
       case 'quote':
         return html`
           <blockquote>
@@ -293,13 +416,11 @@ export class GrFormattedText extends LitElement {
       case 'code':
         return html`<code>${block.text}</code>`;
       case 'pre':
-        return this.renderLinkedText(block.text, true);
+        return this.renderText(block.text, true);
       case 'list':
         return html`
           <ul>
-            ${block.items.map(
-              item => html`<li>${this.renderLinkedText(item)}</li>`
-            )}
+            ${block.items.map(item => this.renderListItem(item))}
           </ul>
         `;
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d630d95_519f2fd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-11T22:40:18Z",
+      "side": 1,
+      "message": "I\u0027m happy to +2, but want to give others (Luca?) a chance to raise any concerns overnight.",
+      "revId": "dfbef4aa35aaa5fafcedd646975e7a976c28ffd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

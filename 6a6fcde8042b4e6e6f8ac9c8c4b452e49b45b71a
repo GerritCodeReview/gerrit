@@ -52,6 +52,24 @@
       "parentUuid": "97c68481_af9a4aa4",
       "revId": "6a6fcde8042b4e6e6f8ac9c8c4b452e49b45b71a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6daa669c_b1deebeb",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-11T22:40:18Z",
+      "side": 0,
+      "message": "Ah nice! I missed that I was on the newer docs page (I think you meant s/Java release/Bazel release/), thanks! I\u0027ll give those changes a look 😊",
+      "parentUuid": "4d56c93c_b9bbc4dc",
+      "revId": "6a6fcde8042b4e6e6f8ac9c8c4b452e49b45b71a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

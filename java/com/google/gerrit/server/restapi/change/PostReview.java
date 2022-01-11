@@ -1409,7 +1409,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private boolean updateLabels(ProjectState projectState, ChangeContext ctx)
-        throws ResourceConflictException, IOException {
+        throws ResourceConflictException {
       Map<String, Short> inLabels = firstNonNull(in.labels, Collections.emptyMap());
 
       // If no labels were modified and change is closed, abort early.
@@ -1576,8 +1576,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private Map<String, PatchSetApproval> scanLabels(
-        ProjectState projectState, ChangeContext ctx, List<PatchSetApproval> del)
-        throws IOException {
+        ProjectState projectState, ChangeContext ctx, List<PatchSetApproval> del) {
       LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes());
       Map<String, PatchSetApproval> current = new HashMap<>();
 

@@ -72,6 +72,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {notDeepEqual} from '../../../utils/deep-util';
 import {resolve} from '../../../models/dependency';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {waitUntil} from '../../../utils/async-util';
 
 const NEWLINE_PATTERN = /\n/g;
 
@@ -597,6 +598,7 @@ export class GrCommentThread extends LitElement {
   }
 
   override willUpdate(changed: PropertyValues) {
+    console.log(`comment thread will update ${changed}`);
     this.firstWillUpdate();
     if (changed.has('thread')) {
       if (!this.isDraftOrUnsaved()) {
@@ -627,8 +629,20 @@ export class GrCommentThread extends LitElement {
 
   override firstUpdated() {
     if (this.shouldScrollIntoView) {
-      this.commentBox?.focus();
-      this.scrollIntoView();
+      console.log(
+        `comment thread first updated ${this.shouldScrollIntoView} ${this.commentBox}`
+      );
+      setTimeout(async () => {
+        console.log(
+          `comment thread first updated setTimeout ${this.offsetHeight}`
+        );
+        await waitUntil(() => this.offsetHeight > 0);
+        console.log(
+          `comment thread first updated setTimeout awaited ${this.offsetHeight}`
+        );
+        this.commentBox?.focus();
+        this.scrollIntoView({block: 'center'});
+      }, 0);
     }
   }
 

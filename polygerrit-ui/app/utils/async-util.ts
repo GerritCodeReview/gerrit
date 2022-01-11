@@ -145,4 +145,24 @@ export function until<T>(obs$: Observable<T>, predicate: (t: T) => boolean) {
   });
 }
 
+export function waitUntil(predicate: () => boolean): Promise<void> {
+  const start = Date.now();
+  let sleep = 0;
+  if (predicate()) return Promise.resolve();
+  const error = new Error('waitUntil() predicate failed to become true');
+  return new Promise((resolve, reject) => {
+    const waiter = () => {
+      if (predicate()) {
+        return resolve();
+      }
+      if (Date.now() - start >= 10000) {
+        return reject(error);
+      }
+      setTimeout(waiter, sleep);
+      sleep = sleep === 0 ? 1 : sleep * 4;
+    };
+    waiter();
+  });
+}
+
 export const isFalse = (b: boolean) => b === false;

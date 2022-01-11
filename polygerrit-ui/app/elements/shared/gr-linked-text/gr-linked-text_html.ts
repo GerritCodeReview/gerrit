@@ -21,6 +21,9 @@ export const htmlTemplate = html`
     :host {
       display: block;
     }
+    :host([inline]) {
+      display: inline-block;
+    }
     :host([pre]) span {
       white-space: var(--linked-text-white-space, pre-wrap);
       word-wrap: var(--linked-text-word-wrap, break-word);

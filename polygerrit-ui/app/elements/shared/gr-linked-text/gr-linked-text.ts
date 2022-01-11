@@ -52,6 +52,9 @@ export class GrLinkedText extends PolymerElement {
   @property({type: Boolean, reflectToAttribute: true})
   disabled = false;
 
+  @property({type: Boolean, reflectToAttribute: true})
+  inline = false;
+
   @property({type: Object})
   config?: LinkTextParserConfig;
 

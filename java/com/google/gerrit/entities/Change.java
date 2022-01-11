@@ -14,7 +14,6 @@
 
 package com.google.gerrit.entities;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 
 import com.google.auto.value.AutoValue;
@@ -106,18 +105,6 @@ public final class Change {
   /** The numeric change ID */
   @AutoValue
   public abstract static class Id {
-    /**
-     * Parse a Change.Id out of a string representation.
-     *
-     * @deprecated use {@link #tryParse(String)} instead.
-     */
-    @Deprecated
-    public static Id parse(String str) {
-      Integer id = Ints.tryParse(str);
-      checkArgument(id != null, "invalid change ID: %s", str);
-      return Change.id(id);
-    }
-
     /**
      * Parse a Change.Id out of a string representation.
      *

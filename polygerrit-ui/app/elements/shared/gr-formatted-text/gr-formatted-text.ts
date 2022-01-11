@@ -20,8 +20,9 @@ import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
+const LINK_MARKER_PATTERN = /[!]?[[]([^]]+?)[]][(]([^)]+?)[)]/;
 
-export type Block = ListBlock | QuoteBlock | TextBlock;
+export type Block = ListBlock | QuoteBlock | TextBlock | CodeBlock | PreBlock;
 export interface ListBlock {
   type: 'list';
   items: string[];
@@ -31,8 +32,35 @@ export interface QuoteBlock {
   blocks: Block[];
 }
 export interface TextBlock {
-  type: 'paragraph' | 'code' | 'pre';
+  type: 'paragraph';
+  spans: Span[];
+}
+export interface CodeBlock {
+  type: 'code';
+  text: string
+}
+export interface PreBlock {
+  type: 'pre';
+  text: string
+}
+
+export type Span = TextSpan | LinkSpan | ImgSpan
+
+export interface TextSpan {
+  type: 'text';
   text: string;
+}
+
+export interface LinkSpan {
+  type: 'link';
+  text: string;
+  url: string;
+}
+
+export interface ImgSpan {
+  type: 'img';
+  alttext: string;
+  url: string;
 }
 
 declare global {
@@ -117,7 +145,10 @@ export class GrFormattedText extends LitElement {
    * * 'list' (Unordered list.)
    * * 'code' (code blocks.)
    *
-   * For blocks of type 'paragraph', 'pre' and 'code' there is a `text`
+   * For blocks of type 'paragraph' there is a list of sanitized spans that
+   * is the content for that paragraph.
+   * 
+   * For blocks of type 'pre' and 'code' there is a `text`
    * property that maps to a string of the block's content.
    *
    * For blocks of type 'list', there is an `items` property that maps to a
@@ -198,11 +229,17 @@ export class GrFormattedText extends LitElement {
         );
         result.push({
           type: 'paragraph',
-          text: lines.slice(i, endOfRegularLines).join('\n'),
+          spans: this._computeSpans(lines.slice(i, endOfRegularLines).join('\n')),
         });
         i = endOfRegularLines - 1;
       }
     }
+
+    return result;
+  }
+
+  _computeSpans(content: string): Span[] {
+    const result: Span[] = [];
 
     return result;
   }

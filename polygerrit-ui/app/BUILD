@@ -154,7 +154,7 @@ templates_srcs = transform_polymer_templates(
 # compiler from command line using the sh_test rule. The compiler exits with non-zero return code if
 # errors found and sh_test fails.
 sh_test(
-    name = "polylint_test",
+    name = "polymer_checker",
     srcs = [":compile_generated_templates.sh"],
     args = [
         "$(location //tools/node_tools:tsc-bin)",
@@ -268,7 +268,7 @@ filegroup(
     ],
 )
 
-nodejs_binary(
+nodejs_test(
     name = "lit_analysis",
     data = [
         ":lit_analysis_src_code",
@@ -280,5 +280,9 @@ nodejs_binary(
         "--strict",
         "--rules.no-property-visibility-mismatch off",
         "--rules.no-incompatible-property-type off",
+    ],
+    tags = [
+        "local",
+        "manual",
     ],
 )

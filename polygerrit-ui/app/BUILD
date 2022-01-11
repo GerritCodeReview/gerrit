@@ -268,13 +268,17 @@ filegroup(
     ],
 )
 
-nodejs_binary(
+nodejs_test(
     name = "lit_analysis",
     data = [
         ":lit_analysis_src_code",
         "@npm//lit-analyzer",
     ],
     entry_point = "@npm//:node_modules/lit-analyzer/cli.js",
+    tags = [
+        "local",
+        "manual",
+    ],
     templated_args = [
         "**/elements/**/*.ts",
         "--strict",

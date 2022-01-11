@@ -504,7 +504,7 @@ export class GrChangeListItem extends LitElement {
 
     return html`
       <td class="cell size">
-        <gr-tooltip-content hasTooltip title="${this.computeSizeTooltip()}">
+        <gr-tooltip-content has-tooltip title="${this.computeSizeTooltip()}">
           ${this.renderChangeSize()}
         </gr-tooltip-content>
       </td>

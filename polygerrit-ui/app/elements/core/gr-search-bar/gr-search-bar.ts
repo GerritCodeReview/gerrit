@@ -221,7 +221,7 @@ export class GrSearchBar extends LitElement {
           multi
           .threshold=${this.threshold}
           tab-complete
-          verticalOffset="30"
+          .verticalOffset=${30}
           @commit=${(e: Event) => {
             this.handleInputCommit(e);
           }}

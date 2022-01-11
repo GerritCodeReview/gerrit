@@ -248,7 +248,7 @@ export class GrGroup extends LitElement {
             ?disabled=${this.computeGroupDisabled()}
             .text=${this.groupConfig?.description}
             @text-changed=${this.handleDescriptionTextChanged}
-          >
+          ></gr-textarea>
         </div>
         <span class="value" ?disabled=${this.computeGroupDisabled()}>
           <gr-button

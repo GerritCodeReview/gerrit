@@ -117,7 +117,6 @@ export class GrListView extends LitElement {
         <div class="filterContainer">
           <label>Filter:</label>
           <iron-input
-            type="text"
             .bindValue=${this.filter}
             @bind-value-changed=${this.handleFilterBindValueChanged}
           >

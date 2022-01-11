@@ -544,12 +544,10 @@ class GrResultRow extends LitElement {
     >
       <span>${tag.name}</span>
       <paper-tooltip offset="5" ?fitToVisibleBounds="${true}">
-        ${
-          tag.tooltip ??
-          'A category tag for this check result. Click to filter.'
-        }
+        ${tag.tooltip ??
+        'A category tag for this check result. Click to filter.'}
       </paper-tooltip>
-    </div>`;
+    </button>`;
   }
 }
 

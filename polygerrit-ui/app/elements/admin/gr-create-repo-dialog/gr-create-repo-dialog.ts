@@ -138,7 +138,7 @@ export class GrCreateRepoDialog extends LitElement {
                 id="rightsInheritFromInput"
                 .text=${convertToString(this.repoConfig.parent)}
                 .query=${this.query}
-                .placeholder="Optional, defaults to 'All-Projects'"
+                .placeholder=${"Optional, defaults to 'All-Projects'"}
                 @text-changed=${this.handleRightsTextChanged}
               >
               </gr-autocomplete>

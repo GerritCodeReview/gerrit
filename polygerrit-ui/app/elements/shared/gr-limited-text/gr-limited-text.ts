@@ -16,6 +16,7 @@
  */
 import {customElement, property} from 'lit/decorators';
 import {html, LitElement} from 'lit';
+import '../gr-tooltip-content/gr-tooltip-content';
 
 declare global {
   interface HTMLElementTagNameMap {

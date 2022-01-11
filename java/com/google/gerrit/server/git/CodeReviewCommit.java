@@ -24,6 +24,9 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.submit.CommitMergeStatus;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -35,7 +38,10 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Extended commit entity with code review specific metadata. */
-public class CodeReviewCommit extends RevCommit {
+public class CodeReviewCommit extends RevCommit implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
   /**
    * Default ordering when merging multiple topologically-equivalent commits.
    *
@@ -126,7 +132,7 @@ public class CodeReviewCommit extends RevCommit {
    * Message for the status that is returned to the calling user if the status indicates a problem
    * that prevents submit.
    */
-  private Optional<String> statusMessage = Optional.empty();
+  private transient Optional<String> statusMessage = Optional.empty();
 
   /** List of files in this commit that contain Git conflict markers. */
   private ImmutableSet<String> filesWithGitConflicts;
@@ -190,5 +196,23 @@ public class CodeReviewCommit extends RevCommit {
 
   public void setNotes(ChangeNotes notes) {
     this.notes = notes;
+  }
+
+  /** Custom serialization due to {@link #statusMessage} not being Serializable by default. */
+  private void writeObject(ObjectOutputStream oos) throws IOException {
+    oos.defaultWriteObject();
+    if (this.statusMessage.isPresent()) {
+      oos.writeUTF(this.statusMessage.get());
+    }
+  }
+
+  /** Custom deserialization due to {@link #statusMessage} not being Serializable by default. */
+  private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+    ois.defaultReadObject();
+    String statusMessage = null;
+    if (ois.available() > 0) {
+      statusMessage = ois.readUTF();
+    }
+    this.statusMessage = Optional.ofNullable(statusMessage);
   }
 }

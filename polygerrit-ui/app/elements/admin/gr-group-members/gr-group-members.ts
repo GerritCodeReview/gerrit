@@ -49,6 +49,7 @@ import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
+import {ifDefined} from 'lit/directives/if-defined';
 
 const SUGGESTIONS_LIMIT = 15;
 const SAVING_ERROR_TEXT =
@@ -305,7 +306,7 @@ export class GrGroupMembers extends LitElement {
   private renderIncludedGroupHref(group: GroupInfo) {
     if (group.url) {
       return html`
-        <a href=${this.computeGroupUrl(group.url)} rel="noopener">
+        <a href=${ifDefined(this.computeGroupUrl(group.url))} rel="noopener">
           ${group.name}
         </a>
       `;

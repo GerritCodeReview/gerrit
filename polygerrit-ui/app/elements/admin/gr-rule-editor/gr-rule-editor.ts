@@ -25,6 +25,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {BindValueChangeEvent} from '../../../types/events';
+import {ifDefined} from 'lit/directives/if-defined';
 
 /**
  * Fired when the rule has been modified or removed.
@@ -223,7 +224,10 @@ export class GrRuleEditor extends LitElement {
             </select>
           </gr-select>
           ${this.renderMinAndMaxLabel()} ${this.renderMinAndMaxInput()}
-          <a class="groupPath" href="${this.computeGroupPath(this.groupId)}">
+          <a
+            class="groupPath"
+            href="${ifDefined(this.computeGroupPath(this.groupId))}"
+          >
             ${this.groupName}
           </a>
           <gr-select

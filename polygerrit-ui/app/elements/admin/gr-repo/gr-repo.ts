@@ -599,7 +599,6 @@ export class GrRepo extends LitElement {
             id="maxGitObjSizeIronInput"
             .bindValue=${this.repoConfig?.max_object_size_limit
               ?.configured_value}
-            ?disabled=${this.readOnly}
             @bind-value-changed=${this.handleMaxGitObjSizeBindValueChanged}
           >
             <input

@@ -311,7 +311,9 @@ export class GrLabelInfo extends LitElement {
         link
         aria-label="Remove vote"
         @click="${this.onDeleteVote}"
-        data-account-id="${ifDefined(reviewer._account_id)}"
+        data-account-id="${ifDefined(
+          reviewer._account_id as number | undefined
+        )}"
         class="deleteBtn ${this.computeDeleteClass(
           reviewer,
           this.mutable,

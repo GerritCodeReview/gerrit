@@ -142,8 +142,6 @@ export class GrCreateChangeDialog extends LitElement {
           <span class="title">Provide base commit sha1 for change</span>
           <span class="value">
             <iron-input
-              maxlength="40"
-              placeholder="(optional)"
               .bindValue=${this.baseCommit}
               @bind-value-changed=${(e: BindValueChangeEvent) => {
                 this.baseCommit = e.detail.value;
@@ -161,8 +159,6 @@ export class GrCreateChangeDialog extends LitElement {
           <span class="title">Enter topic for new change</span>
           <span class="value">
             <iron-input
-              maxlength="1024"
-              placeholder="(optional)"
               .bindValue=${this.topic}
               @bind-value-changed=${(e: BindValueChangeEvent) => {
                 this.topic = e.detail.value;

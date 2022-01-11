@@ -280,5 +280,6 @@ nodejs_binary(
         "--strict",
         "--rules.no-property-visibility-mismatch off",
         "--rules.no-incompatible-property-type off",
+        "--rules.no-incompatible-type-binding off",
     ],
 )

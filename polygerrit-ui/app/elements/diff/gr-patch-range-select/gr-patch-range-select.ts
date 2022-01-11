@@ -53,6 +53,7 @@ import {customElement, property, query, state} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
+import {ifDefined} from 'lit/directives/if-defined';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -205,7 +206,7 @@ export class GrPatchRangeSelect extends LitElement {
     return html`<span class="filesWeblinks">
       ${fileLinks.map(
         weblink => html`
-          <a target="_blank" rel="noopener" href="${weblink.url}">
+          <a target="_blank" rel="noopener" href="${ifDefined(weblink.url)}">
             ${weblink.name}
           </a>
         `

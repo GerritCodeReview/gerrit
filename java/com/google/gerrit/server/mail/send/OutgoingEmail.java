@@ -554,6 +554,8 @@ public abstract class OutgoingEmail {
    * Returns whether this email is visible to the given account
    *
    * @param to account.
+   * @throws PermissionBackendException thrown if checking a permission fails due to an error in the
+   *     permission backend
    */
   protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
     return true;

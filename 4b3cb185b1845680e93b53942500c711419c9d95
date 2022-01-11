@@ -16,6 +16,24 @@
       "message": "because this isn\u0027t using in the _html or test file, couldn\u0027t this be made private?",
       "revId": "4b3cb185b1845680e93b53942500c711419c9d95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "389c9fb4_1e0f402f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1508,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-11T09:19:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbad1d40_5417383c",
+      "revId": "4b3cb185b1845680e93b53942500c711419c9d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

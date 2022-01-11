@@ -490,3 +490,18 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
   }
   return false;
 }
+
+/** Executes the given callback when the element's height is > 0. */
+export function whenRendered(el: HTMLElement, callback: () => void) {
+  if (el.clientHeight > 0) {
+    callback();
+    return;
+  }
+  const obs = new ResizeObserver(() => {
+    if (el.clientHeight > 0) {
+      callback();
+      obs.unobserve(el);
+    }
+  });
+  obs.observe(el);
+}

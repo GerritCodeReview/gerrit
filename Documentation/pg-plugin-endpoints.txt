@@ -228,3 +228,13 @@ link:rest-api-changes.html#change-info[ChangeInfo]
 +
 current revision displayed, an instance of
 link:rest-api-changes.html#revision-info[RevisionInfo]
+
+=== account-status-icon
+The `account-status-icon` extension point adds an icon to all account chips and
+labels.
+
+In addition to default parameters, the following are available:
+
+* `accountId`
++
+the Id of the account that the status icon should correspond to.

@@ -1431,6 +1431,12 @@ class ReceiveCommits {
   private void parseCreate(ReceiveCommand cmd)
       throws PermissionBackendException, NoSuchProjectException, IOException {
     try (TraceTimer traceTimer = newTimer("parseCreate")) {
+      if (repo.resolve(cmd.getRefName()) != null) {
+        reject(
+            cmd,
+            String.format("Cannot create ref '%s' because it already exists.", cmd.getRefName()));
+        return;
+      }
       RevObject obj;
       try {
         obj = receivePack.getRevWalk().parseAny(cmd.getNewId());

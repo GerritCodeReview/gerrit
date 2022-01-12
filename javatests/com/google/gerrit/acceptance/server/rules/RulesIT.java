@@ -164,6 +164,12 @@ public class RulesIT extends AbstractDaemonTest {
     assertThat(statusForRuleRenamedFile()).isEqualTo(SubmitRecord.Status.OK);
   }
 
+  @Test
+  public void typeError() throws Exception {
+    modifySubmitRules("user(1000000)."); // the trailing '.' triggers a type error
+    assertThat(statusForRuleAddFile("foo")).isEqualTo(SubmitRecord.Status.RULE_ERROR);
+  }
+
   private SubmitRecord.Status statusForRule() throws Exception {
     String oldHead = projectOperations.project(project).getHead("master").name();
     PushOneCommit.Result result =

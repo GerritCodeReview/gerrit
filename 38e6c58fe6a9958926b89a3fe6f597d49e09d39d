@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39a532ce_d8a17363",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-01-12T11:11:52Z",
+      "side": 1,
+      "message": "Thanks for the fix!",
+      "revId": "38e6c58fe6a9958926b89a3fe6f597d49e09d39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcc1720a_104b414a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-01-12T11:11:52Z",
+      "side": 1,
+      "message": "Maybe leave a comment here explaining this? Is the parameter inclusive/exclusive 0/1 based? What about state.lineNums.left? Why do we have to subtract 1 here?",
+      "revId": "38e6c58fe6a9958926b89a3fe6f597d49e09d39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

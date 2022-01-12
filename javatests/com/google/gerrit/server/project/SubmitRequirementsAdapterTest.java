@@ -26,6 +26,7 @@ import com.google.gerrit.entities.SubmitRecord.Label;
 import com.google.gerrit.entities.SubmitRecord.Status;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.server.rules.DefaultSubmitRule;
 import java.util.Arrays;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
@@ -87,7 +88,7 @@ public class SubmitRequirementsAdapterTest {
   public void defaultSubmitRule_withLabelsAllPass() {
     SubmitRecord submitRecord =
         createSubmitRecord(
-            "gerrit~DefaultSubmitRule",
+            DefaultSubmitRule.RULE_NAME,
             Status.OK,
             Arrays.asList(
                 createLabel("Code-Review", Label.Status.OK),
@@ -116,7 +117,7 @@ public class SubmitRequirementsAdapterTest {
   public void defaultSubmitRule_withLabelsAllNeed() {
     SubmitRecord submitRecord =
         createSubmitRecord(
-            "gerrit~DefaultSubmitRule",
+            DefaultSubmitRule.RULE_NAME,
             Status.OK,
             Arrays.asList(
                 createLabel("Code-Review", Label.Status.NEED),
@@ -145,7 +146,7 @@ public class SubmitRequirementsAdapterTest {
   public void defaultSubmitRule_withOneLabelForced() {
     SubmitRecord submitRecord =
         createSubmitRecord(
-            "gerrit~DefaultSubmitRule",
+            DefaultSubmitRule.RULE_NAME,
             Status.OK,
             Arrays.asList(createLabel("Code-Review", Label.Status.NEED)));
 
@@ -171,7 +172,7 @@ public class SubmitRequirementsAdapterTest {
   public void defaultSubmitRule_withLabelStatusNeed_labelHasIgnoreSelfApproval() throws Exception {
     SubmitRecord submitRecord =
         createSubmitRecord(
-            "gerrit~DefaultSubmitRule",
+            DefaultSubmitRule.RULE_NAME,
             Status.NOT_READY,
             Arrays.asList(createLabel("ISA-Label", Label.Status.NEED)));
 
@@ -192,7 +193,7 @@ public class SubmitRequirementsAdapterTest {
   public void defaultSubmitRule_withLabelStatusOk_labelHasIgnoreSelfApproval() throws Exception {
     SubmitRecord submitRecord =
         createSubmitRecord(
-            "gerrit~DefaultSubmitRule",
+            DefaultSubmitRule.RULE_NAME,
             Status.OK,
             Arrays.asList(createLabel("ISA-Label", Label.Status.OK)));
 
@@ -213,7 +214,7 @@ public class SubmitRequirementsAdapterTest {
   public void defaultSubmitRule_withNonExistingLabel() throws Exception {
     SubmitRecord submitRecord =
         createSubmitRecord(
-            "gerrit~DefaultSubmitRule",
+            DefaultSubmitRule.RULE_NAME,
             Status.OK,
             Arrays.asList(createLabel("Non-Existing", Label.Status.OK)));
 
@@ -228,7 +229,7 @@ public class SubmitRequirementsAdapterTest {
   public void defaultSubmitRule_withExistingAndNonExistingLabels() throws Exception {
     SubmitRecord submitRecord =
         createSubmitRecord(
-            "gerrit~DefaultSubmitRule",
+            DefaultSubmitRule.RULE_NAME,
             Status.OK,
             Arrays.asList(
                 createLabel("Non-Existing", Label.Status.OK),

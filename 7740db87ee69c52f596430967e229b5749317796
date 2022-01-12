@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1246968d_55d24f1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-01-12T11:47:26Z",
+      "side": 1,
+      "message": "i\u0027d normally ask for a test, but since we\u0027re switching this off shortly, maybe we can leave it. ",
+      "revId": "7740db87ee69c52f596430967e229b5749317796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

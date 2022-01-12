@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.SubmitRecord;
@@ -30,7 +31,6 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -57,32 +57,48 @@ public class SubmitRequirementsAdapter {
         records.stream().anyMatch(record -> SubmitRecord.Status.FORCED.equals(record.status));
     List<LabelType> labelTypes = cd.getLabelTypes().getLabelTypes();
     ObjectId commitId = cd.currentPatchSet().commitId();
-    return records.stream()
-        // Filter out the "FORCED" submit record. This is a marker submit record that was just used
-        // to indicate that all other records were forced. "FORCED" means that the change was pushed
-        // with the %submit option bypassing submit rules.
-        .filter(r -> !SubmitRecord.Status.FORCED.equals(r.status))
-        .map(r -> createResult(r, labelTypes, commitId, areForced))
-        .flatMap(List::stream)
-        .collect(
-            Collectors.toMap(
-                sr -> sr.submitRequirement(),
-                Function.identity(),
-                (r1, r2) -> {
-                  // We convert submit records to submit requirements by generating a separate
-                  // submit requirement result for each available label in each submit record.
-                  // The SR status is derived from the label status of the submit record.
-                  // This conversion might result in duplicate entries.
-                  // One such example can be a prolog rule emitting the same label name twice.
-                  // Another case might happen if two different submit rules emit the same label
-                  // name. In such cases, we need to merge these entries and return a single submit
-                  // requirement result. If both entries agree in their status, return any of them.
-                  // Otherwise, favour the entry that is blocking submission.
-                  if (r1.fulfilled() == r2.fulfilled()) {
-                    return r1;
-                  }
-                  return r1.fulfilled() ? r2 : r1;
-                }));
+    Map<String, List<SubmitRequirementResult>> srsByName =
+        records.stream()
+            // Filter out the "FORCED" submit record. This is a marker submit record that was just
+            // used to indicate that all other records were forced. "FORCED" means that the change
+            // was pushed with the %submit option bypassing submit rules.
+            .filter(r -> !SubmitRecord.Status.FORCED.equals(r.status))
+            .map(r -> createResult(r, labelTypes, commitId, areForced))
+            .flatMap(List::stream)
+            .collect(Collectors.groupingBy(sr -> sr.submitRequirement().name()));
+
+    // We convert submit records to submit requirements by generating a separate
+    // submit requirement result for each available label in each submit record.
+    // The SR status is derived from the label status of the submit record.
+    // This conversion might result in duplicate entries.
+    // One such example can be a prolog rule emitting the same label name twice.
+    // Another case might happen if two different submit rules emit the same label
+    // name. In such cases, we need to merge these entries and return a single submit
+    // requirement result. If both entries agree in their status, return any of them.
+    // Otherwise, favour the entry that is blocking submission.
+    ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> result =
+        ImmutableMap.builder();
+    for (Map.Entry<String, List<SubmitRequirementResult>> entry : srsByName.entrySet()) {
+      if (entry.getValue().size() == 1) {
+        SubmitRequirementResult srResult = entry.getValue().iterator().next();
+        result.put(srResult.submitRequirement(), srResult);
+        continue;
+      }
+      // If all submit requirements with the same name match in status, return the first one.
+      List<SubmitRequirementResult> resultsSameName = entry.getValue();
+      boolean allNonBlocking = resultsSameName.stream().allMatch(sr -> sr.fulfilled());
+      if (allNonBlocking) {
+        result.put(resultsSameName.get(0).submitRequirement(), resultsSameName.get(0));
+      } else {
+        // Otherwise, return the first submit requirement result that is blocking submission.
+        Optional<SubmitRequirementResult> nonFulfilled =
+            resultsSameName.stream().filter(sr -> !sr.fulfilled()).findFirst();
+        if (nonFulfilled.isPresent()) {
+          result.put(nonFulfilled.get().submitRequirement(), nonFulfilled.get());
+        }
+      }
+    }
+    return result.build();
   }
 
   static List<SubmitRequirementResult> createResult(

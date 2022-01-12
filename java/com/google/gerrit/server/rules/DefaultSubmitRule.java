@@ -39,6 +39,8 @@ import java.util.Optional;
  */
 @Singleton
 public final class DefaultSubmitRule implements SubmitRule {
+  public static final String RULE_NAME = "gerrit~DefaultSubmitRule";
+
   public static class DefaultSubmitRuleModule extends FactoryModule {
     @Override
     public void configure() {

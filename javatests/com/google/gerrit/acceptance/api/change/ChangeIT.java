@@ -197,6 +197,7 @@ import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
 import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -4106,7 +4107,7 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(change.submitRecords).hasSize(2);
       // Check the default submit record for the code-review label
       SubmitRecordInfo codeReviewRecord = Iterables.get(change.submitRecords, 0);
-      assertThat(codeReviewRecord.ruleName).isEqualTo("gerrit~DefaultSubmitRule");
+      assertThat(codeReviewRecord.ruleName).isEqualTo(DefaultSubmitRule.RULE_NAME);
       assertThat(codeReviewRecord.status).isEqualTo(SubmitRecordInfo.Status.NOT_READY);
       assertThat(codeReviewRecord.labels).hasSize(1);
       SubmitRecordInfo.Label label = Iterables.getOnlyElement(codeReviewRecord.labels);
@@ -4130,7 +4131,7 @@ public class ChangeIT extends AbstractDaemonTest {
       change = gApi.changes().id(changeId).get();
       assertThat(change.submitRecords).hasSize(2);
       codeReviewRecord = Iterables.get(change.submitRecords, 0);
-      assertThat(codeReviewRecord.ruleName).isEqualTo("gerrit~DefaultSubmitRule");
+      assertThat(codeReviewRecord.ruleName).isEqualTo(DefaultSubmitRule.RULE_NAME);
       assertThat(codeReviewRecord.status).isEqualTo(SubmitRecordInfo.Status.OK);
       assertThat(codeReviewRecord.labels).hasSize(1);
       label = Iterables.getOnlyElement(codeReviewRecord.labels);

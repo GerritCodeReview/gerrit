@@ -114,6 +114,7 @@ java_library(
         "//lib/commons:lang",
         "//lib/commons:lang3",
         "//lib/commons:net",
+        "//lib/commons:text",
         "//lib/commons:validator",
         "//lib/errorprone:annotations",
         "//lib/flogger:api",

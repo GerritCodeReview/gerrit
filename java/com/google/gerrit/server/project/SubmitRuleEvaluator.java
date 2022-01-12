@@ -40,6 +40,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.List;
 import java.util.Optional;
+import org.apache.commons.text.WordUtils;
 
 /**
  * Evaluates a submit-like Prolog rule found in the rules.pl file of the current project and filters
@@ -149,8 +150,11 @@ public class SubmitRuleEvaluator {
                       s -> {
                         Optional<SubmitRecord> evaluate = s.evaluate(cd);
                         if (evaluate.isPresent()) {
-                          evaluate.get().ruleName =
-                              c.getPluginName() + "~" + s.getClass().getSimpleName();
+                          String ruleName =
+                              c.getPluginName().equals("gerrit")
+                                  ? c.getPluginName() + "~" + s.getClass().getSimpleName()
+                                  : WordUtils.capitalize(c.getPluginName(), '-');
+                          evaluate.get().ruleName = ruleName;
                         }
                         return evaluate;
                       }))

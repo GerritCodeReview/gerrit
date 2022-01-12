@@ -28,6 +28,7 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.rules.DefaultSubmitRule;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -104,7 +105,7 @@ public class SubmitRequirementsAdapter {
   static List<SubmitRequirementResult> createResult(
       SubmitRecord record, List<LabelType> labelTypes, ObjectId psCommitId, boolean isForced) {
     List<SubmitRequirementResult> results;
-    if (record.ruleName != null && record.ruleName.equals("gerrit~DefaultSubmitRule")) {
+    if (record.ruleName != null && record.ruleName.equals(DefaultSubmitRule.RULE_NAME)) {
       results = createFromDefaultSubmitRecord(record.labels, labelTypes, psCommitId, isForced);
     } else {
       results = createFromCustomSubmitRecord(record, psCommitId, isForced);

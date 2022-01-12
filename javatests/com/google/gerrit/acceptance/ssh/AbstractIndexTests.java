@@ -29,7 +29,6 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import java.util.List;
 import org.junit.Test;
 
@@ -38,15 +37,12 @@ import org.junit.Test;
 public abstract class AbstractIndexTests extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
 
-  public void configureIndex(Injector injector) {}
-
   @Test
   @GerritConfig(name = "index.autoReindexIfStale", value = "false")
   public void indexChange() throws Exception {
     ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
-      configureIndex(server.getTestInjector());
 
       PushOneCommit.Result change = createChange("first change", "test1.txt", "test1");
       String changeId = change.getChangeId();
@@ -76,7 +72,6 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
-      configureIndex(server.getTestInjector());
 
       PushOneCommit.Result change = createChange("first change", "test1.txt", "test1");
       String changeId = change.getChangeId();

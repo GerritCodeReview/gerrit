@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -67,7 +67,7 @@ public class IncludedInRefs {
         }
       }
     }
-    return Collections.EMPTY_MAP;
+    return ImmutableMap.of();
   }
 
   private Set<Ref> getVisibleRefs(Repository repo, Set<String> refNames, Project.NameKey project)

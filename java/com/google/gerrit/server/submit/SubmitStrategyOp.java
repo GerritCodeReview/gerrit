@@ -518,19 +518,29 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
   }
 
-  /** See {@link #updateRepo(RepoContext)} */
+  /**
+   * See {@link #updateRepo(RepoContext)}
+   *
+   * @param ctx context for the repository update
+   */
   protected void updateRepoImpl(RepoContext ctx) throws Exception {}
 
   /**
    * Returns a new patch set if one was created by the submit strategy, or null if not
    *
    * <p>See {@link #updateChange(ChangeContext)}
+   *
+   * @param ctx context for the change update
    */
   protected PatchSet updateChangeImpl(ChangeContext ctx) throws Exception {
     return null;
   }
 
-  /** See {@link #postUpdate(PostUpdateContext)} */
+  /**
+   * See {@link #postUpdate(PostUpdateContext)}
+   *
+   * @param ctx context for the post update
+   */
   protected void postUpdateImpl(PostUpdateContext ctx) throws Exception {}
 
   /** Amend the commit with gitlink update */

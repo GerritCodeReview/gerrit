@@ -35,7 +35,6 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -84,16 +83,15 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   @Override
   public Map<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
       ChangeData cd, boolean includeLegacy) {
-    Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements = getRequirements(cd);
-    Map<SubmitRequirement, SubmitRequirementResult> result = projectConfigRequirements;
-    if (includeLegacy) {
-      Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
-          SubmitRequirementsAdapter.getLegacyRequirements(cd);
-      result =
-          submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
-              projectConfigRequirements, legacyReqs, cd.project());
+    ImmutableMap<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements =
+        getRequirements(cd);
+    if (!includeLegacy) {
+      return projectConfigRequirements;
     }
-    return ImmutableMap.copyOf(result);
+    Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
+        SubmitRequirementsAdapter.getLegacyRequirements(cd);
+    return submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
+        projectConfigRequirements, legacyReqs, cd.project());
   }
 
   @Override
@@ -147,7 +145,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
    * <p>The behaviour in case of the name match is controlled by {@link
    * SubmitRequirement#allowOverrideInChildProjects} of global {@link SubmitRequirement}.
    */
-  private Map<SubmitRequirement, SubmitRequirementResult> getRequirements(ChangeData cd) {
+  private ImmutableMap<SubmitRequirement, SubmitRequirementResult> getRequirements(ChangeData cd) {
     Map<String, SubmitRequirement> globalRequirements = getGlobalRequirements();
 
     ProjectState state = projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
@@ -167,11 +165,12 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
                         globalSubmitRequirement.allowOverrideInChildProjects()
                             ? projectConfigRequirement
                             : globalSubmitRequirement));
-    Map<SubmitRequirement, SubmitRequirementResult> results = new HashMap<>();
+    ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> results =
+        ImmutableMap.builder();
     for (SubmitRequirement requirement : requirements.values()) {
       results.put(requirement, evaluateRequirement(requirement, cd));
     }
-    return results;
+    return results.build();
   }
 
   /**

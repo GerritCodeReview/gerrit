@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
@@ -24,7 +25,6 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -95,11 +95,13 @@ public class SubmitRequirementsUtil {
    * @return a map that is the result of merging both input maps, while eliminating requirements
    *     with the same name and status.
    */
-  public Map<SubmitRequirement, SubmitRequirementResult> mergeLegacyAndNonLegacyRequirements(
-      Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements,
-      Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements,
-      Project.NameKey project) {
-    Map<SubmitRequirement, SubmitRequirementResult> result = new HashMap<>();
+  public ImmutableMap<SubmitRequirement, SubmitRequirementResult>
+      mergeLegacyAndNonLegacyRequirements(
+          Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements,
+          Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements,
+          Project.NameKey project) {
+    ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> result =
+        ImmutableMap.builder();
     result.putAll(projectConfigRequirements);
     Map<String, SubmitRequirementResult> requirementsByName =
         projectConfigRequirements.entrySet().stream()
@@ -116,7 +118,7 @@ public class SubmitRequirementsUtil {
       metrics.submitRequirementsMismatchingWithLegacy.increment(project.get(), srName);
       result.put(legacy.getKey(), legacy.getValue());
     }
-    return result;
+    return result.build();
   }
 
   /** Returns true if both input results are equal in allowing/disallowing change submission. */

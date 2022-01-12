@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe783ebc_2f682587",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-12T12:14:37Z",
+      "side": 1,
+      "message": "Since change I018ce9e13 was cherry-picked to stable-3.4 I guess we should also cherry-pick this fix to stable-3.4.",
+      "revId": "e31c971692b7a931839359772fc3f0098eaf9683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

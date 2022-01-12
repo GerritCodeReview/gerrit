@@ -559,13 +559,17 @@ export class GrSyntaxLayer implements DiffLayer {
    */
   _notify(state: SyntaxLayerState) {
     if (state.lineNums.left - state.lastNotify.left) {
-      this._notifyRange(state.lastNotify.left, state.lineNums.left, Side.LEFT);
+      this._notifyRange(
+        state.lastNotify.left,
+        state.lineNums.left - 1,
+        Side.LEFT
+      );
       state.lastNotify.left = state.lineNums.left;
     }
     if (state.lineNums.right - state.lastNotify.right) {
       this._notifyRange(
         state.lastNotify.right,
-        state.lineNums.right,
+        state.lineNums.right - 1,
         Side.RIGHT
       );
       state.lastNotify.right = state.lineNums.right;

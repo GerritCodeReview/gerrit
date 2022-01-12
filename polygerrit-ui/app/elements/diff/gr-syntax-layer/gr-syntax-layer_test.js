@@ -171,6 +171,7 @@ suite('gr-syntax-layer tests', () => {
     window.hljs = mockHLJS;
     const highlightSpy = sinon.spy(mockHLJS, 'highlight');
     const processNextSpy = sinon.spy(element, '_processNextLine');
+    const notifyRangeSpy = sinon.spy(element, '_notifyRange');
     await element.process();
 
     const linesA = diff.meta_a.lines;
@@ -181,6 +182,11 @@ suite('gr-syntax-layer tests', () => {
     assert.equal(element.revisionRanges.length, linesB);
 
     assert.equal(highlightSpy.callCount, linesA + linesB);
+
+    assert.isTrue(notifyRangeSpy.called);
+    assert.equal(notifyRangeSpy.lastCall.args[0], 44);
+    assert.equal(notifyRangeSpy.lastCall.args[1], 48);
+    assert.equal(notifyRangeSpy.lastCall.args[2], 'right');
 
     // The first line of both sides have a range.
     let ranges = [element.baseRanges[0], element.revisionRanges[0]];

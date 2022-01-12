@@ -171,7 +171,9 @@ export interface HighlightJS {
 }
 
 export type DiffLayerListener = (
+  /** 1-based inclusive */
   start: number,
+  /** 1-based inclusive */
   end: number,
   side: Side
 ) => void;

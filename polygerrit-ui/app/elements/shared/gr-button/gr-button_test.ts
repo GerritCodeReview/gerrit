@@ -55,6 +55,20 @@ suite('gr-button tests', () => {
     await element.updateComplete;
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(`<paper-button
+      animated=""
+      aria-disabled="false"
+      elevation="1"
+      part="paper-button"
+      raised=""
+      role="button"
+      tabindex="-1"
+    ><slot></slot><i class="downArrow"></i>
+    </paper-button>
+    `);
+  });
+
   test('disabled is set by disabled', async () => {
     const paperBtn = queryAndAssert<PaperButtonElement>(
       element,

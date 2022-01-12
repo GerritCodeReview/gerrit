@@ -192,6 +192,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
         volatileTotal.addAndGet(workUnits);
       } else {
         logger.atWarning().log(
+            "%s",
             "Total work has been finalized on sub-task " + getName() + " and cannot be updated");
       }
     }
@@ -445,7 +446,8 @@ public class MultiProgressMonitor implements RequestStateProvider {
             forcefulTermination = true;
             if (workerFuture.isCancelled()) {
               logger.atWarning().log(
-                  "MultiProgressMonitor worker killed after %sms, cancelled (timeout=%sms, task=%s(%s))",
+                  "MultiProgressMonitor worker killed after %sms, cancelled (timeout=%sms,"
+                      + " task=%s(%s))",
                   MILLISECONDS.convert(now - overallStart, NANOSECONDS),
                   MILLISECONDS.convert(now - deadline, NANOSECONDS),
                   taskKind,

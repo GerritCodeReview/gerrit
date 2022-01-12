@@ -140,7 +140,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     try {
       futures = new SliceScheduler(index, ok).schedule();
     } catch (ProjectsCollectionFailure e) {
-      logger.atSevere().log(e.getMessage());
+      logger.atSevere().log("%s", e.getMessage());
       return Result.create(sw, false, 0, 0);
     }
 
@@ -181,7 +181,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       return reindexProject(
           indexer, project, 0, 1, ChangeNotes.Factory.scanChangeIds(repo), done, failed);
     } catch (IOException e) {
-      logger.atSevere().log(e.getMessage());
+      logger.atSevere().log("%s", e.getMessage());
       return null;
     }
   }

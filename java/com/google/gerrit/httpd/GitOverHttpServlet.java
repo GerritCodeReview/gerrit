@@ -500,6 +500,7 @@ public class GitOverHttpServlet extends GitServlet {
         }
       } catch (Throwable e) {
         logger.atSevere().withCause(e).log(
+            "%s",
             MessageFormat.format(
                 HttpServerText.get().internalErrorDuringUploadPack,
                 ServletUtils.getRepository(req)));

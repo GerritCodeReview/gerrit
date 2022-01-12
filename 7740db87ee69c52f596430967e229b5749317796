@@ -16,6 +16,24 @@
       "message": "i\u0027d normally ask for a test, but since we\u0027re switching this off shortly, maybe we can leave it. ",
       "revId": "7740db87ee69c52f596430967e229b5749317796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e11bbc_d90da9a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-12T11:59:52Z",
+      "side": 1,
+      "message": "FWIW I actually reproduced this from a test, but the presence of the fix was not assertable and I didn\u0027t want to spend more time on this since this code should go away soon.",
+      "parentUuid": "1246968d_55d24f1f",
+      "revId": "7740db87ee69c52f596430967e229b5749317796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

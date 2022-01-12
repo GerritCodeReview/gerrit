@@ -28,7 +28,7 @@ class TimerImpl1<F1> extends BucketedTimer implements BucketedMetric {
 
   @SuppressWarnings("unchecked")
   Timer1<F1> timer() {
-    return new Timer1<F1>(name, (Field<F1>) fields[0]) {
+    return new Timer1<>(name, (Field<F1>) fields[0]) {
       @Override
       protected void doRecord(F1 field1, long value, TimeUnit unit) {
         total.record(value, unit);

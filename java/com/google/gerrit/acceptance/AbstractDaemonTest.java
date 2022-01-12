@@ -1226,7 +1226,7 @@ public abstract class AbstractDaemonTest {
                 .submittedTogether(EnumSet.copyOf(submittedTogetherOptions))
                 .changes;
 
-    EnumSet enumSetIncludingNonVisibleChanges =
+    EnumSet<SubmittedTogetherOption> enumSetIncludingNonVisibleChanges =
         submittedTogetherOptions.isEmpty()
             ? EnumSet.of(NON_VISIBLE_CHANGES)
             : EnumSet.copyOf(submittedTogetherOptions);

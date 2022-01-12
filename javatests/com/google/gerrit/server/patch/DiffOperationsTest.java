@@ -228,7 +228,7 @@ public class DiffOperationsTest {
     enum FileType {
       REGULAR,
       SYMLINK
-    };
+    }
 
     FileEntity(String name, String content) {
       this(name, content, FileType.REGULAR);

@@ -37,8 +37,8 @@ public class SubmitRequirementsUtil {
 
   @Singleton
   static class Metrics {
-    final Counter2 submitRequirementsMatchingWithLegacy;
-    final Counter2 submitRequirementsMismatchingWithLegacy;
+    final Counter2<String, String> submitRequirementsMatchingWithLegacy;
+    final Counter2<String, String> submitRequirementsMismatchingWithLegacy;
 
     @Inject
     Metrics(MetricMaker metricMaker) {

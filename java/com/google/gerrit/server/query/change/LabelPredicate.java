@@ -214,6 +214,8 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       case LESS_EQUAL:
         result.add(count);
         break;
+      case GREATER:
+      case LESS:
       default:
         break;
     }
@@ -226,6 +228,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       case LESS_EQUAL:
         IntStream.range(0, count).forEach(result::add);
         break;
+      case EQUAL:
       default:
         break;
     }

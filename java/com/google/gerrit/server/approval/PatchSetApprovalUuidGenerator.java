@@ -22,17 +22,18 @@ import com.google.inject.ImplementedBy;
 import java.time.Instant;
 
 /**
- * Generator for {@link PatchSetApproval.UUID}.
+ * Generator for {@link com.google.gerrit.entities.PatchSetApproval.UUID}.
  *
- * <p>Since {@link PatchSetApproval.UUID} must be unique for each granted {@link PatchSetApproval},
- * implementations must generate globally unique UUID for each {@link #get} invocation.
+ * <p>Since {@link com.google.gerrit.entities.PatchSetApproval.UUID} must be unique for each granted
+ * {@link PatchSetApproval}, implementations must generate globally unique UUID for each {@link
+ * #get} invocation.
  */
 @ImplementedBy(PatchSetApprovalUuidGeneratorImpl.class)
 public interface PatchSetApprovalUuidGenerator {
 
   /**
-   * Generates {@link PatchSetApproval.UUID} based on the properties of {@link PatchSetApproval}
-   * that is being granted.
+   * Generates {@link com.google.gerrit.entities.PatchSetApproval.UUID} based on the properties of
+   * {@link PatchSetApproval} that is being granted.
    */
   UUID get(
       PatchSet.Id patchSetId, Account.Id accountId, String label, short value, Instant granted);

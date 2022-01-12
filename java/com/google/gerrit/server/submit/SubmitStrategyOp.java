@@ -327,7 +327,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         ctx.getRevWalk(), ctx.getUpdate(psId), psId, alreadyMergedCommit, groups, null, null);
   }
 
-  private void setApproval(ChangeContext ctx, IdentifiedUser user) throws IOException {
+  private void setApproval(ChangeContext ctx, IdentifiedUser user) {
     Change.Id id = ctx.getChange().getId();
     List<SubmitRecord> records = args.commitStatus.getSubmitRecords(id);
     PatchSet.Id oldPsId = toMerge.getPatchsetId();

@@ -935,37 +935,37 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> ext(String ext) throws QueryParseException {
+  public Predicate<ChangeData> ext(String ext) {
     return extension(ext);
   }
 
   @Operator
-  public Predicate<ChangeData> extension(String ext) throws QueryParseException {
+  public Predicate<ChangeData> extension(String ext) {
     return new FileExtensionPredicate(ext);
   }
 
   @Operator
-  public Predicate<ChangeData> onlyexts(String extList) throws QueryParseException {
+  public Predicate<ChangeData> onlyexts(String extList) {
     return onlyextensions(extList);
   }
 
   @Operator
-  public Predicate<ChangeData> onlyextensions(String extList) throws QueryParseException {
+  public Predicate<ChangeData> onlyextensions(String extList) {
     return new FileExtensionListPredicate(extList);
   }
 
   @Operator
-  public Predicate<ChangeData> footer(String footer) throws QueryParseException {
+  public Predicate<ChangeData> footer(String footer) {
     return ChangePredicates.footer(footer);
   }
 
   @Operator
-  public Predicate<ChangeData> dir(String directory) throws QueryParseException {
+  public Predicate<ChangeData> dir(String directory) {
     return directory(directory);
   }
 
   @Operator
-  public Predicate<ChangeData> directory(String directory) throws QueryParseException {
+  public Predicate<ChangeData> directory(String directory) {
     if (directory.startsWith("^")) {
       return new RegexDirectoryPredicate(directory);
     }
@@ -1525,7 +1525,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> submissionId(String value) throws QueryParseException {
+  public Predicate<ChangeData> submissionId(String value) {
     return ChangePredicates.submissionId(value);
   }
 

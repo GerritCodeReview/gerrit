@@ -38,6 +38,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class IndexServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
+  private static final String POLY_GERRIT_INDEX_HTML_SOY =
+      "com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy";
 
   @Nullable private final String canonicalUrl;
   @Nullable private final String cdnPath;
@@ -60,7 +62,7 @@ public class IndexServlet extends HttpServlet {
     this.experimentFeatures = experimentFeatures;
     this.soySauce =
         SoyFileSet.builder()
-            .add(Resources.getResource("com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy"))
+            .add(Resources.getResource(POLY_GERRIT_INDEX_HTML_SOY), POLY_GERRIT_INDEX_HTML_SOY)
             .build()
             .compileTemplates();
     this.urlOrdainer =

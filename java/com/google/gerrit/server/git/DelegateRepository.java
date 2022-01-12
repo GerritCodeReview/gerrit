@@ -214,12 +214,12 @@ public class DelegateRepository extends Repository {
   }
 
   @Override
-  public Set<ObjectId> getAdditionalHaves() throws IOException {
+  public Set<ObjectId> getAdditionalHaves() {
     return delegate.getAdditionalHaves();
   }
 
   @Override
-  public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() throws IOException {
+  public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() {
     return delegate.getAllRefsByPeeledObjectId();
   }
 

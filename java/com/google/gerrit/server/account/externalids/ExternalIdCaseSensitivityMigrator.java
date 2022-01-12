@@ -127,11 +127,11 @@ public class ExternalIdCaseSensitivityMigrator {
                   isUserNameCaseInsensitive ? "" : "in"));
           extIdNotes.commit(metaDataUpdate);
         } catch (Exception e) {
-          logger.atSevere().withCause(e).log(e.getMessage());
+          logger.atSevere().withCause(e).log("%s", e.getMessage());
         }
       }
     } catch (DuplicateExternalIdKeyException e) {
-      logger.atSevere().withCause(e).log(e.getMessage());
+      logger.atSevere().withCause(e).log("%s", e.getMessage());
       throw e;
     }
   }

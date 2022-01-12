@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37bd87ec_f36dc242",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-01-12T17:45:58Z",
+      "side": 1,
+      "message": "commit messages describe transitions, so it\u0027s unwise to use \"current\" (prefer \"previous\", etc.)\n\nalso, +the.",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "4fe2362eb01065a84f3f7a57cc019670cb40d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c2697bf_67c0c432",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-01-12T17:45:58Z",
+      "side": 1,
+      "message": "+comma or \"and\", for better legibility.",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "4fe2362eb01065a84f3f7a57cc019670cb40d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2bd34ae_9cbe8240",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-01-12T17:45:58Z",
+      "side": 1,
+      "message": "i wonder whether this is a rule that can be proven to be universal, or is just arbitrary (i.e., will do the wrong thing in some case)? has anyone tried?\n\n(more broadly, it seems to me that merging takes flexibility out of the system by hard-coding some logic. i.e., the pedantically correct thing to do might be insisting on results being unique.)",
+      "range": {
+        "startLine": 18,
+        "startChar": 26,
+        "endLine": 19,
+        "endChar": 66
+      },
+      "revId": "4fe2362eb01065a84f3f7a57cc019670cb40d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a920f715_13edd71b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-01-12T17:45:58Z",
+      "side": 1,
+      "message": "this is Not A Review (TM). 😂",
+      "revId": "4fe2362eb01065a84f3f7a57cc019670cb40d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

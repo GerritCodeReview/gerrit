@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "441a795b_208e416f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-12T12:33:04Z",
+      "side": 1,
+      "message": "Minor nit: Move \u003cpaper-button to the next line.",
+      "revId": "0ed4514f175e946dd8606df39c3ee2f3fc615c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -28,7 +28,7 @@ export enum PrimaryTab {
 }
 
 /**
- * @desc Tab names for secondary tabs on change view page.
+ * @desc Tab names for secondary tabs on change view pages.
  */
 export enum SecondaryTab {
   CHANGE_LOG = '_changeLog',

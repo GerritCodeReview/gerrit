@@ -171,17 +171,17 @@ export class GrSubmitRequirements extends LitElement {
           </tr>
         </thead>
         <tbody>
-          ${submit_requirements.map(requirement =>
-            this.renderRequirement(requirement)
+          ${submit_requirements.map((requirement, index) =>
+            this.renderRequirement(requirement, index)
           )}
         </tbody>
       </table>
       ${this.disableHovercards
         ? ''
         : submit_requirements.map(
-            requirement => html`
+            (requirement, index) => html`
               <gr-submit-requirement-hovercard
-                for="requirement-${charsOnly(requirement.name)}"
+                for="requirement-${index}-${charsOnly(requirement.name)}"
                 .requirement="${requirement}"
                 .change="${this.change}"
                 .account="${this.account}"
@@ -192,9 +192,9 @@ export class GrSubmitRequirements extends LitElement {
       ${this.renderTriggerVotes()}`;
   }
 
-  renderRequirement(requirement: SubmitRequirementResultInfo) {
+  renderRequirement(requirement: SubmitRequirementResultInfo, index: number) {
     return html`
-      <tr id="requirement-${charsOnly(requirement.name)}">
+      <tr id="requirement-${index}-${charsOnly(requirement.name)}">
         <td>${this.renderStatus(requirement.status)}</td>
         <td class="name">
           <gr-limited-text

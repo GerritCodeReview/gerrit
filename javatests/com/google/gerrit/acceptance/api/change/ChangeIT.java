@@ -355,6 +355,23 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void readChanges() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    String changeId =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
+
+    com.google.gerrit.acceptance.TestAccount user2 = accountCreator.user2();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        //.add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref("refs/changes/*").group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user2.id());
+    gApi.changes().id(changeId).get();
+  }
+
+  @Test
   public void createWipChangeWithWorkInProgressByDefaultForProject() throws Exception {
     ConfigInput input = new ConfigInput();
     input.workInProgressByDefault = InheritableBoolean.TRUE;

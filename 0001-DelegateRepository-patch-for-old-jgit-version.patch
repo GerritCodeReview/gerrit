@@ -1,0 +1,32 @@
+From ad90c29d05269773e62987dbee9126b4f74e4d9f Mon Sep 17 00:00:00 2001
+From: Marija Savtchouk <mariasavtchouk@google.com>
+Date: Wed, 12 Jan 2022 11:52:17 +0000
+Subject: DelegateRepository patch for old jgit version
+
+Change-Id: Ieb4b115bb0b117b34a629dfc931bc4c0ae195a15
+---
+ java/com/google/gerrit/server/git/DelegateRepository.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/java/com/google/gerrit/server/git/DelegateRepository.java b/java/com/google/gerrit/server/git/DelegateRepository.java
+index 05c5f4c8c6..ddfc1150ae 100644
+--- a/java/com/google/gerrit/server/git/DelegateRepository.java
++++ b/java/com/google/gerrit/server/git/DelegateRepository.java
+@@ -210,12 +210,12 @@ public class DelegateRepository extends Repository {
+   }
+ 
+   @Override
+-  public Set<ObjectId> getAdditionalHaves() throws IOException {
++  public Set<ObjectId> getAdditionalHaves() {
+     return delegate.getAdditionalHaves();
+   }
+ 
+   @Override
+-  public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() throws IOException {
++  public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() {
+     return delegate.getAllRefsByPeeledObjectId();
+   }
+ 
+-- 
+2.34.1.575.g55b058a8bb-goog
+

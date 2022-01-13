@@ -252,6 +252,11 @@ export class GrChangeList extends LitElement {
     `;
   }
 
+  private renderSelectionHeader() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) return;
+    return '<td aria-hidden="true" class="selection"></td>';
+  }
+
   private renderSectionHeader(
     changeSection: ChangeListSection,
     labelNames: string[]
@@ -262,6 +267,7 @@ export class GrChangeList extends LitElement {
       <tbody>
         <tr class="groupHeader">
           <td aria-hidden="true" class="leftPadding"></td>
+          ${this.renderSelectionHeader()}
           <td aria-hidden="true" class="star" ?hidden=${!this.showStar}></td>
           <td
             class="cell"
@@ -317,6 +323,7 @@ export class GrChangeList extends LitElement {
     return html`
       <tr class="groupTitle">
         <td class="leftPadding" aria-hidden="true"></td>
+        ${this.renderSelectionHeader()}
         <td
           class="star"
           aria-label="Star status column"

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5648ad1b_2eefb30e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-01-13T18:48:09Z",
+      "side": 1,
+      "message": "-1 for the inline comment. The rest of this comment is less important.\n\nSelfishly as someone running 3.3 and planning a 3.4 upgrade who has already upgraded to java 11 I would prefer we make 11 the default as it helps ease the transition. Basically it forces people to acknowledge they are still on the old stuff and take action if necessary. However, we can just set the flag ourselves and get java 11 builds which is fine I guess.",
+      "revId": "6812053f03513529535f1aad542d1bbb27311624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2243517b_6b7bf19e",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-01-13T18:48:09Z",
+      "side": 1,
+      "message": "Should this be --java_toolchain?",
+      "range": {
+        "startLine": 67,
+        "startChar": 16,
+        "endLine": 67,
+        "endChar": 30
+      },
+      "revId": "6812053f03513529535f1aad542d1bbb27311624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

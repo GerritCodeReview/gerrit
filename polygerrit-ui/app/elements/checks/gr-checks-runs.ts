@@ -633,7 +633,9 @@ export class GrChecksRuns extends LitElement {
           link
           ?disabled=${runButtonDisabled}
           @click="${() => {
-            actions.forEach(action => this.getChecksModel().triggerAction(action));
+            actions.forEach(action =>
+              this.getChecksModel().triggerAction(action)
+            );
           }}"
           >Run Selected</gr-button
         >

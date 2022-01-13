@@ -93,6 +93,9 @@ export function createDiffAppContext(): AppContext & Finalizable {
     shortcutsService: (_ctx: Partial<AppContext>) => {
       throw new Error('shortcutsService is not implemented');
     },
+    pluginsModel: (_ctx: Partial<AppContext>) => {
+      throw new Error('pluginsModel is not implemented');
+    },
   };
   return create<AppContext>(appRegistry);
 }

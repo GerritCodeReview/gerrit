@@ -27,6 +27,7 @@ export enum PrimaryTab {
   FINDINGS = 'findings',
 }
 
+
 /**
  * @desc Tab names for secondary tabs on change view page.
  */

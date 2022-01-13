@@ -22,6 +22,7 @@ import {DiffViewMode} from '../api/diff';
 import {DiffPreferencesInfo} from '../types/diff';
 import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
 
+
 export enum PrimaryTab {
   FILES = 'files',
   /**

@@ -118,6 +118,24 @@
       "message": "Needs rebasing. Then we can merge it.",
       "revId": "c9c57be3b5e668d7aa517c39cf1313402a49d97d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89773196_e027ec63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015087
+      },
+      "writtenOn": "2022-01-13T09:58:28Z",
+      "side": 1,
+      "message": "Hi,\nThank you, I pushed a rebased version. gr-identities test passed but overall CI status is fail, and I have no idea why. Can you please take a look?",
+      "parentUuid": "835aa829_5cd77a22",
+      "revId": "c9c57be3b5e668d7aa517c39cf1313402a49d97d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

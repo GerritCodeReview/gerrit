@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cba174cd_c767c0a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-13T14:42:22Z",
+      "side": 1,
+      "message": "I\u0027d like to keep them separate for now because one is a block and the other is part of a List.",
+      "parentUuid": "7083464b_f616d054",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 26
+      },
+      "revId": "4b804e84d788d043779c00ed27f3168e4147c675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ee03d36_adace2bd",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
         "patchSetId": 6
@@ -54,6 +78,30 @@
       "writtenOn": "2022-01-13T13:24:29Z",
       "side": 1,
       "message": "can we rename this \"Span\" concept to be more direct? Any actual \u003cspan\u003es are abstracted far below this component. \"InlineCode\" or similar would be closer to the important part of the concept.\nLikewise \"Block\" was a general term that applied to everything, but now it\u0027s used to mean the opposite of \"Span\". I think a better name would help there too.",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 16
+      },
+      "revId": "4b804e84d788d043779c00ed27f3168e4147c675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50d1d0e1_9670c42f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-13T14:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ee03d36_adace2bd",
       "range": {
         "startLine": 52,
         "startChar": 12,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17708b2f_8e4620c6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-13T14:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89ceee71_44e467be",
+      "range": {
+        "startLine": 247,
+        "startChar": 2,
+        "endLine": 247,
+        "endChar": 15
+      },
+      "revId": "4b804e84d788d043779c00ed27f3168e4147c675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac03387b_6a463210",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-01-13T13:24:29Z",
       "side": 1,
       "message": "why is this needed? our .eslintrc.js file doesn\u0027t apply no-unused-vars if the arg starts with _\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/.eslintrc.js;l\u003d306;drc\u003de77680721e7879961cf83f333622ff23e3f9989a",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 71
+      },
+      "revId": "4b804e84d788d043779c00ed27f3168e4147c675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "667a1745_850d9b5c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-13T14:42:22Z",
+      "side": 1,
+      "message": "That\u0027s true for args, but apparently not for this use case.",
+      "parentUuid": "ac03387b_6a463210",
       "range": {
         "startLine": 264,
         "startChar": 0,

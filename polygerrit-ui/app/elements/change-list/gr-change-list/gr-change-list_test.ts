@@ -292,6 +292,41 @@ suite('gr-change-list basic tests', () => {
     });
   });
 
+  test('selection checkbox is only shown if experiment is enabled', async () => {
+    function propertiesSetup(element: GrChangeList) {
+      element.sections = [{results: [{...createChange()}]}];
+      element.account = {_account_id: 1001 as AccountId};
+      element.preferences = {
+        legacycid_in_change_table: true,
+        time_format: TimeFormat.HHMM_12,
+        change_table: [
+          'Subject',
+          'Status',
+          'Owner',
+          'Reviewers',
+          'Comments',
+          'Repo',
+          'Branch',
+          'Updated',
+          'Size',
+          ' Status ',
+        ],
+      };
+      element.config = createServerInfo();
+    }
+
+    element = basicFixture.instantiate();
+    propertiesSetup(element);
+    await element.updateComplete;
+    assert.isNotOk(query(element, '.selection'));
+
+    stubFlags('isEnabled').returns(true);
+    element = basicFixture.instantiate();
+    propertiesSetup(element);
+    await element.updateComplete;
+    assert.isOk(query(element, '.selection'));
+  });
+
   suite('empty column preference', () => {
     let element: GrChangeList;
 

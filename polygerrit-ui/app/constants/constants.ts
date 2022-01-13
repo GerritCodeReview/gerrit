@@ -16,7 +16,7 @@
  */
 
 /**
- * @desc Tab names for primary tabs on change view page.
+ * @desc Tab names for primary tabs on change view pages.
  */
 import {DiffViewMode} from '../api/diff';
 import {DiffPreferencesInfo} from '../types/diff';

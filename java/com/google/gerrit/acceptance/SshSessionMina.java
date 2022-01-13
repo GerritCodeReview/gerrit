@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.io.RecursiveDeleteOption.ALLOW_INSECURE;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.createTempDirectory;
 
 import com.google.common.io.CharSink;
 import com.google.common.io.Files;
@@ -140,7 +141,7 @@ public class SshSessionMina extends SshSession {
                   + addr.getPort());
 
       // TODO(davido): Switch to memory only key resolving mode.
-      File userhome = Files.createTempDir();
+      File userhome = createTempDirectory("home-").toFile();
 
       FS fs = FS.DETECTED.setUserHome(userhome);
       File sshDir = new File(userhome, ".ssh");

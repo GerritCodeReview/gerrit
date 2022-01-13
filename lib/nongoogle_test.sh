@@ -32,6 +32,7 @@ jackson-annotations
 jackson-core
 jna
 jruby
+log4j
 mina-core
 nekohtml
 objenesis

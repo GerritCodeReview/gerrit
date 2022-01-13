@@ -27,7 +27,12 @@ import {
   createSubmitRequirementResultInfo,
   createNonApplicableSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
-import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {
+  query,
+  queryAndAssert,
+  stubRestApi,
+  stubFlags,
+} from '../../../test/test-utils';
 import {
   AccountId,
   BranchName,
@@ -286,6 +291,14 @@ suite('gr-change-list-item tests', () => {
         queryAndAssert(element, elementClass).hasAttribute('hidden')
       );
     }
+  });
+
+  test('selection checkbox is only shown if experiment is enabled', async () => {
+    assert.isNotOk(query(element, '.selection'));
+    stubFlags('isEnabled').returns(true);
+    element = basicFixture.instantiate();
+    await element.updateComplete;
+    assert.isOk(query(element, '.selection'));
   });
 
   test('repo column hidden', async () => {

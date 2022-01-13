@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6ce93b8_1652f9e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-01-13T11:14:59Z",
+      "side": 1,
+      "message": "this is OK for Google; leaving +2 for folks that actually run log4j.\n\n(separately, log4j should be exempted from LC, as we don\u0027t use it at google.)",
+      "revId": "b16bb92aebbdf9a4de369c277ec8607add10598c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

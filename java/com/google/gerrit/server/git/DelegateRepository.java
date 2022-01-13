@@ -62,6 +62,10 @@ public class DelegateRepository extends Repository {
     this.delegate = delegate;
   }
 
+  Repository delegate() {
+    return delegate;
+  }
+
   @Override
   public void create(boolean bare) throws IOException {
     delegate.create(bare);

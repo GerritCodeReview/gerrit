@@ -25,7 +25,7 @@ import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
 export enum PrimaryTab {
   FILES = 'files',
   /**
-   * When renaming 'comments' or 'findings', UrlFormatter.java must be updated.
+   * When renaming 'comments' or 'findings', UrlFormatter.java must be update.
    */
   COMMENT_THREADS = 'comments',
   FINDINGS = 'findings',

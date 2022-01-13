@@ -72,6 +72,23 @@ suite('gr-date-formatter tests', () => {
     return Promise.all([loggedInPromise, preferencesPromise]);
   }
 
+  test('renders', async () => {
+    await stubRestAPI({
+      time_format: 'HHMM_24',
+      date_format: 'STD',
+      relative_date_in_change_table: false,
+    });
+    const element = await basicFixture.instantiate();
+    sinon.stub(element, '_getUtcOffsetString').returns('');
+    await element._loadPreferences();
+    expect(element).shadowDom.to.equal(`
+    <gr-tooltip-content
+      has-tooltip=""
+      title="Sept 25, 2015, 01:30:17">
+      <span>Sep 25, 2015</span>
+    </gr-tooltip-content>`);
+  });
+
   suite('STD + 24 hours time format preference', () => {
     setup(() => stubRestAPI({
       time_format: 'HHMM_24',

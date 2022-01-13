@@ -256,8 +256,8 @@ maven_jar(
 
 maven_jar(
     name = "log4j",
-    artifact = "log4j:log4j:1.2.17",
-    sha1 = "5af35056b4d257e4b64b9e8069c0746e8b08629f",
+    artifact = "ch.qos.reload4j:reload4j:1.2.18.0",
+    sha1 = "03b2b708403ab00eb0678bffdbbd567070bbdfab",
 )
 
 maven_jar(

@@ -55,6 +55,7 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 enum ChangeSize {
   XS = 10,
@@ -250,6 +251,9 @@ export class GrChangeListItem extends LitElement {
         .placeholder {
           color: var(--deemphasized-text-color);
         }
+        .cell.selection input {
+          vertical-align: middle;
+        }
         .cell.label {
           font-weight: var(--font-weight-normal);
         }
@@ -269,17 +273,27 @@ export class GrChangeListItem extends LitElement {
     const changeUrl = this.computeChangeURL();
     return html`
       <td aria-hidden="true" class="cell leftPadding"></td>
-      ${this.renderCellStar()} ${this.renderCellNumber(changeUrl)}
-      ${this.renderCellSubject(changeUrl)} ${this.renderCellStatus()}
-      ${this.renderCellOwner()} ${this.renderCellReviewers()}
-      ${this.renderCellComments()} ${this.renderCellRepo()}
-      ${this.renderCellBranch()} ${this.renderCellUpdated()}
-      ${this.renderCellSubmitted()} ${this.renderCellWaiting()}
-      ${this.renderCellSize()} ${this.renderCellRequirements()}
+      ${this.renderCellSelectionBox()} ${this.renderCellStar()}
+      ${this.renderCellNumber(changeUrl)} ${this.renderCellSubject(changeUrl)}
+      ${this.renderCellStatus()} ${this.renderCellOwner()}
+      ${this.renderCellReviewers()} ${this.renderCellComments()}
+      ${this.renderCellRepo()} ${this.renderCellBranch()}
+      ${this.renderCellUpdated()} ${this.renderCellSubmitted()}
+      ${this.renderCellWaiting()} ${this.renderCellSize()}
+      ${this.renderCellRequirements()}
       ${this.labelNames?.map(labelNames => this.renderChangeLabels(labelNames))}
       ${this.dynamicCellEndpoints?.map(pluginEndpointName =>
         this.renderChangePluginEndpoint(pluginEndpointName)
       )}
+    `;
+  }
+
+  private renderCellSelectionBox() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) return;
+    return html`
+      <td class="cell selection">
+        <input type="checkbox" />
+      </td>
     `;
   }
 

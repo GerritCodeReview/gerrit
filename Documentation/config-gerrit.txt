@@ -2103,7 +2103,7 @@ variable.
 Gerrit advertises patch set downloads with the `repo download`
 command, assuming that all projects managed by this instance are
 generally worked on with the
-[repo multi-repository tool](https://gerrit.googlesource.com/git-repo).
+https://gerrit.googlesource.com/git-repo[repo multi-repository tool].
 This is not default, as not all instances will deploy repo.
 
 +
@@ -2238,7 +2238,7 @@ Typically this would be set to something like "http://review.example.com/"
 or "http://example.com:8080/gerrit/" so Gerrit can output links that point
 back to itself.
 +
-Setting this is highly recommended, as its necessary for the upload
+Setting this is highly recommended, as it is necessary for the upload
 code invoked by "git push" or "repo upload" to output hyperlinks
 to the newly uploaded changes.
 

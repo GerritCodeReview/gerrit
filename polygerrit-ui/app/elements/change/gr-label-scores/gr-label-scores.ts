@@ -71,6 +71,11 @@ export class GrLabelScores extends LitElement {
           text-align: center;
           width: 100%;
         }
+        .permissionMessage {
+          width: 100%;
+          color: var(--deemphasized-text-color);
+          padding-left: var(--spacing-xxl);
+        }
         gr-label-score-row:hover {
           background-color: var(--hover-background-color);
         }
@@ -116,6 +121,14 @@ export class GrLabelScores extends LitElement {
       label => !triggerVotes.includes(label.name)
     );
     if (!labels.length) return;
+    if (
+      labels.filter(
+        label => !this.permittedLabels || this.permittedLabels[label.name]
+      ).length === 0
+    ) {
+      return html`<h3 class="heading-3">Submit requirements votes</h3>
+        <div class="permissionMessage">You don't have permission to vote</div>`;
+    }
     return html`<h3 class="heading-3">Submit requirements votes</h3>
       ${this.renderLabels(labels)}`;
   }
@@ -126,6 +139,14 @@ export class GrLabelScores extends LitElement {
       triggerVotes.includes(label.name)
     );
     if (!labels.length) return;
+    if (
+      labels.filter(
+        label => !this.permittedLabels || this.permittedLabels[label.name]
+      ).length === 0
+    ) {
+      return html`<h3 class="heading-3">Trigger Votes</h3>
+        <div class="permissionMessage">You don't have permission to vote</div>`;
+    }
     return html`<h3 class="heading-3">Trigger Votes</h3>
       ${this.renderLabels(labels)}`;
   }

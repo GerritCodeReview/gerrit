@@ -262,6 +262,7 @@ export class GrChangeList extends LitElement {
       <tbody>
         <tr class="groupHeader">
           <td aria-hidden="true" class="leftPadding"></td>
+          <td aria-hidden="true" class="selection"></td>
           <td aria-hidden="true" class="star" ?hidden=${!this.showStar}></td>
           <td
             class="cell"
@@ -317,6 +318,7 @@ export class GrChangeList extends LitElement {
     return html`
       <tr class="groupTitle">
         <td class="leftPadding" aria-hidden="true"></td>
+        <td aria-hidden="true" class="selection"></td>
         <td
           class="star"
           aria-label="Star status column"

@@ -72,7 +72,8 @@ suite('checks-model tests', () => {
     model = new ChecksModel(
       getAppContext().routerModel,
       getAppContext().changeModel,
-      getAppContext().reportingService
+      getAppContext().reportingService,
+      getAppContext().pluginsModel
     );
     model.checksLatest$.subscribe(c => (current = c[PLUGIN_NAME]));
   });
@@ -87,7 +88,7 @@ suite('checks-model tests', () => {
     const provider = createProvider();
     const fetchSpy = sinon.spy(provider, 'fetch');
 
-    model.register('test-plugin', provider, CONFIG);
+    model.register({pluginName: 'test-plugin', provider, config: CONFIG});
     await waitUntil(() => change === undefined);
 
     const testChange = createParsedChange();

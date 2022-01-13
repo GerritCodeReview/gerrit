@@ -57,6 +57,11 @@ import {fireAlert, fireEvent} from '../../utils/event-util';
 import {RouterModel} from '../../services/router/router-model';
 import {Model} from '../model';
 import {define} from '../dependency';
+import {
+  ChecksPlugin,
+  ChecksUpdate,
+  PluginsModel,
+} from '../plugins/plugins-model';
 
 /**
  * The checks model maintains the state of checks for two patchsets: the latest
@@ -316,7 +321,8 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   constructor(
     readonly routerModel: RouterModel,
     readonly changeModel: ChangeModel,
-    readonly reporting: ReportingService
+    readonly reporting: ReportingService,
+    readonly pluginsModel: PluginsModel
   ) {
     super({
       pluginStateLatest: {},
@@ -324,6 +330,15 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     });
     this.subscriptions = [
       this.changeModel.changeNum$.subscribe(x => (this.changeNum = x)),
+      this.pluginsModel.checksPlugins$.subscribe(plugins => {
+        for (const plugin of plugins) {
+          this.register(plugin);
+        }
+      }),
+      this.pluginsModel.checksAnnounce$.subscribe(a =>
+        this.reload(a.pluginName)
+      ),
+      this.pluginsModel.checksUpdate$.subscribe(u => this.updateResult(u)),
       this.checkToPluginMap$.subscribe(map => {
         this.checkToPluginMap = map;
       }),
@@ -555,7 +570,8 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     if (plugin) this.reload(plugin);
   }
 
-  updateResult(pluginName: string, run: CheckRunApi, result: CheckResultApi) {
+  updateResult(update: ChecksUpdate) {
+    const {pluginName, run, result} = update;
     this.updateStateUpdateResult(
       pluginName,
       run,
@@ -603,11 +619,8 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       });
   }
 
-  register(
-    pluginName: string,
-    provider: ChecksProvider,
-    config: ChecksApiConfig
-  ) {
+  register(checksPlugin: ChecksPlugin) {
+    const {pluginName, provider, config} = checksPlugin;
     if (this.providers[pluginName]) {
       console.warn(
         `Plugin '${pluginName}' was trying to register twice as a Checks UI provider. Ignored.`

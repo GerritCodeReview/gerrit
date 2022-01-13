@@ -38,6 +38,7 @@ import {RouterModel} from '../services/router/router-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
+import {PluginsModel} from '../models/plugins/plugins-model';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -74,6 +75,7 @@ export function createTestAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new ShortcutsService(ctx.userModel!, ctx.reportingService!);
     },
+    pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
   };
   return create<AppContext>(appRegistry);
 }
@@ -104,13 +106,15 @@ export function createTestDependencies(
     new ConfigModel(appContext.changeModel, appContext.restApiService);
   dependencies.set(configModelToken, configModel);
 
-  const checksModel = () => new ChecksModel(
-    appContext.routerModel,
-    appContext.changeModel,
-    appContext.reportingService
-  );
+  const checksModel = () =>
+    new ChecksModel(
+      appContext.routerModel,
+      appContext.changeModel,
+      appContext.reportingService,
+      appContext.pluginsModel
+    );
 
-  dependencies.set(checksModelToken, checksModel)
+  dependencies.set(checksModelToken, checksModel);
 
   return dependencies;
 }

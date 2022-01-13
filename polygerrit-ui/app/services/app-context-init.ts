@@ -36,6 +36,7 @@ import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
+import {PluginsModel} from '../models/plugins/plugins-model';
 
 /**
  * The AppContext lazy initializator for all services
@@ -83,6 +84,7 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new ShortcutsService(ctx.userModel, ctx.reportingService!);
     },
+    pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
   };
   return create<AppContext>(appRegistry);
 }
@@ -111,10 +113,11 @@ export function createAppDependencies(
   const checksModel = new ChecksModel(
     appContext.routerModel,
     appContext.changeModel,
-    appContext.reportingService
+    appContext.reportingService,
+    appContext.pluginsModel
   );
 
-  dependencies.set(checksModelToken, checksModel)
+  dependencies.set(checksModelToken, checksModel);
 
   return dependencies;
 }

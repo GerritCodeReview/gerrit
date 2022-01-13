@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.inject.Inject;
 
@@ -22,7 +23,9 @@ import com.google.inject.Inject;
  * Module to install {@link MultiBaseLocalDiskRepositoryManager} rather than {@link
  * LocalDiskRepositoryManager} if needed.
  */
+@ModuleImpl(name = GitRepositoryManagerModule.MANAGER_MODULE)
 public class GitRepositoryManagerModule extends LifecycleModule {
+  public static final String MANAGER_MODULE = "git-manager";
 
   private final RepositoryConfig repoConfig;
 

@@ -161,7 +161,7 @@ public class MultiProgressMonitor {
         volatileTotal.addAndGet(workUnits);
       } else {
         logger.atWarning().log(
-            "Total work has been finalized on sub-task " + getName() + " and cannot be updated");
+            "Total work has been finalized on sub-task %s and cannot be updated", getName());
       }
     }
 

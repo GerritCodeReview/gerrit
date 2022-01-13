@@ -304,13 +304,13 @@ public class MergeUtil {
     int nameLength = Math.max(oursName.length(), theirsName.length());
     String oursNameFormatted =
         String.format(
-            "%0$-" + nameLength + "s (%s %s)",
+            "%-" + nameLength + "s (%s %s)",
             oursName,
             abbreviateName(ours, NAME_ABBREV_LEN),
             oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
     String theirsNameFormatted =
         String.format(
-            "%0$-" + nameLength + "s (%s %s)",
+            "%-" + nameLength + "s (%s %s)",
             theirsName,
             abbreviateName(theirs, NAME_ABBREV_LEN),
             theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));

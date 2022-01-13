@@ -172,7 +172,7 @@ class OpenIdServiceImpl {
         aReq.addExtension(pape);
       }
     } catch (MessageException | ConsumerException e) {
-      logger.atSevere().withCause(e).log("Cannot create OpenID redirect for %s" + openidIdentifier);
+      logger.atSevere().withCause(e).log("Cannot create OpenID redirect for %s", openidIdentifier);
       return new DiscoveryResult(DiscoveryResult.Status.ERROR);
     }
 

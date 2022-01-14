@@ -26,6 +26,8 @@ import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {getAppContext} from '../../services/app-context';
 import {subscribe} from '../lit/subscription-controller';
+import {Deduping} from '../../api/reporting';
+import {Interaction} from '../../constants/reporting';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -64,6 +66,8 @@ export class GrChecksTab extends LitElement {
   private readonly changeModel = getAppContext().changeModel;
 
   private readonly checksModel = getAppContext().checksModel;
+
+  private readonly reporting = getAppContext().reportingService;
 
   constructor() {
     super();
@@ -113,6 +117,11 @@ export class GrChecksTab extends LitElement {
   }
 
   override render() {
+    this.reporting.reportInteraction(
+      Interaction.CHECKS_TAB_RENDERED,
+      this.tabState,
+      {deduping: Deduping.DETAILS_ONCE_PER_CHANGE}
+    );
     return html`
       <div class="container">
         <gr-checks-runs

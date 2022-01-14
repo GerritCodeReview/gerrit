@@ -16,7 +16,7 @@
  */
 import {Finalizable} from '../registry';
 import {NumericChangeId} from '../../types/common';
-import {EventDetails} from '../../api/reporting';
+import {EventDetails, ReportingOptions} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
 import {
   Execution,
@@ -113,7 +113,8 @@ export interface ReportingService extends Finalizable {
   ): void;
   reportInteraction(
     eventName: string | Interaction,
-    details?: EventDetails
+    details?: EventDetails,
+    options?: ReportingOptions
   ): void;
   reportErrorDialog(message: string): void;
   setRepoName(repoName: string): void;

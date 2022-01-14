@@ -149,7 +149,8 @@ class DefaultRefFilter {
     // we have to investigate separately (deferred tags) then perform a reachability check starting
     // from all visible branches (refs/heads/*).
     Result initialRefFilter = filterRefs(new ArrayList<>(refs), opts);
-    List<Ref> visibleRefs = new ArrayList<>(initialRefFilter.visibleRefs());
+    ImmutableList.Builder<Ref> visibleRefs = ImmutableList.builder();
+    visibleRefs.addAll(initialRefFilter.visibleRefs());
     if (!initialRefFilter.deferredTags().isEmpty()) {
       try (TraceTimer traceTimer = TraceContext.newTimer("Check visibility of deferred tags")) {
         Result allVisibleBranches = filterRefs(getTaggableRefs(repo), opts);
@@ -177,8 +178,9 @@ class DefaultRefFilter {
       }
     }
 
-    logger.atFinest().log("visible refs = %s", visibleRefs);
-    return ImmutableList.copyOf(visibleRefs);
+    ImmutableList<Ref> visibleRefList = visibleRefs.build();
+    logger.atFinest().log("visible refs = %s", visibleRefList);
+    return visibleRefList;
   }
 
   /**
@@ -216,8 +218,8 @@ class DefaultRefFilter {
         permissionBackend
             .user(projectControl.getUser())
             .testOrFalse(GlobalPermission.ACCESS_DATABASE);
-    List<Ref> resultRefs = new ArrayList<>(refs.size());
-    List<Ref> deferredTags = new ArrayList<>();
+    ImmutableList.Builder<Ref> resultRefs = ImmutableList.builderWithExpectedSize(refs.size());
+    ImmutableList.Builder<Ref> deferredTags = ImmutableList.builder();
     for (Ref ref : refs) {
       String refName = ref.getName();
       Change.Id changeId;
@@ -265,9 +267,7 @@ class DefaultRefFilter {
         resultRefs.add(ref);
       }
     }
-    Result result =
-        new AutoValue_DefaultRefFilter_Result(
-            ImmutableList.copyOf(resultRefs), ImmutableList.copyOf(deferredTags));
+    Result result = new AutoValue_DefaultRefFilter_Result(resultRefs.build(), deferredTags.build());
     logger.atFinest().log("Result of ref filtering = %s", result);
     return result;
   }

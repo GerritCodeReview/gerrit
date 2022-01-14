@@ -52,7 +52,7 @@ public class CommentFormatter {
       return ImmutableList.of();
     }
 
-    List<Block> result = new ArrayList<>();
+    ImmutableList.Builder<Block> result = ImmutableList.builder();
     for (String p : Splitter.on("\n\n").split(source)) {
       if (isQuote(p)) {
         result.add(makeQuote(p));
@@ -64,7 +64,7 @@ public class CommentFormatter {
         result.add(makeParagraph(p));
       }
     }
-    return ImmutableList.copyOf(result);
+    return result.build();
   }
 
   /**
@@ -91,7 +91,7 @@ public class CommentFormatter {
    * @param p The block containing the list (as well as potential paragraphs).
    * @param out The list of blocks to append to.
    */
-  private static void makeList(String p, List<Block> out) {
+  private static void makeList(String p, ImmutableList.Builder<Block> out) {
     Block block = null;
     StringBuilder textBuilder = null;
     boolean inList = false;

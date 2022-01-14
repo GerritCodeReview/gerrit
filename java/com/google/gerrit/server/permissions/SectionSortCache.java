@@ -128,11 +128,12 @@ public class SectionSortCache {
     public abstract ImmutableList<String> patterns();
 
     static EntryKey create(String refName, List<AccessSection> sections) {
-      List<String> patterns = new ArrayList<>(sections.size());
+      ImmutableList.Builder<String> patterns =
+          ImmutableList.builderWithExpectedSize(sections.size());
       for (AccessSection s : sections) {
         patterns.add(s.getName());
       }
-      return new AutoValue_SectionSortCache_EntryKey(refName, ImmutableList.copyOf(patterns));
+      return new AutoValue_SectionSortCache_EntryKey(refName, patterns.build());
     }
 
     @Memoized

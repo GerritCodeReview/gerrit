@@ -1318,11 +1318,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         return ImmutableList.of();
       }
 
-      List<FixSuggestion> fixSuggestions = new ArrayList<>(fixSuggestionInfos.size());
+      ImmutableList.Builder<FixSuggestion> fixSuggestions =
+          ImmutableList.builderWithExpectedSize(fixSuggestionInfos.size());
       for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
         fixSuggestions.add(createFixSuggestionFromInput(fixSuggestionInfo));
       }
-      return ImmutableList.copyOf(fixSuggestions);
+      return fixSuggestions.build();
     }
 
     private FixSuggestion createFixSuggestionFromInput(FixSuggestionInfo fixSuggestionInfo) {

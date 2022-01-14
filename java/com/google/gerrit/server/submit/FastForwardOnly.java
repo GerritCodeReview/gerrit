@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.update.RepoContext;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +46,8 @@ public class FastForwardOnly extends SubmitStrategy {
       }
     }
 
-    List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
+    ImmutableList.Builder<SubmitStrategyOp> ops =
+        ImmutableList.builderWithExpectedSize(sorted.size());
     CodeReviewCommit newTipCommit =
         args.mergeUtil.getFirstFastForward(args.mergeTip.getInitialTip(), args.rw, sorted);
     if (!newTipCommit.equals(args.mergeTip.getInitialTip())) {
@@ -57,7 +57,7 @@ public class FastForwardOnly extends SubmitStrategy {
         ops.add(new NotFastForwardOp(c));
       }
     }
-    return ImmutableList.copyOf(ops);
+    return ops.build();
   }
 
   private class NotFastForwardOp extends SubmitStrategyOp {

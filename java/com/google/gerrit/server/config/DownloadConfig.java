@@ -23,7 +23,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
@@ -50,7 +49,8 @@ public class DownloadConfig {
           ImmutableSet.of(
               CoreDownloadSchemes.SSH, CoreDownloadSchemes.HTTP, CoreDownloadSchemes.ANON_HTTP);
     } else {
-      List<String> normalized = new ArrayList<>(allSchemes.length);
+      ImmutableSet.Builder<String> normalized =
+          ImmutableSet.builderWithExpectedSize(allSchemes.length);
       for (String s : allSchemes) {
         String core = toCoreScheme(s);
         if (core == null) {
@@ -59,7 +59,7 @@ public class DownloadConfig {
         }
         normalized.add(core);
       }
-      downloadSchemes = ImmutableSet.copyOf(normalized);
+      downloadSchemes = normalized.build();
     }
 
     DownloadCommand[] downloadCommandValues = DownloadCommand.values();

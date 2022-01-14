@@ -28,7 +28,6 @@ import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -77,7 +76,7 @@ public class AccountValidator {
       }
     }
 
-    List<String> messages = new ArrayList<>();
+    ImmutableList.Builder<String> messages = ImmutableList.builder();
     Optional<Account> newAccount;
     try {
       newAccount = loadAccount(accountId, allUsersRepo, rw, newId, messages);
@@ -108,7 +107,7 @@ public class AccountValidator {
       }
     }
 
-    return ImmutableList.copyOf(messages);
+    return messages.build();
   }
 
   private Optional<Account> loadAccount(
@@ -116,7 +115,7 @@ public class AccountValidator {
       Repository allUsersRepo,
       RevWalk rw,
       ObjectId commit,
-      @Nullable List<String> messages)
+      @Nullable ImmutableList.Builder<String> messages)
       throws IOException, ConfigInvalidException {
     rw.reset();
     AccountConfig accountConfig = new AccountConfig(accountId, allUsersName, allUsersRepo);

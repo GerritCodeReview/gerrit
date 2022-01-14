@@ -620,7 +620,8 @@ public class BatchUpdate implements AutoCloseable {
         return ImmutableList.of();
       }
       logDebug("Reindexing %d changes", results.size());
-      List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>(results.size());
+      ImmutableList.Builder<ListenableFuture<ChangeData>> indexFutures =
+          ImmutableList.builderWithExpectedSize(results.size());
       for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
         Change.Id id = e.getKey();
         switch (e.getValue()) {
@@ -636,7 +637,7 @@ public class BatchUpdate implements AutoCloseable {
             throw new IllegalStateException("unexpected result: " + e.getValue());
         }
       }
-      return ImmutableList.copyOf(indexFutures);
+      return indexFutures.build();
     }
   }
 

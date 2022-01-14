@@ -136,7 +136,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
@@ -221,7 +221,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private AccountIndexer accountIndexer;
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
   @Inject private ExternalIds externalIds;
-  @Inject private GitReferenceUpdated gitReferenceUpdated;
+  @Inject private GitReferencesUpdated gitReferencesUpdated;
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
   @Inject private Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
@@ -2206,7 +2206,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
-            gitReferenceUpdated,
+            gitReferencesUpdated,
             Optional.empty(),
             allUsers,
             externalIds,
@@ -2262,7 +2262,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
-            gitReferenceUpdated,
+            gitReferencesUpdated,
             Optional.empty(),
             allUsers,
             externalIds,
@@ -2322,7 +2322,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
-            gitReferenceUpdated,
+            gitReferencesUpdated,
             Optional.empty(),
             allUsers,
             externalIds,
@@ -2397,7 +2397,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
-            gitReferenceUpdated,
+            gitReferencesUpdated,
             Optional.empty(),
             allUsers,
             externalIds,

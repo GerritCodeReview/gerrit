@@ -26,7 +26,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdCaseSensitivityMig
 import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
@@ -79,7 +79,7 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
             new FactoryModule() {
               @Override
               protected void configure() {
-                bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+                bind(GitReferencesUpdated.class).toInstance(GitReferencesUpdated.DISABLED);
                 install(
                     new FactoryModuleBuilder()
                         .build(ExternalIdCaseSensitivityMigrator.Factory.class));

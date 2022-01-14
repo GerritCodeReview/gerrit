@@ -40,7 +40,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.testing.TestLabels;
@@ -1072,7 +1072,7 @@ public class ProjectConfigTest {
   private RevCommit commit(ProjectConfig cfg)
       throws IOException, MissingObjectException, IncorrectObjectTypeException {
     try (MetaDataUpdate md =
-        new MetaDataUpdate(GitReferenceUpdated.DISABLED, cfg.getProject().getNameKey(), db)) {
+        new MetaDataUpdate(GitReferencesUpdated.DISABLED, cfg.getProject().getNameKey(), db)) {
       tr.tick(5);
       tr.setAuthorAndCommitter(md.getCommitBuilder());
       md.setMessage("Edit\n");

@@ -16,6 +16,23 @@
       "message": "s",
       "revId": "aac9c31b3c0dd8f5b4ab123217a2c94fa39059a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53ebd7e2_9aceab98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-14T09:27:40Z",
+      "side": 1,
+      "message": "Change that adds it to release-notes as a breaking change:\nhttps://gerrit-review.googlesource.com/c/homepage/+/328225",
+      "revId": "aac9c31b3c0dd8f5b4ab123217a2c94fa39059a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

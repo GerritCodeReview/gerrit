@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
@@ -95,10 +96,12 @@ public class SubmitRequirementsUtil {
    * @return a map that is the result of merging both input maps, while eliminating requirements
    *     with the same name and status.
    */
-  public Map<SubmitRequirement, SubmitRequirementResult> mergeLegacyAndNonLegacyRequirements(
-      Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements,
-      Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements,
-      Project.NameKey project) {
+  public ImmutableMap<SubmitRequirement, SubmitRequirementResult>
+      mergeLegacyAndNonLegacyRequirements(
+          Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements,
+          Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements,
+          Project.NameKey project) {
+    // Cannot use ImmutableMap.Builder here since entries in the map may be overridden.
     Map<SubmitRequirement, SubmitRequirementResult> result = new HashMap<>();
     result.putAll(projectConfigRequirements);
     Map<String, SubmitRequirementResult> requirementsByName =
@@ -116,7 +119,7 @@ public class SubmitRequirementsUtil {
       metrics.submitRequirementsMismatchingWithLegacy.increment(project.get(), srName);
       result.put(legacy.getKey(), legacy.getValue());
     }
-    return result;
+    return ImmutableMap.copyOf(result);
   }
 
   /** Returns true if both input results are equal in allowing/disallowing change submission. */

@@ -27,7 +27,7 @@ import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountDelta;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountIndexer;
@@ -143,7 +143,7 @@ public class AccountIndexerIT {
       throws IOException, ConfigInvalidException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName);
         MetaDataUpdate md =
-            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, allUsersRepo)) {
+            new MetaDataUpdate(GitReferencesUpdated.DISABLED, allUsersName, allUsersRepo)) {
       PersonIdent ident = serverIdent.get();
       md.getCommitBuilder().setAuthor(ident);
       md.getCommitBuilder().setCommitter(ident);

@@ -33,7 +33,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -62,7 +62,7 @@ public class DeleteRef {
   private final Provider<IdentifiedUser> identifiedUser;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
-  private final GitReferenceUpdated referenceUpdated;
+  private final GitReferencesUpdated referenceUpdated;
   private final RefValidationHelper refDeletionValidator;
   private final Provider<InternalChangeQuery> queryProvider;
 
@@ -71,7 +71,7 @@ public class DeleteRef {
       Provider<IdentifiedUser> identifiedUser,
       PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
-      GitReferenceUpdated referenceUpdated,
+      GitReferencesUpdated referenceUpdated,
       RefValidationHelper.Factory refDeletionValidatorFactory,
       Provider<InternalChangeQuery> queryProvider) {
     this.identifiedUser = identifiedUser;

@@ -23,7 +23,7 @@ import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
@@ -60,7 +60,7 @@ public class Sequences {
   public Sequences(
       @GerritServerConfig Config cfg,
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       AllProjectsName allProjects,
       AllUsersName allUsers,
       MetricMaker metrics) {

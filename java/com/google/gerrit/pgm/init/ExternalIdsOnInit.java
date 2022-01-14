@@ -23,7 +23,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.Inject;
 import java.io.File;
@@ -71,7 +71,7 @@ public class ExternalIdsOnInit {
                 authConfig.isUserNameCaseInsensitiveMigrationMode());
         extIdNotes.insert(extIds);
         try (MetaDataUpdate metaDataUpdate =
-            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, allUsersRepo)) {
+            new MetaDataUpdate(GitReferencesUpdated.DISABLED, allUsers, allUsersRepo)) {
           PersonIdent serverIdent = new GerritPersonIdentProvider(flags.cfg).get();
           metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
           metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);

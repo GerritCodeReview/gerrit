@@ -37,7 +37,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -89,7 +89,7 @@ public class RepoSequence {
   private static final Retryer<ImmutableList<Integer>> RETRYER = retryerBuilder().build();
 
   private final GitRepositoryManager repoManager;
-  private final GitReferenceUpdated gitRefUpdated;
+  private final GitReferencesUpdated gitRefUpdated;
   private final Project.NameKey projectName;
   private final String refName;
   private final Seed seed;
@@ -108,7 +108,7 @@ public class RepoSequence {
 
   public RepoSequence(
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       Project.NameKey projectName,
       String name,
       Seed seed,
@@ -127,7 +127,7 @@ public class RepoSequence {
 
   public RepoSequence(
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       Project.NameKey projectName,
       String name,
       Seed seed,
@@ -148,7 +148,7 @@ public class RepoSequence {
   @VisibleForTesting
   RepoSequence(
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       Project.NameKey projectName,
       String name,
       Seed seed,
@@ -160,7 +160,7 @@ public class RepoSequence {
 
   RepoSequence(
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       Project.NameKey projectName,
       String name,
       Seed seed,

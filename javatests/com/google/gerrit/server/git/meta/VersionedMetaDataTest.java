@@ -24,7 +24,7 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.RefUpdateUtil;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -214,7 +214,7 @@ public class VersionedMetaDataTest {
   }
 
   private MetaDataUpdate newMetaDataUpdate(@Nullable BatchRefUpdate bru) {
-    MetaDataUpdate u = new MetaDataUpdate(GitReferenceUpdated.DISABLED, project, repo, bru);
+    MetaDataUpdate u = new MetaDataUpdate(GitReferencesUpdated.DISABLED, project, repo, bru);
     CommitBuilder cb = newCommitBuilder();
     u.getCommitBuilder().setAuthor(cb.getAuthor());
     u.getCommitBuilder().setCommitter(cb.getCommitter());

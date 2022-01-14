@@ -29,7 +29,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.server.WebLinks;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -61,7 +61,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final TagCache tagCache;
-  private final GitReferenceUpdated referenceUpdated;
+  private final GitReferencesUpdated referenceUpdated;
   private final WebLinks links;
 
   @Inject
@@ -69,7 +69,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
       PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
       TagCache tagCache,
-      GitReferenceUpdated referenceUpdated,
+      GitReferencesUpdated referenceUpdated,
       WebLinks webLinks) {
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;

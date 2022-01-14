@@ -60,7 +60,7 @@ import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.extensions.events.EventUtil;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.git.MergeUtil;
@@ -210,7 +210,7 @@ public class BatchProgramModule extends FactoryModule {
 
     bind(ChangeJson.Factory.class).toProvider(Providers.of(null));
     bind(EventUtil.class).toProvider(Providers.of(null));
-    bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+    bind(GitReferencesUpdated.class).toInstance(GitReferencesUpdated.DISABLED);
     bind(RevisionCreated.class).toInstance(RevisionCreated.DISABLED);
     bind(WorkInProgressStateChanged.class).toInstance(WorkInProgressStateChanged.DISABLED);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);

@@ -518,6 +518,7 @@ is:merged, is:abandoned::
 +
 Same as <<status,status:'STATE'>>.
 
+[[is-submittable]]
 is:submittable::
 +
 True if the change is submittable according to the submit rules for
@@ -529,8 +530,6 @@ appear for matching changes. To check whether a submit button appears,
 use the
 link:rest-api-changes.html#get-revision-actions[Get Revision Actions]
 API.
-+
-Equivalent to <<submittable,submittable:ok>>.
 
 [[mergeable]]
 is:mergeable::
@@ -837,7 +836,7 @@ ldap/linux.workflow group.
 +
 Matches changes that are ready to be submitted according to one common
 label configuration. (For a more general check, use
-link:#submittable[submittable:ok].)
+link:#is-submittable[is:submittable].)
 
 `is:open (label:Verified-1 OR label:Code-Review-2)`::
 `is:open (label:Verified=reject OR label:Code-Review=reject)`::

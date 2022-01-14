@@ -416,6 +416,17 @@ Update of HEAD on a project
 +
 Publication of usage data
 
+* `com.google.gerrit.extensions.events.GitReferenceUpdatedListener`:
++
+A git reference was updated. A separate event for every ref updated in
+a BatchRefUpdate will be fired.
+
+* `com.google.gerrit.extensions.events.GitBatchRefUpdateListener`:
++
+One or more git references were updated. Alternative to GitReferenceUpdatedListener.
+A single event will inform about all refs updated by a BatchRefUpdate. Will also be
+fired, if only a single ref was updated.
+
 * `com.google.gerrit.extensions.events.GarbageCollectorListener`:
 +
 Garbage collection ran on a project

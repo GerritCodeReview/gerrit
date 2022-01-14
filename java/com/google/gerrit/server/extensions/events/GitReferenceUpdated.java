@@ -17,11 +17,15 @@ package com.google.gerrit.server.extensions.events;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -58,17 +62,23 @@ public class GitReferenceUpdated {
             Project.NameKey project, BatchRefUpdate batchRefUpdate, AccountState updater) {}
       };
 
-  private final PluginSetContext<GitReferenceUpdatedListener> listeners;
+  private final PluginSetContext<GitBatchRefUpdateListener> batchRefUpdateListeners;
+  private final PluginSetContext<GitReferenceUpdatedListener> refUpdatedListeners;
   private final EventUtil util;
 
   @Inject
-  GitReferenceUpdated(PluginSetContext<GitReferenceUpdatedListener> listeners, EventUtil util) {
-    this.listeners = listeners;
+  GitReferenceUpdated(
+      PluginSetContext<GitBatchRefUpdateListener> batchRefUpdateListeners,
+      PluginSetContext<GitReferenceUpdatedListener> refUpdatedListeners,
+      EventUtil util) {
+    this.batchRefUpdateListeners = batchRefUpdateListeners;
+    this.refUpdatedListeners = refUpdatedListeners;
     this.util = util;
   }
 
   private GitReferenceUpdated() {
-    this.listeners = null;
+    this.batchRefUpdateListeners = null;
+    this.refUpdatedListeners = null;
     this.util = null;
   }
 
@@ -79,20 +89,19 @@ public class GitReferenceUpdated {
       AccountState updater) {
     fire(
         project,
-        refUpdate.getName(),
-        refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(),
-        type,
+        new UpdatedRef(
+            refUpdate.getName(), refUpdate.getOldObjectId(), refUpdate.getNewObjectId(), type),
         util.accountInfo(updater));
   }
 
   public void fire(Project.NameKey project, RefUpdate refUpdate, AccountState updater) {
     fire(
         project,
-        refUpdate.getName(),
-        refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(),
-        ReceiveCommand.Type.UPDATE,
+        new UpdatedRef(
+            refUpdate.getName(),
+            refUpdate.getOldObjectId(),
+            refUpdate.getNewObjectId(),
+            ReceiveCommand.Type.UPDATE),
         util.accountInfo(updater));
   }
 
@@ -104,83 +113,80 @@ public class GitReferenceUpdated {
       AccountState updater) {
     fire(
         project,
-        ref,
-        oldObjectId,
-        newObjectId,
-        ReceiveCommand.Type.UPDATE,
+        new UpdatedRef(ref, oldObjectId, newObjectId, ReceiveCommand.Type.UPDATE),
         util.accountInfo(updater));
   }
 
   public void fire(Project.NameKey project, ReceiveCommand cmd, AccountState updater) {
     fire(
         project,
-        cmd.getRefName(),
-        cmd.getOldId(),
-        cmd.getNewId(),
-        cmd.getType(),
+        new UpdatedRef(cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType()),
         util.accountInfo(updater));
   }
 
   public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate, AccountState updater) {
-    if (listeners.isEmpty()) {
+    if (batchRefUpdateListeners.isEmpty() && refUpdatedListeners.isEmpty()) {
       return;
     }
+    Set<GitBatchRefUpdateListener.UpdatedRef> updates = new HashSet<>();
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() == ReceiveCommand.Result.OK) {
-        fire(
-            project,
-            cmd.getRefName(),
-            cmd.getOldId(),
-            cmd.getNewId(),
-            cmd.getType(),
-            util.accountInfo(updater));
+        updates.add(
+            new UpdatedRef(cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType()));
       }
     }
+    fireBatchRefUpdateEvent(project, updates, util.accountInfo(updater));
+    fireRefUpdatedEvents(project, updates, util.accountInfo(updater));
   }
 
-  private void fire(
+  private void fire(Project.NameKey project, UpdatedRef updatedRef, AccountInfo updater) {
+    fireBatchRefUpdateEvent(project, Set.of(updatedRef), updater);
+    fireRefUpdatedEvent(project, updatedRef, updater);
+  }
+
+  private void fireBatchRefUpdateEvent(
       Project.NameKey project,
-      String ref,
-      ObjectId oldObjectId,
-      ObjectId newObjectId,
-      ReceiveCommand.Type type,
+      Set<GitBatchRefUpdateListener.UpdatedRef> updatedRefs,
       AccountInfo updater) {
-    if (listeners.isEmpty()) {
+    if (batchRefUpdateListeners.isEmpty()) {
       return;
     }
-    ObjectId o = oldObjectId != null ? oldObjectId : ObjectId.zeroId();
-    ObjectId n = newObjectId != null ? newObjectId : ObjectId.zeroId();
-    Event event = new Event(project, ref, o.name(), n.name(), type, updater);
-    listeners.runEach(l -> l.onGitReferenceUpdated(event));
+    GitBatchRefUpdateEvent event = new GitBatchRefUpdateEvent(project, updatedRefs, updater);
+    batchRefUpdateListeners.runEach(l -> l.onGitBatchRefUpdate(event));
   }
 
-  /** Event to be fired when a Git reference has been updated. */
-  public static class Event implements GitReferenceUpdatedListener.Event {
-    private final String projectName;
-    private final String ref;
-    private final String oldObjectId;
-    private final String newObjectId;
-    private final ReceiveCommand.Type type;
-    private final AccountInfo updater;
-
-    Event(
-        Project.NameKey project,
-        String ref,
-        String oldObjectId,
-        String newObjectId,
-        ReceiveCommand.Type type,
-        AccountInfo updater) {
-      this.projectName = project.get();
-      this.ref = ref;
-      this.oldObjectId = oldObjectId;
-      this.newObjectId = newObjectId;
-      this.type = type;
-      this.updater = updater;
+  private void fireRefUpdatedEvents(
+      Project.NameKey project,
+      Set<GitBatchRefUpdateListener.UpdatedRef> updatedRefs,
+      AccountInfo updater) {
+    for (GitBatchRefUpdateListener.UpdatedRef updatedRef : updatedRefs) {
+      fireRefUpdatedEvent(project, updatedRef, updater);
     }
+  }
 
-    @Override
-    public String getProjectName() {
-      return projectName;
+  private void fireRefUpdatedEvent(
+      Project.NameKey project,
+      GitBatchRefUpdateListener.UpdatedRef updatedRef,
+      AccountInfo updater) {
+    if (refUpdatedListeners.isEmpty()) {
+      return;
+    }
+    GitReferenceUpdatedEvent event = new GitReferenceUpdatedEvent(project, updatedRef, updater);
+    refUpdatedListeners.runEach(l -> l.onGitReferenceUpdated(event));
+  }
+
+  public static class UpdatedRef implements GitBatchRefUpdateListener.UpdatedRef {
+    private final String ref;
+    private final ObjectId oldObjectId;
+    private final ObjectId newObjectId;
+    private final ReceiveCommand.Type type;
+
+    public UpdatedRef(
+        String ref, ObjectId oldObjectId, ObjectId newObjectId, ReceiveCommand.Type type) {
+      this.ref = ref;
+      this.oldObjectId = oldObjectId != null ? oldObjectId : ObjectId.zeroId();
+      this.newObjectId = newObjectId != null ? newObjectId : ObjectId.zeroId();
+      this.type = type;
     }
 
     @Override
@@ -190,12 +196,12 @@ public class GitReferenceUpdated {
 
     @Override
     public String getOldObjectId() {
-      return oldObjectId;
+      return oldObjectId.name();
     }
 
     @Override
     public String getNewObjectId() {
-      return newObjectId;
+      return newObjectId.name();
     }
 
     @Override
@@ -214,20 +220,117 @@ public class GitReferenceUpdated {
     }
 
     @Override
+    public String toString() {
+      return String.format("{%s: %s -> %s}", ref, oldObjectId, newObjectId);
+    }
+  }
+
+  /** Event to be fired when a Git reference has been updated. */
+  public static class GitBatchRefUpdateEvent implements GitBatchRefUpdateListener.Event {
+    private final String projectName;
+    private final Set<GitBatchRefUpdateListener.UpdatedRef> updatedRefs;
+    private final AccountInfo updater;
+
+    public GitBatchRefUpdateEvent(
+        Project.NameKey project,
+        Set<GitBatchRefUpdateListener.UpdatedRef> updatedRefs,
+        AccountInfo updater) {
+      this.projectName = project.get();
+      this.updatedRefs = updatedRefs;
+      this.updater = updater;
+    }
+
+    @Override
+    public String getProjectName() {
+      return projectName;
+    }
+
+    @Override
+    public Set<GitBatchRefUpdateListener.UpdatedRef> getUpdatedRefs() {
+      return updatedRefs;
+    }
+
+    @Override
+    public Set<String> getRefNames() {
+      return updatedRefs.stream()
+          .map(GitBatchRefUpdateListener.UpdatedRef::getRefName)
+          .collect(Collectors.toSet());
+    }
+
+    @Override
     public AccountInfo getUpdater() {
       return updater;
     }
 
     @Override
     public String toString() {
-      return String.format(
-          "%s[%s,%s: %s -> %s]",
-          getClass().getSimpleName(), projectName, ref, oldObjectId, newObjectId);
+      return String.format("%s[%s,%s]", getClass().getSimpleName(), projectName, updatedRefs);
     }
 
     @Override
     public NotifyHandling getNotify() {
       return NotifyHandling.ALL;
+    }
+  }
+
+  public static class GitReferenceUpdatedEvent implements GitReferenceUpdatedListener.Event {
+
+    private final String projectName;
+    private final GitBatchRefUpdateListener.UpdatedRef updatedRef;
+    private final AccountInfo updater;
+
+    public GitReferenceUpdatedEvent(
+        Project.NameKey project,
+        GitBatchRefUpdateListener.UpdatedRef updatedRef,
+        AccountInfo updater) {
+      this.projectName = project.get();
+      this.updatedRef = updatedRef;
+      this.updater = updater;
+    }
+
+    @Override
+    public String getProjectName() {
+      return projectName;
+    }
+
+    @Override
+    public NotifyHandling getNotify() {
+      return NotifyHandling.ALL;
+    }
+
+    @Override
+    public String getRefName() {
+      return updatedRef.getRefName();
+    }
+
+    @Override
+    public String getOldObjectId() {
+      return updatedRef.getOldObjectId();
+    }
+
+    @Override
+    public String getNewObjectId() {
+      return updatedRef.getNewObjectId();
+    }
+
+    @Override
+    public boolean isCreate() {
+      return updatedRef.isCreate();
+    }
+
+    @Override
+    public boolean isDelete() {
+      return updatedRef.isDelete();
+    }
+
+    @Override
+    public boolean isNonFastForward() {
+      return updatedRef.isNonFastForward();
+    }
+
+    @Override
+    public AccountInfo getUpdater() {
+      return updater;
     }
   }
 }

@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b0ffaf3_6e7857f1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-14T10:06:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cba174cd_c767c0a5",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 26
+      },
+      "revId": "4b804e84d788d043779c00ed27f3168e4147c675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ee03d36_adace2bd",
@@ -196,6 +220,30 @@
       "side": 1,
       "message": "That\u0027s true for args, but apparently not for this use case.",
       "parentUuid": "ac03387b_6a463210",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 71
+      },
+      "revId": "4b804e84d788d043779c00ed27f3168e4147c675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c65aac32_5932746b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-14T10:06:13Z",
+      "side": 1,
+      "message": ":( Done",
+      "parentUuid": "667a1745_850d9b5c",
       "range": {
         "startLine": 264,
         "startChar": 0,

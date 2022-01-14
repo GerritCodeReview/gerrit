@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66ad677e_e9b75495",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-14T10:06:13Z",
+      "side": 1,
+      "message": "do we need to think about links in code? ex: `// a [link](google.com) in code` will not linkify. Same for multi-line codeblock",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 48
+      },
+      "revId": "38dbb40d03b584dce223cf99fb528ed9b48ddcce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "357c45ff_bd662df2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-14T10:06:13Z",
+      "side": 1,
+      "message": "how is this case possible?",
+      "range": {
+        "startLine": 266,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 58
+      },
+      "revId": "38dbb40d03b584dce223cf99fb528ed9b48ddcce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

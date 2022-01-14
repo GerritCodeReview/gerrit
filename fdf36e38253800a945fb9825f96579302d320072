@@ -39,6 +39,30 @@
       },
       "revId": "fdf36e38253800a945fb9825f96579302d320072",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "656428bb_bd9dbc80",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-14T10:06:47Z",
+      "side": 1,
+      "message": "Yes, it might or might not replace the entry depending if both entries are exact or not, for example they can differ if they have same name but different submittabilityExpression, etc...\n\nIn case they are exact, this line will replace the projectConfigEntry.\n\nAlso one more thing to note: submit requirements for legacy submit records are implicitly created by the gerrit server logic. See [1], [2].\n\n[1] https://gerrit.googlesource.com/gerrit/+/ddab7e65bc27adc8b4b303190a37a63b7b3cbd6a/java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java#118\n\n[2] https://gerrit.googlesource.com/gerrit/+/ddab7e65bc27adc8b4b303190a37a63b7b3cbd6a/java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java#140",
+      "parentUuid": "96be6eeb_edd58cb6",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 16
+      },
+      "revId": "fdf36e38253800a945fb9825f96579302d320072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

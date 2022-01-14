@@ -46,6 +46,30 @@
       },
       "revId": "9c2daa0163e82a28e1da6a3f953cdec2daa798bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28136891_ce56048d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-14T09:48:11Z",
+      "side": 1,
+      "message": "SG.\nPerhaps add to the commit message?",
+      "parentUuid": "5de72b45_2f26a2ce",
+      "range": {
+        "startLine": 631,
+        "startChar": 8,
+        "endLine": 631,
+        "endChar": 35
+      },
+      "revId": "9c2daa0163e82a28e1da6a3f953cdec2daa798bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

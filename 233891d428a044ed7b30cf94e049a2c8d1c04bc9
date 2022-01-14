@@ -22,6 +22,30 @@
       },
       "revId": "233891d428a044ed7b30cf94e049a2c8d1c04bc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c8b7f02_060e362d",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T09:19:38Z",
+      "side": 1,
+      "message": "Yes, it\u0027s possible. Since it\u0027s unrelated to this change (also the old code already returned ImmutableMap) I\u0027ve fixed it in a separate change:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/328223",
+      "parentUuid": "103c6ee2_52803f45",
+      "range": {
+        "startLine": 84,
+        "startChar": 9,
+        "endLine": 84,
+        "endChar": 12
+      },
+      "revId": "233891d428a044ed7b30cf94e049a2c8d1c04bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

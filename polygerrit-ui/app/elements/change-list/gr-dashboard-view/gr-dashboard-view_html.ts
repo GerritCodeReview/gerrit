@@ -75,10 +75,10 @@ export const htmlTemplate = html`
     ></gr-user-header>
     <h1 class="assistive-tech-only">Dashboard</h1>
     <gr-change-list
-      show-star=""
+      showstar=""
       account="[[account]]"
       preferences="[[preferences]]"
-      selected-index="[[_selectedChangeIndex]]"
+      selectedindex="[[_selectedChangeIndex]]"
       sections="[[_results]]"
       on-selected-index-changed="_handleSelectedIndexChanged"
       on-toggle-star="_handleToggleStar"

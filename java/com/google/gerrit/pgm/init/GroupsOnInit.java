@@ -30,7 +30,7 @@ import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupConfig;
@@ -181,7 +181,7 @@ public class GroupsOnInit {
 
   private MetaDataUpdate createMetaDataUpdate(Repository repository, PersonIdent personIdent) {
     MetaDataUpdate metaDataUpdate =
-        new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, repository);
+        new MetaDataUpdate(GitReferencesUpdated.DISABLED, allUsers, repository);
     metaDataUpdate.getCommitBuilder().setAuthor(personIdent);
     metaDataUpdate.getCommitBuilder().setCommitter(personIdent);
     return metaDataUpdate;

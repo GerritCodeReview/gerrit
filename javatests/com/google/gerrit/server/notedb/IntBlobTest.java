@@ -21,7 +21,7 @@ import static com.google.gerrit.truth.OptionalSubject.assertThat;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.LockFailureException;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -89,7 +89,7 @@ public class IntBlobTest {
   public void tryStoreNoOldId() throws Exception {
     String refName = "refs/foo";
     RefUpdate ru =
-        IntBlob.tryStore(repo, rw, projectName, refName, null, 123, GitReferenceUpdated.DISABLED);
+        IntBlob.tryStore(repo, rw, projectName, refName, null, 123, GitReferencesUpdated.DISABLED);
     assertThat(ru.getResult()).isEqualTo(RefUpdate.Result.NEW);
     assertThat(ru.getName()).isEqualTo(refName);
     assertThat(IntBlob.parse(repo, refName))
@@ -102,7 +102,7 @@ public class IntBlobTest {
     String refName = "refs/foo";
     RefUpdate ru =
         IntBlob.tryStore(
-            repo, rw, projectName, refName, ObjectId.zeroId(), 123, GitReferenceUpdated.DISABLED);
+            repo, rw, projectName, refName, ObjectId.zeroId(), 123, GitReferencesUpdated.DISABLED);
     assertThat(ru.getResult()).isEqualTo(RefUpdate.Result.NEW);
     assertThat(ru.getName()).isEqualTo(refName);
     assertThat(IntBlob.parse(repo, refName))
@@ -115,7 +115,7 @@ public class IntBlobTest {
     String refName = "refs/foo";
     ObjectId id = tr.update(refName, tr.blob("123"));
     RefUpdate ru =
-        IntBlob.tryStore(repo, rw, projectName, refName, id, 456, GitReferenceUpdated.DISABLED);
+        IntBlob.tryStore(repo, rw, projectName, refName, id, 456, GitReferencesUpdated.DISABLED);
     assertThat(ru.getResult()).isEqualTo(RefUpdate.Result.FORCED);
     assertThat(ru.getName()).isEqualTo(refName);
     assertThat(IntBlob.parse(repo, refName))
@@ -134,7 +134,7 @@ public class IntBlobTest {
             refName,
             ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
             123,
-            GitReferenceUpdated.DISABLED);
+            GitReferencesUpdated.DISABLED);
     assertThat(ru.getResult()).isEqualTo(RefUpdate.Result.LOCK_FAILURE);
     assertThat(ru.getName()).isEqualTo(refName);
     assertThat(IntBlob.parse(repo, refName)).isEmpty();
@@ -143,7 +143,7 @@ public class IntBlobTest {
   @Test
   public void storeNoOldId() throws Exception {
     String refName = "refs/foo";
-    IntBlob.store(repo, rw, projectName, refName, null, 123, GitReferenceUpdated.DISABLED);
+    IntBlob.store(repo, rw, projectName, refName, null, 123, GitReferencesUpdated.DISABLED);
     assertThat(IntBlob.parse(repo, refName))
         .value()
         .isEqualTo(IntBlob.create(getRef(refName), 123));
@@ -153,7 +153,7 @@ public class IntBlobTest {
   public void storeOldIdZero() throws Exception {
     String refName = "refs/foo";
     IntBlob.store(
-        repo, rw, projectName, refName, ObjectId.zeroId(), 123, GitReferenceUpdated.DISABLED);
+        repo, rw, projectName, refName, ObjectId.zeroId(), 123, GitReferencesUpdated.DISABLED);
     assertThat(IntBlob.parse(repo, refName))
         .value()
         .isEqualTo(IntBlob.create(getRef(refName), 123));
@@ -163,7 +163,7 @@ public class IntBlobTest {
   public void storeCorrectOldId() throws Exception {
     String refName = "refs/foo";
     ObjectId id = tr.update(refName, tr.blob("123"));
-    IntBlob.store(repo, rw, projectName, refName, id, 456, GitReferenceUpdated.DISABLED);
+    IntBlob.store(repo, rw, projectName, refName, id, 456, GitReferencesUpdated.DISABLED);
     assertThat(IntBlob.parse(repo, refName))
         .value()
         .isEqualTo(IntBlob.create(getRef(refName), 456));
@@ -183,7 +183,7 @@ public class IntBlobTest {
                     refName,
                     ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
                     123,
-                    GitReferenceUpdated.DISABLED));
+                    GitReferencesUpdated.DISABLED));
     assertThat(thrown.getFailedRefs()).containsExactly("refs/foo");
     assertThat(IntBlob.parse(repo, refName)).isEmpty();
   }

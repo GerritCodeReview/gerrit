@@ -30,7 +30,7 @@ import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
@@ -341,7 +341,7 @@ public class RepoSequenceTest {
       Retryer<ImmutableList<Integer>> retryer) {
     return new RepoSequence(
         repoManager,
-        GitReferenceUpdated.DISABLED,
+        GitReferencesUpdated.DISABLED,
         project,
         name,
         () -> start,

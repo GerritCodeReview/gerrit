@@ -18,7 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -180,7 +180,7 @@ public class MetaDataUpdate implements AutoCloseable {
         @Assisted @Nullable BatchRefUpdate batch);
   }
 
-  private final GitReferenceUpdated gitRefUpdated;
+  private final GitReferencesUpdated gitRefUpdated;
   private final Project.NameKey projectName;
   private final Repository repository;
   private final BatchRefUpdate batch;
@@ -192,7 +192,7 @@ public class MetaDataUpdate implements AutoCloseable {
 
   @Inject
   public MetaDataUpdate(
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       @Assisted Project.NameKey projectName,
       @Assisted Repository repository,
       @Assisted @Nullable BatchRefUpdate batch) {
@@ -204,7 +204,7 @@ public class MetaDataUpdate implements AutoCloseable {
   }
 
   public MetaDataUpdate(
-      GitReferenceUpdated gitRefUpdated, Project.NameKey projectName, Repository repository) {
+      GitReferencesUpdated gitRefUpdated, Project.NameKey projectName, Repository repository) {
     this(gitRefUpdated, projectName, repository, null);
   }
 

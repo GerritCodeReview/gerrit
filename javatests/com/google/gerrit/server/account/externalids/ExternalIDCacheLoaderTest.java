@@ -29,7 +29,7 @@ import com.google.gerrit.server.account.externalids.testing.ExternalIdTestUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -269,7 +269,7 @@ public class ExternalIDCacheLoaderTest {
       ExternalIdNotes extIdNotes = ExternalIdNotes.load(ALL_USERS, repo, externalIdFactory, false);
       update.accept(extIdNotes);
       try (MetaDataUpdate metaDataUpdate =
-          new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {
+          new MetaDataUpdate(GitReferencesUpdated.DISABLED, null, repo)) {
         metaDataUpdate.getCommitBuilder().setAuthor(updater);
         metaDataUpdate.getCommitBuilder().setCommitter(updater);
         return extIdNotes.commit(metaDataUpdate).getId();

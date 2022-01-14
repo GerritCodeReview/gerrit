@@ -405,6 +405,9 @@ export class GrChangeSummary extends LitElement {
   @state()
   actions: Action[] = [];
 
+  @state()
+  messages: string[] = [];
+
   private showAllChips = new Map<RunStatus | Category, boolean>();
 
   private getCommentsModel = resolve(this, commentsModelToken);
@@ -444,6 +447,11 @@ export class GrChangeSummary extends LitElement {
       this,
       this.checksModel.topLevelActionsLatest$,
       x => (this.actions = x)
+    );
+    subscribe(
+      this,
+      this.checksModel.topLevelMessagesLatest$,
+      x => (this.messages = x)
     );
     subscribe(
       this,
@@ -556,8 +564,16 @@ export class GrChangeSummary extends LitElement {
         .actions #moreMessage {
           display: none;
         }
+        .summaryMessage {
+          line-height: var(--line-height-normal);
+          color: var(--primary-text-color);
+        }
       `,
     ];
+  }
+
+  private renderSummaryMessage() {
+    return this.messages.map(m => html`<div class="summaryMessage">${m}</div>`);
   }
 
   private renderActions() {
@@ -794,7 +810,8 @@ export class GrChangeSummary extends LitElement {
                   class="loadingSpin"
                   ?hidden="${!this.someProvidersAreLoading}"
                 ></span>
-                ${this.renderErrorMessages()}${this.renderChecksLogin()}${this.renderActions()}
+                ${this.renderErrorMessages()} ${this.renderChecksLogin()}
+                ${this.renderSummaryMessage()} ${this.renderActions()}
               </div>
             </td>
           </tr>

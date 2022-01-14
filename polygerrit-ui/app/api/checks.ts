@@ -97,6 +97,11 @@ export declare interface FetchResponse {
   actions?: Action[];
 
   /**
+   * Shown prominently in the change summary below the run chips.
+   */
+  summaryMessage?: string;
+
+  /**
    * Top-level links that are not associated with a specific run or result.
    * Will be shown as icons in the header of the Checks tab.
    */

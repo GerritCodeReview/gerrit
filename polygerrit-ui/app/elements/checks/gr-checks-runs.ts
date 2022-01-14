@@ -676,6 +676,7 @@ export class GrChecksRuns extends LitElement {
       [],
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     this.checksModel.updateStateSetResults(
@@ -683,6 +684,7 @@ export class GrChecksRuns extends LitElement {
       [],
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     this.checksModel.updateStateSetResults(
@@ -690,6 +692,7 @@ export class GrChecksRuns extends LitElement {
       [],
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     this.checksModel.updateStateSetResults(
@@ -697,6 +700,7 @@ export class GrChecksRuns extends LitElement {
       [],
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     this.checksModel.updateStateSetResults(
@@ -704,6 +708,7 @@ export class GrChecksRuns extends LitElement {
       [],
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     this.checksModel.updateStateSetResults(
@@ -711,6 +716,7 @@ export class GrChecksRuns extends LitElement {
       [],
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
   }
@@ -721,6 +727,7 @@ export class GrChecksRuns extends LitElement {
       [fakeRun0],
       fakeActions,
       fakeLinks,
+      'ETA: 1 min',
       ChecksPatchset.LATEST
     );
     this.checksModel.updateStateSetResults(
@@ -728,6 +735,7 @@ export class GrChecksRuns extends LitElement {
       [fakeRun1],
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     this.checksModel.updateStateSetResults(
@@ -735,6 +743,7 @@ export class GrChecksRuns extends LitElement {
       [fakeRun2],
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     this.checksModel.updateStateSetResults(
@@ -742,6 +751,7 @@ export class GrChecksRuns extends LitElement {
       [fakeRun3],
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     this.checksModel.updateStateSetResults(
@@ -749,6 +759,7 @@ export class GrChecksRuns extends LitElement {
       fakeRun4Att,
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
     this.checksModel.updateStateSetResults(
@@ -756,6 +767,7 @@ export class GrChecksRuns extends LitElement {
       [fakeRun5],
       [],
       [],
+      undefined,
       ChecksPatchset.LATEST
     );
   }
@@ -764,7 +776,8 @@ export class GrChecksRuns extends LitElement {
     plugin: string,
     runs: CheckRun[],
     actions: Action[] = [],
-    links: Link[] = []
+    links: Link[] = [],
+    summaryMessage: string | undefined = undefined
   ) {
     const newRuns = this.runs.includes(runs[0]) ? [] : runs;
     this.checksModel.updateStateSetResults(
@@ -772,6 +785,7 @@ export class GrChecksRuns extends LitElement {
       newRuns,
       actions,
       links,
+      summaryMessage,
       ChecksPatchset.LATEST
     );
   }
@@ -843,7 +857,13 @@ export class GrChecksRuns extends LitElement {
         <gr-button
           link
           @click="${() =>
-            this.toggle('f0', [fakeRun0], fakeActions, fakeLinks)}"
+            this.toggle(
+              'f0',
+              [fakeRun0],
+              fakeActions,
+              fakeLinks,
+              'ETA: 1 min'
+            )}"
           >0</gr-button
         >
         <gr-button link @click="${() => this.toggle('f1', [fakeRun1])}"

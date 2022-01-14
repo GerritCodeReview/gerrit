@@ -122,6 +122,7 @@ export interface ChecksProviderState {
   errorMessage?: string;
   /** Presence of loginCallback implicitly means that the provider is in NOT_LOGGED_IN state. */
   loginCallback?: () => void;
+  summaryMessage?: string;
   runs: CheckRun[];
   actions: Action[];
   links: Link[];
@@ -238,6 +239,13 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       []
     )
   );
+
+  public topLevelMessagesLatest$ = select(this.checksLatest$, state => {
+    const messages = Object.values(state).map(
+      providerState => providerState.summaryMessage
+    );
+    return messages.filter(m => m !== undefined) as string[];
+  });
 
   public topLevelActionsSelected$ = select(this.checksSelected$, state =>
     Object.values(state).reduce(
@@ -444,6 +452,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     runs: CheckRunApi[],
     actions: Action[] = [],
     links: Link[] = [],
+    summaryMessage: string | undefined,
     patchset: ChecksPatchset
   ) {
     const attemptMap = createAttemptMap(runs);
@@ -483,6 +492,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       }),
       actions: [...actions],
       links: [...links],
+      summaryMessage,
     };
     this.subject$.next(nextState);
   }
@@ -701,6 +711,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
                 response.runs ?? [],
                 response.actions ?? [],
                 response.links ?? [],
+                response.summaryMessage,
                 patchset
               );
               break;

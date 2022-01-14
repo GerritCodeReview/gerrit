@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65201775_c9712c9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-14T12:04:01Z",
+      "side": 1,
+      "message": "Let\u0027s do a first round of review and then I\u0027ll add more maintainers/contributors to make sure people are onboard with the new process.",
+      "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

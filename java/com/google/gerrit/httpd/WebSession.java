@@ -16,7 +16,7 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AuthResult;
@@ -60,13 +60,13 @@ public abstract class WebSession {
    * <p>The same session could perform separate requests one after another, so resetting the ref
    * updates is necessary between requests.
    */
-  private List<GitReferenceUpdatedListener.Event> refUpdatedEvents = new CopyOnWriteArrayList<>();
+  private List<GitReferencesUpdatedListener.Event> refUpdatedEvents = new CopyOnWriteArrayList<>();
 
-  public List<GitReferenceUpdatedListener.Event> getRefUpdatedEvents() {
+  public List<GitReferencesUpdatedListener.Event> getRefUpdatedEvents() {
     return refUpdatedEvents;
   }
 
-  public void addRefUpdatedEvents(GitReferenceUpdatedListener.Event event) {
+  public void addRefUpdatedEvents(GitReferencesUpdatedListener.Event event) {
     refUpdatedEvents.add(event);
   }
 

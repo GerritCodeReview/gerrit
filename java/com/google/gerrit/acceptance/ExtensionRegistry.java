@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
@@ -78,7 +78,7 @@ public class ExtensionRegistry {
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
   private final DynamicSet<CommentAddedListener> commentAddedListeners;
-  private final DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners;
+  private final DynamicSet<GitReferencesUpdatedListener> refUpdatedListeners;
   private final DynamicSet<FileHistoryWebLink> fileHistoryWebLinks;
   private final DynamicSet<PatchSetWebLink> patchSetWebLinks;
   private final DynamicSet<ResolveConflictsWebLink> resolveConflictsWebLinks;
@@ -117,7 +117,7 @@ public class ExtensionRegistry {
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
       DynamicSet<CommentAddedListener> commentAddedListeners,
-      DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners,
+      DynamicSet<GitReferencesUpdatedListener> refUpdatedListeners,
       DynamicSet<FileHistoryWebLink> fileHistoryWebLinks,
       DynamicSet<PatchSetWebLink> patchSetWebLinks,
       DynamicSet<ResolveConflictsWebLink> resolveConflictsWebLinks,
@@ -252,7 +252,7 @@ public class ExtensionRegistry {
       return add(commentAddedListeners, commentAddedListener);
     }
 
-    public Registration add(GitReferenceUpdatedListener refUpdatedListener) {
+    public Registration add(GitReferencesUpdatedListener refUpdatedListener) {
       return add(refUpdatedListeners, refUpdatedListener);
     }
 

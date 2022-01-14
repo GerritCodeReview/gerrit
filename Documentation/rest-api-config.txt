@@ -2008,6 +2008,10 @@ UserConfigInfo] entity.
 |`default_theme`           |optional|
 URL to a default Gerrit UI theme plugin, if available.
 Located in `/static/gerrit-theme.js` by default.
+|`submit_requirement_dashboard_columns` ||
+The list of submit requirement names that should be displayed as separate
+columns in the dashboard. If empty, the default is to display all submit
+requirements that are applicable for changes appearing in the dashboard.
 |=======================================
 
 [[sshd-info]]

@@ -192,6 +192,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // user
     assertThat(i.user.anonymousCowardName).isEqualTo(AnonymousCowardNameProvider.DEFAULT);
+
+    // submit requirement columns in dashboard
+    assertThat(i.submitRequirementDashboardColumns).isEmpty();
   }
 
   @Test
@@ -199,6 +202,15 @@ public class ServerInfoIT extends AbstractDaemonTest {
   public void serverConfigWithSubmitWholeTopic() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
     assertThat(i.change.submitWholeTopic).isTrue();
+  }
+
+  @Test
+  @GerritConfig(
+      name = "dashboard.submitRequirementColumns",
+      values = {"Code-Review", "Verified"})
+  public void serverConfigWithMultipleSubmitRequirementColumn() throws Exception {
+    ServerInfo i = gApi.config().server().getInfo();
+    assertThat(i.submitRequirementDashboardColumns).containsExactly("Code-Review", "Verified");
   }
 
   @Test

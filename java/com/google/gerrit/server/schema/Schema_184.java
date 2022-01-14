@@ -21,7 +21,7 @@ import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupConfig;
@@ -104,7 +104,7 @@ public class Schema_184 implements NoteDbSchemaVersion {
       @Nullable BatchRefUpdate batchRefUpdate) {
     MetaDataUpdate metaDataUpdate =
         new MetaDataUpdate(
-            GitReferenceUpdated.DISABLED, allUsersName, allUsersRepo, batchRefUpdate);
+            GitReferencesUpdated.DISABLED, allUsersName, allUsersRepo, batchRefUpdate);
     metaDataUpdate.getCommitBuilder().setAuthor(serverUser);
     metaDataUpdate.getCommitBuilder().setCommitter(serverUser);
     return metaDataUpdate;

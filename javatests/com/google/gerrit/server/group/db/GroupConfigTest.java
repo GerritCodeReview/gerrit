@@ -31,7 +31,7 @@ import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.testing.InternalGroupSubject;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -1564,7 +1564,7 @@ public class GroupConfigTest {
 
     MetaDataUpdate metaDataUpdate =
         new MetaDataUpdate(
-            GitReferenceUpdated.DISABLED, Project.nameKey("Test Repository"), repository);
+            GitReferencesUpdated.DISABLED, Project.nameKey("Test Repository"), repository);
     metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
     metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
     return metaDataUpdate;

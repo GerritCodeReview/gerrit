@@ -20,7 +20,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class NotesBranchUtil {
   }
 
   private final PersonIdent gerritIdent;
-  private final GitReferenceUpdated gitRefUpdated;
+  private final GitReferencesUpdated gitRefUpdated;
   private final Project.NameKey project;
   private final Repository db;
   private final ObjectInserter inserter;
@@ -66,7 +66,7 @@ public class NotesBranchUtil {
   @Inject
   public NotesBranchUtil(
       @GerritPersonIdent PersonIdent gerritIdent,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       @Assisted Project.NameKey project,
       @Assisted Repository db,
       @Assisted ObjectInserter inserter) {

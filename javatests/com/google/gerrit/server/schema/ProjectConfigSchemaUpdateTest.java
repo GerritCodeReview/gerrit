@@ -21,7 +21,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import java.io.File;
 import java.nio.file.Files;
@@ -110,7 +110,7 @@ public class ProjectConfigSchemaUpdateTest {
       return factory
           .read(
               new MetaDataUpdate(
-                  GitReferenceUpdated.DISABLED, Project.nameKey(ALL_PROJECTS), repo, null))
+                  GitReferencesUpdated.DISABLED, Project.nameKey(ALL_PROJECTS), repo, null))
           .getConfig();
     }
   }

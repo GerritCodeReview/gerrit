@@ -773,7 +773,14 @@ export class GrDiffHost extends DIPolymerElement {
           }
         }
       }
-      if (existingThreadEl) {
+      // There is a case possible where the rootIds match but the locations
+      // are different. Such as when a thread was originally attached on the
+      // right side of the diff but now should be attached on the left side of
+      // the diff.
+      if (
+        existingThreadEl &&
+        existingThreadEl.thread?.commentSide === thread.commentSide
+      ) {
         existingThreadEl.thread = thread;
         dontRemove.add(existingThreadEl);
       } else {

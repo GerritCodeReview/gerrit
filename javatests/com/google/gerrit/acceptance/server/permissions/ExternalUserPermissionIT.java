@@ -53,6 +53,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.StreamSupport;
 import javax.inject.Inject;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -144,13 +145,14 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
 
                       @Override
                       public boolean containsAnyOf(Iterable<AccountGroup.UUID> groupIds) {
-                        return ImmutableList.copyOf(groupIds).stream().anyMatch(g -> contains(g));
+                        return StreamSupport.stream(groupIds.spliterator(), /* parallel= */ false)
+                            .anyMatch(g -> contains(g));
                       }
 
                       @Override
                       public Set<AccountGroup.UUID> intersection(
                           Iterable<AccountGroup.UUID> groupIds) {
-                        return ImmutableList.copyOf(groupIds).stream()
+                        return StreamSupport.stream(groupIds.spliterator(), /* parallel= */ false)
                             .filter(g -> contains(g))
                             .collect(toImmutableSet());
                       }

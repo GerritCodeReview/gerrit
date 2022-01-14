@@ -25,7 +25,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -110,7 +110,7 @@ public class AbstractGroupTest {
 
   protected MetaDataUpdate createMetaDataUpdate(PersonIdent authorIdent) {
     MetaDataUpdate md =
-        new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, allUsersRepo);
+        new MetaDataUpdate(GitReferencesUpdated.DISABLED, allUsersName, allUsersRepo);
     md.getCommitBuilder().setAuthor(authorIdent);
     md.getCommitBuilder().setCommitter(serverIdent); // Committer is always the server identity.
     return md;

@@ -36,7 +36,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.GroupAuditService;
@@ -111,7 +111,7 @@ public class GroupsUpdate {
   private final AuditLogFormatter auditLogFormatter;
   private final PersonIdent authorIdent;
   private final MetaDataUpdateFactory metaDataUpdateFactory;
-  private final GitReferenceUpdated gitRefUpdated;
+  private final GitReferencesUpdated gitRefUpdated;
   private final RetryHelper retryHelper;
 
   @AssistedInject
@@ -129,7 +129,7 @@ public class GroupsUpdate {
       @GerritServerId String serverId,
       @GerritPersonIdent PersonIdent serverIdent,
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       RetryHelper retryHelper) {
     this(
         repoManager,
@@ -164,7 +164,7 @@ public class GroupsUpdate {
       @GerritServerId String serverId,
       @GerritPersonIdent PersonIdent serverIdent,
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       RetryHelper retryHelper,
       @Assisted IdentifiedUser currentUser) {
     this(
@@ -199,7 +199,7 @@ public class GroupsUpdate {
       @GerritServerId String serverId,
       @GerritPersonIdent PersonIdent serverIdent,
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       RetryHelper retryHelper,
       Optional<IdentifiedUser> currentUser) {
     this.repoManager = repoManager;

@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2022 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,15 +17,34 @@ package com.google.gerrit.extensions.events;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.common.AccountInfo;
+import java.util.Set;
 
 /** Notified when one or more references are modified. */
 @ExtensionPoint
-public interface GitReferenceUpdatedListener {
-  interface Event extends ProjectEvent, GitReferencesUpdatedListener.UpdatedRef {
+public interface GitReferencesUpdatedListener {
+  interface Event extends ProjectEvent {
+    Set<UpdatedRef> getUpdatedRefs();
+
+    Set<String> getRefNames();
+
     /** The updater, could be null if it's the server. */
     @Nullable
     AccountInfo getUpdater();
   }
 
-  void onGitReferenceUpdated(Event event);
+  interface UpdatedRef {
+    public String getRefName();
+
+    public String getOldObjectId();
+
+    public String getNewObjectId();
+
+    public boolean isCreate();
+
+    public boolean isDelete();
+
+    public boolean isNonFastForward();
+  }
+
+  void onGitReferencesUpdated(Event event);
 }

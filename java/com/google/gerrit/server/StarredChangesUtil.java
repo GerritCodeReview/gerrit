@@ -39,7 +39,7 @@ import com.google.gerrit.git.GitUpdateFailureException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -163,7 +163,7 @@ public class StarredChangesUtil {
       ImmutableSortedSet.of(DEFAULT_LABEL);
 
   private final GitRepositoryManager repoManager;
-  private final GitReferenceUpdated gitRefUpdated;
+  private final GitReferencesUpdated gitRefUpdated;
   private final AllUsersName allUsers;
   private final Provider<PersonIdent> serverIdent;
   private final ChangeIndexer indexer;
@@ -172,7 +172,7 @@ public class StarredChangesUtil {
   @Inject
   StarredChangesUtil(
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       AllUsersName allUsers,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       ChangeIndexer indexer,

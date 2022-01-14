@@ -38,7 +38,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.config.VersionedDefaultPreferences;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
@@ -106,7 +106,7 @@ import org.eclipse.jgit.lib.Repository;
  * <p>Reindexing and flushing accounts from the account cache can be disabled by
  *
  * <ul>
- *   <li>binding {@link GitReferenceUpdated#DISABLED} and
+ *   <li>binding {@link GitReferencesUpdated#DISABLED} and
  *   <li>passing an {@link
  *       com.google.gerrit.server.account.externalids.ExternalIdNotes.FactoryNoReindex} factory as
  *       parameter of {@link AccountsUpdate.Factory#create(IdentifiedUser,
@@ -181,7 +181,7 @@ public class AccountsUpdate {
   }
 
   private final GitRepositoryManager repoManager;
-  private final GitReferenceUpdated gitRefUpdated;
+  private final GitReferencesUpdated gitRefUpdated;
   private final Optional<IdentifiedUser> currentUser;
   private final AllUsersName allUsersName;
   private final ExternalIds externalIds;
@@ -204,7 +204,7 @@ public class AccountsUpdate {
   @SuppressWarnings("BindingAnnotationWithoutInject")
   AccountsUpdate(
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       AllUsersName allUsersName,
       ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
@@ -230,7 +230,7 @@ public class AccountsUpdate {
   @SuppressWarnings("BindingAnnotationWithoutInject")
   AccountsUpdate(
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       AllUsersName allUsersName,
       ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
@@ -256,7 +256,7 @@ public class AccountsUpdate {
   @VisibleForTesting
   public AccountsUpdate(
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
+      GitReferencesUpdated gitRefUpdated,
       Optional<IdentifiedUser> currentUser,
       AllUsersName allUsersName,
       ExternalIds externalIds,

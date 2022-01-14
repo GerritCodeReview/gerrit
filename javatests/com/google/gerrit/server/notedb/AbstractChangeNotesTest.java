@@ -50,7 +50,7 @@ import com.google.gerrit.server.config.DefaultUrlFormatter.DefaultUrlFormatterMo
 import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -169,7 +169,7 @@ public abstract class AbstractChangeNotesTest {
                 bind(PersonIdent.class)
                     .annotatedWith(GerritPersonIdent.class)
                     .toInstance(serverIdent);
-                bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+                bind(GitReferencesUpdated.class).toInstance(GitReferencesUpdated.DISABLED);
                 bind(MetricMaker.class).to(DisabledMetricMaker.class);
                 bind(ExecutorService.class)
                     .annotatedWith(FanOutExecutor.class)

@@ -26,7 +26,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.IntBlob;
 import com.google.gerrit.server.notedb.RepoSequence;
@@ -148,7 +148,7 @@ public class NoteDbSchemaUpdaterTest {
     protected void seedGroupSequenceRef() {
       new RepoSequence(
               repoManager,
-              GitReferenceUpdated.DISABLED,
+              GitReferencesUpdated.DISABLED,
               allUsersName,
               Sequences.NAME_GROUPS,
               () -> 1,

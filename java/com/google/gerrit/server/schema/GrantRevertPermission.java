@@ -23,7 +23,7 @@ import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -62,7 +62,7 @@ public class GrantRevertPermission {
   public void execute(Project.NameKey projectName) throws IOException, ConfigInvalidException {
     GroupReference registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS);
     try (Repository repo = repoManager.openRepository(projectName)) {
-      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, repo);
+      MetaDataUpdate md = new MetaDataUpdate(GitReferencesUpdated.DISABLED, projectName, repo);
       ProjectConfig projectConfig = projectConfigFactory.read(md);
 
       AtomicBoolean shouldExit = new AtomicBoolean(false);

@@ -29,7 +29,7 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -105,7 +105,7 @@ public class AllUsersCreator {
   }
 
   private void initAllUsers(Repository git) throws IOException, ConfigInvalidException {
-    try (MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git)) {
+    try (MetaDataUpdate md = new MetaDataUpdate(GitReferencesUpdated.DISABLED, allUsersName, git)) {
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());

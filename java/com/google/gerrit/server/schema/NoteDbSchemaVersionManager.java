@@ -19,7 +19,7 @@ import static com.google.gerrit.entities.RefNames.REFS_VERSION;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.IntBlob;
 import com.google.inject.Inject;
@@ -69,7 +69,7 @@ public class NoteDbSchemaVersionManager {
           REFS_VERSION,
           old.map(IntBlob::id).orElse(ObjectId.zeroId()),
           NoteDbSchemaVersions.LATEST,
-          GitReferenceUpdated.DISABLED);
+          GitReferencesUpdated.DISABLED);
     }
   }
 
@@ -90,7 +90,7 @@ public class NoteDbSchemaVersionManager {
           REFS_VERSION,
           old.map(IntBlob::id).orElse(ObjectId.zeroId()),
           expectedOldVersion + 1,
-          GitReferenceUpdated.DISABLED);
+          GitReferencesUpdated.DISABLED);
     }
   }
 }

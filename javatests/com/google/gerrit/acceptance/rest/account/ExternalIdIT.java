@@ -63,7 +63,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -1009,7 +1009,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
               allUsers, repo, externalIdFactory, IS_USER_NAME_CASE_INSENSITIVE_MIGRATION_MODE);
       extIdNotes.insert(extId);
       try (MetaDataUpdate metaDataUpdate =
-          new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {
+          new MetaDataUpdate(GitReferencesUpdated.DISABLED, null, repo)) {
         metaDataUpdate.getCommitBuilder().setAuthor(admin.newIdent());
         metaDataUpdate.getCommitBuilder().setCommitter(admin.newIdent());
         extIdNotes.commit(metaDataUpdate);
@@ -1022,7 +1022,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     ExternalIdNotes extIdNotes = externalIdNotesFactory.load(testRepo.getRepository());
     extIdNotes.insert(Arrays.asList(extIds));
     try (MetaDataUpdate metaDataUpdate =
-        new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, testRepo.getRepository())) {
+        new MetaDataUpdate(GitReferencesUpdated.DISABLED, null, testRepo.getRepository())) {
       metaDataUpdate.getCommitBuilder().setAuthor(admin.newIdent());
       metaDataUpdate.getCommitBuilder().setCommitter(admin.newIdent());
       extIdNotes.commit(metaDataUpdate);

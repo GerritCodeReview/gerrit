@@ -40,6 +40,7 @@ import {
   GroupId,
   GitRef,
   RepoName,
+  PermissionInfo,
 } from '../../../types/common';
 import {
   AutocompleteQuery,
@@ -405,6 +406,10 @@ export class GrPermission extends PolymerElement {
     }
 
     return RANGE_NAMES.includes(name.toUpperCase());
+  }
+
+  _computeExclusiveLabel(permission?: PermissionInfo) {
+    return permission?.exclusive ? "Exclusive" : "Not Exclsuive";
   }
 
   /**

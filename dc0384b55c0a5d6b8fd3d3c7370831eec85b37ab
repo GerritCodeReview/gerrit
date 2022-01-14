@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbd72d3c_26498cd6",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-14T09:18:09Z",
+      "side": 1,
+      "message": "On inspecting the padding, the padding for Submit requirements and Trigger votes is 16px (--spacing-xxl) while the padding for the permission message is 24px. \n\nI propose we vertically align left the section titles and the permission message to be 16px.",
+      "range": {
+        "startLine": 77,
+        "startChar": 24,
+        "endLine": 77,
+        "endChar": 43
+      },
+      "revId": "dc0384b55c0a5d6b8fd3d3c7370831eec85b37ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,7 @@ jackson-core
 jimfs
 jna
 jruby
+log4j
 mina-core
 nekohtml
 objenesis

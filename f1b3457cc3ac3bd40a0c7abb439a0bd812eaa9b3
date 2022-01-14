@@ -49,6 +49,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7718f1a8_5a4db67c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144365
+      },
+      "writtenOn": "2022-01-14T17:48:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2685ae10_0577bb05",
+      "range": {
+        "startLine": 22,
+        "startChar": 62,
+        "endLine": 22,
+        "endChar": 70
+      },
+      "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "65201775_c9712c9e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -98,6 +122,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "396d3586_ba1df59c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144365
+      },
+      "writtenOn": "2022-01-14T17:48:42Z",
+      "side": 1,
+      "message": "intention is to learn and help where i can, new to these realms so still getting to know the atmosphere... #carefully ",
+      "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08c6034a_e24de212",
@@ -135,6 +176,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "08c6034a_e24de212",
+      "range": {
+        "startLine": 109,
+        "startChar": 24,
+        "endLine": 109,
+        "endChar": 31
+      },
+      "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f705d64_91475a94",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1144365
+      },
+      "writtenOn": "2022-01-14T17:48:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3399443e_e0bc126b",
       "range": {
         "startLine": 109,
         "startChar": 24,

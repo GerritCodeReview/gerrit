@@ -22,6 +22,30 @@
       },
       "revId": "ed78c8ffbb2df6889a1d70d8ada035267c65014a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c6adde0_0d105a52",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-14T15:00:53Z",
+      "side": 0,
+      "message": "I found zero usage over the past 30 days. So this should be safe to merge.",
+      "parentUuid": "c7ad3145_78b6b6e8",
+      "range": {
+        "startLine": 341,
+        "startChar": 20,
+        "endLine": 342,
+        "endChar": 28
+      },
+      "revId": "ed78c8ffbb2df6889a1d70d8ada035267c65014a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

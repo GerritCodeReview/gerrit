@@ -773,7 +773,14 @@ export class GrDiffHost extends DIPolymerElement {
           }
         }
       }
-      if (existingThreadEl) {
+      // There is a case possible where the rootIds match but the locations
+      // are different. Such as when a thread was originally attached on the
+      // right side of the diff but now should be attached on the left side of
+      // the diff.
+      if (
+        existingThreadEl &&
+        existingThreadEl.getAttribute('diff-side') === this.getDiffSide(thread)
+      ) {
         existingThreadEl.thread = thread;
         dontRemove.add(existingThreadEl);
       } else {
@@ -898,14 +905,14 @@ export class GrDiffHost extends DIPolymerElement {
     }
   }
 
-  _createThreadElement(thread: CommentThread) {
+  private getDiffSide(thread: CommentThread) {
+    let diffSide: Side;
     assertIsDefined(this.patchRange, 'patchRange');
     const commentProps = {
       patch_set: thread.patchNum,
       side: thread.commentSide,
       parent: thread.mergeParentNum,
     };
-    let diffSide: Side;
     if (isInBaseOfPatchRange(commentProps, this.patchRange)) {
       diffSide = Side.LEFT;
     } else if (isInRevisionOfPatchRange(commentProps, this.patchRange)) {
@@ -915,6 +922,11 @@ export class GrDiffHost extends DIPolymerElement {
       const rangeStr = JSON.stringify(this.patchRange);
       throw new Error(`comment ${propsStr} not in range ${rangeStr}`);
     }
+    return diffSide;
+  }
+
+  _createThreadElement(thread: CommentThread) {
+    const diffSide = this.getDiffSide(thread);
 
     const threadEl = document.createElement('gr-comment-thread');
     threadEl.className = 'comment-thread';

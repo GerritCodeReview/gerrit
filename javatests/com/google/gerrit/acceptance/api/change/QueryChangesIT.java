@@ -371,7 +371,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
   }
 
   private static void removeAllBranchPermissions(ProjectConfig cfg, String... permissions) {
-    for (AccessSection s : ImmutableList.copyOf(cfg.getAccessSections())) {
+    for (AccessSection s : cfg.getAccessSections()) {
       if (s.getName().startsWith("refs/heads/")
           || s.getName().startsWith("refs/for/")
           || s.getName().equals("refs/*")) {

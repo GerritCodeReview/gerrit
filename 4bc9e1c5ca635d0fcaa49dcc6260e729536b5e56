@@ -317,6 +317,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8e26bee_30e66519",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:19:33Z",
+      "side": 1,
+      "message": "I think there are also operators which are not supported for SR\u0027s, e.g. \u0027is:subittable\u0027. Maybe document those too?",
+      "range": {
+        "startLine": 117,
+        "startChar": 46,
+        "endLine": 117,
+        "endChar": 61
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ef659f3_9079a6f9",
         "filename": "Documentation/config-submit-requirements.txt",
         "patchSetId": 1

@@ -69,7 +69,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountField;
@@ -616,7 +616,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     Account.Id accountId = Account.id(user1._accountId);
     String newName = "Test User";
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, repo);
+      MetaDataUpdate md = new MetaDataUpdate(GitReferencesUpdated.DISABLED, allUsers, repo);
       PersonIdent ident = serverIdent.get();
       md.getCommitBuilder().setAuthor(ident);
       md.getCommitBuilder().setCommitter(ident);

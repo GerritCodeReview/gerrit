@@ -27,7 +27,7 @@ import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.db.AuditLogFormatter;
@@ -109,7 +109,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
         new Sequences(
             config,
             repoManager,
-            GitReferenceUpdated.DISABLED,
+            GitReferencesUpdated.DISABLED,
             allProjectsName,
             allUsersName,
             metricMaker);
@@ -202,7 +202,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
       Repository allUsersRepo, @Nullable BatchRefUpdate batchRefUpdate) {
     MetaDataUpdate metaDataUpdate =
         new MetaDataUpdate(
-            GitReferenceUpdated.DISABLED, allUsersName, allUsersRepo, batchRefUpdate);
+            GitReferencesUpdated.DISABLED, allUsersName, allUsersRepo, batchRefUpdate);
     metaDataUpdate.getCommitBuilder().setAuthor(serverUser);
     metaDataUpdate.getCommitBuilder().setCommitter(serverUser);
     return metaDataUpdate;

@@ -17,26 +17,34 @@ package com.google.gerrit.extensions.events;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.common.AccountInfo;
+import java.util.List;
 
 /** Notified when one or more references are modified. */
 @ExtensionPoint
-public interface GitReferenceUpdatedListener {
+public interface GitReferencesUpdatedListener {
   interface Event extends ProjectEvent {
-    String getRefName();
+    List<UpdatedRef> getUpdatedRefs();
 
-    String getOldObjectId();
+    List<String> getRefNames();
 
-    String getNewObjectId();
-
-    boolean isCreate();
-
-    boolean isDelete();
-
-    boolean isNonFastForward();
     /** The updater, could be null if it's the server. */
     @Nullable
     AccountInfo getUpdater();
   }
 
-  void onGitReferenceUpdated(Event event);
+  interface UpdatedRef {
+    public String getRefName();
+
+    public String getOldObjectId();
+
+    public String getNewObjectId();
+
+    public boolean isCreate();
+
+    public boolean isDelete();
+
+    public boolean isNonFastForward();
+  }
+
+  void onGitReferencesUpdated(Event event);
 }

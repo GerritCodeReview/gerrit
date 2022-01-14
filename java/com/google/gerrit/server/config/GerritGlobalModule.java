@@ -45,7 +45,7 @@ import com.google.gerrit.extensions.events.ChangeRestoredListener;
 import com.google.gerrit.extensions.events.ChangeRevertedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
@@ -348,7 +348,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), CacheRemovalListener.class);
     DynamicMap.mapOf(binder(), CapabilityDefinition.class);
     DynamicMap.mapOf(binder(), PluginProjectPermissionDefinition.class);
-    DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
+    DynamicSet.setOf(binder(), GitReferencesUpdatedListener.class);
     DynamicSet.setOf(binder(), AssigneeChangedListener.class);
     DynamicSet.setOf(binder(), ChangeAbandonedListener.class);
     DynamicSet.setOf(binder(), ChangeDeletedListener.class);
@@ -384,8 +384,8 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), GarbageCollectorListener.class);
     DynamicSet.setOf(binder(), HeadUpdatedListener.class);
     DynamicSet.setOf(binder(), UsageDataPublishedListener.class);
-    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReindexAfterRefUpdate.class);
-    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
+    DynamicSet.bind(binder(), GitReferencesUpdatedListener.class).to(ReindexAfterRefUpdate.class);
+    DynamicSet.bind(binder(), GitReferencesUpdatedListener.class)
         .to(ProjectConfigEntry.UpdateChecker.class);
     DynamicSet.setOf(binder(), EventListener.class);
     DynamicSet.bind(binder(), EventListener.class).to(EventsMetrics.class);

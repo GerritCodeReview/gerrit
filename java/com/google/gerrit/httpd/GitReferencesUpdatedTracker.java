@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
@@ -28,17 +28,17 @@ import com.google.inject.Singleton;
  * requests.
  */
 @Singleton
-public class GitReferenceUpdatedTracker implements GitReferenceUpdatedListener {
+public class GitReferencesUpdatedTracker implements GitReferencesUpdatedListener {
 
   private final DynamicItem<WebSession> webSession;
 
   @Inject
-  GitReferenceUpdatedTracker(DynamicItem<WebSession> webSession) {
+  GitReferencesUpdatedTracker(DynamicItem<WebSession> webSession) {
     this.webSession = webSession;
   }
 
   @Override
-  public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
+  public void onGitReferencesUpdated(GitReferencesUpdatedListener.Event event) {
     WebSession currentSession = null;
     try {
       currentSession = webSession.get();

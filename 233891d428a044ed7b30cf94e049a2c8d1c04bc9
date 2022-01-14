@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "103c6ee2_52803f45",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-01-14T08:40:07Z",
+      "side": 1,
+      "message": "Is it possible to change the return type to ImmutableMap in the SubmitRequirementsEvaluator interface?\nI am a little bit worried that that returning ImmutableMap here breaks the contract of the interface.",
+      "range": {
+        "startLine": 84,
+        "startChar": 9,
+        "endLine": 84,
+        "endChar": 12
+      },
+      "revId": "233891d428a044ed7b30cf94e049a2c8d1c04bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -30,6 +30,7 @@ public class ConfigRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), TASK_KIND);
     DynamicMap.mapOf(binder(), TopMenuResource.TOP_MENU_KIND);
     child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
+    get(CONFIG_KIND, "dashboard").to(GetDashboardPreferences.class);
     child(CONFIG_KIND, "tasks").to(TasksCollection.class);
     get(TASK_KIND).to(GetTask.class);
     delete(TASK_KIND).to(DeleteTask.class);

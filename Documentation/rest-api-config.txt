@@ -608,6 +608,35 @@ link:#cache-operation-input[CacheOperationInput] entity.
   HTTP/1.1 200 OK
 ----
 
+[[dashboard-preferences]]
+=== Get Dashboard Preferences
+--
+'GET /config/server/dashboard'
+--
+
+Returns the dashboard preferences. As a result a
+link:#dashboard-preferences-info[DashboardPreferencesInfo] entity is returned.
+
+.Request
+----
+  GET /config/server/dashboard HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+    Content-Type: application/json; charset=UTF-8
+
+    )]}'
+    {
+      "submit_requirements_columns": [
+        "Code-Review",
+        "Verified"
+      ]
+    }
+----
+
 [[get-cache]]
 === Get Cache
 --
@@ -1728,6 +1757,19 @@ The entity describes an updated config value.
 Missing if value was not previously configured.
 |`new_value`  |The new config value, picked up after reload.
 |======================
+
+[[dashboard-preferences-info]]
+=== DashboardPreferencesInfo
+The `DashboardPreferencesInfo` entity contains information about the
+dashboard preferences.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name                ||Description
+|`submit_requirements_columns`                ||
+The list of submit requirement names that should be displayed as separate
+columns in the dashboard.
+|===========================
 
 [[download-info]]
 === DownloadInfo

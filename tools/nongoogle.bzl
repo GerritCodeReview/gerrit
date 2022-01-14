@@ -15,6 +15,12 @@ def declare_nongoogle_deps():
     """
 
     maven_jar(
+        name = "log4j",
+        artifact = "ch.qos.reload4j:reload4j:1.2.18.0",
+        sha1 = "03b2b708403ab00eb0678bffdbbd567070bbdfab",
+    )
+
+    maven_jar(
         name = "j2objc",
         artifact = "com.google.j2objc:j2objc-annotations:1.1",
         sha1 = "ed28ded51a8b1c6b112568def5f4b455e6809019",

@@ -1448,15 +1448,27 @@ suite('gr-change-view tests', () => {
     assert.isTrue(recreateSpy.calledOnce);
   });
 
-  test('related changes are not updated after other action', async () => {
-    sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
+  test('related changes are updated when loadData is called', async () => {
     await flush();
     const relatedChanges = element.shadowRoot!.querySelector(
       '#relatedChanges'
     ) as GrRelatedChangesList;
-    sinon.stub(relatedChanges, 'reload');
+    const reloadStub = sinon.stub(relatedChanges, 'reload');
+    stubRestApi('getMergeable').returns(
+      Promise.resolve({...createMergeable(), mergeable: true})
+    );
+
+    element.params = createAppElementChangeViewParams();
+    element.changeModel.setState({
+      loadingStatus: LoadingStatus.LOADED,
+      change: {
+        ...createChangeViewChange(),
+      },
+    });
+
     await element.loadData(true);
     assert.isFalse(navigateToChangeStub.called);
+    assert.isTrue(reloadStub.called);
   });
 
   test('_computeCopyTextForTitle', () => {

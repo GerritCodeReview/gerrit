@@ -32,7 +32,7 @@ import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -104,7 +104,7 @@ public class AllProjectsCreator {
       throws ConfigInvalidException, IOException {
     BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate md =
-        new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git, bru)) {
+        new MetaDataUpdate(GitReferencesUpdated.DISABLED, allProjectsName, git, bru)) {
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage(

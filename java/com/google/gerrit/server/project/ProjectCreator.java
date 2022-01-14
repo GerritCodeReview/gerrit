@@ -37,7 +37,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.GitRepositoryManager.Status;
 import com.google.gerrit.server.git.RepositoryExistsException;
@@ -73,7 +73,7 @@ public class ProjectCreator {
   private final ProjectCache projectCache;
   private final GroupBackend groupBackend;
   private final MetaDataUpdate.User metaDataUpdateFactory;
-  private final GitReferenceUpdated referenceUpdated;
+  private final GitReferencesUpdated referencesUpdated;
   private final RepositoryConfig repositoryCfg;
   private final Provider<PersonIdent> serverIdent;
   private final Provider<IdentifiedUser> identifiedUser;
@@ -86,7 +86,7 @@ public class ProjectCreator {
       ProjectCache projectCache,
       GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
-      GitReferenceUpdated referenceUpdated,
+      GitReferencesUpdated referencesUpdated,
       RepositoryConfig repositoryCfg,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<IdentifiedUser> identifiedUser,
@@ -96,7 +96,7 @@ public class ProjectCreator {
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
-    this.referenceUpdated = referenceUpdated;
+    this.referencesUpdated = referencesUpdated;
     this.repositoryCfg = repositoryCfg;
     this.serverIdent = serverIdent;
     this.identifiedUser = identifiedUser;
@@ -209,7 +209,7 @@ public class ProjectCreator {
         Result result = ru.update();
         switch (result) {
           case NEW:
-            referenceUpdated.fire(
+            referencesUpdated.fire(
                 project, ru, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
             break;
           case LOCK_FAILURE:

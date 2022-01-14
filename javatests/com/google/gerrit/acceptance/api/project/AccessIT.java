@@ -59,7 +59,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -124,7 +124,7 @@ public class AccessIT extends AbstractDaemonTest {
     GroupReference registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS);
 
     try (Repository repo = repoManager.openRepository(newProjectName)) {
-      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
+      MetaDataUpdate md = new MetaDataUpdate(GitReferencesUpdated.DISABLED, newProjectName, repo);
       ProjectConfig projectConfig = projectConfigFactory.read(md);
       projectConfig.upsertAccessSection(
           AccessSection.HEADS,
@@ -162,7 +162,7 @@ public class AccessIT extends AbstractDaemonTest {
     GroupReference otherGroup = systemGroupBackend.getGroup(ANONYMOUS_USERS);
 
     try (Repository repo = repoManager.openRepository(newProjectName)) {
-      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
+      MetaDataUpdate md = new MetaDataUpdate(GitReferencesUpdated.DISABLED, newProjectName, repo);
       ProjectConfig projectConfig = projectConfigFactory.read(md);
       projectConfig.upsertAccessSection(
           AccessSection.HEADS,
@@ -192,7 +192,7 @@ public class AccessIT extends AbstractDaemonTest {
     grantRevertPermission.execute(newProjectName);
 
     try (Repository repo = repoManager.openRepository(newProjectName)) {
-      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
+      MetaDataUpdate md = new MetaDataUpdate(GitReferencesUpdated.DISABLED, newProjectName, repo);
       ProjectConfig projectConfig = projectConfigFactory.read(md);
       AccessSection all = projectConfig.getAccessSection(AccessSection.ALL);
 

@@ -221,7 +221,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private AccountIndexer accountIndexer;
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
   @Inject private ExternalIds externalIds;
-  @Inject private GitReferenceUpdated gitReferenceUpdated;
+  @Inject private GitReferenceUpdated gitReferencesUpdated;
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
   @Inject private Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
@@ -2206,7 +2206,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
-            gitReferenceUpdated,
+            gitReferencesUpdated,
             Optional.empty(),
             allUsers,
             externalIds,
@@ -2262,7 +2262,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
-            gitReferenceUpdated,
+            gitReferencesUpdated,
             Optional.empty(),
             allUsers,
             externalIds,
@@ -2322,7 +2322,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
-            gitReferenceUpdated,
+            gitReferencesUpdated,
             Optional.empty(),
             allUsers,
             externalIds,
@@ -2397,7 +2397,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
-            gitReferenceUpdated,
+            gitReferencesUpdated,
             Optional.empty(),
             allUsers,
             externalIds,

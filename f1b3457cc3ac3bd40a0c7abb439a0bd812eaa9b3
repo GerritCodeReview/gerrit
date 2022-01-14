@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2685ae10_0577bb05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-14T12:17:08Z",
+      "side": 1,
+      "message": "nit: compile",
+      "range": {
+        "startLine": 22,
+        "startChar": 62,
+        "endLine": 22,
+        "endChar": 70
+      },
+      "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f3d77a4_4ff20166",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-14T12:17:08Z",
+      "side": 1,
+      "message": "I was looking for that, because not all changes would necessarily be meaningful to include in releases.",
+      "range": {
+        "startLine": 22,
+        "startChar": 36,
+        "endLine": 22,
+        "endChar": 57
+      },
+      "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "65201775_c9712c9e",
@@ -14,6 +60,29 @@
       "writtenOn": "2022-01-14T12:04:01Z",
       "side": 1,
       "message": "Let\u0027s do a first round of review and then I\u0027ll add more maintainers/contributors to make sure people are onboard with the new process.",
+      "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08c6034a_e24de212",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-14T12:17:08Z",
+      "side": 1,
+      "message": "nit: use \"footer:\" instead. With this definition the SR could be fulfilled with the text in the middle of the commit message.",
+      "range": {
+        "startLine": 109,
+        "startChar": 24,
+        "endLine": 109,
+        "endChar": 31
+      },
       "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

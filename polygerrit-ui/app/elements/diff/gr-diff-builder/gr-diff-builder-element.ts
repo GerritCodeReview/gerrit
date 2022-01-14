@@ -383,6 +383,7 @@ export class GrDiffBuilderElement extends PolymerElement {
       )
     );
     this._builder.spliceGroups(groupIndex, 1, ...newGroups);
+    setTimeout(() => fireEvent(this, 'render-content'), 1);
   }
 
   /**

@@ -110,7 +110,7 @@ import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.events.AccountActivationListener;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -3138,7 +3138,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(loginResponse.getStatusLine().getStatusCode()).isEqualTo(expectedHttpStatus);
   }
 
-  private static class RefUpdateCounter implements GitReferenceUpdatedListener {
+  private static class RefUpdateCounter implements GitReferencesUpdatedListener {
     private final AtomicLongMap<String> countsByProjectRefs = AtomicLongMap.create();
 
     static String projectRef(Project.NameKey project, String ref) {
@@ -3150,8 +3150,11 @@ public class AccountIT extends AbstractDaemonTest {
     }
 
     @Override
-    public void onGitReferenceUpdated(Event event) {
-      countsByProjectRefs.incrementAndGet(projectRef(event.getProjectName(), event.getRefName()));
+    public void onGitReferencesUpdated(Event event) {
+      for (UpdatedRef updatedRef : event.getUpdatedRefs()) {
+        countsByProjectRefs.incrementAndGet(
+            projectRef(event.getProjectName(), updatedRef.getRefName()));
+      }
     }
 
     void clear() {

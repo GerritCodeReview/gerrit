@@ -22,7 +22,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -299,7 +299,7 @@ public class ProjectConfigEntry {
    */
   public void onUpdate(Project.NameKey project, Long oldValue, Long newValue) {}
 
-  public static class UpdateChecker implements GitReferenceUpdatedListener {
+  public static class UpdateChecker implements GitReferencesUpdatedListener {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
     private final GitRepositoryManager repoManager;
@@ -317,46 +317,48 @@ public class ProjectConfigEntry {
     }
 
     @Override
-    public void onGitReferenceUpdated(Event event) {
+    public void onGitReferencesUpdated(Event event) {
       Project.NameKey p = Project.nameKey(event.getProjectName());
-      if (!event.getRefName().equals(RefNames.REFS_CONFIG)) {
-        return;
-      }
+      for (UpdatedRef updatedRef : event.getUpdatedRefs()) {
+        if (!updatedRef.getRefName().equals(RefNames.REFS_CONFIG)) {
+          continue;
+        }
 
-      try {
-        ProjectConfig oldCfg = parseConfig(p, event.getOldObjectId());
-        ProjectConfig newCfg = parseConfig(p, event.getNewObjectId());
-        if (oldCfg != null && newCfg != null) {
-          for (Extension<ProjectConfigEntry> e : pluginConfigEntries) {
-            ProjectConfigEntry configEntry = e.getProvider().get();
-            String newValue = getValue(newCfg, e);
-            String oldValue = getValue(oldCfg, e);
-            if ((newValue == null && oldValue == null)
-                || (newValue != null && newValue.equals(oldValue))) {
-              return;
-            }
+        try {
+          ProjectConfig oldCfg = parseConfig(p, updatedRef.getOldObjectId());
+          ProjectConfig newCfg = parseConfig(p, updatedRef.getNewObjectId());
+          if (oldCfg != null && newCfg != null) {
+            for (Extension<ProjectConfigEntry> e : pluginConfigEntries) {
+              ProjectConfigEntry configEntry = e.getProvider().get();
+              String newValue = getValue(newCfg, e);
+              String oldValue = getValue(oldCfg, e);
+              if ((newValue == null && oldValue == null)
+                  || (newValue != null && newValue.equals(oldValue))) {
+                continue;
+              }
 
-            switch (configEntry.getType()) {
-              case BOOLEAN:
-                configEntry.onUpdate(p, toBoolean(oldValue), toBoolean(newValue));
-                break;
-              case INT:
-                configEntry.onUpdate(p, toInt(oldValue), toInt(newValue));
-                break;
-              case LONG:
-                configEntry.onUpdate(p, toLong(oldValue), toLong(newValue));
-                break;
-              case LIST:
-              case STRING:
-              case ARRAY:
-              default:
-                configEntry.onUpdate(p, oldValue, newValue);
+              switch (configEntry.getType()) {
+                case BOOLEAN:
+                  configEntry.onUpdate(p, toBoolean(oldValue), toBoolean(newValue));
+                  break;
+                case INT:
+                  configEntry.onUpdate(p, toInt(oldValue), toInt(newValue));
+                  break;
+                case LONG:
+                  configEntry.onUpdate(p, toLong(oldValue), toLong(newValue));
+                  break;
+                case LIST:
+                case STRING:
+                case ARRAY:
+                default:
+                  configEntry.onUpdate(p, oldValue, newValue);
+              }
             }
           }
+        } catch (IOException | ConfigInvalidException e) {
+          logger.atSevere().withCause(e).log(
+              "Failed to check if plugin config of project %s was updated.", p.get());
         }
-      } catch (IOException | ConfigInvalidException e) {
-        logger.atSevere().withCause(e).log(
-            "Failed to check if plugin config of project %s was updated.", p.get());
       }
     }
 

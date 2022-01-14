@@ -26,7 +26,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -39,6 +39,7 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -53,7 +54,7 @@ import org.eclipse.jgit.lib.Config;
  *
  * <p>Will reindex accounts when the account's NoteDb ref changes.
  */
-public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
+public class ReindexAfterRefUpdate implements GitReferencesUpdatedListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final OneOffRequestContext requestContext;
@@ -86,41 +87,45 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
   }
 
   @Override
-  public void onGitReferenceUpdated(Event event) {
-    if (allUsersName.get().equals(event.getProjectName())
-        && !RefNames.REFS_CONFIG.equals(event.getRefName())) {
-      Account.Id accountId = Account.Id.fromRef(event.getRefName());
-      if (accountId != null && !event.getRefName().startsWith(RefNames.REFS_STARRED_CHANGES)) {
-        indexer.get().index(accountId);
+  public void onGitReferencesUpdated(Event event) {
+    for (UpdatedRef updatedRef : event.getUpdatedRefs()) {
+      if (allUsersName.get().equals(event.getProjectName())
+          && !RefNames.REFS_CONFIG.equals(updatedRef.getRefName())) {
+        Account.Id accountId = Account.Id.fromRef(updatedRef.getRefName());
+        if (accountId != null
+            && !updatedRef.getRefName().startsWith(RefNames.REFS_STARRED_CHANGES)) {
+          indexer.get().index(accountId);
+        }
+        // The update is in All-Users and not on refs/meta/config. So it's not a change. Return
+        // early.
+        continue;
       }
-      // The update is in All-Users and not on refs/meta/config. So it's not a change. Return early.
-      return;
-    }
 
-    if (!enabled
-        || event.getRefName().startsWith(RefNames.REFS_CHANGES)
-        || event.getRefName().startsWith(RefNames.REFS_DRAFT_COMMENTS)
-        || event.getRefName().startsWith(RefNames.REFS_USERS)) {
-      return;
-    }
-    Futures.addCallback(
-        executor.submit(new GetChanges(event)),
-        new FutureCallback<List<Change>>() {
-          @Override
-          public void onSuccess(List<Change> changes) {
-            for (Change c : changes) {
-              @SuppressWarnings("unused")
-              Future<?> possiblyIgnoredError =
-                  indexerFactory.create(executor, indexes).indexAsync(c.getProject(), c.getId());
+      if (!enabled
+          || updatedRef.getRefName().startsWith(RefNames.REFS_CHANGES)
+          || updatedRef.getRefName().startsWith(RefNames.REFS_DRAFT_COMMENTS)
+          || updatedRef.getRefName().startsWith(RefNames.REFS_USERS)) {
+        continue;
+      }
+      Futures.addCallback(
+          executor.submit(new GetChanges(event)),
+          new FutureCallback<List<Change>>() {
+            @Override
+            public void onSuccess(List<Change> changes) {
+              for (Change c : changes) {
+                @SuppressWarnings("unused")
+                Future<?> possiblyIgnoredError =
+                    indexerFactory.create(executor, indexes).indexAsync(c.getProject(), c.getId());
+              }
             }
-          }
 
-          @Override
-          public void onFailure(Throwable ignored) {
-            // Logged by {@link GetChanges#call()}.
-          }
-        },
-        directExecutor());
+            @Override
+            public void onFailure(Throwable ignored) {
+              // Logged by {@link GetChanges#call()}.
+            }
+          },
+          directExecutor());
+    }
   }
 
   private abstract class Task<V> implements Callable<V> {
@@ -152,18 +157,22 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
 
     @Override
     protected List<Change> impl(RequestContext ctx) {
-      String ref = event.getRefName();
+      List<Change> changes = new ArrayList<>();
       Project.NameKey project = Project.nameKey(event.getProjectName());
-      if (ref.equals(RefNames.REFS_CONFIG)) {
-        return asChanges(queryProvider.get().byProjectOpen(project));
+      for (String ref : event.getRefNames()) {
+        if (ref.equals(RefNames.REFS_CONFIG)) {
+          changes.addAll(asChanges(queryProvider.get().byProjectOpen(project)));
+        }
+        changes.addAll(
+            asChanges(queryProvider.get().byBranchNew(BranchNameKey.create(project, ref))));
       }
-      return asChanges(queryProvider.get().byBranchNew(BranchNameKey.create(project, ref)));
+      return changes;
     }
 
     @Override
     public String toString() {
       return "Get changes to reindex caused by "
-          + event.getRefName()
+          + event.getRefNames()
           + " update of project "
           + event.getProjectName();
     }

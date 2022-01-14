@@ -23,7 +23,7 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
@@ -54,7 +54,7 @@ import java.util.concurrent.ExecutionException;
  * fraction of all changes. These are the changes that were modified last.
  */
 @Singleton
-public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
+public class SearchingChangeCacheImpl implements GitReferencesUpdatedListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String ID_CACHE = "changes";
@@ -80,7 +80,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
             .loader(Loader.class);
 
         bind(SearchingChangeCacheImpl.class);
-        DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
+        DynamicSet.bind(binder(), GitReferencesUpdatedListener.class)
             .to(SearchingChangeCacheImpl.class);
       }
     }
@@ -135,9 +135,12 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
   }
 
   @Override
-  public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
-    if (event.getRefName().startsWith(RefNames.REFS_CHANGES)) {
-      cache.invalidate(Project.nameKey(event.getProjectName()));
+  public void onGitReferencesUpdated(GitReferencesUpdatedListener.Event event) {
+    for (String refName : event.getRefNames()) {
+      if (refName.startsWith(RefNames.REFS_CHANGES)) {
+        cache.invalidate(Project.nameKey(event.getProjectName()));
+        break;
+      }
     }
   }
 

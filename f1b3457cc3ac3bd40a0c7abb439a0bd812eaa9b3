@@ -81,6 +81,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a16581c9_384b619f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-14T16:35:38Z",
+      "side": 1,
+      "message": "Thanks @Patrick, happy to +2 once the comments are addressed.",
+      "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08c6034a_e24de212",
@@ -94,6 +111,30 @@
       "writtenOn": "2022-01-14T12:17:08Z",
       "side": 1,
       "message": "nit: use \"footer:\" instead. With this definition the SR could be fulfilled with the text in the middle of the commit message.",
+      "range": {
+        "startLine": 109,
+        "startChar": 24,
+        "endLine": 109,
+        "endChar": 31
+      },
+      "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3399443e_e0bc126b",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-14T16:35:38Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "08c6034a_e24de212",
       "range": {
         "startLine": 109,
         "startChar": 24,

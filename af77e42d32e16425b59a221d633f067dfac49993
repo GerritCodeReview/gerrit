@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d5e537a_85183f50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T14:15:05Z",
+      "side": 1,
+      "message": "What happens if plugins implement multiple submit rules? \n\nI believe at the moment we do not have plugins that implement multiple submit rules, but:\n\n* we don\u0027t know all plugins\n\n* the simplesubmitrules plugin is intended to be a collection of submit rules, at the moment it contains only a single submit rule (NoUnresolvedCommentsRule, earlier also RequireNonAuthorApprovalRule but this one was moved into Gerrit core), but it\u0027s not unlikely new submit rules will be added at some point\n\nWhat I\u0027m wondering. With the old submit rules, the UI showed the fallback text from the contained submit requirements, why can\u0027t we just use that text when mapping to new submit requirements and this way be fully compatible?",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 23,
+        "endChar": 52
+      },
+      "revId": "af77e42d32e16425b59a221d633f067dfac49993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

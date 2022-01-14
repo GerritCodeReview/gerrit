@@ -260,7 +260,7 @@ export class GrRepoAccess extends PolymerElement {
   }
 
   _computeShowInherit(inheritsFrom?: ProjectInfo) {
-    return inheritsFrom?.id?.length ? 'show' : '';
+    return this._editing || inheritsFrom?.id?.length ? 'show' : '';
   }
 
   // TODO(TS): Unclear what is model here, provide a better explanation

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e550e6e_6f77f725",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-01-14T13:28:46Z",
+      "side": 1,
+      "message": "pedantically, that should use past tense now.\n(more cases follow.)",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "b888da718d8ee9684b3646e0a201031438fbba26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -168,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c64d95a_574ad8da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-01-14T13:28:46Z",
+      "side": 1,
+      "message": "ok, that makes sense to me, though it\u0027s confusing that the commit message doesn\u0027t point out that this is about backwards compat (in fact, the summary kinda suggests the opposite). of course i could have found that out by actually reading the patch or just having enough prior knowledge, but it may still make sense to make the commit message more self-contained. ignore at your discretion. ^^",
+      "parentUuid": "2e09d5bd_658f8d34",
+      "range": {
+        "startLine": 18,
+        "startChar": 26,
+        "endLine": 19,
+        "endChar": 66
+      },
+      "revId": "4fe2362eb01065a84f3f7a57cc019670cb40d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca7db8ac_674a6ee9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

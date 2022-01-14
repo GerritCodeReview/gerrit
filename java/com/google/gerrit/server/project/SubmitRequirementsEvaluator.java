@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
-import java.util.Map;
 
 public interface SubmitRequirementsEvaluator {
   /**
@@ -31,7 +31,7 @@ public interface SubmitRequirementsEvaluator {
    * @param includeLegacy if set to true, evaluate legacy {@link
    *     com.google.gerrit.entities.SubmitRecord}s and convert them to submit requirements.
    */
-  Map<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
+  ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
       ChangeData cd, boolean includeLegacy);
 
   /** Evaluate a single {@link SubmitRequirement} using change data. */

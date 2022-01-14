@@ -82,7 +82,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   }
 
   @Override
-  public Map<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
+  public ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
       ChangeData cd, boolean includeLegacy) {
     Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements = getRequirements(cd);
     Map<SubmitRequirement, SubmitRequirementResult> result = projectConfigRequirements;

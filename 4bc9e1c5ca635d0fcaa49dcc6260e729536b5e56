@@ -1,0 +1,341 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1662563e_2d2eb4aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Thanks for writing these docs!",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16806bdb_975da5c9",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Should config-labels.html also be modified to explain the relation between labels and submit requirements?\n\nMaybe also some of the label parameters (e.g. ignoreSelfApproval) should already be marked as deprecated with a note that SRs should be used instead?",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07542fbd_42878e47",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Should this rather be \"project owners\"? Since submit requirements are defined per project in refs/meta/config defining submit requirements is under the control of the project owners.",
+      "range": {
+        "startLine": 3,
+        "startChar": 36,
+        "endLine": 3,
+        "endChar": 42
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dc8dece_9fb2a290",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "submittable?",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5504ce6b_749bb07f",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Should it be documented anywhere that label definitions with certain functions and Prolog rules are auto-converted to submit requirements?",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d4f26cf_34d18a47",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Maybe link to config-project-config.html so that people that are not that familiar with Gerrit can learn that the project config is stored in the project.config file in refs/meta/config.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78b5dded_42a5ce31",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Maybe mention here that it can the name of an inherited submit requirement if it should be overridden and link to the Inheritance section below.",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e32904c_b3264d13",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Maybe add that this description is shown to the users to help them understand what this SR is about and how it can be fulfilled.",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f89e8162_c0d48a44",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Make this a link to the \u0027Query Expression Syntax\u0027 section. Here and below.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 18
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcac53f5_f8a93df9",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Maybe add a concrete example of such a applicableIf setting, so that user can see how the applicableIf line should look like in this case.",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 32,
+        "endChar": 24
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac0c3b00_f02137ab",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "This is hard to read. Can you rephrase this?",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 76
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04161f0e_f1fb67f7",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Maybe explain what\u0027s the intended use of this (allow a privileged user to bypass the SR in case of an emergency that requires urgent submission).",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61de2da3_a84d13d6",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Maybe say what happens if a child project has an override and this is false.",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65318274_268b6553",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Please document the default value.",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9837eca_623a5998",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Better just name this \u0027submit\u0027 option and link to the corresponding documentation (e.g. it can also be a \u0027submit\u0027 push option instead of \u0027%submit).",
+      "range": {
+        "startLine": 100,
+        "startChar": 70,
+        "endLine": 100,
+        "endChar": 79
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81501797_6c5ac0d1",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "Is using the %submit option the only one way to do this? E.g. do you also get this status if you:\n\n1. create a change\n\n2. push the commit directly into the target branch, which triggers auto-closing the change in ReceiveCommits\n\n?",
+      "range": {
+        "startLine": 100,
+        "startChar": 53,
+        "endLine": 101,
+        "endChar": 30
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ef659f3_9079a6f9",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T15:00:03Z",
+      "side": 1,
+      "message": "In case this is the default value, maybe drop this.",
+      "range": {
+        "startLine": 172,
+        "startChar": 1,
+        "endLine": 172,
+        "endChar": 34
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

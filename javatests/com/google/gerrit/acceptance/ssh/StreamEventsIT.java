@@ -40,7 +40,6 @@ import org.junit.Test;
 public class StreamEventsIT extends AbstractDaemonTest {
   private static final Duration MAX_DURATION_FOR_RECEIVING_EVENTS = Duration.ofSeconds(2);
   private static final String TEST_REVIEW_COMMENT = "any comment";
-  private StringBuilder eventsOutput = new StringBuilder();
   private Reader streamEventsReader;
 
   @Before
@@ -56,7 +55,17 @@ public class StreamEventsIT extends AbstractDaemonTest {
   @Test
   public void commentOnChangeShowsUpInStreamEvents() throws Exception {
     reviewChange(new ReviewInput().message(TEST_REVIEW_COMMENT));
-    waitForEvent(() -> pollEventsContaining(TEST_REVIEW_COMMENT).size() == 1);
+    waitForEvent(() -> pollEventsContaining("comment-added", TEST_REVIEW_COMMENT).size() == 1);
+  }
+
+  @Test
+  public void batchRefsUpdatedShowSeparatelyInStreamEvents() throws Exception {
+    String refName = createChange().getChange().currentPatchSet().refName();
+    waitForEvent(
+        () ->
+            pollEventsContaining("ref-updated", refName.substring(0, refName.lastIndexOf('/')))
+                    .size()
+                == 2);
   }
 
   private void waitForEvent(Supplier<Boolean> waitCondition) throws InterruptedException {
@@ -68,16 +77,20 @@ public class StreamEventsIT extends AbstractDaemonTest {
     changeApi.current().review(reviewInput);
   }
 
-  private List<String> pollEventsContaining(String reviewComment) {
+  private List<String> pollEventsContaining(String eventType, String expectedContent) {
     try {
       char[] cbuf = new char[2048];
+      StringBuilder eventsOutput = new StringBuilder();
       while (streamEventsReader.ready()) {
         streamEventsReader.read(cbuf);
         eventsOutput.append(cbuf);
       }
       return StreamSupport.stream(
               Splitter.on('\n').trimResults().split(eventsOutput.toString()).spliterator(), false)
-          .filter(event -> event.contains(reviewComment))
+          .filter(
+              event ->
+                  event.contains(String.format("\"type\":\"%s\"", eventType))
+                      && event.contains(expectedContent))
           .collect(Collectors.toList());
     } catch (IOException e) {
       throw new IllegalStateException(e);

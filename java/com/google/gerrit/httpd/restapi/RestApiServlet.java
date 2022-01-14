@@ -67,7 +67,7 @@ import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -811,23 +811,25 @@ public class RestApiServlet extends HttpServlet {
    */
   private void setXGerritUpdatedRefResponseHeaders(
       HttpServletRequest request, HttpServletResponse response) {
-    for (GitReferenceUpdatedListener.Event refUpdate :
+    for (GitReferencesUpdatedListener.Event refUpdateEvent :
         globals.webSession.get().getRefUpdatedEvents()) {
-      String refUpdateFormat =
-          String.format(
-              "%s~%s~%s~%s",
-              // encode the project and ref names since they may contain `~`
-              Url.encode(refUpdate.getProjectName()),
-              Url.encode(refUpdate.getRefName()),
-              refUpdate.getOldObjectId(),
-              refUpdate.getNewObjectId());
+      for (GitReferencesUpdatedListener.UpdatedRef refUpdate : refUpdateEvent.getUpdatedRefs()) {
+        String refUpdateFormat =
+            String.format(
+                "%s~%s~%s~%s",
+                // encode the project and ref names since they may contain `~`
+                Url.encode(refUpdateEvent.getProjectName()),
+                Url.encode(refUpdate.getRefName()),
+                refUpdate.getOldObjectId(),
+                refUpdate.getNewObjectId());
 
-      if (isRead(request)) {
-        logger.atWarning().log(
-            "request %s performed a ref update %s although the request is a READ request",
-            request.getRequestURL(), refUpdateFormat);
+        if (isRead(request)) {
+          logger.atWarning().log(
+              "request %s performed a ref update %s although the request is a READ request",
+              request.getRequestURL(), refUpdateFormat);
+        }
+        response.addHeader(X_GERRIT_UPDATED_REF, refUpdateFormat);
       }
-      response.addHeader(X_GERRIT_UPDATED_REF, refUpdateFormat);
     }
     globals.webSession.get().resetRefUpdatedEvents();
   }

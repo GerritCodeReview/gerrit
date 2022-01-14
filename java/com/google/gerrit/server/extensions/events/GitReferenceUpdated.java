@@ -17,11 +17,14 @@ package com.google.gerrit.server.extensions.events;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -58,11 +61,11 @@ public class GitReferenceUpdated {
             Project.NameKey project, BatchRefUpdate batchRefUpdate, AccountState updater) {}
       };
 
-  private final PluginSetContext<GitReferenceUpdatedListener> listeners;
+  private final PluginSetContext<GitReferencesUpdatedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  GitReferenceUpdated(PluginSetContext<GitReferenceUpdatedListener> listeners, EventUtil util) {
+  GitReferenceUpdated(PluginSetContext<GitReferencesUpdatedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
@@ -79,20 +82,19 @@ public class GitReferenceUpdated {
       AccountState updater) {
     fire(
         project,
-        refUpdate.getName(),
-        refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(),
-        type,
+        new UpdatedRef(
+            refUpdate.getName(), refUpdate.getOldObjectId(), refUpdate.getNewObjectId(), type),
         util.accountInfo(updater));
   }
 
   public void fire(Project.NameKey project, RefUpdate refUpdate, AccountState updater) {
     fire(
         project,
-        refUpdate.getName(),
-        refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(),
-        ReceiveCommand.Type.UPDATE,
+        new UpdatedRef(
+            refUpdate.getName(),
+            refUpdate.getOldObjectId(),
+            refUpdate.getNewObjectId(),
+            ReceiveCommand.Type.UPDATE),
         util.accountInfo(updater));
   }
 
@@ -104,20 +106,14 @@ public class GitReferenceUpdated {
       AccountState updater) {
     fire(
         project,
-        ref,
-        oldObjectId,
-        newObjectId,
-        ReceiveCommand.Type.UPDATE,
+        new UpdatedRef(ref, oldObjectId, newObjectId, ReceiveCommand.Type.UPDATE),
         util.accountInfo(updater));
   }
 
   public void fire(Project.NameKey project, ReceiveCommand cmd, AccountState updater) {
     fire(
         project,
-        cmd.getRefName(),
-        cmd.getOldId(),
-        cmd.getNewId(),
-        cmd.getType(),
+        new UpdatedRef(cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType()),
         util.accountInfo(updater));
   }
 
@@ -125,62 +121,43 @@ public class GitReferenceUpdated {
     if (listeners.isEmpty()) {
       return;
     }
+    ArrayList<GitReferencesUpdatedListener.UpdatedRef> updates = new ArrayList<>();
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() == ReceiveCommand.Result.OK) {
-        fire(
-            project,
-            cmd.getRefName(),
-            cmd.getOldId(),
-            cmd.getNewId(),
-            cmd.getType(),
-            util.accountInfo(updater));
+        updates.add(
+            new UpdatedRef(cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType()));
       }
     }
+    fire(project, updates, util.accountInfo(updater));
+  }
+
+  private void fire(Project.NameKey project, UpdatedRef updatedRef, AccountInfo updater) {
+    fire(project, List.of(updatedRef), updater);
   }
 
   private void fire(
       Project.NameKey project,
-      String ref,
-      ObjectId oldObjectId,
-      ObjectId newObjectId,
-      ReceiveCommand.Type type,
+      List<GitReferencesUpdatedListener.UpdatedRef> updatedRefs,
       AccountInfo updater) {
     if (listeners.isEmpty()) {
       return;
     }
-    ObjectId o = oldObjectId != null ? oldObjectId : ObjectId.zeroId();
-    ObjectId n = newObjectId != null ? newObjectId : ObjectId.zeroId();
-    Event event = new Event(project, ref, o.name(), n.name(), type, updater);
-    listeners.runEach(l -> l.onGitReferenceUpdated(event));
+    Event event = new Event(project, updatedRefs, updater);
+    listeners.runEach(l -> l.onGitReferencesUpdated(event));
   }
 
-  /** Event to be fired when a Git reference has been updated. */
-  public static class Event implements GitReferenceUpdatedListener.Event {
-    private final String projectName;
+  public static class UpdatedRef implements GitReferencesUpdatedListener.UpdatedRef {
     private final String ref;
-    private final String oldObjectId;
-    private final String newObjectId;
+    private final ObjectId oldObjectId;
+    private final ObjectId newObjectId;
     private final ReceiveCommand.Type type;
-    private final AccountInfo updater;
 
-    Event(
-        Project.NameKey project,
-        String ref,
-        String oldObjectId,
-        String newObjectId,
-        ReceiveCommand.Type type,
-        AccountInfo updater) {
-      this.projectName = project.get();
+    public UpdatedRef(
+        String ref, ObjectId oldObjectId, ObjectId newObjectId, ReceiveCommand.Type type) {
       this.ref = ref;
-      this.oldObjectId = oldObjectId;
-      this.newObjectId = newObjectId;
+      this.oldObjectId = oldObjectId != null ? oldObjectId : ObjectId.zeroId();
+      this.newObjectId = newObjectId != null ? newObjectId : ObjectId.zeroId();
       this.type = type;
-      this.updater = updater;
-    }
-
-    @Override
-    public String getProjectName() {
-      return projectName;
     }
 
     @Override
@@ -190,12 +167,12 @@ public class GitReferenceUpdated {
 
     @Override
     public String getOldObjectId() {
-      return oldObjectId;
+      return oldObjectId.name();
     }
 
     @Override
     public String getNewObjectId() {
-      return newObjectId;
+      return newObjectId.name();
     }
 
     @Override
@@ -214,15 +191,51 @@ public class GitReferenceUpdated {
     }
 
     @Override
+    public String toString() {
+      return String.format("{%s: %s -> %s}", ref, oldObjectId, newObjectId);
+    }
+  }
+
+  /** Event to be fired when a Git reference has been updated. */
+  public static class Event implements GitReferencesUpdatedListener.Event {
+    private final String projectName;
+    private final List<GitReferencesUpdatedListener.UpdatedRef> updatedRefs;
+    private final AccountInfo updater;
+
+    public Event(
+        Project.NameKey project,
+        List<GitReferencesUpdatedListener.UpdatedRef> updatedRefs,
+        AccountInfo updater) {
+      this.projectName = project.get();
+      this.updatedRefs = updatedRefs;
+      this.updater = updater;
+    }
+
+    @Override
+    public String getProjectName() {
+      return projectName;
+    }
+
+    @Override
+    public List<GitReferencesUpdatedListener.UpdatedRef> getUpdatedRefs() {
+      return updatedRefs;
+    }
+
+    @Override
+    public List<String> getRefNames() {
+      return updatedRefs.stream()
+          .map(GitReferencesUpdatedListener.UpdatedRef::getRefName)
+          .collect(Collectors.toList());
+    }
+
+    @Override
     public AccountInfo getUpdater() {
       return updater;
     }
 
     @Override
     public String toString() {
-      return String.format(
-          "%s[%s,%s: %s -> %s]",
-          getClass().getSimpleName(), projectName, ref, oldObjectId, newObjectId);
+      return String.format("%s[%s,%s]", getClass().getSimpleName(), projectName, updatedRefs);
     }
 
     @Override

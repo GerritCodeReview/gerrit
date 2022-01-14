@@ -901,7 +901,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       Config rc, String section, String subsection, String varName, boolean useRange) {
     Permission.Builder perm = Permission.builder(varName);
     loadPermissionRules(rc, section, subsection, varName, perm, useRange);
-    return ImmutableList.copyOf(perm.build().getRules());
+    return perm.build().getRules();
   }
 
   private void loadPermissionRules(

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e91a9906_3aac1f27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-14T11:05:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37bd87ec_f36dc242",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "4fe2362eb01065a84f3f7a57cc019670cb40d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c2697bf_67c0c432",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-12T17:45:58Z",
       "side": 1,
       "message": "+comma or \"and\", for better legibility.",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "4fe2362eb01065a84f3f7a57cc019670cb40d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4388b15_7c2ede13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-14T11:05:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c2697bf_67c0c432",
       "range": {
         "startLine": 10,
         "startChar": 50,
@@ -94,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e09d5bd_658f8d34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-14T11:05:51Z",
+      "side": 1,
+      "message": "This should also be transient: i.e. for gerrit installations that would like to define project.config submit requirements side by side with existing submit rules (label functions, prolog, etc...). On the log run, gerrit admins should remove existing submit rules and only rely on new submit requirements, hence this duplication won\u0027t happen.\n\nWhen both legacy/new submit requirements live side by side, we didn\u0027t want to regress in submittability if, e.g., admins misconfigured a new submit requirement. If this happens, we wanted the legacy submit rule to still be authoritative.",
+      "parentUuid": "f9bf5e1a_caaa3dde",
+      "range": {
+        "startLine": 18,
+        "startChar": 26,
+        "endLine": 19,
+        "endChar": 66
+      },
+      "revId": "4fe2362eb01065a84f3f7a57cc019670cb40d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca7db8ac_674a6ee9",
@@ -107,6 +179,30 @@
       "writtenOn": "2022-01-14T09:42:22Z",
       "side": 1,
       "message": "nit The",
+      "range": {
+        "startLine": 25,
+        "startChar": 41,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "4fe2362eb01065a84f3f7a57cc019670cb40d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa3bd3e4_4dc919ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-14T11:05:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca7db8ac_674a6ee9",
       "range": {
         "startLine": 25,
         "startChar": 41,
@@ -147,6 +243,30 @@
       "writtenOn": "2022-01-14T09:42:22Z",
       "side": 1,
       "message": "return the non-legacy one?",
+      "range": {
+        "startLine": 77,
+        "startChar": 73,
+        "endLine": 77,
+        "endChar": 84
+      },
+      "revId": "4fe2362eb01065a84f3f7a57cc019670cb40d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61945222_54194532",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-14T11:05:51Z",
+      "side": 1,
+      "message": "Nope. I know this is confusing 😞\n\nThis part of the code has nothing to do with non-legacy requirements. This part only deals with legacy SRs (coming from default/custom/prolog submit rules).\n\nThis handles the case when two different rules return the same label name. For example the DefaultSubmitRule returns CR\u003dOK but the IgnoreSelfApprovalRule return CR\u003dNEED. We need to merge both results (i.e. unify them) by returning any if the both agree in status, or otherwise favour the blocking entry.",
+      "parentUuid": "53abf5c5_e783ce55",
       "range": {
         "startLine": 77,
         "startChar": 73,

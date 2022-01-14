@@ -26,7 +26,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -84,7 +84,7 @@ public abstract class IntBlob {
       String refName,
       @Nullable ObjectId oldId,
       int val,
-      GitReferenceUpdated gitRefUpdated)
+      GitReferencesUpdated gitRefUpdated)
       throws IOException {
     ObjectId newId;
     try (ObjectInserter ins = repo.newObjectInserter()) {
@@ -117,7 +117,7 @@ public abstract class IntBlob {
       String refName,
       @Nullable ObjectId oldId,
       int val,
-      GitReferenceUpdated gitRefUpdated)
+      GitReferencesUpdated gitRefUpdated)
       throws IOException {
     RefUpdateUtil.checkResult(tryStore(repo, rw, projectName, refName, oldId, val, gitRefUpdated));
   }

@@ -26,7 +26,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
@@ -66,7 +66,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
             new FactoryModule() {
               @Override
               protected void configure() {
-                bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+                bind(GitReferencesUpdated.class).toInstance(GitReferencesUpdated.DISABLED);
                 factory(MetaDataUpdate.InternalFactory.class);
 
                 // The LocalUsernamesToLowerCase program needs to access all external IDs only

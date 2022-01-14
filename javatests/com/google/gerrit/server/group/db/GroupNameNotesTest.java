@@ -36,7 +36,7 @@ import com.google.gerrit.extensions.common.testing.CommitInfoSubject;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.GitReferencesUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GitTestUtil;
@@ -547,7 +547,7 @@ public class GroupNameNotesTest {
     PersonIdent serverIdent = newPersonIdent();
 
     MetaDataUpdate metaDataUpdate =
-        new MetaDataUpdate(GitReferenceUpdated.DISABLED, Project.nameKey("Test Repository"), repo);
+        new MetaDataUpdate(GitReferencesUpdated.DISABLED, Project.nameKey("Test Repository"), repo);
     metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
     metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
     return metaDataUpdate;

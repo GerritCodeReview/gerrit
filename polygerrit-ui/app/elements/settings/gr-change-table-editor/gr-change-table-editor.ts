@@ -64,7 +64,11 @@ export class GrChangeTableEditor extends PolymerElement {
     if (!config || !config.change) return true;
     if (column === 'Comments')
       return this.flagsService.isEnabled('comments-column');
-    if (column === 'Requirements')
+    if (column === 'Status')
+      return !this.flagsService.isEnabled(
+        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+      );
+    if (column === ' Status ')
       return this.flagsService.isEnabled(
         KnownExperimentId.SUBMIT_REQUIREMENTS_UI
       );

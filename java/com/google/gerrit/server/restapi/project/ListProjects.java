@@ -666,7 +666,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       } catch (IllegalArgumentException e) {
         throw new BadRequestException(e.getMessage());
       }
-      return searcher.search(ImmutableList.copyOf(projectCache.all()));
+      return searcher.search(projectCache.all().asList());
     } else {
       return projectCache.all().stream();
     }

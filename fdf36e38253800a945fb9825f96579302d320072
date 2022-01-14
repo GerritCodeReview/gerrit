@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85d92d27_cf5a3424",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-01-14T09:50:49Z",
+      "side": 1,
+      "message": "Youssef, could you please take a look on my comment https://gerrit-review.googlesource.com/c/gerrit/+/328019/comment/96be6eeb_edd58cb6/ ?",
+      "revId": "fdf36e38253800a945fb9825f96579302d320072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96be6eeb_edd58cb6",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-01-14T09:50:49Z",
+      "side": 1,
+      "message": "IIUC the javadoc and the code correctly, the legacyResult overwrites projectConfigResult if their values are different. I.e. result.put can add duplicated key to the builder, which is not allowed (https://guava.dev/releases/19.0/api/docs/com/google/common/collect/ImmutableMap.Builder.html#build()).\n\nYoussef, WDYT about this change?\nIf the put in this line can replace existing keys - could you please add a test for this situation?",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 16
+      },
+      "revId": "fdf36e38253800a945fb9825f96579302d320072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

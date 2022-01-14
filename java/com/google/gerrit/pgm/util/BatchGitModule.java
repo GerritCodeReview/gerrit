@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.util;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -24,6 +25,7 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 public class BatchGitModule extends FactoryModule {
   @Override
   protected void configure() {
+    DynamicSet.setOf(binder(), GitReferencesUpdatedListener.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     install(new GitModule());

@@ -63,6 +63,30 @@
       },
       "revId": "fdf36e38253800a945fb9825f96579302d320072",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44cf64f1_03371761",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-14T13:18:10Z",
+      "side": 1,
+      "message": "Good catch! I\u0027ve reverted this part of the change.\nI agree it would be good having a test to cover this (which would have failed for this change).",
+      "parentUuid": "656428bb_bd9dbc80",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 16
+      },
+      "revId": "fdf36e38253800a945fb9825f96579302d320072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

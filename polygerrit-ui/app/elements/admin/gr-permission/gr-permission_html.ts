@@ -98,7 +98,7 @@ export const htmlTemplate = html`
               disabled$="[[!editing]]"
               on-click="_onTapExclusiveToggle"
             ></paper-toggle-button
-            >Exclusive
+            >[[_computeExclusiveLabel(permission.value)]]
           </template>
           <gr-button link="" id="removeBtn" on-click="_handleRemovePermission"
             >Remove</gr-button

@@ -85,7 +85,7 @@ suite('gr-submit-requirements tests', () => {
         </tr>
       </thead>
       <tbody>
-        <tr id="requirement-Verified">
+        <tr id="requirement-0-Verified">
           <td>
             <iron-icon
               aria-label="satisfied"
@@ -111,7 +111,7 @@ suite('gr-submit-requirements tests', () => {
         </tr>
       </tbody>
     </table>
-    <gr-submit-requirement-hovercard for="requirement-Verified">
+    <gr-submit-requirement-hovercard for="requirement-0-Verified">
     </gr-submit-requirement-hovercard>
   `);
   });

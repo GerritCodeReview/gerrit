@@ -37,7 +37,7 @@ import com.google.gerrit.extensions.events.ChangeDeletedListener;
 import com.google.gerrit.extensions.events.ChangeMergedListener;
 import com.google.gerrit.extensions.events.ChangeRestoredListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitReferencesUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.events.PrivateStateChangedListener;
@@ -79,7 +79,7 @@ public class StreamEventsApiListener
         WorkInProgressStateChangedListener,
         PrivateStateChangedListener,
         CommentAddedListener,
-        GitReferenceUpdatedListener,
+        GitReferencesUpdatedListener,
         HashtagsEditedListener,
         NewProjectCreatedListener,
         ReviewerAddedListener,
@@ -98,7 +98,7 @@ public class StreamEventsApiListener
       DynamicSet.bind(binder(), ChangeMergedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ChangeRestoredListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), CommentAddedListener.class).to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
+      DynamicSet.bind(binder(), GitReferencesUpdatedListener.class)
           .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), HashtagsEditedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), NewProjectCreatedListener.class).to(StreamEventsApiListener.class);
@@ -358,20 +358,23 @@ public class StreamEventsApiListener
   }
 
   @Override
-  public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event ev) {
-    RefUpdatedEvent event = new RefUpdatedEvent();
-    if (ev.getUpdater() != null) {
-      event.submitter = accountAttributeSupplier(ev.getUpdater());
+  public void onGitReferencesUpdated(GitReferencesUpdatedListener.Event ev) {
+    for (UpdatedRef updatedRef : ev.getUpdatedRefs()) {
+      RefUpdatedEvent event = new RefUpdatedEvent();
+      if (ev.getUpdater() != null) {
+        event.submitter = accountAttributeSupplier(ev.getUpdater());
+      }
+      final BranchNameKey refName =
+          BranchNameKey.create(ev.getProjectName(), updatedRef.getRefName());
+      event.refUpdate =
+          Suppliers.memoize(
+              () ->
+                  eventFactory.asRefUpdateAttribute(
+                      ObjectId.fromString(updatedRef.getOldObjectId()),
+                      ObjectId.fromString(updatedRef.getNewObjectId()),
+                      refName));
+      dispatcher.run(d -> d.postEvent(refName, event));
     }
-    final BranchNameKey refName = BranchNameKey.create(ev.getProjectName(), ev.getRefName());
-    event.refUpdate =
-        Suppliers.memoize(
-            () ->
-                eventFactory.asRefUpdateAttribute(
-                    ObjectId.fromString(ev.getOldObjectId()),
-                    ObjectId.fromString(ev.getNewObjectId()),
-                    refName));
-    dispatcher.run(d -> d.postEvent(refName, event));
   }
 
   @Override

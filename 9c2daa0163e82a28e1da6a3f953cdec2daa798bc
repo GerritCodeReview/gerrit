@@ -22,6 +22,30 @@
       },
       "revId": "9c2daa0163e82a28e1da6a3f953cdec2daa798bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5de72b45_2f26a2ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-14T09:31:36Z",
+      "side": 1,
+      "message": "Oh, that is just an additional feature that I have introduced on the fly: All the individual comments should be expanded when you are jumping to a comment thread.\n\nIt does not have anything to do with the issue, but it was so small that I felt fine including it in the fix.",
+      "parentUuid": "7908dc9a_0b37e269",
+      "range": {
+        "startLine": 631,
+        "startChar": 8,
+        "endLine": 631,
+        "endChar": 35
+      },
+      "revId": "9c2daa0163e82a28e1da6a3f953cdec2daa798bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

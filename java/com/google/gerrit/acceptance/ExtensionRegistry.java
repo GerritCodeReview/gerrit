@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
+import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
@@ -81,6 +82,7 @@ public class ExtensionRegistry {
   private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
   private final DynamicSet<CommentAddedListener> commentAddedListeners;
   private final DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners;
+  private final DynamicSet<GitBatchRefUpdateListener> batchRefUpdateListeners;
   private final DynamicSet<FileHistoryWebLink> fileHistoryWebLinks;
   private final DynamicSet<PatchSetWebLink> patchSetWebLinks;
   private final DynamicSet<ResolveConflictsWebLink> resolveConflictsWebLinks;
@@ -123,6 +125,7 @@ public class ExtensionRegistry {
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
       DynamicSet<CommentAddedListener> commentAddedListeners,
       DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners,
+      DynamicSet<GitBatchRefUpdateListener> batchRefUpdateListeners,
       DynamicSet<FileHistoryWebLink> fileHistoryWebLinks,
       DynamicSet<PatchSetWebLink> patchSetWebLinks,
       DynamicSet<ResolveConflictsWebLink> resolveConflictsWebLinks,
@@ -160,6 +163,7 @@ public class ExtensionRegistry {
     this.refOperationValidationListeners = refOperationValidationListeners;
     this.commentAddedListeners = commentAddedListeners;
     this.refUpdatedListeners = refUpdatedListeners;
+    this.batchRefUpdateListeners = batchRefUpdateListeners;
     this.fileHistoryWebLinks = fileHistoryWebLinks;
     this.patchSetWebLinks = patchSetWebLinks;
     this.editWebLinks = editWebLinks;
@@ -271,6 +275,10 @@ public class ExtensionRegistry {
 
     public Registration add(GitReferenceUpdatedListener refUpdatedListener) {
       return add(refUpdatedListeners, refUpdatedListener);
+    }
+
+    public Registration add(GitBatchRefUpdateListener batchRefUpdateListener) {
+      return add(batchRefUpdateListeners, batchRefUpdateListener);
     }
 
     public Registration add(FileHistoryWebLink fileHistoryWebLink) {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29679fdd_1eaf2182",
+        "filename": "WORKSPACE",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-15T12:07:16Z",
+      "side": 1,
+      "message": "The new version is already on GCloud bucket, see previous line:\n\n  https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v3.0.0.tar.gz",
+      "parentUuid": "3275632c_c0f42ca6",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 73
+      },
+      "revId": "5ea5df63cde9aa9a59fb7eec938a9e3ab1d2db65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b090209b_7ffe606d",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-01-15T11:22:52Z",
       "side": 1,
       "message": "nit: add empty line?",
+      "revId": "5ea5df63cde9aa9a59fb7eec938a9e3ab1d2db65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b43cfc36_dadc36dd",
+        "filename": "tools/platforms/Makefile",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-15T12:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b090209b_7ffe606d",
       "revId": "5ea5df63cde9aa9a59fb7eec938a9e3ab1d2db65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

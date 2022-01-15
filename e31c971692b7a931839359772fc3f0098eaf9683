@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "904904c5_66c37fbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-15T11:31:19Z",
+      "side": 1,
+      "message": "This issue has impacted all v3.4.x and v3.5.0.1 releases: can you raise a ticket on Gerrit issue tracker as well? It would make easier for me to refer to it on the release notes.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 9
+      },
+      "revId": "e31c971692b7a931839359772fc3f0098eaf9683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fe783ebc_2f682587",

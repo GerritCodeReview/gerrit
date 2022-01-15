@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ca4ab3c_d69b1244",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-15T11:27:21Z",
+      "side": 1,
+      "message": "I\u0027ll publish a survey on Monday to check if really anyone is using the Java 8 source-level compatibility is still used. It was original put in place for SAP and Google but I doubt anyone used it.",
+      "revId": "2f23187b8db361448b98a65e4821df1f3d41d8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

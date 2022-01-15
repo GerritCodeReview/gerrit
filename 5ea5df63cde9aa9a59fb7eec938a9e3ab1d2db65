@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3275632c_c0f42ca6",
+        "filename": "WORKSPACE",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-15T11:22:52Z",
+      "side": 1,
+      "message": "Can you publish this to GCloud bucket? GitHub is quite flaky and I wouldn\u0027t like our CI process to be hit by GitHub\u0027s outages.",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 73
+      },
+      "revId": "5ea5df63cde9aa9a59fb7eec938a9e3ab1d2db65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b090209b_7ffe606d",
+        "filename": "tools/platforms/Makefile",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-15T11:22:52Z",
+      "side": 1,
+      "message": "nit: add empty line?",
+      "revId": "5ea5df63cde9aa9a59fb7eec938a9e3ab1d2db65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,195 +16,29 @@
       "message": "thx.",
       "revId": "5fb1161ffe5a03ea6663686a8569383f33e3099d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
-    }
-  ],
-  "submitRequirementResults": [
-    {
-      "submitRequirement": {
-        "name": "Code-Review",
-        "description": {
-          "value": "At least one maximum vote for label \u0027Code-Review\u0027 is required"
-        },
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Review\u003dMAX,user\u003dnon_uploader AND -label:Code-Review\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": true
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dMAX,user\u003dnon_uploader AND -label:Code-Review\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Review\u003dMAX,user\u003dnon_uploader"
-        ],
-        "failingAtoms": [
-          "label:Code-Review\u003dMIN"
-        ]
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "5fb1161ffe5a03ea6663686a8569383f33e3099d",
-      "legacy": {
-        "value": false
-      },
-      "forced": {}
     },
     {
-      "submitRequirement": {
-        "name": "Code-Style",
-        "description": {
-          "value": "Code has correct style and format"
-        },
-        "applicabilityExpression": {
-          "value": {
-            "expressionString": "-branch:refs/meta/config"
-          }
-        },
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "unresolved": true,
+      "key": {
+        "uuid": "557f2ded_82eb52f2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/CodeReviewCommitTest.java",
+        "patchSetId": 3
       },
-      "applicabilityExpressionResult": {
-        "value": {
-          "expression": {
-            "expressionString": "-branch:refs/meta/config"
-          },
-          "status": "PASS",
-          "errorMessage": {},
-          "passingAtoms": [],
-          "failingAtoms": [
-            "branch:refs/meta/config"
-          ]
-        }
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
       },
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Style\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label:Code-Style\u003dMIN"
-        ]
+      "writtenOn": "2022-01-16T10:04:12Z",
+      "side": 1,
+      "message": "As Han-Wen pointed out in earlier comment, we are eliminating java serialization bits from the code base, see issue 14302, change 327124 and: [1].\n\nWhen I try to build Gerrit@HEAD with the latest Error Prone version, included in upcoming Bazel 5.x release the build is failing:\n\n  javatests/com/google/gerrit/acceptance/server/git/CodeReviewCommitTest.java:60: error: [BanSerializableRead] Deserializing user input via the `Serializable` API is extremely dangerous\n        return (CodeReviewCommit) in.readObject();\n                                               ^\n    (see https://errorprone.info/bugpattern/BanSerializableRead)\n  INFO: Elapsed time: 89.544s, Critical Path: 87.58s\n  INFO: 363 processes: 27 remote cache hit, 125 internal, 211 remote.\n  FAILED: Build did NOT complete successfully\n\nTo reproduce, fetch change 291864 and run (Note, though, that I will add SuppressWarning there in the latest patch set):\n\n  $ bazelisk test javatests/com/google/gerrit/acceptance/...\n\nThe better question is, why this problem was not detected during import of this change in Google internal VCS? In open source version, Dmitrii Filippov explicitly added BanSerializableRead with error severity:\n\n \"-Xep:Xep:BanSerializableRead:ERROR:ERROR\",\n\nbut unfortunately, the currently used Bazel version on gerrit@HEAD is 4.2.0: This bazel release is shipping outdated Error Prone version, so that BanSerializableRead:ERROR and other additions in Dmitrii\u0027s change are no-op.\n\nMoreover, in this CL: [3], Liam Miller-Cushon disabled BanSerializableRead bug pattern in Error Prone per default. The commit message is not detailed enough, but apparently this is the reason, why internal Google\u0027s build tool did not flag line 60 and allow even to import that code, without suppressing the warning.\n\n[1] https://errorprone.info/bugpattern/BanSerializableRead\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/318678/3/tools/BUILD#106\n[3] https://github.com/google/error-prone/commit/c5e1687485bad49606a288187334a48fea284861",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 3
       },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "5fb1161ffe5a03ea6663686a8569383f33e3099d",
-      "legacy": {
-        "value": false
-      },
-      "forced": {}
-    },
-    {
-      "submitRequirement": {
-        "name": "Library-Compliance",
-        "description": {
-          "value": "Changes to specific library/metadata files require additional approval"
-        },
-        "applicabilityExpression": {
-          "value": {
-            "expressionString": "-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"
-          }
-        },
-        "submittabilityExpression": {
-          "expressionString": "label:Library-Compliance\u003dMAX,user\u003dnon_uploader AND -label:Library-Compliance\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {
-        "value": {
-          "expression": {
-            "expressionString": "-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"
-          },
-          "status": "FAIL",
-          "errorMessage": {},
-          "passingAtoms": [],
-          "failingAtoms": [
-            "branch:refs/meta/config",
-            "file:\"^lib/.*\"",
-            "file:\"^WORKSPACE$\"",
-            "file:\"^.gitmodule$\"",
-            "file:\"^tools/deps.bzl$\""
-          ]
-        }
-      },
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Library-Compliance\u003dMAX,user\u003dnon_uploader AND -label:Library-Compliance\u003dMIN"
-        },
-        "status": "FAIL",
-        "errorMessage": {},
-        "passingAtoms": [],
-        "failingAtoms": [
-          "label:Library-Compliance\u003dMAX,user\u003dnon_uploader",
-          "label:Library-Compliance\u003dMIN"
-        ]
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "5fb1161ffe5a03ea6663686a8569383f33e3099d",
-      "legacy": {
-        "value": false
-      },
-      "forced": {}
-    },
-    {
-      "submitRequirement": {
-        "name": "Verified",
-        "description": {
-          "value": "CI result status for build and tests is passing"
-        },
-        "applicabilityExpression": {
-          "value": {
-            "expressionString": "-branch:refs/meta/config"
-          }
-        },
-        "submittabilityExpression": {
-          "expressionString": "label:Verified\u003dMAX AND -label:Verified\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": true
-      },
-      "applicabilityExpressionResult": {
-        "value": {
-          "expression": {
-            "expressionString": "-branch:refs/meta/config"
-          },
-          "status": "PASS",
-          "errorMessage": {},
-          "passingAtoms": [],
-          "failingAtoms": [
-            "branch:refs/meta/config"
-          ]
-        }
-      },
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dMAX AND -label:Verified\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Verified\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label:Verified\u003dMIN"
-        ]
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "5fb1161ffe5a03ea6663686a8569383f33e3099d",
-      "legacy": {
-        "value": false
-      },
-      "forced": {}
+      "revId": "5fb1161ffe5a03ea6663686a8569383f33e3099d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

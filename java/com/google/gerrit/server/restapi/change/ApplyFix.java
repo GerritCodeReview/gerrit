@@ -19,6 +19,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -43,7 +44,7 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-public class ApplyFix implements RestModifyView<FixResource, Void> {
+public class ApplyFix implements RestModifyView<FixResource, Input> {
 
   private final GitRepositoryManager gitRepositoryManager;
   private final FixReplacementInterpreter fixReplacementInterpreter;
@@ -66,7 +67,7 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
   }
 
   @Override
-  public Response<EditInfo> apply(FixResource fixResource, Void nothing)
+  public Response<EditInfo> apply(FixResource fixResource, Input nothing)
       throws AuthException, BadRequestException, ResourceConflictException, IOException,
           ResourceNotFoundException, PermissionBackendException {
     RevisionResource revisionResource = fixResource.getRevisionResource();

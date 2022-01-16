@@ -1,4 +1,5 @@
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 CAFFEINE_VERS = "2.9.2"
 ANTLR_VERS = "3.5.2"
@@ -80,10 +81,16 @@ def java_dependencies():
         sha1 = "9feecc2b24d6bc9ff865af8d082f192238a293eb",
     )
 
-    maven_jar(
+    # TODO(davido): Switch to official release once availanble.
+    # Use custom release that fixed compatibility with JDK 17:
+    # https://github.com/google/gson/issues/1875
+    java_import_external(
         name = "gson",
-        artifact = "com.google.code.gson:gson:2.8.7",
-        sha1 = "69d9503ea0a40ee16f0bcdac7e3eaf83d0fa914a",
+        jar_sha256 = "d68e2a0f4b97143988f2ceef593947acc3f9d9e9618569c26264e63179887d49",
+        jar_urls = [
+            "https://github.com/davido/gson/releases/download/v2.9.0/gson-2.9.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
     maven_jar(

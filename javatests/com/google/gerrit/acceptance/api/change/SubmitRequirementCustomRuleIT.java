@@ -39,7 +39,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 
-public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
+public class SubmitRequirementCustomRuleIT extends AbstractDaemonTest {
   private static final LegacySubmitRequirement req =
       LegacySubmitRequirement.builder()
           .setType("custom_rule")

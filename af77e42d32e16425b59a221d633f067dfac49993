@@ -166,6 +166,30 @@
       },
       "revId": "af77e42d32e16425b59a221d633f067dfac49993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72872a6b_15ad6a72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T14:47:43Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. Thanks for bringing this to my attention (I wasn\u0027t aware that simple-submit-rules is used internally). I checked and there are very few (less than five) hosts that use the simple-submit-rules plugin. I\u0027ll manually migrate those first and disable the plugin on these hosts.\n\nFor code owners there are maybe 10~20 hosts using it, so I\u0027d prefer keeping this change until we have them all migrated.\n\nI\u0027ll resolve this comment after migrating the simple-submit-rules.",
+      "parentUuid": "7b8576d0_6f78d301",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 23,
+        "endChar": 52
+      },
+      "revId": "af77e42d32e16425b59a221d633f067dfac49993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

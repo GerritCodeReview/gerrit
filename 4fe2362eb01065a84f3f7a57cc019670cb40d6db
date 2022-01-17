@@ -190,6 +190,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "679440fe_168dffe3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T08:55:09Z",
+      "side": 1,
+      "message": "No worries :-) That always happens that I have full context in mind but I don\u0027t bring it fully into the commit message.\n\nDone.",
+      "parentUuid": "2c64d95a_574ad8da",
+      "range": {
+        "startLine": 18,
+        "startChar": 26,
+        "endLine": 19,
+        "endChar": 66
+      },
+      "revId": "4fe2362eb01065a84f3f7a57cc019670cb40d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca7db8ac_674a6ee9",

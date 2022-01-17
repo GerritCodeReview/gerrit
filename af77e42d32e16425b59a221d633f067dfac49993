@@ -22,6 +22,30 @@
       },
       "revId": "af77e42d32e16425b59a221d633f067dfac49993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0039d38_03d10bd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T09:04:40Z",
+      "side": 1,
+      "message": "That\u0027s a valid point. I\u0027d though prefer not to spend much time on this part since all plugins we know currently implement one submit rule as you mentioned, and also because this is a transient state and we\u0027re actively working on replacing existing submit rules with their own submit requirements, similar to what we did in https://gerrit-review.googlesource.com/c/plugins/code-owners/+/320980.",
+      "parentUuid": "0d5e537a_85183f50",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 23,
+        "endChar": 52
+      },
+      "revId": "af77e42d32e16425b59a221d633f067dfac49993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

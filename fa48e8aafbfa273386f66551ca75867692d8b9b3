@@ -22,6 +22,30 @@
       },
       "revId": "fa48e8aafbfa273386f66551ca75867692d8b9b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9662b354_9f02310a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-17T14:33:32Z",
+      "side": 1,
+      "message": "As discussed in person, I think it is really hard to optimize this perfectly, both in terms of anticipating what the user actually wants and in terms of technically implementing it.\n\nAt the moment we will just show the check name (and ETA might be completely hidden), if the check name is very long.\n\nWe know from user feedback that long check names are meaningful and it is desirable to see the complete name, so I would be hesitant to cut the name in favor of the ETA.\n\nI would propose to keep as is for now and wait for user feedback both for better prioritization and for understanding what the typical user would want to see.",
+      "parentUuid": "514fec79_643e8666",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "fa48e8aafbfa273386f66551ca75867692d8b9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

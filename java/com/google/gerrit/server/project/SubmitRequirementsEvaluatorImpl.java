@@ -170,7 +170,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     for (SubmitRequirement requirement : requirements.values()) {
       results.put(requirement, evaluateRequirement(requirement, cd));
     }
-    return results.build();
+    return results.buildOrThrow();
   }
 
   /**

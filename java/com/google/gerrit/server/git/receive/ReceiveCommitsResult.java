@@ -70,7 +70,7 @@ public abstract class ReceiveCommitsResult {
       ImmutableMap.Builder<ChangeStatus, ImmutableSet<Change.Id>> changesBuilder =
           ImmutableMap.builder();
       changes.entrySet().forEach(e -> changesBuilder.put(e.getKey(), e.getValue().build()));
-      changes(changesBuilder.build());
+      changes(changesBuilder.buildOrThrow());
       return autoBuild();
     }
 

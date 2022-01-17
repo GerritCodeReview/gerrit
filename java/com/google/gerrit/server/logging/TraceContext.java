@@ -252,7 +252,7 @@ public class TraceContext implements AutoCloseable {
   public ImmutableMap<String, String> getTags() {
     ImmutableMap.Builder<String, String> tagMap = ImmutableMap.builder();
     tags.cellSet().forEach(c -> tagMap.put(c.getRowKey(), c.getColumnKey()));
-    return tagMap.build();
+    return tagMap.buildOrThrow();
   }
 
   public TraceContext addPluginTag(String pluginName) {

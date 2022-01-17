@@ -73,7 +73,7 @@ public class IndexHtmlUtil {
     if (!enabledExperiments.isEmpty()) {
       data.put("enabledExperiments", serializeObject(GSON, enabledExperiments).toString());
     }
-    return data.build();
+    return data.buildOrThrow();
   }
 
   /** Returns dynamic parameters of {@code index.html}. */
@@ -131,7 +131,7 @@ public class IndexHtmlUtil {
     }
 
     data.put("gerritInitialData", initialData);
-    return data.build();
+    return data.buildOrThrow();
   }
 
   /** Returns experimentData to be used in {@code index.html}. */
@@ -183,7 +183,7 @@ public class IndexHtmlUtil {
       data.put("useGoogleFonts", "true");
     }
 
-    return data.build();
+    return data.buildOrThrow();
   }
 
   private static String computeCanonicalPath(@Nullable String canonicalURL)

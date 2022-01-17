@@ -653,7 +653,7 @@ public abstract class ChangeEmail extends NotificationEmail {
             break;
         }
       }
-      result.add(lineData.build());
+      result.add(lineData.buildOrThrow());
     }
     return result.build();
   }

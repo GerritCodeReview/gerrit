@@ -133,7 +133,7 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
         }
         c = c.getSuperclass();
       }
-      opFactories = b.build();
+      opFactories = b.buildOrThrow();
     }
   }
 
@@ -205,7 +205,7 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
         String name = e.getExportName() + "_" + e.getPluginName();
         opFactoriesBuilder.put(name, e.getProvider().get());
       }
-      opFactories = opFactoriesBuilder.build();
+      opFactories = opFactoriesBuilder.buildOrThrow();
     } else {
       opFactories = def.opFactories;
     }

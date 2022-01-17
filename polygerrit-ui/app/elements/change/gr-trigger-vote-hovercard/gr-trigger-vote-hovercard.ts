@@ -18,6 +18,7 @@ import {customElement, property} from 'lit/decorators';
 import {css, html, LitElement} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {LabelInfo} from '../../../api/rest-api';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -26,6 +27,9 @@ const base = HovercardMixin(LitElement);
 export class GrTriggerVoteHovercard extends base {
   @property()
   labelName?: string;
+
+  @property({type: Object})
+  labelInfo?: LabelInfo;
 
   static override get styles() {
     return [
@@ -83,6 +87,18 @@ export class GrTriggerVoteHovercard extends base {
           </div>
         </div>
       </div>
+      ${this.renderDescription()}
+    </div>`;
+  }
+
+  private renderDescription() {
+    const description = this.labelInfo?.description;
+    if (!description) return;
+    return html`<div class="section description">
+      <div class="sectionIcon">
+        <iron-icon icon="gr-icons:description"></iron-icon>
+      </div>
+      <div class="sectionContent">${description}</div>
     </div>`;
   }
 }

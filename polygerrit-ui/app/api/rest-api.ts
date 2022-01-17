@@ -726,6 +726,7 @@ export declare interface InheritedBooleanInfo {
 
 export declare interface LabelCommonInfo {
   optional?: boolean; // not set if false
+  description?: string;
 }
 
 export type LabelNameToInfoMap = {[labelName: string]: LabelInfo};

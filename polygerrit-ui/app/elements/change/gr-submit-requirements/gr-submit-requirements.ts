@@ -423,7 +423,10 @@ export class GrTriggerVote extends LitElement {
     if (!this.labelInfo) return;
     return html`
       <div class="container">
-        <gr-trigger-vote-hovercard .labelName=${this.label}>
+        <gr-trigger-vote-hovercard
+          .labelName=${this.label}
+          .labelInfo=${this.labelInfo}
+        >
           <gr-label-info
             slot="label-info"
             .change=${this.change}

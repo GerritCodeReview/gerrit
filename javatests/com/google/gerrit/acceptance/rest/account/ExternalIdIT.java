@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
@@ -66,7 +65,6 @@ import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.testing.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -83,7 +81,6 @@ import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
@@ -105,20 +102,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
   @Inject private ExternalIdFactory externalIdFactory;
-
-  @ConfigSuite.Default
-  public static Config partialCacheReloadingEnabled() {
-    Config cfg = new Config();
-    cfg.setBoolean("cache", "external_ids_map", "enablePartialReloads", true);
-    return cfg;
-  }
-
-  @ConfigSuite.Config
-  public static Config partialCacheReloadingDisabled() {
-    Config cfg = new Config();
-    cfg.setBoolean("cache", "external_ids_map", "enablePartialReloads", false);
-    return cfg;
-  }
 
   @Test
   public void getExternalIds() throws Exception {
@@ -732,38 +715,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void checkNoReloadAfterUpdate() throws Exception {
-    Set<ExternalId> expectedExtIds = new HashSet<>(externalIds.byAccount(admin.id()));
-    try (AutoCloseable ctx = createFailOnLoadContext()) {
-      // insert external ID
-      ExternalId extId = externalIdFactory.create("foo", "bar", admin.id());
-      insertExtId(extId);
-      expectedExtIds.add(extId);
-      assertThat(externalIds.byAccount(admin.id())).containsExactlyElementsIn(expectedExtIds);
-
-      // update external ID
-      expectedExtIds.remove(extId);
-      ExternalId extId2 =
-          externalIdFactory.createWithEmail("foo", "bar", admin.id(), "foo.bar@example.com");
-      accountsUpdateProvider
-          .get()
-          .update("Update External ID", admin.id(), u -> u.updateExternalId(extId2));
-      expectedExtIds.add(extId2);
-      assertThat(externalIds.byAccount(admin.id())).containsExactlyElementsIn(expectedExtIds);
-
-      // delete external ID
-      accountsUpdateProvider
-          .get()
-          .update("Delete External ID", admin.id(), u -> u.deleteExternalId(extId));
-      expectedExtIds.remove(extId2);
-      assertThat(externalIds.byAccount(admin.id())).containsExactlyElementsIn(expectedExtIds);
-    }
-  }
-
-  @Test
   public void byAccountFailIfReadingExternalIdsFails() throws Exception {
-    assume().that(isPartialCacheReloadingEnabled()).isFalse();
-
     try (AutoCloseable ctx = createFailOnLoadContext()) {
       // update external ID branch so that external IDs need to be reloaded
       insertExtIdBehindGerritsBack(externalIdFactory.create("foo", "bar", admin.id()));
@@ -774,8 +726,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void byEmailFailIfReadingExternalIdsFails() throws Exception {
-    assume().that(isPartialCacheReloadingEnabled()).isFalse();
-
     try (AutoCloseable ctx = createFailOnLoadContext()) {
       // update external ID branch so that external IDs need to be reloaded
       insertExtIdBehindGerritsBack(externalIdFactory.create("foo", "bar", admin.id()));
@@ -1033,10 +983,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
     extIdNotes.commit(md);
   }
 
-  private boolean isPartialCacheReloadingEnabled() {
-    return cfg.getBoolean("cache", "external_ids_map", "enablePartialReloads", true);
-  }
-
   private void insertExtId(ExternalId extId) throws Exception {
     accountsUpdateProvider
         .get()
@@ -1059,7 +1005,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       // Inserting an external ID "behind Gerrit's back" means that the caches are not updated.
       ExternalIdNotes extIdNotes =
-          ExternalIdNotes.loadNoCacheUpdate(
+          ExternalIdNotes.load(
               allUsers, repo, externalIdFactory, IS_USER_NAME_CASE_INSENSITIVE_MIGRATION_MODE);
       extIdNotes.insert(extId);
       try (MetaDataUpdate metaDataUpdate =

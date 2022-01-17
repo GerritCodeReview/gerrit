@@ -17,7 +17,7 @@ package com.google.gerrit.server.account.externalids;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -64,23 +64,14 @@ public class ExternalIDCacheLoaderTest {
 
   @Before
   public void setUp() throws Exception {
-    externalIdFactory =
-        new ExternalIdFactory(
-            new ExternalIdKeyFactory(
-                new ExternalIdKeyFactory.Config() {
-                  @Override
-                  public boolean isUserNameCaseInsensitive() {
-                    return false;
-                  }
-                }),
-            authConfig);
+    externalIdFactory = new ExternalIdFactory(new ExternalIdKeyFactory(() -> false), authConfig);
     externalIdCache = CacheBuilder.newBuilder().build();
     repoManager.createRepository(ALL_USERS).close();
     externalIdReader =
         new ExternalIdReader(
             repoManager, ALL_USERS, new DisabledMetricMaker(), externalIdFactory, authConfig);
     externalIdReaderSpy = Mockito.spy(externalIdReader);
-    loader = createLoader(true);
+    loader = createLoader();
   }
 
   @Test
@@ -97,7 +88,8 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyNoInteractions(externalIdReaderSpy);
+    verify(externalIdReaderSpy, times(1)).checkReadEnabled();
+    verifyNoMoreInteractions(externalIdReaderSpy);
   }
 
   @Test
@@ -109,21 +101,12 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyNoInteractions(externalIdReaderSpy);
+    verify(externalIdReaderSpy, times(1)).checkReadEnabled();
+    verifyNoMoreInteractions(externalIdReaderSpy);
   }
 
   @Test
   public void reloadsAllExternalIdsWhenNoOldStateIsCached() throws Exception {
-    insertExternalId(1, 1);
-    ObjectId head = insertExternalId(2, 2);
-
-    assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verify(externalIdReaderSpy, times(1)).all(head);
-  }
-
-  @Test
-  public void partialReloadingDisabledAlwaysTriggersFullReload() throws Exception {
-    loader = createLoader(false);
     insertExternalId(1, 1);
     ObjectId head = insertExternalId(2, 2);
 
@@ -159,7 +142,8 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyNoInteractions(externalIdReaderSpy);
+    verify(externalIdReaderSpy, times(1)).checkReadEnabled();
+    verifyNoMoreInteractions(externalIdReaderSpy);
   }
 
   @Test
@@ -174,7 +158,8 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyNoInteractions(externalIdReaderSpy);
+    verify(externalIdReaderSpy, times(1)).checkReadEnabled();
+    verifyNoMoreInteractions(externalIdReaderSpy);
   }
 
   @Test
@@ -191,7 +176,8 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyNoInteractions(externalIdReaderSpy);
+    verify(externalIdReaderSpy, times(1)).checkReadEnabled();
+    verifyNoMoreInteractions(externalIdReaderSpy);
   }
 
   @Test
@@ -204,7 +190,8 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(oldState, allFromGit(oldState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyNoInteractions(externalIdReaderSpy);
+    verify(externalIdReaderSpy, times(1)).checkReadEnabled();
+    verifyNoMoreInteractions(externalIdReaderSpy);
   }
 
   @Test
@@ -218,19 +205,18 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(oldState, allFromGit(oldState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyNoInteractions(externalIdReaderSpy);
+    verify(externalIdReaderSpy, times(1)).checkReadEnabled();
+    verifyNoMoreInteractions(externalIdReaderSpy);
   }
 
-  private ExternalIdCacheLoader createLoader(boolean allowPartial) {
-    Config cfg = new Config();
-    cfg.setBoolean("cache", "external_ids_map", "enablePartialReloads", allowPartial);
+  private ExternalIdCacheLoader createLoader() {
     return new ExternalIdCacheLoader(
         repoManager,
         ALL_USERS,
         externalIdReaderSpy,
         Providers.of(externalIdCache),
         new DisabledMetricMaker(),
-        cfg,
+        new Config(),
         externalIdFactory);
   }
 
@@ -281,8 +267,7 @@ public class ExternalIDCacheLoaderTest {
   private ObjectId performExternalIdUpdate(Consumer<ExternalIdNotes> update) throws Exception {
     try (Repository repo = repoManager.openRepository(ALL_USERS)) {
       PersonIdent updater = new PersonIdent("Foo bar", "foo@bar.com");
-      ExternalIdNotes extIdNotes =
-          ExternalIdNotes.loadNoCacheUpdate(ALL_USERS, repo, externalIdFactory, false);
+      ExternalIdNotes extIdNotes = ExternalIdNotes.load(ALL_USERS, repo, externalIdFactory, false);
       update.accept(extIdNotes);
       try (MetaDataUpdate metaDataUpdate =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5044901c_b92bec1b",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-17T14:40:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed61b2fd_6191732a",
+      "range": {
+        "startLine": 244,
+        "startChar": 11,
+        "endLine": 244,
+        "endChar": 15
+      },
+      "revId": "97521d6bc2d03e350ce38f926c72fa62b556e8d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36d42464_1f8d18bf",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-14T09:40:12Z",
       "side": 1,
       "message": "Nit: I would stay consistent, either both timestamps are hardcoded or they have values with +/- around current time.",
+      "range": {
+        "startLine": 101,
+        "startChar": 9,
+        "endLine": 102,
+        "endChar": 68
+      },
+      "revId": "97521d6bc2d03e350ce38f926c72fa62b556e8d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "014026a5_c05e87e0",
+        "filename": "polygerrit-ui/app/services/checks/checks-fakes.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-17T14:40:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36d42464_1f8d18bf",
       "range": {
         "startLine": 101,
         "startChar": 9,

@@ -20,7 +20,6 @@ import com.google.gerrit.entities.Account;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -34,13 +33,6 @@ public class DisabledExternalIdCache implements ExternalIdCache {
       }
     };
   }
-
-  @Override
-  public void onReplace(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Collection<ExternalId> toRemove,
-      Collection<ExternalId> toAdd) {}
 
   @Override
   public Optional<ExternalId> byKey(ExternalId.Key key) throws IOException {

@@ -71,7 +71,6 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
   private final AllUsersName allUsersName;
   private final Counter1<Boolean> reloadCounter;
   private final Timer0 reloadDifferential;
-  private final boolean enablePartialReloads;
   private final boolean isPersistentCache;
   private final ExternalIdFactory externalIdFactory;
 
@@ -105,8 +104,6 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
                     "Latency for generating a new external ID cache state from a prior state.")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS));
-    this.enablePartialReloads =
-        config.getBoolean("cache", ExternalIdCacheImpl.CACHE_NAME, "enablePartialReloads", true);
     this.isPersistentCache =
         config.getInt("cache", ExternalIdCacheImpl.CACHE_NAME, "diskLimit", 0) > 0;
     this.externalIdFactory = externalIdFactory;
@@ -114,14 +111,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
 
   @Override
   public AllExternalIds load(ObjectId notesRev) throws IOException, ConfigInvalidException {
-    if (!enablePartialReloads) {
-      logger.atInfo().log(
-          "Partial reloads of "
-              + ExternalIdCacheImpl.CACHE_NAME
-              + " disabled. Falling back to full reload.");
-      return reloadAllExternalIds(notesRev);
-    }
-
+    externalIdReader.checkReadEnabled();
     // The requested value was not in the cache (hence, this loader was invoked). Therefore, try to
     // create this entry from a past value using the minimal amount of Git operations possible to
     // reduce latency.

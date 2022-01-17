@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "112c8eb3_39ff4bf6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-17T10:01:58Z",
+      "side": 1,
+      "message": "Shouldnt\u0027 this be `EditablePermissionInfo`?",
+      "range": {
+        "startLine": 411,
+        "startChar": 38,
+        "endLine": 411,
+        "endChar": 52
+      },
+      "revId": "e706cb9ce27137bff87cb0b202189e8722f1d982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

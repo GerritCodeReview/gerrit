@@ -1,10 +1,11 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
-GUAVA_VERSION = "30.1-jre"
+GUAVA_VERSION = "31.0.1-jre"
 
-GUAVA_BIN_SHA1 = "00d0c3ce2311c9e36e73228da25a6e99b2ab826f"
+GUAVA_BIN_SHA1 = "119ea2b2bc205b138974d351777b20f02b92704b"
 
-GUAVA_TESTLIB_BIN_SHA1 = "798c3827308605cd69697d8f1596a1735d3ef6e2"
+GUAVA_TESTLIB_BIN_SHA1 = "6f9d0fb58913ce77de477280b21f8801fb617151"
 
 GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
 
@@ -160,10 +161,13 @@ def declare_nongoogle_deps():
     )
 
     # Keep this version of Soy synchronized with the version used in Gitiles.
-    maven_jar(
+    java_import_external(
         name = "soy",
-        artifact = "com.google.template:soy:2021-02-01",
-        sha1 = "8e833744832ba88059205a1e30e0898f925d8cb5",
+        jar_sha256 = "428bb756a7e554383c349697ab527c8507f3f961203152f8df7e937fd5a14130",
+        jar_urls = [
+            "https://github.com/davido/closure-templates/releases/download/2022-01-18/soy-2022-01-18.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
     # Test-only dependencies below.

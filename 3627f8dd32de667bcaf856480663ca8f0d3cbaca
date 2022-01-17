@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46591330_1d4354d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-17T11:47:05Z",
+      "side": 1,
+      "message": "Thanks for the quick fix.",
+      "revId": "3627f8dd32de667bcaf856480663ca8f0d3cbaca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "034d8368_06b4f605",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6456,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-17T11:47:05Z",
+      "side": 1,
+      "message": "Optional: Would it make sense to add helper method something similar to approve() for label class? That way this could just be:\n\n  SubmitRequirementExpression.approve()",
+      "range": {
+        "startLine": 6456,
+        "startChar": 76,
+        "endLine": 6456,
+        "endChar": 98
+      },
+      "revId": "3627f8dd32de667bcaf856480663ca8f0d3cbaca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

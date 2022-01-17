@@ -152,7 +152,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           asLoadingCache.refresh(entry.getKey());
         }
       }
-      return result.build();
+      return result.buildOrThrow();
     }
     throw new UnsupportedOperationException();
   }

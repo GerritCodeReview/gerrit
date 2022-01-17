@@ -91,7 +91,7 @@ public class CapabilityCollection {
       }
       m.put(e.getKey(), ImmutableList.copyOf(rules));
     }
-    permissions = m.build();
+    permissions = m.buildOrThrow();
 
     administrateServer = getPermission(GlobalCapability.ADMINISTRATE_SERVER);
     batchChangesLimit = getPermission(GlobalCapability.BATCH_CHANGES_LIMIT);

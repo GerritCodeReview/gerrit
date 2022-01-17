@@ -146,7 +146,7 @@ public abstract class Project {
         ImmutableMap.builder();
     Arrays.stream(BooleanProjectConfig.values())
         .forEach(b -> booleans.put(b, InheritableBoolean.INHERIT));
-    builder.setBooleanConfigs(booleans.build());
+    builder.setBooleanConfigs(booleans.buildOrThrow());
     return builder;
   }
 

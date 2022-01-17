@@ -64,7 +64,7 @@ public class ExternalIdsOnInit {
     if (path != null) {
       try (Repository allUsersRepo = new FileRepository(path)) {
         ExternalIdNotes extIdNotes =
-            ExternalIdNotes.loadNoCacheUpdate(
+            ExternalIdNotes.load(
                 allUsers,
                 allUsersRepo,
                 externalIdFactory,

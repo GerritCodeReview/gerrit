@@ -103,6 +103,12 @@ public class ExternalIdReader {
     this.failOnLoad = failOnLoad;
   }
 
+  public void checkReadEnabled() throws IOException {
+    if (failOnLoad) {
+      throw new IOException("Reading from external IDs is disabled");
+    }
+  }
+
   ObjectId readRevision() throws IOException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       return readRevision(repo);
@@ -180,12 +186,6 @@ public class ExternalIdReader {
               externalIdFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
           .get(key);
-    }
-  }
-
-  private void checkReadEnabled() throws IOException {
-    if (failOnLoad) {
-      throw new IOException("Reading from external IDs is disabled");
     }
   }
 }

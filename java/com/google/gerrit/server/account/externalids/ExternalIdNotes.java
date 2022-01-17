@@ -167,17 +167,6 @@ public class ExternalIdNotes extends VersionedMetaData {
         cacheUpdate.execute(updates);
       }
 
-      // Perform the cache update.
-      if (!externalIdNotes.noCacheUpdate) {
-        // Regardless of noCacheUpdate it's still possible that the ExternalIdCache instance is of
-        // type DisabledExternalIdCache, making this call a no-op.
-        externalIdCache.onReplace(
-            externalIdNotes.oldRev,
-            externalIdNotes.getRevision(),
-            updates.getRemoved(),
-            updates.getAdded());
-      }
-
       // Reindex accounts (if the subclass implements reindexAccount()).
       if (!externalIdNotes.noReindex) {
         Streams.concat(updates.getAdded().stream(), updates.getRemoved().stream())
@@ -331,14 +320,13 @@ public class ExternalIdNotes extends VersionedMetaData {
             externalIdFactory,
             isUserNameCaseInsensitiveMigrationMode)
         .setReadOnly()
-        .setNoCacheUpdate()
         .setNoReindex()
         .load(rev);
   }
 
   /**
-   * Loads the external ID notes for updates without cache evictions. The external ID notes are
-   * loaded from the current tip of the {@code refs/meta/external-ids} branch.
+   * Loads the external ID notes for updates. The external ID notes are loaded from the current tip
+   * of the {@code refs/meta/external-ids} branch.
    *
    * <p>Use this only from init, schema upgrades and tests.
    *
@@ -346,7 +334,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    *
    * @return {@link ExternalIdNotes} instance that doesn't updates caches on save
    */
-  public static ExternalIdNotes loadNoCacheUpdate(
+  public static ExternalIdNotes load(
       AllUsersName allUsersName,
       Repository allUsersRepo,
       ExternalIdFactory externalIdFactory,
@@ -359,7 +347,6 @@ public class ExternalIdNotes extends VersionedMetaData {
             DynamicMap.emptyMap(),
             externalIdFactory,
             isUserNameCaseInsensitiveMigrationMode)
-        .setNoCacheUpdate()
         .setNoReindex()
         .load();
   }
@@ -393,7 +380,6 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   private Runnable afterReadRevision;
   private boolean readOnly = false;
-  private boolean noCacheUpdate = false;
   private boolean noReindex = false;
   private boolean isUserNameCaseInsensitiveMigrationMode = false;
   protected final Function<ExternalId, ObjectId> defaultNoteIdResolver =
@@ -447,11 +433,6 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   private ExternalIdNotes setReadOnly() {
     readOnly = true;
-    return this;
-  }
-
-  private ExternalIdNotes setNoCacheUpdate() {
-    noCacheUpdate = true;
     return this;
   }
 

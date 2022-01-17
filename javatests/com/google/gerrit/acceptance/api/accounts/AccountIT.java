@@ -2502,7 +2502,7 @@ public class AccountIT extends AbstractDaemonTest {
     // stale.
     try (Repository repo = repoManager.openRepository(allUsers)) {
       ExternalIdNotes extIdNotes =
-          ExternalIdNotes.loadNoCacheUpdate(
+          ExternalIdNotes.load(
               allUsers,
               repo,
               externalIdFactory,
@@ -2516,7 +2516,7 @@ public class AccountIT extends AbstractDaemonTest {
       assertStaleAccountAndReindex(accountId);
 
       extIdNotes =
-          ExternalIdNotes.loadNoCacheUpdate(
+          ExternalIdNotes.load(
               allUsers,
               repo,
               externalIdFactory,
@@ -2528,7 +2528,7 @@ public class AccountIT extends AbstractDaemonTest {
       assertStaleAccountAndReindex(accountId);
 
       extIdNotes =
-          ExternalIdNotes.loadNoCacheUpdate(
+          ExternalIdNotes.load(
               allUsers,
               repo,
               externalIdFactory,

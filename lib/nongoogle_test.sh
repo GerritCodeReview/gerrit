@@ -18,6 +18,7 @@ dropwizard-core
 eddsa
 error-prone-annotations
 flogger
+flogger-google-extensions
 flogger-log4j-backend
 flogger-system-backend
 guava

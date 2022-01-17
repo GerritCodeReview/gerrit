@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "234a2977_f4d0ea48",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T13:43:26Z",
+      "side": 0,
+      "message": "That\u0027s the only caller to externalIdCache.onReplace() - that we also removed. I don\u0027t have much BG on why we sometimes loaded external IDs with no cache evictions (in a read only mode). Is it safe to remove this code and the whole \"read-only\" mode?",
+      "revId": "4f9df49a57a05ff9885ec13f49b37ac7945a0ea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0b8f5c8_05f4b25f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T13:43:26Z",
+      "side": 0,
+      "message": "I\u0027m not following why/if it\u0027s safe to remove this. Can you provide more context in the commit message?",
+      "revId": "4f9df49a57a05ff9885ec13f49b37ac7945a0ea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f409a804_46d7a429",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T13:43:26Z",
+      "side": 0,
+      "message": "I\u0027m also not following if it\u0027s safe to remove this. Could you please explain it in the commit message?",
+      "revId": "4f9df49a57a05ff9885ec13f49b37ac7945a0ea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e21d6104_e3e4ec0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T13:43:26Z",
+      "side": 1,
+      "message": "I don\u0027t have much background and maybe there are few undocumented parts in the code; it\u0027s a little bit hard for me to comprehend this part.\n\nSince this is separate of the main intention of this change (?). Could we move to a separate commit and provide more explanation?\n  * Why this was introduced in the past?\n  * Is it now safe to get rid of this optimization?\n  * More BG ...",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "2443e3b90c5229a1c6ac32724a27af6f9c26582d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

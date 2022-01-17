@@ -118,6 +118,30 @@
       },
       "revId": "af77e42d32e16425b59a221d633f067dfac49993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06e37cd4_88815ef9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T13:03:42Z",
+      "side": 1,
+      "message": "Yes, we will do the same for code-owners. We are migrating the code-owners submit rule to\n\n[submit-requirement \"Code Owners\"]\n        applicableIf \u003d has:enabled_code-owners\n        submittableIf \u003d has:approval_code-owners\n\nThe change here acts as fallback for installations that haven\u0027t yet defined (migrated to) the new code-owners requirement.",
+      "parentUuid": "cd6af94d_13ee44d9",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 23,
+        "endChar": 52
+      },
+      "revId": "af77e42d32e16425b59a221d633f067dfac49993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

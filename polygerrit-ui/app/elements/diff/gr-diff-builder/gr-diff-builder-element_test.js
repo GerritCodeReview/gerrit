@@ -826,6 +826,7 @@ suite('gr-diff-builder tests', () => {
   suite('context hiding and expanding', () => {
     setup(async () => {
       element = basicFixture.instantiate();
+      sinon.stub(element, 'dispatchEvent');
       const afterNextRenderPromise = new Promise((resolve, reject) => {
         afterNextRender(element, resolve);
       });
@@ -885,7 +886,9 @@ suite('gr-diff-builder tests', () => {
       assert.include(diffRows[13].textContent, 'unchanged 11');
     });
 
-    test('unhideLine shows the line with context', () => {
+    test('unhideLine shows the line with context', async () => {
+      const clock = sinon.useFakeTimers();
+      element.dispatchEvent.reset();
       element.unhideLine(4, Side.LEFT);
 
       const diffRows = element.querySelectorAll('.diff-row');
@@ -904,6 +907,12 @@ suite('gr-diff-builder tests', () => {
       assert.include(diffRows[8].textContent, 'before');
       assert.include(diffRows[8].textContent, 'after');
       assert.include(diffRows[9].textContent, 'unchanged 11');
+
+      clock.tick(1);
+      await flush();
+      const firedEventTypes = element.dispatchEvent.getCalls()
+          .map(c => c.args[0].type);
+      assert.include(firedEventTypes, 'render-content');
     });
   });
 

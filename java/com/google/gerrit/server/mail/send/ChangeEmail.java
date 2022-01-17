@@ -397,13 +397,23 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected void add(RecipientType rt, Account.Id to) {
+    add(false, rt, to);
+  }
+
+  @Override
+  protected void addWatcher(RecipientType rt, Account.Id to) {
+    add(true, rt, to);
+  }
+
+  private void add(boolean isWatcher, RecipientType rt, Account.Id to) {
     Optional<AccountState> accountState = args.accountCache.get(to);
     if (!accountState.isPresent()) {
       return;
     }
     if (accountState.get().generalPreferences().getEmailStrategy()
             == EmailStrategy.ATTENTION_SET_ONLY
-        && !currentAttentionSet.contains(to)) {
+        && !currentAttentionSet.contains(to)
+        && !isWatcher) {
       return;
     }
     if (emailOnlyAuthors && !authors.contains(to)) {

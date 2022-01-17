@@ -202,7 +202,7 @@ java_package_configuration(
         "-Xep:InjectOnConstructorOfAbstractClass:ERROR",
         "-Xep:InheritDoc:ERROR",
         "-Xep:InlineFormatString:ERROR",
-        "-Xep:InlineMeInliner:ERROR",
+        "-Xep:InlineMeInliner:WARN",
         "-Xep:InlineMeSuggester:ERROR",
         "-Xep:InlineMeValidator:ERROR",
         "-Xep:InputStreamSlowMultibyteRead:ERROR",

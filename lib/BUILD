@@ -486,6 +486,7 @@ java_library(
         ":icu4j",
         ":jsr305",
         ":protobuf",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:javax_inject",

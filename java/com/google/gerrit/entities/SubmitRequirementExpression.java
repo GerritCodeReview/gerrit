@@ -47,4 +47,12 @@ public abstract class SubmitRequirementExpression {
   public static TypeAdapter<SubmitRequirementExpression> typeAdapter(Gson gson) {
     return new AutoValue_SubmitRequirementExpression.GsonTypeAdapter(gson);
   }
+
+  /**
+   * Returns a "submit requirement" expression that requires the maximum vote on the Code-Review
+   * label.
+   */
+  public static SubmitRequirementExpression maxCodeReview() {
+    return SubmitRequirementExpression.create(String.format("label:Code-Review=MAX"));
+  }
 }

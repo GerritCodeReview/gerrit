@@ -787,14 +787,7 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) {
-    // TODO(ghareeb): Remove the lazy load check after upgrading the change index in google
-    // The ChangeData's submit requirements field is populated from the change index field
-    // "full_submit_requirements" which does not exist in google's change index schema definition
-    // yet.
-    if (lazyLoad) {
-      return cd.submitRequirements().values().stream().allMatch(SubmitRequirementResult::fulfilled);
-    }
-    return SubmitRecord.allRecordsOK(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT));
+    return cd.submitRequirements().values().stream().allMatch(SubmitRequirementResult::fulfilled);
   }
 
   private void setSubmitter(ChangeData cd, ChangeInfo out) {

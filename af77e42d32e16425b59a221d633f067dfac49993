@@ -70,6 +70,30 @@
       },
       "revId": "af77e42d32e16425b59a221d633f067dfac49993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bd2afb9_29be8e3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T12:12:40Z",
+      "side": 1,
+      "message": "\u003e I think I\u0027m fine with not handling multiple submit rules in a plugin for the transition phase. Can you please add this to the commit message, so that it\u0027s clear that this is a conscious decision?\n\nThanks. I updated the commit message.\n\n\u003e But I still have a concern. For the simple-submit-rules plugin the NoUnresolvedCommentsRule used to show up as \"Resolve All Comments\" [1,2]. IIUC with the conversion to submit requirements it became something like \"simple-submit-rules~NoUnresolvedCommentsRule\" and now it will become \"Simple-Submit-Rules\". I\u0027m not sure users will still understand that this is about unresolved comments.\n\nI agree with you, the new name has nothing to do with the actual rule intention. However I think all installations who need this rule can now just define:\n\nSR: \n  Name \u003d No Unresolved Comments, \n  submittableIf \u003d -has:unresolved\n\nNot sure about the best channel to broadcast such a recommendation, but I can post on repo-discuss for instance if you think this is important.",
+      "parentUuid": "f3b4c6bf_d1f04a3e",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 23,
+        "endChar": 52
+      },
+      "revId": "af77e42d32e16425b59a221d633f067dfac49993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

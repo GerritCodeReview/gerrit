@@ -1,10 +1,10 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
 
-GUAVA_VERSION = "30.1-jre"
+GUAVA_VERSION = "32.1.2-jre"
 
-GUAVA_BIN_SHA1 = "00d0c3ce2311c9e36e73228da25a6e99b2ab826f"
+GUAVA_BIN_SHA1 = "5e64ec7e056456bef3a4bc4c6fdaef71e8ab6318"
 
-GUAVA_TESTLIB_BIN_SHA1 = "798c3827308605cd69697d8f1596a1735d3ef6e2"
+GUAVA_TESTLIB_BIN_SHA1 = "c7a8a2c91b6809ff46373b1bc06185241801f6b5"
 
 GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
 
@@ -154,6 +154,12 @@ def declare_nongoogle_deps():
     )
 
     maven_jar(
+        name = "flogger-google-extensions",
+        artifact = "com.google.flogger:google-extensions:" + FLOGGER_VERS,
+        sha1 = "c49493bd815e3842b8406e21117119d560399977",
+    )
+
+    maven_jar(
         name = "flogger-system-backend",
         artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
         sha1 = "4bee7ebbd97c63ca7fb17529aeb49a57b670d061",
@@ -194,8 +200,8 @@ def declare_nongoogle_deps():
     # Keep this version of Soy synchronized with the version used in Gitiles.
     maven_jar(
         name = "soy",
-        artifact = "com.google.template:soy:2021-02-01",
-        sha1 = "8e833744832ba88059205a1e30e0898f925d8cb5",
+        artifact = "com.google.template:soy:2022-07-20",
+        sha1 = "f64eb90da6d91beddf11653865c90f26d26710cf",
     )
 
     # Test-only dependencies below.

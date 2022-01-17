@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79b5c64f_4d8d4318",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2034,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T09:28:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5301b362_3bb7757b",
+      "range": {
+        "startLine": 2034,
+        "startChar": 29,
+        "endLine": 2034,
+        "endChar": 30
+      },
+      "revId": "7124ee95d0439afacd90d55b32c8b1ba3e11c6a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e008d85a_7dda96dc",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-17T08:04:51Z",
       "side": 1,
       "message": "Can we just inline this into ServerInfo (like we do for a lot of other server configs)? Would be great if we can keep the API surface small.\n\nThis has another advantage: It gets inlined into index.html, so any additions will also be inlined (and don\u0027t have to be loaded extra from the UI).",
+      "range": {
+        "startLine": 611,
+        "startChar": 0,
+        "endLine": 639,
+        "endChar": 0
+      },
+      "revId": "7124ee95d0439afacd90d55b32c8b1ba3e11c6a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9e49ef9_3aa850b2",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T09:28:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e008d85a_7dda96dc",
       "range": {
         "startLine": 611,
         "startChar": 0,

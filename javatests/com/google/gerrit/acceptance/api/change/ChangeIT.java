@@ -6445,6 +6445,46 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirements_submittedTogetherWithoutLegacySubmitRequirements()
+      throws Exception {
+    // Add a code review submit requirement and mark the 'Code-Review' label function to be
+    // non-blocking.
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setAllowOverrideInChildProjects(true)
+            .build());
+
+    LabelType cr = TestLabels.codeReview().toBuilder().setFunction(LabelFunction.NO_BLOCK).build();
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().upsertLabelType(cr);
+      u.save();
+    }
+
+    // Create two changes in a chain.
+    createChange();
+    PushOneCommit.Result r2 = createChange();
+
+    // Make sure the CR requirement is unsatisfied.
+    String changeId = r2.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    List<ChangeInfo> changeInfos = gApi.changes().id(changeId).submittedTogether();
+    assertThat(changeInfos).hasSize(2);
+    assertThat(
+            changeInfos.stream()
+                .map(c -> c.submittable)
+                .distinct()
+                .collect(MoreCollectors.onlyElement()))
+        .isFalse();
+  }
+
+  @Test
   public void fourByteEmoji() throws Exception {
     // U+1F601 GRINNING FACE WITH SMILING EYES
     String smile = new String(Character.toChars(0x1f601));

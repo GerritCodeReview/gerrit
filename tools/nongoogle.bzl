@@ -1,10 +1,10 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
 
-GUAVA_VERSION = "30.1-jre"
+GUAVA_VERSION = "31.0.1-jre"
 
-GUAVA_BIN_SHA1 = "00d0c3ce2311c9e36e73228da25a6e99b2ab826f"
+GUAVA_BIN_SHA1 = "119ea2b2bc205b138974d351777b20f02b92704b"
 
-GUAVA_TESTLIB_BIN_SHA1 = "798c3827308605cd69697d8f1596a1735d3ef6e2"
+GUAVA_TESTLIB_BIN_SHA1 = "6f9d0fb58913ce77de477280b21f8801fb617151"
 
 GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
 

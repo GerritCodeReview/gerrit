@@ -15,8 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
@@ -94,13 +92,13 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
     revisionNoteMap =
         RevisionNoteMap.parseRobotComments(
             args.changeNoteJson, reader, NoteMap.read(reader, tipCommit));
-    ListMultimap<ObjectId, RobotComment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
+    ImmutableListMultimap.Builder<ObjectId, RobotComment> cs = ImmutableListMultimap.builder();
     for (RobotCommentsRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (RobotComment c : rn.getEntities()) {
         cs.put(c.getCommitId(), c);
       }
     }
-    comments = ImmutableListMultimap.copyOf(cs);
+    comments = cs.build();
   }
 
   @Override

@@ -20,8 +20,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -124,13 +122,13 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
             reader,
             NoteMap.read(reader, tipCommit),
             HumanComment.Status.DRAFT);
-    ListMultimap<ObjectId, HumanComment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
+    ImmutableListMultimap.Builder<ObjectId, HumanComment> cs = ImmutableListMultimap.builder();
     for (ChangeRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (HumanComment c : rn.getEntities()) {
         cs.put(c.getCommitId(), c);
       }
     }
-    comments = ImmutableListMultimap.copyOf(cs);
+    comments = cs.build();
   }
 
   @Override

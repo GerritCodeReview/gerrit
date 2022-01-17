@@ -31,7 +31,6 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
@@ -275,8 +274,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ListMultimap<Project.NameKey, ChangeNotes> create(Predicate<ChangeNotes> predicate)
         throws IOException {
-      ListMultimap<Project.NameKey, ChangeNotes> m =
-          MultimapBuilder.hashKeys().arrayListValues().build();
+      ImmutableListMultimap.Builder<Project.NameKey, ChangeNotes> m =
+          ImmutableListMultimap.builder();
       for (Project.NameKey project : projectCache.all()) {
         try (Repository repo = args.repoManager.openRepository(project)) {
           scan(repo, project)
@@ -286,7 +285,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
               .forEach(n -> m.put(n.getProjectName(), n));
         }
       }
-      return ImmutableListMultimap.copyOf(m);
+      return m.build();
     }
 
     public Stream<ChangeNotesResult> scan(Repository repo, Project.NameKey project)

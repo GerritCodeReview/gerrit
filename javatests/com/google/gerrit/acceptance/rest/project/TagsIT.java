@@ -480,7 +480,7 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   private static void removeAllBranchPermissions(ProjectConfig cfg, String... permissions) {
-    for (AccessSection accessSection : ImmutableList.copyOf(cfg.getAccessSections())) {
+    for (AccessSection accessSection : cfg.getAccessSections()) {
       cfg.upsertAccessSection(
           accessSection.getName(),
           updatedAccessSection -> {

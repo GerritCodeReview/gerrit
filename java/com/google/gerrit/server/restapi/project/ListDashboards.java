@@ -109,7 +109,7 @@ public class ListDashboards implements RestReadView<ProjectResource> {
     PermissionBackend.ForProject perm = permissionBackend.currentUser().project(state.getNameKey());
     try (Repository git = gitManager.openRepository(state.getNameKey());
         RevWalk rw = new RevWalk(git)) {
-      List<DashboardInfo> all = new ArrayList<>();
+      ImmutableList.Builder<DashboardInfo> all = ImmutableList.builder();
       for (Ref ref : git.getRefDatabase().getRefsByPrefix(REFS_DASHBOARDS)) {
         try {
           perm.ref(ref.getName()).check(RefPermission.READ);
@@ -118,7 +118,7 @@ public class ListDashboards implements RestReadView<ProjectResource> {
           // Do nothing.
         }
       }
-      return ImmutableList.copyOf(all);
+      return all.build();
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(project, e);
     }
@@ -132,7 +132,7 @@ public class ListDashboards implements RestReadView<ProjectResource> {
       String project,
       boolean setDefault)
       throws IOException {
-    List<DashboardInfo> list = new ArrayList<>();
+    ImmutableList.Builder<DashboardInfo> list = ImmutableList.builder();
     try (TreeWalk tw = new TreeWalk(rw.getObjectReader())) {
       tw.addTree(rw.parseTree(ref.getObjectId()));
       tw.setRecursive(true);
@@ -155,6 +155,6 @@ public class ListDashboards implements RestReadView<ProjectResource> {
         }
       }
     }
-    return ImmutableList.copyOf(list);
+    return list.build();
   }
 }

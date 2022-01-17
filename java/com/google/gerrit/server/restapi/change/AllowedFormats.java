@@ -22,8 +22,6 @@ import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 @Singleton
@@ -33,14 +31,14 @@ public class AllowedFormats {
 
   @Inject
   AllowedFormats(DownloadConfig cfg) {
-    Map<String, ArchiveFormatInternal> exts = new HashMap<>();
+    ImmutableMap.Builder<String, ArchiveFormatInternal> exts = ImmutableMap.builder();
     for (ArchiveFormatInternal format : cfg.getArchiveFormats()) {
       for (String ext : format.getSuffixes()) {
         exts.put(ext, format);
       }
       exts.put(format.name().toLowerCase(), format);
     }
-    extensions = ImmutableMap.copyOf(exts);
+    extensions = exts.build();
 
     // Zip is not supported because it may be interpreted by a Java plugin as a
     // valid JAR file, whose code would have access to cookies on the domain.

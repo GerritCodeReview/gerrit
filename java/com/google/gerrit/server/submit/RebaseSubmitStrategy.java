@@ -38,7 +38,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
@@ -97,7 +96,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       foundNonMerge = true;
     }
 
-    List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
+    ImmutableList.Builder<SubmitStrategyOp> ops =
+        ImmutableList.builderWithExpectedSize(sorted.size());
     boolean first = true;
     while (!sorted.isEmpty()) {
       CodeReviewCommit n = sorted.remove(0);
@@ -114,7 +114,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       }
       first = false;
     }
-    return ImmutableList.copyOf(ops);
+    return ops.build();
   }
 
   private class RebaseRootOp extends SubmitStrategyOp {

@@ -31,7 +31,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
@@ -47,7 +46,8 @@ public class CherryPick extends SubmitStrategy {
   @Override
   public ImmutableList<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
     List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
-    List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
+    ImmutableList.Builder<SubmitStrategyOp> ops =
+        ImmutableList.builderWithExpectedSize(sorted.size());
     boolean first = true;
     while (!sorted.isEmpty()) {
       CodeReviewCommit n = sorted.remove(0);
@@ -62,7 +62,7 @@ public class CherryPick extends SubmitStrategy {
       }
       first = false;
     }
-    return ImmutableList.copyOf(ops);
+    return ops.build();
   }
 
   private class CherryPickRootOp extends SubmitStrategyOp {

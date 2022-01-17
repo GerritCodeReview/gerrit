@@ -125,7 +125,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     // Remove read permissions for all users besides admin.
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
 
-      for (AccessSection sec : ImmutableList.copyOf(u.getConfig().getAccessSections())) {
+      for (AccessSection sec : u.getConfig().getAccessSections()) {
         u.getConfig()
             .upsertAccessSection(
                 sec.getName(),
@@ -142,7 +142,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     // Remove all read permissions on All-Users.
     try (ProjectConfigUpdate u = updateProject(allUsers)) {
-      for (AccessSection sec : ImmutableList.copyOf(u.getConfig().getAccessSections())) {
+      for (AccessSection sec : u.getConfig().getAccessSections()) {
         u.getConfig()
             .upsertAccessSection(
                 sec.getName(),

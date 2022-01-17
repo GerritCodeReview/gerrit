@@ -43,7 +43,6 @@ import com.google.gerrit.server.submit.MergeSuperSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -176,11 +175,11 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     }
 
     // Perform more expensive walk-sort.
-    List<ChangeData> sorted = new ArrayList<>(cds.size());
+    ImmutableList.Builder<ChangeData> sorted = ImmutableList.builderWithExpectedSize(cds.size());
     for (PatchSetData psd : sorter.get().sort(cds)) {
       sorted.add(psd.data());
     }
-    return ImmutableList.copyOf(sorted);
+    return sorted.build();
   }
 
   private static List<ChangeData> ensureRequiredDataIsLoaded(List<ChangeData> cds) {

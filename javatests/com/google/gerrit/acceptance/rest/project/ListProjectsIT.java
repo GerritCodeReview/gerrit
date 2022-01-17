@@ -14,13 +14,13 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
@@ -143,7 +143,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   public void listProjectsToOutputStream() throws Exception {
     int numInitialProjects = gApi.projects().list().get().size();
     int numTestProjects = 5;
-    List<String> testProjects = createProjects("zzz_testProject", numTestProjects);
+    ImmutableSet<String> testProjects = createProjects("zzz_testProject", numTestProjects);
     try (ByteArrayOutputStream displayOut = new ByteArrayOutputStream()) {
 
       listProjects.setStart(numInitialProjects);
@@ -153,7 +153,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
           Splitter.on("\n")
               .omitEmptyStrings()
               .splitToList(new String(displayOut.toByteArray(), UTF_8));
-      assertThat(lines).isEqualTo(testProjects);
+      assertThat(lines).isEqualTo(testProjects.asList());
     }
   }
 
@@ -173,8 +173,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
     int numInitialProjects = gApi.projects().list().get().size();
     int numTestProjects = 5;
-    Set<String> testProjects =
-        ImmutableSet.copyOf(createProjects("zzz_testProject", numTestProjects));
+    ImmutableSet<String> testProjects = createProjects("zzz_testProject", numTestProjects);
     try (ByteArrayOutputStream displayOut = new ByteArrayOutputStream()) {
 
       listProjects.setStart(numInitialProjects);
@@ -191,11 +190,11 @@ public class ListProjectsIT extends AbstractDaemonTest {
     }
   }
 
-  private List<String> createProjects(String prefix, int numProjects) {
+  private ImmutableSet<String> createProjects(String prefix, int numProjects) {
     return IntStream.range(0, numProjects)
         .mapToObj(i -> projectOperations.newProject().name(prefix + i).create())
         .map(Project.NameKey::get)
-        .collect(toList());
+        .collect(toImmutableSet());
   }
 
   @Test

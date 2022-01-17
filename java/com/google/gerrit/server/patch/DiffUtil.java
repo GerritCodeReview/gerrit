@@ -16,13 +16,13 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
@@ -43,8 +43,9 @@ public class DiffUtil {
    * patchsets, for example converting a symlink file to a regular file. We identify this case and
    * return a single modified file with changeType = {@link ChangeType#REWRITE}.
    */
-  public static List<ModifiedFile> mergeRewrittenModifiedFiles(List<ModifiedFile> modifiedFiles) {
-    List<ModifiedFile> result = new ArrayList<>();
+  public static ImmutableList<ModifiedFile> mergeRewrittenModifiedFiles(
+      List<ModifiedFile> modifiedFiles) {
+    ImmutableList.Builder<ModifiedFile> result = ImmutableList.builder();
     ListMultimap<String, ModifiedFile> byPath = ArrayListMultimap.create();
     modifiedFiles.stream()
         .forEach(
@@ -66,7 +67,7 @@ public class DiffUtil {
         result.add(entries.get(0).toBuilder().changeType(ChangeType.REWRITE).build());
       }
     }
-    return result;
+    return result.build();
   }
 
   /**

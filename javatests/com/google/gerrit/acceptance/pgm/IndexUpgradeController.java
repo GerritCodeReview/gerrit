@@ -22,8 +22,6 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.index.OnlineUpgradeListener;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 class IndexUpgradeController implements OnlineUpgradeListener {
@@ -45,18 +43,18 @@ class IndexUpgradeController implements OnlineUpgradeListener {
   private final CountDownLatch started;
   private final CountDownLatch finished;
 
-  private final List<UpgradeAttempt> startedAttempts;
-  private final List<UpgradeAttempt> succeededAttempts;
-  private final List<UpgradeAttempt> failedAttempts;
+  private final ImmutableList.Builder<UpgradeAttempt> startedAttempts;
+  private final ImmutableList.Builder<UpgradeAttempt> succeededAttempts;
+  private final ImmutableList.Builder<UpgradeAttempt> failedAttempts;
 
   IndexUpgradeController(int numExpected) {
     this.numExpected = numExpected;
     readyToStart = new CountDownLatch(1);
     started = new CountDownLatch(numExpected);
     finished = new CountDownLatch(numExpected);
-    startedAttempts = new ArrayList<>();
-    succeededAttempts = new ArrayList<>();
-    failedAttempts = new ArrayList<>();
+    startedAttempts = ImmutableList.builder();
+    succeededAttempts = ImmutableList.builder();
+    failedAttempts = ImmutableList.builder();
   }
 
   Module module() {
@@ -93,7 +91,7 @@ class IndexUpgradeController implements OnlineUpgradeListener {
     finish(UpgradeAttempt.create(name, oldVersion, newVersion), failedAttempts);
   }
 
-  private synchronized void finish(UpgradeAttempt a, List<UpgradeAttempt> out) {
+  private synchronized void finish(UpgradeAttempt a, ImmutableList.Builder<UpgradeAttempt> out) {
     checkState(readyToStart.getCount() == 0, "shouldn't be finishing upgrade before starting");
     checkState(
         finished.getCount() > 0, "already finished %s upgrades, can't finish %s", numExpected, a);
@@ -108,14 +106,14 @@ class IndexUpgradeController implements OnlineUpgradeListener {
   }
 
   synchronized ImmutableList<UpgradeAttempt> getStartedAttempts() {
-    return ImmutableList.copyOf(startedAttempts);
+    return startedAttempts.build();
   }
 
   synchronized ImmutableList<UpgradeAttempt> getSucceededAttempts() {
-    return ImmutableList.copyOf(succeededAttempts);
+    return succeededAttempts.build();
   }
 
   synchronized ImmutableList<UpgradeAttempt> getFailedAttempts() {
-    return ImmutableList.copyOf(failedAttempts);
+    return failedAttempts.build();
   }
 }

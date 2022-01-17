@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.StoredCommentLinkInfo;
@@ -45,7 +44,8 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>>, Ger
 
   private List<CommentLinkInfo> parseConfig(Config cfg) {
     Set<String> subsections = cfg.getSubsections(ProjectConfig.COMMENTLINK);
-    List<CommentLinkInfo> cls = Lists.newArrayListWithCapacity(subsections.size());
+    ImmutableList.Builder<CommentLinkInfo> cls =
+        ImmutableList.builderWithExpectedSize(subsections.size());
     for (String name : subsections) {
       try {
         StoredCommentLinkInfo cl = ProjectConfig.buildCommentLink(cfg, name, true);
@@ -58,7 +58,7 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>>, Ger
         logger.atWarning().log("invalid commentlink: %s", e.getMessage());
       }
     }
-    return ImmutableList.copyOf(cls);
+    return cls.build();
   }
 
   @Override

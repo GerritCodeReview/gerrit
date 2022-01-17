@@ -42,7 +42,6 @@ import com.google.gerrit.server.project.RefPattern;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,7 +71,8 @@ public class SetAccessUtil {
       return ImmutableList.of();
     }
 
-    List<AccessSection> sections = new ArrayList<>(sectionInfos.size());
+    ImmutableList.Builder<AccessSection> sections =
+        ImmutableList.builderWithExpectedSize(sectionInfos.size());
     for (Map.Entry<String, AccessSectionInfo> entry : sectionInfos.entrySet()) {
       if (entry.getValue().permissions == null) {
         continue;
@@ -120,7 +120,7 @@ public class SetAccessUtil {
       }
       sections.add(accessSection.build());
     }
-    return ImmutableList.copyOf(sections);
+    return sections.build();
   }
 
   /**

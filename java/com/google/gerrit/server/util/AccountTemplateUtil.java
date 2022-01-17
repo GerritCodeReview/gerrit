@@ -24,9 +24,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,7 +60,7 @@ public class AccountTemplateUtil {
       return ImmutableSet.of();
     }
     Matcher matcher = ACCOUNT_TEMPLATE_PATTERN.matcher(textTemplate);
-    Set<Account.Id> accountsInTemplate = new HashSet<>();
+    ImmutableSet.Builder<Account.Id> accountsInTemplate = ImmutableSet.builder();
     while (matcher.find()) {
       String accountId = matcher.group(1);
       Optional<Account.Id> parsedAccountId = Account.Id.tryParse(accountId);
@@ -72,7 +70,7 @@ public class AccountTemplateUtil {
         logger.atFine().log("Failed to parse accountId from template %s", matcher.group());
       }
     }
-    return ImmutableSet.copyOf(accountsInTemplate);
+    return accountsInTemplate.build();
   }
 
   public static String getAccountTemplate(Account.Id accountId) {

@@ -100,7 +100,7 @@ public class LabelNormalizerTest {
   private void configureProject() throws Exception {
     ProjectConfig pc = loadAllProjects();
 
-    for (AccessSection sec : ImmutableList.copyOf(pc.getAccessSections())) {
+    for (AccessSection sec : pc.getAccessSections()) {
       pc.upsertAccessSection(
           sec.getName(),
           updatedSection -> {

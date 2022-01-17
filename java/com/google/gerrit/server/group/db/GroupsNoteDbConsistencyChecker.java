@@ -259,7 +259,7 @@ public class GroupsNoteDbConsistencyChecker {
 
       AccountGroup.UUID uuid = groupRef.get().getUUID();
 
-      List<ConsistencyProblemInfo> problems = new ArrayList<>();
+      ImmutableList.Builder<ConsistencyProblemInfo> problems = ImmutableList.builder();
       if (!Objects.equals(groupUUID, uuid)) {
         problems.add(
             warning(
@@ -273,7 +273,7 @@ public class GroupsNoteDbConsistencyChecker {
         problems.add(
             warning("group note of name '%s' claims to represent name of '%s'", name, actualName));
       }
-      return ImmutableList.copyOf(problems);
+      return problems.build();
     } catch (ConfigInvalidException e) {
       return ImmutableList.of(
           warning("fail to check consistency with group name notes: %s", e.getMessage()));

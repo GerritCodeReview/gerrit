@@ -16,8 +16,6 @@ package com.google.gerrit.server.patch;
 
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -40,11 +38,11 @@ public class MergeListBuilder {
       }
     }
 
-    List<RevCommit> result = new ArrayList<>();
+    ImmutableList.Builder<RevCommit> result = ImmutableList.builder();
     RevCommit c;
     while ((c = rw.next()) != null) {
       result.add(c);
     }
-    return ImmutableList.copyOf(result);
+    return result.build();
   }
 }

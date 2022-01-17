@@ -139,14 +139,15 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
               .bTree(bTree)
               .renameScore(key.renameScore())
               .build();
-      List<ModifiedFile> modifiedFiles = DiffUtil.mergeRewrittenModifiedFiles(gitCache.get(gitKey));
+      ImmutableList<ModifiedFile> modifiedFiles =
+          DiffUtil.mergeRewrittenModifiedFiles(gitCache.get(gitKey));
       if (key.aCommit().equals(ObjectId.zeroId())) {
-        return ImmutableList.copyOf(modifiedFiles);
+        return modifiedFiles;
       }
       RevCommit revCommitA = DiffUtil.getRevCommit(rw, key.aCommit());
       RevCommit revCommitB = DiffUtil.getRevCommit(rw, key.bCommit());
       if (DiffUtil.areRelated(revCommitA, revCommitB)) {
-        return ImmutableList.copyOf(modifiedFiles);
+        return modifiedFiles;
       }
       Set<String> touchedFiles =
           getTouchedFilesWithParents(

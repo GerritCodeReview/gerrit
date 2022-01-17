@@ -34,8 +34,6 @@ import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestUpdateUI;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.TestRepository;
@@ -84,7 +82,7 @@ public class NoteDbSchemaUpdaterTest {
     protected final NoteDbSchemaUpdater updater;
     protected final GitRepositoryManager repoManager;
     protected final NoteDbSchemaVersion.Arguments args;
-    private final List<String> messages;
+    private final ImmutableList.Builder<String> messages;
 
     TestUpdate(Optional<Integer> initialVersion) {
       cfg = new Config();
@@ -106,7 +104,7 @@ public class NoteDbSchemaUpdaterTest {
               versionManager,
               args,
               ImmutableSortedMap.of(10, TestSchema_10.class, 11, TestSchema_11.class));
-      messages = new ArrayList<>();
+      messages = ImmutableList.builder();
     }
 
     private class TestSchemaCreator implements SchemaCreator {
@@ -173,7 +171,7 @@ public class NoteDbSchemaUpdaterTest {
     }
 
     ImmutableList<String> getMessages() {
-      return ImmutableList.copyOf(messages);
+      return messages.build();
     }
 
     Optional<Integer> readVersion() throws Exception {

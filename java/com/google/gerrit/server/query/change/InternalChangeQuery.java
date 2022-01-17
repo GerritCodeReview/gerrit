@@ -315,7 +315,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
           querySupplier, byProjectGroupsPredicate(indexConfig, project, groups));
     }
     Set<Change.Id> seen = new HashSet<>();
-    List<ChangeData> result = new ArrayList<>();
+    ImmutableList.Builder<ChangeData> result = ImmutableList.builder();
     for (List<String> part : Iterables.partition(groups, batchSize)) {
       for (ChangeData cd :
           queryExhaustively(querySupplier, byProjectGroupsPredicate(indexConfig, project, part))) {
@@ -324,6 +324,6 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
         }
       }
     }
-    return ImmutableList.copyOf(result);
+    return result.build();
   }
 }

@@ -16,6 +16,23 @@
       "message": "would be great to get this merged and related patch releases to 3.5/3.4 published. Receiving related user complaints of ssh interoperability problems on a gerrit instance.  Thanks in advance!",
       "revId": "f27f2a9b7e79280dad6ea7101adfa86cc88376db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a0e4eed_e78d7a87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-17T17:56:22Z",
+      "side": 1,
+      "message": "Matthias how feasible would it be to back port this change to stable branches?\n\nIt depends on this JGit change: [1].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/188371",
+      "revId": "f27f2a9b7e79280dad6ea7101adfa86cc88376db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -397,13 +397,24 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected void add(RecipientType rt, Account.Id to) {
+    addRecipient(rt, to, /* isWatcher= */ false);
+  }
+
+  /** This bypass the EmailStrategy.ATTENTION_SET_ONLY strategy when adding the recipient. */
+  @Override
+  protected void addWatcher(RecipientType rt, Account.Id to) {
+    addRecipient(rt, to, /* isWatcher= */ true);
+  }
+
+  private void addRecipient(RecipientType rt, Account.Id to, boolean isWatcher) {
     Optional<AccountState> accountState = args.accountCache.get(to);
     if (!accountState.isPresent()) {
       return;
     }
     if (accountState.get().generalPreferences().getEmailStrategy()
             == EmailStrategy.ATTENTION_SET_ONLY
-        && !currentAttentionSet.contains(to)) {
+        && !currentAttentionSet.contains(to)
+        && !isWatcher) {
       return;
     }
     if (emailOnlyAuthors && !authors.contains(to)) {

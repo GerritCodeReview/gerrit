@@ -1438,11 +1438,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     // Add preference for the user such that they only receive an email on changes that require
     // their attention.
-    requestScopeOperations.setApiUser(user.id());
-    GeneralPreferencesInfo prefs = gApi.accounts().self().getPreferences();
-    prefs.emailStrategy = EmailStrategy.ATTENTION_SET_ONLY;
-    gApi.accounts().self().setPreferences(prefs);
-    requestScopeOperations.setApiUser(admin.id());
+    setEmailStrategyForUser(EmailStrategy.ATTENTION_SET_ONLY);
 
     // Add user to attention set. They receive an email since they are in the attention set.
     change(r).addReviewer(user.id().toString());
@@ -1464,15 +1460,32 @@ public class AttentionSetIT extends AbstractDaemonTest {
   public void attentionSetWithEmailFilterImpactingOnlyChangeEmails() throws Exception {
     // Add preference for the user such that they only receive an email on changes that require
     // their attention.
-    requestScopeOperations.setApiUser(user.id());
-    GeneralPreferencesInfo prefs = gApi.accounts().self().getPreferences();
-    prefs.emailStrategy = EmailStrategy.ATTENTION_SET_ONLY;
-    gApi.accounts().self().setPreferences(prefs);
-    requestScopeOperations.setApiUser(admin.id());
+    setEmailStrategyForUser(EmailStrategy.ATTENTION_SET_ONLY);
 
     // Ensure emails that don't relate to changes are still sent.
     gApi.accounts().id(user.id().get()).generateHttpPassword();
     assertThat(sender.getMessages()).isNotEmpty();
+  }
+
+  @Test
+  public void outsideAttentionSet_watchProjectEmailReceived() throws Exception {
+    setEmailStrategyForUser(EmailStrategy.ATTENTION_SET_ONLY);
+
+    requestScopeOperations.setApiUser(user.id());
+    watch(project.get());
+
+    createChange();
+
+    assertThat(sender.getMessages()).isNotEmpty();
+    sender.clear();
+  }
+
+  private void setEmailStrategyForUser(EmailStrategy es) throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    GeneralPreferencesInfo prefs = gApi.accounts().self().getPreferences();
+    prefs.emailStrategy = es;
+    gApi.accounts().self().setPreferences(prefs);
+    requestScopeOperations.setApiUser(admin.id());
   }
 
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(

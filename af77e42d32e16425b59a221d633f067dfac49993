@@ -94,6 +94,30 @@
       },
       "revId": "af77e42d32e16425b59a221d633f067dfac49993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd6af94d_13ee44d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-17T12:19:44Z",
+      "side": 1,
+      "message": "I think describing this well in the commit message would be sufficient.\n\n\u003e However I think all installations who need this rule can now just define:\n\u003e SR: \n\u003e  Name \u003d No Unresolved Comments, \n\u003e  submittableIf \u003d -has:unresolved\n\nIf this is so easy, couldn\u0027t we just do the same for the code owners submit rule?",
+      "parentUuid": "5bd2afb9_29be8e3a",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 23,
+        "endChar": 52
+      },
+      "revId": "af77e42d32e16425b59a221d633f067dfac49993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

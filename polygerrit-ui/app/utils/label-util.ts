@@ -148,7 +148,10 @@ export function hasVoted(label: LabelInfo, account: AccountInfo) {
   if (isDetailedLabelInfo(label)) {
     return !hasNeutralStatus(label, getApprovalInfo(label, account));
   } else if (isQuickLabelInfo(label)) {
-    return label.approved === account || label.rejected === account;
+    return (
+      label.approved?._account_id === account._account_id ||
+      label.rejected?._account_id === account._account_id
+    );
   }
   return false;
 }

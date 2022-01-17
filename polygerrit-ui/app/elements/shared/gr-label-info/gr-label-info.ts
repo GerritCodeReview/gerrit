@@ -221,11 +221,19 @@ export class GrLabelInfo extends LitElement {
     const labelInfo = this.labelInfo;
     if (!labelInfo) return;
     const reviewers = (this.change?.reviewers['REVIEWER'] ?? [])
-      .filter(
-        reviewer =>
-          (this.showAllReviewers && canVote(labelInfo, reviewer)) ||
-          (!this.showAllReviewers && hasVoted(labelInfo, reviewer))
-      )
+      .filter(reviewer => {
+        if (this.showAllReviewers) {
+          if (isDetailedLabelInfo(labelInfo)) {
+            return canVote(labelInfo, reviewer);
+          } else {
+            // isQuickLabelInfo
+            return hasVoted(labelInfo, reviewer);
+          }
+        } else {
+          // !showAllReviewers
+          return hasVoted(labelInfo, reviewer);
+        }
+      })
       .sort((r1, r2) => sortReviewers(r1, r2, this.change, this.account));
     return html`<div>
       ${reviewers.map(reviewer => this.renderReviewerVote(reviewer))}
@@ -251,10 +259,14 @@ export class GrLabelInfo extends LitElement {
 
   renderReviewerVote(reviewer: AccountInfo) {
     const labelInfo = this.labelInfo;
-    if (!labelInfo || !isDetailedLabelInfo(labelInfo)) return;
-    const approvalInfo = getApprovalInfo(labelInfo, reviewer);
+    if (!labelInfo) return;
+    const approvalInfo = isDetailedLabelInfo(labelInfo)
+      ? getApprovalInfo(labelInfo, reviewer)
+      : undefined;
     const noVoteYet =
-      !approvalInfo || hasNeutralStatus(labelInfo, approvalInfo);
+      !hasVoted(labelInfo, reviewer) ||
+      (isDetailedLabelInfo(labelInfo) &&
+        hasNeutralStatus(labelInfo, approvalInfo));
     return html`<div class="reviewer-row">
       <gr-account-chip .account="${reviewer}" .change="${this.change}">
         <gr-vote-chip

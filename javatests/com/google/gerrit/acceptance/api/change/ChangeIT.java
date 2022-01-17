@@ -6273,6 +6273,39 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void legacySubmitRequirementWithIgnoreSelfApproval() throws Exception {
+    LabelType verified =
+        label(LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+    verified = verified.toBuilder().setIgnoreSelfApproval(true).build();
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().upsertLabelType(verified);
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(verified.getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    // The DefaultSubmitRule emits an "OK" submit record for Verified, while the
+    // ignoreSelfApprovalRule emits a "NEED" submit record. The "submit requirements" adapter merges
+    // both results and returns the blocking one only.
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    gApi.changes().id(changeId).addReviewer(user.id().toString());
+
+    voteLabel(changeId, verified.getName(), +1);
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    Collection<SubmitRequirementResultInfo> submitRequirements = changeInfo.submitRequirements;
+    assertSubmitRequirementStatus(
+        submitRequirements, "Verified", Status.UNSATISFIED, /* isLegacy= */ true);
+  }
+
+  @Test
   public void legacySubmitRequirementDuplicatesGlobal_statusDoesNotMatch_bothRecordsReturned()
       throws Exception {
     // The behaviour does not depend on AllowOverrideInChildProject in global submit requirement.

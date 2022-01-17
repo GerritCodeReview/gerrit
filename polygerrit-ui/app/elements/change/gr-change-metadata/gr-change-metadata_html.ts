@@ -393,7 +393,10 @@ export const htmlTemplate = html`
             on-remove="_handleTopicRemoved"
           ></gr-linked-chip>
         </template>
-        <template is="dom-if" if="[[_showAddTopic(change.*, _settingTopic)]]">
+        <template
+          is="dom-if"
+          if="[[_showAddTopic(change.*, _settingTopic, _topicReadOnly)]]"
+        >
           <gr-editable-label
             class="topicEditableLabel"
             label-text="Add a topic"

@@ -634,12 +634,14 @@ suite('gr-change-metadata tests', () => {
         path: '',
         value: undefined,
       };
-    assert.isTrue(element._showAddTopic(undefined, false));
-    assert.isTrue(element._showAddTopic(changeRecord, false));
-    assert.isFalse(element._showAddTopic(changeRecord, true));
+    assert.isTrue(element._showAddTopic(undefined, false, false));
+    // do not show for 'readonly'
+    assert.isFalse(element._showAddTopic(undefined, false, true));
+    assert.isTrue(element._showAddTopic(changeRecord, false, false));
+    assert.isFalse(element._showAddTopic(changeRecord, true, false));
     changeRecord.base!.topic = 'foo' as TopicName;
-    assert.isFalse(element._showAddTopic(changeRecord, true));
-    assert.isFalse(element._showAddTopic(changeRecord, false));
+    assert.isFalse(element._showAddTopic(changeRecord, true, false));
+    assert.isFalse(element._showAddTopic(changeRecord, false, false));
   });
 
   test('_showTopicChip', () => {

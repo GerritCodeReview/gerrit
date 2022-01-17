@@ -39,6 +39,30 @@
       },
       "revId": "3627f8dd32de667bcaf856480663ca8f0d3cbaca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82006ae5_45d1320f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6456,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-17T12:57:34Z",
+      "side": 1,
+      "message": "Comment removed by: Youssef Elghareeb; Reason: Incomplete message",
+      "parentUuid": "034d8368_06b4f605",
+      "range": {
+        "startLine": 6456,
+        "startChar": 76,
+        "endLine": 6456,
+        "endChar": 98
+      },
+      "revId": "3627f8dd32de667bcaf856480663ca8f0d3cbaca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

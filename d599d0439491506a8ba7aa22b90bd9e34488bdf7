@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60be8134_61a3f614",
+        "filename": "tools/platforms/Makefile",
+        "patchSetId": 12
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-17T14:43:11Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "579d841e_0123466d",
+      "range": {
+        "startLine": 3,
+        "startChar": 7,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "d599d0439491506a8ba7aa22b90bd9e34488bdf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c685a8fa_bb994278",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-17T14:27:58Z",
       "side": 1,
       "message": "this makefile isn\u0027t making anything. Could you inline the relevant command into the docs instead? Having files for two build systems (make + bazel) in the tree is confusing.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "d599d0439491506a8ba7aa22b90bd9e34488bdf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aa1bd2f_9ac89384",
+        "filename": "tools/platforms/Makefile",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-17T14:43:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c685a8fa_bb994278",
       "range": {
         "startLine": 21,
         "startChar": 0,

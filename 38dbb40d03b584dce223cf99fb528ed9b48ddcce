@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edb8ecac_059fc2dc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-17T06:39:00Z",
+      "side": 1,
+      "message": "I think that\u0027s ok and to be expected. You typically don\u0027t want to touch code blocks because it\u0027s meant to be inlined verbatim.",
+      "parentUuid": "66ad677e_e9b75495",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 48
+      },
+      "revId": "38dbb40d03b584dce223cf99fb528ed9b48ddcce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "357c45ff_bd662df2",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-14T10:06:13Z",
       "side": 1,
       "message": "how is this case possible?",
+      "range": {
+        "startLine": 266,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 58
+      },
+      "revId": "38dbb40d03b584dce223cf99fb528ed9b48ddcce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6705332f_4b103f08",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-17T06:39:00Z",
+      "side": 1,
+      "message": "This is just defensive programming should the regexp fail for some reason (Which it shouldn\u0027t).",
+      "parentUuid": "357c45ff_bd662df2",
       "range": {
         "startLine": 266,
         "startChar": 0,

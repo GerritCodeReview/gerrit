@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb69f87c_b61336ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-18T17:41:50Z",
+      "side": 1,
+      "message": "I think adopting usage of this feature needs discussion and (if agreed upon) addition to the style guidelines. I\u0027m currently not in favor of adoption.",
+      "revId": "fbac947bdcc2461c1da5b61abc8d84696c65a7e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

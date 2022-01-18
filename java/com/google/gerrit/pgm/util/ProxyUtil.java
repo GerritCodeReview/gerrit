@@ -54,29 +54,29 @@ final class ProxyUtil {
    * @throws MalformedURLException the value in {@code http_proxy} is unsupportable.
    */
   static void configureHttpProxy() throws MalformedURLException {
-    final String s = System.getenv("http_proxy");
+    var s = System.getenv("http_proxy");
     if (Strings.isNullOrEmpty(s)) {
       return;
     }
 
-    final URL u = new URL(!s.contains("://") ? "http://" + s : s);
+    var u = new URL(!s.contains("://") ? "http://" + s : s);
     if (!"http".equals(u.getProtocol())) {
       throw new MalformedURLException("Invalid http_proxy: " + s + ": Only http supported.");
     }
 
-    final String proxyHost = u.getHost();
-    final int proxyPort = u.getPort();
+    var proxyHost = u.getHost();
+    var proxyPort = u.getPort();
 
     System.setProperty("http.proxyHost", proxyHost);
     if (proxyPort > 0) {
       System.setProperty("http.proxyPort", String.valueOf(proxyPort));
     }
 
-    final String userpass = u.getUserInfo();
+    var userpass = u.getUserInfo();
     if (userpass != null && userpass.contains(":")) {
-      final int c = userpass.indexOf(':');
-      final String user = userpass.substring(0, c);
-      final String pass = userpass.substring(c + 1);
+      var c = userpass.indexOf(':');
+      var user = userpass.substring(0, c);
+      var pass = userpass.substring(c + 1);
       CachedAuthenticator.add(
           new CachedAuthenticator.CachedAuthentication(proxyHost, proxyPort, user, pass));
     }

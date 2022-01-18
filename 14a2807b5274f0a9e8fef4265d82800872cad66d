@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d024a5ce_7229ef90",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-18T09:22:21Z",
+      "side": 1,
+      "message": "I have added information about isOwner/isUploader/isReviewer/isCc.\n\nWe also have the information what kind of chip was clicked: error vs warning vs info vs info. But we don\u0027t have the information whether an error existed when a warning was clicked. Is that useful?",
+      "parentUuid": "ce9dc985_e7570ef7",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 114,
+        "endChar": 21
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "caed5115_882bed74",
@@ -61,6 +85,30 @@
       "writtenOn": "2022-01-10T15:09:07Z",
       "side": 1,
       "message": "Do we also diffentiate these actions?\n\n1.summary actions\n2.top-level actions\n(broken down by whether they are in the dropdown or not)",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 54
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ece72739_b23283ea",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-18T09:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caed5115_882bed74",
       "range": {
         "startLine": 117,
         "startChar": 0,
@@ -94,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f689d66e_4b7c6e4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-18T09:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a422da4_02f00072",
+      "range": {
+        "startLine": 766,
+        "startChar": 70,
+        "endLine": 766,
+        "endChar": 75
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3cc8cce_824a3b26",
@@ -107,6 +179,30 @@
       "writtenOn": "2022-01-10T19:16:51Z",
       "side": 1,
       "message": "Same as in comment 177",
+      "range": {
+        "startLine": 163,
+        "startChar": 72,
+        "endLine": 163,
+        "endChar": 78
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a231ff3d_b9de6d1b",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-18T09:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3cc8cce_824a3b26",
       "range": {
         "startLine": 163,
         "startChar": 72,
@@ -140,6 +236,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5ce981b_cb80334e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-18T09:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01ef4247_082ede7a",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 14
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c82794fc_82ad16b4",
@@ -153,6 +273,30 @@
       "writtenOn": "2022-01-10T19:16:51Z",
       "side": 1,
       "message": "btw. you can add event details into CHECKS_LOAD in timeEnd.",
+      "range": {
+        "startLine": 414,
+        "startChar": 4,
+        "endLine": 414,
+        "endChar": 69
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a4b1d4a_538ecf4e",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-18T09:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c82794fc_82ad16b4",
       "range": {
         "startLine": 414,
         "startChar": 4,

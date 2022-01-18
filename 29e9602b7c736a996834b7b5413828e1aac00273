@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d874e4c_17e9adae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-18T17:17:34Z",
+      "side": 1,
+      "message": "Optional: Reduce the scope to only one single class, e.g.:\n\n  CodeReviewCommitTest: Suppress BanSerializableRead for tests\n  \nYou are not suppressing generally tests, but only for one single use case.",
+      "revId": "29e9602b7c736a996834b7b5413828e1aac00273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073094b7_be1b71b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-18T17:17:34Z",
+      "side": 1,
+      "message": "Wrap on 72 char per line.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "29e9602b7c736a996834b7b5413828e1aac00273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee0ae48f_c3b80ef0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-18T17:17:34Z",
+      "side": 1,
+      "message": "suppressed",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 66
+      },
+      "revId": "29e9602b7c736a996834b7b5413828e1aac00273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62de5348_820c0207",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-18T17:17:34Z",
+      "side": 1,
+      "message": "Nit: Space between closed bracket and http.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 8
+      },
+      "revId": "29e9602b7c736a996834b7b5413828e1aac00273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

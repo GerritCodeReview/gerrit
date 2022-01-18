@@ -53,7 +53,7 @@ public class KeyUtil {
     try {
       b = e.getBytes("UTF-8");
     } catch (UnsupportedEncodingException e1) {
-      throw new RuntimeException("No UTF-8 support", e1);
+      throw new IllegalStateException("No UTF-8 support", e1);
     }
 
     final StringBuilder r = new StringBuilder(b.length);
@@ -102,7 +102,7 @@ public class KeyUtil {
     try {
       return new String(b, 0, bPtr, "UTF-8");
     } catch (UnsupportedEncodingException e1) {
-      throw new RuntimeException("No UTF-8 support", e1);
+      throw new IllegalStateException("No UTF-8 support", e1);
     }
   }
 }

@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a75988f2_9625b54f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-18T20:32:24Z",
+      "side": 1,
+      "message": "\u003e Sounds like this change should be part of the release-notes for the next version so people are aware.\n\nWe could do that. I suspect most end users don\u0027t read those notes though, so probably not very helpful for raising awareness of the change.\n\nHow\u0027d we end up with both anyway? (maybe doesn\u0027t matter, but maybe relevant for next question)\n\nWhy does the icon stay and the text get removed vs the other way around? Do we know which gets used more?",
+      "parentUuid": "81083f46_03bfa399",
+      "revId": "ca569e438ede65b8f00a40ef4cfe368c71aaa763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb0da61a_1861b436",
         "filename": "polygerrit-ui/app/elements/gr-app-element_html.ts",
         "patchSetId": 1

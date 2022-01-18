@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a648c5b_ba8e878a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-01-18T14:10:01Z",
+      "side": 1,
+      "message": "I didn\u0027t add any test to this change yet since I noticed in the initial one there wasn\u0027t any, hence I assumed it wasn\u0027t trivial. @edwin is that the case? If not I can have a look and add some tests.",
+      "revId": "4f11874c729e0326e4c5d5c3727ebecd1fdfdd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

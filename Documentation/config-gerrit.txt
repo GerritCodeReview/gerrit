@@ -2028,6 +2028,14 @@ Values can be specified using standard time unit abbreviations (`ms`, `sec`,
 +
 Default is 1 hour.
 
+[[dashboard]]
+=== Section dashboard
+
+[[dashboard.submitRequirementColumns]]dashboard.submitRequirementColumns::
++
+The list of submit requirement names that should be displayed as separate
+columns in the dashboard.
+
 [[download]]
 === Section download
 

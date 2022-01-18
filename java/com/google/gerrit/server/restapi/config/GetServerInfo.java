@@ -66,8 +66,10 @@ import com.google.gerrit.server.submit.MergeSuperSet;
 import com.google.inject.Inject;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
@@ -153,6 +155,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
     info.user = getUserInfo();
     info.receive = getReceiveInfo();
+    info.submitRequirementDashboardColumns = getSubmitRequirementDashboardColumns();
     return Response.ok(info);
   }
 
@@ -371,6 +374,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     ReceiveInfo info = new ReceiveInfo();
     info.enableSignedPush = enableSignedPush;
     return info;
+  }
+
+  private List<String> getSubmitRequirementDashboardColumns() {
+    return Arrays.asList(config.getStringList("dashboard", null, "submitRequirementColumns"));
   }
 
   private static Boolean toBoolean(boolean v) {

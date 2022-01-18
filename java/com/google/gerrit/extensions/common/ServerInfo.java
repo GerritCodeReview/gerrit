@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.List;
+
 /** API response containing values from {@code gerrit.config} as nested objects. */
 public class ServerInfo {
   public AccountsInfo accounts;
@@ -28,4 +30,5 @@ public class ServerInfo {
   public UserConfigInfo user;
   public ReceiveInfo receive;
   public String defaultTheme;
+  public List<String> submitRequirementDashboardColumns;
 }

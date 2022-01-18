@@ -38,7 +38,7 @@ import {
   startWith,
   switchMap,
 } from 'rxjs/operators';
-import {RouterModel} from '../router/router-model';
+import {RouterModel} from '../../services/router/router-model';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -47,12 +47,13 @@ import {ParsedChangeInfo} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';
 
 import {ChangeInfo} from '../../types/common';
-import {RestApiService} from '../gr-rest-api/gr-rest-api';
-import {Finalizable} from '../registry';
+import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {Finalizable} from '../../services/registry';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
-import {Model} from '../../models/model';
-import {UserModel} from '../../models/user/user-model';
+import {Model} from '../model';
+import {UserModel} from '../user/user-model';
+import {define} from '../dependency';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -121,6 +122,8 @@ export function updateChangeWithEdit(
 const initialState: ChangeState = {
   loadingStatus: LoadingStatus.NOT_LOADED,
 };
+
+export const changeModelToken = define<ChangeModel>('change-model');
 
 export class ChangeModel extends Model<ChangeState> implements Finalizable {
   private change?: ParsedChangeInfo;

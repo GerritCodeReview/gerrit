@@ -115,11 +115,12 @@ import {isFalse, throttleWrap, until} from '../../../utils/async-util';
 import {filter, take, switchMap} from 'rxjs/operators';
 import {combineLatest, Subscription} from 'rxjs';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
-import {LoadingStatus} from '../../../services/change/change-model';
+import {LoadingStatus} from '../../../models/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {changeModelToken} from '../../../models/change/change-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {BehaviorSubject} from 'rxjs';
 
@@ -358,7 +359,7 @@ export class GrDiffView extends base {
   readonly userModel = getAppContext().userModel;
 
   // Private but used in tests.
-  readonly changeModel = getAppContext().changeModel;
+  readonly getChangeModel = resolve(this, changeModelToken);
 
   // Private but used in tests.
   readonly getBrowserModel = resolve(this, browserModelToken);
@@ -408,7 +409,7 @@ export class GrDiffView extends base {
       })
     );
     this.subscriptions.push(
-      this.changeModel.change$.subscribe(change => {
+      this.getChangeModel().change$.subscribe(change => {
         // The diff view is tied to a specfic change number, so don't update
         // _change to undefined.
         if (change) this._change = change;
@@ -416,19 +417,19 @@ export class GrDiffView extends base {
     );
 
     this.subscriptions.push(
-      this.changeModel.reviewedFiles$.subscribe(reviewedFiles => {
+      this.getChangeModel().reviewedFiles$.subscribe(reviewedFiles => {
         this.reviewedFiles = new Set(reviewedFiles) ?? new Set();
       })
     );
 
     this.subscriptions.push(
-      this.changeModel.diffPath$.subscribe(path => (this._path = path))
+      this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
     );
 
     this.subscriptions.push(
       combineLatest(
-        this.changeModel.diffPath$,
-        this.changeModel.reviewedFiles$
+        this.getChangeModel().diffPath$,
+        this.getChangeModel().reviewedFiles$
       ).subscribe(([path, files]) => {
         this.$.reviewed.checked = !!path && !!files && files.includes(path);
       })
@@ -439,15 +440,15 @@ export class GrDiffView extends base {
     // properties since the method will be called anytime a property updates
     // but we only want to call this on the initial load.
     this.subscriptions.push(
-      this.changeModel.diffPath$
-        .pipe(
+      this.getChangeModel()
+        .diffPath$.pipe(
           filter(diffPath => !!diffPath),
           switchMap(() =>
             combineLatest(
-              this.changeModel.currentPatchNum$,
+              this.getChangeModel().currentPatchNum$,
               this.routerModel.routerView$,
               this.userModel.diffPreferences$,
-              this.changeModel.reviewedFiles$
+              this.getChangeModel().reviewedFiles$
             ).pipe(
               filter(
                 ([currentPatchNum, routerView, diffPrefs, reviewedFiles]) =>
@@ -465,7 +466,7 @@ export class GrDiffView extends base {
         })
     );
     this.subscriptions.push(
-      this.changeModel.diffPath$.subscribe(path => (this._path = path))
+      this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
     );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.cursor.replaceDiffs([this.$.diffHost]);
@@ -612,7 +613,7 @@ export class GrDiffView extends base {
     const path = this._path;
     // if file is already reviewed then do not make a saveReview request
     if (this.reviewedFiles.has(path) && reviewed) return;
-    this.changeModel.setReviewedFilesStatus(
+    this.getChangeModel().setReviewedFilesStatus(
       this._changeNum,
       patchNum,
       path,
@@ -1037,7 +1038,7 @@ export class GrDiffView extends base {
         GerritNav.navigateToChange(this._change);
         return;
       }
-      this.changeModel.updatePath(comment.path);
+      this.getChangeModel().updatePath(comment.path);
 
       const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
       if (!latestPatchNum) throw new Error('Missing _allPatchSets');
@@ -1047,7 +1048,7 @@ export class GrDiffView extends base {
       this._focusLineNum = comment.line;
     } else {
       if (this.params.path) {
-        this.changeModel.updatePath(this.params.path);
+        this.getChangeModel().updatePath(this.params.path);
       }
       if (this.params.patchNum) {
         this._patchRange = {
@@ -1087,6 +1088,18 @@ export class GrDiffView extends base {
     );
   }
 
+  private async untilModelLoaded() {
+    // NOTE: Wait until this page is connected before determining whether the
+    // model is loaded.  This can happen when params are changed when setting up
+    // this view. It's unclear whether this issue is related to Polymer
+    // specifically.
+    await until(this.connected$, connected => connected)
+    await until(
+      this.getChangeModel().changeLoadingStatus$,
+      status => status === LoadingStatus.LOADED
+    );
+  }
+
   _paramsChanged(value: AppElementParams) {
     if (value.view !== GerritView.DIFF) {
       return;
@@ -1113,7 +1126,9 @@ export class GrDiffView extends base {
     }
 
     this._files = {sortedFileList: [], changeFilesByPath: {}};
-    this.changeModel.updatePath(undefined);
+    if (this.isConnected) {
+      this.getChangeModel().updatePath(undefined);
+    }
     this._patchRange = undefined;
     this._commitRange = undefined;
     this._focusLineNum = undefined;
@@ -1138,12 +1153,7 @@ export class GrDiffView extends base {
 
     const promises: Promise<unknown>[] = [];
     if (!this._change) {
-      promises.push(
-        until(
-          this.changeModel.changeLoadingStatus$,
-          status => status === LoadingStatus.LOADED
-        )
-      );
+      promises.push(this.untilModelLoaded());
     }
     promises.push(this.waitUntilCommentsLoaded());
 

@@ -29,7 +29,6 @@ import '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import '../gr-confirm-submit-dialog/gr-confirm-submit-dialog';
 import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-actions_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -109,6 +108,8 @@ import {
 } from '../../../api/change-actions';
 import {ErrorCallback} from '../../../api/rest';
 import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
+import {resolve, DIPolymerElement} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -341,7 +342,7 @@ export interface GrChangeActions {
 
 @customElement('gr-change-actions')
 export class GrChangeActions
-  extends PolymerElement
+  extends DIPolymerElement
   implements GrChangeActionsElement
 {
   static get template() {
@@ -386,7 +387,7 @@ export class GrChangeActions
   // Accessed in tests
   readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly changeModel = getAppContext().changeModel;
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   @property({type: Object})
   change?: ChangeViewChangeInfo;
@@ -1716,43 +1717,45 @@ export class GrChangeActions
         new Error('Properties change and changeNum must be set.')
       );
     }
-    return this.changeModel.fetchChangeUpdates(change).then(result => {
-      if (!result.isLatest) {
-        this.dispatchEvent(
-          new CustomEvent<ShowAlertEventDetail>('show-alert', {
-            detail: {
-              message:
-                'Cannot set label: a newer patch has been ' +
-                'uploaded to this change.',
-              action: 'Reload',
-              callback: () => fireReload(this, true),
-            },
-            composed: true,
-            bubbles: true,
-          })
-        );
+    return this.getChangeModel()
+      .fetchChangeUpdates(change)
+      .then(result => {
+        if (!result.isLatest) {
+          this.dispatchEvent(
+            new CustomEvent<ShowAlertEventDetail>('show-alert', {
+              detail: {
+                message:
+                  'Cannot set label: a newer patch has been ' +
+                  'uploaded to this change.',
+                action: 'Reload',
+                callback: () => fireReload(this, true),
+              },
+              composed: true,
+              bubbles: true,
+            })
+          );
 
-        // Because this is not a network error, call the cleanup function
-        // but not the error handler.
-        cleanupFn();
+          // Because this is not a network error, call the cleanup function
+          // but not the error handler.
+          cleanupFn();
 
-        return Promise.resolve(undefined);
-      }
-      const patchNum = revisionAction ? this.latestPatchNum : undefined;
-      return this.restApiService
-        .executeChangeAction(
-          changeNum,
-          method,
-          actionEndpoint,
-          patchNum,
-          payload,
-          handleError
-        )
-        .then(response => {
-          cleanupFn.call(this);
-          return response;
-        });
-    });
+          return Promise.resolve(undefined);
+        }
+        const patchNum = revisionAction ? this.latestPatchNum : undefined;
+        return this.restApiService
+          .executeChangeAction(
+            changeNum,
+            method,
+            actionEndpoint,
+            patchNum,
+            payload,
+            handleError
+          )
+          .then(response => {
+            cleanupFn.call(this);
+            return response;
+          });
+      });
   }
 
   _handleCherrypickTap() {

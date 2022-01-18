@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06b3feff_57268a97",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-18T14:11:29Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "234a2977_f4d0ea48",
+      "revId": "4f9df49a57a05ff9885ec13f49b37ac7945a0ea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0b8f5c8_05f4b25f",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7405275f_1c90228c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-18T14:11:29Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "e0b8f5c8_05f4b25f",
+      "revId": "4f9df49a57a05ff9885ec13f49b37ac7945a0ea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f409a804_46d7a429",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-01-17T13:43:26Z",
       "side": 0,
       "message": "I\u0027m also not following if it\u0027s safe to remove this. Could you please explain it in the commit message?",
+      "revId": "4f9df49a57a05ff9885ec13f49b37ac7945a0ea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "124a1f03_54c98c2a",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-18T14:11:29Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "f409a804_46d7a429",
       "revId": "4f9df49a57a05ff9885ec13f49b37ac7945a0ea2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

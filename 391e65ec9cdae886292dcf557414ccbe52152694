@@ -34,6 +34,24 @@
       "parentUuid": "5c0c9a0c_815e828b",
       "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cf3d31c_3f7e2ee3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-18T11:55:53Z",
+      "side": 1,
+      "message": "And to answer your question:\nAxis builds Gerrit from source and we have no issue with applying this to master and cherry-pick it until next version is available but since it\u0027s a bugfix we would rather see it applied to stable-branches for everyone\u0027s benefit.",
+      "parentUuid": "a63af96e_d9d04cbf",
+      "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

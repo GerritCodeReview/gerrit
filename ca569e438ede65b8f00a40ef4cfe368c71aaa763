@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06844398_8be47977",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-18T20:14:22Z",
+      "side": 1,
+      "message": "I actually had no idea that icon was a bug link until now. I\u0027m worried others won\u0027t realize either and the \"Report bug\" text at the bottom has been there for a very long time.",
+      "parentUuid": "a19d38be_fe65d2d4",
+      "revId": "ca569e438ede65b8f00a40ef4cfe368c71aaa763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb0da61a_1861b436",
         "filename": "polygerrit-ui/app/elements/gr-app-element_html.ts",
         "patchSetId": 1

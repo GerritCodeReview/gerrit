@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3c9b5a9_764fecdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-18T20:14:22Z",
+      "side": 1,
+      "message": "Commit messages need to describe why we\u0027re making a change. Can you please add that?",
+      "revId": "8eb33bd3fa7a172d6161289d2236d9721a84e57b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

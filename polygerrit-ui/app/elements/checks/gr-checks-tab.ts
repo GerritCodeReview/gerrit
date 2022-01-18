@@ -22,6 +22,7 @@ import {
   CheckRun,
   checksModelToken,
 } from '../../models/checks/checks-model';
+import {changeModelToken} from '../../services/change/change-model';
 import './gr-checks-runs';
 import './gr-checks-results';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
@@ -68,8 +69,7 @@ export class GrChecksTab extends LitElement {
     number | undefined
   >();
 
-  private readonly changeModel = getAppContext().changeModel;
-
+  private readonly getChangeModel = resolve(this, changeModelToken);
   private readonly getChecksModel = resolve(this, checksModelToken);
 
   private readonly reporting = getAppContext().reportingService;
@@ -101,10 +101,14 @@ export class GrChecksTab extends LitElement {
     );
     subscribe(
       this,
-      this.changeModel.latestPatchNum$,
+      this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchsetNumber = x)
     );
-    subscribe(this, this.changeModel.changeNum$, x => (this.changeNum = x));
+    subscribe(
+      this,
+      this.getChangeModel().changeNum$,
+      x => (this.changeNum = x)
+    );
   }
 
   static override get styles() {

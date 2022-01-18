@@ -29,9 +29,9 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {subscribe} from '../../lit/subscription-controller';
-import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {changeModelToken} from '../../../services/change/change-model';
 import {resolve} from '../../../models/dependency';
 
 @customElement('gr-confirm-submit-dialog')
@@ -65,7 +65,7 @@ export class GrConfirmSubmitDialog extends LitElement {
 
   private getCommentsModel = resolve(this, commentsModelToken);
 
-  private changeModel = getAppContext().changeModel;
+  private getChangeModel = resolve(this, changeModelToken);
 
   static override get styles() {
     return [
@@ -95,7 +95,7 @@ export class GrConfirmSubmitDialog extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    subscribe(this, this.changeModel.change$, x => (this.change = x));
+    subscribe(this, this.getChangeModel().change$, x => (this.change = x));
     subscribe(
       this,
       this.getCommentsModel().threads$,

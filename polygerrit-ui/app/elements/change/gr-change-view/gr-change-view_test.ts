@@ -1459,7 +1459,7 @@ suite('gr-change-view tests', () => {
     );
 
     element.params = createAppElementChangeViewParams();
-    element.changeModel.setState({
+    element.getChangeModel().setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
@@ -1552,7 +1552,7 @@ suite('gr-change-view tests', () => {
 
   test('topic is coalesced to null', async () => {
     sinon.stub(element, '_changeChanged');
-    element.changeModel.setState({
+    element.getChangeModel().setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
@@ -1568,7 +1568,7 @@ suite('gr-change-view tests', () => {
 
   test('commit sha is populated from getChangeDetail', async () => {
     sinon.stub(element, '_changeChanged');
-    element.changeModel.setState({
+    element.getChangeModel().setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
@@ -1951,7 +1951,7 @@ suite('gr-change-view tests', () => {
   test('_selectedRevision updates when patchNum is changed', () => {
     const revision1: RevisionInfo = createRevision(1);
     const revision2: RevisionInfo = createRevision(2);
-    element.changeModel.setState({
+    element.getChangeModel().setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
@@ -1981,7 +1981,7 @@ suite('gr-change-view tests', () => {
     const revision1 = createRevision(1);
     const revision2 = createRevision(2);
     const revision3 = createEditRevision();
-    element.changeModel.setState({
+    element.getChangeModel().setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
@@ -2261,7 +2261,7 @@ suite('gr-change-view tests', () => {
         changeNum: TEST_NUMERIC_CHANGE_ID,
         project: TEST_PROJECT_NAME,
       };
-      element.changeModel.setState({
+      element.getChangeModel().setState({
         loadingStatus: LoadingStatus.LOADED,
         change: {
           ...createChangeViewChange(),

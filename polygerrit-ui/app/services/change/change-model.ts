@@ -53,6 +53,7 @@ import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../../models/model';
 import {UserModel} from '../../models/user/user-model';
+import {define} from '../../models/dependency';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -121,6 +122,8 @@ export function updateChangeWithEdit(
 const initialState: ChangeState = {
   loadingStatus: LoadingStatus.NOT_LOADED,
 };
+
+export const changeModelToken = define<ChangeModel>('change-model');
 
 export class ChangeModel extends Model<ChangeState> implements Finalizable {
   private change?: ParsedChangeInfo;

@@ -27,7 +27,6 @@ import '../../shared/gr-account-list/gr-account-list';
 import '../gr-label-scores/gr-label-scores';
 import '../gr-thread-list/gr-thread-list';
 import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-reply-dialog_html';
 import {
   GrReviewerSuggestionsProvider,
@@ -119,6 +118,8 @@ import {Interaction, Timing} from '../../../constants/reporting';
 import {getReplyByReason} from '../../../utils/attention-set-util';
 import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {resolve, DIPolymerElement} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -167,7 +168,7 @@ export interface GrReplyDialog {
 }
 
 @customElement('gr-reply-dialog')
-export class GrReplyDialog extends PolymerElement {
+export class GrReplyDialog extends DIPolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -220,7 +221,7 @@ export class GrReplyDialog extends PolymerElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly changeModel = getAppContext().changeModel;
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   @property({type: Object})
   change?: ChangeInfo;
@@ -437,11 +438,13 @@ export class GrReplyDialog extends PolymerElement {
   open(focusTarget?: FocusTarget, quote?: string) {
     assertIsDefined(this.change, 'change');
     this.knownLatestState = LatestPatchState.CHECKING;
-    this.changeModel.fetchChangeUpdates(this.change).then(result => {
-      this.knownLatestState = result.isLatest
-        ? LatestPatchState.LATEST
-        : LatestPatchState.NOT_LATEST;
-    });
+    this.getChangeModel()
+      .fetchChangeUpdates(this.change)
+      .then(result => {
+        this.knownLatestState = result.isLatest
+          ? LatestPatchState.LATEST
+          : LatestPatchState.NOT_LATEST;
+      });
 
     this._focusOn(focusTarget);
     if (quote?.length) {

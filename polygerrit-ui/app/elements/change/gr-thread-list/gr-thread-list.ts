@@ -47,6 +47,8 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {repeat} from 'lit/directives/repeat';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {getAppContext} from '../../../services/app-context';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
 
 enum SortDropdownState {
   TIMESTAMP = 'Latest timestamp',
@@ -199,14 +201,18 @@ export class GrThreadList extends LitElement {
   @state()
   draftsOnly = false;
 
-  private readonly changeModel = getAppContext().changeModel;
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly userModel = getAppContext().userModel;
 
-  constructor() {
-    super();
-    subscribe(this, this.changeModel.changeNum$, x => (this.changeNum = x));
-    subscribe(this, this.changeModel.change$, x => (this.change = x));
+  override connectedCallback(): void {
+    super.connectedCallback();
+    subscribe(
+      this,
+      this.getChangeModel().changeNum$,
+      x => (this.changeNum = x)
+    );
+    subscribe(this, this.getChangeModel().change$, x => (this.change = x));
     subscribe(this, this.userModel.account$, x => (this.account = x));
   }
 

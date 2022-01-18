@@ -29,6 +29,7 @@ import {getAppContext} from '../../services/app-context';
 import {createParsedChange} from '../../test/test-data-generators';
 import {waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {ParsedChangeInfo} from '../../types/types';
+import {changeModelToken} from '../change/change-model';
 
 const PLUGIN_NAME = 'test-plugin';
 
@@ -71,7 +72,7 @@ suite('checks-model tests', () => {
   setup(() => {
     model = new ChecksModel(
       getAppContext().routerModel,
-      getAppContext().changeModel,
+      testResolver(changeModelToken),
       getAppContext().reportingService,
       getAppContext().pluginsModel
     );

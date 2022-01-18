@@ -114,6 +114,9 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     @property({type: String})
     position = 'right';
 
+    @property({type: Boolean})
+    nextToCursor = false;
+
     @property({type: Object})
     container: HTMLElement | null = null;
 
@@ -165,7 +168,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       // when added reviewer chips appear in the reply dialog via keyboard
       // interaction.
       this._target?.addEventListener('mousemove', this.debounceShow);
-      this._target?.addEventListener('focus', this.debounceShow);
+      this._target?.addEventListener('focus', this.debounceShowOnFocus);
       this._target?.addEventListener('mouseleave', this.debounceHide);
       this._target?.addEventListener('blur', this.debounceHide);
       this._target?.addEventListener('click', this.hide);
@@ -173,7 +176,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
     private removeTargetEventListeners() {
       this._target?.removeEventListener('mousemove', this.debounceShow);
-      this._target?.removeEventListener('focus', this.debounceShow);
+      this._target?.removeEventListener('focus', this.debounceShowOnFocus);
       this._target?.removeEventListener('mouseleave', this.debounceHide);
       this._target?.removeEventListener('blur', this.debounceHide);
       this._target?.removeEventListener('click', this.hide);
@@ -309,14 +312,18 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     /**
      * Shows/opens the hovercard with a fixed delay.
      */
-    readonly debounceShow = () => {
+    readonly debounceShow = (event?: MouseEvent) => {
+      this.debounceShowBy(SHOW_DELAY_MS, event);
+    };
+
+    readonly debounceShowOnFocus = () => {
       this.debounceShowBy(SHOW_DELAY_MS);
     };
 
     /**
      * Shows/opens the hovercard with the given delay.
      */
-    debounceShowBy(delayMs: number) {
+    debounceShowBy(delayMs: number, event?: MouseEvent) {
       this.cancelHideTask();
       if (this._isShowing || this.isScheduledToShow) return;
       this.isScheduledToShow = true;
@@ -325,7 +332,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         () => {
           // This happens when the mouse leaves the target before the delay is over.
           if (!this.isScheduledToShow) return;
-          this.show();
+          this.show(event);
         },
         delayMs
       );
@@ -342,7 +349,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
      * Shows/opens the hovercard. This occurs when the user triggers the
      * `mousenter` event on the hovercard's `target` element.
      */
-    readonly show = async () => {
+    readonly show = async (event?: MouseEvent) => {
       this.cancelHideTask();
       this.cancelShowTask();
       if (this._isShowing || !this.container) {
@@ -365,11 +372,11 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       await new Promise<void>(r => {
         setTimeout(r, 0);
       });
-      this.updatePosition();
+      this.updatePosition(event);
       this.classList.remove(HIDE_CLASS);
     };
 
-    updatePosition() {
+    updatePosition(event?: MouseEvent) {
       const positionsToTry = new Set([
         this.position,
         'right',
@@ -381,6 +388,14 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         'top-left',
         'left',
       ]);
+      if (this.nextToCursor && event) {
+        this.style.cssText = '';
+        const hovercardLeft = event.clientX + this.offset;
+        const hovercardTop = event.clientY - this.offset;
+        this.style.left = `${hovercardLeft}px`;
+        this.style.top = `${hovercardTop}px`;
+        if (this._isInsideViewport()) return;
+      }
       for (const position of positionsToTry) {
         this.updatePositionTo(position);
         if (this._isInsideViewport()) return;
@@ -435,7 +450,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           hovercardTop = targetTop - thisRect.height - this.offset;
           break;
         case 'bottom':
-          hovercardLeft = targetLeft + (targetRect.width - thisRect.width) / 2;
+          hovercardLeft = targetLeft + this.offset;
           hovercardTop = targetTop + targetRect.height + this.offset;
           break;
         case 'left':
@@ -463,7 +478,6 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           hovercardTop = targetTop + targetRect.height - thisRect.height;
           break;
       }
-
       this.style.left = `${hovercardLeft}px`;
       this.style.top = `${hovercardTop}px`;
     }

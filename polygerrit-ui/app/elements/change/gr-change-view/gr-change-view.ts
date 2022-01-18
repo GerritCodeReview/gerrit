@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Subscription} from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
 import '@polymer/paper-tabs/paper-tabs';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-paper-styles';
@@ -196,10 +196,11 @@ import {
   hasAttention,
 } from '../../../utils/attention-set-util';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
-import {LoadingStatus} from '../../../services/change/change-model';
+import {LoadingStatus} from '../../../models/change/change-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
+import {changeModelToken} from '../../../models/change/change-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -608,7 +609,7 @@ export class GrChangeView extends base {
   readonly userModel = getAppContext().userModel;
 
   // Private but used in tests.
-  readonly changeModel = getAppContext().changeModel;
+  readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly routerModel = getAppContext().routerModel;
 
@@ -632,6 +633,8 @@ export class GrChangeView extends base {
    * position when we re-render the page as is.
    */
   private scrollPosition?: number;
+
+  private connected$ = new BehaviorSubject(false);
 
   /** Simply reflects the router-model value. */
   // visible for testing
@@ -689,7 +692,7 @@ export class GrChangeView extends base {
       })
     );
     this.subscriptions.push(
-      this.changeModel.change$.subscribe(change => {
+      this.getChangeModel().change$.subscribe(change => {
         // The change view is tied to a specific change number, so don't update
         // _change to undefined.
         if (change) this._change = change;
@@ -754,9 +757,11 @@ export class GrChangeView extends base {
         /* clearPatchset= */ e.detail && e.detail.clearPatchset
       );
     });
+    this.connected$.next(true);
   }
 
   override disconnectedCallback() {
+    this.connected$.next(false);
     for (const s of this.subscriptions) {
       s.unsubscribe();
     }
@@ -1910,6 +1915,18 @@ export class GrChangeView extends base {
     });
   }
 
+  private async untilModelLoaded() {
+    // NOTE: Wait until this page is connected before determining whether the
+    // model is loaded.  This can happen when params are changed when setting up
+    // this view. It's unclear whether this issue is related to Polymer
+    // specifically.
+    await until(this.connected$, connected => connected)
+    await until(
+      this.getChangeModel().changeLoadingStatus$,
+      status => status === LoadingStatus.LOADED
+    );
+  }
+
   /**
    * Process edits
    * Check if a revert of this change has been submitted
@@ -1920,10 +1937,8 @@ export class GrChangeView extends base {
     assertIsDefined(this._changeNum, '_changeNum');
 
     const prefCompletes = this._getPreferences();
-    await until(
-      this.changeModel.changeLoadingStatus$,
-      status => status === LoadingStatus.LOADED
-    );
+    await this.untilModelLoaded();
+
     this._prefs = await prefCompletes;
 
     if (!this._change) return false;
@@ -2085,10 +2100,7 @@ export class GrChangeView extends base {
 
     // Resolves when the change detail and the edit patch set (if available)
     // are loaded.
-    const detailCompletes = until(
-      this.changeModel.changeLoadingStatus$,
-      status => status === LoadingStatus.LOADED
-    );
+    const detailCompletes = this.untilModelLoaded();
     this.performPostChangeLoadTasks();
     allDataPromises.push(detailCompletes);
 
@@ -2334,54 +2346,56 @@ export class GrChangeView extends base {
         return;
       }
       const change = this._change;
-      this.changeModel.fetchChangeUpdates(change).then(result => {
-        let toastMessage = null;
-        if (!result.isLatest) {
-          toastMessage = ReloadToastMessage.NEWER_REVISION;
-        } else if (result.newStatus === ChangeStatus.MERGED) {
-          toastMessage = ReloadToastMessage.MERGED;
-        } else if (result.newStatus === ChangeStatus.ABANDONED) {
-          toastMessage = ReloadToastMessage.ABANDONED;
-        } else if (result.newStatus === ChangeStatus.NEW) {
-          toastMessage = ReloadToastMessage.RESTORED;
-        } else if (result.newMessages) {
-          toastMessage = ReloadToastMessage.NEW_MESSAGE;
-          if (result.newMessages.author?.name) {
-            toastMessage += ` from ${result.newMessages.author.name}`;
+      this.getChangeModel()
+        .fetchChangeUpdates(change)
+        .then(result => {
+          let toastMessage = null;
+          if (!result.isLatest) {
+            toastMessage = ReloadToastMessage.NEWER_REVISION;
+          } else if (result.newStatus === ChangeStatus.MERGED) {
+            toastMessage = ReloadToastMessage.MERGED;
+          } else if (result.newStatus === ChangeStatus.ABANDONED) {
+            toastMessage = ReloadToastMessage.ABANDONED;
+          } else if (result.newStatus === ChangeStatus.NEW) {
+            toastMessage = ReloadToastMessage.RESTORED;
+          } else if (result.newMessages) {
+            toastMessage = ReloadToastMessage.NEW_MESSAGE;
+            if (result.newMessages.author?.name) {
+              toastMessage += ` from ${result.newMessages.author.name}`;
+            }
           }
-        }
 
-        // We have to make sure that the update is still relevant for the user.
-        // Since starting to fetch the change update the user may have sent a
-        // reply, or the change might have been reloaded, or it could be in the
-        // process of being reloaded.
-        const changeWasReloaded = change !== this._change;
-        if (
-          !toastMessage ||
-          this._loading ||
-          changeWasReloaded ||
-          !this.isViewCurrent
-        ) {
-          this._startUpdateCheckTimer();
-          return;
-        }
+          // We have to make sure that the update is still relevant for the user.
+          // Since starting to fetch the change update the user may have sent a
+          // reply, or the change might have been reloaded, or it could be in the
+          // process of being reloaded.
+          const changeWasReloaded = change !== this._change;
+          if (
+            !toastMessage ||
+            this._loading ||
+            changeWasReloaded ||
+            !this.isViewCurrent
+          ) {
+            this._startUpdateCheckTimer();
+            return;
+          }
 
-        this._cancelUpdateCheckTimer();
-        this.dispatchEvent(
-          new CustomEvent<ShowAlertEventDetail>('show-alert', {
-            detail: {
-              message: toastMessage,
-              // Persist this alert.
-              dismissOnNavigation: true,
-              showDismiss: true,
-              action: 'Reload',
-              callback: () => fireReload(this, true),
-            },
-            composed: true,
-            bubbles: true,
-          })
-        );
-      });
+          this._cancelUpdateCheckTimer();
+          this.dispatchEvent(
+            new CustomEvent<ShowAlertEventDetail>('show-alert', {
+              detail: {
+                message: toastMessage,
+                // Persist this alert.
+                dismissOnNavigation: true,
+                showDismiss: true,
+                action: 'Reload',
+                callback: () => fireReload(this, true),
+              },
+              composed: true,
+              bubbles: true,
+            })
+          );
+        });
     }, this._serverConfig.change.update_delay * 1000);
   }
 

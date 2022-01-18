@@ -115,12 +115,11 @@ import {isFalse, throttleWrap, until} from '../../../utils/async-util';
 import {filter, take, switchMap} from 'rxjs/operators';
 import {combineLatest, Subscription} from 'rxjs';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
-import {LoadingStatus} from '../../../models/change/change-model';
+import {LoadingStatus} from '../../../services/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
-import {changeModelToken} from '../../../models/change/change-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {BehaviorSubject} from 'rxjs';
 
@@ -359,7 +358,7 @@ export class GrDiffView extends base {
   readonly userModel = getAppContext().userModel;
 
   // Private but used in tests.
-  readonly getChangeModel = resolve(this, changeModelToken);
+  readonly changeModel = getAppContext().changeModel;
 
   // Private but used in tests.
   readonly getBrowserModel = resolve(this, browserModelToken);
@@ -409,7 +408,7 @@ export class GrDiffView extends base {
       })
     );
     this.subscriptions.push(
-      this.getChangeModel().change$.subscribe(change => {
+      this.changeModel.change$.subscribe(change => {
         // The diff view is tied to a specfic change number, so don't update
         // _change to undefined.
         if (change) this._change = change;
@@ -417,19 +416,19 @@ export class GrDiffView extends base {
     );
 
     this.subscriptions.push(
-      this.getChangeModel().reviewedFiles$.subscribe(reviewedFiles => {
+      this.changeModel.reviewedFiles$.subscribe(reviewedFiles => {
         this.reviewedFiles = new Set(reviewedFiles) ?? new Set();
       })
     );
 
     this.subscriptions.push(
-      this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
+      this.changeModel.diffPath$.subscribe(path => (this._path = path))
     );
 
     this.subscriptions.push(
       combineLatest(
-        this.getChangeModel().diffPath$,
-        this.getChangeModel().reviewedFiles$
+        this.changeModel.diffPath$,
+        this.changeModel.reviewedFiles$
       ).subscribe(([path, files]) => {
         this.$.reviewed.checked = !!path && !!files && files.includes(path);
       })
@@ -440,15 +439,15 @@ export class GrDiffView extends base {
     // properties since the method will be called anytime a property updates
     // but we only want to call this on the initial load.
     this.subscriptions.push(
-      this.getChangeModel()
-        .diffPath$.pipe(
+      this.changeModel.diffPath$
+        .pipe(
           filter(diffPath => !!diffPath),
           switchMap(() =>
             combineLatest(
-              this.getChangeModel().currentPatchNum$,
+              this.changeModel.currentPatchNum$,
               this.routerModel.routerView$,
               this.userModel.diffPreferences$,
-              this.getChangeModel().reviewedFiles$
+              this.changeModel.reviewedFiles$
             ).pipe(
               filter(
                 ([currentPatchNum, routerView, diffPrefs, reviewedFiles]) =>
@@ -466,7 +465,7 @@ export class GrDiffView extends base {
         })
     );
     this.subscriptions.push(
-      this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
+      this.changeModel.diffPath$.subscribe(path => (this._path = path))
     );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.cursor.replaceDiffs([this.$.diffHost]);
@@ -613,7 +612,7 @@ export class GrDiffView extends base {
     const path = this._path;
     // if file is already reviewed then do not make a saveReview request
     if (this.reviewedFiles.has(path) && reviewed) return;
-    this.getChangeModel().setReviewedFilesStatus(
+    this.changeModel.setReviewedFilesStatus(
       this._changeNum,
       patchNum,
       path,
@@ -1038,7 +1037,7 @@ export class GrDiffView extends base {
         GerritNav.navigateToChange(this._change);
         return;
       }
-      this.getChangeModel().updatePath(comment.path);
+      this.changeModel.updatePath(comment.path);
 
       const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
       if (!latestPatchNum) throw new Error('Missing _allPatchSets');
@@ -1048,7 +1047,7 @@ export class GrDiffView extends base {
       this._focusLineNum = comment.line;
     } else {
       if (this.params.path) {
-        this.getChangeModel().updatePath(this.params.path);
+        this.changeModel.updatePath(this.params.path);
       }
       if (this.params.patchNum) {
         this._patchRange = {
@@ -1114,7 +1113,7 @@ export class GrDiffView extends base {
     }
 
     this._files = {sortedFileList: [], changeFilesByPath: {}};
-    this.getChangeModel().updatePath(undefined);
+    this.changeModel.updatePath(undefined);
     this._patchRange = undefined;
     this._commitRange = undefined;
     this._focusLineNum = undefined;
@@ -1141,7 +1140,7 @@ export class GrDiffView extends base {
     if (!this._change) {
       promises.push(
         until(
-          this.getChangeModel().changeLoadingStatus$,
+          this.changeModel.changeLoadingStatus$,
           status => status === LoadingStatus.LOADED
         )
       );

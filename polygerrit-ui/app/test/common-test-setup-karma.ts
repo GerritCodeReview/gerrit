@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {testResolver as testResolverImpl} from './common-test-setup';
+import './common-test-setup';
 import '@polymer/test-fixture/test-fixture';
 import 'chai/chai';
 
@@ -23,12 +23,10 @@ declare global {
     flush: typeof flushImpl;
     fixtureFromTemplate: typeof fixtureFromTemplateImpl;
     fixtureFromElement: typeof fixtureFromElementImpl;
-    testResolver: typeof testResolverImpl;
   }
   let flush: typeof flushImpl;
   let fixtureFromTemplate: typeof fixtureFromTemplateImpl;
   let fixtureFromElement: typeof fixtureFromElementImpl;
-  let testResolver: typeof testResolverImpl;
 }
 
 // Workaround for https://github.com/karma-runner/karma-mocha/issues/227
@@ -209,4 +207,3 @@ function fixtureFromElementImpl<T extends keyof HTMLElementTagNameMap>(
 
 window.fixtureFromTemplate = fixtureFromTemplateImpl;
 window.fixtureFromElement = fixtureFromElementImpl;
-window.testResolver = testResolverImpl;

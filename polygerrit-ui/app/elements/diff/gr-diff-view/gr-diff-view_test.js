@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-diff-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus, DiffViewMode, createDefaultDiffPrefs} from '../../../constants/constants.js';
-import {stubRestApi, stubUsers, waitUntil} from '../../../test/test-utils.js';
+import {stubRestApi, stubUsers, waitUntil, stubChange} from '../../../test/test-utils.js';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
 import {GerritView} from '../../../services/router/router-model.js';
 import {
@@ -137,7 +137,7 @@ suite('gr-diff-view tests', () => {
         sinon.stub(element.reporting, 'diffViewDisplayed');
         sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
         sinon.spy(element, '_paramsChanged');
-        element.getChangeModel().setState({
+        element.changeModel.setState({
           change: {
             ...createChange(),
             revisions: createRevisions(11),
@@ -247,7 +247,7 @@ suite('gr-diff-view tests', () => {
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
           sinon.stub(element, '_isFileUnchanged').returns(true);
           sinon.spy(element, '_paramsChanged');
-          element.getChangeModel().setState({
+          element.changeModel.setState({
             change: {
               ...createChange(),
               revisions: createRevisions(11),
@@ -300,7 +300,7 @@ suite('gr-diff-view tests', () => {
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
           sinon.stub(element, '_isFileUnchanged').returns(true);
           sinon.spy(element, '_paramsChanged');
-          element.getChangeModel().setState({
+          element.changeModel.setState({
             change: {
               ...createChange(),
               revisions: createRevisions(11),
@@ -382,7 +382,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.spy(element, '_paramsChanged');
       element._change = undefined;
-      element.getChangeModel().setState({
+      element.changeModel.setState({
         change: {
           ...createChange(),
           revisions: createRevisions(11),
@@ -1190,9 +1190,8 @@ suite('gr-diff-view tests', () => {
 
     test('_prefs.manual_review true means set reviewed is not ' +
       'automatically called', async () => {
-      const setReviewedFileStatusStub =
-        sinon.stub(element.getChangeModel(), 'setReviewedFilesStatus')
-            .callsFake(() => Promise.resolve());
+      const setReviewedFileStatusStub = stubChange('setReviewedFilesStatus')
+          .callsFake(() => Promise.resolve());
 
       const setReviewedStatusStub = sinon.spy(element, 'setReviewedStatus');
 
@@ -1203,7 +1202,7 @@ suite('gr-diff-view tests', () => {
         manual_review: true,
       };
       element.userModel.setDiffPreferences(diffPreferences);
-      element.getChangeModel().setState({
+      element.changeModel.setState({
         change: createChange(),
         diffPath: '/COMMIT_MSG',
         reviewedFiles: [],
@@ -1230,9 +1229,8 @@ suite('gr-diff-view tests', () => {
 
     test('_prefs.manual_review false means set reviewed is called',
         async () => {
-          const setReviewedFileStatusStub =
-              sinon.stub(element.getChangeModel(), 'setReviewedFilesStatus')
-                  .callsFake(() => Promise.resolve());
+          const setReviewedFileStatusStub = stubChange('setReviewedFilesStatus')
+              .callsFake(() => Promise.resolve());
 
           sinon.stub(element.$.diffHost, 'reload');
           sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
@@ -1241,7 +1239,7 @@ suite('gr-diff-view tests', () => {
             manual_review: false,
           };
           element.userModel.setDiffPreferences(diffPreferences);
-          element.getChangeModel().setState({
+          element.changeModel.setState({
             change: createChange(),
             diffPath: '/COMMIT_MSG',
             reviewedFiles: [],
@@ -1262,15 +1260,14 @@ suite('gr-diff-view tests', () => {
         });
 
     test('file review status', async () => {
-      element.getChangeModel().setState({
+      element.changeModel.setState({
         change: createChange(),
         diffPath: '/COMMIT_MSG',
         reviewedFiles: [],
       });
       sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-      const saveReviewedStub =
-          sinon.stub(element.getChangeModel(), 'setReviewedFilesStatus')
-              .callsFake(() => Promise.resolve());
+      const saveReviewedStub = stubChange('setReviewedFilesStatus')
+          .callsFake(() => Promise.resolve());
       sinon.stub(element.$.diffHost, 'reload');
 
       element.userModel.setDiffPreferences(createDefaultDiffPrefs());
@@ -1286,7 +1283,7 @@ suite('gr-diff-view tests', () => {
 
       await waitUntil(() => saveReviewedStub.called);
 
-      element.getChangeModel().updateStateFileReviewed('/COMMIT_MSG', true);
+      element.changeModel.updateStateFileReviewed('/COMMIT_MSG', true);
       await flush();
 
       const reviewedStatusCheckBox = element.root.querySelector(
@@ -1301,7 +1298,7 @@ suite('gr-diff-view tests', () => {
       assert.deepEqual(saveReviewedStub.lastCall.args,
           ['42', 2, '/COMMIT_MSG', false]);
 
-      element.getChangeModel().updateStateFileReviewed('/COMMIT_MSG', false);
+      element.changeModel.updateStateFileReviewed('/COMMIT_MSG', false);
       await flush();
 
       MockInteractions.tap(reviewedStatusCheckBox);
@@ -1320,8 +1317,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('file review status with edit loaded', () => {
-      const saveReviewedStub =
-          sinon.stub(element.getChangeModel(), 'setReviewedFilesStatus');
+      const saveReviewedStub = stubChange('setReviewedFilesStatus');
 
       element._patchRange = {patchNum: EditPatchSetNum};
       flush();

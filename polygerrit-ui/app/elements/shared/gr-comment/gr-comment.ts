@@ -67,7 +67,6 @@ import {getRandomInt} from '../../../utils/math-util';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {configModelToken} from '../../../models/config/config-model';
-import {changeModelToken} from '../../../models/change/change-model';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -232,7 +231,7 @@ export class GrComment extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly getChangeModel = resolve(this, changeModelToken);
+  private readonly changeModel = getAppContext().changeModel;
 
   // Private but used in tests.
   readonly getCommentsModel = resolve(this, commentsModelToken);
@@ -263,6 +262,18 @@ export class GrComment extends LitElement {
 
   constructor() {
     super();
+    subscribe(this, this.userModel.account$, x => (this.account = x));
+    subscribe(this, this.userModel.isAdmin$, x => (this.isAdmin = x));
+
+    subscribe(this, this.changeModel.repo$, x => (this.repoName = x));
+    subscribe(this, this.changeModel.changeNum$, x => (this.changeNum = x));
+    subscribe(
+      this,
+      this.autoSaveTrigger$.pipe(debounceTime(AUTO_SAVE_DEBOUNCE_DELAY_MS)),
+      () => {
+        this.autoSave();
+      }
+    );
     this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEsc());
     for (const key of ['s', Key.ENTER]) {
       for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
@@ -279,22 +290,6 @@ export class GrComment extends LitElement {
       this,
       this.configModel().repoCommentLinks$,
       x => (this.commentLinks = x)
-    );
-    subscribe(this, this.userModel.account$, x => (this.account = x));
-    subscribe(this, this.userModel.isAdmin$, x => (this.isAdmin = x));
-
-    subscribe(this, this.getChangeModel().repo$, x => (this.repoName = x));
-    subscribe(
-      this,
-      this.getChangeModel().changeNum$,
-      x => (this.changeNum = x)
-    );
-    subscribe(
-      this,
-      this.autoSaveTrigger$.pipe(debounceTime(AUTO_SAVE_DEBOUNCE_DELAY_MS)),
-      () => {
-        this.autoSave();
-      }
     );
   }
 

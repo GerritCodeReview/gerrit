@@ -47,7 +47,7 @@ import {
   FetchResponse,
   ResponseCode,
 } from '../../api/checks';
-import {ChangeModel} from '../change/change-model';
+import {ChangeModel} from '../../services/change/change-model';
 import {ChangeInfo, NumericChangeId, PatchSetNumber} from '../../types/common';
 import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';

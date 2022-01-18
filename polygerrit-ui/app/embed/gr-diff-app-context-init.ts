@@ -75,6 +75,9 @@ export function createDiffAppContext(): AppContext & Finalizable {
     restApiService: (_ctx: Partial<AppContext>) => {
       throw new Error('restApiService is not implemented');
     },
+    changeModel: (_ctx: Partial<AppContext>) => {
+      throw new Error('changeModel is not implemented');
+    },
     jsApiService: (_ctx: Partial<AppContext>) => {
       throw new Error('jsApiService is not implemented');
     },

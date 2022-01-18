@@ -126,17 +126,16 @@ function injectDependency<T>(
   });
 }
 
-export function testResolver<T>(token: DependencyToken<T>): T {
-  const provider = injectedDependencies.get(token);
-  if (provider) {
-    return provider() as T;
-  } else {
-    throw new DependencyError(token, 'Forgot to set up dependency for tests');
-  }
-}
-
 function resolveDependency(evt: DependencyRequestEvent<unknown>) {
-  evt.callback(testResolver(evt.dependency));
+  const provider = injectedDependencies.get(evt.dependency);
+  if (provider) {
+    evt.callback(provider());
+  } else {
+    throw new DependencyError(
+      evt.dependency,
+      'Forgot to set up dependency for tests'
+    );
+  }
 }
 
 setup(() => {
@@ -149,7 +148,7 @@ setup(() => {
   appContext = createTestAppContext();
   injectAppContext(appContext);
   finalizers.push(appContext);
-  const dependencies = createTestDependencies(appContext, testResolver);
+  const dependencies = createTestDependencies(appContext);
   for (const [token, provider] of dependencies) {
     injectDependency(token, provider);
   }

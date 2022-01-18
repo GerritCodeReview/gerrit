@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fe879da_1ca523aa",
+        "filename": "java/com/google/gerrit/entities/KeyUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-18T11:19:07Z",
+      "side": 1,
+      "message": "Optional: While already on it, would you mind to replace the variable \"e1\" with just \"e\". Apparently, this code was copied from line 104 below, where the catch was second statement and the variable was copied as well, but was missed to be adapted.",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 44
+      },
+      "revId": "0e088a60031d85d2facdad63334de091474e5269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

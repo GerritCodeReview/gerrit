@@ -407,6 +407,10 @@ export class GrPermission extends PolymerElement {
     return RANGE_NAMES.includes(name.toUpperCase());
   }
 
+  _computeExclusiveLabel(permission?: EditablePermissionInfo) {
+    return permission?.exclusive ? 'Exclusive' : 'Not Exclusive';
+  }
+
   /**
    * Work around a issue on iOS when clicking turns into double tap
    */

@@ -88,6 +88,7 @@ import {select} from '../../../utils/observable-util';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {changeModelToken} from '../../../services/change/change-model';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -318,7 +319,7 @@ export class GrFileList extends base {
 
   private readonly userModel = getAppContext().userModel;
 
-  private readonly changeModel = getAppContext().changeModel;
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
@@ -396,7 +397,7 @@ export class GrFileList extends base {
       ).subscribe(sizeBarInChangeTable => {
         this._showSizeBars = sizeBarInChangeTable;
       }),
-      this.changeModel.reviewedFiles$.subscribe(reviewedFiles => {
+      this.getChangeModel().reviewedFiles$.subscribe(reviewedFiles => {
         this.reviewed = reviewedFiles ?? [];
       }),
     ];
@@ -748,7 +749,7 @@ export class GrFileList extends base {
       throw new Error('changeNum and patchRange must be set');
     }
 
-    return this.changeModel.setReviewedFilesStatus(
+    return this.getChangeModel().setReviewedFilesStatus(
       this.changeNum,
       this.patchRange.patchNum,
       path,

@@ -200,6 +200,7 @@ import {LoadingStatus} from '../../../services/change/change-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
+import {changeModelToken} from '../../../services/change/change-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -608,7 +609,7 @@ export class GrChangeView extends base {
   readonly userModel = getAppContext().userModel;
 
   // Private but used in tests.
-  readonly changeModel = getAppContext().changeModel;
+  readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly routerModel = getAppContext().routerModel;
 
@@ -689,7 +690,7 @@ export class GrChangeView extends base {
       })
     );
     this.subscriptions.push(
-      this.changeModel.change$.subscribe(change => {
+      this.getChangeModel().change$.subscribe(change => {
         // The change view is tied to a specific change number, so don't update
         // _change to undefined.
         if (change) this._change = change;
@@ -1913,7 +1914,7 @@ export class GrChangeView extends base {
 
     const prefCompletes = this._getPreferences();
     await until(
-      this.changeModel.changeLoadingStatus$,
+      this.getChangeModel().changeLoadingStatus$,
       status => status === LoadingStatus.LOADED
     );
     this._prefs = await prefCompletes;
@@ -2078,7 +2079,7 @@ export class GrChangeView extends base {
     // Resolves when the change detail and the edit patch set (if available)
     // are loaded.
     const detailCompletes = until(
-      this.changeModel.changeLoadingStatus$,
+      this.getChangeModel().changeLoadingStatus$,
       status => status === LoadingStatus.LOADED
     );
     this.performPostChangeLoadTasks();
@@ -2328,7 +2329,7 @@ export class GrChangeView extends base {
         return;
       }
       const change = this._change;
-      this.changeModel.fetchChangeUpdates(change).then(result => {
+      this.getChangeModel().fetchChangeUpdates(change).then(result => {
         let toastMessage = null;
         if (!result.isLatest) {
           toastMessage = ReloadToastMessage.NEWER_REVISION;

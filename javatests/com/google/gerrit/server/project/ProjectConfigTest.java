@@ -20,6 +20,7 @@ import static com.google.gerrit.entities.BooleanProjectConfig.REQUIRE_CHANGE_ID;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.RuntimeVersion;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountsSection;
@@ -801,13 +802,19 @@ public class ProjectConfigTest {
             .create();
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections()).isEmpty();
+
+    boolean atLeastJava17 = RuntimeVersion.isAtLeast17();
     assertThat(cfg.getValidationErrors())
         .containsExactly(
             ValidationError.create(
                 "project.config: Invalid pattern \"(bugs{+#?)(d+)\" in commentlink.bugzilla.match: "
-                    + "Illegal repetition near index 4\n"
+                    + "Illegal repetition near index "
+                    + (atLeastJava17 ? "6" : "4")
+                    + "\n"
                     + "(bugs{+#?)(d+)\n"
-                    + "    ^"));
+                    + "    "
+                    + (atLeastJava17 ? "  " : "")
+                    + "^"));
   }
 
   @Test

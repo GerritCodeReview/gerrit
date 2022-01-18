@@ -16,7 +16,6 @@ package com.google.gerrit.server.account.externalids;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.cache.Cache;
-import com.google.common.cache.CacheLoader;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -36,7 +35,6 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
@@ -58,7 +56,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /** Loads cache values for the external ID cache using either a full or a partial reload. */
 @Singleton
-public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds> {
+public class ExternalIdCacheLoader {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   // Maximum number of prior states we inspect to find a base for differential. If no cached state
@@ -66,7 +64,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
   private static final int MAX_HISTORY_LOOKBACK = 10;
 
   private final ExternalIdReader externalIdReader;
-  private final Provider<Cache<ObjectId, AllExternalIds>> externalIdCache;
+  private final Cache<ObjectId, AllExternalIds> externalIdCache;
   private final GitRepositoryManager gitRepositoryManager;
   private final AllUsersName allUsersName;
   private final Counter1<Boolean> reloadCounter;
@@ -79,8 +77,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
       GitRepositoryManager gitRepositoryManager,
       AllUsersName allUsersName,
       ExternalIdReader externalIdReader,
-      @Named(ExternalIdCacheImpl.CACHE_NAME)
-          Provider<Cache<ObjectId, AllExternalIds>> externalIdCache,
+      @Named(ExternalIdCacheImpl.CACHE_NAME) Cache<ObjectId, AllExternalIds> externalIdCache,
       MetricMaker metricMaker,
       @GerritServerConfig Config config,
       ExternalIdFactory externalIdFactory) {
@@ -109,7 +106,6 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
     this.externalIdFactory = externalIdFactory;
   }
 
-  @Override
   public AllExternalIds load(ObjectId notesRev) throws IOException, ConfigInvalidException {
     externalIdReader.checkReadEnabled();
     // The requested value was not in the cache (hence, this loader was invoked). Therefore, try to
@@ -148,7 +144,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
       while ((parentWithCacheValue = rw.next()) != null
           && i++ < MAX_HISTORY_LOOKBACK
           && parentWithCacheValue.getParentCount() < 2) {
-        oldExternalIds = externalIdCache.get().getIfPresent(parentWithCacheValue.getId());
+        oldExternalIds = externalIdCache.getIfPresent(parentWithCacheValue.getId());
         if (oldExternalIds != null) {
           // We found a previously cached state.
           break;

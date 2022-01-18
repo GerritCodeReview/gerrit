@@ -72,6 +72,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {notDeepEqual} from '../../../utils/deep-util';
 import {resolve} from '../../../models/dependency';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {changeModelToken} from '../../../models/change/change-model';
 import {whenRendered} from '../../../utils/dom-util';
 
 const NEWLINE_PATTERN = /\n/g;
@@ -251,7 +252,7 @@ export class GrCommentThread extends LitElement {
   // Private but used in tests.
   readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private readonly changeModel = getAppContext().changeModel;
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly userModel = getAppContext().userModel;
 
@@ -261,9 +262,19 @@ export class GrCommentThread extends LitElement {
 
   constructor() {
     super();
-    subscribe(this, this.changeModel.changeNum$, x => (this.changeNum = x));
+    this.shortcuts.addGlobal({key: 'e'}, () => this.handleExpandShortcut());
+    this.shortcuts.addGlobal({key: 'E'}, () => this.handleCollapseShortcut());
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    subscribe(
+      this,
+      this.getChangeModel().changeNum$,
+      x => (this.changeNum = x)
+    );
     subscribe(this, this.userModel.account$, x => (this.account = x));
-    subscribe(this, this.changeModel.repo$, x => (this.repoName = x));
+    subscribe(this, this.getChangeModel().repo$, x => (this.repoName = x));
     subscribe(this, this.userModel.diffPreferences$, x =>
       this.syntaxLayer.setEnabled(!!x.syntax_highlighting)
     );
@@ -282,8 +293,7 @@ export class GrCommentThread extends LitElement {
         line_wrapping: true,
       };
     });
-    this.shortcuts.addGlobal({key: 'e'}, () => this.handleExpandShortcut());
-    this.shortcuts.addGlobal({key: 'E'}, () => this.handleCollapseShortcut());
+
   }
 
   static override get styles() {

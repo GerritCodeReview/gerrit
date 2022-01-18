@@ -22,6 +22,30 @@
       },
       "revId": "0e088a60031d85d2facdad63334de091474e5269",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4ab81f0_2c60af9a",
+        "filename": "java/com/google/gerrit/entities/KeyUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-18T11:36:04Z",
+      "side": 1,
+      "message": "\u0027e\u0027 is already used for method arg, did the rename in a separate change:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/328425",
+      "parentUuid": "1fe879da_1ca523aa",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 44
+      },
+      "revId": "0e088a60031d85d2facdad63334de091474e5269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

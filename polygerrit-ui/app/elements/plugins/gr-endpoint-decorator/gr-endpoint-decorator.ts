@@ -24,6 +24,7 @@ import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader
 import {customElement, property} from '@polymer/decorators';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
+import {getAppContext} from '../../../services/app-context';
 
 const INIT_PROPERTIES_TIMEOUT_MS = 10000;
 
@@ -57,6 +58,8 @@ export class GrEndpointDecorator extends PolymerElement {
    * _initModule().
    */
   _endpointCallBack: (info: ModuleInfo) => void = () => {};
+
+  private readonly reporting = getAppContext().reportingService;
 
   override disconnectedCallback() {
     for (const [el, domHook] of this._domHooks) {
@@ -117,6 +120,7 @@ export class GrEndpointDecorator extends PolymerElement {
     plugin: PluginApi,
     content?: Element | null
   ) {
+    const pluginName = plugin.getPluginName();
     el.plugin = plugin;
     // The content is (only?) used in ChangeReplyPluginApi.
     // Maybe it would be better for the consumer side to figure out the content
@@ -130,7 +134,14 @@ export class GrEndpointDecorator extends PolymerElement {
       const helper = plugin.attributeHelper(paramEl);
       // TODO: this should be replaced by accessing the property directly
       const paramName = paramEl.getAttribute('name');
-      if (!paramName) throw Error('plugin endpoint parameter missing a name');
+      if (!paramName) {
+        this.reporting.error(
+          new Error(
+            `plugin '${pluginName}' endpoint '${this.name}': param is missing a name.`
+          )
+        );
+        return;
+      }
       return helper.get('value').then(() =>
         helper.bind('value', value =>
           // Note that despite the naming this sets the property, not the
@@ -146,9 +157,11 @@ export class GrEndpointDecorator extends PolymerElement {
         // if window is not specified, then the function is pulled from node
         // and the return type is NodeJS.Timeout object
         (timeoutId = window.setTimeout(() => {
-          console.warn(
-            'Timeout waiting for endpoint properties initialization: ' +
-              `plugin ${plugin.getPluginName()}, endpoint ${this.name}`
+          this.reporting.error(
+            new Error(
+              'Timeout waiting for endpoint properties initialization: ' +
+                `plugin ${pluginName}, endpoint ${this.name}`
+            )
           );
         }, INIT_PROPERTIES_TIMEOUT_MS))
     );

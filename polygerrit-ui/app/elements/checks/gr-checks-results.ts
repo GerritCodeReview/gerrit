@@ -55,7 +55,6 @@ import {
   LabelNameToInfoMap,
   PatchSetNumber,
 } from '../../types/common';
-import {getAppContext} from '../../services/app-context';
 import {spinnerStyles} from '../../styles/gr-spinner-styles';
 import {
   getLabelStatus,
@@ -70,6 +69,7 @@ import {fire} from '../../utils/event-util';
 import {resolve} from '../../models/dependency';
 import {configModelToken} from '../../models/config/config-model';
 import {checksModelToken} from '../../models/checks/checks-model';
+import {changeModelToken} from '../../models/change/change-model';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -105,13 +105,13 @@ class GrResultRow extends LitElement {
   @state()
   labels?: LabelNameToInfoMap;
 
-  private changeModel = getAppContext().changeModel;
+  private getChangeModel = resolve(this, changeModelToken);
 
   private getChecksModel = resolve(this, checksModelToken);
 
   override connectedCallback() {
     super.connectedCallback();
-    subscribe(this, this.changeModel.labels$, x => (this.labels = x));
+    subscribe(this, this.getChangeModel().labels$, x => (this.labels = x));
   }
 
   static override get styles() {
@@ -560,9 +560,9 @@ class GrResultExpanded extends LitElement {
   @state()
   repoConfig?: ConfigInfo;
 
-  private changeModel = getAppContext().changeModel;
+  private getChangeModel = resolve(this, changeModelToken);
 
-  private configModel = resolve(this, configModelToken);
+  private getConfigModel = resolve(this, configModelToken);
 
   static override get styles() {
     return [
@@ -587,7 +587,11 @@ class GrResultExpanded extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    subscribe(this, this.configModel().repoConfig$, x => (this.repoConfig = x));
+    subscribe(
+      this,
+      this.getConfigModel().repoConfig$,
+      x => (this.repoConfig = x)
+    );
   }
 
   override render() {
@@ -648,7 +652,7 @@ class GrResultExpanded extends LitElement {
       const end = pointer?.range?.end_line;
       if (start) rangeText += `#${start}`;
       if (end && start !== end) rangeText += `-${end}`;
-      const change = this.changeModel.getChange();
+      const change = this.getChangeModel().getChange();
       assertIsDefined(change);
       const path = pointer.path;
       const patchset = this.result?.patchset as PatchSetNumber | undefined;
@@ -756,7 +760,7 @@ export class GrChecksResults extends LitElement {
    */
   private isSectionExpandedByUser = new Map<Category, boolean>();
 
-  private readonly changeModel = getAppContext().changeModel;
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
@@ -779,7 +783,7 @@ export class GrChecksResults extends LitElement {
     );
     subscribe(
       this,
-      this.changeModel.latestPatchNum$,
+      this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchsetNumber = x)
     );
     subscribe(

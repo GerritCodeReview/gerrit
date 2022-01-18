@@ -22,7 +22,7 @@ import {GrReporting} from './gr-reporting/gr-reporting_impl';
 import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
 import {GrRestApiServiceImpl} from '../elements/shared/gr-rest-api-interface/gr-rest-api-impl';
-import {ChangeModel} from './change/change-model';
+import {ChangeModel, changeModelToken} from '../models/change/change-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
@@ -60,15 +60,6 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.flagsService, 'flagsService)');
       return new GrRestApiServiceImpl(ctx.authService!, ctx.flagsService!);
     },
-    changeModel: (ctx: Partial<AppContext>) => {
-      const routerModel = ctx.routerModel;
-      const restApiService = ctx.restApiService;
-      const userModel = ctx.userModel;
-      assertIsDefined(routerModel, 'routerModel');
-      assertIsDefined(restApiService, 'restApiService');
-      assertIsDefined(userModel, 'userModel');
-      return new ChangeModel(routerModel, restApiService, userModel);
-    },
     jsApiService: (ctx: Partial<AppContext>) => {
       const reportingService = ctx.reportingService;
       assertIsDefined(reportingService, 'reportingService');
@@ -96,23 +87,27 @@ export function createAppDependencies(
   const browserModel = new BrowserModel(appContext.userModel!);
   dependencies.set(browserModelToken, browserModel);
 
+  const changeModel = new ChangeModel(
+    appContext.routerModel,
+    appContext.restApiService,
+    appContext.userModel
+  );
+  dependencies.set(changeModelToken, changeModel);
+
   const commentsModel = new CommentsModel(
     appContext.routerModel,
-    appContext.changeModel,
+    changeModel,
     appContext.restApiService,
     appContext.reportingService
   );
   dependencies.set(commentsModelToken, commentsModel);
 
-  const configModel = new ConfigModel(
-    appContext.changeModel,
-    appContext.restApiService
-  );
+  const configModel = new ConfigModel(changeModel, appContext.restApiService);
   dependencies.set(configModelToken, configModel);
 
   const checksModel = new ChecksModel(
     appContext.routerModel,
-    appContext.changeModel,
+    changeModel,
     appContext.reportingService,
     appContext.pluginsModel
   );

@@ -5276,6 +5276,18 @@ installed, because then performance logging is always disabled.
 +
 By default, true.
 
+[[tracing.exportPerformanceMetrics]]tracing.exportPerformanceMetrics::
++
+Whether to export performance metrics.
++
+Performace logged when link:#tracing.performanceLogging[`performanceLogging`] is enabled,
+can be exported as metrics.
++
+NOTE: Since the payload returned could be significant, assess the latency of the metrics
+endpoint before enabling the performance metrics.
++
+By default, false.
+
 [[tracing.traceid]]
 ==== Subsection tracing.<trace-id>
 

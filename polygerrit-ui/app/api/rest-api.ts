@@ -979,6 +979,7 @@ export declare interface ServerInfo {
   suggest: SuggestInfo;
   user: UserConfigInfo;
   default_theme?: string;
+  submit_requirement_dashboard_columns?: string[];
 }
 
 /**

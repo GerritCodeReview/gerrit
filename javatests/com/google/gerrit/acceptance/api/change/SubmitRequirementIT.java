@@ -1244,7 +1244,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       value =
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
-  public void submitRequirement_returnsEmpty_ForAbandonedChangeWithPreviouslyStoredSRs()
+  public void submitRequirement_returnsEmpty_forAbandonedChangeWithPreviouslyStoredSRs()
       throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
@@ -1295,7 +1295,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       value =
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
-  public void submitRequirement_returnsEmpty_ForMergedChangeWithPreviouslyStoredSRs()
+  public void submitRequirement_returnsEmpty_forMergedChangeWithPreviouslyStoredSRs()
       throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);

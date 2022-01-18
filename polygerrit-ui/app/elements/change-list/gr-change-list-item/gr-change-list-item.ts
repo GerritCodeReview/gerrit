@@ -24,7 +24,7 @@ import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
-import '../gr-change-list-column/gr-change-list-column';
+import '../gr-change-list-column-requirements-summary/gr-change-list-column-requirements-summary';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
@@ -529,8 +529,8 @@ export class GrChangeListItem extends LitElement {
 
     return html`
       <td class="cell requirements">
-        <gr-change-list-column-requirements .change=${this.change}>
-        </gr-change-list-column-requirements>
+        <gr-change-list-column-requirements-summary .change=${this.change}>
+        </gr-change-list-column-requirements-summary>
       </td>
     `;
   }

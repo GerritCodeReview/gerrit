@@ -196,16 +196,6 @@ export const htmlTemplate = html`
       <gr-endpoint-decorator name="footer-left"></gr-endpoint-decorator>
     </div>
     <div>
-      <template is="dom-if" if="[[_feedbackUrl]]">
-        <a
-          class="feedback"
-          href$="[[_feedbackUrl]]"
-          rel="noopener"
-          target="_blank"
-          >Report bug</a
-        >
-        |
-      </template>
       Press “?” for keyboard shortcuts
       <gr-endpoint-decorator name="footer-right"></gr-endpoint-decorator>
     </div>

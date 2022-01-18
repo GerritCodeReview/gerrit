@@ -188,9 +188,6 @@ export class GrAppElement extends base {
   @property({type: String})
   _settingsUrl?: string;
 
-  @property({type: String})
-  _feedbackUrl?: string;
-
   @property({type: Boolean})
   mobileSearch = false;
 
@@ -281,10 +278,6 @@ export class GrAppElement extends base {
     });
     this.restApiService.getConfig().then(config => {
       this._serverConfig = config;
-
-      if (config && config.gerrit && config.gerrit.report_bug_url) {
-        this._feedbackUrl = config.gerrit.report_bug_url;
-      }
     });
     this.restApiService.getVersion().then(version => {
       this._version = version;
@@ -593,9 +586,6 @@ export class GrAppElement extends base {
     console.info(`Gerrit Server Version: ${this._version}`);
     if (window.VERSION_INFO) {
       console.info(`UI Version Info: ${window.VERSION_INFO}`);
-    }
-    if (this._feedbackUrl) {
-      console.info(`Please file bugs and feedback at: ${this._feedbackUrl}`);
     }
     console.groupEnd();
   }

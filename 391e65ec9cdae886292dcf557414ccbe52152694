@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c0c9a0c_815e828b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-01-18T11:34:02Z",
+      "side": 1,
+      "message": "Normally we\u0027d try to avoid functional changes on a stable branch, I think?\n\nDoes Axis build Gerrit from source?  Might be easier to submit to master and cherry-pick into a branch for your local build.",
+      "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

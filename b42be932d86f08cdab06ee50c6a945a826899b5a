@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baa5aa87_aaa88ab5",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-18T17:35:15Z",
+      "side": 1,
+      "message": "Other docs [1] use a syntax like this:\n\n link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/contrib/remove-notedb-refs.sh[remove-notedb-refs.sh,role\u003dexternal,window\u003d_blank]\n \n[1] https://gerrit.googlesource.com/gerrit/+/b42be932d86f08cdab06ee50c6a945a826899b5a/Documentation/backup.txt#51",
+      "revId": "b42be932d86f08cdab06ee50c6a945a826899b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

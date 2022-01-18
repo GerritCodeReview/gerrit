@@ -92,9 +92,6 @@ export const htmlTemplate = html`
     .errorMoreInfo {
       color: var(--deemphasized-text-color);
     }
-    .feedback {
-      color: var(--error-text-color);
-    }
   </style>
   <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
   <gr-main-header
@@ -196,16 +193,6 @@ export const htmlTemplate = html`
       <gr-endpoint-decorator name="footer-left"></gr-endpoint-decorator>
     </div>
     <div>
-      <template is="dom-if" if="[[_feedbackUrl]]">
-        <a
-          class="feedback"
-          href$="[[_feedbackUrl]]"
-          rel="noopener"
-          target="_blank"
-          >Report bug</a
-        >
-        |
-      </template>
       Press “?” for keyboard shortcuts
       <gr-endpoint-decorator name="footer-right"></gr-endpoint-decorator>
     </div>

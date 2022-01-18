@@ -83,6 +83,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "791c2543_31cbf8aa",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-18T17:07:54Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "72a1a5c2_6d87521b",
+      "range": {
+        "startLine": 99,
+        "startChar": 25,
+        "endLine": 99,
+        "endChar": 31
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbdb7c1d_4c9a617f",
         "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
         "patchSetId": 4
@@ -175,6 +199,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12539dd3_5ac3fccc",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-18T17:07:54Z",
+      "side": 1,
+      "message": "This is how we typically do render functions.",
+      "parentUuid": "87887549_0952c7aa",
+      "range": {
+        "startLine": 178,
+        "startChar": 26,
+        "endLine": 178,
+        "endChar": 32
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58bba42e_ea619939",
         "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
         "patchSetId": 4
@@ -221,6 +269,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a9035a8_d6c3aa9f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-18T17:07:54Z",
+      "side": 1,
+      "message": "Nit: extra newline",
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6645211f_f741d532",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
         "patchSetId": 4
@@ -238,6 +303,23 @@
         "endLine": 485,
         "endChar": 52
       },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36aa692b_4a6486a6",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-18T17:07:54Z",
+      "side": 1,
+      "message": "This really deserves a named function.\n\n.reduce(somemeaningfulfunctionname)\n.filter(r \u003d\u003e r !\u003d\u003d undefined)",
       "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

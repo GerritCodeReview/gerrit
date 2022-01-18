@@ -16,6 +16,24 @@
       "message": "should there be tests on this change for filter/select/attempt feature logic and maybe for URL parsing too?",
       "revId": "d6af8f38675a9141916488138e22192bb5b52cf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f4e05a2_fdaac033",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-18T11:40:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31a83f60_2ed74ff0",
+      "revId": "d6af8f38675a9141916488138e22192bb5b52cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

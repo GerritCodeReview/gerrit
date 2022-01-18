@@ -35,7 +35,6 @@ public class ExternalIdCacheModule extends CacheModule {
         // Guava calls the loader first and evicts later on.
         .maximumWeight(2)
         .expireFromMemoryAfterAccess(Duration.ofMinutes(1))
-        .loader(ExternalIdCacheLoader.class)
         .diskLimit(-1)
         .version(1)
         .keySerializer(ObjectIdCacheSerializer.INSTANCE)

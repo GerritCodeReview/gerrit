@@ -33,7 +33,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
-import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.util.function.Consumer;
 import org.eclipse.jgit.lib.Config;
@@ -214,7 +213,7 @@ public class ExternalIDCacheLoaderTest {
         repoManager,
         ALL_USERS,
         externalIdReaderSpy,
-        Providers.of(externalIdCache),
+        externalIdCache,
         new DisabledMetricMaker(),
         new Config(),
         externalIdFactory);

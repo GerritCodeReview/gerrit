@@ -22,7 +22,7 @@ import {
   RunStatus,
   TagColor,
 } from '../../api/checks';
-import {CheckRun} from './checks-model';
+import {CheckRun, ChecksModel, ChecksPatchset} from './checks-model';
 
 // TODO(brohlfs): Eventually these fakes should be removed. But they have proven
 // to be super convenient for testing, debugging and demoing, so I would like to
@@ -427,3 +427,105 @@ export const fakeRun5: CheckRun = {
   isLatestAttempt: true,
   attemptDetails: [],
 };
+
+export function clearAllFakeRuns(model: ChecksModel) {
+  model.updateStateSetResults(
+    'f0',
+    [],
+    [],
+    [],
+    undefined,
+    ChecksPatchset.LATEST
+  );
+  model.updateStateSetResults(
+    'f1',
+    [],
+    [],
+    [],
+    undefined,
+    ChecksPatchset.LATEST
+  );
+  model.updateStateSetResults(
+    'f2',
+    [],
+    [],
+    [],
+    undefined,
+    ChecksPatchset.LATEST
+  );
+  model.updateStateSetResults(
+    'f3',
+    [],
+    [],
+    [],
+    undefined,
+    ChecksPatchset.LATEST
+  );
+  model.updateStateSetResults(
+    'f4',
+    [],
+    [],
+    [],
+    undefined,
+    ChecksPatchset.LATEST
+  );
+  model.updateStateSetResults(
+    'f5',
+    [],
+    [],
+    [],
+    undefined,
+    ChecksPatchset.LATEST
+  );
+}
+
+export function setAllFakeRuns(model: ChecksModel) {
+  model.updateStateSetResults(
+    'f0',
+    [fakeRun0],
+    fakeActions,
+    fakeLinks,
+    'ETA: 1 min',
+    ChecksPatchset.LATEST
+  );
+  model.updateStateSetResults(
+    'f1',
+    [fakeRun1],
+    [],
+    [],
+    undefined,
+    ChecksPatchset.LATEST
+  );
+  model.updateStateSetResults(
+    'f2',
+    [fakeRun2],
+    [],
+    [],
+    undefined,
+    ChecksPatchset.LATEST
+  );
+  model.updateStateSetResults(
+    'f3',
+    [fakeRun3],
+    [],
+    [],
+    undefined,
+    ChecksPatchset.LATEST
+  );
+  model.updateStateSetResults(
+    'f4',
+    fakeRun4Att,
+    [],
+    [],
+    undefined,
+    ChecksPatchset.LATEST
+  );
+  model.updateStateSetResults(
+    'f5',
+    [fakeRun5],
+    [],
+    [],
+    undefined,
+    ChecksPatchset.LATEST
+  );
+}

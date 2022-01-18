@@ -1395,6 +1395,27 @@ suite('gr-router tests', () => {
           assert.isFalse(redirectStub.called);
           assert.isTrue(normalizeRangeStub.called);
         });
+
+        test('params', () => {
+          normalizeRangeStub.returns(false);
+          sinon.stub(element, '_generateUrl').returns('foo');
+          const ctx = makeParams(null, '');
+          ctx.queryMap.set('tab', 'checks');
+          ctx.queryMap.set('filter', 'fff');
+          ctx.queryMap.set('select', 'sss');
+          ctx.queryMap.set('attempt', '1');
+          assertDataToParams(ctx, '_handleChangeRoute', {
+            view: GerritView.CHANGE,
+            project: 'foo/bar',
+            changeNum: 1234,
+            basePatchNum: 4,
+            patchNum: 7,
+            attempt: 1,
+            filter: 'fff',
+            select: 'sss',
+            tab: 'checks',
+          });
+        });
       });
 
       suite('_handleDiffRoute', () => {

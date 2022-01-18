@@ -238,10 +238,10 @@ const styleSheet = safeStyleSheet`
 
     /* vote background colors */
     --vote-color-approved: var(--green-300);
-    --vote-color-disliked: var(--red-50);
+    --vote-color-disliked: var(--red-300);
     --vote-outline-disliked: var(--red-700);
     --vote-color-neutral: var(--gray-300);
-    --vote-color-recommended: var(--green-50);
+    --vote-color-recommended: var(--green-300);
     --vote-outline-recommended: var(--green-700);
     --vote-color-rejected: var(--red-300);
 

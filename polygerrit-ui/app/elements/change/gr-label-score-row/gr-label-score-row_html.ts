@@ -68,11 +68,8 @@ export const htmlTemplate = html`
     gr-button[vote='neutral'].iron-selected {
       --button-background-color: var(--vote-color-neutral);
     }
-    gr-button[vote='positive'].iron-selected::part(paper-button) {
-      border-color: var(--vote-outline-recommended);
-    }
-    gr-button[vote='negative'].iron-selected::part(paper-button) {
-      border-color: var(--vote-outline-disliked);
+    gr-button.iron-selected::part(paper-button) {
+      box-shadow: var(--elevation-level-1);
     }
     gr-button > gr-tooltip-content {
       margin: 0px -10px;
@@ -127,6 +124,7 @@ export const htmlTemplate = html`
           data-name$="[[label.name]]"
           data-value$="[[value]]"
           aria-label$="[[value]]"
+          flatten="true"
           voteChip
         >
           <gr-tooltip-content

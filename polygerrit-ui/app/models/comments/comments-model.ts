@@ -43,7 +43,7 @@ import {combineLatest, Subscription} from 'rxjs';
 import {fire, fireAlert, fireEvent} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
-import {ChangeModel} from '../change/change-model';
+import {ChangeModel} from '../../services/change/change-model';
 import {Interaction, Timing} from '../../constants/reporting';
 import {assertIsDefined} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';

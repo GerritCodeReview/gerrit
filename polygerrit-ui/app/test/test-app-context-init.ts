@@ -26,7 +26,7 @@ import {grStorageMock} from '../services/storage/gr-storage_mock';
 import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../services/flags/flags_impl';
 import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_impl';
-import {ChangeModel, changeModelToken} from '../models/change/change-model';
+import {ChangeModel} from '../services/change/change-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {UserModel} from '../models/user/user-model';
@@ -52,6 +52,15 @@ export function createTestAppContext(): AppContext & Finalizable {
       return new GrAuthMock(ctx.eventEmitter);
     },
     restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
+    changeModel: (ctx: Partial<AppContext>) => {
+      const routerModel = ctx.routerModel;
+      const restApiService = ctx.restApiService;
+      const userModel = ctx.userModel;
+      assertIsDefined(routerModel, 'routerModel');
+      assertIsDefined(restApiService, 'restApiService');
+      assertIsDefined(userModel, 'userModel');
+      return new ChangeModel(routerModel, restApiService, userModel);
+    },
     jsApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new GrJsApiInterface(ctx.reportingService!);
@@ -78,43 +87,34 @@ export type Creator<T> = () => T & Finalizable;
 // change-model in change-model_test.ts because it creates one in the test
 // after setting up stubs.
 export function createTestDependencies(
-  appContext: AppContext,
-  resolver: <T>(token: DependencyToken<T>) => T
+  appContext: AppContext
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   const dependencies = new Map();
   const browserModel = () => new BrowserModel(appContext.userModel!);
   dependencies.set(browserModelToken, browserModel);
 
-  const changeModelCreator = () =>
-    new ChangeModel(
-      appContext.routerModel,
-      appContext.restApiService,
-      appContext.userModel
-    );
-  dependencies.set(changeModelToken, changeModelCreator);
-
-  const commentsModelCreator = () =>
+  const commentsModel = () =>
     new CommentsModel(
       appContext.routerModel,
-      resolver(changeModelToken),
+      appContext.changeModel,
       appContext.restApiService,
       appContext.reportingService
     );
-  dependencies.set(commentsModelToken, commentsModelCreator);
+  dependencies.set(commentsModelToken, commentsModel);
 
-  const configModelCreator = () =>
-    new ConfigModel(resolver(changeModelToken), appContext.restApiService);
-  dependencies.set(configModelToken, configModelCreator);
+  const configModel = () =>
+    new ConfigModel(appContext.changeModel, appContext.restApiService);
+  dependencies.set(configModelToken, configModel);
 
-  const checksModelCreator = () =>
+  const checksModel = () =>
     new ChecksModel(
       appContext.routerModel,
-      resolver(changeModelToken),
+      appContext.changeModel,
       appContext.reportingService,
       appContext.pluginsModel
     );
 
-  dependencies.set(checksModelToken, checksModelCreator);
+  dependencies.set(checksModelToken, checksModel);
 
   return dependencies;
 }

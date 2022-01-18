@@ -32,7 +32,6 @@ import {stubRestApi, waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {getAppContext} from '../../services/app-context';
 import {GerritView} from '../../services/router/router-model';
 import {PathToCommentsInfoMap} from '../../types/common';
-import {changeModelToken} from '../change/change-model';
 
 suite('comments model tests', () => {
   test('updateStateDeleteDraft', () => {
@@ -75,7 +74,7 @@ suite('change service tests', () => {
   test('loads comments', async () => {
     const model = new CommentsModel(
       getAppContext().routerModel,
-      testResolver(changeModelToken),
+      getAppContext().changeModel,
       getAppContext().restApiService,
       getAppContext().reportingService
     );

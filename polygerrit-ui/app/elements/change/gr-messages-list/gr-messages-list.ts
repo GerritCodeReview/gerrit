@@ -51,7 +51,6 @@ import {
   ParsedChangeInfo,
 } from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
-import {changeModelToken} from '../../../models/change/change-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 
 /**
@@ -256,7 +255,7 @@ export class GrMessagesList extends DIPolymerElement {
   // Private but used in tests.
   readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private readonly changeModel = resolve(this, changeModelToken);
+  private readonly changeModel = getAppContext().changeModel;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -272,7 +271,7 @@ export class GrMessagesList extends DIPolymerElement {
       })
     );
     this.subscriptions.push(
-      this.changeModel().change$.subscribe(x => {
+      this.changeModel.change$.subscribe(x => {
         this.change = x;
       })
     );
@@ -282,12 +281,12 @@ export class GrMessagesList extends DIPolymerElement {
       })
     );
     this.subscriptions.push(
-      this.changeModel().repo$.subscribe(x => {
+      this.changeModel.repo$.subscribe(x => {
         this.projectName = x;
       })
     );
     this.subscriptions.push(
-      this.changeModel().changeNum$.subscribe(x => {
+      this.changeModel.changeNum$.subscribe(x => {
         this.changeNum = x;
       })
     );

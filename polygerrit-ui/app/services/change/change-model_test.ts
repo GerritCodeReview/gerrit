@@ -34,8 +34,8 @@ import {
   PatchSetNum,
 } from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
-import {getAppContext} from '../../services/app-context';
-import {GerritView} from '../../services/router/router-model';
+import {getAppContext} from '../app-context';
+import {GerritView} from '../router/router-model';
 import {ChangeState, LoadingStatus, updateChangeWithEdit} from './change-model';
 import {ChangeModel} from './change-model';
 

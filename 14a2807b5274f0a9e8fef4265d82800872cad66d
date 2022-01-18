@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0408d46f_8354f198",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-18T16:57:55Z",
+      "side": 1,
+      "message": "It would be useful so that we know checks chips are click x% of time when there is a warning (and same for error) \u003d\u003e informing about usage",
+      "parentUuid": "d024a5ce_7229ef90",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 114,
+        "endChar": 21
+      },
+      "revId": "14a2807b5274f0a9e8fef4265d82800872cad66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "caed5115_882bed74",
         "filename": "polygerrit-ui/app/constants/reporting.ts",
         "patchSetId": 2

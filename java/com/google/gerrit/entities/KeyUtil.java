@@ -48,12 +48,12 @@ public class KeyUtil {
     for (char i = 'a'; i <= 'f'; i++) hexb[i] = (byte) ((i - 'a') + 10);
   }
 
-  public static String encode(final String e) {
+  public static String encode(final String key) {
     final byte[] b;
     try {
-      b = e.getBytes("UTF-8");
-    } catch (UnsupportedEncodingException e1) {
-      throw new RuntimeException("No UTF-8 support", e1);
+      b = key.getBytes("UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalStateException("No UTF-8 support", e);
     }
 
     final StringBuilder r = new StringBuilder(b.length);
@@ -71,20 +71,20 @@ public class KeyUtil {
     return r.toString();
   }
 
-  public static String decode(final String e) {
-    if (e.indexOf('%') < 0) {
-      return e.replace('+', ' ');
+  public static String decode(final String key) {
+    if (key.indexOf('%') < 0) {
+      return key.replace('+', ' ');
     }
 
-    final byte[] b = new byte[e.length()];
+    final byte[] b = new byte[key.length()];
     int bPtr = 0;
     try {
-      for (int i = 0; i < e.length(); ) {
-        final char c = e.charAt(i);
-        if (c == '%' && i + 2 < e.length()) {
-          final int v = (hexb[e.charAt(i + 1)] << 4) | hexb[e.charAt(i + 2)];
+      for (int i = 0; i < key.length(); ) {
+        final char c = key.charAt(i);
+        if (c == '%' && i + 2 < key.length()) {
+          final int v = (hexb[key.charAt(i + 1)] << 4) | hexb[key.charAt(i + 2)];
           if (v < 0) {
-            throw new IllegalArgumentException(e.substring(i, i + 3));
+            throw new IllegalArgumentException(key.substring(i, i + 3));
           }
           b[bPtr++] = (byte) v;
           i += 3;
@@ -97,12 +97,12 @@ public class KeyUtil {
         }
       }
     } catch (ArrayIndexOutOfBoundsException err) {
-      throw new IllegalArgumentException("Bad encoding" + e, err);
+      throw new IllegalArgumentException("Bad encoding" + key, err);
     }
     try {
       return new String(b, 0, bPtr, "UTF-8");
-    } catch (UnsupportedEncodingException e1) {
-      throw new RuntimeException("No UTF-8 support", e1);
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalStateException("No UTF-8 support", e);
     }
   }
 }

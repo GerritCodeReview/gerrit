@@ -435,7 +435,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           hovercardTop = targetTop - thisRect.height - this.offset;
           break;
         case 'bottom':
-          hovercardLeft = targetLeft + (targetRect.width - thisRect.width) / 2;
+          hovercardLeft = targetLeft + this.offset;
           hovercardTop = targetTop + targetRect.height + this.offset;
           break;
         case 'left':

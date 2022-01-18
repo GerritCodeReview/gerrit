@@ -16,6 +16,24 @@
       "message": "Normally we\u0027d try to avoid functional changes on a stable branch, I think?\n\nDoes Axis build Gerrit from source?  Might be easier to submit to master and cherry-pick into a branch for your local build.",
       "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a63af96e_d9d04cbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-18T11:52:36Z",
+      "side": 1,
+      "message": "This is more to be considered as a bugfix which we do apply to stable-branches.\nThe only-when-i-am-in-attention-set was meant to affect notification triggered by others but it also effectively muted notifications that users had asked for specifically through the project-watch feature.\nSee issue for more detail.",
+      "parentUuid": "5c0c9a0c_815e828b",
+      "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

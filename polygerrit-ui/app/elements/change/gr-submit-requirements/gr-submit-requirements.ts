@@ -183,6 +183,7 @@ export class GrSubmitRequirements extends LitElement {
             (requirement, index) => html`
               <gr-submit-requirement-hovercard
                 for="requirement-${index}-${charsOnly(requirement.name)}"
+                position="right-of-cursor"
                 .requirement="${requirement}"
                 .change="${this.change}"
                 .account="${this.account}"

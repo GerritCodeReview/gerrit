@@ -51,6 +51,7 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {queryAll} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -506,17 +507,18 @@ export class GrChangeList extends LitElement {
         labels = labels.concat(currentLabels.filter(nonExistingLabel));
       }
     }
-    const changes = sections.map(section => section.results).flat();
-    if (
-      (changes ?? []).some(change =>
-        showNewSubmitRequirements(this.flagsService, change)
-      )
-    ) {
-      labels = (changes ?? [])
-        .map(change => getRequirements(change))
-        .flat()
-        .map(requirement => requirement.name)
-        .filter(unique);
+
+    if (this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
+      if (this.config?.submit_requirement_dashboard_columns?.length) {
+        return this.config?.submit_requirement_dashboard_columns;
+      } else {
+        const changes = sections.map(section => section.results).flat();
+        labels = (changes ?? [])
+          .map(change => getRequirements(change))
+          .flat()
+          .map(requirement => requirement.name)
+          .filter(unique);
+      }
     }
     return labels.sort();
   }

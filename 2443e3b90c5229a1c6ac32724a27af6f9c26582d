@@ -63,6 +63,24 @@
       "message": "This change is now only about removing the manual state update",
       "revId": "2443e3b90c5229a1c6ac32724a27af6f9c26582d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "462793da_4a98289d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-19T09:57:19Z",
+      "side": 1,
+      "message": "Nice! Thanks for reworking the change!",
+      "parentUuid": "02be81fd_d526c606",
+      "revId": "2443e3b90c5229a1c6ac32724a27af6f9c26582d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

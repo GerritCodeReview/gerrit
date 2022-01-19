@@ -304,19 +304,6 @@ function runLevel(status: RunStatus) {
   }
 }
 
-export interface ActionTriggeredEventDetail {
-  action: Action;
-  run?: CheckRun;
-}
-
-export type ActionTriggeredEvent = CustomEvent<ActionTriggeredEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    'action-triggered': ActionTriggeredEvent;
-  }
-}
-
 export interface AttemptDetail {
   attempt: number | undefined;
   icon: string;

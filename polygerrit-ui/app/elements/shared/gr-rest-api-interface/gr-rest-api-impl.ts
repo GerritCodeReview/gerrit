@@ -155,7 +155,6 @@ import {
 import {firePageError, fireServerError} from '../../../utils/event-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {ErrorCallback} from '../../../api/rest';
-import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
 import {addDraftProp, DraftInfo} from '../../../utils/comment-util';
 
 const MAX_PROJECT_RESULTS = 25;
@@ -298,17 +297,14 @@ export class GrRestApiServiceImpl
   // The value is set in created, before any other actions
   private authService: AuthService;
 
-  private flagService: FlagsService;
-
   // The value is set in created, before any other actions
   private readonly _restApiHelper: GrRestApiHelper;
 
-  constructor(authService?: AuthService, flagService?: FlagsService) {
+  constructor(authService?: AuthService) {
     super();
     // TODO: Make the authService constructor parameter required when we have
     // changed all usages of this class to not instantiate via createElement().
     this.authService = authService ?? getAppContext().authService;
-    this.flagService = flagService ?? getAppContext().flagsService;
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
       this.authService,
@@ -1143,18 +1139,15 @@ export class GrRestApiServiceImpl
   _getChangesOptionsHex() {
     if (
       window.DEFAULT_DETAIL_HEXES &&
-      window.DEFAULT_DETAIL_HEXES.dashboardPage &&
-      !this.flagService?.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)
+      window.DEFAULT_DETAIL_HEXES.dashboardPage
     ) {
       return window.DEFAULT_DETAIL_HEXES.dashboardPage;
     }
     const options = [
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
+      ListChangesOption.SUBMIT_REQUIREMENTS,
     ];
-    if (this.flagService?.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
-      options.push(ListChangesOption.SUBMIT_REQUIREMENTS);
-    }
 
     return listChangesOptionsToHex(...options);
   }

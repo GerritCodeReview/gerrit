@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "90420c4c_dba1bb27",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5287,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-19T20:56:08Z",
+      "side": 1,
+      "message": "Does it actually impact Gerrit performance or rather impact only the number of metrics that get exposed and thus the amount of data that needs to be consumed by metrics collectors?",
+      "range": {
+        "startLine": 5286,
+        "startChar": 57,
+        "endLine": 5287,
+        "endChar": 19
+      },
+      "revId": "4f11874c729e0326e4c5d5c3727ebecd1fdfdd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b7dbae81_ea0cd6f1",
         "filename": "Documentation/metrics.txt",
         "patchSetId": 4

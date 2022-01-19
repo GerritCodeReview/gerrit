@@ -1,6 +1,6 @@
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
 
-CAFFEINE_VERS = "2.9.2"
+CAFFEINE_VERS = "3.0.5"
 ANTLR_VERS = "3.5.2"
 SLF4J_VERS = "1.7.26"
 COMMONMARK_VERS = "0.10.0"
@@ -89,7 +89,7 @@ def java_dependencies():
     maven_jar(
         name = "caffeine",
         artifact = "com.github.ben-manes.caffeine:caffeine:" + CAFFEINE_VERS,
-        sha1 = "0a17ed335e0ce2d337750772c0709b79af35a842",
+        sha1 = "3de85488bf535299d5f36d98626605331a10de87",
     )
 
     maven_jar(

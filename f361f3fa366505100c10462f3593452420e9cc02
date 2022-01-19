@@ -16,6 +16,24 @@
       "message": "I don\u0027t like this solution, but I see how it\u0027s an expedient hack.\n\nIdeally, whatever instantiates a hovercard should inject the right context into that hovercard so that it can act as provider for all its elements.",
       "revId": "f361f3fa366505100c10462f3593452420e9cc02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "090e5d82_5de41875",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-19T13:26:51Z",
+      "side": 1,
+      "message": "Uploaded an alternative fix in https://gerrit-review.googlesource.com/c/gerrit/+/328467\n\nBetter?",
+      "parentUuid": "20cacd26_0973f84a",
+      "revId": "f361f3fa366505100c10462f3593452420e9cc02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

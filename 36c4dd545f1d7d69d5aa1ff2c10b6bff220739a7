@@ -16,6 +16,24 @@
       "message": "Change looks good to me (test failure looks related).\n\nNote that this is changing behavior on the API: Previously, users could query for is:garbage and get a result with HTTP 200. Now that will throw a 4xx error. I think it\u0027s the right thing to do but callers might started to rely on this behavior and would need to adapt.",
       "revId": "36c4dd545f1d7d69d5aa1ff2c10b6bff220739a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee88edf8_10a618ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-19T10:59:21Z",
+      "side": 1,
+      "message": "Done for fixing the tests.\n\n\u003e Note that this is changing behavior on the API:\n\nThat\u0027s right, but I believe this change is the right thing to do. If there are users who query with \"is:garbage\" then they are getting meaningless results, so it\u0027s better that they adapt their query.",
+      "parentUuid": "e73b01af_13df667d",
+      "revId": "36c4dd545f1d7d69d5aa1ff2c10b6bff220739a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

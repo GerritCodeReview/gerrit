@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
+import java.util.Optional;
 
 public class TagResource extends RefResource {
   public static final TypeLiteral<RestView<TagResource>> TAG_KIND = new TypeLiteral<>() {};
@@ -39,7 +40,7 @@ public class TagResource extends RefResource {
   }
 
   @Override
-  public String getRevision() {
-    return tagInfo.revision;
+  public Optional<String> getRevision() {
+    return Optional.ofNullable(tagInfo.revision);
   }
 }

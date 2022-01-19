@@ -18,18 +18,20 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
+import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
 public class BranchResource extends RefResource {
   public static final TypeLiteral<RestView<BranchResource>> BRANCH_KIND = new TypeLiteral<>() {};
 
   private final String refName;
-  private final String revision;
+  private final Optional<String> revision;
 
   public BranchResource(ProjectState projectState, CurrentUser user, Ref ref) {
     super(projectState, user);
     this.refName = ref.getName();
-    this.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
+    this.revision = Optional.ofNullable(ref.getObjectId()).map(ObjectId::name);
   }
 
   public BranchNameKey getBranchKey() {
@@ -42,7 +44,7 @@ public class BranchResource extends RefResource {
   }
 
   @Override
-  public String getRevision() {
+  public Optional<String> getRevision() {
     return revision;
   }
 }

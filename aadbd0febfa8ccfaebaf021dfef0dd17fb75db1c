@@ -16,6 +16,24 @@
       "message": "We have upgraded this library three months ago. Library upgrades are expensive for us. We are happy to do them when there is a fix we as a community need or we have not done an upgrade for a longer time period. In this case, neither argument applies, so we can\u0027t spend more time on an upgrade right now, sorry. Happy to revisit this in 2021.",
       "revId": "aadbd0febfa8ccfaebaf021dfef0dd17fb75db1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c84730c0_93b7ea38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-19T11:34:46Z",
+      "side": 1,
+      "message": "\u003e Happy to revisit this in 2021.\n\nPTAL.\n\nI also see, that other internal Google projects, like Error Prone already using caffeine 2.8.8: [1]. Given Google\u0027s monorepo and Google\u0027s \"single version for every dependency\" strategy, this should be a no-op change for you, right?\n\n[1] https://github.com/google/error-prone/blob/797bbc65697341e2f58c14340203908c6325dad6/pom.xml#L41",
+      "parentUuid": "87d5fd14_26eba804",
+      "revId": "aadbd0febfa8ccfaebaf021dfef0dd17fb75db1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

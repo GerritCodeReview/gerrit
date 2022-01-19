@@ -25,8 +25,8 @@ import {getRequirements, iconForStatus} from '../../../utils/label-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {pluralize} from '../../../utils/string-util';
 
-@customElement('gr-change-list-column-requirements')
-export class GrChangeListColumRequirements extends LitElement {
+@customElement('gr-change-list-column-requirements-summary')
+export class GrChangeListColumnRequirementsSummary extends LitElement {
   @property({type: Object})
   change?: ChangeInfo;
 
@@ -152,6 +152,6 @@ export class GrChangeListColumRequirements extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-change-list-column-requirements': GrChangeListColumRequirements;
+    'gr-change-list-column-requirements-summary': GrChangeListColumnRequirementsSummary;
   }
 }

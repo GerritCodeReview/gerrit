@@ -113,7 +113,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       assertThat(label.appliedBy).isNull();
       // Check the custom test record created by the TestSubmitRule
       SubmitRecordInfo testRecord = Iterables.get(change.submitRecords, 1);
-      assertThat(testRecord.ruleName).isEqualTo("gerrit~TestSubmitRule");
+      assertThat(testRecord.ruleName).isEqualTo("testSubmitRule");
       assertThat(testRecord.status).isEqualTo(SubmitRecordInfo.Status.OK);
       assertThat(testRecord.requirements)
           .containsExactly(new LegacySubmitRequirementInfo("OK", "fallback text", "type"));

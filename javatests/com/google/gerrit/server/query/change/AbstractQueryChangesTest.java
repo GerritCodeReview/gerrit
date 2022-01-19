@@ -2417,18 +2417,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         extensionRegistry.newRegistration().add(new FakeSubmitRule())) {
       TestRepository<Repo> repo = createProject("repo");
       Change change = insert(repo, newChange(repo));
-      assertQuery("rule:gerrit~FakeSubmitRule");
+      // The fake submit rule exports its ruleName as "FakeSubmitRule"
+      assertQuery("rule:FakeSubmitRule");
 
       // FakeSubmitRule returns true if change has one or more hashtags.
       HashtagsInput hashtag = new HashtagsInput();
       hashtag.add = ImmutableSet.of("Tag1");
       gApi.changes().id(change.getId().get()).setHashtags(hashtag);
-      assertQuery("rule:gerrit~FakeSubmitRule", change);
-      assertQuery("rule:gerrit~FakeSubmitRule=OK", change);
-      assertQuery("rule:gerrit~FakeSubmitRule=NOT_READY");
 
-      // The 'gerrit~' prefix can be omitted for core submit rules
       assertQuery("rule:FakeSubmitRule", change);
+      assertQuery("rule:FakeSubmitRule=OK", change);
+      assertQuery("rule:FakeSubmitRule=NOT_READY");
     }
   }
 

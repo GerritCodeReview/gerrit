@@ -591,16 +591,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       throw new QueryParseException(
           "Invalid query arguments. Correct format is 'rule:<rule_name>=<status>' "
               + "with <rule_name> in the form of <plugin>~<rule>. For Gerrit core rules, "
-              + "rule name should be specified either as gerrit~<rule> or <rule>.");
+              + "rule name should be specified either as gerrit~<rule>.");
     }
     if (queryArgs.size() == 2) {
       ruleNameArg = queryArgs.get(0);
       statusArg = queryArgs.get(1);
-    }
-
-    // If ruleName is not prefixed by the plugin name, add the "gerrit~" prefix to it.
-    if (!ruleNameArg.contains("~")) {
-      ruleNameArg = "gerrit~" + ruleNameArg;
     }
 
     return statusArg == null

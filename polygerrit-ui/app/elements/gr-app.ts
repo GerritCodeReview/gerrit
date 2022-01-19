@@ -36,7 +36,7 @@ setPassiveTouchGestures(true);
 import {initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
 import {Finalizable} from '../services/registry';
-import {provide} from '../models/dependency';
+import {DependencyRequestEvent, provide} from '../models/dependency';
 import {installPolymerResin} from '../scripts/polymer-resin-install';
 
 import {
@@ -70,7 +70,7 @@ export class GrApp extends LitElement {
     const dependencies = createAppDependencies(appContext);
     for (const [token, service] of dependencies) {
       this.finalizables.push(service);
-      provide(this, token, () => service);
+      provide(this, token, () => service, document);
     }
   }
 

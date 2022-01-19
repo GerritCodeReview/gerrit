@@ -140,9 +140,12 @@ export type Provider<T> = () => T;
 export function provide<T>(
   host: ReactiveControllerHost & HTMLElement,
   dependency: DependencyToken<T>,
-  provider: Provider<T>
+  provider: Provider<T>,
+  target?: EventTarget
 ) {
-  host.addController(new DependencyProvider<T>(host, dependency, provider));
+  host.addController(
+    new DependencyProvider<T>(target ?? host, dependency, provider)
+  );
 }
 
 /**
@@ -306,8 +309,10 @@ class DependencySubscriber<T>
 class DependencyProvider<T> implements ReactiveController {
   private value?: T;
 
+  private listener?: EventListener;
+
   constructor(
-    private readonly host: ReactiveControllerHost & HTMLElement,
+    private readonly target: EventTarget,
     private readonly dependency: DependencyToken<T>,
     private readonly provider: Provider<T>
   ) {}
@@ -315,18 +320,22 @@ class DependencyProvider<T> implements ReactiveController {
   hostConnected() {
     // Delay construction in case the provider has its own dependencies.
     this.value = this.provider();
-    this.host.addEventListener('request-dependency', this.fullfill);
+    this.listener = (e: Event) =>
+      this.fullfill(e as DependencyRequestEvent<unknown>);
+    this.target.addEventListener('request-dependency', this.listener);
   }
 
   hostDisconnected() {
-    this.host.removeEventListener('request-dependency', this.fullfill);
+    if (this.listener) {
+      this.target.removeEventListener('request-dependency', this.listener);
+    }
     this.value = undefined;
   }
 
-  private readonly fullfill = (ev: DependencyRequestEvent<unknown>) => {
+  fullfill(ev: DependencyRequestEvent<unknown>) {
     if (ev.dependency !== this.dependency) return;
     ev.stopPropagation();
     ev.preventDefault();
     ev.callback(this.value!);
-  };
+  }
 }

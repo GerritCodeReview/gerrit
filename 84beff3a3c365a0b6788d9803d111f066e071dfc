@@ -34,6 +34,24 @@
       "parentUuid": "cc005e1a_fdc025d3",
       "revId": "84beff3a3c365a0b6788d9803d111f066e071dfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09ec3e1c_ec911d45",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-19T11:04:15Z",
+      "side": 1,
+      "message": "mmm, I just though of it as a concurrent hashmap where you\u0027ll lock the whole map to update any key. But yeah I got your point, since there\u0027s only a single entry in this cache (tip of the branch) then this should be fine.\n\n👍",
+      "parentUuid": "c8749f1c_763ca523",
+      "revId": "84beff3a3c365a0b6788d9803d111f066e071dfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

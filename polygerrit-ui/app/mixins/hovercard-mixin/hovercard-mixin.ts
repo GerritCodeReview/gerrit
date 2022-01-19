@@ -22,6 +22,7 @@ import {ShowAlertEventDetail} from '../../types/events';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {hovercardStyles} from '../../styles/gr-hovercard-styles';
 import {sharedStyles} from '../../styles/shared-styles';
+import {DependencyRequestEvent} from '../../models/dependency';
 
 interface ReloadEventDetail {
   clearPatchset?: boolean;
@@ -169,6 +170,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this._target?.addEventListener('mouseleave', this.debounceHide);
       this._target?.addEventListener('blur', this.debounceHide);
       this._target?.addEventListener('click', this.hide);
+      this.addEventListener('request-dependency', this.resolveDep);
     }
 
     private removeTargetEventListeners() {
@@ -177,6 +179,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this._target?.removeEventListener('mouseleave', this.debounceHide);
       this._target?.removeEventListener('blur', this.debounceHide);
       this._target?.removeEventListener('click', this.hide);
+      this.removeEventListener('request-dependency', this.resolveDep);
     }
 
     /**
@@ -265,10 +268,19 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     }
 
     /**
+     * Hovercards aren't children of <gr-app>. Dependencies must be resolved via
+     * their targets, so re-route 'request-dependency' events.
+     */
+    readonly resolveDep = (e: DependencyRequestEvent<unknown>) => {
+      this._target?.dispatchEvent(
+        new DependencyRequestEvent<unknown>(e.dependency, e.callback)
+      );
+    };
+
+    /**
      * Hides/closes the hovercard. This occurs when the user triggers the
      * `mouseleave` event on the hovercard's `target` element (as long as the
      * user is not hovering over the hovercard).
-     *
      */
     readonly hide = (e?: MouseEvent) => {
       this.cancelHideTask();

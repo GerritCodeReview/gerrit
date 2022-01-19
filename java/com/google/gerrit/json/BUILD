@@ -7,5 +7,7 @@ java_library(
     deps = [
         "//lib:gson",
         "//lib:guava",
+        "//lib/guice",
+        "//java/com/google/gerrit/entities",
     ],
 )

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "968e02c5_ef50c377",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-19T14:57:41Z",
+      "side": 1,
+      "message": "This is ready for review.\n\nSee difference between snapshot 1 and 2 to get an idea on how I fixed the issue with the previous change.",
+      "revId": "bf65b8f9704d3a71eed99880b710a57f17af0c8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

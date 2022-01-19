@@ -16,6 +16,24 @@
       "message": "Thought: Can we apply the lock per \"rev\" instead of universally? Previous implementation had this reentrant lock but it was used on updates (hot swaps). Now we lock on all \"get\" operations so not sure if it can cause contention.",
       "revId": "84beff3a3c365a0b6788d9803d111f066e071dfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8749f1c_763ca523",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-19T10:49:32Z",
+      "side": 1,
+      "message": "rev will only ever be the tip of the branch, so I think more fine grained locking would not help here (and come at the cost of more complicated lock management).",
+      "parentUuid": "cc005e1a_fdc025d3",
+      "revId": "84beff3a3c365a0b6788d9803d111f066e071dfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

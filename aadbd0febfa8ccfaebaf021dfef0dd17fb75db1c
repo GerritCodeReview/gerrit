@@ -34,6 +34,24 @@
       "parentUuid": "87d5fd14_26eba804",
       "revId": "aadbd0febfa8ccfaebaf021dfef0dd17fb75db1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d1e44ab_c877933e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-19T11:53:13Z",
+      "side": 1,
+      "message": "Yes, we are now even on 2.9.2. Can we upgrade Gerrit to this version?",
+      "parentUuid": "c84730c0_93b7ea38",
+      "revId": "aadbd0febfa8ccfaebaf021dfef0dd17fb75db1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

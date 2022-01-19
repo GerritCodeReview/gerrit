@@ -70,7 +70,7 @@ export class GrApp extends LitElement {
     const dependencies = createAppDependencies(appContext);
     for (const [token, service] of dependencies) {
       this.finalizables.push(service);
-      provide(this, token, () => service);
+      provide(this, token, () => service, document);
     }
   }
 

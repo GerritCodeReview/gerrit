@@ -62,7 +62,8 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
         }
         :host {
           align-items: center;
-          display: inline-flex;
+          display: flex;
+          justify-content: space-between;
         }
         .comma {
           padding-right: var(--spacing-xs);

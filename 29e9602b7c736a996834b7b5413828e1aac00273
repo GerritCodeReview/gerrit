@@ -85,6 +85,23 @@
       },
       "revId": "29e9602b7c736a996834b7b5413828e1aac00273",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29eb413d_b9862dab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-19T09:59:30Z",
+      "side": 1,
+      "message": "Nice! LGTM - David\u0027s comments.",
+      "revId": "29e9602b7c736a996834b7b5413828e1aac00273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

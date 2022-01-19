@@ -118,11 +118,11 @@ public class SubmitRequirementJsonSerializerTest {
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
           + "\"passingAtoms\":[\"refs/heads/master\"],"
           + "\"failingAtoms\":[]}},"
-          + "\"submittabilityExpressionResult\":{"
+          + "\"submittabilityExpressionResult\":{\"value\":{"
           + "\"expression\":{\"expressionString\":\"label:\\\"Code-Review=+2\\\"\"},"
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
           + "\"passingAtoms\":[\"label:\\\"Code-Review=+2\\\"\"],"
-          + "\"failingAtoms\":[]},"
+          + "\"failingAtoms\":[]}},"
           + "\"overrideExpressionResult\":{\"value\":{"
           + "\"expression\":{\"expressionString\":\"label:Override=+1\"},"
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
@@ -231,6 +231,41 @@ public class SubmitRequirementJsonSerializerTest {
   @Test
   public void submitRequirementResult_emptyLegacyField_roundTrip() throws Exception {
     SubmitRequirementResult srResult = srReqResult.toBuilder().legacy(Optional.empty()).build();
+    TypeAdapter<SubmitRequirementResult> adapter = SubmitRequirementResult.typeAdapter(gson);
+    assertThat(adapter.fromJson(adapter.toJson(srResult))).isEqualTo(srResult);
+  }
+
+  @Test
+  public void submitRequirementResult_deserializeNonOptionalSubmittabilityExpressionResultField()
+      throws Exception {
+    String srResultSerialMandatoryLegacyFieldFormat =
+        srReqResultSerial.replace(
+            "\"submittabilityExpressionResult\":{\"value\":{"
+                + "\"expression\":{\"expressionString\":\"label:\\\"Code-Review=+2\\\"\"},"
+                + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
+                + "\"passingAtoms\":[\"label:\\\"Code-Review=+2\\\"\"],"
+                + "\"failingAtoms\":[]}},",
+            "\"submittabilityExpressionResult\":{"
+                + "\"expression\":{\"expressionString\":\"label:\\\"Code-Review=+2\\\"\"},"
+                + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
+                + "\"passingAtoms\":[\"label:\\\"Code-Review=+2\\\"\"],"
+                + "\"failingAtoms\":[]},");
+    assertThat(
+            SubmitRequirementResult.typeAdapter(gson)
+                .fromJson(srResultSerialMandatoryLegacyFieldFormat))
+        .isEqualTo(srReqResult);
+  }
+
+  @Test
+  public void submitRequirementResult_emptySubmitRequirementExpressionResultField_roundTrip()
+      throws Exception {
+    SubmitRequirementResult srResult =
+        srReqResult
+            .toBuilder()
+            .applicabilityExpressionResult(Optional.empty())
+            .submittabilityExpressionResult(Optional.empty())
+            .overrideExpressionResult(Optional.empty())
+            .build();
     TypeAdapter<SubmitRequirementResult> adapter = SubmitRequirementResult.typeAdapter(gson);
     assertThat(adapter.fromJson(adapter.toJson(srResult))).isEqualTo(srResult);
   }

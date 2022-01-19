@@ -147,12 +147,14 @@ public class SubmitRuleEvaluator {
               c ->
                   c.call(
                       s -> {
-                        Optional<SubmitRecord> evaluate = s.evaluate(cd);
-                        if (evaluate.isPresent()) {
-                          evaluate.get().ruleName =
+                        Optional<SubmitRecord> record = s.evaluate(cd);
+                        if (record.isPresent() && record.get().ruleName == null) {
+                          // Only back-fill the ruleName if it was not populated by the "submit
+                          // rule".
+                          record.get().ruleName =
                               c.getPluginName() + "~" + s.getClass().getSimpleName();
                         }
-                        return evaluate;
+                        return record;
                       }))
           .filter(Optional::isPresent)
           .map(Optional::get)

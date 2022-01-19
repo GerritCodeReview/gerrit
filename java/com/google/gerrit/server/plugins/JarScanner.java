@@ -119,7 +119,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
           transform(values, cd -> new ExtensionMetaData(cd.className, cd.annotationValue)));
     }
 
-    return result.build();
+    return result.buildOrThrow();
   }
 
   public List<String> findSubClassesOf(Class<?> superClass) throws IOException {

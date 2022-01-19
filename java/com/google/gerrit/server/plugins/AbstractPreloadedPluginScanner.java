@@ -103,7 +103,7 @@ public abstract class AbstractPreloadedPluginScanner implements PluginContentSca
         }
       }
     }
-    return result.build();
+    return result.buildOrThrow();
   }
 
   private void appendIfNotNull(StringBuilder string, String header, Class<?> guiceModuleClass) {

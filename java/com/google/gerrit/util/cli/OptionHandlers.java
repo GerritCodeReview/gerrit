@@ -62,7 +62,7 @@ public class OptionHandlers {
         }
       }
     }
-    return map.build();
+    return map.buildOrThrow();
   }
 
   private static Class<?> getType(TypeLiteral<?> t) {

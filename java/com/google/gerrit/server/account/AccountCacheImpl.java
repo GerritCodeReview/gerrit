@@ -132,7 +132,7 @@ public class AccountCacheImpl implements AccountCache {
               account.getKey().accountId(),
               AccountState.forCachedAccount(account.getValue(), defaultPreferences, externalIds));
         }
-        return result.build();
+        return result.buildOrThrow();
       }
     } catch (IOException | ExecutionException e) {
       throw new StorageException(e);

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b23b98c_f40f2e97",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-19T09:56:40Z",
+      "side": 0,
+      "message": "I think this behaviour is still there with this change. The thing that differed is that it\u0027s always true, i.e. we always do partial reloads.\n\nShould we only remove the last two lines?",
+      "revId": "4f9df49a57a05ff9885ec13f49b37ac7945a0ea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "234a2977_f4d0ea48",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
         "patchSetId": 3

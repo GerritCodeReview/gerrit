@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebe49205_480ad339",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-19T09:56:40Z",
+      "side": 1,
+      "message": "This part remains with this change. So I understand there were two different things:\n1) ExtIdLoader compares current EXT_ID_REF with the most recent cached value and computes the new value based on that diff.\n2) We also hot-swapped (updated) the cache when some ext-ids events happen (?).\n\n(1) remains with this change, but we are getting rid of (2). So I understand (2) was done as an optimization.\n\nCan you add a sentence on when we used to do the hot-swapping (i.e. with which events)?\n\nHope my understanding is correct. Please LMK if otherwise.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "d2144c0003726d3a8280d7e47c14c9df8bc36bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a18a5f4_69edc90d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-19T09:56:40Z",
+      "side": 1,
+      "message": "Optional: I\u0027d have preferred to see how this change enables the caffeine migration, but I assume I\u0027ll find the answer in the follow-up change :-)",
+      "revId": "d2144c0003726d3a8280d7e47c14c9df8bc36bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50f3da4a_86de92e8",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-19T09:56:40Z",
+      "side": 1,
+      "message": "nit: that will be cached \"with\" this call?\n\nWhen I read this sentence first, I assumed caller is going to insert the loaded value back into the cache after this call.",
+      "range": {
+        "startLine": 85,
+        "startChar": 76,
+        "endLine": 85,
+        "endChar": 81
+      },
+      "revId": "d2144c0003726d3a8280d7e47c14c9df8bc36bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -190,6 +190,30 @@
       },
       "revId": "af77e42d32e16425b59a221d633f067dfac49993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97dbf29b_41f833e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-19T12:24:40Z",
+      "side": 1,
+      "message": "We found out that migrating the simple-submit-rules to its own \"No-Unresolved-Comments\" submit requirement is not that simple, since the current submit rule can be enabled/disabled for different sub-projects.\n\nMy new proposal now is to populate SubmitRecord#ruleName from the implementers, and keep the change here as a fallback: i.e. let the Gerrit core backfill the ruleName (as made in this change) only if SubmitRecord#ruleName is null.\n\nWith that, I can update simple-submit-rules to populate the ruleName field with \"No-Unresolved-Comment\" [1]. We can also do the same for Code-Owners.\n\n[1] https://gerrit.googlesource.com/plugins/simple-submit-rules/+/5221a1a743fdb70ce0bbff3f374bc76feec8163a/src/main/java/com/googlesource/gerrit/plugins/simplesubmitrules/rules/NoUnresolvedCommentsRule.java#87",
+      "parentUuid": "72872a6b_15ad6a72",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 23,
+        "endChar": 52
+      },
+      "revId": "af77e42d32e16425b59a221d633f067dfac49993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -147,7 +147,7 @@ export class GrLabelScores extends LitElement {
       return html`<h3 class="heading-3">Trigger Votes</h3>
         <div class="permissionMessage">You don't have permission to vote</div>`;
     }
-    return html`<h3 class="heading-3">Trigger Votes</h3>
+    return html`<h3 class="heading-3">Trigger Votes</h2>
       ${this.renderLabels(labels)}`;
   }
 

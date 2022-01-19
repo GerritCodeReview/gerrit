@@ -16,6 +16,40 @@
       "message": "nice!",
       "revId": "7398fcd40b4bdbba772ab0371d8a312b8c920bd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76dc0870_39d77df6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-19T13:40:11Z",
+      "side": 1,
+      "message": "Just a minor Q",
+      "revId": "7398fcd40b4bdbba772ab0371d8a312b8c920bd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ec11c40_f832b8f9",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-19T13:40:11Z",
+      "side": 1,
+      "message": "Why can\u0027t you reuse the event?",
+      "revId": "7398fcd40b4bdbba772ab0371d8a312b8c920bd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

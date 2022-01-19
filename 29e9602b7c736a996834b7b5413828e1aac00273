@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "198218ee_e1b8b476",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-19T10:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d874e4c_17e9adae",
+      "revId": "29e9602b7c736a996834b7b5413828e1aac00273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "073094b7_be1b71b4",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-01-18T17:17:34Z",
       "side": 1,
       "message": "Wrap on 72 char per line.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "29e9602b7c736a996834b7b5413828e1aac00273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "058313ee_338c925c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-19T10:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073094b7_be1b71b4",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25118870_ce2d2e4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-19T10:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0ae48f_c3b80ef0",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 66
+      },
+      "revId": "29e9602b7c736a996834b7b5413828e1aac00273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62de5348_820c0207",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-01-18T17:17:34Z",
       "side": 1,
       "message": "Nit: Space between closed bracket and http.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 8
+      },
+      "revId": "29e9602b7c736a996834b7b5413828e1aac00273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06fafd88_6485647c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-19T10:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62de5348_820c0207",
       "range": {
         "startLine": 13,
         "startChar": 0,

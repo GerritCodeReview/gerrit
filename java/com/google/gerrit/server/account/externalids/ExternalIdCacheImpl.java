@@ -14,63 +14,39 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.SetMultimap;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Consumer;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Caches external IDs of all accounts. The external IDs are always loaded from NoteDb. */
 @Singleton
 class ExternalIdCacheImpl implements ExternalIdCache {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public static final String CACHE_NAME = "external_ids_map";
 
-  private final LoadingCache<ObjectId, AllExternalIds> extIdsByAccount;
+  private final Cache<ObjectId, AllExternalIds> extIdsByAccount;
   private final ExternalIdReader externalIdReader;
+  private final ExternalIdCacheLoader externalIdCacheLoader;
   private final Lock lock;
 
   @Inject
   ExternalIdCacheImpl(
-      @Named(CACHE_NAME) LoadingCache<ObjectId, AllExternalIds> extIdsByAccount,
-      ExternalIdReader externalIdReader) {
+      @Named(CACHE_NAME) Cache<ObjectId, AllExternalIds> extIdsByAccount,
+      ExternalIdReader externalIdReader,
+      ExternalIdCacheLoader externalIdCacheLoader) {
     this.extIdsByAccount = extIdsByAccount;
     this.externalIdReader = externalIdReader;
+    this.externalIdCacheLoader = externalIdCacheLoader;
     this.lock = new ReentrantLock(true /* fair */);
-  }
-
-  @Override
-  public void onReplace(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Collection<ExternalId> toRemove,
-      Collection<ExternalId> toAdd) {
-    updateCache(
-        oldNotesRev,
-        newNotesRev,
-        m -> {
-          for (ExternalId extId : toRemove) {
-            m.remove(extId.accountId(), extId);
-          }
-          for (ExternalId extId : toAdd) {
-            extId.checkThatBlobIdIsSet();
-            m.put(extId.accountId(), extId);
-          }
-        });
   }
 
   @Override
@@ -112,38 +88,39 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     return get(externalIdReader.readRevision());
   }
 
+  /**
+   * Returns the cached value or a freshly loaded value that will be cached with this call in case
+   * the value was absent from the cache.
+   *
+   * <p>This method will load the value using {@link ExternalIdCacheLoader} in case it is not
+   * already cached. {@link ExternalIdCacheLoader} requires loading older versions of the cached
+   * value and Caffeine does not support recursive calls to the cache from loaders. Hence, we use a
+   * Cache instead of a LoadingCache and perform the loading ourselves here similar to what a
+   * loading cache would do.
+   */
   private AllExternalIds get(ObjectId rev) throws IOException {
-    try {
-      return extIdsByAccount.get(rev);
-    } catch (ExecutionException e) {
-      throw new IOException("Cannot load external ids", e);
-    }
-  }
-
-  private void updateCache(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Consumer<SetMultimap<Account.Id, ExternalId>> update) {
-    if (oldNotesRev.equals(newNotesRev)) {
-      // No need to update external id cache since there is no update to those external ids.
-      return;
+    AllExternalIds cachedValue = extIdsByAccount.getIfPresent(rev);
+    if (cachedValue != null) {
+      return cachedValue;
     }
 
+    // Load the value and put it in the cache.
     lock.lock();
     try {
-      SetMultimap<Account.Id, ExternalId> m;
-      if (!ObjectId.zeroId().equals(oldNotesRev)) {
-        m =
-            MultimapBuilder.hashKeys()
-                .hashSetValues()
-                .build(extIdsByAccount.get(oldNotesRev).byAccount());
-      } else {
-        m = MultimapBuilder.hashKeys().hashSetValues().build();
+      // Check if value was already loaded while waiting for the lock.
+      cachedValue = extIdsByAccount.getIfPresent(rev);
+      if (cachedValue != null) {
+        return cachedValue;
       }
-      update.accept(m);
-      extIdsByAccount.put(newNotesRev, AllExternalIds.create(m.values().stream()));
-    } catch (ExecutionException e) {
-      logger.atWarning().withCause(e).log("Cannot update external IDs");
+
+      AllExternalIds newlyLoadedValue;
+      try {
+        newlyLoadedValue = externalIdCacheLoader.load(rev);
+      } catch (ConfigInvalidException e) {
+        throw new IOException("Cannot load external ids", e);
+      }
+      extIdsByAccount.put(rev, newlyLoadedValue);
+      return newlyLoadedValue;
     } finally {
       lock.unlock();
     }

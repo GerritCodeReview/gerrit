@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -32,21 +31,6 @@ import org.eclipse.jgit.lib.ObjectId;
  * <p>All returned collections are unmodifiable.
  */
 interface ExternalIdCache {
-
-  /**
-   * Updates the cache.
-   *
-   * @param oldNotesRev current revision against which the below updates are applied
-   * @param newNotesRev key for the new cache revision
-   * @param toRemove external IDs to remove
-   * @param toAdd external IDs to add
-   */
-  void onReplace(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Collection<ExternalId> toRemove,
-      Collection<ExternalId> toAdd);
-
   Optional<ExternalId> byKey(ExternalId.Key key) throws IOException;
 
   ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;

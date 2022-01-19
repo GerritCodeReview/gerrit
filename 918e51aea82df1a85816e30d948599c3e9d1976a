@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cb27fa6_516bcdca",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-19T16:46:04Z",
+      "side": 1,
+      "message": "Could we just iterate over all Gerrit core submit rules here and add the prefix if the given names matches one of the Gerrit core submit rules?\nThis way users could continue querying by \u003crule\u003e without prefix and there is no danger of breaking anyone.",
+      "range": {
+        "startLine": 602,
+        "startChar": 4,
+        "endLine": 604,
+        "endChar": 5
+      },
+      "revId": "918e51aea82df1a85816e30d948599c3e9d1976a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

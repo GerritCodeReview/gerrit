@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8356905a_811856aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-19T10:14:33Z",
+      "side": 1,
+      "message": "Checks results for Code-Style are green, removing Code-Style-1 and voting manually.",
+      "revId": "37fbfbcd023bfd1bef86413b551e511fb89e219d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

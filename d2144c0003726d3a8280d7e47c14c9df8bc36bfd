@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ee52e736_c4df77b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-19T10:04:41Z",
+      "side": 1,
+      "message": "Done (in the commit message).",
+      "parentUuid": "ebe49205_480ad339",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "d2144c0003726d3a8280d7e47c14c9df8bc36bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4a18a5f4_69edc90d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -37,6 +61,24 @@
       "writtenOn": "2022-01-19T09:56:40Z",
       "side": 1,
       "message": "Optional: I\u0027d have preferred to see how this change enables the caffeine migration, but I assume I\u0027ll find the answer in the follow-up change :-)",
+      "revId": "d2144c0003726d3a8280d7e47c14c9df8bc36bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ec5c948_098fd911",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-19T10:04:41Z",
+      "side": 1,
+      "message": "Right, this is a cleanup so that enabling the caffeine migration doesn\u0027t further complicate this part of the code.",
+      "parentUuid": "4a18a5f4_69edc90d",
       "revId": "d2144c0003726d3a8280d7e47c14c9df8bc36bfd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +96,30 @@
       "writtenOn": "2022-01-19T09:56:40Z",
       "side": 1,
       "message": "nit: that will be cached \"with\" this call?\n\nWhen I read this sentence first, I assumed caller is going to insert the loaded value back into the cache after this call.",
+      "range": {
+        "startLine": 85,
+        "startChar": 76,
+        "endLine": 85,
+        "endChar": 81
+      },
+      "revId": "d2144c0003726d3a8280d7e47c14c9df8bc36bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faab1491_86afc355",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-19T10:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50f3da4a_86de92e8",
       "range": {
         "startLine": 85,
         "startChar": 76,

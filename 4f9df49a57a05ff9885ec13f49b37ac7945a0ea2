@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb327960_8debdf02",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-19T10:04:41Z",
+      "side": 0,
+      "message": "The behavior can\u0027t be changed and this documentation piece is about how to configure caches, so I\u0027d rather remove the entire section as I did.",
+      "parentUuid": "4b23b98c_f40f2e97",
+      "revId": "4f9df49a57a05ff9885ec13f49b37ac7945a0ea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "234a2977_f4d0ea48",

@@ -16,14 +16,22 @@ package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.EntitiesAdapterFactory;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.json.EnumTypeAdapterFactory;
+import com.google.gerrit.json.OptionalSubmitRequirementResultAdapterFactory;
+import com.google.gerrit.json.SubmitRequirementResultAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.internal.bind.TypeAdapters;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
@@ -41,6 +49,8 @@ public class ChangeNoteJson {
   static Gson newGson() {
     return new GsonBuilder()
         .registerTypeAdapter(Timestamp.class, new CommentTimestampAdapter().nullSafe())
+        .registerTypeAdapterFactory(new SubmitRequirementResultAdapterFactory())
+        .registerTypeAdapterFactory(new OptionalSubmitRequirementResultAdapterFactory())
         .registerTypeAdapterFactory(new EnumTypeAdapterFactory())
         .registerTypeAdapterFactory(EntitiesAdapterFactory.create())
         .registerTypeAdapter(

@@ -236,6 +236,83 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
   }
+  @Test
+  public void submitRequirement_emptyApplicability_alwaysApplicable() {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ null,
+            /* submittabilityExpr= */ "is:true",
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+  }
+
+  @Test
+  public void submitRequirementIsNotEvaluated_whenApplicabilityIsFalse()
+      throws Exception {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "project:non-existent-project",
+            /* submittabilityExpr= */ "message:\"Fix bug\"",
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.NOT_APPLICABLE);
+    assertThat(result.applicabilityExpressionResult().get().status()).isEqualTo(Status.FAIL);
+    assertThat(result.submittabilityExpressionResult().isPresent()).isFalse();
+    assertThat(result.overrideExpressionResult().isPresent()).isFalse();
+  }
+
+  @Test
+  public void submitRequirementIsEvaluated_whenApplicabilityIsEmpty()
+      throws Exception {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ null,
+            /* submittabilityExpr= */ "message:\"Fix bug\"",
+            /* overrideExpr= */ "label:\"build-cop-override=-1\"");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+    assertThat(result.applicabilityExpressionResult().isPresent()).isFalse();
+    assertThat(result.submittabilityExpressionResult().get().status()).isEqualTo(Status.PASS);
+    assertThat(result.overrideExpressionResult().get().status()).isEqualTo(Status.FAIL);
+  }
+
+  @Test
+  public void submitRequirementIsEvaluated_whenApplicabilityIsTrue()
+      throws Exception {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "project:" + project.get(),
+            /* submittabilityExpr= */ "message:\"Fix bug\"",
+            /* overrideExpr= */ "label:\"build-cop-override=-1\"");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+    assertThat(result.applicabilityExpressionResult().get().status()).isEqualTo(Status.PASS);
+    assertThat(result.submittabilityExpressionResult().get().status()).isEqualTo(Status.PASS);
+    assertThat(result.overrideExpressionResult().get().status()).isEqualTo(Status.FAIL);
+  }
+
+  @Test
+  public void submittabilityIsEvaluated_whenOverrideApplies()
+      throws Exception {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ null,
+            /* submittabilityExpr= */ "message:\"Fix bug\"",
+            /* overrideExpr= */ "label:\"build-cop-override=+1\"");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.OVERRIDDEN);
+
+    assertThat(result.applicabilityExpressionResult().isPresent()).isFalse();
+    assertThat(result.submittabilityExpressionResult().get().status()).isEqualTo(Status.PASS);
+    assertThat(result.overrideExpressionResult().get().status()).isEqualTo(Status.PASS);
+  }
 
   @Test
   public void submitRequirementIsSatisfied_whenSubmittabilityExpressionIsTrue() throws Exception {
@@ -260,7 +337,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.UNSATISFIED);
-    assertThat(result.submittabilityExpressionResult().failingAtoms())
+    assertThat(result.submittabilityExpressionResult().get().failingAtoms())
         .containsExactly("label:\"Code-Review=+2\"");
   }
 
@@ -314,7 +391,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
-    assertThat(result.submittabilityExpressionResult().errorMessage().get())
+    assertThat(result.submittabilityExpressionResult().get().errorMessage().get())
         .isEqualTo("Unsupported operator invalid_field:invalid_value");
   }
 

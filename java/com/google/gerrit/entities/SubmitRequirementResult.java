@@ -31,11 +31,17 @@ public abstract class SubmitRequirementResult {
   public abstract Optional<SubmitRequirementExpressionResult> applicabilityExpressionResult();
 
   /**
-   * Result of evaluating a {@link SubmitRequirement#submittabilityExpression()} ()} on a change.
+   * Result of evaluating a {@link SubmitRequirement#submittabilityExpression()} on a change.
+   *
+   * <p>Empty if submit requirement does not apply.
    */
-  public abstract SubmitRequirementExpressionResult submittabilityExpressionResult();
+  public abstract Optional<SubmitRequirementExpressionResult> submittabilityExpressionResult();
 
-  /** Result of evaluating a {@link SubmitRequirement#overrideExpression()} ()} on a change. */
+  /**
+   * Result of evaluating a {@link SubmitRequirement#overrideExpression()} on a change.
+   *
+   * <p>Empty if submit requirement does not apply.
+   */
   public abstract Optional<SubmitRequirementExpressionResult> overrideExpressionResult();
 
   /** SHA-1 of the patchset commit ID for which the submit requirement was evaluated. */
@@ -69,10 +75,11 @@ public abstract class SubmitRequirementResult {
           "Applicability expression result has an error: "
               + applicabilityExpressionResult().get().errorMessage().get());
     }
-    if (submittabilityExpressionResult().errorMessage().isPresent()) {
+    if (submittabilityExpressionResult().isPresent()
+        && submittabilityExpressionResult().get().errorMessage().isPresent()) {
       return Optional.of(
           "Submittability expression result has an error: "
-              + submittabilityExpressionResult().errorMessage().get());
+              + submittabilityExpressionResult().get().errorMessage().get());
     }
     if (overrideExpressionResult().isPresent()
         && overrideExpressionResult().get().errorMessage().isPresent()) {
@@ -164,6 +171,9 @@ public abstract class SubmitRequirementResult {
     public abstract Builder applicabilityExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);
 
+    public abstract Builder submittabilityExpressionResult(
+        Optional<SubmitRequirementExpressionResult> value);
+
     public abstract Builder submittabilityExpressionResult(SubmitRequirementExpressionResult value);
 
     public abstract Builder overrideExpressionResult(
@@ -178,33 +188,25 @@ public abstract class SubmitRequirementResult {
     public abstract SubmitRequirementResult build();
   }
 
-  private boolean assertPass(Optional<SubmitRequirementExpressionResult> expressionResult) {
+  public static boolean assertPass(Optional<SubmitRequirementExpressionResult> expressionResult) {
     return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.PASS);
   }
 
-  private boolean assertPass(SubmitRequirementExpressionResult expressionResult) {
-    return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.PASS);
-  }
-
-  private boolean assertFail(Optional<SubmitRequirementExpressionResult> expressionResult) {
+  public static boolean assertFail(Optional<SubmitRequirementExpressionResult> expressionResult) {
     return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.FAIL);
   }
 
-  private boolean assertError(Optional<SubmitRequirementExpressionResult> expressionResult) {
+  public static boolean assertError(Optional<SubmitRequirementExpressionResult> expressionResult) {
     return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.ERROR);
   }
 
-  private boolean assertError(SubmitRequirementExpressionResult expressionResult) {
-    return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.ERROR);
-  }
-
-  private boolean assertStatus(
+  private static boolean assertStatus(
       SubmitRequirementExpressionResult expressionResult,
       SubmitRequirementExpressionResult.Status status) {
     return expressionResult.status() == status;
   }
 
-  private boolean assertStatus(
+  private static boolean assertStatus(
       Optional<SubmitRequirementExpressionResult> expressionResult,
       SubmitRequirementExpressionResult.Status status) {
     return expressionResult.isPresent() && assertStatus(expressionResult.get(), status);

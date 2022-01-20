@@ -448,13 +448,13 @@ export const htmlTemplate = html`
           >
             <gr-editable-label
               class="topicEditableLabel"
-              label-text="Add a topic"
+              labelText="Add a topic"
               value="[[change.topic]]"
-              max-length="1024"
+              maxLength="1024"
               placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
               read-only="[[_topicReadOnly]]"
               on-changed="_handleTopicChanged"
-              show-as-edit-pencil="true"
+              showAsEditPencil
               autocomplete="true"
               query="[[queryTopic]]"
             ></gr-editable-label>
@@ -506,12 +506,11 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[!_hashtagReadOnly]]">
           <gr-editable-label
             uppercase=""
-            label-text="Add a hashtag"
-            value="{{_newHashtag}}"
+            labelText="Add a hashtag"
             placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
             read-only="[[_hashtagReadOnly]]"
             on-changed="_handleHashtagChanged"
-            show-as-edit-pencil="true"
+            showAsEditPencil
           ></gr-editable-label>
         </template>
       </span>

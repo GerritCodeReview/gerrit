@@ -15,11 +15,11 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
@@ -115,7 +115,12 @@ public class SubmitRuleEvaluator {
           throw new StorageException("Change not found");
         }
 
-        projectState = projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
+        Project.NameKey name = cd.project();
+        Optional<ProjectState> projectStateOptional = projectCache.get(name);
+        if (!projectStateOptional.isPresent()) {
+          throw new NoSuchProjectException(name);
+        }
+        projectState = projectStateOptional.get();
       } catch (NoSuchProjectException e) {
         throw new IllegalStateException("Unable to find project while evaluating submit rule", e);
       }
@@ -168,7 +173,11 @@ public class SubmitRuleEvaluator {
   public SubmitTypeRecord getSubmitType(ChangeData cd) {
     try (Timer0.Context ignored = submitTypeEvaluationLatency.start()) {
       try {
-        projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
+        Project.NameKey name = cd.project();
+        Optional<ProjectState> project = projectCache.get(name);
+        if (!project.isPresent()) {
+          throw new NoSuchProjectException(name);
+        }
       } catch (NoSuchProjectException e) {
         throw new IllegalStateException("Unable to find project while evaluating submit rule", e);
       }

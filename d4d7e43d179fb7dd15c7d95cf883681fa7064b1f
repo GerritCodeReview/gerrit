@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "869d6a50_ec4a809f",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-20T07:27:34Z",
+      "side": 1,
+      "message": "The method below doesn\u0027t have a return value that could be ignored?",
+      "revId": "d4d7e43d179fb7dd15c7d95cf883681fa7064b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a1e1300_a7a0303e",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-20T07:27:34Z",
+      "side": 1,
+      "message": "No return value?",
+      "revId": "d4d7e43d179fb7dd15c7d95cf883681fa7064b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d787273f_cd9fbb55",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-20T07:27:34Z",
+      "side": 1,
+      "message": "Why would callers need to call a getter and then ignore the return value?",
+      "revId": "d4d7e43d179fb7dd15c7d95cf883681fa7064b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "699ac64c_b0fe5193",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-20T17:14:25Z",
+      "side": 1,
+      "message": "Thoughts:\n  * Should macros rather be self contained predicates instead of random strings?\n  * Handle macros defined in parent projects.",
+      "revId": "1f98323a68652365355575a3da14c24bf5aa1602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

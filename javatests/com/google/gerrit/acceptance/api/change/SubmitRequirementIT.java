@@ -249,6 +249,36 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirement_withMacroDefinedAsLabelEqualsMax() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().addMacro("require-code-review", "label:Code-Review=+2");
+      u.save();
+    }
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("${require-code-review}"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    voteLabel(changeId, "Code-Review", 2);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+  }
+
+  @Test
   public void submitRequirement_withLabelEqualsMax_fromNonUploader() throws Exception {
     configLabel("my-label", LabelFunction.NO_OP); // label function has no effect
     projectOperations

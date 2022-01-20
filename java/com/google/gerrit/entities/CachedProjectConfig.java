@@ -81,6 +81,9 @@ public abstract class CachedProjectConfig {
     return ImmutableSet.copyOf(getAccessSections().keySet());
   }
 
+  /** Returns a map containing all macros defined for the project. */
+  public abstract ImmutableMap<String, String> getMacrosSection();
+
   /**
    * Returns the {@link BranchOrderSection} containing the order in which branches should be shown.
    */
@@ -146,6 +149,8 @@ public abstract class CachedProjectConfig {
     public abstract Builder setAccountsSection(AccountsSection value);
 
     public abstract Builder setBranchOrderSection(Optional<BranchOrderSection> value);
+
+    public abstract Builder setMacrosSection(Map<String, String> value);
 
     public Builder addGroup(GroupReference groupReference) {
       groupsBuilder().put(groupReference.getUUID(), groupReference);

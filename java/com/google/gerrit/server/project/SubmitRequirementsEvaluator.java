@@ -21,6 +21,7 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
+import java.util.Map;
 
 public interface SubmitRequirementsEvaluator {
   /**
@@ -49,4 +50,16 @@ public interface SubmitRequirementsEvaluator {
    * @throws QueryParseException the expression string contains invalid syntax and can't be parsed.
    */
   void validateExpression(SubmitRequirementExpression expression) throws QueryParseException;
+
+  /**
+   * Expands the "submit requirement" {@code expression} input using the {@code macros} map. All
+   * variables in the expression occurring as ${var_name} will be substituted with the value of that
+   * key in the {@code macros} map.
+   *
+   * <p>Example: macros = {"vote-value", "+2"}, expression = "label:CR=${vote-value}"
+   *
+   * <p>Output = "label:CR=+2"
+   */
+  SubmitRequirementExpression expandExpression(
+      SubmitRequirementExpression expression, Map<String, String> macros);
 }

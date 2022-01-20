@@ -97,20 +97,26 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   @Override
   public SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd) {
     try (ManualRequestContext ignored = requestContext.open()) {
+      ProjectState state = projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
+      ImmutableMap<String, String> macros = state.getConfig().getMacrosSection();
+
       // Use a request context to execute predicates as an internal user with expanded visibility.
       // This is so that the evaluation does not depend on who is running the current request (e.g.
       // a "ownerin" predicate with group that is not visible to the person making this request).
       SubmitRequirementExpressionResult blockingResult =
-          evaluateExpression(sr.submittabilityExpression(), cd);
+          evaluateExpression(expandExpression(sr.submittabilityExpression(), macros), cd);
 
       Optional<SubmitRequirementExpressionResult> applicabilityResult =
           sr.applicabilityExpression().isPresent()
-              ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
+              ? Optional.of(
+                  evaluateExpression(
+                      expandExpression(sr.applicabilityExpression().get(), macros), cd))
               : Optional.empty();
 
       Optional<SubmitRequirementExpressionResult> overrideResult =
           sr.overrideExpression().isPresent()
-              ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
+              ? Optional.of(
+                  evaluateExpression(expandExpression(sr.overrideExpression().get(), macros), cd))
               : Optional.empty();
 
       return SubmitRequirementResult.builder()
@@ -134,6 +140,17 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     } catch (QueryParseException e) {
       return SubmitRequirementExpressionResult.error(expression, e.getMessage());
     }
+  }
+
+  @Override
+  public SubmitRequirementExpression expandExpression(
+      SubmitRequirementExpression submitRequirementExpression, Map<String, String> macros) {
+    String expression = submitRequirementExpression.expressionString();
+    for (String macroName : macros.keySet()) {
+      String macroVal = macros.get(macroName);
+      expression = expression.replace(String.format("${%s}", macroName), macroVal);
+    }
+    return SubmitRequirementExpression.create(expression);
   }
 
   /**

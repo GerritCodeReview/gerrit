@@ -41,6 +41,7 @@ public class CachedProjectConfigSerializerTest {
                       PermissionRule.create(GroupReferenceSerializerTest.ALL_VALUES_SET))))
           .setMaxObjectSizeLimit(123)
           .setCheckReceivedObjects(true)
+          .setMacrosSection(ImmutableMap.of("key", "expansion"))
           .build();
 
   static final CachedProjectConfig ALL_VALUES_SET =

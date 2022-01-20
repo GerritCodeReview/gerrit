@@ -337,6 +337,27 @@ public class ProjectConfigTest {
   }
 
   @Test
+  public void readMacros() throws Exception {
+    RevCommit rev = tr.commit().add("project.config", "[macros]\n \tuser = user_1").create();
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getMacrosSection()).containsExactly("user", "user_1");
+  }
+
+  @Test
+  public void readMacrosMultiLine() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[macros]\n" + "  m1 = the definition is \\\n" + "split on multi line.")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getMacrosSection())
+        .containsExactly("m1", "the definition is split on multi line.");
+  }
+
+  @Test
   public void readConfigLabelOldStyleWithLeadingSpace() throws Exception {
     RevCommit rev =
         tr.commit()

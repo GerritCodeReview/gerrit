@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
@@ -71,9 +72,10 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
       }
 
       ProjectConfig projectConfig = getProjectConfig(event);
+      Map<String, String> macros = projectConfig.getMacrosSection();
       ImmutableList<CommitValidationMessage> validationMessages =
           validateSubmitRequirementExpressions(
-              projectConfig.getSubmitRequirementSections().values());
+              projectConfig.getSubmitRequirementSections().values(), macros);
       if (!validationMessages.isEmpty()) {
         throw new CommitValidationException(
             String.format(
@@ -121,13 +123,14 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
   }
 
   private ImmutableList<CommitValidationMessage> validateSubmitRequirementExpressions(
-      Collection<SubmitRequirement> submitRequirements) {
+      Collection<SubmitRequirement> submitRequirements, Map<String, String> macros) {
     List<CommitValidationMessage> validationMessages = new ArrayList<>();
     for (SubmitRequirement submitRequirement : submitRequirements) {
       validateSubmitRequirementExpression(
           validationMessages,
           submitRequirement,
-          submitRequirement.submittabilityExpression(),
+          submitRequirementsEvaluator.expandExpression(
+              submitRequirement.submittabilityExpression(), macros),
           ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION);
       submitRequirement
           .applicabilityExpression()
@@ -136,7 +139,7 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
                   validateSubmitRequirementExpression(
                       validationMessages,
                       submitRequirement,
-                      expression,
+                      submitRequirementsEvaluator.expandExpression(expression, macros),
                       ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION));
       submitRequirement
           .overrideExpression()
@@ -145,7 +148,7 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
                   validateSubmitRequirementExpression(
                       validationMessages,
                       submitRequirement,
-                      expression,
+                      submitRequirementsEvaluator.expandExpression(expression, macros),
                       ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION));
     }
     return ImmutableList.copyOf(validationMessages);

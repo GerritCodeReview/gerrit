@@ -377,6 +377,49 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
             invalidValue));
   }
 
+  @Test
+  public void submitRequirementWithNonExistingMacroIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    updateProjectConfig(
+        projectConfig -> {
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_DESCRIPTION,
+              /* value= */ "foo bar description");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+              /* value= */ "branch:refs/heads/master");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+              /* value= */ "${require_code_review}");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
+              /* value= */ "label:\"override=+1\"");
+          projectConfig.setBoolean(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+              /* value= */ false);
+        });
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        "Expression '${require_code_review}' of submit requirement 'Code-Review' "
+            + "(parameter submit-requirement.Code-Review.submittableIf) is invalid: "
+            + "line 1:0 no viable alternative at character '$'");
+  }
+
   private void fetchRefsMetaConfig() throws Exception {
     fetch(testRepo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
     testRepo.reset(RefNames.REFS_CONFIG);

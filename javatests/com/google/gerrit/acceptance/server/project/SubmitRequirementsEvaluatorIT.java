@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -357,6 +358,20 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
         changeQueryProvider.get().byLegacyChangeId(Change.Id.tryParse(revertId).get()).get(0);
     result = evaluator.evaluateRequirement(sr, revertChangeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+  }
+
+  @Test
+  public void expandExpressionWithMacros() throws Exception {
+    SubmitRequirementExpression in =
+        SubmitRequirementExpression.create(
+            "${require_code_review} AND ${owner_is_registered} AND -${require_code_review}");
+    Map<String, String> macros =
+        ImmutableMap.of(
+            "require_code_review", "label:Code-Review=+2",
+            "owner_is_registered", "ownerin:Registered-Users");
+    SubmitRequirementExpression out = evaluator.expandExpression(in, macros);
+    assertThat(out.expressionString())
+        .isEqualTo("label:Code-Review=+2 AND ownerin:Registered-Users AND -label:Code-Review=+2");
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

@@ -19,9 +19,6 @@ import '@polymer/paper-input/paper-input';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {customElement, property} from '@polymer/decorators';
-import {htmlTemplate} from './gr-editable-label_html';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {PaperInputElementExt} from '../../../types/types';
 import {
@@ -30,6 +27,8 @@ import {
 } from '../gr-autocomplete/gr-autocomplete';
 import {addShortcut, Key} from '../../../utils/dom-util';
 import {queryAndAssert} from '../../../utils/common-util';
+import {LitElement, css, html} from 'lit';
+import {customElement, property, query} from 'lit/decorators';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -40,23 +39,16 @@ declare global {
   }
 }
 
-export interface GrEditableLabel {
-  $: {
-    dropdown: IronDropdownElement;
-  };
-}
-
 @customElement('gr-editable-label')
-export class GrEditableLabel extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrEditableLabel extends LitElement {
   /**
    * Fired when the value is changed.
    *
    * @event changed
    */
+
+  @query('#dropdown')
+  dropdown?: IronDropdownElement;
 
   @property({type: String})
   labelText = '';
@@ -97,10 +89,132 @@ export class GrEditableLabel extends PolymerElement {
   @property({type: Object})
   query: AutocompleteQuery = () => Promise.resolve([]);
 
-  override ready() {
-    super.ready();
-    this._ensureAttribute('tabindex', '0');
+  static override get styles() {
+    return [
+      css`
+        :host {
+          align-items: center;
+          display: inline-flex;
+        }
+        :host([uppercase]) label {
+          text-transform: uppercase;
+        }
+        input,
+        label {
+          width: 100%;
+        }
+        label {
+          color: var(--deemphasized-text-color);
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        label.editable {
+          color: var(--link-color);
+          cursor: pointer;
+        }
+        #dropdown {
+          box-shadow: var(--elevation-level-2);
+        }
+        .inputContainer {
+          background-color: var(--dialog-background-color);
+          padding: var(--spacing-m);
+        }
+        .buttons {
+          display: flex;
+          justify-content: flex-end;
+          padding-top: var(--spacing-l);
+          width: 100%;
+        }
+        .buttons gr-button {
+          margin-left: var(--spacing-m);
+        }
+        paper-input {
+          --paper-input-container: {
+            padding: 0;
+            min-width: 15em;
+          }
+          --paper-input-container-input: {
+            font-size: inherit;
+          }
+          --paper-input-container-focus-color: var(--link-color);
+        }
+        gr-button iron-icon {
+          color: inherit;
+          --iron-icon-height: 18px;
+          --iron-icon-width: 18px;
+        }
+        gr-button.pencil {
+          --gr-button-padding: 0px 0px;
+        }
+      `,
+    ];
   }
+
+  override render() {
+    return html`<template is="dom-if" if="[[!showAsEditPencil]]">
+        <label
+          class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
+          title$="[[_computeLabel(value, placeholder)]]"
+          aria-label$="[[_computeLabel(value, placeholder)]]"
+          on-click="_showDropdown"
+          part="label"
+          >[[_computeLabel(value, placeholder)]]</label
+        >
+      </template>
+      <template is="dom-if" if="[[showAsEditPencil]]">
+        <gr-button
+          link=""
+          class$="pencil [[_computeLabelClass(readOnly, value, placeholder)]]"
+          on-click="_showDropdown"
+          title="[[_computeLabel(value, placeholder)]]"
+          ><iron-icon icon="gr-icons:edit"></iron-icon
+        ></gr-button>
+      </template>
+      <iron-dropdown
+        id="dropdown"
+        vertical-align="auto"
+        horizontal-align="auto"
+        vertical-offset="[[_verticalOffset]]"
+        allow-outside-scroll="true"
+        on-iron-overlay-canceled="_cancel"
+      >
+        <div class="dropdown-content" slot="dropdown-content">
+          <div class="inputContainer" part="input-container">
+            <template is="dom-if" if="[[!autocomplete]]">
+              <paper-input
+                id="input"
+                label="[[labelText]]"
+                maxlength="[[maxLength]]"
+                value="{{_inputText}}"
+              ></paper-input>
+            </template>
+            <template is="dom-if" if="[[autocomplete]]">
+              <gr-autocomplete
+                label="[[labelText]]"
+                id="autocomplete"
+                text="{{_inputText}}"
+                query="[[query]]"
+                on-commit="_handleCommit"
+              >
+              </gr-autocomplete>
+            </template>
+            <div class="buttons">
+              <gr-button link="" id="cancelBtn" on-click="_cancel"
+                >cancel</gr-button
+              >
+              <gr-button link="" id="saveBtn" on-click="_save">save</gr-button>
+            </div>
+          </div>
+        </div>
+      </iron-dropdown>`;
+  }
+
+  // override ready() {
+  //   super.ready();
+  //   this._ensureAttribute('tabindex', '0');
+  // }
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
@@ -166,7 +280,7 @@ export class GrEditableLabel extends PolymerElement {
     let iters = 0;
     const step = () => {
       setTimeout(() => {
-        if (this.$.dropdown.style.display !== 'none') {
+        if (this.dropdown?.style.display !== 'none') {
           fn.call(this);
         } else if (iters++ < AWAIT_MAX_ITERS) {
           step.call(this);
@@ -184,7 +298,7 @@ export class GrEditableLabel extends PolymerElement {
     if (!this.editing) {
       return;
     }
-    this.$.dropdown.close();
+    this.dropdown?.close();
     this.value = this._inputText || '';
     this.editing = false;
     this.dispatchEvent(
@@ -200,7 +314,7 @@ export class GrEditableLabel extends PolymerElement {
     if (!this.editing) {
       return;
     }
-    this.$.dropdown.close();
+    this.dropdown?.close();
     this.editing = false;
     this._inputText = this.value || '';
   }

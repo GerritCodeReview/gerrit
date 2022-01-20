@@ -156,6 +156,9 @@ import {firePageError, fireServerError} from '../../../utils/event-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {ErrorCallback} from '../../../api/rest';
 import {addDraftProp, DraftInfo} from '../../../utils/comment-util';
+import {BaseScheduler} from '../../../services/scheduler/scheduler';
+import {RetryScheduler} from '../../../services/scheduler/retry-scheduler';
+import {MaxInFlightScheduler} from '../../../services/scheduler/max-in-flight-scheduler';
 
 const MAX_PROJECT_RESULTS = 25;
 
@@ -279,6 +282,24 @@ declare global {
   }
 }
 
+function createReadScheduler() {
+  return new RetryScheduler<Response>(
+    new MaxInFlightScheduler<Response>(
+      new BaseScheduler<Response>(),
+      10
+    )
+  );
+}
+
+function createWriteScheduler() {
+  return new RetryScheduler<Response>(
+    new MaxInFlightScheduler<Response>(
+      new BaseScheduler<Response>(),
+      5
+    )
+  );
+}
+
 @customElement('gr-rest-api-service-impl')
 export class GrRestApiServiceImpl
   extends PolymerElement
@@ -308,7 +329,9 @@ export class GrRestApiServiceImpl
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
       this.authService,
-      this._sharedFetchPromises
+      this._sharedFetchPromises,
+      createReadScheduler(),
+      createWriteScheduler(),
     );
   }
 

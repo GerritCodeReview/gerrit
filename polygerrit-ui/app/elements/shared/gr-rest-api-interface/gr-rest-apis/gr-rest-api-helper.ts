@@ -31,6 +31,7 @@ import {RpcLogEventDetail} from '../../../../types/events';
 import {fireNetworkError, fireServerError} from '../../../../utils/event-util';
 import {FetchRequest} from '../../../../types/types';
 import {ErrorCallback} from '../../../../api/rest';
+import {Scheduler} from '../../../../services/scheduler/scheduler';
 
 export const JSON_PREFIX = ")]}'";
 
@@ -236,22 +237,33 @@ export class GrRestApiHelper {
   constructor(
     private readonly _cache: SiteBasedCache,
     private readonly _auth: AuthService,
-    private readonly _fetchPromisesCache: FetchPromisesCache
+    private readonly _fetchPromisesCache: FetchPromisesCache,
+    private readonly readScheduler: Scheduler<Response>,
+    private readonly writeScheduler: Scheduler<Response>
   ) {}
+
 
   /**
    * Wraps calls to the underlying authenticated fetch function (_auth.fetch)
    * with timing and logging.
 s   */
   fetch(req: FetchRequest): Promise<Response> {
+    const method = req.fetchOptions && req.fetchOptions.method
+      ? req.fetchOptions.method
+      : 'GET';
     const start = Date.now();
-    const xhr = this._auth.fetch(req.url, req.fetchOptions);
-
-    // Log the call after it completes.
-    xhr.then(res => this._logCall(req, start, res ? res.status : null));
-
-    // Return the XHR directly (without the log).
-    return xhr;
+    const task = () => {
+      const xhr = this._auth.fetch(req.url, req.fetchOptions);
+      // Log the call after it completes.
+      xhr.then(res => this._logCall(req, start, res ? res.status : null));
+      // Return the XHR directly (without the log).
+      return xhr;
+    };
+    if (method === 'GET' || method === 'HEAD') {
+      return this.readScheduler.schedule(task);
+    } else {
+      return this.writeScheduler.schedule(task);
+    }
   }
 
   /**

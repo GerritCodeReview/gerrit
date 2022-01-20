@@ -55,6 +55,9 @@ import {
   Provider,
 } from '../models/dependency';
 
+import chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised);
+
 declare global {
   interface Window {
     assert: typeof chai.assert;

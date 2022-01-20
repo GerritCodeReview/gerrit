@@ -18,6 +18,7 @@ import {testResolver as testResolverImpl} from './common-test-setup';
 import '@polymer/test-fixture/test-fixture';
 import 'chai/chai';
 
+
 declare global {
   interface Window {
     flush: typeof flushImpl;

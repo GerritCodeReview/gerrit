@@ -47,11 +47,13 @@ public class SubmitRequirementsJson {
               result.overrideExpressionResult().get(),
               /* hide= */ false);
     }
-    info.submittabilityExpressionResult =
-        submitRequirementExpressionToInfo(
-            req.submittabilityExpression(),
-            result.submittabilityExpressionResult(),
-            /* hide= */ false);
+    if (result.submittabilityExpressionResult() != null) {
+      info.submittabilityExpressionResult =
+          submitRequirementExpressionToInfo(
+              req.submittabilityExpression(),
+              result.submittabilityExpressionResult(),
+              /* hide= */ false);
+    }
     info.status = SubmitRequirementResultInfo.Status.valueOf(result.status().toString());
     info.isLegacy = result.isLegacy();
     return info;

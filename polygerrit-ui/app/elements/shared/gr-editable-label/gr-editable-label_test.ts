@@ -23,6 +23,7 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {GrButton} from '../gr-button/gr-button';
 import {fixture, html} from '@open-wc/testing-helpers';
+import {IronDropdownElement} from '@polymer/iron-dropdown';
 
 suite('gr-editable-label tests', () => {
   let element: GrEditableLabel;
@@ -106,7 +107,8 @@ suite('gr-editable-label tests', () => {
 
   test('element render', () => {
     // The dropdown is closed and the label is visible:
-    assert.isFalse(element.$.dropdown.opened);
+    const dropdown = queryAndAssert<IronDropdownElement>(element, '#dropdown');
+    assert.isFalse(dropdown.opened);
     assert.isTrue(label.classList.contains('editable'));
     assert.equal(label.textContent, 'value text');
     const focusSpy = sinon.spy(input, 'focus');
@@ -116,7 +118,11 @@ suite('gr-editable-label tests', () => {
 
     return showSpy.lastCall.returnValue!.then(() => {
       // The dropdown is open (which covers up the label):
-      assert.isTrue(element.$.dropdown.opened);
+      const dropdown = queryAndAssert<IronDropdownElement>(
+        element,
+        '#dropdown'
+      );
+      assert.isTrue(dropdown.opened);
       assert.isTrue(focusSpy.called);
       assert.equal(input.value, 'value text');
     });
@@ -246,13 +252,17 @@ suite('gr-editable-label tests', () => {
 
     test('disallows edit when read-only', async () => {
       // The dropdown is closed.
-      assert.isFalse(element.$.dropdown.opened);
+      const dropdown = queryAndAssert<IronDropdownElement>(
+        element,
+        '#dropdown'
+      );
+      assert.isFalse(dropdown.opened);
       MockInteractions.tap(label);
 
       await flush();
 
       // The dropdown is still closed.
-      assert.isFalse(element.$.dropdown.opened);
+      assert.isFalse(dropdown.opened);
     });
 
     test('label is not marked as editable', () => {

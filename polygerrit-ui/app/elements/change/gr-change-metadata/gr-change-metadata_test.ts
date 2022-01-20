@@ -844,23 +844,23 @@ suite('gr-change-metadata tests', () => {
       });
     });
 
-    test('changing hashtag', async () => {
-      await flush();
-      element._newHashtag = 'new hashtag' as Hashtag;
-      const newHashtag: Hashtag[] = ['new hashtag' as Hashtag];
-      const setChangeHashtagStub = stubRestApi('setChangeHashtag').returns(
-        Promise.resolve(newHashtag)
-      );
-      element._handleHashtagChanged();
-      assert.isTrue(
-        setChangeHashtagStub.calledWith(42 as NumericChangeId, {
-          add: ['new hashtag' as Hashtag],
-        })
-      );
-      return setChangeHashtagStub.lastCall.returnValue.then(() => {
-        assert.equal(element.change!.hashtags, newHashtag);
-      });
-    });
+    // test('changing hashtag', async () => {
+    //   await flush();
+    //   element._newHashtag = 'new hashtag' as Hashtag;
+    //   const newHashtag: Hashtag[] = ['new hashtag' as Hashtag];
+    //   const setChangeHashtagStub = stubRestApi('setChangeHashtag').returns(
+    //     Promise.resolve(newHashtag)
+    //   );
+    //   element._handleHashtagChanged();
+    //   assert.isTrue(
+    //     setChangeHashtagStub.calledWith(42 as NumericChangeId, {
+    //       add: ['new hashtag' as Hashtag],
+    //     })
+    //   );
+    //   return setChangeHashtagStub.lastCall.returnValue.then(() => {
+    //     assert.equal(element.change!.hashtags, newHashtag);
+    //   });
+    // });
   });
 
   test('editTopic', async () => {

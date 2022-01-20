@@ -62,6 +62,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
+import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {roleDetails} from '../../../utils/change-util';
 
@@ -425,7 +426,7 @@ export class GrChangeSummary extends LitElement {
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
-  private readonly changeModel = getAppContext().changeModel;
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -793,7 +794,7 @@ export class GrChangeSummary extends LitElement {
     this.reporting.reportInteraction(Interaction.CHECKS_CHIP_CLICKED, {
       statusOrCategory: state.statusOrCategory,
       checkName: state.checkName,
-      ...roleDetails(this.changeModel.getChange(), this.selfAccount),
+      ...roleDetails(this.getChangeModel().getChange(), this.selfAccount),
     });
     fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
       checksTab: state,

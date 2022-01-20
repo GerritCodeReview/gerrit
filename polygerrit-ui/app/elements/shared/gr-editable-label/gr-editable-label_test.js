@@ -54,6 +54,62 @@ suite('gr-editable-label tests', () => {
     input = paperInput.$.nativeInput || paperInput.inputElement;
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(`<label
+      aria-label="value text"
+      class="editable"
+      part="label"
+      title="value text"
+    >
+      value text
+    </label>
+    <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+    <dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+    <iron-dropdown
+      allow-outside-scroll="true"
+      aria-disabled="false"
+      aria-hidden="true"
+      horizontal-align="auto"
+      id="dropdown"
+      style="outline: none; display: none;"
+      vertical-align="auto"
+    >
+      <div class="dropdown-content" slot="dropdown-content">
+        <div class="inputContainer" part="input-container">
+          <paper-input
+            aria-disabled="false"
+            id="input"
+            tabindex="0"
+          ></paper-input>
+          <dom-if style="display: none;"><template is="dom-if"></template>
+          </dom-if>
+          <dom-if style="display: none;"><template is="dom-if"></template>
+          </dom-if>
+          <div class="buttons">
+            <gr-button
+              aria-disabled="false"
+              id="cancelBtn"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              cancel
+            </gr-button>
+            <gr-button
+              aria-disabled="false"
+              id="saveBtn"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              save
+            </gr-button>
+          </div>
+        </div>
+      </div>
+    </iron-dropdown>`);
+  });
+
   test('element render', () => {
     // The dropdown is closed and the label is visible:
     assert.isFalse(element.$.dropdown.opened);

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf4cfa65_e6a30220",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5287,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-01-20T12:46:48Z",
+      "side": 1,
+      "message": "you are right. Amended.",
+      "parentUuid": "90420c4c_dba1bb27",
+      "range": {
+        "startLine": 5286,
+        "startChar": 57,
+        "endLine": 5287,
+        "endChar": 19
+      },
+      "revId": "4f11874c729e0326e4c5d5c3727ebecd1fdfdd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7dbae81_ea0cd6f1",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-01-19T08:43:11Z",
       "side": 1,
       "message": "Typo (These/They)",
+      "range": {
+        "startLine": 96,
+        "startChar": 78,
+        "endLine": 96,
+        "endChar": 81
+      },
+      "revId": "4f11874c729e0326e4c5d5c3727ebecd1fdfdd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bf6843a_e34e5271",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-01-20T12:46:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7dbae81_ea0cd6f1",
       "range": {
         "startLine": 96,
         "startChar": 78,

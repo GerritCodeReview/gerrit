@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
+import com.google.gerrit.common.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import java.util.Optional;
@@ -33,6 +34,7 @@ public abstract class SubmitRequirementResult {
   /**
    * Result of evaluating a {@link SubmitRequirement#submittabilityExpression()} ()} on a change.
    */
+  @Nullable
   public abstract SubmitRequirementExpressionResult submittabilityExpressionResult();
 
   /** Result of evaluating a {@link SubmitRequirement#overrideExpression()} ()} on a change. */
@@ -69,7 +71,8 @@ public abstract class SubmitRequirementResult {
           "Applicability expression result has an error: "
               + applicabilityExpressionResult().get().errorMessage().get());
     }
-    if (submittabilityExpressionResult().errorMessage().isPresent()) {
+    if (submittabilityExpressionResult() != null
+        && submittabilityExpressionResult().errorMessage().isPresent()) {
       return Optional.of(
           "Submittability expression result has an error: "
               + submittabilityExpressionResult().errorMessage().get());
@@ -164,7 +167,8 @@ public abstract class SubmitRequirementResult {
     public abstract Builder applicabilityExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);
 
-    public abstract Builder submittabilityExpressionResult(SubmitRequirementExpressionResult value);
+    public abstract Builder submittabilityExpressionResult(
+        @Nullable SubmitRequirementExpressionResult value);
 
     public abstract Builder overrideExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);
@@ -182,7 +186,7 @@ public abstract class SubmitRequirementResult {
     return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.PASS);
   }
 
-  private boolean assertPass(SubmitRequirementExpressionResult expressionResult) {
+  private boolean assertPass(@Nullable SubmitRequirementExpressionResult expressionResult) {
     return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.PASS);
   }
 
@@ -194,14 +198,14 @@ public abstract class SubmitRequirementResult {
     return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.ERROR);
   }
 
-  private boolean assertError(SubmitRequirementExpressionResult expressionResult) {
+  private boolean assertError(@Nullable SubmitRequirementExpressionResult expressionResult) {
     return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.ERROR);
   }
 
   private boolean assertStatus(
-      SubmitRequirementExpressionResult expressionResult,
+      @Nullable SubmitRequirementExpressionResult expressionResult,
       SubmitRequirementExpressionResult.Status status) {
-    return expressionResult.status() == status;
+    return expressionResult != null && expressionResult.status() == status;
   }
 
   private boolean assertStatus(

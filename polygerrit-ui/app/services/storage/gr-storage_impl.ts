@@ -24,7 +24,6 @@ export const DURATION_DAY = 24 * 60 * 60 * 1000;
 const CLEANUP_THROTTLE_INTERVAL = DURATION_DAY;
 
 const CLEANUP_PREFIXES_MAX_AGE_MAP = new Map<string, number>();
-CLEANUP_PREFIXES_MAX_AGE_MAP.set('respectfultip', 14 * DURATION_DAY);
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('draft', DURATION_DAY);
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('editablecontent', DURATION_DAY);
 
@@ -61,18 +60,6 @@ export class GrStorageService implements StorageService, Finalizable {
     this.setObject(this.getEditableContentKey(key), {
       message,
       updated: Date.now(),
-    });
-  }
-
-  getRespectfulTipVisibility(): StorageObject | null {
-    this.cleanupItems();
-    return this.getObject('respectfultip:visibility');
-  }
-
-  setRespectfulTipVisibility(delayDays = 0) {
-    this.cleanupItems();
-    this.setObject('respectfultip:visibility', {
-      updated: Date.now() + delayDays * DURATION_DAY,
     });
   }
 

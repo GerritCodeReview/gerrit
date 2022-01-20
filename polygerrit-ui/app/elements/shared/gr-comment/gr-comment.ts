@@ -78,18 +78,6 @@ export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
 
 export const __testOnly_UNSAVED_MESSAGE = UNSAVED_MESSAGE;
 
-/**
- * All candidates tips to show, will pick randomly.
- */
-const RESPECTFUL_REVIEW_TIPS = [
-  'Assume competence.',
-  'Provide rationale or context.',
-  'Consider how comments may be interpreted.',
-  'Avoid harsh language.',
-  'Make your comments specific and actionable.',
-  'When disagreeing, explain the advantage of your approach.',
-];
-
 declare global {
   interface HTMLElementEventMap {
     'comment-editing-changed': CustomEvent<boolean>;
@@ -203,15 +191,6 @@ export class GrComment extends LitElement {
   showConfirmDeleteOverlay = false;
 
   @property({type: Boolean})
-  showRespectfulTip = false;
-
-  @property({type: String})
-  respectfulReviewTip?: string;
-
-  @property({type: Boolean})
-  respectfulTipDismissed = false;
-
-  @property({type: Boolean})
   unableToSave = false;
 
   @property({type: Boolean, attribute: 'show-patchset'})
@@ -227,8 +206,6 @@ export class GrComment extends LitElement {
   isAdmin = false;
 
   private readonly restApiService = getAppContext().restApiService;
-
-  private readonly storage = getAppContext().storageService;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -446,26 +423,6 @@ export class GrComment extends LitElement {
           user-select: none;
         }
 
-        .respectfulReviewTip {
-          justify-content: space-between;
-          display: flex;
-          padding: var(--spacing-m);
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
-          margin-bottom: var(--spacing-m);
-        }
-        .respectfulReviewTip div {
-          display: flex;
-        }
-        .respectfulReviewTip div iron-icon {
-          margin-right: var(--spacing-s);
-        }
-        .respectfulReviewTip a {
-          white-space: nowrap;
-          margin-right: var(--spacing-s);
-          padding-left: var(--spacing-m);
-          text-decoration: none;
-        }
         .pointer {
           cursor: pointer;
         }
@@ -513,8 +470,8 @@ export class GrComment extends LitElement {
         </div>
         <div class="body">
           ${this.renderRobotAuthor()} ${this.renderEditingTextarea()}
-          ${this.renderRespectfulTip()} ${this.renderCommentMessage()}
-          ${this.renderHumanActions()} ${this.renderRobotActions()}
+          ${this.renderCommentMessage()} ${this.renderHumanActions()}
+          ${this.renderRobotActions()}
         </div>
       </div>
       ${this.renderConfirmDialog()}
@@ -685,44 +642,6 @@ export class GrComment extends LitElement {
           this.autoSaveTrigger$.next();
         }}"
       ></gr-textarea>
-    `;
-  }
-
-  private renderRespectfulTip() {
-    if (!this.showRespectfulTip || this.respectfulTipDismissed) return;
-    if (!this.editing || this.collapsed) return;
-    return html`
-      <div class="respectfulReviewTip">
-        <div>
-          <gr-tooltip-content
-            has-tooltip
-            title="Tips for respectful code reviews."
-          >
-            <iron-icon
-              class="pointer"
-              icon="gr-icons:lightbulb-outline"
-            ></iron-icon>
-          </gr-tooltip-content>
-          ${this.respectfulReviewTip}
-        </div>
-        <div>
-          <a
-            tabindex="-1"
-            @click="${this.onRespectfulReadMoreClick}"
-            href="https://testing.googleblog.com/2019/11/code-health-respectful-reviews-useful.html"
-            target="_blank"
-          >
-            Read more
-          </a>
-          <a
-            tabindex="-1"
-            class="close pointer"
-            @click="${this.dismissRespectfulTip}"
-          >
-            Not helpful
-          </a>
-        </div>
-      </div>
     `;
   }
 
@@ -948,19 +867,6 @@ export class GrComment extends LitElement {
     return getRandomInt(from, to);
   }
 
-  private dismissRespectfulTip() {
-    this.respectfulTipDismissed = true;
-    this.reporting.reportInteraction('respectful-tip-dismissed', {
-      tip: this.respectfulReviewTip,
-    });
-    // add a 14-day delay to the tip cache
-    this.storage.setRespectfulTipVisibility(/* delayDays= */ 14);
-  }
-
-  private onRespectfulReadMoreClick() {
-    this.reporting.reportInteraction('respectful-read-more-clicked');
-  }
-
   private handleCopyLink() {
     fireEvent(this, 'copy-comment-link');
   }
@@ -998,33 +904,10 @@ export class GrComment extends LitElement {
       this.originalUnresolved = this.unresolved;
       setTimeout(() => this.textarea?.putCursorAtEnd(), 1);
     }
-    this.setRespectfulTip();
 
     // Parent components such as the reply dialog might be interested in whether
     // come of their child components are in editing mode.
     fire(this, 'comment-editing-changed', this.editing);
-  }
-
-  private setRespectfulTip() {
-    // visibility based on cache this will make sure we only and always show
-    // a tip once every Math.max(a day, period between creating comments)
-    const cachedVisibilityOfRespectfulTip =
-      this.storage.getRespectfulTipVisibility();
-    if (this.editing && !cachedVisibilityOfRespectfulTip) {
-      // we still want to show the tip with a probability of 33%
-      if (this.getRandomInt(0, 2) >= 1) return;
-      this.showRespectfulTip = true;
-      const randomIdx = this.getRandomInt(0, RESPECTFUL_REVIEW_TIPS.length);
-      this.respectfulReviewTip = RESPECTFUL_REVIEW_TIPS[randomIdx];
-      this.reporting.reportInteraction('respectful-tip-appeared', {
-        tip: this.respectfulReviewTip,
-      });
-      // update cache
-      this.storage.setRespectfulTipVisibility();
-    } else {
-      this.showRespectfulTip = false;
-      this.respectfulReviewTip = undefined;
-    }
   }
 
   // private, but visible for testing

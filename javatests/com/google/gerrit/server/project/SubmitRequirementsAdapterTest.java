@@ -371,7 +371,7 @@ public class SubmitRequirementsAdapterTest {
     assertThat(r.submitRequirement().submittabilityExpression().expressionString())
         .isEqualTo(submitExpression);
     assertThat(r.status()).isEqualTo(status);
-    assertThat(r.submittabilityExpressionResult().status()).isEqualTo(expressionStatus);
+    assertThat(r.submittabilityExpressionResult().get().status()).isEqualTo(expressionStatus);
   }
 
   private SubmitRecord createSubmitRecord(

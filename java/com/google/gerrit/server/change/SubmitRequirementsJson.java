@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.common.SubmitRequirementExpressionInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
+import java.util.Optional;
 
 /**
  * Produces submit requirements related entities like {@link SubmitRequirementResultInfo}s, which
@@ -38,15 +38,13 @@ public class SubmitRequirementsJson {
       info.applicabilityExpressionResult =
           submitRequirementExpressionToInfo(
               req.applicabilityExpression().get(),
-              result.applicabilityExpressionResult().get(),
+              result.applicabilityExpressionResult(),
               /* hide= */ true); // Always hide applicability expressions on the API
     }
     if (req.overrideExpression().isPresent()) {
       info.overrideExpressionResult =
           submitRequirementExpressionToInfo(
-              req.overrideExpression().get(),
-              result.overrideExpressionResult().orElse(null),
-              /* hide= */ false);
+              req.overrideExpression().get(), result.overrideExpressionResult(), /* hide= */ false);
     }
     info.submittabilityExpressionResult =
         submitRequirementExpressionToInfo(
@@ -60,16 +58,19 @@ public class SubmitRequirementsJson {
 
   private static SubmitRequirementExpressionInfo submitRequirementExpressionToInfo(
       SubmitRequirementExpression expression,
-      @Nullable SubmitRequirementExpressionResult result,
+      Optional<SubmitRequirementExpressionResult> result,
       boolean hide) {
     SubmitRequirementExpressionInfo info = new SubmitRequirementExpressionInfo();
     info.expression = hide ? null : expression.expressionString();
     info.fulfilled =
-        result != null && result.status().equals(SubmitRequirementExpressionResult.Status.PASS);
-    info.passingAtoms = hide || result == null ? null : result.passingAtoms();
-    info.failingAtoms = hide || result == null ? null : result.failingAtoms();
+        result.isPresent()
+            && result.get().status().equals(SubmitRequirementExpressionResult.Status.PASS);
+    info.passingAtoms = hide || !result.isPresent() ? null : result.get().passingAtoms();
+    info.failingAtoms = hide || !result.isPresent() ? null : result.get().failingAtoms();
     info.errorMessage =
-        result != null && result.errorMessage().isPresent() ? result.errorMessage().get() : null;
+        result.isPresent() && result.get().errorMessage().isPresent()
+            ? result.get().errorMessage().get()
+            : null;
     return info;
   }
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.common.Nullable;
+
 /** Result of evaluating a submit requirement on a change. */
 public class SubmitRequirementResultInfo {
   public enum Status {
@@ -63,11 +65,11 @@ public class SubmitRequirementResultInfo {
   public boolean isLegacy;
 
   /** Result of evaluating the applicability expression. */
-  public SubmitRequirementExpressionInfo applicabilityExpressionResult;
+  @Nullable public SubmitRequirementExpressionInfo applicabilityExpressionResult;
 
   /** Result of evaluating the submittability expression. */
   public SubmitRequirementExpressionInfo submittabilityExpressionResult;
 
   /** Result of evaluating the override expression. */
-  public SubmitRequirementExpressionInfo overrideExpressionResult;
+  @Nullable public SubmitRequirementExpressionInfo overrideExpressionResult;
 }

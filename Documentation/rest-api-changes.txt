@@ -8288,11 +8288,15 @@ Note that fields `expression`, `passing_atoms` and `failing_atoms` are always
 omitted for the `applicability_expression_result`.
 |`submittability_expression_result`||
 A link:#submit-requirement-expression-info[SubmitRequirementExpressionInfo]
-containing the result of evaluating the submittability expression.
+containing the result of evaluating the submittability expression. +
+If the submit requirement does not apply, only the link:#submit-requirement-expression-info[SubmitRequirementExpressionInfo#expression]
+field is populated.
 |`override_expression_result`|optional|
 A link:#submit-requirement-expression-info[SubmitRequirementExpressionInfo]
 containing the result of evaluating the override expression. Not set if the
-submit requirement did not define an override expression.
+submit requirement did not define an override expression. +
+If the submit requirement does not apply, only the link:#submit-requirement-expression-info[SubmitRequirementExpressionInfo#expression]
+field is populated.
 |===========================
 
 [[submitted-together-info]]

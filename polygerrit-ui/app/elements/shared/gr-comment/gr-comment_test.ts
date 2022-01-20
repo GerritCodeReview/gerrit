@@ -20,7 +20,6 @@ import {AUTO_SAVE_DEBOUNCE_DELAY_MS, GrComment} from './gr-comment';
 import {
   queryAndAssert,
   stubRestApi,
-  stubStorage,
   query,
   pressKey,
   listenOnce,
@@ -681,114 +680,6 @@ suite('gr-comment tests', () => {
       assert.isTrue(saveStub.called);
       assert.equal(saveStub.firstCall.firstArg.message, 'actual save text');
       assert.equal(saveStub.firstCall.firstArg.id, 'exp123');
-    });
-  });
-
-  suite('respectful tips', () => {
-    let clock: sinon.SinonFakeTimers;
-    setup(async () => {
-      clock = sinon.useFakeTimers();
-    });
-
-    teardown(() => {
-      clock.restore();
-      sinon.restore();
-    });
-
-    test('show tip when no cached record', async () => {
-      const respectfulGetStub = stubStorage('getRespectfulTipVisibility');
-      const respectfulSetStub = stubStorage('setRespectfulTipVisibility');
-      respectfulGetStub.returns(null);
-      element.editing = true;
-      element.getRandomInt = () => 0;
-      element.comment = createDraft();
-      await element.updateComplete;
-
-      assert.isTrue(respectfulGetStub.called);
-      assert.isTrue(respectfulSetStub.called);
-      queryAndAssert(element, '.respectfulReviewTip');
-    });
-
-    test('add 14-day delays once dismissed', async () => {
-      const respectfulGetStub = stubStorage('getRespectfulTipVisibility');
-      const respectfulSetStub = stubStorage('setRespectfulTipVisibility');
-      respectfulGetStub.returns(null);
-      element.editing = true;
-      element.getRandomInt = () => 0;
-      element.comment = createDraft();
-      await element.updateComplete;
-
-      assert.isTrue(respectfulGetStub.called);
-      assert.isTrue(respectfulSetStub.called);
-      assert.isTrue(respectfulSetStub.lastCall.args[0] === undefined);
-      const closeLink = queryAndAssert(element, '.respectfulReviewTip a.close');
-      tap(closeLink);
-      await element.updateComplete;
-
-      assert.isTrue(respectfulSetStub.lastCall.args[0] === 14);
-    });
-
-    test('do not show tip when fall out of probability', async () => {
-      const respectfulGetStub = stubStorage('getRespectfulTipVisibility');
-      const respectfulSetStub = stubStorage('setRespectfulTipVisibility');
-      respectfulGetStub.returns(null);
-      element.editing = true;
-      element.getRandomInt = () => 2;
-      element.comment = createDraft();
-      await element.updateComplete;
-
-      assert.isTrue(respectfulGetStub.called);
-      assert.isFalse(respectfulSetStub.called);
-      assert.isNotOk(query(element, '.respectfulReviewTip'));
-    });
-
-    test('show tip when editing changed to true', async () => {
-      const respectfulGetStub = stubStorage('getRespectfulTipVisibility');
-      const respectfulSetStub = stubStorage('setRespectfulTipVisibility');
-      respectfulGetStub.returns(null);
-      element.editing = false;
-      element.getRandomInt = () => 0;
-      element.comment = createComment();
-      await element.updateComplete;
-
-      assert.isFalse(respectfulGetStub.called);
-      assert.isFalse(respectfulSetStub.called);
-      assert.isNotOk(query(element, '.respectfulReviewTip'));
-
-      element.editing = true;
-      await element.updateComplete;
-      assert.isTrue(respectfulGetStub.called);
-      assert.isTrue(respectfulSetStub.called);
-      assert.isTrue(!!queryAndAssert(element, '.respectfulReviewTip'));
-    });
-
-    test('hide tip when leaving editing mode', async () => {
-      stubStorage('getRespectfulTipVisibility').returns(null);
-      element.editing = true;
-      element.getRandomInt = () => 0;
-      element.comment = createComment();
-
-      await element.updateComplete;
-      assert.isOk(query(element, '.respectfulReviewTip'));
-
-      element.editing = false;
-
-      await element.updateComplete;
-      assert.isNotOk(query(element, '.respectfulReviewTip'));
-    });
-
-    test('no tip when cached record', async () => {
-      const respectfulGetStub = stubStorage('getRespectfulTipVisibility');
-      const respectfulSetStub = stubStorage('setRespectfulTipVisibility');
-      respectfulGetStub.returns({updated: 0});
-      element.editing = true;
-      element.getRandomInt = () => 0;
-      element.comment = createDraft();
-      await element.updateComplete;
-
-      assert.isTrue(respectfulGetStub.called);
-      assert.isFalse(respectfulSetStub.called);
-      assert.isNotOk(query(element, '.respectfulReviewTip'));
     });
   });
 });

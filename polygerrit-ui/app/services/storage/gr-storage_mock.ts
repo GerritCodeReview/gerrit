@@ -16,7 +16,6 @@
  */
 
 import {StorageLocation, StorageObject, StorageService} from './gr-storage';
-import {DURATION_DAY} from './gr-storage_impl';
 
 const storage = new Map<string, StorageObject>();
 
@@ -68,16 +67,6 @@ export const grStorageMock: StorageService = {
     storage.set(getEditableContentKey(key), {
       message,
       updated: Date.now(),
-    });
-  },
-
-  getRespectfulTipVisibility(): StorageObject | null {
-    return storage.get('respectfultip:visibility') ?? null;
-  },
-
-  setRespectfulTipVisibility(delayDays = 0): void {
-    storage.set('respectfultip:visibility', {
-      updated: Date.now() + delayDays * DURATION_DAY,
     });
   },
 

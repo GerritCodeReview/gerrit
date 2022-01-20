@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5481a03_5cbd4877",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-20T09:07:34Z",
+      "side": 1,
+      "message": "We could display a message for a month or so where the bug link used to be.\n`Report bug by using the Bug icon in the header`",
+      "parentUuid": "ca961925_9d3adfe9",
+      "revId": "ca569e438ede65b8f00a40ef4cfe368c71aaa763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb0da61a_1861b436",
         "filename": "polygerrit-ui/app/elements/gr-app-element_html.ts",
         "patchSetId": 1

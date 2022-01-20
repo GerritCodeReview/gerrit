@@ -846,12 +846,13 @@ suite('gr-change-metadata tests', () => {
 
     test('changing hashtag', async () => {
       await flush();
-      element._newHashtag = 'new hashtag' as Hashtag;
       const newHashtag: Hashtag[] = ['new hashtag' as Hashtag];
       const setChangeHashtagStub = stubRestApi('setChangeHashtag').returns(
         Promise.resolve(newHashtag)
       );
-      element._handleHashtagChanged();
+      element._handleHashtagChanged(
+        new CustomEvent('test', {detail: 'new hashtag'})
+      );
       assert.isTrue(
         setChangeHashtagStub.calledWith(42 as NumericChangeId, {
           add: ['new hashtag' as Hashtag],

@@ -19,9 +19,6 @@ import '@polymer/paper-input/paper-input';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {customElement, property} from '@polymer/decorators';
-import {htmlTemplate} from './gr-editable-label_html';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {PaperInputElementExt} from '../../../types/types';
 import {
@@ -30,6 +27,8 @@ import {
 } from '../gr-autocomplete/gr-autocomplete';
 import {addShortcut, Key} from '../../../utils/dom-util';
 import {queryAndAssert} from '../../../utils/common-util';
+import {LitElement, css, html} from 'lit';
+import {customElement, property, query} from 'lit/decorators';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -40,46 +39,39 @@ declare global {
   }
 }
 
-export interface GrEditableLabel {
-  $: {
-    dropdown: IronDropdownElement;
-  };
-}
-
 @customElement('gr-editable-label')
-export class GrEditableLabel extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrEditableLabel extends LitElement {
   /**
    * Fired when the value is changed.
    *
    * @event changed
    */
 
-  @property({type: String})
+  @query('#dropdown')
+  dropdown?: IronDropdownElement;
+
+  @property()
   labelText = '';
 
   @property({type: Boolean})
   editing = false;
 
-  @property({type: String, notify: true, observer: '_updateTitle'})
+  @property()
   value?: string;
 
-  @property({type: String})
+  @property()
   placeholder = '';
 
   @property({type: Boolean})
   readOnly = false;
 
-  @property({type: Boolean, reflectToAttribute: true})
+  @property({type: Boolean, reflect: true})
   uppercase = false;
 
   @property({type: Number})
   maxLength?: number;
 
-  @property({type: String})
+  @property()
   _inputText = '';
 
   // This is used to push the iron-input element up on the page, so
@@ -97,9 +89,138 @@ export class GrEditableLabel extends PolymerElement {
   @property({type: Object})
   query: AutocompleteQuery = () => Promise.resolve([]);
 
-  override ready() {
-    super.ready();
-    this._ensureAttribute('tabindex', '0');
+  static override get styles() {
+    return [
+      css`
+        :host {
+          align-items: center;
+          display: inline-flex;
+        }
+        :host([uppercase]) label {
+          text-transform: uppercase;
+        }
+        input,
+        label {
+          width: 100%;
+        }
+        label {
+          color: var(--deemphasized-text-color);
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        label.editable {
+          color: var(--link-color);
+          cursor: pointer;
+        }
+        #dropdown {
+          box-shadow: var(--elevation-level-2);
+        }
+        .inputContainer {
+          background-color: var(--dialog-background-color);
+          padding: var(--spacing-m);
+        }
+        .buttons {
+          display: flex;
+          justify-content: flex-end;
+          padding-top: var(--spacing-l);
+          width: 100%;
+        }
+        .buttons gr-button {
+          margin-left: var(--spacing-m);
+        }
+        paper-input {
+          --paper-input-container: {
+            padding: 0;
+            min-width: 15em;
+          }
+          --paper-input-container-input: {
+            font-size: inherit;
+          }
+          --paper-input-container-focus-color: var(--link-color);
+        }
+        gr-button iron-icon {
+          color: inherit;
+          --iron-icon-height: 18px;
+          --iron-icon-width: 18px;
+        }
+        gr-button.pencil {
+          --gr-button-padding: 0px 0px;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    this.setAttribute('title', this._computeLabel());
+    return html`${this.renderActivateButton()}
+      <iron-dropdown
+        id="dropdown"
+        .verticalAlign=${'auto'}
+        .horizontalAlign=${'auto'}
+        .verticalOffset=${this._verticalOffset}
+        allowOutsideScroll
+        @iron-overlay-canceled=${this._cancel}
+      >
+        <div class="dropdown-content" slot="dropdown-content">
+          <div class="inputContainer" part="input-container">
+            ${this.renderInputBox()}
+            <div class="buttons">
+              <gr-button link="" id="cancelBtn" @click=${this._cancel}
+                >cancel</gr-button
+              >
+              <gr-button link="" id="saveBtn" @click=${this._save}
+                >save</gr-button
+              >
+            </div>
+          </div>
+        </div>
+      </iron-dropdown>`;
+  }
+
+  private renderActivateButton() {
+    if (this.showAsEditPencil) {
+      return html`<gr-button
+        link=""
+        class="pencil ${this._computeLabelClass()}"
+        @click=${this._showDropdown}
+        title="${this._computeLabel()}"
+        ><iron-icon icon="gr-icons:edit"></iron-icon
+      ></gr-button>`;
+    } else {
+      return html`<label
+        class="${this._computeLabelClass()}"
+        title="${this._computeLabel()}"
+        aria-label="${this._computeLabel()}"
+        @click=${this._showDropdown}
+        part="label"
+        >${this._computeLabel()}</label
+      >`;
+    }
+  }
+
+  private renderInputBox() {
+    if (this.autocomplete) {
+      return html`<gr-autocomplete
+        .label=${this.labelText}
+        id="autocomplete"
+        .text=${this._inputText}
+        .query=${this.query}
+        @commit=${this._handleCommit}
+        @text-changed=${(e: CustomEvent) => {
+          this.handleAutocompleteChange(e);
+        }}
+      >
+      </gr-autocomplete>`;
+    } else {
+      return html`<paper-input
+        id="input"
+        .label=${this.labelText}
+        .maxlength=${this.maxLength}
+        .value=${this._inputText}
+      ></paper-input>`;
+    }
   }
 
   /** Called in disconnectedCallback. */
@@ -113,6 +234,9 @@ export class GrEditableLabel extends PolymerElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    if (!this.getAttribute('tabindex')) {
+      this.setAttribute('tabindex', '0');
+    }
     this.cleanups.push(
       addShortcut(this, {key: Key.ENTER}, e => this._handleEnter(e))
     );
@@ -121,13 +245,18 @@ export class GrEditableLabel extends PolymerElement {
     );
   }
 
+  private handleAutocompleteChange(e: CustomEvent) {
+    this._inputText = e.detail.value;
+  }
+
   _usePlaceholder(value?: string, placeholder?: string) {
     return (!value || !value.length) && placeholder;
   }
 
-  _computeLabel(value?: string, placeholder?: string): string {
+  _computeLabel(): string {
+    const {value, placeholder} = this;
     if (this._usePlaceholder(value, placeholder)) {
-      return placeholder!;
+      return placeholder;
     }
     return value || '';
   }
@@ -149,7 +278,7 @@ export class GrEditableLabel extends PolymerElement {
   }
 
   _open() {
-    this.$.dropdown.open();
+    this.dropdown?.open();
     this._inputText = this.value || '';
     this.editing = true;
 
@@ -166,7 +295,7 @@ export class GrEditableLabel extends PolymerElement {
     let iters = 0;
     const step = () => {
       setTimeout(() => {
-        if (this.$.dropdown.style.display !== 'none') {
+        if (this.dropdown?.style.display !== 'none') {
           fn.call(this);
         } else if (iters++ < AWAIT_MAX_ITERS) {
           step.call(this);
@@ -184,8 +313,13 @@ export class GrEditableLabel extends PolymerElement {
     if (!this.editing) {
       return;
     }
-    this.$.dropdown.close();
-    this.value = this._inputText || '';
+    this.dropdown?.close();
+    const input = this.getInput();
+    if (input) {
+      this.value = input.value ?? undefined;
+    } else {
+      this.value = this._inputText || '';
+    }
     this.editing = false;
     this.dispatchEvent(
       new CustomEvent('changed', {
@@ -200,7 +334,7 @@ export class GrEditableLabel extends PolymerElement {
     if (!this.editing) {
       return;
     }
-    this.$.dropdown.close();
+    this.dropdown?.close();
     this.editing = false;
     this._inputText = this.value || '';
   }
@@ -240,7 +374,8 @@ export class GrEditableLabel extends PolymerElement {
     this.getInput()?.focus();
   }
 
-  _computeLabelClass(readOnly?: boolean, value?: string, placeholder?: string) {
+  _computeLabelClass() {
+    const {readOnly, value, placeholder} = this;
     const classes = [];
     if (!readOnly) {
       classes.push('editable');
@@ -249,10 +384,6 @@ export class GrEditableLabel extends PolymerElement {
       classes.push('placeholder');
     }
     return classes.join(' ');
-  }
-
-  _updateTitle(value?: string) {
-    this.setAttribute('title', this._computeLabel(value, this.placeholder));
   }
 
   getInput(): PaperInputElementExt | null {

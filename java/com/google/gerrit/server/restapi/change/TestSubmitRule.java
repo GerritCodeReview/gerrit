@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
@@ -28,12 +29,14 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologOptions;
 import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.inject.Inject;
 import java.util.LinkedHashMap;
+import java.util.Optional;
 import org.kohsuke.args4j.Option;
 
 public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
@@ -74,9 +77,11 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
 
-    projectCache
-        .get(rsrc.getProject())
-        .orElseThrow(() -> new BadRequestException("project not found " + rsrc.getProject()));
+    Project.NameKey name = rsrc.getProject();
+    Optional<ProjectState> project = projectCache.get(name);
+    if (!project.isPresent()) {
+      throw new BadRequestException("project not found " + name);
+    }
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     SubmitRecord record =
         prologRule.evaluate(

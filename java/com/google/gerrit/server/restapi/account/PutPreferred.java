@@ -88,6 +88,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
     return apply(rsrc.getUser(), rsrc.getEmail());
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public Response<String> apply(IdentifiedUser user, String preferredEmail)
       throws RestApiException, IOException, ConfigInvalidException {
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());

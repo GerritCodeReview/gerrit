@@ -60,6 +60,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     this.prologRule = prologRule;
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   @Override
   public Response<TestSubmitRuleInfo> apply(RevisionResource rsrc, TestSubmitRuleInput input)
       throws AuthException, PermissionBackendException, BadRequestException {

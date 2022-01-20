@@ -40,6 +40,7 @@ public class ProjectCacheWarmer implements LifecycleListener {
     this.cache = cache;
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   @Override
   public void start() {
     int cpus = Runtime.getRuntime().availableProcessors();

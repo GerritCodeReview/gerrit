@@ -55,26 +55,30 @@ public class SetInactiveFlag {
       throws RestApiException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
-    accountsUpdateProvider
-        .get()
-        .update(
-            "Deactivate Account via API",
-            accountId,
-            (a, u) -> {
-              if (!a.account().isActive()) {
-                alreadyInactive.set(true);
-              } else {
-                try {
-                  accountActivationValidationListeners.runEach(
-                      l -> l.validateDeactivation(a), ValidationException.class);
-                } catch (ValidationException e) {
-                  exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
-                  return;
-                }
-                u.setActive(false);
-              }
-            })
-        .orElseThrow(() -> new ResourceNotFoundException("account not found"));
+    Optional<AccountState> updatedAccount =
+        accountsUpdateProvider
+            .get()
+            .update(
+                "Deactivate Account via API",
+                accountId,
+                (a, u) -> {
+                  if (!a.account().isActive()) {
+                    alreadyInactive.set(true);
+                  } else {
+                    try {
+                      accountActivationValidationListeners.runEach(
+                          l -> l.validateDeactivation(a), ValidationException.class);
+                    } catch (ValidationException e) {
+                      exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
+                      return;
+                    }
+                    u.setActive(false);
+                  }
+                });
+    if (!updatedAccount.isPresent()) {
+      throw new ResourceNotFoundException("account not found");
+    }
+
     if (exception.get().isPresent()) {
       throw exception.get().get();
     }
@@ -94,26 +98,30 @@ public class SetInactiveFlag {
       throws RestApiException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
-    accountsUpdateProvider
-        .get()
-        .update(
-            "Activate Account via API",
-            accountId,
-            (a, u) -> {
-              if (a.account().isActive()) {
-                alreadyActive.set(true);
-              } else {
-                try {
-                  accountActivationValidationListeners.runEach(
-                      l -> l.validateActivation(a), ValidationException.class);
-                } catch (ValidationException e) {
-                  exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
-                  return;
-                }
-                u.setActive(true);
-              }
-            })
-        .orElseThrow(() -> new ResourceNotFoundException("account not found"));
+    Optional<AccountState> updatedAccount =
+        accountsUpdateProvider
+            .get()
+            .update(
+                "Activate Account via API",
+                accountId,
+                (a, u) -> {
+                  if (a.account().isActive()) {
+                    alreadyActive.set(true);
+                  } else {
+                    try {
+                      accountActivationValidationListeners.runEach(
+                          l -> l.validateActivation(a), ValidationException.class);
+                    } catch (ValidationException e) {
+                      exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
+                      return;
+                    }
+                    u.setActive(true);
+                  }
+                });
+    if (!updatedAccount.isPresent()) {
+      throw new ResourceNotFoundException("account not found");
+    }
+
     if (exception.get().isPresent()) {
       throw exception.get().get();
     }

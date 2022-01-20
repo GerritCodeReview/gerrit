@@ -28,6 +28,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
@@ -92,70 +93,75 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
       throws RestApiException, IOException, ConfigInvalidException {
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
     AtomicBoolean alreadyPreferred = new AtomicBoolean(false);
-    accountsUpdateProvider
-        .get()
-        .update(
-            "Set Preferred Email via API",
-            user.getAccountId(),
-            (a, u) -> {
-              if (preferredEmail.equals(a.account().preferredEmail())) {
-                alreadyPreferred.set(true);
-              } else {
-                // check if the user has a matching email
-                String matchingEmail = null;
-                for (String email :
-                    a.externalIds().stream()
-                        .map(ExternalId::email)
-                        .filter(Objects::nonNull)
-                        .collect(toSet())) {
-                  if (email.equals(preferredEmail)) {
-                    // we have an email that matches exactly, prefer this one
-                    matchingEmail = email;
-                    break;
-                  } else if (matchingEmail == null && email.equalsIgnoreCase(preferredEmail)) {
-                    // we found an email that matches but has a different case
-                    matchingEmail = email;
-                  }
-                }
-
-                if (matchingEmail == null) {
-                  // user doesn't have an external ID for this email
-                  if (user.hasEmailAddress(preferredEmail)) {
-                    // but Realm says the user is allowed to use this email
-                    Set<ExternalId> existingExtIdsWithThisEmail =
-                        externalIds.byEmail(preferredEmail);
-                    if (!existingExtIdsWithThisEmail.isEmpty()) {
-                      // but the email is already assigned to another account
-                      logger.atWarning().log(
-                          "Cannot set preferred email %s for account %s because it is owned"
-                              + " by the following account(s): %s",
-                          preferredEmail,
-                          user.getAccountId(),
-                          existingExtIdsWithThisEmail.stream()
-                              .map(ExternalId::accountId)
-                              .collect(toList()));
-                      exception.set(
-                          Optional.of(
-                              new ResourceConflictException("email in use by another account")));
-                      return;
+    Optional<AccountState> updatedAccount =
+        accountsUpdateProvider
+            .get()
+            .update(
+                "Set Preferred Email via API",
+                user.getAccountId(),
+                (a, u) -> {
+                  if (preferredEmail.equals(a.account().preferredEmail())) {
+                    alreadyPreferred.set(true);
+                  } else {
+                    // check if the user has a matching email
+                    String matchingEmail = null;
+                    for (String email :
+                        a.externalIds().stream()
+                            .map(ExternalId::email)
+                            .filter(Objects::nonNull)
+                            .collect(toSet())) {
+                      if (email.equals(preferredEmail)) {
+                        // we have an email that matches exactly, prefer this one
+                        matchingEmail = email;
+                        break;
+                      } else if (matchingEmail == null && email.equalsIgnoreCase(preferredEmail)) {
+                        // we found an email that matches but has a different case
+                        matchingEmail = email;
+                      }
                     }
 
-                    // claim the email now
-                    u.addExternalId(
-                        externalIdFactory.createEmail(a.account().id(), preferredEmail));
-                    matchingEmail = preferredEmail;
-                  } else {
-                    // Realm says that the email doesn't belong to the user. This can only happen as
-                    // a race condition because EmailsCollection would have thrown
-                    // ResourceNotFoundException already before invoking this REST endpoint.
-                    exception.set(Optional.of(new ResourceNotFoundException(preferredEmail)));
-                    return;
+                    if (matchingEmail == null) {
+                      // user doesn't have an external ID for this email
+                      if (user.hasEmailAddress(preferredEmail)) {
+                        // but Realm says the user is allowed to use this email
+                        Set<ExternalId> existingExtIdsWithThisEmail =
+                            externalIds.byEmail(preferredEmail);
+                        if (!existingExtIdsWithThisEmail.isEmpty()) {
+                          // but the email is already assigned to another account
+                          logger.atWarning().log(
+                              "Cannot set preferred email %s for account %s because it is owned"
+                                  + " by the following account(s): %s",
+                              preferredEmail,
+                              user.getAccountId(),
+                              existingExtIdsWithThisEmail.stream()
+                                  .map(ExternalId::accountId)
+                                  .collect(toList()));
+                          exception.set(
+                              Optional.of(
+                                  new ResourceConflictException(
+                                      "email in use by another account")));
+                          return;
+                        }
+
+                        // claim the email now
+                        u.addExternalId(
+                            externalIdFactory.createEmail(a.account().id(), preferredEmail));
+                        matchingEmail = preferredEmail;
+                      } else {
+                        // Realm says that the email doesn't belong to the user. This can only
+                        // happen as
+                        // a race condition because EmailsCollection would have thrown
+                        // ResourceNotFoundException already before invoking this REST endpoint.
+                        exception.set(Optional.of(new ResourceNotFoundException(preferredEmail)));
+                        return;
+                      }
+                    }
+                    u.setPreferredEmail(matchingEmail);
                   }
-                }
-                u.setPreferredEmail(matchingEmail);
-              }
-            })
-        .orElseThrow(() -> new ResourceNotFoundException("account not found"));
+                });
+    if (!updatedAccount.isPresent()) {
+      throw new ResourceNotFoundException("account not found");
+    }
     if (exception.get().isPresent()) {
       throw exception.get().get();
     }

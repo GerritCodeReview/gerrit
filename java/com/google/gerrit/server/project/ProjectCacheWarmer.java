@@ -22,6 +22,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -54,15 +55,15 @@ public class ProjectCacheWarmer implements LifecycleListener {
               () -> {
                 for (Project.NameKey name : cache.all()) {
                   pool.execute(
-                      () ->
-                          cache
-                              .get(name)
-                              .orElseThrow(
-                                  () ->
-                                      new IllegalStateException(
-                                          "race while traversing projects. got "
-                                              + name
-                                              + " when loading all projects, but can't load it now")));
+                      () -> {
+                        Optional<ProjectState> project = cache.get(name);
+                        if (!project.isPresent()) {
+                          throw new IllegalStateException(
+                              "race while traversing projects. got "
+                                  + name
+                                  + " when loading all projects, but can't load it now");
+                        }
+                      });
                 }
                 pool.shutdown();
                 try {

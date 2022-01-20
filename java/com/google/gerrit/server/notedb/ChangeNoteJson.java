@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.EntitiesAdapterFactory;
 import com.google.gerrit.json.EnumTypeAdapterFactory;
+import com.google.gerrit.json.OptionalSubmitRequirementExpressionResultAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -49,6 +50,7 @@ public class ChangeNoteJson {
         .registerTypeAdapter(
             new TypeLiteral<Optional<Boolean>>() {}.getType(),
             new OptionalBooleanAdapter().nullSafe())
+        .registerTypeAdapterFactory(new OptionalSubmitRequirementExpressionResultAdapterFactory())
         .registerTypeAdapter(ObjectId.class, new ObjectIdAdapter())
         .setPrettyPrinting()
         .create();

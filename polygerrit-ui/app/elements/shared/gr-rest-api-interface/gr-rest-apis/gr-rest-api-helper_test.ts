@@ -15,18 +15,24 @@
  * limitations under the License.
  */
 
-import '../../../../test/common-test-setup-karma.js';
-import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-api-helper.js';
-import {getAppContext} from '../../../../services/app-context.js';
-import {stubAuth} from '../../../../test/test-utils.js';
+import '../../../../test/common-test-setup-karma';
+import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-api-helper';
+import {getAppContext} from '../../../../services/app-context';
+import {stubAuth} from '../../../../test/test-utils';
+import {BaseScheduler} from '../../../../services/scheduler/scheduler';
+import {ParsedJSON} from '../../../../types/common';
+
+function makeParsedJSON(num: number): ParsedJSON {
+  return num as unknown as ParsedJSON;
+}
 
 suite('gr-rest-api-helper tests', () => {
-  let helper;
+  let helper: GrRestApiHelper;
 
-  let cache;
-  let fetchPromisesCache;
-  let originalCanonicalPath;
-  let authFetchStub;
+  let cache: SiteBasedCache;
+  let fetchPromisesCache: FetchPromisesCache;
+  let originalCanonicalPath: string | undefined;
+  let authFetchStub: sinon.SinonStub;
 
   setup(() => {
     cache = new SiteBasedCache();
@@ -35,12 +41,9 @@ suite('gr-rest-api-helper tests', () => {
     originalCanonicalPath = window.CANONICAL_PATH;
     window.CANONICAL_PATH = 'testhelper';
 
-    const mockRestApiInterface = {
-      fire: sinon.stub(),
-    };
-
     const testJSON = ')]}\'\n{"hello": "bonjour"}';
     authFetchStub = stubAuth('fetch').returns(Promise.resolve({
+      ...new Response(),
       ok: true,
       text() {
         return Promise.resolve(testJSON);
@@ -48,7 +51,8 @@ suite('gr-rest-api-helper tests', () => {
     }));
 
     helper = new GrRestApiHelper(cache, getAppContext().authService,
-        fetchPromisesCache, mockRestApiInterface);
+        fetchPromisesCache,
+        new BaseScheduler(), new BaseScheduler());
   });
 
   teardown(() => {
@@ -76,44 +80,43 @@ suite('gr-rest-api-helper tests', () => {
 
   test('JSON prefix is properly removed',
       () => helper.fetchJSON({url: '/dummy/url'}).then(obj => {
-        assert.deepEqual(obj, {hello: 'bonjour'});
+        assert.deepEqual(obj, {hello: 'bonjour'} as unknown as ParsedJSON);
       })
   );
 
   test('cached results', () => {
     let n = 0;
-    sinon.stub(helper, 'fetchJSON').callsFake(() => Promise.resolve(++n));
+    sinon.stub(helper, 'fetchJSON').callsFake(
+      () => Promise.resolve(makeParsedJSON(++n))
+    );
     const promises = [];
-    promises.push(helper.fetchCacheURL('/foo'));
-    promises.push(helper.fetchCacheURL('/foo'));
-    promises.push(helper.fetchCacheURL('/foo'));
+    promises.push(helper.fetchCacheURL({url: '/foo'}));
+    promises.push(helper.fetchCacheURL({url: '/foo'}));
+    promises.push(helper.fetchCacheURL({url: '/foo'}));
 
     return Promise.all(promises).then(results => {
-      assert.deepEqual(results, [1, 1, 1]);
-      return helper.fetchCacheURL('/foo').then(foo => {
-        assert.equal(foo, 1);
+      assert.deepEqual(results, [
+        makeParsedJSON(1),
+        makeParsedJSON(1),
+        makeParsedJSON(1)]);
+      return helper.fetchCacheURL({url: '/foo'}).then(foo => {
+        assert.equal(foo, 1 as unknown as ParsedJSON);
       });
     });
   });
 
-  test('cached promise', () => {
-    const promise = Promise.reject(new Error('foo'));
-    cache.set('/foo', promise);
-    return helper.fetchCacheURL({url: '/foo'}).catch(p => {
-      assert.equal(p.message, 'foo');
-    });
-  });
-
-  test('cache invalidation', () => {
-    cache.set('/foo/bar', 1);
-    cache.set('/bar', 2);
-    fetchPromisesCache.set('/foo/bar', 3);
-    fetchPromisesCache.set('/bar', 4);
+  test('cache invalidation', async () => {
+    cache.set('/foo/bar', makeParsedJSON(1));
+    cache.set('/bar', makeParsedJSON(2));
+    fetchPromisesCache.set(
+      '/foo/bar',
+      Promise.resolve(makeParsedJSON(3)));
+    fetchPromisesCache.set('/bar', Promise.resolve(makeParsedJSON(4)));
     helper.invalidateFetchPromisesPrefix('/foo/');
     assert.isFalse(cache.has('/foo/bar'));
     assert.isTrue(cache.has('/bar'));
     assert.isUndefined(fetchPromisesCache.get('/foo/bar'));
-    assert.strictEqual(4, fetchPromisesCache.get('/bar'));
+    assert.strictEqual(makeParsedJSON(4), await fetchPromisesCache.get('/bar'));
   });
 
   test('params are properly encoded', () => {

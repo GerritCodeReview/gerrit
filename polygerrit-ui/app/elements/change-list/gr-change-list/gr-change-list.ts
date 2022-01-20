@@ -33,6 +33,7 @@ import {
   ChangeInfo,
   ServerInfo,
   PreferencesInput,
+  TopicName,
 } from '../../../types/common';
 import {fire, fireEvent, fireReload} from '../../../utils/event-util';
 import {ScrollMode} from '../../../constants/constants';
@@ -222,32 +223,49 @@ export class GrChangeList extends LitElement {
     return html`
       <table id="changeList">
         ${this.sections.map((changeSection, sectionIndex) =>
-          this.renderSections(changeSection, sectionIndex, labelNames)
+          this.renderSection(changeSection, sectionIndex, labelNames)
         )}
       </table>
     `;
   }
 
-  private renderSections(
+  private renderSection(
     changeSection: ChangeListSection,
     sectionIndex: number,
     labelNames: string[]
   ) {
+    const results = changeSection.results;
+    // This ordering is not exactly perfect, since we want topics ordered by
+    // the position of their most recently upated/longest waiting time change
+    // Will be done in a follow up change
+    results.sort((a, b) => {
+      if (!a.topic) return -1;
+      if (!b.topic) return 1;
+      if (a.topic && b.topic) return a.topic.localeCompare(b.topic);
+      return -1;
+    });
+    const seen = new Set<TopicName>();
     return html`
       ${this.renderSectionHeader(changeSection, labelNames)}
       <tbody class="groupContent">
         ${this.isEmpty(changeSection)
           ? this.renderNoChangesRow(changeSection, labelNames)
           : this.renderColumnHeaders(changeSection, labelNames)}
-        ${changeSection.results.map((change, index) =>
-          this.renderChangeRow(
+        ${changeSection.results.map((change, index) => {
+          let showTopicHeader = false;
+          if (change.topic && !seen.has(change.topic)) {
+            showTopicHeader = true;
+            seen.add(change.topic);
+          }
+          return this.renderChangeRow(
             changeSection,
             change,
             index,
             sectionIndex,
-            labelNames
-          )
-        )}
+            labelNames,
+            showTopicHeader
+          );
+        })}
       </tbody>
     `;
   }
@@ -356,12 +374,30 @@ export class GrChangeList extends LitElement {
     `;
   }
 
+  private renderTopicHeader(change: ChangeInfo) {
+    return html`
+      <tr class="groupHeader">
+        <td aria-hidden="true" class="leftPadding"></td>
+        <td aria-hidden="true" class="selection"></td>
+        <td aria-hidden="true" class="star" ?hidden=${!this.showStar}></td>
+        <td
+          class="cell"
+        >
+          <h2>
+              <span class="section-name">${change.topic}</span>
+            </a>
+          </h2>
+        </td>
+      </tr>`;
+  }
+
   private renderChangeRow(
     changeSection: ChangeListSection,
     change: ChangeInfo,
     index: number,
     sectionIndex: number,
-    labelNames: string[]
+    labelNames: string[],
+    showTopicHeader: boolean
   ) {
     const ariaLabel = this.computeAriaLabel(change, changeSection.name);
     const selected = this.computeItemSelected(
@@ -377,6 +413,7 @@ export class GrChangeList extends LitElement {
     );
     const visibleChangeTableColumns = this.computeColumns(changeSection);
     return html`
+      ${showTopicHeader ? this.renderTopicHeader(change) : ''}
       <gr-change-list-item
         .account=${this.account}
         ?selected=${selected}

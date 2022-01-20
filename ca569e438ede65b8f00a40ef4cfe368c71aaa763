@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb9da8b4_49fb514e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-20T19:44:34Z",
+      "side": 1,
+      "message": "\u003e Internally the icon gets replaced by a different icon that uses an internal reporting tool.  This is a newer UI design than the link at the bottom.\n\nThat helps a lot to understand. Could that go into the commit message next time? I would guess that\u0027s a detail noted in the internal bug link.\n\n\u003e What do you propose to raise awareness of UI changes if it\u0027s not release-notes?\n\nThere\u0027s probably some UX best practices we could consider, but that\u0027s definitely not my area of expertise (happy to try and learn more though). Is there evidence that those user interactive post-upgrade one-time tutorials work well to educate users about UI/workflow changes? I can\u0027t think of a good example one (maybe used in phone app updates?), but I\u0027m trying to refer to those pop-up things that walk a user through an updated UI by jumping around on the page and highlighting new/different elements and having them click \"Next\" for each one. Usually they have some kind of \"Skip\" option too.\n\nI have no idea how much work those are to create or how difficult they are to maintain, so this suggestion might not be feasible.\n\nI do think this is an area that hasn\u0027t had a lot of thought/attention in Gerrit, so I\u0027m glad you\u0027re asking the question 😊",
+      "parentUuid": "e4e8807f_a5982a1d",
+      "revId": "ca569e438ede65b8f00a40ef4cfe368c71aaa763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb0da61a_1861b436",
         "filename": "polygerrit-ui/app/elements/gr-app-element_html.ts",
         "patchSetId": 1

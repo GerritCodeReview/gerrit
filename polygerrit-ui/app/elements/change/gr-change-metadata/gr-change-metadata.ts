@@ -201,9 +201,6 @@ export class GrChangeMetadata extends PolymerElement {
   @property({type: Boolean, computed: '_computeIsWip(change)'})
   _isWip = false;
 
-  @property({type: String})
-  _newHashtag?: Hashtag;
-
   @property({type: Boolean})
   _settingTopic = false;
 
@@ -338,17 +335,16 @@ export class GrChangeMetadata extends PolymerElement {
     return hasCherryPickOf;
   }
 
-  _handleHashtagChanged() {
+  _handleHashtagChanged(e: CustomEvent<string>) {
     if (!this.change) {
       throw new Error('change must be set');
     }
-    if (!this._newHashtag?.length) {
+    const newHashtag = e.detail.length ? e.detail : undefined;
+    if (!newHashtag?.length) {
       return;
     }
-    const newHashtag = this._newHashtag;
-    this._newHashtag = '' as Hashtag;
     this.restApiService
-      .setChangeHashtag(this.change._number, {add: [newHashtag]})
+      .setChangeHashtag(this.change._number, {add: [newHashtag as Hashtag]})
       .then(newHashtag => {
         this.set(['change', 'hashtags'], newHashtag);
         fireEvent(this, 'hashtag-changed');

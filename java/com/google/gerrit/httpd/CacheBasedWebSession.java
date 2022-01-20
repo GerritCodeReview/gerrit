@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.httpd.WebSessionManager.Key;
@@ -43,7 +44,9 @@ import org.eclipse.jgit.http.server.GitSmartHttpTools;
 @RequestScoped
 public abstract class CacheBasedWebSession implements WebSession {
   @VisibleForTesting public static final String ACCOUNT_COOKIE = "GerritAccount";
-  protected static final long MAX_AGE_MINUTES = HOURS.toMinutes(12);
+
+  @UsedAt(UsedAt.Project.PLUGIN_WEBSESSION_FLATFILE)
+  public static final long MAX_AGE_MINUTES = HOURS.toMinutes(12);
 
   private final HttpServletRequest request;
   private final HttpServletResponse response;

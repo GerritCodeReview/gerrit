@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
+import com.google.gerrit.common.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import java.util.Optional;
@@ -33,6 +34,7 @@ public abstract class SubmitRequirementResult {
   /**
    * Result of evaluating a {@link SubmitRequirement#submittabilityExpression()} ()} on a change.
    */
+  @Nullable
   public abstract SubmitRequirementExpressionResult submittabilityExpressionResult();
 
   /** Result of evaluating a {@link SubmitRequirement#overrideExpression()} ()} on a change. */
@@ -164,7 +166,8 @@ public abstract class SubmitRequirementResult {
     public abstract Builder applicabilityExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);
 
-    public abstract Builder submittabilityExpressionResult(SubmitRequirementExpressionResult value);
+    public abstract Builder submittabilityExpressionResult(
+        @Nullable SubmitRequirementExpressionResult value);
 
     public abstract Builder overrideExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);

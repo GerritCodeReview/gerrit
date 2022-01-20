@@ -32,6 +32,8 @@ public enum SubmitRequirementProtoConverter
 
   private static final FieldDescriptor SR_APPLICABILITY_EXPR_RESULT_FIELD =
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(2);
+  private static final FieldDescriptor SR_SUBMITTABILITY_EXPR_RESULT_FIELD =
+      SubmitRequirementResultProto.getDescriptor().findFieldByNumber(3);
   private static final FieldDescriptor SR_OVERRIDE_EXPR_RESULT_FIELD =
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(4);
   private static final FieldDescriptor SR_LEGACY_FIELD =
@@ -85,9 +87,11 @@ public enum SubmitRequirementProtoConverter
               SubmitRequirementExpressionResultSerializer.deserialize(
                   proto.getApplicabilityExpressionResult())));
     }
-    builder.submittabilityExpressionResult(
-        SubmitRequirementExpressionResultSerializer.deserialize(
-            proto.getSubmittabilityExpressionResult()));
+    if (proto.hasField(SR_SUBMITTABILITY_EXPR_RESULT_FIELD)) {
+      builder.submittabilityExpressionResult(
+          SubmitRequirementExpressionResultSerializer.deserialize(
+              proto.getSubmittabilityExpressionResult()));
+    }
     if (proto.hasField(SR_OVERRIDE_EXPR_RESULT_FIELD)) {
       builder.overrideExpressionResult(
           Optional.of(

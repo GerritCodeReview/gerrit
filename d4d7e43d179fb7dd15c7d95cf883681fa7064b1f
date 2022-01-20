@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ffd3f428_348091b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-01-20T17:40:30Z",
+      "side": 1,
+      "message": "It seems all these ReturnValueIgnored messages are caused by the orElseThrow method. The doc https://errorprone.info/bugpattern/ReturnValueIgnored has a separate section about it and the suggestion how to fix the code.\n\nI would prefer to fix it as described in the bug-pattern doc. \n\n",
+      "revId": "d4d7e43d179fb7dd15c7d95cf883681fa7064b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "869d6a50_ec4a809f",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 1

@@ -218,7 +218,7 @@ export class GrEditorView extends LitElement {
             <span>Edit mode</span>
             <span class="separator"></span>
             <gr-editable-label
-              label-text="File path"
+              labelText="File path"
               .value=${this.path}
               placeholder="File path..."
               @changed=${this.handlePathChanged}

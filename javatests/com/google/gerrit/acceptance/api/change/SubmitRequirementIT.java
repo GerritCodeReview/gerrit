@@ -22,6 +22,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -1081,9 +1082,9 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       SubmitRequirementResult result =
           notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
       assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
-      assertThat(result.submittabilityExpressionResult().status())
+      assertThat(result.submittabilityExpressionResult().get().status())
           .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
-      assertThat(result.submittabilityExpressionResult().expression().expressionString())
+      assertThat(result.submittabilityExpressionResult().get().expression().expressionString())
           .isEqualTo("label:Code-Review=MAX");
     }
   }
@@ -1121,9 +1122,9 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       SubmitRequirementResult result =
           notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
       assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
-      assertThat(result.submittabilityExpressionResult().status())
+      assertThat(result.submittabilityExpressionResult().get().status())
           .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
-      assertThat(result.submittabilityExpressionResult().expression().expressionString())
+      assertThat(result.submittabilityExpressionResult().get().expression().expressionString())
           .isEqualTo("label:Code-Review=MAX");
     }
   }
@@ -1815,6 +1816,118 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         /* passingAtoms= */ null,
         /* failingAtoms= */ null,
         /* fulfilled= */ true);
+    assertThat(requirement.submittabilityExpressionResult).isNotNull();
+  }
+
+  @Test
+  public void submitRequirement_nonApplicable_submittabilityNotEvaluated() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setApplicabilityExpression(
+                SubmitRequirementExpression.of("branch:refs/heads/non-existent"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.maxCodeReview())
+            .setOverrideExpression(SubmitRequirementExpression.of("project:" + project.get()))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    voteLabel(changeId, "Code-Review", 2);
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    assertSubmitRequirementStatus(
+        changeInfo.submitRequirements, "Code-Review", Status.NOT_APPLICABLE, /* isLegacy= */ false);
+    SubmitRequirementResultInfo requirement =
+        changeInfo.submitRequirements.stream().collect(MoreCollectors.onlyElement());
+    assertSubmitRequirementExpression(
+        requirement.applicabilityExpressionResult,
+        /* expression= */ null,
+        /* passingAtoms= */ null,
+        /* failingAtoms= */ null,
+        /* fulfilled= */ false);
+    assertThat(requirement.submittabilityExpressionResult).isNull();
+    assertThat(requirement.overrideExpressionResult).isNull();
+  }
+
+  @Test
+  public void submitRequirement_emptyApplicable_submittabilityEvaluated() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setApplicabilityExpression(Optional.empty())
+            .setSubmittabilityExpression(SubmitRequirementExpression.maxCodeReview())
+            .setOverrideExpression(SubmitRequirementExpression.of("project:non-existent"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    voteLabel(changeId, "Code-Review", 2);
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    assertSubmitRequirementStatus(
+        changeInfo.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+    SubmitRequirementResultInfo requirement =
+        changeInfo.submitRequirements.stream().collect(MoreCollectors.onlyElement());
+    assertThat(requirement.applicabilityExpressionResult).isNull();
+    assertSubmitRequirementExpression(
+        requirement.submittabilityExpressionResult,
+        /* expression= */ SubmitRequirementExpression.maxCodeReview().expressionString(),
+        /* passingAtoms= */ ImmutableList.of(
+            SubmitRequirementExpression.maxCodeReview().expressionString()),
+        /* failingAtoms= */ ImmutableList.of(),
+        /* fulfilled= */ true);
+    assertSubmitRequirementExpression(
+        requirement.overrideExpressionResult,
+        /* expression= */ "project:non-existent",
+        /* passingAtoms= */ ImmutableList.of(),
+        /* failingAtoms= */ ImmutableList.of("project:non-existent"),
+        /* fulfilled= */ false);
+  }
+
+  @Test
+  public void submitRequirement_overriden_submittabilityEvaluated() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setApplicabilityExpression(Optional.empty())
+            .setSubmittabilityExpression(SubmitRequirementExpression.maxCodeReview())
+            .setOverrideExpression(SubmitRequirementExpression.of("project:" + project.get()))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    voteLabel(changeId, "Code-Review", 1);
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    assertSubmitRequirementStatus(
+        changeInfo.submitRequirements, "Code-Review", Status.OVERRIDDEN, /* isLegacy= */ false);
+    SubmitRequirementResultInfo requirement =
+        changeInfo.submitRequirements.stream()
+            .filter(sr -> !sr.isLegacy)
+            .collect(MoreCollectors.onlyElement());
+    assertThat(requirement.applicabilityExpressionResult).isNull();
+    assertSubmitRequirementExpression(
+        requirement.submittabilityExpressionResult,
+        /* expression= */ SubmitRequirementExpression.maxCodeReview().expressionString(),
+        /* passingAtoms= */ ImmutableList.of(),
+        /* failingAtoms= */ ImmutableList.of(
+            SubmitRequirementExpression.maxCodeReview().expressionString()),
+        /* fulfilled= */ false);
+    assertSubmitRequirementExpression(
+        requirement.overrideExpressionResult,
+        /* expression= */ "project:" + project.get(),
+        /* passingAtoms= */ ImmutableList.of("project:" + project.get()),
+        /* failingAtoms= */ ImmutableList.of(),
+        /* fulfilled= */ true);
   }
 
   @Test
@@ -2132,9 +2245,9 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       SubmitRequirementResult result =
           notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
       assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
-      assertThat(result.submittabilityExpressionResult().status())
+      assertThat(result.submittabilityExpressionResult().get().status())
           .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
-      assertThat(result.submittabilityExpressionResult().expression().expressionString())
+      assertThat(result.submittabilityExpressionResult().get().expression().expressionString())
           .isEqualTo("topic:test");
     }
   }

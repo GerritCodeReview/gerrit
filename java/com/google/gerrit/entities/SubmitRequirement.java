@@ -44,7 +44,7 @@ public abstract class SubmitRequirement {
    * Expression of the condition that makes the requirement applicable. The expression should be
    * evaluated for a specific {@link Change} and if it returns false, the requirement becomes
    * irrelevant for the change (i.e. {@link #submittabilityExpression()} and {@link
-   * #overrideExpression()} become irrelevant).
+   * #overrideExpression()} are not evaluated).
    *
    * <p>An empty {@link Optional} indicates that the requirement is applicable for any change.
    */

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efeb2a87_146212af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-01-20T16:58:40Z",
+      "side": 1,
+      "message": "Thanks @Edwin for chiming in, was about to suggest the same but wasn\u0027t sure if it is still in-use ;)",
+      "revId": "a07b01bf104448ae6f19c820d12cbbd403b327bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

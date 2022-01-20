@@ -257,3 +257,15 @@ export function pressKey(
   };
   element.dispatchEvent(new KeyboardEvent('keydown', eventOptions));
 }
+
+export function assertFails(promise: Promise<unknown>, error?: unknown) {
+  promise
+    .then((_v: unknown) => {
+      assert.fail('Promise resolved but should have failed');
+    })
+    .catch((e: unknown) => {
+      if (error) {
+        assert.equal(e, error);
+      }
+    });
+}

@@ -16,7 +16,10 @@
  */
 import {testResolver as testResolverImpl} from './common-test-setup';
 import '@polymer/test-fixture/test-fixture';
-import 'chai/chai';
+import * as chai from 'chai/chai';
+import * as chaiAsPromised from 'chai-as-promised';
+
+chai.use(chaiAsPromised);
 
 declare global {
   interface Window {

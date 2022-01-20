@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
@@ -44,7 +45,7 @@ public class SubmitRequirementsJson {
       info.overrideExpressionResult =
           submitRequirementExpressionToInfo(
               req.overrideExpression().get(),
-              result.overrideExpressionResult().get(),
+              result.overrideExpressionResult().orElse(null),
               /* hide= */ false);
     }
     info.submittabilityExpressionResult =
@@ -59,14 +60,16 @@ public class SubmitRequirementsJson {
 
   private static SubmitRequirementExpressionInfo submitRequirementExpressionToInfo(
       SubmitRequirementExpression expression,
-      SubmitRequirementExpressionResult result,
+      @Nullable SubmitRequirementExpressionResult result,
       boolean hide) {
     SubmitRequirementExpressionInfo info = new SubmitRequirementExpressionInfo();
     info.expression = hide ? null : expression.expressionString();
-    info.fulfilled = result.status().equals(SubmitRequirementExpressionResult.Status.PASS);
-    info.passingAtoms = hide ? null : result.passingAtoms();
-    info.failingAtoms = hide ? null : result.failingAtoms();
-    info.errorMessage = result.errorMessage().isPresent() ? result.errorMessage().get() : null;
+    info.fulfilled =
+        result != null && result.status().equals(SubmitRequirementExpressionResult.Status.PASS);
+    info.passingAtoms = hide || result == null ? null : result.passingAtoms();
+    info.failingAtoms = hide || result == null ? null : result.failingAtoms();
+    info.errorMessage =
+        result != null && result.errorMessage().isPresent() ? result.errorMessage().get() : null;
     return info;
   }
 }

@@ -25,6 +25,7 @@ import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +45,7 @@ public class SubmitRuleIT extends AbstractDaemonTest {
             recordsBeforeSubmission.stream()
                 .map(record -> record.ruleName)
                 .collect(Collectors.toList()))
-        .containsExactly("gerrit~DefaultSubmitRule");
+        .containsExactly(DefaultSubmitRule.RULE_NAME);
     gApi.changes().id(r.getChangeId()).current().submit();
     // Add a new label that blocks submission if not granted. In case we reevaluate the rules,
     // this would show up as blocking submission.
@@ -67,7 +68,7 @@ public class SubmitRuleIT extends AbstractDaemonTest {
             recordsBeforeSubmission.stream()
                 .map(record -> record.ruleName)
                 .collect(Collectors.toList()))
-        .containsExactly("gerrit~DefaultSubmitRule");
+        .containsExactly(DefaultSubmitRule.RULE_NAME);
     gApi.changes().id(r.getChangeId()).current().submit();
     // Add a new label that blocks submission if not granted. In case we reevaluate the rules,
     // this would show up as blocking submission.

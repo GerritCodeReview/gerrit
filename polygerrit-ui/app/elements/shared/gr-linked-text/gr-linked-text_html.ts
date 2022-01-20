@@ -16,13 +16,12 @@
  */
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
-export const htmlTemplate = html`
-  <style>
+export const htmlTemplate = html`<style>
     :host {
       display: block;
     }
     :host([inline]) {
-      display: inline-block;
+      display: inline;
     }
     :host([pre]) span {
       white-space: var(--linked-text-white-space, pre-wrap);
@@ -35,7 +34,5 @@ export const htmlTemplate = html`
     }
     a {
       color: var(--link-color);
-    }
-  </style>
-  <span id="output"></span>
-`;
+    }</style
+  ><span id="output"></span>`;

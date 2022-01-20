@@ -109,7 +109,6 @@ export class GrFormattedText extends LitElement {
         :host([noTrailingMargin]) gr-linked-text.pre:last-child {
           margin: 0;
         }
-        code,
         blockquote {
           border-left: 1px solid #aaa;
           padding: 0 var(--spacing-m);
@@ -117,7 +116,11 @@ export class GrFormattedText extends LitElement {
         code {
           display: block;
           white-space: pre-wrap;
-          color: var(--deemphasized-text-color);
+          background-color: var(--background-color-secondary);
+          border: 1px solid var(--border-color);
+          border-left-width: var(--spacing-s);
+          margin: var(--spacing-m) 0;
+          padding: var(--spacing-s) var(--spacing-m);
         }
         li {
           list-style-type: disc;
@@ -127,8 +130,12 @@ export class GrFormattedText extends LitElement {
         gr-linked-text.pre {
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-code);
-          /* usually 16px = 12px + 4px */
-          line-height: calc(var(--font-size-code) + var(--spacing-s));
+          line-height: var(--line-height-mono);
+        }
+        gr-linked-text.pre {
+          background-color: var(--background-color-secondary);
+          border: 1px solid var(--border-color);
+          padding: 1px var(--spacing-s);
         }
       `,
     ];

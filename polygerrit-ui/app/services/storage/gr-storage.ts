@@ -42,9 +42,5 @@ export interface StorageService extends Finalizable {
 
   setEditableContentItem(key: string, message: string): void;
 
-  getRespectfulTipVisibility(): StorageObject | null;
-
-  setRespectfulTipVisibility(delayDays?: number): void;
-
   eraseEditableContentItem(key: string): void;
 }

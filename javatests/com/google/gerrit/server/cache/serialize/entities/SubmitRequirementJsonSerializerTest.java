@@ -118,11 +118,11 @@ public class SubmitRequirementJsonSerializerTest {
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
           + "\"passingAtoms\":[\"refs/heads/master\"],"
           + "\"failingAtoms\":[]}},"
-          + "\"submittabilityExpressionResult\":{"
+          + "\"submittabilityExpressionResult\":{\"value\":{"
           + "\"expression\":{\"expressionString\":\"label:\\\"Code-Review=+2\\\"\"},"
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
           + "\"passingAtoms\":[\"label:\\\"Code-Review=+2\\\"\"],"
-          + "\"failingAtoms\":[]},"
+          + "\"failingAtoms\":[]}},"
           + "\"overrideExpressionResult\":{\"value\":{"
           + "\"expression\":{\"expressionString\":\"label:Override=+1\"},"
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
@@ -196,50 +196,49 @@ public class SubmitRequirementJsonSerializerTest {
   }
 
   @Test
-  public void submitRequirementResult_deserialize_nonOptionalSubmittabilityExpressionResultField()
+  public void submitRequirementResult_deserialize_optionalSubmittabilityExpressionResultField()
       throws Exception {
     assertThat(SubmitRequirementResult.typeAdapter(gson).fromJson(srReqResultSerial))
         .isEqualTo(srReqResult);
   }
 
   @Test
-  public void submitRequirementResult_deserialize_optionalSubmittabilityExpressionResultField()
+  public void submitRequirementResult_deserialize_nonOptionalSubmittabilityExpressionResultField()
       throws Exception {
-    String newFormatSrReqResultSerial =
+    String oldFormatSrReqResultSerial =
         srReqResultSerial.replace(
-            "\"submittabilityExpressionResult\":{"
-                + "\"expression\":{\"expressionString\":\"label:\\\"Code-Review=+2\\\"\"},"
-                + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
-                + "\"passingAtoms\":[\"label:\\\"Code-Review=+2\\\"\"],"
-                + "\"failingAtoms\":[]},",
             "\"submittabilityExpressionResult\":{\"value\":{"
                 + "\"expression\":{\"expressionString\":\"label:\\\"Code-Review=+2\\\"\"},"
                 + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
                 + "\"passingAtoms\":[\"label:\\\"Code-Review=+2\\\"\"],"
-                + "\"failingAtoms\":[]}},");
-    assertThat(SubmitRequirementResult.typeAdapter(gson).fromJson(newFormatSrReqResultSerial))
-        .isEqualTo(srReqResult);
-  }
-
-  @Test
-  public void submitRequirementResult_deserialize_emptyOptionalSubmittabilityExpressionResultField()
-      throws Exception {
-    String newFormatSrReqResultSerial =
-        srReqResultSerial.replace(
+                + "\"failingAtoms\":[]}},",
             "\"submittabilityExpressionResult\":{"
                 + "\"expression\":{\"expressionString\":\"label:\\\"Code-Review=+2\\\"\"},"
                 + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
                 + "\"passingAtoms\":[\"label:\\\"Code-Review=+2\\\"\"],"
-                + "\"failingAtoms\":[]},",
-            "\"submittabilityExpressionResult\":{\"value\":null},");
-    assertThat(SubmitRequirementResult.typeAdapter(gson).fromJson(newFormatSrReqResultSerial))
-        .isEqualTo(srReqResult.toBuilder().submittabilityExpressionResult(null).build());
+                + "\"failingAtoms\":[]},");
+    assertThat(SubmitRequirementResult.typeAdapter(gson).fromJson(oldFormatSrReqResultSerial))
+        .isEqualTo(srReqResult);
   }
 
   @Test
   public void submitRequirementResult_roundTrip() throws Exception {
     TypeAdapter<SubmitRequirementResult> adapter = SubmitRequirementResult.typeAdapter(gson);
     assertThat(adapter.fromJson(adapter.toJson(srReqResult))).isEqualTo(srReqResult);
+  }
+
+  @Test
+  public void submitRequirementResult_emptySubmittabilityExpressionResultField_roundTrip()
+      throws Exception {
+    SubmitRequirementResult srResult =
+        srReqResult
+            .toBuilder()
+            .submittabilityExpressionResult(Optional.empty())
+            .applicabilityExpressionResult(Optional.empty())
+            .overrideExpressionResult(Optional.empty())
+            .build();
+    TypeAdapter<SubmitRequirementResult> adapter = SubmitRequirementResult.typeAdapter(gson);
+    assertThat(adapter.fromJson(adapter.toJson(srResult))).isEqualTo(srResult);
   }
 
   @Test

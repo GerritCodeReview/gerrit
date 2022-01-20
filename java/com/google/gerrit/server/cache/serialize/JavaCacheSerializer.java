@@ -42,7 +42,7 @@ public class JavaCacheSerializer<T> implements CacheSerializer<T> {
     }
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "BanSerializableRead"})
   @Override
   public T deserialize(byte[] in) {
     Object object;

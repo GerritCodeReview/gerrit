@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eb88f24_716a6f1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-20T08:59:48Z",
+      "side": 1,
+      "message": "Given this is a very minor UI change, I will go ahead with submitting this.  We are not removing any functionality as the exact same functionality remains at the top of the screen.  If there\u0027s issues with discoverability, let\u0027s address those instead.",
+      "revId": "50f5f7f9c1d01a6a150381ceb4723acf037d25e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

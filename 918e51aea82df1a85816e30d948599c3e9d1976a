@@ -93,6 +93,30 @@
       },
       "revId": "918e51aea82df1a85816e30d948599c3e9d1976a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f134c44_e4ff9ee7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-20T09:13:50Z",
+      "side": 1,
+      "message": "I removed it because the test submit rule sets the ruleName attribute explicitly https://gerrit.googlesource.com/gerrit/+/4026c1af490987d98d27aae3fb369502dc4d6558/javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java#2578 hence overriding the default behaviour.",
+      "parentUuid": "2d351888_117be030",
+      "range": {
+        "startLine": 116,
+        "startChar": 49,
+        "endLine": 116,
+        "endChar": 56
+      },
+      "revId": "918e51aea82df1a85816e30d948599c3e9d1976a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

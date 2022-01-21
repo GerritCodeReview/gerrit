@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "240978e4_7beda711",
+        "filename": "polygerrit-ui/app/services/scheduler/fake-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:24:35Z",
+      "side": 1,
+      "message": "Because you could do:\n\nfakeScheduler.schedule();\nfakeScheduler.resolve()\nfakeScheduler.resolve();",
+      "parentUuid": "4bbb0adc_a2b26ab3",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 44
+      },
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5677e473_1e848f11",
         "filename": "polygerrit-ui/app/test/test-utils.ts",
         "patchSetId": 4

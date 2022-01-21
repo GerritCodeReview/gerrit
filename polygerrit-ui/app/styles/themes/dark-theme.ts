@@ -82,6 +82,10 @@ function getStyleEl() {
       --tag-background: var(--cyan-900);
       --label-background: var(--red-900);
 
+      --not-working-hours-icon-background-color: var(--purple-tonal);
+      --not-working-hours-icon-color: var(--purple-100);
+      --unavailability-icon-color: var(--gray-500);
+
       /* text colors */
       --primary-text-color: var(--gray-200);
       --link-color: var(--gerrit-blue-dark);
@@ -160,7 +164,7 @@ function getStyleEl() {
       /* file status colors */
       --file-status-added: var(--green-tonal);
       --file-status-changed: var(--red-tonal);
-      --file-status-unchanged: var(--grey-700);
+      --file-status-unchanged: var(--gray-700);
 
       /* fonts */
       --font-weight-bold: 700; /* 700 is the same as 'bold' */

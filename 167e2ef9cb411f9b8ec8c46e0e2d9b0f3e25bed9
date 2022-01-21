@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76fdda04_31e9bc37",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T12:44:59Z",
+      "side": 1,
+      "message": "I have considered that very much, but \u003cgr-result-row\u003e is a table row, which makes re-use very hard. And looking at \u003cgr-diff-check-result\u003e I don\u0027t see a lot of substantial duplication that would be easy and worthwhile to remove. Is there something specific that you would want to pull out of both components for re-use?",
+      "parentUuid": "83b31ca8_847a9cec",
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26edb2e0_71b96964",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-12-17T17:32:53Z",
       "side": 1,
       "message": "Android license? Is this correct",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 53
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "668749d8_aa5927fc",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T12:44:59Z",
+      "side": 1,
+      "message": "Yes, that is correct. This license is used everywhere.",
+      "parentUuid": "26edb2e0_71b96964",
       "range": {
         "startLine": 3,
         "startChar": 0,
@@ -105,6 +147,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4405e848_dff27581",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T12:44:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "791c2543_31cbf8aa",
+      "range": {
+        "startLine": 99,
+        "startChar": 25,
+        "endLine": 99,
+        "endChar": 31
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbdb7c1d_4c9a617f",
@@ -118,6 +184,30 @@
       "writtenOn": "2022-01-10T18:48:37Z",
       "side": 1,
       "message": "Maybe needs import.",
+      "range": {
+        "startLine": 138,
+        "startChar": 13,
+        "endLine": 138,
+        "endChar": 28
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf892680_95d8d2b2",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T12:44:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbdb7c1d_4c9a617f",
       "range": {
         "startLine": 138,
         "startChar": 13,
@@ -151,6 +241,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "daf6e033_d58d7261",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T12:44:59Z",
+      "side": 1,
+      "message": "I have changed to `nothing`, but usually we don\u0027t bother with this minimal optimization.",
+      "parentUuid": "568e6435_80d73beb",
+      "range": {
+        "startLine": 151,
+        "startChar": 9,
+        "endLine": 153,
+        "endChar": 16
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c7f5ca1_c69338c8",
@@ -164,6 +278,30 @@
       "writtenOn": "2021-12-17T17:32:53Z",
       "side": 1,
       "message": "even if something is hidden it is technically still reachable via tabbing, is this the intention? if not +1 to using the nothing render approach",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 43
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd18627d_89f808de",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T12:44:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c7f5ca1_c69338c8",
       "range": {
         "startLine": 158,
         "startChar": 0,
@@ -221,6 +359,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "284710e6_61f74a5e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T12:44:59Z",
+      "side": 1,
+      "message": "As Chris said, I don\u0027t see the benefit of using `nothing` all over the place. Returning `undefined` is our current best practice.",
+      "parentUuid": "12539dd3_5ac3fccc",
+      "range": {
+        "startLine": 178,
+        "startChar": 26,
+        "endLine": 178,
+        "endChar": 32
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58bba42e_ea619939",
@@ -234,6 +396,30 @@
       "writtenOn": "2022-01-10T18:48:37Z",
       "side": 1,
       "message": "Maybe needs import",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 25
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73a02734_43e0e6c8",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T12:44:59Z",
+      "side": 1,
+      "message": "This is defined in gr-checks-results.ts, which is already imported.",
+      "parentUuid": "58bba42e_ea619939",
       "range": {
         "startLine": 180,
         "startChar": 0,
@@ -284,6 +470,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c35fdaa_1353a119",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T12:44:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a9035a8_d6c3aa9f",
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6645211f_f741d532",
@@ -307,6 +511,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3ca0ec1_7fc88932",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T12:44:59Z",
+      "side": 1,
+      "message": "We only support one code pointer at the moment. I have updated the API docs and added a comment here.",
+      "parentUuid": "6645211f_f741d532",
+      "range": {
+        "startLine": 485,
+        "startChar": 28,
+        "endLine": 485,
+        "endChar": 52
+      },
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36aa692b_4a6486a6",
@@ -320,6 +548,24 @@
       "writtenOn": "2022-01-18T17:07:54Z",
       "side": 1,
       "message": "This really deserves a named function.\n\n.reduce(somemeaningfulfunctionname)\n.filter(r \u003d\u003e r !\u003d\u003d undefined)",
+      "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "345f3263_39c46729",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T12:44:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36aa692b_4a6486a6",
       "revId": "167e2ef9cb411f9b8ec8c46e0e2d9b0f3e25bed9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

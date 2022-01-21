@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0910f8d0_1470fb7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-21T14:24:19Z",
+      "side": 1,
+      "message": "You could also use the saved query support. It doesn\u0027t satisfy the \"configured at a single place\" desire, but it\u0027s already implemented and available. If you added support for special \"server\" saved queries, those would be reasonable to maintain in All-Projects:refs/meta/config, solving both single-place and any permissions concerns.",
+      "parentUuid": "80da4e8e_f5c08775",
+      "revId": "1f98323a68652365355575a3da14c24bf5aa1602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "699ac64c_b0fe5193",

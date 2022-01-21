@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5976260e_e2e94a1a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T09:56:44Z",
+      "side": 1,
+      "message": "I think we should set the backoff parameters explicitly here and below for the write scheduler, as well.\n\nFor retrying 429s we may need a more substantial backoff interval than just 50 ms.",
+      "revId": "c883ef0c8fb09470b352d0cfe32470d99e788d12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eec39195_ce2560f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T09:56:44Z",
+      "side": 1,
+      "message": "Maybe use the `HttpMethod` enum.",
+      "revId": "c883ef0c8fb09470b352d0cfe32470d99e788d12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "343973de_5fd3cd88",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T09:56:44Z",
+      "side": 1,
+      "message": "What do you think about increasing the backoff interval to something like 3 seconds and then firing an alert (i.e. show a toast) here such that the user knows that something is being retried in the background?",
+      "revId": "c883ef0c8fb09470b352d0cfe32470d99e788d12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

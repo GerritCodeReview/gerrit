@@ -362,6 +362,7 @@ export declare interface ChangeConfigInfo {
   submit_whole_topic?: boolean;
   disable_private_changes?: boolean;
   mergeability_computation_behavior: MergeabilityComputationBehavior;
+  conflicts_predicate_enabled?: boolean;
 }
 
 export type ChangeId = BrandType<string, '_changeId'>;

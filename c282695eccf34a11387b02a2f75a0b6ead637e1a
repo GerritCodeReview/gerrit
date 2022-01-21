@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0904a595_5142e9ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:51:49Z",
+      "side": 1,
+      "message": "Thanks, PTAL",
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7051179b_8e309e2d",
@@ -48,6 +65,24 @@
       "writtenOn": "2022-01-21T09:46:10Z",
       "side": 1,
       "message": "Isn\u0027t catch/reject part of the default Promise implementation?",
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80e74723_2a9c686e",
+        "filename": "polygerrit-ui/app/services/scheduler/fake-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:51:49Z",
+      "side": 1,
+      "message": "I need to reflect an exception in the FakeTask back up to the user-promise. \nNotice the nesting of new Promise and the async task we schedule in the list.\n\nI don\u0027t want the fake-task to fail itself, that\u0027s just a way of triggering the scheduler to move forward.",
+      "parentUuid": "7051179b_8e309e2d",
       "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -169,6 +204,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f523c81c_0d42785a",
+        "filename": "polygerrit-ui/app/services/scheduler/fake-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:51:49Z",
+      "side": 1,
+      "message": "Yes, shift can return undefined.",
+      "parentUuid": "41c4f742_9e30b7ef",
+      "range": {
+        "startLine": 30,
+        "startChar": 40,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e7f6fe5_9b825508",
+        "filename": "polygerrit-ui/app/services/scheduler/fake-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:51:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8209eda3_d6653628",
+      "range": {
+        "startLine": 30,
+        "startChar": 10,
+        "endLine": 30,
+        "endChar": 14
+      },
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06bccc42_9eabc0fb",
@@ -182,6 +265,30 @@
       "writtenOn": "2022-01-21T09:46:10Z",
       "side": 1,
       "message": "typo",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa7ed065_5f9eb6cb",
+        "filename": "polygerrit-ui/app/services/scheduler/max-in-flight-scheduler_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:51:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06bccc42_9eabc0fb",
       "range": {
         "startLine": 12,
         "startChar": 7,
@@ -215,6 +322,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f3516ca_eaeae840",
+        "filename": "polygerrit-ui/app/services/scheduler/retry-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:51:49Z",
+      "side": 1,
+      "message": "Given it\u0027s a one-liner I\u0027d like to avoid extra dependencies.\n\nI kind of like how it reads `await untilTimeout`.",
+      "parentUuid": "2ed19901_8a5570a4",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 21
+      },
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4027d732_9fa4636b",
@@ -228,6 +359,30 @@
       "writtenOn": "2022-01-21T09:46:10Z",
       "side": 1,
       "message": "`timeout` has confused me, because I was thinking that the scheduled task would be considered failing when not completing within the timeout period. Maybe rename to `backoffIntervalMs`?",
+      "range": {
+        "startLine": 22,
+        "startChar": 12,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6448f98_7b6c75bf",
+        "filename": "polygerrit-ui/app/services/scheduler/retry-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:51:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4027d732_9fa4636b",
       "range": {
         "startLine": 22,
         "startChar": 12,
@@ -257,6 +412,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0029b901_e31260cd",
+        "filename": "polygerrit-ui/app/services/scheduler/retry-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:51:49Z",
+      "side": 1,
+      "message": "The latter is phi, the golden ratio of the fibonacci numbers :) An often popular use-case.\n\n0 and 2 would not result in any backoff.  I\u0027d prefer keeping values as is because tehy\u0027re still overriddeable by constructor arguments.",
+      "parentUuid": "a68ede34_5c8ac2db",
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbb8d168_98dd9cbe",
         "filename": "polygerrit-ui/app/services/scheduler/retry-scheduler.ts",
         "patchSetId": 4
@@ -280,6 +453,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0cba026_0e3ef6c3",
+        "filename": "polygerrit-ui/app/services/scheduler/retry-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:51:49Z",
+      "side": 1,
+      "message": "That\u0027s a fair point but I fear that might be slightly overkill",
+      "parentUuid": "cbb8d168_98dd9cbe",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 0
+      },
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c1ffb59_5cb2c9e0",
         "filename": "polygerrit-ui/app/services/scheduler/retry-scheduler_test.ts",
         "patchSetId": 4
@@ -291,6 +488,30 @@
       "writtenOn": "2022-01-21T09:42:26Z",
       "side": 1,
       "message": "fakeScheduler?",
+      "range": {
+        "startLine": 15,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 10
+      },
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fd4d8ad_17936c1b",
+        "filename": "polygerrit-ui/app/services/scheduler/retry-scheduler_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:51:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c1ffb59_5cb2c9e0",
       "range": {
         "startLine": 15,
         "startChar": 6,

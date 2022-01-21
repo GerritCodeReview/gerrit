@@ -55,6 +55,9 @@ export class GrButton extends LitElement {
   link = false;
 
   @property({type: Boolean, reflect: true})
+  flatten = false;
+
+  @property({type: Boolean, reflect: true})
   loading = false;
 
   @property({type: Boolean, reflect: true})
@@ -190,7 +193,7 @@ export class GrButton extends LitElement {
 
   override render() {
     return html`<paper-button
-      ?raised="${!this.link}"
+      ?raised="${!this.link && !this.flatten}"
       ?disabled="${this.disabled || this.loading}"
       role="button"
       tabindex="-1"

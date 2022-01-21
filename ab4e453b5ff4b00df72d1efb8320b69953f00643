@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d9446c8_e8f35887",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-01-21T00:30:01Z",
+      "side": 1,
+      "message": "Looks like there is a reload4j 1.2.18.1 release now too that you might want to bump up to.",
+      "revId": "ab4e453b5ff4b00df72d1efb8320b69953f00643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

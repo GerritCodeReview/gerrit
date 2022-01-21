@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8045a2d8_1c395a7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1138005
+      },
+      "writtenOn": "2022-01-21T19:24:32Z",
+      "side": 1,
+      "message": "I am assuming that when a specific Gerrit server is set up, it has its own top level directory, and it is possible to write a file named favicon.ico to this directory.",
+      "revId": "2e60eb75ab2683a11ea59757f0e6e0fa92edd3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

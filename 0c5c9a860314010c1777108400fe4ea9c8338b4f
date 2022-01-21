@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df8163dc_2a3ff270",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-21T12:03:31Z",
+      "side": 1,
+      "message": "Add `--purple-100: E9D2FD;`",
+      "range": {
+        "startLine": 116,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 25
+      },
+      "revId": "0c5c9a860314010c1777108400fe4ea9c8338b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "715b6a6c_294d716c",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-21T12:03:31Z",
+      "side": 1,
+      "message": "The Outside office hour chip in dark mode uses different colors.\n\n`--not-working-hours-icon-background-color: var(--purple-tonal);`\n`--not-working-hours-icon-color: var(--purple-100);`\n\nWe will need to add `--purple-100: E9D2FD;` to the app theme",
+      "range": {
+        "startLine": 176,
+        "startChar": 2,
+        "endLine": 177,
+        "endChar": 54
+      },
+      "revId": "0c5c9a860314010c1777108400fe4ea9c8338b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e9daa75_abf2c810",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-21T12:03:31Z",
+      "side": 1,
+      "message": "What is this defining?",
+      "range": {
+        "startLine": 280,
+        "startChar": 5,
+        "endLine": 280,
+        "endChar": 27
+      },
+      "revId": "0c5c9a860314010c1777108400fe4ea9c8338b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

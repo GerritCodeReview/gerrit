@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a79f118_afeedfac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T10:29:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "25436c14_68ade293",
+      "revId": "c883ef0c8fb09470b352d0cfe32470d99e788d12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eec39195_ce2560f5",
@@ -138,6 +156,24 @@
       "side": 1,
       "message": "Because if the user is rate limited, then I was expecting that we have to wait a few seconds before we can send more requests. If the backoff interval is 50 ms and the retry count 3, then I agree with you.\n\nIf we let the user wait for more than 3 seconds for something that usually takes \u003c1 second, then I think telling the user about what is causing the delay might be a good idea. Similar to how GMail notifies about retrying when network connection is lost.\n\nFeel free to punt on this for later UX optmizations.",
       "parentUuid": "ff79ef89_d15be564",
+      "revId": "c883ef0c8fb09470b352d0cfe32470d99e788d12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9936e275_633dd4de",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T10:29:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bf103eda_0d719de0",
       "revId": "c883ef0c8fb09470b352d0cfe32470d99e788d12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

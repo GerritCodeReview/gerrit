@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "80da4e8e_f5c08775",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-21T13:38:27Z",
+      "side": 1,
+      "message": "I think the argumentation chain why macros help in this case is still missing. \nWithout group support SRs would need to specify all exempted users as OR conditions. This blows up SRs and makes them unreadable. In addition the exempted users would potentially be repeated for multiple SRs which makes this unmaintainable. With macro support it\u0027s possible to define a macro with exempted users once on All-Projects and then simply reference this macro from all SRs that need it. The macro has a readable name and exempted users are configured at a single place only. Can you add this reasoning to the commit message here?\n\nThis also means we get the benefits of macros only if macros can be inherited from parent projects? Which seems is not implemented in this change yet?",
+      "revId": "1f98323a68652365355575a3da14c24bf5aa1602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "699ac64c_b0fe5193",
@@ -14,6 +31,138 @@
       "writtenOn": "2022-01-20T17:14:25Z",
       "side": 1,
       "message": "Thoughts:\n  * Should macros rather be self contained predicates instead of random strings?\n  * Handle macros defined in parent projects.",
+      "revId": "1f98323a68652365355575a3da14c24bf5aa1602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c324cf_2268af07",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3938,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-21T13:38:27Z",
+      "side": 1,
+      "message": "naming the macro in example \u0027require-code-review\u0027 as in the commit message might be better",
+      "range": {
+        "startLine": 3938,
+        "startChar": 2,
+        "endLine": 3938,
+        "endChar": 16
+      },
+      "revId": "1f98323a68652365355575a3da14c24bf5aa1602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23087c00_e3c9cb91",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3942,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-21T13:38:27Z",
+      "side": 1,
+      "message": "s/should should/should",
+      "range": {
+        "startLine": 3942,
+        "startChar": 0,
+        "endLine": 3942,
+        "endChar": 13
+      },
+      "revId": "1f98323a68652365355575a3da14c24bf5aa1602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97cfb92d_040a3428",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementExpressionsValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-21T13:38:27Z",
+      "side": 1,
+      "message": "I think macros should also be validated on their own, e.g. also if non of the SRs is referencing them.",
+      "revId": "1f98323a68652365355575a3da14c24bf5aa1602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7d31c2a_90a1ddf4",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementExpressionsValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-21T13:38:27Z",
+      "side": 1,
+      "message": "I think here you would also need to pass in inherited macros, otherwise the validation of SRs that use macros that are defined in parent projects, would fail, wouldn\u0027t it?",
+      "range": {
+        "startLine": 78,
+        "startChar": 69,
+        "endLine": 78,
+        "endChar": 75
+      },
+      "revId": "1f98323a68652365355575a3da14c24bf5aa1602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49c3c5cf_e18bf169",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-21T13:38:27Z",
+      "side": 1,
+      "message": "I think this doesn\u0027t take inherited macros into account yet?",
+      "range": {
+        "startLine": 101,
+        "startChar": 44,
+        "endLine": 101,
+        "endChar": 80
+      },
+      "revId": "1f98323a68652365355575a3da14c24bf5aa1602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db3c4dd5_e8abd56c",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-21T13:38:27Z",
+      "side": 1,
+      "message": "Could it happen that an SR references one macro multiple times? So maybe you need replaceAll here?",
+      "range": {
+        "startLine": 151,
+        "startChar": 30,
+        "endLine": 151,
+        "endChar": 37
+      },
       "revId": "1f98323a68652365355575a3da14c24bf5aa1602",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

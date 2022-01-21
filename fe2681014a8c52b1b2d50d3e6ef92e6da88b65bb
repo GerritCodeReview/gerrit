@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a4afde5_5553588c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-21T09:13:55Z",
+      "side": 1,
+      "message": "@Edwin, could you (or any other googler) please check and +1 the LC for this change?",
+      "revId": "fe2681014a8c52b1b2d50d3e6ef92e6da88b65bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

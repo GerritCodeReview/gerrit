@@ -226,30 +226,30 @@ maven_jar(
     sha1 = "28c59f58f5adcc307604602e2aa89e2aca14c554",
 )
 
-SLF4J_VERS = "1.7.26"
+SLF4J_VERS = "1.7.33"
 
 maven_jar(
     name = "log-api",
     artifact = "org.slf4j:slf4j-api:" + SLF4J_VERS,
-    sha1 = "77100a62c2e6f04b53977b9f541044d7d722693d",
+    sha1 = "d375aa1b98d34d5ddf73a3f19eaad66e98975b12",
 )
 
 maven_jar(
     name = "log-ext",
     artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
-    sha1 = "31cdf122e000322e9efcb38913e9ab07825b17ef",
+    sha1 = "00da03640ae1ad57f964dcaa542fb5d804dce8a6",
 )
 
 maven_jar(
     name = "impl-log4j",
-    artifact = "org.slf4j:slf4j-log4j12:" + SLF4J_VERS,
-    sha1 = "12f5c685b71c3027fd28bcf90528ec4ec74bf818",
+    artifact = "org.slf4j:slf4j-reload4j:" + SLF4J_VERS,
+    sha1 = "ddc89144bfb56781936120b2334a70869b68db6d",
 )
 
 maven_jar(
     name = "jcl-over-slf4j",
     artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
-    sha1 = "33fbc2d93de829fa5e263c5ce97f5eab8f57d53e",
+    sha1 = "28c441128bc81b6d95cc2857ae5bb46ae5bf658b",
 )
 
 maven_jar(

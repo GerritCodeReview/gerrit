@@ -55,6 +55,9 @@ export class GrButton extends LitElement {
   link = false;
 
   @property({type: Boolean, reflect: true})
+  flatten = false;
+
+  @property({type: Boolean, reflect: true})
   loading = false;
 
   @property({type: Boolean, reflect: true})
@@ -114,6 +117,10 @@ export class GrButton extends LitElement {
         }
         paper-button[elevation='5'] {
           box-shadow: var(--elevation-level-5);
+        }
+        paper-button:focus {
+          background: linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)),
+            var(--background-color);
         }
         paper-button:hover {
           background: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)),
@@ -190,7 +197,7 @@ export class GrButton extends LitElement {
 
   override render() {
     return html`<paper-button
-      ?raised="${!this.link}"
+      ?raised="${!this.link && !this.flatten}"
       ?disabled="${this.disabled || this.loading}"
       role="button"
       tabindex="-1"

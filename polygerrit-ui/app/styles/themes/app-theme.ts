@@ -126,6 +126,7 @@ const styleSheet = safeStyleSheet`
     --white-04: #ffffff0a;
     --white-10: #ffffff1a;
     --white-12: #ffffff1f;
+    --transparent: #ffffff00;
 
     --error-foreground: var(--red-700);
     --error-background: var(--red-50);
@@ -238,13 +239,15 @@ const styleSheet = safeStyleSheet`
 
     /* vote background colors */
     --vote-color-approved: var(--green-300);
-    --vote-color-disliked: var(--red-50);
-    --vote-outline-disliked: var(--red-700);
+    --vote-color-recommended: var(--green-300);
     --vote-color-neutral: var(--gray-300);
-    --vote-color-recommended: var(--green-50);
-    --vote-outline-recommended: var(--green-700);
+    --vote-color-disliked: var(--red-300);
     --vote-color-rejected: var(--red-300);
+    --vote-color-unselected: white;
+    --vote-outline-color-unselected: var(--gray-500);
 
+    --vote-outline-disliked: var(--red-700);
+    --vote-outline-recommended: var(--green-700);
     --outline-color-focus: var(--gray-900);
 
     /* misc colors */

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fed2c35_e4d64797",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-21T11:43:53Z",
+      "side": 1,
+      "message": "Thanks Chris for working on this change, I have commented on the bug with some clarification on selected and unselected states of the chips. ",
+      "revId": "7b0e5b10bd53fbe7d491b320db69a92e40f6b770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

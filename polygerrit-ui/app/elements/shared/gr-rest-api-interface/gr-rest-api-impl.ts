@@ -1701,9 +1701,13 @@ export class GrRestApiServiceImpl
     }) as Promise<SubmittedTogetherInfo | undefined>;
   }
 
-  getChangeConflicts(
+  async getChangeConflicts(
     changeNum: NumericChangeId
   ): Promise<ChangeInfo[] | undefined> {
+    const config = await this.getConfig(false);
+    if (!config?.change?.conflicts_predicate_enabled) {
+      return [];
+    }
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT

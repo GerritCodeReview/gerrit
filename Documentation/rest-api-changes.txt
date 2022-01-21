@@ -224,19 +224,18 @@ default. Optional fields are:
 
 [[labels]]
 --
-* `LABELS`: a summary of each label required for submit, and
-  approvers that have granted (or rejected) with that label
-  as well as all reviewers by state, and reviewers that may
-  be removed by the current user.
+* `LABELS`: Includes the `labels` field which contains all information about
+labels and approvers that have granted (or rejected) that label. Does not
+include the `permitted_voting_range` attribute with the list of
+link:#approval-info[ApprovalInfo] of the `all` attribute.
 --
 
 [[detailed-labels]]
 --
-* `DETAILED_LABELS`: detailed label information, including numeric
-  values of all existing approvals, recognized label values, values
-  permitted to be set by any reviewer and the change owner, all
-  reviewers by state, and reviewers that may be removed by the
-  current user.
+* `DETAILED_LABELS`: Includes the `labels` field which contains all information
+about labels and approvers that have granted (or rejected) that label, including
+the `permitted_voting_range` attribute with the list of
+link:#approval-info[ApprovalInfo] of the `all` attribute.
 --
 
 [[submit-requirements]]
@@ -7384,11 +7383,10 @@ corresponding to the current patch set.
 There are two options that control the contents of `LabelInfo`:
 link:#labels[`LABELS`] and link:#detailed-labels[`DETAILED_LABELS`].
 
-* For a quick summary of the state of labels, use `LABELS`.
-* For detailed information about labels, including exact numeric votes for all
-  users and the allowed range of votes for the current user, use `DETAILED_LABELS`.
+* Using `LABELS` will skip the `all.permitted_voting_range` attribute.
+* Using `DETAILED_LABELS` will include the `all.permitted_voting_range`
+  attribute.
 
-==== Common fields
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
@@ -7397,12 +7395,6 @@ Whether the label is optional. Optional means the label may be set, but
 it's neither necessary for submission nor does it block submission if
 set.
 |`description` |optional| The description of the label.
-|===========================
-
-==== Fields set by `LABELS`
-[options="header",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
 |`approved`    |optional|One user who approved this label on the change
 (voted the maximum value) as an
 link:rest-api-accounts.html#account-info[AccountInfo] entity.
@@ -7422,16 +7414,14 @@ recommended/disliked this label on the change if it is not
 "`+1`"/"`-1`".
 |`default_value`|optional|The default voting value for the label.
 This value may be outside the range specified in permitted_labels.
-|===========================
-
-==== Fields set by `DETAILED_LABELS`
-[options="header",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
+|votes|optional|A list of integers containing the vote values applied to this
+label at the latest patchset.
 |`all`         |optional|List of all approvals for this label as a list
 of link:#approval-info[ApprovalInfo] entities. Items in this list may
 not represent actual votes cast by users; if a user votes on any label,
-a corresponding ApprovalInfo will appear in this list for all labels.
+a corresponding ApprovalInfo will appear in this list for all labels. +
+The `permitted_voting_range` attribute is only set if the `DETAILED_LABELS`
+option is requested.
 |`values`      |optional|A map of all values that are allowed for this
 label. The map maps the values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`")
 to the value descriptions.

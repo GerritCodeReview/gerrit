@@ -193,6 +193,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -201,6 +202,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -3513,6 +3515,51 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void checkLabelVotesForUnsubmittedChange() throws Exception {
+    List<ListChangesOption> options =
+        EnumSet.complementOf(
+                EnumSet.of(
+                    ListChangesOption.CHECK,
+                    ListChangesOption.SKIP_DIFFSTAT,
+                    ListChangesOption.DETAILED_LABELS))
+            .stream()
+            .collect(Collectors.toList());
+    PushOneCommit.Result r = createChange();
+    ChangeInfo change = gApi.changes().id(r.getChangeId()).get(options);
+    assertThat(change.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).all).isNull();
+
+    voteLabel(r.getChangeId(), LabelId.CODE_REVIEW, +1);
+    change = gApi.changes().id(r.getChangeId()).get(options);
+    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    List<ApprovalInfo> codeReviewApprovals = change.labels.get(LabelId.CODE_REVIEW).all;
+    assertThat(codeReviewApprovals).hasSize(1);
+    ApprovalInfo codeReviewApproval = codeReviewApprovals.get(0);
+    // permittedVotingRange is not served if DETAILED_LABELS is not requested.
+    assertThat(codeReviewApproval.permittedVotingRange).isNull();
+    assertThat(codeReviewApproval.value).isEqualTo(1);
+    assertThat(codeReviewApproval.username).isEqualTo(admin.username());
+
+    // Add another +1 vote as user
+    requestScopeOperations.setApiUser(user.id());
+    voteLabel(r.getChangeId(), LabelId.CODE_REVIEW, +1);
+    change = gApi.changes().id(r.getChangeId()).get(options);
+    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).all).hasSize(2);
+    // All available label votes and their meanings are also served if DETAILED_LABELS is not
+    // requested.
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).values).isNotNull();
+    codeReviewApprovals = change.labels.get(LabelId.CODE_REVIEW).all;
+    assertThat(codeReviewApprovals.stream().map(a -> a.permittedVotingRange).collect(toList()))
+        .containsExactly(null, null);
+    assertThat(codeReviewApprovals.stream().map(a -> a.value).collect(toList()))
+        .containsExactly(1, 1);
+    assertThat(codeReviewApprovals.stream().map(a -> a.username).collect(toList()))
+        .containsExactly(admin.username(), user.username());
+  }
+
+  @Test
   public void checkLabelsForUnsubmittedChange() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
@@ -3575,6 +3622,56 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.status).isEqualTo(ChangeStatus.ABANDONED);
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertThat(change.permittedLabels).isEmpty();
+  }
+
+  @Test
+  public void checkLabelVotesForMergedChange() throws Exception {
+    List<ListChangesOption> options =
+        EnumSet.complementOf(
+                EnumSet.of(
+                    ListChangesOption.CHECK,
+                    ListChangesOption.SKIP_DIFFSTAT,
+                    ListChangesOption.DETAILED_LABELS))
+            .stream()
+            .collect(Collectors.toList());
+    PushOneCommit.Result r = createChange();
+    voteLabel(r.getChangeId(), LabelId.CODE_REVIEW, +2);
+
+    // Add another label for 'Verified'
+    LabelType verified = TestLabels.verified();
+    AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String heads = RefNames.REFS_HEADS + "*";
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().upsertLabelType(verified);
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .update();
+
+    // Submit the change
+    voteLabel(r.getChangeId(), TestLabels.verified().getName(), 1);
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    // Make sure label votes are available if DETAILED_LABELS is not requested.
+    ChangeInfo change = gApi.changes().id(r.getChangeId()).get(options);
+    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.labels.keySet())
+        .containsExactly(LabelId.CODE_REVIEW, TestLabels.verified().getName());
+    List<ApprovalInfo> codeReviewApprovals = change.labels.get(LabelId.CODE_REVIEW).all;
+    List<ApprovalInfo> verifiedApprovals = change.labels.get(TestLabels.verified().getName()).all;
+
+    assertThat(codeReviewApprovals).hasSize(1);
+    assertThat(codeReviewApprovals.get(0).value).isEqualTo(2);
+    assertThat(codeReviewApprovals.get(0).username).isEqualTo(admin.username());
+    assertThat(codeReviewApprovals.get(0).permittedVotingRange).isNull();
+
+    assertThat(verifiedApprovals).hasSize(1);
+    assertThat(verifiedApprovals.get(0).value).isEqualTo(1);
+    assertThat(verifiedApprovals.get(0).username).isEqualTo(admin.username());
+    assertThat(codeReviewApprovals.get(0).permittedVotingRange).isNull();
   }
 
   @Test
@@ -4605,5 +4702,9 @@ public class ChangeIT extends AbstractDaemonTest {
       this.wip =
           event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
     }
+  }
+
+  private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
+    gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
   }
 }

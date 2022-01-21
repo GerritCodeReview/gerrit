@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbbb8f57_30af624f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-21T09:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffd3f428_348091b6",
+      "revId": "d4d7e43d179fb7dd15c7d95cf883681fa7064b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "869d6a50_ec4a809f",
@@ -53,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2054c9b5_633ef5e4",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-21T09:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cc61835_42462055",
+      "revId": "d4d7e43d179fb7dd15c7d95cf883681fa7064b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0edaa150_05b9551d",
@@ -66,6 +102,30 @@
       "writtenOn": "2022-01-20T07:59:05Z",
       "side": 1,
       "message": "It\u0027s about this method. I even added a comment in follow-up change in one of the previous patch set to better visualizer the problem: [1].\n\nQuoting it here to simplify the discussion:\n\n    java/com/google/gerrit/server/restapi/account/PutPreferred.java:158: error: [ReturnValueIgnored] Return value of \u0027orElseThrow\u0027 must be used\n        .orElseThrow(() -\u003e new ResourceNotFoundException(\"account not found\"));\n                      ^\n    (see https://errorprone.info/bugpattern/ReturnValueIgnored)\n  Did you mean to remove this line?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/291864/30/java/com/google/gerrit/server/restapi/account/PutPreferred.java#96",
+      "range": {
+        "startLine": 274,
+        "startChar": 10,
+        "endLine": 275,
+        "endChar": 98
+      },
+      "revId": "d4d7e43d179fb7dd15c7d95cf883681fa7064b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "243a1f97_285f1ba4",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-21T09:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0edaa150_05b9551d",
       "range": {
         "startLine": 274,
         "startChar": 10,
@@ -93,6 +153,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "523b85e3_0d719256",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-21T09:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1e1300_a7a0303e",
+      "revId": "d4d7e43d179fb7dd15c7d95cf883681fa7064b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d787273f_cd9fbb55",
@@ -106,6 +184,24 @@
       "writtenOn": "2022-01-20T07:27:34Z",
       "side": 1,
       "message": "Why would callers need to call a getter and then ignore the return value?",
+      "revId": "d4d7e43d179fb7dd15c7d95cf883681fa7064b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ef7d03c_bb7ebe71",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-21T09:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d787273f_cd9fbb55",
       "revId": "d4d7e43d179fb7dd15c7d95cf883681fa7064b1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c45c32c6_dc36cdd6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-21T12:44:37Z",
+      "side": 1,
+      "message": "@Edwin, this needs LC + 1, as it brings in [1].\nAny chance you could review this please?\n\n[1]https://gerrit-review.googlesource.com/c/gerrit/+/328620",
+      "revId": "a8c4697f08c8e737e2055c7a8722560d2619d290",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

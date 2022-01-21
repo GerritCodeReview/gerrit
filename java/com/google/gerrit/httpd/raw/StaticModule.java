@@ -192,8 +192,15 @@ public class StaticModule extends ServletModule {
     @Provides
     @Singleton
     @Named(FAVICON_SERVLET)
-    HttpServlet getFaviconServlet(@Named(CACHE) Cache<Path, Resource> cache) {
+    HttpServlet getFaviconServlet(
+      @GerritServerConfig Config cfg,
+      SitePaths sitePaths,
+      @Named(CACHE) Cache<Path, Resource> cache) {
       Paths p = getPaths();
+      Path faviconPath  = sitePaths.resolve("favicon.ico");
+      if (faviconPath != null && exists(faviconPath) && isReadable(faviconPath)) {
+        return new SingleFileServlet(cache, faviconPath, true);
+      }
       if (p.warFs != null) {
         return new SingleFileServlet(cache, p.warFs.getPath("/favicon.ico"), false);
       }

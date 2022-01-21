@@ -243,24 +243,6 @@ suite('gr-error-manager tests', () => {
       assert.isFalse(showAlertStub.called);
     });
 
-    test('suppress CONFLICTS_OPERATOR_IS_NOT_SUPPORTED error', async () => {
-      const showAlertStub = sinon.stub(element, '_showAlert');
-      const textSpy = sinon.spy(() =>
-        Promise.resolve("'conflicts:' operator is not supported by server")
-      );
-      element.dispatchEvent(
-        new CustomEvent('server-error', {
-          detail: {response: {status: 500, text: textSpy}},
-          composed: true,
-          bubbles: true,
-        })
-      );
-
-      assert.isTrue(textSpy.called);
-      await flush();
-      assert.isFalse(showAlertStub.called);
-    });
-
     test('show network error', async () => {
       const showAlertStub = sinon.stub(element, '_showAlert');
       element.dispatchEvent(

@@ -547,6 +547,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c64f2c6_46e66fcb",
+        "filename": "polygerrit-ui/app/services/scheduler/retry-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T10:12:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a0cba026_0e3ef6c3",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 0
+      },
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c1ffb59_5cb2c9e0",
@@ -607,6 +631,30 @@
       "writtenOn": "2022-01-21T09:22:09Z",
       "side": 1,
       "message": "remove?",
+      "range": {
+        "startLine": 263,
+        "startChar": 11,
+        "endLine": 263,
+        "endChar": 22
+      },
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7749d304_a547e2fb",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T10:12:05Z",
+      "side": 1,
+      "message": "It\u0027s more type-correct to have a function that takes one parameter.",
+      "parentUuid": "5677e473_1e848f11",
       "range": {
         "startLine": 263,
         "startChar": 11,

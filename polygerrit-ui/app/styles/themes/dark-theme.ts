@@ -125,12 +125,15 @@ function getStyleEl() {
 
       /* vote background colors */
       --vote-color-approved: var(--green-300);
-      --vote-color-disliked: var(--red-tonal);
-      --vote-outline-disliked: var(--red-200);
-      --vote-color-neutral: var(--gray-700);
-      --vote-color-recommended: var(--green-tonal);
-      --vote-outline-recommended: var(--green-200);
+      --vote-color-recommended: var(--green-200);
+      --vote-color-neutral: var(--gray-300);
+      --vote-color-disliked: var(--red-200);
       --vote-color-rejected: var(--red-200);
+      --vote-color-unselected: var(--gray-800);
+      --vote-outline-color-unselected: var(--gray-500);
+
+      --vote-outline-recommended: var(--green-200);
+      --vote-outline-disliked: var(--red-200);
 
       --outline-color-focus: var(--gray-100);
 

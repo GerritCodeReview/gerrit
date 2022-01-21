@@ -53,26 +53,36 @@ export const htmlTemplate = html`
       );
       padding: 0 var(--spacing-m);
     }
+    gr-button:hover::part(paper-button) {
+      background: linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)),
+          var(--background-color);
+    }
+    gr-button:focus::part(paper-button) {
+      background: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)),
+          var(--background-color);
+    }
+    gr-button::part(paper-button) {
+      border-color: var(--vote-outline-color-unselected);
+    }
     gr-button[vote='max'].iron-selected {
       --button-background-color: var(--vote-color-approved);
     }
     gr-button[vote='positive'].iron-selected {
       --button-background-color: var(--vote-color-recommended);
     }
-    gr-button[vote='min'].iron-selected {
-      --button-background-color: var(--vote-color-rejected);
+    gr-button[vote='neutral'].iron-selected {
+      --button-background-color: var(--vote-color-neutral);
     }
     gr-button[vote='negative'].iron-selected {
       --button-background-color: var(--vote-color-disliked);
     }
-    gr-button[vote='neutral'].iron-selected {
-      --button-background-color: var(--vote-color-neutral);
+    gr-button[vote='min'].iron-selected  {
+      --button-background-color: var(--vote-color-rejected);
     }
-    gr-button[vote='positive'].iron-selected::part(paper-button) {
-      border-color: var(--vote-outline-recommended);
-    }
-    gr-button[vote='negative'].iron-selected::part(paper-button) {
-      border-color: var(--vote-outline-disliked);
+
+    gr-button.iron-selected::part(paper-button) {
+      border-color: transparent;
+      box-shadow: var(--elevation-level-1);
     }
     gr-button > gr-tooltip-content {
       margin: 0px -10px;
@@ -128,6 +138,7 @@ export const htmlTemplate = html`
           data-value$="[[value]]"
           aria-label$="[[value]]"
           voteChip
+          flatten
         >
           <gr-tooltip-content
             has-tooltip

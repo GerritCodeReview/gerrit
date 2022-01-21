@@ -105,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05bd82ce_683d840d",
+        "filename": "polygerrit-ui/app/services/scheduler/fake-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T10:10:19Z",
+      "side": 1,
+      "message": "propagates errors fails 😊",
+      "parentUuid": "be87f55f_c74859ea",
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bbb0adc_a2b26ab3",
@@ -460,6 +478,24 @@
       "side": 1,
       "message": "I was aware of 1.618 being phi. ;-)\n\nI am fine with keeping as is, but maybe we should just not provide any defaults. I think every usage should carefully think about the backoff strategy and set the parameters explicitly, see also my comment on the other change. That is also why I was suggesting `0` as the default for the interval, because \"no backoff\" makes more sense to me as a default than an arbitrary one.",
       "parentUuid": "0029b901_e31260cd",
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89fecdfb_a8d1e0f5",
+        "filename": "polygerrit-ui/app/services/scheduler/retry-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T10:10:19Z",
+      "side": 1,
+      "message": "Fair point. I\u0027ll keep the backoffFactor as that\u0027s less relevant to tweak and make the other two required parameters.",
+      "parentUuid": "8834dc51_b0ee067d",
       "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

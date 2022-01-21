@@ -89,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be87f55f_c74859ea",
+        "filename": "polygerrit-ui/app/services/scheduler/fake-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T10:04:10Z",
+      "side": 1,
+      "message": "If you have a test that fails when you replace\n```\n          try {\n            resolve(await task());\n          } catch (e: unknown) {\n            reject(e);\n          }\n```\nwith\n```\n          resolve(await task());\n```\nthen I am fine. :-)",
+      "parentUuid": "80e74723_2a9c686e",
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4bbb0adc_a2b26ab3",
         "filename": "polygerrit-ui/app/services/scheduler/fake-scheduler.ts",
         "patchSetId": 4
@@ -424,6 +442,24 @@
       "side": 1,
       "message": "The latter is phi, the golden ratio of the fibonacci numbers :) An often popular use-case.\n\n0 and 2 would not result in any backoff.  I\u0027d prefer keeping values as is because tehy\u0027re still overriddeable by constructor arguments.",
       "parentUuid": "a68ede34_5c8ac2db",
+      "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8834dc51_b0ee067d",
+        "filename": "polygerrit-ui/app/services/scheduler/retry-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-21T10:04:10Z",
+      "side": 1,
+      "message": "I was aware of 1.618 being phi. ;-)\n\nI am fine with keeping as is, but maybe we should just not provide any defaults. I think every usage should carefully think about the backoff strategy and set the parameters explicitly, see also my comment on the other change. That is also why I was suggesting `0` as the default for the interval, because \"no backoff\" makes more sense to me as a default than an arbitrary one.",
+      "parentUuid": "0029b901_e31260cd",
       "revId": "c282695eccf34a11387b02a2f75a0b6ead637e1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -34,7 +34,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public final class OAuthRealmTest {
-  @Inject private OAuthRealm oauthRealm = null;
+  @Inject private OAuthRealm oauthRealm;
   @Inject private ExternalIdFactory externalIdFactory;
 
   @Before

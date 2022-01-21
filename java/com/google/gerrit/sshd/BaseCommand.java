@@ -105,7 +105,7 @@ public abstract class BaseCommand implements Command {
 
   @Inject protected Injector injector;
 
-  @Inject protected DynamicMap<DynamicOptions.DynamicBean> dynamicBeans = null;
+  @Inject protected DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
   /** The task, as scheduled on a worker thread. */
   private final AtomicReference<Future<?>> task;

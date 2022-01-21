@@ -44,7 +44,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public final class LdapRealmTest {
-  @Inject private LdapRealm ldapRealm = null;
+  @Inject private LdapRealm ldapRealm;
   @Inject private ExternalIdFactory externalIdFactory;
 
   @Before

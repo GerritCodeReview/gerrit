@@ -35,7 +35,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public final class OpenIdRealmTest {
-  @Inject private OpenIdRealm openidRealm = null;
+  @Inject private OpenIdRealm openidRealm;
   @Inject private ExternalIdFactory extIdFactory;
 
   @Before

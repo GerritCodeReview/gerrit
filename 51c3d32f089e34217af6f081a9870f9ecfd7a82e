@@ -22,6 +22,30 @@
       },
       "revId": "51c3d32f089e34217af6f081a9870f9ecfd7a82e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1716e728_5731ed71",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-21T15:37:54Z",
+      "side": 0,
+      "message": "Well, the fix for issue: [4] was reverted, because it broke a number f downsetram projects: [5] so that we should just use the default options.\n\n[4] https://github.com/bazelbuild/bazel/issues/14589\n[5] https://github.com/bazelbuild/bazel/issues/14598",
+      "parentUuid": "404b932c_78ab2b38",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 6
+      },
+      "revId": "51c3d32f089e34217af6f081a9870f9ecfd7a82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

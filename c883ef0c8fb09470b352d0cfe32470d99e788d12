@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "529d0c8e_da5828e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:59:50Z",
+      "side": 1,
+      "message": "Weirdly enough this works to alleviate the bug, even with a max-in-flight scheduler supporting 10000 in parallel.",
+      "parentUuid": "5976260e_e2e94a1a",
+      "revId": "c883ef0c8fb09470b352d0cfe32470d99e788d12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eec39195_ce2560f5",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
         "patchSetId": 8
@@ -31,6 +49,24 @@
       "writtenOn": "2022-01-21T09:56:44Z",
       "side": 1,
       "message": "Maybe use the `HttpMethod` enum.",
+      "revId": "c883ef0c8fb09470b352d0cfe32470d99e788d12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55b819d7_4e533dba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:59:50Z",
+      "side": 1,
+      "message": "Unfortunately we don\u0027t use HttpMethod in send.  I could recast it but then what about values outside of that enum.",
+      "parentUuid": "eec39195_ce2560f5",
       "revId": "c883ef0c8fb09470b352d0cfe32470d99e788d12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2022-01-21T09:56:44Z",
       "side": 1,
       "message": "What do you think about increasing the backoff interval to something like 3 seconds and then firing an alert (i.e. show a toast) here such that the user knows that something is being retried in the background?",
+      "revId": "c883ef0c8fb09470b352d0cfe32470d99e788d12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff79ef89_d15be564",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-21T09:59:50Z",
+      "side": 1,
+      "message": "Why should we bother the user if this is a temporary glitch that can resolve itself?",
+      "parentUuid": "343973de_5fd3cd88",
       "revId": "c883ef0c8fb09470b352d0cfe32470d99e788d12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

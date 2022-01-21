@@ -53,26 +53,33 @@ export const htmlTemplate = html`
       );
       padding: 0 var(--spacing-m);
     }
-    gr-button[vote='max'].iron-selected {
+    gr-button::part(paper-button) {
+      border-color: var(--vote-outline-color-unselected);
+    }
+    gr-button[vote='max'].iron-selected,
+    gr-button[vote='max']:hover {
       --button-background-color: var(--vote-color-approved);
     }
-    gr-button[vote='positive'].iron-selected {
+    gr-button[vote='positive'].iron-selected,
+    gr-button[vote='positive']:hover {
       --button-background-color: var(--vote-color-recommended);
     }
-    gr-button[vote='min'].iron-selected {
-      --button-background-color: var(--vote-color-rejected);
-    }
-    gr-button[vote='negative'].iron-selected {
-      --button-background-color: var(--vote-color-disliked);
-    }
-    gr-button[vote='neutral'].iron-selected {
+    gr-button[vote='neutral'].iron-selected,
+    gr-button[vote='neutral']:hover {
       --button-background-color: var(--vote-color-neutral);
     }
-    gr-button[vote='positive'].iron-selected::part(paper-button) {
-      border-color: var(--vote-outline-recommended);
+    gr-button[vote='negative'].iron-selected,
+    gr-button[vote='negative']:hover {
+      --button-background-color: var(--vote-color-disliked);
     }
-    gr-button[vote='negative'].iron-selected::part(paper-button) {
-      border-color: var(--vote-outline-disliked);
+    gr-button[vote='min'].iron-selected,
+    gr-button[vote='min']:hover {
+      --button-background-color: var(--vote-color-rejected);
+    }
+
+    gr-button.iron-selected::part(paper-button) {
+      border-color: transparent;
+      box-shadow: var(--elevation-level-1);
     }
     gr-button > gr-tooltip-content {
       margin: 0px -10px;
@@ -128,6 +135,7 @@ export const htmlTemplate = html`
           data-value$="[[value]]"
           aria-label$="[[value]]"
           voteChip
+          flatten
         >
           <gr-tooltip-content
             has-tooltip

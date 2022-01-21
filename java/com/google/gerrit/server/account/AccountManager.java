@@ -264,14 +264,16 @@ public class AccountManager {
     }
 
     if (!accountUpdates.isEmpty()) {
-      accountsUpdateProvider
-          .get()
-          .update(
-              "Update Account on Login",
-              user.getAccountId(),
-              AccountsUpdate.joinConsumers(accountUpdates))
-          .orElseThrow(
-              () -> new StorageException("Account " + user.getAccountId() + " has been deleted"));
+      Optional<AccountState> updatedAccount =
+          accountsUpdateProvider
+              .get()
+              .update(
+                  "Update Account on Login",
+                  user.getAccountId(),
+                  AccountsUpdate.joinConsumers(accountUpdates));
+      if (!updatedAccount.isPresent()) {
+        throw new StorageException("Account " + user.getAccountId() + " has been deleted");
+      }
     }
   }
 

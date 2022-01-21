@@ -113,6 +113,7 @@ const styleSheet = safeStyleSheet`
     --purple-500: #a142f4;
     --purple-400: #af5cf7;
     --purple-200: #d7aefb;
+    --purple-100: #e9d2fd;
     --purple-50: #f3e8fd;
     --purple-tonal: #523272;
     --pink-800: #b80672;
@@ -172,6 +173,10 @@ const styleSheet = safeStyleSheet`
     --error-color: var(--red-900);
     --tag-background: var(--cyan-100);
     --label-background: var(--red-50);
+
+    --not-working-hours-icon-background-color: var(--purple-50);
+    --not-working-hours-icon-color: var(--purple-700);
+    --unavailability-icon-color: var(--gray-700);
 
     /* text colors */
     --primary-text-color: var(--gray-900);
@@ -273,7 +278,7 @@ const styleSheet = safeStyleSheet`
     /* file status colors */
     --file-status-added: var(--green-300);
     --file-status-changed: var(--red-200);
-    --file-status-unchanged: var(--grey-300);
+    --file-status-unchanged: var(--gray-300);
 
     /* fonts */
     --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';

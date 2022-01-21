@@ -33,6 +33,24 @@
       "message": "Matthias how feasible would it be to back port this change to stable branches?\n\nIt depends on this JGit change: [1].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/188371",
       "revId": "f27f2a9b7e79280dad6ea7101adfa86cc88376db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8d2e936_4c9a0aea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-01-21T10:31:38Z",
+      "side": 1,
+      "message": "I think this would require to \n- update jgit to the same version in those stable branches\n- downporting the Gerrit adaptions to API changes which happened \n  - in mina-sshd between mina-sshd 2.4.0 and 2.8.0 \n  - in jgit between 5.9 and 6.0",
+      "parentUuid": "4a0e4eed_e78d7a87",
+      "revId": "f27f2a9b7e79280dad6ea7101adfa86cc88376db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

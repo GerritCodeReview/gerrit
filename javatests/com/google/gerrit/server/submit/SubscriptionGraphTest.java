@@ -38,8 +38,11 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class SubscriptionGraphTest {
   private static final String TEST_PATH = "test/path";
   private static final Project.NameKey SUPER_PROJECT = Project.nameKey("Superproject");
@@ -51,9 +54,9 @@ public class SubscriptionGraphTest {
   private InMemoryRepositoryManager repoManager = new InMemoryRepositoryManager();
   private MergeOpRepoManager mergeOpRepoManager;
 
-  @Mock GitModules.Factory mockGitModulesFactory = mock(GitModules.Factory.class);
-  @Mock ProjectCache mockProjectCache = mock(ProjectCache.class);
-  @Mock ProjectState mockProjectState = mock(ProjectState.class);
+  @Mock GitModules.Factory mockGitModulesFactory;
+  @Mock ProjectCache mockProjectCache;
+  @Mock ProjectState mockProjectState;
 
   @Before
   public void setUp() throws Exception {
@@ -61,7 +64,6 @@ public class SubscriptionGraphTest {
     mergeOpRepoManager = new MergeOpRepoManager(repoManager, mockProjectCache, null, null);
 
     GitModules emptyMockGitModules = mock(GitModules.class);
-    when(emptyMockGitModules.subscribedTo(any())).thenReturn(ImmutableSet.of());
     when(mockGitModulesFactory.create(any(), any())).thenReturn(emptyMockGitModules);
 
     TestRepository<Repository> superProject = createRepo(SUPER_PROJECT);

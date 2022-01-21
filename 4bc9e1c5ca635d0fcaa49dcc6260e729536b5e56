@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ba4ce41_a2807587",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "There\u0027s no special relation between labels and SRs (except maybe yes, for label functions which should now be deprecated in favour of SRs). Label operators could be used, like any other operator, in SRs.\n\nI updated config-labels and marked ignoreSelfApproval and function as deprecated with a pointer to the new config-submit-requirements.txt.",
+      "parentUuid": "16806bdb_975da5c9",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07542fbd_42878e47",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-01-14T15:00:03Z",
       "side": 1,
       "message": "Should this rather be \"project owners\"? Since submit requirements are defined per project in refs/meta/config defining submit requirements is under the control of the project owners.",
+      "range": {
+        "startLine": 3,
+        "startChar": 36,
+        "endLine": 3,
+        "endChar": 42
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2ce9c87_fccebe59",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07542fbd_42878e47",
       "range": {
         "startLine": 3,
         "startChar": 36,
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca67c7e6_602ffb24",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dc8dece_9fb2a290",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5504ce6b_749bb07f",
@@ -88,6 +148,24 @@
       "writtenOn": "2022-01-14T15:00:03Z",
       "side": 1,
       "message": "Should it be documented anywhere that label definitions with certain functions and Prolog rules are auto-converted to submit requirements?",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eb6992d_9d16f02c",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Yes, I added a paragraph about it in the \"Evaluation Results\" section.",
+      "parentUuid": "5504ce6b_749bb07f",
       "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -115,6 +193,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97a5740f_d5c93cd9",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d4f26cf_34d18a47",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78b5dded_42a5ce31",
@@ -128,6 +230,24 @@
       "writtenOn": "2022-01-14T15:00:03Z",
       "side": 1,
       "message": "Maybe mention here that it can the name of an inherited submit requirement if it should be overridden and link to the Inheritance section below.",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "795e0075_a4d88783",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78b5dded_42a5ce31",
       "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -149,6 +269,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cd8f09c_5414925b",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e32904c_b3264d13",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f89e8162_c0d48a44",
@@ -162,6 +300,30 @@
       "writtenOn": "2022-01-14T15:00:03Z",
       "side": 1,
       "message": "Make this a link to the \u0027Query Expression Syntax\u0027 section. Here and below.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 18
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ef634c2_9c9f42bc",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f89e8162_c0d48a44",
       "range": {
         "startLine": 30,
         "startChar": 2,
@@ -195,6 +357,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "329e38d8_1f3ba8a0",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Done. I added an example in the examples section at the end.",
+      "parentUuid": "dcac53f5_f8a93df9",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 32,
+        "endChar": 24
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac0c3b00_f02137ab",
@@ -208,6 +394,30 @@
       "writtenOn": "2022-01-14T15:00:03Z",
       "side": 1,
       "message": "This is hard to read. Can you rephrase this?",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 76
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5162254_e03b8103",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac0c3b00_f02137ab",
       "range": {
         "startLine": 47,
         "startChar": 0,
@@ -235,6 +445,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e96be54_6e59e498",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04161f0e_f1fb67f7",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61de2da3_a84d13d6",
@@ -248,6 +476,24 @@
       "writtenOn": "2022-01-14T15:00:03Z",
       "side": 1,
       "message": "Maybe say what happens if a child project has an override and this is false.",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48332f6d_f56c1a20",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "This is mentioned in the inheritance section.",
+      "parentUuid": "61de2da3_a84d13d6",
       "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -269,6 +515,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24dd1360_f018ecf8",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65318274_268b6553",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9837eca_623a5998",
@@ -282,6 +546,30 @@
       "writtenOn": "2022-01-14T15:00:03Z",
       "side": 1,
       "message": "Better just name this \u0027submit\u0027 option and link to the corresponding documentation (e.g. it can also be a \u0027submit\u0027 push option instead of \u0027%submit).",
+      "range": {
+        "startLine": 100,
+        "startChar": 70,
+        "endLine": 100,
+        "endChar": 79
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cf2dc8e_13d32e4e",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9837eca_623a5998",
       "range": {
         "startLine": 100,
         "startChar": 70,
@@ -315,6 +603,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08d8fe6e_f25f38b9",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "When a change is pushed directly into the target branch, the server code doesn\u0027t go through the logic of storing SR results in NoteDb and SRs remain empty for the change. So right now, using the %submit push option is the only way to produce the `BYPASSED` result.",
+      "parentUuid": "81501797_6c5ac0d1",
+      "range": {
+        "startLine": 100,
+        "startChar": 53,
+        "endLine": 101,
+        "endChar": 30
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8e26bee_30e66519",
@@ -338,6 +650,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a73f355f_90e04a78",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "Yes. Only \"is:submittable\" is not supported for SRs. I added a section mentioning that.",
+      "parentUuid": "a8e26bee_30e66519",
+      "range": {
+        "startLine": 117,
+        "startChar": 46,
+        "endLine": 117,
+        "endChar": 61
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ef659f3_9079a6f9",
@@ -351,6 +687,30 @@
       "writtenOn": "2022-01-14T15:00:03Z",
       "side": 1,
       "message": "In case this is the default value, maybe drop this.",
+      "range": {
+        "startLine": 172,
+        "startChar": 1,
+        "endLine": 172,
+        "endChar": 34
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef4f8470_10c44eb4",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-21T18:25:15Z",
+      "side": 1,
+      "message": "The default value is false. I left as is.",
+      "parentUuid": "5ef659f3_9079a6f9",
       "range": {
         "startLine": 172,
         "startChar": 1,

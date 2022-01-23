@@ -20,6 +20,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.index.change.ChangeField.MAX_TERM_LENGTH;
 import static com.google.gerrit.server.project.testing.Util.allow;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
@@ -132,7 +133,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.TestRepository;
@@ -1406,6 +1409,21 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       assertQuery("ext:\"\"", change5, change4);
       assertFailingQuery("ext:");
     }
+  }
+
+  @Test
+  public void byOnlyExtensionsOverflowIndexMaxTermSize() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    int fileExtensionLength = 36 + 1; // UUID.length + 1 coma separator char
+    Change change =
+        insert(
+            repo,
+            newChangeWithFiles(
+                repo,
+                Stream.generate(() -> "." + UUID.randomUUID())
+                    .limit((int) Math.ceil((double) MAX_TERM_LENGTH / fileExtensionLength))
+                    .toArray(String[]::new)));
+    assertThat(change).isNotNull();
   }
 
   @Test

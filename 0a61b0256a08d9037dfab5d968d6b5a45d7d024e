@@ -16,6 +16,29 @@
       "message": "@Edwin any concern about this change?",
       "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d5f5efc_561157a4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5287,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-01-23T16:00:00Z",
+      "side": 1,
+      "message": "nit: empty whitespace at the end",
+      "range": {
+        "startLine": 5287,
+        "startChar": 67,
+        "endLine": 5287,
+        "endChar": 68
+      },
+      "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

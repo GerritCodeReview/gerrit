@@ -81,6 +81,9 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
           .addSearchSpecs(ProjectField.PREFIX_NAME_SPEC)
           .build();
 
+  // Upgrade Lucene to 9.x requires reindexing.
+  static final Schema<ProjectData> V9 = schema(V8);
+
   /**
    * Name of the project index to be used when contacting index backends or loading configurations.
    */

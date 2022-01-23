@@ -46,9 +46,9 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
+import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.eclipse.jgit.lib.Config;
 
@@ -74,7 +74,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   private static Directory dir(Schema<?> schema, Config cfg, SitePaths sitePaths)
       throws IOException {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
-      return new RAMDirectory();
+      return new ByteBuffersDirectory();
     }
     Path indexDir = LuceneVersionManager.getDir(sitePaths, GROUPS, schema);
     return FSDirectory.open(indexDir);

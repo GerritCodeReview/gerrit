@@ -431,13 +431,16 @@ public class LuceneChangeIndex implements ChangeIndex {
               TopFieldDocs subIndexHits =
                   searchers[i].searchAfter(
                       searchAfter, query, maxRemainingHits, sort, /* doDocScores= */ false);
+              assignShardIndexValues(subIndexHits, i);
               searchAfterHitsCount += subIndexHits.scoreDocs.length;
               hits.add(subIndexHits);
               searchAfterBySubIndex.put(
                   subIndex, Iterables.getLast(Arrays.asList(subIndexHits.scoreDocs), searchAfter));
             }
           } else {
-            hits.add(searchers[i].search(query, realPageSize, sort));
+            TopFieldDocs subIndexHits = searchers[i].search(query, realPageSize, sort);
+            assignShardIndexValues(subIndexHits, i);
+            hits.add(subIndexHits);
           }
         }
         TopDocs docs =
@@ -459,6 +462,25 @@ public class LuceneChangeIndex implements ChangeIndex {
             }
           }
         }
+      }
+    }
+
+    /*
+     * Assign shard index values to the score documents.
+     *
+     * <p>TopDocs.merge()'s API has been changed to stop allowing passing in a parameter to
+     * indicate if it should set shard indices for hits as they are seen during the merge
+     * process. This is done to simplify the API to be more dynamic in terms of passing in
+     * custom tie breakers. If shard indices are to be used for tie breaking docs with equal
+     * scores during TopDocs.merge(), then it is mandatory that the input ScoreDocs have their
+     * shard indices set to valid values prior to calling merge().
+     *
+     * @param doc document
+     * @param shard index
+     */
+    private void assignShardIndexValues(TopFieldDocs doc, int shard) {
+      for (int docID = 0; docID < doc.scoreDocs.length; docID++) {
+        doc.scoreDocs[docID].shardIndex = shard;
       }
     }
 

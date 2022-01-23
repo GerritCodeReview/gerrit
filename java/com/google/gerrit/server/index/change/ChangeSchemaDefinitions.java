@@ -181,7 +181,10 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .build();
 
   // Upgrade Lucene to 8.x requires reindexing.
-  static final Schema<ChangeData> V80 = schema(V79);
+  @Deprecated static final Schema<ChangeData> V80 = schema(V79);
+
+  // Upgrade Lucene to 9.x requires reindexing.
+  static final Schema<ChangeData> V81 = schema(V80);
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

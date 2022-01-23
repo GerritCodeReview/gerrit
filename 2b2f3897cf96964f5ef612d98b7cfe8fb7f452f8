@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "450f723c_d6edd0e9",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-23T13:11:17Z",
+      "side": 1,
+      "message": "As reported in issue 15593, this could lead to overflow of the max term length for text fields. At least for Lucene index backend it\u0027s: 32766, see IndexWriter.html#MAX_TERM_LENGTH: [1].\n\nAs the consequence this would fail reindex operation and would lead to change corruption. I\u0027ve sent change 328636 for review.\n\n[1] https://lucene.apache.org/core/8_11_1/core/org/apache/lucene/index/IndexWriter.html#MAX_TERM_LENGTH",
+      "range": {
+        "startLine": 206,
+        "startChar": 11,
+        "endLine": 206,
+        "endChar": 68
+      },
+      "revId": "2b2f3897cf96964f5ef612d98b7cfe8fb7f452f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

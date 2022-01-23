@@ -103,6 +103,9 @@ public class ChangeField {
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
+  // We cannot depend here on org.apache.lucene.index.IndexWriter.MAX_TERM_LENGTH
+  public static final int MAX_TERM_LENGTH = (1 << 15) - 2;
+
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
       integer("legacy_id").stored().build(cd -> cd.getId().get());
@@ -196,7 +199,10 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_ONLY_EXTENSIONS).build(ChangeField::getAllExtensionsAsList);
 
   public static String getAllExtensionsAsList(ChangeData cd) {
-    return extensions(cd).distinct().sorted().collect(joining(","));
+    String extensions = extensions(cd).sorted().distinct().collect(joining(","));
+    return extensions.length() > MAX_TERM_LENGTH
+        ? extensions.substring(0, MAX_TERM_LENGTH)
+        : extensions;
   }
 
   /**

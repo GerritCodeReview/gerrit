@@ -34,9 +34,9 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TotalHits;
+import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.IndexOutput;
-import org.apache.lucene.store.RAMDirectory;
 
 @Singleton
 public class QueryDocumentationExecutor {
@@ -101,7 +101,7 @@ public class QueryDocumentationExecutor {
   }
 
   protected Directory readIndexDirectory() throws IOException {
-    Directory dir = new RAMDirectory();
+    Directory dir = new ByteBuffersDirectory();
     byte[] buffer = new byte[4096];
     InputStream index = getClass().getResourceAsStream(Constants.INDEX_ZIP);
     if (index == null) {

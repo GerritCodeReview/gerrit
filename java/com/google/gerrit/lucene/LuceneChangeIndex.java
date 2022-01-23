@@ -83,7 +83,7 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopFieldDocs;
-import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.eclipse.jgit.lib.Config;
 
@@ -170,7 +170,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           new ChangeSubIndex(
               schema,
               sitePaths,
-              new RAMDirectory(),
+              new ByteBuffersDirectory(),
               "ramOpen",
               skipFields,
               openConfig,
@@ -180,7 +180,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           new ChangeSubIndex(
               schema,
               sitePaths,
-              new RAMDirectory(),
+              new ByteBuffersDirectory(),
               "ramClosed",
               skipFields,
               closedConfig,
@@ -401,6 +401,21 @@ public class LuceneChangeIndex implements ChangeIndex {
         for (int i = 0; i < indexes.size(); i++) {
           searchers[i] = indexes.get(i).acquire();
           hits[i] = searchers[i].search(query, realLimit, sort);
+
+          /**
+           * See:
+           * https://github.com/apache/lucene/blob/0b517573a469acadd97ce7327b2d708ef1ef79d8/lucene/MIGRATE.md#topdocsmerge-shall-no-longer-allow-setting-of-shard-indices
+           *
+           * <p>TopDocs.merge()'s API has been changed to stop allowing passing in a parameter to
+           * indicate if it should set shard indices for hits as they are seen during the merge
+           * process. This is done to simplify the API to be more dynamic in terms of passing in
+           * custom tie breakers. If shard indices are to be used for tie breaking docs with equal
+           * scores during TopDocs.merge(), then it is mandatory that the input ScoreDocs have their
+           * shard indices set to valid values prior to calling merge()
+           */
+          for (int docID = 0; docID < hits[i].scoreDocs.length; docID++) {
+            hits[i].scoreDocs[docID].shardIndex = i;
+          }
         }
         TopDocs docs = TopDocs.merge(sort, realLimit, hits);
 

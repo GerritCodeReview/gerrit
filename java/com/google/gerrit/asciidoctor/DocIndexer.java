@@ -42,8 +42,8 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.IndexInput;
-import org.apache.lucene.store.RAMDirectory;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -92,9 +92,9 @@ public class DocIndexer {
     }
   }
 
-  private RAMDirectory index()
+  private ByteBuffersDirectory index()
       throws IOException, UnsupportedEncodingException, FileNotFoundException {
-    RAMDirectory directory = new RAMDirectory();
+    ByteBuffersDirectory directory = new ByteBuffersDirectory();
     IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer(CharArraySet.EMPTY_SET));
     config.setOpenMode(OpenMode.CREATE);
     config.setCommitOnClose(true);
@@ -132,7 +132,7 @@ public class DocIndexer {
     return directory;
   }
 
-  private byte[] zip(RAMDirectory dir) throws IOException {
+  private byte[] zip(ByteBuffersDirectory dir) throws IOException {
     ByteArrayOutputStream buf = new ByteArrayOutputStream();
     try (ZipOutputStream zip = new ZipOutputStream(buf)) {
       for (String name : dir.listAll()) {

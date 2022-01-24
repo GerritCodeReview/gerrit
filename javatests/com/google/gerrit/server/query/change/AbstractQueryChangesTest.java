@@ -347,8 +347,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("is:new", change1);
     assertQuery("status:merged", change2);
     assertQuery("is:merged", change2);
-    assertQuery("status:draft");
-    assertQuery("is:draft");
+    Exception thrown = assertThrows(BadRequestException.class, () -> assertQuery("is:draft"));
+    assertThat(thrown).hasMessageThat().isEqualTo("Unrecognized value: draft");
+    thrown = assertThrows(BadRequestException.class, () -> assertQuery("status:draft"));
+    assertThat(thrown).hasMessageThat().isEqualTo("Unrecognized value: draft");
   }
 
   @Test
@@ -421,8 +423,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("status:N", change1);
     assertQuery("status:nE", change1);
     assertQuery("status:neW", change1);
-    assertQuery("status:nx");
-    assertQuery("status:newx");
+    Exception thrown = assertThrows(BadRequestException.class, () -> assertQuery("status:newx"));
+    assertThat(thrown).hasMessageThat().isEqualTo("Unrecognized value: newx");
+    thrown = assertThrows(BadRequestException.class, () -> assertQuery("status:nx"));
+    assertThat(thrown).hasMessageThat().isEqualTo("Unrecognized value: nx");
   }
 
   @Test

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -46,7 +47,11 @@ public class PluginOperatorsIT extends AbstractDaemonTest {
 
     String oddChangeId = createChange().getChangeId();
     String evenChangeId = createChange().getChangeId();
-    assertThat(getChanges(queryChanges)).hasSize(0);
+    BadRequestException exception =
+        assertThrows(BadRequestException.class, () -> getChanges(queryChanges));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("Unrecognized value: changeNumberEven_myplugin");
 
     try (AutoCloseable ignored = installPlugin("myplugin", IsOperatorModule.class)) {
       List<?> changes = getChanges(queryChanges);
@@ -57,8 +62,6 @@ public class PluginOperatorsIT extends AbstractDaemonTest {
       assertThat(outputChangeId).isEqualTo(evenChangeId);
       assertThat(outputChangeId).isNotEqualTo(oddChangeId);
     }
-
-    assertThat(getChanges(queryChanges)).hasSize(0);
   }
 
   protected static class IsOperatorModule extends AbstractModule {

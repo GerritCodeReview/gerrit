@@ -22,7 +22,7 @@
  * expose these variables until plugins switch to direct import from polygerrit.
  */
 
-import {GrAnnotation} from './diff/gr-diff-highlight/gr-annotation';
+import {GrAnnotation} from '../embed/diff/gr-diff-highlight/gr-annotation';
 import {page} from '../utils/page-wrapper-utils';
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context';
 import {initGerritPluginApi} from './shared/gr-js-api-interface/gr-gerrit';

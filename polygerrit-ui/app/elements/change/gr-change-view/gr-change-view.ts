@@ -39,7 +39,7 @@ import '../gr-file-list-header/gr-file-list-header';
 import '../gr-included-in-dialog/gr-included-in-dialog';
 import '../gr-messages-list/gr-messages-list';
 import '../gr-related-changes-list/gr-related-changes-list';
-import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
+import '../../../embed/diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
 import '../../checks/gr-checks-tab';
@@ -91,7 +91,7 @@ import {
 } from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, observe, property} from '@polymer/decorators';
-import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
+import {GrApplyFixDialog} from '../../../embed/diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
 import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -127,7 +127,7 @@ import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../../../embed/diff/gr-comment-api/gr-comment-api';
 import {
   assertIsDefined,
   hasOwnProperty,

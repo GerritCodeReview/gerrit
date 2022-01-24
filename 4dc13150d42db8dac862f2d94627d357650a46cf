@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9807f320_0e9bd966",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-24T09:07:00Z",
+      "side": 1,
+      "message": "Before we merge this change, can we update SubmitRequirementJsonSerializerTest in the next change and create two round-trip tests, one with Optional#empty and another with Optional having some value for the submittability expression result?\n\nWe need to make sure that (with 3 round-trip tests):\n  * previously serialized entities with mandatory fields can be deserialized\n  * entities with optional submExprResult (empty) can be de/serialized\n  * entities with optional submExprResult (some value) can be de/serialized",
+      "revId": "4dc13150d42db8dac862f2d94627d357650a46cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d1b9c2d_9201eb00",
+        "filename": "java/com/google/gerrit/json/OptionalSubmitRequirementExpressionResultAdapterFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-24T09:07:00Z",
+      "side": 1,
+      "message": "We still need to keep this format (we need the read method) since we have stored entities in NoteDb with SubmitRequirementExpressionResult as mandatory (All merged changes have stored SR results in NoteDb). We should remove the TODO I think.\n\nCan we also add more Javadocs, so that the future reader understands why we are keeping both handlers?\n\n{@link SubmitRequirementExpressionResult} was previously serialized as a mandatory field in {@link com.google.gerrit.entities.SubmitRequirementResult}, but was later on migrated to an optional field. The server needs to handle deserializing both formats.",
+      "revId": "4dc13150d42db8dac862f2d94627d357650a46cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

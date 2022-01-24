@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7f17d002_de4db3e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-24T15:01:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b02aa20_36b0ca35",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ae97fdb4_91f9802c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1267b44_7ded6b57",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-24T15:01:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a15f50fc_83255e3d",
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88e473c2_e336bbba",
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63e424f9_d11bb481",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-24T15:01:33Z",
+      "side": 1,
+      "message": "We can keep it so that the callers are not required to wrap the value. I added a @Nullable annotation, so it is now equivalent to Optional.ofNullable(value), see [1].\n\n[1]https://github.com/google/auto/blob/master/value/userguide/builders-howto.md#-handle-optional-properties",
+      "parentUuid": "88e473c2_e336bbba",
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "438ed34d_94438fc5",
@@ -88,6 +148,30 @@
       "writtenOn": "2022-01-24T09:20:29Z",
       "side": 1,
       "message": "while at it: can we rename this to submittabilityResult?\n\nBackground: In the past we used to name it \"blocking condition\" but then we agreed that \"submittability condition\" is better. I forgot to update the naming in this place.",
+      "range": {
+        "startLine": 108,
+        "startChar": 50,
+        "endLine": 108,
+        "endChar": 64
+      },
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b37ac69_5ffcca8c",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-24T15:01:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "438ed34d_94438fc5",
       "range": {
         "startLine": 108,
         "startChar": 50,
@@ -132,6 +216,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57174857_11ea8ce0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-24T15:01:33Z",
+      "side": 1,
+      "message": "I just wanted to emphasize that the override expression is not evaluated too. Adjusted the test names.",
+      "parentUuid": "b786f709_495ebc88",
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "502c0122_fd971b79",
@@ -145,6 +247,24 @@
       "writtenOn": "2022-01-24T09:20:29Z",
       "side": 1,
       "message": "We need to add roundtrip tests to make sure that:\n  1) SR result with mandatory subExprResult are de/serialized properly.\n  2) SR result with empty optional for subExprResult are de/serialized properly.\n  3) SR result with non-empty optional for subExprResult are de/serialized properly.",
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c8940d_c0390609",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementJsonSerializerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-24T15:01:33Z",
+      "side": 1,
+      "message": "1) Covered by submitRequirementResult_deserialize_nonOptionalSubmittabilityExpressionResultField. Serialization with mandatory subExprResult does not happen starting from this change.\n2) Added submitRequirementResult_emptySubmittabilityExpressionResultField_roundTrip\n3)Covered by submitRequirementResult_deserialize_optionalSubmittabilityExpressionResultField() and submitRequirementResult_serialize()",
+      "parentUuid": "502c0122_fd971b79",
       "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

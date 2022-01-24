@@ -29,7 +29,7 @@ import {toggleClass} from '../../../utils/dom-util';
 import {
   GrCursorManager,
   isTargetable,
-} from '../../shared/gr-cursor-manager/gr-cursor-manager';
+} from '../../../elements/shared/gr-cursor-manager/gr-cursor-manager';
 import {GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';

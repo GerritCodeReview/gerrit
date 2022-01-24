@@ -51,15 +51,15 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {GrComment} from '../gr-comment/gr-comment';
-import {FILE} from '../../diff/gr-diff/gr-diff-line';
+import {FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffLayer, RenderPreferences} from '../../../api/diff';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire, fireAlert, waitForEventOnce} from '../../../utils/event-util';
-import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
-import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-layer';
-import {anyLineTooLong} from '../../diff/gr-diff/gr-diff-utils';
+import {GrSyntaxLayer} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer';
+import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
+import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {getUserName} from '../../../utils/display-name-util';
 import {generateAbsoluteUrl} from '../../../utils/url-util';
 import {sharedStyles} from '../../../styles/shared-styles';

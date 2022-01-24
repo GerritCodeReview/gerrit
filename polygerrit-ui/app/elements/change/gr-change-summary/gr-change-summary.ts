@@ -40,7 +40,7 @@ import {
   isStatus,
   labelFor,
 } from '../../../models/checks/checks-util';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../../../embed/diff/gr-comment-api/gr-comment-api';
 import {
   CommentThread,
   getFirstComment,

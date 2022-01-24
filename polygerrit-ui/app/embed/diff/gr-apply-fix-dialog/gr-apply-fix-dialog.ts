@@ -16,12 +16,12 @@
  */
 import '@polymer/iron-icon/iron-icon';
 import '../../../styles/shared-styles';
-import '../../shared/gr-dialog/gr-dialog';
-import '../../shared/gr-overlay/gr-overlay';
+import '../../../elements/shared/gr-dialog/gr-dialog';
+import '../../../elements/shared/gr-overlay/gr-overlay';
 import '../gr-diff/gr-diff';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-apply-fix-dialog_html';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav} from '../../../elements/core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {
   NumericChangeId,
@@ -33,13 +33,13 @@ import {
   BasePatchSetNum,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {GrOverlay} from '../../../elements/shared/gr-overlay/gr-overlay';
 import {isRobot} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {getAppContext} from '../../../services/app-context';
 import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
-import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrButton} from '../../../elements/shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../gr-diff-builder/token-highlight-layer';
 
 export interface GrApplyFixDialog {

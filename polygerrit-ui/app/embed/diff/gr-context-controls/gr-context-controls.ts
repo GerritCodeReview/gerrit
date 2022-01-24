@@ -33,7 +33,7 @@ import {DiffInfo} from '../../../types/diff';
 import {assertIsDefined} from '../../../utils/common-util';
 import {css, html, LitElement, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {subscribe} from '../../lit/subscription-controller';
+import {subscribe} from '../../../elements/lit/subscription-controller';
 
 import {
   ContextButtonType,

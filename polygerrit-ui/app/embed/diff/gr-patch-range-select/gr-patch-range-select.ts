@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-dropdown-list/gr-dropdown-list';
-import '../../shared/gr-select/gr-select';
+import '../../../elements/shared/gr-dropdown-list/gr-dropdown-list';
+import '../../../elements/shared/gr-select/gr-select';
 import {convertToString, pluralize} from '../../../utils/string-util';
 import {getAppContext} from '../../../services/app-context';
 import {
@@ -37,20 +37,20 @@ import {
   RevisionInfo,
   Timestamp,
 } from '../../../types/common';
-import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
+import {RevisionInfo as RevisionInfoClass} from '../../../elements/shared/revision-info/revision-info';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {
   DropdownItem,
   DropDownValueChangeEvent,
   GrDropdownList,
-} from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {GeneratedWebLink} from '../../core/gr-navigation/gr-navigation';
+} from '../../../elements/shared/gr-dropdown-list/gr-dropdown-list';
+import {GeneratedWebLink} from '../../../elements/core/gr-navigation/gr-navigation';
 import {EditRevisionInfo} from '../../../types/types';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
-import {subscribe} from '../../lit/subscription-controller';
+import {subscribe} from '../../../elements/lit/subscription-controller';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {ifDefined} from 'lit/directives/if-defined';

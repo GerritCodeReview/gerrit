@@ -32,7 +32,7 @@ import {
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
-import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
+import {CommentIdToCommentThreadMap} from '../embed/diff/gr-comment-api/gr-comment-api';
 import {isMergeParent, getParentIndex} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
 import {LineNumber} from '../api/diff';

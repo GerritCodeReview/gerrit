@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import '../../shared/gr-button/gr-button';
-import '../../shared/gr-diff-preferences/gr-diff-preferences';
-import '../../shared/gr-overlay/gr-overlay';
+import '../../../elements/shared/gr-button/gr-button';
+import '../../../elements/shared/gr-diff-preferences/gr-diff-preferences';
+import '../../../elements/shared/gr-overlay/gr-overlay';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-preferences-dialog_html';
 import {customElement, property} from '@polymer/decorators';
-import {GrDiffPreferences} from '../../shared/gr-diff-preferences/gr-diff-preferences';
-import {GrButton} from '../../shared/gr-button/gr-button';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {GrDiffPreferences} from '../../../elements/shared/gr-diff-preferences/gr-diff-preferences';
+import {GrButton} from '../../../elements/shared/gr-button/gr-button';
+import {GrOverlay} from '../../../elements/shared/gr-overlay/gr-overlay';
 import {DiffPreferencesInfo} from '../../../types/diff';
 
 export interface GrDiffPreferencesDialog {

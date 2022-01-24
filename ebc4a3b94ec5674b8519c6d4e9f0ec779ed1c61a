@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b02aa20_36b0ca35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-24T09:20:29Z",
+      "side": 1,
+      "message": "nit: evaluate",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae97fdb4_91f9802c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-24T09:20:29Z",
+      "side": 1,
+      "message": "Nice! LGTM overall. There are a few nits for which I added comments.",
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a15f50fc_83255e3d",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-24T09:20:29Z",
+      "side": 1,
+      "message": "\", or if the submit requirement did not define an override expression.\"",
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88e473c2_e336bbba",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-24T09:20:29Z",
+      "side": 1,
+      "message": "Should we remove this now? All callers should now use the other method and wrap SubmitRequirementExpressionResult in an Optional.",
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "438ed34d_94438fc5",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-24T09:20:29Z",
+      "side": 1,
+      "message": "while at it: can we rename this to submittabilityResult?\n\nBackground: In the past we used to name it \"blocking condition\" but then we agreed that \"submittability condition\" is better. I forgot to update the naming in this place.",
+      "range": {
+        "startLine": 108,
+        "startChar": 50,
+        "endLine": 108,
+        "endChar": 64
+      },
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d2f994_06ce7c6a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1894,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-24T09:20:29Z",
+      "side": 1,
+      "message": "One note: if the override expression is true, the SR status is OVERRIDDEN regardless of the submittability expression result, so it is also unused in this case.\n\nJust bringing into attention if we want to optimize this as well.",
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b786f709_495ebc88",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-24T09:20:29Z",
+      "side": 1,
+      "message": "nit (here and in other tests): rename to submittabilityExpressionIsNotEvaluated_....\n\nThe SR is evaluated in all cases, what we don\u0027t evaluated is the SubmittabilityExpression.",
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "502c0122_fd971b79",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementJsonSerializerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-24T09:20:29Z",
+      "side": 1,
+      "message": "We need to add roundtrip tests to make sure that:\n  1) SR result with mandatory subExprResult are de/serialized properly.\n  2) SR result with empty optional for subExprResult are de/serialized properly.\n  3) SR result with non-empty optional for subExprResult are de/serialized properly.",
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

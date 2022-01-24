@@ -18,6 +18,8 @@
 import '@polymer/iron-icon/iron-icon';
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
 import {accountKey, isSelf} from '../../../utils/account-util';
 import {customElement, property} from 'lit/decorators';
@@ -102,6 +104,7 @@ export class GrHovercardAccount extends base {
         .top,
         .attention,
         .status,
+        .statusPlugin,
         .voteable {
           padding: var(--spacing-s) var(--spacing-l);
         }
@@ -172,7 +175,7 @@ export class GrHovercardAccount extends base {
           <div class="email">${this.account.email}</div>
         </div>
       </div>
-      ${this.renderAccountStatus()}
+      ${this.renderAccountStatusPlugins()} ${this.renderAccountStatus()}
       ${this.voteableText
         ? html`
             <div class="voteable">
@@ -209,6 +212,19 @@ export class GrHovercardAccount extends base {
         >
           ${this.computeChangeReviewerOrCCText()}
         </gr-button>
+      </div>
+    `;
+  }
+
+  private renderAccountStatusPlugins() {
+    return html`
+      <div class="statusPlugin">
+        <gr-endpoint-decorator name="hovercard-status">
+          <gr-endpoint-param
+            name="account"
+            .value="${this.account}"
+          ></gr-endpoint-param>
+        </gr-endpoint-decorator>
       </div>
     `;
   }

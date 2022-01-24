@@ -38,7 +38,7 @@ import {
   Timestamp,
 } from '../../../types/common';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
-import {ChangeComments} from '../gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   DropdownItem,
   DropDownValueChangeEvent,

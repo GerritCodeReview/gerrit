@@ -18,7 +18,7 @@
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {GrEndpointParam} from '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import {GrEndpointParam} from '../../../elements/plugins/gr-endpoint-param/gr-endpoint-param';
 import {RenderPreferences} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
 import {GrImageViewer} from '../gr-diff-image-viewer/gr-image-viewer';

@@ -111,14 +111,14 @@ ignore_templates_list = [
     "elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
     "elements/change/gr-reviewer-list/gr-reviewer-list_html.ts",
     "elements/change/gr-thread-list/gr-thread-list_html.ts",
-    "elements/diff/gr-diff-builder/gr-diff-builder-element_html.ts",
-    "elements/diff/gr-diff-host/gr-diff-host_html.ts",
     "elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog_html.ts",
-    "elements/diff/gr-diff-view/gr-diff-view_html.ts",
-    "elements/diff/gr-diff/gr-diff_html.ts",
     "elements/gr-app-element_html.ts",
     "elements/settings/gr-watched-projects-editor/gr-watched-projects-editor_html.ts",
     "elements/shared/gr-account-list/gr-account-list_html.ts",
+    "embed/diff/gr-diff-builder/gr-diff-builder-element_html.ts",
+    "embed/diff/gr-diff-host/gr-diff-host_html.ts",
+    "embed/diff/gr-diff-view/gr-diff-view_html.ts",
+    "embed/diff/gr-diff/gr-diff_html.ts",
     "models/dependency.ts",
 ]
 

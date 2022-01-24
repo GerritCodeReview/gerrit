@@ -37,7 +37,7 @@
     "ba-linkify": "^1.0.1",
     "codemirror-minified": "^5.62.2",
     "immer": "^9.0.5",
-    "lit": "2.0.2",
+    "lit": "^2.1.1",
     "page": "^1.11.6",
     "polymer-bridges": "file:../../polymer-bridges/",
     "polymer-resin": "^2.0.1",

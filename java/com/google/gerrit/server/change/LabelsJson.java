@@ -163,9 +163,8 @@ public class LabelsJson {
       boolean detailed)
       throws PermissionBackendException {
     Map<String, LabelWithStatus> labels = initLabels(accountLoader, cd, labelTypes, standard);
-    if (detailed) {
-      setAllApprovals(accountLoader, cd, labels);
-    }
+    setAllApprovals(accountLoader, cd, labels, detailed);
+
     for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
       Optional<LabelType> type = labelTypes.byLabel(e.getKey());
       if (!type.isPresent()) {
@@ -180,9 +179,7 @@ public class LabelsJson {
           }
         }
       }
-      if (detailed) {
-        setLabelValues(type.get(), e.getValue());
-      }
+      setLabelValues(type.get(), e.getValue());
     }
     return labels;
   }
@@ -281,22 +278,20 @@ public class LabelsJson {
       }
     }
 
-    if (detailed) {
-      labels.entrySet().stream()
-          .filter(e -> labelTypes.byLabel(e.getKey()).isPresent())
-          .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()).get(), e.getValue()));
-    }
+    labels.entrySet().stream()
+        .filter(e -> labelTypes.byLabel(e.getKey()).isPresent())
+        .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()).get(), e.getValue()));
 
     for (Account.Id accountId : allUsers) {
       Map<String, ApprovalInfo> byLabel = Maps.newHashMapWithExpectedSize(labels.size());
       Map<String, VotingRangeInfo> pvr = Collections.emptyMap();
       if (detailed) {
         pvr = getPermittedVotingRanges(permittedLabels(accountId, cd));
-        for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
-          ApprovalInfo ai = approvalInfo(accountLoader, accountId, 0, null, null, null);
-          byLabel.put(entry.getKey(), ai);
-          addApproval(entry.getValue().label(), ai);
-        }
+      }
+      for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
+        ApprovalInfo ai = approvalInfo(accountLoader, accountId, 0, null, null, null);
+        byLabel.put(entry.getKey(), ai);
+        addApproval(entry.getValue().label(), ai);
       }
       for (PatchSetApproval psa : current.get(accountId)) {
         Optional<LabelType> type = labelTypes.byLabel(psa.labelId());
@@ -406,7 +401,10 @@ public class LabelsJson {
   }
 
   private void setAllApprovals(
-      AccountLoader accountLoader, ChangeData cd, Map<String, LabelWithStatus> labels)
+      AccountLoader accountLoader,
+      ChangeData cd,
+      Map<String, LabelWithStatus> labels,
+      boolean detailed)
       throws PermissionBackendException {
     checkState(
         !cd.change().isMerged(),
@@ -430,8 +428,12 @@ public class LabelsJson {
 
     LabelTypes labelTypes = cd.getLabelTypes();
     for (Account.Id accountId : allUsers) {
-      PermissionBackend.ForChange perm = permissionBackend.absentUser(accountId).change(cd);
-      Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(accountId, cd));
+      Map<String, VotingRangeInfo> pvr = null;
+      PermissionBackend.ForChange perm = null;
+      if (detailed) {
+        perm = permissionBackend.absentUser(accountId).change(cd);
+        pvr = getPermittedVotingRanges(permittedLabels(accountId, cd));
+      }
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         Optional<LabelType> lt = labelTypes.byLabel(e.getKey());
         if (!lt.isPresent()) {
@@ -440,7 +442,8 @@ public class LabelsJson {
           continue;
         }
         Integer value;
-        VotingRangeInfo permittedVotingRange = pvr.getOrDefault(lt.get().getName(), null);
+        VotingRangeInfo permittedVotingRange =
+            pvr == null ? null : pvr.getOrDefault(lt.get().getName(), null);
         String tag = null;
         Instant date = null;
         PatchSetApproval psa = current.get(accountId, lt.get().getName());
@@ -450,7 +453,7 @@ public class LabelsJson {
             // This may be a dummy approval that was inserted when the reviewer
             // was added. Explicitly check whether the user can vote on this
             // label.
-            value = perm.test(new LabelPermission(lt.get())) ? 0 : null;
+            value = perm != null && perm.test(new LabelPermission(lt.get())) ? 0 : null;
           }
           tag = psa.tag().orElse(null);
           date = psa.granted();
@@ -461,7 +464,7 @@ public class LabelsJson {
           // Either the user cannot vote on this label, or they were added as a
           // reviewer but have not responded yet. Explicitly check whether the
           // user can vote on this label.
-          value = perm.test(new LabelPermission(lt.get())) ? 0 : null;
+          value = perm != null && perm.test(new LabelPermission(lt.get())) ? 0 : null;
         }
         addApproval(
             e.getValue().label(),

@@ -99,6 +99,7 @@ public class CachedProjectConfigSerializer {
         .getProjectLevelConfigsMap()
         .entrySet()
         .forEach(e -> builder.addProjectLevelConfig(e.getKey(), e.getValue()));
+    builder.setMacrosSection(proto.getMacrosMap());
 
     return builder.build();
   }
@@ -166,6 +167,7 @@ public class CachedProjectConfigSerializer {
         .forEach(builder::addCommentLinks);
     builder.putAllPluginConfigs(autoValue.getPluginConfigs());
     builder.putAllProjectLevelConfigs(autoValue.getProjectLevelConfigs());
+    builder.putAllMacros(autoValue.getMacrosSection());
 
     return builder.build();
   }

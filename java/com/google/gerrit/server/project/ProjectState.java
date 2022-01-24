@@ -409,6 +409,11 @@ public class ProjectState {
     return ImmutableMap.copyOf(requirements);
   }
 
+  /** Get all macros for a project. Macros are only defined in All-Projects. */
+  public Map<String, String> getMacros() {
+    return projectCache.getAllProjects().getConfig().getMacrosSection();
+  }
+
   /** All available label types. */
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = new LinkedHashMap<>();

@@ -512,6 +512,12 @@ public class CommitValidators {
                 messages);
             throw new ConfigInvalidException("invalid project configuration");
           }
+          if (!allProjects.equals(receiveEvent.project.getNameKey())
+              && !cfg.getMacrosSection().isEmpty()) {
+            addError("Invalid project configuration:", messages);
+            addError("Macros section can only be defined in All-Projects", messages);
+            throw new ConfigInvalidException("Macros section can only be defined in All-Projects");
+          }
         } catch (ConfigInvalidException | IOException e) {
           logger.atSevere().withCause(e).log(
               "User %s tried to push an invalid project configuration %s for project %s",

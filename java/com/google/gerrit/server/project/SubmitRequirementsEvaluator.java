@@ -19,8 +19,10 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
+import java.util.Map;
 
 public interface SubmitRequirementsEvaluator {
   /**
@@ -34,8 +36,13 @@ public interface SubmitRequirementsEvaluator {
   ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
       ChangeData cd, boolean includeLegacy);
 
-  /** Evaluate a single {@link SubmitRequirement} using change data. */
-  SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd);
+  /**
+   * Evaluate a single {@link SubmitRequirement} using change data. The {@code macros} parameter is
+   * used to expand any referenced variables in the submit requirement expressions. See {@link
+   * #expandExpression(SubmitRequirementExpression, Map)}.
+   */
+  SubmitRequirementResult evaluateRequirement(
+      SubmitRequirement sr, ChangeData cd, Map<String, String> macros);
 
   /** Evaluate a {@link SubmitRequirementExpression} using change data. */
   SubmitRequirementExpressionResult evaluateExpression(
@@ -49,4 +56,19 @@ public interface SubmitRequirementsEvaluator {
    * @throws QueryParseException the expression string contains invalid syntax and can't be parsed.
    */
   void validateExpression(SubmitRequirementExpression expression) throws QueryParseException;
+
+  /**
+   * Expands the "submit requirement" {@code expression} input using the {@code macros} map. All
+   * variables in the expression occurring as ${var_name} will be substituted with the value of that
+   * key in the {@code macros} map.
+   *
+   * <p>Example: macros = {"require-cr", "label:Code-Review=+2"}, expression = "${require-cr}"
+   *
+   * <p>Output = "label:Code-Review=+2"
+   *
+   * @throws StorageException if any of the referenced variables in the expression is not defined in
+   *     the {@code macros} map.
+   */
+  SubmitRequirementExpression expandExpression(
+      SubmitRequirementExpression expression, Map<String, String> macros) throws StorageException;
 }

@@ -18,7 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -34,6 +36,7 @@ import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -209,7 +212,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "message:\"Fix bug\"",
             /* overrideExpr= */ "");
 
-    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    SubmitRequirementResult result =
+        evaluator.evaluateRequirement(sr, changeData, /* macros= */ ImmutableMap.of());
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.NOT_APPLICABLE);
   }
 
@@ -221,7 +225,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "is:false", // redundant
             /* overrideExpr= */ "");
 
-    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    SubmitRequirementResult result =
+        evaluator.evaluateRequirement(sr, changeData, /* macros= */ ImmutableMap.of());
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.NOT_APPLICABLE);
   }
 
@@ -233,7 +238,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "is:true",
             /* overrideExpr= */ "");
 
-    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    SubmitRequirementResult result =
+        evaluator.evaluateRequirement(sr, changeData, /* macros= */ ImmutableMap.of());
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
   }
 
@@ -245,7 +251,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "message:\"Fix a bug\"",
             /* overrideExpr= */ "");
 
-    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    SubmitRequirementResult result =
+        evaluator.evaluateRequirement(sr, changeData, /* macros= */ ImmutableMap.of());
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
   }
 
@@ -258,7 +265,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "label:\"Code-Review=+2\"",
             /* overrideExpr= */ "");
 
-    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    SubmitRequirementResult result =
+        evaluator.evaluateRequirement(sr, changeData, /* macros= */ ImmutableMap.of());
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.UNSATISFIED);
     assertThat(result.submittabilityExpressionResult().failingAtoms())
         .containsExactly("label:\"Code-Review=+2\"");
@@ -280,7 +288,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "label:\"Code-Review=+2\"",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
-    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    SubmitRequirementResult result =
+        evaluator.evaluateRequirement(sr, changeData, /* macros= */ ImmutableMap.of());
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.OVERRIDDEN);
   }
 
@@ -295,7 +304,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "label:\"Code-Review=+2\"",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
-    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    SubmitRequirementResult result =
+        evaluator.evaluateRequirement(sr, changeData, /* macros= */ ImmutableMap.of());
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
     assertThat(result.applicabilityExpressionResult().get().errorMessage().get())
         .isEqualTo("Unsupported operator invalid_field:invalid_value");
@@ -312,7 +322,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "invalid_field:invalid_value",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
-    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    SubmitRequirementResult result =
+        evaluator.evaluateRequirement(sr, changeData, /* macros= */ ImmutableMap.of());
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
     assertThat(result.submittabilityExpressionResult().errorMessage().get())
         .isEqualTo("Unsupported operator invalid_field:invalid_value");
@@ -326,7 +337,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "label:\"Code-Review=+2\"",
             /* overrideExpr= */ "invalid_field:invalid_value");
 
-    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    SubmitRequirementResult result =
+        evaluator.evaluateRequirement(sr, changeData, /* macros= */ ImmutableMap.of());
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
     assertThat(result.overrideExpressionResult().get().errorMessage().get())
         .isEqualTo("Unsupported operator invalid_field:invalid_value");
@@ -346,7 +358,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "is:pure-revert",
             /* overrideExpr= */ "");
 
-    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    SubmitRequirementResult result =
+        evaluator.evaluateRequirement(sr, changeData, /* macros= */ ImmutableMap.of());
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.UNSATISFIED);
     approve(changeId);
     gApi.changes().id(changeId).current().submit();
@@ -355,8 +368,39 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     String revertId = Integer.toString(changeInfo._number);
     ChangeData revertChangeData =
         changeQueryProvider.get().byLegacyChangeId(Change.Id.tryParse(revertId).get()).get(0);
-    result = evaluator.evaluateRequirement(sr, revertChangeData);
+    result = evaluator.evaluateRequirement(sr, revertChangeData, /* macros= */ ImmutableMap.of());
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+  }
+
+  @Test
+  public void expandExpressionWithMacros() throws Exception {
+    SubmitRequirementExpression in =
+        SubmitRequirementExpression.create(
+            "${require_code_review} AND ${owner_is_registered} AND -${require_code_review}");
+    Map<String, String> macros =
+        ImmutableMap.of(
+            "require_code_review", "label:Code-Review=+2",
+            "owner_is_registered", "ownerin:Registered-Users");
+    SubmitRequirementExpression out = evaluator.expandExpression(in, macros);
+    assertThat(out.expressionString())
+        .isEqualTo("label:Code-Review=+2 AND ownerin:Registered-Users AND -label:Code-Review=+2");
+  }
+
+  @Test
+  public void expandExpressionWithUndefinedMacros() throws Exception {
+    // Undefined macros are simply ignored and kept as is. The evaluator will error out when it
+    // executes these queries.
+    SubmitRequirementExpression in =
+        SubmitRequirementExpression.create(
+            "${UNDEFINED} AND ${UNDEFINED} OR ${ANOTHER_UNDEFINED} AND -${require_code_review}");
+    Map<String, String> macros = ImmutableMap.of("require_code_review", "label:Code-Review=+2");
+    StorageException exception =
+        assertThrows(StorageException.class, () -> evaluator.expandExpression(in, macros));
+    assertThat(exception.getMessage())
+        .isEqualTo(
+            "Submit requirement expression"
+                + " '${UNDEFINED} AND ${UNDEFINED} OR ${ANOTHER_UNDEFINED} AND -${require_code_review}'"
+                + " contains invalid macros: [${UNDEFINED}, ${UNDEFINED}, ${ANOTHER_UNDEFINED}].");
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

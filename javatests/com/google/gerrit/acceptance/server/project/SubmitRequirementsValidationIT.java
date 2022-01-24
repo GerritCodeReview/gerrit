@@ -377,6 +377,50 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
             invalidValue));
   }
 
+  @Test
+  public void submitRequirementWithNonExistingMacroIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    updateProjectConfig(
+        projectConfig -> {
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_DESCRIPTION,
+              /* value= */ "foo bar description");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+              /* value= */ "branch:refs/heads/master");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+              /* value= */ "${require_code_review}");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
+              /* value= */ "label:\"override=+1\"");
+          projectConfig.setBoolean(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+              /* value= */ false);
+        });
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        "project.config: Expression '${require_code_review}' of submit requirement 'Code-Review' "
+            + "(parameter submit-requirement.Code-Review.submittableIf) is invalid: "
+            + "Expression is referencing non-existing macros: Submit requirement expression "
+            + "'${require_code_review}' contains invalid macros: [${require_code_review}].");
+  }
+
   private void fetchRefsMetaConfig() throws Exception {
     fetch(testRepo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
     testRepo.reset(RefNames.REFS_CONFIG);

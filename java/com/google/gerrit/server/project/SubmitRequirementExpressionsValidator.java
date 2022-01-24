@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
@@ -46,15 +48,18 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  */
 public class SubmitRequirementExpressionsValidator implements CommitValidationListener {
   private final DiffOperations diffOperations;
+  private final ProjectCache projectCache;
   private final ProjectConfig.Factory projectConfigFactory;
   private final SubmitRequirementsEvaluator submitRequirementsEvaluator;
 
   @Inject
   SubmitRequirementExpressionsValidator(
       DiffOperations diffOperations,
+      ProjectCache projectCache,
       ProjectConfig.Factory projectConfigFactory,
       SubmitRequirementsEvaluator submitRequirementsEvaluator) {
     this.diffOperations = diffOperations;
+    this.projectCache = projectCache;
     this.projectConfigFactory = projectConfigFactory;
     this.submitRequirementsEvaluator = submitRequirementsEvaluator;
   }
@@ -71,15 +76,28 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
       }
 
       ProjectConfig projectConfig = getProjectConfig(event);
-      ImmutableList<CommitValidationMessage> validationMessages =
+      // Union the list of macros currently being pushed with those defined in All-Projects:
+      // For example, this could be a push to a normal project, but the submit requirements could
+      // be referencing macros from All-Projects.
+      Map<String, String> macros = projectConfig.getMacrosSection();
+      macros.putAll(projectCache.getAllProjects().getMacros());
+      ImmutableList<CommitValidationMessage> macroValidationMessages = validateMacros(macros);
+      if (!macroValidationMessages.isEmpty()) {
+        throw new CommitValidationException(
+            String.format(
+                "invalid macro definitions in %s (revision = %s)",
+                ProjectConfig.PROJECT_CONFIG, projectConfig.getRevision()),
+            macroValidationMessages);
+      }
+      ImmutableList<CommitValidationMessage> srValidationMessage =
           validateSubmitRequirementExpressions(
-              projectConfig.getSubmitRequirementSections().values());
-      if (!validationMessages.isEmpty()) {
+              projectConfig.getSubmitRequirementSections().values(), macros);
+      if (!srValidationMessage.isEmpty()) {
         throw new CommitValidationException(
             String.format(
                 "invalid submit requirement expressions in %s (revision = %s)",
                 ProjectConfig.PROJECT_CONFIG, projectConfig.getRevision()),
-            validationMessages);
+            srValidationMessage);
       }
       return ImmutableList.of();
     } catch (IOException | DiffNotAvailableException | ConfigInvalidException e) {
@@ -120,15 +138,44 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
     return projectConfig;
   }
 
+  /** Validate macro expressions. Macros should be valid submit requirement (sub)-expressions. */
+  private ImmutableList<CommitValidationMessage> validateMacros(
+      Map<String, String> macroExpressions) {
+    List<CommitValidationMessage> validationMessages = new ArrayList<>();
+    for (Map.Entry<String, String> macroDefinition : macroExpressions.entrySet()) {
+      String macroName = macroDefinition.getKey();
+      String macroExpression = macroDefinition.getValue();
+      try {
+        submitRequirementsEvaluator.validateExpression(
+            SubmitRequirementExpression.create(macroExpression));
+      } catch (QueryParseException e) {
+        if (validationMessages.isEmpty()) {
+          validationMessages.add(
+              new CommitValidationMessage(
+                  "Invalid project configuration", ValidationMessage.Type.ERROR));
+        }
+        validationMessages.add(
+            new CommitValidationMessage(
+                String.format(
+                    "  %s: Expression '%s' of macro name '%s' is not a valid submit requirement"
+                        + " expression: %s",
+                    ProjectConfig.PROJECT_CONFIG, macroExpression, macroName, e.getMessage()),
+                ValidationMessage.Type.ERROR));
+      }
+    }
+    return ImmutableList.copyOf(validationMessages);
+  }
+
   private ImmutableList<CommitValidationMessage> validateSubmitRequirementExpressions(
-      Collection<SubmitRequirement> submitRequirements) {
+      Collection<SubmitRequirement> submitRequirements, Map<String, String> macros) {
     List<CommitValidationMessage> validationMessages = new ArrayList<>();
     for (SubmitRequirement submitRequirement : submitRequirements) {
       validateSubmitRequirementExpression(
           validationMessages,
           submitRequirement,
           submitRequirement.submittabilityExpression(),
-          ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION);
+          ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+          macros);
       submitRequirement
           .applicabilityExpression()
           .ifPresent(
@@ -137,7 +184,8 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
                       validationMessages,
                       submitRequirement,
                       expression,
-                      ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION));
+                      ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+                      macros));
       submitRequirement
           .overrideExpression()
           .ifPresent(
@@ -146,7 +194,8 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
                       validationMessages,
                       submitRequirement,
                       expression,
-                      ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION));
+                      ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
+                      macros));
     }
     return ImmutableList.copyOf(validationMessages);
   }
@@ -155,8 +204,10 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
       List<CommitValidationMessage> validationMessages,
       SubmitRequirement submitRequirement,
       SubmitRequirementExpression expression,
-      String configKey) {
+      String configKey,
+      Map<String, String> macros) {
     try {
+      expression = submitRequirementsEvaluator.expandExpression(expression, macros);
       submitRequirementsEvaluator.validateExpression(expression);
     } catch (QueryParseException e) {
       if (validationMessages.isEmpty()) {
@@ -169,6 +220,25 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
               String.format(
                   "  %s: Expression '%s' of submit requirement '%s' (parameter %s.%s.%s) is"
                       + " invalid: %s",
+                  ProjectConfig.PROJECT_CONFIG,
+                  expression.expressionString(),
+                  submitRequirement.name(),
+                  ProjectConfig.SUBMIT_REQUIREMENT,
+                  submitRequirement.name(),
+                  configKey,
+                  e.getMessage()),
+              ValidationMessage.Type.ERROR));
+    } catch (StorageException e) {
+      if (validationMessages.isEmpty()) {
+        validationMessages.add(
+            new CommitValidationMessage(
+                "Invalid project configuration", ValidationMessage.Type.ERROR));
+      }
+      validationMessages.add(
+          new CommitValidationMessage(
+              String.format(
+                  "  %s: Expression '%s' of submit requirement '%s' (parameter %s.%s.%s) is"
+                      + " invalid: Expression is referencing non-existing macros: %s",
                   ProjectConfig.PROJECT_CONFIG,
                   expression.expressionString(),
                   submitRequirement.name(),

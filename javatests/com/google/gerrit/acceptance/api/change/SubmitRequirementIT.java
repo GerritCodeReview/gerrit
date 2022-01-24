@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -50,6 +51,7 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -246,6 +248,62 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+  }
+
+  @Test
+  public void submitRequirement_withMacroDefinedAsLabelEqualsMax() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      u.getConfig().addMacro("require-code-review", "label:Code-Review=+2");
+      u.save();
+    }
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("${require-code-review}"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    voteLabel(changeId, "Code-Review", 2);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+  }
+
+  @Test
+  public void submitRequirement_throwsExceptionIfEvaluatedWithUndefinedMacro() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // Directly injecting submit requirements using the below call skips validating the expressions.
+    // With a normal config push, SRs should be validated and the push will be rejected because
+    // the macros are undefined.
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("${undefined1} AND ${undefined2}"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    StorageException storageException =
+        assertThrows(StorageException.class, () -> gApi.changes().id(changeId).get());
+    assertThat(storageException)
+        .hasMessageThat()
+        .isEqualTo(
+            "Submit requirement expression '${undefined1} AND ${undefined2}'"
+                + " contains invalid macros: [${undefined1}, ${undefined2}].");
   }
 
   @Test

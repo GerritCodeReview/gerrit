@@ -1161,6 +1161,127 @@ public class ProjectIT extends AbstractDaemonTest {
         .isNull();
   }
 
+  @Test
+  public void cannotPushMacrosToAnyProjectExceptAllProjects() throws Exception {
+    TestRepository<InMemoryRepository> repo = cloneProject(project);
+    GitUtil.fetch(repo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    repo.reset(RefNames.REFS_CONFIG);
+    String config =
+        gApi.projects()
+            .name(project.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file("project.config")
+            .asString();
+
+    Config cfg = new Config();
+    cfg.fromText(config);
+    cfg.setString("macros", null, "requires-code-review", "bad*config");
+    config = cfg.toText();
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), repo, "Subject", "project.config", config)
+            .to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus("invalid project configuration");
+    r.assertMessage("Macros section can only be defined in All-Projects");
+  }
+
+  @Test
+  public void canPushValidMacrosToAllProjects() throws Exception {
+    TestRepository<InMemoryRepository> repo = cloneProject(allProjects);
+    GitUtil.fetch(repo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    repo.reset(RefNames.REFS_CONFIG);
+    String config =
+        gApi.projects()
+            .name(allProjects.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file("project.config")
+            .asString();
+
+    Config cfg = new Config();
+    cfg.fromText(config);
+    cfg.setString("macros", null, "require-code-review", "label:Code-Review=+2");
+    config = cfg.toText();
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), repo, "Subject", "project.config", config)
+            .to(RefNames.REFS_CONFIG);
+
+    r.assertOkStatus();
+  }
+
+  @Test
+  public void cannotPushInvalidMacrosToAllProjects() throws Exception {
+    TestRepository<InMemoryRepository> repo = cloneProject(allProjects);
+    GitUtil.fetch(repo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    repo.reset(RefNames.REFS_CONFIG);
+    String config =
+        gApi.projects()
+            .name(allProjects.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file("project.config")
+            .asString();
+
+    Config cfg = new Config();
+    cfg.fromText(config);
+    cfg.setString("macros", null, "requires-code-review", "invalid_field:invalid_value");
+    config = cfg.toText();
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), repo, "Subject", "project.config", config)
+            .to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus();
+    r.assertMessage("Invalid macro definitions in project.config");
+    r.assertMessage(
+        "project.config: Expression 'invalid_field:invalid_value' of macro name "
+            + "'requires-code-review' is not a valid submit requirement expression:");
+  }
+
+  @Test
+  public void submitRequirementCanReferenceAMacroDefinedInAllProjects() throws Exception {
+    // Push macro to All-Projects
+    TestRepository<InMemoryRepository> repo = cloneProject(allProjects);
+    GitUtil.fetch(repo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    repo.reset(RefNames.REFS_CONFIG);
+    String config =
+        gApi.projects()
+            .name(allProjects.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file("project.config")
+            .asString();
+    Config cfg = new Config();
+    cfg.fromText(config);
+    cfg.setString("macros", null, "require-code-review", "label:Code-Review=+2");
+    config = cfg.toText();
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), repo, "Subject", "project.config", config)
+            .to(RefNames.REFS_CONFIG);
+    r.assertOkStatus();
+
+    // Reference it from a submit requirement in sub-project
+    repo = cloneProject(project);
+    GitUtil.fetch(repo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    repo.reset(RefNames.REFS_CONFIG);
+    config =
+        gApi.projects()
+            .name(project.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file("project.config")
+            .asString();
+    cfg = new Config();
+    cfg.fromText(config);
+    cfg.setString("submit-requirement", "Code-Review", "submittableIf", "${require-code-review}");
+    config = cfg.toText();
+    r =
+        pushFactory
+            .create(admin.newIdent(), repo, "Subject", "project.config", config)
+            .to(RefNames.REFS_CONFIG);
+    r.assertOkStatus();
+  }
+
   private CommentLinkInfo commentLinkInfo(String name, String match, String link) {
     CommentLinkInfo info = new CommentLinkInfo();
     info.name = name;

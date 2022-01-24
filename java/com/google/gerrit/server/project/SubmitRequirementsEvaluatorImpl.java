@@ -23,6 +23,7 @@ import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -35,9 +36,13 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /** Evaluates submit requirements for different change data. */
@@ -48,6 +53,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
   private final SubmitRequirementsUtil submitRequirementsUtil;
   private final OneOffRequestContext requestContext;
+  private static final Pattern macroVariablePattern = Pattern.compile("\\$\\{.*?\\}");
 
   public static Module module() {
     return new AbstractModule() {
@@ -95,22 +101,26 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   }
 
   @Override
-  public SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd) {
+  public SubmitRequirementResult evaluateRequirement(
+      SubmitRequirement sr, ChangeData cd, Map<String, String> macros) {
     try (ManualRequestContext ignored = requestContext.open()) {
       // Use a request context to execute predicates as an internal user with expanded visibility.
       // This is so that the evaluation does not depend on who is running the current request (e.g.
       // a "ownerin" predicate with group that is not visible to the person making this request).
       SubmitRequirementExpressionResult blockingResult =
-          evaluateExpression(sr.submittabilityExpression(), cd);
+          evaluateExpression(expandExpression(sr.submittabilityExpression(), macros), cd);
 
       Optional<SubmitRequirementExpressionResult> applicabilityResult =
           sr.applicabilityExpression().isPresent()
-              ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
+              ? Optional.of(
+                  evaluateExpression(
+                      expandExpression(sr.applicabilityExpression().get(), macros), cd))
               : Optional.empty();
 
       Optional<SubmitRequirementExpressionResult> overrideResult =
           sr.overrideExpression().isPresent()
-              ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
+              ? Optional.of(
+                  evaluateExpression(expandExpression(sr.overrideExpression().get(), macros), cd))
               : Optional.empty();
 
       return SubmitRequirementResult.builder()
@@ -136,6 +146,35 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     }
   }
 
+  @Override
+  public SubmitRequirementExpression expandExpression(
+      SubmitRequirementExpression submitRequirementExpression, Map<String, String> macros)
+      throws StorageException {
+    String expression = submitRequirementExpression.expressionString();
+    String originalExpression = expression;
+    for (String macroName : macros.keySet()) {
+      String macroVal = macros.get(macroName);
+      expression = expression.replace(String.format("${%s}", macroName), macroVal);
+    }
+    assertNoMoreReferencedVariables(expression, originalExpression);
+    return SubmitRequirementExpression.create(expression);
+  }
+
+  private void assertNoMoreReferencedVariables(String expression, String originalExpression)
+      throws StorageException {
+    List<String> allMatches = new ArrayList<>();
+    Matcher m = macroVariablePattern.matcher(expression);
+    while (m.find()) {
+      allMatches.add(m.group());
+    }
+    if (!allMatches.isEmpty()) {
+      throw new StorageException(
+          String.format(
+              "Submit requirement expression " + "'%s' contains invalid macros: %s.",
+              originalExpression, allMatches));
+    }
+  }
+
   /**
    * Evaluate and return all {@link SubmitRequirement}s.
    *
@@ -149,6 +188,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     Map<String, SubmitRequirement> globalRequirements = getGlobalRequirements();
 
     ProjectState state = projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
+    Map<String, String> macros = state.getMacros();
     Map<String, SubmitRequirement> projectConfigRequirements = state.getSubmitRequirements();
 
     ImmutableMap<String, SubmitRequirement> requirements =
@@ -168,7 +208,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> results =
         ImmutableMap.builder();
     for (SubmitRequirement requirement : requirements.values()) {
-      results.put(requirement, evaluateRequirement(requirement, cd));
+      results.put(requirement, evaluateRequirement(requirement, cd, macros));
     }
     return results.buildOrThrow();
   }

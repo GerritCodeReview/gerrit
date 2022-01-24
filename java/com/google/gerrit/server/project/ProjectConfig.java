@@ -176,6 +176,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final String CAPABILITY = "capability";
 
+  private static final String MACROS = "macros";
+
   private static final String RECEIVE = "receive";
   private static final String KEY_CHECK_RECEIVED_OBJECTS = "checkReceivedObjects";
 
@@ -254,6 +256,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Project project;
   private AccountsSection accountsSection;
   private GroupList groupList;
+  private Map<String, String> macrosSection;
   private Map<String, AccessSection> accessSections;
   private BranchOrderSection branchOrderSection;
   private Map<String, ContributorAgreement> contributorAgreements;
@@ -280,6 +283,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             .setProject(project)
             .setAccountsSection(accountsSection)
             .setBranchOrderSection(Optional.ofNullable(branchOrderSection))
+            .setMacrosSection(macrosSection)
             .setMimeTypes(mimeTypes)
             .setRulesId(Optional.ofNullable(rulesId))
             .setRevision(Optional.ofNullable(getRevision()))
@@ -538,6 +542,18 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     submitRequirementSections = new LinkedHashMap<>();
   }
 
+  public void addMacro(String key, String val) {
+    macrosSection.put(key, val);
+  }
+
+  public void clearMacros() {
+    macrosSection = new HashMap<>();
+  }
+
+  public Map<String, String> getMacrosSection() {
+    return macrosSection;
+  }
+
   /** Adds or replaces the given {@link LabelType} in this config. */
   public void upsertLabelType(LabelType labelType) {
     labelSections.put(labelType.getName(), labelType);
@@ -695,6 +711,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadProjectLevelConfigs();
     loadReceiveSection(rc);
     loadExtensionPanelSections(rc);
+    loadMacros(rc);
   }
 
   private void loadAccountsSection(Config rc) {
@@ -717,6 +734,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       extensionPanelSections.put(
           name,
           new ArrayList<>(Arrays.asList(rc.getStringList(EXTENSION_PANELS, name, KEY_PANEL))));
+    }
+  }
+
+  private void loadMacros(Config rc) {
+    macrosSection = new HashMap<>();
+    Set<String> macroNames = rc.getNames(MACROS, null);
+    for (String macroName : macroNames) {
+      String value = rc.getString(MACROS, null, macroName);
+      macrosSection.put(macroName, value);
     }
   }
 
@@ -1362,6 +1388,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     saveCommentLinkSections(rc);
     saveSubscribeSections(rc);
     saveBranchOrderSection(rc);
+    saveMacrosSection(rc);
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();
@@ -1495,6 +1522,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
 
       set(rc, NOTIFY, nc.getName(), KEY_FILTER, nc.getFilter());
+    }
+  }
+
+  private void saveMacrosSection(Config rc) {
+    unsetSection(rc, MACROS);
+    for (String macroName : macrosSection.keySet()) {
+      String value = macrosSection.get(macroName);
+      rc.setString(MACROS, null, macroName, value);
     }
   }
 

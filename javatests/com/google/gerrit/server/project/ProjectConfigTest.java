@@ -337,6 +337,28 @@ public class ProjectConfigTest {
   }
 
   @Test
+  public void readMacros() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("project.config", "[macros]\n \trequire-code-review = label:Code-Review=+2")
+            .create();
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getMacrosSection())
+        .containsExactly("require-code-review", "label:Code-Review=+2");
+  }
+
+  @Test
+  public void readMacrosMultiLine() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("project.config", "[macros]\n" + "  m1 = is:open AND \\\n" + "is:pure-revert")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getMacrosSection()).containsExactly("m1", "is:open AND is:pure-revert");
+  }
+
+  @Test
   public void readConfigLabelOldStyleWithLeadingSpace() throws Exception {
     RevCommit rev =
         tr.commit()

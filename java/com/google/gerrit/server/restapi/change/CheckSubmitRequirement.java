@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementResult;
@@ -24,8 +26,10 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SubmitRequirementsJson;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.inject.Inject;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -37,18 +41,25 @@ import java.util.Optional;
 public class CheckSubmitRequirement
     implements RestModifyView<ChangeResource, SubmitRequirementInput> {
   private final SubmitRequirementsEvaluator evaluator;
+  private final ProjectCache projectCache;
 
   @Inject
-  public CheckSubmitRequirement(SubmitRequirementsEvaluator evaluator) {
+  public CheckSubmitRequirement(SubmitRequirementsEvaluator evaluator, ProjectCache projectCache) {
     this.evaluator = evaluator;
+    this.projectCache = projectCache;
   }
 
   @Override
   public Response<SubmitRequirementResultInfo> apply(
       ChangeResource resource, SubmitRequirementInput input) throws BadRequestException {
+    Map<String, String> macros =
+        projectCache
+            .get(resource.getProject())
+            .orElseThrow(illegalState(resource.getProject()))
+            .getMacros();
     SubmitRequirement requirement = createSubmitRequirement(input);
     SubmitRequirementResult res =
-        evaluator.evaluateRequirement(requirement, resource.getChangeData());
+        evaluator.evaluateRequirement(requirement, resource.getChangeData(), macros);
     return Response.ok(SubmitRequirementsJson.toInfo(requirement, res));
   }
 

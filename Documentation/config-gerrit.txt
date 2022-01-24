@@ -3926,6 +3926,28 @@ If set to true, log files are rotated daily at midnight (GMT).
 +
 Defaults to true.
 
+[[macros]]
+=== Section macros
+
+This section is used to define constants that could be referenced from
+submit-requirement sections in the config. The value should contain a valid
+submit requirement (sub)expression.
+
+----
+[macros]
+  require-code-review = label:code-review=+2
+----
+
+To reference a macro from a submit requirement expression, the macro name
+should be referenced like ${macro_name}.
+
+----
+[submit-requirement name="Code-Review"]
+  description = Requires at least one maximum vote for the 'Code-Review' label.
+  submittableIf = ${require-code-review}
+  canOverrideInChildProjects = true
+----
+
 [[mimetype]]
 === Section mimetype
 

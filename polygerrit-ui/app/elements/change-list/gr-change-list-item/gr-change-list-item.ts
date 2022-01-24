@@ -548,13 +548,7 @@ export class GrChangeListItem extends LitElement {
 
   private renderChangeHasLabelIcon(labelName: string) {
     if (showNewSubmitRequirements(this.flagsService, this.change)) {
-      let requirements = getRequirements(this.change).filter(
-        sr => sr.name === labelName
-      );
-      // TODO(milutin): Remove this after migration from legacy requirements.
-      if (requirements.length > 1) {
-        requirements = requirements.filter(sr => !sr.is_legacy);
-      }
+      const requirements = this.getRequirement(labelName);
       if (requirements.length === 1) {
         const icon = iconForStatus(requirements[0].status);
         return html`<iron-icon
@@ -619,9 +613,7 @@ export class GrChangeListItem extends LitElement {
   computeLabelClass(labelName: string) {
     const classes = ['cell', 'label'];
     if (showNewSubmitRequirements(this.flagsService, this.change)) {
-      const requirements = getRequirements(this.change).filter(
-        sr => sr.name === labelName
-      );
+      const requirements = this.getRequirement(labelName);
       if (requirements.length === 1) {
         classes.push('requirement');
         // Do not add label category classes.
@@ -908,5 +900,17 @@ export class GrChangeListItem extends LitElement {
     const primaryCount = this.computePrimaryReviewers().length;
     const isLast = index === primaryCount - 1;
     return isLast && additionalCount === 0;
+  }
+
+  private getRequirement(labelName: string) {
+    const requirements = getRequirements(this.change).filter(
+      sr => sr.name === labelName
+    );
+    // TODO(milutin): Remove this after migration from legacy requirements.
+    if (requirements.length > 1) {
+      return requirements.filter(sr => !sr.is_legacy);
+    } else {
+      return requirements;
+    }
   }
 }

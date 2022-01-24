@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import '../../shared/gr-button/gr-button';
-import '../../shared/gr-icons/gr-icons';
+import '../../../elements/shared/gr-button/gr-button';
+import '../../../elements/shared/gr-icons/gr-icons';
 import '../gr-diff-builder/gr-diff-builder-element';
 import '../gr-diff-highlight/gr-diff-highlight';
 import '../gr-diff-selection/gr-diff-selection';

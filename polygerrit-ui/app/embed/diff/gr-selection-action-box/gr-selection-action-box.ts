@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import '../../shared/gr-tooltip/gr-tooltip';
-import {GrTooltip} from '../../shared/gr-tooltip/gr-tooltip';
+import '../../../elements/shared/gr-tooltip/gr-tooltip';
+import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {customElement, property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-selection-action-box_html';

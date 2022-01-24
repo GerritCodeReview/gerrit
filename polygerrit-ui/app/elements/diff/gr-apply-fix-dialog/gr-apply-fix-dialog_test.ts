@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-apply-fix-dialog';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav} from '../../../elements/core/gr-navigation/gr-navigation';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrApplyFixDialog} from './gr-apply-fix-dialog';
 import {
@@ -43,7 +43,7 @@ import {
   EventType,
   OpenFixPreviewEventDetail,
 } from '../../../types/events';
-import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrButton} from '../../../elements/shared/gr-button/gr-button';
 
 const basicFixture = fixtureFromElement('gr-apply-fix-dialog');
 

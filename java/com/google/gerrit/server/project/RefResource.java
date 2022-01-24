@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.server.CurrentUser;
+import java.util.Optional;
 
 public abstract class RefResource extends ProjectResource {
 
@@ -25,6 +26,10 @@ public abstract class RefResource extends ProjectResource {
   /** Returns the ref's name */
   public abstract String getRef();
 
-  /** Returns the ref's revision */
-  public abstract String getRevision();
+  /**
+   * Returns the ref's revision.
+   *
+   * @return the ref's revision, {@link Optional#empty()} if the ref doesn't exist (yet)
+   */
+  public abstract Optional<String> getRevision();
 }

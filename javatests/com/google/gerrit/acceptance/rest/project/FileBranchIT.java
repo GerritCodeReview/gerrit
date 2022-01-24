@@ -18,16 +18,17 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
-@NoHttpd
 public class FileBranchIT extends AbstractDaemonTest {
 
   private BranchNameKey branch;
@@ -44,6 +45,24 @@ public class FileBranchIT extends AbstractDaemonTest {
   public void getFileContent() throws Exception {
     BinaryResult content = branch().file(PushOneCommit.FILE_NAME);
     assertThat(content.asString()).isEqualTo(PushOneCommit.FILE_CONTENT);
+  }
+
+  @Test
+  public void getFileFromNonExistingBranch() throws Exception {
+    RestResponse response =
+        adminRestSession.get(
+            String.format("/projects/%s/branches/non-existing/files/path", project.get()));
+    response.assertNotFound();
+  }
+
+  @Test
+  public void getFileFromSymbolicRefPointingToAnUnbornBranch() throws Exception {
+    try (Repository repo = repoManager.openRepository(project)) {
+      repo.updateRef(Constants.HEAD, true).link("refs/heads/non-existing");
+    }
+    RestResponse response =
+        adminRestSession.get(String.format("/projects/%s/branches/HEAD/files/path", project.get()));
+    response.assertNotFound();
   }
 
   @Test

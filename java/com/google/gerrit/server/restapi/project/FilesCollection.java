@@ -46,8 +46,14 @@ public class FilesCollection implements ChildCollection<BranchResource, FileReso
   @Override
   public FileResource parse(BranchResource parent, IdString id)
       throws ResourceNotFoundException, IOException {
+    if (parent.getRevision().isEmpty()) {
+      throw new ResourceNotFoundException(id);
+    }
     return FileResource.create(
-        repoManager, parent.getProjectState(), ObjectId.fromString(parent.getRevision()), id.get());
+        repoManager,
+        parent.getProjectState(),
+        ObjectId.fromString(parent.getRevision().get()),
+        id.get());
   }
 
   @Override

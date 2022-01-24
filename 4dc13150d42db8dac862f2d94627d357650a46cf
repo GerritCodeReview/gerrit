@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26fc08a4_3afed574",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-24T14:59:55Z",
+      "side": 1,
+      "message": "Thank you for pointing at that! I actually found a problem with Optional.empty de-serialization, so I had to make a filed @Nullable in this change.\n\nSee my comment in a later change: both optional and non-optional de-serialization is covered by tests (in both changes).",
+      "parentUuid": "9807f320_0e9bd966",
+      "revId": "4dc13150d42db8dac862f2d94627d357650a46cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d1b9c2d_9201eb00",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-01-24T09:07:00Z",
       "side": 1,
       "message": "We still need to keep this format (we need the read method) since we have stored entities in NoteDb with SubmitRequirementExpressionResult as mandatory (All merged changes have stored SR results in NoteDb). We should remove the TODO I think.\n\nCan we also add more Javadocs, so that the future reader understands why we are keeping both handlers?\n\n{@link SubmitRequirementExpressionResult} was previously serialized as a mandatory field in {@link com.google.gerrit.entities.SubmitRequirementResult}, but was later on migrated to an optional field. The server needs to handle deserializing both formats.",
+      "revId": "4dc13150d42db8dac862f2d94627d357650a46cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63cac872_a2b8406c",
+        "filename": "java/com/google/gerrit/json/OptionalSubmitRequirementExpressionResultAdapterFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-24T14:59:55Z",
+      "side": 1,
+      "message": "The read will be covered by OptionalSubmitRequirementExpressionResultTypeAdapter, since there won\u0027t be any non-optional fields of type SubmitRequirementExpressionResult in SubmitRequirementResult.\n\n\nSo this adapter will never be invoked after the later change (update the write path) is merged.",
+      "parentUuid": "1d1b9c2d_9201eb00",
       "revId": "4dc13150d42db8dac862f2d94627d357650a46cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

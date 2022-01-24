@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../../embed/diff/gr-comment-api/gr-comment-api';
 import {
   CommentBasics,
   CommentInfo,

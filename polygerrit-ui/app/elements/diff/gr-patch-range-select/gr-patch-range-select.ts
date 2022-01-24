@@ -38,13 +38,13 @@ import {
   Timestamp,
 } from '../../../types/common';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
-import {ChangeComments} from '../gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   DropdownItem,
   DropDownValueChangeEvent,
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {GeneratedWebLink} from '../../core/gr-navigation/gr-navigation';
+import {GeneratedWebLink} from '../..//core/gr-navigation/gr-navigation';
 import {EditRevisionInfo} from '../../../types/types';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';

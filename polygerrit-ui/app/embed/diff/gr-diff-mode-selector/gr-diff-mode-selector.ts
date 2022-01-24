@@ -18,7 +18,7 @@ import {Subscription} from 'rxjs';
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import '../../../styles/shared-styles';
-import '../../shared/gr-button/gr-button';
+import '../../../elements/shared/gr-button/gr-button';
 import {DiffViewMode} from '../../../constants/constants';
 import {htmlTemplate} from './gr-diff-mode-selector_html';
 import {customElement, property} from '@polymer/decorators';

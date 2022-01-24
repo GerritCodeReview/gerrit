@@ -56,6 +56,7 @@ import {
   NumericChangeId,
   PatchSetNum,
   RepoName,
+  BranchName,
   ServerInfo,
   UrlEncodedCommentId,
   ParentPatchSetNum,
@@ -67,7 +68,7 @@ import {
 } from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
 import {GerritView} from '../../../services/router/router-model';
-import {firePageError} from '../../../utils/event-util';
+import {fireAlert, firePageError} from '../../../utils/event-util';
 import {addQuotesWhen} from '../../../utils/string-util';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {
@@ -267,6 +268,11 @@ const LEGACY_LINENUM_PATTERN = /@([ab]?\d+)$/;
 const LEGACY_QUERY_SUFFIX_PATTERN = /,n,z$/;
 
 const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;
+
+const QUICK_CHANGE_FAILURE_MESSAGE = 'Failed to create quick change.';
+const QUICK_CHANGE_SUCCESS_MESSAGE = 'Navigating to quick change';
+const QUICK_CHANGE_INITIAL_PATCHSET = 1 as PatchSetNum;
+
 
 // Polymer makes `app` intrinsically defined on the window by virtue of the
 // custom element having the id "app", but it is made explicit here.
@@ -1723,23 +1729,46 @@ export class GrRouter extends PolymerElement {
   }
 
   _handleRepoQuickchange(ctx: PageContextWithQueryMap) {
+    const requiredQueryParams = {
+      "project": "It should be the project in which the change will be created.",
+      "branch": "It should be the branch in which the change will be created.",
+      "path": "It should be the path to the file that should be immediately opened when the pending change is created.",
+    };
+    for (const [param, description] of Object.entries(requiredQueryParams)) {
+      if (!ctx.queryMap.get(param)) {
+        const msg : string = `${param} is required for quick change creation. ${description}`;
+        firePageError(new Response(msg, {status: 400}));
+        return
+      }
+    } 
+
     // Parameter order is based on the regex group number matched.
     const project = ctx.params[0] as RepoName;
-    const changeNum = Number(4306) as NumericChangeId; // Number(ctx.params[1]) as NumericChangeId;
-    const patchNum = "1"; // ctx.params[2];
-    const path = ctx.params[1];
-    console.log(path);
-    this._redirectOrNavigate({
-      project,
-      changeNum,
-      // for edit view params, patchNum cannot be undefined
-      patchNum: convertToPatchSetNum(patchNum)!,
-      path: path,
-      lineNum: ctx.hash,
-      view: GerritView.EDIT,
-    });
-    this.reporting.setRepoName(project);
-    this.reporting.setChangeId(changeNum);
+    const branch = (ctx.queryMap.get("branch") || "") as BranchName;
+    const path = ctx.queryMap.get("path") || "";
+
+    return this.restApiService
+      .createChange(
+        project,
+        branch,
+        path,
+        undefined,
+        false,
+        true
+      )
+      .then(change => {
+        const message = change
+          ? QUICK_CHANGE_SUCCESS_MESSAGE
+          : QUICK_CHANGE_FAILURE_MESSAGE;
+        fireAlert(this, message);
+        if (!change) {
+          return;
+        }
+
+        GerritNav.navigateToRelativeUrl(
+          GerritNav.getEditUrlForDiff(change, path, QUICK_CHANGE_INITIAL_PATCHSET)
+        );
+      });
   }
 
 

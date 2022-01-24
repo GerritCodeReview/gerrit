@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a312ff1_41cf918b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-24T15:39:38Z",
+      "side": 1,
+      "message": "Sent a follow up:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/328761,edit",
+      "parentUuid": "a9ff5c11_6b31af7d",
+      "revId": "2290edc2c8f41db619b1bf411d477f6826c7403d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02023183_a3025723",
@@ -112,6 +130,24 @@
       "writtenOn": "2022-01-24T15:33:18Z",
       "side": 1,
       "message": "I think we should use assertIsDefined here and in other places that calls the property with the query.",
+      "revId": "2290edc2c8f41db619b1bf411d477f6826c7403d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0afb5a9_827f2146",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-24T15:39:38Z",
+      "side": 1,
+      "message": "Ack. Sent a follow-up.",
+      "parentUuid": "172f8095_3baf9545",
       "revId": "2290edc2c8f41db619b1bf411d477f6826c7403d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

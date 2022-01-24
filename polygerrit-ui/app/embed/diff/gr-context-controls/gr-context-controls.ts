@@ -26,14 +26,14 @@ import '@polymer/paper-tooltip/paper-tooltip';
 import {of, EMPTY, Subject} from 'rxjs';
 import {switchMap, delay} from 'rxjs/operators';
 
-import '../../shared/gr-button/gr-button';
+import '../../../elements/shared/gr-button/gr-button';
 import {pluralize} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
 import {DiffInfo} from '../../../types/diff';
 import {assertIsDefined} from '../../../utils/common-util';
 import {css, html, LitElement, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {subscribe} from '../../lit/subscription-controller';
+import {subscribe} from '../../../elements/lit/subscription-controller';
 
 import {
   ContextButtonType,

@@ -25,7 +25,7 @@ import {addListenerForTest, mockPromise, stubRestApi} from '../../../test/test-u
 import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
 import {CoverageType} from '../../../types/types.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
+import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-builder-image.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 

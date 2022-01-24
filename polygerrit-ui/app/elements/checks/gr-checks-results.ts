@@ -577,6 +577,9 @@ class GrResultExpanded extends LitElement {
   @property({attribute: false})
   result?: RunResult;
 
+  @property({type: Boolean})
+  hideCodePointers = false;
+
   @state()
   repoConfig?: ConfigInfo;
 
@@ -664,6 +667,7 @@ class GrResultExpanded extends LitElement {
   }
 
   private renderCodePointers() {
+    if (this.hideCodePointers) return;
     const pointers = this.result?.codePointers ?? [];
     if (pointers.length === 0) return;
     const links = pointers.map(pointer => {

@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import '../../shared/gr-comment-thread/gr-comment-thread';
+import '../../checks/gr-diff-check-result';
 import '../gr-diff/gr-diff';
 import {htmlTemplate} from './gr-diff-host_html';
 import {
@@ -91,6 +92,11 @@ import {DisplayLine, RenderPreferences} from '../../../api/diff';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {checksModelToken, RunResult} from '../../../models/checks/checks-model';
+import {GrDiffCheckResult} from '../../checks/gr-diff-check-result';
+import {distinctUntilChanged, map} from 'rxjs/operators';
+import {deepEqual} from '../../../utils/deep-util';
+import {Category} from '../../../api/checks';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -272,6 +278,10 @@ export class GrDiffHost extends DIPolymerElement {
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
+  private readonly getChecksModel = resolve(this, checksModelToken);
+
+  private readonly flagService = getAppContext().flagsService;
+
   private readonly reporting = getAppContext().reportingService;
 
   private readonly flags = getAppContext().flagsService;
@@ -281,6 +291,8 @@ export class GrDiffHost extends DIPolymerElement {
   private readonly jsAPI = getAppContext().jsApiService;
 
   private readonly syntaxLayer = new GrSyntaxLayer();
+
+  private checksSubscription?: Subscription;
 
   private subscriptions: Subscription[] = [];
 
@@ -334,9 +346,14 @@ export class GrDiffHost extends DIPolymerElement {
         this.changeComments = changeComments;
       })
     );
+    this.subscribeToChecks();
   }
 
   override disconnectedCallback() {
+    if (this.checksSubscription) {
+      this.checksSubscription.unsubscribe();
+      this.checksSubscription = undefined;
+    }
     for (const s of this.subscriptions) {
       s.unsubscribe();
     }
@@ -389,6 +406,7 @@ export class GrDiffHost extends DIPolymerElement {
       // assets in parallel.
       const layerPromise = this.initLayers();
       const diff = await this._getDiff();
+      this.subscribeToChecks();
       this._loadedWhitespaceLevel = whitespaceLevel;
       this._reportDiff(diff);
 
@@ -445,6 +463,96 @@ export class GrDiffHost extends DIPolymerElement {
   clear() {
     if (this.path) this.jsAPI.disposeDiffLayers(this.path);
     this._layers = [];
+  }
+
+  /**
+   * This should be called when either `path` or `patchRange` has changed.
+   * We will then subscribe to the checks model and filter the relevant
+   * check results for this diff. Path and patchset must match, and a code
+   * pointer must be included.
+   */
+  private subscribeToChecks() {
+    if (this.checksSubscription) {
+      this.checksSubscription.unsubscribe();
+      this.checksSubscription = undefined;
+      this.checksChanged([]);
+    }
+
+    const experiment = KnownExperimentId.CHECK_RESULTS_IN_DIFFS;
+    if (!this.flagService.isEnabled(experiment)) return;
+
+    const path = this.path;
+    const patchNum = this.patchRange?.patchNum;
+    if (!path || !patchNum || patchNum === EditPatchSetNum) return;
+    this.checksSubscription = this.getChecksModel()
+      .allResultsLatest$.pipe(
+        map(results =>
+          results.filter(result => {
+            if (result.patchset !== patchNum) return false;
+            if (result.category === Category.SUCCESS) return false;
+            // Only one code pointer is supported. See API docs.
+            const pointer = result.codePointers?.[0];
+            return pointer?.path === this.path && !!pointer?.range;
+          })
+        ),
+        distinctUntilChanged(deepEqual)
+      )
+      .subscribe(results => this.checksChanged(results));
+  }
+
+  /**
+   * Similar to _threadsChanged(), but a bit simpler. We compare the elements
+   * that are already in <gr-diff> with the current results emitted from the
+   * model. Exists? Update. New? Create and attach. Old? Remove.
+   */
+  private checksChanged(checks: RunResult[]) {
+    const idToEl = new Map<string, GrDiffCheckResult>();
+    const checkEls = this.getCheckEls();
+    const dontRemove = new Set<GrDiffCheckResult>();
+    for (const el of checkEls) {
+      const id = el.result?.internalResultId;
+      assertIsDefined(id, 'result.internalResultId of gr-diff-check-result');
+      idToEl.set(id, el);
+    }
+    for (const check of checks) {
+      const id = check.internalResultId;
+      const existingEl = idToEl.get(id);
+      if (existingEl) {
+        existingEl.result = check;
+        dontRemove.add(existingEl);
+      } else {
+        const newEl = this.createCheckEl(check);
+        dontRemove.add(newEl);
+      }
+    }
+    // Remove all check els that don't have a matching check anymore.
+    for (const el of checkEls) {
+      if (dontRemove.has(el)) continue;
+      el.remove();
+    }
+  }
+
+  /**
+   * This is very similar to createThreadElement(). It creates a new
+   * <gr-diff-check-result> element, sets its props/attributes and adds it to
+   * <gr-diff>.
+   */
+  private createCheckEl(check: RunResult) {
+    const pointer = check.codePointers?.[0];
+    assertIsDefined(pointer, 'code pointer of check result in diff');
+    const el = document.createElement('gr-diff-check-result');
+    // This is what gr-diff expects, even though this is a check, not a comment.
+    el.className = 'comment-thread';
+    el.rootId = check.internalResultId;
+    el.result = check;
+    // These attributes are the "interface" between comments/checks and gr-diff.
+    // <gr-comment-thread> does not care about them and is not affected by them.
+    el.setAttribute('slot', `${Side.RIGHT}-${pointer.range.end_line}`);
+    el.setAttribute('diff-side', `${Side.RIGHT}`);
+    el.setAttribute('line-num', `${pointer.range.end_line || 'LOST'}`);
+    el.setAttribute('range', `${JSON.stringify(pointer.range)}`);
+    this.$.diff.appendChild(el);
+    return el;
   }
 
   _getCoverageData() {
@@ -601,7 +709,11 @@ export class GrDiffHost extends DIPolymerElement {
   }
 
   getThreadEls(): GrCommentThread[] {
-    return Array.from(this.$.diff.querySelectorAll('.comment-thread'));
+    return Array.from(this.$.diff.querySelectorAll('gr-comment-thread'));
+  }
+
+  getCheckEls(): GrDiffCheckResult[] {
+    return Array.from(this.$.diff.querySelectorAll('gr-diff-check-result'));
   }
 
   addDraftAtLine(el: Element) {
@@ -902,13 +1014,6 @@ export class GrDiffHost extends DIPolymerElement {
 
   _attachThreadElement(threadEl: Element) {
     this.$.diff.appendChild(threadEl);
-  }
-
-  _clearThreads() {
-    for (const threadEl of this.getThreadEls()) {
-      const parent = threadEl.parentNode;
-      if (parent) parent.removeChild(threadEl);
-    }
   }
 
   private getDiffSide(thread: CommentThread) {

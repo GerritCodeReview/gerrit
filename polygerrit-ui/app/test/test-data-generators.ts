@@ -109,7 +109,7 @@ import {
   UnsavedInfo,
 } from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
-import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../embed/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 import {

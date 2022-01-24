@@ -286,6 +286,12 @@ export class GrDiffHost extends DIPolymerElement {
 
   constructor() {
     super();
+    this._renderPrefs = {
+      ...this._renderPrefs,
+      use_lit_components: this.flags.isEnabled(
+        KnownExperimentId.DIFF_RENDERING_LIT
+      ),
+    };
     this.addEventListener(
       // These are named inconsistently for a reason:
       // The create-comment event is fired to indicate that we should

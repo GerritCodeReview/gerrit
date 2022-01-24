@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecfb49eb_cd572543",
+        "filename": "tools/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-24T08:00:52Z",
+      "side": 0,
+      "message": "Note for the reviewers: This is needed for Bazel upgrade, see: [1], [2]. Because upstream option includes also disabling of:\n\n  -XepOpt:ReturnValueIgnored:ObjectMethods\u003dtrue\n\nIf it would help I could add it to the commit message. This is currently blocking Bazel update.\n\n[1] https://github.com/bazelbuild/bazel/issues/14587\n[2] https://github.com/bazelbuild/bazel/issues/14589",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 6
+      },
+      "revId": "6259d495ecb04814f9d7ede0ae53b39a3a5c8b74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,21 +18,21 @@ import '@polymer/iron-dropdown/iron-dropdown';
 import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
-import '../../shared/gr-button/gr-button';
-import '../../shared/gr-dropdown/gr-dropdown';
-import '../../shared/gr-dropdown-list/gr-dropdown-list';
-import '../../shared/gr-icons/gr-icons';
-import '../../shared/gr-select/gr-select';
-import '../../shared/revision-info/revision-info';
-import '../gr-comment-api/gr-comment-api';
+import '../../../elements/shared/gr-button/gr-button';
+import '../../../elements/shared/gr-dropdown/gr-dropdown';
+import '../../../elements/shared/gr-dropdown-list/gr-dropdown-list';
+import '../../../elements/shared/gr-icons/gr-icons';
+import '../../../elements/shared/gr-select/gr-select';
+import '../../../elements/shared/revision-info/revision-info';
+import '../../../elements/diff/gr-comment-api/gr-comment-api';
 import '../gr-diff-cursor/gr-diff-cursor';
-import '../gr-apply-fix-dialog/gr-apply-fix-dialog';
+import '../../../elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-diff-host/gr-diff-host';
 import '../gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
-import '../../change/gr-download-dialog/gr-download-dialog';
-import '../../shared/gr-overlay/gr-overlay';
+import '../../../elements/change/gr-download-dialog/gr-download-dialog';
+import '../../../elements/shared/gr-overlay/gr-overlay';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {htmlTemplate} from './gr-diff-view_html';
 import {
@@ -44,7 +44,7 @@ import {
 import {
   GeneratedWebLink,
   GerritNav,
-} from '../../core/gr-navigation/gr-navigation';
+} from '../../../elements/core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
@@ -64,9 +64,9 @@ import {GrDiffHost} from '../gr-diff-host/gr-diff-host';
 import {
   DropdownItem,
   GrDropdownList,
-} from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {ChangeComments} from '../gr-comment-api/gr-comment-api';
+} from '../../../elements/shared/gr-dropdown-list/gr-dropdown-list';
+import {GrOverlay} from '../../../elements/shared/gr-overlay/gr-overlay';
+import {ChangeComments} from '../../../elements/diff/gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
 import {
   BasePatchSetNum,
@@ -97,14 +97,14 @@ import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrDiffCursor} from '../gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
-import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
-import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
+import {GrApplyFixDialog} from '../../../elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
+import {RevisionInfo as RevisionInfoObj} from '../../../elements/shared/revision-info/revision-info';
 import {
   CommentMap,
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
+import {AppElementParams, AppElementDiffViewParam} from '../../../elements/gr-app-types';
 import {EventType, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
@@ -117,7 +117,7 @@ import {combineLatest, Subscription} from 'rxjs';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../models/change/change-model';
 import {DisplayLine} from '../../../api/diff';
-import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
+import {GrDownloadDialog} from '../../../elements/change/gr-download-dialog/gr-download-dialog';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';

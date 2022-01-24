@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-comment-thread/gr-comment-thread';
-import '../../checks/gr-diff-check-result';
+import '../../../elements/shared/gr-comment-thread/gr-comment-thread';
+import '../../../elements/checks/gr-diff-check-result';
 import '../gr-diff/gr-diff';
 import {htmlTemplate} from './gr-diff-host_html';
 import {
   GerritNav,
   GeneratedWebLink,
-} from '../../core/gr-navigation/gr-navigation';
+} from '../../../elements/core/gr-navigation/gr-navigation';
 import {
   anyLineTooLong,
   getLine,
@@ -72,7 +72,7 @@ import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber, FILE} from '../gr-diff/gr-diff-line';
-import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
+import {GrCommentThread} from '../../../elements/shared/gr-comment-thread/gr-comment-thread';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   firePageError,
@@ -81,19 +81,19 @@ import {
   fireEvent,
   waitForEventOnce,
 } from '../../../utils/event-util';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {getPluginLoader} from '../../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {assertIsDefined} from '../../../utils/common-util';
 import {DiffContextExpandedEventDetail} from '../gr-diff-builder/gr-diff-builder';
 import {TokenHighlightLayer} from '../gr-diff-builder/token-highlight-layer';
 import {Timing} from '../../../constants/reporting';
-import {ChangeComments} from '../gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../../../elements/diff/gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {DisplayLine, RenderPreferences} from '../../../api/diff';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {checksModelToken, RunResult} from '../../../models/checks/checks-model';
-import {GrDiffCheckResult} from '../../checks/gr-diff-check-result';
+import {GrDiffCheckResult} from '../../../elements/checks/gr-diff-check-result';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {deepEqual} from '../../../utils/deep-util';
 import {Category} from '../../../api/checks';

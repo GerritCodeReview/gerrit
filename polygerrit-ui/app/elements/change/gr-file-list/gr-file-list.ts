@@ -17,9 +17,9 @@
 import {Subscription} from 'rxjs';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
-import '../../diff/gr-diff-cursor/gr-diff-cursor';
-import '../../diff/gr-diff-host/gr-diff-host';
-import '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
+import '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
+import '../../../embed/diff/gr-diff-host/gr-diff-host';
+import '../../../embed/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
@@ -74,9 +74,9 @@ import {
   RevisionPatchSetNum,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
-import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
-import {GrDiffPreferencesDialog} from '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
-import {GrDiffCursor} from '../../diff/gr-diff-cursor/gr-diff-cursor';
+import {GrDiffHost} from '../../../embed/diff/gr-diff-host/gr-diff-host';
+import {GrDiffPreferencesDialog} from '../../../embed/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
+import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';

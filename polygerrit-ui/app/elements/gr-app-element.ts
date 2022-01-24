@@ -28,7 +28,7 @@ import './core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog';
 import './core/gr-main-header/gr-main-header';
 import './core/gr-router/gr-router';
 import './core/gr-smart-search/gr-smart-search';
-import './diff/gr-diff-view/gr-diff-view';
+import '../embed/diff/gr-diff-view/gr-diff-view';
 import './edit/gr-editor-view/gr-editor-view';
 import './plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import './plugins/gr-endpoint-param/gr-endpoint-param';

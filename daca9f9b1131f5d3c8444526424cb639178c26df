@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e932e8d_ae5083aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-24T14:17:29Z",
+      "side": 1,
+      "message": "c",
+      "revId": "daca9f9b1131f5d3c8444526424cb639178c26df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6f2133a_a9d00d3b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-24T14:17:29Z",
+      "side": 1,
+      "message": "this line needs a space before `\u003d` and a semicolon. Please run the lint/tests before adding reviewers, otherwise my comments end up on several patchsets and are sometimes resolved by the time I reply.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 54
+      },
+      "revId": "daca9f9b1131f5d3c8444526424cb639178c26df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33b02bbc_0cffc4ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-24T14:17:29Z",
+      "side": 1,
+      "message": "at face value we should not need to call .fooChanged() and then .fooOrBarChanged() right after. Can you adjust the names so these two lines are logical?",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 0
+      },
+      "revId": "daca9f9b1131f5d3c8444526424cb639178c26df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

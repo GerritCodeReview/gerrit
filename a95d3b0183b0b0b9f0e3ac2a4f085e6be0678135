@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8efb5964_ebfc4a4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-24T11:54:16Z",
+      "side": 1,
+      "message": "I think these 5 components are Gerrit specific and should not be moved into an embed/ folder:\n\n```\ndiff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts\ndiff/gr-comment-api/gr-comment-api.ts\ndiff/gr-diff-host/gr-diff-host.ts\ndiff/gr-diff-view/gr-diff-view.ts\ndiff/gr-patch-range-select/gr-patch-range-select.ts\n```",
+      "revId": "a95d3b0183b0b0b9f0e3ac2a4f085e6be0678135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

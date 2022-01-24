@@ -25,8 +25,8 @@ import '@polymer/paper-listbox/paper-listbox';
 import './gr-overview-image';
 import './gr-zoomed-image';
 
-import {GrLibLoader} from '../../shared/gr-lib-loader/gr-lib-loader';
-import {RESEMBLEJS_LIBRARY_CONFIG} from '../../shared/gr-lib-loader/resemblejs_config';
+import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
+import {RESEMBLEJS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/resemblejs_config';
 
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';

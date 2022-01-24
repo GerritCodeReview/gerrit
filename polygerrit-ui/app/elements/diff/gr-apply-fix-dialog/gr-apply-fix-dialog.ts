@@ -18,7 +18,7 @@ import '@polymer/iron-icon/iron-icon';
 import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
-import '../gr-diff/gr-diff';
+import '../../../embed/diff/gr-diff/gr-diff';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-apply-fix-dialog_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -40,7 +40,7 @@ import {getAppContext} from '../../../services/app-context';
 import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {TokenHighlightLayer} from '../gr-diff-builder/token-highlight-layer';
+import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 
 export interface GrApplyFixDialog {
   $: {

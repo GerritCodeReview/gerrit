@@ -25,10 +25,10 @@ import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-select/gr-select';
 import '../../shared/revision-info/revision-info';
 import '../gr-comment-api/gr-comment-api';
-import '../gr-diff-cursor/gr-diff-cursor';
+import '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-diff-host/gr-diff-host';
-import '../gr-diff-mode-selector/gr-diff-mode-selector';
+import '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
@@ -60,14 +60,14 @@ import {
 } from '../../../utils/path-list-util';
 import {changeBaseURL, changeIsOpen} from '../../../utils/change-util';
 import {customElement, observe, property} from '@polymer/decorators';
-import {GrDiffHost} from '../gr-diff-host/gr-diff-host';
+import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {
   DropdownItem,
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {ChangeComments} from '../gr-comment-api/gr-comment-api';
-import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
+import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
+import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {
   BasePatchSetNum,
   ChangeInfo,
@@ -95,7 +95,7 @@ import {
 } from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {GrDiffCursor} from '../gr-diff-cursor/gr-diff-cursor';
+import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';

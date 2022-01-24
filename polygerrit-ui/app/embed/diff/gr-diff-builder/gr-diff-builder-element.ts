@@ -16,7 +16,7 @@
  */
 import '../gr-coverage-layer/gr-coverage-layer';
 import '../gr-diff-processor/gr-diff-processor';
-import '../../shared/gr-hovercard/gr-hovercard';
+import '../../../elements/shared/gr-hovercard/gr-hovercard';
 import '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import './gr-diff-builder-side-by-side';
 import {PolymerElement} from '@polymer/polymer/polymer-element';

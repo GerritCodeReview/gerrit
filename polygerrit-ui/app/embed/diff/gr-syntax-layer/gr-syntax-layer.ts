@@ -19,8 +19,8 @@ import {FILE, GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {CancelablePromise, util} from '../../../scripts/util';
 import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener, HighlightJS} from '../../../types/types';
-import {GrLibLoader} from '../../shared/gr-lib-loader/gr-lib-loader';
-import {HLJS_LIBRARY_CONFIG} from '../../shared/gr-lib-loader/highlightjs_config';
+import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
+import {HLJS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/highlightjs_config';
 import {Side} from '../../../constants/constants';
 
 const LANGUAGE_MAP = new Map<string, string>([

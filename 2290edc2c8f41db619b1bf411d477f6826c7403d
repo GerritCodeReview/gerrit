@@ -56,6 +56,30 @@
       },
       "revId": "2290edc2c8f41db619b1bf411d477f6826c7403d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c7d7867_c43c312a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-24T15:29:49Z",
+      "side": 1,
+      "message": "It seems this is not an issue, after playing around here: https://lit.dev/playground/#sample\u003ddocs/components/shadowdom/namedslots",
+      "parentUuid": "02023183_a3025723",
+      "range": {
+        "startLine": 75,
+        "startChar": 28,
+        "endLine": 75,
+        "endChar": 34
+      },
+      "revId": "2290edc2c8f41db619b1bf411d477f6826c7403d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

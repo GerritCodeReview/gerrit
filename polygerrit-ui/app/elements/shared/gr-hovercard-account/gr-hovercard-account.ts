@@ -18,6 +18,8 @@
 import '@polymer/iron-icon/iron-icon';
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
 import {accountKey, isSelf} from '../../../utils/account-util';
 import {customElement, property} from 'lit/decorators';
@@ -214,14 +216,27 @@ export class GrHovercardAccount extends base {
   }
 
   private renderAccountStatus() {
-    if (!this.account.status) return;
     return html`
       <div class="status">
         <span class="title">
-          <iron-icon icon="gr-icons:unavailable"></iron-icon>
-          Status:
+          <gr-endpoint-decorator name="hovercard-status">
+            <gr-endpoint-param
+              name="accountId"
+              .value="${this.account._account_id}"
+            ></gr-endpoint-param>
+          </gr-endpoint-decorator>
         </span>
-        <span class="value">${this.account.status}</span>
+      </div>
+      <div>
+        ${this.account.status
+          ? html`
+              <span class="title">
+                <iron-icon icon="gr-icons:unavailable"></iron-icon>
+                Status:
+              </span>
+              <span class="value">${this.account.status}</span>
+            `
+          : ''}
       </div>
     `;
   }

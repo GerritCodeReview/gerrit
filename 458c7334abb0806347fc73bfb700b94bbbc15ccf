@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "396ceae6_a9485b64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-24T14:35:09Z",
+      "side": 1,
+      "message": "needs more detail.\n\nWhy the original Change had to be reverted(revert is Change 316962), what the new solution is.",
+      "revId": "458c7334abb0806347fc73bfb700b94bbbc15ccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bc9d6902_a3bef2bb",
@@ -14,6 +31,29 @@
       "writtenOn": "2022-01-24T14:24:17Z",
       "side": 1,
       "message": "Thanks and will keep in mind to not send things too early for review.",
+      "revId": "458c7334abb0806347fc73bfb700b94bbbc15ccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c83b3dce_e61b19c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-24T14:35:09Z",
+      "side": 1,
+      "message": "who is it?\nWhy do we need to modify the dom?\n\nSorry I\u0027m missing a bit of context here.",
+      "range": {
+        "startLine": 78,
+        "startChar": 48,
+        "endLine": 78,
+        "endChar": 50
+      },
       "revId": "458c7334abb0806347fc73bfb700b94bbbc15ccf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

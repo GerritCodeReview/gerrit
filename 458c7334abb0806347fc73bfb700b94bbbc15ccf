@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "991c0273_069cd83a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-24T14:52:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "396ceae6_a9485b64",
+      "revId": "458c7334abb0806347fc73bfb700b94bbbc15ccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bc9d6902_a3bef2bb",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -48,6 +66,30 @@
       "writtenOn": "2022-01-24T14:35:09Z",
       "side": 1,
       "message": "who is it?\nWhy do we need to modify the dom?\n\nSorry I\u0027m missing a bit of context here.",
+      "range": {
+        "startLine": 78,
+        "startChar": 48,
+        "endLine": 78,
+        "endChar": 50
+      },
+      "revId": "458c7334abb0806347fc73bfb700b94bbbc15ccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c3eebbd_9fe72636",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-24T14:52:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c83b3dce_e61b19c5",
       "range": {
         "startLine": 78,
         "startChar": 48,

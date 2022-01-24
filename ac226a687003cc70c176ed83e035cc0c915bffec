@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f19fa2e2_30c8c5b1",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-24T13:33:24Z",
+      "side": 1,
+      "message": "Could you make this javadoc? (Also, it would be helpful to mention the reason for the clipping explicitly, rather than in terms of unavailable dependencies.)",
+      "revId": "ac226a687003cc70c176ed83e035cc0c915bffec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ba794d8_46cb54e6",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-24T13:33:24Z",
+      "side": 1,
+      "message": "While you\u0027re here :-) could we add a method javadoc? Especially the new semantics are non-obvious at the API level.",
+      "revId": "ac226a687003cc70c176ed83e035cc0c915bffec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7840c4c7_3ee28e4a",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-24T13:33:24Z",
+      "side": 1,
+      "message": "This can be ambiguous for the last extension. How about using a custom collector instead?",
+      "revId": "ac226a687003cc70c176ed83e035cc0c915bffec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ec7c1bd_4d6fd9c1",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-24T13:33:24Z",
+      "side": 1,
+      "message": "It seems brittle to hardcode UUID.length. Can we use the value directly, or else take it from a sample UUID?",
+      "revId": "ac226a687003cc70c176ed83e035cc0c915bffec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b1264d0_157c219c",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1427,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-01-24T13:33:24Z",
+      "side": 1,
+      "message": "Should we also check the concatenated string?",
+      "revId": "ac226a687003cc70c176ed83e035cc0c915bffec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,23 @@
       "message": "This is ready for another look.",
       "revId": "cac5f7eb2e7772984b712afa690c5475b223c17b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e55d02ca_a419f157",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-24T15:06:39Z",
+      "side": 1,
+      "message": "Light theme LGTM.\n\nDark theme:\nThere is currentrly no unselected background for unselected chip, unselected chip have a Grey 800 background color. \nSee comments in the bug. ",
+      "revId": "cac5f7eb2e7772984b712afa690c5475b223c17b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

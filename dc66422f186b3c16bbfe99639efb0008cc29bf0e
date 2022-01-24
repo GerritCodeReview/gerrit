@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f798e7a_4b2725a2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-24T21:51:49Z",
+      "side": 1,
+      "message": "I don\u0027t think that `settingTopic` should influence this.\n\nThen you should just do\n```\nreturn !topicReadOnly;\n```",
+      "revId": "dc66422f186b3c16bbfe99639efb0008cc29bf0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c629d458_af90856b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-24T21:51:49Z",
+      "side": 1,
+      "message": "While you are here please also add logic based on `_showAllSections` and `change`. Overall this would be:\n```\nif (hasTopic) return true;\nif (topicReadOnly) return false;\nif (!_showAllSections \u0026\u0026 !isOwner(change, this.account)) return false;\nreturn true;\n```\nIt annoys me as a reviewer that I always see (empty) topic rows.",
+      "revId": "dc66422f186b3c16bbfe99639efb0008cc29bf0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import {GrLinkTextParser, LinkTextParserConfig} from './link-text-parser';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {assertIsDefined} from '../../../common/utils';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -85,7 +86,7 @@ export class GrLinkedText extends LitElement {
   // into its DOM-tree as it controls the DOM-tree that it generates.
   // Therefore, to get around this we create a single element that we slot into
   // the Lit-owned DOM.  This element will not be part of this LitElement as
-  // it's slotted in and thus can be modified on the fly by _handleParseResult.
+  // it's slotted in and thus can be modified on the fly by handleParseResult.
   override firstUpdated(_changedProperties: PropertyValues): void {
     this.outputElement = document.createElement('span');
     this.outputElement.id = 'output';
@@ -109,16 +110,18 @@ export class GrLinkedText extends LitElement {
    */
   _contentOrConfigChanged() {
     if (!this.config) {
+      assertIsDefined(this.outputElement);
       this.outputElement!.textContent = this.content;
       return;
     }
 
     const config = GerritNav.mapCommentlinks(this.config);
+    assertIsDefined(this.outputElement);
     this.outputElement!.textContent = '';
     const parser = new GrLinkTextParser(
       config,
       (text: string | null, href: string | null, fragment?: DocumentFragment) =>
-        this._handleParseResult(text, href, fragment),
+        this.handleParseResult(text, href, fragment),
       this.removeZeroWidthSpace
     );
     parser.parse(this.content);
@@ -147,11 +150,12 @@ export class GrLinkedText extends LitElement {
    * - To attach an arbitrary fragment: when called with only the `fragment`
    *   argument, the fragment should be attached to the resulting DOM as is.
    */
-  private _handleParseResult(
+  private handleParseResult(
     text: string | null,
     href: string | null,
     fragment?: DocumentFragment
   ) {
+    assertIsDefined(this.outputElement);
     const output = this.outputElement!;
     if (href) {
       const a = document.createElement('a');

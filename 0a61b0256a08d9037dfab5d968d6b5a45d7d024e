@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "29089ea5_938fe5d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-24T09:24:31Z",
+      "side": 1,
+      "message": "I don\u0027t believe the extra metrics caused any issue during the upgrade.",
+      "range": {
+        "startLine": 13,
+        "startChar": 33,
+        "endLine": 13,
+        "endChar": 59
+      },
+      "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fc09b985_ab5ea249",
@@ -14,6 +37,29 @@
       "writtenOn": "2022-01-20T18:03:35Z",
       "side": 1,
       "message": "@Edwin any concern about this change?",
+      "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e6e7f36_0e74907e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5275,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-24T09:24:31Z",
+      "side": 1,
+      "message": "This isn\u0027t actually true at the moment: performance figures are collected and exported as metrics, causing the explosion of the metrics payload and, potentially, the node to be considered unhealthy because of the increase of latency for returning metrics.",
+      "range": {
+        "startLine": 5273,
+        "startChar": 0,
+        "endLine": 5275,
+        "endChar": 63
+      },
       "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -36,6 +82,52 @@
         "startChar": 67,
         "endLine": 5287,
         "endChar": 68
+      },
+      "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "018e0230_3eaa98ef",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5287,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-24T09:24:31Z",
+      "side": 1,
+      "message": "This looks like the description of the issue, rather than the documentation of the feature. Should you rephrase it as:\n\"NOTE: Assess the latency of the metrics endpoint before enabling the performance metrics generation, because the payload returned could be significant.",
+      "range": {
+        "startLine": 5286,
+        "startChar": 0,
+        "endLine": 5287,
+        "endChar": 67
+      },
+      "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8d4d24c_7ba9b3e2",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-24T09:24:31Z",
+      "side": 1,
+      "message": "This is the description of the issue we are fixing: it should go in the commit message IMHO.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 78
       },
       "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

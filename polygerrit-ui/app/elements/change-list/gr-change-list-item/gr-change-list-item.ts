@@ -251,7 +251,7 @@ export class GrChangeListItem extends LitElement {
         .placeholder {
           color: var(--deemphasized-text-color);
         }
-        .cell.selection input{
+        .cell.selection input {
           vertical-align: middle;
         }
         .cell.label {

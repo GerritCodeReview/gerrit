@@ -16,6 +16,29 @@
       "message": "Checks results for Code-Style are green, removing Code-Style-1 and voting manually.",
       "revId": "37fbfbcd023bfd1bef86413b551e511fb89e219d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8791ba61_13332a12",
+        "filename": "java/com/google/gerrit/server/project/BranchResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-24T11:57:16Z",
+      "side": 1,
+      "message": "Should this be an ObjectId instead (or an Optional\u003cObjectId\u003e)?",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 32
+      },
+      "revId": "37fbfbcd023bfd1bef86413b551e511fb89e219d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

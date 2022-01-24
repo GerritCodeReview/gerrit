@@ -379,39 +379,47 @@ export const htmlTemplate = html`
         </span>
       </section>
     </template>
-    <section
-      class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC)]]"
+    <template
+      is="dom-if"
+      if="[[_showTopic(change.*, _settingTopic, _topicReadOnly)]]"
     >
-      <span class="title">Topic</span>
-      <span class="value">
-        <template is="dom-if" if="[[_showTopicChip(change.*, _settingTopic)]]">
-          <gr-linked-chip
-            text="[[change.topic]]"
-            limit="40"
-            href="[[_computeTopicUrl(change.topic)]]"
-            removable="[[!_topicReadOnly]]"
-            on-remove="_handleTopicRemoved"
-          ></gr-linked-chip>
-        </template>
-        <template
-          is="dom-if"
-          if="[[_showAddTopic(change.*, _settingTopic, _topicReadOnly)]]"
-        >
-          <gr-editable-label
-            class="topicEditableLabel"
-            label-text="Add a topic"
-            value="[[change.topic]]"
-            max-length="1024"
-            placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
-            read-only="[[_topicReadOnly]]"
-            on-changed="_handleTopicChanged"
-            show-as-edit-pencil="true"
-            autocomplete="true"
-            query="[[queryTopic]]"
-          ></gr-editable-label>
-        </template>
-      </span>
-    </section>
+      <section
+        class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC)]]"
+      >
+        <span class="title">Topic</span>
+        <span class="value">
+          <template
+            is="dom-if"
+            if="[[_showTopicChip(change.*, _settingTopic)]]"
+          >
+            <gr-linked-chip
+              text="[[change.topic]]"
+              limit="40"
+              href="[[_computeTopicUrl(change.topic)]]"
+              removable="[[!_topicReadOnly]]"
+              on-remove="_handleTopicRemoved"
+            ></gr-linked-chip>
+          </template>
+          <template
+            is="dom-if"
+            if="[[_showAddTopic(change.*, _settingTopic, _topicReadOnly)]]"
+          >
+            <gr-editable-label
+              class="topicEditableLabel"
+              label-text="Add a topic"
+              value="[[change.topic]]"
+              max-length="1024"
+              placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
+              read-only="[[_topicReadOnly]]"
+              on-changed="_handleTopicChanged"
+              show-as-edit-pencil="true"
+              autocomplete="true"
+              query="[[queryTopic]]"
+            ></gr-editable-label>
+          </template>
+        </span>
+      </section>
+    </template>
     <template is="dom-if" if="[[_showCherryPickOf(change.*)]]">
       <section
         class$="[[_computeDisplayState(_showAllSections, change, _SECTION.CHERRY_PICK_OF)]]"

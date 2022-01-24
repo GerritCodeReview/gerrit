@@ -304,6 +304,16 @@ export class GrChangeMetadata extends PolymerElement {
     return !hasTopic && !settingTopic && topicReadOnly === false;
   }
 
+  _showTopic(
+    changeRecord?: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
+    settingTopic?: boolean,
+    topicReadOnly?: boolean
+  ) {
+    const hasTopic = !!changeRecord?.base?.topic;
+    if (hasTopic) return true;
+    return this._showAddTopic(changeRecord, settingTopic, topicReadOnly);
+  }
+
   _showTopicChip(
     changeRecord?: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
     settingTopic?: boolean

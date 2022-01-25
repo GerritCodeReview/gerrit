@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "577136a4_7a49e326",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-01-25T17:39:01Z",
+      "side": 1,
+      "message": "I\u0027m working on testing this locally. I\u0027m not familiar with Gerrit\u0027s built in test framework. I\u0027d be happy to have hints for adding tests there if there is a good way to test this within the Gerrit code base. Or feel free to push a new patchset to add tests or otherwise make a better fix.",
+      "revId": "36021469c3a6dd4b8e075628e31dd0dce28fda94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

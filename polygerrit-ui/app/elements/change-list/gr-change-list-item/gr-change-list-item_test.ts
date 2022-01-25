@@ -25,6 +25,7 @@ import {
   createChange,
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
+  createNonApplicableSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
 import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {
@@ -483,7 +484,10 @@ suite('gr-change-list-item tests', () => {
     };
     const change: ChangeInfo = {
       ...createChange(),
-      submit_requirements: [submitRequirement],
+      submit_requirements: [
+        submitRequirement,
+        createNonApplicableSubmitRequirementResultInfo(),
+      ],
       unresolved_comment_count: 1,
     };
     const element = await fixture<GrChangeListItem>(

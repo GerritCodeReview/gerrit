@@ -233,9 +233,11 @@ export function extractAssociatedLabels(
 ): string[] {
   let labels: string[] = [];
   if (type !== 'onlyOverride') {
-    labels = labels.concat(
-      extractLabelsFrom(requirement.submittability_expression_result.expression)
-    );
+    labels = requirement.submittability_expression_result
+      ? extractLabelsFrom(
+          requirement.submittability_expression_result.expression
+        )
+      : [];
   }
   if (requirement.override_expression_result && type !== 'onlySubmittability') {
     labels = labels.concat(

@@ -782,6 +782,15 @@ export function createSubmitRequirementResultInfo(): SubmitRequirementResultInfo
   };
 }
 
+export function createNonApplicableSubmitRequirementResultInfo(): SubmitRequirementResultInfo {
+  return {
+    name: 'Verified',
+    status: SubmitRequirementStatus.NOT_APPLICABLE,
+    applicability_expression_result: createSubmitRequirementExpressionInfo(),
+    is_legacy: false,
+  };
+}
+
 export function createRunResult(): RunResult {
   return {
     attemptDetails: [],

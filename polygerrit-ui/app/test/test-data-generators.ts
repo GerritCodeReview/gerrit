@@ -767,9 +767,9 @@ export function createGroupAuditEventInfo(
 export function createSubmitRequirementExpressionInfo(): SubmitRequirementExpressionInfo {
   return {
     expression: 'label:Verified=MAX -label:Verified=MIN',
-    fulfilled: true,
-    passing_atoms: ['label2:verified=MAX'],
-    failing_atoms: ['label2:verified=MIN'],
+    fulfilled: false,
+    passing_atoms: [],
+    failing_atoms: [],
   };
 }
 

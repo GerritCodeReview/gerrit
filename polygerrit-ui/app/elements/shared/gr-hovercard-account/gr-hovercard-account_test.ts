@@ -93,6 +93,11 @@ suite('gr-hovercard-account tests', () => {
           </div>
         </div>
       </div>
+      <div class="statusPlugin">
+        <gr-endpoint-decorator name="hovercard-status">
+          <gr-endpoint-param name="account"></gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </div>
     </div>
     `);
   });

@@ -85,9 +85,6 @@ export class GrAccountLabel extends LitElement {
   })
   cancelLeftPadding = false;
 
-  @property({type: Boolean})
-  hideStatus = false;
-
   @state()
   _config?: ServerInfo;
 
@@ -162,14 +159,6 @@ export class GrAccountLabel extends LitElement {
           width: 12px;
           height: 12px;
           vertical-align: top;
-        }
-        iron-icon.status {
-          color: var(--deemphasized-text-color);
-          width: 14px;
-          height: 14px;
-          vertical-align: top;
-          position: relative;
-          top: 2px;
         }
         .name {
           display: inline-block;
@@ -259,12 +248,6 @@ export class GrAccountLabel extends LitElement {
           <span class="name">
             ${this._computeName(account, this.firstName, this._config)}
           </span>
-          ${!this.hideStatus && account.status
-            ? html`<iron-icon
-                class="status"
-                icon="gr-icons:unavailable"
-              ></iron-icon>`
-            : ''}
           ${this.renderAccountStatusPlugins()}
         </span>
       </span>`;
@@ -284,8 +267,6 @@ export class GrAccountLabel extends LitElement {
     });
   }
 
-  // Note: account statuses from plugins are shown regardless of
-  // hideStatus setting
   private renderAccountStatusPlugins() {
     if (!this.account?._account_id) {
       return;

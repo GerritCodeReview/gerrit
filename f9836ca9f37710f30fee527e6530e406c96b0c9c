@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a96cebd_9f746b83",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-25T16:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9702c000_9aa558ea",
+      "revId": "f9836ca9f37710f30fee527e6530e406c96b0c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5030c1b0_70418245",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-01-25T14:36:47Z",
       "side": 1,
       "message": "Even if you don\u0027t plan to use it, it might make sense to pass `account` as a param instead of just the `id`.",
+      "revId": "f9836ca9f37710f30fee527e6530e406c96b0c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f583217_aa77b180",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-25T16:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5030c1b0_70418245",
       "revId": "f9836ca9f37710f30fee527e6530e406c96b0c9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

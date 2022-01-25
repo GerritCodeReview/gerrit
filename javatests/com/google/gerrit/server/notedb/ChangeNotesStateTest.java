@@ -470,7 +470,7 @@ public class ChangeNotesStateTest {
                             ReviewerStateInternal.REVIEWER,
                             Account.id(2002),
                             Instant.ofEpochMilli(3434L))
-                        .build()))
+                        .buildOrThrow()))
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
@@ -504,7 +504,7 @@ public class ChangeNotesStateTest {
                             ReviewerStateInternal.REVIEWER,
                             Address.create("Name2", "email2@example.com"),
                             Instant.ofEpochMilli(3434L))
-                        .build()))
+                        .buildOrThrow()))
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
@@ -568,7 +568,7 @@ public class ChangeNotesStateTest {
                             ReviewerStateInternal.REVIEWER,
                             Account.id(2002),
                             Instant.ofEpochMilli(3434L))
-                        .build()))
+                        .buildOrThrow()))
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
@@ -602,7 +602,7 @@ public class ChangeNotesStateTest {
                             ReviewerStateInternal.REVIEWER,
                             Address.create("Name2", "email2@example.com"),
                             Instant.ofEpochMilli(3434L))
-                        .build()))
+                        .buildOrThrow()))
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)

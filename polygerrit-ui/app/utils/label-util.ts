@@ -232,7 +232,7 @@ export function extractAssociatedLabels(
   type: 'all' | 'onlyOverride' | 'onlySubmittability' = 'all'
 ): string[] {
   let labels: string[] = [];
-  if (type !== 'onlyOverride') {
+  if (requirement.submittability_expression_result && type !== 'onlyOverride') {
     labels = labels.concat(
       extractLabelsFrom(requirement.submittability_expression_result.expression)
     );

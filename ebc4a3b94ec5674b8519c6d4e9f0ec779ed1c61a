@@ -135,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e90bd9b7_2389d1ea",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-25T09:28:46Z",
+      "side": 1,
+      "message": "OK. I\u0027d have rather preferred to keep the only method with the Optional parameter, but I\u0027m fine with that too.",
+      "parentUuid": "63e424f9_d11bb481",
+      "revId": "ebc4a3b94ec5674b8519c6d4e9f0ec779ed1c61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "438ed34d_94438fc5",

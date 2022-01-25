@@ -276,6 +276,7 @@ export class GrDiffBuilderElement extends PolymerElement {
         if (this.isImageDiff) {
           (this._builder as GrDiffBuilderImage).renderDiff();
         }
+        console.log(`firing render-contet at ${Date.now()}`);
         fireEvent(this, 'render-content');
       })
     );

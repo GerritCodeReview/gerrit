@@ -31,7 +31,7 @@ import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-file-status-chip/gr-file-status-chip';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {htmlTemplate} from './gr-file-list_html';
-import {asyncForeach, debounce, DelayedTask} from '../../../utils/async-util';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 import {
   KeyboardShortcutMixin,
   Shortcut,
@@ -1362,28 +1362,27 @@ export class GrFileList extends base {
       }
     }
 
-    asyncForeach(files, (file, cancel) => {
+    const promises: Array<Promise<unknown>> = [];
+    for (const file of files) {
       const path = file.path;
-      this._cancelForEachDiff = cancel;
-
       const diffElem = this._findDiffByPath(path, diffElements);
       if (!diffElem) {
         this.reporting.error(
           new Error(`Did not find <gr-diff-host> element for ${path}`)
         );
-        return Promise.resolve();
+        continue;
       }
       if (!this.diffPrefs) {
-        throw new Error('diffPrefs must be set');
+        this.reporting.error(new Error('diffPrefs must be set'));
+        continue;
       }
 
-      const promises: Array<Promise<unknown>> = [diffElem.reload()];
+      promises.push(diffElem.reload());
       if (this._loggedIn && !this.diffPrefs.manual_review) {
-        promises.push(this._reviewFile(path, true));
+        this._reviewFile(path, true);
       }
-      return Promise.all(promises);
-    }).then(() => {
-      this._cancelForEachDiff = undefined;
+    }
+    Promise.all(promises).then(() => {
       this.reporting.timeEndWithAverage(
         Timing.FILE_EXPAND_ALL,
         Timing.FILE_EXPAND_ALL_AVG,

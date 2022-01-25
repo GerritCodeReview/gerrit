@@ -254,6 +254,7 @@ export class GrSyntaxLayer implements DiffLayer {
    * as syntax info comes online.
    */
   process() {
+    console.log('syntax layer process');
     // Cancel any still running process() calls, because they append to the
     // same baseRanges and revisionRanges fields.
     this.cancel();
@@ -286,6 +287,24 @@ export class GrSyntaxLayer implements DiffLayer {
     };
 
     const rangesCache = new Map<string, SyntaxLayerRange[]>();
+
+    // this._loadHLJS().then(() => {
+    //   const d1 = Date.now();
+    //   assertIsDefined(this.hljs);
+    //   assertIsDefined(this.baseLanguage);
+    //   assertIsDefined(this.diff?.content);
+    //   let s = '';
+    //   for (const c of this.diff.content) {
+    //     for (const l of c.a ?? []) s += l + '\n';
+    //     for (const l of c.ab ?? []) s += l + '\n';
+    //   }
+    //   const d2 = Date.now();
+    //   const r = this.hljs.highlight(this.baseLanguage, s, true);
+    //   const d3 = Date.now();
+    //   console.log(
+    //     `full highlight ${d2 - d1} ${d3 - d2} ${s.length} ${r.value.length}`
+    //   );
+    // });
 
     this.processPromise = util.makeCancelable(
       this._loadHLJS().then(

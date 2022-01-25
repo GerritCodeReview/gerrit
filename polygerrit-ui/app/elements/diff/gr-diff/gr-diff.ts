@@ -863,6 +863,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this.$.diffBuilder.prefs = this._getBypassPrefs(this.prefs);
     this.$.diffBuilder.renderPrefs = this.renderPrefs;
     this.$.diffBuilder.render(keyLocations).then(() => {
+      console.log(`firing render at ${Date.now()}`);
       this.dispatchEvent(
         new CustomEvent('render', {
           bubbles: true,

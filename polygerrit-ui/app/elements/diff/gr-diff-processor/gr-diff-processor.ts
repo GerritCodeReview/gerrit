@@ -172,6 +172,11 @@ export class GrDiffProcessor extends PolymerElement {
 
         let currentBatch = 0;
         const nextStep = () => {
+          console.log(
+            `diff-processor nextStep ${currentBatch} ${
+              this._isScrolling
+            } ${JSON.stringify(state)}`
+          );
           if (this._isScrolling) {
             this._nextStepHandle = window.setTimeout(nextStep, 100);
             return;

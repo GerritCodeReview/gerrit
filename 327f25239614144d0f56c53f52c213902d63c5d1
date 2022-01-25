@@ -16,6 +16,24 @@
       "message": "with JDK 17 still 5 tests are failing, I think they can be fixed in separate changes",
       "revId": "327f25239614144d0f56c53f52c213902d63c5d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82320cce_46c6a921",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-25T06:42:22Z",
+      "side": 1,
+      "message": "Correct. I mentioned this in the commit message. Done.\n\nUnrelated here, but the main problem is gson serialization issue that is solved with gson update to custom release 2.9.0. Additional problem is serialization of Optional, see issue 15504.",
+      "parentUuid": "39377edf_a5605751",
+      "revId": "327f25239614144d0f56c53f52c213902d63c5d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

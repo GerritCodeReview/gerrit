@@ -69,6 +69,24 @@
       "parentUuid": "c629d458_af90856b",
       "revId": "dc66422f186b3c16bbfe99639efb0008cc29bf0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16d2cdde_f2f89338",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-25T13:58:13Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/328786 Change Metadata - topic show always only for owners",
+      "parentUuid": "683d3d8b_d1b9343c",
+      "revId": "dc66422f186b3c16bbfe99639efb0008cc29bf0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

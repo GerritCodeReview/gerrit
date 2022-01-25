@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac1335ef_321cf280",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-25T18:23:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4a13f12_e619702e",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "cbf383c46fdcb13ad91a12ceb5ac8d57fffae4ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fde331d_2107a0ba",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40543f27_f30cb63b",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-25T18:23:01Z",
+      "side": 1,
+      "message": "I actually realized that might be problematic for the UI to make submittability expression optional. I changed to make it non-optional, but only populate the \u0027expression\u0027 field, since other fields are not evaluated. \nDouble checked with the frontend change:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/328790",
+      "parentUuid": "2fde331d_2107a0ba",
+      "revId": "cbf383c46fdcb13ad91a12ceb5ac8d57fffae4ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16e22395_337e96a5",
@@ -54,6 +96,24 @@
       "writtenOn": "2022-01-25T09:28:46Z",
       "side": 1,
       "message": "Can we also add another round-trip with submittability as an optional containing a value?",
+      "revId": "cbf383c46fdcb13ad91a12ceb5ac8d57fffae4ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab0ae3e8_51172db5",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementJsonSerializerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-25T18:23:01Z",
+      "side": 1,
+      "message": "submitRequirementResult_roundTrip just above. It has all the SubmitReuirementExpressionResult fields set.",
+      "parentUuid": "16e22395_337e96a5",
       "revId": "cbf383c46fdcb13ad91a12ceb5ac8d57fffae4ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

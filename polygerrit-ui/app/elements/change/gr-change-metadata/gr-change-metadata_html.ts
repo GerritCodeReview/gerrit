@@ -380,7 +380,7 @@ export const htmlTemplate = html`
       </section>
     </template>
     <section
-      class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC)]]"
+      class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC, account)]]"
     >
       <span class="title">Topic</span>
       <span class="value">

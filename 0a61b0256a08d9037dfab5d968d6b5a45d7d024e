@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "520210c6_a35d1509",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-01-25T23:11:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29089ea5_938fe5d5",
+      "range": {
+        "startLine": 13,
+        "startChar": 33,
+        "endLine": 13,
+        "endChar": 59
+      },
+      "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fc09b985_ab5ea249",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -54,6 +78,30 @@
       "writtenOn": "2022-01-24T09:24:31Z",
       "side": 1,
       "message": "This isn\u0027t actually true at the moment: performance figures are collected and exported as metrics, causing the explosion of the metrics payload and, potentially, the node to be considered unhealthy because of the increase of latency for returning metrics.",
+      "range": {
+        "startLine": 5273,
+        "startChar": 0,
+        "endLine": 5275,
+        "endChar": 63
+      },
+      "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ba063bc_549ab7ed",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5275,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-01-25T23:11:27Z",
+      "side": 1,
+      "message": "Since this is not part of the chance, should I address it in a followup?",
+      "parentUuid": "0e6e7f36_0e74907e",
       "range": {
         "startLine": 5273,
         "startChar": 0,
@@ -110,6 +158,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71286b56_0de0d10d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5287,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-01-25T23:11:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d5f5efc_561157a4",
+      "range": {
+        "startLine": 5287,
+        "startChar": 67,
+        "endLine": 5287,
+        "endChar": 68
+      },
+      "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f3c520c_19fab879",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5287,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-01-25T23:11:27Z",
+      "side": 1,
+      "message": "mmm...true. Amended",
+      "parentUuid": "018e0230_3eaa98ef",
+      "range": {
+        "startLine": 5286,
+        "startChar": 0,
+        "endLine": 5287,
+        "endChar": 67
+      },
+      "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8d4d24c_7ba9b3e2",
@@ -123,6 +219,30 @@
       "writtenOn": "2022-01-24T09:24:31Z",
       "side": 1,
       "message": "This is the description of the issue we are fixing: it should go in the commit message IMHO.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 78
+      },
+      "revId": "0a61b0256a08d9037dfab5d968d6b5a45d7d024e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd9b5db4_e1a2cf67",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-01-25T23:11:27Z",
+      "side": 1,
+      "message": "True, also we are already highlighting it in the configuration documentation.",
+      "parentUuid": "f8d4d24c_7ba9b3e2",
       "range": {
         "startLine": 96,
         "startChar": 0,

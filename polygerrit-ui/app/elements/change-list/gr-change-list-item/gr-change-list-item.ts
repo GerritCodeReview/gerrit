@@ -383,7 +383,6 @@ export class GrChangeListItem extends LitElement {
     return html`
       <gr-account-link
         hideAvatar
-        hideStatus
         firstName
         highlightAttention
         .change=${this.change}

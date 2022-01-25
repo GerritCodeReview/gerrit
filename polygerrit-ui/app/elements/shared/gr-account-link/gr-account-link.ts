@@ -56,9 +56,6 @@ export class GrAccountLink extends LitElement {
   @property({type: Boolean})
   hideAvatar = false;
 
-  @property({type: Boolean})
-  hideStatus = false;
-
   /**
    * Only show the first name in the account label.
    */
@@ -93,7 +90,6 @@ export class GrAccountLink extends LitElement {
           ?forceAttention=${this.forceAttention}
           ?highlightAttention=${this.highlightAttention}
           ?hideAvatar=${this.hideAvatar}
-          ?hideStatus=${this.hideStatus}
           ?firstName=${this.firstName}
           .voteableText=${this.voteableText}
           exportparts="gr-account-label-text: gr-account-link-text"

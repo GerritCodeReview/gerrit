@@ -89,7 +89,7 @@ suite('gr-comment tests', () => {
         <div class="container" id="container">
           <div class="header" id="header">
             <div class="headerLeft">
-              <gr-account-label deselected="" hidestatus=""></gr-account-label>
+              <gr-account-label deselected=""></gr-account-label>
             </div>
             <div class="headerMiddle">
               <span class="collapsedContent">
@@ -116,7 +116,7 @@ suite('gr-comment tests', () => {
         <div class="container" id="container">
           <div class="header" id="header">
             <div class="headerLeft">
-              <gr-account-label deselected="" hidestatus=""></gr-account-label>
+              <gr-account-label deselected=""></gr-account-label>
             </div>
             <div class="headerMiddle"></div>
             <span class="patchset-text">Patchset 1</span>
@@ -210,7 +210,7 @@ suite('gr-comment tests', () => {
         <div class="container draft" id="container">
           <div class="header" id="header">
             <div class="headerLeft">
-              <gr-account-label class="draft" deselected="" hidestatus=""></gr-account-label>
+              <gr-account-label class="draft" deselected=""></gr-account-label>
               <gr-tooltip-content
                 class="draftTooltip" has-tooltip="" max-width="20em" show-icon=""
                 title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'a' key."
@@ -263,7 +263,7 @@ suite('gr-comment tests', () => {
         <div class="container draft" id="container">
           <div class="header" id="header">
             <div class="headerLeft">
-              <gr-account-label class="draft" deselected="" hidestatus=""></gr-account-label>
+              <gr-account-label class="draft" deselected=""></gr-account-label>
               <gr-tooltip-content
                 class="draftTooltip" has-tooltip="" max-width="20em" show-icon=""
                 title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'a' key."

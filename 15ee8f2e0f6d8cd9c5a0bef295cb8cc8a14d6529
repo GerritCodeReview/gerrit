@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a43c06d_3454d5c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-25T12:08:32Z",
+      "side": 1,
+      "message": "Thank you, PTAL. And apologies about the many iterations, my CSS is rusty 😊",
+      "revId": "15ee8f2e0f6d8cd9c5a0bef295cb8cc8a14d6529",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

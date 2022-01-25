@@ -1103,7 +1103,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                 ImmutableTable.<ReviewerStateInternal, Account.Id, Instant>builder()
                     .put(REVIEWER, Account.id(1), ts)
                     .put(REVIEWER, Account.id(2), ts)
-                    .build()));
+                    .buildOrThrow()));
   }
 
   @Test
@@ -1122,7 +1122,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                 ImmutableTable.<ReviewerStateInternal, Account.Id, Instant>builder()
                     .put(REVIEWER, Account.id(1), ts)
                     .put(CC, Account.id(2), ts)
-                    .build()));
+                    .buildOrThrow()));
   }
 
   @Test

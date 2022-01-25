@@ -16,6 +16,24 @@
       "message": "I\u0027m working on testing this locally. I\u0027m not familiar with Gerrit\u0027s built in test framework. I\u0027d be happy to have hints for adding tests there if there is a good way to test this within the Gerrit code base. Or feel free to push a new patchset to add tests or otherwise make a better fix.",
       "revId": "36021469c3a6dd4b8e075628e31dd0dce28fda94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8e19c1f_beb96575",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-01-25T20:43:44Z",
+      "side": 1,
+      "message": "Manually testing this on a test Gerrit 3.4 instance with this patch applied seems to have fixed the issue.\n\nWhen I remove all [access \"refs/tags/*\"] entries and try to push it reports:\n\n  To ssh://localhost:29418/x/test-project\n   ! [remote rejected] 0.0.1 -\u003e 0.0.1 (prohibited by Gerrit: not permitted: create signed tag)\n  error: failed to push some refs to \u0027ssh://admin@localhost:29418/x/test-project\u0027\n  \nWhich is good because the error message shows create signed tag is not permitted. Not the normal create tag.\n\nThen I add back only createdSignedTag for my administrators group and try again and it succeeds:\n\n  To ssh://localhost:29418/x/test-project\n   * [new tag]         0.0.1 -\u003e 0.0.1",
+      "parentUuid": "577136a4_7a49e326",
+      "revId": "36021469c3a6dd4b8e075628e31dd0dce28fda94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

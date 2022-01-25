@@ -381,7 +381,7 @@ export const htmlTemplate = html`
     </template>
     <template is="dom-if" if="[[_showTopic(change.*, _topicReadOnly)]]">
       <section
-        class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC)]]"
+        class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC, account)]]"
       >
         <span class="title">Topic</span>
         <span class="value">

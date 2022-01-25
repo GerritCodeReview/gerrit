@@ -46,7 +46,7 @@ import {
   GpgKeyInfoStatus,
   SubmitType,
 } from '../../../constants/constants';
-import {changeIsOpen} from '../../../utils/change-util';
+import {changeIsOpen, isOwner} from '../../../utils/change-util';
 import {customElement, property, observe} from '@polymer/decorators';
 import {
   AccountDetailInfo,
@@ -525,8 +525,21 @@ export class GrChangeMetadata extends PolymerElement {
   _computeDisplayState(
     showAllSections: boolean,
     change: ParsedChangeInfo | undefined,
-    section: Metadata
+    section: Metadata,
+    account?: AccountDetailInfo
   ) {
+    // special case for Topic - show always for owners, others when set
+    if (section === Metadata.TOPIC) {
+      if (
+        showAllSections ||
+        isOwner(change, account) ||
+        isSectionSet(section, change)
+      ) {
+        return '';
+      } else {
+        return 'hideDisplay';
+      }
+    }
     if (
       showAllSections ||
       DisplayRules.ALWAYS_SHOW.includes(section) ||

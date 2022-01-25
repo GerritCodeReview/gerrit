@@ -27,6 +27,7 @@ import {
   createParsedChange,
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
+  createNonApplicableSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
 import {SubmitRequirementResultInfo} from '../../../api/rest-api';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -44,7 +45,10 @@ suite('gr-submit-requirements tests', () => {
     };
     const change: ParsedChangeInfo = {
       ...createParsedChange(),
-      submit_requirements: [submitRequirement],
+      submit_requirements: [
+        submitRequirement,
+        createNonApplicableSubmitRequirementResultInfo(),
+      ],
       labels: {
         Verified: {
           ...createDetailedLabelInfo(),

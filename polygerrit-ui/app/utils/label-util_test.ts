@@ -43,12 +43,10 @@ import {
   createChange,
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
+  createNonApplicableSubmitRequirementResultInfo,
   createDetailedLabelInfo,
 } from '../test/test-data-generators';
-import {
-  SubmitRequirementResultInfo,
-  SubmitRequirementStatus,
-} from '../api/rest-api';
+import {SubmitRequirementResultInfo} from '../api/rest-api';
 
 const VALUES_0 = {
   '0': 'neutral',
@@ -281,6 +279,12 @@ suite('label-util', () => {
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['Verified', 'Build-cop-override']);
     });
+    test('non-applicable that has no labels', () => {
+      const submitRequirement =
+        createNonApplicableSubmitRequirementResultInfo();
+      const labels = extractAssociatedLabels(submitRequirement);
+      assert.deepEqual(labels, []);
+    });
   });
 
   suite('getRequirements()', () => {
@@ -314,10 +318,7 @@ suite('label-util', () => {
     });
     test('filter not applicable', () => {
       const requirement = createSubmitRequirementResultInfo();
-      const requirement2 = {
-        ...createSubmitRequirementResultInfo(),
-        status: SubmitRequirementStatus.NOT_APPLICABLE,
-      };
+      const requirement2 = createNonApplicableSubmitRequirementResultInfo();
       const change = createChangeInfoWith([requirement, requirement2]);
       assert.deepEqual(getRequirements(change), [requirement]);
     });

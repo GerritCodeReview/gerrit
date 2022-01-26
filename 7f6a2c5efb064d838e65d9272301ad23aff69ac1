@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c4ce7ab_604a9466",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-26T13:20:45Z",
+      "side": 1,
+      "message": "Btw. I tested it by selecting gr-dashboard-view in elements. Then in console `$0._showNewUserHelp \u003d true`\n\nWhich showed me new user section, where I clicked create change I got dialog with labeled-autocomplete. Everything works fine. \n\nIt\u0027s interesting that this rare dialog is only element using labeled-complete. In future we could maybe inline this into that dialog to have less elements.",
+      "revId": "7f6a2c5efb064d838e65d9272301ad23aff69ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

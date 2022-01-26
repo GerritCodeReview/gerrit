@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2a8ab16_5e179401",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-26T16:32:30Z",
+      "side": 1,
+      "message": "Can we use more technical terms please (applies to \u0027proliferation\u0027 above too)? Including specific numbers would be much more helpful to a reviewer.",
+      "range": {
+        "startLine": 13,
+        "startChar": 47,
+        "endLine": 13,
+        "endChar": 56
+      },
+      "revId": "9a0b82ec913c185780e02c0442303a9d6c50075a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78aefd8d_71951a15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-26T16:32:30Z",
+      "side": 1,
+      "message": "I\u0027m not very familiar with Gerrit\u0027s metrics, so perhaps this is an obvious question, but in what operation(s) is this latency seen? i.e. how does this affect a user or admin?",
+      "range": {
+        "startLine": 14,
+        "startChar": 43,
+        "endLine": 15,
+        "endChar": 17
+      },
+      "revId": "9a0b82ec913c185780e02c0442303a9d6c50075a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

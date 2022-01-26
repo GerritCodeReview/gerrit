@@ -41,7 +41,11 @@ import {
   ReviewerUpdateInfo,
   VotingRangeInfo,
 } from '../../../types/common';
-import {CommentThread, isRobot} from '../../../utils/comment-util';
+import {
+  CommentThread,
+  isRobot,
+  LabelExtreme,
+} from '../../../utils/comment-util';
 import {GrMessage, MessageAnchorTapDetail} from '../gr-message/gr-message';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {DomRepeat} from '@polymer/polymer/lib/elements/dom-repeat';
@@ -249,7 +253,7 @@ export class GrMessagesList extends DIPolymerElement {
   _combinedMessages: CombinedMessage[] = [];
 
   @property({type: Object, computed: '_computeLabelExtremes(labels.*)'})
-  _labelExtremes: {[labelName: string]: VotingRangeInfo} = {};
+  _labelExtremes: LabelExtreme = {};
 
   private readonly userModel = getAppContext().userModel;
 

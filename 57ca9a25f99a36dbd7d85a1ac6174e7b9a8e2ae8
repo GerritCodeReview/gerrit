@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e1b7431_2fa32267",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-01-26T23:39:35Z",
+      "side": 1,
+      "message": "i\u0027m assuming this to mean that supplying that flag externally is deemed too cumbersome/ugly/whatever? i\u0027m kinda missing a clear rationale _for_ the change ...",
+      "revId": "57ca9a25f99a36dbd7d85a1ac6174e7b9a8e2ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

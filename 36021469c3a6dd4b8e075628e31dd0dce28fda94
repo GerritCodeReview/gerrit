@@ -105,6 +105,24 @@
       "parentUuid": "e75fd6c4_3eca3453",
       "revId": "36021469c3a6dd4b8e075628e31dd0dce28fda94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02a10c49_e860f4eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-01-26T17:42:00Z",
+      "side": 1,
+      "message": "Thank you for those pointers. It looks like the existing tests in [1] rely on the Gerrit API to create tags for the tests. That single test method for signed tags is merely verifying that the gerrit api is unable to created a signed tag (I think because it doesn\u0027t have the gpg secret necessary to do so).\n\nTo test this properly we would need to set up a GPG key which [2] has hints towards, then create a tag directly, and finally push that to Gerrit to check the ACLs?\n\nLooking at this I\u0027m quickly feeling out of my depth. I\u0027m happy to wait and see if Edwin would like to help out before submitting this, but I doubt I\u0027ll be able to do all of that myself.\n\nIs there any guidance on when it is appropriate to submit? With our Gerrit installation the reviewers do that for us via the CI system not the submitter. Still trying to learn what the expectations are on this code base.",
+      "parentUuid": "046ed16a_b2c226b4",
+      "revId": "36021469c3a6dd4b8e075628e31dd0dce28fda94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

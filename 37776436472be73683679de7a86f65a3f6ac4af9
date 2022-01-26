@@ -52,6 +52,24 @@
       "parentUuid": "34612a5d_96349d5b",
       "revId": "37776436472be73683679de7a86f65a3f6ac4af9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "594e9a21_c2929c49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-26T07:55:49Z",
+      "side": 1,
+      "message": "Thanks for figuring out! I adjusted the compatibility mode, as it works on Linux as well, on both, Java 11 and Java 17.",
+      "parentUuid": "8812cdc9_e5ed1bd1",
+      "revId": "37776436472be73683679de7a86f65a3f6ac4af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

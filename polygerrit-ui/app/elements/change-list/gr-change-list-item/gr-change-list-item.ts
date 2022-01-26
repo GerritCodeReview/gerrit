@@ -25,6 +25,7 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-change-list-column-requirements-summary/gr-change-list-column-requirements-summary';
+import '../gr-change-list-column-requirement/gr-change-list-column-requirement';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
@@ -44,11 +45,7 @@ import {
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {pluralize} from '../../../utils/string-util';
-import {
-  getRequirements,
-  iconForStatus,
-  showNewSubmitRequirements,
-} from '../../../utils/label-util';
+import {showNewSubmitRequirements} from '../../../utils/label-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
@@ -535,6 +532,15 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderChangeLabels(labelName: string) {
+    if (showNewSubmitRequirements(this.flagsService, this.change)) {
+      return html` <td class="cell label requirement">
+        <gr-change-list-column-requirement
+          .change=${this.change}
+          .labelName=${labelName}
+        >
+        </gr-change-list-column-requirement>
+      </td>`;
+    }
     return html`
       <td
         title="${this.computeLabelTitle(labelName)}"
@@ -546,16 +552,6 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderChangeHasLabelIcon(labelName: string) {
-    if (showNewSubmitRequirements(this.flagsService, this.change)) {
-      const requirements = this.getRequirement(labelName);
-      if (requirements.length === 1) {
-        const icon = iconForStatus(requirements[0].status);
-        return html`<iron-icon
-          class="${icon}"
-          icon="gr-icons:${icon}"
-        ></iron-icon>`;
-      }
-    }
     if (this.computeLabelIcon(labelName) === '')
       return html`<span>${this.computeLabelValue(labelName)}</span>`;
 
@@ -611,14 +607,6 @@ export class GrChangeListItem extends LitElement {
   // private but used in test
   computeLabelClass(labelName: string) {
     const classes = ['cell', 'label'];
-    if (showNewSubmitRequirements(this.flagsService, this.change)) {
-      const requirements = this.getRequirement(labelName);
-      if (requirements.length === 1) {
-        classes.push('requirement');
-        // Do not add label category classes.
-        return classes.sort().join(' ');
-      }
-    }
     const category = this.computeLabelCategory(labelName);
     switch (category) {
       case LabelCategory.NOT_APPLICABLE:
@@ -899,17 +887,5 @@ export class GrChangeListItem extends LitElement {
     const primaryCount = this.computePrimaryReviewers().length;
     const isLast = index === primaryCount - 1;
     return isLast && additionalCount === 0;
-  }
-
-  private getRequirement(labelName: string) {
-    const requirements = getRequirements(this.change).filter(
-      sr => sr.name === labelName
-    );
-    // TODO(milutin): Remove this after migration from legacy requirements.
-    if (requirements.length > 1) {
-      return requirements.filter(sr => !sr.is_legacy);
-    } else {
-      return requirements;
-    }
   }
 }

@@ -34,6 +34,24 @@
       "parentUuid": "08fa7c02_7c4a14f7",
       "revId": "37776436472be73683679de7a86f65a3f6ac4af9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8812cdc9_e5ed1bd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-01-26T07:33:35Z",
+      "side": 1,
+      "message": "reordering entries in \"-Djava.locale.providers\u003dCOMPAT,CLDR,SPI\" doesn\u0027t fix the problem on JDK 17 but setting it to only \"-Djava.locale.providers\u003dCOMPAT\" fixes the test errors on MacOS",
+      "parentUuid": "34612a5d_96349d5b",
+      "revId": "37776436472be73683679de7a86f65a3f6ac4af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

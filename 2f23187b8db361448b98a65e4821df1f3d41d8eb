@@ -16,6 +16,23 @@
       "message": "I\u0027ll publish a survey on Monday to check if really anyone is using the Java 8 source-level compatibility is still used. It was original put in place for SAP and Google but I doubt anyone used it.",
       "revId": "2f23187b8db361448b98a65e4821df1f3d41d8eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a77414a_c0f31104",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-26T11:03:21Z",
+      "side": 1,
+      "message": "I think this is a pragmatic and working solution. As Clark mentioned previously you always have the alternative to build Gerrit yourself.\n\nThe \"problem\" will disappear by itself around the end of 2022 when 3.7 is released.",
+      "revId": "2f23187b8db361448b98a65e4821df1f3d41d8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

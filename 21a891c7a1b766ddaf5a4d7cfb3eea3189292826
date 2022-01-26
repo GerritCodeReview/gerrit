@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98e8fff4_08c14af2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-26T07:56:30Z",
+      "side": 1,
+      "message": "Can someone from Google set LC+1? Thanks.",
+      "revId": "21a891c7a1b766ddaf5a4d7cfb3eea3189292826",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

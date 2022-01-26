@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -32,6 +33,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
@@ -41,6 +44,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class Schema_123 extends SchemaVersion {
+  private static final int SLICE_SIZE = 1000;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
 
@@ -69,19 +73,33 @@ public class Schema_123 extends SchemaVersion {
       return;
     }
 
-    try (Repository git = repoManager.openRepository(allUsersName);
-        RevWalk rw = new RevWalk(git)) {
-      BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+    try (Repository git = repoManager.openRepository(allUsersName)) {
+      List<ReceiveCommand> receiveCmds = new ArrayList<>();
       ObjectId id = StarredChangesUtil.writeLabels(git, StarredChangesUtil.DEFAULT_LABELS);
       for (Map.Entry<Account.Id, Change.Id> e : imports.entries()) {
-        bru.addCommand(
+        receiveCmds.add(
             new ReceiveCommand(
                 ObjectId.zeroId(), id, RefNames.refsStarredChanges(e.getValue(), e.getKey())));
       }
-      bru.execute(rw, new TextProgressMonitor());
+      runParallelTasks(
+          createExecutor(ui),
+          Lists.partition(receiveCmds, SLICE_SIZE),
+          (slice) -> processSlice(git, (List<ReceiveCommand>) slice),
+          ui);
       runGcInBackground(repoManager, allUsersName, ui);
     } catch (IOException | IllegalLabelException ex) {
       throw new OrmException(ex);
     }
+  }
+
+  private Void processSlice(Repository git, List<ReceiveCommand> slice) throws IOException {
+    try (RevWalk rw = new RevWalk(git)) {
+      BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      for (ReceiveCommand cmd : slice) {
+        bru.addCommand(cmd);
+      }
+      bru.execute(rw, new TextProgressMonitor());
+    }
+    return null;
   }
 }

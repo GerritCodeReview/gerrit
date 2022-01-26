@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a36d709_42006483",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-26T21:29:09Z",
+      "side": 1,
+      "message": "Our JGit pin is at 1.69, but JGit tip is 1.70. Can Google move to either of those versions?",
+      "revId": "2ddf171745fab248a151cfaf212d0012dbe6d8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

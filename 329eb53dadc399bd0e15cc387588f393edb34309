@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "a0caf27d_ae03756a",
         "filename": "/COMMIT_MSG",
@@ -14,8 +15,25 @@
       "side": 1,
       "message": "This version is known to have a major bug: [1].\n\n[1] https://github.com/bcgit/bc-java/issues/684",
       "revId": "329eb53dadc399bd0e15cc387588f393edb34309",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "938da8b9_0dea1085",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-26T21:29:09Z",
+      "side": 1,
+      "message": "Not relevant to latest PS.",
+      "parentUuid": "a0caf27d_ae03756a",
+      "revId": "329eb53dadc399bd0e15cc387588f393edb34309",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

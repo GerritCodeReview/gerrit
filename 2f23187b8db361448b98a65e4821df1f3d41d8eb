@@ -50,6 +50,24 @@
       "message": "We also need the corresponding change on the gerrit-ci-scripts for flipping the extra Bazel build parameters.",
       "revId": "2f23187b8db361448b98a65e4821df1f3d41d8eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "880d012e_bd4b51bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-26T13:51:30Z",
+      "side": 1,
+      "message": "See:\n\n* Zuul: change 327757\n* Jenkins CI: change 329025\n\nDone.",
+      "parentUuid": "ae5c389e_9cf5bdc2",
+      "revId": "2f23187b8db361448b98a65e4821df1f3d41d8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "793d0fc0_4b1af480",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-26T13:30:35Z",
+      "side": 1,
+      "message": "Thanks, very nice change.",
+      "revId": "669ab569da97687e45caeecd7e5520aaca140d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73f6a08c_1b44f80c",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-26T13:30:35Z",
+      "side": 1,
+      "message": "nit: I would prefer same structure as few lines before\n\n```\nif (requirement.submittability_expression_result \u0026\u0026 type !\u003d\u003d \u0027onlyOverride\u0027) {\nlabels \u003d labels.concat(\nextractLabelsFrom(requirement.submittability_expression_result.expression));\n}\n```",
+      "range": {
+        "startLine": 235,
+        "startChar": 2,
+        "endLine": 241,
+        "endChar": 3
+      },
+      "revId": "669ab569da97687e45caeecd7e5520aaca140d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

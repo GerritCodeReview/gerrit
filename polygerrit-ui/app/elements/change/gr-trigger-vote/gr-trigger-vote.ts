@@ -1,0 +1,132 @@
+/**
+ * @license
+ * Copyright (C) 2021 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import '../../shared/gr-label-info/gr-label-info';
+import '../../shared/gr-vote-chip/gr-vote-chip';
+import '../gr-trigger-vote-hovercard/gr-trigger-vote-hovercard';
+import {LitElement, css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
+import {ParsedChangeInfo} from '../../../types/types';
+import {
+  AccountInfo,
+  isDetailedLabelInfo,
+  isQuickLabelInfo,
+  LabelInfo,
+} from '../../../api/rest-api';
+import {
+  getAllUniqueApprovals,
+  hasNeutralStatus,
+} from '../../../utils/label-util';
+
+@customElement('gr-trigger-vote')
+export class GrTriggerVote extends LitElement {
+  @property()
+  label?: string;
+
+  @property({type: Object})
+  labelInfo?: LabelInfo;
+
+  @property({type: Object})
+  change?: ParsedChangeInfo;
+
+  @property({type: Object})
+  account?: AccountInfo;
+
+  @property({type: Boolean})
+  mutable?: boolean;
+
+  static override get styles() {
+    return css`
+      :host {
+        display: block;
+      }
+      .container {
+        box-sizing: border-box;
+        border: 1px solid var(--border-color);
+        border-radius: calc(var(--border-radius) + 2px);
+        background-color: var(--background-color-primary);
+        display: flex;
+        padding: 0;
+        padding-left: var(--spacing-s);
+        padding-right: var(--spacing-xxs);
+        align-items: center;
+      }
+      .label {
+        padding-right: var(--spacing-s);
+        font-weight: var(--font-weight-bold);
+      }
+      gr-vote-chip {
+        --gr-vote-chip-width: 14px;
+        --gr-vote-chip-height: 14px;
+        margin-right: 0px;
+        margin-left: var(--spacing-xs);
+      }
+      gr-vote-chip:first-of-type {
+        margin-left: 0px;
+      }
+    `;
+  }
+
+  override render() {
+    if (!this.labelInfo) return;
+    return html`
+      <div class="container">
+        <gr-trigger-vote-hovercard
+          .labelName=${this.label}
+          .labelInfo=${this.labelInfo}
+        >
+          <gr-label-info
+            slot="label-info"
+            .change=${this.change}
+            .account=${this.account}
+            .mutable=${this.mutable}
+            .label=${this.label}
+            .labelInfo=${this.labelInfo}
+            .showAllReviewers=${false}
+          ></gr-label-info>
+        </gr-trigger-vote-hovercard>
+        <span class="label">${this.label}</span>
+        ${this.renderVotes()}
+      </div>
+    `;
+  }
+
+  private renderVotes() {
+    const {labelInfo} = this;
+    if (!labelInfo) return;
+    if (isDetailedLabelInfo(labelInfo)) {
+      const approvals = getAllUniqueApprovals(labelInfo).filter(
+        approval => !hasNeutralStatus(labelInfo, approval)
+      );
+      return approvals.map(
+        approvalInfo => html`<gr-vote-chip
+          .vote="${approvalInfo}"
+          .label="${labelInfo}"
+        ></gr-vote-chip>`
+      );
+    } else if (isQuickLabelInfo(labelInfo)) {
+      return [html`<gr-vote-chip .label="${this.labelInfo}"></gr-vote-chip>`];
+    } else {
+      return html``;
+    }
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-trigger-vote': GrTriggerVote;
+  }
+}

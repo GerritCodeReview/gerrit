@@ -16,6 +16,24 @@
       "message": "It seems like you have outlined the right way to approach things, to use groups. It feels wrong to be adding a feature to Gerrit (especially something fundamental like this) because groups are not working for google.",
       "revId": "a81dbda75a3b247b8bf18149d3bcab725adf30c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77b54195_c9d783e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-01-26T13:22:37Z",
+      "side": 1,
+      "message": "thanks for your feedback Martin.\n\nThis feature adds complexity and will need maintenance and consideration in the future, so I agree it\u0027s better to avoid it if we can.",
+      "parentUuid": "4e88b4ef_000c3f28",
+      "revId": "a81dbda75a3b247b8bf18149d3bcab725adf30c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

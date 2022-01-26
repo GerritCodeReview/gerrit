@@ -488,7 +488,6 @@ export class GrComment extends LitElement {
       <gr-account-label
         .account="${this.comment?.author ?? this.account}"
         class="${classMap(classes)}"
-        hideStatus
       >
       </gr-account-label>
     `;

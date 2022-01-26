@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cfa8ae8f_3ffcb3ac",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-26T09:43:33Z",
+      "side": 1,
+      "message": "Well, I think FE should not use the submittability/override expression; if the change is not applicable, we don\u0027t show the SR on the change page nor on the dashboard.\n\nI\u0027d rather prefer we return null for submittability/override expressions on the API (in SubmitRequirementsJson). The reason is also that with PS#7 it\u0027s not clear on the API whether they subm/override exprs are evaluated or not. I think you reasoned about their evaluation in tests from the passing/failing atoms lists being empty, but the fulfilled boolean for example was set to false.",
+      "parentUuid": "40543f27_f30cb63b",
+      "revId": "cbf383c46fdcb13ad91a12ceb5ac8d57fffae4ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16e22395_337e96a5",
         "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementJsonSerializerTest.java",
         "patchSetId": 5
@@ -114,6 +132,24 @@
       "side": 1,
       "message": "submitRequirementResult_roundTrip just above. It has all the SubmitReuirementExpressionResult fields set.",
       "parentUuid": "16e22395_337e96a5",
+      "revId": "cbf383c46fdcb13ad91a12ceb5ac8d57fffae4ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3786c573_3def1929",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementJsonSerializerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-26T09:43:33Z",
+      "side": 1,
+      "message": "Ack, thanks for the pointer.",
+      "parentUuid": "ab0ae3e8_51172db5",
       "revId": "cbf383c46fdcb13ad91a12ceb5ac8d57fffae4ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

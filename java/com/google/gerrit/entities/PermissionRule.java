@@ -15,8 +15,10 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.Immutable;
 
 @AutoValue
+@Immutable
 public abstract class PermissionRule implements Comparable<PermissionRule> {
   public static final boolean DEF_FORCE = false;
 

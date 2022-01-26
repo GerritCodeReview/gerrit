@@ -15,6 +15,7 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.Immutable;
 
 public final class AccountGroup {
   public static NameKey nameKey(String n) {
@@ -23,6 +24,7 @@ public final class AccountGroup {
 
   /** Group name key */
   @AutoValue
+  @Immutable
   public abstract static class NameKey implements Comparable<NameKey> {
     abstract String name();
 
@@ -47,6 +49,7 @@ public final class AccountGroup {
 
   /** Globally unique identifier. */
   @AutoValue
+  @Immutable
   public abstract static class UUID implements Comparable<UUID> {
     abstract String uuid();
 

@@ -21,6 +21,7 @@ import static com.google.gerrit.server.project.RefPattern.isRE;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
+import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
@@ -31,6 +32,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+@Immutable
 public abstract class RefPatternMatcher {
   public static RefPatternMatcher getMatcher(String pattern) {
     if (containsParameters(pattern)) {
@@ -59,6 +61,7 @@ public abstract class RefPatternMatcher {
     }
   }
 
+  @Immutable
   private static class Prefix extends RefPatternMatcher {
     private final String prefix;
 
@@ -72,6 +75,7 @@ public abstract class RefPatternMatcher {
     }
   }
 
+  @Immutable
   private static class Regexp extends RefPatternMatcher {
     private final Pattern pattern;
 
@@ -85,6 +89,7 @@ public abstract class RefPatternMatcher {
     }
   }
 
+  @Immutable
   public static class ExpandParameters extends RefPatternMatcher {
     private final ParameterizedString template;
     private final String prefix;

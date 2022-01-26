@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.function.Consumer;
 
 /** Portion of a {@link Project} describing access rules. */
 @AutoValue
+@Immutable
 public abstract class AccessSection implements Comparable<AccessSection> {
   /** Special name given to the global capabilities; not a valid reference. */
   public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";

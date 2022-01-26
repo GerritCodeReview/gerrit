@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -24,6 +25,7 @@ import com.google.gerrit.server.CurrentUser;
  * <p>These matchers are "compiled" versions of the AccessSection name, supporting faster selection
  * of which sections are relevant to any given input reference.
  */
+@Immutable
 public class SectionMatcher extends RefPatternMatcher {
   static SectionMatcher wrap(Project.NameKey project, AccessSection section) {
     String ref = section.getName();

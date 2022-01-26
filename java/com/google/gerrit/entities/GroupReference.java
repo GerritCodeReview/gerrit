@@ -18,10 +18,12 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
+import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.common.Nullable;
 
 /** Describes a group within a projects {@link AccessSection}s. */
 @AutoValue
+@Immutable
 public abstract class GroupReference implements Comparable<GroupReference> {
 
   private static final String PREFIX = "group ";

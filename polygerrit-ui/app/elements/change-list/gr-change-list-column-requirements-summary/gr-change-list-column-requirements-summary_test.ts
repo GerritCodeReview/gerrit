@@ -26,6 +26,7 @@ import {
   createParsedChange,
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
+  createNonApplicableSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
 import {
   SubmitRequirementResultInfo,
@@ -48,7 +49,10 @@ suite('gr-change-list-column-requirements-summary tests', () => {
     };
     change = {
       ...createParsedChange(),
-      submit_requirements: [submitRequirement],
+      submit_requirements: [
+        submitRequirement,
+        createNonApplicableSubmitRequirementResultInfo(),
+      ],
       labels: {
         Verified: {
           ...createDetailedLabelInfo(),

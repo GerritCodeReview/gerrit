@@ -14,14 +14,18 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.Immutable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /** Performs replacements on strings such as <code>Hello ${user}</code>. */
+@Immutable
 public class ParameterizedString {
   /** Obtain a string which has no parameters and always produces the value. */
   public static ParameterizedString asis(String constant) {
@@ -30,8 +34,8 @@ public class ParameterizedString {
 
   private final String pattern;
   private final String rawPattern;
-  private final List<Format> patternOps;
-  private final List<Parameter> parameters;
+  private final ImmutableList<Format> patternOps;
+  private final ImmutableList<Parameter> parameters;
 
   protected ParameterizedString() {
     this(new Constant(""));
@@ -40,8 +44,8 @@ public class ParameterizedString {
   private ParameterizedString(Constant c) {
     pattern = c.text;
     rawPattern = c.text;
-    patternOps = Collections.singletonList(c);
-    parameters = Collections.emptyList();
+    patternOps = ImmutableList.of(c);
+    parameters = ImmutableList.of();
   }
 
   public ParameterizedString(String pattern) {
@@ -79,8 +83,8 @@ public class ParameterizedString {
 
     this.pattern = pattern;
     this.rawPattern = raw.toString();
-    this.patternOps = Collections.unmodifiableList(ops);
-    this.parameters = Collections.unmodifiableList(prs);
+    this.patternOps = ImmutableList.copyOf(ops);
+    this.parameters = ImmutableList.copyOf(prs);
   }
 
   /** Get the original pattern given to the constructor. */
@@ -145,6 +149,7 @@ public class ParameterizedString {
     }
   }
 
+  @Immutable
   private abstract static class Format {
     abstract void format(StringBuilder b, Map<String, String> p);
   }
@@ -162,14 +167,16 @@ public class ParameterizedString {
     }
   }
 
+  @Immutable
+  @SuppressWarnings("Immutable") // Function is not marked as Immutable, but our usage is.
   private static class Parameter extends Format {
     private final String name;
-    private final List<Function> functions;
+    private final ImmutableList<Function<String, String>> functions;
 
     Parameter(String parameter) {
       // "parameter[.functions...]" -> (parameter, functions...)
       final List<String> names = Arrays.asList(parameter.split("\\."));
-      final List<Function> functs = new ArrayList<>(names.size());
+      final List<Function<String, String>> functs = new ArrayList<>(names.size());
 
       if (names.isEmpty()) {
         name = "";
@@ -177,14 +184,14 @@ public class ParameterizedString {
         name = names.get(0);
 
         for (String fname : names.subList(1, names.size())) {
-          final Function function = FUNCTIONS.get(fname);
+          final Function<String, String> function = FUNCTIONS.get(fname);
           if (function != null) {
             functs.add(function);
           }
         }
       }
 
-      functions = Collections.unmodifiableList(functs);
+      functions = ImmutableList.copyOf(functs);
     }
 
     @Override
@@ -193,45 +200,24 @@ public class ParameterizedString {
       if (v == null) {
         v = "";
       }
-      for (Function function : functions) {
+      for (Function<String, String> function : functions) {
         v = function.apply(v);
       }
       b.append(v);
     }
   }
 
-  private abstract static class Function {
-    abstract String apply(String a);
-  }
+  private static final Map<String, Function<String, String>> FUNCTIONS = initFunctions();
 
-  private static final Map<String, Function> FUNCTIONS = initFunctions();
-
-  private static Map<String, Function> initFunctions() {
-    HashMap<String, Function> m = new HashMap<>();
-    m.put(
-        "toLowerCase",
-        new Function() {
-          @Override
-          String apply(String a) {
-            return a.toLowerCase();
-          }
-        });
-    m.put(
-        "toUpperCase",
-        new Function() {
-          @Override
-          String apply(String a) {
-            return a.toUpperCase();
-          }
-        });
+  private static Map<String, Function<String, String>> initFunctions() {
+    HashMap<String, Function<String, String>> m = new HashMap<>();
+    m.put("toLowerCase", a -> a.toLowerCase());
+    m.put("toUpperCase", a -> a.toUpperCase());
     m.put(
         "localPart",
-        new Function() {
-          @Override
-          String apply(String a) {
-            int at = a.indexOf('@');
-            return at < 0 ? a : a.substring(0, at);
-          }
+        a -> {
+          int at = a.indexOf('@');
+          return at < 0 ? a : a.substring(0, at);
         });
     return Collections.unmodifiableMap(m);
   }

@@ -69,6 +69,24 @@
       "parentUuid": "50a4daac_224380ce",
       "revId": "36021469c3a6dd4b8e075628e31dd0dce28fda94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e75fd6c4_3eca3453",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-26T09:09:35Z",
+      "side": 1,
+      "message": "There\u0027s currently only one test that checks that you aren\u0027t allowed to push a signed tag when you don\u0027t have any create permission for tags  [1].\nGiven the changes in JGIT it\u0027s not valid anymore.\nI\u0027m not that well versed into the signing/certificate parts but PushCertificateCheckerTest could offer some idea as to how to set up the test for signed tag [2].\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/tags/v3.4.3/javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java#325\n[2] https://gerrit.googlesource.com/gerrit/+/refs/tags/v3.4.3/javatests/com/google/gerrit/gpg/PushCertificateCheckerTest.java",
+      "parentUuid": "f8e19c1f_beb96575",
+      "revId": "36021469c3a6dd4b8e075628e31dd0dce28fda94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

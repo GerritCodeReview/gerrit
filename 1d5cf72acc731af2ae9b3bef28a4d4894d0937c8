@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4ff6909_95b68eb9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-labeled-autocomplete/gr-labeled-autocomplete.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-26T10:59:29Z",
+      "side": 1,
+      "message": "consider combining with the `declare global` at the bottom of the file.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 0
+      },
+      "revId": "1d5cf72acc731af2ae9b3bef28a4d4894d0937c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91d05796_8f98cbd0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-labeled-autocomplete/gr-labeled-autocomplete.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-26T10:59:29Z",
+      "side": 1,
+      "message": "comment to label as private",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "1d5cf72acc731af2ae9b3bef28a4d4894d0937c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

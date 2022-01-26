@@ -224,7 +224,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           projectName,
           projectName.equals(allProjectsName)
               ? allProjectsConfigProvider.get(allProjectsName)
-              : Optional.empty());
+              : Optional.empty(),
+          allProjectsName);
     }
 
     public ProjectConfig read(MetaDataUpdate update) throws IOException, ConfigInvalidException {
@@ -250,6 +251,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private final Optional<StoredConfig> baseConfig;
+  private final AllProjectsName allProjectsName;
 
   private Project project;
   private AccountsSection accountsSection;
@@ -355,9 +357,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     requireNonNull(commentLinkSections.remove(name));
   }
 
-  private ProjectConfig(Project.NameKey projectName, Optional<StoredConfig> baseConfig) {
+  private ProjectConfig(
+      Project.NameKey projectName,
+      Optional<StoredConfig> baseConfig,
+      AllProjectsName allProjectsName) {
     this.projectName = projectName;
     this.baseConfig = baseConfig;
+    this.allProjectsName = allProjectsName;
   }
 
   public void load(Repository repo) throws IOException, ConfigInvalidException {
@@ -648,7 +654,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     rulesId = getObjectId("rules.pl");
     Config rc = readConfig(PROJECT_CONFIG, baseConfig);
-    Project.Builder p = Project.builder(projectName);
+    Project.Builder p = Project.builder(projectName, allProjectsName.equals(projectName));
     p.setDescription(Strings.nullToEmpty(rc.getString(PROJECT, null, KEY_DESCRIPTION)));
     if (revision != null) {
       p.setConfigRefState(revision.toObjectId().name());

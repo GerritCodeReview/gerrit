@@ -27,7 +27,7 @@ import org.junit.Test;
 
 public class ProjectSerializerTest {
   static final Project ALL_VALUES_SET =
-      Project.builder(Project.nameKey("test"))
+      Project.builder(Project.nameKey("test"), true)
           .setDescription("desc")
           .setSubmitType(SubmitType.FAST_FORWARD_ONLY)
           .setState(ProjectState.HIDDEN)
@@ -50,7 +50,7 @@ public class ProjectSerializerTest {
   @Test
   public void roundTripWithMinimalValues() {
     Project projectAutoValue =
-        Project.builder(Project.nameKey("test"))
+        Project.builder(Project.nameKey("test"), false)
             .setSubmitType(SubmitType.FAST_FORWARD_ONLY)
             .setState(ProjectState.HIDDEN)
             .build();

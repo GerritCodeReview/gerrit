@@ -100,6 +100,8 @@ public abstract class Project {
 
   public abstract NameKey getNameKey();
 
+  public abstract boolean isAllProjects();
+
   @Nullable
   public abstract String getDescription();
 
@@ -136,12 +138,13 @@ public abstract class Project {
   @Nullable
   public abstract String getConfigRefState();
 
-  public static Builder builder(Project.NameKey nameKey) {
+  public static Builder builder(Project.NameKey nameKey, boolean isAllProjects) {
     Builder builder =
         new AutoValue_Project.Builder()
             .setNameKey(nameKey)
             .setSubmitType(SubmitType.MERGE_IF_NECESSARY)
-            .setState(ProjectState.ACTIVE);
+            .setState(ProjectState.ACTIVE)
+            .setAllProjects(isAllProjects);
     ImmutableMap.Builder<BooleanProjectConfig, InheritableBoolean> booleans =
         ImmutableMap.builder();
     Arrays.stream(BooleanProjectConfig.values())
@@ -222,6 +225,8 @@ public abstract class Project {
     public abstract Project build();
 
     protected abstract Builder setNameKey(Project.NameKey nameKey);
+
+    public abstract Builder setAllProjects(boolean value);
 
     protected abstract ImmutableMap<BooleanProjectConfig, InheritableBoolean> getBooleanConfigs();
 

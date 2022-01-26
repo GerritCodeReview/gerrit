@@ -155,6 +155,7 @@ public class ProjectConfigTest {
             .create();
 
     ProjectConfig cfg = read(rev);
+    assertThat(cfg.getProject().isAllProjects()).isFalse();
     assertThat(cfg.getAccountsSection().getSameGroupVisibility()).hasSize(2);
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
     assertThat(ca.getName()).isEqualTo("Individual");
@@ -1023,6 +1024,13 @@ public class ProjectConfigTest {
             "[commentlink \"bugzilla\"]\n"
                 + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
                 + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
+  }
+
+  @Test
+  public void allProjectsReadsBackIsAllProjects() throws Exception {
+    ProjectConfig cfg = factory.create(ALL_PROJECTS);
+    cfg.load(db);
+    assertThat(cfg.getProject().isAllProjects()).isTrue();
   }
 
   @Test

@@ -358,7 +358,7 @@ message AccountDetailsProto {
 }
 
 // Serialized form of com.google.gerrit.entities.Project.
-// Next ID: 11
+// Next ID: 12
 message ProjectProto {
   string name = 1;
   string description = 2;
@@ -370,6 +370,7 @@ message ProjectProto {
   string default_dashboard = 8;
   string local_default_dashboard = 9;
   string config_ref_state = 10;
+  string is_all_projects = 11;
 }
 
 // Serialized form of com.google.gerrit.common.data.GroupReference.

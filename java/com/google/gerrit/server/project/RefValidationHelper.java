@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -30,21 +31,25 @@ public class RefValidationHelper {
   }
 
   private final RefOperationValidators.Factory refValidatorsFactory;
+  private final AllProjectsName allProjectsName;
   private final ReceiveCommand.Type operationType;
 
   @Inject
   RefValidationHelper(
       RefOperationValidators.Factory refValidatorsFactory,
+      AllProjectsName allProjectsName,
       @Assisted ReceiveCommand.Type operationType) {
     this.refValidatorsFactory = refValidatorsFactory;
+    this.allProjectsName = allProjectsName;
     this.operationType = operationType;
   }
 
   public void validateRefOperation(String projectName, IdentifiedUser user, RefUpdate update)
       throws ResourceConflictException {
+    Project.NameKey projectNameKey = Project.nameKey(projectName);
     RefOperationValidators refValidators =
         refValidatorsFactory.create(
-            Project.builder(Project.nameKey(projectName)).build(),
+            Project.builder(projectNameKey, allProjectsName.equals(projectNameKey)).build(),
             user,
             RefOperationValidators.getCommand(update, operationType));
     try {

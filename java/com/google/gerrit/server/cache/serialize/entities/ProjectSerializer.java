@@ -38,7 +38,7 @@ public class ProjectSerializer {
 
   public static Project deserialize(Cache.ProjectProto proto) {
     Project.Builder builder =
-        Project.builder(Project.nameKey(proto.getName()))
+        Project.builder(Project.nameKey(proto.getName()), false)
             .setSubmitType(SUBMIT_TYPE_CONVERTER.convert(proto.getSubmitType()))
             .setState(PROJECT_STATE_CONVERTER.convert(proto.getState()))
             .setDescription(emptyToNull(proto.getDescription()))

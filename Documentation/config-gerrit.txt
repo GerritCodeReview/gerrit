@@ -2216,6 +2216,9 @@ access controls and settings. These are inherited into every
 other project managed by the running server. The name is
 relative to `gerrit.basePath`.
 +
+The link:#cache_names[persisted_projects cache] must be
+flushed after this setting is changed.
++
 Defaults to `All-Projects` if not set.
 
 [[gerrit.defaultBranch]]gerrit.defaultBranch::

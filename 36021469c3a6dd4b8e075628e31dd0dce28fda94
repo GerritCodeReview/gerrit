@@ -51,6 +51,24 @@
       "message": "Could you also add a test that checks createSignedTag permissions, and that as such fails before your fix?",
       "revId": "36021469c3a6dd4b8e075628e31dd0dce28fda94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1a59c5a_09232685",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-26T08:54:12Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t read your comments until after I posted this comment.\nMy bad.",
+      "parentUuid": "50a4daac_224380ce",
+      "revId": "36021469c3a6dd4b8e075628e31dd0dce28fda94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

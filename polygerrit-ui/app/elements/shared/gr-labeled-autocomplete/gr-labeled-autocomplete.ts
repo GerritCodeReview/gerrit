@@ -16,24 +16,19 @@
  */
 import '../gr-autocomplete/gr-autocomplete';
 import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-labeled-autocomplete_html';
-import {customElement, property} from '@polymer/decorators';
+import {LitElement, css, html, PropertyValues} from 'lit';
+import {customElement, property, query} from 'lit/decorators';
 import {
   GrAutocomplete,
   AutocompleteQuery,
 } from '../gr-autocomplete/gr-autocomplete';
+import {assertIsDefined} from '../../../utils/common-util';
+import {fire} from '../../../utils/event-util';
 
-export interface GrLabeledAutocomplete {
-  $: {
-    autocomplete: GrAutocomplete;
-  };
-}
 @customElement('gr-labeled-autocomplete')
-export class GrLabeledAutocomplete extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrLabeledAutocomplete extends LitElement {
+  @query('#autocomplete')
+  autocomplete?: GrAutocomplete;
 
   /**
    * Fired when a value is chosen.
@@ -44,7 +39,7 @@ export class GrLabeledAutocomplete extends PolymerElement {
   @property({type: Object})
   query: AutocompleteQuery = () => Promise.resolve([]);
 
-  @property({type: String, notify: true})
+  @property({type: String})
   text = '';
 
   @property({type: String})
@@ -56,15 +51,73 @@ export class GrLabeledAutocomplete extends PolymerElement {
   @property({type: Boolean})
   disabled = false;
 
-  _handleTriggerClick(e: Event) {
+  static override get styles() {
+    return css`
+      :host {
+        display: block;
+        width: 12em;
+      }
+      #container {
+        background: var(--chip-background-color);
+        border-radius: 1em;
+        padding: var(--spacing-m);
+      }
+      #header {
+        color: var(--deemphasized-text-color);
+        font-weight: var(--font-weight-bold);
+        font-size: var(--font-size-small);
+      }
+      #body {
+        display: flex;
+      }
+      #trigger {
+        color: var(--deemphasized-text-color);
+        cursor: pointer;
+        padding-left: var(--spacing-s);
+      }
+      #trigger:hover {
+        color: var(--primary-text-color);
+      }
+    `;
+  }
+
+  override render() {
+    return html`
+      <div id="container">
+        <div id="header">[[label]]</div>
+        <div id="body">
+          <gr-autocomplete
+            id="autocomplete"
+            threshold="0"
+            .query="${this.query}"
+            ?disabled="${this.disabled}"
+            .placeholder="${this.placeholder}"
+            borderless=""
+          ></gr-autocomplete>
+          <div id="trigger" @click="${this._handleTriggerClick}">▼</div>
+        </div>
+      </div>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('text')) {
+      fire(this, 'text-changed', this.text);
+    }
+  }
+
+  // Private but used in tests.
+  _handleTriggerClick = (e: Event) => {
     // Stop propagation here so we don't confuse gr-autocomplete, which
     // listens for taps on body to try to determine when it's blurred.
     e.stopPropagation();
-    this.$.autocomplete.focus();
-  }
+    assertIsDefined(this.autocomplete);
+    this.autocomplete.focus();
+  };
 
   setText(text: string) {
-    this.$.autocomplete.setText(text);
+    assertIsDefined(this.autocomplete);
+    this.autocomplete.setText(text);
   }
 
   clear() {
@@ -73,6 +126,9 @@ export class GrLabeledAutocomplete extends PolymerElement {
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'text-changed': CustomEvent<string>;
+  }
   interface HTMLElementTagNameMap {
     'gr-labeled-autocomplete': GrLabeledAutocomplete;
   }

@@ -26,8 +26,9 @@ const basicFixture = fixtureFromElement('gr-repo-branch-picker');
 suite('gr-repo-branch-picker tests', () => {
   let element: GrRepoBranchPicker;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
   suite('_getRepoSuggestions', () => {

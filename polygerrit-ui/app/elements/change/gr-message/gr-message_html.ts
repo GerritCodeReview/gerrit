@@ -144,15 +144,6 @@ export const htmlTemplate = html`
       cursor: pointer;
       vertical-align: top;
     }
-    .score {
-      box-sizing: border-box;
-      border-radius: var(--border-radius);
-      color: var(--vote-text-color);
-      display: inline-block;
-      padding: 0 var(--spacing-s);
-      text-align: center;
-    }
-    .score,
     .commentsSummary {
       margin-right: var(--spacing-s);
       min-width: 115px;
@@ -162,35 +153,6 @@ export const htmlTemplate = html`
     }
     .commentsIcon {
       vertical-align: top;
-    }
-    .score.removed {
-      background-color: var(--vote-color-neutral);
-    }
-    .score.negative {
-      background-color: var(--vote-color-disliked);
-      border: 1px solid var(--vote-outline-disliked);
-      line-height: calc(var(--line-height-normal) - 2px);
-      color: var(--chip-color);
-    }
-    .score.negative.min {
-      background-color: var(--vote-color-rejected);
-      border: none;
-      padding-top: 1px;
-      padding-bottom: 1px;
-      color: var(--vote-text-color);
-    }
-    .score.positive {
-      background-color: var(--vote-color-recommended);
-      border: 1px solid var(--vote-outline-recommended);
-      line-height: calc(var(--line-height-normal) - 2px);
-      color: var(--chip-color);
-    }
-    .score.positive.max {
-      background-color: var(--vote-color-approved);
-      border: none;
-      padding-top: 1px;
-      padding-bottom: 1px;
-      color: var(--vote-text-color);
     }
     gr-account-label::part(gr-account-label-text) {
       font-weight: var(--font-weight-bold);
@@ -203,7 +165,6 @@ export const htmlTemplate = html`
       .expanded .content {
         padding-left: 0;
       }
-      .score,
       .commentsSummary {
         min-width: 0px;
       }
@@ -226,15 +187,10 @@ export const htmlTemplate = html`
           account="[[author]]"
           class="authorLabel"
         ></gr-account-label>
-        <template
-          is="dom-repeat"
-          items="[[_getScores(message, labelExtremes)]]"
-          as="score"
-        >
-          <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
-            [[score.label]] [[score.value]]
-          </span>
-        </template>
+        <gr-message-scores
+          label-extremes="[[labelExtremes]]"
+          message="[[message]]"
+        ></gr-message-scores>
       </div>
       <template is="dom-if" if="[[_commentCountText]]">
         <div class="commentsSummary">

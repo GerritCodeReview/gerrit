@@ -22,6 +22,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../../styles/shared-styles';
+import '../gr-message-scores/gr-message-scores';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-message_html';
 import {MessageTag, SpecialFilePath} from '../../../constants/constants';
@@ -41,7 +42,6 @@ import {
   BasePatchSetNum,
 } from '../../../types/common';
 import {CommentThread} from '../../../utils/comment-util';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {getAppContext} from '../../../services/app-context';
 import {pluralize} from '../../../utils/string-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -52,12 +52,12 @@ import {
 } from '../../../utils/patch-set-util';
 import {isServiceUser, replaceTemplates} from '../../../utils/account-util';
 
-const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?[Pp]atch [Ss]et \d+:\s*(.*)/;
-const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.:]?$/;
+export const PATCH_SET_PREFIX_PATTERN =
+  /^(?:Uploaded\s*)?[Pp]atch [Ss]et \d+:\s*(.*)/;
+export const LABEL_TITLE_SCORE_PATTERN =
+  /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.:]?$/;
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
-const VOTE_RESET_TEXT = '0 (vote reset)';
-
 declare global {
   interface HTMLElementTagNameMap {
     'gr-message': GrMessage;
@@ -76,11 +76,6 @@ export interface ChangeMessage extends ChangeMessageInfo {
 }
 
 export type LabelExtreme = {[labelName: string]: VotingRangeInfo};
-
-interface Score {
-  label?: string;
-  value?: string;
-}
 
 @customElement('gr-message')
 export class GrMessage extends PolymerElement {
@@ -442,63 +437,6 @@ export class GrMessage extends PolymerElement {
 
   _computeIsReviewerUpdate(message: ChangeMessage) {
     return message.type === 'REVIEWER_UPDATE';
-  }
-
-  _getScores(message?: ChangeMessage, labelExtremes?: LabelExtreme): Score[] {
-    if (!message || !message.message || !labelExtremes) {
-      return [];
-    }
-    const line = message.message.split('\n', 1)[0];
-    const patchSetPrefix = PATCH_SET_PREFIX_PATTERN;
-    if (!line.match(patchSetPrefix)) {
-      return [];
-    }
-    const scoresRaw = line.split(patchSetPrefix)[1];
-    if (!scoresRaw) {
-      return [];
-    }
-    return scoresRaw
-      .split(' ')
-      .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
-      .filter(
-        ms => ms && ms.length === 4 && hasOwnProperty(labelExtremes, ms[2])
-      )
-      .map(ms => {
-        const label = ms?.[2];
-        const value = ms?.[1] === '-' ? VOTE_RESET_TEXT : ms?.[3];
-        return {label, value};
-      });
-  }
-
-  _computeScoreClass(score?: Score, labelExtremes?: LabelExtreme) {
-    // Polymer 2: check for undefined
-    if (score === undefined || labelExtremes === undefined) {
-      return '';
-    }
-    if (!score.value) {
-      return '';
-    }
-    if (score.value.includes(VOTE_RESET_TEXT)) {
-      return 'removed';
-    }
-    const classes = [];
-    if (Number(score.value) > 0) {
-      classes.push('positive');
-    } else if (Number(score.value) < 0) {
-      classes.push('negative');
-    }
-    if (score.label) {
-      const extremes = labelExtremes[score.label];
-      if (extremes) {
-        const intScore = Number(score.value);
-        if (intScore === extremes.max) {
-          classes.push('max');
-        } else if (intScore === extremes.min) {
-          classes.push('min');
-        }
-      }
-    }
-    return classes.join(' ');
   }
 
   _computeClass(expanded?: boolean, author?: AccountInfo) {

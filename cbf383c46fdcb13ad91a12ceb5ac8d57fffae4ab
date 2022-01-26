@@ -119,6 +119,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e464834_6c48f17f",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-01-26T13:27:55Z",
+      "side": 1,
+      "message": "Nice! Thanks for adding the change.",
+      "parentUuid": "4244c149_fafa0608",
+      "revId": "cbf383c46fdcb13ad91a12ceb5ac8d57fffae4ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16e22395_337e96a5",

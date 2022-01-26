@@ -101,6 +101,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4244c149_fafa0608",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-01-26T11:48:44Z",
+      "side": 1,
+      "message": "Agree this is more clear that the expression is not evaluated if we don\u0027t return it.\n\nI went ahead adjusting the frontend API [1]\n[1]https://gerrit-review.googlesource.com/c/gerrit/+/328790",
+      "parentUuid": "cfa8ae8f_3ffcb3ac",
+      "revId": "cbf383c46fdcb13ad91a12ceb5ac8d57fffae4ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16e22395_337e96a5",

@@ -51,6 +51,24 @@
       "parentUuid": "e55d02ca_a419f157",
       "revId": "cac5f7eb2e7772984b712afa690c5475b223c17b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56a2b327_673356d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-26T16:30:28Z",
+      "side": 1,
+      "message": "Thanks for the updates. Unselected chip LGTM on the reply dialog.\n\nIt looks like the chips are missing the white overlay with opacity. See screencast and specs in the bug.",
+      "parentUuid": "64fcde3d_cdf2810e",
+      "revId": "cac5f7eb2e7772984b712afa690c5475b223c17b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

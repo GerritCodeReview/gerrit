@@ -43,7 +43,6 @@ import {
   isGenerateUrlDiffViewParameters,
   RepoDetailView,
   WeblinkType,
-  GenerateUrlTopicViewParams,
 } from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {convertToPatchSetNum} from '../../../utils/patch-set-util';
@@ -78,14 +77,11 @@ import {
   toSearchParams,
 } from '../../../utils/url-util';
 import {Execution, LifeCycle, Timing} from '../../../constants/reporting';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 const RoutePattern = {
   ROOT: '/',
 
   DASHBOARD: /^\/dashboard\/(.+)$/,
-  // TODO(dhruvsri): remove /c once Change 322894 lands
-  TOPIC: /^\/c\/topic\/([^/]*)\/?$/,
   CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
   PROJECT_DASHBOARD: /^\/p\/(.+)\/\+\/dashboard\/(.+)/,
   LEGACY_PROJECT_DASHBOARD: /^\/projects\/(.+),dashboards\/(.+)/,
@@ -315,8 +311,6 @@ export class GrRouter extends PolymerElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly flagsService = getAppContext().flagsService;
-
   start() {
     if (!this._app) {
       return;
@@ -363,8 +357,6 @@ export class GrRouter extends PolymerElement {
       url = this._generateChangeUrl(params);
     } else if (params.view === GerritView.DASHBOARD) {
       url = this._generateDashboardUrl(params);
-    } else if (params.view === GerritView.TOPIC) {
-      url = this._generateTopicPageUrl(params);
     } else if (
       params.view === GerritView.DIFF ||
       params.view === GerritView.EDIT
@@ -585,10 +577,6 @@ export class GrRouter extends PolymerElement {
       // User dashboard.
       return `/dashboard/${params.user || 'self'}`;
     }
-  }
-
-  _generateTopicPageUrl(params: GenerateUrlTopicViewParams) {
-    return `/c/topic/${params.topic ?? ''}`;
   }
 
   _sectionsToEncodedParams(sections: DashboardSection[], repoName?: RepoName) {
@@ -906,8 +894,6 @@ export class GrRouter extends PolymerElement {
     this._mapRoute(RoutePattern.ROOT, '_handleRootRoute');
 
     this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
-
-    this._mapRoute(RoutePattern.TOPIC, '_handleTopicRoute');
 
     this._mapRoute(
       RoutePattern.CUSTOM_DASHBOARD,
@@ -1233,13 +1219,6 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handleTopicRoute(data: PageContextWithQueryMap) {
-    this._setParams({
-      view: GerritView.TOPIC,
-      topic: data.params[0],
-    });
-  }
-
   /**
    * Handle custom dashboard routes.
    *
@@ -1557,16 +1536,6 @@ export class GrRouter extends PolymerElement {
   }
 
   _handleQueryRoute(data: PageContextWithQueryMap) {
-    if (this.flagsService.isEnabled(KnownExperimentId.TOPICS_PAGE)) {
-      const query = data.params[0];
-      const terms = query.split(' ');
-      if (terms.length === 1) {
-        const tokens = terms[0].split(':');
-        if (tokens[0] === 'topic') {
-          return GerritNav.navigateToTopicPage(tokens[1]);
-        }
-      }
-    }
     this._setParams({
       view: GerritView.SEARCH,
       query: data.params[0],

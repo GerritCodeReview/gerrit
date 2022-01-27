@@ -144,9 +144,6 @@ export class GrAppElement extends base {
   _showDashboardView?: boolean;
 
   @property({type: Boolean})
-  _showTopicView?: boolean;
-
-  @property({type: Boolean})
   _showChangeView?: boolean;
 
   @property({type: Boolean})
@@ -354,7 +351,6 @@ export class GrAppElement extends base {
     this.$.errorView.classList.remove('show');
     this._showChangeListView = view === GerritView.SEARCH;
     this._showDashboardView = view === GerritView.DASHBOARD;
-    this._showTopicView = view === GerritView.TOPIC;
     this._showChangeView = view === GerritView.CHANGE;
     this._showDiffView = view === GerritView.DIFF;
     this._showSettingsView = view === GerritView.SETTINGS;

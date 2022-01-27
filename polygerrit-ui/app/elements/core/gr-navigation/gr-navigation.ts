@@ -249,17 +249,11 @@ export interface GenerateUrlDiffViewParameters {
   commentLink?: boolean;
 }
 
-export interface GenerateUrlTopicViewParams {
-  view: GerritView.TOPIC;
-  topic?: string;
-}
-
 export type GenerateUrlParameters =
   | GenerateUrlSearchViewParameters
   | GenerateUrlChangeViewParameters
   | GenerateUrlRepoViewParameters
   | GenerateUrlDashboardViewParameters
-  | GenerateUrlTopicViewParams
   | GenerateUrlGroupViewParameters
   | GenerateUrlEditViewParameters
   | GenerateUrlRootViewParameters
@@ -614,16 +608,6 @@ export const GerritNav = {
         forceReload,
       }),
       redirect
-    );
-  },
-
-  navigateToTopicPage(topic: string) {
-    this._navigate(
-      this._getUrlFor({
-        view: GerritView.TOPIC,
-        topic,
-      }),
-      true /* redirect */
     );
   },
 

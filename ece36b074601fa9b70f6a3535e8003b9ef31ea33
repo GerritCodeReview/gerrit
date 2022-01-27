@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6f458ac_fe23e2a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-27T10:38:34Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t follow. And this is why I have not understood, the original change 305310: \"Show any edit weblinks in place of EDIT button\"  where the regression was introduced.\n\nWhat are edit weblinks? And how I can enable them and configure them on diff page? Or, where can I configure edit weblinks and how?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "ece36b074601fa9b70f6a3535e8003b9ef31ea33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62103128_69c16e4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-27T10:38:34Z",
+      "side": 1,
+      "message": "Nit: We usually use Bug: Issue",
+      "revId": "ece36b074601fa9b70f6a3535e8003b9ef31ea33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

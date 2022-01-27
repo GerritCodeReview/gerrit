@@ -1379,7 +1379,7 @@ export class GrFileList extends base {
 
       const promises: Array<Promise<unknown>> = [diffElem.reload()];
       if (this._loggedIn && !this.diffPrefs.manual_review) {
-        promises.push(this._reviewFile(path, true));
+        this._reviewFile(path, true);
       }
       return Promise.all(promises);
     }).then(() => {

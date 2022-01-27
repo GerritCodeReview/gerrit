@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "571eeaed_4ae7b585",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-27T10:47:02Z",
+      "side": 1,
+      "message": "Dmitrii, do you mind reviewing this. I think you know this area quite well.",
+      "revId": "909ac31e62fe8f89678dbb89cfac3bc62fd463bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

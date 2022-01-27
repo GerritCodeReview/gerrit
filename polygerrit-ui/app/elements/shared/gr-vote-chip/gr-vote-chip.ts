@@ -35,7 +35,9 @@ declare global {
     'gr-vote-chip': GrVoteChip;
   }
 }
-
+/**
+ * @attr {Boolean} circle-shape - element has shape as circle
+ */
 @customElement('gr-vote-chip')
 export class GrVoteChip extends LitElement {
   @property({type: Object})
@@ -53,6 +55,10 @@ export class GrVoteChip extends LitElement {
   static override get styles() {
     return [
       css`
+        :host([circle-shape]) .vote-chip {
+          border-radius: 50%;
+          border: none;
+        }
         .vote-chip.max {
           background-color: var(--vote-color-approved);
           padding: 2px;
@@ -151,15 +157,9 @@ export class GrVoteChip extends LitElement {
   private computeClass() {
     if (!this.label) {
       return '';
-    } else if (isDetailedLabelInfo(this.label)) {
-      if (this.vote?.value) {
-        const status = getLabelStatus(this.label, this.vote.value);
-        return classForLabelStatus(status);
-      }
-    } else if (isQuickLabelInfo(this.label)) {
-      const status = getLabelStatus(this.label);
+    } else {
+      const status = getLabelStatus(this.label, this.vote?.value);
       return classForLabelStatus(status);
     }
-    return '';
   }
 }

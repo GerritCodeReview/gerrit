@@ -29,7 +29,6 @@ export enum KnownExperimentId {
   NEW_IMAGE_DIFF_UI = 'UiFeature__new_image_diff_ui',
   CHECKS_DEVELOPER = 'UiFeature__checks_developer',
   SUBMIT_REQUIREMENTS_UI = 'UiFeature__submit_requirements_ui',
-  TOPICS_PAGE = 'UiFeature__topics_page',
   CHECK_RESULTS_IN_DIFFS = 'UiFeature__check_results_in_diffs',
   DIFF_RENDERING_LIT = 'UiFeature__diff_rendering_lit',
 }

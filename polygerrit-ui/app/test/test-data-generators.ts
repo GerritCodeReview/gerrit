@@ -112,10 +112,7 @@ import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {ChangeMessage} from '../elements/change/gr-message/gr-message';
-import {
-  GenerateUrlEditViewParameters,
-  GenerateUrlTopicViewParams,
-} from '../elements/core/gr-navigation/gr-navigation';
+import {GenerateUrlEditViewParameters} from '../elements/core/gr-navigation/gr-navigation';
 import {
   DetailedLabelInfo,
   QuickLabelInfo,
@@ -507,13 +504,6 @@ export function createGenerateUrlEditViewParameters(): GenerateUrlEditViewParame
     patchNum: EditPatchSetNum as PatchSetNum,
     path: 'foo/bar.baz',
     project: TEST_PROJECT_NAME,
-  };
-}
-
-export function createGenerateUrlTopicViewParams(): GenerateUrlTopicViewParams {
-  return {
-    view: GerritView.TOPIC,
-    topic: 'myTopic',
   };
 }
 

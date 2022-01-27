@@ -46,11 +46,6 @@ export interface AppElementDashboardParams {
   title?: string;
 }
 
-export interface AppElementTopicParams {
-  view: GerritView.TOPIC;
-  topic?: string;
-}
-
 export interface AppElementGroupParams {
   view: GerritView.GROUP;
   detail?: GroupDetailView;
@@ -152,7 +147,6 @@ export interface AppElementJustRegisteredParams {
 
 export type AppElementParams =
   | AppElementDashboardParams
-  | AppElementTopicParams
   | AppElementGroupParams
   | AppElementAdminParams
   | AppElementChangeViewParams

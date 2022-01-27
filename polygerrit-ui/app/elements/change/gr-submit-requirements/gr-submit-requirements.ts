@@ -356,6 +356,7 @@ export class GrSubmitRequirements extends LitElement {
               .change="${this.change}"
               .account="${this.account}"
               .mutable="${this.mutable ?? false}"
+              .disableHovercards=${this.disableHovercards}
             ></gr-trigger-vote>`
         )}
       </section>`;

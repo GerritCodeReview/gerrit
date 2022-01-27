@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 import {PatchSetNum} from './common';
-import {Comment} from '../utils/comment-util';
+import {ChangeMessage, Comment} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
-import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 
 export enum EventType {
   BIND_VALUE_CHANGED = 'bind-value-changed',

@@ -29,6 +29,8 @@ import {
   RevisionPatchSetNum,
   AccountInfo,
   AccountDetailInfo,
+  ChangeMessageInfo,
+  VotingRangeInfo,
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
@@ -88,6 +90,18 @@ interface SortableComment {
   updated: Timestamp;
   id: UrlEncodedCommentId;
 }
+
+export interface ChangeMessage extends ChangeMessageInfo {
+  // TODO(TS): maybe should be an enum instead
+  type: string;
+  expanded: boolean;
+  commentThreads: CommentThread[];
+}
+
+export type LabelExtreme = {[labelName: string]: VotingRangeInfo};
+
+export const PATCH_SET_PREFIX_PATTERN =
+  /^(?:Uploaded\s*)?[Pp]atch [Ss]et \d+:\s*(.*)/;
 
 export function sortComments<T extends SortableComment>(comments: T[]): T[] {
   return comments.slice(0).sort((c1, c2) => {

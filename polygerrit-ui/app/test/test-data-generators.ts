@@ -103,6 +103,7 @@ import {
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
 import {
+  ChangeMessage,
   CommentThread,
   createCommentThreads,
   DraftInfo,
@@ -111,7 +112,6 @@ import {
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
-import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 import {
   GenerateUrlEditViewParameters,
   GenerateUrlTopicViewParams,

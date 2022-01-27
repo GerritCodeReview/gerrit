@@ -22,6 +22,7 @@ import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {classMap} from 'lit/directives/class-map';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 @customElement('gr-account-chip')
 export class GrAccountChip extends LitElement {
@@ -81,6 +82,8 @@ export class GrAccountChip extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly flagsService = getAppContext().flagsService;
+
   static override get styles() {
     return [
       css`
@@ -97,6 +100,9 @@ export class GrAccountChip extends LitElement {
           display: inline-flex;
           padding: 0 1px;
           --account-label-padding-horizontal: 6px;
+        }
+        .container.newSubmitRequirements {
+          --account-label-padding-horizontal: 2px;
         }
         :host:focus {
           border-color: transparent;
@@ -155,6 +161,9 @@ export class GrAccountChip extends LitElement {
         class="${classMap({
           container: true,
           transparentBackground: this.transparentBackground,
+          newSubmitRequirements: this.flagsService.isEnabled(
+            KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+          ),
         })}"
       >
         <gr-account-link

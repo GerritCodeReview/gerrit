@@ -58,7 +58,6 @@ export const htmlTemplate = html`
     gr-vote-chip {
       --gr-vote-chip-width: 14px;
       --gr-vote-chip-height: 14px;
-      margin-right: var(--spacing-s);
     }
   </style>
   <div class="container">
@@ -78,6 +77,7 @@ export const htmlTemplate = html`
               slot="vote-chip"
               vote="[[_computeVote(reviewer, change)]]"
               label="[[_computeCodeReviewLabel(change)]]"
+              circle-shape
             ></gr-vote-chip>
           </template>
         </gr-account-chip>

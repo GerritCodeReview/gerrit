@@ -40,6 +40,8 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
+import {resolve} from '../../../models/dependency';
+import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -103,6 +105,8 @@ export class GrChangeListView extends LitElement {
 
   private reporting = getAppContext().reportingService;
 
+  private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
+
   private lastVisibleTimestampMs = 0;
 
   constructor() {
@@ -127,6 +131,7 @@ export class GrChangeListView extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    this.getBulkActionsModel().resetState();
     this.loadPreferences();
   }
 

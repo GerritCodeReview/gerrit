@@ -117,10 +117,11 @@ public class WebLinks {
    * @param file File name.
    * @return Links for files.
    */
-  public ImmutableList<WebLinkInfo> getFileLinks(String project, String revision, String file) {
+  public ImmutableList<WebLinkInfo> getFileLinks(
+      String project, String revision, String hash, String file) {
     return Patch.isMagic(file)
         ? ImmutableList.of()
-        : filterLinks(fileLinks, webLink -> webLink.getFileWebLink(project, revision, file));
+        : filterLinks(fileLinks, webLink -> webLink.getFileWebLink(project, revision, hash, file));
   }
 
   /**

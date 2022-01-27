@@ -33,6 +33,42 @@
       "message": "We are on r1rv64 :-/ \n\ni guess an upgrade to 1.64 is better than nothing, though. ",
       "revId": "2ddf171745fab248a151cfaf212d0012dbe6d8b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "655f1882_20b0e382",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-27T10:29:40Z",
+      "side": 1,
+      "message": "It cannot be updated to 1.70 yet.",
+      "parentUuid": "3a36d709_42006483",
+      "revId": "2ddf171745fab248a151cfaf212d0012dbe6d8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "531faa16_34849280",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-27T10:29:40Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "423a0ff7_b12d44dc",
+      "revId": "2ddf171745fab248a151cfaf212d0012dbe6d8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

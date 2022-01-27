@@ -21,7 +21,6 @@ import './admin/gr-admin-view/gr-admin-view';
 import './documentation/gr-documentation-search/gr-documentation-search';
 import './change-list/gr-change-list-view/gr-change-list-view';
 import './change-list/gr-dashboard-view/gr-dashboard-view';
-import './topic/gr-topic-view';
 import './change/gr-change-view/gr-change-view';
 import './core/gr-error-manager/gr-error-manager';
 import './core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog';
@@ -142,9 +141,6 @@ export class GrAppElement extends base {
 
   @property({type: Boolean})
   _showDashboardView?: boolean;
-
-  @property({type: Boolean})
-  _showTopicView?: boolean;
 
   @property({type: Boolean})
   _showChangeView?: boolean;
@@ -354,7 +350,6 @@ export class GrAppElement extends base {
     this.$.errorView.classList.remove('show');
     this._showChangeListView = view === GerritView.SEARCH;
     this._showDashboardView = view === GerritView.DASHBOARD;
-    this._showTopicView = view === GerritView.TOPIC;
     this._showChangeView = view === GerritView.CHANGE;
     this._showDiffView = view === GerritView.DIFF;
     this._showSettingsView = view === GerritView.SETTINGS;

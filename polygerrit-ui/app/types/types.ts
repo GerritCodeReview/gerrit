@@ -166,7 +166,7 @@ export interface HighlightJS {
     languageName: string,
     code: string,
     ignore_illegals: boolean,
-    continuation: unknown
+    continuation?: unknown
   ): HighlightJSResult;
 }
 

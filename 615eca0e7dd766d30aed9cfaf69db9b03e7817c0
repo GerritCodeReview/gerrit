@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f870aaf_cdddf5e5",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-27T13:49:29Z",
+      "side": 1,
+      "message": "Actually I am wondering of we should just use an ImmutableSortedMap with natural ordering on the keys. Any opinions?",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 91
+      },
+      "revId": "615eca0e7dd766d30aed9cfaf69db9b03e7817c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

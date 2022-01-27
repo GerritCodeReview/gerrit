@@ -9,6 +9,10 @@ import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {Subscription} from 'rxjs';
+import {define} from '../dependency';
+
+export const bulkActionsModelToken =
+  define<BulkActionsModel>('bulk-actions-model');
 
 export interface BulkActionsState {
   selectedChanges: ChangeInfo[];
@@ -51,6 +55,10 @@ export class BulkActionsModel
 
   setState(state: BulkActionsState) {
     this.subject$.next(state);
+  }
+
+  resetState() {
+    this.subject$.next(initialState);
   }
 
   finalize() {

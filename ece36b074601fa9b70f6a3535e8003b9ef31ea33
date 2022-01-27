@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b55a8dff_6256753c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-27T12:01:34Z",
+      "side": 1,
+      "message": "Sorry for the confusion.\n\nA weblink is a link that can be supplied by any java plugin (ex: `class MyFileWebLinkPlugin extends FileWebLink`) and Gerrit website will know where to put these links based on the type of weblink. The general weblink documentation is here. I had forgotten to add documentation for EditWebLink, added in this change.\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-plugins.html#links-to-external-tools\n\nIn September I introduced the EditWebLink variety of weblink that sends users to an external site where they can edit the viewed file, for cases where the host has a more integrated web IDE that they would prefer users to use. Unfortunately I don\u0027t have an example usage that\u0027s not google-internal.\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/extensions/webui/EditWebLink.java;l\u003d24;drc\u003ddb64a4780db1f596a89a93e21f64b67135fc1354\n\nGitweb does not provide such a web IDE/editor, so when I used the FileWebLink as an EditWebLink, EDIT button was removed and unhelpful file link was shown. This change to GitwebConfig means it will no longer register to provide EditWebLinks, and EDIT button should be restored.",
+      "parentUuid": "d6f458ac_fe23e2a0",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "ece36b074601fa9b70f6a3535e8003b9ef31ea33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62103128_69c16e4f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2022-01-27T10:38:34Z",
       "side": 1,
       "message": "Nit: We usually use Bug: Issue",
+      "revId": "ece36b074601fa9b70f6a3535e8003b9ef31ea33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e12e00e0_1df3133b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-27T12:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62103128_69c16e4f",
       "revId": "ece36b074601fa9b70f6a3535e8003b9ef31ea33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

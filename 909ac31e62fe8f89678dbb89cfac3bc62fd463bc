@@ -33,6 +33,24 @@
       "message": "Gerrit already has a settings in the config file to specify faviconPath: https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#gerrit.faviconPath",
       "revId": "909ac31e62fe8f89678dbb89cfac3bc62fd463bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bdafea4_3c86544e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1138005
+      },
+      "writtenOn": "2022-01-27T22:36:52Z",
+      "side": 1,
+      "message": "Setting gerrit.faviconPath is what I tried first, but I could not make it work:\n\n```\n$ cat etc/gerrit.config \n[gerrit]\n\tbasePath \u003d git\n\tcanonicalWebUrl \u003d http://sasha3.mtv.corp.google.com:8080/\n\tserverId \u003d 67c45c1f-c1a9-4ad3-befb-ba97704c1b89\n\tfaviconPath \u003d fa.ico\n$ ls -l fa.ico\n-rw-r--r-- 1 asmundak primarygroup 3632 Jan 21 10:40 fa.ico\n$ grep \u0027fa\\.ico\u0027 logs/httpd_log\n10.233.177.165 [HTTP-50] - - [2022-01-27T13:13:34.428-08:00] \"GET /fa.ico HTTP/1.1\" 404 9 4 - \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36\" 3 - 38552 -\n```\n\nIf you know how to use gerrit.faviconPath correctly, I\u0027ll be grateful.",
+      "parentUuid": "a838f8cf_5a5e4413",
+      "revId": "909ac31e62fe8f89678dbb89cfac3bc62fd463bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bd478b3c_4a282ce5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-27T12:09:03Z",
+      "side": 1,
+      "message": "Thanks for the clarifying. Now I have the context, that this is extension point and plugin could provide EditWebLink implementation. This is a great idea, and it would be cool to provide open source example of such plugin.\n\nShould we move this change to stable-3.5 branch, submit it there and merge up to master? This is the usual way to fix issues introduced in stable releases. I jiust checked, and this change can be applied on stable-3.5 without conflicts.",
+      "parentUuid": "b55a8dff_6256753c",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "ece36b074601fa9b70f6a3535e8003b9ef31ea33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62103128_69c16e4f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

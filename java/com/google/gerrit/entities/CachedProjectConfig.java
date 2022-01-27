@@ -14,6 +14,8 @@
 
 package com.google.gerrit.entities;
 
+import static java.util.Comparator.comparing;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -134,7 +136,9 @@ public abstract class CachedProjectConfig {
   public abstract ImmutableMap<String, ImmutableConfig> getParsedProjectLevelConfigs();
 
   public static Builder builder() {
-    return new AutoValue_CachedProjectConfig.Builder();
+    Builder builder = new AutoValue_CachedProjectConfig.Builder();
+    builder.accessSectionsBuilder().orderEntriesByValue(comparing(AccessSection::getName));
+    return builder;
   }
 
   public abstract Builder toBuilder();

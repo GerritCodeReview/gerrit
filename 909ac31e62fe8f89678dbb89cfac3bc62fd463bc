@@ -16,6 +16,23 @@
       "message": "Dmitrii, do you mind reviewing this. I think you know this area quite well.",
       "revId": "909ac31e62fe8f89678dbb89cfac3bc62fd463bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a838f8cf_5a5e4413",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-01-27T15:39:52Z",
+      "side": 1,
+      "message": "Gerrit already has a settings in the config file to specify faviconPath: https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#gerrit.faviconPath",
+      "revId": "909ac31e62fe8f89678dbb89cfac3bc62fd463bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

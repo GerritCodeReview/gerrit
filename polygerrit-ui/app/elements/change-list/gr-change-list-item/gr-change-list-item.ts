@@ -42,7 +42,7 @@ import {
   QuickLabelInfo,
   Timestamp,
 } from '../../../types/common';
-import {hasOwnProperty} from '../../../utils/common-util';
+import {hasOwnProperty, assertIsDefined} from '../../../utils/common-util';
 import {pluralize} from '../../../utils/string-util';
 import {
   getRequirements,
@@ -56,6 +56,8 @@ import {customElement, property, state} from 'lit/decorators';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {resolve} from '../../../models/dependency';
+import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 
 enum ChangeSize {
   XS = 10,
@@ -119,6 +121,10 @@ export class GrChangeListItem extends LitElement {
   reporting: ReportingService = getAppContext().reportingService;
 
   private readonly flagsService = getAppContext().flagsService;
+
+  private checked = false;
+
+  private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   override connectedCallback() {
     super.connectedCallback();
@@ -288,11 +294,23 @@ export class GrChangeListItem extends LitElement {
     `;
   }
 
+  private handleChangeSelectionClick() {
+    debugger;
+    assertIsDefined(this.change, 'change');
+    this.checked = !this.checked;
+    if (this.checked) this.getBulkActionsModel().addSelectedChange(this.change);
+    else this.getBulkActionsModel().removeSelectedChange(this.change);
+  }
+
   private renderCellSelectionBox() {
     if (!this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) return;
     return html`
       <td class="cell selection">
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          ?checked=${this.checked}
+          @click=${() => this.handleChangeSelectionClick()}
+        />
       </td>
     `;
   }

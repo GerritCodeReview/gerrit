@@ -16,13 +16,16 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
+import '../gr-change-list/gr-change-list';
+import '../gr-change-list-item/gr-change-list-item';
 import './gr-dashboard-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {GerritView} from '../../../services/router/router-model.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
 import {ChangeStatus} from '../../../constants/constants.js';
-import {createAccountWithId} from '../../../test/test-data-generators.js';
-import {addListenerForTest, stubRestApi, isHidden, mockPromise} from '../../../test/test-utils.js';
+import {createAccountWithId, createChange} from '../../../test/test-data-generators.js';
+import {addListenerForTest, stubRestApi, isHidden, mockPromise, stubFlags, query, queryAll} from '../../../test/test-utils.js';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-dashboard-view');
 
@@ -48,6 +51,43 @@ suite('gr-dashboard-view tests', () => {
     const paramsChanged = element._paramsChanged.bind(element);
     sinon.stub(element, '_paramsChanged').callsFake( params => {
       paramsChanged(params).then(() => resolver());
+    });
+  });
+
+  suite.only('bulk actions selection', () => {
+    setup(async () => {
+      stubFlags('isEnabled').returns(true);
+      element = basicFixture.instantiate();
+      let resolver;
+      paramsChangedPromise = new Promise(resolve => {
+        resolver = resolve;
+      });
+      const paramsChanged = element._paramsChanged.bind(element);
+      sinon.stub(element, '_paramsChanged').callsFake( params => {
+        paramsChanged(params).then(() => resolver());
+      });
+      const sections = [
+        {name: 'test1', query: 'test1', isOutgoing: true},
+        {name: 'test2', query: 'test2'},
+      ];
+      getChangesStub.restore();
+      stubRestApi('getChanges')
+          .returns(Promise.resolve([[{...createChange()}], [{...createChange()}]]));
+      await element._fetchDashboardChanges({sections}, false);
+    });
+
+    test('bulk actions checkboxes are rendered', async () => {
+      element._loading = false;
+      flush();
+      const changeList = query(element, 'gr-change-list');
+      const changeItems = queryAll(changeList, 'gr-change-list-item');
+
+      const checkbox = query(changeItems[0], '.selection');
+      assert.isOk(checkbox);
+      tap(checkbox);
+      checkbox.click();
+      await flush();
+      debugger;
     });
   });
 

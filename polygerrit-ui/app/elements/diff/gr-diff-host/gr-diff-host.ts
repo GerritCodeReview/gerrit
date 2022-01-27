@@ -67,7 +67,7 @@ import {
   IgnoreWhitespaceType,
 } from '../../../types/diff';
 import {CreateCommentEventDetail, GrDiff} from '../gr-diff/gr-diff';
-import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
+import {GrSyntaxLayerWorker} from '../gr-syntax-layer/gr-syntax-layer-worker';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
@@ -290,7 +290,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   private readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly syntaxLayer = new GrSyntaxLayer();
+  private readonly syntaxLayer = new GrSyntaxLayerWorker();
 
   private checksSubscription?: Subscription;
 
@@ -431,7 +431,7 @@ export class GrDiffHost extends DIPolymerElement {
       if (needsSyntaxHighlighting) {
         this.reporting.time(Timing.DIFF_SYNTAX);
         try {
-          await this.syntaxLayer.process();
+          this.syntaxLayer.process();
         } finally {
           this.reporting.timeEnd(Timing.DIFF_SYNTAX);
         }
@@ -665,7 +665,6 @@ export class GrDiffHost extends DIPolymerElement {
   /** Cancel any remaining diff builder rendering work. */
   cancel() {
     this.$.diff.cancel();
-    this.syntaxLayer.cancel();
   }
 
   getCursorStops() {

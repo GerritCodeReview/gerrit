@@ -46,4 +46,5 @@ body {
   font-size: var(--font-size-normal, 1rem);
   line-height: var(--line-height-normal, 1.4);
   color: var(--primary-text-color, black);
+  background-color: black;
 }

@@ -7,7 +7,9 @@
       "../../external/ui_dev_npm/node_modules/@types"
     ],
     "paths": {
-      "@polymer/iron-test-helpers/*": ["../../ui_dev_npm/node_modules/@polymer/iron-test-helpers/*"]
+      "@polymer/iron-test-helpers/*": [
+        "../../ui_dev_npm/node_modules/@polymer/iron-test-helpers/*"
+      ]
     }
   },
   "include": [
@@ -25,9 +27,10 @@
     "scripts/**/*",
     "services/**/*",
     "styles/**/*",
+    "test/**/*",
     "types/**/*",
     "utils/**/*",
-    "test/**/*"
+    "workers/**/*"
   ],
   "exclude": []
 }

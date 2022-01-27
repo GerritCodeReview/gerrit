@@ -213,7 +213,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
 
     public ProjectConfig create(Project.NameKey projectName) {
-      return new ProjectConfig(projectName, getBaseConfig(sitePaths, allProjects, projectName));
+      return new ProjectConfig(
+          projectName, getBaseConfig(sitePaths, allProjects, projectName), allProjects);
     }
 
     public ProjectConfig read(MetaDataUpdate update) throws IOException, ConfigInvalidException {
@@ -239,6 +240,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private final StoredConfig baseConfig;
+  private final AllProjectsName allProjectsName;
 
   private Project project;
   private AccountsSection accountsSection;
@@ -275,7 +277,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             .setCheckReceivedObjects(checkReceivedObjects)
             .setExtensionPanelSections(extensionPanelSections);
     groupList.byUUID().values().forEach(g -> builder.addGroup(g));
-    accessSections.values().forEach(a -> builder.addAccessSection(a));
     contributorAgreements.values().forEach(c -> builder.addContributorAgreement(c));
     notifySections.values().forEach(n -> builder.addNotifySection(n));
     subscribeSections.values().forEach(s -> builder.addSubscribeSection(s));
@@ -287,6 +288,28 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     projectLevelConfigs
         .entrySet()
         .forEach(c -> builder.addProjectLevelConfig(c.getKey(), c.getValue().toText()));
+
+    if (projectName.equals(allProjectsName)) {
+      // Filter out permissions that aren't allowed to be set on All-Projects
+      accessSections
+          .values()
+          .forEach(
+              a -> {
+                List<Permission.Builder> copy = new ArrayList<>();
+                for (Permission p : a.getPermissions()) {
+                  if (Permission.canBeOnAllProjects(a.getName(), p.getName())) {
+                    copy.add(p.toBuilder());
+                  }
+                }
+                AccessSection section =
+                    AccessSection.builder(a.getName())
+                        .modifyPermissions(permissions -> permissions.addAll(copy))
+                        .build();
+                builder.addAccessSection(section);
+              });
+    } else {
+      accessSections.values().forEach(a -> builder.addAccessSection(a));
+    }
     return builder.build();
   }
 
@@ -342,9 +365,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     requireNonNull(commentLinkSections.remove(name));
   }
 
-  private ProjectConfig(Project.NameKey projectName, @Nullable StoredConfig baseConfig) {
+  private ProjectConfig(
+      Project.NameKey projectName,
+      @Nullable StoredConfig baseConfig,
+      AllProjectsName allProjectsName) {
     this.projectName = projectName;
     this.baseConfig = baseConfig;
+    this.allProjectsName = allProjectsName;
   }
 
   public void load(Repository repo) throws IOException, ConfigInvalidException {

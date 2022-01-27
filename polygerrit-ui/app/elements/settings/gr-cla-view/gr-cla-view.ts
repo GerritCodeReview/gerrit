@@ -196,4 +196,10 @@ export class GrClaView extends PolymerElement {
       ? 'hideAgreementsTextBox'
       : '';
   }
+
+  _computeAgreements(serverConfig?: ServerInfo) {
+    return (serverConfig?.auth.contributor_agreements ?? []).filter(
+      agreement => agreement.url
+    );
+  }
 }

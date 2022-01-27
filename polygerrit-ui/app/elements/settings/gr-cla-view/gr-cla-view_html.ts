@@ -66,10 +66,7 @@ export const htmlTemplate = html`
   <main>
     <h1 class="heading-1">New Contributor Agreement</h1>
     <h3 class="heading-3">Select an agreement type:</h3>
-    <template
-      is="dom-repeat"
-      items="[[_serverConfig.auth.contributor_agreements]]"
-    >
+    <template is="dom-repeat" items="[[_computeAgreements(_serverConfig)]]">
       <span class="contributorAgreementButton">
         <input
           id$="claNewAgreementsInput[[item.name]]"

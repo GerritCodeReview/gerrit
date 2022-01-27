@@ -266,35 +266,22 @@ public class ProjectState {
 
   /** Get the sections that pertain only to this project. */
   List<SectionMatcher> getLocalAccessSections() {
-    List<SectionMatcher> sm = localAccessSections;
-    if (sm == null) {
-      ImmutableList<AccessSection> fromConfig =
-          cachedConfig.getAccessSections().values().stream()
-              .sorted(comparing(AccessSection::getName))
-              .collect(toImmutableList());
-      sm = new ArrayList<>(fromConfig.size());
-      for (AccessSection section : fromConfig) {
-        if (isAllProjects) {
-          List<Permission.Builder> copy = new ArrayList<>();
-          for (Permission p : section.getPermissions()) {
-            if (Permission.canBeOnAllProjects(section.getName(), p.getName())) {
-              copy.add(p.toBuilder());
-            }
-          }
-          section =
-              AccessSection.builder(section.getName())
-                  .modifyPermissions(permissions -> permissions.addAll(copy))
-                  .build();
-        }
-
-        SectionMatcher matcher = SectionMatcher.wrap(getNameKey(), section);
-        if (matcher != null) {
-          sm.add(matcher);
-        }
-      }
-      localAccessSections = sm;
+    if (localAccessSections != null) {
+      return localAccessSections;
     }
-    return sm;
+    ImmutableList<AccessSection> fromConfig =
+        cachedConfig.getAccessSections().values().stream()
+            .sorted(comparing(AccessSection::getName))
+            .collect(toImmutableList());
+    List<SectionMatcher> sm = new ArrayList<>(fromConfig.size());
+    for (AccessSection section : fromConfig) {
+      SectionMatcher matcher = SectionMatcher.wrap(getNameKey(), section);
+      if (matcher != null) {
+        sm.add(matcher);
+      }
+    }
+    localAccessSections = sm;
+    return localAccessSections;
   }
 
   /**

@@ -213,7 +213,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
 
     public ProjectConfig create(Project.NameKey projectName) {
+<<<<<<< HEAD   (822801 Fix label operator to work with external groups)
       return new ProjectConfig(projectName, getBaseConfig(sitePaths, allProjects, projectName));
+=======
+      return new ProjectConfig(
+          projectName,
+          projectName.equals(allProjectsName)
+              ? allProjectsConfigProvider.get(allProjectsName)
+              : Optional.empty(),
+          allProjectsName);
+>>>>>>> CHANGE (a5cd85 Move permission filtering for All-Projects from ProjectState)
     }
 
     public ProjectConfig read(MetaDataUpdate update) throws IOException, ConfigInvalidException {
@@ -238,7 +247,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
+<<<<<<< HEAD   (822801 Fix label operator to work with external groups)
   private final StoredConfig baseConfig;
+=======
+  private final Optional<StoredConfig> baseConfig;
+  private final AllProjectsName allProjectsName;
+>>>>>>> CHANGE (a5cd85 Move permission filtering for All-Projects from ProjectState)
 
   private Project project;
   private AccountsSection accountsSection;
@@ -275,7 +289,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             .setCheckReceivedObjects(checkReceivedObjects)
             .setExtensionPanelSections(extensionPanelSections);
     groupList.byUUID().values().forEach(g -> builder.addGroup(g));
-    accessSections.values().forEach(a -> builder.addAccessSection(a));
     contributorAgreements.values().forEach(c -> builder.addContributorAgreement(c));
     notifySections.values().forEach(n -> builder.addNotifySection(n));
     subscribeSections.values().forEach(s -> builder.addSubscribeSection(s));
@@ -287,6 +300,28 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     projectLevelConfigs
         .entrySet()
         .forEach(c -> builder.addProjectLevelConfig(c.getKey(), c.getValue().toText()));
+
+    if (projectName.equals(allProjectsName)) {
+      // Filter out permissions that aren't allowed to be set on All-Projects
+      accessSections
+          .values()
+          .forEach(
+              a -> {
+                List<Permission.Builder> copy = new ArrayList<>();
+                for (Permission p : a.getPermissions()) {
+                  if (Permission.canBeOnAllProjects(a.getName(), p.getName())) {
+                    copy.add(p.toBuilder());
+                  }
+                }
+                AccessSection section =
+                    AccessSection.builder(a.getName())
+                        .modifyPermissions(permissions -> permissions.addAll(copy))
+                        .build();
+                builder.addAccessSection(section);
+              });
+    } else {
+      accessSections.values().forEach(a -> builder.addAccessSection(a));
+    }
     return builder.build();
   }
 
@@ -342,9 +377,17 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     requireNonNull(commentLinkSections.remove(name));
   }
 
+<<<<<<< HEAD   (822801 Fix label operator to work with external groups)
   private ProjectConfig(Project.NameKey projectName, @Nullable StoredConfig baseConfig) {
+=======
+  private ProjectConfig(
+      Project.NameKey projectName,
+      Optional<StoredConfig> baseConfig,
+      AllProjectsName allProjectsName) {
+>>>>>>> CHANGE (a5cd85 Move permission filtering for All-Projects from ProjectState)
     this.projectName = projectName;
     this.baseConfig = baseConfig;
+    this.allProjectsName = allProjectsName;
   }
 
   public void load(Repository repo) throws IOException, ConfigInvalidException {

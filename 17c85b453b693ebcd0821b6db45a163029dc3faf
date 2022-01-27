@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c81afe0_4362fcfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-01-27T20:18:03Z",
+      "side": 1,
+      "message": "I\u0027m not completely sure this is the right approach to fixing 15589 nor if it is complete (there may be other uses of ${commit} that need similar ${hash} counterpats). This approach was taken because it seemed least likely to impact existing users while still enabling integration with other systems like gitea that cannot handle change refs in their urls (they need the commit sha1).",
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

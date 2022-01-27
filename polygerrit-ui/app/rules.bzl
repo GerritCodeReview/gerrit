@@ -45,6 +45,11 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
     )
 
     native.filegroup(
+        name = name + "_worker_sources",
+        srcs = native.glob(["workers/**/*.js"]),
+    )
+
+    native.filegroup(
         name = name + "_top_sources",
         srcs = [
             "favicon.ico",
@@ -59,6 +64,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
             name + "_app_sources",
             name + "_css_sources",
             name + "_top_sources",
+            name + "_worker_sources",
             "//lib/fonts:robotofonts",
             "//lib/js:highlightjs__files",
             "@ui_npm//:node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js",
@@ -75,6 +81,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
             "cp $(locations //lib/fonts:robotofonts) $$TMP/polygerrit_ui/fonts/",
             "for f in $(locations " + name + "_top_sources); do cp $$f $$TMP/polygerrit_ui/; done",
             "for f in $(locations " + name + "_css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
+            "for f in $(locations " + name + "_worker_sources); do cp $$f $$TMP/polygerrit_ui/workers; done",
             "for f in $(locations //lib/js:highlightjs__files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
             "cp $(location @ui_npm//:node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js) $$TMP/polygerrit_ui/bower_components/webcomponentsjs/webcomponents-lite.js",
             "cp $(location @ui_npm//:node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js.map) $$TMP/polygerrit_ui/bower_components/webcomponentsjs/webcomponents-lite.js.map",

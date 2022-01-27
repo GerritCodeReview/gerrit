@@ -190,6 +190,8 @@ export const htmlTemplate = html`
         <gr-message-scores
           label-extremes="[[labelExtremes]]"
           message="[[message]]"
+          change="[[change]]"
+          account="[[]]"
         ></gr-message-scores>
       </div>
       <template is="dom-if" if="[[_commentCountText]]">

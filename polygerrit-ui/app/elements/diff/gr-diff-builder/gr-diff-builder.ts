@@ -547,7 +547,7 @@ export abstract class GrDiffBuilder {
       if (lineNumberEl && side) {
         for (const layer of this.layers) {
           if (typeof layer.annotate === 'function') {
-            layer.annotate(contentText, lineNumberEl, line, side);
+            // layer.annotate(contentText, lineNumberEl, line, side);
           }
         }
       } else {

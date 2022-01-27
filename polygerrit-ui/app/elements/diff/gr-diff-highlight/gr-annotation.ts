@@ -68,8 +68,42 @@ export const GrAnnotation = {
       return;
     }
 
+    const nestedNodes = this.splitNodes(childNodes, offset, length);
+
+    const wrapper = document.createElement(tagName);
+    const sanitizer = getSanitizeDOMValue();
+    for (let [name, value] of Object.entries(attributes)) {
+      if (!value) continue;
+      if (sanitizer) {
+        value = sanitizer(value, name, 'attribute', wrapper) as string;
+      }
+      wrapper.setAttribute(name, value);
+    }
+    for (const inner of nestedNodes) {
+      parent.replaceChild(wrapper, inner);
+      wrapper.appendChild(inner);
+    }
+  },
+
+  /**
+   * Splits the nodes up such that at `offset` and at `offset+length` will be
+   * split points, i.e. a node ends and a new node starts.
+   *
+   * Returns this list of nodes that exactly contain the text snippet from
+   * offset with length.
+   *
+   * Example:
+   * <span>asdf</span><span>qwer</span>
+   * offset:2, length: 4 (targeting 'dfqw' of the 'asdfqwer' string)
+   *
+   * splits up to:
+   * <span>as</span><span>df</span><span>qw</span><span>er</span>
+   * and returns only the nodes containing 'dfqw':
+   * <span>df</span><span>qw</span>
+   */
+  splitNodes(nodes: Node[], offset: number, length: number) {
     const nestedNodes: Node[] = [];
-    for (let node of childNodes) {
+    for (let node of [...nodes]) {
       const initialNodeLength = this.getLength(node);
       // If the current node is completely before the offset.
       if (offset > 0 && initialNodeLength <= offset) {
@@ -87,22 +121,9 @@ export const GrAnnotation = {
       nestedNodes.push(node);
 
       length -= this.getLength(node);
-      if (!length) break;
+      if (length <= 0) break;
     }
-
-    const wrapper = document.createElement(tagName);
-    const sanitizer = getSanitizeDOMValue();
-    for (let [name, value] of Object.entries(attributes)) {
-      if (!value) continue;
-      if (sanitizer) {
-        value = sanitizer(value, name, 'attribute', wrapper) as string;
-      }
-      wrapper.setAttribute(name, value);
-    }
-    for (const inner of nestedNodes) {
-      parent.replaceChild(wrapper, inner);
-      wrapper.appendChild(inner);
-    }
+    return nestedNodes;
   },
 
   /**
@@ -146,6 +167,53 @@ export const GrAnnotation = {
       } else {
         break;
       }
+    }
+  },
+
+  /**
+   * Splits up nodes in an element such that they never span a line break.
+   * For example:
+   *
+   * aaa<span>bbb
+   * ccc</span>ddd
+   *
+   * would be replaced by
+   *
+   * aaa<span>bbb</span>
+   * <span>ccc</span>ddd
+   */
+  splitAllNodesAtLineBreaks(node: Node) {
+    let n: Node | null = node.firstChild;
+    while (n) {
+      const length = this.getLength(n);
+      const index = n.textContent?.indexOf('\n') ?? -1;
+      if (index > -1 && length > 1) {
+        n = index === 0 ? this.splitNode(n, 1) : this.splitNode(n, index);
+      } else {
+        n = n.nextSibling;
+      }
+    }
+  },
+
+  /**
+   * Nodes with text content identical to just a single new line char '\n' are
+   * replaced by simple text nodes. So
+   *
+   * <span><span>\n</span></span>
+   *
+   * becomes just
+   *
+   * \n
+   */
+  simplifyNewLineNodes(node: Node) {
+    const isNewLine = node.textContent === '\n';
+    if (isNewLine) {
+      const simpleNewLine = document.createTextNode('\n');
+      node.parentNode?.replaceChild(simpleNewLine, node);
+      return;
+    }
+    for (const child of [...node.childNodes]) {
+      this.simplifyNewLineNodes(child);
     }
   },
 

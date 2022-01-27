@@ -180,6 +180,159 @@ suite('annotation', () => {
     assert(tail.textContent, unicodeString);
   });
 
+  suite('splitNodes', () => {
+    test('0123456789', () => {
+      const el = document.createElement('div');
+      el.innerHTML = '0123456789';
+      const matchingNodes = GrAnnotation.splitNodes(el.childNodes, 3, 5);
+      assert.equal(el.innerHTML, '0123456789');
+      assert.equal(matchingNodes.length, 1);
+      assert.equal(matchingNodes[0].textContent, '34567');
+    });
+
+    test('01<span>23</span>45', () => {
+      const el = document.createElement('div');
+      el.innerHTML = '01<span>23</span>45';
+      const matchingNodes = GrAnnotation.splitNodes(el.childNodes, 1, 4);
+      assert.equal(el.innerHTML, '01<span>23</span>45');
+      assert.equal(matchingNodes.length, 3);
+      assert.equal(matchingNodes[0].textContent, '1');
+      assert.equal(matchingNodes[1].textContent, '23');
+      assert.equal(matchingNodes[2].textContent, '4');
+    });
+
+    test('01<span>234</span>56', () => {
+      const el = document.createElement('div');
+      el.innerHTML = '01<span>234</span>56';
+      const matchingNodes = GrAnnotation.splitNodes(el.childNodes, 3, 1);
+      assert.equal(el.innerHTML, '01<span>2</span><span>3</span><span>4</span>56');
+      assert.equal(matchingNodes.length, 1);
+      assert.equal(matchingNodes[0].textContent, '3');
+    });
+
+    test('01<span>23<span>45</span>67</span>89', () => {
+      const el = document.createElement('div');
+      el.innerHTML = '01<span>23<span>45</span>67</span>89';
+      const matchingNodes = GrAnnotation.splitNodes(el.childNodes, 1, 8);
+      assert.equal(el.innerHTML, '01<span>23<span>45</span>67</span>89');
+      assert.equal(matchingNodes.length, 3);
+      assert.equal(matchingNodes[0].textContent, '1');
+      assert.equal(matchingNodes[1].textContent, '234567');
+      assert.equal(matchingNodes[2].textContent, '8');
+    });
+  });
+
+  suite('simplifyNewLineNodes', () => {
+    test('no modification', () => {
+      const el = document.createElement('div');
+      el.innerHTML = 'xx<span>y\ny<span>z\nz</span>y\ny</span>xx';
+      GrAnnotation.simplifyNewLineNodes(el);
+      assert.equal(el.innerHTML, 'xx<span>y\ny<span>z\nz</span>y\ny</span>xx');
+    });
+
+    test('removes spans', () => {
+      const el = document.createElement('div');
+      el.innerHTML = 'xx<span>\n</span><span>\n</span><span>\n</span>xx';
+      GrAnnotation.simplifyNewLineNodes(el);
+      assert.equal(el.innerHTML, 'xx\n\n\nxx');
+    });
+
+    test('removes double spans', () => {
+      const el = document.createElement('div');
+      el.innerHTML = 'xx<span><span><span>\n</span></span></span>xx';
+      GrAnnotation.simplifyNewLineNodes(el);
+      assert.equal(el.innerHTML, 'xx\nxx');
+    });
+  });
+
+  suite('splitNode', () => {
+    test('split simple span', () => {
+      const el = document.createElement('div');
+      el.innerHTML = 'xx<span>yyyy</span>zz';
+      const node = el.querySelector('span');
+      GrAnnotation.splitNode(node, 2);
+      assert.equal(el.innerHTML, 'xx<span>yy</span><span>yy</span>zz');
+    });
+
+    test('split span with line break before and after', () => {
+      const el = document.createElement('div');
+      el.innerHTML = 'xx<span>yy\nyy</span>zz';
+      const node = el.querySelector('span');
+      GrAnnotation.splitNode(node, 3);
+      GrAnnotation.splitNode(node, 2);
+      assert.equal(el.innerHTML, 'xx<span>yy</span><span>\n</span><span>yy</span>zz');
+    });
+  });
+
+  suite.only('splitAllNodesAtLineBreaks', () => {
+    test('<span>\\n</span>', () => {
+      const el = document.createElement('div');
+      el.innerHTML = '<span>\n</span>';
+      GrAnnotation.splitAllNodesAtLineBreaks(el);
+      assert.equal(el.innerHTML, '<span>\n</span>');
+    });
+
+    test('<span>\\n\\n\\n</span>', () => {
+      const el = document.createElement('div');
+      el.innerHTML = '<span>\n\n\n</span>';
+      GrAnnotation.splitAllNodesAtLineBreaks(el);
+      assert.equal(el.innerHTML, '<span>\n</span><span>\n</span><span>\n</span>');
+      GrAnnotation.simplifyNewLineNodes(el);
+      assert.equal(el.innerHTML, '\n\n\n');
+    });
+
+    test('<span>a\\n</span>', () => {
+      const el = document.createElement('div');
+      el.innerHTML = '<span>a\n</span>';
+      GrAnnotation.splitAllNodesAtLineBreaks(el);
+      assert.equal(el.innerHTML, '<span>a</span><span>\n</span>');
+      GrAnnotation.simplifyNewLineNodes(el);
+      assert.equal(el.innerHTML, '<span>a</span>\n');
+    });
+
+    test('<span>\\na</span>', () => {
+      const el = document.createElement('div');
+      el.innerHTML = '<span>\na</span>';
+      GrAnnotation.splitAllNodesAtLineBreaks(el);
+      assert.equal(el.innerHTML, '<span>\n</span><span>a</span>');
+    });
+
+    test('split a span across two lines', () => {
+      const el = document.createElement('div');
+      el.innerHTML = 'xx<span>yy\nyy</span>zz';
+      GrAnnotation.splitAllNodesAtLineBreaks(el);
+      assert.equal(el.innerHTML, 'xx<span>yy</span><span>\n</span><span>yy</span>zz');
+      GrAnnotation.simplifyNewLineNodes(el);
+      assert.equal(el.innerHTML, 'xx<span>yy</span>\n<span>yy</span>zz');
+    });
+
+    test('split a span across 3 lines', () => {
+      const el = document.createElement('div');
+      el.innerHTML = 'xx<span>yy\n\nyy</span>zz';
+      GrAnnotation.splitAllNodesAtLineBreaks(el);
+      assert.equal(el.innerHTML, 'xx<span>yy</span><span>\n</span><span>\n</span><span>yy</span>zz');
+      GrAnnotation.simplifyNewLineNodes(el);
+      assert.equal(el.innerHTML, 'xx<span>yy</span>\n\n<span>yy</span>zz');
+    });
+
+    test('split a double span across 3 lines', () => {
+      const el = document.createElement('div');
+      el.innerHTML = 'xx<span><span>yy\n\nyy</span></span>zz';
+      GrAnnotation.splitAllNodesAtLineBreaks(el);
+      assert.equal(el.innerHTML, 'xx<span><span>yy</span></span><span><span>\n</span></span><span><span>\n</span></span><span><span>yy</span></span>zz');
+      GrAnnotation.simplifyNewLineNodes(el);
+      assert.equal(el.innerHTML, 'xx<span><span>yy</span></span>\n\n<span><span>yy</span></span>zz');
+    });
+
+    test('split something really complicated', () => {
+      const el = document.createElement('div');
+      el.innerHTML = 'line1:111\nline2:<span>222\nline3:<span>333\nline4:</span>444\nline5:</span>555';
+      GrAnnotation.splitAllNodesAtLineBreaks(el);
+      GrAnnotation.simplifyNewLineNodes(el);
+      assert.equal(el.innerHTML, 'line1:111\nline2:<span>222</span>\n<span>line3:<span>333</span></span>\n<span><span>line4:</span>444</span>\n<span>line5:</span>555');
+    });
+  });
+
   suite('annotateWithElement', () => {
     const fullText = '01234567890123456789';
     let mockSanitize;

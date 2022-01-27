@@ -177,6 +177,8 @@ const styleSheet = safeStyleSheet`
     --not-working-hours-icon-background-color: var(--purple-50);
     --not-working-hours-icon-color: var(--purple-700);
     --unavailability-icon-color: var(--gray-700);
+    --unavailability-chip-icon-color: #9b5400;
+    --unavailability-chip-background-color: var(--yellow-50);
 
     /* text colors */
     --primary-text-color: var(--gray-900);

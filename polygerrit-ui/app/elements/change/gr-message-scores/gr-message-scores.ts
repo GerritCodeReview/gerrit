@@ -14,14 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '../gr-trigger-vote/gr-trigger-vote';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {AccountInfo, ChangeInfo} from '../../../api/rest-api';
 import {
   ChangeMessage,
   LabelExtreme,
   PATCH_SET_PREFIX_PATTERN,
 } from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {getTriggerVotes} from '../../../utils/label-util';
 
 const VOTE_RESET_TEXT = '0 (vote reset)';
 
@@ -41,16 +44,25 @@ export class GrMessageScores extends LitElement {
   @property({type: Object})
   message?: ChangeMessage;
 
+  @property({type: Object})
+  change?: ChangeInfo;
+
+  @property({type: Object})
+  account?: AccountInfo;
+
   static override get styles() {
     return css`
+      .score,
+      gr-trigger-vote {
+        padding: 0 var(--spacing-s);
+        margin-right: var(--spacing-s);
+        display: inline-block;
+      }
       .score {
         box-sizing: border-box;
         border-radius: var(--border-radius);
         color: var(--vote-text-color);
-        display: inline-block;
-        padding: 0 var(--spacing-s);
         text-align: center;
-        margin-right: var(--spacing-s);
         min-width: 115px;
       }
       .score.removed {
@@ -93,10 +105,22 @@ export class GrMessageScores extends LitElement {
 
   override render() {
     const scores = this._getScores(this.message, this.labelExtremes);
-    return scores.map(score => this.renderScore(score));
+    const triggerVotes = getTriggerVotes(this.change);
+    return scores.map(score => this.renderScore(score, triggerVotes));
   }
 
-  private renderScore(score: Score) {
+  private renderScore(score: Score, trigerVotes: string[]) {
+    if (score.label && trigerVotes.includes(score.label)) {
+      const labels = this.change?.labels ?? {};
+      return html`<gr-trigger-vote
+        .label="${score.label}"
+        .labelInfo="${labels[score.label]}"
+        .change="${this.change}"
+        .mutable="${false}"
+        disable-hovercards
+      >
+      </gr-trigger-vote>`;
+    }
     return html`<span
       class="score ${this._computeScoreClass(score, this.labelExtremes)}"
     >

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "097085f2_c222cee0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-27T09:34:02Z",
+      "side": 1,
+      "message": "Would it be plausible that we keep the old events interface and only add a separate Listener for GitReferencesUpdated?\nFor consumers everything would work as before the only difference is that you can also listen to the batch-ref-update event by itself in parallel to the old event-stream?\nThat way the only consumers that would need to change are those that really are interested in the batch-ref-update event.",
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c0b39be_6c409d36",
@@ -107,6 +124,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b87040c8_9985984f",
+        "filename": "java/com/google/gerrit/extensions/events/GitReferencesUpdatedListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-27T09:34:02Z",
+      "side": 1,
+      "message": "To the hooks plugin it doesn\u0027t matter since it has it\u0027s own \"ref-updated event\", but for other plugins it might.\nWe use the rabbitmq plugin to push all events to an ELK stack, if the old event isn\u0027t produced anymore we will probably want to split the multi-ref event into legacy events and publish those instead.",
+      "parentUuid": "09e95c67_98b95988",
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc1a979f_e592b3c7",
         "filename": "java/com/google/gerrit/httpd/WebSession.java",
         "patchSetId": 7
@@ -192,6 +227,29 @@
         "startChar": 14,
         "endLine": 73,
         "endChar": 35
+      },
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbabcd76_bf7c040a",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-27T09:34:02Z",
+      "side": 1,
+      "message": "For backwards compatibility these listeners should be fed the old event and not the new.",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 72
       },
       "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

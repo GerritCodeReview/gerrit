@@ -93,6 +93,30 @@
       },
       "revId": "694cab013f710b9cbdf2e6ac6788d1f6f1243d9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c999f65_3ea07eb2",
+        "filename": "java/com/google/gerrit/extensions/events/GitReferencesUpdatedListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-01-27T09:34:02Z",
+      "side": 0,
+      "message": "I meant that if keeping the old and the new eventlisteners GitReferenceUpdatedListener.Event could extend ProjectEvent and GitReferencesUpdatedListener.UpdatedRef.",
+      "parentUuid": "11e9dea7_4ea13b7a",
+      "range": {
+        "startLine": 24,
+        "startChar": 26,
+        "endLine": 24,
+        "endChar": 38
+      },
+      "revId": "694cab013f710b9cbdf2e6ac6788d1f6f1243d9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

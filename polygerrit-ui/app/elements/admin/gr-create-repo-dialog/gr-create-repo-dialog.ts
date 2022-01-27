@@ -37,7 +37,7 @@ import {fireEvent} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementEventMap {
-    'text-changed': CustomEvent;
+    'text-changed': CustomEvent<string>;
     'value-changed': CustomEvent;
   }
   interface HTMLElementTagNameMap {

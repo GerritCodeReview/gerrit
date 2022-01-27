@@ -558,7 +558,7 @@ export declare interface ConfigParameterInfoBase {
 export declare interface ContributorAgreementInfo {
   name: string;
   description: string;
-  url: string;
+  url?: string;
   auto_verify_group?: GroupInfo;
 }
 

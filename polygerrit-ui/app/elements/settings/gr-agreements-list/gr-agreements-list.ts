@@ -62,7 +62,7 @@ export class GrAgreementsList extends LitElement {
     return html`
       <tr>
         <td class="nameColumn">
-          <a href="${this.getUrlBase(agreement.url)}" rel="external">
+          <a href="${this.getUrlBase(agreement?.url)}" rel="external">
             ${agreement.name}
           </a>
         </td>
@@ -81,9 +81,9 @@ export class GrAgreementsList extends LitElement {
           </tr>
         </thead>
         <tbody>
-          ${(this._agreements ?? []).map(agreement =>
-            this.renderAgreement(agreement)
-          )}
+          ${(this._agreements ?? [])
+            .filter(agreement => agreement.url)
+            .map(agreement => this.renderAgreement(agreement))}
         </tbody>
       </table>
       <a href="${this.getUrl()}">New Contributor Agreement</a>
@@ -94,8 +94,8 @@ export class GrAgreementsList extends LitElement {
     return `${getBaseUrl()}/settings/new-agreement`;
   }
 
-  getUrlBase(item: string) {
-    return `${getBaseUrl()}/${item}`;
+  getUrlBase(item?: string) {
+    return item ? `${getBaseUrl()}/${item}` : '';
   }
 }
 

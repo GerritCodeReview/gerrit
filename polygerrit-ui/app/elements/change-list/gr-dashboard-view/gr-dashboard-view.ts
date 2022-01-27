@@ -56,6 +56,8 @@ import {DashboardViewState} from '../../../types/types';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
+import {resolve} from '../../../models/dependency';
+import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -119,6 +121,8 @@ export class GrDashboardView extends PolymerElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
+
   private lastVisibleTimestampMs = 0;
 
   constructor() {
@@ -142,6 +146,7 @@ export class GrDashboardView extends PolymerElement {
   override connectedCallback() {
     super.connectedCallback();
     this._loadPreferences();
+    this.getBulkActionsModel().resetState();
   }
 
   _loadPreferences() {

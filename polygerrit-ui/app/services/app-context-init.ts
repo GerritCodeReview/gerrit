@@ -37,6 +37,10 @@ import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
+import {
+  BulkActionsModel,
+  bulkActionsModelToken,
+} from '../models/bulk-actions/bulk-actions-model';
 
 /**
  * The AppContext lazy initializator for all services
@@ -112,6 +116,9 @@ export function createAppDependencies(
   );
 
   dependencies.set(checksModelToken, checksModel);
+
+  const bulkActionsModel = new BulkActionsModel(appContext.restApiService);
+  dependencies.set(bulkActionsModelToken, bulkActionsModel);
 
   return dependencies;
 }

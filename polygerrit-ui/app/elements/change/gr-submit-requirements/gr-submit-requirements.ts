@@ -16,9 +16,10 @@
  */
 import '../../shared/gr-label-info/gr-label-info';
 import '../gr-submit-requirement-hovercard/gr-submit-requirement-hovercard';
-import '../gr-trigger-vote-hovercard/gr-trigger-vote-hovercard';
+import '../gr-trigger-vote/gr-trigger-vote';
 import '../gr-change-summary/gr-change-summary';
 import '../../shared/gr-limited-text/gr-limited-text';
+import '../../shared/gr-vote-chip/gr-vote-chip';
 import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -26,7 +27,6 @@ import {
   AccountInfo,
   isDetailedLabelInfo,
   isQuickLabelInfo,
-  LabelInfo,
   LabelNameToInfoMap,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
@@ -47,7 +47,6 @@ import {subscribe} from '../../lit/subscription-controller';
 import {CheckRun} from '../../../models/checks/checks-model';
 import {getResultsOf, hasResultsOf} from '../../../models/checks/checks-util';
 import {Category} from '../../../api/checks';
-import '../../shared/gr-vote-chip/gr-vote-chip';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import {PrimaryTab} from '../../../constants/constants';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
@@ -371,103 +370,8 @@ export class GrSubmitRequirements extends LitElement {
   }
 }
 
-@customElement('gr-trigger-vote')
-export class GrTriggerVote extends LitElement {
-  @property()
-  label?: string;
-
-  @property({type: Object})
-  labelInfo?: LabelInfo;
-
-  @property({type: Object})
-  change?: ParsedChangeInfo;
-
-  @property({type: Object})
-  account?: AccountInfo;
-
-  @property({type: Boolean})
-  mutable?: boolean;
-
-  static override get styles() {
-    return css`
-      :host {
-        display: block;
-      }
-      .container {
-        box-sizing: border-box;
-        border: 1px solid var(--border-color);
-        border-radius: calc(var(--border-radius) + 2px);
-        background-color: var(--background-color-primary);
-        display: flex;
-        padding: 0;
-        padding-left: var(--spacing-s);
-        padding-right: var(--spacing-xxs);
-        align-items: center;
-      }
-      .label {
-        padding-right: var(--spacing-s);
-        font-weight: var(--font-weight-bold);
-      }
-      gr-vote-chip {
-        --gr-vote-chip-width: 14px;
-        --gr-vote-chip-height: 14px;
-        margin-right: 0px;
-        margin-left: var(--spacing-xs);
-      }
-      gr-vote-chip:first-of-type {
-        margin-left: 0px;
-      }
-    `;
-  }
-
-  override render() {
-    if (!this.labelInfo) return;
-    return html`
-      <div class="container">
-        <gr-trigger-vote-hovercard
-          .labelName=${this.label}
-          .labelInfo=${this.labelInfo}
-        >
-          <gr-label-info
-            slot="label-info"
-            .change=${this.change}
-            .account=${this.account}
-            .mutable=${this.mutable}
-            .label=${this.label}
-            .labelInfo=${this.labelInfo}
-            .showAllReviewers=${false}
-          ></gr-label-info>
-        </gr-trigger-vote-hovercard>
-        <span class="label">${this.label}</span>
-        ${this.renderVotes()}
-      </div>
-    `;
-  }
-
-  private renderVotes() {
-    const {labelInfo} = this;
-    if (!labelInfo) return;
-    if (isDetailedLabelInfo(labelInfo)) {
-      const approvals = getAllUniqueApprovals(labelInfo).filter(
-        approval => !hasNeutralStatus(labelInfo, approval)
-      );
-      return approvals.map(
-        approvalInfo => html`<gr-vote-chip
-          .vote="${approvalInfo}"
-          .label="${labelInfo}"
-        ></gr-vote-chip>`
-      );
-    } else if (isQuickLabelInfo(labelInfo)) {
-      return [html`<gr-vote-chip .label="${this.labelInfo}"></gr-vote-chip>`];
-    } else {
-      return html``;
-    }
-  }
-}
-
 declare global {
   interface HTMLElementTagNameMap {
     'gr-submit-requirements': GrSubmitRequirements;
-    'gr-trigger-vote': GrTriggerVote;
   }
 }

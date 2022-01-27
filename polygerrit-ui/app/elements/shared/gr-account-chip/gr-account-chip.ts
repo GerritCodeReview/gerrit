@@ -17,11 +17,18 @@
 import '../gr-account-link/gr-account-link';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
-import {AccountInfo, ChangeInfo} from '../../../types/common';
+import {
+  AccountInfo,
+  ApprovalInfo,
+  ChangeInfo,
+  LabelInfo,
+} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
+import {ClassInfo, classMap} from 'lit/directives/class-map';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {getLabelStatus, LabelStatus} from '../../../utils/label-util';
 
 @customElement('gr-account-chip')
 export class GrAccountChip extends LitElement {
@@ -79,7 +86,15 @@ export class GrAccountChip extends LitElement {
   @property({type: Boolean})
   transparentBackground = false;
 
+  @property({type: Object})
+  vote?: ApprovalInfo;
+
+  @property({type: Object})
+  label?: LabelInfo;
+
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
     return [
@@ -97,6 +112,9 @@ export class GrAccountChip extends LitElement {
           display: inline-flex;
           padding: 0 1px;
           --account-label-padding-horizontal: 6px;
+        }
+        .container.newSubmitRequirements {
+          --account-label-padding-horizontal: 2px;
         }
         :host:focus {
           border-color: transparent;
@@ -121,6 +139,12 @@ export class GrAccountChip extends LitElement {
         }
         .container gr-account-link::part(gr-account-link-text) {
           color: var(--deemphasized-text-color);
+        }
+        .container.disliked {
+          border: 1px solid var(--vote-color-rejected);
+        }
+        .container.recommended {
+          border: 1px solid var(--vote-color-approved);
         }
       `,
     ];
@@ -153,8 +177,12 @@ export class GrAccountChip extends LitElement {
     return html`${customStyle}
       <div
         class="${classMap({
+          ...this.computeVoteClasses(),
           container: true,
           transparentBackground: this.transparentBackground,
+          newSubmitRequirements: this.flagsService.isEnabled(
+            KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+          ),
         })}"
       >
         <gr-account-link
@@ -206,6 +234,23 @@ export class GrAccountChip extends LitElement {
       .then(cfg =>
         Promise.resolve(!!(cfg && cfg.plugin && cfg.plugin.has_avatars))
       );
+  }
+
+  computeVoteClasses(): ClassInfo {
+    if (
+      !this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI) ||
+      !this.label
+    ) {
+      return {};
+    }
+    const status = getLabelStatus(this.label, this.vote?.value);
+    if ([LabelStatus.APPROVED, LabelStatus.RECOMMENDED].includes(status)) {
+      return {recommended: true};
+    } else if ([LabelStatus.REJECTED, LabelStatus.DISLIKED].includes(status)) {
+      return {disliked: true};
+    } else {
+      return {};
+    }
   }
 }
 

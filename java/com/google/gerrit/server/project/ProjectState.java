@@ -15,9 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.PermissionRule.Action.ALLOW;
-import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
@@ -271,12 +269,8 @@ public class ProjectState {
     if (localAccessSections != null) {
       return localAccessSections;
     }
-    ImmutableList<AccessSection> fromConfig =
-        cachedConfig.getAccessSections().values().stream()
-            .sorted(comparing(AccessSection::getName))
-            .collect(toImmutableList());
-    List<SectionMatcher> sm = new ArrayList<>(fromConfig.size());
-    for (AccessSection section : fromConfig) {
+    List<SectionMatcher> sm = new ArrayList<>(cachedConfig.getAccessSections().values().size());
+    for (AccessSection section : cachedConfig.getAccessSections().values()) {
       SectionMatcher matcher = SectionMatcher.wrap(getNameKey(), section);
       if (matcher != null) {
         sm.add(matcher);

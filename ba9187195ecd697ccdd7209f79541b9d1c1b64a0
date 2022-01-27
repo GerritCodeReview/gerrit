@@ -89,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09e95c67_98b95988",
+        "filename": "java/com/google/gerrit/extensions/events/GitReferencesUpdatedListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-01-27T08:09:20Z",
+      "side": 1,
+      "message": "I don\u0027t think this would reduce the efforts of plugin developers. Take for example the hooks plugin.\n\nBefore this change:\n\n  @Override\n  public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {\n    HookArgs args \u003d hookFactory.createArgs();\n    args.add(\"--oldrev\", event.getOldObjectId());\n    args.add(\"--newrev\", event.getNewObjectId());\n    args.add(\"--refname\", event.getRefName());\n    args.add(\"--project\", event.getProjectName());\n    args.add(\"--submitter\", event.getUpdater());\n    hook.execute(event.getProjectName(), args);\n  }\n  \nWith this change (PS7):\n\n  @Override\n  public void onGitReferencesUpdated(GitReferencesUpdatedListener.Event event) {\n    for (UpdatedRef updatedRef : event.getUpdatedRefs()) {\n      HookArgs args \u003d hookFactory.createArgs();\n      args.add(\"--oldrev\", updatedRef.getOldObjectId());\n      args.add(\"--newrev\", updatedRef.getNewObjectId());\n      args.add(\"--refname\", updatedRef.getRefName());\n      args.add(\"--project\", event.getProjectName());\n      args.add(\"--submitter\", event.getUpdater());\n      hook.execute(event.getProjectName(), args);\n    }\n  }\n  \nWith your suggestion:\n\n  @Override\n  public void onGitReferencesUpdated(GitReferencesUpdatedListener.Event gitReferencesUpdatedEvent) {\n    for (LegacyEvent event : gitReferencesUpdatedEvent.toLegacyEvents()) {\n      HookArgs args \u003d hookFactory.createArgs();\n      args.add(\"--oldrev\", event.getOldObjectId());\n      args.add(\"--newrev\", event.getNewObjectId());\n      args.add(\"--refname\", event.getRefName());\n      args.add(\"--project\", event.getProjectName());\n      args.add(\"--submitter\", event.getUpdater());\n      hook.execute(event.getProjectName(), args);\n    }\n  }",
+      "parentUuid": "3bef7f34_5a90aa4e",
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc1a979f_e592b3c7",
         "filename": "java/com/google/gerrit/httpd/WebSession.java",
         "patchSetId": 7

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3908ea2f_a8edd019",
+        "filename": "java/com/google/gerrit/extensions/events/GitReferencesUpdatedListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-01-27T08:09:20Z",
+      "side": 0,
+      "message": "True. We need the changed listener however to e.g. fix the replication plugin. I guess, the best solution might be to keep both listeners.",
+      "parentUuid": "1244db52_12ec5a78",
+      "range": {
+        "startLine": 23,
+        "startChar": 17,
+        "endLine": 23,
+        "endChar": 44
+      },
+      "revId": "694cab013f710b9cbdf2e6ac6788d1f6f1243d9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bc5dd31_806f3e30",
         "filename": "java/com/google/gerrit/extensions/events/GitReferencesUpdatedListener.java",
         "patchSetId": 7
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-26T15:17:07Z",
       "side": 0,
       "message": "If keeping the GitReferencesUpdatedListener this could extend both ProjectEvent and GitReferencesUpdatedListener.UpdatedRef",
+      "range": {
+        "startLine": 24,
+        "startChar": 26,
+        "endLine": 24,
+        "endChar": 38
+      },
+      "revId": "694cab013f710b9cbdf2e6ac6788d1f6f1243d9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11e9dea7_4ea13b7a",
+        "filename": "java/com/google/gerrit/extensions/events/GitReferencesUpdatedListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-01-27T08:09:20Z",
+      "side": 0,
+      "message": "I don\u0027t think that works, because an UpdatedRef represents a single ref, but the event can contain multiple refs. Thus, the methods of the UpdatedRef interface can\u0027t be implemented by the Event. That was the original reason, why I extracted those methods to a new interface.",
+      "parentUuid": "6bc5dd31_806f3e30",
       "range": {
         "startLine": 24,
         "startChar": 26,

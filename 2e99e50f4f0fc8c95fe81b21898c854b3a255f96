@@ -33,6 +33,75 @@
       "message": "Rather than storing \u0027this.checked\u0027 which risks getting out of date with the model, what about having a method on the model that allows us to check whether a change is checked instead?",
       "revId": "2e99e50f4f0fc8c95fe81b21898c854b3a255f96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78d5bd52_4a97ae81",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T15:09:53Z",
+      "side": 1,
+      "message": "test",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 12
+      },
+      "revId": "2e99e50f4f0fc8c95fe81b21898c854b3a255f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "707ebc7b_031304a1",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T15:09:53Z",
+      "side": 1,
+      "message": "call this `clear()`? We don\u0027t want components to use the other `fooState()` methods so let\u0027s not have any that they are supposed to use.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 4
+      },
+      "revId": "2e99e50f4f0fc8c95fe81b21898c854b3a255f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3088f3c3_f5054daa",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T15:09:53Z",
+      "side": 1,
+      "message": "view components should construct and own their own selection model rather than it being a shared global in the app context",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 0
+      },
+      "revId": "2e99e50f4f0fc8c95fe81b21898c854b3a255f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

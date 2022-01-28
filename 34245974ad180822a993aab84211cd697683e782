@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b53983d7_cc1015a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-28T09:54:32Z",
+      "side": 1,
+      "message": "Tests?",
+      "revId": "34245974ad180822a993aab84211cd697683e782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "560cd83e_963d9956",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-28T09:54:32Z",
+      "side": 1,
+      "message": "Please use the new shortened license format:\n\n```\n/**\n * @license\n * Copyright 2022 Google LLC\n * SPDX-License-Identifier: Apache-2.0\n */\n```",
+      "revId": "34245974ad180822a993aab84211cd697683e782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

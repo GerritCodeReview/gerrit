@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2edb3d51_f660853a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-28T10:15:18Z",
+      "side": 1,
+      "message": "That seems like something the shadow dom UT should do. Add a test for how the DOM should look like without the experiment.\n\nI can create a separate task for adding shadow DOM UT for gr-change-list.",
+      "parentUuid": "101ab55a_85f611d5",
+      "range": {
+        "startLine": 292,
+        "startChar": 27,
+        "endLine": 292,
+        "endChar": 36
+      },
+      "revId": "25ebd2fb6e2c482f9f1f1dc05e980a45365abd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e1a4f3c_be9fe69c",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
         "patchSetId": 11

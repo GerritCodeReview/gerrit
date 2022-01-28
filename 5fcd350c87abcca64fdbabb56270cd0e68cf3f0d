@@ -52,6 +52,24 @@
       "parentUuid": "1ee189cb_0a56404c",
       "revId": "5fcd350c87abcca64fdbabb56270cd0e68cf3f0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2353018_51772ddf",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-28T13:17:25Z",
+      "side": 1,
+      "message": "Missed that. Sorry.",
+      "parentUuid": "6ee77167_4a240d9d",
+      "revId": "5fcd350c87abcca64fdbabb56270cd0e68cf3f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

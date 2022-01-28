@@ -140,6 +140,24 @@
       "parentUuid": "7c3cac32_f3fb870e",
       "revId": "b5f8a0428a9e5faaf2f8479fc303b7920e0c7b7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85161c2a_b5afddd8",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-28T13:40:42Z",
+      "side": 1,
+      "message": "It\u0027s a little bit of extra boiler plate, but it\u0027s consistent with our other files and it means the next person adding a test doesn\u0027t have to worry about it.",
+      "parentUuid": "3557057f_562645ec",
+      "revId": "b5f8a0428a9e5faaf2f8479fc303b7920e0c7b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

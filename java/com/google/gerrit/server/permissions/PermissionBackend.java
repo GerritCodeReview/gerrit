@@ -173,7 +173,13 @@ public abstract class PermissionBackend {
       return ref(notes.getChange().getDest()).change(notes);
     }
 
-    /** Verify scoped user can {@code perm}, throwing if denied. */
+    /**
+     * Verify scoped user can {@code perm}, throwing if denied.
+     *
+     * <p>Should be used in REST API handlers where the thrown {@link AuthException} can be
+     * propagated. In business logic, where the exception would have to be caught, prefer using
+     * {@link #test(GlobalOrPluginPermission)}.
+     */
     public abstract void check(GlobalOrPluginPermission perm)
         throws AuthException, PermissionBackendException;
 
@@ -280,7 +286,13 @@ public abstract class PermissionBackend {
       return ref(notes.getChange().getDest().branch()).change(notes);
     }
 
-    /** Verify scoped user can {@code perm}, throwing if denied. */
+    /**
+     * Verify scoped user can {@code perm}, throwing if denied.
+     *
+     * <p>Should be used in REST API handlers where the thrown {@link AuthException} can be
+     * propagated. In business logic, where the exception would have to be caught, prefer using
+     * {@link #test(CoreOrPluginProjectPermission)}.
+     */
     public abstract void check(CoreOrPluginProjectPermission perm)
         throws AuthException, PermissionBackendException;
 
@@ -368,7 +380,13 @@ public abstract class PermissionBackend {
     /** Returns an instance scoped to change. */
     public abstract ForChange change(ChangeNotes notes);
 
-    /** Verify scoped user can {@code perm}, throwing if denied. */
+    /**
+     * Verify scoped user can {@code perm}, throwing if denied.
+     *
+     * <p>Should be used in REST API handlers where the thrown {@link AuthException} can be
+     * propagated. In business logic, where the exception would have to be caught, prefer using
+     * {@link #test(RefPermission)}.
+     */
     public abstract void check(RefPermission perm) throws AuthException, PermissionBackendException;
 
     /** Filter {@code permSet} to permissions scoped user might be able to perform. */
@@ -406,7 +424,13 @@ public abstract class PermissionBackend {
     /** Returns the fully qualified resource path that this instance is scoped to. */
     public abstract String resourcePath();
 
-    /** Verify scoped user can {@code perm}, throwing if denied. */
+    /**
+     * Verify scoped user can {@code perm}, throwing if denied.
+     *
+     * <p>Should be used in REST API handlers where the thrown {@link AuthException} can be
+     * propagated. In business logic, where the exception would have to be caught, prefer using
+     * {@link #test(ChangePermissionOrLabel)}.
+     */
     public abstract void check(ChangePermissionOrLabel perm)
         throws AuthException, PermissionBackendException;
 

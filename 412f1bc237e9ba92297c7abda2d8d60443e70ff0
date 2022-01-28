@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f11a335b_983a4ea3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-28T06:58:19Z",
+      "side": 1,
+      "message": "Thanks Milutin for this change. \nI took a look on my machine and the border radius should be around the entire user chip instead of around the vote in the user chip. The border radius appears on -1/-2/+1/+2 Code-Review votes\n\nI have attached screenshots in the bug of what I see.\n\nThe border color and chip color LGTM otherwise. ",
+      "revId": "412f1bc237e9ba92297c7abda2d8d60443e70ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

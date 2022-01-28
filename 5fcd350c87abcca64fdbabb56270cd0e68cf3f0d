@@ -34,6 +34,24 @@
       "parentUuid": "4b6a2437_44f4e6ae",
       "revId": "5fcd350c87abcca64fdbabb56270cd0e68cf3f0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ee77167_4a240d9d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-28T13:05:12Z",
+      "side": 1,
+      "message": "gr-change-list.ts is being modified without a change to gr-change-list_test.ts\n\nThe test that you linked to is for gr-change-list-item.ts",
+      "parentUuid": "1ee189cb_0a56404c",
+      "revId": "5fcd350c87abcca64fdbabb56270cd0e68cf3f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

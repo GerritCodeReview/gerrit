@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bb0d1dd_a9f688bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-28T13:00:50Z",
+      "side": 1,
+      "message": "What is difference between this and 328719: Migrate gr-linked-text to Lit. | https://gerrit-review.googlesource.com/c/gerrit/+/328719 \n\n?",
+      "revId": "7f28e1afffa43681a3b83c04552540c21a16a771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "376dfe68_54d824d5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-28T13:00:50Z",
+      "side": 1,
+      "message": "Is this `!` still needed when `assertIsDefined(this.outputElement);` is called a few lines above?",
+      "range": {
+        "startLine": 134,
+        "startChar": 22,
+        "endLine": 134,
+        "endChar": 23
+      },
+      "revId": "7f28e1afffa43681a3b83c04552540c21a16a771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

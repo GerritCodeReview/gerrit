@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "93127ab8_3bf5a674",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T10:50:11Z",
+      "side": 1,
+      "message": "I think we should add tests alongside the code. There is also flag controls, not just a checkbox. I thought a shadowdom test should be an easy way to do that, but you can do a normal kind test if shadowdom test is difficult on these components.",
+      "parentUuid": "cce53dff_d2628285",
+      "range": {
+        "startLine": 292,
+        "startChar": 27,
+        "endLine": 292,
+        "endChar": 36
+      },
+      "revId": "25ebd2fb6e2c482f9f1f1dc05e980a45365abd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e1a4f3c_be9fe69c",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
         "patchSetId": 11

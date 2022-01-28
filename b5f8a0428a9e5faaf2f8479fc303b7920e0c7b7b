@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0146c8c9_fefcc360",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-28T11:35:26Z",
+      "side": 1,
+      "message": "Remove until necessary.",
+      "revId": "b5f8a0428a9e5faaf2f8479fc303b7920e0c7b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78989a7a_504d823e",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-28T11:35:26Z",
+      "side": 1,
+      "message": "This model has no subscriptions so finalize can be empty.",
+      "revId": "b5f8a0428a9e5faaf2f8479fc303b7920e0c7b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba4b1aca_c68e6f59",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-28T11:35:26Z",
+      "side": 1,
+      "message": "I haven\u0027t seen tests without suites before. For consistency, please wrap this test in a suite.",
+      "revId": "b5f8a0428a9e5faaf2f8479fc303b7920e0c7b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

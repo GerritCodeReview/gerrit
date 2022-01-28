@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.CurrentUser;
@@ -32,6 +33,13 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public abstract class RefPatternMatcher {
+  public static RefPatternMatcher getMatcher(AccessSection section) {
+    if (section.getNamePattern().isPresent()) {
+      return new Regexp(section.getNamePattern().get());
+    }
+    return getMatcher(section.getName());
+  }
+
   public static RefPatternMatcher getMatcher(String pattern) {
     if (containsParameters(pattern)) {
       return new ExpandParameters(pattern);
@@ -77,6 +85,10 @@ public abstract class RefPatternMatcher {
 
     Regexp(String re) {
       pattern = Pattern.compile(re);
+    }
+
+    Regexp(Pattern re) {
+      pattern = re;
     }
 
     @Override

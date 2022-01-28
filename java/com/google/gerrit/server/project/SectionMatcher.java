@@ -28,7 +28,7 @@ public class SectionMatcher extends RefPatternMatcher {
   static SectionMatcher wrap(Project.NameKey project, AccessSection section) {
     String ref = section.getName();
     if (AccessSection.isValidRefSectionName(ref)) {
-      return new SectionMatcher(project, section, getMatcher(ref));
+      return new SectionMatcher(project, section, getMatcher(section));
     }
     return null;
   }

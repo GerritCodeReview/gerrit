@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52f16b34_dead567a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-28T13:45:55Z",
+      "side": 1,
+      "message": "can you explain why the second attempt is needed, what went wrong in attempt #1 and what\u0027s different in this one which will not lead to the same regression or create a new one?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "c561ed7f8d815b75618e5795976cde478a9ccd5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

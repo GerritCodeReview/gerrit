@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aee8f8e9_4d8c5abe",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-28T14:01:08Z",
+      "side": 1,
+      "message": "You probably want to subscribe to changes to the model to potentially redraw",
+      "revId": "2e99e50f4f0fc8c95fe81b21898c854b3a255f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bc37ae2_12a006f3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-28T14:01:08Z",
+      "side": 1,
+      "message": "Rather than storing \u0027this.checked\u0027 which risks getting out of date with the model, what about having a method on the model that allows us to check whether a change is checked instead?",
+      "revId": "2e99e50f4f0fc8c95fe81b21898c854b3a255f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

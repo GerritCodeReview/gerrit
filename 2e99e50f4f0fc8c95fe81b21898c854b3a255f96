@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09673132_60508189",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-28T15:37:19Z",
+      "side": 1,
+      "message": "An issue I see with that is that the same change is then selected if it is present ib another section .\n\nSo if we do something like\n\nthis.checked \u003d selectedChanges.some(change \u003d\u003e change.id \u003d\u003d\u003d this.change.id)\n\nSo we somehow need to store the section in the model too or maybe there is a better solution.",
+      "parentUuid": "937f1b81_868c021a",
+      "revId": "2e99e50f4f0fc8c95fe81b21898c854b3a255f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78d5bd52_4a97ae81",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 8
@@ -78,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5e5108d_58c2837d",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-28T15:37:19Z",
+      "side": 1,
+      "message": "I don\u0027t understand.",
+      "parentUuid": "78d5bd52_4a97ae81",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 12
+      },
+      "revId": "2e99e50f4f0fc8c95fe81b21898c854b3a255f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "707ebc7b_031304a1",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 8
@@ -89,6 +131,30 @@
       "writtenOn": "2022-01-28T15:09:53Z",
       "side": 1,
       "message": "call this `clear()`? We don\u0027t want components to use the other `fooState()` methods so let\u0027s not have any that they are supposed to use.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 4
+      },
+      "revId": "2e99e50f4f0fc8c95fe81b21898c854b3a255f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f0b40db_ecbb7b98",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-28T15:37:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "707ebc7b_031304a1",
       "range": {
         "startLine": 61,
         "startChar": 0,

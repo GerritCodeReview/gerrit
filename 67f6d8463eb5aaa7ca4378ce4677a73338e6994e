@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "973d92c1_51249173",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T11:22:07Z",
+      "side": 1,
+      "message": "Yes I will add you on my plugin CL when I send it",
+      "parentUuid": "2abe0838_017f2f74",
+      "revId": "67f6d8463eb5aaa7ca4378ce4677a73338e6994e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9f5ae10_9153b711",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-01-27T17:29:43Z",
       "side": 1,
       "message": "I propose we use:\n\n`--orange-900: #b06000;`\nfrom the color palette\n\nSo that we don\u0027t introduce a new orange in the tool. The proposed orange looks very similar to the # number here and has the same amount of contrast.",
+      "range": {
+        "startLine": 180,
+        "startChar": 38,
+        "endLine": 180,
+        "endChar": 46
+      },
+      "revId": "67f6d8463eb5aaa7ca4378ce4677a73338e6994e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2f61749_a0ecd2fb",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T11:22:07Z",
+      "side": 1,
+      "message": "Done. From now on I will try to find nearby material colors to match the mocks",
+      "parentUuid": "f9f5ae10_9153b711",
       "range": {
         "startLine": 180,
         "startChar": 38,

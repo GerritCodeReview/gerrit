@@ -21,6 +21,7 @@ import static com.google.gerrit.server.project.RefPattern.isRE;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
@@ -32,11 +33,11 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public abstract class RefPatternMatcher {
-  public static RefPatternMatcher getMatcher(String pattern) {
+  public static RefPatternMatcher getMatcher(String pattern, @Nullable Pattern precompiledPattern) {
     if (containsParameters(pattern)) {
       return new ExpandParameters(pattern);
     } else if (isRE(pattern)) {
-      return new Regexp(pattern);
+      return precompiledPattern == null ? new Regexp(pattern) : new Regexp(precompiledPattern);
     } else if (pattern.endsWith("/*")) {
       return new Prefix(pattern.substring(0, pattern.length() - 1));
     } else {
@@ -77,6 +78,10 @@ public abstract class RefPatternMatcher {
 
     Regexp(String re) {
       pattern = Pattern.compile(re);
+    }
+
+    Regexp(Pattern re) {
+      pattern = re;
     }
 
     @Override
@@ -130,7 +135,7 @@ public abstract class RefPatternMatcher {
         }
 
         Account.Id accountId = user.isIdentifiedUser() ? user.getAccountId() : null;
-        RefPatternMatcher next = getMatcher(expand(template, u, accountId));
+        RefPatternMatcher next = getMatcher(expand(template, u, accountId), null);
         if (next != null && next.match(expand(ref, u, accountId), user)) {
           return true;
         }

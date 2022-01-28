@@ -122,6 +122,24 @@
       "parentUuid": "ff053fba_4a816f37",
       "revId": "b5f8a0428a9e5faaf2f8479fc303b7920e0c7b7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3557057f_562645ec",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-28T13:39:47Z",
+      "side": 1,
+      "message": "Seems like unnecessary code at this point of time then. \n\nAdded for now.\nPTAL.",
+      "parentUuid": "7c3cac32_f3fb870e",
+      "revId": "b5f8a0428a9e5faaf2f8479fc303b7920e0c7b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

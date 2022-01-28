@@ -548,6 +548,6 @@ public class ProjectState {
   }
 
   private boolean match(BranchNameKey destination, String refPattern) {
-    return RefPatternMatcher.getMatcher(refPattern).match(destination.branch(), null);
+    return RefPatternMatcher.getMatcher(refPattern, null).match(destination.branch(), null);
   }
 }

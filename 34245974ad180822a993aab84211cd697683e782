@@ -33,6 +33,98 @@
       "message": "Please use the new shortened license format:\n\n```\n/**\n * @license\n * Copyright 2022 Google LLC\n * SPDX-License-Identifier: Apache-2.0\n */\n```",
       "revId": "34245974ad180822a993aab84211cd697683e782",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8d45375_1d5dc976",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T10:16:23Z",
+      "side": 1,
+      "message": "what about having a clear() method?",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 29
+      },
+      "revId": "34245974ad180822a993aab84211cd697683e782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4fef8c4_a454e9d8",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T10:16:23Z",
+      "side": 1,
+      "message": "should add/remove be variadic functions so we can select/remove multiple at once? Bulk selection would be nicer to do here than in components.",
+      "range": {
+        "startLine": 42,
+        "startChar": 20,
+        "endLine": 42,
+        "endChar": 26
+      },
+      "revId": "34245974ad180822a993aab84211cd697683e782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a044a8f_54d925dc",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T10:16:23Z",
+      "side": 1,
+      "message": "test coverage for add and remove",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 22
+      },
+      "revId": "34245974ad180822a993aab84211cd697683e782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d05c5f14_ad3b6a3a",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T10:16:23Z",
+      "side": 1,
+      "message": "testOnly?",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 10
+      },
+      "revId": "34245974ad180822a993aab84211cd697683e782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

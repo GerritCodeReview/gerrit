@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c3b1725_1d6f6217",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T15:17:18Z",
+      "side": 1,
+      "message": "since this is tracking the whole ChangeInfo object. It seems possible that this could get stale if a change updates somewhere? Maybe tracking Id\u0027s only would be better",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "8743a6b88e1b53a96e07df6e48c18ddc730893f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

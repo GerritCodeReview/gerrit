@@ -217,7 +217,7 @@ public class ProjectResetter implements AutoCloseable {
       try (Repository repo = repoManager.openRepository(e.getKey())) {
         Collection<Ref> refs = repo.getRefDatabase().getRefs();
         for (String refPattern : e.getValue()) {
-          RefPatternMatcher matcher = RefPatternMatcher.getMatcher(refPattern);
+          RefPatternMatcher matcher = RefPatternMatcher.getMatcher(refPattern, null);
           for (Ref ref : refs) {
             if (matcher.match(ref.getName(), null)) {
               refStatesByProject.put(e.getKey(), RefState.create(ref.getName(), ref.getObjectId()));
@@ -267,7 +267,7 @@ public class ProjectResetter implements AutoCloseable {
                             && !restoredRefsByProject.containsEntry(e.getKey(), r.getName()))
                 .collect(toSet());
         for (String refPattern : e.getValue()) {
-          RefPatternMatcher matcher = RefPatternMatcher.getMatcher(refPattern);
+          RefPatternMatcher matcher = RefPatternMatcher.getMatcher(refPattern, null);
           for (Ref ref : nonRestoredRefs) {
             if (matcher.match(ref.getName(), null)
                 && !deletedRefsByProject.containsEntry(e.getKey(), ref.getName())) {

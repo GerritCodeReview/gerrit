@@ -48,6 +48,9 @@ export class GrTriggerVote extends LitElement {
   @property({type: Boolean})
   mutable?: boolean;
 
+  @property({type: Boolean, attribute: 'disable-hovercards'})
+  disableHovercards = false;
+
   static override get styles() {
     return css`
       :host {
@@ -84,24 +87,29 @@ export class GrTriggerVote extends LitElement {
     if (!this.labelInfo) return;
     return html`
       <div class="container">
-        <gr-trigger-vote-hovercard
-          .labelName=${this.label}
-          .labelInfo=${this.labelInfo}
-        >
-          <gr-label-info
-            slot="label-info"
-            .change=${this.change}
-            .account=${this.account}
-            .mutable=${this.mutable}
-            .label=${this.label}
-            .labelInfo=${this.labelInfo}
-            .showAllReviewers=${false}
-          ></gr-label-info>
-        </gr-trigger-vote-hovercard>
+        ${this.renderHovercard()}
         <span class="label">${this.label}</span>
         ${this.renderVotes()}
       </div>
     `;
+  }
+
+  private renderHovercard() {
+    if (this.disableHovercards) return;
+    return html`<gr-trigger-vote-hovercard
+      .labelName=${this.label}
+      .labelInfo=${this.labelInfo}
+    >
+      <gr-label-info
+        slot="label-info"
+        .change=${this.change}
+        .account=${this.account}
+        .mutable=${this.mutable}
+        .label=${this.label}
+        .labelInfo=${this.labelInfo}
+        .showAllReviewers=${false}
+      ></gr-label-info>
+    </gr-trigger-vote-hovercard>`;
   }
 
   private renderVotes() {

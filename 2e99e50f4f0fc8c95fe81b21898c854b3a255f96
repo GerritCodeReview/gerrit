@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aa9d6dbe_aa3cf0d8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T15:44:44Z",
+      "side": 1,
+      "message": "If there\u0027s only 1 set of bulk action buttons at the top, then we should select change 123 in all sections that it\u0027s in, and have 1 page-level model.\n\nIf each section gets its own buttons, then each section should have its own model and change 123 will not be globally selected.",
+      "parentUuid": "71b35abc_54dc0279",
+      "revId": "2e99e50f4f0fc8c95fe81b21898c854b3a255f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78d5bd52_4a97ae81",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 8
@@ -126,6 +144,30 @@
       "side": 1,
       "message": "I don\u0027t understand.",
       "parentUuid": "78d5bd52_4a97ae81",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 12
+      },
+      "revId": "2e99e50f4f0fc8c95fe81b21898c854b3a255f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3442c05_c600e534",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T15:44:44Z",
+      "side": 1,
+      "message": "add a test for this public method. It seems removed now",
+      "parentUuid": "f5e5108d_58c2837d",
       "range": {
         "startLine": 60,
         "startChar": 2,

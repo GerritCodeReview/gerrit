@@ -16,6 +16,24 @@
       "message": "Unrelated change?",
       "revId": "0cb9924d96f24dc0e1de3267615d4c4fded32eb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87aa9e82_31ede30b",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-01-28T12:51:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56fbc69c_22faacc8",
+      "revId": "0cb9924d96f24dc0e1de3267615d4c4fded32eb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

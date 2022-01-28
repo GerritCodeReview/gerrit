@@ -15,9 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.PermissionRule.Action.ALLOW;
-import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
@@ -268,35 +266,18 @@ public class ProjectState {
 
   /** Get the sections that pertain only to this project. */
   List<SectionMatcher> getLocalAccessSections() {
-    List<SectionMatcher> sm = localAccessSections;
-    if (sm == null) {
-      ImmutableList<AccessSection> fromConfig =
-          cachedConfig.getAccessSections().values().stream()
-              .sorted(comparing(AccessSection::getName))
-              .collect(toImmutableList());
-      sm = new ArrayList<>(fromConfig.size());
-      for (AccessSection section : fromConfig) {
-        if (isAllProjects) {
-          List<Permission.Builder> copy = new ArrayList<>();
-          for (Permission p : section.getPermissions()) {
-            if (Permission.canBeOnAllProjects(section.getName(), p.getName())) {
-              copy.add(p.toBuilder());
-            }
-          }
-          section =
-              AccessSection.builder(section.getName())
-                  .modifyPermissions(permissions -> permissions.addAll(copy))
-                  .build();
-        }
-
-        SectionMatcher matcher = SectionMatcher.wrap(getNameKey(), section);
-        if (matcher != null) {
-          sm.add(matcher);
-        }
-      }
-      localAccessSections = sm;
+    if (localAccessSections != null) {
+      return localAccessSections;
     }
-    return sm;
+    List<SectionMatcher> sm = new ArrayList<>(cachedConfig.getAccessSections().values().size());
+    for (AccessSection section : cachedConfig.getAccessSections().values()) {
+      SectionMatcher matcher = SectionMatcher.wrap(getNameKey(), section);
+      if (matcher != null) {
+        sm.add(matcher);
+      }
+    }
+    localAccessSections = sm;
+    return localAccessSections;
   }
 
   /**

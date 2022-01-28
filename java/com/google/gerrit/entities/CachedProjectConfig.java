@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.flogger.FluentLogger;
 import java.util.Collection;
 import java.util.List;
@@ -69,7 +70,7 @@ public abstract class CachedProjectConfig {
   public abstract AccountsSection getAccountsSection();
 
   /** Returns a map of {@link AccessSection}s keyed by their name. */
-  public abstract ImmutableMap<String, AccessSection> getAccessSections();
+  public abstract ImmutableSortedMap<String, AccessSection> getAccessSections();
 
   /** Returns the {@link AccessSection} with to the given name. */
   public Optional<AccessSection> getAccessSection(String refName) {
@@ -235,7 +236,7 @@ public abstract class CachedProjectConfig {
 
     protected abstract ImmutableMap.Builder<AccountGroup.UUID, GroupReference> groupsBuilder();
 
-    protected abstract ImmutableMap.Builder<String, AccessSection> accessSectionsBuilder();
+    protected abstract ImmutableSortedMap.Builder<String, AccessSection> accessSectionsBuilder();
 
     protected abstract ImmutableMap.Builder<String, ContributorAgreement>
         contributorAgreementsBuilder();

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 /** Portion of a {@link Project} describing access rules. */
 @AutoValue
@@ -41,6 +42,12 @@ public abstract class AccessSection implements Comparable<AccessSection> {
 
   /** Name of the access section. It could be a ref pattern or something else. */
   public abstract String getName();
+
+  /**
+   * A compiled regular expression in case {@link #getName()} is a regular expression. This is
+   * memoized to save callers from compiling patterns for every use.
+   */
+  public abstract Optional<Pattern> getNamePattern();
 
   public abstract ImmutableList<Permission> getPermissions();
 
@@ -103,6 +110,8 @@ public abstract class AccessSection implements Comparable<AccessSection> {
 
     public abstract Builder setName(String name);
 
+    protected abstract Builder setNamePattern(Pattern name);
+
     public abstract String getName();
 
     public Builder modifyPermissions(Consumer<List<Permission.Builder>> modification) {
@@ -152,6 +161,9 @@ public abstract class AccessSection implements Comparable<AccessSection> {
               .distinct()
               .count()) {
         throw new IllegalArgumentException("duplicate permissions: " + getPermissions());
+      }
+      if (isValidRefSectionName(getName()) && getName().startsWith(REGEX_PREFIX)) {
+        setNamePattern(Pattern.compile(getName()));
       }
       return autoBuild();
     }

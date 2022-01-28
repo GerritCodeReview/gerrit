@@ -36,6 +36,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c48e62c0_473b2409",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-28T13:03:09Z",
+      "side": 1,
+      "message": "This change is not ready for review. A revert of a revert apparently automatically sends it out or review. This feels like a bug in gerrit.",
+      "revId": "7f28e1afffa43681a3b83c04552540c21a16a771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "376dfe68_54d824d5",

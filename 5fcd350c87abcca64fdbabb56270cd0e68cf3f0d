@@ -16,6 +16,24 @@
       "message": "Test for this?",
       "revId": "5fcd350c87abcca64fdbabb56270cd0e68cf3f0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ee189cb_0a56404c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-28T13:00:07Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/328088/12/polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts#297\n\nThis checks for the class selection?",
+      "parentUuid": "4b6a2437_44f4e6ae",
+      "revId": "5fcd350c87abcca64fdbabb56270cd0e68cf3f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

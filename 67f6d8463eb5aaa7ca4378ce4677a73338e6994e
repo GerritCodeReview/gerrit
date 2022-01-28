@@ -81,6 +81,30 @@
       },
       "revId": "67f6d8463eb5aaa7ca4378ce4677a73338e6994e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9951de80_75174e22",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-28T11:45:34Z",
+      "side": 1,
+      "message": "I\u0027ll make sure to provide you with colors in the future through specs so you won\u0027t have to find them yourself. Thanks a lot!",
+      "parentUuid": "f2f61749_a0ecd2fb",
+      "range": {
+        "startLine": 180,
+        "startChar": 38,
+        "endLine": 180,
+        "endChar": 46
+      },
+      "revId": "67f6d8463eb5aaa7ca4378ce4677a73338e6994e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

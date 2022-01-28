@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec50bd9d_b89df9fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-28T09:55:20Z",
+      "side": 1,
+      "message": "Thanks, I forgot about it.",
+      "parentUuid": "0ec74f1c_2fd3ba45",
+      "revId": "c8fd47f395b2b17f6ac2761c2517ed904447a4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfd7a220_d6930ce3",
@@ -52,6 +70,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7894a57d_ac197d1f",
+        "filename": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-28T09:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a13a687d_30ad3b99",
+      "revId": "c8fd47f395b2b17f6ac2761c2517ed904447a4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c40e4e88_1f1027c1",
+        "filename": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-28T09:55:20Z",
+      "side": 1,
+      "message": "There will be very limited number of trigger votes (\u003c5). I would not optimize it for now. But maybe let\u0027s file a task/bug to check optimizations once we rollout fully submit requirements.",
+      "parentUuid": "bfd7a220_d6930ce3",
+      "revId": "c8fd47f395b2b17f6ac2761c2517ed904447a4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a558cbb_fe25dae9",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-01-28T09:19:05Z",
       "side": 1,
       "message": "Remove if not set?",
+      "revId": "c8fd47f395b2b17f6ac2761c2517ed904447a4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8706862_cdf25615",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-28T09:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a558cbb_fe25dae9",
       "revId": "c8fd47f395b2b17f6ac2761c2517ed904447a4f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

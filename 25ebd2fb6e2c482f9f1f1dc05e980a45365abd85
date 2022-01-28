@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "101ab55a_85f611d5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T10:10:22Z",
+      "side": 1,
+      "message": "can you have a test for the html render with flag on vs off to prevent features leaking out as we are building?",
+      "range": {
+        "startLine": 292,
+        "startChar": 27,
+        "endLine": 292,
+        "endChar": 36
+      },
+      "revId": "25ebd2fb6e2c482f9f1f1dc05e980a45365abd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e1a4f3c_be9fe69c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-28T10:10:22Z",
+      "side": 1,
+      "message": "can you have a test for the html render with flag on vs off to prevent features leaking out as we are building?",
+      "range": {
+        "startLine": 270,
+        "startChar": 0,
+        "endLine": 270,
+        "endChar": 41
+      },
+      "revId": "25ebd2fb6e2c482f9f1f1dc05e980a45365abd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

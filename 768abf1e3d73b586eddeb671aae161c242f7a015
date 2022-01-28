@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ecb4695_e5dfaaff",
+        "filename": "java/com/google/gerrit/entities/AccessSection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-28T12:09:52Z",
+      "side": 1,
+      "message": "Can this just be a non-abstract method that is annotated with @Memoized?\n\n  @Memoized\n  public Optional\u003cPattern\u003e getNamePattern() {\n    if (isValidRefSectionName(getName())\n          \u0026\u0026 getName().startsWith(REGEX_PREFIX)\n          \u0026\u0026 !getName().contains(\"${\")) {\n      return Optional.of(Pattern.compile(getName())));\n    }\n    return Optional.empty();\n  }",
+      "revId": "768abf1e3d73b586eddeb671aae161c242f7a015",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a32f5a7_33d4e07a",
+        "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-01-28T12:09:52Z",
+      "side": 1,
+      "message": "Could we add a getMatcher(AccessSection) method instead?\n\n  public static RefPatternMatcher getMatcher(AccessSection section) {\n    if (section.getNamePattern()) {\n      return new RegExp(section.getNamePattern());\n    }\n    return getMatcher(section.getName());\n  }",
+      "range": {
+        "startLine": 36,
+        "startChar": 61,
+        "endLine": 36,
+        "endChar": 97
+      },
+      "revId": "768abf1e3d73b586eddeb671aae161c242f7a015",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

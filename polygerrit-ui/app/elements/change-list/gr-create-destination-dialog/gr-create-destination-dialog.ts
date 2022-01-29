@@ -102,7 +102,7 @@ export class GrCreateDestinationDialog extends LitElement {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('confirm', {detail, bubbles: false}));
-  }
+  };
 }
 
 declare global {

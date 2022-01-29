@@ -18,62 +18,88 @@
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-repo-branch-picker/gr-repo-branch-picker';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-create-destination-dialog_html';
-import {customElement, property} from '@polymer/decorators';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RepoName, BranchName} from '../../../types/common';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, html} from 'lit';
+import {customElement, state, query} from 'lit/decorators';
+import {assertIsDefined} from '../../../utils/common-util';
 
 export interface CreateDestinationConfirmDetail {
   repo?: RepoName;
   branch?: BranchName;
 }
 
-/**
- * Fired when a destination has been picked. Event details contain the repo
- * name and the branch name.
- *
- * @event confirm
- */
-export interface GrCreateDestinationDialog {
-  $: {
-    createOverlay: GrOverlay;
-  };
-}
-
 @customElement('gr-create-destination-dialog')
-export class GrCreateDestinationDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
+export class GrCreateDestinationDialog extends LitElement {
+  /**
+   * Fired when a destination has been picked. Event details contain the repo
+   * name and the branch name.
+   *
+   * @event confirm
+   */
+  @query('#createOverlay') protected createOverlay?: GrOverlay;
+
+  @state() private repo?: RepoName;
+
+  @state() private branch?: BranchName;
+
+  static override get styles() {
+    return [sharedStyles];
   }
 
-  @property({type: String})
-  _repo?: RepoName;
-
-  @property({type: String})
-  _branch?: BranchName;
-
-  @property({
-    type: Boolean,
-    computed: '_computeRepoAndBranchSelected(_repo, _branch)',
-  })
-  _repoAndBranchSelected = false;
+  override render() {
+    return html`
+      <gr-overlay id="createOverlay" with-backdrop>
+        <gr-dialog
+          confirm-label="View commands"
+          @confirm=${(e: Event) => {
+            this.pickerConfirm(e);
+          }}
+          @cancel=${() => {
+            this.handleClose();
+          }}
+          ?disabled=${!(this.repo && this.branch)}
+        >
+          <div class="header" slot="header">Create change</div>
+          <div class="main" slot="main">
+            <gr-repo-branch-picker
+              .repo=${this.repo}
+              .branch=${this.branch}
+              @repo-changed=${(e: CustomEvent) => {
+                this.handleRepoChanged(e);
+              }}
+              @branch-changed=${(e: CustomEvent) => {
+                this.handleBranchChanged(e);
+              }}
+            ></gr-repo-branch-picker>
+            <p>
+              If you haven't done so, you will need to clone the repository.
+            </p>
+          </div>
+        </gr-dialog>
+      </gr-overlay>
+    `;
+  }
 
   open() {
-    this._repo = '' as RepoName;
-    this._branch = '' as BranchName;
-    this.$.createOverlay.open();
+    assertIsDefined(this.createOverlay, 'createOverlay');
+    this.repo = '' as RepoName;
+    this.branch = '' as BranchName;
+    this.createOverlay.open();
   }
 
-  _handleClose() {
-    this.$.createOverlay.close();
+  private handleClose() {
+    assertIsDefined(this.createOverlay, 'createOverlay');
+    this.createOverlay.close();
   }
 
-  _pickerConfirm(e: Event) {
-    this.$.createOverlay.close();
+  private pickerConfirm(e: Event) {
+    assertIsDefined(this.createOverlay, 'createOverlay');
+    this.createOverlay.close();
     const detail: CreateDestinationConfirmDetail = {
-      repo: this._repo,
-      branch: this._branch,
+      repo: this.repo,
+      branch: this.branch,
     };
     // e is a 'confirm' event from gr-dialog. We want to fire a more detailed
     // 'confirm' event here, so let's stop propagation of the bare event.
@@ -82,8 +108,12 @@ export class GrCreateDestinationDialog extends PolymerElement {
     this.dispatchEvent(new CustomEvent('confirm', {detail, bubbles: false}));
   }
 
-  _computeRepoAndBranchSelected(repo?: RepoName, branch?: BranchName) {
-    return !!(repo && branch);
+  private handleRepoChanged(e: CustomEvent) {
+    this.repo = e.detail.value as RepoName;
+  }
+
+  private handleRepoChanged(e: CustomEvent) {
+    this.branch = e.detail.value as BranchName;
   }
 }
 

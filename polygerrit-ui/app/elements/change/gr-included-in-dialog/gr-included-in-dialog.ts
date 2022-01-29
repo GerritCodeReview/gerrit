@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import '@polymer/iron-input/iron-input';
-import '../../../styles/shared-styles';
-import '../../../styles/gr-font-styles';
 import '../../shared/gr-button/gr-button';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-included-in-dialog_html';
-import {customElement, property} from '@polymer/decorators';
 import {IncludedInInfo, NumericChangeId} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html, css} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
+import {BindValueChangeEvent} from '../../../types/events';
 
 interface DisplayGroup {
   title: string;
@@ -30,77 +30,183 @@ interface DisplayGroup {
 }
 
 @customElement('gr-included-in-dialog')
-export class GrIncludedInDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrIncludedInDialog extends LitElement {
   /**
    * Fired when the user presses the close button.
    *
    * @event close
    */
 
-  @property({type: Object, observer: '_resetData'})
+  @property({type: Object})
   changeNum?: NumericChangeId;
 
-  @property({type: Object})
-  _includedIn?: IncludedInInfo;
+  // private but used in test
+  @state() includedIn?: IncludedInInfo;
 
-  @property({type: Boolean})
-  _loaded = false;
+  @state() private loaded = false;
 
-  @property({type: String})
-  _filterText = '';
+  // private but used in test
+  @state() filterText = '';
 
   private readonly restApiService = getAppContext().restApiService;
+
+  static override get styles() {
+    return [
+      fontStyles,
+      sharedStyles,
+      css`
+        :host {
+          background-color: var(--dialog-background-color);
+          display: block;
+          max-height: 80vh;
+          overflow-y: auto;
+          padding: 4.5em var(--spacing-l) var(--spacing-l) var(--spacing-l);
+        }
+        header {
+          background-color: var(--dialog-background-color);
+          border-bottom: 1px solid var(--border-color);
+          left: 0;
+          padding: var(--spacing-l);
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+        #title {
+          display: inline-block;
+          font-family: var(--header-font-family);
+          font-size: var(--font-size-h3);
+          font-weight: var(--font-weight-h3);
+          line-height: var(--line-height-h3);
+          margin-top: var(--spacing-xs);
+        }
+        #filterInput {
+          display: inline-block;
+          float: right;
+          margin: 0 var(--spacing-l);
+          padding: var(--spacing-xs);
+        }
+        .closeButtonContainer {
+          float: right;
+        }
+        ul {
+          margin-bottom: var(--spacing-l);
+        }
+        ul li {
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          background: var(--chip-background-color);
+          display: inline-block;
+          margin: 0 var(--spacing-xs) var(--spacing-s) var(--spacing-xs);
+          padding: var(--spacing-xs) var(--spacing-s);
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <header>
+        <h1 id="title" class="heading-1">Included In:</h1>
+        <span class="closeButtonContainer">
+          <gr-button
+            id="closeButton"
+            link
+            @click=${(e: Event) => {
+              this.handleCloseTap(e);
+            }}
+            >Close</gr-button
+          >
+        </span>
+        <iron-input
+          id="filterInput"
+          placeholder="Filter"
+          .bindValue=${this.filterText}
+          @bind-value-changed=${(e: BindValueChangeEvent) => {
+            this.handleFilterBindValueChanged(e);
+          }}
+        >
+          <input placeholder="Filter" />
+        </iron-input>
+      </header>
+      ${this.renderLoading()}
+      ${this.computeGroups().map(group => this.renderGroup(group))}
+    `;
+  }
+
+  private renderLoading() {
+    if (this.loaded) return;
+
+    return '<div>Loading...</div>';
+  }
+
+  private renderGroup(group: DisplayGroup) {
+    return html`
+      <div>
+        <span>${group.title}:</span>
+        <ul>
+          ${group.items.map(item => this.renderGroupItem(item))}
+        </ul>
+      </div>
+    `;
+  }
+
+  private renderGroupItem(item: string) {
+    return `<li>${item}</li>`;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('changeNum')) {
+      this.resetData();
+    }
+  }
 
   loadData() {
     if (!this.changeNum) {
       return Promise.reject(new Error('missing required property changeNum'));
     }
-    this._filterText = '';
+    this.filterText = '';
     return this.restApiService
       .getChangeIncludedIn(this.changeNum)
       .then(configs => {
         if (!configs) {
           return;
         }
-        this._includedIn = configs;
-        this._loaded = true;
+        this.includedIn = configs;
+        this.loaded = true;
       });
   }
 
-  _resetData() {
-    this._includedIn = undefined;
-    this._loaded = false;
+  private resetData() {
+    this.includedIn = undefined;
+    this.loaded = false;
   }
 
-  _computeGroups(includedIn: IncludedInInfo | undefined, filterText: string) {
-    if (!includedIn || filterText === undefined) {
+  // private but used in test
+  computeGroups() {
+    if (!this.includedIn || this.filterText === undefined) {
       return [];
     }
 
     const filter = (item: string) =>
-      !filterText.length ||
-      item.toLowerCase().indexOf(filterText.toLowerCase()) !== -1;
+      !this.filterText.length ||
+      item.toLowerCase().indexOf(this.filterText.toLowerCase()) !== -1;
 
     const groups: DisplayGroup[] = [
-      {title: 'Branches', items: includedIn.branches.filter(filter)},
-      {title: 'Tags', items: includedIn.tags.filter(filter)},
+      {title: 'Branches', items: this.includedIn.branches.filter(filter)},
+      {title: 'Tags', items: this.includedIn.tags.filter(filter)},
     ];
-    if (includedIn.external) {
-      for (const externalKey of Object.keys(includedIn.external)) {
+    if (this.includedIn.external) {
+      for (const externalKey of Object.keys(this.includedIn.external)) {
         groups.push({
           title: externalKey,
-          items: includedIn.external[externalKey].filter(filter),
+          items: this.includedIn.external[externalKey].filter(filter),
         });
       }
     }
     return groups.filter(g => g.items.length);
   }
 
-  _handleCloseTap(e: Event) {
+  private handleCloseTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
@@ -111,8 +217,8 @@ export class GrIncludedInDialog extends PolymerElement {
     );
   }
 
-  _computeLoadingClass(loaded: boolean) {
-    return loaded ? 'loading loaded' : 'loading';
+  private handleFilterBindValueChanged(e: BindValueChangeEvent) {
+    this.filterText = e.detail.value;
   }
 }
 

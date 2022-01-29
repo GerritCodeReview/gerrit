@@ -66,10 +66,10 @@ export class GrCreateDestinationDialog extends LitElement {
             <gr-repo-branch-picker
               .repo=${this.repo}
               .branch=${this.branch}
-              @repo-changed=${(e: CustomEvent) => {
+              @repo-changed=${(e: CustomEvent<{value: string}>) => {
                 this.handleRepoChanged(e);
               }}
-              @branch-changed=${(e: CustomEvent) => {
+              @branch-changed=${(e: CustomEvent<{value: string}>) => {
                 this.handleBranchChanged(e);
               }}
             ></gr-repo-branch-picker>
@@ -108,11 +108,11 @@ export class GrCreateDestinationDialog extends LitElement {
     this.dispatchEvent(new CustomEvent('confirm', {detail, bubbles: false}));
   }
 
-  private handleRepoChanged(e: CustomEvent) {
+  private handleRepoChanged(e: CustomEvent<{value: string}>) {
     this.repo = e.detail.value as RepoName;
   }
 
-  private handleBranchChanged(e: CustomEvent) {
+  private handleBranchChanged(e: CustomEvent<{value: string}>) {
     this.branch = e.detail.value as BranchName;
   }
 }

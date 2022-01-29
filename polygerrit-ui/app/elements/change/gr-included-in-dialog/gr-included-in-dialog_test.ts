@@ -27,66 +27,66 @@ const basicFixture = fixtureFromElement('gr-included-in-dialog');
 suite('gr-included-in-dialog', () => {
   let element: GrIncludedInDialog;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
-  test('_computeGroups', () => {
-    const includedIn = {branches: [], tags: []} as IncludedInInfo;
-    let filterText = '';
-    assert.deepEqual(element._computeGroups(includedIn, filterText), []);
+  test('computeGroups', () => {
+    element.includedIn = {branches: [], tags: []} as IncludedInInfo;
+    element.filterText = '';
+    assert.deepEqual(element.computeGroups(), []);
 
-    includedIn.branches.push(
+    element.includedIn.branches.push(
       'master' as BranchName,
       'development' as BranchName,
       'stable-2.0' as BranchName
     );
-    includedIn.tags.push(
+    element.includedIn.tags.push(
       'v1.9' as TagName,
       'v2.0' as TagName,
       'v2.1' as TagName
     );
-    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+    assert.deepEqual(element.computeGroups(), [
       {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
       {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
     ]);
 
-    includedIn.external = {};
-    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+    element.includedIn.external = {};
+    assert.deepEqual(element.computeGroups(), [
       {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
       {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
     ]);
 
-    includedIn.external.foo = ['abc', 'def', 'ghi'];
-    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+    element.includedIn.external.foo = ['abc', 'def', 'ghi'];
+    assert.deepEqual(element.computeGroups(), [
       {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
       {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
       {title: 'foo', items: ['abc', 'def', 'ghi']},
     ]);
 
-    filterText = 'v2';
-    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+    element.filterText = 'v2';
+    assert.deepEqual(element.computeGroups(), [
       {title: 'Tags', items: ['v2.0', 'v2.1']},
     ]);
 
     // Filtering is case-insensitive.
-    filterText = 'V2';
-    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+    element.filterText = 'V2';
+    assert.deepEqual(element.computeGroups(), [
       {title: 'Tags', items: ['v2.0', 'v2.1']},
     ]);
   });
 
-  test('_computeGroups with .bindValue', async () => {
+  test('computeGroups with .bindValue', async () => {
     queryAndAssert<IronInputElement>(element, '#filterInput')!.bindValue =
       'stable-3.2';
-    const includedIn = {branches: [], tags: []} as IncludedInInfo;
-    includedIn.branches.push(
+    element.includedIn = {branches: [], tags: []} as IncludedInInfo;
+    element.includedIn.branches.push(
       'master' as BranchName,
       'stable-3.2' as BranchName
     );
-    await flush();
-    const filterText = element._filterText;
-    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+    await element.updateComplete;
+    assert.deepEqual(element.computeGroups(), [
       {title: 'Branches', items: ['stable-3.2']},
     ]);
   });

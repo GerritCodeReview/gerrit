@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd4a1dac_55ade8f2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-01-30T14:07:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8e2f90f8_9a1900b5",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 124,
+        "endChar": 0
+      },
+      "revId": "852eb68ac2beba06ca5aedeb122e1dcbe2ce485d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc147f72_eddf899e",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-01-04T09:50:43Z",
       "side": 1,
       "message": "replace with stubReporting(\u0027dashboardDisplayed\u0027)\n\nThen you can keep the reporting service private.",
+      "range": {
+        "startLine": 553,
+        "startChar": 35,
+        "endLine": 556,
+        "endChar": 6
+      },
+      "revId": "852eb68ac2beba06ca5aedeb122e1dcbe2ce485d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a4c0246_7ef8a187",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-01-30T14:07:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cc147f72_eddf899e",
       "range": {
         "startLine": 553,
         "startChar": 35,

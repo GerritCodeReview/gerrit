@@ -14,45 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-font-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-download-commands/gr-download-commands';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-download-dialog_html';
 import {changeBaseURL, getRevisionKey} from '../../../utils/change-util';
-import {customElement, property, computed, observe} from '@polymer/decorators';
-import {
-  ChangeInfo,
-  DownloadInfo,
-  PatchSetNum,
-  RevisionInfo,
-} from '../../../types/common';
+import {ChangeInfo, DownloadInfo, PatchSetNum} from '../../../types/common';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {hasOwnProperty} from '../../../utils/common-util';
+import {hasOwnProperty, queryAndAssert} from '../../../utils/common-util';
 import {GrOverlayStops} from '../../shared/gr-overlay/gr-overlay';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {addShortcut} from '../../../utils/dom-util';
-
-export interface GrDownloadDialog {
-  $: {
-    download: HTMLAnchorElement;
-    downloadCommands: GrDownloadCommands;
-    closeButton: GrButton;
-  };
-}
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html, css} from 'lit';
+import {customElement, property, state, query} from 'lit/decorators';
+import {assertIsDefined} from '../../../utils/common-util';
+import {BindValueChangeEvent} from '../../../types/events';
+import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 
 @customElement('gr-download-dialog')
-export class GrDownloadDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrDownloadDialog extends LitElement {
   /**
    * Fired when the user presses the close button.
    *
    * @event close
    */
+
+  @query('#download') protected download?: HTMLAnchorElement;
+
+  @query('#downloadCommands') protected downloadCommands?: GrDownloadCommands;
+
+  @query('#closeButton') protected closeButton?: GrButton;
 
   @property({type: Object})
   change: ChangeInfo | undefined;
@@ -63,8 +54,7 @@ export class GrDownloadDialog extends PolymerElement {
   @property({type: String})
   patchNum: PatchSetNum | undefined;
 
-  @property({type: String})
-  _selectedScheme?: string;
+  @state() private selectedScheme?: string;
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
@@ -79,13 +69,162 @@ export class GrDownloadDialog extends PolymerElement {
     super.connectedCallback();
     for (const key of ['1', '2', '3', '4', '5']) {
       this.cleanups.push(
-        addShortcut(this, {key}, e => this._handleNumberKey(e))
+        addShortcut(this, {key}, e => this.handleNumberKey(e))
       );
     }
   }
 
-  @computed('change', 'patchNum')
-  get _schemes() {
+  static override get styles() {
+    return [
+      fontStyles,
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+          padding: var(--spacing-m) 0;
+        }
+        section {
+          display: flex;
+          padding: var(--spacing-m) var(--spacing-xl);
+        }
+        .flexContainer {
+          display: flex;
+          justify-content: space-between;
+          padding-top: var(--spacing-m);
+        }
+        .footer {
+          justify-content: flex-end;
+        }
+        .closeButtonContainer {
+          align-items: flex-end;
+          display: flex;
+          flex: 0;
+          justify-content: flex-end;
+        }
+        .patchFiles,
+        .archivesContainer {
+          padding-bottom: var(--spacing-m);
+        }
+        .patchFiles {
+          margin-right: var(--spacing-xxl);
+        }
+        .patchFiles a,
+        .archives a {
+          display: inline-block;
+          margin-right: var(--spacing-l);
+        }
+        .patchFiles a:last-of-type,
+        .archives a:last-of-type {
+          margin-right: 0;
+        }
+        .hidden {
+          display: none;
+        }
+        gr-download-commands {
+          width: min(80vw, 1200px);
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    const revisions = this.change?.revisions;
+    return html`
+      <section>
+        <h3 class="heading-3">
+          Patch set ${this.patchNum} of
+          ${revisions ? Object.keys(revisions).length : 0}}
+        </h3>
+      </section>
+      ${this.renderDownloadCommands()}
+      <section class="flexContainer">
+        ${this.renderPatchFiles()} ${this.renderArchives()}
+      </section>
+      <section class="footer">
+        <span class="closeButtonContainer">
+          <gr-button
+            id="closeButton"
+            link
+            @click=${(e: Event) => {
+              this.handleCloseTap(e);
+            }}
+            >Close</gr-button
+          >
+        </span>
+      </section>
+    `;
+  }
+
+  private renderDownloadCommands() {
+    if (!this.schemes.length) return;
+
+    return html`
+      <section>
+        <gr-download-commands
+          id="downloadCommands"
+          .commands=${this.computeDownloadCommands()}
+          .schemes=${this.schemes}
+          .selectedScheme=${this.selectedScheme}
+          show-keyboard-shortcut-tooltips
+          @selected-scheme-changed=${(e: BindValueChangeEvent) => {
+            this.handleSelectedSchemeChanged(e);
+          }}
+        ></gr-download-commands>
+      </section>
+    `;
+  }
+
+  private renderPatchFiles() {
+    if (this.computeHidePatchFile()) return;
+
+    return html`
+      <div class="patchFiles">
+        <label>Patch file</label>
+        <div>
+          <a id="download" .href="${this.computeDownloadLink()}" download>
+            ${this.computeDownloadFilename()}
+          </a>
+          <a .href="${this.computeDownloadLink(true)}" download>
+            ${this.computeDownloadFilename(true)}
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderArchives() {
+    if (!this.config?.archives.length) return;
+
+    return html`
+      <div class="archivesContainer">
+        <label>Archive</label>
+        <div id="archives" class="archives">
+          ${this.config.archives.map(format => this.renderArchivesLink(format))}
+        </div>
+      </div>
+    `;
+  }
+
+  private renderArchivesLink(format: string) {
+    return html`
+      <a .href=${this.computeArchiveDownloadLink(format)} download>
+        ${format}
+      </a>
+    `;
+  }
+
+  override firstUpdated(changedProperties: PropertyValues) {
+    super.firstUpdated(changedProperties);
+    if (!this.getAttribute('role')) this.setAttribute('role', 'dialog');
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('schemes')) {
+      this.schemesChanged();
+    }
+  }
+
+  get schemes() {
     // Polymer 2: check for undefined
     if (this.change === undefined || this.patchNum === undefined) {
       return [];
@@ -103,13 +242,9 @@ export class GrDownloadDialog extends PolymerElement {
     return [];
   }
 
-  _handleNumberKey(e: KeyboardEvent) {
+  private handleNumberKey(e: KeyboardEvent) {
     const index = Number(e.key) - 1;
-    const commands = this._computeDownloadCommands(
-      this.change,
-      this.patchNum,
-      this._selectedScheme
-    );
+    const commands = this.computeDownloadCommands();
     if (index > commands.length) return;
     navigator.clipboard.writeText(commands[index].command).then(() => {
       fireAlert(this, `${commands[index].title} command copied to clipboard`);
@@ -117,41 +252,40 @@ export class GrDownloadDialog extends PolymerElement {
     });
   }
 
-  override ready() {
-    super.ready();
-    this._ensureAttribute('role', 'dialog');
-  }
-
   override focus() {
-    if (this._schemes.length) {
-      this.$.downloadCommands.focusOnCopy();
+    if (this.schemes.length) {
+      assertIsDefined(this.downloadCommands, 'downloadCommands');
+      this.downloadCommands.focusOnCopy();
     } else {
-      this.$.download.focus();
+      assertIsDefined(this.download, 'download');
+      this.download.focus();
     }
   }
 
   getFocusStops(): GrOverlayStops {
+    assertIsDefined(this.downloadCommands, 'downloadCommands');
+    assertIsDefined(this.closeButton, 'closeButton');
+    const downloadTabs = queryAndAssert<PaperTabsElement>(
+      this.downloadCommands,
+      '#downloadTabs'
+    );
     return {
-      start: this.$.downloadCommands.$.downloadTabs,
-      end: this.$.closeButton,
+      start: downloadTabs,
+      end: this.closeButton,
     };
   }
 
-  _computeDownloadCommands(
-    change?: ChangeInfo,
-    patchNum?: PatchSetNum,
-    selectedScheme?: string
-  ) {
+  private computeDownloadCommands() {
     let commandObj;
-    if (!change || !selectedScheme) return [];
-    for (const rev of Object.values(change.revisions || {})) {
+    if (!this.change || !this.selectedScheme) return [];
+    for (const rev of Object.values(this.change.revisions || {})) {
       if (
-        rev._number === patchNum &&
+        rev._number === this.patchNum &&
         rev &&
         rev.fetch &&
-        hasOwnProperty(rev.fetch, selectedScheme)
+        hasOwnProperty(rev.fetch, this.selectedScheme)
       ) {
-        commandObj = rev.fetch[selectedScheme].commands;
+        commandObj = rev.fetch[this.selectedScheme].commands;
         break;
       }
     }
@@ -162,53 +296,38 @@ export class GrDownloadDialog extends PolymerElement {
     return commands;
   }
 
-  _computeZipDownloadLink(change?: ChangeInfo, patchNum?: PatchSetNum) {
-    return this._computeDownloadLink(change, patchNum, true);
-  }
-
-  _computeZipDownloadFilename(change?: ChangeInfo, patchNum?: PatchSetNum) {
-    return this._computeDownloadFilename(change, patchNum, true);
-  }
-
-  _computeDownloadLink(
-    change?: ChangeInfo,
-    patchNum?: PatchSetNum,
-    zip?: boolean
-  ) {
+  private computeDownloadLink(zip?: boolean) {
     // Polymer 2: check for undefined
-    if (change === undefined || patchNum === undefined) {
+    if (this.change === undefined || this.patchNum === undefined) {
       return '';
     }
     return (
-      changeBaseURL(change.project, change._number, patchNum) +
+      changeBaseURL(this.change.project, this.change._number, this.patchNum) +
       '/patch?' +
       (zip ? 'zip' : 'download')
     );
   }
 
-  _computeDownloadFilename(
-    change?: ChangeInfo,
-    patchNum?: PatchSetNum,
-    zip?: boolean
-  ) {
+  private computeDownloadFilename(zip?: boolean) {
     // Polymer 2: check for undefined
-    if (change === undefined || patchNum === undefined) {
+    if (this.change === undefined || this.patchNum === undefined) {
       return '';
     }
 
-    const rev = getRevisionKey(change, patchNum) ?? '';
+    const rev = getRevisionKey(this.change, this.patchNum) ?? '';
     const shortRev = rev.substr(0, 7);
 
     return shortRev + '.diff.' + (zip ? 'zip' : 'base64');
   }
 
-  _computeHidePatchFile(change?: ChangeInfo, patchNum?: PatchSetNum) {
+  // private but used in test
+  computeHidePatchFile() {
     // Polymer 2: check for undefined
-    if (change === undefined || patchNum === undefined) {
+    if (this.change === undefined || this.patchNum === undefined) {
       return false;
     }
-    for (const rev of Object.values(change.revisions || {})) {
-      if (rev._number === patchNum) {
+    for (const rev of Object.values(this.change.revisions || {})) {
+      if (rev._number === this.patchNum) {
         const parentLength =
           rev.commit && rev.commit.parents ? rev.commit.parents.length : 0;
         return parentLength === 0 || parentLength > 1;
@@ -217,51 +336,40 @@ export class GrDownloadDialog extends PolymerElement {
     return false;
   }
 
-  _computeArchiveDownloadLink(
-    change?: ChangeInfo,
-    patchNum?: PatchSetNum,
-    format?: string
-  ) {
+  // private but used in test
+  computeArchiveDownloadLink(format?: string) {
     // Polymer 2: check for undefined
     if (
-      change === undefined ||
-      patchNum === undefined ||
+      this.change === undefined ||
+      this.patchNum === undefined ||
       format === undefined
     ) {
       return '';
     }
     return (
-      changeBaseURL(change.project, change._number, patchNum) +
+      changeBaseURL(this.change.project, this.change._number, this.patchNum) +
       '/archive?format=' +
       format
     );
   }
 
-  _computePatchSetQuantity(revisions?: {[revisionId: string]: RevisionInfo}) {
-    if (!revisions) {
-      return 0;
-    }
-    return Object.keys(revisions).length;
-  }
-
-  _handleCloseTap(e: Event) {
+  private handleCloseTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     fireEvent(this, 'close');
   }
 
-  @observe('_schemes')
-  _schemesChanged(schemes: string[]) {
-    if (schemes.length === 0) {
+  private schemesChanged() {
+    if (this.schemes.length === 0) {
       return;
     }
-    if (!this._selectedScheme || !schemes.includes(this._selectedScheme)) {
-      this._selectedScheme = schemes.sort()[0];
+    if (!this.selectedScheme || !this.schemes.includes(this.selectedScheme)) {
+      this.selectedScheme = this.schemes.sort()[0];
     }
   }
 
-  _computeShowDownloadCommands(schemes: string[]) {
-    return schemes.length ? '' : 'hidden';
+  private handleSelectedSchemeChanged(e: BindValueChangeEvent) {
+    this.selectedScheme = e.detail.value;
   }
 }
 

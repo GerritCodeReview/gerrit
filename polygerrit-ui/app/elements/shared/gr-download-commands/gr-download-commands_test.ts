@@ -18,11 +18,12 @@
 import '../../../test/common-test-setup-karma';
 import './gr-download-commands';
 import {GrDownloadCommands} from './gr-download-commands';
-import {isHidden, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {createPreferences} from '../../../test/test-data-generators';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 import {createDefaultPreferences} from '../../../constants/constants';
+import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 
 const basicFixture = fixtureFromElement('gr-download-commands');
 
@@ -63,7 +64,7 @@ suite('gr-download-commands', () => {
       element.schemes = SCHEMES;
       element.commands = COMMANDS;
       element.selectedScheme = SELECTED_SCHEME;
-      await flush();
+      await element.updateComplete;
     });
 
     test('focusOnCopy', () => {
@@ -75,30 +76,37 @@ suite('gr-download-commands', () => {
       assert.isTrue(focusStub.called);
     });
 
-    test('element visibility', () => {
-      assert.isFalse(isHidden(queryAndAssert(element, 'paper-tabs')));
-      assert.isFalse(isHidden(queryAndAssert(element, '.commands')));
+    test('element visibility', async () => {
+      assert.isTrue(query(element, 'paper-tabs'));
+      assert.isTrue(query(element, '.commands'));
 
       element.schemes = [];
-      assert.isTrue(isHidden(queryAndAssert(element, 'paper-tabs')));
-      assert.isTrue(isHidden(queryAndAssert(element, '.commands')));
+      await element.updateComplete;
+      assert.isFalse(query(element, 'paper-tabs'));
+      assert.isFalse(query(element, '.commands'));
     });
 
-    test('tab selection', () => {
-      assert.equal(element.$.downloadTabs.selected, '0');
+    test('tab selection', async () => {
+      assert.equal(
+        queryAndAssert<PaperTabsElement>(element, '#downloadTabs').selected,
+        '0'
+      );
       MockInteractions.tap(queryAndAssert(element, '[data-scheme="ssh"]'));
-      flush();
+      await element.updateComplete;
       assert.equal(element.selectedScheme, 'ssh');
-      assert.equal(element.$.downloadTabs.selected, '2');
+      assert.equal(
+        queryAndAssert<PaperTabsElement>(element, '#downloadTabs').selected,
+        '2'
+      );
     });
 
-    test('saves scheme to preferences', () => {
-      element._loggedIn = true;
+    test('saves scheme to preferences', async () => {
+      element.loggedIn = true;
       const savePrefsStub = stubRestApi('savePreferences').returns(
         Promise.resolve(createDefaultPreferences())
       );
 
-      flush();
+      await element.updateComplete;
 
       const repoTab = queryAndAssert(element, 'paper-tab[data-scheme="repo"]');
 
@@ -114,7 +122,7 @@ suite('gr-download-commands', () => {
   suite('authenticated', () => {
     test('loads scheme from preferences', async () => {
       const element = basicFixture.instantiate();
-      await flush();
+      await element.updateComplete;
       element.userModel.setPreferences({
         ...createPreferences(),
         download_scheme: 'repo',
@@ -124,7 +132,7 @@ suite('gr-download-commands', () => {
 
     test('normalize scheme from preferences', async () => {
       const element = basicFixture.instantiate();
-      await flush();
+      await element.updateComplete;
       element.userModel.setPreferences({
         ...createPreferences(),
         download_scheme: 'REPO',

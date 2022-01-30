@@ -28,7 +28,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
 import {assertIsDefined} from '../../../utils/common-util';
-import {BindValueChangeEvent} from '../../../types/events';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 
 @customElement('gr-download-dialog')
@@ -166,7 +165,7 @@ export class GrDownloadDialog extends LitElement {
           .schemes=${this.schemes}
           .selectedScheme=${this.selectedScheme}
           show-keyboard-shortcut-tooltips
-          @selected-scheme-changed=${(e: BindValueChangeEvent) => {
+          @selected-scheme-changed=${(e: CustomEvent<{value: string}>) => {
             this.handleSelectedSchemeChanged(e);
           }}
         ></gr-download-commands>
@@ -368,7 +367,7 @@ export class GrDownloadDialog extends LitElement {
     }
   }
 
-  private handleSelectedSchemeChanged(e: BindValueChangeEvent) {
+  private handleSelectedSchemeChanged(e: CustomEvent<{value: string}>) {
     this.selectedScheme = e.detail.value;
   }
 }

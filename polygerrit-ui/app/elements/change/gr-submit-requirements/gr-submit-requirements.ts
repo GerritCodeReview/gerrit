@@ -218,7 +218,8 @@ export class GrSubmitRequirements extends LitElement {
     requirement: SubmitRequirementResultInfo,
     slot: TemplateResult
   ) {
-    if (this.disableEndpoints) return slot;
+    if (this.disableEndpoints)
+      return html`<div class="votes-cell">${slot}</div>`;
 
     const endpointName = this.calculateEndpointName(requirement.name);
     return html`<gr-endpoint-decorator

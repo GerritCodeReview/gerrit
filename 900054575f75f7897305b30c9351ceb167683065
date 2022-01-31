@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72f4b7a9_95099f32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T15:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e927f181_bf268580",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17c4ab9b_5e4c46b9",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-31T15:11:51Z",
       "side": 1,
       "message": "and also b/209604113",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17ec94fa_4fef97e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T15:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17c4ab9b_5e4c46b9",
       "range": {
         "startLine": 9,
         "startChar": 15,
@@ -117,6 +165,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91eec45d_253c90b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T15:42:35Z",
+      "side": 1,
+      "message": "Sorry, it\u0027s fixed now. Forgot to send new patchset",
+      "parentUuid": "fe40e0ad_5342afba",
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69d323d5_a59f0e99",
@@ -147,6 +213,30 @@
       "writtenOn": "2022-01-31T14:49:41Z",
       "side": 1,
       "message": "private or _prefix",
+      "range": {
+        "startLine": 239,
+        "startChar": 2,
+        "endLine": 239,
+        "endChar": 20
+      },
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceb62787_e2a4b596",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T15:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31d3a099_0b9a3f09",
       "range": {
         "startLine": 239,
         "startChar": 2,

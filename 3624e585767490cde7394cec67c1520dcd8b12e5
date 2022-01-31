@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd43ad08_e81d9f94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-31T23:53:43Z",
+      "side": 1,
+      "message": "This duplicated line looks like a bug in the revert-topic feature?",
+      "revId": "3624e585767490cde7394cec67c1520dcd8b12e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

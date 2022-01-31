@@ -34,6 +34,24 @@
       "parentUuid": "f11a335b_983a4ea3",
       "revId": "412f1bc237e9ba92297c7abda2d8d60443e70ff0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b05605aa_061146ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-31T09:16:49Z",
+      "side": 1,
+      "message": "1. Border size: 1px\n2. For +1/+2:\nLight theme: Green 700 / Dark theme: Green 300\n\nFor -1/-2: Red 700 / Dark theme: Red 200\n\n3. Yes, this is the decision in b/209604113. Maybe also include this bug in the commit message?",
+      "parentUuid": "d61b578b_16f4f8cb",
+      "revId": "412f1bc237e9ba92297c7abda2d8d60443e70ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

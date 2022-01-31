@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa506743_21c41641",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-31T15:44:39Z",
+      "side": 1,
+      "message": "We should include the rules in the commit message + include a screenshot\n\nDisplay rules for display vote in the dashboard is:\n* show worst vote: like showing +1 if there are not -2, -1,\n* show it as 1 vote, even if there are 2 similar votes\n* show only if requirement is not satisfied.",
+      "revId": "3d3b8aec3318907c6046a72a9c57e66fa3bae591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41c9d794_c962970c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-31T15:44:39Z",
+      "side": 1,
+      "message": "LGTM on the rules and UI",
+      "revId": "3d3b8aec3318907c6046a72a9c57e66fa3bae591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf62ace7_d87a3792",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-31T09:40:17Z",
+      "side": 1,
+      "message": "remove?",
+      "range": {
+        "startLine": 297,
+        "startChar": 5,
+        "endLine": 297,
+        "endChar": 37
+      },
+      "revId": "b477ab0097cb8f47919f21c07b8ba3e544596163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc00818e_4c04d7f0",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-01-31T09:40:17Z",
+      "side": 1,
+      "message": "everywhere basically",
+      "range": {
+        "startLine": 322,
+        "startChar": 4,
+        "endLine": 322,
+        "endChar": 37
+      },
+      "revId": "b477ab0097cb8f47919f21c07b8ba3e544596163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

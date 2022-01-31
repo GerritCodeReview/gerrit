@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "088898b5_d11ccef9",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-01-31T23:09:44Z",
+      "side": 1,
+      "message": "Note to the reviewers: as documented in the release notes: [1] this change is bumping gitiles to the intermediate release, conducted from the top of the series in change 328622, patch set 5. and SHA1: 344a182c54fbe35325889cbff16f0436ba84f522.\n\n[1] https://github.com/davido/gitiles/releases/tag/v1.0-rc0",
+      "range": {
+        "startLine": 542,
+        "startChar": 4,
+        "endLine": 558,
+        "endChar": 5
+      },
+      "revId": "2d7a1bef37afba8f40f66ab1059c0e04cc5a6e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

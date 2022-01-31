@@ -61,7 +61,7 @@ public class GetUserFilter implements Filter {
         if (resEnabled) {
           initParams.put("resEnabled", "");
         }
-        filter("/*").through(GetUserFilter.class, initParams.buildOrThrow());
+        filter("/*").through(GetUserFilter.class, initParams.build());
       }
     }
   }

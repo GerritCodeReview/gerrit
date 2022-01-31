@@ -42,7 +42,7 @@ public abstract class AllExternalIds {
           }
         });
 
-    return new AutoValue_AllExternalIds(byKey.buildOrThrow(), byAccount.build(), byEmail.build());
+    return new AutoValue_AllExternalIds(byKey.build(), byAccount.build(), byEmail.build());
   }
 
   public abstract ImmutableMap<ExternalId.Key, ExternalId> byKey();

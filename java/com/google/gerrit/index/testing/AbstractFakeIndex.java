@@ -222,7 +222,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
           doc.put(field.getName(), field.get(value));
         }
       }
-      return doc.buildOrThrow();
+      return doc.build();
     }
 
     @Override

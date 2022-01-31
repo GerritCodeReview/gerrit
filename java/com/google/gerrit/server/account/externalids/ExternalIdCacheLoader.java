@@ -267,7 +267,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
         }
       }
     }
-    return new AutoValue_AllExternalIds(byKey.buildOrThrow(), byAccount.build(), byEmail.build());
+    return new AutoValue_AllExternalIds(byKey.build(), byAccount.build(), byEmail.build());
   }
 
   private AllExternalIds reloadAllExternalIds(ObjectId notesRev)

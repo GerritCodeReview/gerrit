@@ -98,7 +98,7 @@ public class SubmitRequirementsAdapter {
         }
       }
     }
-    return result.buildOrThrow();
+    return result.build();
   }
 
   static List<SubmitRequirementResult> createResult(

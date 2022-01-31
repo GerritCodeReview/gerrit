@@ -108,11 +108,11 @@ public class EventJsonTest {
                         .put("name", event.submitter.get().name)
                         .put("email", event.submitter.get().email)
                         .put("username", event.submitter.get().username)
-                        .buildOrThrow())
+                        .build())
                 .put("refUpdate", ImmutableMap.of("refName", REF))
                 .put("type", "ref-updated")
                 .put("eventCreatedOn", TS1)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -131,7 +131,7 @@ public class EventJsonTest {
                         .put("name", event.uploader.get().name)
                         .put("email", event.uploader.get().email)
                         .put("username", event.uploader.get().username)
-                        .buildOrThrow())
+                        .build())
                 .put(
                     "change",
                     ImmutableMap.builder()
@@ -143,13 +143,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "patchset-created")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -169,14 +169,14 @@ public class EventJsonTest {
                         .put("name", event.changer.get().name)
                         .put("email", event.changer.get().email)
                         .put("username", event.changer.get().username)
-                        .buildOrThrow())
+                        .build())
                 .put(
                     "oldAssignee",
                     ImmutableMap.builder()
                         .put("name", event.oldAssignee.get().name)
                         .put("email", event.oldAssignee.get().email)
                         .put("username", event.oldAssignee.get().username)
-                        .buildOrThrow())
+                        .build())
                 .put(
                     "change",
                     ImmutableMap.builder()
@@ -188,13 +188,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "assignee-changed")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -213,7 +213,7 @@ public class EventJsonTest {
                         .put("name", event.deleter.get().name)
                         .put("email", event.deleter.get().email)
                         .put("username", event.deleter.get().username)
-                        .buildOrThrow())
+                        .build())
                 .put(
                     "change",
                     ImmutableMap.builder()
@@ -225,13 +225,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "change-deleted")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -253,7 +253,7 @@ public class EventJsonTest {
                         .put("name", event.editor.get().name)
                         .put("email", event.editor.get().email)
                         .put("username", event.editor.get().username)
-                        .buildOrThrow())
+                        .build())
                 .put("added", list("added"))
                 .put("removed", list("removed"))
                 .put("hashtags", list("hashtags"))
@@ -268,13 +268,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "hashtags-changed")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -294,7 +294,7 @@ public class EventJsonTest {
                         .put("name", event.abandoner.get().name)
                         .put("email", event.abandoner.get().email)
                         .put("username", event.abandoner.get().username)
-                        .buildOrThrow())
+                        .build())
                 .put("reason", "some reason")
                 .put(
                     "change",
@@ -307,13 +307,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "change-abandoned")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -336,13 +336,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "change-merged")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -365,13 +365,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "change-restored")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -394,13 +394,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "comment-added")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -423,13 +423,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "private-state-changed")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -452,13 +452,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "reviewer-added")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -481,13 +481,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "reviewer-deleted")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -510,13 +510,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "vote-deleted")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -539,13 +539,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "wip-state-changed")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -568,13 +568,13 @@ public class EventJsonTest {
                         .put("commitMessage", COMMIT_MESSAGE)
                         .put("createdOn", TS1)
                         .put("status", NEW.name())
-                        .buildOrThrow())
+                        .build())
                 .put("project", PROJECT)
                 .put("refName", REF)
                 .put("changeKey", map("id", CHANGE_ID))
                 .put("type", "topic-changed")
                 .put("eventCreatedOn", TS2)
-                .buildOrThrow());
+                .build());
   }
 
   @Test
@@ -590,7 +590,7 @@ public class EventJsonTest {
                 .put("headName", REF)
                 .put("type", "project-created")
                 .put("eventCreatedOn", TS1)
-                .buildOrThrow());
+                .build());
   }
 
   private Supplier<AccountAttribute> newAccount(String name) {

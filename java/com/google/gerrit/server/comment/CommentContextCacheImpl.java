@@ -121,7 +121,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
         CommentContextKey cacheKey = inputKeysToCacheKeys.get(inputKey);
         result.put(inputKey, allContext.get(cacheKey));
       }
-      return result.buildOrThrow();
+      return result.build();
     } catch (ExecutionException e) {
       throw new StorageException("Failed to retrieve comments' context", e);
     }
@@ -170,7 +170,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
       AllCommentContextProto proto = Protos.parseUnchecked(AllCommentContextProto.parser(), in);
       proto.getContextList().stream()
           .forEach(c -> contextLinesMap.put(c.getLineNumber(), c.getContextLine()));
-      return CommentContext.create(contextLinesMap.buildOrThrow(), proto.getContentType());
+      return CommentContext.create(contextLinesMap.build(), proto.getContentType());
     }
   }
 

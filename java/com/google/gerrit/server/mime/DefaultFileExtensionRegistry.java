@@ -50,7 +50,7 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
       b.put((String) e.getKey(), type);
       MimeUtil.addKnownMimeType(type);
     }
-    TYPES = b.buildOrThrow();
+    TYPES = b.build();
   }
 
   @Override

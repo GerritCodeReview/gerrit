@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13de3b73_aa536873",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-31T21:30:07Z",
+      "side": 1,
+      "message": "Thanks for this change. Will +2 once we\u0027re ready to proceed.",
+      "revId": "2b28b70f79ec17352f158d7a57146d5746847273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 CAFFEINE_VERS = "2.9.2"
 ANTLR_VERS = "3.5.2"
@@ -13,7 +14,7 @@ AUTO_VALUE_VERSION = "1.7.4"
 AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
 PROLOG_REPO = GERRIT
-GITILES_VERS = "0.4-1"
+GITILES_VERS = "1.0.0"
 GITILES_REPO = GERRIT
 
 # When updating Bouncy Castle, also update it in bazlets.
@@ -538,19 +539,22 @@ def java_dependencies():
         sha1 = "f7be08ec23c21485b9b5a1cf1654c2ec8c58168d",
     )
 
-    maven_jar(
+    java_import_external(
         name = "blame-cache",
-        artifact = "com.google.gitiles:blame-cache:" + GITILES_VERS,
-        attach_source = False,
-        repository = GITILES_REPO,
-        sha1 = "0df80c6b8822147e1f116fd7804b8a0de544f402",
+        jar_sha256 = "45616eef9eebfc2c72c77e3c2907c6c0c83186fb406ef3e78e9de0becfa15065",
+        jar_urls = [
+            "https://github.com/davido/gitiles/releases/download/v1.0-rc0/blame-cache-1.0.0.jar",
+        ],
+        licenses = ["unencumbered"],
     )
 
-    maven_jar(
+    java_import_external(
         name = "gitiles-servlet",
-        artifact = "com.google.gitiles:gitiles-servlet:" + GITILES_VERS,
-        repository = GITILES_REPO,
-        sha1 = "60870897d22b840e65623fd024eabd9cc9706ebe",
+        jar_sha256 = "8817f12272a3a027faf72af46dcfd8b0a04e573b3cba1353c7eb4ed4f50d2ff0",
+        jar_urls = [
+            "https://github.com/davido/gitiles/releases/download/v1.0-rc0/gitiles-servlet-1.0.0.jar",
+        ],
+        licenses = ["unencumbered"],
     )
 
     # prettify must match the version used in Gitiles

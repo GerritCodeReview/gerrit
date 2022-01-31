@@ -19,9 +19,22 @@ import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-require
 import '../../shared/gr-change-status/gr-change-status';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
+import {
+  ApprovalInfo,
+  ChangeInfo,
+  isDetailedLabelInfo,
+  LabelInfo,
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../../../api/rest-api';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
-import {getRequirements, iconForStatus} from '../../../utils/label-util';
+import {
+  extractAssociatedLabels,
+  getAllUniqueApprovals,
+  getRequirements,
+  hasNeutralStatus,
+  iconForStatus,
+} from '../../../utils/label-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 
 @customElement('gr-change-list-column-requirement')
@@ -39,6 +52,11 @@ export class GrChangeListColumnRequirement extends LitElement {
       css`
         iron-icon {
           vertical-align: top;
+        }
+        .container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .container.not-applicable {
           background-color: var(--table-header-background-color);
@@ -59,9 +77,47 @@ export class GrChangeListColumnRequirement extends LitElement {
     const requirements = this.getRequirement(this.labelName);
     if (requirements.length === 0) return;
 
-    const icon = iconForStatus(
-      requirements[0].status ?? SubmitRequirementStatus.ERROR
+    const requirement = requirements[0];
+    if (requirement.status === SubmitRequirementStatus.UNSATISFIED) {
+      return this.renderUnsatisfiedState(requirement);
+    } else {
+      return this.renderStatusIcon(requirement.status);
+    }
+  }
+
+  private renderUnsatisfiedState(requirement: SubmitRequirementResultInfo) {
+    const requirementLabels = extractAssociatedLabels(
+      requirement,
+      'onlySubmittability'
     );
+    const allLabels = this.change?.labels ?? {};
+    const associatedLabels = Object.keys(allLabels).filter(label =>
+      requirementLabels.includes(label)
+    );
+
+    let worstVote: ApprovalInfo | undefined;
+    let labelInfo: LabelInfo | undefined;
+    for (const label of associatedLabels) {
+      const votes = this.getVotes(label);
+      if (votes.length === 0) break;
+      // votes are already sorted from worst e.g -2 to best e.g +2
+      if (!worstVote || (worstVote.value ?? 0) > (votes[0].value ?? 0)) {
+        worstVote = votes[0];
+        labelInfo = allLabels[label];
+      }
+    }
+    if (worstVote === undefined) {
+      return this.renderStatusIcon(requirement.status);
+    } else {
+      return html`<gr-vote-chip
+        .vote="${worstVote}"
+        .label="${labelInfo}"
+      ></gr-vote-chip>`;
+    }
+  }
+
+  private renderStatusIcon(status: SubmitRequirementStatus) {
+    const icon = iconForStatus(status ?? SubmitRequirementStatus.ERROR);
     return html`<iron-icon
       class="${icon}"
       icon="gr-icons:${icon}"
@@ -87,6 +143,17 @@ export class GrChangeListColumnRequirement extends LitElement {
     } else {
       return requirements;
     }
+  }
+
+  private getVotes(label: string) {
+    const allLabels = this.change?.labels ?? {};
+    const labelInfo = allLabels[label];
+    if (isDetailedLabelInfo(labelInfo)) {
+      return getAllUniqueApprovals(labelInfo).filter(
+        approval => !hasNeutralStatus(labelInfo, approval)
+      );
+    }
+    return [];
   }
 }
 

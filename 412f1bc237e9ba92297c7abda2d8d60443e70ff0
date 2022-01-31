@@ -52,6 +52,24 @@
       "parentUuid": "d61b578b_16f4f8cb",
       "revId": "412f1bc237e9ba92297c7abda2d8d60443e70ff0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2c35750_26c6514b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T14:09:23Z",
+      "side": 1,
+      "message": "Thanks. \n1, border left 1px\n2, changed colors to --vote-outlines\n3, Added to commit message.",
+      "parentUuid": "b05605aa_061146ba",
+      "revId": "412f1bc237e9ba92297c7abda2d8d60443e70ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

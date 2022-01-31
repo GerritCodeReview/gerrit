@@ -16,6 +16,24 @@
       "message": "I also noticed that some CCed users also have bordered chips even though they did not vote on Code-Review, see attached screenshot in the bug.",
       "revId": "900054575f75f7897305b30c9351ceb167683065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fea4926_cd661ee9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T14:09:23Z",
+      "side": 1,
+      "message": "Thanks, fixed this bug. I forgot to check if user has voted and for CC users it was enough if somebody else voted.",
+      "parentUuid": "4b275f19_e517ab64",
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

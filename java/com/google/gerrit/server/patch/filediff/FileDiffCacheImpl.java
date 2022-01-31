@@ -195,7 +195,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
             logger.atWarning().log("Failed to open the repository %s: %s", project, e.getMessage());
           }
         }
-        return result.buildOrThrow();
+        return result.build();
       }
     }
 

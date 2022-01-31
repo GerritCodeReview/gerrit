@@ -45,7 +45,7 @@ public class SystemPropertiesTestRule extends ExternalResource {
     for (String key : properties.keySet()) {
       previousValuesBuilder.put(key, Optional.ofNullable(System.getProperty(key)));
     }
-    previousValues = previousValuesBuilder.buildOrThrow();
+    previousValues = previousValuesBuilder.build();
     properties.entrySet().stream().forEach(this::setSystemProperty);
   }
 

@@ -116,7 +116,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     names =
         ImmutableSet.copyOf(
             namesToGroups.values().stream().map(GroupReference::getName).collect(toSet()));
-    uuids = u.buildOrThrow();
+    uuids = u.build();
     externalUserMemberships =
         cfg.getBoolean("groups", null, "includeExternalUsersInRegisteredUsersGroup", true)
             ? ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS)

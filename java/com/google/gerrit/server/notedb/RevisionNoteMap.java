@@ -50,7 +50,7 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
 
       result.put(note.copy(), rn);
     }
-    return new RevisionNoteMap<>(noteMap, result.buildOrThrow());
+    return new RevisionNoteMap<>(noteMap, result.build());
   }
 
   static RevisionNoteMap<RobotCommentsRevisionNote> parseRobotComments(
@@ -63,7 +63,7 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
       rn.parse();
       result.put(note.copy(), rn);
     }
-    return new RevisionNoteMap<>(noteMap, result.buildOrThrow());
+    return new RevisionNoteMap<>(noteMap, result.build());
   }
 
   static <T extends RevisionNote<? extends Comment>> RevisionNoteMap<T> emptyMap() {

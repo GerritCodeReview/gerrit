@@ -177,7 +177,7 @@ public final class ChangeInfoDiffer {
         additionsBuilder.put(entry.getKey(), added);
       }
     }
-    ImmutableMap<Object, Object> additions = additionsBuilder.buildOrThrow();
+    ImmutableMap<Object, Object> additions = additionsBuilder.build();
     return additions.isEmpty() ? null : additions;
   }
 

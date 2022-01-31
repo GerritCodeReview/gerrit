@@ -196,7 +196,7 @@ public class ProjectWatches {
         ImmutableMap.builder();
     projectWatches.entrySet().stream()
         .forEach(e -> b.put(e.getKey(), ImmutableSet.copyOf(e.getValue())));
-    return b.buildOrThrow();
+    return b.build();
   }
 
   @AutoValue

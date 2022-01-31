@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eabe99a6_4339b7d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T20:33:28Z",
+      "side": 1,
+      "message": "Wouldn\u0027t be enough to write \n```\ngr-button.iron-selected {\n--vote-text-color: black;\n}\n```\n\nIs it needed to be added to all [vote\u003d\u0027\u0027]?",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "b8b4f1d2b626ffe867b8d2e293c9bca44b0de99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd7c1eb6_c3f4f8a1",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T20:33:28Z",
+      "side": 1,
+      "message": "Wasn\u0027t there plan to use var(--transparent) defined in polygerrit-ui/app/styles/themes/app-theme.ts",
+      "range": {
+        "startLine": 81,
+        "startChar": 20,
+        "endLine": 81,
+        "endChar": 31
+      },
+      "revId": "b8b4f1d2b626ffe867b8d2e293c9bca44b0de99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acb6726e_7b41e6cd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T20:33:28Z",
+      "side": 1,
+      "message": "Could you please add a line what does this mean?",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 18
+      },
+      "revId": "b8b4f1d2b626ffe867b8d2e293c9bca44b0de99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c30f5f6_30a06913",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T20:33:28Z",
+      "side": 1,
+      "message": "So recommended is same as approved?",
+      "range": {
+        "startLine": 247,
+        "startChar": 5,
+        "endLine": 247,
+        "endChar": 46
+      },
+      "revId": "b8b4f1d2b626ffe867b8d2e293c9bca44b0de99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "783d88a5_092c2f9c",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T20:33:28Z",
+      "side": 1,
+      "message": "Is disliked same as rejected?",
+      "range": {
+        "startLine": 249,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 41
+      },
+      "revId": "b8b4f1d2b626ffe867b8d2e293c9bca44b0de99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "130a9f97_53daa4e6",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T20:33:28Z",
+      "side": 1,
+      "message": "SO why in app-them approved and recommended are same and in dark theme they are little bit different?",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 49
+      },
+      "revId": "b8b4f1d2b626ffe867b8d2e293c9bca44b0de99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

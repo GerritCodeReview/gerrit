@@ -265,7 +265,7 @@ const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;
 // custom element having the id "app", but it is made explicit here.
 // If you move this code to other place, please update comment about
 // gr-router and gr-app in the PolyGerritIndexHtml.soy file if needed
-const app = document.querySelector('#app');
+const app = document.querySelector('gr-app');
 if (!app) {
   console.info('No gr-app found (running tests)');
 }

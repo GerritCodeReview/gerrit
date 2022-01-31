@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f505648_079446d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-31T10:46:07Z",
+      "side": 1,
+      "message": "Nice, thanks!",
+      "revId": "2b50e6ee08c4f2c8e57f65f825a3d75a9ca44274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "233aaea6_f40f1303",
@@ -20,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52e94728_3b9b1fb0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-destination-dialog/gr-create-destination-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-31T10:46:07Z",
+      "side": 1,
+      "message": "Maybe add an empty line above so that the comment is not associated with this property.",
+      "revId": "2b50e6ee08c4f2c8e57f65f825a3d75a9ca44274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "453a2f6e_f88117a5",
         "filename": "polygerrit-ui/app/elements/change-list/gr-create-destination-dialog/gr-create-destination-dialog.ts",
         "patchSetId": 3
@@ -31,6 +65,74 @@
       "writtenOn": "2022-01-31T09:31:39Z",
       "side": 1,
       "message": "You can simplify this by doing\n\n```\nprivate pickerConfirm \u003d (e: Event) \u003d\u003e { \n   ...\n}\n```\nThat will make the this bound because you\u0027re assiging a function to that method name. And then here you can simply do\n\n`@confirm\u003d${this.pickerConfirm}`\n\nHere and throughout.",
+      "revId": "2b50e6ee08c4f2c8e57f65f825a3d75a9ca44274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "752d2ddc_7acf2878",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-destination-dialog/gr-create-destination-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-31T10:46:07Z",
+      "side": 1,
+      "message": "maybe inline",
+      "revId": "2b50e6ee08c4f2c8e57f65f825a3d75a9ca44274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0257a616_1ad4d389",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-destination-dialog/gr-create-destination-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-31T10:46:07Z",
+      "side": 1,
+      "message": "For Polymer\u0027s two-way binding events it would be nice to use one consistent typed event everywhere. I think `ValueChangedEvent\u003cT\u003e` is a good candidate.",
+      "revId": "2b50e6ee08c4f2c8e57f65f825a3d75a9ca44274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d849989e_03c83a8a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-destination-dialog/gr-create-destination-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-31T10:46:07Z",
+      "side": 1,
+      "message": "maybe inline",
+      "revId": "2b50e6ee08c4f2c8e57f65f825a3d75a9ca44274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da4a6656_5a9bfc32",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-destination-dialog/gr-create-destination-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-31T10:46:07Z",
+      "side": 1,
+      "message": "maybe inline",
       "revId": "2b50e6ee08c4f2c8e57f65f825a3d75a9ca44274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

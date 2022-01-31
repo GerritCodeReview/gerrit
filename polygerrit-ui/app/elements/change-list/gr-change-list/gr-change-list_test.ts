@@ -461,59 +461,6 @@ suite('gr-change-list basic tests', () => {
     });
   });
 
-  suite('dashboard queries', () => {
-    let element: GrChangeList;
-
-    setup(() => {
-      element = basicFixture.instantiate();
-    });
-
-    teardown(() => {
-      sinon.restore();
-    });
-
-    test('query without age and limit unchanged', () => {
-      const query = 'status:closed owner:me';
-      assert.deepEqual(element.processQuery(query), query);
-    });
-
-    test('query with age and limit', () => {
-      const query = 'status:closed age:1week limit:10 owner:me';
-      const expectedQuery = 'status:closed owner:me';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-
-    test('query with age', () => {
-      const query = 'status:closed age:1week owner:me';
-      const expectedQuery = 'status:closed owner:me';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-
-    test('query with limit', () => {
-      const query = 'status:closed limit:10 owner:me';
-      const expectedQuery = 'status:closed owner:me';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-
-    test('query with age as value and not key', () => {
-      const query = 'status:closed random:age';
-      const expectedQuery = 'status:closed random:age';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-
-    test('query with limit as value and not key', () => {
-      const query = 'status:closed random:limit';
-      const expectedQuery = 'status:closed random:limit';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-
-    test('query with -age key', () => {
-      const query = 'status:closed -age:1week';
-      const expectedQuery = 'status:closed';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-  });
-
   suite('gr-change-list sections', () => {
     let element: GrChangeList;
 

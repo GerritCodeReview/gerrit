@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e927f181_bf268580",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-31T14:49:41Z",
+      "side": 1,
+      "message": "can you add a picture and/or more description of the changes",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b275f19_e517ab64",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -32,6 +55,29 @@
       "side": 1,
       "message": "Thanks, fixed this bug. I forgot to check if user has voted and for CC users it was enough if somebody else voted.",
       "parentUuid": "4b275f19_e517ab64",
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31d3a099_0b9a3f09",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-01-31T14:49:41Z",
+      "side": 1,
+      "message": "private or _prefix",
+      "range": {
+        "startLine": 239,
+        "startChar": 2,
+        "endLine": 239,
+        "endChar": 20
+      },
       "revId": "900054575f75f7897305b30c9351ceb167683065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

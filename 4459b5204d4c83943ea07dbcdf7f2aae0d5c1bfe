@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99e8f4da_69acdd87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-31T09:27:55Z",
+      "side": 1,
+      "message": "Nice, thanks!",
+      "revId": "4459b5204d4c83943ea07dbcdf7f2aae0d5c1bfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7628dec7_d780344a",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-01-31T09:27:55Z",
+      "side": 1,
+      "message": "Maybe just inline the method and set here?\n```\nthis.filterText \u003d e.detail.value;\n```",
+      "revId": "4459b5204d4c83943ea07dbcdf7f2aae0d5c1bfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

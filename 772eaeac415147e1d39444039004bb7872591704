@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4022b98d_ebd8ff0a",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-01-31T23:31:04Z",
+      "side": 0,
+      "message": "This comment was not followed, thus the need for the revert.",
+      "revId": "772eaeac415147e1d39444039004bb7872591704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

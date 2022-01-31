@@ -2,8 +2,6 @@
 
 Report a bug or send feedback using
 link:https://bugs.chromium.org/p/gerrit/issues/entry?template=Attention+Set[this Monorail template].
-You can also report a bug through the bug icon in the user hovercard and in the
-reply dialog.
 
 [[whose-turn]]
 == Whose turn is it?

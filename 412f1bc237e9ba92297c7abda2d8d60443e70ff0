@@ -70,6 +70,24 @@
       "parentUuid": "b05605aa_061146ba",
       "revId": "412f1bc237e9ba92297c7abda2d8d60443e70ff0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75360aa8_1d391ad8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-31T15:11:51Z",
+      "side": 1,
+      "message": "To clarify 1.\n\nI meant 1px for chip border but I would like to keep the same padding between the AS icon and the left border of the chip or between the User name and the right border of the chip (when there is not votes)",
+      "parentUuid": "f2c35750_26c6514b",
+      "revId": "412f1bc237e9ba92297c7abda2d8d60443e70ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

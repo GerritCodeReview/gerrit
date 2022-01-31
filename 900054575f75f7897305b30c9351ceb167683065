@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17c4ab9b_5e4c46b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-31T15:11:51Z",
+      "side": 1,
+      "message": "and also b/209604113",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b275f19_e517ab64",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -55,6 +78,58 @@
       "side": 1,
       "message": "Thanks, fixed this bug. I forgot to check if user has voted and for CC users it was enough if somebody else voted.",
       "parentUuid": "4b275f19_e517ab64",
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe40e0ad_5342afba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-31T15:11:51Z",
+      "side": 1,
+      "message": "I still see the border on CCed vote, see screenshot in the bug.",
+      "parentUuid": "1fea4926_cd661ee9",
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e378683_25a761ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-31T15:11:51Z",
+      "side": 1,
+      "message": "Chips colors and borders LGTM, one unresolved comment on border with CCed chip and modified spacing inside user chips ",
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69d323d5_a59f0e99",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-01-31T15:11:51Z",
+      "side": 1,
+      "message": "I propose we keep the same padding in the user chips, see comments in the bug.",
       "revId": "900054575f75f7897305b30c9351ceb167683065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

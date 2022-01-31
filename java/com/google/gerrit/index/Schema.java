@@ -108,8 +108,8 @@ public class Schema<T> {
         sb.put(f.getName(), f);
       }
     }
-    this.fields = b.buildOrThrow();
-    this.storedFields = sb.buildOrThrow();
+    this.fields = b.build();
+    this.storedFields = sb.build();
     this.useLegacyNumericFields = useLegacyNumericFields;
   }
 

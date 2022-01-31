@@ -102,7 +102,7 @@ public final class PluginPermissionsUtil {
       permissionIdNames.put(id, extension.get().getDescription());
     }
 
-    return permissionIdNames.buildOrThrow();
+    return permissionIdNames.build();
   }
 
   /**

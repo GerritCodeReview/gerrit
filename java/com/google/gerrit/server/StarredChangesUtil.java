@@ -282,7 +282,7 @@ public class StarredChangesUtil {
         Account.Id accountId = Account.id(id);
         builder.put(accountId, readLabels(repo, RefNames.refsStarredChanges(changeId, accountId)));
       }
-      return builder.buildOrThrow();
+      return builder.build();
     } catch (IOException e) {
       throw new StorageException(
           String.format("Get accounts that starred change %d failed", changeId.get()), e);

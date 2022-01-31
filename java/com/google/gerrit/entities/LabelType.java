@@ -306,7 +306,7 @@ public abstract class LabelType {
       for (LabelValue v : valueList) {
         byValue.put(v.getValue(), v);
       }
-      setByValue(byValue.buildOrThrow());
+      setByValue(byValue.build());
 
       setCopyValues(ImmutableList.sortedCopyOf(getCopyValues()));
 

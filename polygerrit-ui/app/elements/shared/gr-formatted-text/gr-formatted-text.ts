@@ -121,6 +121,7 @@ export class GrFormattedText extends LitElement {
           border-left-width: var(--spacing-s);
           margin: var(--spacing-m) 0;
           padding: var(--spacing-s) var(--spacing-m);
+          overflow-x: scroll;
         }
         li {
           list-style-type: disc;

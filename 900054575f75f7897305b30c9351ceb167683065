@@ -200,6 +200,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34b2480e_e781b77f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T19:58:18Z",
+      "side": 1,
+      "message": "Ok, so padding is 2px only when there is a vote.",
+      "parentUuid": "69d323d5_a59f0e99",
+      "revId": "900054575f75f7897305b30c9351ceb167683065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31d3a099_0b9a3f09",

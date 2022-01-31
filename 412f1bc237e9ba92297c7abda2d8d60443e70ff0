@@ -88,6 +88,24 @@
       "parentUuid": "f2c35750_26c6514b",
       "revId": "412f1bc237e9ba92297c7abda2d8d60443e70ff0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4908c506_6efdbe1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-01-31T19:58:18Z",
+      "side": 1,
+      "message": "ok, I assume this is same as in https://gerrit-review.googlesource.com/c/gerrit/+/329248/comments/69d323d5_a59f0e99",
+      "parentUuid": "75360aa8_1d391ad8",
+      "revId": "412f1bc237e9ba92297c7abda2d8d60443e70ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

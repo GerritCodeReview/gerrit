@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a25da26_5d872f7f",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-31T14:03:03Z",
+      "side": 1,
+      "message": "Same comment as other CLs about using private foo \u003d (e: ...) \u003d\u003e { ... }",
+      "revId": "d75e9df8d9fb7b1a637ce44398500ab01ffbfb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "357018c4_e5098d8a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-31T14:03:03Z",
+      "side": 1,
+      "message": "Please precalculate this value so it\u0027s simply .selected\u003d${selectedIndex}. Try to avoid complicated logic in templates to keep them easy to read.",
+      "revId": "d75e9df8d9fb7b1a637ce44398500ab01ffbfb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

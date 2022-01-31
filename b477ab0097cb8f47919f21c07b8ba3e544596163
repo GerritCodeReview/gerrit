@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03bfb55f_9f643580",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-01-31T14:03:03Z",
+      "side": 0,
+      "message": "Why are you changing the event-type?",
+      "revId": "b477ab0097cb8f47919f21c07b8ba3e544596163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -270,6 +270,14 @@ public class ChangePredicates {
   }
 
   /**
+   * Returns a predicate that matches changes with the provided {@code footer} name in their commit
+   * message.
+   */
+  public static Predicate<ChangeData> hasFooter(String footerName) {
+    return new ChangeIndexPredicate(ChangeField.FOOTER_NAME, footerName.toLowerCase(Locale.US));
+  }
+
+  /**
    * Returns a predicate that matches changes that modified files in the provided {@code directory}.
    */
   public static Predicate<ChangeData> directory(String directory) {

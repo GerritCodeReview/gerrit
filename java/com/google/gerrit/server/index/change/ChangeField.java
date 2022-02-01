@@ -271,6 +271,14 @@ public class ChangeField {
         .collect(toSet());
   }
 
+  /** Footers from the commit message of the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> FOOTER_NAME =
+      exact(ChangeQueryBuilder.FIELD_FOOTER_NAME).buildRepeatable(ChangeField::getFootersNames);
+
+  public static Set<String> getFootersNames(ChangeData cd) {
+    return cd.commitFooters().stream().map(f -> f.getKey().toLowerCase(Locale.US)).collect(toSet());
+  }
+
   /** Folders that are touched by the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> DIRECTORY =
       exact(ChangeQueryBuilder.FIELD_DIRECTORY).buildRepeatable(ChangeField::getDirectories);

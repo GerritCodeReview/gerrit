@@ -163,6 +163,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_EXTENSION = "extension";
   public static final String FIELD_ONLY_EXTENSIONS = "onlyextensions";
   public static final String FIELD_FOOTER = "footer";
+  public static final String FIELD_FOOTER_NAME = "footernames";
   public static final String FIELD_CONFLICTS = "conflicts";
   public static final String FIELD_DELETED = "deleted";
   public static final String FIELD_DELTA = "delta";
@@ -952,6 +953,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> footer(String footer) {
     return ChangePredicates.footer(footer);
+  }
+
+  @Operator
+  public Predicate<ChangeData> hasfooter(String footerName) throws QueryParseException {
+    checkFieldAvailable(ChangeField.FOOTER_NAME, "uploader");
+    return ChangePredicates.hasFooter(footerName);
   }
 
   @Operator

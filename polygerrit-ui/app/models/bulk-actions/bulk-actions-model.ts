@@ -8,6 +8,11 @@ import {ChangeInfo} from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {define} from '../dependency';
+import {select} from '../../utils/observable-util';
+
+export const bulkActionsModelToken =
+  define<BulkActionsModel>('bulk-actions-model');
 
 // TODO: consider keeping only changeId's as the object might become stale
 export interface BulkActionsState {
@@ -25,6 +30,11 @@ export class BulkActionsModel
   constructor(_restApiService: RestApiService) {
     super(initialState);
   }
+
+  public readonly selectedChanges$ = select(
+    this.state$,
+    bulkActionsState => bulkActionsState.selectedChanges
+  );
 
   addSelectedChange(change: ChangeInfo) {
     const current = this.subject$.getValue();

@@ -95,6 +95,7 @@
     "types/**/*",
     "utils/**/*",
     "test/**/*",
+    "workers/**/*",
     "tmpl_out/**/*" //Created by template checker in dev-mode
   ]
 }

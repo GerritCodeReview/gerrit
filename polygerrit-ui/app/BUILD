@@ -22,6 +22,7 @@ src_dirs = [
     "styles",
     "types",
     "utils",
+    "workers",
 ]
 
 ts_config(

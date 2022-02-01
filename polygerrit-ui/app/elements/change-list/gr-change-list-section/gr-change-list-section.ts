@@ -22,6 +22,12 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from '@lit/reactive-element';
 import {Metadata} from '../../../utils/change-metadata-util';
 import {WAITING} from '../../../constants/constants';
+import {provide} from '../../../models/dependency';
+import {
+  bulkActionsModelToken,
+  BulkActionsModel,
+} from '../../../models/bulk-actions/bulk-actions-model';
+import {PropertyValues} from '@lit/reactive-element';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -66,6 +72,8 @@ export class GrChangeListSection extends LitElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
+  private bulkActionsModel?: BulkActionsModel;
+
   static override get styles() {
     return [
       changeListStyles,
@@ -84,6 +92,20 @@ export class GrChangeListSection extends LitElement {
         }
       `,
     ];
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.bulkActionsModel = new BulkActionsModel(
+      getAppContext().restApiService
+    );
+    provide(this, bulkActionsModelToken, () => this.bulkActionsModel);
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('changeSection')) {
+      this.bulkActionsModel!.sync(this.changeSection.results);
+    }
   }
 
   override render() {

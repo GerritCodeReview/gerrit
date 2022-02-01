@@ -32,4 +32,5 @@ export enum KnownExperimentId {
   BULK_ACTIONS = 'UiFeature__bulk_actions_dashboard',
   CHECK_RESULTS_IN_DIFFS = 'UiFeature__check_results_in_diffs',
   DIFF_RENDERING_LIT = 'UiFeature__diff_rendering_lit',
+  SYNTAX_LAYER_WORKER = 'UiFeature__syntax_layer_worker',
 }

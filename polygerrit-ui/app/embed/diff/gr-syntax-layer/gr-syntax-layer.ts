@@ -23,7 +23,7 @@ import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader'
 import {HLJS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/highlightjs_config';
 import {Side} from '../../../constants/constants';
 
-const LANGUAGE_MAP = new Map<string, string>([
+export const LANGUAGE_MAP = new Map<string, string>([
   ['application/dart', 'dart'],
   ['application/json', 'json'],
   ['application/x-powershell', 'powershell'],

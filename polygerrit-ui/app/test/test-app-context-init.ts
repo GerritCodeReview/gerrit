@@ -39,6 +39,7 @@ import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
+import {MockHighlightService} from '../services/highlight/highlight-service_test';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -67,6 +68,7 @@ export function createTestAppContext(): AppContext & Finalizable {
       return new ShortcutsService(ctx.userModel!, ctx.reportingService!);
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
+    highlightService: (_ctx: Partial<AppContext>) => new MockHighlightService(),
   };
   return create<AppContext>(appRegistry);
 }

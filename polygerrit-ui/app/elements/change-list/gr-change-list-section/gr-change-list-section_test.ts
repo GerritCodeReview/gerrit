@@ -12,7 +12,7 @@ import {
   createAccountDetailWithId,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {NumericChangeId} from '../../../api/rest-api';
+import {NumericChangeId, ChangeInfoId} from '../../../api/rest-api';
 import {
   queryAll,
   query,
@@ -21,6 +21,7 @@ import {
 } from '../../../test/test-utils';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {columnNames} from '../gr-change-list/gr-change-list';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-change-list-section');
 
@@ -35,7 +36,10 @@ suite('gr-change-list section', () => {
     element.changeSection = {
       name: 'test',
       query: 'test',
-      results: [createChange()],
+      results: [
+        {...createChange(), _number: 0 as NumericChangeId},
+        {...createChange(), _number: 1 as NumericChangeId},
+      ],
       emptyStateSlotName: 'test',
     };
     await element.updateComplete;
@@ -49,6 +53,73 @@ suite('gr-change-list section', () => {
     await element.updateComplete;
 
     assert.isOk(query(element, '.selection'));
+  });
+
+  suite('bulk actions selection', () => {
+    setup(async () => {
+      stubFlags('isEnabled').returns(true);
+      element.requestUpdate();
+      await element.updateComplete;
+    });
+
+    test('bulk actions checkboxes', async () => {
+      const changeItems = queryAll<GrChangeListItem>(
+        element,
+        'gr-change-list-item'
+      );
+
+      const checkbox = queryAndAssert(changeItems[0], '.selection > input');
+      assert.isOk(checkbox);
+      tap(checkbox);
+      await flush();
+      let selectedChanges =
+        element.bulkActionsModel!.getState().selectedChanges;
+      assert.deepEqual(selectedChanges, [
+        {...createChange(), _number: 0 as NumericChangeId},
+      ]);
+
+      tap(checkbox);
+      await flush();
+      selectedChanges = element.bulkActionsModel!.getState().selectedChanges;
+      assert.deepEqual(selectedChanges, []);
+    });
+
+    test('stale changes are removed from the model', async () => {
+      const changeItems = queryAll<GrChangeListItem>(
+        element,
+        'gr-change-list-item'
+      );
+
+      tap(queryAndAssert(changeItems[0], '.selection > input'));
+      tap(queryAndAssert(changeItems[1], '.selection > input'));
+      await element.updateComplete;
+      await flush();
+      let selectedChanges =
+        element.bulkActionsModel!.getState().selectedChanges;
+      assert.deepEqual(selectedChanges, [
+        {...createChange(), _number: 0 as NumericChangeId, id: '0' as ChangeInfoId},
+        {...createChange(), _number: 1 as NumericChangeId, id: '1' as ChangeInfoId},
+      ]);
+
+      element.changeSection = {
+        name: 'test',
+        query: 'test',
+        results: [
+          {
+            ...createChange(),
+            _number: 1 as NumericChangeId,
+            id: '1' as ChangeInfoId,
+          },
+        ],
+        emptyStateSlotName: 'test',
+      };
+
+      await element.updateComplete;
+      selectedChanges = element.bulkActionsModel!.getState().selectedChanges;
+      assert.deepEqual(selectedChanges, [
+        {...createChange(), _number: 1 as NumericChangeId, id: '1' as ChangeInfoId},
+      ]);
+    });
   });
 
   test('colspans', async () => {

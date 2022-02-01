@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e7fc5a9_5b16f759",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-01T16:14:21Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \u003c 1 or \u003c\u003d 0?",
+      "revId": "6f6e270cfc60880a5a3ebf0a07df80459efac01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30bfde13_ec1de003",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-01T16:14:21Z",
+      "side": 1,
+      "message": "@selected-changed\u003d${this.handleTabChange}\n\nif you make the change as suggested below",
+      "revId": "6f6e270cfc60880a5a3ebf0a07df80459efac01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45a18165_a863782a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-01T16:14:21Z",
+      "side": 1,
+      "message": "private handleTabChange \u003d (e: CustomEvent\u003c{value: number}\u003e) \u003d\u003e {",
+      "revId": "6f6e270cfc60880a5a3ebf0a07df80459efac01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

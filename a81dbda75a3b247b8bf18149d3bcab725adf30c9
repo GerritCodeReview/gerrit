@@ -34,6 +34,24 @@
       "parentUuid": "4e88b4ef_000c3f28",
       "revId": "a81dbda75a3b247b8bf18149d3bcab725adf30c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f1817f1_38c0f04e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-01T11:08:15Z",
+      "side": 1,
+      "message": "Thanks Martin. Yes, this was a hacky workaround and I wasn\u0027t fully happy with it :) \n\nI\u0027ll abandon the change and will work on another fix from our side.",
+      "parentUuid": "77b54195_c9d783e0",
+      "revId": "a81dbda75a3b247b8bf18149d3bcab725adf30c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

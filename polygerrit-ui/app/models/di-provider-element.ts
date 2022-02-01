@@ -18,9 +18,9 @@ import {DependencyToken, provide} from './dependency';
  *     )
  *   );
  *   const element = providerElement.element as MyElementToTest;
- * 
+ *
  * For injecting multiple tokens, make nested calls to `wrapInProvider` such as:
- * 
+ *
  *   wrapInProvider(wrapInProvider(html`...`, token1, value1), token2, value2);
  */
 export function wrapInProvider<T>(

@@ -104,9 +104,11 @@ export class GrHovercardAccount extends base {
         .top,
         .attention,
         .status,
-        .statusPlugin,
         .voteable {
           padding: var(--spacing-s) var(--spacing-l);
+        }
+        .statusPlugin {
+          padding: var(--spacing-l) var(--spacing-l) var(--spacing-m);
         }
         .top {
           display: flex;

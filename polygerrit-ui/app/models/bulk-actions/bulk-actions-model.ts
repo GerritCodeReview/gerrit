@@ -4,18 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ChangeInfo} from '../../api/rest-api';
+import {ChangeInfoId, ChangeInfo} from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {define} from '../dependency';
+import {select} from '../../utils/observable-util';
 
-// TODO: consider keeping only changeId's as the object might become stale
+export const bulkActionsModelToken =
+  define<BulkActionsModel>('bulk-actions-model');
+
 export interface BulkActionsState {
-  selectedChanges: ChangeInfo[];
+  selectedChangeIds: ChangeInfoId[];
 }
 
 const initialState: BulkActionsState = {
-  selectedChanges: [],
+  selectedChangeIds: [],
 };
 
 export class BulkActionsModel
@@ -26,20 +30,33 @@ export class BulkActionsModel
     super(initialState);
   }
 
-  addSelectedChange(change: ChangeInfo) {
+  public readonly selectedChangeIds$ = select(
+    this.state$,
+    bulkActionsState => bulkActionsState.selectedChangeIds
+  );
+
+  addSelectedChangeId(changeId: ChangeInfoId) {
     const current = this.subject$.getValue();
-    const selectedChanges = [...current.selectedChanges];
-    selectedChanges.push(change);
-    this.setState({...current, selectedChanges});
+    const selectedChangeIds = [...current.selectedChangeIds];
+    selectedChangeIds.push(changeId);
+    this.setState({...current, selectedChangeIds});
   }
 
-  removeSelectedChange(change: ChangeInfo) {
+  removeSelectedChangeId(changeId: ChangeInfoId) {
     const current = this.subject$.getValue();
-    const selectedChanges = [...current.selectedChanges];
-    const index = selectedChanges.findIndex(item => item.id === change.id);
+    const selectedChangeIds = [...current.selectedChangeIds];
+    const index = selectedChangeIds.findIndex(item => item === changeId);
     if (index === -1) return;
-    selectedChanges.splice(index, 1);
-    this.setState({...current, selectedChanges});
+    selectedChangeIds.splice(index, 1);
+    this.setState({...current, selectedChangeIds});
+  }
+
+  sync(visibleChanges: ChangeInfo[]) {
+    const current = this.subject$.getValue();
+    const selectedChangeIds = [...current.selectedChangeIds].filter(changeId =>
+      visibleChanges.some(visibleChange => visibleChange.id === changeId)
+    );
+    this.setState({...current, selectedChangeIds});
   }
 
   /** Required for testing */

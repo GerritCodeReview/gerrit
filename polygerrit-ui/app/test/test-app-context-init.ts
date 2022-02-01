@@ -40,6 +40,10 @@ import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {MockHighlightService} from '../services/highlight/highlight-service_test';
+import {
+  BulkActionsModel,
+  bulkActionsModelToken,
+} from '../models/bulk-actions/bulk-actions-model';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -117,6 +121,10 @@ export function createTestDependencies(
     );
 
   dependencies.set(checksModelToken, checksModelCreator);
+
+  const bulkActionsModelCreator = () =>
+    new BulkActionsModel(appContext.restApiService);
+  dependencies.set(bulkActionsModelToken, bulkActionsModelCreator);
 
   return dependencies;
 }

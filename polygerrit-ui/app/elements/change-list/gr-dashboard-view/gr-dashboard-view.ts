@@ -24,7 +24,6 @@ import '../gr-create-commands-dialog/gr-create-commands-dialog';
 import '../gr-create-change-help/gr-create-change-help';
 import '../gr-create-destination-dialog/gr-create-destination-dialog';
 import '../gr-user-header/gr-user-header';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-dashboard-view_html';
 import {
   GerritNav,
@@ -58,6 +57,7 @@ import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
+import {DIPolymerElement} from '../../../models/dependency';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -76,7 +76,7 @@ const slotNameBySectionName = new Map<string, string>([
 ]);
 
 @customElement('gr-dashboard-view')
-export class GrDashboardView extends PolymerElement {
+export class GrDashboardView extends DIPolymerElement {
   static get template() {
     return htmlTemplate;
   }

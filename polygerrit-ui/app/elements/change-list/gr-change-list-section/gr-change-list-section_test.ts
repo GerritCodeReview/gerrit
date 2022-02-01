@@ -15,7 +15,7 @@ import {
   createAccountDetailWithId,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {NumericChangeId} from '../../../api/rest-api';
+import {NumericChangeId, ChangeInfoId} from '../../../api/rest-api';
 import {
   queryAll,
   query,
@@ -38,7 +38,18 @@ suite('gr-change-list section', () => {
     element.changeSection = {
       name: 'test',
       query: 'test',
-      results: [createChange()],
+      results: [
+        {
+          ...createChange(),
+          _number: 0 as NumericChangeId,
+          id: '0' as ChangeInfoId,
+        },
+        {
+          ...createChange(),
+          _number: 1 as NumericChangeId,
+          id: '1' as ChangeInfoId,
+        },
+      ],
       emptyStateSlotName: 'test',
     };
     await element.updateComplete;
@@ -52,6 +63,34 @@ suite('gr-change-list section', () => {
     await element.updateComplete;
 
     assert.isOk(query(element, '.selection'));
+  });
+
+  suite('bulk actions selection', () => {
+    setup(async () => {
+      stubFlags('isEnabled').returns(true);
+      element.requestUpdate();
+      await element.updateComplete;
+    });
+
+    test('changing section triggers model sync', async () => {
+      const syncStub = sinon.stub(element.bulkActionsModel, 'sync');
+      assert.isFalse(syncStub.called);
+      element.changeSection = {
+        name: 'test',
+        query: 'test',
+        results: [
+          {
+            ...createChange(),
+            _number: 1 as NumericChangeId,
+            id: '1' as ChangeInfoId,
+          },
+        ],
+        emptyStateSlotName: 'test',
+      };
+      await element.updateComplete;
+
+      assert.isTrue(syncStub.called);
+    });
   });
 
   test('colspans', async () => {

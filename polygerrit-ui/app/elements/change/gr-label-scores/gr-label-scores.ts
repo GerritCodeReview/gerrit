@@ -157,8 +157,8 @@ export class GrLabelScores extends LitElement {
       ${labels.map(
         label => html`<gr-label-score-row
           class="${this.computeLabelAccessClass(label.name)}"
+          name="${label.name}"
           .label="${label}"
-          .name="${label.name}"
           .labels="${this.change?.labels}"
           .permittedLabels="${this.permittedLabels}"
           .labelValues="${labelValues}"

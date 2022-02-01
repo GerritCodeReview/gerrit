@@ -36,6 +36,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "938b3e84_1c52c0b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-01T13:05:47Z",
+      "side": 1,
+      "message": "Thanks for the quick implementation.",
+      "revId": "b635b93147e068c665ad48d4dad355fab0e21f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6d5611b_9d4a8fed",
@@ -54,6 +71,53 @@
         "startChar": 30,
         "endLine": 426,
         "endChar": 68
+      },
+      "revId": "b635b93147e068c665ad48d4dad355fab0e21f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "247df30a_a112eb23",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-01T13:05:47Z",
+      "side": 1,
+      "message": "Yes, that looks good to me.",
+      "parentUuid": "b6d5611b_9d4a8fed",
+      "range": {
+        "startLine": 426,
+        "startChar": 30,
+        "endLine": 426,
+        "endChar": 68
+      },
+      "revId": "b635b93147e068c665ad48d4dad355fab0e21f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddfa23c1_cedb467c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-01T13:05:47Z",
+      "side": 1,
+      "message": "nit: hasfooter",
+      "range": {
+        "startLine": 960,
+        "startChar": 50,
+        "endLine": 960,
+        "endChar": 58
       },
       "revId": "b635b93147e068c665ad48d4dad355fab0e21f48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

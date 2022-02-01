@@ -22,6 +22,30 @@
       },
       "revId": "8743a6b88e1b53a96e07df6e48c18ddc730893f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c94def45_a7298991",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-01T14:36:39Z",
+      "side": 1,
+      "message": "I added the change object in the state because we need the change description etc in the dialogs we show.\nI added a TODO to move to tracking id\u0027s in case the change info object becomes stale.",
+      "parentUuid": "8c3b1725_1d6f6217",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "8743a6b88e1b53a96e07df6e48c18ddc730893f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

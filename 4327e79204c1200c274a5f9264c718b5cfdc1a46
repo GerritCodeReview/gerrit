@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89012943_b4ba2972",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-01T12:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3a0ab5c_b128b545",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7047e480_25fd7a73",
@@ -118,6 +136,24 @@
       "writtenOn": "2022-02-01T12:28:20Z",
       "side": 1,
       "message": "Define a local helper function with a meaningful name so it\u0027s clear what the reducer is doing.",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7c72de6_b50c6ba3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-01T12:52:04Z",
+      "side": 1,
+      "message": "Looks like its splitting by \"-\" and taking the first letter of each token.\nI added a comment and better variable names but creating a helper method looks overkill",
+      "parentUuid": "9b5e9991_2abe0091",
       "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

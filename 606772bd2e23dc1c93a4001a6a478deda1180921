@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc422ac8_51d788c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-02-01T00:34:15Z",
+      "side": 1,
+      "message": "Confirmed gerrit starts with gitiles plugin installed",
+      "revId": "606772bd2e23dc1c93a4001a6a478deda1180921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

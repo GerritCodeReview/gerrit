@@ -23,19 +23,19 @@ suite('bulk actions model test', () => {
 
     assert.deepEqual(bulkActionsModel.getState().selectedChangeIds, []);
 
-    bulkActionsModel.addSelectedChange(c1);
+    bulkActionsModel.addSelectedChangeId(c1.id);
     assert.deepEqual(bulkActionsModel.getState().selectedChangeIds, [c1.id]);
 
-    bulkActionsModel.addSelectedChange(c2);
+    bulkActionsModel.addSelectedChangeId(c2.id);
     assert.deepEqual(bulkActionsModel.getState().selectedChangeIds, [
       c1.id,
       c2.id,
     ]);
 
-    bulkActionsModel.removeSelectedChange(c1);
+    bulkActionsModel.removeSelectedChangeId(c1.id);
     assert.deepEqual(bulkActionsModel.getState().selectedChangeIds, [c2.id]);
 
-    bulkActionsModel.removeSelectedChange(c2);
+    bulkActionsModel.removeSelectedChangeId(c2.id);
     assert.deepEqual(bulkActionsModel.getState().selectedChangeIds, []);
   });
 });

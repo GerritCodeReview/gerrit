@@ -22,6 +22,12 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from '@lit/reactive-element';
 import {Metadata} from '../../../utils/change-metadata-util';
 import {WAITING} from '../../../constants/constants';
+import {provide} from '../../../models/dependency';
+import {
+  bulkActionsModelToken,
+  BulkActionsModel,
+} from '../../../models/bulk-actions/bulk-actions-model';
+import {PropertyValues} from '@lit/reactive-element';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -66,6 +72,8 @@ export class GrChangeListSection extends LitElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
+  bulkActionsModel?: BulkActionsModel;
+
   static override get styles() {
     return [
       changeListStyles,
@@ -84,6 +92,23 @@ export class GrChangeListSection extends LitElement {
         }
       `,
     ];
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.bulkActionsModel = new BulkActionsModel(
+      getAppContext().restApiService
+    );
+    provide(this, bulkActionsModelToken, () => this.bulkActionsModel);
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('changeSection')) {
+      // In case the list of changes is updated due to auto reloading, we want
+      // to ensure the model removes any stale change that is not a part of the
+      // new section changes.
+      this.bulkActionsModel!.sync(this.changeSection.results);
+    }
   }
 
   override render() {

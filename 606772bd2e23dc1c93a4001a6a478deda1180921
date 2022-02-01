@@ -16,6 +16,23 @@
       "message": "Confirmed gerrit starts with gitiles plugin installed",
       "revId": "606772bd2e23dc1c93a4001a6a478deda1180921",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49ad5cce_2f96aa26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-01T07:35:09Z",
+      "side": 1,
+      "message": "May be add reference to issue 15639?",
+      "revId": "606772bd2e23dc1c93a4001a6a478deda1180921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

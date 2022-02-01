@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {LitElement} from 'lit';
+import {LitElement, css, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import {
@@ -19,10 +19,14 @@ import {ChangeInfo, ServerInfo, AccountInfo} from '../../../api/rest-api';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css} from '@lit/reactive-element';
 import {Metadata} from '../../../utils/change-metadata-util';
 import {WAITING} from '../../../constants/constants';
 import {ifDefined} from 'lit/directives/if-defined';
+import {provide} from '../../../models/dependency';
+import {
+  bulkActionsModelToken,
+  BulkActionsModel,
+} from '../../../models/bulk-actions/bulk-actions-model';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -84,6 +88,10 @@ export class GrChangeListSection extends LitElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
+  bulkActionsModel: BulkActionsModel = new BulkActionsModel(
+    getAppContext().restApiService
+  );
+
   static override get styles() {
     return [
       changeListStyles,
@@ -102,6 +110,20 @@ export class GrChangeListSection extends LitElement {
         }
       `,
     ];
+  }
+
+  constructor() {
+    super();
+    provide(this, bulkActionsModelToken, () => this.bulkActionsModel);
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('changeSection')) {
+      // In case the list of changes is updated due to auto reloading, we want
+      // to ensure the model removes any stale change that is not a part of the
+      // new section changes.
+      this.bulkActionsModel!.sync(this.changeSection.results.map(c => c.id));
+    }
   }
 
   override render() {

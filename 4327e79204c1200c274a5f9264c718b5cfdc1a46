@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d05a2422_834ec794",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-01T12:28:20Z",
+      "side": 1,
+      "message": "Given this is a rather large refactor, could you share how you tested it in the commit msg?",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ed3c6b0_cd6c26a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-01T12:28:20Z",
+      "side": 1,
+      "message": "Thanks for the refactor!",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3a0ab5c_b128b545",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-01T12:28:20Z",
+      "side": 1,
+      "message": "Please define these strings at the top as constants if they don\u0027t already exist as constants somewhere.",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7047e480_25fd7a73",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-01T12:28:20Z",
+      "side": 1,
+      "message": "Define this array at the top as a constant.",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b5e9991_2abe0091",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-01T12:28:20Z",
+      "side": 1,
+      "message": "Define a local helper function with a meaningful name so it\u0027s clear what the reducer is doing.",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46ed2a53_d2c08f8f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-01T12:28:20Z",
+      "side": 1,
+      "message": "Put render above private and helper methods.\n\nTypical layout:\n\n@query\n@property\n@state\nmember variables\nstatic override get styles()\noverride render()\nrenderHelpers\nothermethods",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c62e16c_f5639026",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-01T12:28:20Z",
+      "side": 1,
+      "message": "Rename this to renderSection as it only renders one section",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

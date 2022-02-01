@@ -592,8 +592,8 @@ def java_dependencies():
 
     maven_jar(
         name = "h2",
-        artifact = "com.h2database:h2:1.3.176",
-        sha1 = "fd369423346b2f1525c413e33f8cf95b09c92cbd",
+        artifact = "com.h2database:h2:2.0.206",
+        sha1 = "42e35ccb838ce5866ce0eeeeb8c0a8de6e4d0508",
     )
 
     maven_jar(

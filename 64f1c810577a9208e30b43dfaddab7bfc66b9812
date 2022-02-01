@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e44ae4fb_07d49e60",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 5283,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-02-01T10:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d4b32ca_f7f1ec87",
+      "range": {
+        "startLine": 5283,
+        "startChar": 80,
+        "endLine": 5283,
+        "endChar": 89
+      },
+      "revId": "64f1c810577a9208e30b43dfaddab7bfc66b9812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac0e69cb_c8532a65",
@@ -60,6 +84,54 @@
       "writtenOn": "2022-02-01T01:10:08Z",
       "side": 1,
       "message": "nit: wrap long line",
+      "range": {
+        "startLine": 5286,
+        "startChar": 80,
+        "endLine": 5286,
+        "endChar": 88
+      },
+      "revId": "64f1c810577a9208e30b43dfaddab7bfc66b9812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "621424ac_69f17a89",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 5286,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-02-01T10:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac0e69cb_c8532a65",
+      "range": {
+        "startLine": 5286,
+        "startChar": 42,
+        "endLine": 5286,
+        "endChar": 53
+      },
+      "revId": "64f1c810577a9208e30b43dfaddab7bfc66b9812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48be4607_a284bac3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 5286,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-02-01T10:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a5a029c_2e24f36d",
       "range": {
         "startLine": 5286,
         "startChar": 80,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6d5611b_9d4a8fed",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-01T12:52:04Z",
+      "side": 1,
+      "message": "I am not sure we want this. I implemented it this way to match \"footer\", but for names, I think we want to match case. To reduce cHaOS in footer names. WDYT?",
+      "range": {
+        "startLine": 426,
+        "startChar": 30,
+        "endLine": 426,
+        "endChar": 68
+      },
+      "revId": "b635b93147e068c665ad48d4dad355fab0e21f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

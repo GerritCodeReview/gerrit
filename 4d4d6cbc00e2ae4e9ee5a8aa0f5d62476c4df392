@@ -16,6 +16,24 @@
       "message": "This seems to have broken slot (e.g. the create change dialog isn\u0027t shown for new users or if changes \u003d\u003d\u003d 0).",
       "revId": "4d4d6cbc00e2ae4e9ee5a8aa0f5d62476c4df392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12711a3c_e49dbe51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-01T17:50:04Z",
+      "side": 1,
+      "message": "Adding more info:\n\nhttps://github.com/GerritCodeReview/gerrit/blob/534d7fdbf11694a8c976c3b830b097f27af7abb2/polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_html.ts#L86 isn\u0027t shown.\n\nReverting this change fixed it.",
+      "parentUuid": "f29ca1a9_979b5ed3",
+      "revId": "4d4d6cbc00e2ae4e9ee5a8aa0f5d62476c4df392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

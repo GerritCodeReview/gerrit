@@ -205,12 +205,17 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
    * Added new field {@link ChangeField#PREFIX_HASHTAG} and {@link ChangeField#PREFIX_TOPIC} to
    * allow easier search for topics.
    */
+  @Deprecated
   static final Schema<ChangeData> V75 =
       new Schema.Builder<ChangeData>()
           .add(V74)
           .add(ChangeField.PREFIX_HASHTAG)
           .add(ChangeField.PREFIX_TOPIC)
           .build();
+
+  /** Added new field {@link ChangeField#FOOTER_NAME}. */
+  static final Schema<ChangeData> V76 =
+      new Schema.Builder<ChangeData>().add(V75).add(ChangeField.FOOTER_NAME).build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

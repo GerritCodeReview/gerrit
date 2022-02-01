@@ -1675,6 +1675,27 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byFooterName() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.FOOTER_NAME)).isTrue();
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 = repo.parseBody(repo.commit().message("Test\n\nfoo: bar").create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    RevCommit commit2 = repo.parseBody(repo.commit().message("Test\n\nBaR: baz").create());
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+
+    // create a changes with lines that look like footers, but which are not
+    RevCommit commit6 = repo.parseBody(repo.commit().message("Test\n\na=b: c").create());
+    insert(repo, newChangeForCommit(repo, commit6));
+
+    // matching by 'key=value' works
+    assertQuery("hasfooter:foo", change1);
+
+    // case matters
+    assertQuery("hasfooter:BaR", change2);
+    assertQuery("hasfooter:Bar", change2);
+  }
+
+  @Test
   public void byDirectory() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChangeWithFiles(repo, "src/foo.h", "src/foo.cc"));

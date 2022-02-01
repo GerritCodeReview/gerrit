@@ -22,6 +22,11 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from '@lit/reactive-element';
 import {Metadata} from '../../../utils/change-metadata-util';
 import {WAITING} from '../../../constants/constants';
+import {provide} from '../../../models/dependency';
+import {
+  bulkActionsModelToken,
+  BulkActionsModel,
+} from '../../../models/bulk-actions/bulk-actions-model';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -84,6 +89,15 @@ export class GrChangeListSection extends LitElement {
         }
       `,
     ];
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    provide(
+      this,
+      bulkActionsModelToken,
+      () => new BulkActionsModel(getAppContext().restApiService)
+    );
   }
 
   override render() {

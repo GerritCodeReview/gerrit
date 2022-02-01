@@ -35,6 +35,7 @@ import {
 } from '../../../test/test-data-generators';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-change-list');
 
@@ -274,6 +275,70 @@ suite('gr-change-list basic tests', () => {
     pressKey(element, 'k');
     pressKey(element, 'k');
     assert.equal(element.selectedIndex, 0);
+  });
+
+  suite('bulk actions selection', () => {
+    setup(async () => {
+      stubFlags('isEnabled').returns(true);
+      sinon.stub(element, 'computeLabelNames');
+      element.sections = [
+        {results: new Array(1), name: 'a'},
+        {results: new Array(2), name: 'b'},
+      ];
+      element.selectedIndex = 0;
+      element.preferences = {
+        legacycid_in_change_table: true,
+        time_format: TimeFormat.HHMM_12,
+        change_table: [
+          'Subject',
+          'Status',
+          'Owner',
+          'Reviewers',
+          'Comments',
+          'Repo',
+          'Branch',
+          'Updated',
+          'Size',
+          ' Status ',
+        ],
+      };
+      element.config = createServerInfo();
+      element.changes = [
+        {...createChange(), _number: 0 as NumericChangeId},
+        {...createChange(), _number: 1 as NumericChangeId},
+        {...createChange(), _number: 2 as NumericChangeId},
+      ];
+      await element.updateComplete;
+    });
+
+    test('bulk actions checkboxes', async () => {
+      const section = queryAndAssert(element, 'gr-change-list-section');
+      const changeItems = queryAll<GrChangeListItem>(
+        section,
+        'gr-change-list-item'
+      );
+
+      const checkbox = queryAndAssert(
+        query(changeItems[0], '.selection'),
+        'input'
+      );
+      assert.isOk(checkbox);
+      tap(checkbox);
+      await flush();
+      let selectedChanges = changeItems[0]
+        .getBulkActionsModel()
+        .getState().selectedChanges;
+      assert.deepEqual(selectedChanges, [
+        {...createChange(), _number: 0 as NumericChangeId},
+      ]);
+
+      tap(checkbox);
+      await flush();
+      selectedChanges = changeItems[0]
+        .getBulkActionsModel()
+        .getState().selectedChanges;
+      assert.deepEqual(selectedChanges, []);
+    });
   });
 
   test('no changes', async () => {

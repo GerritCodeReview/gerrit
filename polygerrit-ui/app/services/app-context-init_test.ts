@@ -17,13 +17,13 @@
 
 import '../test/common-test-setup-karma.js';
 import {AppContext} from './app-context.js';
-import {createAppContext} from './app-context-init.js';
 import {Finalizable} from './registry';
+import {createTestAppContext} from '../test/test-app-context-init.js';
 
 suite('app context initializer tests', () => {
   let appContext: AppContext & Finalizable;
   setup(() => {
-    appContext = createAppContext();
+    appContext = createTestAppContext();
   });
 
   teardown(() => {

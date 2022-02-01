@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d0549c0_2b354737",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-01T12:40:41Z",
+      "side": 1,
+      "message": "It\u0027s not adding any functionality so I mainly relied on the unit tests for gr-change-list and a bit of manual testing.\n\nNot sure what to mention in the commit message. Do you think the testing is insufficient?",
+      "parentUuid": "d05a2422_834ec794",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3ed3c6b0_cd6c26a4",
@@ -69,6 +87,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f21f2c43_7342ecb7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-01T12:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7047e480_25fd7a73",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b5e9991_2abe0091",
@@ -103,6 +139,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4b6bb2a_6b021e64",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-01T12:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46ed2a53_d2c08f8f",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c62e16c_f5639026",
@@ -116,6 +170,24 @@
       "writtenOn": "2022-02-01T12:28:20Z",
       "side": 1,
       "message": "Rename this to renderSection as it only renders one section",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f469ad5e_ffe5c302",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-01T12:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c62e16c_f5639026",
       "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

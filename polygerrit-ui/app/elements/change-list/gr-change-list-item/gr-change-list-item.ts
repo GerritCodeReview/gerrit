@@ -42,7 +42,7 @@ import {
   QuickLabelInfo,
   Timestamp,
 } from '../../../types/common';
-import {hasOwnProperty} from '../../../utils/common-util';
+import {hasOwnProperty, assertIsDefined} from '../../../utils/common-util';
 import {pluralize} from '../../../utils/string-util';
 import {
   getRequirements,
@@ -56,6 +56,8 @@ import {customElement, property, state} from 'lit/decorators';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
+import {resolve} from '../../../models/dependency';
 
 enum ChangeSize {
   XS = 10,
@@ -120,6 +122,10 @@ export class GrChangeListItem extends LitElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
+  private checked = false;
+
+  private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
+
   override connectedCallback() {
     super.connectedCallback();
     getPluginLoader()
@@ -129,6 +135,12 @@ export class GrChangeListItem extends LitElement {
           'change-list-item-cell'
         );
       });
+    this.getBulkActionsModel().selectedChanges$.subscribe(selectedChanges => {
+      if (!this.change) return;
+      this.checked = selectedChanges.some(
+        selectedChange => selectedChange.id === this.change!.id
+      );
+    });
   }
 
   static override get styles() {
@@ -292,7 +304,11 @@ export class GrChangeListItem extends LitElement {
     if (!this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) return;
     return html`
       <td class="cell selection">
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          ?checked=${this.checked}
+          @click=${() => this.handleChangeSelectionClick()}
+        />
       </td>
     `;
   }
@@ -587,6 +603,14 @@ export class GrChangeListItem extends LitElement {
         </gr-endpoint-decorator>
       </td>
     `;
+  }
+
+  private handleChangeSelectionClick() {
+    assertIsDefined(this.change, 'change');
+    this.checked = !this.checked;
+    if (this.checked)
+      this.getBulkActionsModel().addSelectedChange(this.change!);
+    else this.getBulkActionsModel().removeSelectedChange(this.change!);
   }
 
   private changeStatuses() {

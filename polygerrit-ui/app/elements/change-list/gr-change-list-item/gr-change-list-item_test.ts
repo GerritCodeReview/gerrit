@@ -17,7 +17,7 @@
 
 import {fixture} from '@open-wc/testing-helpers';
 import {html} from 'lit';
-import {SubmitRequirementResultInfo} from '../../../api/rest-api';
+import {SubmitRequirementResultInfo, ChangeInfoId} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import '../../../test/common-test-setup-karma';
 import {
@@ -294,12 +294,37 @@ suite('gr-change-list-item tests', () => {
     }
   });
 
-  test('selection checkbox is only shown if experiment is enabled', async () => {
-    assert.isNotOk(query(element, '.selection'));
-    stubFlags('isEnabled').returns(true);
-    element = basicFixture.instantiate();
-    await element.updateComplete;
-    assert.isOk(query(element, '.selection'));
+  suite('checkbox', () => {
+    test('selection checkbox is only shown if experiment is enabled', async () => {
+      assert.isNotOk(query(element, '.selection'));
+      stubFlags('isEnabled').returns(true);
+      element = basicFixture.instantiate();
+      await element.updateComplete;
+      assert.isOk(query(element, '.selection'));
+    });
+
+    test('checkbox state updates with model updates', async () => {
+      stubFlags('isEnabled').returns(true);
+      element.requestUpdate();
+      await element.updateComplete;
+
+      element.change = {...createChange(), id: '1' as ChangeInfoId};
+      element.getBulkActionsModel().addSelectedChangeId(element.change.id);
+
+      await flush();
+      await element.updateComplete;
+
+      const checkbox = queryAndAssert<HTMLInputElement>(
+        element,
+        '.selection > input'
+      );
+      assert.isTrue(checkbox.checked);
+
+      element.getBulkActionsModel().removeSelectedChangeId(element.change.id);
+      await flush();
+
+      assert.isFalse(checkbox.checked);
+    });
   });
 
   test('repo column hidden', async () => {

@@ -26,13 +26,21 @@ import {
   createNonApplicableSubmitRequirementResultInfo,
   createChange,
 } from '../../../test/test-data-generators';
-import {ChangeInfo, SubmitRequirementResultInfo} from '../../../api/rest-api';
+import {
+  AccountId,
+  ChangeInfo,
+  DetailedLabelInfo,
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../../../api/rest-api';
 import {StandardLabels} from '../../../utils/label-util';
+import {queryAndAssert, stubFlags} from '../../../test/test-utils';
 
 suite('gr-change-list-column-requirement tests', () => {
   let element: GrChangeListColumnRequirement;
   let change: ChangeInfo;
   setup(() => {
+    stubFlags('isEnabled').returns(true);
     const submitRequirement: SubmitRequirementResultInfo = {
       ...createSubmitRequirementResultInfo(),
       name: StandardLabels.CODE_REVIEW,
@@ -66,5 +74,52 @@ suite('gr-change-list-column-requirement tests', () => {
       >
       </iron-icon>
     </div>`);
+  });
+
+  test('show worst vote when state is not satisfied', async () => {
+    const VALUES_2 = {
+      '-2': 'blocking',
+      '-1': 'bad',
+      '0': 'neutral',
+      '+1': 'good',
+      '+2': 'perfect',
+    };
+    const label: DetailedLabelInfo = {
+      values: VALUES_2,
+      all: [
+        {value: -1, _account_id: 777 as AccountId},
+        {value: 1, _account_id: 324 as AccountId},
+      ],
+    };
+    const submitRequirement: SubmitRequirementResultInfo = {
+      ...createSubmitRequirementResultInfo(),
+      name: StandardLabels.CODE_REVIEW,
+      status: SubmitRequirementStatus.UNSATISFIED,
+      submittability_expression_result: {
+        ...createSubmitRequirementExpressionInfo(),
+        expression: 'label:Verified=MAX -label:Verified=MIN',
+      },
+    };
+    change = {
+      ...change,
+      submit_requirements: [submitRequirement],
+      labels: {
+        Verified: label,
+      },
+    };
+    element = await fixture<GrChangeListColumnRequirement>(
+      html`<gr-change-list-column-requirement
+        .change=${change}
+        .labelName=${StandardLabels.CODE_REVIEW}
+      >
+      </gr-change-list-column-requirement>`
+    );
+    expect(element).shadowDom.to.equal(`<div class="container">
+      <gr-vote-chip></gr-vote-chip>
+    </div>`);
+    const voteChip = queryAndAssert(element, 'gr-vote-chip');
+    expect(voteChip).shadowDom.to.equal(`<span class="container">
+      <div class="negative vote-chip">-1</div>
+    </span>`);
   });
 });

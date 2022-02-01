@@ -47,6 +47,7 @@ import {
   showNewSubmitRequirements,
 } from '../../../utils/label-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends PolymerElement {
@@ -233,6 +234,9 @@ export class GrReviewerList extends PolymerElement {
   }
 
   _computeCanRemoveReviewer(reviewer: AccountInfo, mutable: boolean) {
+    if (this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
+      return false;
+    }
     return mutable && isRemovableReviewer(this.change, reviewer);
   }
 

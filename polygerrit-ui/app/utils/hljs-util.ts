@@ -3,6 +3,11 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {
+  SyntaxLayerLine,
+  SyntaxLayerRange,
+  UNCLOSED,
+} from '../types/syntax-worker-api';
 
 /**
  * Utilities related to working with the HighlightJS syntax highlighting lib.
@@ -20,19 +25,6 @@
 const openingSpan = new RegExp('<span class="(.*?)">');
 const closingSpan = new RegExp('</span>');
 
-/** Can be used for `length` in SyntaxLayerRange. */
-const UNCLOSED = -1;
-
-/** Range of characters in a line to be syntax highlighted. */
-export interface SyntaxLayerRange {
-  /** 1-based inclusive. */
-  start: number;
-  /** Can only be UNCLOSED during processing. */
-  length: number;
-  /** HighlightJS specific names, e.g. 'literal'. */
-  className: string;
-}
-
 /**
  * HighlightJS produces one long HTML string with HTML elements spanning
  * multiple lines. <gr-diff> is line based, needs all elements closed at the end
@@ -44,16 +36,16 @@ export interface SyntaxLayerRange {
  */
 export function highlightedStringToRanges(
   highlightedCode: string
-): SyntaxLayerRange[][] {
+): SyntaxLayerLine[] {
   // What the function eventually returns.
-  const rangesPerLine: SyntaxLayerRange[][] = [];
+  const rangesPerLine: SyntaxLayerLine[] = [];
   // The unclosed ranges that are carried over from one line to the next.
   let carryOverRanges: SyntaxLayerRange[] = [];
 
   for (let line of highlightedCode.split('\n')) {
     const ranges: SyntaxLayerRange[] = [...carryOverRanges];
     carryOverRanges = [];
-    rangesPerLine.push(ranges);
+    rangesPerLine.push({ranges});
 
     // Remove all span tags one after another from left to right.
     // For each opening <span ...> push a new (unclosed) range.

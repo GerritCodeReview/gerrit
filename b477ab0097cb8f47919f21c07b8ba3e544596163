@@ -16,6 +16,24 @@
       "message": "Why are you changing the event-type?",
       "revId": "b477ab0097cb8f47919f21c07b8ba3e544596163",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33f51ca2_3e518a3f",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-01T15:17:53Z",
+      "side": 0,
+      "message": "Ah, i\u0027ll change it back.",
+      "parentUuid": "03bfb55f_9f643580",
+      "revId": "b477ab0097cb8f47919f21c07b8ba3e544596163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

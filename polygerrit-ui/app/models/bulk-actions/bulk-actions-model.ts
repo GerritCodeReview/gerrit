@@ -8,6 +8,11 @@ import {ChangeInfo, ChangeInfoId} from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {define} from '../dependency';
+import {select} from '../../utils/observable-util';
+
+export const bulkActionsModelToken =
+  define<BulkActionsModel>('bulk-actions-model');
 
 export interface BulkActionsState {
   selectedChanges: ChangeInfoId[];
@@ -25,6 +30,11 @@ export class BulkActionsModel
     super(initialState);
   }
 
+  public readonly selectedChanges$ = select(
+    this.state$,
+    bulkActionsState => bulkActionsState.selectedChanges
+  );
+
   addSelectedChange(change: ChangeInfo) {
     const current = this.subject$.getValue();
     const selectedChanges = [...current.selectedChanges];
@@ -38,6 +48,14 @@ export class BulkActionsModel
     const index = selectedChanges.findIndex(item => item === change.id);
     if (index === -1) return;
     selectedChanges.splice(index, 1);
+    this.setState({...current, selectedChanges});
+  }
+
+  sync(visibleChanges: ChangeInfo[]) {
+    const current = this.subject$.getValue();
+    const selectedChanges = [...current.selectedChanges].filter(change =>
+      visibleChanges.some(visibleChange => visibleChange.id === change.id)
+    );
     this.setState({...current, selectedChanges});
   }
 

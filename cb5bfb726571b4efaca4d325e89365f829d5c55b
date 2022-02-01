@@ -22,6 +22,30 @@
       },
       "revId": "cb5bfb726571b4efaca4d325e89365f829d5c55b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f75738a1_b243c4e7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-01T11:13:54Z",
+      "side": 1,
+      "message": "I added 1 test to test worst case. The other 2 display rules I think are trivial, so they don\u0027t need to be tested.",
+      "parentUuid": "4d2178cc_9ad18373",
+      "range": {
+        "startLine": 88,
+        "startChar": 10,
+        "endLine": 88,
+        "endChar": 32
+      },
+      "revId": "cb5bfb726571b4efaca4d325e89365f829d5c55b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

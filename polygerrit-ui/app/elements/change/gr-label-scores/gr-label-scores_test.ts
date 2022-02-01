@@ -82,7 +82,7 @@ suite('gr-label-scores tests', () => {
       'Code-Review': ['-2', '-1', ' 0', '+1', '+2'],
       Verified: ['-1', ' 0', '+1'],
     };
-    await flush();
+    await element.updateComplete;
   });
 
   test('get and set label scores', async () => {
@@ -93,7 +93,7 @@ suite('gr-label-scores tests', () => {
       );
       row.setSelectedValue('-1');
     }
-    await flush();
+    await element.updateComplete;
     assert.deepEqual(element.getLabelValues(), {
       'Code-Review': -1,
       Verified: -1,
@@ -110,7 +110,7 @@ suite('gr-label-scores tests', () => {
         },
       },
     };
-    await flush();
+    await element.updateComplete;
 
     assert.deepEqual(element.getLabelValues(true), {'Code-Review': 0});
     assert.deepEqual(element.getLabelValues(false), {});

@@ -158,7 +158,7 @@ export class GrLabelScores extends LitElement {
         label => html`<gr-label-score-row
           class="${this.computeLabelAccessClass(label.name)}"
           .label="${label}"
-          .name="${label.name}"
+          name="${label.name}"
           .labels="${this.change?.labels}"
           .permittedLabels="${this.permittedLabels}"
           .labelValues="${labelValues}"

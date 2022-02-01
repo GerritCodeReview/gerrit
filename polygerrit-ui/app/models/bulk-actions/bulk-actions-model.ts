@@ -8,6 +8,10 @@ import {ChangeInfo} from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {define} from '../dependency';
+
+export const bulkActionsModelToken =
+  define<BulkActionsModel>('bulk-actions-model');
 
 // TODO: consider keeping only changeId's as the object might become stale
 export interface BulkActionsState {

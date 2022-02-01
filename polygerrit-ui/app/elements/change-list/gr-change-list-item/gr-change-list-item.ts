@@ -56,6 +56,8 @@ import {customElement, property, state} from 'lit/decorators';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {resolve} from 'dns';
+import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 
 enum ChangeSize {
   XS = 10,
@@ -119,6 +121,10 @@ export class GrChangeListItem extends LitElement {
   reporting: ReportingService = getAppContext().reportingService;
 
   private readonly flagsService = getAppContext().flagsService;
+
+  private checked = false;
+
+  private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   override connectedCallback() {
     super.connectedCallback();

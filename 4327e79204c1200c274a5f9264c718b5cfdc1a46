@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8e055c8f_db2fdfd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-01T13:30:41Z",
+      "side": 1,
+      "message": "Updated commit message.",
+      "parentUuid": "6d0549c0_2b354737",
+      "revId": "4327e79204c1200c274a5f9264c718b5cfdc1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3ed3c6b0_cd6c26a4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7

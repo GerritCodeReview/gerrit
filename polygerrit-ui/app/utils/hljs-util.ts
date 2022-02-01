@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {SyntaxLayerRange, UNCLOSED} from '../types/worker-api';
 
 /**
  * Utilities related to working with the HighlightJS syntax highlighting lib.
@@ -19,19 +20,6 @@
  */
 const openingSpan = new RegExp('<span class="(.*?)">');
 const closingSpan = new RegExp('</span>');
-
-/** Can be used for `length` in SyntaxLayerRange. */
-const UNCLOSED = -1;
-
-/** Range of characters in a line to be syntax highlighted. */
-export interface SyntaxLayerRange {
-  /** 1-based inclusive. */
-  start: number;
-  /** Can only be UNCLOSED during processing. */
-  length: number;
-  /** HighlightJS specific names, e.g. 'literal'. */
-  className: string;
-}
 
 /**
  * HighlightJS produces one long HTML string with HTML elements spanning

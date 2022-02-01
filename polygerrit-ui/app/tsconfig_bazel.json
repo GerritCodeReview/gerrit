@@ -22,7 +22,8 @@
     "services/**/*",
     "styles/**/*",
     "types/**/*",
-    "utils/**/*"
+    "utils/**/*",
+    "workers/**/*"
   ],
   "exclude": [
     "**/*_test.ts",

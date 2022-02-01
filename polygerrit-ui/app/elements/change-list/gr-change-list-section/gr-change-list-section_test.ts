@@ -15,15 +15,17 @@ import {
   createAccountDetailWithId,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {NumericChangeId} from '../../../api/rest-api';
+import {NumericChangeId, ChangeInfoId} from '../../../api/rest-api';
 import {
   queryAll,
   query,
   queryAndAssert,
   stubFlags,
+  waitUntilObserved,
 } from '../../../test/test-utils';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {columnNames} from '../gr-change-list/gr-change-list';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-change-list-section');
 
@@ -38,7 +40,18 @@ suite('gr-change-list section', () => {
     element.changeSection = {
       name: 'test',
       query: 'test',
-      results: [createChange()],
+      results: [
+        {
+          ...createChange(),
+          _number: 0 as NumericChangeId,
+          id: '0' as ChangeInfoId,
+        },
+        {
+          ...createChange(),
+          _number: 1 as NumericChangeId,
+          id: '1' as ChangeInfoId,
+        },
+      ],
       emptyStateSlotName: 'test',
     };
     await element.updateComplete;
@@ -52,6 +65,52 @@ suite('gr-change-list section', () => {
     await element.updateComplete;
 
     assert.isOk(query(element, '.selection'));
+  });
+
+  suite('bulk actions selection', () => {
+    setup(async () => {
+      stubFlags('isEnabled').returns(true);
+      element.requestUpdate();
+      await element.updateComplete;
+    });
+
+    test('stale changes are removed from the model', async () => {
+      const changeItems = queryAll<GrChangeListItem>(
+        element,
+        'gr-change-list-item'
+      );
+
+      tap(queryAndAssert(changeItems[0], '.selection > input'));
+      tap(queryAndAssert(changeItems[1], '.selection > input'));
+
+      await waitUntilObserved(
+        element.bulkActionsModel!.selectedChangeIds$,
+        s => s.length === 2
+      );
+      await element.updateComplete;
+
+      let selectedChangeIds =
+        element.bulkActionsModel!.getState().selectedChangeIds;
+      assert.deepEqual(selectedChangeIds, ['0', '1']);
+
+      element.changeSection = {
+        name: 'test',
+        query: 'test',
+        results: [
+          {
+            ...createChange(),
+            _number: 1 as NumericChangeId,
+            id: '1' as ChangeInfoId,
+          },
+        ],
+        emptyStateSlotName: 'test',
+      };
+
+      await element.updateComplete;
+      selectedChangeIds =
+        element.bulkActionsModel!.getState().selectedChangeIds;
+      assert.deepEqual(selectedChangeIds, ['1']);
+    });
   });
 
   test('colspans', async () => {

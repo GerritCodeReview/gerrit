@@ -37,6 +37,7 @@ import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
+import {HighlightService} from './highlight/highlight-service';
 
 /**
  * The AppContext lazy initializator for all services
@@ -75,6 +76,7 @@ export function createAppContext(): AppContext & Finalizable {
       return new ShortcutsService(ctx.userModel, ctx.reportingService!);
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
+    highlightService: (_ctx: Partial<AppContext>) => new HighlightService(),
   };
   return create<AppContext>(appRegistry);
 }

@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../test/common-test-setup-karma';
-import './hljs-util';
+import './syntax-util';
 import {
   highlightedStringToRanges,
   removeFirstSpan,
   SpanType,
-} from './hljs-util';
+} from './syntax-util';
 
-suite('file hljs-util', () => {
+suite('file syntax-util', () => {
   suite('function removeFirstSpan()', () => {
     test('no matches', async () => {
       assert.isUndefined(removeFirstSpan(''));
@@ -44,23 +44,26 @@ suite('file hljs-util', () => {
 
   suite('function highlightedStringToRanges()', () => {
     test('no ranges', async () => {
-      assert.deepEqual(highlightedStringToRanges(''), [[]]);
-      assert.deepEqual(highlightedStringToRanges('\n'), [[], []]);
+      assert.deepEqual(highlightedStringToRanges(''), [{ranges: []}]);
+      assert.deepEqual(highlightedStringToRanges('\n'), [
+        {ranges: []},
+        {ranges: []},
+      ]);
       assert.deepEqual(highlightedStringToRanges('asdf\nasdf\nasdf'), [
-        [],
-        [],
-        [],
+        {ranges: []},
+        {ranges: []},
+        {ranges: []},
       ]);
     });
 
     test('one line, one span', async () => {
       assert.deepEqual(
         highlightedStringToRanges('asdf<span class="c">qwer</span>asdf'),
-        [[{start: 4, length: 4, className: 'c'}]]
+        [{ranges: [{start: 4, length: 4, className: 'c'}]}]
       );
       assert.deepEqual(
         highlightedStringToRanges('<span class="d">asdfqwer</span>'),
-        [[{start: 0, length: 8, className: 'd'}]]
+        [{ranges: [{start: 0, length: 8, className: 'd'}]}]
       );
     });
 
@@ -70,10 +73,12 @@ suite('file hljs-util', () => {
           'asdf<span class="c">qwer</span>zxcv<span class="d">qwer</span>asdf'
         ),
         [
-          [
-            {start: 4, length: 4, className: 'c'},
-            {start: 12, length: 4, className: 'd'},
-          ],
+          {
+            ranges: [
+              {start: 4, length: 4, className: 'c'},
+              {start: 12, length: 4, className: 'd'},
+            ],
+          },
         ]
       );
     });
@@ -84,10 +89,12 @@ suite('file hljs-util', () => {
           'asdf<span class="c">qwer<span class="d">zxcv</span>qwer</span>asdf'
         ),
         [
-          [
-            {start: 4, length: 12, className: 'c'},
-            {start: 8, length: 4, className: 'd'},
-          ],
+          {
+            ranges: [
+              {start: 4, length: 12, className: 'c'},
+              {start: 8, length: 4, className: 'd'},
+            ],
+          },
         ]
       );
     });
@@ -99,8 +106,8 @@ suite('file hljs-util', () => {
             'asd<span class="d">qwe</span>asd'
         ),
         [
-          [{start: 4, length: 4, className: 'c'}],
-          [{start: 3, length: 3, className: 'd'}],
+          {ranges: [{start: 4, length: 4, className: 'c'}]},
+          {ranges: [{start: 3, length: 3, className: 'd'}]},
         ]
       );
     });
@@ -111,8 +118,8 @@ suite('file hljs-util', () => {
           'asdf<span class="c">qwer\n' + 'asdf</span>qwer'
         ),
         [
-          [{start: 4, length: 4, className: 'c'}],
-          [{start: 0, length: 4, className: 'c'}],
+          {ranges: [{start: 4, length: 4, className: 'c'}]},
+          {ranges: [{start: 0, length: 4, className: 'c'}]},
         ]
       );
     });
@@ -124,14 +131,18 @@ suite('file hljs-util', () => {
             'asdf</span>qwer</span>zxcv'
         ),
         [
-          [
-            {start: 4, length: 8, className: 'c'},
-            {start: 8, length: 4, className: 'd'},
-          ],
-          [
-            {start: 0, length: 8, className: 'c'},
-            {start: 0, length: 4, className: 'd'},
-          ],
+          {
+            ranges: [
+              {start: 4, length: 8, className: 'c'},
+              {start: 8, length: 4, className: 'd'},
+            ],
+          },
+          {
+            ranges: [
+              {start: 0, length: 8, className: 'c'},
+              {start: 0, length: 4, className: 'd'},
+            ],
+          },
         ]
       );
     });
@@ -145,16 +156,20 @@ suite('file hljs-util', () => {
             'asdf</span>qwer'
         ),
         [
-          [{start: 4, length: 4, className: 'c'}],
-          [
-            {start: 0, length: 8, className: 'c'},
-            {start: 4, length: 4, className: 'd'},
-          ],
-          [
-            {start: 0, length: 8, className: 'c'},
-            {start: 0, length: 4, className: 'd'},
-          ],
-          [{start: 0, length: 4, className: 'c'}],
+          {ranges: [{start: 4, length: 4, className: 'c'}]},
+          {
+            ranges: [
+              {start: 0, length: 8, className: 'c'},
+              {start: 4, length: 4, className: 'd'},
+            ],
+          },
+          {
+            ranges: [
+              {start: 0, length: 8, className: 'c'},
+              {start: 0, length: 4, className: 'd'},
+            ],
+          },
+          {ranges: [{start: 0, length: 4, className: 'c'}]},
         ]
       );
     });

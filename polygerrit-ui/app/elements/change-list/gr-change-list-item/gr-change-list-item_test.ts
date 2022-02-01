@@ -17,7 +17,7 @@
 
 import {fixture} from '@open-wc/testing-helpers';
 import {html} from 'lit';
-import {SubmitRequirementResultInfo} from '../../../api/rest-api';
+import {SubmitRequirementResultInfo, ChangeInfoId} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import '../../../test/common-test-setup-karma';
 import {
@@ -33,6 +33,7 @@ import {
   queryAndAssert,
   stubRestApi,
   stubFlags,
+  waitUntilObserved,
 } from '../../../test/test-utils';
 import {
   AccountId,
@@ -46,8 +47,16 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {columnNames} from '../gr-change-list/gr-change-list';
 import './gr-change-list-item';
 import {GrChangeListItem, LabelCategory} from './gr-change-list-item';
-
-const basicFixture = fixtureFromElement('gr-change-list-item');
+import {
+  DIProviderElement,
+  wrapInProvider,
+} from '../../../models/di-provider-element';
+import {
+  bulkActionsModelToken,
+  BulkActionsModel,
+} from '../../../models/bulk-actions/bulk-actions-model';
+import {createTestAppContext} from '../../../test/test-app-context-init';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 
 suite('gr-change-list-item tests', () => {
   const account = createAccountWithId();
@@ -60,10 +69,23 @@ suite('gr-change-list-item tests', () => {
   };
 
   let element: GrChangeListItem;
+  let bulkActionsModel: BulkActionsModel;
 
   setup(async () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-    element = basicFixture.instantiate();
+
+    bulkActionsModel = new BulkActionsModel(
+      createTestAppContext().restApiService
+    );
+    element = (
+      await fixture<DIProviderElement>(
+        wrapInProvider(
+          html`<gr-change-list-item></gr-change-list-item>`,
+          bulkActionsModelToken,
+          bulkActionsModel
+        )
+      )
+    ).element as GrChangeListItem;
     await element.updateComplete;
   });
 
@@ -294,12 +316,74 @@ suite('gr-change-list-item tests', () => {
     }
   });
 
-  test('selection checkbox is only shown if experiment is enabled', async () => {
-    assert.isNotOk(query(element, '.selection'));
-    stubFlags('isEnabled').returns(true);
-    element = basicFixture.instantiate();
-    await element.updateComplete;
-    assert.isOk(query(element, '.selection'));
+  suite('checkbox', () => {
+    test('selection checkbox is only shown if experiment is enabled', async () => {
+      assert.isNotOk(query(element, '.selection'));
+      stubFlags('isEnabled').returns(true);
+      element.requestUpdate();
+      await element.updateComplete;
+      assert.isOk(query(element, '.selection'));
+    });
+
+    test('bulk actions checkboxes', async () => {
+      stubFlags('isEnabled').returns(true);
+      element.change = {...createChange(), id: '1' as ChangeInfoId};
+      element.requestUpdate();
+      await element.updateComplete;
+
+      const checkbox = queryAndAssert<HTMLInputElement>(
+        element,
+        '.selection > input'
+      );
+      tap(checkbox);
+      await waitUntilObserved(
+        bulkActionsModel.selectedChangeIds$,
+        s => s.length === 1
+      );
+      await element.updateComplete;
+
+      let selectedChangeIds = bulkActionsModel.getState().selectedChangeIds;
+      assert.deepEqual(selectedChangeIds, ['1']);
+
+      tap(checkbox);
+      await waitUntilObserved(
+        bulkActionsModel.selectedChangeIds$,
+        s => s.length === 0
+      );
+      await element.updateComplete;
+
+      selectedChangeIds = bulkActionsModel.getState().selectedChangeIds;
+      assert.deepEqual(selectedChangeIds, []);
+    });
+
+    test('checkbox state updates with model updates', async () => {
+      stubFlags('isEnabled').returns(true);
+      element.requestUpdate();
+      await element.updateComplete;
+
+      element.change = {...createChange(), id: '1' as ChangeInfoId};
+      bulkActionsModel.addSelectedChangeId(element.change.id);
+      await waitUntilObserved(
+        bulkActionsModel.selectedChangeIds$,
+        s => s.length === 1
+      );
+      await element.updateComplete;
+
+      const checkbox = queryAndAssert<HTMLInputElement>(
+        element,
+        '.selection > input'
+      );
+      assert.isTrue(checkbox.checked);
+
+      bulkActionsModel.removeSelectedChangeId(element.change.id);
+      await waitUntilObserved(
+        bulkActionsModel.selectedChangeIds$,
+        s => s.length === 0
+      );
+      await element.updateComplete;
+
+      assert.isFalse(checkbox.checked);
+    });
   });
 
   test('repo column hidden', async () => {
@@ -540,12 +624,18 @@ suite('gr-change-list-item tests', () => {
       ],
       unresolved_comment_count: 1,
     };
-    const element = await fixture<GrChangeListItem>(
-      html`<gr-change-list-item
-        .change=${change}
-        .labelNames=${[StandardLabels.CODE_REVIEW]}
-      ></gr-change-list-item>`
-    );
+    const element = (
+      await fixture<DIProviderElement>(
+        wrapInProvider(
+          html`<gr-change-list-item
+            .change=${change}
+            .labelNames=${[StandardLabels.CODE_REVIEW]}
+          ></gr-change-list-item>`,
+          bulkActionsModelToken,
+          bulkActionsModel
+        )
+      )
+    ).element as GrChangeListItem;
 
     const requirement = queryAndAssert(element, '.requirement');
     expect(requirement).dom.to

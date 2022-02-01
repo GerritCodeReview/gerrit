@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b1d6461_2880c373",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-01T11:25:02Z",
+      "side": 1,
+      "message": "Good stuff, @Ponch. Can you also update the release notes of the forthcoming v3.5.1 mentioning this change?",
+      "revId": "05bb40334340e48e06914f716575f9aac654aaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb2ceb12_08bdef7e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-01T16:25:19Z",
+      "side": 1,
+      "message": "I don\u0027t think so:\n\n  _computeShowTabs(schemes: string[]) {\n    return schemes.length \u003e 1 ? \u0027\u0027 : \u0027hidden\u0027;\n  }\n  \nmeans that this should be \u003c\u003d 1.",
+      "parentUuid": "6e7fc5a9_5b16f759",
+      "revId": "6f6e270cfc60880a5a3ebf0a07df80459efac01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30bfde13_ec1de003",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab113cb5_6b142aec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-01T16:25:19Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "30bfde13_ec1de003",
+      "revId": "6f6e270cfc60880a5a3ebf0a07df80459efac01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45a18165_a863782a",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-02-01T16:14:21Z",
       "side": 1,
       "message": "private handleTabChange \u003d (e: CustomEvent\u003c{value: number}\u003e) \u003d\u003e {",
+      "revId": "6f6e270cfc60880a5a3ebf0a07df80459efac01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "998f56ff_d2fbb1a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-01T16:25:19Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "45a18165_a863782a",
       "revId": "6f6e270cfc60880a5a3ebf0a07df80459efac01b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

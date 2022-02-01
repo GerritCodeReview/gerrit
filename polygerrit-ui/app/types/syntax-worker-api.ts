@@ -81,7 +81,7 @@ export const UNCLOSED = -1;
 
 /** Range of characters in a line to be syntax highlighted. */
 export interface SyntaxLayerRange {
-  /** 1-based inclusive. */
+  /** 0-based inclusive. */
   start: number;
   /** Can only be UNCLOSED during processing. */
   length: number;

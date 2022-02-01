@@ -26,6 +26,7 @@ import {UserModel} from '../models/user/user-model';
 import {RouterModel} from './router/router-model';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
 import {PluginsModel} from '../models/plugins/plugins-model';
+import {HighlightService} from './highlight/highlight-service';
 
 export interface AppContext {
   routerModel: RouterModel;
@@ -39,6 +40,7 @@ export interface AppContext {
   userModel: UserModel;
   shortcutsService: ShortcutsService;
   pluginsModel: PluginsModel;
+  highlightService: HighlightService;
 }
 
 /**

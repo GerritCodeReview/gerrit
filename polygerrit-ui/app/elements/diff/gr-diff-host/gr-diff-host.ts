@@ -100,6 +100,7 @@ import {GrDiffCheckResult} from '../../checks/gr-diff-check-result';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {deepEqual} from '../../../utils/deep-util';
 import {Category} from '../../../api/checks';
+import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -293,7 +294,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   private readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly syntaxLayer = new GrSyntaxLayer();
+  private readonly syntaxLayer: GrSyntaxLayer | GrSyntaxLayerWorker;
 
   private checksSubscription?: Subscription;
 
@@ -301,6 +302,12 @@ export class GrDiffHost extends DIPolymerElement {
 
   constructor() {
     super();
+    const useWorker = this.flags.isEnabled(
+      KnownExperimentId.SYNTAX_LAYER_WORKER
+    );
+    this.syntaxLayer = useWorker
+      ? new GrSyntaxLayerWorker()
+      : new GrSyntaxLayer();
     this._renderPrefs = {
       ...this._renderPrefs,
       use_lit_components: this.flags.isEnabled(
@@ -701,7 +708,12 @@ export class GrDiffHost extends DIPolymerElement {
   /** Cancel any remaining diff builder rendering work. */
   cancel() {
     this.$.diff.cancel();
-    this.syntaxLayer.cancel();
+    // TODO: Remove calling cancel() when switching to GrSyntaxLayerWorker.
+    // The plan is to only start syntax highlighting when a diff is visible on
+    // screen, and HighlightJS itself does not allow cancelling. So there is
+    // unclear benefit from the ability to cancel, which would be non-trivial
+    // to implement correctly and efficiently.
+    if (this.syntaxLayer instanceof GrSyntaxLayer) this.syntaxLayer.cancel();
   }
 
   getCursorStops() {

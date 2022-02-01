@@ -100,6 +100,6 @@ public final class OAuthTokenCacheTest {
                 .put("raw", String.class)
                 .put("expiresAt", long.class)
                 .put("providerId", String.class)
-                .build());
+                .buildOrThrow());
   }
 }

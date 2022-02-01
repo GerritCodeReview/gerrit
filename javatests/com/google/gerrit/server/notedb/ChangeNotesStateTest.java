@@ -980,7 +980,7 @@ public class ChangeNotesStateTest {
                     new TypeLiteral<ImmutableList<SubmitRequirementResult>>() {}.getType())
                 .put("updateCount", int.class)
                 .put("mergedOn", Instant.class)
-                .build());
+                .buildOrThrow());
   }
 
   @Test
@@ -1005,7 +1005,7 @@ public class ChangeNotesStateTest {
                 .put("revertOf", Change.Id.class)
                 .put("cherryPickOf", PatchSet.Id.class)
                 .put("toBuilder", ChangeNotesState.ChangeColumns.Builder.class)
-                .build());
+                .buildOrThrow());
   }
 
   @Test
@@ -1020,7 +1020,7 @@ public class ChangeNotesStateTest {
                 .put("groups", new TypeLiteral<ImmutableList<String>>() {}.getType())
                 .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("description", new TypeLiteral<Optional<String>>() {}.getType())
-                .build());
+                .buildOrThrow());
   }
 
   @Test
@@ -1031,7 +1031,7 @@ public class ChangeNotesStateTest {
                 .put("patchSetId", PatchSet.Id.class)
                 .put("accountId", Account.Id.class)
                 .put("labelId", LabelId.class)
-                .build());
+                .buildOrThrow());
     assertThatSerializedClass(PatchSetApproval.class)
         .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
@@ -1044,7 +1044,7 @@ public class ChangeNotesStateTest {
                 .put("postSubmit", boolean.class)
                 .put("copied", boolean.class)
                 .put("toBuilder", PatchSetApproval.Builder.class)
-                .build());
+                .buildOrThrow());
   }
 
   @Test
@@ -1150,7 +1150,7 @@ public class ChangeNotesStateTest {
                 .put("patchset", PatchSet.Id.class)
                 .put("tag", String.class)
                 .put("realAuthor", Account.Id.class)
-                .build());
+                .buildOrThrow());
   }
 
   @Test
@@ -1183,7 +1183,7 @@ public class ChangeNotesStateTest {
                 .put("revId", String.class)
                 .put("serverId", String.class)
                 .put("unresolved", boolean.class)
-                .build());
+                .buildOrThrow());
   }
 
   @Test

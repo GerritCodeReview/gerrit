@@ -71,7 +71,7 @@ public class BooleanProjectConfigTransformations {
           .put(
               BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT,
               new Mapper(i -> i.workInProgressByDefault, (i, v) -> i.workInProgressByDefault = v))
-          .build();
+          .buildOrThrow();
 
   static {
     // Verify that each BooleanProjectConfig has to/from API mappers in

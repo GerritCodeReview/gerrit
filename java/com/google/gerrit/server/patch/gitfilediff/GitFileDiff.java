@@ -51,7 +51,7 @@ public abstract class GitFileDiff {
           .put(FileMode.REGULAR_FILE, Patch.FileMode.REGULAR_FILE)
           .put(FileMode.EXECUTABLE_FILE, Patch.FileMode.EXECUTABLE_FILE)
           .put(FileMode.MISSING, Patch.FileMode.MISSING)
-          .build();
+          .buildOrThrow();
 
   private static Patch.FileMode mapFileMode(FileMode jgitFileMode) {
     if (!fileModeMap.containsKey(jgitFileMode)) {

@@ -196,7 +196,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
       Ref metaRefBeforeRewrite = repo.exactRef(refName);
       refsToOldMetaBuilder.put(refName, metaRefBeforeRewrite);
     }
-    ImmutableMap<String, Ref> refsToOldMeta = refsToOldMetaBuilder.build();
+    ImmutableMap<String, Ref> refsToOldMeta = refsToOldMetaBuilder.buildOrThrow();
 
     RunOptions options = new RunOptions();
     options.dryRun = false;
@@ -290,9 +290,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
       i++;
     }
     ImmutableMap<String, ObjectId> expectedFixedRefsToOldMeta =
-        expectedFixedRefsToOldMetaBuilder.build();
+        expectedFixedRefsToOldMetaBuilder.buildOrThrow();
     ImmutableMap<String, ObjectId> expectedSkippedRefsToOldMeta =
-        expectedSkippedRefsToOldMetaBuilder.build();
+        expectedSkippedRefsToOldMetaBuilder.buildOrThrow();
     RunOptions options = new RunOptions();
     options.dryRun = false;
     options.outputDiff = false;

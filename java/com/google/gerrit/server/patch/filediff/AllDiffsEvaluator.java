@@ -142,7 +142,7 @@ class AllDiffsEvaluator {
 
       keyToAllDiffs.put(augmentedKey, builder.build());
     }
-    return keyToAllDiffs.build();
+    return keyToAllDiffs.buildOrThrow();
   }
 
   /**

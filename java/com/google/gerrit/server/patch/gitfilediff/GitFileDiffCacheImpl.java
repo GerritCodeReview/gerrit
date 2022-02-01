@@ -221,7 +221,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
             }
           }
         }
-        return result.build();
+        return result.buildOrThrow();
       }
     }
 
@@ -267,7 +267,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
           result.put(key, createRewriteEntry(gitDiffs));
         }
       }
-      return result.build();
+      return result.buildOrThrow();
     }
 
     private static ListMultimap<String, DiffEntry> loadDiffEntries(

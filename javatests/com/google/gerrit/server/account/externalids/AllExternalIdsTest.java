@@ -150,7 +150,7 @@ public class AllExternalIdsTest {
                 .put("email", String.class)
                 .put("password", String.class)
                 .put("blobId", ObjectId.class)
-                .build());
+                .buildOrThrow());
   }
 
   private static AllExternalIds allExternalIds(ExternalId... externalIds) {

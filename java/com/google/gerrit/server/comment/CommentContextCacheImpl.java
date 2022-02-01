@@ -235,7 +235,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
           result.putAll(context);
         }
       }
-      return result.build();
+      return result.buildOrThrow();
     }
 
     /**

@@ -83,7 +83,7 @@ public abstract class ResourceServlet extends HttpServlet {
           .put("txt", "text/plain")
           .put("woff", "font/woff")
           .put("woff2", "font/woff2")
-          .build();
+          .buildOrThrow();
 
   protected static String contentType(String name) {
     int dot = name.lastIndexOf('.');

@@ -54,7 +54,7 @@ public class DiffInfoCreator {
               .put(Patch.ChangeType.RENAMED, ChangeType.RENAMED)
               .put(Patch.ChangeType.COPIED, ChangeType.COPIED)
               .put(Patch.ChangeType.REWRITE, ChangeType.REWRITE)
-              .build());
+              .buildOrThrow());
 
   private final DiffWebLinksProvider webLinksProvider;
   private final boolean intraline;

@@ -141,7 +141,7 @@ public class CommentContextLoader {
           }
         }
       }
-      return result.build();
+      return result.buildOrThrow();
     }
   }
 
@@ -210,7 +210,7 @@ public class CommentContextLoader {
     for (int i = commentRange.start(); i < commentRange.end(); i++) {
       context.put(i, src.getString(i - 1));
     }
-    return CommentContext.create(context.build(), contentType);
+    return CommentContext.create(context.buildOrThrow(), contentType);
   }
 
   /**

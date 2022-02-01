@@ -139,7 +139,7 @@ public class TagSetTest {
                 .put("w3", int.class)
                 .put("w4", int.class)
                 .put("w5", int.class)
-                .build());
+                .buildOrThrow());
   }
 
   // TODO(dborowitz): Find some more common place to put this method, which requires access to

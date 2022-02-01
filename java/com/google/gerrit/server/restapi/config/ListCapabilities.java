@@ -51,7 +51,7 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
         ImmutableMap.<String, CapabilityInfo>builder()
             .putAll(collectCoreCapabilities())
             .putAll(collectPluginCapabilities())
-            .build());
+            .buildOrThrow());
   }
 
   public Map<String, CapabilityInfo> collectPluginCapabilities() {

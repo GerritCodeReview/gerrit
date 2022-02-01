@@ -16,6 +16,23 @@
       "message": "I\u0027m not completely sure this is the right approach to fixing 15589 nor if it is complete (there may be other uses of ${commit} that need similar ${hash} counterpats). This approach was taken because it seemed least likely to impact existing users while still enabling integration with other systems like gitea that cannot handle change refs in their urls (they need the commit sha1).",
       "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "622f796b_4680e8bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-01T21:15:35Z",
+      "side": 1,
+      "message": "We have tested this via a depends on in our downstream Gerrit using Zuul. In this case a change to implement gitea links has been written, https://review.opendev.org/c/opendev/system-config/+/825339/, that depends on this change in Gerrit\u0027s Gerrit. We then followed that up with a change that forces a failure so that we can examine the test node directly. This all works because Zuul is able to mix in the pre merge state from this upstream change with our downstream Gerrit tree when we build our Gerrit docker images.\n\nIf you\u0027d like to see what this all results in your can visit https://172.99.69.247/c/x/test-project/+/3/1/file-3.txt and check the gitea link there (it includes the change hash as anticipated). Note that test server has a self signed cert that you\u0027ll need to tell your browser to ignore.\n\nThought I would point out this neat Zuul functionality and how it can help us enable further collaboration. In particular if there are specific features where it would be useful to test Gerrit upstream changes with a semi real world deployment we can probably arrange to hold that node in the same manner.",
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

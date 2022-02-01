@@ -16,6 +16,24 @@
       "message": "See my comment on other change.\n\nIf you make this\n\n```\nprivate handleRepoChanged \u003d (e: CustomEvent\u003c{value: string}\u003e) \u003d\u003e {\n  ...\n}\n```\n\nThen above you can simply do `@repo-changed\u003d${this.handleRepoChanged}`",
       "revId": "8688facd3a86c9a6ca8d9ea1053468e3c3174ac5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a4e765d_2290067a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-destination-dialog/gr-create-destination-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-01T15:52:09Z",
+      "side": 1,
+      "message": "It\u0027s been inlined.",
+      "parentUuid": "b6596fee_d4c286a5",
+      "revId": "8688facd3a86c9a6ca8d9ea1053468e3c3174ac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

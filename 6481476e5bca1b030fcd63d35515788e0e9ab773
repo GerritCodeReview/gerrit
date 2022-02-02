@@ -51,6 +51,24 @@
       "message": "Thanks @Chris. It was fixed *before* the release of Gerrit v3.5, but on master instead of stable-3.5 :-(\n\nI\u0027ll amend the draft release plan for Gerrit v3.6, mentioning that fixes should be done on the stable branch rather than master when we are in the \"stabilisation phase\". WDYT?",
       "revId": "6481476e5bca1b030fcd63d35515788e0e9ab773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b9e1ba3_36f3035b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-02-02T09:10:10Z",
+      "side": 1,
+      "message": "IMOHO fixes should always be done on stable-branches. Or am I missing something.",
+      "parentUuid": "81cf268a_d1c320dd",
+      "revId": "6481476e5bca1b030fcd63d35515788e0e9ab773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

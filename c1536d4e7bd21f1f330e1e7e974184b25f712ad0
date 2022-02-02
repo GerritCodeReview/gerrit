@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d2e93f4e_82e05713",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-02T16:17:53Z",
+      "side": 1,
+      "message": "Changed tests to actually update gr-change-list element and assert against it. Nothing is special in gr-change-list anymore :)",
+      "parentUuid": "3cf32fbf_8dfa2a5b",
+      "range": {
+        "startLine": 675,
+        "startChar": 2,
+        "endLine": 675,
+        "endChar": 21
+      },
+      "revId": "c1536d4e7bd21f1f330e1e7e974184b25f712ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6beb6afe_0d5f132e",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
         "patchSetId": 3

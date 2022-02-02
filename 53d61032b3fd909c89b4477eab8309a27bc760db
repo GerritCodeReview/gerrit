@@ -22,6 +22,30 @@
       },
       "revId": "53d61032b3fd909c89b4477eab8309a27bc760db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ee7f05a_f0982f33",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-02T16:17:53Z",
+      "side": 1,
+      "message": "changed to `useCustomEmptyState`. I can use `has` if you prefer that",
+      "parentUuid": "49821329_45a62eb3",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 18
+      },
+      "revId": "53d61032b3fd909c89b4477eab8309a27bc760db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

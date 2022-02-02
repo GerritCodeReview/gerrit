@@ -501,7 +501,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellWaiting() {
-    if (this.computeIsColumnHidden('Waiting', this.visibleChangeTableColumns))
+    if (this.computeIsColumnHidden(WAITING, this.visibleChangeTableColumns))
       return;
 
     return html`

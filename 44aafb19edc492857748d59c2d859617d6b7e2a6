@@ -46,6 +46,30 @@
       },
       "revId": "44aafb19edc492857748d59c2d859617d6b7e2a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00dbb90b_d452beac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-02T16:50:24Z",
+      "side": 1,
+      "message": "you could have assumed that i know that (like just about every other git user) and worked from there. ;)",
+      "parentUuid": "126d5462_4e472a54",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "44aafb19edc492857748d59c2d859617d6b7e2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

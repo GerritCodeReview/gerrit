@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe2bcf39_ce6cc132",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-02-02T10:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cccb712d_1970b19f",
+      "revId": "db11b0cf0a2061f2a25e5db4b96a3be59c6730f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56efe20e_52604ece",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "844ce8de_b947246d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-02-02T10:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56efe20e_52604ece",
+      "revId": "db11b0cf0a2061f2a25e5db4b96a3be59c6730f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a68d002_01cd17b6",
@@ -65,6 +101,24 @@
       "writtenOn": "2022-02-02T10:11:38Z",
       "side": 1,
       "message": "revert?",
+      "revId": "db11b0cf0a2061f2a25e5db4b96a3be59c6730f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0419b31_8f264369",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-02-02T10:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a68d002_01cd17b6",
       "revId": "db11b0cf0a2061f2a25e5db4b96a3be59c6730f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

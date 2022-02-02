@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cd7537a_71d80fa6",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-02T09:40:45Z",
+      "side": 1,
+      "message": "Nit:\n\n`this.permittedLabels?.[this.label.name]`\n\ninstead of \n`!this.permittedLabels ||\n      !this.permittedLabels[this.label.name] `",
+      "range": {
+        "startLine": 276,
+        "startChar": 6,
+        "endLine": 279,
+        "endChar": 54
+      },
+      "revId": "52a5f16dccab9c054ba97f13f55118be2ddc8177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ef0d7fd_224b9dd0",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-02T09:40:45Z",
+      "side": 1,
+      "message": "Nit:\n`!this.labelSelector?.items`",
+      "range": {
+        "startLine": 367,
+        "startChar": 8,
+        "endLine": 367,
+        "endChar": 55
+      },
+      "revId": "52a5f16dccab9c054ba97f13f55118be2ddc8177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6eb98fc_8e306342",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-02T09:40:45Z",
+      "side": 1,
+      "message": "Nit can be removed",
+      "range": {
+        "startLine": 403,
+        "startChar": 6,
+        "endLine": 403,
+        "endChar": 36
+      },
+      "revId": "52a5f16dccab9c054ba97f13f55118be2ddc8177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

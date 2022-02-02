@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "739dc13a_964700c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-02T09:40:45Z",
+      "side": 0,
+      "message": "I would leave this TODO here. \n\nIt would be better with isDetailedLabelInfo, but maybe not in this change.",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 78
+      },
+      "revId": "d12093c0abd750d3551bfeb7c41b3938ab4fbb82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

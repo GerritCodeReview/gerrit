@@ -16,6 +16,24 @@
       "message": "Can this cause issues with text that contains characters that are not valid css-name-characters?",
       "revId": "fa4f4d0880413f7d4693920f6559b3af4b9f395c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16a5c2dd_4778632c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-02-02T15:56:57Z",
+      "side": 1,
+      "message": "Right now we have a very strict regex identifying tokens (https://gerrit-review.googlesource.com/c/gerrit/+/329659/1/polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts#30) where this it is very unlikely to have a token that is an invalid css class.\n\nNevertheless I completely agree this should not be a css class - it was just the previous behavior before my code that I didn\u0027t want to change. The best solution here IMO is to use data attributes instead.\n\nHowever, since this was already the existing situation we are not adding any new bug in this area and I would rather create a new change in order to shift to data attributes - independent of this one. What do you think?",
+      "parentUuid": "e6c70b64_a3d522d6",
+      "revId": "fa4f4d0880413f7d4693920f6559b3af4b9f395c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

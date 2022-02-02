@@ -105,7 +105,7 @@ public class CreateRefControl {
       // If the tag has a PGP signature, allow a lower level of permission
       // than if it doesn't have a PGP signature.
       PermissionBackend.ForRef forRef = permissionBackend.user(user.get()).ref(branch);
-      if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
+      if (tag.getRawGpgSignature() != null) {
         forRef.check(RefPermission.CREATE_SIGNED_TAG);
       } else {
         forRef.check(RefPermission.CREATE_TAG);

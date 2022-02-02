@@ -105,6 +105,24 @@
       "parentUuid": "4cd4a7b4_a71aa51d",
       "revId": "65951c5c2babc1fb82f4533d80f2d7a703740647",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8a72466_e6c8b755",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-02T19:51:45Z",
+      "side": 1,
+      "message": "\u003e It does seem like a lot of things recently have been stuck waiting on LC and non-Googlers don\u0027t have a clear process to follow for attention/escalation.\n\nIndeed, it\u0027s frustrating to wait for weeks just to re-apply previously applied LC+1. It turns out, that Googlers are excessively using attention-set feature, and apparently shut down the notification firehose, with this preference setting:\n\n  Email notifications: Only when I am in the attention set\n\nAt least, now I know, that my comment was missed, and nothing personal against me, waiting for weeks for one additional documentation line to be re-approved.",
+      "parentUuid": "4cd4a7b4_a71aa51d",
+      "revId": "65951c5c2babc1fb82f4533d80f2d7a703740647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

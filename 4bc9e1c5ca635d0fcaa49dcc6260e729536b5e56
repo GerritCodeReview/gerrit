@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afcd6014_83cab77f",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-02T14:15:30Z",
+      "side": 1,
+      "message": "Ack, yes that\u0027s a good point.\n\nI updated the documentation here.\n\nI also added a section in config-submit-requirements talking about trigger votes.",
+      "parentUuid": "d78b743b_ca65978e",
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07542fbd_42878e47",
@@ -677,6 +695,30 @@
       "side": 1,
       "message": "Thanks for checking.\n\n\u003e When a change is pushed directly into the target branch, the server code\n\u003e doesn\u0027t go through the logic of storing SR results in NoteDb and SRs remain\n\u003e empty for the change. \n\nThis sounds like something that we should consider fixing. But of course it\u0027s unrelated to this change.",
       "parentUuid": "08d8fe6e_f25f38b9",
+      "range": {
+        "startLine": 100,
+        "startChar": 53,
+        "endLine": 101,
+        "endChar": 30
+      },
+      "revId": "4bc9e1c5ca635d0fcaa49dcc6260e729536b5e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc9a6b26_67d2272e",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-02T14:15:30Z",
+      "side": 1,
+      "message": "Thanks for confirming.",
+      "parentUuid": "b6523b76_5ac45f61",
       "range": {
         "startLine": 100,
         "startChar": 53,

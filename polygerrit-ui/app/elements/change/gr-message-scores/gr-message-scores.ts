@@ -114,7 +114,8 @@ export class GrMessageScores extends LitElement {
     if (
       this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI) &&
       score.label &&
-      triggerVotes.includes(score.label)
+      triggerVotes.includes(score.label) &&
+      !score.value?.includes(VOTE_RESET_TEXT)
     ) {
       const labels = this.change?.labels ?? {};
       return html`<gr-trigger-vote

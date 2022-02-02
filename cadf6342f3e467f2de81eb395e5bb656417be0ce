@@ -3,6 +3,132 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "03703d56_25e0bfa7",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-02T11:37:47Z",
+      "side": 1,
+      "message": "I think PatchSetLock is not deprecated and replaced by submit requirements. Can you clarify this?",
+      "revId": "cadf6342f3e467f2de81eb395e5bb656417be0ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "456a0b2e_9ae37e0c",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-02T11:37:47Z",
+      "side": 1,
+      "message": "Can you be a bit more specific here and say which predicate in submit requirements covers this?",
+      "revId": "cadf6342f3e467f2de81eb395e5bb656417be0ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9d328f4_a4ea1908",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-02T11:37:47Z",
+      "side": 1,
+      "message": "nit: \n\nEither\n\n  \"A submit requirement can be overridden in child projects if it is defined ...\"\n  \nor\n\n  \"Submit requirements can be overridden in child projects if they are defined ...\"",
+      "range": {
+        "startLine": 20,
+        "startChar": 56,
+        "endLine": 21,
+        "endChar": 52
+      },
+      "revId": "cadf6342f3e467f2de81eb395e5bb656417be0ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c32b674d_0ed8ac4e",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-02T11:37:47Z",
+      "side": 1,
+      "message": "Make this a link to the example (#exempt-branch-example) below?",
+      "range": {
+        "startLine": 36,
+        "startChar": 53,
+        "endLine": 37,
+        "endChar": 47
+      },
+      "revId": "cadf6342f3e467f2de81eb395e5bb656417be0ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11cc41b5_6754fbb4",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-02T11:37:47Z",
+      "side": 1,
+      "message": "Here and below, should this just be a single \u0027#\u0027?",
+      "range": {
+        "startLine": 45,
+        "startChar": 7,
+        "endLine": 45,
+        "endChar": 9
+      },
+      "revId": "cadf6342f3e467f2de81eb395e5bb656417be0ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "601e8ca0_f809f419",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-02T11:37:47Z",
+      "side": 1,
+      "message": "This sentence still looks malformed to me.\n\nMaybe phrase it like this:\nA link:#query_expression_syntax[query expression] that controls when the submit requirement is overridden. When this expression is evaluated to true, the submit requirement state becomes `OVERRIDDEN` and the submit requirement is no longer blocking the change submission.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 79
+      },
+      "revId": "cadf6342f3e467f2de81eb395e5bb656417be0ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "776a752c_35d4626e",
         "filename": "Documentation/config-submit-requirements.txt",
         "patchSetId": 3
@@ -14,6 +140,30 @@
       "writtenOn": "2022-02-01T16:31:26Z",
       "side": 1,
       "message": "While this now matches the condition below, it is a regression from previous Gerrit behavior. Are there plans to fix this?",
+      "range": {
+        "startLine": 201,
+        "startChar": 14,
+        "endLine": 202,
+        "endChar": 63
+      },
+      "revId": "cadf6342f3e467f2de81eb395e5bb656417be0ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d85d7b2d_b9b16e98",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-02T11:37:47Z",
+      "side": 1,
+      "message": "Martin, can you elaborate what exactly is the regression here?\nThis is just an example configuration for a submit requirement.",
+      "parentUuid": "776a752c_35d4626e",
       "range": {
         "startLine": 201,
         "startChar": 14,

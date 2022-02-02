@@ -34,6 +34,24 @@
       "parentUuid": "e6c70b64_a3d522d6",
       "revId": "fa4f4d0880413f7d4693920f6559b3af4b9f395c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05af9207_27b53abc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T15:59:40Z",
+      "side": 1,
+      "message": "That\u0027s a fair point that it\u0027s not adding this as it was already an issue.\nSounds good for splitting into two.",
+      "parentUuid": "16a5c2dd_4778632c",
+      "revId": "fa4f4d0880413f7d4693920f6559b3af4b9f395c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

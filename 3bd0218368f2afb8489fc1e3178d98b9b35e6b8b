@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ec8db7e_04c39289",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1384,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-02T09:54:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60684e44_a8e96fa2",
+      "revId": "3bd0218368f2afb8489fc1e3178d98b9b35e6b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2e04aa0_7b60b3fc",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-02-02T09:29:13Z",
       "side": 1,
       "message": "This can be expensive operation. Do you really need this? https://gist.github.com/paulirish/5d52fb081b3570c81e3a",
+      "range": {
+        "startLine": 1388,
+        "startChar": 8,
+        "endLine": 1388,
+        "endChar": 34
+      },
+      "revId": "3bd0218368f2afb8489fc1e3178d98b9b35e6b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "374522cc_1a993b07",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1388,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-02T09:54:35Z",
+      "side": 1,
+      "message": "The height of the file list component is the only metric that I could think of that would provide good insight into how large the operation was.\n\nWe are doing this just once for an operation that is already very expensive. I think you just want to avoid thousands of such calls within one second. Once every second should be totally fine.",
+      "parentUuid": "a2e04aa0_7b60b3fc",
       "range": {
         "startLine": 1388,
         "startChar": 8,

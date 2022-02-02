@@ -359,7 +359,7 @@ suite('gr-label-row-score tests', () => {
             vote="min"
             votechip=""
           >
-            <gr-tooltip-content has-tooltip="" title="bad">
+            <gr-tooltip-content light-tooltip="" has-tooltip="" title="bad">
               -1
             </gr-tooltip-content>
           </gr-button>
@@ -373,7 +373,7 @@ suite('gr-label-row-score tests', () => {
             vote="neutral"
             votechip=""
           >
-            <gr-tooltip-content has-tooltip="">
+            <gr-tooltip-content light-tooltip="" has-tooltip="">
               0
             </gr-tooltip-content>
           </gr-button>
@@ -390,7 +390,7 @@ suite('gr-label-row-score tests', () => {
             vote="max"
             votechip=""
           >
-            <gr-tooltip-content has-tooltip="" title="good">
+            <gr-tooltip-content light-tooltip="" has-tooltip="" title="good">
               +1
             </gr-tooltip-content>
           </gr-button>

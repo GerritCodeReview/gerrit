@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee295dfe_2197f990",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-02-02T00:20:41Z",
+      "side": 1,
+      "message": "Does this need a LC+1? The LC SR doesn\u0027t tell me what the applicability rule is, but it seems to be showing up?",
+      "revId": "67811fa7b85f433433fc250cec8846a95072f6dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

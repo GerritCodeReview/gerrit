@@ -138,14 +138,26 @@ suite('token-highlight-layer', () => {
       const el = createLine('these are words');
       annotate(el);
       assert.isTrue(annotateElementStub.calledThrice);
-      assertAnnotation(annotateElementStub.args[0], el, 0, 5, 'tk-these token');
-      assertAnnotation(annotateElementStub.args[1], el, 6, 3, 'tk-are token');
+      assertAnnotation(
+        annotateElementStub.args[0],
+        el,
+        0,
+        5,
+        'tk-text-these tk-index-0 token'
+      );
+      assertAnnotation(
+        annotateElementStub.args[1],
+        el,
+        6,
+        3,
+        'tk-text-are tk-index-6 token'
+      );
       assertAnnotation(
         annotateElementStub.args[2],
         el,
         10,
         5,
-        'tk-words token'
+        'tk-text-words tk-index-10 token'
       );
     });
 
@@ -187,7 +199,7 @@ suite('token-highlight-layer', () => {
       annotate(line1);
       const line2 = createLine('three words');
       annotate(line2, Side.RIGHT, 2);
-      const words1 = queryAndAssert(line1, '.tk-words');
+      const words1 = queryAndAssert(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
       dispatchMouseEvent(
         'mouseover',
@@ -217,7 +229,7 @@ suite('token-highlight-layer', () => {
       annotate(line1);
       const line2 = createLine('three words');
       annotate(line2, Side.RIGHT, 1000);
-      const words1 = queryAndAssert(line1, '.tk-words');
+      const words1 = queryAndAssert(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
       dispatchMouseEvent(
         'mouseover',
@@ -241,7 +253,7 @@ suite('token-highlight-layer', () => {
       annotate(line1);
       const line2 = createLine('three words', 2);
       annotate(line2, Side.RIGHT, 2);
-      const words1 = queryAndAssert(line1, '.tk-words');
+      const words1 = queryAndAssert(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
       dispatchMouseEvent(
         'mouseover',
@@ -268,7 +280,7 @@ suite('token-highlight-layer', () => {
       annotate(line1);
       const line2 = createLine('three words', 2);
       annotate(line2, Side.RIGHT, 2);
-      const words1 = queryAndAssert(line1, '.tk-words');
+      const words1 = queryAndAssert(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
       dispatchMouseEvent(
         'mouseover',
@@ -296,7 +308,10 @@ suite('token-highlight-layer', () => {
       const line2 = createLine('can be highlighted', 2);
       annotate(line1);
       annotate(line2, Side.RIGHT, 2);
-      const tokenNode = queryAndAssert(line1, '.tk-tokenWithSingleOccurence');
+      const tokenNode = queryAndAssert(
+        line1,
+        '.tk-text-tokenWithSingleOccurence'
+      );
       assert.isTrue(tokenNode.classList.contains('token'));
       dispatchMouseEvent(
         'mouseover',
@@ -324,7 +339,7 @@ suite('token-highlight-layer', () => {
       annotate(line1);
       const line2 = createLine('three words', 2);
       annotate(line2, Side.RIGHT, 2);
-      const words1 = queryAndAssert(line1, '.tk-words');
+      const words1 = queryAndAssert(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
       dispatchMouseEvent(
         'mouseover',
@@ -348,7 +363,7 @@ suite('token-highlight-layer', () => {
       annotate(line1);
       const line2 = createLine('three words', 2);
       annotate(line2, Side.RIGHT, 2);
-      const words1 = queryAndAssert(line1, '.tk-words');
+      const words1 = queryAndAssert(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
       dispatchMouseEvent(
         'mouseover',

@@ -20,11 +20,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 
-import {
-  getLineElByChild,
-  getSideByLineEl,
-  getPreviousContentNodes,
-} from '../gr-diff/gr-diff-utils';
+import {getLineElByChild, getSideByLineEl} from '../gr-diff/gr-diff-utils';
 
 import {
   getLineNumberByChild,
@@ -38,6 +34,15 @@ const CSS_TOKEN = 'token';
 
 /** CSS class for the currently hovered token. */
 const CSS_HIGHLIGHT = 'token-highlight';
+
+/** CSS class marking which text value each token corresponds */
+const TOKEN_TEXT_PREFIX = 'tk-text-';
+
+/**
+ * CSS class marking which index (column) where token starts within a line of code.
+ * The assumption is that we can only have a single token per column start per line.
+ */
+const TOKEN_INDEX_PREFIX = 'tk-index-';
 
 export const HOVER_DELAY_MS = 200;
 
@@ -137,10 +142,19 @@ export class TokenHighlightLayer implements DiffLayer {
       // with super long tokens. Let's guard against this scenario.
       if (length > TOKEN_LENGTH_LIMIT) continue;
       atLeastOneTokenMatched = true;
-      const css = token === this.currentHighlight ? CSS_HIGHLIGHT : CSS_TOKEN;
-      // We add the tk-* class so that we can look up the token later easily
+      const highlightTypeClass =
+        token === this.currentHighlight ? CSS_HIGHLIGHT : CSS_TOKEN;
+      const textClass = `${TOKEN_TEXT_PREFIX}${token}`;
+      const indexClass = `${TOKEN_INDEX_PREFIX}${index}`;
+      // We add the TOKEN_TEXT_PREFIX class so that we can look up the token later easily
       // even if the token element was split up into multiple smaller nodes.
-      GrAnnotation.annotateElement(el, index, length, `tk-${token} ${css}`);
+      // All parts of a single token will share a common TOKEN_INDEX_PREFIX class within the line of code.
+      GrAnnotation.annotateElement(
+        el,
+        index,
+        length,
+        `${textClass} ${indexClass} ${highlightTypeClass}`
+      );
       // We could try to detect whether we are re-rendering instead of initially
       // rendering the line. Then we would not have to call storeLineForToken()
       // again. But since the Set swallows the duplicates we don't care.
@@ -235,11 +249,17 @@ export class TokenHighlightLayer implements DiffLayer {
       el.classList.contains(CSS_TOKEN) ||
       el.classList.contains(CSS_HIGHLIGHT)
     ) {
-      const tkClass = [...el.classList].find(c => c.startsWith('tk-'));
+      const tkTextClass = [...el.classList].find(c =>
+        c.startsWith(TOKEN_TEXT_PREFIX)
+      );
       const line = lineNumberToNumber(getLineNumberByChild(el));
-      if (!line || !tkClass)
+      if (!line || !tkTextClass)
         return {line: 0, token: undefined, element: undefined};
-      return {line, token: tkClass.substring(3), element: el};
+      return {
+        line,
+        token: tkTextClass.substring(TOKEN_TEXT_PREFIX.length),
+        element: el,
+      };
     }
     if (el.tagName === 'TD')
       return {line: 0, token: undefined, element: undefined};
@@ -281,17 +301,19 @@ export class TokenHighlightLayer implements DiffLayer {
       this.tokenHighlightListener(undefined);
       return;
     }
-    const previousTextLength = getPreviousContentNodes(element)
-      .map(sib => sib.textContent!.length)
-      .reduce((partial_sum, a) => partial_sum + a, 0);
     const lineEl = getLineElByChild(element);
     assertIsDefined(lineEl, 'Line element should be found!');
+    const tokenIndexStr = [...element.classList]
+      .find(c => c.startsWith(TOKEN_INDEX_PREFIX))
+      ?.substring(TOKEN_INDEX_PREFIX.length);
+    assertIsDefined(tokenIndexStr, 'Index class should be found!');
+    const index = Number(tokenIndexStr);
     const side = getSideByLineEl(lineEl);
     const range = {
       start_line: line,
-      start_column: previousTextLength + 1, // 1-based inclusive
+      start_column: index + 1, // 1-based inclusive
       end_line: line,
-      end_column: previousTextLength + token.length, // 1-based inclusive
+      end_column: index + token.length, // 1-based inclusive
     };
     this.tokenHighlightListener({token, element, side, range});
   }

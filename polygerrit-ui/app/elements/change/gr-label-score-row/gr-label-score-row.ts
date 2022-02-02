@@ -231,6 +231,7 @@ export class GrLabelScoreRow extends LitElement {
         >
           <gr-tooltip-content
             has-tooltip
+            light-tooltip
             title="${ifDefined(this.computeLabelValueTitle(value))}"
           >
             ${value}

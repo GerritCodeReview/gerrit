@@ -283,19 +283,6 @@ suite('gr-reporting tests', () => {
     assert.isTrue(service.reporter.calledOnce);
   });
 
-  test('timeEndWithAverage', () => {
-    const nowStub = sinon.stub(window.performance, 'now').returns(0);
-    nowStub.returns(1000);
-    service.time('foo');
-    nowStub.returns(1100);
-    service.timeEndWithAverage('foo', 'bar', 10);
-    assert.isTrue(service.reporter.calledTwice);
-    assert.isTrue(service.reporter.calledWithMatch(
-        'timing-report', 'UI Latency', 'foo', 100));
-    assert.isTrue(service.reporter.calledWithMatch(
-        'timing-report', 'UI Latency', 'bar', 10));
-  });
-
   test('reportExtension', () => {
     service.reportExtension('foo');
     assert.isTrue(service.reporter.calledWithExactly(

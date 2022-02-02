@@ -68,20 +68,6 @@ export interface ReportingService extends Finalizable {
    */
   timeEnd(name: Timing, eventDetails?: EventDetails): void;
   /**
-   * Reports just line timeEnd, but additionally reports an average given a
-   * denominator and a separate reporting name for the average.
-   *
-   * @param name Timing name.
-   * @param averageName Average timing name.
-   * @param denominator Number by which to divide the total to
-   *     compute the average.
-   */
-  timeEndWithAverage(
-    name: Timing,
-    averageName: Timing,
-    denominator: number
-  ): void;
-  /**
    * Get a timer object for reporting a user timing. The start time will be
    * the time that the object has been created, and the end time will be the
    * time that the "end" method is called on the object.

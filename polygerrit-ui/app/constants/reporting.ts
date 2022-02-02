@@ -86,12 +86,8 @@ export enum Timing {
   DIFF_SYNTAX = 'Diff Syntax Render',
   // Time to render a batch of rows in the file list. If there are very many files, this may be the first batch of rows that are rendered by default. If there are many files and the user clicks [Show More], this may be the batch of additional files that appear as a result.
   FILE_RENDER = 'FileListRenderTime',
-  // This measures the same interval as FileListRenderTime, but the result is divided by the number of rows in the batch.
-  FILE_RENDER_AVG = 'FileListRenderTimePerFile',
   // The time to expand some number of diffs in the file list (i.e. render their diffs, including syntax highlighting).
   FILE_EXPAND_ALL = 'ExpandAllDiffs',
-  // This measures the same interval as ExpandAllDiffs, but the result is divided by the number of diffs expanded.
-  FILE_EXPAND_ALL_AVG = 'ExpandAllPerDiff',
   // Time for making the REST API call of creating a draft comment.
   DRAFT_CREATE = 'CreateDraftComment',
   // Time for making the REST API call of update a draft comment.

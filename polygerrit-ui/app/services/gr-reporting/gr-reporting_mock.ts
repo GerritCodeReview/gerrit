@@ -81,5 +81,4 @@ export const grReportingMock: ReportingService & Finalizable = {
   setChangeId: () => {},
   time: () => {},
   timeEnd: () => {},
-  timeEndWithAverage: () => {},
 };

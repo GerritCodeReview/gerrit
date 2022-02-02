@@ -315,9 +315,9 @@ suite('gr-dashboard-view tests', () => {
     });
   });
 
-  test('preserve isOutgoing sections', () => {
+  test('sets slot name to section name if custom state is requested', () => {
     const sections = [
-      {name: 'test1', query: 'test1', isOutgoing: true},
+      {name: 'test1', query: 'test1', customEmptyState: true},
       {name: 'test2', query: 'test2'},
     ];
     getChangesStub.restore();
@@ -326,8 +326,8 @@ suite('gr-dashboard-view tests', () => {
 
     return element._fetchDashboardChanges({sections}, false).then(() => {
       assert.equal(element._results.length, 2);
-      assert.isTrue(element._results[0].isOutgoing);
-      assert.isNotOk(element._results[1].isOutgoing);
+      assert.equal(element._results[0].emptyStateSlotName, 'test1');
+      assert.isNotOk(element._results[1].emptyStateSlotName);
     });
   });
 

@@ -17,14 +17,11 @@
 
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
 import '../gr-change-list-item/gr-change-list-item';
+import '../gr-change-list-section/gr-change-list-section';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {getAppContext} from '../../../services/app-context';
-import {
-  GerritNav,
-  YOUR_TURN,
-  CLOSED,
-} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
@@ -52,10 +49,7 @@ import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcu
 import {queryAll} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {KnownExperimentId} from '../../../services/flags/flags';
-
-const NUMBER_FIXED_COLUMNS = 3;
-const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
-const MAX_SHORTCUT_CHARS = 5;
+import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 
 export const columnNames = [
   'Subject',
@@ -110,8 +104,6 @@ export class GrChangeList extends LitElement {
   @property({type: Array})
   sections: ChangeListSection[] = [];
 
-  @state() private dynamicHeaderEndpoints?: string[];
-
   @property({type: Number})
   selectedIndex?: number;
 
@@ -135,6 +127,8 @@ export class GrChangeList extends LitElement {
 
   @property({type: Boolean})
   isCursorMoving = false;
+
+  @state() private dynamicHeaderEndpoints?: string[];
 
   // private but used in test
   @state() config?: ServerInfo;
@@ -222,13 +216,13 @@ export class GrChangeList extends LitElement {
     return html`
       <table id="changeList">
         ${this.sections.map((changeSection, sectionIndex) =>
-          this.renderSections(changeSection, sectionIndex, labelNames)
+          this.renderSection(changeSection, sectionIndex, labelNames)
         )}
       </table>
     `;
   }
 
-  private renderSections(
+  private renderSection(
     changeSection: ChangeListSection,
     sectionIndex: number,
     labelNames: string[]
@@ -391,8 +385,14 @@ export class GrChangeList extends LitElement {
         .showStar=${this.showStar}
         ?tabindex=${tabindex}
         .labelNames=${labelNames}
-        aria-label=${ariaLabel}
-      ></gr-change-list-item>
+        .dynamicHeaderEndpoints=${this.dynamicHeaderEndpoints}
+        .isCursorMoving=${this.isCursorMoving}
+        .config=${this.config}
+        .account=${this.account}
+        .sections=${this.sections}
+        .selectedIndex=${this.selectedIndex}
+        .visibleChangeTableColumns=${this.visibleChangeTableColumns}
+      ></gr-change-list-section>
     `;
   }
 
@@ -468,31 +468,6 @@ export class GrChangeList extends LitElement {
     return true;
   }
 
-  /**
-   * This methods allows us to customize the columns per section.
-   *
-   * @param visibleColumns are the columns according to configs and user prefs
-   */
-  private computeColumns(section?: ChangeListSection): string[] {
-    if (!section || !this.visibleChangeTableColumns) return [];
-    const cols = [...this.visibleChangeTableColumns];
-    const updatedIndex = cols.indexOf('Updated');
-    if (section.name === YOUR_TURN.name && updatedIndex !== -1) {
-      cols[updatedIndex] = 'Waiting';
-    }
-    if (section.name === CLOSED.name && updatedIndex !== -1) {
-      cols[updatedIndex] = 'Submitted';
-    }
-    return cols;
-  }
-
-  // private but used in test
-  computeColspan(section?: ChangeListSection, labelNames?: string[]) {
-    const cols = this.computeColumns(section);
-    if (!cols || !labelNames) return 1;
-    return cols.length + labelNames.length + NUMBER_FIXED_COLUMNS;
-  }
-
   // private but used in test
   computeLabelNames(sections: ChangeListSection[]) {
     if (!sections) return [];
@@ -528,79 +503,8 @@ export class GrChangeList extends LitElement {
     return labels.sort();
   }
 
-  // private but used in test
-  computeLabelShortcut(labelName: string) {
-    if (labelName.startsWith(LABEL_PREFIX_INVALID_PROLOG)) {
-      labelName = labelName.slice(LABEL_PREFIX_INVALID_PROLOG.length);
-    }
-    return labelName
-      .split('-')
-      .reduce((a, i) => {
-        if (!i) {
-          return a;
-        }
-        return a + i[0].toUpperCase();
-      }, '')
-      .slice(0, MAX_SHORTCUT_CHARS);
-  }
-
   private changesChanged() {
     this.sections = this.changes ? [{results: this.changes}] : [];
-  }
-
-  // private but used in test
-  processQuery(query: string) {
-    let tokens = query.split(' ');
-    const invalidTokens = ['limit:', 'age:', '-age:'];
-    tokens = tokens.filter(
-      token =>
-        !invalidTokens.some(invalidToken => token.startsWith(invalidToken))
-    );
-    return tokens.join(' ');
-  }
-
-  private sectionHref(query?: string) {
-    if (!query) return;
-    return GerritNav.getUrlForSearchQuery(this.processQuery(query));
-  }
-
-  /**
-   * Maps an index local to a particular section to the absolute index
-   * across all the changes on the page.
-   *
-   * private but used in test
-   *
-   * @param sectionIndex index of section
-   * @param localIndex index of row within section
-   * @return absolute index of row in the aggregate dashboard
-   */
-  computeItemAbsoluteIndex(sectionIndex: number, localIndex: number) {
-    let idx = 0;
-    for (let i = 0; i < sectionIndex; i++) {
-      idx += this.sections[i].results.length;
-    }
-    return idx + localIndex;
-  }
-
-  private computeItemSelected(
-    sectionIndex: number,
-    index: number,
-    selectedIndex?: number
-  ) {
-    const idx = this.computeItemAbsoluteIndex(sectionIndex, index);
-    return idx === selectedIndex;
-  }
-
-  private computeTabIndex(
-    sectionIndex: number,
-    index: number,
-    isCursorMoving: boolean,
-    selectedIndex?: number
-  ) {
-    if (isCursorMoving) return 0;
-    return this.computeItemSelected(sectionIndex, index, selectedIndex)
-      ? 0
-      : undefined;
   }
 
   private nextChange() {
@@ -619,8 +523,8 @@ export class GrChangeList extends LitElement {
     fire(this, 'selected-index-changed', {value: this.cursor.index});
   }
 
-  private openChange() {
-    const change = this.changeForIndex(this.selectedIndex);
+  private async openChange() {
+    const change = await this.changeForIndex(this.selectedIndex);
     if (change) GerritNav.navigateToChange(change);
   }
 
@@ -640,8 +544,8 @@ export class GrChangeList extends LitElement {
     this.toggleStarForIndex(this.selectedIndex);
   }
 
-  private toggleStarForIndex(index?: number) {
-    const changeEls = this.getListItems();
+  private async toggleStarForIndex(index?: number) {
+    const changeEls = await this.getListItems();
     if (index === undefined || index >= changeEls.length || !changeEls[index]) {
       return;
     }
@@ -651,24 +555,38 @@ export class GrChangeList extends LitElement {
     if (grChangeStar) grChangeStar.toggleStar();
   }
 
-  private changeForIndex(index?: number) {
-    const changeEls = this.getListItems();
+  private async changeForIndex(index?: number) {
+    const changeEls = await this.getListItems();
     if (index !== undefined && index < changeEls.length && changeEls[index]) {
       return changeEls[index].change;
     }
     return null;
   }
 
-  private getListItems() {
-    const items = queryAll<GrChangeListItem>(this, 'gr-change-list-item');
-    return !items ? [] : Array.from(items);
+  private async getListItems() {
+    const items: GrChangeListItem[] = [];
+    const sections = queryAll<GrChangeListSection>(
+      this,
+      'gr-change-list-section'
+    );
+    for (const section of sections) {
+      await section.updateComplete;
+      const res = queryAll<GrChangeListItem>(section, 'gr-change-list-item');
+      items.push(...Array.from(res));
+    }
+    sections.forEach(section => {
+      const res = queryAll<GrChangeListItem>(section, 'gr-change-list-item');
+      items.push(...Array.from(res));
+    });
+    return items;
   }
 
-  private sectionsChanged() {
-    this.cursor.stops = this.getListItems();
+  private async sectionsChanged() {
+    this.cursor.stops = await this.getListItems();
     this.cursor.moveToStart();
     if (this.selectedIndex) this.cursor.setCursorAtIndex(this.selectedIndex);
   }
+<<<<<<< HEAD
 
   private isEmpty(section: ChangeListSection) {
     return !section.results?.length;
@@ -678,6 +596,8 @@ export class GrChangeList extends LitElement {
     if (!change) return '';
     return change.subject + (sectionName ? `, section: ${sectionName}` : '');
   }
+=======
+>>>>>>> 44aafb19ed (Revert "Revert "Extract dashboard section into its own component"")
 }
 
 declare global {

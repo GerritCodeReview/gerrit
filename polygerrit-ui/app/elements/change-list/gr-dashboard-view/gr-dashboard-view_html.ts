@@ -83,7 +83,8 @@ export const htmlTemplate = html`
       on-selected-index-changed="_handleSelectedIndexChanged"
       on-toggle-star="_handleToggleStar"
     >
-      <div id="emptyOutgoing" slot="empty-outgoing">
+      <!-- TODO: use the section.name in the template as the slot name -->
+      <div id="emptyOutgoing" slot="Outgoing reviews">
         <template is="dom-if" if="[[_showNewUserHelp]]">
           <gr-create-change-help
             on-create-tap="_handleCreateChangeTap"
@@ -91,7 +92,8 @@ export const htmlTemplate = html`
         </template>
         <template is="dom-if" if="[[!_showNewUserHelp]]"> No changes </template>
       </div>
-      <div id="emptyYourTurn" slot="empty-your-turn">
+      <!-- TODO: use the section.name in the template as the slot name -->
+      <div id="emptyYourTurn" slot="Your Turn">
         <span>No changes need your attention &nbsp;&#x1f389;</span>
       </div>
     </gr-change-list>

@@ -113,27 +113,26 @@ export class GrLabelScoreRow extends LitElement {
             var(--table-header-background-color)
           );
           padding: 0 var(--spacing-m);
+          border-color: var(--vote-chip-unselected-outline-color);
+          --button-background-color: var(--vote-chip-unselected-color);
         }
         gr-button[vote='max'].iron-selected {
-          --button-background-color: var(--vote-color-approved);
+          --vote-text-color: var(--vote-chip-selected-text-color);
+        }
+        gr-button[vote='max'].iron-selected {
+          --button-background-color: var(--vote-chip-selected-positive-color);
         }
         gr-button[vote='positive'].iron-selected {
-          --button-background-color: var(--vote-color-recommended);
-        }
-        gr-button[vote='min'].iron-selected {
-          --button-background-color: var(--vote-color-rejected);
-        }
-        gr-button[vote='negative'].iron-selected {
-          --button-background-color: var(--vote-color-disliked);
+          --button-background-color: var(--vote-chip-selected-positive-color);
         }
         gr-button[vote='neutral'].iron-selected {
-          --button-background-color: var(--vote-color-neutral);
+          --button-background-color: var(--vote-chip-selected-neutral-color);
         }
-        gr-button[vote='positive'].iron-selected::part(paper-button) {
-          border-color: var(--vote-outline-recommended);
+        gr-button[vote='negative'].iron-selected {
+          --button-background-color: var(--vote-chip-selected-negative-color);
         }
-        gr-button[vote='negative'].iron-selected::part(paper-button) {
-          border-color: var(--vote-outline-disliked);
+        gr-button[vote='min'].iron-selected {
+          --button-background-color: var(--vote-chip-selected-negative-color);
         }
         gr-button > gr-tooltip-content {
           margin: 0px -10px;
@@ -228,6 +227,7 @@ export class GrLabelScoreRow extends LitElement {
           data-value="${value}"
           aria-label="${value}"
           voteChip
+          flatten
         >
           <gr-tooltip-content
             has-tooltip

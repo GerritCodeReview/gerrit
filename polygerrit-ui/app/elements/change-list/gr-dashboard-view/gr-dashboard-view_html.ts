@@ -82,18 +82,8 @@ export const htmlTemplate = html`
       sections="[[_results]]"
       on-selected-index-changed="_handleSelectedIndexChanged"
       on-toggle-star="_handleToggleStar"
+      showNewUserHelp="[[_showNewUserHelp]]"
     >
-      <div id="emptyOutgoing" slot="empty-outgoing">
-        <template is="dom-if" if="[[_showNewUserHelp]]">
-          <gr-create-change-help
-            on-create-tap="_handleCreateChangeTap"
-          ></gr-create-change-help>
-        </template>
-        <template is="dom-if" if="[[!_showNewUserHelp]]"> No changes </template>
-      </div>
-      <div id="emptyYourTurn" slot="empty-your-turn">
-        <span>No changes need your attention &nbsp;&#x1f389;</span>
-      </div>
     </gr-change-list>
   </div>
   <gr-overlay id="confirmDeleteOverlay" with-backdrop="">
@@ -110,9 +100,4 @@ export const htmlTemplate = html`
       </div>
     </gr-dialog>
   </gr-overlay>
-  <gr-create-destination-dialog
-    id="destinationDialog"
-    on-confirm="_handleDestinationConfirm"
-  ></gr-create-destination-dialog>
-  <gr-create-commands-dialog id="commandsDialog"></gr-create-commands-dialog>
 `;

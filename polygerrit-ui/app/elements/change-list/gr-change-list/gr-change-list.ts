@@ -25,6 +25,10 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
+import '../gr-create-commands-dialog/gr-create-commands-dialog';
+import '../gr-create-destination-dialog/gr-create-destination-dialog';
+import '../gr-create-change-help/gr-create-change-help';
+
 import {
   AccountInfo,
   ChangeInfo,
@@ -43,13 +47,18 @@ import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state, query} from 'lit/decorators';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {queryAll} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
+import {GrCreateCommandsDialog} from '../gr-create-commands-dialog/gr-create-commands-dialog';
+import {
+  CreateDestinationConfirmDetail,
+  GrCreateDestinationDialog,
+} from '../gr-create-destination-dialog/gr-create-destination-dialog';
 
 export const columnNames = [
   'Subject',
@@ -127,6 +136,13 @@ export class GrChangeList extends LitElement {
 
   @property({type: Boolean})
   isCursorMoving = false;
+
+  @property({type: Boolean})
+  showNewUserHelp = false;
+
+  @query('#commandsDialog') commandsDialog!: GrCreateCommandsDialog;
+
+  @query('#destinationDialog') destinationDialog!: GrCreateDestinationDialog;
 
   @state() private dynamicHeaderEndpoints?: string[];
 
@@ -219,6 +235,15 @@ export class GrChangeList extends LitElement {
           this.renderSection(changeSection, sectionIndex, labelNames)
         )}
       </table>
+      <gr-create-destination-dialog
+        id="destinationDialog"
+        @confirm="${(e: CustomEvent) => {
+          this.handleDestinationConfirm(e);
+        }}"
+      ></gr-create-destination-dialog>
+      <gr-create-commands-dialog
+        id="commandsDialog"
+      ></gr-create-commands-dialog>
     `;
   }
 
@@ -239,8 +264,23 @@ export class GrChangeList extends LitElement {
         .sections=${this.sections}
         .selectedIndex=${this.selectedIndex}
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
-      ></gr-change-list-section>
+      >
+        <div id="emptyOutgoing" slot="empty-outgoing">
+          ${this.renderNewUserHelp()}
+        </div>
+        <div id="emptyYourTurn" slot="empty-your-turn">
+          <span>No changes need your attention &nbsp;&#x1f389;</span>
+        </div>
+      </gr-change-list-section>
     `;
+  }
+
+  private renderNewUserHelp() {
+    return this.showNewUserHelp
+      ? html` <gr-create-change-help
+          @create-tap="${() => this.handleCreateChangeTap()}"
+        ></gr-create-change-help>`
+      : 'No changes';
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -262,6 +302,15 @@ export class GrChangeList extends LitElement {
     if (changedProperties.has('sections')) {
       this.sectionsChanged();
     }
+  }
+
+  private handleCreateChangeTap() {
+    this.destinationDialog.open();
+  }
+
+  handleDestinationConfirm(e: CustomEvent<CreateDestinationConfirmDetail>) {
+    this.commandsDialog.branch = e.detail.branch;
+    this.commandsDialog.open();
   }
 
   private computePreferences() {

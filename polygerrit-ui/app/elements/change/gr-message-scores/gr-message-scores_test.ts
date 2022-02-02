@@ -17,8 +17,12 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-message-scores';
-import {createChangeMessage} from '../../../test/test-data-generators';
-import {queryAll} from '../../../test/test-utils';
+import {
+  createChange,
+  createChangeMessage,
+  createDetailedLabelInfo,
+} from '../../../test/test-data-generators';
+import {queryAll, stubFlags} from '../../../test/test-utils';
 import {GrMessageScores} from './gr-message-scores';
 
 const basicFixture = fixtureFromElement('gr-message-scores');
@@ -132,5 +136,39 @@ suite('gr-message-score tests', () => {
     await element.updateComplete;
     const scoreChips = element.shadowRoot?.querySelectorAll('.score');
     assert.equal(scoreChips?.length, 0);
+  });
+
+  test('reset vote', async () => {
+    stubFlags('isEnabled').returns(true);
+    element = basicFixture.instantiate();
+    element.change = {
+      ...createChange(),
+      labels: {
+        'Commit-Queue': createDetailedLabelInfo(),
+        'Auto-Submit': createDetailedLabelInfo(),
+      },
+    };
+    element.message = {
+      ...createChangeMessage(),
+      author: {},
+      expanded: false,
+      message: 'Patch Set 10: Auto-Submit+1 -Commit-Queue',
+    };
+    element.labelExtremes = {
+      'Commit-Queue': {max: 2, min: 0},
+      'Auto-Submit': {max: 1, min: 0},
+    };
+    await element.updateComplete;
+    const triggerChips =
+      element.shadowRoot?.querySelectorAll('gr-trigger-vote');
+    assert.equal(triggerChips?.length, 1);
+    expect(triggerChips?.[0]).shadowDom.equal(`<div class="container">
+      <span class="label">Auto-Submit</span>
+    </div>`);
+    const scoreChips = element.shadowRoot?.querySelectorAll('.score');
+    assert.equal(scoreChips?.length, 1);
+    expect(scoreChips?.[0]).dom.equal(`<span class="removed score">
+    Commit-Queue 0 (vote reset)
+    </span>`);
   });
 });

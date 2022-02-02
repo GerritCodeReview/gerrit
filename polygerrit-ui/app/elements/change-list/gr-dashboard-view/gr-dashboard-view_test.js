@@ -356,22 +356,6 @@ suite('gr-dashboard-view tests', () => {
     assert.isFalse(differentChange.starred);
   });
 
-  test('_showNewUserHelp', () => {
-    element._loading = false;
-    element._showNewUserHelp = false;
-    flush();
-
-    assert.equal(element.$.emptyOutgoing.textContent.trim(), 'No changes');
-    assert.isNotOk(element.shadowRoot
-        .querySelector('gr-create-change-help'));
-    element._showNewUserHelp = true;
-    flush();
-
-    assert.notEqual(element.$.emptyOutgoing.textContent.trim(), 'No changes');
-    assert.isOk(element.shadowRoot
-        .querySelector('gr-create-change-help'));
-  });
-
   test('_computeUserHeaderClass', () => {
     assert.equal(element._computeUserHeaderClass(undefined), 'hide');
     assert.equal(element._computeUserHeaderClass({}), 'hide');

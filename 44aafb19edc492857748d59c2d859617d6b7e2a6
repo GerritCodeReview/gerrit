@@ -70,6 +70,24 @@
       },
       "revId": "44aafb19edc492857748d59c2d859617d6b7e2a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88fe1983_04968b01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T17:08:50Z",
+      "side": 1,
+      "message": "Currently this text is auto-generated and reverted changes are sent out for review automatically. This behavior is not ideal (that it gets sent out automatically) but that is the state that we are in today.\n\nIf you think the default text should be different, perhaps you could file an issue for this as a feature request?\n\n-\n\nsimply",
+      "tag": "mailMessageId\u003d\u003cCAN9+7Xfwncb0934qeTQZDhCxiaVga\u003do\u003d0L7zPS\u003dVc5mKx9ikzw@mail.gmail.com\u003e",
+      "revId": "44aafb19edc492857748d59c2d859617d6b7e2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

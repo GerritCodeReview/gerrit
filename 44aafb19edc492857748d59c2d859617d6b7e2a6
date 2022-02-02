@@ -124,6 +124,24 @@
       "parentUuid": "41251f4b_5e9f0117",
       "revId": "44aafb19edc492857748d59c2d859617d6b7e2a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba2f99a9_de5bc678",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-02T18:32:04Z",
+      "side": 1,
+      "message": "well, my M/O here is to do a quick sanity check of incoming changes based on the commit message. i know that this isn\u0027t quite the right time for nit-picking (which is why i actually rarely do, unless i see a pattern), but later i\u0027ll just have moved on.",
+      "parentUuid": "a2137a47_7593bd64",
+      "revId": "44aafb19edc492857748d59c2d859617d6b7e2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "this seems like a lot of gr-dashboard-view specific stuff that doesn\u0027t belong in the shared gr-changelist. Is there any better way to accomplish this? Redirected slot? data/event passing rather than slots?",
       "revId": "25dc86584c5fa5d054eee753e0ae7a96879cb754",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3034df0_ab125daa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-02T13:11:55Z",
+      "side": 1,
+      "message": "The empty outgoing and the empty attention set actually belong to the section I would think.\n\nIf we render these sections anywhere else we want the same functionality present instead of relying on gr-dashboard-view to provide it.\n\nWhich part do you think is dashboard specific?",
+      "parentUuid": "c9ec818d_85db2982",
+      "revId": "25dc86584c5fa5d054eee753e0ae7a96879cb754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

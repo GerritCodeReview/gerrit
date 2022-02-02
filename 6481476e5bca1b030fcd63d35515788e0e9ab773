@@ -69,6 +69,24 @@
       "parentUuid": "81cf268a_d1c320dd",
       "revId": "6481476e5bca1b030fcd63d35515788e0e9ab773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97fba251_34638aae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-02T09:14:36Z",
+      "side": 1,
+      "message": "Actually, we mentioned that in the release plan of Gerrit v3.5 (see [1]). However, we used the term \"prefer\" rather than \"must\".\n\n@Chris do you believe we can reinforce the wording for the Gerrit v3.6?\n\n[1] https://www.gerritcodereview.com/2021-09-07-gerrit-3.5-release-plan.html#change-acceptance-policy-for-the-stable-branch",
+      "parentUuid": "5b9e1ba3_36f3035b",
+      "revId": "6481476e5bca1b030fcd63d35515788e0e9ab773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

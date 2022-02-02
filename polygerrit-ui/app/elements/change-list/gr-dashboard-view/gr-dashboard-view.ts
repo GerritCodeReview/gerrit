@@ -28,6 +28,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-dashboard-view_html';
 import {
   GerritNav,
+  OUTGOING,
   UserDashboard,
   YOUR_TURN,
 } from '../../core/gr-navigation/gr-navigation';
@@ -56,6 +57,7 @@ import {DashboardViewState} from '../../../types/types';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
+import {ChangeListSection} from '../gr-change-list/gr-change-list';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -68,13 +70,10 @@ export interface GrDashboardView {
   };
 }
 
-interface DashboardChange {
-  name: string;
-  countLabel: string;
-  query: string;
-  results: ChangeInfo[];
-  isOutgoing?: boolean;
-}
+const slotNameBySectionName = new Map<string, string>([
+  [YOUR_TURN.name, 'your-turn-slot'],
+  [OUTGOING.name, 'outgoing-slot'],
+]);
 
 @customElement('gr-dashboard-view')
 export class GrDashboardView extends PolymerElement {
@@ -101,7 +100,7 @@ export class GrDashboardView extends PolymerElement {
   params?: AppElementParams;
 
   @property({type: Array})
-  _results?: DashboardChange[];
+  _results?: ChangeListSection[];
 
   @property({type: Boolean})
   _loading = true;
@@ -301,7 +300,7 @@ export class GrDashboardView extends PolymerElement {
             countLabel: this._computeSectionCountLabel(results),
             query: res.sections[i].query,
             results: this._maybeSortResults(res.sections[i].name, results),
-            isOutgoing: res.sections[i].isOutgoing,
+            emptyStateSlotName: slotNameBySectionName.get(res.sections[i].name),
           };
         })
         .filter(

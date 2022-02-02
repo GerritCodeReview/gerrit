@@ -74,7 +74,6 @@ export interface DashboardSection {
   suffixForDashboard?: string;
   selfOnly?: boolean;
   hideIfEmpty?: boolean;
-  isOutgoing?: boolean;
   results?: ChangeInfo[];
 }
 
@@ -115,12 +114,11 @@ const WIP: DashboardSection = {
   hideIfEmpty: true,
   suffixForDashboard: 'limit:25',
 };
-const OUTGOING: DashboardSection = {
+export const OUTGOING: DashboardSection = {
   // Non-WIP open changes owned by viewed user. Filter out changes ignored
   // by the viewing user.
   name: 'Outgoing reviews',
   query: 'is:open owner:${user} -is:wip -is:ignored',
-  isOutgoing: true,
   suffixForDashboard: 'limit:25',
 };
 const INCOMING: DashboardSection = {

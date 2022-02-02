@@ -88,6 +88,24 @@
       "tag": "mailMessageId\u003d\u003cCAN9+7Xfwncb0934qeTQZDhCxiaVga\u003do\u003d0L7zPS\u003dVc5mKx9ikzw@mail.gmail.com\u003e",
       "revId": "44aafb19edc492857748d59c2d859617d6b7e2a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41251f4b_5e9f0117",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-02T17:34:08Z",
+      "side": 1,
+      "message": "i know (and i have previously argued that gerrit\u0027s behavior should be optimized, though i can\u0027t find any traces of that now).\n\nbut that doesn\u0027t mean that the message shouldn\u0027t be massaged - \"a machine did it\" isn\u0027t really a compelling reason to not improve something.",
+      "parentUuid": "88fe1983_04968b01",
+      "revId": "44aafb19edc492857748d59c2d859617d6b7e2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

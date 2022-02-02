@@ -24,6 +24,7 @@ import {
   queryAll,
   queryAndAssert,
   stubFlags,
+  waitUntil,
 } from '../../../test/test-utils';
 import {Key} from '../../../utils/dom-util';
 import {TimeFormat} from '../../../constants/constants';
@@ -31,8 +32,10 @@ import {AccountId, NumericChangeId} from '../../../types/common';
 import {
   createChange,
   createServerInfo,
+  createQuickLabelInfo,
 } from '../../../test/test-data-generators';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
+import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 
 const basicFixture = fixtureFromElement('gr-change-list');
 
@@ -134,59 +137,48 @@ suite('gr-change-list basic tests', () => {
       ]).length,
       3
     );
-
-    assert.equal(element.computeLabelShortcut('Code-Review'), 'CR');
-    assert.equal(element.computeLabelShortcut('Verified'), 'V');
-    assert.equal(element.computeLabelShortcut('Library-Compliance'), 'LC');
-    assert.equal(element.computeLabelShortcut('PolyGerrit-Review'), 'PR');
-    assert.equal(element.computeLabelShortcut('polygerrit-review'), 'PR');
-    assert.equal(
-      element.computeLabelShortcut('Invalid-Prolog-Rules-Label-Name--Verified'),
-      'V'
-    );
-    assert.equal(element.computeLabelShortcut('Some-Special-Label-7'), 'SSL7');
-    assert.equal(
-      element.computeLabelShortcut('--Too----many----dashes---'),
-      'TMD'
-    );
-    assert.equal(
-      element.computeLabelShortcut(
-        'Really-rather-entirely-too-long-of-a-label-name'
-      ),
-      'RRETL'
-    );
-  });
-
-  test('colspans', async () => {
-    element.sections = [{results: [{...createChange()}]}];
-    await element.updateComplete;
-    const tdItemCount = queryAll<HTMLTableElement>(element, 'td').length;
-
-    element.visibleChangeTableColumns = [];
-    const labelNames: string[] | undefined = [];
-    assert.equal(
-      tdItemCount,
-      element.computeColspan({results: [{...createChange()}]}, labelNames)
-    );
   });
 
   test('keyboard shortcuts', async () => {
     sinon.stub(element, 'computeLabelNames');
     element.sections = [{results: new Array(1)}, {results: new Array(2)}];
     element.selectedIndex = 0;
+    element.preferences = {
+      legacycid_in_change_table: true,
+      time_format: TimeFormat.HHMM_12,
+      change_table: [
+        'Subject',
+        'Status',
+        'Owner',
+        'Reviewers',
+        'Comments',
+        'Repo',
+        'Branch',
+        'Updated',
+        'Size',
+        ' Status ',
+      ],
+    };
+    element.config = createServerInfo();
     element.changes = [
       {...createChange(), _number: 0 as NumericChangeId},
       {...createChange(), _number: 1 as NumericChangeId},
       {...createChange(), _number: 2 as NumericChangeId},
     ];
     await element.updateComplete;
-    const elementItems = queryAll<GrChangeListItem>(
+    const section = queryAndAssert<GrChangeListSection>(
       element,
+      'gr-change-list-section'
+    );
+    await section.updateComplete;
+    const elementItems = queryAll<GrChangeListItem>(
+      section,
       'gr-change-list-item'
     );
     assert.equal(elementItems.length, 3);
 
     assert.isTrue(elementItems[0].hasAttribute('selected'));
+    await element.updateComplete;
     pressKey(element, 'j');
     await element.updateComplete;
     assert.equal(element.selectedIndex, 1);
@@ -199,7 +191,7 @@ suite('gr-change-list basic tests', () => {
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
     assert.equal(element.selectedIndex, 2);
     pressKey(element, Key.ENTER);
-    await element.updateComplete;
+    await waitUntil(() => navStub.called);
     assert.deepEqual(
       navStub.lastCall.args[0],
       {...createChange(), _number: 2 as NumericChangeId},
@@ -210,7 +202,7 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
     assert.equal(element.selectedIndex, 1);
     pressKey(element, Key.ENTER);
-    await element.updateComplete;
+    await waitUntil(() => navStub.calledTwice);
     assert.deepEqual(
       navStub.lastCall.args[0],
       {...createChange(), _number: 1 as NumericChangeId},
@@ -231,8 +223,9 @@ suite('gr-change-list basic tests', () => {
       'gr-change-list-item'
     );
     assert.equal(listItems.length, 0);
+    const section = queryAndAssert(element, 'gr-change-list-section');
     const noChangesMsg = queryAndAssert<HTMLTableRowElement>(
-      element,
+      section,
       '.noChanges'
     );
     assert.ok(noChangesMsg);
@@ -246,11 +239,14 @@ suite('gr-change-list basic tests', () => {
       'gr-change-list-item'
     );
     assert.equal(listItems.length, 0);
-    const noChangesMsg = queryAll<HTMLTableRowElement>(element, '.noChanges');
-    assert.equal(noChangesMsg.length, 2);
+    const sections = queryAll<GrChangeListSection>(element,
+        'gr-change-list-section');
+    sections.forEach(section => {
+      assert.isOk(query(section, '.noChanges'));
+    });
   });
 
-  suite('empty section slots', () => {
+  suite.only('empty section slots', () => {
     test('are shown on empty sections with slot name', async () => {
       const section = {
         name: 'test',
@@ -275,6 +271,7 @@ suite('gr-change-list basic tests', () => {
     });
 
     test('are not shown on non-empty sections with slot name', async () => {
+      debugger;
       const section = {
         name: 'test',
         query: 'test',
@@ -297,7 +294,9 @@ suite('gr-change-list basic tests', () => {
 
   test('selection checkbox is only shown if experiment is enabled', async () => {
     function propertiesSetup(element: GrChangeList) {
-      element.sections = [{results: [{...createChange()}]}];
+      const change = {...createChange()};
+      change.labels = {a: createQuickLabelInfo()};
+      element.sections = [{results: [change], name: 'a'}];
       element.account = {_account_id: 1001 as AccountId};
       element.preferences = {
         legacycid_in_change_table: true,
@@ -321,13 +320,18 @@ suite('gr-change-list basic tests', () => {
     element = basicFixture.instantiate();
     propertiesSetup(element);
     await element.updateComplete;
-    assert.isNotOk(query(element, '.selection'));
+    let section = query(element, 'gr-change-list-section');
+    assert.isOk(section);
+    assert.isNotOk(query(section, '.selection'));
 
     stubFlags('isEnabled').returns(true);
     element = basicFixture.instantiate();
     propertiesSetup(element);
     await element.updateComplete;
-    assert.isOk(query(element, '.selection'));
+
+    section = query(element, 'gr-change-list-section');
+    assert.isOk(section);
+    assert.isOk(query(section, '.selection'));
   });
 
   suite('empty column preference', () => {
@@ -354,8 +358,9 @@ suite('gr-change-list basic tests', () => {
     test('all columns visible', () => {
       for (const column of element.changeTableColumns!) {
         const elementClass = '.' + column.trim().toLowerCase();
+        const section = queryAndAssert(element, 'gr-change-list-section');
         assert.isFalse(
-          queryAndAssert<HTMLElement>(element, elementClass)!.hidden
+          queryAndAssert<HTMLElement>(section, elementClass)!.hidden
         );
       }
     });
@@ -392,8 +397,9 @@ suite('gr-change-list basic tests', () => {
     test('all columns visible', () => {
       for (const column of element.changeTableColumns!) {
         const elementClass = '.' + column.trim().toLowerCase();
+        const section = queryAndAssert(element, 'gr-change-list-section');
         assert.isFalse(
-          queryAndAssert<HTMLElement>(element, elementClass).hidden
+          queryAndAssert<HTMLElement>(section, elementClass).hidden
         );
       }
     });
@@ -429,10 +435,11 @@ suite('gr-change-list basic tests', () => {
     test('all columns except repo visible', () => {
       for (const column of element.changeTableColumns!) {
         const elementClass = '.' + column.trim().toLowerCase();
+        const section = queryAndAssert(element, 'gr-change-list-section');
         if (column === 'Repo') {
-          assert.isNotOk(query<HTMLElement>(element, elementClass));
+          assert.isNotOk(query<HTMLElement>(section, elementClass));
         } else {
-          assert.isOk(queryAndAssert<HTMLElement>(element, elementClass));
+          assert.isOk(queryAndAssert<HTMLElement>(section, elementClass));
         }
       }
     });
@@ -461,153 +468,6 @@ suite('gr-change-list basic tests', () => {
 
     test('bad column does not exist', () => {
       assert.isNotOk(query<HTMLElement>(element, '.bad'));
-    });
-  });
-
-  suite('dashboard queries', () => {
-    let element: GrChangeList;
-
-    setup(() => {
-      element = basicFixture.instantiate();
-    });
-
-    teardown(() => {
-      sinon.restore();
-    });
-
-    test('query without age and limit unchanged', () => {
-      const query = 'status:closed owner:me';
-      assert.deepEqual(element.processQuery(query), query);
-    });
-
-    test('query with age and limit', () => {
-      const query = 'status:closed age:1week limit:10 owner:me';
-      const expectedQuery = 'status:closed owner:me';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-
-    test('query with age', () => {
-      const query = 'status:closed age:1week owner:me';
-      const expectedQuery = 'status:closed owner:me';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-
-    test('query with limit', () => {
-      const query = 'status:closed limit:10 owner:me';
-      const expectedQuery = 'status:closed owner:me';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-
-    test('query with age as value and not key', () => {
-      const query = 'status:closed random:age';
-      const expectedQuery = 'status:closed random:age';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-
-    test('query with limit as value and not key', () => {
-      const query = 'status:closed random:limit';
-      const expectedQuery = 'status:closed random:limit';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-
-    test('query with -age key', () => {
-      const query = 'status:closed -age:1week';
-      const expectedQuery = 'status:closed';
-      assert.deepEqual(element.processQuery(query), expectedQuery);
-    });
-  });
-
-  suite('gr-change-list sections', () => {
-    let element: GrChangeList;
-
-    setup(() => {
-      element = basicFixture.instantiate();
-    });
-
-    test('keyboard shortcuts', async () => {
-      element.selectedIndex = 0;
-      element.sections = [
-        {
-          results: [
-            {...createChange(), _number: 0 as NumericChangeId},
-            {...createChange(), _number: 1 as NumericChangeId},
-            {...createChange(), _number: 2 as NumericChangeId},
-          ],
-        },
-        {
-          results: [
-            {...createChange(), _number: 3 as NumericChangeId},
-            {...createChange(), _number: 4 as NumericChangeId},
-            {...createChange(), _number: 5 as NumericChangeId},
-          ],
-        },
-        {
-          results: [
-            {...createChange(), _number: 6 as NumericChangeId},
-            {...createChange(), _number: 7 as NumericChangeId},
-            {...createChange(), _number: 8 as NumericChangeId},
-          ],
-        },
-      ];
-      await element.updateComplete;
-      const elementItems = queryAll<GrChangeListItem>(
-        element,
-        'gr-change-list-item'
-      );
-      assert.equal(elementItems.length, 9);
-
-      pressKey(element, 'j');
-      assert.equal(element.selectedIndex, 1);
-      pressKey(element, 'j');
-
-      const navStub = sinon.stub(GerritNav, 'navigateToChange');
-      assert.equal(element.selectedIndex, 2);
-
-      pressKey(element, Key.ENTER);
-      assert.deepEqual(
-        navStub.lastCall.args[0],
-        {...createChange(), _number: 2 as NumericChangeId},
-        'Should navigate to /c/2/'
-      );
-
-      pressKey(element, 'k');
-      assert.equal(element.selectedIndex, 1);
-      pressKey(element, Key.ENTER);
-      assert.deepEqual(
-        navStub.lastCall.args[0],
-        {...createChange(), _number: 1 as NumericChangeId},
-        'Should navigate to /c/1/'
-      );
-
-      pressKey(element, 'j');
-      pressKey(element, 'j');
-      pressKey(element, 'j');
-      assert.equal(element.selectedIndex, 4);
-      pressKey(element, Key.ENTER);
-      assert.deepEqual(
-        navStub.lastCall.args[0],
-        {...createChange(), _number: 4 as NumericChangeId},
-        'Should navigate to /c/4/'
-      );
-    });
-
-    test('computeItemAbsoluteIndex', () => {
-      sinon.stub(element, 'computeLabelNames');
-      element.sections = [
-        {results: new Array(1)},
-        {results: new Array(2)},
-        {results: new Array(3)},
-      ];
-
-      assert.equal(element.computeItemAbsoluteIndex(0, 0), 0);
-      // Out of range but no matter.
-      assert.equal(element.computeItemAbsoluteIndex(0, 1), 1);
-
-      assert.equal(element.computeItemAbsoluteIndex(1, 0), 1);
-      assert.equal(element.computeItemAbsoluteIndex(1, 1), 2);
-      assert.equal(element.computeItemAbsoluteIndex(1, 2), 3);
-      assert.equal(element.computeItemAbsoluteIndex(2, 0), 3);
-      assert.equal(element.computeItemAbsoluteIndex(3, 0), 6);
     });
   });
 });

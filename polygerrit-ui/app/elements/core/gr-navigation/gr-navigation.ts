@@ -99,7 +99,6 @@ const HAS_DRAFTS: DashboardSection = {
   hideIfEmpty: true,
   suffixForDashboard: 'limit:10',
 };
-export const WAITING = 'Waiting';
 export const YOUR_TURN: DashboardSection = {
   // Changes where the user is in the attention set.
   name: 'Your Turn',

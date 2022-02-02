@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdc90db8_f8f95d12",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-02T09:54:17Z",
+      "side": 1,
+      "message": "No. The `DIFF_...` timings are not affected.",
+      "parentUuid": "45d1b80c_a9832dbc",
+      "range": {
+        "startLine": 387,
+        "startChar": 4,
+        "endLine": 388,
+        "endChar": 42
+      },
+      "revId": "b77b9ea8915d78d5d137c74c05a2eea4761f9262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b411867_cb6767a1",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-02T09:31:30Z",
       "side": 1,
       "message": "Isn\u0027t this slowing things? This is forcing layout/reflow https://gist.github.com/paulirish/5d52fb081b3570c81e3a\n\nI would be very careful to call it and not every time. Do you really need it?",
+      "range": {
+        "startLine": 480,
+        "startChar": 8,
+        "endLine": 480,
+        "endChar": 78
+      },
+      "revId": "b77b9ea8915d78d5d137c74c05a2eea4761f9262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cd5a832_b2376502",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-02T09:54:17Z",
+      "side": 1,
+      "message": "I do need it, because just the number of lines is not a great measure for how large the diff is and how much has been rendered.\n\nI agree that you have be careful about calling `.clientHeight` hundreds of times per diff render, but I don\u0027t think that doing this twice is an issue.",
+      "parentUuid": "2b411867_cb6767a1",
       "range": {
         "startLine": 480,
         "startChar": 8,

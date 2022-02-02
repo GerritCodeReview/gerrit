@@ -73,7 +73,7 @@ export const columnNames = [
 
 export interface ChangeListSection {
   countLabel?: string;
-  isOutgoing?: boolean;
+  emptyStateSlotName?: string;
   name?: string;
   query?: string;
   results: ChangeInfo[];
@@ -306,10 +306,8 @@ export class GrChangeList extends LitElement {
           class="cell"
           colspan="${this.computeColspan(changeSection, labelNames)}"
         >
-          ${this.getSpecialEmptySlot(changeSection)
-            ? html`<slot
-                name="${this.getSpecialEmptySlot(changeSection)}"
-              ></slot>`
+          ${changeSection.emptyStateSlotName
+            ? html`<slot name="${changeSection.emptyStateSlotName}"></slot>`
             : 'No changes'}
         </td>
       </tr>
@@ -672,15 +670,7 @@ export class GrChangeList extends LitElement {
     if (this.selectedIndex) this.cursor.setCursorAtIndex(this.selectedIndex);
   }
 
-  // private but used in test
-  getSpecialEmptySlot(section: ChangeListSection) {
-    if (section.isOutgoing) return 'empty-outgoing';
-    if (section.name === YOUR_TURN.name) return 'empty-your-turn';
-    return '';
-  }
-
-  // private but used in test
-  isEmpty(section: ChangeListSection) {
+  private isEmpty(section: ChangeListSection) {
     return !section.results?.length;
   }
 

@@ -45,11 +45,6 @@ import {
 } from '../../../types/common';
 import {AppElementDashboardParams, AppElementParams} from '../../gr-app-types';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
-import {GrCreateCommandsDialog} from '../gr-create-commands-dialog/gr-create-commands-dialog';
-import {
-  CreateDestinationConfirmDetail,
-  GrCreateDestinationDialog,
-} from '../gr-create-destination-dialog/gr-create-destination-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {DashboardViewState} from '../../../types/types';
@@ -62,8 +57,6 @@ const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 export interface GrDashboardView {
   $: {
     confirmDeleteDialog: GrDialog;
-    commandsDialog: GrCreateCommandsDialog;
-    destinationDialog: GrCreateDestinationDialog;
     confirmDeleteOverlay: GrOverlay;
   };
 }
@@ -439,15 +432,6 @@ export class GrDashboardView extends PolymerElement {
 
   _computeDraftsLink() {
     return GerritNav.getUrlForSearchQuery('has:draft -is:open');
-  }
-
-  _handleCreateChangeTap() {
-    this.$.destinationDialog.open();
-  }
-
-  _handleDestinationConfirm(e: CustomEvent<CreateDestinationConfirmDetail>) {
-    this.$.commandsDialog.branch = e.detail.branch;
-    this.$.commandsDialog.open();
   }
 
   _handleSelectedIndexChanged(e: CustomEvent) {

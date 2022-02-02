@@ -304,6 +304,30 @@
       },
       "revId": "cadf6342f3e467f2de81eb395e5bb656417be0ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40ce95a3_67ce8055",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-02-02T15:28:45Z",
+      "side": 1,
+      "message": "I am sorry, I thought that Gerrit behaved differently than it does, never mind this comment.",
+      "parentUuid": "d85d7b2d_b9b16e98",
+      "range": {
+        "startLine": 201,
+        "startChar": 14,
+        "endLine": 202,
+        "endChar": 63
+      },
+      "revId": "cadf6342f3e467f2de81eb395e5bb656417be0ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

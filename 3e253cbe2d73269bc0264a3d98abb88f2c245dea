@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea9ab62_39135a07",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-02T19:51:11Z",
+      "side": 1,
+      "message": "exactly",
+      "range": {
+        "startLine": 16,
+        "startChar": 40,
+        "endLine": 16,
+        "endChar": 47
+      },
+      "revId": "3e253cbe2d73269bc0264a3d98abb88f2c245dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6c70b64_a3d522d6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T14:45:46Z",
+      "side": 1,
+      "message": "Can this cause issues with text that contains characters that are not valid css-name-characters?",
+      "revId": "fa4f4d0880413f7d4693920f6559b3af4b9f395c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

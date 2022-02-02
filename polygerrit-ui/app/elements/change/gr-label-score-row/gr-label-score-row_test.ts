@@ -358,6 +358,7 @@ suite('gr-label-row-score tests', () => {
             title="bad"
             vote="min"
             votechip=""
+            flatten=""
           >
             <gr-tooltip-content light-tooltip="" has-tooltip="" title="bad">
               -1
@@ -372,6 +373,7 @@ suite('gr-label-row-score tests', () => {
             tabindex="0"
             vote="neutral"
             votechip=""
+            flatten=""
           >
             <gr-tooltip-content light-tooltip="" has-tooltip="">
               0
@@ -389,6 +391,7 @@ suite('gr-label-row-score tests', () => {
             title="good"
             vote="max"
             votechip=""
+            flatten=""
           >
             <gr-tooltip-content light-tooltip="" has-tooltip="" title="good">
               +1

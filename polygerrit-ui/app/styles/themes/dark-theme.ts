@@ -136,6 +136,15 @@ function getStyleEl() {
       --vote-outline-recommended: var(--green-200);
       --vote-color-rejected: var(--red-200);
 
+      /* vote chip background colors */
+      --vote-chip-unselected-outline-color: var(--gray-500);
+      --vote-chip-unselected-color: var(--grey-800);
+      --vote-chip-selected-positive-color: var(--green-200);
+      --vote-chip-selected-neutral-color: var(--gray-300);
+      --vote-chip-selected-negative-color: var(--red-200);
+      --vote-chip-unselected-text-color: white;
+      --vote-chip-selected-text-color: black;
+
       --outline-color-focus: var(--gray-100);
 
       /* misc colors */

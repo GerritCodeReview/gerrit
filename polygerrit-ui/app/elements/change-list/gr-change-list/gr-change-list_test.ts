@@ -25,7 +25,6 @@ import {
   queryAndAssert,
   stubFlags,
 } from '../../../test/test-utils';
-import {YOUR_TURN} from '../../core/gr-navigation/gr-navigation';
 import {Key} from '../../../utils/dom-util';
 import {TimeFormat} from '../../../constants/constants';
 import {AccountId, NumericChangeId} from '../../../types/common';
@@ -251,35 +250,29 @@ suite('gr-change-list basic tests', () => {
     assert.equal(noChangesMsg.length, 2);
   });
 
-  suite('empty section', () => {
-    test('not shown on empty non-outgoing sections', () => {
-      const section = {name: 'test', query: 'test', results: []};
-      assert.isTrue(element.isEmpty(section));
-      assert.equal(element.getSpecialEmptySlot(section), '');
-    });
-
-    test('shown on empty outgoing sections', () => {
+  suite('empty section slots', () => {
+    test('are shown on empty sections with slot name provided', () => {
       const section = {
         name: 'test',
         query: 'test',
         results: [],
-        isOutgoing: true,
+        emptyStateSlotName: 'test',
       };
       assert.isTrue(element.isEmpty(section));
-      assert.equal(element.getSpecialEmptySlot(section), 'empty-outgoing');
+      assert.equal(element.getSpecialEmptySlot(section), 'test');
     });
 
-    test('shown on empty outgoing sections', () => {
-      const section = {name: YOUR_TURN.name, query: 'test', results: []};
+    test('are not shown on empty sections without slot name provided', () => {
+      const section = {name: 'test', query: 'test', results: []};
       assert.isTrue(element.isEmpty(section));
-      assert.equal(element.getSpecialEmptySlot(section), 'empty-your-turn');
+      assert.isUndefined(element.getSpecialEmptySlot(section));
     });
 
-    test('not shown on non-empty outgoing sections', () => {
+    test('are not shown on non-empty sections with slot name provided', () => {
       const section = {
         name: 'test',
         query: 'test',
-        isOutgoing: true,
+        emptyStateSlotName: 'test',
         results: [
           {
             ...createChange(),

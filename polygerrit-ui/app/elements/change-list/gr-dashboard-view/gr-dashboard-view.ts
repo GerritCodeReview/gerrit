@@ -56,6 +56,7 @@ import {DashboardViewState} from '../../../types/types';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
+import {ChangeListSection} from '../gr-change-list/gr-change-list';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -66,14 +67,6 @@ export interface GrDashboardView {
     destinationDialog: GrCreateDestinationDialog;
     confirmDeleteOverlay: GrOverlay;
   };
-}
-
-interface DashboardChange {
-  name: string;
-  countLabel: string;
-  query: string;
-  results: ChangeInfo[];
-  isOutgoing?: boolean;
 }
 
 @customElement('gr-dashboard-view')
@@ -101,7 +94,7 @@ export class GrDashboardView extends PolymerElement {
   params?: AppElementParams;
 
   @property({type: Array})
-  _results?: DashboardChange[];
+  _results?: ChangeListSection[];
 
   @property({type: Boolean})
   _loading = true;
@@ -301,7 +294,9 @@ export class GrDashboardView extends PolymerElement {
             countLabel: this._computeSectionCountLabel(results),
             query: res.sections[i].query,
             results: this._maybeSortResults(res.sections[i].name, results),
-            isOutgoing: res.sections[i].isOutgoing,
+            emptyStateSlotName: res.sections[i].customEmptyState
+              ? res.sections[i].name
+              : undefined,
           };
         })
         .filter(

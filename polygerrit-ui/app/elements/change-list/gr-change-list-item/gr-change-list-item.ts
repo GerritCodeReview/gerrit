@@ -53,6 +53,7 @@ import {customElement, property, state} from 'lit/decorators';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {WAITING} from '../../../constants/constants';
 
 enum ChangeSize {
   XS = 10,
@@ -501,7 +502,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellWaiting() {
-    if (this.computeIsColumnHidden('Waiting', this.visibleChangeTableColumns))
+    if (this.computeIsColumnHidden(WAITING, this.visibleChangeTableColumns))
       return;
 
     return html`

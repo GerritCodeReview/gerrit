@@ -63,22 +63,6 @@ suite('gr-diff-host tests', () => {
   });
 
   suite('render reporting', () => {
-    test('starts total and content timer on render-start', () => {
-      element.dispatchEvent(
-          new CustomEvent('render-start', {bubbles: true, composed: true}));
-      assert.isTrue(element.reporting.time.calledWithExactly(
-          'Diff Total Render'));
-      assert.isTrue(element.reporting.time.calledWithExactly(
-          'Diff Content Render'));
-    });
-
-    test('ends content timer on render-content', () => {
-      element.dispatchEvent(
-          new CustomEvent('render-content', {bubbles: true, composed: true}));
-      assert.isTrue(element.reporting.timeEnd.calledWithExactly(
-          'Diff Content Render'));
-    });
-
     test('ends total and syntax timer after syntax layer', async () => {
       sinon.stub(element.reporting, 'diffViewContentDisplayed');
       let notifySyntaxProcessed;
@@ -97,10 +81,12 @@ suite('gr-diff-host tests', () => {
       notifySyntaxProcessed();
       // Multiple cascading microtasks are scheduled.
       await flush();
-      assert.isTrue(element.reporting.timeEnd.calledWithExactly(
-          'Diff Total Render'));
-      assert.isTrue(element.reporting.timeEnd.calledWithExactly(
-          'Diff Syntax Render'));
+      const calls = element.reporting.timeEnd.getCalls();
+      assert.equal(calls.length, 4);
+      assert.equal(calls[0].args[0], 'Diff Load Render');
+      assert.equal(calls[1].args[0], 'Diff Content Render');
+      assert.equal(calls[2].args[0], 'Diff Syntax Render');
+      assert.equal(calls[3].args[0], 'Diff Total Render');
       assert.isTrue(element.reporting.diffViewContentDisplayed.called);
     });
 
@@ -112,13 +98,11 @@ suite('gr-diff-host tests', () => {
       // Multiple cascading microtasks are scheduled.
       await flush();
       await flush();
-      // Reporting can be called with other parameters (ex. PluginsLoaded),
-      // but only 'Diff Total Render' is important in this test.
-      assert.equal(
-          element.reporting.timeEnd.getCalls()
-              .filter(call => call.calledWithExactly('Diff Total Render'))
-              .length,
-          1);
+      const calls = element.reporting.timeEnd.getCalls();
+      assert.equal(calls.length, 3);
+      assert.equal(calls[0].args[0], 'Diff Load Render');
+      assert.equal(calls[1].args[0], 'Diff Content Render');
+      assert.equal(calls[2].args[0], 'Diff Total Render');
     });
 
     test('completes reload promise after syntax layer processing', async () => {

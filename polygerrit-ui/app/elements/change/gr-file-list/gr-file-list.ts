@@ -612,7 +612,6 @@ export class GrFileList extends base {
       return;
     }
     // Re-render all expanded diffs sequentially.
-    this.reporting.time(Timing.FILE_EXPAND_ALL);
     this._renderInOrder(
       this._expandedFiles,
       this.diffs,
@@ -1324,8 +1323,6 @@ export class GrFileList extends base {
     // Required so that the newly created diff view is included in this.diffs.
     flush();
 
-    this.reporting.time(Timing.FILE_EXPAND_ALL);
-
     if (newFiles.length) {
       this._renderInOrder(newFiles, this.diffs, newFiles.length);
     }
@@ -1349,11 +1346,13 @@ export class GrFileList extends base {
    * @param initialCount The total number of paths in the pass. This
    * is used to generate log messages.
    */
-  private _renderInOrder(
+  private async _renderInOrder(
     files: PatchSetFile[],
     diffElements: GrDiffHost[],
     initialCount: number
   ) {
+    this.reporting.time(Timing.FILE_EXPAND_ALL);
+
     for (const file of files) {
       const path = file.path;
       const diffElem = this._findDiffByPath(path, diffElements);
@@ -1362,7 +1361,7 @@ export class GrFileList extends base {
       }
     }
 
-    asyncForeach(files, (file, cancel) => {
+    await asyncForeach(files, (file, cancel) => {
       const path = file.path;
       this._cancelForEachDiff = cancel;
 
@@ -1382,27 +1381,26 @@ export class GrFileList extends base {
         promises.push(this._reviewFile(path, true));
       }
       return Promise.all(promises);
-    }).then(() => {
-      this._cancelForEachDiff = undefined;
-      this.reporting.timeEndWithAverage(
-        Timing.FILE_EXPAND_ALL,
-        Timing.FILE_EXPAND_ALL_AVG,
-        initialCount
-      );
-      /* Block diff cursor from auto scrolling after files are done rendering.
-      * This prevents the bug where the screen jumps to the first diff chunk
-      * after files are done being rendered after the user has already begun
-      * scrolling.
-      * This also however results in the fact that the cursor does not auto
-      * focus on the first diff chunk on a small screen. This is however, a use
-      * case we are willing to not support for now.
-
-      * Using handleDiffUpdate resulted in diffCursor.row being set which
-      * prevented the issue of scrolling to top when we expand the second
-      * file individually.
-      */
-      this.diffCursor.reInitAndUpdateStops();
     });
+
+    this._cancelForEachDiff = undefined;
+    this.reporting.timeEnd(Timing.FILE_EXPAND_ALL, {
+      count: initialCount,
+      height: this.clientHeight,
+    });
+    /* Block diff cursor from auto scrolling after files are done rendering.
+    * This prevents the bug where the screen jumps to the first diff chunk
+    * after files are done being rendered after the user has already begun
+    * scrolling.
+    * This also however results in the fact that the cursor does not auto
+    * focus on the first diff chunk on a small screen. This is however, a use
+    * case we are willing to not support for now.
+
+    * Using handleDiffUpdate resulted in diffCursor.row being set which
+    * prevented the issue of scrolling to top when we expand the second
+    * file individually.
+    */
+    this.diffCursor.reInitAndUpdateStops();
   }
 
   /** Cancel the rendering work of every diff in the list */
@@ -1615,11 +1613,9 @@ export class GrFileList extends base {
   _reportRenderedRow(index: number) {
     if (index === this._shownFiles.length - 1) {
       setTimeout(() => {
-        this.reporting.timeEndWithAverage(
-          Timing.FILE_RENDER,
-          Timing.FILE_RENDER_AVG,
-          this._reportinShownFilesIncrement
-        );
+        this.reporting.timeEnd(Timing.FILE_RENDER, {
+          count: this._reportinShownFilesIncrement,
+        });
       }, 1);
     }
     return '';

@@ -314,8 +314,6 @@ export class GrDiffHost extends DIPolymerElement {
       'create-comment',
       e => this._handleCreateThread(e)
     );
-    this.addEventListener('render-start', () => this._handleRenderStart());
-    this.addEventListener('render-content', () => this._handleRenderContent());
     this.addEventListener('normalize-range', event =>
       this._handleNormalizeRange(event)
     );
@@ -386,6 +384,8 @@ export class GrDiffHost extends DIPolymerElement {
    * signal to report metrics event that started on location change.
    */
   async reload(shouldReportMetric?: boolean) {
+    this.reporting.time(Timing.DIFF_TOTAL);
+    this.reporting.time(Timing.DIFF_LOAD);
     this.clear();
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.changeNum, 'changeNum');
@@ -421,7 +421,10 @@ export class GrDiffHost extends DIPolymerElement {
       this.editWeblinks = this._getEditWeblinks(diff);
       this.filesWeblinks = this._getFilesWeblinks(diff);
       this.diff = diff;
+      this.reporting.timeEnd(Timing.DIFF_LOAD, this.timingDetails());
+      this.reporting.time(Timing.DIFF_CONTENT);
       const event = (await waitForEventOnce(this, 'render')) as CustomEvent;
+      this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());
       if (shouldReportMetric) {
         // We report diffViewContentDisplayed only on reload caused
         // by params changed - expected only on Diff Page.
@@ -433,7 +436,7 @@ export class GrDiffHost extends DIPolymerElement {
         try {
           await this.syntaxLayer.process();
         } finally {
-          this.reporting.timeEnd(Timing.DIFF_SYNTAX);
+          this.reporting.timeEnd(Timing.DIFF_SYNTAX, this.timingDetails());
         }
       }
     } catch (e: unknown) {
@@ -445,8 +448,37 @@ export class GrDiffHost extends DIPolymerElement {
         this.reporting.error(new Error('reload error'), undefined, e);
       }
     } finally {
-      this.reporting.timeEnd(Timing.DIFF_TOTAL);
+      this.reporting.timeEnd(Timing.DIFF_TOTAL, this.timingDetails());
     }
+  }
+
+  /**
+   * Produces an event detail object for reporting.
+   */
+  private timingDetails() {
+    if (!this.diff) return {};
+    const metaLines =
+      (this.diff.meta_a?.lines ?? 0) + (this.diff.meta_b?.lines ?? 0);
+
+    let contentLines = 0;
+    let contentChanged = 0;
+    let contentUnchanged = 0;
+    for (const chunk of this.diff.content) {
+      const ab = chunk.ab?.length ?? 0;
+      const a = chunk.a?.length ?? 0;
+      const b = chunk.b?.length ?? 0;
+      contentLines += ab + ab + a + b;
+      contentChanged += a + b;
+      contentUnchanged += ab + ab;
+    }
+    return {
+      metaLines,
+      contentLines,
+      contentUnchanged,
+      contentChanged,
+      height:
+        this.$.diff?.shadowRoot?.querySelector('.diffContainer')?.clientHeight,
+    };
   }
 
   private getLayers(path: string, enableTokenHighlight: boolean): DiffLayer[] {
@@ -1189,15 +1221,6 @@ export class GrDiffHost extends DIPolymerElement {
     };
 
     this.syntaxLayer.addListener(renderUpdateListener);
-  }
-
-  _handleRenderStart() {
-    this.reporting.time(Timing.DIFF_TOTAL);
-    this.reporting.time(Timing.DIFF_CONTENT);
-  }
-
-  _handleRenderContent() {
-    this.reporting.timeEnd(Timing.DIFF_CONTENT);
   }
 
   _handleNormalizeRange(event: CustomEvent) {

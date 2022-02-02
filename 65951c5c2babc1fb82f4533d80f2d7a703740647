@@ -69,6 +69,24 @@
       "parentUuid": "bbe89ac2_42dfee0e",
       "revId": "65951c5c2babc1fb82f4533d80f2d7a703740647",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cd4a7b4_a71aa51d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-02-02T19:40:27Z",
+      "side": 1,
+      "message": "Maybe we need some clarification on process for LC in https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries ? It does seem like a lot of things recently have been stuck waiting on LC and non-Googlers don\u0027t have a clear process to follow for attention/escalation.",
+      "parentUuid": "f4438719_4784eeb3",
+      "revId": "65951c5c2babc1fb82f4533d80f2d7a703740647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

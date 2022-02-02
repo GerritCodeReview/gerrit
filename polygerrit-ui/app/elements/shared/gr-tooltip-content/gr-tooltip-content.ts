@@ -34,6 +34,11 @@ export class GrTooltipContent extends LitElement {
   @property({type: Boolean, attribute: 'has-tooltip', reflect: true})
   hasTooltip = false;
 
+  // A light tooltip will disappear immediately when the original hovered
+  // over content is no longer hovered over.
+  @property({type: Boolean, attribute: 'light-tooltip', reflect: true})
+  lightTooltip = false;
+
   @property({type: Boolean, attribute: 'position-below', reflect: true})
   positionBelow = false;
 
@@ -158,7 +163,9 @@ export class GrTooltipContent extends LitElement {
     window.addEventListener('scroll', this.windowScrollHandler);
     this.addEventListener('mouseleave', this.hideHandler);
     this.addEventListener('click', this.hideHandler);
-    tooltip.addEventListener('mouseleave', this.hideHandler);
+    if (!this.lightTooltip) {
+      tooltip.addEventListener('mouseleave', this.hideHandler);
+    }
   }
 
   _handleHideTooltip(e: Event | undefined) {
@@ -171,7 +178,8 @@ export class GrTooltipContent extends LitElement {
     // Do not hide if mouse left this or this.tooltip and came to this or
     // this.tooltip
     if (
-      (e as MouseEvent)?.relatedTarget === this.tooltip ||
+      (!this.lightTooltip &&
+        (e as MouseEvent)?.relatedTarget === this.tooltip) ||
       (e as MouseEvent)?.relatedTarget === this
     ) {
       return;
@@ -181,7 +189,9 @@ export class GrTooltipContent extends LitElement {
     this.removeEventListener('mouseleave', this.hideHandler);
     this.removeEventListener('click', this.hideHandler);
     this.setAttribute('title', this.originalTitle);
-    this.tooltip?.removeEventListener('mouseleave', this.hideHandler);
+    if (!this.lightTooltip) {
+      this.tooltip?.removeEventListener('mouseleave', this.hideHandler);
+    }
 
     if (this.tooltip?.parentNode) {
       this.tooltip.parentNode.removeChild(this.tooltip);

@@ -84,6 +84,8 @@ export enum Timing {
   DIFF_CONTENT = 'Diff Content Render',
   // Time to compute and render the syntax highlighting of a diff.
   DIFF_SYNTAX = 'Diff Syntax Render',
+  // Time to load diff and prepare before gr-diff rendering begins.
+  DIFF_LOAD = 'Diff Load Render',
   // Time to render a batch of rows in the file list. If there are very many files, this may be the first batch of rows that are rendered by default. If there are many files and the user clicks [Show More], this may be the batch of additional files that appear as a result.
   FILE_RENDER = 'FileListRenderTime',
   // The time to expand some number of diffs in the file list (i.e. render their diffs, including syntax highlighting).

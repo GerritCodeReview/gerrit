@@ -671,30 +671,6 @@ export class GrReporting implements ReportingService, Finalizable {
   }
 
   /**
-   * Reports just line timeEnd, but additionally reports an average given a
-   * denominator and a separate reporting name for the average.
-   *
-   * @param name Timing name.
-   * @param averageName Average timing name.
-   * @param denominator Number by which to divide the total to
-   *     compute the average.
-   */
-  timeEndWithAverage(name: Timing, averageName: Timing, denominator: number) {
-    if (!hasOwnProperty(this._baselines, name)) {
-      return;
-    }
-    const baseTime = this._baselines[name];
-    this.timeEnd(name);
-
-    // Guard against division by zero.
-    if (!denominator) {
-      return;
-    }
-    const time = now() - baseTime;
-    this._reportTiming(averageName, time / denominator);
-  }
-
-  /**
    * Send a timing report with an arbitrary time value.
    *
    * @param name Timing name.

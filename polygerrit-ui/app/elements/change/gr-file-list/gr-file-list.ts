@@ -612,7 +612,6 @@ export class GrFileList extends base {
       return;
     }
     // Re-render all expanded diffs sequentially.
-    this.reporting.time(Timing.FILE_EXPAND_ALL);
     this._renderInOrder(
       this._expandedFiles,
       this.diffs,
@@ -1324,8 +1323,6 @@ export class GrFileList extends base {
     // Required so that the newly created diff view is included in this.diffs.
     flush();
 
-    this.reporting.time(Timing.FILE_EXPAND_ALL);
-
     if (newFiles.length) {
       this._renderInOrder(newFiles, this.diffs, newFiles.length);
     }
@@ -1354,6 +1351,8 @@ export class GrFileList extends base {
     diffElements: GrDiffHost[],
     initialCount: number
   ) {
+    this.reporting.time(Timing.FILE_EXPAND_ALL);
+
     for (const file of files) {
       const path = file.path;
       const diffElem = this._findDiffByPath(path, diffElements);
@@ -1384,11 +1383,10 @@ export class GrFileList extends base {
       return Promise.all(promises);
     }).then(() => {
       this._cancelForEachDiff = undefined;
-      this.reporting.timeEndWithAverage(
-        Timing.FILE_EXPAND_ALL,
-        Timing.FILE_EXPAND_ALL_AVG,
-        initialCount
-      );
+      this.reporting.timeEnd(Timing.FILE_EXPAND_ALL, {
+        count: initialCount,
+        height: this.clientHeight,
+      });
       /* Block diff cursor from auto scrolling after files are done rendering.
       * This prevents the bug where the screen jumps to the first diff chunk
       * after files are done being rendered after the user has already begun
@@ -1615,11 +1613,9 @@ export class GrFileList extends base {
   _reportRenderedRow(index: number) {
     if (index === this._shownFiles.length - 1) {
       setTimeout(() => {
-        this.reporting.timeEndWithAverage(
-          Timing.FILE_RENDER,
-          Timing.FILE_RENDER_AVG,
-          this._reportinShownFilesIncrement
-        );
+        this.reporting.timeEnd(Timing.FILE_RENDER, {
+          count: this._reportinShownFilesIncrement,
+        });
       }, 1);
     }
     return '';

@@ -38,7 +38,7 @@ public class AllowedFormats {
       }
       exts.put(format.name().toLowerCase(), format);
     }
-    extensions = exts.buildOrThrow();
+    extensions = exts.build();
 
     // Zip is not supported because it may be interpreted by a Java plugin as a
     // valid JAR file, whose code would have access to cookies on the domain.

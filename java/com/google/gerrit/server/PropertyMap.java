@@ -61,7 +61,7 @@ public class PropertyMap {
 
     /** Builds and returns an immutable {@link PropertyMap}. */
     public PropertyMap build() {
-      return new PropertyMap(mutableMap.buildOrThrow());
+      return new PropertyMap(mutableMap.build());
     }
   }
 

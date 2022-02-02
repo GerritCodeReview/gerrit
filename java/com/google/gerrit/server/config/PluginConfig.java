@@ -58,10 +58,7 @@ public abstract class PluginConfig {
       groupReferences.putAll(projectConfig.getGroups());
     }
     return new AutoValue_PluginConfig(
-        pluginName,
-        copyConfig(cfg),
-        Optional.ofNullable(projectConfig),
-        groupReferences.buildOrThrow());
+        pluginName, copyConfig(cfg), Optional.ofNullable(projectConfig), groupReferences.build());
   }
 
   public static PluginConfig createFromGerritConfig(String pluginName, Config cfg) {

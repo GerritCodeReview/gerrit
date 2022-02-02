@@ -104,7 +104,7 @@ public class UniversalGroupBackend implements GroupBackend {
     private UniversalGroupMembership(CurrentUser user) {
       ImmutableMap.Builder<GroupBackend, GroupMembership> builder = ImmutableMap.builder();
       backends.runEach(g -> builder.put(g, g.membershipsOf(user)));
-      this.memberships = builder.buildOrThrow();
+      this.memberships = builder.build();
     }
 
     @Nullable

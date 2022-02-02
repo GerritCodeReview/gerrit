@@ -346,7 +346,7 @@ public class DiffOperationsImpl implements DiffOperations {
         diffs.put(fileDiffOutput.newPath().get(), fileDiffOutput);
       }
     }
-    return diffs.buildOrThrow();
+    return diffs.build();
   }
 
   private static boolean allDueToRebase(FileDiffOutput fileDiffOutput) {

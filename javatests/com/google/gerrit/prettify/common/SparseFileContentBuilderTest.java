@@ -165,6 +165,6 @@ public class SparseFileContentBuilderTest {
                 .put(5, "Fifth line")
                 .put(6, "Sixth line")
                 .put(10, "Seventh line")
-                .buildOrThrow());
+                .build());
   }
 }

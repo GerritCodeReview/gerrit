@@ -105,6 +105,24 @@
       "parentUuid": "97fba251_34638aae",
       "revId": "6481476e5bca1b030fcd63d35515788e0e9ab773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ba1bdcb_d83f2237",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-02T09:16:03Z",
+      "side": 1,
+      "message": "Actually, the rationale behind was also mentioned:\n\"The reason for this is to avoid that the release managers need to spend time manually checking which changes need to be backported, which could result in changes being overlooked.\"\n\nThat is actually what happened :-(\n\nWe can learn from it for the next release :-) and thanks @Chris for finding it and cherry-picking it to stable-3.5.",
+      "parentUuid": "97fba251_34638aae",
+      "revId": "6481476e5bca1b030fcd63d35515788e0e9ab773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

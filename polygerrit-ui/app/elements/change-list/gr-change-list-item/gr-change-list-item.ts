@@ -26,7 +26,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-change-list-column-requirements-summary/gr-change-list-column-requirements-summary';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav, WAITING} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -499,7 +499,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellWaiting() {
-    if (this.computeIsColumnHidden('Waiting', this.visibleChangeTableColumns))
+    if (this.computeIsColumnHidden(WAITING, this.visibleChangeTableColumns))
       return;
 
     return html`

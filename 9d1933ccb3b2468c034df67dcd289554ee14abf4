@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b25bdb67_e63dc728",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T12:37:42Z",
+      "side": 1,
+      "message": "It would be nice to split it from app and have polygerrit-ui/workers.  That delineates a clearer separation. For shared code we could then move it into polygerrit-ui/common or polygerrit-ui/lib.  As well as polygerrit-ui/types\n\nI think the reasons to keep it within app/ feel like smells that should be addressed.  This might also be a good time to clean up the different layers of package.json between polygerrit-ui/package.json and polygerrit-ui/app/package.json.",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05936b71_e610048b",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T12:37:42Z",
+      "side": 1,
+      "message": "Where is app_name + \"-full-src\" defined?",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19608c9e_da44331d",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T12:37:42Z",
+      "side": 1,
+      "message": "SyntaxWorkerMessage?",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84a25ace_2a079eb8",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T12:37:42Z",
+      "side": 1,
+      "message": "SyntaxWorkerInit",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76efb31d_4aebfbc5",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T12:37:42Z",
+      "side": 1,
+      "message": "Please use an explicit enum on your messages to avoid checking for a field in case HlJsHighlight or some other message has a \u0027url\u0027 field in the future.",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcfbaa42_47449685",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T12:37:42Z",
+      "side": 1,
+      "message": "SyntaxWorkerRequest",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba7b0bd0_3e8cb33d",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T12:37:42Z",
+      "side": 1,
+      "message": "Same comment, rely on an explicit enum.",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12f8d0a7_103c7a88",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T12:37:42Z",
+      "side": 1,
+      "message": "SyntaxWorkerResult?",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb926bd5_4dc8bcfa",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-02T12:37:42Z",
+      "side": 1,
+      "message": "Consider introducing a type SyntaxLayerLine.\n\n```\nexport interface HljsWorkerResult {\n  ...\n  lines?: SyntaxLayerLine[];\n}\n\nexport interface SyntaxLayerLine {\n  ranges: SyntaxLayerRange[];\n}\n```",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

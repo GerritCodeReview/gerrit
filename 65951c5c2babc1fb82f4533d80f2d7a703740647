@@ -123,6 +123,24 @@
       "parentUuid": "4cd4a7b4_a71aa51d",
       "revId": "65951c5c2babc1fb82f4533d80f2d7a703740647",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8277678_273b0874",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-02T20:09:48Z",
+      "side": 1,
+      "message": "Ah, I see! My reply has put the attention-set back to Davido: if he would have answered though, it should have moved the attention-set back to the reviewers, isn\u0027t it?\n\nMaybe we need a change to the process and when an LC is required, the attention-set should be manually set to the Googlers in the reviewers\u0027 list. WDYT?\n\n@Han-Wen thanks for applying the LC+1",
+      "parentUuid": "e8a72466_e6c8b755",
+      "revId": "65951c5c2babc1fb82f4533d80f2d7a703740647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

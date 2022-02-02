@@ -74,7 +74,7 @@ export interface DashboardSection {
   suffixForDashboard?: string;
   selfOnly?: boolean;
   hideIfEmpty?: boolean;
-  isOutgoing?: boolean;
+  useCustomEmptyState?: boolean;
   results?: ChangeInfo[];
 }
 
@@ -104,6 +104,7 @@ export const YOUR_TURN: DashboardSection = {
   name: 'Your Turn',
   query: 'attention:${user}',
   hideIfEmpty: false,
+  useCustomEmptyState: true,
   suffixForDashboard: 'limit:25',
 };
 const WIP: DashboardSection = {
@@ -115,12 +116,12 @@ const WIP: DashboardSection = {
   hideIfEmpty: true,
   suffixForDashboard: 'limit:25',
 };
-const OUTGOING: DashboardSection = {
+export const OUTGOING: DashboardSection = {
   // Non-WIP open changes owned by viewed user. Filter out changes ignored
   // by the viewing user.
   name: 'Outgoing reviews',
   query: 'is:open owner:${user} -is:wip -is:ignored',
-  isOutgoing: true,
+  useCustomEmptyState: true,
   suffixForDashboard: 'limit:25',
 };
 const INCOMING: DashboardSection = {

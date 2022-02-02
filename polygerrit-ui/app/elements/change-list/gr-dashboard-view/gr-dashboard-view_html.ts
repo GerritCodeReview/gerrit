@@ -83,7 +83,7 @@ export const htmlTemplate = html`
       on-selected-index-changed="_handleSelectedIndexChanged"
       on-toggle-star="_handleToggleStar"
     >
-      <div id="emptyOutgoing" slot="empty-outgoing">
+      <div id="emptyOutgoing" slot="outgoing-slot">
         <template is="dom-if" if="[[_showNewUserHelp]]">
           <gr-create-change-help
             on-create-tap="_handleCreateChangeTap"
@@ -91,7 +91,7 @@ export const htmlTemplate = html`
         </template>
         <template is="dom-if" if="[[!_showNewUserHelp]]"> No changes </template>
       </div>
-      <div id="emptyYourTurn" slot="empty-your-turn">
+      <div id="emptyYourTurn" slot="your-turn-slot">
         <span>No changes need your attention &nbsp;&#x1f389;</span>
       </div>
     </gr-change-list>

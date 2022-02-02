@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4287594_3d813981",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-02T20:20:52Z",
+      "side": 1,
+      "message": "Looks good, thanks a lot!",
+      "revId": "f7171ec34a7cc7c21eaf3091589cc82b7c6ab395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4e76611_e1930274",
+        "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-02T20:20:52Z",
+      "side": 1,
+      "message": "This url is actually hightlightjsURL. Maybe we shouldn\u0027t be generic here, since this is expecting hightlightjsURL not any URL",
+      "range": {
+        "startLine": 59,
+        "startChar": 7,
+        "endLine": 59,
+        "endChar": 10
+      },
+      "revId": "f7171ec34a7cc7c21eaf3091589cc82b7c6ab395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e2ac823_5dfc96d5",
+        "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-02T20:20:52Z",
+      "side": 1,
+      "message": "I know highlightjs deprecated some API in latest versions. https://highlightjs.readthedocs.io/en/latest/upgrade-11.html#:~:text\u003dThe%20highlight(language%2Ccode%2C%20...args)%20API%20is%20deprecated%20(to%20be%20removed%20in%2012.0).\n\nCan you already use a new API?\n```\nhighlight(\"var a \u003d 5;\", {language: \"javascript\", ignoreIllegals: true})\n```",
+      "range": {
+        "startLine": 68,
+        "startChar": 32,
+        "endLine": 68,
+        "endChar": 64
+      },
+      "revId": "f7171ec34a7cc7c21eaf3091589cc82b7c6ab395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92df5988_29bb5864",
+        "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-02T20:20:52Z",
+      "side": 1,
+      "message": "Just to check my understanding:\n\nYou decided to process it in webworker so you save main thread from work. If it was quick operation, you would just send highlight.value and process it in main thread.",
+      "range": {
+        "startLine": 69,
+        "startChar": 11,
+        "endLine": 69,
+        "endChar": 36
+      },
+      "revId": "f7171ec34a7cc7c21eaf3091589cc82b7c6ab395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -25,7 +25,6 @@ import {
   queryAndAssert,
   stubFlags,
 } from '../../../test/test-utils';
-import {YOUR_TURN} from '../../core/gr-navigation/gr-navigation';
 import {Key} from '../../../utils/dom-util';
 import {TimeFormat} from '../../../constants/constants';
 import {AccountId, NumericChangeId} from '../../../types/common';
@@ -255,7 +254,7 @@ suite('gr-change-list basic tests', () => {
     test('not shown on empty non-outgoing sections', () => {
       const section = {name: 'test', query: 'test', results: []};
       assert.isTrue(element.isEmpty(section));
-      assert.equal(element.getSpecialEmptySlot(section), '');
+      assert.isUndefined(element.getSpecialEmptySlot(section));
     });
 
     test('shown on empty outgoing sections', () => {
@@ -263,23 +262,17 @@ suite('gr-change-list basic tests', () => {
         name: 'test',
         query: 'test',
         results: [],
-        isOutgoing: true,
+        emptyStateSlotName: 'test',
       };
       assert.isTrue(element.isEmpty(section));
-      assert.equal(element.getSpecialEmptySlot(section), 'empty-outgoing');
-    });
-
-    test('shown on empty outgoing sections', () => {
-      const section = {name: YOUR_TURN.name, query: 'test', results: []};
-      assert.isTrue(element.isEmpty(section));
-      assert.equal(element.getSpecialEmptySlot(section), 'empty-your-turn');
+      assert.equal(element.getSpecialEmptySlot(section), 'test');
     });
 
     test('not shown on non-empty outgoing sections', () => {
       const section = {
         name: 'test',
         query: 'test',
-        isOutgoing: true,
+        emptyStateSlotName: 'test',
         results: [
           {
             ...createChange(),

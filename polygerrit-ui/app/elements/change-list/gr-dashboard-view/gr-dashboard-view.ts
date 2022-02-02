@@ -301,7 +301,9 @@ export class GrDashboardView extends PolymerElement {
             countLabel: this._computeSectionCountLabel(results),
             query: res.sections[i].query,
             results: this._maybeSortResults(res.sections[i].name, results),
-            isOutgoing: res.sections[i].isOutgoing,
+            emptyStateSlotName: res.sections[i].customEmptyState
+              ? res.sections[i].name
+              : undefined,
           };
         })
         .filter(

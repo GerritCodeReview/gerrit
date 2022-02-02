@@ -231,6 +231,46 @@ suite('gr-change-list basic tests', () => {
     assert.ok(noChangesMsg);
   });
 
+  test('showNewUserHelp', async () => {
+    element.showNewUserHelp = false;
+    element.sections = [{results: [], isOutgoing: true}];
+    element.selectedIndex = 0;
+    element.preferences = {
+      legacycid_in_change_table: true,
+      time_format: TimeFormat.HHMM_12,
+      change_table: [
+        'Subject',
+        'Status',
+        'Owner',
+        'Reviewers',
+        'Comments',
+        'Repo',
+        'Branch',
+        'Updated',
+        'Size',
+        ' Status ',
+      ],
+    };
+    element.config = createServerInfo();
+
+    await element.updateComplete;
+
+    assert.equal(
+      query(element, '#emptyOutgoing')?.textContent?.trim(),
+      'No changes'
+    );
+    assert.isNotOk(query(element, 'gr-create-change-help'));
+    element.showNewUserHelp = true;
+
+    await element.updateComplete;
+
+    assert.notEqual(
+      query(element, '#emptyOutgoing')?.textContent?.trim(),
+      'No changes'
+    );
+    assert.isOk(query(element, 'gr-create-change-help'));
+  });
+
   test('selection checkbox is only shown if experiment is enabled', async () => {
     function propertiesSetup(element: GrChangeList) {
       const change = {...createChange()};

@@ -81,6 +81,24 @@
       "parentUuid": "455940ad_4de4759b",
       "revId": "3e253cbe2d73269bc0264a3d98abb88f2c245dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c26f3653_9c311e44",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-03T11:24:02Z",
+      "side": 1,
+      "message": "What if the span has other attributes than class?\n\nWith a dom-walker I mean a library that can parse html and allow you to walk through it in a structured way.\n\nSeems `DOMParser` is not possible in web-workers, but [this article](https://paul.kinlan.me/we-need-dom-apis-in-workers/) calls out [xml-dom](https://www.npmjs.com/package/xmldom) as a potential library.\n\nIf this is too much work feel free to push back.",
+      "parentUuid": "df9f6eb2_9be8887a",
+      "revId": "3e253cbe2d73269bc0264a3d98abb88f2c245dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1343,8 +1343,7 @@ export class GrFileList extends base {
    * for each path in order, awaiting the previous render to complete before
    * continuing.
    *
-   * @param initialCount The total number of paths in the pass. This
-   * is used to generate log messages.
+   * @param initialCount The total number of paths in the pass.
    */
   private async _renderInOrder(
     files: PatchSetFile[],
@@ -1376,11 +1375,19 @@ export class GrFileList extends base {
         throw new Error('diffPrefs must be set');
       }
 
-      const promises: Array<Promise<unknown>> = [diffElem.reload()];
-      if (this._loggedIn && !this.diffPrefs.manual_review) {
-        promises.push(this._reviewFile(path, true));
+      // When one file is expanded individually then automatically mark as
+      // reviewed, if the user's diff prefs request it. Doing this for
+      // "Expand All" would not be what the user wants, because there is no
+      // control over which diffs were actually seen. And for lots of diffs
+      // that would even be a problem for write QPS quota.
+      if (
+        this._loggedIn &&
+        !this.diffPrefs.manual_review &&
+        initialCount === 1
+      ) {
+        this._reviewFile(path, true);
       }
-      return Promise.all(promises);
+      return diffElem.reload();
     });
 
     this._cancelForEachDiff = undefined;

@@ -520,7 +520,7 @@ export class GrDiffHost extends DIPolymerElement {
     const patchNum = this.patchRange?.patchNum;
     if (!path || !patchNum || patchNum === EditPatchSetNum) return;
     this.checksSubscription = this.getChecksModel()
-      .allResultsLatest$.pipe(
+      .allResults$.pipe(
         map(results =>
           results.filter(result => {
             if (result.patchset !== patchNum) return false;

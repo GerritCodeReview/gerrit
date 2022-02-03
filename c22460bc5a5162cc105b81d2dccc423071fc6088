@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b0ad297_70c35a1a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-03T12:31:57Z",
+      "side": 1,
+      "message": "I think the submit action is computed from SubmittedTogether() not from the ChangeData. That\u0027s what we want to test (according to the commit message). Can we try that?\n\nI believe the results will be stale.",
+      "revId": "c22460bc5a5162cc105b81d2dccc423071fc6088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b31498d_ab1164f4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-03T12:31:57Z",
+      "side": 1,
+      "message": "Optional: Can we assert that the index is really stale?\n\nReason for optional: disableChangeINdexWrites() should have been tested somewhere else.",
+      "revId": "c22460bc5a5162cc105b81d2dccc423071fc6088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

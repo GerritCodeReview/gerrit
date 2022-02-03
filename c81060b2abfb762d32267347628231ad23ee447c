@@ -52,6 +52,24 @@
       "parentUuid": "740c098a_bccd5937",
       "revId": "c81060b2abfb762d32267347628231ad23ee447c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d00c11a4_b88ebb77",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-02-03T15:22:22Z",
+      "side": 1,
+      "message": "Thank you! Is there a way I can use the \u0027rule:\u0027 operator (or another operator) to find changes that have this SR applicable and unsatisfied? If not, is there another way someone could find that info (output in query json maybe?)?",
+      "parentUuid": "6bc96593_482f6af9",
+      "revId": "c81060b2abfb762d32267347628231ad23ee447c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

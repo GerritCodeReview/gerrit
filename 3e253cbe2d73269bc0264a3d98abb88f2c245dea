@@ -99,6 +99,24 @@
       "parentUuid": "df9f6eb2_9be8887a",
       "revId": "3e253cbe2d73269bc0264a3d98abb88f2c245dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dcc899a_79f336c1",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T12:01:53Z",
+      "side": 1,
+      "message": "Yeah, I have considered using such a DOM lib, but have decided against it, because every library dependency comes with substantial maintenance cost, especially given that we also to import it into google3 and keep it up-to-date and in sync there.\n\nI had added a link to [html_renderer.js](https://github.com/highlightjs/highlight.js/blob/main/src/lib/html_renderer.js), because at the moment highlightjs is indeed dead simple in that regard. And even if we use a DOM library, then we are still not protected against HighlightJS creating the HTML in a different way.\n\nI think the actual optimization potential is to contribute a change to HighlightJS itself, and allow HighlightJS to produce a list of ranges instead of HTML directly. It seems very wasteful that HighlightJS would render an HTML string, and then we convert it back to metadata. :-/\n\nAnyway, for submitting this change and being unblocked I would like to push back.",
+      "parentUuid": "c26f3653_9c311e44",
+      "revId": "3e253cbe2d73269bc0264a3d98abb88f2c245dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

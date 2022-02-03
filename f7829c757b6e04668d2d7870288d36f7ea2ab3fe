@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3588ca11_ecbe49fc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-03T09:05:56Z",
+      "side": 1,
+      "message": "this feels a bit fragile.\nIf we update the name of the section then this slot name also needs to be adjusted?\n\nI think a comment where the name is defined saying changing the name means changing the slot should be fine.",
+      "range": {
+        "startLine": 86,
+        "startChar": 30,
+        "endLine": 86,
+        "endChar": 53
+      },
+      "revId": "f7829c757b6e04668d2d7870288d36f7ea2ab3fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

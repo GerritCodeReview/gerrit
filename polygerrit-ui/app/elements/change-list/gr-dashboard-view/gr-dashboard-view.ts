@@ -32,7 +32,7 @@ import {
   YOUR_TURN,
 } from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
-import {changeIsOpen} from '../../../utils/change-util';
+import {changeIsOpen, ListChangesOption, listChangesOptionsToHex} from '../../../utils/change-util';
 import {parseDate} from '../../../utils/date-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
@@ -113,6 +113,9 @@ export class GrDashboardView extends DIPolymerElement {
 
   @property({type: Number})
   _selectedChangeIndex?: number;
+
+  @property({type: Array})
+  detailedChanges:ChangeInfo[] = [];
 
   private reporting = getAppContext().reportingService;
 
@@ -293,6 +296,26 @@ export class GrDashboardView extends DIPolymerElement {
         const lastResultSet = changes.pop();
         this._showNewUserHelp = lastResultSet!.length === 0;
       }
+
+      const options = [
+        ListChangesOption.CHANGE_ACTIONS,
+        ListChangesOption.DETAILED_LABELS,
+        ListChangesOption.CURRENT_COMMIT,
+      ];
+
+     // don't block rendering of the results
+     this.restApiService.getChanges(
+        undefined,
+        queries,
+        undefined,
+        listChangesOptionsToHex(...options)
+      ).then(detailedChanges => {
+        if (!detailedChanges) {
+          throw new Error('getChanges returns undefined');
+        }
+        this.detailedChanges = detailedChanges;
+      })
+
       this._results = changes
         .map((results, i) => {
           return {

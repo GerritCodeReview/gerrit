@@ -2,7 +2,7 @@ load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
 
 CAFFEINE_VERS = "2.9.2"
 ANTLR_VERS = "3.5.2"
-SLF4J_VERS = "1.7.26"
+SLF4J_VERS = "1.7.33"
 COMMONMARK_VERS = "0.10.0"
 FLEXMARK_VERS = "0.50.42"
 GREENMAIL_VERS = "1.5.5"
@@ -107,25 +107,19 @@ def java_dependencies():
     maven_jar(
         name = "log-api",
         artifact = "org.slf4j:slf4j-api:" + SLF4J_VERS,
-        sha1 = "77100a62c2e6f04b53977b9f541044d7d722693d",
+        sha1 = "d375aa1b98d34d5ddf73a3f19eaad66e98975b12",
     )
 
     maven_jar(
         name = "log-ext",
         artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
-        sha1 = "31cdf122e000322e9efcb38913e9ab07825b17ef",
+        sha1 = "00da03640ae1ad57f964dcaa542fb5d804dce8a6",
     )
 
     maven_jar(
         name = "jcl-over-slf4j",
         artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
-        sha1 = "33fbc2d93de829fa5e263c5ce97f5eab8f57d53e",
-    )
-
-    maven_jar(
-        name = "log4j",
-        artifact = "log4j:log4j:1.2.17",
-        sha1 = "5af35056b4d257e4b64b9e8069c0746e8b08629f",
+        sha1 = "28c441128bc81b6d95cc2857ae5bb46ae5bf658b",
     )
 
     maven_jar(

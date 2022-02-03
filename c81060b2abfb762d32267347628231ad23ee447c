@@ -16,6 +16,24 @@
       "message": "Late to the party here, but I have a Googlesource question on this. When I try to copy and run this same query on gerrit-review, I get an error like\n\n Error 400: regular expression queries not supported on googlesource.com\n\nHow come it works in the SR though?",
       "revId": "c81060b2abfb762d32267347628231ad23ee447c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "740c098a_bccd5937",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-03T07:20:58Z",
+      "side": 1,
+      "message": "The difference is:\n\n- if you use a regular expression to search changes, the query is processed by the index backend which (in our case) doesn\u0027t support regular expressions\n\n- if you use a regular expression as part of a submit requirement it\u0027s Gerrit who checks whether a given change matches that query (no index backend involved) and Gerrit does support regular expressions in queries (FYI I think it\u0027s the same for project watches)",
+      "parentUuid": "93cc5a28_ca9fa3c6",
+      "revId": "c81060b2abfb762d32267347628231ad23ee447c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "This merge should be re-done.",
       "revId": "5ee017c989993fbadb2eef89d438e5c05d7a6703",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0eb63cf9_3a417e57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-03T05:43:55Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "bc6f7ca4_6b3ee5de",
+      "revId": "5ee017c989993fbadb2eef89d438e5c05d7a6703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

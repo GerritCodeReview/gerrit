@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df8f2860_d7b32d8c",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T10:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ea9ab62_39135a07",
+      "range": {
+        "startLine": 16,
+        "startChar": 40,
+        "endLine": 16,
+        "endChar": 47
+      },
+      "revId": "3e253cbe2d73269bc0264a3d98abb88f2c245dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "455940ad_4de4759b",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-02-03T08:43:40Z",
       "side": 1,
       "message": "This feels very fragile, could you use a dom-walker instead?",
+      "revId": "3e253cbe2d73269bc0264a3d98abb88f2c245dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df9f6eb2_9be8887a",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T10:12:47Z",
+      "side": 1,
+      "message": "Fragile in what way?\n\nWith \"dom-walker\" do you mean a library?\n\nNote that we cannot use anything DOM related in a web worker.",
+      "parentUuid": "455940ad_4de4759b",
       "revId": "3e253cbe2d73269bc0264a3d98abb88f2c245dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

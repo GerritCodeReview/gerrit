@@ -51,10 +51,10 @@ lit-html@^2.1.0:
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/lit/-/lit-2.1.1.tgz#65f43abca945988f696391f762c645ba51966b0b"
-  integrity sha512-yqDqf36IhXwOxIQSFqCMgpfvDCRdxLCLZl7m/+tO5C9W/OBHUj17qZpiMBT35v97QMVKcKEi1KZ3hZRyTwBNsQ==
+lit@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-2.1.2.tgz#e08c24c950fb15a98cc328a8c17e7b4d377f5c48"
+  integrity sha512-XacK89dJXF7BJbpiZSMvzT4RxHag7Wt+yNx7tErEVgGVlOFAeN871bj7ivotCMgYeBFWVp/hjKF/PDTk6L7gMA==
   dependencies:
     "@lit/reactive-element" "^1.1.0"
     lit-element "^3.1.0"

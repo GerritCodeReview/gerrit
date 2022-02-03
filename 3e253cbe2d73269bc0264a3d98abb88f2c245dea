@@ -22,6 +22,23 @@
       },
       "revId": "3e253cbe2d73269bc0264a3d98abb88f2c245dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "455940ad_4de4759b",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-03T08:43:40Z",
+      "side": 1,
+      "message": "This feels very fragile, could you use a dom-walker instead?",
+      "revId": "3e253cbe2d73269bc0264a3d98abb88f2c245dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

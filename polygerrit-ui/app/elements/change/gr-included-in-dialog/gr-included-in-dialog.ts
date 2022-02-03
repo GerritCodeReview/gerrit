@@ -136,7 +136,7 @@ export class GrIncludedInDialog extends LitElement {
   private renderLoading() {
     if (this.loaded) return;
 
-    return '<div>Loading...</div>';
+    return html`<div>Loading...</div>`;
   }
 
   private renderGroup(group: DisplayGroup) {
@@ -151,7 +151,7 @@ export class GrIncludedInDialog extends LitElement {
   }
 
   private renderGroupItem(item: string) {
-    return `<li>${item}</li>`;
+    return html`<li>${item}</li>`;
   }
 
   override willUpdate(changedProperties: PropertyValues) {

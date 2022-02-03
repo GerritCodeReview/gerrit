@@ -34,6 +34,24 @@
       "parentUuid": "93cc5a28_ca9fa3c6",
       "revId": "c81060b2abfb762d32267347628231ad23ee447c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bc96593_482f6af9",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-03T09:33:23Z",
+      "side": 1,
+      "message": "Thanks Edwin!",
+      "parentUuid": "740c098a_bccd5937",
+      "revId": "c81060b2abfb762d32267347628231ad23ee447c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

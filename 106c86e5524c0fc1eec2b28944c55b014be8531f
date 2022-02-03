@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "027f12a3_cdd4b0ff",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-03T12:59:56Z",
+      "side": 1,
+      "message": "see other comment in gr-navigation",
+      "parentUuid": "d64712c6_266f294a",
+      "revId": "106c86e5524c0fc1eec2b28944c55b014be8531f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d50774c_1282804c",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e49829d6_f1ccd6e6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-03T12:59:56Z",
+      "side": 1,
+      "message": "`The name content attribute may contain any string value. It represents a slot\u0027s name.`\nhttps://html.spec.whatwg.org/multipage/scripting.html#the-slot-element",
+      "parentUuid": "5d50774c_1282804c",
+      "revId": "106c86e5524c0fc1eec2b28944c55b014be8531f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb5eea12_8c9ac9af",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-02-03T11:50:30Z",
       "side": 1,
       "message": "What about emptySlotName?: string?",
+      "revId": "106c86e5524c0fc1eec2b28944c55b014be8531f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de86b8bb_8f9c0ef4",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-03T12:59:56Z",
+      "side": 1,
+      "message": "This data is a description of the features/behavior and I\u0027d like to keep implementation details like slots out of it. Would you prefer gr-dashboard-view owning a map from DashboardSection to slot name string, or the current change behavior where the DashboardSection name is used as the slot name?",
+      "parentUuid": "bb5eea12_8c9ac9af",
       "revId": "106c86e5524c0fc1eec2b28944c55b014be8531f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

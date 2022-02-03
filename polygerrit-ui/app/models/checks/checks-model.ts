@@ -353,6 +353,16 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       .filter(r => r !== undefined)
   );
 
+  public allResults$ = select(
+    combineLatest([
+      this.checksSelectedPatchsetNumber$,
+      this.allResultsSelected$,
+      this.allResultsLatest$,
+    ]),
+    ([selectedPs, selected, latest]) =>
+      selectedPs ? [...selected, ...latest] : latest
+  );
+
   constructor(
     readonly routerModel: RouterModel,
     readonly changeModel: ChangeModel,

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "affc3402_fc5e7a61",
+        "filename": "plugins/yarn.lock",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-03T11:51:52Z",
+      "side": 1,
+      "message": "Do we still need lit-element? It pulls in an old version of reactive-element.\n\nI think @lit is what we need, no?",
+      "revId": "15a2eca946724cafd3721d2cdeaba11949eaf4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85270acd_66dfdba7",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-03T11:51:52Z",
+      "side": 1,
+      "message": "Can you figure out why this still remains?",
+      "revId": "15a2eca946724cafd3721d2cdeaba11949eaf4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

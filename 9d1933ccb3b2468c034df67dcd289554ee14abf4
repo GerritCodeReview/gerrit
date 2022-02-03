@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8481c91_519a50d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "I agree. Created b/217726733 for tracking this.",
+      "parentUuid": "b25bdb67_e63dc728",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05936b71_e610048b",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-02T12:37:42Z",
       "side": 1,
       "message": "Where is app_name + \"-full-src\" defined?",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a3d1f9c_9f9d6735",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "A few lines above:\n```\n    native.filegroup(\n        name \u003d app_name + \"-full-src\",\n        srcs \u003d srcs + [\n            \"@ui_npm//:node_modules\",\n        ],\n    )\n```\n\nThe bundle depends on all the sources, but will just keep what\u0027s needed.\n\nI have added a TODO to b/217726733 for moving all of `rules.bzl` into `BUILD`.",
+      "parentUuid": "05936b71_e610048b",
       "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d8b6db9_873cfd23",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19608c9e_da44331d",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84a25ace_2a079eb8",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-02-02T12:37:42Z",
       "side": 1,
       "message": "SyntaxWorkerInit",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c65e040_83c7878c",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84a25ace_2a079eb8",
       "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5cd00ad_137fbf82",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76efb31d_4aebfbc5",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcfbaa42_47449685",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-02-02T12:37:42Z",
       "side": 1,
       "message": "SyntaxWorkerRequest",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efb0b772_ec021b3a",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcfbaa42_47449685",
       "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f465324_fd0ddaf8",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba7b0bd0_3e8cb33d",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12f8d0a7_103c7a88",
@@ -137,6 +263,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1201b04d_01b47016",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12f8d0a7_103c7a88",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb926bd5_4dc8bcfa",
@@ -150,6 +294,24 @@
       "writtenOn": "2022-02-02T12:37:42Z",
       "side": 1,
       "message": "Consider introducing a type SyntaxLayerLine.\n\n```\nexport interface HljsWorkerResult {\n  ...\n  lines?: SyntaxLayerLine[];\n}\n\nexport interface SyntaxLayerLine {\n  ranges: SyntaxLayerRange[];\n}\n```",
+      "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f035ed38_8501e59c",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb926bd5_4dc8bcfa",
       "revId": "9d1933ccb3b2468c034df67dcd289554ee14abf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

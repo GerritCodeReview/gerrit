@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92e8edd8_6e652a86",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a230ef8_f5eba9b4",
+      "revId": "f7171ec34a7cc7c21eaf3091589cc82b7c6ab395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4e76611_e1930274",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-02-02T20:20:52Z",
       "side": 1,
       "message": "This url is actually hightlightjsURL. Maybe we shouldn\u0027t be generic here, since this is expecting hightlightjsURL not any URL",
+      "range": {
+        "startLine": 59,
+        "startChar": 7,
+        "endLine": 59,
+        "endChar": 10
+      },
+      "revId": "f7171ec34a7cc7c21eaf3091589cc82b7c6ab395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f4cdb65_7bce7897",
+        "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4e76611_e1930274",
       "range": {
         "startLine": 59,
         "startChar": 7,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fb5b320_2fb6e749",
+        "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "Internally we are at version 10.6. Upstream we are at 10.7.\n\nI am not so worried in this change about deprecations in version 11 that are removed in version 12. :-)\n\nI would prefer to upgrade to version 11 and to update the API call when the old syntax-layer is removed. For now let\u0027s keep the new layer consistent with the old layer.",
+      "parentUuid": "5e2ac823_5dfc96d5",
+      "range": {
+        "startLine": 68,
+        "startChar": 32,
+        "endLine": 68,
+        "endChar": 64
+      },
+      "revId": "f7171ec34a7cc7c21eaf3091589cc82b7c6ab395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92df5988_29bb5864",
@@ -94,6 +160,30 @@
       "writtenOn": "2022-02-02T20:20:52Z",
       "side": 1,
       "message": "Just to check my understanding:\n\nYou decided to process it in webworker so you save main thread from work. If it was quick operation, you would just send highlight.value and process it in main thread.",
+      "range": {
+        "startLine": 69,
+        "startChar": 11,
+        "endLine": 69,
+        "endChar": 36
+      },
+      "revId": "f7171ec34a7cc7c21eaf3091589cc82b7c6ab395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "134db0d0_74e13647",
+        "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:27:42Z",
+      "side": 1,
+      "message": "Generally sure, we want to do as much work in the worker as we can.\n\nAnd it also seemed a bit weird why `_rangesFromString` was called in `annotate()` when it could have been done in `process()`.\n\nBut the actual reason is that with the new approach of \"highlight the entire file in one go\" we ran into the issue of `\u003cspan\u003e`s across multiple lines. So we needed to parse the entire HTML string and correct that. I had already written code that would just add the missing `\u003c/span\u003e\\n\u003cspan class\"...\"\u003e` snippets, but then realized that while doing the parsing I can as well just extract the ranges directly instead of manipulating the HTML. :-)",
+      "parentUuid": "92df5988_29bb5864",
       "range": {
         "startLine": 69,
         "startChar": 11,

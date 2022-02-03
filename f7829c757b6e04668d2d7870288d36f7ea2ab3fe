@@ -22,6 +22,30 @@
       },
       "revId": "f7829c757b6e04668d2d7870288d36f7ea2ab3fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d25e89bb_7d38ee40",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-03T09:45:36Z",
+      "side": 1,
+      "message": "Ack. We should use the name property directly in the template, ex: slot\u003d${YOUR_TURN.name}. Leaving TODO for now as discussed",
+      "parentUuid": "3588ca11_ecbe49fc",
+      "range": {
+        "startLine": 86,
+        "startChar": 30,
+        "endLine": 86,
+        "endChar": 53
+      },
+      "revId": "f7829c757b6e04668d2d7870288d36f7ea2ab3fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

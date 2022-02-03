@@ -302,7 +302,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   constructor() {
     super();
-    const useWorker = this.flags.isEnabled(
+    const useWorker = !this.flags.isEnabled(
       KnownExperimentId.SYNTAX_LAYER_WORKER
     );
     this.syntaxLayer = useWorker

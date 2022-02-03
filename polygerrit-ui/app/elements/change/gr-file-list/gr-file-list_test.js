@@ -1009,24 +1009,6 @@ suite('gr-file-list tests', () => {
       const reviewStub = sinon.stub(element, '_reviewFile');
       let callCount = 0;
       const diffs = [{
-        path: 'p0',
-        style: {},
-        prefetchDiff() {},
-        reload() {
-          assert.equal(reviewStub.callCount, 2);
-          assert.equal(callCount++, 2);
-          return Promise.resolve();
-        },
-      }, {
-        path: 'p1',
-        style: {},
-        prefetchDiff() {},
-        reload() {
-          assert.equal(reviewStub.callCount, 1);
-          assert.equal(callCount++, 1);
-          return Promise.resolve();
-        },
-      }, {
         path: 'p2',
         style: {},
         prefetchDiff() {},
@@ -1036,11 +1018,9 @@ suite('gr-file-list tests', () => {
           return Promise.resolve();
         },
       }];
-      element._renderInOrder([
-        {path: 'p2'}, {path: 'p1'}, {path: 'p0'},
-      ], diffs, 3);
+      element._renderInOrder([{path: 'p2'}], diffs, 1);
       await flush();
-      assert.equal(reviewStub.callCount, 3);
+      assert.equal(reviewStub.callCount, 1);
     });
 
     test('_renderInOrder respects diffPrefs.manual_review', async () => {

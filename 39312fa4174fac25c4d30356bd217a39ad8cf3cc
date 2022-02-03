@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a30caa5a_77bab4fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-03T21:44:37Z",
+      "side": 1,
+      "message": "Add reference to: Issue 15566?",
+      "revId": "39312fa4174fac25c4d30356bd217a39ad8cf3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

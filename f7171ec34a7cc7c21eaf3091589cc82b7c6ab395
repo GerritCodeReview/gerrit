@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a230ef8_f5eba9b4",
+        "filename": "polygerrit-ui/app/types/worker-api.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-03T08:44:17Z",
+      "side": 1,
+      "message": "I think this file is misnomered. We expect to have other workers in the future so this should probably be called `syntax-worker-api.ts`",
+      "revId": "f7171ec34a7cc7c21eaf3091589cc82b7c6ab395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4e76611_e1930274",
         "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
         "patchSetId": 4

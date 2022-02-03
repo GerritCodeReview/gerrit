@@ -80,6 +80,7 @@ export const htmlTemplate = html`
       preferences="[[preferences]]"
       selected-index="[[_selectedChangeIndex]]"
       sections="[[_results]]"
+      detailed-changes="[[detailedChanges]]"
       on-selected-index-changed="_handleSelectedIndexChanged"
       on-toggle-star="_handleToggleStar"
     >

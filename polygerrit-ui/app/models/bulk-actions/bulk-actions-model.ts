@@ -36,6 +36,11 @@ export class BulkActionsModel
     bulkActionsState => bulkActionsState.selectedChanges
   );
 
+  public readonly isSubmittable$ = select(
+    this.selectedChanges$,
+    selectedChanges => selectedChanges.every(change => !!change.submittable)
+  );
+
   addSelectedChange(change: ChangeInfo) {
     const current = this.subject$.getValue();
     const selectedChanges = [...current.selectedChanges];

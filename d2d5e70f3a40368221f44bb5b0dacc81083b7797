@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08fbee25_2d31ad1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-03T21:51:22Z",
+      "side": 1,
+      "message": "LC+1 is needed due to conflict in WORKSPACE.",
+      "revId": "d2d5e70f3a40368221f44bb5b0dacc81083b7797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

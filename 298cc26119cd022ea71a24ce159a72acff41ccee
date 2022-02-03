@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f7dc2b_e11f197a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-03T12:25:37Z",
+      "side": 1,
+      "message": "I know this is not part of your change, but in general the whole concept of notifying lines and then getting called back in annotate is really hard to reason through and leads to having to store this.leftRanges and this.rightRanges as variables on the class which in theory could just be local variables if the logic was more directly.\n\nprocess -\u003e annotate.",
+      "revId": "298cc26119cd022ea71a24ce159a72acff41ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45cc7e39_bb5d593f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-03T12:25:37Z",
+      "side": 1,
+      "message": "Could you add some comments as to what this method does?",
+      "revId": "298cc26119cd022ea71a24ce159a72acff41ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33ecb90e_e5af4dd6",
+        "filename": "polygerrit-ui/app/services/highlight/highlight-service.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-03T12:25:37Z",
+      "side": 1,
+      "message": "Should it tear down the workers?",
+      "revId": "298cc26119cd022ea71a24ce159a72acff41ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "daaf5e39_2344bc35",
+        "filename": "polygerrit-ui/app/utils/worker-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-03T12:25:37Z",
+      "side": 1,
+      "message": "I\u0027m surprised this works 😮 Feels like we\u0027re circumventing the principles behind CORS.",
+      "revId": "298cc26119cd022ea71a24ce159a72acff41ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

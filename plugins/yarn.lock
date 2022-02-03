@@ -12,6 +12,11 @@
   resolved "https://registry.yarnpkg.com/@lit/reactive-element/-/reactive-element-1.2.0.tgz#c62444a0e3d3f8d3a6875ad56f867279aa89fa88"
   integrity sha512-7i/Fz8enAQ2AN5DyJ2i2AFERufjP6x1NjuHoNgDyJkjjHxEoo8kVyyHxu1A9YyeShlksjt5FvpvENBDuivQHLA==
 
+"@lit/reactive-element@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@lit/reactive-element/-/reactive-element-1.2.1.tgz#8620d7f0baf63e12821fa93c34d21e23477736f7"
+  integrity sha512-03FYfMguIWo9E1y1qcTpXzoO8Ukpn0j5o4GjNFq/iHqJEPY6pYopsU44e7NSFIgCTorr8wdUU5PfVy8VeD6Rwg==
+
 "@polymer/decorators@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@polymer/decorators/-/decorators-3.0.0.tgz#e4212ac976d9abd1210f560b6e1be4165c1c0183"
@@ -51,10 +56,10 @@ lit-html@^2.1.0:
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/lit/-/lit-2.1.1.tgz#65f43abca945988f696391f762c645ba51966b0b"
-  integrity sha512-yqDqf36IhXwOxIQSFqCMgpfvDCRdxLCLZl7m/+tO5C9W/OBHUj17qZpiMBT35v97QMVKcKEi1KZ3hZRyTwBNsQ==
+lit@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-2.1.2.tgz#e08c24c950fb15a98cc328a8c17e7b4d377f5c48"
+  integrity sha512-XacK89dJXF7BJbpiZSMvzT4RxHag7Wt+yNx7tErEVgGVlOFAeN871bj7ivotCMgYeBFWVp/hjKF/PDTk6L7gMA==
   dependencies:
     "@lit/reactive-element" "^1.1.0"
     lit-element "^3.1.0"

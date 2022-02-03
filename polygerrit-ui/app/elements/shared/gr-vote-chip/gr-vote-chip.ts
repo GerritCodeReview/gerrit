@@ -125,14 +125,18 @@ export class GrVoteChip extends LitElement {
     const renderValue = this.renderValue();
     if (!renderValue) return;
 
-    return html`<span class="container ${this.more ? 'more' : ''}">
+    return html`<gr-tooltip-content
+      class="container ${this.more ? 'more' : ''}"
+      title="${this.computeTooltip()}"
+      has-tooltip
+    >
       <div class="vote-chip ${this.computeClass()}">${renderValue}</div>
       ${this.more
         ? html`<div class="chip-angle ${this.computeClass()}">
             ${renderValue}
           </div>`
         : ''}
-    </span>`;
+    </gr-tooltip-content>`;
   }
 
   private renderValue() {
@@ -161,5 +165,12 @@ export class GrVoteChip extends LitElement {
       const status = getLabelStatus(this.label, this.vote?.value);
       return classForLabelStatus(status);
     }
+  }
+
+  private computeTooltip() {
+    if (!this.label || !isDetailedLabelInfo(this.label)) {
+      return '';
+    }
+    return this.label.values?.[valueString(this.vote?.value)] ?? '';
   }
 }

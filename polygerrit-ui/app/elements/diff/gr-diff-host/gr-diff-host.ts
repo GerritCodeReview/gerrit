@@ -575,6 +575,7 @@ export class GrDiffHost extends DIPolymerElement {
   private createCheckEl(check: RunResult) {
     const pointer = check.codePointers?.[0];
     assertIsDefined(pointer, 'code pointer of check result in diff');
+    const line = pointer.range.end_line || pointer.range.start_line || 'LOST';
     const el = document.createElement('gr-diff-check-result');
     // This is what gr-diff expects, even though this is a check, not a comment.
     el.className = 'comment-thread';
@@ -582,9 +583,9 @@ export class GrDiffHost extends DIPolymerElement {
     el.result = check;
     // These attributes are the "interface" between comments/checks and gr-diff.
     // <gr-comment-thread> does not care about them and is not affected by them.
-    el.setAttribute('slot', `${Side.RIGHT}-${pointer.range.end_line}`);
+    el.setAttribute('slot', `${Side.RIGHT}-${line}`);
     el.setAttribute('diff-side', `${Side.RIGHT}`);
-    el.setAttribute('line-num', `${pointer.range.end_line || 'LOST'}`);
+    el.setAttribute('line-num', `${line}`);
     el.setAttribute('range', `${JSON.stringify(pointer.range)}`);
     this.$.diff.appendChild(el);
     return el;

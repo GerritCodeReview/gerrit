@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "155de6df_b4e63acc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:44:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45cc7e39_bb5d593f",
+      "revId": "298cc26119cd022ea71a24ce159a72acff41ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33ecb90e_e5af4dd6",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-02-03T12:25:37Z",
       "side": 1,
       "message": "Should it tear down the workers?",
+      "revId": "298cc26119cd022ea71a24ce159a72acff41ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b351f6db_8a8896d9",
+        "filename": "polygerrit-ui/app/services/highlight/highlight-service.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-03T20:44:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33ecb90e_e5af4dd6",
       "revId": "298cc26119cd022ea71a24ce159a72acff41ccee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

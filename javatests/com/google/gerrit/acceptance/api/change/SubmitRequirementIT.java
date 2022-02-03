@@ -956,6 +956,120 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirementThatOverridesParentSubmitRequirementTakesEffectImmediately()
+      throws Exception {
+    // Define submit requirement in root project that ignores self approvals from the uploader.
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:Code-Review=MAX,user=non_uploader"))
+            .setAllowOverrideInChildProjects(true)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // Apply a self approval from the uploader.
+    voteLabel(changeId, "Code-Review", 2);
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    // Code-Review+2 is ignored since it's a self approval from the uploader
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+    // Legacy requirement is coming from the label MaxWithBlock function. Already satisfied since it
+    // doesn't ignore self approvals.
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+
+    // since the change is not submittable we expect the submit action to be not returned
+    assertThat(gApi.changes().id(changeId).current().actions()).doesNotContainKey("submit");
+
+    // Override submit requirement in project (allow uploaders to self approve).
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:Code-Review=MAX"))
+            .setAllowOverrideInChildProjects(true)
+            .build());
+
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    // the self approval from the uploader is no longer ignored, hence the submit requirement is
+    // satisfied now
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+
+    // since the change is submittable now we expect the submit action to be returned
+    assertThat(gApi.changes().id(changeId).current().actions()).containsKey("submit");
+  }
+
+  @Test
+  public void
+      submitRequirementThatOverridesParentSubmitRequirementTakesEffectImmediately_staleIndex()
+          throws Exception {
+    // Define submit requirement in root project that ignores self approvals from the uploader.
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:Code-Review=MAX,user=non_uploader"))
+            .setAllowOverrideInChildProjects(true)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // Apply a self approval from the uploader.
+    voteLabel(changeId, "Code-Review", 2);
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    // Code-Review+2 is ignored since it's a self approval from the uploader
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+    // Legacy requirement is coming from the label MaxWithBlock function. Already satisfied since it
+    // doesn't ignore self approvals.
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+
+    // since the change is not submittable we expect the submit action to be not returned
+    assertThat(gApi.changes().id(changeId).current().actions()).doesNotContainKey("submit");
+
+    // disable change index writes so that the change in the index gets stale when the new submit
+    // requirement is added
+    disableChangeIndexWrites();
+    try {
+      // Override submit requirement in project (allow uploaders to self approve).
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("Code-Review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:Code-Review=MAX"))
+              .setAllowOverrideInChildProjects(true)
+              .build());
+
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      // the self approval from the uploader is no longer ignored, hence the submit requirement is
+      // satisfied now
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+
+      // since the change is submittable now we expect the submit action to be returned
+      assertThat(gApi.changes().id(changeId).current().actions()).containsKey("submit");
+    } finally {
+      enableChangeIndexWrites();
+    }
+  }
+
+  @Test
   public void submitRequirement_partiallyOverriddenSRIsIgnored() throws Exception {
     // Create build-cop-override label
     LabelDefinitionInput input = new LabelDefinitionInput();

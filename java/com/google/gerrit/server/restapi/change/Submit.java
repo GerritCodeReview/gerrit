@@ -257,7 +257,13 @@ public class Submit
           return "Change " + c.getId() + " is marked work in progress";
         }
         try {
-          MergeOp.checkSubmitRequirements(c);
+          // The data in the change index may be stale (e.g. if submit requirements have been
+          // changed). For that one change for which the submit action is computed, use the
+          // freshly loaded ChangeData instance 'cd' instead of the potentially stale ChangeData
+          // instance 'c' that was loaded from the index. This makes a difference if the ChangeSet
+          // 'cs' only contains this one single change. If the ChangeSet contains further changes
+          // those may still be stale.
+          MergeOp.checkSubmitRequirements(cd.getId().equals(c.getId()) ? cd : c);
         } catch (ResourceConflictException e) {
           return "Change " + c.getId() + " is not ready: " + e.getMessage();
         }

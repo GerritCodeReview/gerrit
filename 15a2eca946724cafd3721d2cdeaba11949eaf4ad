@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16914f0c_211938bc",
+        "filename": "plugins/yarn.lock",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-03T11:58:13Z",
+      "side": 1,
+      "message": "lit depends on lit-element, see line 65 below. lit-element 3.x powers lit 2.x.",
+      "parentUuid": "affc3402_fc5e7a61",
+      "revId": "15a2eca946724cafd3721d2cdeaba11949eaf4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85270acd_66dfdba7",
         "filename": "polygerrit-ui/app/yarn.lock",
         "patchSetId": 5

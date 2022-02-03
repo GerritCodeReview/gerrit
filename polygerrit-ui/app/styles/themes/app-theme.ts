@@ -252,6 +252,15 @@ const styleSheet = safeStyleSheet`
     --vote-outline-recommended: var(--green-700);
     --vote-color-rejected: var(--red-300);
 
+    /* vote chip background colors */
+    --vote-chip-unselected-outline-color: var(--gray-500);
+    --vote-chip-unselected-color: white;
+    --vote-chip-selected-positive-color: var(--green-300);
+    --vote-chip-selected-neutral-color: var(--gray-300);
+    --vote-chip-selected-negative-color: var(--red-300);
+    --vote-chip-unselected-text-color: black;
+    --vote-chip-selected-text-color: black;
+
     --outline-color-focus: var(--gray-900);
 
     /* misc colors */

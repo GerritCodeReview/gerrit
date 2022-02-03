@@ -106,34 +106,39 @@ export class GrLabelScoreRow extends LitElement {
         gr-button {
           min-width: 42px;
           box-sizing: border-box;
+          --vote-text-color: var(--vote-chip-unselected-text-color);
+        }
+        gr-button.iron-selected {
+          --vote-text-color: var(--vote-chip-selected-text-color);
         }
         gr-button::part(paper-button) {
+          padding: 0 var(--spacing-m);
           background-color: var(
             --button-background-color,
             var(--table-header-background-color)
           );
-          padding: 0 var(--spacing-m);
+          border-color: var(--vote-chip-unselected-outline-color);
+        }
+        gr-button.iron-selected::part(paper-button) {
+          border-color: transparent;
+        }
+        gr-button {
+          --button-background-color: var(--vote-chip-unselected-color);
         }
         gr-button[vote='max'].iron-selected {
-          --button-background-color: var(--vote-color-approved);
+          --button-background-color: var(--vote-chip-selected-positive-color);
         }
         gr-button[vote='positive'].iron-selected {
-          --button-background-color: var(--vote-color-recommended);
-        }
-        gr-button[vote='min'].iron-selected {
-          --button-background-color: var(--vote-color-rejected);
-        }
-        gr-button[vote='negative'].iron-selected {
-          --button-background-color: var(--vote-color-disliked);
+          --button-background-color: var(--vote-chip-selected-positive-color);
         }
         gr-button[vote='neutral'].iron-selected {
-          --button-background-color: var(--vote-color-neutral);
+          --button-background-color: var(--vote-chip-selected-neutral-color);
         }
-        gr-button[vote='positive'].iron-selected::part(paper-button) {
-          border-color: var(--vote-outline-recommended);
+        gr-button[vote='negative'].iron-selected {
+          --button-background-color: var(--vote-chip-selected-negative-color);
         }
-        gr-button[vote='negative'].iron-selected::part(paper-button) {
-          border-color: var(--vote-outline-disliked);
+        gr-button[vote='min'].iron-selected {
+          --button-background-color: var(--vote-chip-selected-negative-color);
         }
         gr-button > gr-tooltip-content {
           margin: 0px -10px;
@@ -228,6 +233,7 @@ export class GrLabelScoreRow extends LitElement {
           data-value="${value}"
           aria-label="${value}"
           voteChip
+          flatten
         >
           <gr-tooltip-content
             has-tooltip

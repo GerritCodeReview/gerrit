@@ -16,6 +16,57 @@
       "message": "PTAL",
       "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "627a145e_15cd36bb",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-04T06:53:59Z",
+      "side": 1,
+      "message": "syntax-util.ts?",
+      "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8c84cf2_425f7dab",
+        "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-04T06:53:59Z",
+      "side": 1,
+      "message": "As discussed. syntax-worker.ts?",
+      "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c45181d_b33c0584",
+        "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-04T06:53:59Z",
+      "side": 1,
+      "message": "What is `self`?  Could you add a comment?",
+      "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

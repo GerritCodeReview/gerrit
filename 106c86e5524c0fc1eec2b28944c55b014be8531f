@@ -143,6 +143,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc48faff_8776ab9a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-04T15:20:21Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "6a729482_70a95b83",
+      "revId": "106c86e5524c0fc1eec2b28944c55b014be8531f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb5eea12_8c9ac9af",
@@ -210,6 +228,24 @@
       "side": 1,
       "message": "One option is to introduce an `id` for the dashboard section and use that id.",
       "parentUuid": "7de97357_6e3e957d",
+      "revId": "106c86e5524c0fc1eec2b28944c55b014be8531f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee7a064d_3fea2092",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-04T15:20:21Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "94a043c4_6c88ee3f",
       "revId": "106c86e5524c0fc1eec2b28944c55b014be8531f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

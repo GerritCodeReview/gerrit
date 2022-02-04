@@ -50,6 +50,24 @@
       "message": "You\u0027re not waiting for this promise anymore, Is that intentional",
       "revId": "94ca46550e7b5c4ea3267e96dee17a4bdfea0f4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5968ba4c_90b8b4b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1388,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-04T07:57:05Z",
+      "side": 1,
+      "message": "Yes. Why would we want to slow down just because the file is marked as reviewed in the background?",
+      "parentUuid": "fc5a9de4_5aeaec11",
+      "revId": "94ca46550e7b5c4ea3267e96dee17a4bdfea0f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

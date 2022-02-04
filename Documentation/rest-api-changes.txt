@@ -7114,7 +7114,11 @@ The `DiffFileMetaInfo` entity contains meta information about a file diff.
 |==========================
 |Field Name    ||Description
 |`name`        ||The name of the file.
-|`content_type`||The content type of the file.
+|`content_type`||The content type of the file. For the commit message and merge
+list the value is `text/x-gerrit-commit-message` and `text/x-gerrit-merge-list`
+respectively. For git links the value is `x-git/gitlink`. For symlinks the value
+is `x-git/symlink`. For regular files the value is the file mime type (e.g.
+`text/x-java`, `text/x-c++src`, etc...).
 |`lines`       ||The total number of lines in the file.
 |`web_links`   |optional|
 Links to the file in external sites as a list of

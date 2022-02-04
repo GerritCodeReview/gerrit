@@ -88,6 +88,24 @@
       "parentUuid": "d00c11a4_b88ebb77",
       "revId": "c81060b2abfb762d32267347628231ad23ee447c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32c9a478_f753af04",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-02-04T16:03:15Z",
+      "side": 1,
+      "message": "\u003e As a workaround you could do a query like: \n\u003e `(file:WORKSPACE OR file:tools/deps.bzl OR file:.gitmodules) and project:gerrit and status:open`\n\u003e \n\u003e But this doesn\u0027t include changes with files in the ^lib/.* directory.\n\nAck. That\u0027s what I had concluded too (fixed your query to use .gitmodules) 😊\n\n\u003e \n\u003e I can implement this operator quickly but it will require an internal index upgrade from our side before it can work. That\u0027s a tedious task that will take some time, but I agree it\u0027s necessary.\n\nThat operator sounds great, but I don\u0027t think there\u0027s a rush. AFAICT, this wasn\u0027t possible for prolog rules previously either, so it\u0027s not a regression. The query API seems to surface equivalent (or better) data in \u0027submit_requirements\u0027 as it did in \u0027requirements\u0027 previously and that seems to have been the only way to know this before.",
+      "parentUuid": "cff0b86f_c9354a52",
+      "revId": "c81060b2abfb762d32267347628231ad23ee447c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

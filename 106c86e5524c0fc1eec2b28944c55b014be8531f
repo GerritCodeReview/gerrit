@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2690dc92_6cab6c0e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-04T14:47:25Z",
+      "side": 1,
+      "message": "Btw. I would preferred non-capitalized-dash-syntax even if this is possible to use any string. \n\njust not sending `res.sections[i].name` but something like `res.sections[i].name.toLowerCase().replace(/\\s/g, \u0027-\u0027)`",
+      "parentUuid": "ff6574f5_d3c923b6",
+      "revId": "106c86e5524c0fc1eec2b28944c55b014be8531f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb5eea12_8c9ac9af",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
         "patchSetId": 6

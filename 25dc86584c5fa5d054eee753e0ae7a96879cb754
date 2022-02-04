@@ -34,6 +34,24 @@
       "parentUuid": "c9ec818d_85db2982",
       "revId": "25dc86584c5fa5d054eee753e0ae7a96879cb754",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e5e71a0_6753de45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-04T16:00:16Z",
+      "side": 1,
+      "message": "My refactor change is merged. You can rebase and use the slot passthrough as discussed instead of moving things out of gr-dashboard-view",
+      "parentUuid": "c3034df0_ab125daa",
+      "revId": "25dc86584c5fa5d054eee753e0ae7a96879cb754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

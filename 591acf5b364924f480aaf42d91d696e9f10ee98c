@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5cdc7cc8_18b5489b",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-04T07:00:15Z",
+      "side": 1,
+      "message": "Where are these consumed? The next outer for-loop clears this array.",
+      "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8c84cf2_425f7dab",
         "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
         "patchSetId": 6

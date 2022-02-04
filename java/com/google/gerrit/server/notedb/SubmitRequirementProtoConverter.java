@@ -58,10 +58,10 @@ public enum SubmitRequirementProtoConverter
           SubmitRequirementExpressionResultSerializer.serialize(
               r.applicabilityExpressionResult().get()));
     }
-    if (r.submittabilityExpressionResult() != null) {
+    if (r.submittabilityExpressionResult().isPresent()) {
       builder.setSubmittabilityExpressionResult(
           SubmitRequirementExpressionResultSerializer.serialize(
-              r.submittabilityExpressionResult()));
+              r.submittabilityExpressionResult().get()));
     }
     if (r.overrideExpressionResult().isPresent()) {
       builder.setOverrideExpressionResult(

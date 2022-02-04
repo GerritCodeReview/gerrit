@@ -100,24 +100,27 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       // Use a request context to execute predicates as an internal user with expanded visibility.
       // This is so that the evaluation does not depend on who is running the current request (e.g.
       // a "ownerin" predicate with group that is not visible to the person making this request).
-      SubmitRequirementExpressionResult blockingResult =
-          evaluateExpression(sr.submittabilityExpression(), cd);
 
       Optional<SubmitRequirementExpressionResult> applicabilityResult =
           sr.applicabilityExpression().isPresent()
               ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
               : Optional.empty();
-
-      Optional<SubmitRequirementExpressionResult> overrideResult =
-          sr.overrideExpression().isPresent()
-              ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
-              : Optional.empty();
+      Optional<SubmitRequirementExpressionResult> submittabilityResult = Optional.empty();
+      Optional<SubmitRequirementExpressionResult> overrideResult = Optional.empty();
+      if (!sr.applicabilityExpression().isPresent()
+          || SubmitRequirementResult.assertPass(applicabilityResult)) {
+        submittabilityResult = Optional.of(evaluateExpression(sr.submittabilityExpression(), cd));
+        overrideResult =
+            sr.overrideExpression().isPresent()
+                ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
+                : Optional.empty();
+      }
 
       return SubmitRequirementResult.builder()
           .legacy(Optional.of(false))
           .submitRequirement(sr)
           .patchSetCommitId(cd.currentPatchSet().commitId())
-          .submittabilityExpressionResult(blockingResult)
+          .submittabilityExpressionResult(submittabilityResult)
           .applicabilityExpressionResult(applicabilityResult)
           .overrideExpressionResult(overrideResult)
           .build();

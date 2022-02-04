@@ -70,6 +70,24 @@
       "parentUuid": "6bc96593_482f6af9",
       "revId": "c81060b2abfb762d32267347628231ad23ee447c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cff0b86f_c9354a52",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-04T15:37:41Z",
+      "side": 1,
+      "message": "Unfortunately right now you can\u0027t. The \u0027rule\u0027 operator is used in conjunction with submit rule results (including prolog) which are now removed from gerrit-review.googlesource.com.\n\nWe will need to implement a submit requirement operator like `submitrequirement:library-compliance\u003dUNSATISFIED`. As a workaround you could do a query like: \n`(file:WORKSPACE OR file:tools/deps.bzl OR file:.gitignore) and project:gerrit and status:open`\n\nBut this doesn\u0027t include changes with files in the ^lib/.* directory.\n\nI can implement this operator quickly but it will require an internal index upgrade from our side before it can work. That\u0027s a tedious task that will take some time, but I agree it\u0027s necessary.",
+      "parentUuid": "d00c11a4_b88ebb77",
+      "revId": "c81060b2abfb762d32267347628231ad23ee447c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

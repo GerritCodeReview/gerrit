@@ -102,6 +102,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e3415c1_f53f0e79",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-04T14:11:48Z",
+      "side": 1,
+      "message": "What is reason that ranges need to be reversed? lastIndexOf is not enough?",
+      "range": {
+        "startLine": 177,
+        "startChar": 52,
+        "endLine": 177,
+        "endChar": 59
+      },
+      "revId": "25de6c05b023c4756bfcf21b0885c600fde37bec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c582796c_f2eaa78d",
         "filename": "polygerrit-ui/app/services/highlight/highlight-service.ts",
         "patchSetId": 15

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1cc3bd2_3dbc9d94",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-04T15:51:41Z",
+      "side": 1,
+      "message": "It turns out the dashboard is more complex than I thought. There is support for url params to load dashboards from the server for a project or by a DashboardId. [params type](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/gr-app-types.ts;l\u003d40;drc\u003d1c933eeb3a16c6abee5a272ae2a3ffba339ed3f5),\n[loaded here](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts;l\u003d226;drc\u003d049eca671b53e40f38b2014f9efd3a1681f98274)\nThis section data coming from the server ought also to have IDs, not just the default user dashboard we show. [server type](https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#dashboard-section-info)\n\nI think it would be better to stick with the name for now. Even though it\u0027s unfortunate, it is a required type everywhere that we can rely on.",
+      "parentUuid": "c57ab6aa_a7cf41ff",
+      "revId": "3c8d49d85440d749ea339560325e838d3f47623c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5217badd_f4e99ce0",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
         "patchSetId": 7
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-04T15:27:26Z",
       "side": 1,
       "message": "The useCustomEmptyState feels superfluous now that you have a map with only the entries that need it.",
+      "revId": "3c8d49d85440d749ea339560325e838d3f47623c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f064e19f_d11e2d3e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-04T15:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5217badd_f4e99ce0",
       "revId": "3c8d49d85440d749ea339560325e838d3f47623c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -45,6 +45,7 @@ public class FilenameComparatorTest {
 
   @Test
   public void cppExtensions() {
+    assertThat(comparator.compare("abc/file.hh", "abc/file.cc")).isLessThan(0);
     assertThat(comparator.compare("abc/file.h", "abc/file.cc")).isLessThan(0);
     assertThat(comparator.compare("abc/file.c", "abc/file.hpp")).isGreaterThan(0);
     assertThat(comparator.compare("abc..xyz.file.h", "abc.xyz.file.cc")).isLessThan(0);

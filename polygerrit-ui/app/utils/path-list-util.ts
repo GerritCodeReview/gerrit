@@ -45,7 +45,7 @@ export function specialFilePathCompare(a: string, b: string) {
   const bFile = b.substr(0, bLastDotIndex) || b;
 
   // Sort header files above others with the same base name.
-  const headerExts = ['h', 'hxx', 'hpp'];
+  const headerExts = ['h', 'hh', 'hxx', 'hpp'];
   if (aFile.length > 0 && aFile === bFile) {
     if (headerExts.includes(aExt) && headerExts.includes(bExt)) {
       return a.localeCompare(b);

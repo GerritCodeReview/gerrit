@@ -79,6 +79,12 @@ suite('path-list-utl tests', () => {
       ['foo/bar.h', 'foo/bar.hpp', 'foo/bar.hxx']
     );
 
+    // Regression test for Issue 15635
+    assert.deepEqual(
+      ['manager.cc', 'manager.hh'].sort(specialFilePathCompare),
+      ['manager.hh', 'manager.cc']
+    );
+
     // Regression test for Issue 4448.
     assert.deepEqual(
       [

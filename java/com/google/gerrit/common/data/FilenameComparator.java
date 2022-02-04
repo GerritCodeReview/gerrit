@@ -24,7 +24,7 @@ public class FilenameComparator implements Comparator<String> {
   public static final FilenameComparator INSTANCE = new FilenameComparator();
 
   private static final Set<String> cppHeaderSuffixes =
-      new HashSet<>(Arrays.asList(".h", ".hxx", ".hpp"));
+      new HashSet<>(Arrays.asList(".h", ".hh", ".hxx", ".hpp"));
 
   private FilenameComparator() {}
 

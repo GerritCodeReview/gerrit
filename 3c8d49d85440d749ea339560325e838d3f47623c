@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c57ab6aa_a7cf41ff",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-04T15:27:26Z",
+      "side": 1,
+      "message": "I still think we should be using an id and not a name.",
+      "revId": "3c8d49d85440d749ea339560325e838d3f47623c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5217badd_f4e99ce0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-04T15:27:26Z",
+      "side": 1,
+      "message": "The useCustomEmptyState feels superfluous now that you have a map with only the entries that need it.",
+      "revId": "3c8d49d85440d749ea339560325e838d3f47623c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

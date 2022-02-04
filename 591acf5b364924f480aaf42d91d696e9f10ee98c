@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c54e33f7_9fe65f32",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-04T07:01:46Z",
+      "side": 1,
+      "message": "Cleared in line 47, but consumed in line 46. :-)",
+      "parentUuid": "5cdc7cc8_18b5489b",
+      "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8c84cf2_425f7dab",

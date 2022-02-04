@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0185b86_365b65a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-02-04T20:25:21Z",
+      "side": 1,
+      "message": "Hello Ben, as you are also working on HighlightJS support, could you have a look at my change?\nI\u0027d really like to make it easier to add custom HLJS languages.",
+      "revId": "8da35a816c0526af7f29dec0a0a8dd4e13e3fdb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

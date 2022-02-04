@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff6af22e_e927cf77",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-04T07:40:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "627a145e_15cd36bb",
+      "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bc6c79a_3e49e421",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-02-04T07:03:30Z",
       "side": 1,
       "message": "Maybe use `carryOverRanges.clear()` to make it more obvious?",
+      "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec6372e6_8f9b95d1",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-04T07:40:24Z",
+      "side": 1,
+      "message": "JavaScript Array does not have a `clear()` method unfortunately. :-( I think some devs like to do `array.length \u003d 0` for clearing it, but I find that really awkward. WDYT?",
+      "parentUuid": "3bc6c79a_3e49e421",
       "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -122,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de14556e_5078e146",
+        "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-04T07:40:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8c84cf2_425f7dab",
+      "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c45181d_b33c0584",
@@ -135,6 +189,24 @@
       "writtenOn": "2022-02-04T06:53:59Z",
       "side": 1,
       "message": "What is `self`?  Could you add a comment?",
+      "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b43e389_9f88b6a2",
+        "filename": "polygerrit-ui/app/workers/hljs-worker.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-04T07:40:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c45181d_b33c0584",
       "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

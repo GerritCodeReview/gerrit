@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "348e62fe_cf78835a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-04T13:47:28Z",
+      "side": 1,
+      "message": "Put with other .values",
+      "revId": "ccab3b1d6fe35acc2b5afe6079bd2a0a9ce9e155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "699c6fa2_b2cab797",
+        "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote/gr-trigger-vote.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-04T13:47:28Z",
+      "side": 1,
+      "message": "is shown with this value instead of the latest vote",
+      "revId": "ccab3b1d6fe35acc2b5afe6079bd2a0a9ce9e155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

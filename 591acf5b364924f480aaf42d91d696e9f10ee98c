@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eab113d_56f7c346",
+        "filename": "polygerrit-ui/app/utils/hljs-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-04T07:53:08Z",
+      "side": 1,
+      "message": "Resolving comment.",
+      "parentUuid": "ec6372e6_8f9b95d1",
+      "revId": "591acf5b364924f480aaf42d91d696e9f10ee98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cdc7cc8_18b5489b",

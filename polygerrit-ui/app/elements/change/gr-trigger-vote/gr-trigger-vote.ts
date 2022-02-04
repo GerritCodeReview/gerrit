@@ -45,6 +45,10 @@ export class GrTriggerVote extends LitElement {
   @property({type: Object})
   account?: AccountInfo;
 
+  // do not show latest vote, but the displayValue will be shown as vote
+  @property()
+  displayValue?: string;
+
   @property({type: Boolean})
   mutable?: boolean;
 
@@ -115,6 +119,11 @@ export class GrTriggerVote extends LitElement {
   private renderVotes() {
     const {labelInfo} = this;
     if (!labelInfo) return;
+    if (this.displayValue)
+      return html`<gr-vote-chip
+        .displayValue=${this.displayValue}
+        .label=${labelInfo}
+      ></gr-vote-chip>`;
     if (isDetailedLabelInfo(labelInfo)) {
       const approvals = getAllUniqueApprovals(labelInfo).filter(
         approval => !hasNeutralStatus(labelInfo, approval)

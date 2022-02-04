@@ -124,6 +124,7 @@ export class GrMessageScores extends LitElement {
         .change="${this.change}"
         .mutable="${false}"
         disable-hovercards
+        .displayValue=${score.value}
       >
       </gr-trigger-vote>`;
     }

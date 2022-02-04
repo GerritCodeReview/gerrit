@@ -22,6 +22,30 @@
       },
       "revId": "6b80026f56a03423c29749b8c344a5ddf6d5474e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1b52153_3eea86f0",
+        "filename": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-04T14:33:14Z",
+      "side": 1,
+      "message": "I think ?.[0] is fine, since next line will fail if there is no trigger chip. At least I prefer failing in expect than js error.",
+      "parentUuid": "3d56771f_3028fd09",
+      "range": {
+        "startLine": 165,
+        "startChar": 36,
+        "endLine": 165,
+        "endChar": 38
+      },
+      "revId": "6b80026f56a03423c29749b8c344a5ddf6d5474e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

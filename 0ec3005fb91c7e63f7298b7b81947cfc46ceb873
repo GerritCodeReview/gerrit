@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea0179d0_3f967895",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-04T06:55:12Z",
+      "side": 1,
+      "message": "Update comment as this no longer purely for logging.",
+      "revId": "0ec3005fb91c7e63f7298b7b81947cfc46ceb873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -118,8 +118,12 @@ suite('gr-change-list-column-requirement tests', () => {
       <gr-vote-chip></gr-vote-chip>
     </div>`);
     const voteChip = queryAndAssert(element, 'gr-vote-chip');
-    expect(voteChip).shadowDom.to.equal(`<span class="container">
+    expect(voteChip).shadowDom.to.equal(`<gr-tooltip-content
+      class="container"
+      has-tooltip=""
+      title="bad"
+    >
       <div class="negative vote-chip">-1</div>
-    </span>`);
+    </gr-tooltip-content>`);
   });
 });

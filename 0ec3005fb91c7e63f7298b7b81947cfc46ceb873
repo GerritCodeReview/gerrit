@@ -16,6 +16,24 @@
       "message": "Update comment as this no longer purely for logging.",
       "revId": "0ec3005fb91c7e63f7298b7b81947cfc46ceb873",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4eae65e_1462d557",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-04T07:00:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0179d0_3f967895",
+      "revId": "0ec3005fb91c7e63f7298b7b81947cfc46ceb873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

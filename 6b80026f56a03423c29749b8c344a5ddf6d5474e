@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d56771f_3028fd09",
+        "filename": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-04T14:04:36Z",
+      "side": 1,
+      "message": "`!.[0]` instead?",
+      "range": {
+        "startLine": 165,
+        "startChar": 36,
+        "endLine": 165,
+        "endChar": 38
+      },
+      "revId": "6b80026f56a03423c29749b8c344a5ddf6d5474e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

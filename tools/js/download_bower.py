@@ -107,7 +107,7 @@ def main():
         ignore_deps(info)
         subprocess.check_call(
             bower_cmd(
-                args.b, '--quiet', 'install', '%s#%s' % (args.p, args.v)))
+                args.b, '--allow-root', '--quiet', 'install', '%s#%s' % (args.p, args.v)))
         bc = os.path.join(cwd, 'bower_components')
         subprocess.check_call(
             ['zip', '-q', '--exclude', '.bower.json', '-r', cached, args.n],

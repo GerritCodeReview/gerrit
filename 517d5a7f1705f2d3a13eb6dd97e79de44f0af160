@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1772016_6d46b52f",
+        "filename": "contrib/git-stats.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-02-06T12:27:58Z",
+      "side": 1,
+      "message": "remove \u0027/\u0027, otherwise numbers for loose_refs end with a \u0027/\u0027",
+      "range": {
+        "startLine": 50,
+        "startChar": 51,
+        "endLine": 50,
+        "endChar": 52
+      },
+      "revId": "517d5a7f1705f2d3a13eb6dd97e79de44f0af160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9c2ad7d_4a7a8bd4",
+        "filename": "contrib/git-stats.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-02-06T12:27:58Z",
+      "side": 1,
+      "message": "maybe print a blank line here to separate output for different metrics",
+      "revId": "517d5a7f1705f2d3a13eb6dd97e79de44f0af160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8345c74f_7a45ebe2",
+        "filename": "contrib/git-stats.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-02-06T12:27:58Z",
+      "side": 1,
+      "message": "If this script is run in a .git directory $1 is empty and the output starts with \u0027|\u0027 which looks odd. Maybe print \u0027.\u0027 for $1 in that case ?",
+      "revId": "517d5a7f1705f2d3a13eb6dd97e79de44f0af160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

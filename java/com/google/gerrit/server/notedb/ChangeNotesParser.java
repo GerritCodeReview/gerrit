@@ -110,6 +110,31 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.util.RawParseUtils;
 
+/**
+ * Parses {@link ChangeNotesState} out of the change meta ref.
+ *
+ * <p>NOTE: all changes to the change notes storage format must be both forward and backward
+ * compatible, i.e.:
+ *
+ * <ul>
+ *   <li>The server, running the new binary version must be able to parse the data, written by the
+ *       previous binary version.
+ *   <li>The server, running the old binary version must be able to parse the data, written by the
+ *       new binary version.
+ * </ul>
+ *
+ * <p>Thus, when introducing storage format update, the following procedure must be used:
+ *
+ * <ol>
+ *   <li>The read path ({@link ChangeNotesParser}) needs to be updated to handle both the old and
+ *       the new data format.
+ *   <li>In a separate change, the write path (e.g. {@link ChangeUpdate}, {@link ChangeNoteJson}) is
+ *       updated to write the new format, guarded by {@link
+ *       com.google.gerrit.server.experiments.ExperimentFeatures} flag, if possible.
+ *   <li>Once the 'read' change is roll out and is roll back safe, the 'write' change can be
+ *       submitted/the experiment flag can be flipped.
+ * </ol>
+ */
 class ChangeNotesParser {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

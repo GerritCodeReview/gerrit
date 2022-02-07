@@ -32,6 +32,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests for {@link ChangeNotesParser}.
+ *
+ * <p>When modifying storage format, please, add tests that both old and new data can be parsed.
+ */
 public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private TestRepository<InMemoryRepository> testRepo;
   private ChangeNotesRevWalk walk;

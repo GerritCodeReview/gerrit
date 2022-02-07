@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "295cb53f_b526b08a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-07T14:35:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b25f564_a1bd3959",
+      "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06ec0a5c_45273640",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-07T14:24:12Z",
       "side": 1,
       "message": "computeColumns doesn\u0027t need an argument",
+      "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f383560_c3c2d69e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-07T14:35:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06ec0a5c_45273640",
       "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8500d6d_83a8036d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-07T14:35:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35c3c01c_4d108c26",
+      "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b088d217_7e0267ed",
@@ -69,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02a1b5ee_aa987b42",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-07T14:35:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b088d217_7e0267ed",
+      "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c77777dc_f803ced4",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-02-07T14:24:12Z",
       "side": 1,
       "message": "computeColumns doesn\u0027t need an argument.",
+      "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "518f0264_17fdf20d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-07T14:35:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c77777dc_f803ced4",
       "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

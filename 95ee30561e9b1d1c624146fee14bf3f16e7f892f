@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e57ceda_1c948212",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-07T09:35:45Z",
+      "side": 1,
+      "message": "The answer to this question will always be unit testing + manual usage until we have more ways of testing?\n\nIf tests are lacking then we should look to add more unit tests but writing unit tests + manual testing on each change does not look very meaningful.",
+      "parentUuid": "234a2eba_5841440b",
+      "revId": "95ee30561e9b1d1c624146fee14bf3f16e7f892f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffbb5197_eebc046f",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-07T09:17:23Z",
       "side": 1,
       "message": "What is WAITING? I don\u0027t know what this column is. Also it seems like it\u0027s a column so probably belongs in something else than gr-navigation. Maybe the constants file?",
+      "revId": "95ee30561e9b1d1c624146fee14bf3f16e7f892f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "910acaad_3da35a8e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-07T09:35:45Z",
+      "side": 1,
+      "message": "Moved to constants.ts.",
+      "parentUuid": "ffbb5197_eebc046f",
       "revId": "95ee30561e9b1d1c624146fee14bf3f16e7f892f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49cd141c_a6f36a44",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-07T09:35:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d39277b5_9cd07761",
+      "revId": "95ee30561e9b1d1c624146fee14bf3f16e7f892f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c20e8199_8fef6325",
@@ -69,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b984cafd_068639ad",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-07T09:35:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c20e8199_8fef6325",
+      "revId": "95ee30561e9b1d1c624146fee14bf3f16e7f892f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b322af6_009c36a1",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-02-07T09:17:23Z",
       "side": 1,
       "message": "This doesn\u0027t feel like it fits here.\n\nIt\u0027s in the middle of dashboard sections",
+      "revId": "95ee30561e9b1d1c624146fee14bf3f16e7f892f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b32d77d3_85338afa",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-07T09:35:45Z",
+      "side": 1,
+      "message": "Moved to constants.ts",
+      "parentUuid": "0b322af6_009c36a1",
       "revId": "95ee30561e9b1d1c624146fee14bf3f16e7f892f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

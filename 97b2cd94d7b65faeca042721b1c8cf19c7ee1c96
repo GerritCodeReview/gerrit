@@ -22,6 +22,30 @@
       },
       "revId": "97b2cd94d7b65faeca042721b1c8cf19c7ee1c96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "584db6d4_97894bb2",
+        "filename": "lib/highlightjs/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-07T14:49:39Z",
+      "side": 1,
+      "message": "Including highlight.js in the main app bundle will increase the size of the main bundle by 1MB. We would like to avoid that. We are even in the process of moving syntax highlighting into a web worker, so the main app does not have to do that in the single JavaScript thread.",
+      "parentUuid": "7f37c69e_d751f9d9",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "97b2cd94d7b65faeca042721b1c8cf19c7ee1c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

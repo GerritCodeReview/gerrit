@@ -52,6 +52,24 @@
       "parentUuid": "4550e3dd_2ac9df7d",
       "revId": "49f8068dd6c388eaa7736d5c036147678a9976f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b887e61e_06d4cfb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-07T14:30:21Z",
+      "side": 1,
+      "message": "This is not a list, it is a map. It maps mime type to language.\n\nWe have decent mime type detection server side. That is why we are relying on mime types. What would be the alternative?\n\nYou can ask highlightjs to guess the language, but I don\u0027t expect this to be fast and accurate. It is definitely not a solution for every file. Maybe as a fallback? Not sure.\n\nBut I would totally be onboard with an approach like matching the mime type against the pattern /^text\\/(x-)?(.*)$/ and then just call `hljs.getLanguage()` to check whether the language is supported or not.\n\nUnresolved only so it does get read. :-)",
+      "parentUuid": "ed23be73_e8829b2d",
+      "revId": "49f8068dd6c388eaa7736d5c036147678a9976f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

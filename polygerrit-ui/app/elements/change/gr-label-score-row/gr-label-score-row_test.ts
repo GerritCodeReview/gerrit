@@ -343,7 +343,7 @@ suite('gr-label-row-score tests', () => {
         <span class="placeholder" data-label="Verified"></span>
         <iron-selector
           aria-labelledby="labelName"
-          attr-for-selected="data-value"
+          attrForSelected="data-value"
           id="labelSelector"
           role="radiogroup"
           selected="+1"
@@ -356,7 +356,7 @@ suite('gr-label-row-score tests', () => {
             role="radio"
             tabindex="0"
             title="bad"
-            vote="min"
+            data-vote="min"
             votechip=""
             flatten=""
           >
@@ -371,7 +371,7 @@ suite('gr-label-row-score tests', () => {
             data-value=" 0"
             role="radio"
             tabindex="0"
-            vote="neutral"
+            data-vote="neutral"
             votechip=""
             flatten=""
           >
@@ -389,7 +389,7 @@ suite('gr-label-row-score tests', () => {
             role="radio"
             tabindex="0"
             title="good"
-            vote="max"
+            data-vote="max"
             votechip=""
             flatten=""
           >

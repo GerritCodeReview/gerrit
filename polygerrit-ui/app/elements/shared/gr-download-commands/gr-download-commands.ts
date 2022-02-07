@@ -58,7 +58,7 @@ export class GrDownloadCommands extends LitElement {
   @property({type: String})
   selectedScheme?: string;
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'show-keyboard-shortcut-tooltips'})
   showKeyboardShortcutTooltips = false;
 
   private readonly restApiService = getAppContext().restApiService;

@@ -34,6 +34,24 @@
       "parentUuid": "377e97e9_2ca9c9e2",
       "revId": "db57170928c872f50f14de43ea518510f1402a6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "249df58b_b80320d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-07T14:55:07Z",
+      "side": 1,
+      "message": "Coincidentally I have been working on a web worker based syntax layer that will achieve exactly that: 329486: Add a worker based highlighting service and layer | https://gerrit-review.googlesource.com/c/gerrit/+/329486\n\nBut this is still behind a flag and not ready yet. But you can expect me to upgrade to HighlightJS 11 before the Gerrit 3.6 release cut.",
+      "parentUuid": "23cffb4a_8a81cead",
+      "revId": "db57170928c872f50f14de43ea518510f1402a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

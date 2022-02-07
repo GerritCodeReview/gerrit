@@ -16,6 +16,24 @@
       "message": "nit: header was removed by mistake?",
       "revId": "2ca12c525a650aa654a276dc43abbda3f2dc0b26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c82dca26_4af3dedd",
+        "filename": "java/com/google/gerrit/server/notedb/StoreSubmitRequirementsOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-07T10:59:58Z",
+      "side": 0,
+      "message": "Yes, sorry.",
+      "parentUuid": "790ba9d6_0d907b21",
+      "revId": "2ca12c525a650aa654a276dc43abbda3f2dc0b26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

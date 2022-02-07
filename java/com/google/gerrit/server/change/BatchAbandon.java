@@ -80,7 +80,7 @@ public class BatchAbandon {
         u.addOp(change.getId(), abandonOpFactory.create(accountState, msgTxt));
         u.addOp(
             change.getId(),
-            storeSubmitRequirementsOpFactory.create(change.submitRequirements().values()));
+            storeSubmitRequirementsOpFactory.create(change.submitRequirements().values(), change));
       }
       u.execute();
 

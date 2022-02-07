@@ -131,7 +131,8 @@ public class Abandon
       u.addOp(notes.getChangeId(), op);
       u.addOp(
           notes.getChangeId(),
-          storeSubmitRequirementsOpFactory.create(changeData.submitRequirements().values()));
+          storeSubmitRequirementsOpFactory.create(
+              changeData.submitRequirements().values(), changeData));
       u.execute();
     }
     return op.getChange();

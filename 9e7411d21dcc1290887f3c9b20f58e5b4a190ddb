@@ -39,6 +39,30 @@
       },
       "revId": "9e7411d21dcc1290887f3c9b20f58e5b4a190ddb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f069822_6f7dc69e",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-02-07T12:04:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5045cd66_ea807b54",
+      "range": {
+        "startLine": 441,
+        "startChar": 47,
+        "endLine": 441,
+        "endChar": 48
+      },
+      "revId": "9e7411d21dcc1290887f3c9b20f58e5b4a190ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "@Edwin, can you do LC+1 or should I add someone else?",
       "revId": "0fca4c112566714512b8fb7ea6b9d54526fc6806",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3fba7c0_e54bb9c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-07T09:35:44Z",
+      "side": 1,
+      "message": "Can someone please re-approved? I rebased the latest patch set and thus my CRVW+2 doesn\u0027t work any more.",
+      "revId": "0fca4c112566714512b8fb7ea6b9d54526fc6806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -51,6 +51,13 @@ export class GrVoteChip extends LitElement {
   @property({type: Boolean})
   more = false;
 
+  /**
+   * If defined, vote-chip is shown with this value instead of the latest vote.
+   * This is useful for change log.
+   */
+  @property()
+  displayValue?: string;
+
   private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
@@ -141,6 +148,9 @@ export class GrVoteChip extends LitElement {
   }
 
   private renderValue() {
+    if (this.displayValue) {
+      return this.displayValue;
+    }
     if (!this.label) {
       return '';
     } else if (isDetailedLabelInfo(this.label)) {
@@ -162,6 +172,9 @@ export class GrVoteChip extends LitElement {
   private computeClass() {
     if (!this.label) {
       return '';
+    } else if (this.displayValue) {
+      const status = getLabelStatus(this.label, Number(this.displayValue));
+      return classForLabelStatus(status);
     } else {
       const status = getLabelStatus(this.label, this.vote?.value);
       return classForLabelStatus(status);

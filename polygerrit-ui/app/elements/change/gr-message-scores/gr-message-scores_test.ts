@@ -162,9 +162,14 @@ suite('gr-message-score tests', () => {
     const triggerChips =
       element.shadowRoot?.querySelectorAll('gr-trigger-vote');
     assert.equal(triggerChips?.length, 1);
-    expect(triggerChips?.[0]).shadowDom.equal(`<div class="container">
+    const triggerChip = triggerChips?.[0];
+    expect(triggerChip).shadowDom.equal(`<div class="container">
       <span class="label">Auto-Submit</span>
+      <gr-vote-chip></gr-vote-chip>
     </div>`);
+    const voteChips = triggerChip?.shadowRoot?.querySelectorAll('gr-vote-chip');
+    assert.equal(voteChips?.length, 1);
+    expect(voteChips?.[0]).shadowDom.equal('');
     const scoreChips = element.shadowRoot?.querySelectorAll('.score');
     assert.equal(scoreChips?.length, 1);
     expect(scoreChips?.[0]).dom.equal(`<span class="removed score">

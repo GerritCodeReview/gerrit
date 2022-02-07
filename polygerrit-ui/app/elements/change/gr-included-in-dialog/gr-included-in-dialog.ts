@@ -119,7 +119,6 @@ export class GrIncludedInDialog extends LitElement {
         </span>
         <iron-input
           id="filterInput"
-          placeholder="Filter"
           .bindValue=${this.filterText}
           @bind-value-changed=${(e: BindValueChangeEvent) => {
             this.filterText = e.detail.value;

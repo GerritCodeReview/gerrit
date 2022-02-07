@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "037704ae_02356be8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/OnStoreSubmitRequirementResultModifierIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-07T10:46:49Z",
+      "side": 1,
+      "message": "header is missing",
+      "revId": "810ed0a6a6bc30ac9e2720a6cbe5aff0bb96bca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16e3df12_3a495da2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/OnStoreSubmitRequirementResultModifierIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-07T10:46:49Z",
+      "side": 1,
+      "message": "As per the commit message, this is only intended for testing, right? i.e., we won\u0027t bind an implementation that unsatisfies an already-satisfied requirement. Can we add a comment with this?",
+      "revId": "810ed0a6a6bc30ac9e2720a6cbe5aff0bb96bca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

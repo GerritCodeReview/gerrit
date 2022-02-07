@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "790ba9d6_0d907b21",
+        "filename": "java/com/google/gerrit/server/notedb/StoreSubmitRequirementsOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-07T10:46:49Z",
+      "side": 0,
+      "message": "nit: header was removed by mistake?",
+      "revId": "2ca12c525a650aa654a276dc43abbda3f2dc0b26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

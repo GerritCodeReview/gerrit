@@ -67,6 +67,13 @@ public abstract class SubmitRequirementResult {
    */
   public abstract Optional<Boolean> forced();
 
+  /** Whether this result should be filtered out when returned from REST API. */
+  public abstract Optional<Boolean> hidden();
+
+  public boolean isHidden() {
+    return hidden().orElse(false);
+  }
+
   public Optional<String> errorMessage() {
     if (!status().equals(Status.ERROR)) {
       return Optional.empty();
@@ -187,6 +194,8 @@ public abstract class SubmitRequirementResult {
     public abstract Builder legacy(Optional<Boolean> value);
 
     public abstract Builder forced(Optional<Boolean> value);
+
+    public abstract Builder hidden(Optional<Boolean> value);
 
     public abstract SubmitRequirementResult build();
   }

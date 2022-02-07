@@ -438,7 +438,7 @@ public class ReplaceOp implements BatchUpdateOp {
         return ": Patch Set " + priorPatchSetId.get() + " was rebased.";
       case NO_CHANGE:
         return ": New patch set was added with same tree, parent"
-            + (commit.getParentCount() != 1 ? "s" : "")
+            + (commit.getParentCount() != 1 ? "s trees" : " tree")
             + ", and commit message as Patch Set "
             + priorPatchSetId.get()
             + ".";

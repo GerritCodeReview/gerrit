@@ -55,7 +55,7 @@ def bower_info(bower, name, package, version):
         raise OSError('Command failed: %s' % ' '.join(cmd))
 
     try:
-        info = json.loads(out)
+        info = json.loads(out.decode('utf8'))
     except ValueError:
         raise ValueError('invalid JSON from %s:\n%s' % (" ".join(cmd), out))
     info_name = info.get('name')

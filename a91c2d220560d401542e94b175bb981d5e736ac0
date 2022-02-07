@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54fc8f36_24582bb9",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-07T13:15:37Z",
+      "side": 1,
+      "message": "Rather than change it here, could you mark the attribute name in gr-download-commands?",
+      "revId": "a91c2d220560d401542e94b175bb981d5e736ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

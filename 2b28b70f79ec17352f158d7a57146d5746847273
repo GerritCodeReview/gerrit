@@ -16,6 +16,23 @@
       "message": "Thanks for this change. Will +2 once we\u0027re ready to proceed.",
       "revId": "2b28b70f79ec17352f158d7a57146d5746847273",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7535a769_f43d0d18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-07T10:13:51Z",
+      "side": 1,
+      "message": "Before we do this, it might be worthwhile to cherry-pick https://gerrit-review.googlesource.com/c/gerrit/+/329423 into the branches we expect to want to support with the dev-helper.\n\nI\u0027m thinking at least 3.5",
+      "revId": "2b28b70f79ec17352f158d7a57146d5746847273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

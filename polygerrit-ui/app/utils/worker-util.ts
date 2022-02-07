@@ -10,7 +10,11 @@
  * the fly and pull the actual worker via `importScripts()`. Apparently that
  * is a well established pattern.
  */
-export function wrapUrl(url: string) {
+function wrapUrl(url: string) {
   const content = `importScripts("${url}");`;
   return URL.createObjectURL(new Blob([content], {type: 'text/javascript'}));
+}
+
+export function createWorker(workerUrl: string): Worker {
+  return new Worker(wrapUrl(workerUrl));
 }

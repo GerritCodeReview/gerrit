@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6a54eba_ab5920b8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-07T14:44:46Z",
+      "side": 1,
+      "message": "We seem to be computing this more than once per render call, maybe compute it once in render and plumb it throught the render methods.\n\nSame comment about this.computeColumns()",
+      "revId": "da3a47ad911cce06a4a730ecc164877713fc3abf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

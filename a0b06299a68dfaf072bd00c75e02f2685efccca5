@@ -354,6 +354,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f8c380d_d8eeeb43",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-07T14:44:46Z",
+      "side": 1,
+      "message": "It doesn\u0027t make sense to wait in production code, especially not in such a for loop.\n\nIt means we will wait for the section to render. Then wait for the section to render, and so forth.\n\nI would fix this issue in the test-code by adding an appropriate wait rather than solving it here.\n\nIn production the expectation is that this method will be called when the sections are already displayed, not waiting for them to rerender again.",
+      "parentUuid": "bc168bb3_0b48acb4",
+      "revId": "a0b06299a68dfaf072bd00c75e02f2685efccca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e954d820_3e44f1f1",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
         "patchSetId": 15

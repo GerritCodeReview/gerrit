@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7728304_42b06abd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-07T17:11:55Z",
+      "side": 1,
+      "message": "Can this change be approved. It\u0027s confirmed in change 327757 that this fixed Zuul build on stable branches (last Zuul verification is green on stable-3.3 branch), even though Python3 version 3.5 is outdated in Zuul pipeline.",
+      "revId": "4fc86748ea080fd5a2e2cc38661af418ecf18621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

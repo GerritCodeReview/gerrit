@@ -286,5 +286,6 @@ nodejs_test(
         "--rules.no-property-visibility-mismatch off",
         "--rules.no-incompatible-property-type off",
         "--rules.no-incompatible-type-binding off",
+        "--rules.no-unknown-attribute error",
     ],
 )

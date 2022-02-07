@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -28,12 +29,14 @@ import com.google.gerrit.acceptance.TestOnStoreSubmitRequirementResultModifier.M
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.OnStoreSubmitRequirementResultModifier;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
@@ -150,6 +153,41 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.OVERRIDDEN, /* isLegacy= */ false);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
+  public void submitRequirementStored_notReturnedWhenHidden() throws Exception {
+    testOnStoreSrModifier.setModificationStrategy(ModificationStrategy.OVERRIDE);
+    testOnStoreSrModifier.hide(true);
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    approve(changeId);
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+
+    gApi.changes().id(changeId).current().submit();
+
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(0);
+
+    ChangeNotes notes = notesFactory.create(project, r.getChange().getId());
+
+    SubmitRequirementResult result =
+        notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
+    assertThat(result.submitRequirement().name()).isEqualTo("Code-Review");
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.OVERRIDDEN);
+    assertThat(result.submittabilityExpressionResult().get().expression().expressionString())
+        .isEqualTo("label:Code-Review=MAX");
   }
 
   @Test

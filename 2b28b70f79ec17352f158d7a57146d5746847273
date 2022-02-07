@@ -33,6 +33,24 @@
       "message": "Before we do this, it might be worthwhile to cherry-pick https://gerrit-review.googlesource.com/c/gerrit/+/329423 into the branches we expect to want to support with the dev-helper.\n\nI\u0027m thinking at least 3.5",
       "revId": "2b28b70f79ec17352f158d7a57146d5746847273",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28b98d0a_fd7d51ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-07T11:07:56Z",
+      "side": 1,
+      "message": "I can easily move this change to sable-3.5 branch. But then, we should also cherry-pick another PG change that was merged to master. I can do it as well.",
+      "parentUuid": "7535a769_f43d0d18",
+      "revId": "2b28b70f79ec17352f158d7a57146d5746847273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

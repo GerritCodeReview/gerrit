@@ -29,6 +29,8 @@ public class TestOnStoreSubmitRequirementResultModifier
 
   private ModificationStrategy modificationStrategy = ModificationStrategy.KEEP;
 
+  private boolean hide = false;
+
   /**
    * The strategy, used by this modifier to transform {@link SubmitRequirementResult} on {@link
    * OnStoreSubmitRequirementResultModifier#modifyResultOnStore} invocations.
@@ -44,6 +46,10 @@ public class TestOnStoreSubmitRequirementResultModifier
     this.modificationStrategy = modificationStrategy;
   }
 
+  public void hide(boolean hide) {
+    this.hide = hide;
+  }
+
   @Override
   public SubmitRequirementResult modifyResultOnStore(
       SubmitRequirement submitRequirement,
@@ -53,9 +59,9 @@ public class TestOnStoreSubmitRequirementResultModifier
     if (modificationStrategy.equals(ModificationStrategy.KEEP)) {
       return result;
     }
+    SubmitRequirementResult.Builder srResultBuilder = result.toBuilder().hidden(Optional.of(hide));
     if (modificationStrategy.equals(ModificationStrategy.OVERRIDE)) {
-      return result
-          .toBuilder()
+      return srResultBuilder
           .overrideExpressionResult(
               Optional.of(
                   SubmitRequirementExpressionResult.create(
@@ -66,8 +72,7 @@ public class TestOnStoreSubmitRequirementResultModifier
                           submitRequirement.submittabilityExpression().expressionString()))))
           .build();
     }
-    return result
-        .toBuilder()
+    return srResultBuilder
         .submittabilityExpressionResult(
             SubmitRequirementExpressionResult.create(
                 submitRequirement.submittabilityExpression(),

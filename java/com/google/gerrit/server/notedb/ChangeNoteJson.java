@@ -35,6 +35,17 @@ import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
+/**
+ * Provides {@link Gson} to parse {@link ChangeRevisionNote}, attached to the change update.
+ *
+ * <p>Apart from the adapters for the custom JSON format, this class also registers adapters that
+ * support forward/backward compatibility when modifying {@link ChangeNotes} storage format.
+ *
+ * <p>NOTE: All changes to the storage format must be both forward and backward compatible, see
+ * comment on {@link ChangeNotesParser}.
+ *
+ * <p>For JSON, such changes include e.g. modifications to the serialized {@code AutoValue} classes.
+ */
 @Singleton
 public class ChangeNoteJson {
   private final Gson gson = newGson();

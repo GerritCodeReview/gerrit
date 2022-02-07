@@ -118,6 +118,13 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * there is a single author and timestamp for each update.
  *
  * <p>This class is not thread-safe.
+ *
+ * <p>NOTE: This class also serializes the change in a custom storage format, used in NoteDB. All
+ * changes to the storage format must be both forward and backward compatible, see comment on {@link
+ * ChangeNotesParser}.
+ *
+ * <p>Such changes include e.g. introducing/removing footers, modifying footer formats, mutations of
+ * the attached {@link ChangeRevisionNote}.
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {

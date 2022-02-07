@@ -69,6 +69,24 @@
       "parentUuid": "16e3df12_3a495da2",
       "revId": "810ed0a6a6bc30ac9e2720a6cbe5aff0bb96bca3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "865f6af0_931c8bdc",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/OnStoreSubmitRequirementResultModifierIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-07T11:19:57Z",
+      "side": 1,
+      "message": "Nice. OK thanks for explaining.",
+      "parentUuid": "30d29408_1bb90db7",
+      "revId": "810ed0a6a6bc30ac9e2720a6cbe5aff0bb96bca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -125,19 +125,19 @@ export class GrLabelScoreRow extends LitElement {
         gr-button {
           --button-background-color: var(--vote-chip-unselected-color);
         }
-        gr-button[vote='max'].iron-selected {
+        gr-button[data-vote='max'].iron-selected {
           --button-background-color: var(--vote-chip-selected-positive-color);
         }
-        gr-button[vote='positive'].iron-selected {
+        gr-button[data-vote='positive'].iron-selected {
           --button-background-color: var(--vote-chip-selected-positive-color);
         }
-        gr-button[vote='neutral'].iron-selected {
+        gr-button[data-vote='neutral'].iron-selected {
           --button-background-color: var(--vote-chip-selected-neutral-color);
         }
-        gr-button[vote='negative'].iron-selected {
+        gr-button[data-vote='negative'].iron-selected {
           --button-background-color: var(--vote-chip-selected-negative-color);
         }
-        gr-button[vote='min'].iron-selected {
+        gr-button[data-vote='min'].iron-selected {
           --button-background-color: var(--vote-chip-selected-negative-color);
         }
         gr-button > gr-tooltip-content {
@@ -205,7 +205,7 @@ export class GrLabelScoreRow extends LitElement {
     return html`
       <iron-selector
         id="labelSelector"
-        attr-for-selected="data-value"
+        attrForSelected="data-value"
         ?hidden="${!this._computeAnyPermittedLabelValues()}"
         selected="${ifDefined(this._computeLabelValue())}"
         @selected-item-changed=${this.setSelectedValueText}
@@ -223,12 +223,12 @@ export class GrLabelScoreRow extends LitElement {
       (value, index) => html`
         <gr-button
           role="radio"
-          vote="${this._computeVoteAttribute(
+          title="${ifDefined(this.computeLabelValueTitle(value))}"
+          data-vote="${this._computeVoteAttribute(
             Number(value),
             index,
             items.length
           )}"
-          title="${ifDefined(this.computeLabelValueTitle(value))}"
           data-name="${ifDefined(this.label?.name)}"
           data-value="${value}"
           aria-label="${value}"
@@ -322,7 +322,7 @@ export class GrLabelScoreRow extends LitElement {
   /**
    * Private but used in tests.
    * Maps the label value to exactly one of: min, max, positive, negative,
-   * neutral. Used for the 'vote' attribute, because we don't want to
+   * neutral. Used for the 'data-vote' attribute, because we don't want to
    * interfere with <iron-selector> using the 'class' attribute for setting
    * 'iron-selected'.
    */

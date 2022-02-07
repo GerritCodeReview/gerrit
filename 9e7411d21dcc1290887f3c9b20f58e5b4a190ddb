@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de2d9b1a_e01278b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-07T11:57:32Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "9e7411d21dcc1290887f3c9b20f58e5b4a190ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5045cd66_ea807b54",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-07T11:57:32Z",
+      "side": 1,
+      "message": "nit: I think the \u0027s\u0027 should be dropped here, so that this becomes \"parent trees\", rather than \"parents trees\"",
+      "range": {
+        "startLine": 441,
+        "startChar": 47,
+        "endLine": 441,
+        "endChar": 48
+      },
+      "revId": "9e7411d21dcc1290887f3c9b20f58e5b4a190ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

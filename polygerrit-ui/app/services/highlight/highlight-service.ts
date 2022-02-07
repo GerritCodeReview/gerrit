@@ -10,7 +10,7 @@ import {
   SyntaxWorkerMessageType,
   SyntaxLayerLine,
 } from '../../types/syntax-worker-api';
-import {wrapUrl} from '../../utils/worker-util';
+import {createWorker} from '../../utils/worker-util';
 import {Finalizable} from '../registry';
 
 const hljsLibUrl = `${window.STATIC_RESOURCE_PATH}/bower_components/highlightjs/highlight.min.js`;
@@ -50,7 +50,7 @@ export class HighlightService implements Finalizable {
 
   /** Allows tests to produce fake workers. */
   protected createWorker() {
-    return new Worker(wrapUrl(syntaxWorkerUrl));
+    return createWorker(syntaxWorkerUrl);
   }
 
   /** Creates, initializes and then moves a worker to the idle pool. */

@@ -191,6 +191,24 @@
       "message": "add a shadowdom test.",
       "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8a9bf48_23a04caf",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-07T14:36:01Z",
+      "side": 1,
+      "message": "I\u0027ll add it.\nKeeping unresolved for now.",
+      "parentUuid": "c96c7d43_9466ef3b",
+      "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

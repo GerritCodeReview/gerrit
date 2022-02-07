@@ -438,7 +438,9 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), SubmitRequirement.class);
     DynamicSet.setOf(binder(), QuotaEnforcer.class);
     DynamicSet.setOf(binder(), PerformanceLogger.class);
-    DynamicSet.bind(binder(), PerformanceLogger.class).to(PerformanceMetrics.class);
+    if (cfg.getBoolean("tracing", "exportPerformanceMetrics", false)) {
+      DynamicSet.bind(binder(), PerformanceLogger.class).to(PerformanceMetrics.class);
+    }
     DynamicSet.setOf(binder(), RequestListener.class);
     DynamicSet.bind(binder(), RequestListener.class).to(TraceRequestListener.class);
     DynamicSet.setOf(binder(), ChangeETagComputation.class);

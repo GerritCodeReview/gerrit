@@ -647,7 +647,7 @@ public class MergeOp implements AutoCloseable {
             .get(project)
             .addOp(
                 changeId,
-                storeSubmitRequirementsOpFactory.create(cd.submitRequirements().values()));
+                storeSubmitRequirementsOpFactory.create(cd.submitRequirements().values(), cd));
       }
       try {
         submissionExecutor.setAdditionalBatchUpdateListeners(

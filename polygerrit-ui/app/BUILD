@@ -287,5 +287,8 @@ nodejs_test(
         "--rules.no-incompatible-property-type off",
         "--rules.no-incompatible-type-binding off",
         "--rules.no-unknown-attribute error",
+        "--rules.no-missing-element-type-definition warning",
+        "--rules.no-unknown-event warning",
+        "--rules.no-missing-element-type-definition warning",
     ],
 )

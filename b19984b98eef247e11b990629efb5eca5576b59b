@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25900fd3_7ca9bfd5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-07T14:42:36Z",
+      "side": 1,
+      "message": "nit: \"see comment in {@link ChangeNotesParser}\" or \"see comment on {@link ChangeNotesParser}\"",
+      "range": {
+        "startLine": 44,
+        "startChar": 92,
+        "endLine": 45,
+        "endChar": 36
+      },
+      "revId": "b19984b98eef247e11b990629efb5eca5576b59b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "005eab36_0774cc76",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-07T14:42:36Z",
+      "side": 1,
+      "message": "nit: comment in/on ...",
+      "range": {
+        "startLine": 123,
+        "startChar": 83,
+        "endLine": 123,
+        "endChar": 90
+      },
+      "revId": "b19984b98eef247e11b990629efb5eca5576b59b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

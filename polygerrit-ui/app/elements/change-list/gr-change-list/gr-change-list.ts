@@ -112,7 +112,7 @@ export class GrChangeList extends LitElement {
 
   @state() private dynamicHeaderEndpoints?: string[];
 
-  @property({type: Number})
+  @property({type: Number, attribute: 'selected-index'})
   selectedIndex?: number;
 
   @property({type: Boolean})

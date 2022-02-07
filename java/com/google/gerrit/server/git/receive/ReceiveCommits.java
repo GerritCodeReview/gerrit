@@ -2066,15 +2066,7 @@ class ReceiveCommits {
           logger.atFine().log("Creating new change for %s even though it is already tracked", name);
         }
 
-        if (!validator.validCommit(
-            receivePack.getRevWalk().getObjectReader(),
-            magicBranch.cmd,
-            c,
-            magicBranch.merged,
-            messages,
-            rejectCommits,
-            null)) {
-          // Not a change the user can propose? Abort as early as possible.
+        if (!validateCommit(validator, pending, c)) {
           logger.atFine().log("Aborting early due to invalid commit");
           return Collections.emptyList();
         }
@@ -2221,6 +2213,36 @@ class ReceiveCommits {
       reject(magicBranch.cmd, INTERNAL_SERVER_ERROR);
     }
     return newChanges;
+  }
+
+  private boolean validateCommit(
+      BranchCommitValidator validator, LinkedHashMap<RevCommit, ChangeLookup> pending, RevCommit c)
+      throws IOException, OrmException {
+
+    if (!pending.get(c).destChanges.isEmpty()) {
+      for (ChangeData ch : pending.get(c).destChanges) {
+        if (!validator.validCommit(
+            receivePack.getRevWalk().getObjectReader(),
+            magicBranch.cmd,
+            c,
+            magicBranch.merged,
+            messages,
+            rejectCommits,
+            ch.change())) {
+          // Not a change the user can propose? Abort as early as possible.
+          return false;
+        }
+      }
+      return true;
+    }
+    return validator.validCommit(
+        receivePack.getRevWalk().getObjectReader(),
+        magicBranch.cmd,
+        c,
+        magicBranch.merged,
+        messages,
+        rejectCommits,
+        null);
   }
 
   private boolean foundInExistingRef(Collection<Ref> existingRefs) throws OrmException {

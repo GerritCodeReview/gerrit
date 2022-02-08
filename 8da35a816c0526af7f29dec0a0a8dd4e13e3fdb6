@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4647b5e8_2aad92ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-02-08T21:29:22Z",
+      "side": 1,
+      "message": "The number of languages should not have changed.\nFile size of `highlight.min.js` shrinks ~12%.\nI believe this is because our terser does a better job to remove dead-code.\nBut I want to double-check that nothing important is removed.",
+      "parentUuid": "6c59c4aa_2efdd57a",
+      "revId": "8da35a816c0526af7f29dec0a0a8dd4e13e3fdb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e0185b86_365b65a7",
@@ -69,6 +87,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efe0fcb8_31a1ab7a",
+        "filename": "lib/highlightjs/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-02-08T21:29:22Z",
+      "side": 1,
+      "message": "The file list of `polygerrit_ui.zip` does not change with this change.",
+      "parentUuid": "2f9a498e_cb00f294",
+      "revId": "8da35a816c0526af7f29dec0a0a8dd4e13e3fdb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "766c7094_f95e8c8a",
@@ -82,6 +118,30 @@
       "writtenOn": "2022-02-07T14:49:39Z",
       "side": 1,
       "message": "We are keeping the rollup dependency in `@tools_npm`. Try to be consistent with other usages of `rollup_bundle`:\n```\ntools/node_tools/BUILD\ntools/node_tools/node_modules_licenses/BUILD\ntools/node_tools/polygerrit_app_preprocessor/BUILD\ntools/bzl/js.bzl\npolygerrit-ui/app/rules.bzl\n```\nMaybe just using these deps will work?\n```\n\"@tools_npm//rollup\",\n\"@tools_npm//rollup-plugin-node-resolve\",\n```",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "8da35a816c0526af7f29dec0a0a8dd4e13e3fdb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8db1f95c_be9efa06",
+        "filename": "lib/highlightjs/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-02-08T21:29:22Z",
+      "side": 1,
+      "message": "I haven\u0027t managed to build HLJS without plugin-commonjs.\nBut I modified to build with the `rollup-*` instead of `@rollup/*` modules and we don\u0027t actually need the json plugin.\nMaybe we can upgrade to the new modules afterward.",
+      "parentUuid": "766c7094_f95e8c8a",
       "range": {
         "startLine": 23,
         "startChar": 8,
@@ -115,6 +175,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9346612_fa336add",
+        "filename": "package.json",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-02-08T21:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "271c9159_2dfe52d6",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "8da35a816c0526af7f29dec0a0a8dd4e13e3fdb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39e3c4ff_11e20403",
@@ -128,6 +212,24 @@
       "writtenOn": "2022-02-07T14:49:39Z",
       "side": 1,
       "message": "revert, see above",
+      "revId": "8da35a816c0526af7f29dec0a0a8dd4e13e3fdb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6215bc1c_a82d8513",
+        "filename": "yarn.lock",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-02-08T21:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39e3c4ff_11e20403",
       "revId": "8da35a816c0526af7f29dec0a0a8dd4e13e3fdb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

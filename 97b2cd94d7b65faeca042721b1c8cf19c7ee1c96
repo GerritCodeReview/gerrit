@@ -46,6 +46,30 @@
       },
       "revId": "97b2cd94d7b65faeca042721b1c8cf19c7ee1c96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eedfc3c_d55bf39f",
+        "filename": "lib/highlightjs/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-02-08T21:29:22Z",
+      "side": 1,
+      "message": "Ok, thanks for the clarification!",
+      "parentUuid": "584db6d4_97894bb2",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "97b2cd94d7b65faeca042721b1c8cf19c7ee1c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

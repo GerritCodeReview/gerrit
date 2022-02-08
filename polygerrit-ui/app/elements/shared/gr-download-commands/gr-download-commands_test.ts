@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-download-commands';
 import {GrDownloadCommands} from './gr-download-commands';
-import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {isHidden, query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {createPreferences} from '../../../test/test-data-generators';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
@@ -77,13 +77,17 @@ suite('gr-download-commands', () => {
     });
 
     test('element visibility', async () => {
-      assert.isTrue(Boolean(query(element, 'paper-tabs')));
-      assert.isTrue(Boolean(query(element, '.commands')));
+      assert.isFalse(isHidden(queryAndAssert(element, 'paper-tabs')));
+      assert.isFalse(isHidden(queryAndAssert(element, '.commands')));
+      assert.isTrue(Boolean(query(element, '#downloadTabs')));
 
       element.schemes = [];
       await element.updateComplete;
-      assert.isFalse(Boolean(query(element, 'paper-tabs')));
+      assert.isTrue(isHidden(queryAndAssert(element, 'paper-tabs')));
       assert.isFalse(Boolean(query(element, '.commands')));
+      // Should still be present but hidden
+      assert.isTrue(Boolean(query(element, '#downloadTabs')));
+      assert.isTrue(isHidden(queryAndAssert(element, '#downloadTabs')));
     });
 
     test('tab selection', async () => {

@@ -29,7 +29,8 @@ import {queryAndAssert} from '../../../test/test-utils';
 function dispatchMouseEvent(
   type: string,
   xy: {x: number; y: number},
-  node: Element
+  node: Element,
+  modifiers?: {ctrlKey: boolean; shiftKey: boolean}
 ) {
   const props = {
     bubbles: true,
@@ -38,6 +39,8 @@ function dispatchMouseEvent(
     clientX: xy.x,
     clientY: xy.y,
     buttons: 0,
+    ctrlKey: modifiers?.ctrlKey ?? false,
+    shiftKey: modifiers?.shiftKey ?? false,
   };
   node.dispatchEvent(new MouseEvent(type, props));
 }
@@ -295,6 +298,7 @@ suite('token-highlight-layer', () => {
         side: Side.RIGHT,
         element: words1,
         range: {start_line: 1, start_column: 5, end_line: 1, end_column: 9},
+        eventModifiers: {ctrlKey: false, shiftKey: false},
       });
 
       MockInteractions.click(container);
@@ -326,11 +330,60 @@ suite('token-highlight-layer', () => {
         side: Side.RIGHT,
         element: tokenNode,
         range: {start_line: 1, start_column: 3, end_line: 1, end_column: 26},
+        eventModifiers: {ctrlKey: false, shiftKey: false},
       });
 
       MockInteractions.click(container);
       assert.equal(tokenHighlightingCalls.length, 2);
       assert.deepEqual(tokenHighlightingCalls[1].details, undefined);
+    });
+
+    test('triggers with ctrlKey modifier', async () => {
+      const clock = sinon.useFakeTimers();
+      const line1 = createLine('a tokenWithSingleOccurence');
+      annotate(line1);
+      const tokenNode = queryAndAssert(
+        line1,
+        '.tk-text-tokenWithSingleOccurence'
+      );
+      dispatchMouseEvent(
+        'mouseover',
+        MockInteractions.middleOfNode(tokenNode),
+        tokenNode,
+        {ctrlKey: true, shiftKey: false}
+      );
+      clock.tick(HOVER_DELAY_MS);
+      assert.deepEqual(tokenHighlightingCalls[0].details, {
+        token: 'tokenWithSingleOccurence',
+        side: Side.RIGHT,
+        element: tokenNode,
+        range: {start_line: 1, start_column: 3, end_line: 1, end_column: 26},
+        eventModifiers: {ctrlKey: true, shiftKey: false},
+      });
+    });
+
+    test('triggers with shiftKey modifier', async () => {
+      const clock = sinon.useFakeTimers();
+      const line1 = createLine('a tokenWithSingleOccurence');
+      annotate(line1);
+      const tokenNode = queryAndAssert(
+        line1,
+        '.tk-text-tokenWithSingleOccurence'
+      );
+      dispatchMouseEvent(
+        'mouseover',
+        MockInteractions.middleOfNode(tokenNode),
+        tokenNode,
+        {ctrlKey: false, shiftKey: true}
+      );
+      clock.tick(HOVER_DELAY_MS);
+      assert.deepEqual(tokenHighlightingCalls[0].details, {
+        token: 'tokenWithSingleOccurence',
+        side: Side.RIGHT,
+        element: tokenNode,
+        range: {start_line: 1, start_column: 3, end_line: 1, end_column: 26},
+        eventModifiers: {ctrlKey: false, shiftKey: true},
+      });
     });
 
     test('clicking clears highlight', async () => {

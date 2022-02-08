@@ -94,8 +94,6 @@ export class GrEndpointDecorator extends PolymerElement {
     });
   }
 
-  // As of March 2021 the only known plugin that replaces an endpoint instead
-  // of decorating it is codemirror_editor.
   _initReplacement(name: string, plugin: PluginApi): Promise<HTMLElement> {
     // The direct children are slotted into <slot>, so they are identical to
     // this.shadowRoot.querySelector('slot').assignedElements().

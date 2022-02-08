@@ -295,6 +295,7 @@ suite('token-highlight-layer', () => {
         side: Side.RIGHT,
         element: words1,
         range: {start_line: 1, start_column: 5, end_line: 1, end_column: 9},
+        eventModifiers: {ctrlKey: false, shiftKey: false},
       });
 
       MockInteractions.click(container);
@@ -326,6 +327,7 @@ suite('token-highlight-layer', () => {
         side: Side.RIGHT,
         element: tokenNode,
         range: {start_line: 1, start_column: 3, end_line: 1, end_column: 26},
+        eventModifiers: {ctrlKey: false, shiftKey: false},
       });
 
       MockInteractions.click(container);

@@ -219,6 +219,9 @@ export declare interface TokenHighlightEventDetails {
   element: Element;
   side: Side;
   range: TextRange;
+
+  // if modified keys were pressed during event
+  eventModifiers: {ctrlKey: boolean; shiftKey: boolean};
 }
 
 /**

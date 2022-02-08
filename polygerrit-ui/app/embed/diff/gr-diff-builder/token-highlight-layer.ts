@@ -216,7 +216,7 @@ export class TokenHighlightLayer implements DiffLayer {
     this.updateTokenTask = debounce(
       this.updateTokenTask,
       () => {
-        this.updateTokenHighlight(newHighlight, line, element);
+        this.updateTokenHighlight(newHighlight, line, element, e);
       },
       HOVER_DELAY_MS
     );
@@ -231,7 +231,7 @@ export class TokenHighlightLayer implements DiffLayer {
     if (element) return;
     this.hoveredElement = undefined;
     this.updateTokenTask?.cancel();
-    this.updateTokenHighlight(undefined, 0, undefined);
+    this.updateTokenHighlight(undefined, 0, undefined, e);
   }
 
   private interferesWithSelection() {
@@ -269,7 +269,8 @@ export class TokenHighlightLayer implements DiffLayer {
   private updateTokenHighlight(
     newHighlight: string | undefined,
     newLineNumber: number,
-    newHoveredElement: Element | undefined
+    newHoveredElement: Element | undefined,
+    event: MouseEvent
   ) {
     if (
       this.currentHighlight === newHighlight &&
@@ -283,7 +284,8 @@ export class TokenHighlightLayer implements DiffLayer {
     this.triggerTokenHighlightEvent(
       newHighlight,
       newLineNumber,
-      newHoveredElement
+      newHoveredElement,
+      event
     );
     this.notifyForToken(oldHighlight, oldLineNumber);
     this.notifyForToken(newHighlight, newLineNumber);
@@ -292,7 +294,8 @@ export class TokenHighlightLayer implements DiffLayer {
   triggerTokenHighlightEvent(
     token: string | undefined,
     line: number,
-    element: Element | undefined
+    element: Element | undefined,
+    event: MouseEvent
   ) {
     if (!this.tokenHighlightListener) {
       return;
@@ -315,7 +318,17 @@ export class TokenHighlightLayer implements DiffLayer {
       end_line: line,
       end_column: index + token.length, // 1-based inclusive
     };
-    this.tokenHighlightListener({token, element, side, range});
+    const eventModifiers = {
+      ctrlKey: event.ctrlKey,
+      shiftKey: event.shiftKey,
+    };
+    this.tokenHighlightListener({
+      token,
+      element,
+      side,
+      range,
+      eventModifiers,
+    });
   }
 
   getSortedLinesForSide(

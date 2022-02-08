@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a6070b14_c804b454",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-02-08T17:34:23Z",
+      "side": 1,
+      "message": "Also add https://imgur.com/a/fBCxJLl",
+      "revId": "03c2048b1a7b87a5204cf10e6b43653f28b6df2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "75cfe52a_60f56c2b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -32,6 +49,41 @@
       "side": 1,
       "message": "It doesn\u0027t have border because it\u0027s selected. https://imgur.com/a/fBCxJLl",
       "parentUuid": "75cfe52a_60f56c2b",
+      "revId": "03c2048b1a7b87a5204cf10e6b43653f28b6df2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "835eb56b_9e17756b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-02-08T17:34:23Z",
+      "side": 1,
+      "message": "Thank you, then LGTM.",
+      "parentUuid": "d41af976_2e269375",
+      "revId": "03c2048b1a7b87a5204cf10e6b43653f28b6df2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48cbc8c3_67f54cfd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-02-08T17:34:23Z",
+      "side": 1,
+      "message": "LGTM on spacing, aligning the votes and updating the vote chips.",
       "revId": "03c2048b1a7b87a5204cf10e6b43653f28b6df2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -111,7 +111,8 @@ export class GrAccountChip extends LitElement {
           border: 1px solid var(--border-color);
           display: inline-flex;
           padding: 0 1px;
-          --account-label-padding-horizontal: 6px;
+          --account-label-parent-padding-left: 5px;
+          --account-label-parent-padding-right: 5px;
         }
         :host:focus {
           border-color: transparent;
@@ -145,7 +146,7 @@ export class GrAccountChip extends LitElement {
         }
         .container.disliked,
         .container.recommended {
-          --account-label-padding-horizontal: 2px;
+          --account-label-parent-padding-right: 1px;
         }
       `,
     ];

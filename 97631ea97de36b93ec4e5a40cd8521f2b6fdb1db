@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44727f7b_1a810cc3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-08T14:02:02Z",
+      "side": 1,
+      "message": "Should we validate the entire range object? ie. do we also need to check start_character and end_character?\n\nAlso 0 is falsy, will it never be possible that line/character numbers are 0?",
+      "range": {
+        "startLine": 598,
+        "startChar": 0,
+        "endLine": 598,
+        "endChar": 63
+      },
+      "revId": "97631ea97de36b93ec4e5a40cd8521f2b6fdb1db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

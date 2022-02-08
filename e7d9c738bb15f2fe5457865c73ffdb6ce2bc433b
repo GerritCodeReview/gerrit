@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4de6f83_e605d410",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-08T10:45:29Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "c6df0749_babf0eca",
+      "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71a70d7d_e7aa66c2",
@@ -85,6 +103,24 @@
       "side": 1,
       "message": "\u003e merged. This can sometimes result in non-applicable SRs becoming overridden (?). \u003e In this case, we still want to to hide the SR from the API as if it was non-applicable.\n\nRather than adding a boolean field \u0027hidden\u0027, would it be easier to add more statuses to the SR, eg. where we have the OVERRIDDEN/SATISFIED enum today, we could have OVERRIDDEN/SATISFIED/AUDIT_OVERRIDDEN/ ..  ? that seems more direct than first repurposing OVERRIDDEN for our audit mechanism, to only add a \u0027hidden\u0027 field on  top of it.",
       "parentUuid": "b17ce7e5_2ad844ca",
+      "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e4e841_7bdf1840",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-08T10:45:29Z",
+      "side": 1,
+      "message": "+1. That\u0027s much better actually. Thanks Hanwen.",
+      "parentUuid": "5fa0fac1_fa8eb09f",
       "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

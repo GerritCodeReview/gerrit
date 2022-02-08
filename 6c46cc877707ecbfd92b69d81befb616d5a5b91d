@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1034315_e8bbb466",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementJsonSerializerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-08T10:45:29Z",
+      "side": 1,
+      "message": "Thanks for adding these tests!",
+      "revId": "6c46cc877707ecbfd92b69d81befb616d5a5b91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -12,6 +12,11 @@ import {debounce, DelayedTask} from '../../utils/async-util';
 import {hovercardStyles} from '../../styles/gr-hovercard-styles';
 import {sharedStyles} from '../../styles/shared-styles';
 import {DependencyRequestEvent} from '../../models/dependency';
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+import {ShortcutController} from '../../elements/lit/shortcut-controller';
+import {Key} from '../../utils/dom-util';
+import {addShortcut} from '../../utils/dom-util';
+=======
 import {
   addShortcut,
   findActiveElement,
@@ -29,6 +34,7 @@ import {
   ReportingService,
   Timer,
 } from '../../services/gr-reporting/gr-reporting';
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
 
 interface ReloadEventDetail {
   clearPatchset?: boolean;
@@ -139,6 +145,11 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
     isScheduledToHide?: boolean;
 
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+    keyboard: boolean = false;
+
+    private targetCleanups: Array<() => void> = [];
+=======
     openedByKeyboard = false;
 
     reporting: ReportingService = getAppContext().reportingService;
@@ -149,6 +160,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
     /** Called in disconnectedCallback. */
     private cleanups: (() => void)[] = [];
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
 
     static get styles() {
       return [sharedStyles, hovercardStyles];
@@ -159,13 +171,23 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       super(...args);
       // show the hovercard if mouse moves to hovercard
       // this will cancel pending hide as well
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+      this.addEventListener('mouseenter', () => this.show(false));
+=======
       this.addEventListener('mouseenter', this.mouseShow);
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
       // when leave hovercard, hide it immediately
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+      this.addEventListener('mouseleave', () => this.hide(false));
+      const keyboardController = new ShortcutController(this);
+      keyboardController.addGlobal({key: Key.ESC}, () => this.hide());
+=======
       this.addEventListener('mouseleave', this.mouseHide);
       const keyboardController = new ShortcutController(this);
       keyboardController.addGlobal({key: Key.ESC}, (e: KeyboardEvent) =>
         this.hide({keyboardEvent: e})
       );
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
     }
 
     override connectedCallback() {
@@ -218,6 +240,21 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       // trigger the hovercard, which can annoying for the user, for example
       // when added reviewer chips appear in the reply dialog via keyboard
       // interaction.
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+      this._target?.addEventListener('mousemove', this.debounceShow);
+      // this._target?.addEventListener('focus', this.debounceShow);
+      this._target?.addEventListener('mouseleave', this.debounceHide);
+      this._target?.addEventListener('blur', this.debounceHide);
+      this._target?.addEventListener('click', this.mouseClick);
+      if (this._target) {
+        this.targetCleanups.push(
+          addShortcut(this._target, {key: Key.ENTER},
+            (_e: KeyboardEvent) => {this.show(true);})
+        );
+        this.targetCleanups.push(
+          addShortcut(this._target, {key: Key.SPACE},
+            (_e: KeyboardEvent) => {this.show(true);})
+=======
       this._target?.addEventListener('mousemove', this.mouseDebounceShow);
       this._target?.addEventListener('mouseleave', this.mouseDebounceHide);
       this._target?.addEventListener('blur', this.focusDebounceHide);
@@ -232,12 +269,23 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           addShortcut(this._target, {key: Key.SPACE}, (e: KeyboardEvent) => {
             this.show({keyboardEvent: e});
           })
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
         );
       }
       this.addEventListener('request-dependency', this.resolveDep);
     }
 
     private removeTargetEventListeners() {
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+      this._target?.removeEventListener('mousemove', this.debounceShow);
+      // this._target?.removeEventListener('focus', this.debounceShow);
+      this._target?.removeEventListener('mouseleave', this.debounceHide);
+      this._target?.removeEventListener('blur', this.debounceHide);
+      this._target?.removeEventListener('click', this.mouseClick);
+      for (var cleanup of this.targetCleanups) {
+        cleanup();
+      }
+=======
       this._target?.removeEventListener('mousemove', this.mouseDebounceShow);
       this._target?.removeEventListener('mouseleave', this.mouseDebounceHide);
       this._target?.removeEventListener('blur', this.focusDebounceHide);
@@ -246,6 +294,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         cleanup();
       }
       this.targetCleanups = [];
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
       this.removeEventListener('request-dependency', this.resolveDep);
     }
 
@@ -298,7 +347,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       );
     };
 
-    cancelHideTask() {
+    cancelHideTask = () => {
       if (!this.hideTask) return;
       this.hideTask.cancel();
       this.isScheduledToHide = false;
@@ -370,9 +419,26 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       );
     };
 
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+    mouseClick = (e?: MouseEvent) => {
+      if (!this._isShowing) {
+        return;
+      }
+      // If the user is clicking on a link and still hovering over the hovercard
+      // or the user is returning from the hovercard but now hovering over the
+      // target (to stop an annoying flicker effect), just return.
+      if (e &&
+        (e.relatedTarget === this ||
+          (e.target === this && e.relatedTarget === this._target))) {
+        return;
+      }
+      this.hide(false)
+    }
+=======
     readonly forceHide = () => {
       this.hide({keyboardEvent: new KeyboardEvent('enter')});
     };
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
 
     /**
      * Hides/closes the hovercard. This occurs when the user triggers the
@@ -380,12 +446,22 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
      * user is not hovering over the hovercard). If event is not specified
      * in props, code assumes mouseEvent
      */
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+    readonly hide = (keyboard?: boolean) => {
+=======
     readonly hide = (props: MouseKeyboardOrFocusEvent) => {
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
       this.cancelHideTask();
       this.cancelShowTask();
       if (!this._isShowing) {
         return;
       }
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+      if (!keyboard && this.keyboard) return;
+      // Make sure to reset the keyboard variable so new shows will not
+      // assume keyboard is the reason for opening the hovercard.
+      this.keyboard = false;
+=======
       if (!props?.keyboardEvent && this.openedByKeyboard) return;
       // If the user is clicking on a link and still hovering over the hovercard
       // or the user is returning from the hovercard but now hovering over the
@@ -407,6 +483,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       // Make sure to reset the keyboard variable so new shows will not
       // assume keyboard is the reason for opening the hovercard.
       this.openedByKeyboard = false;
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
 
       // Mark that the hovercard is not visible and do not allow focusing
       this._isShowing = false;
@@ -488,10 +565,18 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     /**
      * Shows/opens the hovercard. This occurs when the user triggers the
      * `mousenter` event on the hovercard's `target` element or when a user
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+     * presses enter/space on the hovercard's `target` element.
+=======
      * presses enter/space on the hovercard's `target` element. If event is not
      * specified in props, code assumes mouseEvent
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
      */
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+    readonly show = async (keyboard?: boolean) => {
+=======
     readonly show = async (props: MouseKeyboardOrFocusEvent) => {
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
       this.cancelHideTask();
       this.cancelShowTask();
       // If we are calling show again because of a mouse reason, then keep
@@ -503,6 +588,13 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
       // Mark that the hovercard is now visible
       this._isShowing = true;
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+      // If we are calling show again because of a mouse reason, then keep
+      // the keyboard valuable set.
+      this.keyboard = this.keyboard || (keyboard ?? false);
+      this.setAttribute('tabindex', '0');
+=======
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
 
       // Add it to the DOM and calculate its position
       this.container.appendChild(this);
@@ -634,12 +726,20 @@ export interface HovercardMixinInterface {
   _target: HTMLElement | null;
   _isShowing: boolean;
   dispatchEventThroughTarget(eventName: string, detail?: unknown): void;
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+  show(permanent?: boolean): void;
+  mouseClick(e: MouseEvent): void;
+=======
   show(props: MouseKeyboardOrFocusEvent): Promise<void>;
   forceHide(): void;
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
 
   // Used for tests
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+=======
   mouseHide(e: MouseEvent): void;
   hide(props: MouseKeyboardOrFocusEvent): void;
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
   container: HTMLElement | null;
   hideTask?: DelayedTask;
   showTask?: DelayedTask;

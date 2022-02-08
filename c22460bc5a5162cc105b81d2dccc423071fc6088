@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a57dd725_842803c5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-08T12:36:56Z",
+      "side": 1,
+      "message": "\u003e I think the submit action is computed from SubmittedTogether() not from the ChangeData.\n\nThat\u0027s new to me. Do you have a code pointer where submitted together computes a submit action? SubmittedTogetherInfo doesn\u0027t contain anything like this.",
+      "parentUuid": "9b0ad297_70c35a1a",
+      "revId": "c22460bc5a5162cc105b81d2dccc423071fc6088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9b31498d_ab1164f4",

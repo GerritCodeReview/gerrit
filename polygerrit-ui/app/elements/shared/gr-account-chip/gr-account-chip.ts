@@ -111,7 +111,15 @@ export class GrAccountChip extends LitElement {
           border: 1px solid var(--border-color);
           display: inline-flex;
           padding: 0 1px;
-          --account-label-padding-horizontal: 6px;
+          /* Any outermost circular icon would fit neatly in the border-radius
+             and won't need padding, but the exact outermost elements will
+             depend on account state and the context gr-account-chip is used.
+             So, these values are passed down to gr-account-label and any
+             outermost elements will use the value and then override it. */
+          --account-label-padding-left: 6px;
+          --account-label-padding-right: 3px;
+          --account-label-circle-padding-left: 0;
+          --account-label-circle-padding-right: 0;
         }
         :host:focus {
           border-color: transparent;
@@ -145,7 +153,12 @@ export class GrAccountChip extends LitElement {
         }
         .container.disliked,
         .container.recommended {
-          --account-label-padding-horizontal: 2px;
+          --account-label-padding-right: var(--spacing-xs);
+          --account-label-circle-padding-right: var(--spacing-xs);
+        }
+        .container.closeShown {
+          --account-label-padding-right: 3px;
+          --account-label-circle-padding-right: 3px;
         }
       `,
     ];
@@ -170,7 +183,7 @@ export class GrAccountChip extends LitElement {
           line-height: 10px;
           /* This cancels most of the --account-label-padding-horizontal. */
           margin-left: -4px;
-          padding: 0 2px 0 0;
+          padding: 0 2px 0 1px;
           text-decoration: none;
         }
       </style>
@@ -181,6 +194,7 @@ export class GrAccountChip extends LitElement {
           ...this.computeVoteClasses(),
           container: true,
           transparentBackground: this.transparentBackground,
+          closeShown: this.removable,
         })}"
       >
         <gr-account-link

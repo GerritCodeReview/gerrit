@@ -28,6 +28,7 @@ import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {
   createAccountDetailWithId,
   createChange,
+  createPluginConfig,
   createServerInfo,
 } from '../../../test/test-data-generators';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
@@ -41,34 +42,41 @@ suite('gr-account-label tests', () => {
     name: 'kermit',
   };
 
-  setup(() => {
-    stubRestApi('getAccount').callsFake(() => Promise.resolve(kermit));
-    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-    element = basicFixture.instantiate();
-    element._config = {
+  setup(async () => {
+    stubRestApi('getAccount').resolves(kermit);
+    stubRestApi('getLoggedIn').resolves(false);
+    stubRestApi('getConfig').resolves({
       ...createServerInfo(),
+      plugin: {
+        ...createPluginConfig(),
+        has_avatars: true,
+      },
       user: {
         anonymous_coward_name: 'Anonymous Coward',
       },
-    };
+    });
+    element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
   test('renders', async () => {
     element.account = kermit;
     await element.updateComplete;
     expect(element).shadowDom.to.equal(/* HTML */ `
-      <span>
-        <gr-hovercard-account for="hovercardTarget"> </gr-hovercard-account>
-      </span>
-      <span id="hovercardTarget" tabindex="0">
-        <gr-avatar hidden="" imagesize="32"> </gr-avatar>
-        <span class="text" part="gr-account-label-text">
-          <span class="name"> kermit </span>
-          <gr-endpoint-decorator name="account-status-icon">
+      <div class="container">
+        <gr-hovercard-account for="hovercardTarget"></gr-hovercard-account>
+        <span class="hovercardTargetWrapper" id="hovercardTarget" tabindex="0">
+          <gr-avatar hidden="" imagesize="32"> </gr-avatar>
+          <span class="name" part="gr-account-label-text"> kermit </span>
+          <gr-endpoint-decorator
+            class="accountStatusDecorator"
+            name="account-status-icon"
+          >
             <gr-endpoint-param name="accountId"></gr-endpoint-param>
+            <span class="rightSidePadding"></span>
           </gr-endpoint-decorator>
         </span>
-      </span>
+      </div>
     `);
   });
 

@@ -51,6 +51,24 @@
       "message": "Optional: Can we assert that the index is really stale?\n\nReason for optional: disableChangeINdexWrites() should have been tested somewhere else.",
       "revId": "c22460bc5a5162cc105b81d2dccc423071fc6088",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac8be4d1_03098237",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-08T12:41:18Z",
+      "side": 1,
+      "message": "\u003e Reason for optional: disableChangeINdexWrites() should have been tested somewhere else.\n\nTesting this is outside the scope of this test (e.g. not every test using this method should need to check this).\n\nFWIW I don\u0027t see any test for disableChangeIndexWrites() but testing this functionality is outside the scope of this change.",
+      "parentUuid": "9b31498d_ab1164f4",
+      "revId": "c22460bc5a5162cc105b81d2dccc423071fc6088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

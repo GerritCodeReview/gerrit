@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72b497ff_adce2a53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-02-08T22:19:56Z",
+      "side": 1,
+      "message": "Hey Chris, This is another change in the token highlighting layer. We want the highlighting layer to provide information about the mouse event - if ctrl or shift was pressed (ctrl + hover, for example) as we want to act on it.\n\nBesides, I\u0027m adding a couple of style classes for semantic elements in the diff - still only visible for us as it gets added via an external layer",
+      "revId": "e63f36aead9d31a3efdb9fd0607c2bc528c545a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

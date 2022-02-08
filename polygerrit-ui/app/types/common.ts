@@ -278,7 +278,9 @@ export type ChangeViewChangeInfo = RequireProperties<
   'current_revision' | 'revisions'
 >;
 
-export function isAccount(x: AccountInfo | GroupInfo): x is AccountInfo {
+export function isAccount(
+  x: AccountInfo | GroupInfo | GitPersonInfo
+): x is AccountInfo {
   const account = x as AccountInfo;
   return account._account_id !== undefined || account.email !== undefined;
 }

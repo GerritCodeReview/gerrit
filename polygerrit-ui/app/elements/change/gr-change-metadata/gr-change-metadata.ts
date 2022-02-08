@@ -50,6 +50,8 @@ import {changeIsOpen, isOwner} from '../../../utils/change-util';
 import {customElement, property, observe} from '@polymer/decorators';
 import {
   AccountDetailInfo,
+  AccountInfo,
+  ApprovalInfo,
   BranchName,
   ChangeInfo,
   CommitId,
@@ -57,6 +59,9 @@ import {
   ElementPropertyDeepChange,
   GpgKeyInfo,
   Hashtag,
+  isAccount,
+  isDetailedLabelInfo,
+  LabelInfo,
   LabelNameToInfoMap,
   NumericChangeId,
   ParentCommitInfo,
@@ -87,7 +92,11 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {Interaction} from '../../../constants/reporting';
-import {showNewSubmitRequirements} from '../../../utils/label-util';
+import {
+  getApprovalInfo,
+  getCodeReviewLabel,
+  showNewSubmitRequirements,
+} from '../../../utils/label-util';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -730,6 +739,29 @@ export class GrChangeMetadata extends PolymerElement {
 
   _showNewSubmitRequirements(change?: ParsedChangeInfo) {
     return showNewSubmitRequirements(this.flagsService, change);
+  }
+
+  _computeVoteForRole(role?: ChangeRole, change?: ParsedChangeInfo) {
+    const reviewer = this._getNonOwnerRole(change, role);
+    if (reviewer && isAccount(reviewer)) {
+      return this._computeVote(reviewer, change);
+    } else {
+      return;
+    }
+  }
+
+  _computeVote(
+    reviewer: AccountInfo,
+    change?: ParsedChangeInfo
+  ): ApprovalInfo | undefined {
+    const codeReviewLabel = this._computeCodeReviewLabel(change);
+    if (!codeReviewLabel || !isDetailedLabelInfo(codeReviewLabel)) return;
+    return getApprovalInfo(codeReviewLabel, reviewer);
+  }
+
+  _computeCodeReviewLabel(change?: ParsedChangeInfo): LabelInfo | undefined {
+    if (!change || !change.labels) return;
+    return getCodeReviewLabel(change.labels);
   }
 }
 

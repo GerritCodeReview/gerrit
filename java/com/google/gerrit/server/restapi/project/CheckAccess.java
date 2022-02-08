@@ -87,12 +87,10 @@ public class CheckAccess implements RestReadView<ProjectResource> {
 
       Account.Id match = accountResolver.resolve(input.account).asUnique().account().id();
 
-      try {
-        permissionBackend
-            .absentUser(match)
-            .project(rsrc.getNameKey())
-            .check(ProjectPermission.ACCESS);
-      } catch (AuthException e) {
+      if (permissionBackend
+          .absentUser(match)
+          .project(rsrc.getNameKey())
+          .test(ProjectPermission.ACCESS)) {
         return Response.ok(
             createInfo(
                 HttpServletResponse.SC_FORBIDDEN,

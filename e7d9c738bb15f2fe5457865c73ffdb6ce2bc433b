@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6df0749_babf0eca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-08T09:56:05Z",
+      "side": 1,
+      "message": "Thank you for taking a look! I agree, but I also couldn\u0027t come up with the best alternative.\n\nYes, this is desired, I think there is no need to return the hidden results from the API.",
+      "parentUuid": "46c52c6f_7d951ceb",
+      "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71a70d7d_e7aa66c2",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-08T08:57:00Z",
       "side": 1,
       "message": "I\u0027d prefer we clearly document why this is needed. i.e. append the following\n\nWhen changes get merged submit requirement results are stored in NoteDb. {@link OnStoreSubmitRequirementResultModifier} can modify the status of SRs before the change is merged. This can sometimes result in non-applicable SRs becoming overridden (?). In this case, we still want to to hide the SR from the API as if it was non-applicable.",
+      "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b17ce7e5_2ad844ca",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-08T09:56:05Z",
+      "side": 1,
+      "message": "I added the line that this can be used by OnStoreSubmitRequirementResultModifier.\n\nAlso clarified this is to hide the result from the API vs just hidden by the frontend.",
+      "parentUuid": "71a70d7d_e7aa66c2",
       "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

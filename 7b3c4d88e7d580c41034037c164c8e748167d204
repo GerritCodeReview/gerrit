@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f73d3c3c_c17e0f99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-08T12:11:04Z",
+      "side": 1,
+      "message": "Can we exempt gson from LC? Or we need it because it\u0027s not official Google product?",
+      "revId": "7b3c4d88e7d580c41034037c164c8e748167d204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

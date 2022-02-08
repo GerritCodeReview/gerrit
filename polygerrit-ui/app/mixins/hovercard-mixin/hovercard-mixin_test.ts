@@ -58,9 +58,14 @@ suite('gr-hovercard tests', () => {
   });
 
   teardown(() => {
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+    element.mouseClick(new MouseEvent('click'));
+    button?.remove();
+=======
     pressKey(element, Key.ESC);
     element.mouseHide(new MouseEvent('click'));
     if (button) button.remove();
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
   });
 
   test('updatePosition', async () => {
@@ -94,7 +99,11 @@ suite('gr-hovercard tests', () => {
   });
 
   test('hide', () => {
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+    element.mouseClick(new MouseEvent('click'));
+=======
     element.mouseHide(new MouseEvent('click'));
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
     const style = getComputedStyle(element);
     assert.isFalse(element._isShowing);
     assert.isFalse(element.classList.contains('hovered'));

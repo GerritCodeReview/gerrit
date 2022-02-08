@@ -185,12 +185,23 @@ export class GrSubmitRequirements extends LitElement {
           )}`;
   }
 
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+  renderRequirement(requirement: SubmitRequirementResultInfo, index: number) {
+    return html`
+      <tr
+        id="requirement-${index}-${charsOnly(requirement.name)}"
+        role="button"
+        tabindex="0"
+      >
+        <td>${this.renderStatus(requirement.status)}</td>
+=======
   private renderRequirement(
     requirement: SubmitRequirementResultInfo,
     index: number
   ) {
     const row = html`
      <td>${this.renderStatus(requirement)}</td>
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
         <td class="name">
           <gr-limited-text
             class="name"

@@ -11,6 +11,7 @@ import {
   isInit,
 } from '../types/syntax-worker-api';
 import {highlightedStringToRanges} from '../utils/syntax-util';
+import {importScript} from '../utils/worker-util';
 
 // This is an entry point file of a bundle. Keep free of exports!
 
@@ -33,8 +34,7 @@ import {highlightedStringToRanges} from '../utils/syntax-util';
  * Once imported the HighlightJS lib exposes its functionality via the global
  * `hljs` variable.
  */
-type Context = Worker & {hljs?: HighlightJS};
-const ctx: Context = self as unknown as Context;
+const ctx = self as DedicatedWorkerGlobalScope & {hljs?: HighlightJS};
 
 /**
  * We are encapsulating the web worker API here, so this is the only place
@@ -49,7 +49,7 @@ ctx.onmessage = function (e: MessageEvent<SyntaxWorkerMessage>) {
       ctx.postMessage(result);
     }
     if (isRequest(message)) {
-      const ranges = worker.highlight(message.language, message.code);
+      const ranges = worker.highlightCode(message.language, message.code);
       const result: SyntaxWorkerResult = {ranges};
       ctx.postMessage(result);
     }
@@ -65,7 +65,7 @@ class SyntaxWorker {
   private highlightJsLib?: HighlightJS;
 
   init(highlightJsLibUrl: string) {
-    importScripts(highlightJsLibUrl);
+    importScript(ctx, highlightJsLibUrl);
     if (!ctx.hljs) {
       throw new Error('HighlightJS lib not available after import');
     }
@@ -73,10 +73,10 @@ class SyntaxWorker {
     this.highlightJsLib.configure({classPrefix: ''});
   }
 
-  highlight(language: string, code: string) {
+  highlightCode(language: string, code: string) {
     if (!this.highlightJsLib) throw new Error('worker not initialized');
-    const highlight = this.highlightJsLib.highlight(language, code, true);
-    return highlightedStringToRanges(highlight.value);
+    const highlighted = this.highlightJsLib.highlight(language, code, true);
+    return highlightedStringToRanges(highlighted.value);
   }
 }
 

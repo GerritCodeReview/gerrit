@@ -42,6 +42,14 @@
 
     "allowUmdGlobalAccess": true,
 
+    /* We cannot just use the defaults, because of "webworker". */
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2019",
+      "webworker"
+    ],
+
     /* typeRoots for IDE (see tsconfig_bazel.json for Bazel) */
     "typeRoots": [
       "node_modules/@types",

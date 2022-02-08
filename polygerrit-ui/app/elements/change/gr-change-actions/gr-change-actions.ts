@@ -1591,6 +1591,7 @@ export class GrChangeActions
     });
   }
 
+  // HERE HERE
   // TODO(rmistry): Redo this after
   // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
   _setReviewOnRevert(newChangeId: NumericChangeId) {

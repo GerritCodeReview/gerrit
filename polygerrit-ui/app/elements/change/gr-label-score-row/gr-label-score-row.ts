@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import '@polymer/iron-selector/iron-selector';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-button/gr-button';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, nothing, LitElement} from 'lit';
@@ -27,6 +28,7 @@ import {
   QuickLabelInfo,
   DetailedLabelInfo,
 } from '../../../types/common';
+import {getAppContext} from '../../../services/app-context';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 
 export interface Label {
@@ -72,6 +74,9 @@ export class GrLabelScoreRow extends LitElement {
   @property({type: Object})
   labelValues?: LabelValuesMap;
 
+  // Accessed in tests?
+  readonly jsAPI = getAppContext().jsApiService;
+
   @state()
   private selectedValueText = 'No value selected';
 
@@ -84,6 +89,9 @@ export class GrLabelScoreRow extends LitElement {
         .selectedValueCell {
           padding: var(--spacing-s) var(--spacing-m);
           display: table-cell;
+        }
+        gr-endpoint-decorator {
+          display: contents;
         }
         /* We want the :hover highlight to extend to the border of the dialog. */
         .labelNameCell {
@@ -168,7 +176,15 @@ export class GrLabelScoreRow extends LitElement {
     ];
   }
 
+  private customLabelValues = '';
+
   override render() {
+    // HERE HERE HERE
+    console.log("HERE IN RENDER");
+    this.customLabelValues = this.jsAPI.getReviewLabelValue(this.name);
+    console.log("GOT THIS CUSTOM LABEL VALUES");
+    console.log(this.customLabelValues);
+
     return html`
       <span class="labelNameCell" id="labelName" aria-hidden="true"
         >${this.label?.name ?? ''}</span
@@ -203,22 +219,26 @@ export class GrLabelScoreRow extends LitElement {
 
   private renderLabelSelector() {
     return html`
-      <iron-selector
-        id="labelSelector"
-        .attrForSelected=${'data-value'}
-        ?hidden="${!this._computeAnyPermittedLabelValues()}"
-        selected="${ifDefined(this._computeLabelValue())}"
-        @selected-item-changed=${this.setSelectedValueText}
-        role="radiogroup"
-        aria-labelledby="labelName"
-      >
-        ${this.renderPermittedLabels()}
-      </iron-selector>
+      <gr-endpoint-decorator name="label-selector-${this.label?.name ?? ''}">
+        <iron-selector
+          id="labelSelector"
+          .attrForSelected=${'data-value'}
+          ?hidden="${!this._computeAnyPermittedLabelValues()}"
+          selected="${ifDefined(this._computeLabelValue())}"
+          @selected-item-changed=${this.setSelectedValueText}
+          role="radiogroup"
+          aria-labelledby="labelName"
+        >
+          ${this.renderPermittedLabels()}
+        </iron-selector>
+      </gr-endpoint-decorator>
     `;
   }
 
   private renderPermittedLabels() {
     const items = this.computePermittedLabelValues();
+    // HERE HERE HERE
+    // This is where things would be intercepted.
     return items.map(
       (value, index) => html`
         <gr-button
@@ -240,11 +260,18 @@ export class GrLabelScoreRow extends LitElement {
             light-tooltip
             title="${ifDefined(this.computeLabelValueTitle(value))}"
           >
-            ${value}
+            ${this.computeDisplayValue(value)}
           </gr-tooltip-content>
         </gr-button>
       `
     );
+  }
+
+  private computeDisplayValue(defaultValue: string): string {
+    if (this.customLabelValues === "") {
+      return defaultValue;
+    }
+    return this.customLabelValues;
   }
 
   private renderSelectedValue() {

@@ -60,7 +60,7 @@ suite('gr-hovercard tests', () => {
   });
 
   teardown(() => {
-    element.hide(new MouseEvent('click'));
+    element.mouseClick(new MouseEvent('click'));
     button?.remove();
   });
 
@@ -94,8 +94,8 @@ suite('gr-hovercard tests', () => {
     );
   });
 
-  test('hide', () => {
-    element.hide(new MouseEvent('click'));
+  test('mouse hide', () => {
+    element.mouseClick(new MouseEvent('click'));
     const style = getComputedStyle(element);
     assert.isFalse(element._isShowing);
     assert.isFalse(element.classList.contains('hovered'));
@@ -103,8 +103,8 @@ suite('gr-hovercard tests', () => {
     assert.notEqual(element.container, element.parentNode);
   });
 
-  test('show', async () => {
-    await element.show();
+  test('mouse show', async () => {
+    await element.show(false);
     await element.updateComplete;
     const style = getComputedStyle(element);
     assert.isTrue(element._isShowing);

@@ -98,7 +98,6 @@ public class CheckAccess implements RestReadView<ProjectResource> {
                 HttpServletResponse.SC_FORBIDDEN,
                 String.format("user %s cannot see project %s", match, rsrc.getName())));
       }
-
       RefPermission refPerm;
       if (!Strings.isNullOrEmpty(input.permission)) {
         if (Strings.isNullOrEmpty(input.ref)) {

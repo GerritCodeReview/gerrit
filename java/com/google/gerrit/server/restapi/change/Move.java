@@ -141,12 +141,9 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     // discussion in
     // https://gerrit-review.googlesource.com/c/gerrit/+/129171
     // Only administrators are allowed to keep all labels at their own risk.
-    try {
-      if (input.keepAllVotes) {
-        permissionBackend.user(caller).check(GlobalPermission.ADMINISTRATE_SERVER);
-      }
-    } catch (AuthException denied) {
-      throw new AuthException("move is not permitted with keepAllVotes option", denied);
+    if (input.keepAllVotes
+        && !permissionBackend.user(caller).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+      throw new AuthException("move is not permitted with keepAllVotes option");
     }
 
     // Move requires abandoning this change, and creating a new change.

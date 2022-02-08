@@ -26,7 +26,6 @@ import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
@@ -290,10 +289,7 @@ public class AsyncReceiveCommits {
     receivePack.setPreReceiveHook(asHook());
     receivePack.setPostReceiveHook(lazyPostReceive.create(user, projectName));
 
-    try {
-      projectState.checkStatePermitsRead();
-      this.perm.check(ProjectPermission.READ);
-    } catch (AuthException | ResourceConflictException e) {
+    if (!projectState.statePermitsRead() || !this.perm.test(ProjectPermission.READ)) {
       receivePack.setCheckReferencedObjectsAreReachable(
           receiveConfig.checkReferencedObjectsAreReachable);
     }

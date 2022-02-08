@@ -310,10 +310,8 @@ public class CreateChange
       Project.NameKey project, String refName, @Nullable AccountInput author)
       throws ResourceNotFoundException, AuthException, PermissionBackendException {
     PermissionBackend.ForRef forRef = permissionBackend.currentUser().project(project).ref(refName);
-    try {
-      forRef.check(RefPermission.READ);
-    } catch (AuthException e) {
-      throw new ResourceNotFoundException(String.format("ref %s not found", refName), e);
+    if (!forRef.test(RefPermission.READ)) {
+      throw new ResourceNotFoundException(String.format("ref %s not found", refName));
     }
     forRef.check(RefPermission.CREATE_CHANGE);
     if (author != null) {

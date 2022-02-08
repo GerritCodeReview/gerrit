@@ -16,6 +16,29 @@
       "message": "I think this is good to go. I can send an email to repo-discuss@ once merged to give a heads-up.",
       "revId": "c098451d57c0593c1efa25cb497dbc252f740220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38e68dd7_c025c1d3",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-08T12:03:20Z",
+      "side": 1,
+      "message": "nit:mentioning\n\nDone.",
+      "range": {
+        "startLine": 107,
+        "startChar": 135,
+        "endLine": 107,
+        "endChar": 144
+      },
+      "revId": "c098451d57c0593c1efa25cb497dbc252f740220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

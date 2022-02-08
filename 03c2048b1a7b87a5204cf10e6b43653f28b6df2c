@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75cfe52a_60f56c2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-02-08T11:17:40Z",
+      "side": 1,
+      "message": "\"0\" vote chip should also have a border per the specs. ",
+      "revId": "03c2048b1a7b87a5204cf10e6b43653f28b6df2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,7 @@ import {
   createCommit,
   createDownloadInfo,
   createRevision,
+  createRevisions,
 } from '../../../test/test-data-generators';
 import {
   CommitId,
@@ -29,10 +30,8 @@ import {
   PatchSetNum,
   RepoName,
 } from '../../../types/common';
-import './gr-download-dialog';
 import {GrDownloadDialog} from './gr-download-dialog';
-import {mockPromise, queryAll, queryAndAssert} from '../../../test/test-utils';
-import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
+import {mockPromise} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-download-dialog');
 
@@ -104,43 +103,37 @@ function getChangeObject() {
   };
 }
 
+function getChangeObjectNoFetch() {
+  return {
+    ...createChange(),
+    current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72' as CommitId,
+    revisions: createRevisions(1),
+  };
+}
+
 suite('gr-download-dialog', () => {
   let element: GrDownloadDialog;
 
-  setup(async () => {
+  setup(() => {
     element = basicFixture.instantiate();
     element.patchNum = 1 as PatchSetNum;
     element.config = createDownloadInfo();
-    await element.updateComplete;
+    flush();
   });
 
   test('anchors use download attribute', () => {
-    const anchors = Array.from(queryAll(element, 'a'));
+    const anchors = Array.from(element.root!.querySelectorAll('a'));
     assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));
   });
 
   suite('gr-download-dialog tests with no fetch options', () => {
-    setup(async () => {
-      element.change = {
-        ...createChange(),
-        revisions: {
-          r1: {
-            ...createRevision(),
-            commit: {
-              ...createCommit(),
-              parents: [{commit: 'p1' as CommitId, subject: 'subject1'}],
-            },
-          },
-        },
-      };
-      await element.updateComplete;
+    setup(() => {
+      element.change = getChangeObjectNoFetch();
+      flush();
     });
 
     test('focuses on first download link if no copy links', () => {
-      const focusStub = sinon.stub(
-        queryAndAssert<HTMLAnchorElement>(element, '#download'),
-        'focus'
-      );
+      const focusStub = sinon.stub(element.$.download, 'focus');
       element.focus();
       assert.isTrue(focusStub.called);
       focusStub.restore();
@@ -148,31 +141,30 @@ suite('gr-download-dialog', () => {
   });
 
   suite('gr-download-dialog with fetch options', () => {
-    setup(async () => {
+    setup(() => {
       element.change = getChangeObject();
-      await element.updateComplete;
+      flush();
     });
 
-    test('focuses on first copy link', async () => {
-      const focusStub = sinon.stub(
-        queryAndAssert<GrDownloadCommands>(element, '#downloadCommands'),
-        'focusOnCopy'
-      );
+    test('focuses on first copy link', () => {
+      const focusStub = sinon.stub(element.$.downloadCommands, 'focusOnCopy');
       element.focus();
-      await element.updateComplete;
+      flush();
       assert.isTrue(focusStub.called);
       focusStub.restore();
     });
 
     test('computed fields', () => {
-      element.change = {
-        ...createChange(),
-        project: 'test/project' as RepoName,
-        _number: 123 as NumericChangeId,
-      };
-      element.patchNum = 2 as PatchSetNum;
       assert.equal(
-        element.computeArchiveDownloadLink('tgz'),
+        element._computeArchiveDownloadLink(
+          {
+            ...createChange(),
+            project: 'test/project' as RepoName,
+            _number: 123 as NumericChangeId,
+          },
+          2 as PatchSetNum,
+          'tgz'
+        ),
         '/changes/test%2Fproject~123/revisions/2/archive?format=tgz'
       );
     });
@@ -182,8 +174,7 @@ suite('gr-download-dialog', () => {
       element.addEventListener('close', () => {
         closeCalled.resolve();
       });
-      const closeButton = queryAndAssert(
-        element,
+      const closeButton = element.shadowRoot!.querySelector(
         '.closeButtonContainer gr-button'
       );
       tap(closeButton!);
@@ -191,18 +182,23 @@ suite('gr-download-dialog', () => {
     });
   });
 
-  test('computeHidePatchFile', () => {
-    element.patchNum = 1 as PatchSetNum;
+  test('_computeShowDownloadCommands', () => {
+    assert.equal(element._computeShowDownloadCommands([]), 'hidden');
+    assert.equal(element._computeShowDownloadCommands(['test']), '');
+  });
 
-    element.change = {
+  test('_computeHidePatchFile', () => {
+    const patchNum = 1 as PatchSetNum;
+
+    const changeWithNoParent = {
       ...createChange(),
       revisions: {
         r1: {...createRevision(), commit: createCommit()},
       },
     };
-    assert.isTrue(element.computeHidePatchFile());
+    assert.isTrue(element._computeHidePatchFile(changeWithNoParent, patchNum));
 
-    element.change = {
+    const changeWithOneParent = {
       ...createChange(),
       revisions: {
         r1: {
@@ -214,9 +210,11 @@ suite('gr-download-dialog', () => {
         },
       },
     };
-    assert.isFalse(element.computeHidePatchFile());
+    assert.isFalse(
+      element._computeHidePatchFile(changeWithOneParent, patchNum)
+    );
 
-    element.change = {
+    const changeWithMultipleParents = {
       ...createChange(),
       revisions: {
         r1: {
@@ -231,6 +229,8 @@ suite('gr-download-dialog', () => {
         },
       },
     };
-    assert.isTrue(element.computeHidePatchFile());
+    assert.isTrue(
+      element._computeHidePatchFile(changeWithMultipleParents, patchNum)
+    );
   });
 });

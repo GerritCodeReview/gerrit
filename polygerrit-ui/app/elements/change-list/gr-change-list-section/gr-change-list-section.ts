@@ -97,7 +97,8 @@ export class GrChangeListSection extends LitElement {
   }
 
   override render() {
-    if (!this.changeSection || this.sectionIndex === undefined) return;
+    if (!this.changeSection || this.sectionIndex === undefined)
+      return html`<tbody></tbody>`;
     const columns = this.computeColumns();
     const colSpan = this.computeColspan(columns);
     return html`

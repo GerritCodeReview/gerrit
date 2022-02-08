@@ -162,16 +162,79 @@ suite('gr-change-list sections', () => {
   });
 });
 
-suite('gr-change-list-section basic tests', () => {
+suite('shadow dom test', () => {
   let element: GrChangeListSection;
+  let table: HTMLTableElement;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    table = document.createElement('table');
+    element = basicFixture.instantiate() as any;
     element.account = createAccountDetailWithId(1);
     element.config = createServerInfo();
     element.visibleChangeTableColumns = columnNames;
     element.sectionIndex = 0;
     element.selectedIndex = 0;
+    element.changeSection = {results: [{...createChange()}], name: 'a'};
+    await element.updateComplete;
+    // element needs to be wrapped inside a table to get proper dom testing
+    // table and tbody element cannot be separated by shadowDom so
+    // table.appendChild(element) does not work
+    table.appendChild(element.shadowRoot!);
+  });
+
+  test('renders', () => {
+    expect(table).dom.to.equal(/* HTML */ `
+      <gr-change-list-item aria-label="Test subject, section: a" selected="">
+      </gr-change-list-item>
+      <table>
+        <tbody>
+          <tr class="groupHeader">
+            <td aria-hidden="true" class="leftPadding"></td>
+            <td aria-hidden="true" class="star" hidden=""></td>
+            <td class="cell" colspan="13">
+              <h2 class="heading-3">
+                <a class="section-title" href="">
+                  <span class="section-name"> a </span>
+                  <span class="section-count-label"> </span>
+                </a>
+              </h2>
+            </td>
+          </tr>
+        </tbody>
+        <tbody class="groupContent">
+          <tr class="groupTitle">
+            <td aria-hidden="true" class="leftPadding"></td>
+            <td aria-label="Star status column" class="star" hidden=""></td>
+            <td class="number" hidden="">#</td>
+            <td class="subject">Subject</td>
+            <td class="status">Status</td>
+            <td class="owner">Owner</td>
+            <td class="reviewers">Reviewers</td>
+            <td class="comments">Comments</td>
+            <td class="repo">Repo</td>
+            <td class="branch">Branch</td>
+            <td class="updated">Updated</td>
+            <td class="size">Size</td>
+            <td class="status">Status</td>
+          </tr>
+        </tbody>
+      </table>
+    `);
+  });
+});
+
+suite('gr-change-list-section basic tests', () => {
+  let element: GrChangeListSection;
+
+  setup(async () => {
+    element = basicFixture.instantiate() as any;
+    element.account = createAccountDetailWithId(1);
+    element.config = createServerInfo();
+    element.visibleChangeTableColumns = columnNames;
+    element.sectionIndex = 0;
+    element.selectedIndex = 0;
+    element.changeSection = {results: [{...createChange()}], name: 'a'};
+    await element.updateComplete;
   });
 
   test('colspans', async () => {

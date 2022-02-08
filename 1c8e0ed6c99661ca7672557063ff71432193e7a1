@@ -16,6 +16,24 @@
       "message": "can you add a test that we always render something even in the empty case? This is surprising constraint on this element so should have coverage to prevent another regression.",
       "revId": "1c8e0ed6c99661ca7672557063ff71432193e7a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a7748ea_2b0f8360",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-08T15:29:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c22beb5_2eca905a",
+      "revId": "1c8e0ed6c99661ca7672557063ff71432193e7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

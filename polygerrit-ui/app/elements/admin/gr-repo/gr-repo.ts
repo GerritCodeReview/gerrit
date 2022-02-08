@@ -246,10 +246,7 @@ export class GrRepo extends LitElement {
             )}
             .schemes=${this.schemes}
             .selectedScheme=${this.selectedScheme}
-            @selected-scheme-changed=${(e: BindValueChangeEvent) => {
-              if (this.loading) return;
-              this.selectedScheme = e.detail.value;
-            }}
+            @selected-scheme-changed=${this.handleSelectedSchemeValueChanged}
           ></gr-download-commands>
         </fieldset>
       </div>
@@ -1124,7 +1121,12 @@ export class GrRepo extends LitElement {
     }
   }
 
-  private handleDescriptionTextChanged(e: BindValueChangeEvent) {
+  private handleSelectedSchemeValueChanged(e: CustomEvent) {
+    if (this.loading) return;
+    this.selectedScheme = e.detail.value;
+  }
+
+  private handleDescriptionTextChanged(e: CustomEvent) {
     if (!this.repoConfig || this.loading) return;
     this.repoConfig = {
       ...this.repoConfig,

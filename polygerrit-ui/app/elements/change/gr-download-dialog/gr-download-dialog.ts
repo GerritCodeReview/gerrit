@@ -28,8 +28,8 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
 import {assertIsDefined} from '../../../utils/common-util';
-import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {BindValueChangeEvent} from '../../../types/events';
+import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 
 @customElement('gr-download-dialog')
 export class GrDownloadDialog extends LitElement {

@@ -71,53 +71,49 @@ suite('gr-submit-requirements tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<h3
-      class="heading-3 metadata-title"
-      id="submit-requirements-caption"
-    >
-      Submit Requirements
-    </h3>
-    <table
-      aria-labelledby="submit-requirements-caption"
-      class="requirements"
-    >
-      <thead hidden="">
-        <tr>
-          <th>Status</th>
-          <th>Name</th>
-          <th>Votes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr id="requirement-0-Verified">
-          <td>
-            <iron-icon
-              aria-label="satisfied"
-              class="check-circle-filled"
-              icon="gr-icons:check-circle-filled"
-              role="img"
-            >
-            </iron-icon>
-          </td>
-          <td class="name">
-            <gr-limited-text class="name" limit="25"></gr-limited-text>
-          </td>
-          <td>
-            <gr-endpoint-decorator
-              class="votes-cell"
-              name="submit-requirement-verified"
-            >
-              <gr-endpoint-param name="change"></gr-endpoint-param>
-              <gr-endpoint-param name="requirement"></gr-endpoint-param>
-              <gr-vote-chip></gr-vote-chip>
-            </gr-endpoint-decorator>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <gr-submit-requirement-hovercard for="requirement-0-Verified">
-    </gr-submit-requirement-hovercard>
-  `);
+    expect(element).shadowDom.to.equal(/* HTML */ `<h3
+        class="heading-3 metadata-title"
+        id="submit-requirements-caption"
+      >
+        Submit Requirements
+      </h3>
+      <table aria-labelledby="submit-requirements-caption" class="requirements">
+        <thead hidden="">
+          <tr>
+            <th>Status</th>
+            <th>Name</th>
+            <th>Votes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="requirement-0-Verified">
+            <td>
+              <iron-icon
+                aria-label="satisfied"
+                class="check-circle-filled"
+                icon="gr-icons:check-circle-filled"
+                role="img"
+              >
+              </iron-icon>
+            </td>
+            <td class="name">
+              <gr-limited-text class="name" limit="25"></gr-limited-text>
+            </td>
+            <td>
+              <gr-endpoint-decorator
+                class="votes-cell"
+                name="submit-requirement-verified"
+              >
+                <gr-endpoint-param name="change"></gr-endpoint-param>
+                <gr-endpoint-param name="requirement"></gr-endpoint-param>
+                <gr-vote-chip></gr-vote-chip>
+              </gr-endpoint-decorator>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <gr-submit-requirement-hovercard for="requirement-0-Verified">
+      </gr-submit-requirement-hovercard> `);
   });
 
   test('calculateEndpointName()', () => {

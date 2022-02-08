@@ -139,6 +139,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "541b0201_1e09d918",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-08T11:48:33Z",
+      "side": 1,
+      "message": "spam",
+      "parentUuid": "396d3586_ba1df59c",
+      "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08c6034a_e24de212",
@@ -200,6 +218,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "3399443e_e0bc126b",
+      "range": {
+        "startLine": 109,
+        "startChar": 24,
+        "endLine": 109,
+        "endChar": 31
+      },
+      "revId": "f1b3457cc3ac3bd40a0c7abb439a0bd812eaa9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b705e422_ec066924",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-08T11:48:33Z",
+      "side": 1,
+      "message": "Added a new \u0027hasfooter\u0027 predicate and used that here.",
+      "parentUuid": "3f705d64_91475a94",
       "range": {
         "startLine": 109,
         "startChar": 24,

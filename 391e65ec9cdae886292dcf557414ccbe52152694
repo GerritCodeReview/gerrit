@@ -86,6 +86,75 @@
       "message": "Marija, do you have cycles to review this change?",
       "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da6a3321_2a368cc5",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-08T16:53:13Z",
+      "side": 1,
+      "message": "nit: Could you, please, add a javadoc, explaining that adding the recipient will bypass EmailStrategy.ATTENTION_SET_ONLY strategy.",
+      "range": {
+        "startLine": 404,
+        "startChar": 2,
+        "endLine": 404,
+        "endChar": 62
+      },
+      "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34485fe4_198bddbf",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-08T16:53:13Z",
+      "side": 1,
+      "message": "nit: move this to the end of arguments list and add a naming comment /* isWatcher\u003d */",
+      "range": {
+        "startLine": 405,
+        "startChar": 8,
+        "endLine": 405,
+        "endChar": 12
+      },
+      "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b961f55_19508c72",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-08T16:53:13Z",
+      "side": 1,
+      "message": "nit: could you, please, rename the method action_expectedResult, eg.\n\noutsideAttentionSet_watchProjectEmailReceived",
+      "range": {
+        "startLine": 1471,
+        "startChar": 14,
+        "endLine": 1471,
+        "endChar": 45
+      },
+      "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

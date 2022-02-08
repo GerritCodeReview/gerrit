@@ -23,6 +23,7 @@ import {debounce, DelayedTask} from '../../utils/async-util';
 import {hovercardStyles} from '../../styles/gr-hovercard-styles';
 import {sharedStyles} from '../../styles/shared-styles';
 import {DependencyRequestEvent} from '../../models/dependency';
+import {handleSpaceOrEnter} from '../../utils/dom-util';
 
 interface ReloadEventDetail {
   clearPatchset?: boolean;
@@ -166,16 +167,22 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       // when added reviewer chips appear in the reply dialog via keyboard
       // interaction.
       this._target?.addEventListener('mousemove', this.debounceShow);
-      this._target?.addEventListener('focus', this.debounceShow);
+      // this._target?.addEventListener('focus', this.debounceShow);
       this._target?.addEventListener('mouseleave', this.debounceHide);
       this._target?.addEventListener('blur', this.debounceHide);
       this._target?.addEventListener('click', this.hide);
+      if (this._target) {
+        this._target.onkeydown = (e: KeyboardEvent) =>
+          handleSpaceOrEnter(e, this.debounceShow);
+      }
+      // (e: KeyboardEvent) =>
+      //   handleSpaceOrEnter(e, this.debounceShow);
       this.addEventListener('request-dependency', this.resolveDep);
     }
 
     private removeTargetEventListeners() {
       this._target?.removeEventListener('mousemove', this.debounceShow);
-      this._target?.removeEventListener('focus', this.debounceShow);
+      // this._target?.removeEventListener('focus', this.debounceShow);
       this._target?.removeEventListener('mouseleave', this.debounceHide);
       this._target?.removeEventListener('blur', this.debounceHide);
       this._target?.removeEventListener('click', this.hide);

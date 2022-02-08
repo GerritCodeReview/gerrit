@@ -378,6 +378,12 @@ months after the branch was cut. This should happen on the master branch to ensu
 that they are vetted long enough before they go into a release and we can be sure
 that the update doesn't introduce a regression.
 
+[[escalation-channel-to-google]]
+== Escalation channel to Google
+
+If anything urgent is blocking that requires the attention of a Googler you may
+escalate this by writing an email to Han-Wen Nienhuys: hanwen@google.com
+
 [[deprecating-features]]
 == Deprecating features
 

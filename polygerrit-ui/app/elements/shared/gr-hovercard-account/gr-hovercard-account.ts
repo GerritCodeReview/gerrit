@@ -495,7 +495,11 @@ export class GrHovercardAccount extends base {
       .then(() => {
         this.dispatchEventThroughTarget('hide-alert');
       });
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+    this.mouseClick(e);
+=======
     this.mouseHide(e);
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
   }
 
   private handleClickRemoveFromAttentionSet(e: MouseEvent) {
@@ -526,7 +530,11 @@ export class GrHovercardAccount extends base {
       .then(() => {
         this.dispatchEventThroughTarget('hide-alert');
       });
+<<<<<<< PATCH SET (10708e Make hovercards stay permanently if opened by keyboard.)
+    this.mouseClick(e);
+=======
     this.mouseHide(e);
+>>>>>>> BASE      (6fbebb Merge "Hide suggest edit button in permanent editing mode")
   }
 
   private reportingDetails() {

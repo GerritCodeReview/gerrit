@@ -55,31 +55,21 @@ suite('gr-account-label tests', () => {
   test('renders', async () => {
     element.account = kermit;
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(`<span>
-      <gr-hovercard-account for="hovercardTarget">
-      </gr-hovercard-account>
-    </span>
-    <span
-      id="hovercardTarget"
-      tabindex="0"
-    >
-      <gr-avatar
-        hidden=""
-        imagesize="32"
-      >
-      </gr-avatar>
-      <span
-        class="text"
-        part="gr-account-label-text"
-      >
-        <span class="name">
-          kermit
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="container">
+        <gr-hovercard-account for="hovercardTarget"></gr-hovercard-account>
+        <span class="hovercardTargetWrapper" id="hovercardTarget" tabindex="0">
+          <gr-avatar hidden="" imagesize="32"> </gr-avatar>
+          <span class="name" part="gr-account-label-text"> kermit </span>
+          <gr-endpoint-decorator
+            class="accountStatusDecorator"
+            name="account-status-icon"
+          >
+            <gr-endpoint-param name="accountId"></gr-endpoint-param>
+            <span class="rightSidePadding"></span>
+          </gr-endpoint-decorator>
         </span>
-        <gr-endpoint-decorator name="account-status-icon">
-          <gr-endpoint-param name="accountId"></gr-endpoint-param>
-        </gr-endpoint-decorator>
-      </span>
-    </span>
+      </div>
     `);
   });
 

@@ -43,6 +43,79 @@ suite('gr-change-list basic tests', () => {
     element = basicFixture.instantiate();
   });
 
+  test('renders', async () => {
+    element.preferences = {
+      legacycid_in_change_table: true,
+      time_format: TimeFormat.HHMM_12,
+      change_table: [],
+    };
+    element.account = {_account_id: 1001 as AccountId};
+    element.config = createServerInfo();
+    element.sections = [{results: new Array(1)}, {results: new Array(2)}];
+    element.selectedIndex = 0;
+    element.changes = [
+      {...createChange(), _number: 0 as NumericChangeId},
+      {...createChange(), _number: 1 as NumericChangeId},
+      {...createChange(), _number: 2 as NumericChangeId},
+    ];
+    await element.updateComplete;
+    expect(element).shadowDom.to.equal(`
+      <gr-change-list-item
+        aria-label="Test subject"
+        selected=""
+      >
+      </gr-change-list-item>
+      <gr-change-list-item aria-label="Test subject">
+      </gr-change-list-item>
+      <gr-change-list-item aria-label="Test subject">
+      </gr-change-list-item>
+      <table id="changeList">
+        <tbody class="groupContent">
+          <tr class="groupTitle">
+            <td
+              aria-hidden="true"
+              class="leftPadding"
+            >
+            </td>
+            <td
+              aria-label="Star status column"
+              class="star"
+              hidden=""
+            >
+            </td>
+            <td class="number">
+              #
+            </td>
+            <td class="subject">
+              Subject
+            </td>
+            <td class="status">
+              Status
+            </td>
+            <td class="owner">
+              Owner
+            </td>
+            <td class="reviewers">
+              Reviewers
+            </td>
+            <td class="repo">
+              Repo
+            </td>
+            <td class="branch">
+              Branch
+            </td>
+            <td class="updated">
+              Updated
+            </td>
+            <td class="size">
+              Size
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    `);
+  });
+
   suite('test show change number not logged in', () => {
     setup(async () => {
       element = basicFixture.instantiate();

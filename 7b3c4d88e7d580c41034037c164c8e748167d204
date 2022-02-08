@@ -16,6 +16,64 @@
       "message": "Can we exempt gson from LC? Or we need it because it\u0027s not official Google product?",
       "revId": "7b3c4d88e7d580c41034037c164c8e748167d204",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80dc1012_7264d259",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-02-08T12:57:41Z",
+      "side": 1,
+      "message": "it\u0027s developed on github, so there is still a small chance of version skew.",
+      "parentUuid": "f73d3c3c_c17e0f99",
+      "revId": "7b3c4d88e7d580c41034037c164c8e748167d204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ea92d1c_3671f481",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-02-08T12:57:41Z",
+      "side": 1,
+      "message": "typo",
+      "revId": "7b3c4d88e7d580c41034037c164c8e748167d204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96a45f67_c575f351",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-02-08T12:57:41Z",
+      "side": 1,
+      "message": "this doesn\u0027t exist as upstream tag. Which commit are you using?\n\ncan you confirm that 565b7a198e026596c3fd18304f86537ae20f9a3f is newer than this?",
+      "range": {
+        "startLine": 91,
+        "startChar": 74,
+        "endLine": 91,
+        "endChar": 79
+      },
+      "revId": "7b3c4d88e7d580c41034037c164c8e748167d204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

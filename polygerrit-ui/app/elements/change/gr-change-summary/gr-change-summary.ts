@@ -56,7 +56,6 @@ import {uniqueDefinedAvatar} from '../../../utils/account-util';
 import {PrimaryTab} from '../../../constants/constants';
 import {ChecksTabState, CommentTabState} from '../../../types/events';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
-import {modifierPressed} from '../../../utils/dom-util';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {commentsModelToken} from '../../../models/comments/comments-model';
@@ -65,21 +64,13 @@ import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {roleDetails} from '../../../utils/change-util';
+import {handleSpaceOrEnter} from '../../../utils/dom-util';
 
 export enum SummaryChipStyles {
   INFO = 'info',
   WARNING = 'warning',
   CHECK = 'check',
   UNDEFINED = '',
-}
-
-function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
-  if (modifierPressed(e)) return;
-  // Only react to `return` and `space`.
-  if (e.keyCode !== 13 && e.keyCode !== 32) return;
-  e.preventDefault();
-  e.stopPropagation();
-  handler();
 }
 
 @customElement('gr-summary-chip')

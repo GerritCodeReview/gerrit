@@ -924,6 +924,44 @@ suite('gr-diff-host tests', () => {
     });
   });
 
+  suite('createCheckEl method', () => {
+    test('start_line:12', () => {
+      const result = {
+        codePointers: [{range: {start_line: 12}}],
+      };
+      const el = element.createCheckEl(result);
+      assert.equal(el.getAttribute('slot'), 'right-12');
+      assert.equal(el.getAttribute('diff-side'), 'right');
+      assert.equal(el.getAttribute('line-num'), '12');
+      assert.equal(el.getAttribute('range'), null);
+      assert.equal(el.result, result);
+    });
+
+    test('start_line:13 end_line:14', () => {
+      const result = {
+        codePointers: [{range: {start_line: 13, end_line: 14}}],
+      };
+      const el = element.createCheckEl(result);
+      assert.equal(el.getAttribute('slot'), 'right-14');
+      assert.equal(el.getAttribute('diff-side'), 'right');
+      assert.equal(el.getAttribute('line-num'), '14');
+      assert.equal(el.getAttribute('range'), '{"start_line":13,"end_line":14}');
+      assert.equal(el.result, result);
+    });
+
+    test('empty range', () => {
+      const result = {
+        codePointers: [{range: {}}],
+      };
+      const el = element.createCheckEl(result);
+      assert.equal(el.getAttribute('slot'), 'right-FILE');
+      assert.equal(el.getAttribute('diff-side'), 'right');
+      assert.equal(el.getAttribute('line-num'), 'FILE');
+      assert.equal(el.getAttribute('range'), null);
+      assert.equal(el.result, result);
+    });
+  });
+
   suite('create-comment', () => {
     setup(async () => {
       loggedIn = true;

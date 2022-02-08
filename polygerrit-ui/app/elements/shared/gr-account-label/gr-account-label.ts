@@ -79,12 +79,6 @@ export class GrAccountLabel extends LitElement {
   @property({type: Boolean})
   hideAvatar = false;
 
-  @property({
-    type: Boolean,
-    reflect: true,
-  })
-  cancelLeftPadding = false;
-
   @state()
   _config?: ServerInfo;
 
@@ -114,14 +108,15 @@ export class GrAccountLabel extends LitElement {
           border-radius: var(--label-border-radius);
           box-sizing: border-box;
           white-space: nowrap;
-          padding: 0 var(--account-label-padding-horizontal, 0);
+          padding-left: var(--account-label-padding-left, 0);
         }
-        /* If the first element is the avatar, then we cancel the left padding,
-        so we can fit nicely into the gr-account-chip rounding. The obvious
-        alternative of 'chip has padding' and 'avatar gets negative margin'
-        does not work, because we need 'overflow:hidden' on the label. */
-        :host([cancelLeftPadding]) {
-          padding-left: 0;
+        .rightSidePadding {
+          padding-right: var(--account-label-parent-padding-right, 0);
+        }
+        .container {
+          display: flex;
+          align-items: center;
+          gap: 2px;
         }
         :host::after {
           content: var(--account-label-suffix);
@@ -144,9 +139,11 @@ export class GrAccountLabel extends LitElement {
         gr-avatar {
           height: calc(var(--line-height-normal) - 2px);
           width: calc(var(--line-height-normal) - 2px);
-          vertical-align: top;
-          position: relative;
-          top: 1px;
+        }
+        gr-tooltip-content,
+        .accountStatusDecorator,
+        .hovercardTargetWrapper {
+          display: contents;
         }
         #attentionButton {
           /* This negates the 4px horizontal padding, which we appreciate as a
@@ -158,7 +155,6 @@ export class GrAccountLabel extends LitElement {
           color: var(--deemphasized-text-color);
           width: 12px;
           height: 12px;
-          vertical-align: top;
         }
         .name {
           display: inline-block;
@@ -183,9 +179,22 @@ export class GrAccountLabel extends LitElement {
       this._hasUnforcedAttention(highlightAttention, account, change);
     this.deselected = !this.selected;
     const hasAvatars = !!_config?.plugin?.has_avatars;
-    this.cancelLeftPadding = !this.hideAvatar && !hasAttention && hasAvatars;
+    const parentRequestedLeftPadding = getComputedStyle(this).getPropertyValue(
+      '--account-label-parent-padding-left'
+    );
+    const selfRequestedLeftPadding = hasAttention
+      ? '6px'
+      : !this.hideAvatar && hasAvatars
+      ? '0'
+      : undefined;
+    // parent wants some pixels but we will override that if we know we can put a circle closer.
+    this.style.setProperty(
+      '--account-label-padding-left',
+      selfRequestedLeftPadding ?? parentRequestedLeftPadding
+    );
 
-    return html`<span>
+    return html`
+      <div class="container">
         ${!this.hideHovercard
           ? html`<gr-hovercard-account
               for="hovercardTarget"
@@ -232,25 +241,25 @@ export class GrAccountLabel extends LitElement {
               </gr-button>
             </gr-tooltip-content>`
           : ''}
-      </span>
-      <span
-        id="hovercardTarget"
-        tabindex="0"
-        @keydown="${(e: KeyboardEvent) => this.handleKeyDown(e)}"
-        class="${classMap({
-          hasAttention: !!hasAttention,
-        })}"
-      >
-        ${!this.hideAvatar
-          ? html`<gr-avatar .account="${account}" imageSize="32"></gr-avatar>`
-          : ''}
-        <span class="text" part="gr-account-label-text">
-          <span class="name">
+        <span
+          id="hovercardTarget"
+          tabindex="0"
+          @keydown="${(e: KeyboardEvent) => this.handleKeyDown(e)}"
+          class="${classMap({
+            hovercardTargetWrapper: true,
+            hasAttention: !!hasAttention,
+          })}"
+        >
+          ${!this.hideAvatar
+            ? html`<gr-avatar .account="${account}" imageSize="32"></gr-avatar>`
+            : ''}
+          <span class="name" part="gr-account-label-text">
             ${this._computeName(account, this.firstName, this._config)}
           </span>
           ${this.renderAccountStatusPlugins()}
         </span>
-      </span>`;
+      </div>
+    `;
   }
 
   constructor() {
@@ -272,11 +281,15 @@ export class GrAccountLabel extends LitElement {
       return;
     }
     return html`
-      <gr-endpoint-decorator name="account-status-icon">
+      <gr-endpoint-decorator
+        class="accountStatusDecorator"
+        name="account-status-icon"
+      >
         <gr-endpoint-param
           name="accountId"
           .value="${this.account._account_id}"
         ></gr-endpoint-param>
+        <span class="rightSidePadding"></span>
       </gr-endpoint-decorator>
     `;
   }

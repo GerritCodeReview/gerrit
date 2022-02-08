@@ -162,6 +162,10 @@ suite('gr-change-list-section basic tests', () => {
     element.selectedIndex = 0;
   });
 
+  test.only('renders', () => {
+    expect(element).shadowDom.to.equal(``);
+  });
+
   test('colspans', async () => {
     element.visibleChangeTableColumns = [];
     element.sections = [{results: [{...createChange()}]}];

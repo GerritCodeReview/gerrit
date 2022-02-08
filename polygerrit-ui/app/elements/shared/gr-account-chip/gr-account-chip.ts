@@ -111,7 +111,10 @@ export class GrAccountChip extends LitElement {
           border: 1px solid var(--border-color);
           display: inline-flex;
           padding: 0 1px;
-          --account-label-padding-horizontal: 6px;
+          --account-label-padding-left: 6px;
+          --account-label-padding-right: 3px;
+          --account-label-circle-padding-left: 0px;
+          --account-label-circle-padding-right: 0px;
         }
         :host:focus {
           border-color: transparent;
@@ -133,6 +136,7 @@ export class GrAccountChip extends LitElement {
         iron-icon {
           height: 1.2rem;
           width: 1.2rem;
+          margin-left: -1px;
         }
         .container gr-account-link::part(gr-account-link-text) {
           color: var(--deemphasized-text-color);
@@ -145,7 +149,12 @@ export class GrAccountChip extends LitElement {
         }
         .container.disliked,
         .container.recommended {
-          --account-label-padding-horizontal: 2px;
+          --account-label-padding-right: 2px;
+          --account-label-circle-padding-right: 2px;
+        }
+        .container.closeShown {
+          --account-label-padding-right: 3px;
+          --account-label-circle-padding-right: 3px;
         }
       `,
     ];
@@ -170,7 +179,7 @@ export class GrAccountChip extends LitElement {
           line-height: 10px;
           /* This cancels most of the --account-label-padding-horizontal. */
           margin-left: -4px;
-          padding: 0 2px 0 0;
+          padding: 0 2px 0 1px;
           text-decoration: none;
         }
       </style>
@@ -181,6 +190,7 @@ export class GrAccountChip extends LitElement {
           ...this.computeVoteClasses(),
           container: true,
           transparentBackground: this.transparentBackground,
+          closeShown: this.removable,
         })}"
       >
         <gr-account-link

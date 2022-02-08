@@ -1254,9 +1254,7 @@ class ReceiveCommits {
                   + NoteDbPushOption.ALLOW.value());
           return;
         }
-        try {
-          permissionBackend.user(user).check(GlobalPermission.ACCESS_DATABASE);
-        } catch (AuthException e) {
+        if (!permissionBackend.user(user).test(GlobalPermission.ACCESS_DATABASE)) {
           reject(cmd, "NoteDb update requires access database permission");
           return;
         }
@@ -1298,9 +1296,7 @@ class ReceiveCommits {
   private void validateConfigPush(ReceiveCommand cmd) throws PermissionBackendException {
     try (TraceTimer traceTimer = newTimer("validateConfigPush")) {
       logger.atFine().log("Processing %s command", cmd.getRefName());
-      try {
-        permissions.check(ProjectPermission.WRITE_CONFIG);
-      } catch (AuthException e) {
+      if (!permissions.test(ProjectPermission.WRITE_CONFIG)) {
         reject(
             cmd,
             String.format(
@@ -1338,20 +1334,16 @@ class ReceiveCommits {
             } else {
               if (!oldParent.equals(newParent)) {
                 if (allowProjectOwnersToChangeParent) {
-                  try {
-                    permissionBackend
-                        .user(user)
-                        .project(project.getNameKey())
-                        .check(ProjectPermission.WRITE_CONFIG);
-                  } catch (AuthException e) {
+                  if (!permissionBackend
+                      .user(user)
+                      .project(project.getNameKey())
+                      .test(ProjectPermission.WRITE_CONFIG)) {
                     reject(
                         cmd, "invalid project configuration: only project owners can set parent");
                     return;
                   }
                 } else {
-                  try {
-                    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-                  } catch (AuthException e) {
+                  if (!permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER)) {
                     reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
                     return;
                   }
@@ -2999,9 +2991,7 @@ class ReceiveCommits {
           return false;
         }
 
-        try {
-          permissions.change(notes).check(ChangePermission.ADD_PATCH_SET);
-        } catch (AuthException no) {
+        if (!permissions.change(notes).test(ChangePermission.ADD_PATCH_SET)) {
           reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
           return false;
         }
@@ -3048,18 +3038,8 @@ class ReceiveCommits {
       if ((magicBranch.workInProgress || magicBranch.ready)
           && magicBranch.workInProgress != change.isWorkInProgress()
           && !user.getAccountId().equals(change.getOwner())) {
-        boolean hasWriteConfigPermission = false;
-        try {
-          permissions.check(ProjectPermission.WRITE_CONFIG);
-          hasWriteConfigPermission = true;
-        } catch (AuthException e) {
-          // Do nothing.
-        }
-
-        if (!hasWriteConfigPermission) {
-          try {
-            permissions.change(notes).check(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE);
-          } catch (AuthException e1) {
+        if (!permissions.test(ProjectPermission.WRITE_CONFIG)) {
+          if (!permissions.change(notes).test(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE)) {
             reject(inputCommand, ONLY_USERS_WITH_TOGGLE_WIP_STATE_PERM_CAN_MODIFY_WIP);
           }
         }

@@ -106,18 +106,11 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   }
 
   private boolean visible(ChangeResource change) throws PermissionBackendException {
-    try {
-      permissionBackend
-          .user(change.getUser())
-          .change(change.getNotes())
-          .check(ChangePermission.READ);
-      return projectCache
-          .get(change.getProject())
-          .map(ProjectState::statePermitsRead)
-          .orElse(false);
-    } catch (AuthException e) {
-      return false;
-    }
+    return permissionBackend
+            .user(change.getUser())
+            .change(change.getNotes())
+            .test(ChangePermission.READ)
+        && projectCache.get(change.getProject()).map(ProjectState::statePermitsRead).orElse(false);
   }
 
   private ImmutableList<RevisionResource> find(ChangeResource change, String id)

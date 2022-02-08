@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b17f4995_1cd4973f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-08T13:49:48Z",
+      "side": 1,
+      "message": "Line is too long, put \u003c/gr-date-formatter\u003e on new line.",
+      "revId": "3c3a759a6865023a5ed53d0fb31e527ea04acc15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce89de93_ff632c77",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-08T13:49:48Z",
+      "side": 1,
+      "message": "Line too long, put closing tag on next line",
+      "revId": "3c3a759a6865023a5ed53d0fb31e527ea04acc15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

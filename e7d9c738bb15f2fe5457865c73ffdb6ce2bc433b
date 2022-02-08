@@ -123,6 +123,24 @@
       "parentUuid": "5fa0fac1_fa8eb09f",
       "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33de8beb_1f50103e",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-08T12:25:32Z",
+      "side": 1,
+      "message": "Currently, the SR status is not saved in the SR result, it is computed depending on the SR expression results [1]\nIntroducing new statuses would require either adding the new non-computed property to SR Result and probably more statuses to SR expression result [2]\n\nTo me, this approach does not seem more transparent, but I am happy to go this direction if we agree otherwise.\n\n[1] https://gerrit.googlesource.com/gerrit/+/3e1ab6e4094421c4aaea44d34dfb9e04164d2f47/java/com/google/gerrit/entities/SubmitRequirementResult.java#96\n[2] https://gerrit.googlesource.com/gerrit/+/3e1ab6e4094421c4aaea44d34dfb9e04164d2f47/java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java#102",
+      "parentUuid": "e5e4e841_7bdf1840",
+      "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

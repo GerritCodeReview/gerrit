@@ -175,10 +175,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       throws LargeObjectException, AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException {
 
-    try {
-      permissionBackend.user(currentUser).change(notes).check(ChangePermission.READ);
-    } catch (AuthException e) {
-      throw new NoSuchChangeException(changeId, e);
+    if (!permissionBackend.user(currentUser).change(notes).test(ChangePermission.READ)) {
+      throw new NoSuchChangeException(changeId);
     }
 
     if (!projectCache

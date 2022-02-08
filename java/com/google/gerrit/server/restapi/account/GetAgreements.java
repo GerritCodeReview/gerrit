@@ -87,10 +87,8 @@ public class GetAgreements implements RestReadView<AccountResource> {
 
     IdentifiedUser user = self.get().asIdentifiedUser();
     if (user != resource.getUser()) {
-      try {
-        permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-      } catch (AuthException e) {
-        throw new AuthException("not allowed to get contributor agreements", e);
+      if (!permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+        throw new AuthException("not allowed to get contributor agreements");
       }
     }
 

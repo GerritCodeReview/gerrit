@@ -157,8 +157,10 @@ public class RefOperationValidators {
             && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT)) {
           if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
             try {
-              perm.check(GlobalPermission.ACCESS_DATABASE);
-            } catch (AuthException | PermissionBackendException e) {
+              if (!perm.test(GlobalPermission.ACCESS_DATABASE)) {
+                throw new ValidationException("Not allowed to create user branch.");
+              }
+            } catch (PermissionBackendException e) {
               throw new ValidationException("Not allowed to create user branch.", e);
             }
             if (Account.Id.fromRef(refEvent.command.getRefName()) == null) {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46c52c6f_7d951ceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-08T08:57:00Z",
+      "side": 1,
+      "message": "I don\u0027t much favour this change and I think it\u0027s a bit brittle. I couldn\u0027t come up with a better alternative though.\n\nOne extra note: currently non-applicable SRs are still returned by the API, i.e. we always return results for all SRs and FE filters non-applicable SRs out. With this change we\u0027ll be hiding some SRs from BE.",
+      "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71a70d7d_e7aa66c2",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-08T08:57:00Z",
+      "side": 1,
+      "message": "I\u0027d prefer we clearly document why this is needed. i.e. append the following\n\nWhen changes get merged submit requirement results are stored in NoteDb. {@link OnStoreSubmitRequirementResultModifier} can modify the status of SRs before the change is merged. This can sometimes result in non-applicable SRs becoming overridden (?). In this case, we still want to to hide the SR from the API as if it was non-applicable.",
+      "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

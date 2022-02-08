@@ -26,6 +26,7 @@ import {
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
   createNonApplicableSubmitRequirementResultInfo,
+  createServerInfo,
 } from '../../../test/test-data-generators';
 import {
   query,
@@ -483,6 +484,82 @@ suite('gr-change-list-item tests', () => {
     element.change = {...change};
     assert.equal(element.computeRepoDisplay(), 'a/test/repo');
     assert.equal(element.computeTruncatedRepoDisplay(), '…/test/repo');
+  });
+
+  test('renders', async () => {
+    element.showStar = true;
+    element.showNumber = true;
+    element.account = createAccountWithId(1);
+    element.config = createServerInfo();
+    element.change = createChange();
+    await element.updateComplete;
+    expect(element).shadowDom.to.equal(`
+      <gr-change-star>
+      </gr-change-star>
+      <a href="">
+        42
+      </a>
+      <a
+        href=""
+        title="Test subject"
+      >
+        <div class="container">
+          <div class="content">
+            Test subject
+          </div>
+          <div class="spacer">
+            Test subject
+          </div>
+          <span>
+          </span>
+        </div>
+      </a>
+      <span class="placeholder">
+        --
+      </span>
+      <gr-account-link highlightattention="">
+      </gr-account-link>
+      <div>
+      </div>
+      <span>
+      </span>
+      <a
+        class="fullRepo"
+        href=""
+      >
+        test-project
+      </a>
+      <a
+        class="truncatedRepo"
+        href=""
+        title="test-project"
+      >
+        test-project
+      </a>
+      <a href="">
+        test-branch
+      </a>
+      <gr-date-formatter withtooltip="">
+      </gr-date-formatter>
+      <gr-date-formatter withtooltip="">
+      </gr-date-formatter>
+      <gr-date-formatter
+        forcerelative=""
+        relativeoptionnoago=""
+        withtooltip=""
+      >
+      </gr-date-formatter>
+      <gr-tooltip-content
+        has-tooltip=""
+        title="Size unknown"
+      >
+        <span class="placeholder">
+          --
+        </span>
+      </gr-tooltip-content>
+      <gr-change-list-column-requirements-summary>
+      </gr-change-list-column-requirements-summary>
+    `);
   });
 
   test('renders requirement with new submit requirements', async () => {

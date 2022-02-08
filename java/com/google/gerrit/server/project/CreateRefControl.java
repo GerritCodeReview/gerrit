@@ -124,13 +124,10 @@ public class CreateRefControl {
       Project.NameKey project,
       PermissionBackend.ForRef forRef)
       throws AuthException, PermissionBackendException, IOException {
-    try {
-      // If the user has update (push) permission, they can create the ref regardless
-      // of whether they are pushing any new objects along with the create.
-      forRef.check(RefPermission.UPDATE);
+    // If the user has update (push) permission, they can create the ref regardless
+    // of whether they are pushing any new objects along with the create.
+    if (forRef.test(RefPermission.UPDATE)) {
       return;
-    } catch (AuthException denied) {
-      // Fall through to check reachability.
     }
     if (reachable.fromRefs(
         project,

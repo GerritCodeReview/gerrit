@@ -195,9 +195,9 @@ public class MergeValidators {
             if (!oldParent.equals(newParent)) {
               if (!allowProjectOwnersToChangeParent) {
                 try {
-                  permissionBackend.user(caller).check(GlobalPermission.ADMINISTRATE_SERVER);
-                } catch (AuthException e) {
-                  throw new MergeValidationException(SET_BY_ADMIN, e);
+                  if (!permissionBackend.user(caller).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+                    throw new MergeValidationException(SET_BY_ADMIN);
+                  }
                 } catch (PermissionBackendException e) {
                   logger.atWarning().withCause(e).log("Cannot check ADMINISTRATE_SERVER");
                   throw new MergeValidationException("validation unavailable", e);

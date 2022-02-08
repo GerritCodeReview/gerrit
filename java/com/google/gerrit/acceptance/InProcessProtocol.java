@@ -235,9 +235,9 @@ class InProcessProtocol extends TestProtocol<Context> {
 
       PermissionBackend.ForProject perm = permissionBackend.currentUser().project(req.project);
       try {
-        perm.check(ProjectPermission.RUN_UPLOAD_PACK);
-      } catch (AuthException e) {
-        throw new ServiceNotAuthorizedException(e.getMessage(), e);
+        if (!perm.test(ProjectPermission.RUN_UPLOAD_PACK)) {
+          throw new ServiceNotAuthorizedException("upload pack not permitted");
+        }
       } catch (PermissionBackendException e) {
         throw new RuntimeException(e);
       }

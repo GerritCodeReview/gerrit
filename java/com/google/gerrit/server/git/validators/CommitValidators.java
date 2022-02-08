@@ -639,10 +639,10 @@ public class CommitValidators {
       }
       if (!sboAuthor && !sboCommitter && !sboMe) {
         try {
-          perm.check(RefPermission.FORGE_COMMITTER);
-        } catch (AuthException denied) {
-          throw new CommitValidationException(
-              "not Signed-off-by author/committer/uploader in message footer", denied);
+          if (!perm.test(RefPermission.FORGE_COMMITTER)) {
+            throw new CommitValidationException(
+                "not Signed-off-by author/committer/uploader in message footer");
+          }
         } catch (PermissionBackendException e) {
           logger.atSevere().withCause(e).log("cannot check FORGE_COMMITTER");
           throw new CommitValidationException("internal auth error");
@@ -673,11 +673,11 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       try {
-        perm.check(RefPermission.FORGE_AUTHOR);
+        if (!perm.test(RefPermission.FORGE_AUTHOR)) {
+          throw new CommitValidationException(
+              "invalid author", invalidEmail("author", author, user, urlFormatter));
+        }
         return Collections.emptyList();
-      } catch (AuthException e) {
-        throw new CommitValidationException(
-            "invalid author", invalidEmail("author", author, user, urlFormatter), e);
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check FORGE_AUTHOR");
         throw new CommitValidationException("internal auth error");
@@ -706,11 +706,11 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       try {
-        perm.check(RefPermission.FORGE_COMMITTER);
+        if (!perm.test(RefPermission.FORGE_COMMITTER)) {
+          throw new CommitValidationException(
+              "invalid committer", invalidEmail("committer", committer, user, urlFormatter));
+        }
         return Collections.emptyList();
-      } catch (AuthException e) {
-        throw new CommitValidationException(
-            "invalid committer", invalidEmail("committer", committer, user, urlFormatter), e);
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check FORGE_COMMITTER");
         throw new CommitValidationException("internal auth error");

@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AccountVisibility;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -186,11 +185,8 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       if (modifyAccountCapabilityChecked) {
         fillOptions.add(FillOptions.SECONDARY_EMAILS);
       } else {
-        try {
-          permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
+        if (permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)) {
           fillOptions.add(FillOptions.SECONDARY_EMAILS);
-        } catch (AuthException e) {
-          // Do nothing.
         }
       }
     }

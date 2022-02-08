@@ -223,10 +223,7 @@ public class ApprovalsUtil {
           .statePermitsRead()) {
         return false;
       }
-      permissionBackend.absentUser(accountId).change(notes).check(ChangePermission.READ);
-      return true;
-    } catch (AuthException e) {
-      return false;
+      return permissionBackend.absentUser(accountId).change(notes).test(ChangePermission.READ);
     } catch (PermissionBackendException e) {
       logger.atWarning().withCause(e).log(
           "Failed to check if account %d can see change %d",
@@ -330,11 +327,9 @@ public class ApprovalsUtil {
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       String name = vote.getKey();
       Short value = vote.getValue();
-      try {
-        forChange.check(new LabelPermission.WithValue(name, value));
-      } catch (AuthException e) {
+      if (!forChange.test(new LabelPermission.WithValue(name, value))) {
         throw new AuthException(
-            String.format("applying label \"%s\": %d is restricted", name, value), e);
+            String.format("applying label \"%s\": %d is restricted", name, value));
       }
     }
   }

@@ -27,7 +27,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.server.CurrentUser;
@@ -443,9 +442,10 @@ public class AccountResolver {
       // more strict here.
       boolean canSeeSecondaryEmails = false;
       try {
-        permissionBackend.user(self.get()).check(GlobalPermission.MODIFY_ACCOUNT);
-        canSeeSecondaryEmails = true;
-      } catch (AuthException | PermissionBackendException e) {
+        if (permissionBackend.user(self.get()).test(GlobalPermission.MODIFY_ACCOUNT)) {
+          canSeeSecondaryEmails = true;
+        }
+      } catch (PermissionBackendException e) {
         // remains false
       }
       return accountQueryProvider.get().enforceVisibility(true)

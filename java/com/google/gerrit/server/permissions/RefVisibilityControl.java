@@ -25,7 +25,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -170,17 +169,14 @@ class RefVisibilityControl {
       return true;
     }
 
-    try {
-      // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
-      projectControl
-          .asForProject()
-          .ref(cd.change().getDest().branch())
-          .check(RefPermission.READ_PRIVATE_CHANGES);
-      logger.atFinest().log("Foreign change edit ref is visible: %s", refName);
-      return true;
-    } catch (AuthException e) {
-      logger.atFinest().log("Foreign change edit ref is not visible: %s", refName);
-      return false;
-    }
+    // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
+    boolean canRead =
+        projectControl
+            .asForProject()
+            .ref(cd.change().getDest().branch())
+            .test(RefPermission.READ_PRIVATE_CHANGES);
+    logger.atFinest().log(
+        "Foreign change edit ref is " + (canRead ? "visible" : "invisible") + ": %s", refName);
+    return canRead;
   }
 }

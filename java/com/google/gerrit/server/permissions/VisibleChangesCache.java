@@ -23,7 +23,6 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
@@ -113,11 +112,8 @@ class VisibleChangesCache {
         if (!projectState.statePermitsRead()) {
           continue;
         }
-        try {
-          permissionBackendForProject.change(cd).check(ChangePermission.READ);
+        if (permissionBackendForProject.change(cd).test(ChangePermission.READ)) {
           visibleChanges.put(cd.getId(), cd.change().getDest());
-        } catch (AuthException e) {
-          // Do nothing.
         }
       }
     } catch (StorageException e) {
@@ -158,11 +154,8 @@ class VisibleChangesCache {
       return null;
     }
 
-    try {
-      permissionBackendForProject.change(r.notes()).check(ChangePermission.READ);
+    if (permissionBackendForProject.change(r.notes()).test(ChangePermission.READ)) {
       return r.notes();
-    } catch (AuthException e) {
-      // Skip.
     }
     return null;
   }

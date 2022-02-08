@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "705b21a0_395b7798",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-08T13:29:18Z",
+      "side": 1,
+      "message": "Can this commit be approved? It\u0027s needed for JDK 17 support.",
+      "revId": "4b2ea87b2ed3fbca06c3227faf899fbf8abedaf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,3 +18,7 @@ function wrapUrl(url: string) {
 export function createWorker(workerUrl: string): Worker {
   return new Worker(wrapUrl(workerUrl));
 }
+
+export function importScript(scope: WorkerGlobalScope, url: string): void {
+  scope.importScripts(url);
+}

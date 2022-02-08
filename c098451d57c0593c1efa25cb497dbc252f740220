@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af076cb5_4a34a145",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-08T11:49:01Z",
+      "side": 1,
+      "message": "I think this is good to go. I can send an email to repo-discuss@ once merged to give a heads-up.",
+      "revId": "c098451d57c0593c1efa25cb497dbc252f740220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -140,13 +140,12 @@ export class GrDownloadCommands extends LitElement {
   }
 
   private renderDownloadTabs() {
-    if (this.schemes.length <= 1) return;
-
     const selectedIndex =
       this.schemes.findIndex(scheme => scheme === this.selectedScheme) || 0;
     return html`
       <paper-tabs
         id="downloadTabs"
+        class=${this.computeShowTabs()}
         .selected=${selectedIndex}
         @selected-changed=${this.handleTabChange}
       >
@@ -203,6 +202,10 @@ export class GrDownloadCommands extends LitElement {
     return index <= 4 && this.showKeyboardShortcutTooltips
       ? `Keyboard shortcut: ${index + 1}`
       : '';
+  }
+
+  private computeShowTabs() {
+    return this.schemes.length > 1 ? '' : 'hidden';
   }
 
   // TODO: maybe unify with strToClassName from dom-util

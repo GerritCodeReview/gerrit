@@ -21,7 +21,6 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver;
@@ -91,12 +90,13 @@ class RunAsFilter implements Filter {
         if (!self.isIdentifiedUser()) {
           // Always disallow for anonymous users, even if permitted by the ACL,
           // because that would be crazy.
-          throw new AuthException("denied");
+          replyError(req, res, SC_FORBIDDEN, "denied " + RUN_AS, null);
+          return;
         }
-        permissionBackend.user(self).check(GlobalPermission.RUN_AS);
-      } catch (AuthException e) {
-        replyError(req, res, SC_FORBIDDEN, "not permitted to use " + RUN_AS, null);
-        return;
+        if (!permissionBackend.user(self).test(GlobalPermission.RUN_AS)) {
+          replyError(req, res, SC_FORBIDDEN, "not permitted to use " + RUN_AS, null);
+          return;
+        }
       } catch (PermissionBackendException e) {
         logger.atWarning().withCause(e).log("cannot check runAs");
         replyError(req, res, SC_INTERNAL_SERVER_ERROR, RUN_AS + " unavailable", null);

@@ -94,21 +94,14 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
       }
 
       state.get().checkStatePermitsRead();
-
-      try {
-        permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+      if (!permissionBackend.user(user).project(nameKey).test(ProjectPermission.ACCESS)) {
         return new TaskResource(task);
-      } catch (AuthException e) {
-        // Fall through and try view queue permission.
       }
     }
 
     if (task != null) {
-      try {
-        permissionBackend.user(user).check(GlobalPermission.VIEW_QUEUE);
+      if (permissionBackend.user(user).test(GlobalPermission.VIEW_QUEUE)) {
         return new TaskResource(task);
-      } catch (AuthException e) {
-        // Fall through and return not found.
       }
     }
 

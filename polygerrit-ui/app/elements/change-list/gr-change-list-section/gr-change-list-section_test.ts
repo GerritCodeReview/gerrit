@@ -165,13 +165,40 @@ suite('gr-change-list sections', () => {
 suite('gr-change-list-section basic tests', () => {
   let element: GrChangeListSection;
 
-  setup(() => {
+  setup(async () => {
+    debugger;
     element = basicFixture.instantiate();
     element.account = createAccountDetailWithId(1);
     element.config = createServerInfo();
     element.visibleChangeTableColumns = columnNames;
     element.sectionIndex = 0;
     element.selectedIndex = 0;
+    element.changeSection = {results: [{...createChange()}], name: 'a'};
+    await element.updateComplete;
+  });
+
+  test.only('renders', () => {
+    expect(element).shadowDom.to.equal(`
+      <h2 class="heading-3">
+        <a
+          class="section-title"
+          href=""
+        >
+          <span class="section-name">
+            a
+          </span>
+          <span class="section-count-label">
+          </span>
+        </a>
+      </h2>
+      #
+              SubjectStatusOwnerReviewersCommentsRepoBranchUpdatedSize Status
+      <gr-change-list-item
+        aria-label="Test subject, section: a"
+        selected=""
+      >
+      </gr-change-list-item>
+      `);
   });
 
   test('colspans', async () => {

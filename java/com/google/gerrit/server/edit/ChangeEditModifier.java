@@ -407,14 +407,15 @@ public class ChangeEditModifier {
 
     // Not allowed to edit if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(notes);
-    try {
-      permissionBackend.currentUser().change(notes).check(ChangePermission.ADD_PATCH_SET);
-      projectCache
-          .get(notes.getProjectName())
-          .orElseThrow(illegalState(notes.getProjectName()))
-          .checkStatePermitsWrite();
-    } catch (AuthException denied) {
-      throw new AuthException("edit not permitted", denied);
+    boolean canEdit =
+        permissionBackend.currentUser().change(notes).test(ChangePermission.ADD_PATCH_SET);
+    canEdit &=
+        projectCache
+            .get(notes.getProjectName())
+            .orElseThrow(illegalState(notes.getProjectName()))
+            .statePermitsWrite();
+    if (!canEdit) {
+      throw new AuthException("edit not permitted");
     }
   }
 

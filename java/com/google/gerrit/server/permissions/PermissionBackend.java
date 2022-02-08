@@ -246,10 +246,9 @@ public abstract class PermissionBackend {
       Set<Project.NameKey> allowed = Sets.newHashSetWithExpectedSize(projects.size());
       for (Project.NameKey project : projects) {
         try {
-          project(project).check(perm);
-          allowed.add(project);
-        } catch (AuthException e) {
-          // Do not include this project in allowed.
+          if (project(project).test(perm)) {
+            allowed.add(project);
+          }
         } catch (PermissionBackendException e) {
           if (e.getCause() instanceof RepositoryNotFoundException) {
             logger.atWarning().withCause(e).log(

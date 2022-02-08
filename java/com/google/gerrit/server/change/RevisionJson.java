@@ -48,7 +48,6 @@ import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -353,9 +352,7 @@ public class RevisionJson {
   }
 
   private boolean isWorldReadable(ChangeData cd) throws PermissionBackendException {
-    try {
-      permissionBackend.user(anonymous).change(cd).check(ChangePermission.READ);
-    } catch (AuthException ae) {
+    if (!permissionBackend.user(anonymous).change(cd).test(ChangePermission.READ)) {
       return false;
     }
     ProjectState projectState =

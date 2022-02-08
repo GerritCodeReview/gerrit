@@ -325,9 +325,7 @@ public class AsyncReceiveCommits {
 
   /** Determine if the user can upload commits. */
   public Capable canUpload() throws IOException, PermissionBackendException {
-    try {
-      perm.check(ProjectPermission.PUSH_AT_LEAST_ONE_REF);
-    } catch (AuthException e) {
+    if (!perm.test(ProjectPermission.PUSH_AT_LEAST_ONE_REF)) {
       return new Capable("Upload denied for project '" + projectState.getName() + "'");
     }
 

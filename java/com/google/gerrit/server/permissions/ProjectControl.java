@@ -165,9 +165,8 @@ class ProjectControl {
 
   boolean isAdmin() {
     try {
-      permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-      return true;
-    } catch (AuthException | PermissionBackendException e) {
+      return permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER);
+    } catch (PermissionBackendException e) {
       return false;
     }
   }

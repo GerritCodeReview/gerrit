@@ -24,7 +24,6 @@ import com.google.gerrit.entities.AccountsSection;
 import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AccountVisibility;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -259,10 +258,7 @@ public class AccountControl {
   private boolean viewAll() {
     if (viewAll == null) {
       try {
-        perm.check(GlobalPermission.VIEW_ALL_ACCOUNTS);
-        viewAll = true;
-      } catch (AuthException e) {
-        viewAll = false;
+        viewAll = perm.test(GlobalPermission.VIEW_ALL_ACCOUNTS);
       } catch (PermissionBackendException e) {
         logger.atFine().withCause(e).log(
             "Failed to check %s global capability for user %s",

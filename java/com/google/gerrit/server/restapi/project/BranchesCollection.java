@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.project;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -75,14 +74,16 @@ public class BranchesCollection implements ChildCollection<ProjectResource, Bran
       // ListBranches checks the target of a symbolic reference to determine access
       // rights on the symbolic reference itself. This check prevents seeing a hidden
       // branch simply because the symbolic reference name was visible.
-      permissionBackend
-          .currentUser()
-          .project(project)
-          .ref(ref.isSymbolic() ? ref.getTarget().getName() : ref.getName())
-          .check(RefPermission.READ);
-      return new BranchResource(parent.getProjectState(), parent.getUser(), ref);
-    } catch (AuthException notAllowed) {
-      throw new ResourceNotFoundException(id, notAllowed);
+      boolean canRead =
+          permissionBackend
+              .currentUser()
+              .project(project)
+              .ref(ref.isSymbolic() ? ref.getTarget().getName() : ref.getName())
+              .test(RefPermission.READ);
+      if (canRead) {
+        return new BranchResource(parent.getProjectState(), parent.getUser(), ref);
+      }
+      throw new ResourceNotFoundException(id);
     } catch (RepositoryNotFoundException noRepo) {
       throw new ResourceNotFoundException(id, noRepo);
     }

@@ -433,14 +433,14 @@ public class GitOverHttpServlet extends GitServlet {
         requestListeners.runEach(l -> l.onRequest(requestInfo));
 
         try {
-          perm.check(ProjectPermission.RUN_UPLOAD_PACK);
-        } catch (AuthException e) {
-          GitSmartHttpTools.sendError(
-              (HttpServletRequest) request,
-              responseWrapper,
-              HttpServletResponse.SC_FORBIDDEN,
-              "upload-pack not permitted on this server");
-          return;
+          if (!perm.test(ProjectPermission.RUN_UPLOAD_PACK)) {
+            GitSmartHttpTools.sendError(
+                (HttpServletRequest) request,
+                responseWrapper,
+                HttpServletResponse.SC_FORBIDDEN,
+                "upload-pack not permitted on this server");
+            return;
+          }
         } catch (PermissionBackendException e) {
           responseWrapper.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
           throw new ServletException(e);
@@ -592,18 +592,18 @@ public class GitOverHttpServlet extends GitServlet {
       Capable canUpload;
       try {
         try {
-          permissionBackend
+          if (!permissionBackend
               .currentUser()
               .project(state.getNameKey())
-              .check(ProjectPermission.RUN_RECEIVE_PACK);
+              .test(ProjectPermission.RUN_RECEIVE_PACK)) {
+            GitSmartHttpTools.sendError(
+                httpRequest,
+                responseWrapper,
+                HttpServletResponse.SC_FORBIDDEN,
+                "receive-pack not permitted on this server");
+            return;
+          }
           canUpload = arc.canUpload();
-        } catch (AuthException e) {
-          GitSmartHttpTools.sendError(
-              httpRequest,
-              responseWrapper,
-              HttpServletResponse.SC_FORBIDDEN,
-              "receive-pack not permitted on this server");
-          return;
         } catch (PermissionBackendException e) {
           throw new RuntimeException(e);
         }

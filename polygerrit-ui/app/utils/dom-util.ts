@@ -390,6 +390,15 @@ export function eventMatchesShortcut(
   return true;
 }
 
+export function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
+  if (modifierPressed(e)) return;
+  // Only react to `return` and `space`.
+  if (e.keyCode !== 13 && e.keyCode !== 32) return;
+  e.preventDefault();
+  e.stopPropagation();
+  handler();
+}
+
 export interface ShortcutOptions {
   /**
    * Do you want to suppress events from <input> elements and such?

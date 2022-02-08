@@ -33,7 +33,7 @@ suite('gr-hovercard-run tests', () => {
   });
 
   teardown(() => {
-    element.hide(new MouseEvent('click'));
+    element.mouseClick(new MouseEvent('click'));
   });
 
   test('hovercard is shown', () => {

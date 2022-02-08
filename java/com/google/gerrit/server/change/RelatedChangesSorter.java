@@ -28,7 +28,6 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -237,12 +236,8 @@ public class RelatedChangesSorter {
 
   private boolean isVisible(PatchSetData psd) throws PermissionBackendException {
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
-    try {
-      perm.change(psd.data()).check(ChangePermission.READ);
-    } catch (AuthException e) {
-      return false;
-    }
-    return projectCache.get(psd.data().project()).map(ProjectState::statePermitsRead).orElse(false);
+    return perm.change(psd.data()).test(ChangePermission.READ)
+        && projectCache.get(psd.data().project()).map(ProjectState::statePermitsRead).orElse(false);
   }
 
   @AutoValue

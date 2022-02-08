@@ -463,12 +463,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     if (!projectState.statePermitsRead()) {
       return false;
     }
-    try {
-      args.permissionBackend.absentUser(to).change(changeData).check(ChangePermission.READ);
-      return true;
-    } catch (AuthException e) {
-      return false;
-    }
+    return args.permissionBackend.absentUser(to).change(changeData).test(ChangePermission.READ);
   }
 
   /** Find all users who are authors of any part of this change. */

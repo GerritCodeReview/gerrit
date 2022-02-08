@@ -97,10 +97,8 @@ public class PatchScriptFactoryForAutoFix implements Callable<PatchScript> {
       throws LargeObjectException, AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceNotFoundException {
 
-    try {
-      permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
-    } catch (AuthException e) {
-      throw new NoSuchChangeException(changeId, e);
+    if (!permissionBackend.currentUser().change(notes).test(ChangePermission.READ)) {
+      throw new NoSuchChangeException(changeId);
     }
 
     if (!projectCache

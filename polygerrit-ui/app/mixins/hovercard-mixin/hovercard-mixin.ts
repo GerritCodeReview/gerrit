@@ -23,6 +23,8 @@ import {debounce, DelayedTask} from '../../utils/async-util';
 import {hovercardStyles} from '../../styles/gr-hovercard-styles';
 import {sharedStyles} from '../../styles/shared-styles';
 import {DependencyRequestEvent} from '../../models/dependency';
+import {ShortcutController} from '../../elements/lit/shortcut-controller';
+import {Key} from '../../utils/dom-util';
 
 interface ReloadEventDetail {
   clearPatchset?: boolean;
@@ -127,6 +129,8 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
     isScheduledToHide?: boolean;
 
+    permanent: boolean = false;
+
     static get styles() {
       return [sharedStyles, hovercardStyles];
     }
@@ -136,9 +140,11 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       super(...args);
       // show the hovercard if mouse moves to hovercard
       // this will cancel pending hide as well
-      this.addEventListener('mouseenter', this.show);
+      this.addEventListener('mouseenter', this.cancelHideTask);
       // when leave hovercard, hide it immediately
       this.addEventListener('mouseleave', this.hide);
+      const keyboardController = new ShortcutController(this);
+      keyboardController.addGlobal({key: Key.ESC}, () => this.hide());
     }
 
     override connectedCallback() {
@@ -170,7 +176,6 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this._target?.addEventListener('mouseleave', this.debounceHide);
       this._target?.addEventListener('blur', this.debounceHide);
       this._target?.addEventListener('click', this.hide);
-      this.addEventListener('request-dependency', this.resolveDep);
     }
 
     private removeTargetEventListeners() {
@@ -211,7 +216,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       );
     };
 
-    cancelHideTask() {
+    cancelHideTask = () => {
       if (!this.hideTask) return;
       this.hideTask.cancel();
       this.isScheduledToHide = false;
@@ -292,13 +297,10 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       // If the user is now hovering over the hovercard or the user is returning
       // from the hovercard but now hovering over the target (to stop an annoying
       // flicker effect), just return.
-      if (e) {
-        if (
-          e.relatedTarget === this ||
-          (e.target === this && e.relatedTarget === this._target)
-        ) {
-          return;
-        }
+      if (e &&
+          (e.relatedTarget === this ||
+            (e.target === this && e.relatedTarget === this._target))) {
+        return;
       }
 
       // Mark that the hovercard is not visible and do not allow focusing
@@ -352,9 +354,10 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
     /**
      * Shows/opens the hovercard. This occurs when the user triggers the
-     * `mousenter` event on the hovercard's `target` element.
+     * `mousenter` event on the hovercard's `target` element or when a user
+     * presses enter/space on the hovercard's `target` element.
      */
-    readonly show = async () => {
+    readonly show = async (permanent?: boolean) => {
       this.cancelHideTask();
       this.cancelShowTask();
       if (this._isShowing || !this.container) {
@@ -363,6 +366,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
       // Mark that the hovercard is now visible
       this._isShowing = true;
+      this.permanent = permanent ?? false;
       this.setAttribute('tabindex', '0');
 
       // Add it to the DOM and calculate its position
@@ -490,7 +494,7 @@ export interface HovercardMixinInterface {
   _target: HTMLElement | null;
   _isShowing: boolean;
   dispatchEventThroughTarget(eventName: string, detail?: unknown): void;
-  show(): void;
+  show(permanent?: boolean): void;
 
   // Used for tests
   hide(e: MouseEvent): void;

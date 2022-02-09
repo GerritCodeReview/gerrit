@@ -111,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a194d103_2cd7abd9",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-02-09T10:46:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da6a3321_2a368cc5",
+      "range": {
+        "startLine": 404,
+        "startChar": 2,
+        "endLine": 404,
+        "endChar": 62
+      },
+      "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34485fe4_198bddbf",
@@ -136,6 +160,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9db093f7_ae0fc293",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-02-09T10:46:40Z",
+      "side": 1,
+      "message": "If I move the boolean parameter to the last position I need to make the method protected and it will override OutGoingEmail::add(RecipientType, Account.Id, boolean), but maybe that is okay. \nAnother alternative is to rename the method, which I did. What do you think?",
+      "parentUuid": "34485fe4_198bddbf",
+      "range": {
+        "startLine": 405,
+        "startChar": 8,
+        "endLine": 405,
+        "endChar": 12
+      },
+      "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b961f55_19508c72",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 3
@@ -147,6 +195,30 @@
       "writtenOn": "2022-02-08T16:53:13Z",
       "side": 1,
       "message": "nit: could you, please, rename the method action_expectedResult, eg.\n\noutsideAttentionSet_watchProjectEmailReceived",
+      "range": {
+        "startLine": 1471,
+        "startChar": 14,
+        "endLine": 1471,
+        "endChar": 45
+      },
+      "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1baeb7d2_52659a61",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-02-09T10:46:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b961f55_19508c72",
       "range": {
         "startLine": 1471,
         "startChar": 14,

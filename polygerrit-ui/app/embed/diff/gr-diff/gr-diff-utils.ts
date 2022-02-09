@@ -149,3 +149,40 @@ export function anyLineTooLong(diff?: DiffInfo) {
     return lines.some(line => line.length >= SYNTAX_MAX_LINE_LENGTH);
   });
 }
+
+/**
+ * Simple helper method for creating elements in the context of gr-diff.
+ *
+ * We are adding 'style-scope', 'gr-diff' classes for compatibility with
+ * Shady DOM. TODO: Is that still required??
+ *
+ * Otherwise this is just a super simple convenience function.
+ */
+export function createElementDiff(
+  tagName: string,
+  classStr?: string
+): HTMLElement {
+  const el = document.createElement(tagName);
+  // When Shady DOM is being used, these classes are added to account for
+  // Polymer's polyfill behavior. In order to guarantee sufficient
+  // specificity within the CSS rules, these are added to every element.
+  // Since the Polymer DOM utility functions (which would do this
+  // automatically) are not being used for performance reasons, this is
+  // done manually.
+  el.classList.add('style-scope', 'gr-diff');
+  if (classStr) {
+    for (const className of classStr.split(' ')) {
+      el.classList.add(className);
+    }
+  }
+  return el;
+}
+
+export function createElementDiffWithText(
+  tagName: string,
+  textContent: string
+) {
+  const element = createElementDiff(tagName);
+  element.textContent = textContent;
+  return element;
+}

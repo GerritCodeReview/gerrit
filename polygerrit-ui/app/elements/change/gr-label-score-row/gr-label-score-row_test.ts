@@ -118,6 +118,30 @@ suite('gr-label-row-score tests', () => {
     checkAriaCheckedValid();
   });
 
+  test('label display values from plugins', async () => {
+    // Start with no customDisplayLabelValues.
+    assert.equal(element.computeDisplayValue('+1'), '+1');
+
+    const customLabelValues = new Map<string, Map<string, string>>([
+      [
+        'Commit-Queue',
+        new Map<string, string>([
+          ['+1', 'DRY-RUN'],
+          ['+2', 'CQ'],
+        ]),
+      ],
+    ]);
+    const getReviewLabelValuesStub = sinon
+      .stub(element.jsAPI, 'getReviewLabelValues')
+      .returns(customLabelValues);
+    element.render();
+    assert.isTrue(getReviewLabelValuesStub.called);
+    assert.equal(element.computeDisplayValue('+1'), 'DRY-RUN');
+    assert.equal(element.computeDisplayValue('+2'), 'CQ');
+    // '0' should return the default value.
+    assert.equal(element.computeDisplayValue('0'), '0');
+  });
+
   test('_computeVoteAttribute', () => {
     let value = 1;
     let index = 0;

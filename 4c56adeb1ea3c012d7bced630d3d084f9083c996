@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f390e8a5_ed51dc4e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-09T13:45:23Z",
+      "side": 1,
+      "message": "I have flattened the contents of this component so that flex can apply the right gap and vertical centering to everything (it\u0027s children). Some elements needed to switch to display: contents so that their children were also considered flex children and would receive flex gap/centering.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 0
+      },
+      "revId": "4c56adeb1ea3c012d7bced630d3d084f9083c996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23744159_c2bce04f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-09T13:45:23Z",
+      "side": 1,
+      "message": "the right side padding is now provided in the account-status-icon plugin, or by this span if there is no plugin registered. This span will be replaced by the plugin component.",
+      "range": {
+        "startLine": 292,
+        "startChar": 0,
+        "endLine": 292,
+        "endChar": 46
+      },
+      "revId": "4c56adeb1ea3c012d7bced630d3d084f9083c996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

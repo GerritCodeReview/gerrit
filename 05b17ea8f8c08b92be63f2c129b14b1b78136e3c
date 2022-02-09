@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de70a97f_3107ee03",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-09T13:45:23Z",
+      "side": 1,
+      "message": "attention icon padding takes priority over avatar padding, and finally parent-requested padding is the final fallback. cancelLeftPadding boolean was not enough to represent all these cases so they are separate attributes now.",
+      "range": {
+        "startLine": 117,
+        "startChar": 7,
+        "endLine": 124,
+        "endChar": 0
+      },
+      "revId": "05b17ea8f8c08b92be63f2c129b14b1b78136e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

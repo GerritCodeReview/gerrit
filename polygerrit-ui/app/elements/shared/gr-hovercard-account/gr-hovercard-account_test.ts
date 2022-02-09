@@ -46,6 +46,7 @@ suite('gr-hovercard-account tests', () => {
     email: 'kermit@gmail.com' as EmailAddress,
     username: 'kermit',
     name: 'Kermit The Frog',
+    status: 'I am a frog',
     _account_id: 31415926535 as AccountId,
   };
 
@@ -75,30 +76,27 @@ suite('gr-hovercard-account tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<div
-      id="container"
-      role="tooltip"
-      tabindex="-1"
-    >
-      <div class="top">
-        <div class="avatar">
-          <gr-avatar hidden="" imagesize="56"></gr-avatar>
-        </div>
-        <div class="account">
-          <h3 class="heading-3 name">
-            Kermit The Frog
-          </h3>
-          <div class="email">
-            kermit@gmail.com
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div id="container" role="tooltip" tabindex="-1">
+        <div class="top">
+          <div class="avatar">
+            <gr-avatar hidden="" imagesize="56"></gr-avatar>
+          </div>
+          <div class="account">
+            <h3 class="heading-3 name">Kermit The Frog</h3>
+            <div class="email">kermit@gmail.com</div>
           </div>
         </div>
+        <div class="statusPlugin">
+          <gr-endpoint-decorator name="hovercard-status">
+            <gr-endpoint-param name="account"></gr-endpoint-param>
+          </gr-endpoint-decorator>
+        </div>
+        <div class="status">
+          <span class="title">About me:</span>
+          <span class="value">I am a frog</span>
+        </div>
       </div>
-      <div class="statusPlugin">
-        <gr-endpoint-decorator name="hovercard-status">
-          <gr-endpoint-param name="account"></gr-endpoint-param>
-        </gr-endpoint-decorator>
-      </div>
-    </div>
     `);
   });
 
@@ -117,15 +115,15 @@ suite('gr-hovercard-account tests', () => {
     assert.equal(element.computePronoun(), 'Their');
   });
 
-  test('account status is not shown if the property is not set', () => {
+  test('account status is not shown if the property is not set', async () => {
+    element.account = {...ACCOUNT, status: undefined};
+    await element.updateComplete;
     assert.isUndefined(query(element, '.status'));
   });
 
-  test('account status is displayed', async () => {
-    element.account = {...ACCOUNT, status: 'OOO'};
-    await element.updateComplete;
+  test('account status is displayed', () => {
     const status = queryAndAssert<HTMLSpanElement>(element, '.status .value');
-    assert.equal(status.innerText, 'OOO');
+    assert.equal(status.innerText, 'I am a frog');
   });
 
   test('voteable div is not shown if the property is not set', () => {

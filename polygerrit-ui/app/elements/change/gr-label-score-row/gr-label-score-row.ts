@@ -28,6 +28,9 @@ import {
   DetailedLabelInfo,
 } from '../../../types/common';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
+import {getAppContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {classMap} from 'lit/directives/class-map';
 
 export interface Label {
   name: string;
@@ -75,6 +78,12 @@ export class GrLabelScoreRow extends LitElement {
   @state()
   private selectedValueText = 'No value selected';
 
+  private readonly flagsService = getAppContext().flagsService;
+
+  private readonly isSubmitRequirementsUiEnabled = this.flagsService.isEnabled(
+    KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+  );
+
   static override get styles() {
     return [
       sharedStyles,
@@ -89,6 +98,9 @@ export class GrLabelScoreRow extends LitElement {
         .labelNameCell {
           padding-left: var(--spacing-xl);
         }
+        .labelNameCell.newSubmitRequirements {
+          width: 160px;
+        }
         .selectedValueCell {
           padding-right: var(--spacing-xl);
         }
@@ -99,6 +111,9 @@ export class GrLabelScoreRow extends LitElement {
         }
         .selectedValueCell {
           width: 75%;
+        }
+        .selectedValueCell.newSubmitRequirements {
+          width: 52%;
         }
         .labelMessage {
           color: var(--deemphasized-text-color);
@@ -170,7 +185,13 @@ export class GrLabelScoreRow extends LitElement {
 
   override render() {
     return html`
-      <span class="labelNameCell" id="labelName" aria-hidden="true"
+      <span
+        class="${classMap({
+          labelNameCell: true,
+          newSubmitRequirements: this.isSubmitRequirementsUiEnabled,
+        })}"
+        id="labelName"
+        aria-hidden="true"
         >${this.label?.name ?? ''}</span
       >
       ${this.renderButtonsCell()} ${this.renderSelectedValue()}
@@ -249,7 +270,13 @@ export class GrLabelScoreRow extends LitElement {
 
   private renderSelectedValue() {
     return html`
-      <div class="selectedValueCell ${this.computeHiddenClass()}">
+      <div
+        class="${classMap({
+          selectedValueCell: true,
+          hidden: !this._computeAnyPermittedLabelValues(),
+          newSubmitRequirements: this.isSubmitRequirementsUiEnabled,
+        })}"
+      >
         <span id="selectedValueLabel">${this.selectedValueText}</span>
       </div>
     `;
@@ -399,10 +426,6 @@ export class GrLabelScoreRow extends LitElement {
       hasOwnProperty(this.permittedLabels, this.label.name) &&
       this.permittedLabels[this.label.name].length
     );
-  }
-
-  private computeHiddenClass() {
-    return !this._computeAnyPermittedLabelValues() ? 'hidden' : '';
   }
 
   private computePermittedLabelValues() {

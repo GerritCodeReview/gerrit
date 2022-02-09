@@ -65,6 +65,9 @@ export class GrLabelScores extends LitElement {
           display: table;
           width: 100%;
         }
+        .scoresTable.newSubmitRequirements {
+          table-layout: fixed;
+        }
         .mergedMessage,
         .abandonedMessage {
           font-style: italic;
@@ -152,8 +155,14 @@ export class GrLabelScores extends LitElement {
   }
 
   private renderLabels(labels: Label[]) {
+    const newSubReqs = showNewSubmitRequirements(
+      this.flagsService,
+      this.change
+    );
     const labelValues = this._computeColumns();
-    return html`<div class="scoresTable">
+    return html`<div
+      class="scoresTable ${newSubReqs ? 'newSubmitRequirements' : ''}"
+    >
       ${labels.map(
         label => html`<gr-label-score-row
           class="${this.computeLabelAccessClass(label.name)}"

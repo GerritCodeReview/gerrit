@@ -21,6 +21,8 @@ import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {addShortcut, getEventPath, Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
+import {classMap} from 'lit/directives/class-map';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -188,9 +190,22 @@ export class GrButton extends LitElement {
         :host([down-arrow]) paper-button:hover .downArrow {
           border-top-color: var(--deemphasized-text-color);
         }
+        .newVoteChip {
+          border: 1px solid var(--border-color);
+          box-shadow: none;
+          box-sizing: border-box;
+          min-width: 3em;
+          color: var(--vote-text-color);
+        }
       `,
     ];
   }
+
+  private readonly flagsService = getAppContext().flagsService;
+
+  private readonly isSubmitRequirementsUiEnabled = this.flagsService.isEnabled(
+    KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+  );
 
   override render() {
     return html`<paper-button
@@ -199,7 +214,10 @@ export class GrButton extends LitElement {
       role="button"
       tabindex="-1"
       part="paper-button"
-      class="${this.voteChip ? 'voteChip' : ''}"
+      class="${classMap({
+        voteChip: this.voteChip && !this.isSubmitRequirementsUiEnabled,
+        newVoteChip: this.voteChip && this.isSubmitRequirementsUiEnabled,
+      })}"
     >
       ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
       <slot></slot>

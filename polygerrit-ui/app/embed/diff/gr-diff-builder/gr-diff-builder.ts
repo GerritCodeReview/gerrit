@@ -95,6 +95,24 @@ export function isResponsive(responsiveMode: DiffResponsiveMode) {
   );
 }
 
+export interface DiffBuilder {
+  clear(): void;
+  spliceGroups(
+    start: number,
+    deleteCount: number,
+    ...addedGroups: GrDiffGroup[]
+  ): GrDiffGroup[];
+  getIndexOfSection(sectionEl: HTMLElement): number;
+  addColumns(outputEl: HTMLElement, fontSize: number): void;
+  getContentTdByLine(
+    lineNumber: LineNumber,
+    side?: Side,
+    root?: Element
+  ): Element | null;
+  setBlame(blame: BlameInfo[] | null): void;
+  updateRenderPrefs(_renderPrefs: RenderPreferences): void;
+}
+
 /**
  * Base class for different diff builders, like side-by-side, unified etc.
  *
@@ -104,7 +122,7 @@ export function isResponsive(responsiveMode: DiffResponsiveMode) {
  * will then be rendered - or remove groups whose sections will then be
  * removed from the DOM.
  */
-export abstract class GrDiffBuilder {
+export abstract class GrDiffBuilder implements DiffBuilder {
   private readonly _diff: DiffInfo;
 
   private readonly _numLinesLeft: number;
@@ -188,7 +206,7 @@ export abstract class GrDiffBuilder {
 
   abstract addColumns(outputEl: HTMLElement, fontSize: number): void;
 
-  abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
+  protected abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
 
   getIndexOfSection(sectionEl: HTMLElement) {
     return this.groups.findIndex(group => group.element === sectionEl);
@@ -199,6 +217,7 @@ export abstract class GrDiffBuilder {
     deleteCount: number,
     ...addedGroups: GrDiffGroup[]
   ) {
+    console.log(`spliceGroups ${start} ${deleteCount} ${addedGroups.length}`);
     const sectionBeforeWhichToInsert =
       start < this.groups.length ? this.groups[start].element ?? null : null;
     // Update the groups array

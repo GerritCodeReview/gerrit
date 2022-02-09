@@ -2103,12 +2103,12 @@ export class GrChangeView extends base {
     // Resolves when the change detail and the edit patch set (if available)
     // are loaded.
     const detailCompletes = this.untilModelLoaded();
-    this.performPostChangeLoadTasks();
     allDataPromises.push(detailCompletes);
+    const loadComplete = this.performPostChangeLoadTasks();
 
     // Resolves when the loading flag is set to false, meaning that some
     // change content may start appearing.
-    const loadingFlagSet = detailCompletes
+    const loadingFlagSet = Promise.all([detailCompletes, loadComplete])
       .then(() => {
         this._loading = false;
         fireEvent(this, 'change-details-loaded');

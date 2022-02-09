@@ -67,13 +67,16 @@ suite('gr-change-list-column-requirement tests', () => {
       >
       </gr-change-list-column-requirement>`
     );
-    expect(element).shadowDom.to.equal(/* HTML */ ` <div class="container">
-      <iron-icon
-        class="check-circle-filled"
-        icon="gr-icons:check-circle-filled"
-      >
-      </iron-icon>
-    </div>`);
+    expect(element).shadowDom.to.equal(
+      /* HTML */
+      ` <div class="container" title="Code-Review">
+        <iron-icon
+          class="check-circle-filled"
+          icon="gr-icons:check-circle-filled"
+        >
+        </iron-icon>
+      </div>`
+    );
   });
 
   test('show worst vote when state is not satisfied', async () => {
@@ -87,8 +90,8 @@ suite('gr-change-list-column-requirement tests', () => {
     const label: DetailedLabelInfo = {
       values: VALUES_2,
       all: [
-        {value: -1, _account_id: 777 as AccountId},
-        {value: 1, _account_id: 324 as AccountId},
+        {value: -1, _account_id: 777 as AccountId, name: 'Reviewer'},
+        {value: 1, _account_id: 324 as AccountId, name: 'Reviewer 2'},
       ],
     };
     const submitRequirement: SubmitRequirementResultInfo = {
@@ -114,16 +117,22 @@ suite('gr-change-list-column-requirement tests', () => {
       >
       </gr-change-list-column-requirement>`
     );
-    expect(element).shadowDom.to.equal(/* HTML */ ` <div class="container">
-      <gr-vote-chip></gr-vote-chip>
-    </div>`);
+    expect(element).shadowDom.to.equal(
+      /* HTML */
+      ` <div class="container" title="Code-Review">
+        <gr-vote-chip tooltipwithwhovoted=""></gr-vote-chip>
+      </div>`
+    );
     const voteChip = queryAndAssert(element, 'gr-vote-chip');
-    expect(voteChip).shadowDom.to.equal(/* HTML */ ` <gr-tooltip-content
-      class="container"
-      has-tooltip=""
-      title="bad"
-    >
-      <div class="negative vote-chip">-1</div>
-    </gr-tooltip-content>`);
+    expect(voteChip).shadowDom.to.equal(
+      /* HTML */
+      ` <gr-tooltip-content
+        class="container"
+        has-tooltip=""
+        title="Reviewer: bad"
+      >
+        <div class="negative vote-chip">-1</div>
+      </gr-tooltip-content>`
+    );
   });
 });

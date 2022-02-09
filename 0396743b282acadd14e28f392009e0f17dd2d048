@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2c67994_5619022b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-09T18:11:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89f49e14_5ee95e20",
+      "revId": "0396743b282acadd14e28f392009e0f17dd2d048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "870578d3_0b714b47",
@@ -37,6 +55,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f4ecd73b_2fc67a0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-09T18:11:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "870578d3_0b714b47",
+      "revId": "0396743b282acadd14e28f392009e0f17dd2d048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "640bd9ed_98f00a42",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -48,6 +84,24 @@
       "writtenOn": "2022-02-09T16:47:26Z",
       "side": 1,
       "message": "what is that new gwsq bot? maybe configure it a proper \"real name\" and status/about?",
+      "revId": "0396743b282acadd14e28f392009e0f17dd2d048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec5c96b1_c38b0137",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-09T18:11:14Z",
+      "side": 1,
+      "message": "Sorry, I only know it is generally a bot for automatically adding reviewers to changes and I am not sure what it should be named/labeled or how to change it.",
+      "parentUuid": "640bd9ed_98f00a42",
       "revId": "0396743b282acadd14e28f392009e0f17dd2d048",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

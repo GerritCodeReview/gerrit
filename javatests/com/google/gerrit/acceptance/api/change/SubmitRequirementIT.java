@@ -68,6 +68,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.SubmitRequirementsUtil;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
@@ -93,6 +94,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private SubmitRequirementsUtil submitRequirementsUtil;
 
   @Test
   public void submitRecords() throws Exception {
@@ -2585,6 +2587,105 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
                 .distinct()
                 .collect(MoreCollectors.onlyElement()))
         .isFalse();
+  }
+
+  @Test
+  public void labelsAssociatedWithNonApplicableSRsAreNotReturned() throws Exception {
+    configLabel("LC", LabelFunction.NO_OP);
+    configLabel("Verified", LabelFunction.NO_OP);
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("LC")
+            .setApplicabilityExpression(SubmitRequirementExpression.of("file:\"^WORKSPACE$\""))
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:LC=MAX"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Verified")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Verified=MAX"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(3);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "LC", Status.NOT_APPLICABLE, /* isLegacy= */ false);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Verified", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    // LC is not returned with labels since it's associated with a non-applicable SR.
+    assertThat(change.labels.keySet()).containsExactly("Verified", "Code-Review");
+  }
+
+  @Test
+  public void labelsAssociatedWithApplicableAndNonApplicableSRsAreReturned() throws Exception {
+    configLabel("LC", LabelFunction.NO_OP);
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("LC-NA")
+            .setApplicabilityExpression(SubmitRequirementExpression.of("file:\"^WORKSPACE$\""))
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:LC-NA=MAX"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("LC-Applicable")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:LC-Applicable=MAX"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(3);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "LC-NA", Status.NOT_APPLICABLE, /* isLegacy= */ false);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "LC-Applicable", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    // LC is returned with labels since it's associated with an applicable SR "LC-Applicable".
+    assertThat(change.labels.keySet()).containsExactly("LC", "Code-Review");
+  }
+
+  @Test
+  public void labelsAreReturnedIfNoSRsAreConfigured() throws Exception {
+    configLabel("LC", LabelFunction.NO_OP);
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+
+    assertThat(change.labels.keySet()).containsExactly("LC", "Code-Review");
+  }
+
+  @Test
+  public void extractLabelNamesFromSubmitRequirementExpressions() throws Exception {
+    List<String> labels =
+        submitRequirementsUtil.extractLabelNamesFromExpression(
+            "label:CR=MAX AND (label:Verified=-2,user=foo OR label:Library-Compliance=+1)");
+    assertThat(labels).containsExactly("cr", "verified", "library-compliance");
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

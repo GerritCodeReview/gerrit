@@ -85,7 +85,7 @@ suite('gr-comment tests', () => {
     test('renders collapsed', async () => {
       element.initiallyCollapsed = true;
       await element.updateComplete;
-      expect(element).shadowDom.to.equal(`
+      expect(element).shadowDom.to.equal(/* HTML */ `
         <div class="container" id="container">
           <div class="header" id="header">
             <div class="headerLeft">
@@ -99,7 +99,7 @@ suite('gr-comment tests', () => {
             <span class="patchset-text">Patchset 1</span>
             <div class="show-hide" tabindex="0">
               <label aria-label="Expand" class="show-hide">
-                <input checked="" class="show-hide" type="checkbox">
+                <input checked="" class="show-hide" type="checkbox" />
                 <iron-icon id="icon" icon="gr-icons:expand-more"></iron-icon>
               </label>
             </div>
@@ -112,7 +112,7 @@ suite('gr-comment tests', () => {
     test('renders expanded', async () => {
       element.initiallyCollapsed = false;
       await element.updateComplete;
-      expect(element).shadowDom.to.equal(`
+      expect(element).shadowDom.to.equal(/* HTML */ `
         <div class="container" id="container">
           <div class="header" id="header">
             <div class="headerLeft">
@@ -126,13 +126,16 @@ suite('gr-comment tests', () => {
             </span>
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
-                <input class="show-hide" type="checkbox">
+                <input class="show-hide" type="checkbox" />
                 <iron-icon id="icon" icon="gr-icons:expand-less"></iron-icon>
               </label>
             </div>
           </div>
           <div class="body">
-            <gr-formatted-text class="message" notrailingmargin=""></gr-formatted-text>
+            <gr-formatted-text
+              class="message"
+              notrailingmargin=""
+            ></gr-formatted-text>
           </div>
         </div>
       `);
@@ -142,7 +145,7 @@ suite('gr-comment tests', () => {
       element.initiallyCollapsed = false;
       element.comment = createRobotComment();
       await element.updateComplete;
-      expect(element).shadowDom.to.equal(`
+      expect(element).shadowDom.to.equal(/* HTML */ `
         <div class="container" id="container">
           <div class="header" id="header">
             <div class="headerLeft">
@@ -156,25 +159,46 @@ suite('gr-comment tests', () => {
             </span>
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
-                <input class="show-hide" type="checkbox">
+                <input class="show-hide" type="checkbox" />
                 <iron-icon id="icon" icon="gr-icons:expand-less"></iron-icon>
               </label>
             </div>
           </div>
           <div class="body">
             <div class="robotId"></div>
-            <gr-formatted-text class="message" notrailingmargin=""></gr-formatted-text>
+            <gr-formatted-text
+              class="message"
+              notrailingmargin=""
+            ></gr-formatted-text>
             <div class="robotActions">
-              <iron-icon class="copy link-icon" icon="gr-icons:link" role="button" tabindex="0"
-                         title="Copy link to this comment">
+              <iron-icon
+                class="copy link-icon"
+                icon="gr-icons:link"
+                role="button"
+                tabindex="0"
+                title="Copy link to this comment"
+              >
               </iron-icon>
               <gr-endpoint-decorator name="robot-comment-controls">
                 <gr-endpoint-param name="comment"></gr-endpoint-param>
               </gr-endpoint-decorator>
-              <gr-button aria-disabled="false" class="action show-fix" link="" role="button" secondary="" tabindex="0">
+              <gr-button
+                aria-disabled="false"
+                class="action show-fix"
+                link=""
+                role="button"
+                secondary=""
+                tabindex="0"
+              >
                 Show Fix
               </gr-button>
-              <gr-button aria-disabled="false" class="action fix" link="" role="button" tabindex="0">
+              <gr-button
+                aria-disabled="false"
+                class="action fix"
+                link=""
+                role="button"
+                tabindex="0"
+              >
                 Please Fix
               </gr-button>
             </div>
@@ -187,7 +211,8 @@ suite('gr-comment tests', () => {
       element.initiallyCollapsed = false;
       element.isAdmin = true;
       await element.updateComplete;
-      expect(queryAndAssert(element, 'gr-button.delete')).dom.to.equal(`
+      expect(queryAndAssert(element, 'gr-button.delete')).dom.to
+        .equal(/* HTML */ `
         <gr-button
           aria-disabled="false"
           class="action delete"
@@ -206,13 +231,16 @@ suite('gr-comment tests', () => {
       element.initiallyCollapsed = false;
       (element.comment as DraftInfo).__draft = true;
       await element.updateComplete;
-      expect(element).shadowDom.to.equal(`
+      expect(element).shadowDom.to.equal(/* HTML */ `
         <div class="container draft" id="container">
           <div class="header" id="header">
             <div class="headerLeft">
               <gr-account-label class="draft" deselected=""></gr-account-label>
               <gr-tooltip-content
-                class="draftTooltip" has-tooltip="" max-width="20em" show-icon=""
+                class="draftTooltip"
+                has-tooltip=""
+                max-width="20em"
+                show-icon=""
                 title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'a' key."
               >
                 <span class="draftLabel">DRAFT</span>
@@ -226,7 +254,7 @@ suite('gr-comment tests', () => {
             </span>
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
-                <input class="show-hide" type="checkbox">
+                <input class="show-hide" type="checkbox" />
                 <iron-icon id="icon" icon="gr-icons:expand-less"></iron-icon>
               </label>
             </div>
@@ -236,15 +264,27 @@ suite('gr-comment tests', () => {
             <div class="actions">
               <div class="action resolve">
                 <label>
-                  <input checked="" id="resolvedCheckbox" type="checkbox">
+                  <input checked="" id="resolvedCheckbox" type="checkbox" />
                   Resolved
                 </label>
               </div>
               <div class="rightActions">
-                <gr-button aria-disabled="false" class="action discard" link="" role="button" tabindex="0">
+                <gr-button
+                  aria-disabled="false"
+                  class="action discard"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
                   Discard
                 </gr-button>
-                <gr-button aria-disabled="false" class="action edit" link="" role="button" tabindex="0">
+                <gr-button
+                  aria-disabled="false"
+                  class="action edit"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
                   Edit
                 </gr-button>
               </div>
@@ -259,13 +299,16 @@ suite('gr-comment tests', () => {
       (element.comment as DraftInfo).__draft = true;
       element.editing = true;
       await element.updateComplete;
-      expect(element).shadowDom.to.equal(`
+      expect(element).shadowDom.to.equal(/* HTML */ `
         <div class="container draft" id="container">
           <div class="header" id="header">
             <div class="headerLeft">
               <gr-account-label class="draft" deselected=""></gr-account-label>
               <gr-tooltip-content
-                class="draftTooltip" has-tooltip="" max-width="20em" show-icon=""
+                class="draftTooltip"
+                has-tooltip=""
+                max-width="20em"
+                show-icon=""
                 title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'a' key."
               >
                 <span class="draftLabel">DRAFT</span>
@@ -279,29 +322,45 @@ suite('gr-comment tests', () => {
             </span>
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
-                <input class="show-hide" type="checkbox">
+                <input class="show-hide" type="checkbox" />
                 <iron-icon id="icon" icon="gr-icons:expand-less"></iron-icon>
               </label>
             </div>
           </div>
           <div class="body">
             <gr-textarea
-              autocomplete="on" class="code editMessage" code="" id="editTextarea" rows="4"
+              autocomplete="on"
+              class="code editMessage"
+              code=""
+              id="editTextarea"
+              rows="4"
               text="This is the test comment message."
             >
             </gr-textarea>
             <div class="actions">
               <div class="action resolve">
                 <label>
-                  <input checked="" id="resolvedCheckbox" type="checkbox">
+                  <input checked="" id="resolvedCheckbox" type="checkbox" />
                   Resolved
                 </label>
               </div>
               <div class="rightActions">
-                <gr-button aria-disabled="false" class="action cancel" link="" role="button" tabindex="0">
+                <gr-button
+                  aria-disabled="false"
+                  class="action cancel"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
                   Cancel
                 </gr-button>
-                <gr-button aria-disabled="false" class="action save" link="" role="button" tabindex="0">
+                <gr-button
+                  aria-disabled="false"
+                  class="action save"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
                   Save
                 </gr-button>
               </div>

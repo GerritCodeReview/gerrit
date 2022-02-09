@@ -51,7 +51,7 @@ suite('gr-labeled-autocomplete tests', () => {
     element.label = 'Some label';
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(`
+    expect(element).shadowDom.to.equal(/* HTML */ `
       <div id="container">
         <div id="header">Some label</div>
         <div id="body">

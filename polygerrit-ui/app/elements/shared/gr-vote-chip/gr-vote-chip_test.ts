@@ -48,7 +48,7 @@ suite('gr-vote-chip tests', () => {
     });
 
     test('renders', () => {
-      expect(element).shadowDom.to.equal(`<gr-tooltip-content
+      expect(element).shadowDom.to.equal(/* HTML */ ` <gr-tooltip-content
         class="container"
         has-tooltip=""
         title=""
@@ -73,14 +73,12 @@ suite('gr-vote-chip tests', () => {
     });
 
     test('renders', () => {
-      expect(element).shadowDom.to.equal(`<gr-tooltip-content 
+      expect(element).shadowDom.to.equal(/* HTML */ ` <gr-tooltip-content
         class="container"
         has-tooltip=""
         title=""
       >
-        <div class="positive vote-chip">
-            +2
-        </div>
+        <div class="positive vote-chip">+2</div>
       </gr-tooltip-content>`);
     });
 
@@ -92,14 +90,12 @@ suite('gr-vote-chip tests', () => {
       element = await fixture<GrVoteChip>(
         html`<gr-vote-chip .label=${labelInfo} .vote=${vote}></gr-vote-chip>`
       );
-      expect(element).shadowDom.to.equal(`<gr-tooltip-content
+      expect(element).shadowDom.to.equal(/* HTML */ ` <gr-tooltip-content
         class="container"
         has-tooltip=""
         title="Wrong Style or Formatting"
       >
-        <div class="min vote-chip">
-            -1
-        </div>
+        <div class="min vote-chip">-1</div>
       </gr-tooltip-content>`);
     });
 
@@ -111,7 +107,7 @@ suite('gr-vote-chip tests', () => {
           more
         ></gr-vote-chip>`
       );
-      expect(element).shadowDom.to.equal(`<gr-tooltip-content
+      expect(element).shadowDom.to.equal(/* HTML */ ` <gr-tooltip-content
         class="container more"
         has-tooltip=""
         title=""

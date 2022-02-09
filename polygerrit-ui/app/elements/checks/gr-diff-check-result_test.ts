@@ -36,34 +36,24 @@ suite('gr-diff-check-result tests', () => {
   test('renders', async () => {
     element.result = {...fakeRun1, ...fakeRun1.results?.[0]} as RunResult;
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(`
+    expect(element).shadowDom.to.equal(/* HTML */ `
       <div class="container font-normal warning">
         <div class="header">
           <div class="icon">
-            <iron-icon icon="gr-icons:warning">
-            </iron-icon>
+            <iron-icon icon="gr-icons:warning"> </iron-icon>
           </div>
           <div class="name">
-            <gr-hovercard-run>
-            </gr-hovercard-run>
-            <div
-              class="name"
-              role="button"
-              tabindex="0"
-            >
-              FAKE Super Check
-            </div>
+            <gr-hovercard-run> </gr-hovercard-run>
+            <div class="name" role="button" tabindex="0">FAKE Super Check</div>
           </div>
-          <div class="summary">
-            We think that you could improve this.
-          </div>
+          <div class="summary">We think that you could improve this.</div>
           <div class="message">
-            There is a lot to be said. A lot. I say, a lot.
-                So please keep reading.
+            There is a lot to be said. A lot. I say, a lot. So please keep
+            reading.
           </div>
         </div>
-        <div class="details">
-        </div>
+        <div class="details"></div>
+      </div>
     `);
   });
 });

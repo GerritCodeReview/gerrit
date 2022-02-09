@@ -37,22 +37,23 @@ suite('gr-account-chip tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<div class="container">
-      <gr-account-link></gr-account-link>
-      <slot name="vote-chip"></slot>
-      <gr-button
-        aria-disabled="false"
-        aria-label="Remove"
-        class="remove"
-        hidden=""
-        id="remove"
-        link=""
-        role="button"
-        tabindex="0"
-      >
-        <iron-icon icon="gr-icons:close"></iron-icon>
-      </gr-button>
-    </div>
-  `);
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="container">
+        <gr-account-link></gr-account-link>
+        <slot name="vote-chip"></slot>
+        <gr-button
+          aria-disabled="false"
+          aria-label="Remove"
+          class="remove"
+          hidden=""
+          id="remove"
+          link=""
+          role="button"
+          tabindex="0"
+        >
+          <iron-icon icon="gr-icons:close"></iron-icon>
+        </gr-button>
+      </div>
+    `);
   });
 });

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb2e87a5_c93f8c65",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T10:39:12Z",
+      "side": 1,
+      "message": "It\u0027s not necessary, it\u0027s tied to the object.",
+      "parentUuid": "d322ce10_bcdbd2f8",
+      "range": {
+        "startLine": 148,
+        "startChar": 42,
+        "endLine": 148,
+        "endChar": 65
+      },
+      "revId": "0029e4afd0684c52474581b3e576de99eb017fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e9c297e_9381957a",
         "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-09T10:34:48Z",
       "side": 1,
       "message": "If keyboard is set, ESC will not close it",
+      "range": {
+        "startLine": 150,
+        "startChar": 58,
+        "endLine": 150,
+        "endChar": 68
+      },
+      "revId": "0029e4afd0684c52474581b3e576de99eb017fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "728538e3_6dc32169",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T10:39:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e9c297e_9381957a",
       "range": {
         "startLine": 150,
         "startChar": 58,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bc5e15c_df0116a2",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T10:39:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd73017d_0b51a547",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 178,
+        "endChar": 68
+      },
+      "revId": "0029e4afd0684c52474581b3e576de99eb017fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d42f438_83de061b",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-02-09T10:32:18Z",
       "side": 1,
       "message": "Restore this?",
+      "range": {
+        "startLine": 197,
+        "startChar": 8,
+        "endLine": 197,
+        "endChar": 71
+      },
+      "revId": "0029e4afd0684c52474581b3e576de99eb017fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ed1ea33_3d8ab17e",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T10:39:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d42f438_83de061b",
       "range": {
         "startLine": 197,
         "startChar": 8,

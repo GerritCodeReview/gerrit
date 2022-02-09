@@ -56,6 +56,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b9219b56_0fc0868b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-02-09T12:02:46Z",
+      "side": 1,
+      "message": "Sure, I have a local test server running here and syntax highlighting works as expected.\nNow I also checked that all `hljs.registerLanguage()` calls are still there.",
+      "parentUuid": "f1cf2086_33e20899",
+      "revId": "8da35a816c0526af7f29dec0a0a8dd4e13e3fdb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e0185b86_365b65a7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 13

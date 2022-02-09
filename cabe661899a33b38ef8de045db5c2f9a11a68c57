@@ -79,6 +79,24 @@
       "message": "Is this required?",
       "revId": "cabe661899a33b38ef8de045db5c2f9a11a68c57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd10abf1_f417f5e5",
+        "filename": "tools/node_tools/package.json",
+        "patchSetId": 14
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-02-09T12:02:46Z",
+      "side": 1,
+      "message": "The highlight.js package only provides a commonjs `module.exports \u003d hljs`.\nI have not managed to build it without this plugin.",
+      "parentUuid": "d3b63ee3_5f41a29a",
+      "revId": "cabe661899a33b38ef8de045db5c2f9a11a68c57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

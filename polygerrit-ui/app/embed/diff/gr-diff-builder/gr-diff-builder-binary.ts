@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {queryAndAssert} from '../../../utils/common-util';
-import {RenderPreferences} from '../../../api/diff';
 import {createElementDiff} from '../gr-diff/gr-diff-utils';
 
 export class GrDiffBuilderBinary extends GrDiffBuilderUnified {
@@ -34,12 +32,10 @@ export class GrDiffBuilderBinary extends GrDiffBuilderUnified {
   override buildSectionElement(): HTMLElement {
     const section = createElementDiff('tbody', 'binary-diff');
     const line = new GrDiffLine(GrDiffLineType.BOTH, 'FILE', 'FILE');
-    const fileRow = this._createRow(line);
+    const fileRow = this.createRow(line);
     const contentTd = queryAndAssert(fileRow, 'td.both.file')!;
     contentTd.textContent = ' Difference in binary files';
     section.appendChild(fileRow);
     return section;
   }
-
-  override updateRenderPrefs(_renderPrefs: RenderPreferences) {}
 }

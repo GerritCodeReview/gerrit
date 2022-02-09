@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-account-label';
 import {
+  query,
   queryAndAssert,
   spyRestApi,
   stubRestApi,
@@ -162,6 +163,20 @@ suite('gr-account-label tests', () => {
       MockInteractions.tap(button);
       assert.isTrue(apiSpy.calledOnce);
       assert.equal(apiSpy.lastCall.args[1], 42);
+    });
+
+    test('no status icons attribute', async () => {
+      queryAndAssert(
+        element,
+        'gr-endpoint-decorator[name="account-status-icon"]'
+      );
+
+      element.noStatusIcons = true;
+      await element.updateComplete;
+
+      assert.notExists(
+        query(element, 'gr-endpoint-decorator[name="account-status-icon"]')
+      );
     });
   });
 });

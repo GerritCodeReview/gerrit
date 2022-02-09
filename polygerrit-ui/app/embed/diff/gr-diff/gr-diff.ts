@@ -37,6 +37,8 @@ import {
   isLongCommentRange,
   isThreadEl,
   rangesEqual,
+  getResponsiveMode,
+  isResponsive,
 } from './gr-diff-utils';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -83,10 +85,6 @@ import {
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {
-  getResponsiveMode,
-  isResponsive,
-} from '../gr-diff-builder/gr-diff-builder';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';

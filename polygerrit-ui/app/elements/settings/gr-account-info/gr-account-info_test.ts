@@ -60,9 +60,9 @@ suite('gr-account-info tests', () => {
     account = createAccountWithIdNameAndEmail(123) as AccountDetailInfo;
     config = createServerInfo();
 
-    stubRestApi('getAccount').returns(Promise.resolve(account));
-    stubRestApi('getConfig').returns(Promise.resolve(config));
-    stubRestApi('getPreferences').returns(Promise.resolve(createPreferences()));
+    stubRestApi('getAccount').resolves(account);
+    stubRestApi('getConfig').resolves(config);
+    stubRestApi('getPreferences').resolves(createPreferences());
 
     element = basicFixture.instantiate();
     await element.loadData();
@@ -70,69 +70,70 @@ suite('gr-account-info tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<div class="gr-form-styles">
-    <section>
-      <span class="title"></span>
-      <span class="value">
-        <gr-avatar hidden="" imagesize="120"></gr-avatar>
-      </span>
-    </section>
-    <section class="hide">
-      <span class="title"></span>
-      <span class="value"><a href="">Change avatar</a></span>
-    </section>
-    <section>
-      <span class="title">ID</span>
-      <span class="value">123</span>
-    </section>
-    <section>
-      <span class="title">Email</span>
-      <span class="value">user-123@</span>
-    </section>
-    <section>
-      <span class="title">Registered</span>
-      <span class="value">
-        <gr-date-formatter withtooltip=""></gr-date-formatter>
-      </span>
-    </section>
-    <section id="usernameSection">
-      <span class="title">Username</span>
-      <span class="value"></span>
-      <span class="value" hidden="true">
-        <iron-input id="usernameIronInput">
-          <input id="usernameInput">
-        </iron-input>
-      </span>
-    </section>
-    <section id="nameSection">
-      <label class="title" for="nameInput">Full name</label>
-      <span class="value">User-123</span>
-      <span class="value" hidden="true">
-        <iron-input id="nameIronInput">
-          <input id="nameInput">
-        </iron-input>
-      </span>
-    </section>
-    <section>
-      <label class="title" for="displayNameInput">Display name</label>
-      <span class="value">
-        <iron-input>
-          <input id="displayNameInput">
-        </iron-input>
-      </span>
-    </section>
-    <section>
-      <label class="title" for="statusInput">
-        Status (e.g. "Vacation")
-      </label>
-      <span class="value">
-        <iron-input>
-          <input id="statusInput">
-        </iron-input>
-      </span>
-    </section>
-  </div>
-  `);
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles">
+        <section>
+          <span class="title"></span>
+          <span class="value">
+            <gr-avatar hidden="" imagesize="120"></gr-avatar>
+          </span>
+        </section>
+        <section class="hide">
+          <span class="title"></span>
+          <span class="value"><a href="">Change avatar</a></span>
+        </section>
+        <section>
+          <span class="title">ID</span>
+          <span class="value">123</span>
+        </section>
+        <section>
+          <span class="title">Email</span>
+          <span class="value">user-123@</span>
+        </section>
+        <section>
+          <span class="title">Registered</span>
+          <span class="value">
+            <gr-date-formatter withtooltip=""></gr-date-formatter>
+          </span>
+        </section>
+        <section id="usernameSection">
+          <span class="title">Username</span>
+          <span class="value"></span>
+          <span class="value" hidden="true">
+            <iron-input id="usernameIronInput">
+              <input id="usernameInput" />
+            </iron-input>
+          </span>
+        </section>
+        <section id="nameSection">
+          <label class="title" for="nameInput">Full name</label>
+          <span class="value">User-123</span>
+          <span class="value" hidden="true">
+            <iron-input id="nameIronInput">
+              <input id="nameInput" />
+            </iron-input>
+          </span>
+        </section>
+        <section>
+          <label class="title" for="displayNameInput">Display name</label>
+          <span class="value">
+            <iron-input>
+              <input id="displayNameInput" />
+            </iron-input>
+          </span>
+        </section>
+        <section>
+          <label class="title" for="statusInput">
+            About me (e.g. "UTC +1")
+          </label>
+          <span class="value">
+            <iron-input>
+              <input id="statusInput" />
+            </iron-input>
+          </span>
+        </section>
+      </div>
+    `);
   });
 
   test('basic account info render', () => {
@@ -216,11 +217,9 @@ suite('gr-account-info tests', () => {
         auth: {editable_account_fields: ['FULL_NAME', 'USER_NAME']},
       });
 
-      nameStub = stubRestApi('setAccountName').returns(Promise.resolve());
-      usernameStub = stubRestApi('setAccountUsername').returns(
-        Promise.resolve()
-      );
-      statusStub = stubRestApi('setAccountStatus').returns(Promise.resolve());
+      nameStub = stubRestApi('setAccountName').resolves();
+      usernameStub = stubRestApi('setAccountUsername').resolves();
+      statusStub = stubRestApi('setAccountStatus').resolves();
     });
 
     test('name', async () => {
@@ -291,9 +290,9 @@ suite('gr-account-info tests', () => {
         auth: {editable_account_fields: ['FULL_NAME']},
       });
 
-      nameStub = stubRestApi('setAccountName').returns(Promise.resolve());
-      statusStub = stubRestApi('setAccountStatus').returns(Promise.resolve());
-      stubRestApi('setAccountUsername').returns(Promise.resolve());
+      nameStub = stubRestApi('setAccountName').resolves();
+      statusStub = stubRestApi('setAccountStatus').resolves();
+      stubRestApi('setAccountUsername').resolves();
     });
 
     test('set name and status', async () => {
@@ -328,7 +327,7 @@ suite('gr-account-info tests', () => {
       statusChangedSpy = sinon.spy(element, '_statusChanged');
       element.set('_serverConfig', {auth: {editable_account_fields: []}});
 
-      statusStub = stubRestApi('setAccountStatus').returns(Promise.resolve());
+      statusStub = stubRestApi('setAccountStatus').resolves();
     });
 
     test('read full name but set status', async () => {

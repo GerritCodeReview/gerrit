@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d322ce10_bcdbd2f8",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T10:34:15Z",
+      "side": 1,
+      "message": "how can we remove event listener for this?",
+      "range": {
+        "startLine": 148,
+        "startChar": 42,
+        "endLine": 148,
+        "endChar": 65
+      },
+      "revId": "0029e4afd0684c52474581b3e576de99eb017fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd73017d_0b51a547",
         "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
         "patchSetId": 2

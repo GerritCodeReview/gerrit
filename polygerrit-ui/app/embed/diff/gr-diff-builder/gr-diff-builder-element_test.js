@@ -28,7 +28,7 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {DiffViewMode, Side} from '../../../api/diff.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
-import {createElementDiff} from '../gr-diff/gr-diff-utils.js';
+import {GrDiffBuilderLegacy} from './gr-diff-builder-legacy.js';
 
 const basicFixture = fixtureFromTemplate(html`
     <gr-diff-builder>
@@ -68,48 +68,7 @@ suite('gr-diff-builder tests', () => {
     stubRestApi('getProjectConfig').returns(Promise.resolve({}));
     stubBaseUrl('/r');
     prefs = {...DEFAULT_PREFS};
-    builder = new GrDiffBuilder({content: []}, prefs);
-  });
-
-  test('newlines 1', () => {
-    let text = 'abcdef';
-
-    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML, text);
-    text = 'a'.repeat(20);
-    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML,
-        'a'.repeat(10) +
-        LINE_BREAK_HTML +
-        'a'.repeat(10));
-  });
-
-  test('newlines 2', () => {
-    const text = '<span class="thumbsup">👍</span>';
-    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML,
-        '&lt;span clas' +
-        LINE_BREAK_HTML +
-        's="thumbsu' +
-        LINE_BREAK_HTML +
-        'p"&gt;👍&lt;/span' +
-        LINE_BREAK_HTML +
-        '&gt;');
-  });
-
-  test('newlines 3', () => {
-    const text = '01234\t56789';
-    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML,
-        '01234' + builder._getTabWrapper(3).outerHTML + '56' +
-        LINE_BREAK_HTML +
-        '789');
-  });
-
-  test('newlines 4', () => {
-    const text = '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍';
-    assert.equal(builder._formatText(text, 'NONE', 4, 20).innerHTML,
-        '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍' +
-        LINE_BREAK_HTML +
-        '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍' +
-        LINE_BREAK_HTML +
-        '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍');
+    builder = new GrDiffBuilderLegacy({content: []}, prefs);
   });
 
   test('line_length applied with <wbr> if line_wrapping is true', () => {
@@ -118,7 +77,7 @@ suite('gr-diff-builder tests', () => {
 
     const line = {text, highlights: []};
     const expected = 'a'.repeat(50) + WBR_HTML + 'a';
-    const result = builder._createTextEl(undefined, line).firstChild.innerHTML;
+    const result = builder.createTextEl(undefined, line).firstChild.innerHTML;
     assert.equal(result, expected);
   });
 
@@ -128,7 +87,7 @@ suite('gr-diff-builder tests', () => {
 
     const line = {text, highlights: []};
     const expected = 'a'.repeat(50) + LINE_BREAK_HTML + 'a';
-    const result = builder._createTextEl(undefined, line).firstChild.innerHTML;
+    const result = builder.createTextEl(undefined, line).firstChild.innerHTML;
     assert.equal(result, expected);
   });
 
@@ -153,10 +112,10 @@ suite('gr-diff-builder tests', () => {
         });
       });
 
-  test('_createTextEl linewrap with tabs', () => {
+  test('createTextEl linewrap with tabs', () => {
     const text = '\t'.repeat(7) + '!';
     const line = {text, highlights: []};
-    const el = builder._createTextEl(undefined, line);
+    const el = builder.createTextEl(undefined, line);
     assert.equal(el.innerText, text);
     // With line length 10 and tab size 2, there should be a line break
     // after every two tabs.
@@ -165,70 +124,6 @@ suite('gr-diff-builder tests', () => {
     assert.equal(
         el.querySelector('.contentText .tab:nth-child(2)').nextSibling,
         newlineEl);
-  });
-
-  test('text length with tabs and unicode', () => {
-    function expectTextLength(text, tabSize, expected) {
-      // Formatting to |expected| columns should not introduce line breaks.
-      const result = builder._formatText(text, 'NONE', tabSize, expected);
-      assert.isNotOk(result.querySelector('.contentText > .br'),
-          `  Expected the result of: \n` +
-          `      _formatText(${text}', 'NONE',  ${tabSize}, ${expected})\n` +
-          `  to not contain a br. But the actual result HTML was:\n` +
-          `      '${result.innerHTML}'\nwhereupon`);
-
-      // Increasing the line limit should produce the same markup.
-      assert.equal(
-          builder._formatText(text, 'NONE', tabSize, Infinity).innerHTML,
-          result.innerHTML);
-      assert.equal(
-          builder._formatText(text, 'NONE', tabSize, expected + 1).innerHTML,
-          result.innerHTML);
-
-      // Decreasing the line limit should introduce line breaks.
-      if (expected > 0) {
-        const tooSmall = builder._formatText(text,
-            'NONE', tabSize, expected - 1);
-        assert.isOk(tooSmall.querySelector('.contentText > .br'),
-            `  Expected the result of: \n` +
-            `      _formatText(${text}', ${tabSize}, ${expected - 1})\n` +
-            `  to contain a br. But the actual result HTML was:\n` +
-            `      '${tooSmall.innerHTML}'\nwhereupon`);
-      }
-    }
-    expectTextLength('12345', 4, 5);
-    expectTextLength('\t\t12', 4, 10);
-    expectTextLength('abc💢123', 4, 7);
-    expectTextLength('abc\t', 8, 8);
-    expectTextLength('abc\t\t', 10, 20);
-    expectTextLength('', 10, 0);
-    // 17 Thai combining chars.
-    expectTextLength('ก้้้้้้้้้้้้้้้้', 4, 17);
-    expectTextLength('abc\tde', 10, 12);
-    expectTextLength('abc\tde\t', 10, 20);
-    expectTextLength('\t\t\t\t\t', 20, 100);
-  });
-
-  test('tab wrapper insertion', () => {
-    const html = 'abc\tdef';
-    const tabSize = builder._prefs.tab_size;
-    const wrapper = builder._getTabWrapper(tabSize - 3);
-    assert.ok(wrapper);
-    assert.equal(wrapper.innerText, '\t');
-    assert.equal(
-        builder._formatText(html, 'NONE', tabSize, Infinity).innerHTML,
-        'abc' + wrapper.outerHTML + 'def');
-  });
-
-  test('tab wrapper style', () => {
-    const pattern = new RegExp('^<span class="style-scope gr-diff tab" ' +
-      'style="((?:-moz-)?tab-size: (\\d+);.?)+">\\t<\\/span>$');
-
-    for (const size of [1, 3, 8, 55]) {
-      const html = builder._getTabWrapper(size).outerHTML;
-      expect(html).to.match(pattern);
-      assert.equal(html.match(pattern)[2], size);
-    }
   });
 
   test('_handlePreferenceError throws with invalid preference', () => {
@@ -245,14 +140,14 @@ suite('gr-diff-builder tests', () => {
       `Fix in diff preferences`);
   });
 
-  suite('_isTotal', () => {
+  suite('isTotal', () => {
     test('is total for add', () => {
       const lines = [];
       for (let idx = 0; idx < 10; idx++) {
         lines.push(new GrDiffLine(GrDiffLineType.ADD));
       }
       const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
+      assert.isTrue(GrDiffBuilder.prototype.isTotal(group));
     });
 
     test('is total for remove', () => {
@@ -261,12 +156,12 @@ suite('gr-diff-builder tests', () => {
         lines.push(new GrDiffLine(GrDiffLineType.REMOVE));
       }
       const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
+      assert.isTrue(GrDiffBuilder.prototype.isTotal(group));
     });
 
     test('not total for empty', () => {
       const group = new GrDiffGroup({type: GrDiffGroupType.BOTH});
-      assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
+      assert.isFalse(GrDiffBuilder.prototype.isTotal(group));
     });
 
     test('not total for non-delta', () => {
@@ -275,7 +170,7 @@ suite('gr-diff-builder tests', () => {
         lines.push(new GrDiffLine(GrDiffLineType.BOTH));
       }
       const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
+      assert.isFalse(GrDiffBuilder.prototype.isTotal(group));
     });
   });
 
@@ -1004,13 +899,13 @@ suite('gr-diff-builder tests', () => {
       }
     });
 
-    test('_renderContentByRange', () => {
-      const spy = sinon.spy(builder, '_createTextEl');
+    test('renderContentByRange', () => {
+      const spy = sinon.spy(builder, 'createTextEl');
       const start = 9;
       const end = 14;
       const count = end - start + 1;
 
-      builder._renderContentByRange(start, end, 'left');
+      builder.renderContentByRange(start, end, 'left');
 
       assert.equal(spy.callCount, count);
       spy.getCalls().forEach((call, i) => {
@@ -1018,10 +913,10 @@ suite('gr-diff-builder tests', () => {
       });
     });
 
-    test('_renderContentByRange notexistent elements', () => {
-      const spy = sinon.spy(builder, '_createTextEl');
+    test('renderContentByRange notexistent elements', () => {
+      const spy = sinon.spy(builder, 'createTextEl');
 
-      sinon.stub(builder, '_getLineNumberEl').returns(
+      sinon.stub(builder, 'getLineNumberEl').returns(
           document.createElement('div')
       );
       sinon.stub(builder, 'findLinesByRange').callsFake(
@@ -1040,29 +935,29 @@ suite('gr-diff-builder tests', () => {
             lines.push(new GrDiffLine(GrDiffLineType.BOTH));
           });
 
-      builder._renderContentByRange(1, 10, 'left');
+      builder.renderContentByRange(1, 10, 'left');
       // Should be called only once because only one line had a corresponding
       // element.
       assert.equal(spy.callCount, 1);
     });
 
-    test('_getLineNumberEl side-by-side left', () => {
+    test('getLineNumberEl side-by-side left', () => {
       const contentEl = builder.getContentByLine(5, 'left',
           element.$.diffTable);
-      const lineNumberEl = builder._getLineNumberEl(contentEl, 'left');
+      const lineNumberEl = builder.getLineNumberEl(contentEl, 'left');
       assert.isTrue(lineNumberEl.classList.contains('lineNum'));
       assert.isTrue(lineNumberEl.classList.contains('left'));
     });
 
-    test('_getLineNumberEl side-by-side right', () => {
+    test('getLineNumberEl side-by-side right', () => {
       const contentEl = builder.getContentByLine(5, 'right',
           element.$.diffTable);
-      const lineNumberEl = builder._getLineNumberEl(contentEl, 'right');
+      const lineNumberEl = builder.getLineNumberEl(contentEl, 'right');
       assert.isTrue(lineNumberEl.classList.contains('lineNum'));
       assert.isTrue(lineNumberEl.classList.contains('right'));
     });
 
-    test('_getLineNumberEl unified left', async () => {
+    test('getLineNumberEl unified left', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
       await element.render(keyLocations);
@@ -1070,12 +965,12 @@ suite('gr-diff-builder tests', () => {
 
       const contentEl = builder.getContentByLine(5, 'left',
           element.$.diffTable);
-      const lineNumberEl = builder._getLineNumberEl(contentEl, 'left');
+      const lineNumberEl = builder.getLineNumberEl(contentEl, 'left');
       assert.isTrue(lineNumberEl.classList.contains('lineNum'));
       assert.isTrue(lineNumberEl.classList.contains('left'));
     });
 
-    test('_getLineNumberEl unified right', async () => {
+    test('getLineNumberEl unified right', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
       await element.render(keyLocations);
@@ -1083,36 +978,36 @@ suite('gr-diff-builder tests', () => {
 
       const contentEl = builder.getContentByLine(5, 'right',
           element.$.diffTable);
-      const lineNumberEl = builder._getLineNumberEl(contentEl, 'right');
+      const lineNumberEl = builder.getLineNumberEl(contentEl, 'right');
       assert.isTrue(lineNumberEl.classList.contains('lineNum'));
       assert.isTrue(lineNumberEl.classList.contains('right'));
     });
 
-    test('_getNextContentOnSide side-by-side left', () => {
+    test('getNextContentOnSide side-by-side left', () => {
       const startElem = builder.getContentByLine(5, 'left',
           element.$.diffTable);
       const expectedStartString = diff.content[2].ab[0];
       const expectedNextString = diff.content[2].ab[1];
       assert.equal(startElem.textContent, expectedStartString);
 
-      const nextElem = builder._getNextContentOnSide(startElem,
+      const nextElem = builder.getNextContentOnSide(startElem,
           'left');
       assert.equal(nextElem.textContent, expectedNextString);
     });
 
-    test('_getNextContentOnSide side-by-side right', () => {
+    test('getNextContentOnSide side-by-side right', () => {
       const startElem = builder.getContentByLine(5, 'right',
           element.$.diffTable);
       const expectedStartString = diff.content[1].b[0];
       const expectedNextString = diff.content[1].b[1];
       assert.equal(startElem.textContent, expectedStartString);
 
-      const nextElem = builder._getNextContentOnSide(startElem,
+      const nextElem = builder.getNextContentOnSide(startElem,
           'right');
       assert.equal(nextElem.textContent, expectedNextString);
     });
 
-    test('_getNextContentOnSide unified left', async () => {
+    test('getNextContentOnSide unified left', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
       await element.render(keyLocations);
@@ -1124,12 +1019,12 @@ suite('gr-diff-builder tests', () => {
       const expectedNextString = diff.content[2].ab[1];
       assert.equal(startElem.textContent, expectedStartString);
 
-      const nextElem = builder._getNextContentOnSide(startElem,
+      const nextElem = builder.getNextContentOnSide(startElem,
           'left');
       assert.equal(nextElem.textContent, expectedNextString);
     });
 
-    test('_getNextContentOnSide unified right', async () => {
+    test('getNextContentOnSide unified right', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
       await element.render(keyLocations);
@@ -1141,21 +1036,9 @@ suite('gr-diff-builder tests', () => {
       const expectedNextString = diff.content[1].b[1];
       assert.equal(startElem.textContent, expectedStartString);
 
-      const nextElem = builder._getNextContentOnSide(startElem,
+      const nextElem = builder.getNextContentOnSide(startElem,
           'right');
       assert.equal(nextElem.textContent, expectedNextString);
-    });
-
-    test('escaping HTML', () => {
-      let input = '<script>alert("XSS");<' + '/script>';
-      let expected = '&lt;script&gt;alert("XSS");&lt;/script&gt;';
-      let result = builder._formatText(input, 1, Infinity).innerHTML;
-      assert.equal(result, expected);
-
-      input = '& < > " \' / `';
-      expected = '&amp; &lt; &gt; " \' / `';
-      result = builder._formatText(input, 1, Infinity).innerHTML;
-      assert.equal(result, expected);
     });
   });
 
@@ -1170,73 +1053,68 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('setBlame attempts to render each blamed line', () => {
-      const getBlameStub = sinon.stub(builder, '_getBlameByLineNum')
+      const getBlameStub = sinon.stub(builder, 'getBlameTdByLine')
           .returns(null);
       builder.setBlame(mockBlame);
       assert.equal(getBlameStub.callCount, 32);
     });
 
-    test('_getBlameCommitForBaseLine', () => {
-      sinon.stub(builder, '_getBlameByLineNum').returns(null);
+    test('getBlameCommitForBaseLine', () => {
+      sinon.stub(builder, 'getBlameTdByLine').returns(undefined);
       builder.setBlame(mockBlame);
-      assert.isOk(builder._getBlameCommitForBaseLine(1));
-      assert.equal(builder._getBlameCommitForBaseLine(1).id, 'commit 1');
+      assert.isOk(builder.getBlameCommitForBaseLine(1));
+      assert.equal(builder.getBlameCommitForBaseLine(1).id, 'commit 1');
 
-      assert.isOk(builder._getBlameCommitForBaseLine(11));
-      assert.equal(builder._getBlameCommitForBaseLine(11).id, 'commit 1');
+      assert.isOk(builder.getBlameCommitForBaseLine(11));
+      assert.equal(builder.getBlameCommitForBaseLine(11).id, 'commit 1');
 
-      assert.isOk(builder._getBlameCommitForBaseLine(32));
-      assert.equal(builder._getBlameCommitForBaseLine(32).id, 'commit 2');
+      assert.isOk(builder.getBlameCommitForBaseLine(32));
+      assert.equal(builder.getBlameCommitForBaseLine(32).id, 'commit 2');
 
-      assert.isNull(builder._getBlameCommitForBaseLine(33));
+      assert.isUndefined(builder.getBlameCommitForBaseLine(33));
     });
 
-    test('_getBlameCommitForBaseLine w/o blame returns null', () => {
-      assert.isNull(builder._getBlameCommitForBaseLine(1));
-      assert.isNull(builder._getBlameCommitForBaseLine(11));
-      assert.isNull(builder._getBlameCommitForBaseLine(31));
+    test('getBlameCommitForBaseLine w/o blame returns null', () => {
+      assert.isUndefined(builder.getBlameCommitForBaseLine(1));
+      assert.isUndefined(builder.getBlameCommitForBaseLine(11));
+      assert.isUndefined(builder.getBlameCommitForBaseLine(31));
     });
 
-    test('_createBlameCell', () => {
-      const mocbBlameCell = document.createElement('span');
-      const getBlameStub = sinon.stub(builder, '_getBlameForBaseLine')
-          .returns(mocbBlameCell);
-      const line = new GrDiffLine(GrDiffLineType.BOTH);
-      line.beforeNumber = 3;
-      line.afterNumber = 5;
-
-      const result = builder._createBlameCell(line.beforeNumber);
-
-      assert.isTrue(getBlameStub.calledWithExactly(3));
-      assert.equal(result.getAttribute('data-line-number'), '3');
-      assert.equal(result.firstChild, mocbBlameCell);
-    });
-
-    test('_getBlameForBaseLine', () => {
-      const mockCommit = {
-        time: 1576105200,
+    test('createBlameCell', () => {
+      const mockBlameInfo = {
+        time: 1576155200,
         id: 1234567890,
         author: 'Clark Kent',
         commit_msg: 'Testing Commit',
         ranges: [1],
       };
-      const blameNode = builder._getBlameForBaseLine(1, mockCommit);
+      const getBlameStub = sinon.stub(builder, 'getBlameCommitForBaseLine')
+          .returns(mockBlameInfo);
+      const line = new GrDiffLine(GrDiffLineType.BOTH);
+      line.beforeNumber = 3;
+      line.afterNumber = 5;
 
-      const authors = blameNode.getElementsByClassName('blameAuthor');
-      assert.equal(authors.length, 1);
-      assert.equal(authors[0].innerText, ' Clark');
+      const result = builder.createBlameCell(line.beforeNumber);
 
-      const date = (new Date(mockCommit.time * 1000)).toLocaleDateString();
-      flush();
-      const cards = blameNode.getElementsByClassName('blameHoverCard');
-      assert.equal(cards.length, 1);
-      assert.equal(cards[0].innerHTML,
-          `Commit 1234567890<br>Author: Clark Kent<br>Date: ${date}`
-        + '<br><br>Testing Commit'
-      );
-
-      const url = blameNode.getElementsByClassName('blameDate');
-      assert.equal(url[0].getAttribute('href'), '/r/q/1234567890');
+      assert.isTrue(getBlameStub.calledWithExactly(3));
+      assert.equal(result.getAttribute('data-line-number'), '3');
+      expect(result).dom.to.equal(/* HTML */`
+        <span class="gr-diff style-scope">
+          <a class="blameDate gr-diff style-scope" href="/r/q/1234567890">
+            12/12/2019
+          </a>
+          <span class="blameAuthor gr-diff style-scope">Clark</span>
+          <gr-hovercard class="gr-diff style-scope">
+            <span class="blameHoverCard gr-diff style-scope">
+              Commit 1234567890<br>
+              Author: Clark Kent<br>
+              Date: 12/12/2019<br>
+              <br>
+              Testing Commit
+            </span>
+          </gr-hovercard>
+        </span>
+      `);
     });
   });
 });

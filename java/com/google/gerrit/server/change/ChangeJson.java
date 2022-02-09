@@ -62,6 +62,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Status;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
@@ -108,6 +109,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.RemoveReviewerControl;
+import com.google.gerrit.server.project.SubmitRequirementsUtil;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
@@ -673,6 +675,39 @@ public class ChangeJson {
     out.submitRecords = submitRecordsFor(cd);
     if (has(SUBMIT_REQUIREMENTS)) {
       out.submitRequirements = submitRequirementsFor(cd);
+
+      if (out.labels != null) {
+        // Filter out labels that are associated with non-applicable submit requirements. Such
+        // labels are not needed and should not be returned on the API.
+        // Reason: historically we had submit requirements enforced by prolog rules where
+        // admins can control what {label, status} tuples are returned based on change data. Admins
+        // had the opportunity to control (hide) some labels if they are not applicable.
+        List<String> labelsInApplicableSrs =
+            extractLabelNamesFromSubmitRequirements(
+                    cd.submitRequirements(),
+                    SubmitRequirementResult.Status.NOT_APPLICABLE,
+                    /* include= */ false)
+                .stream()
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+
+        List<String> labelsInNonApplicableSrs =
+            extractLabelNamesFromSubmitRequirements(
+                    cd.submitRequirements(),
+                    SubmitRequirementResult.Status.NOT_APPLICABLE,
+                    /* include= */ true)
+                .stream()
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+
+        out.labels =
+            out.labels.entrySet().stream()
+                .filter(
+                    entry ->
+                        labelsInApplicableSrs.contains(entry.getKey().toLowerCase())
+                            || !labelsInNonApplicableSrs.contains(entry.getKey().toLowerCase()))
+                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+      }
     }
 
     if (out.labels != null && has(DETAILED_LABELS)) {
@@ -944,5 +979,50 @@ public class ChangeJson {
       return pluginDefinedInfosFactory.get().createPluginDefinedInfos(cds);
     }
     return ImmutableListMultimap.of();
+  }
+
+  /**
+   * Extract all the label names that are mentioned in the submittability or override expressions in
+   * the {@code submitRequirements} input map.
+   *
+   * @param submitRequirements map of {@link SubmitRequirement} to {@link SubmitRequirementResult}.
+   * @param status a status field that is used to filter results in the input {@code
+   *     submitRequirements} map. Only SR results matching this status are considered and others are
+   *     ignored.
+   * @param include if true, submit requirements that are matching with the {@code status} input are
+   *     filtered (considered), otherwise SRs that have a status not equal to the {@code status}
+   *     input are considered.
+   * @return A list containing all label names that are mentioned in the submittability or override
+   *     expression of the input submit requirements.
+   */
+  private List<String> extractLabelNamesFromSubmitRequirements(
+      Map<SubmitRequirement, SubmitRequirementResult> submitRequirements,
+      SubmitRequirementResult.Status status,
+      boolean include) {
+    return extractLabelNamesFromSubmitRequirements(
+        submitRequirements.entrySet().stream()
+            .filter(
+                entry ->
+                    include
+                        ? status.equals(entry.getValue().status())
+                        : !status.equals(entry.getValue().status()))
+            .map(entry -> entry.getKey())
+            .collect(Collectors.toList()));
+  }
+
+  private List<String> extractLabelNamesFromSubmitRequirements(
+      List<SubmitRequirement> submitRequirements) {
+    List<String> labelNames = new ArrayList<>();
+    for (SubmitRequirement sr : submitRequirements) {
+      labelNames.addAll(
+          SubmitRequirementsUtil.extractLabelNamesFromExpression(
+              sr.submittabilityExpression().expressionString()));
+      if (sr.overrideExpression().isPresent()) {
+        labelNames.addAll(
+            SubmitRequirementsUtil.extractLabelNamesFromExpression(
+                sr.overrideExpression().get().expressionString()));
+      }
+    }
+    return labelNames;
   }
 }

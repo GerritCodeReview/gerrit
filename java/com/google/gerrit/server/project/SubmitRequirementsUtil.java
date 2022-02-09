@@ -15,6 +15,8 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
@@ -25,8 +27,11 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +40,6 @@ import java.util.stream.Collectors;
  */
 @Singleton
 public class SubmitRequirementsUtil {
-
   @Singleton
   static class Metrics {
     final Counter2<String, String> submitRequirementsMatchingWithLegacy;
@@ -120,6 +124,18 @@ public class SubmitRequirementsUtil {
       result.put(legacy.getKey(), legacy.getValue());
     }
     return ImmutableMap.copyOf(result);
+  }
+
+  public static List<String> extractLabelNamesFromExpression(@Nullable String expression) {
+    List<String> labels = new ArrayList<>();
+    if (expression == null) {
+      return labels;
+    }
+    Matcher matcher = LabelType.SR_LABEL_PATTERN.matcher(expression);
+    while (matcher.find()) {
+      labels.add(matcher.group(1));
+    }
+    return labels;
   }
 
   /** Returns true if both input results are equal in allowing/disallowing change submission. */

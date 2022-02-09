@@ -25,9 +25,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @AutoValue
 public abstract class LabelType {
+  public static final Pattern SR_LABEL_PATTERN =
+      Pattern.compile("label:([a-zA-Z0-9][a-zA-Z0-9-]+)");
+
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
   public static final boolean DEF_CAN_OVERRIDE = true;
   public static final boolean DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE = false;

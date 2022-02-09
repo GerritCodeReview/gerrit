@@ -36,6 +36,7 @@ import {
   iconForStatus,
 } from '../../../utils/label-util';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {ifDefined} from 'lit/directives/if-defined';
 
 @customElement('gr-change-list-column-requirement')
 export class GrChangeListColumnRequirement extends LitElement {
@@ -67,7 +68,10 @@ export class GrChangeListColumnRequirement extends LitElement {
   }
 
   override render() {
-    return html`<div class="container ${this.computeClass()}">
+    return html`<div
+      class="container ${this.computeClass()}"
+      title="${ifDefined(this.computeLabelTitle())}"
+    >
       ${this.renderContent()}
     </div>`;
   }
@@ -112,6 +116,7 @@ export class GrChangeListColumnRequirement extends LitElement {
       return html`<gr-vote-chip
         .vote="${worstVote}"
         .label="${labelInfo}"
+        tooltipWithWhoVoted
       ></gr-vote-chip>`;
     }
   }
@@ -131,6 +136,13 @@ export class GrChangeListColumnRequirement extends LitElement {
       return 'not-applicable';
     }
     return '';
+  }
+
+  private computeLabelTitle() {
+    if (!this.labelName) return;
+    const requirements = this.getRequirement(this.labelName);
+    if (requirements.length === 0) return 'Requirement not applicable';
+    return this.labelName;
   }
 
   private getRequirement(labelName: string) {

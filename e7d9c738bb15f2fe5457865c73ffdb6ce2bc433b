@@ -141,6 +141,24 @@
       "parentUuid": "e5e4e841_7bdf1840",
       "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddc360e4_602407c0",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-09T09:31:14Z",
+      "side": 1,
+      "message": "Yes, adding this to statuses entails doing the same as the FORCED status so we would still need an additional field. OK this LGTM.\n\nNote: previously we were able to auto-compute all statuses for SRResult. Now with {FORCED, HIDDEN} we have two other states that are set by callers. It might be better to refactor status and allow callers to set all values, then we can move FORCED, HIDDEN to become two additional states. We can do in a separate change though.",
+      "parentUuid": "33de8beb_1f50103e",
+      "revId": "e7d9c738bb15f2fe5457865c73ffdb6ce2bc433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

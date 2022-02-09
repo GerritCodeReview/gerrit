@@ -38,6 +38,10 @@ import {
 } from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
+import {
+  createElementDiff,
+  createElementDiffWithText,
+} from '../gr-diff/gr-diff-utils';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -411,7 +415,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     showBelow: boolean,
     viewMode: DiffViewMode
   ): HTMLElement {
-    const row = this._createElement('tr', 'dividerRow');
+    const row = createElementDiff('tr', 'dividerRow');
     let showConfig: GrContextControlsShowConfig;
     if (showAbove && !showBelow) {
       showConfig = 'above';
@@ -427,14 +431,14 @@ export abstract class GrDiffBuilder implements DiffBuilder {
 
     row.appendChild(this._createBlameCell(0));
     if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
-      row.appendChild(this._createElement('td'));
+      row.appendChild(createElementDiff('td'));
     }
 
-    const cell = this._createElement('td', 'dividerCell');
+    const cell = createElementDiff('td', 'dividerCell');
     cell.setAttribute('colspan', '3');
     row.appendChild(cell);
 
-    const contextControls = this._createElement(
+    const contextControls = createElementDiff(
       'gr-context-controls'
     ) as GrContextControls;
     contextControls.diff = this._diff;
@@ -453,7 +457,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
    * the area of code they expand.
    */
   _createContextControlPaddingRow(viewMode: DiffViewMode) {
-    const row = this._createElement('tr', 'contextBackground');
+    const row = createElementDiff('tr', 'contextBackground');
 
     if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
       row.classList.add('side-by-side');
@@ -464,12 +468,12 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     }
 
     row.appendChild(this._createBlameCell(0));
-    row.appendChild(this._createElement('td', 'contextLineNum'));
+    row.appendChild(createElementDiff('td', 'contextLineNum'));
     if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
-      row.appendChild(this._createElement('td'));
+      row.appendChild(createElementDiff('td'));
     }
-    row.appendChild(this._createElement('td', 'contextLineNum'));
-    row.appendChild(this._createElement('td'));
+    row.appendChild(createElementDiff('td', 'contextLineNum'));
+    row.appendChild(createElementDiff('td'));
 
     return row;
   }
@@ -480,7 +484,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     type: GrDiffLineType,
     side: Side
   ) {
-    const td = this._createElement('td');
+    const td = createElementDiff('td');
     td.classList.add(side);
     if (line.type === GrDiffLineType.BLANK) {
       return td;
@@ -498,7 +502,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
         return td;
       }
 
-      const button = this._createElement('button');
+      const button = createElementDiff('button');
       td.appendChild(button);
       button.tabIndex = -1;
       button.classList.add('lineNumButton');
@@ -539,7 +543,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     line: GrDiffLine,
     side?: Side
   ) {
-    const td = this._createElement('td');
+    const td = createElementDiff('td');
     if (line.type !== GrDiffLineType.BLANK) {
       td.classList.add('content');
     }
@@ -586,8 +590,8 @@ export abstract class GrDiffBuilder implements DiffBuilder {
 
   private createLineBreak(responsive: boolean) {
     return responsive
-      ? this._createElement('wbr')
-      : this._createElement('span', 'br');
+      ? createElementDiff('wbr')
+      : createElementDiff('span', 'br');
   }
 
   /**
@@ -606,7 +610,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     tabSize: number,
     lineLimit: number
   ): HTMLElement {
-    const contentText = this._createElement('div', 'contentText');
+    const contentText = createElementDiff('div', 'contentText');
     contentText.ariaLabel = text;
     const responsive = isResponsive(responsiveMode);
     let columnPos = 0;
@@ -672,30 +676,13 @@ export abstract class GrDiffBuilder implements DiffBuilder {
    */
   _getTabWrapper(tabSize: number): HTMLElement {
     // Force this to be a number to prevent arbitrary injection.
-    const result = this._createElement('span', 'tab');
+    const result = createElementDiff('span', 'tab');
     result.setAttribute(
       'style',
       `tab-size: ${tabSize}; -moz-tab-size: ${tabSize};`
     );
     result.innerText = '\t';
     return result;
-  }
-
-  _createElement(tagName: string, classStr?: string): HTMLElement {
-    const el = document.createElement(tagName);
-    // When Shady DOM is being used, these classes are added to account for
-    // Polymer's polyfill behavior. In order to guarantee sufficient
-    // specificity within the CSS rules, these are added to every element.
-    // Since the Polymer DOM utility functions (which would do this
-    // automatically) are not being used for performance reasons, this is
-    // done manually.
-    el.classList.add('style-scope', 'gr-diff');
-    if (classStr) {
-      for (const className of classStr.split(' ')) {
-        el.classList.add(className);
-      }
-    }
-    return el;
   }
 
   _handleLayerUpdate(start: LineNumber, end: LineNumber, side: Side) {
@@ -765,7 +752,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
   }
 
   _createMovedLineAnchor(line: number, side: Side) {
-    const anchor = this._createElementWithText('a', `${line}`);
+    const anchor = createElementDiffWithText('a', `${line}`);
 
     // href is not actually used but important for Screen Readers
     anchor.setAttribute('href', `#${line}`);
@@ -785,27 +772,21 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     return anchor;
   }
 
-  _createElementWithText(tagName: string, textContent: string) {
-    const element = this._createElement(tagName);
-    element.textContent = textContent;
-    return element;
-  }
-
   _createMoveDescriptionDiv(movedIn: boolean, group: GrDiffGroup) {
-    const div = this._createElement('div');
+    const div = createElementDiff('div');
     if (group.moveDetails?.range) {
       const {changed, range} = group.moveDetails;
       const otherSide = movedIn ? Side.LEFT : Side.RIGHT;
       const andChangedLabel = changed ? 'and changed ' : '';
       const direction = movedIn ? 'from' : 'to';
       const textLabel = `Moved ${andChangedLabel}${direction} lines `;
-      div.appendChild(this._createElementWithText('span', textLabel));
+      div.appendChild(createElementDiffWithText('span', textLabel));
       div.appendChild(this._createMovedLineAnchor(range.start, otherSide));
-      div.appendChild(this._createElementWithText('span', ' - '));
+      div.appendChild(createElementDiffWithText('span', ' - '));
       div.appendChild(this._createMovedLineAnchor(range.end, otherSide));
     } else {
       div.appendChild(
-        this._createElementWithText('span', movedIn ? 'Moved in' : 'Moved out')
+        createElementDiffWithText('span', movedIn ? 'Moved in' : 'Moved out')
       );
     }
     return div;
@@ -827,15 +808,15 @@ export abstract class GrDiffBuilder implements DiffBuilder {
       descriptionIndex = movedOutIndex;
     }
 
-    const controls = this._createElement('tr', `moveControls ${controlsClass}`);
+    const controls = createElementDiff('tr', `moveControls ${controlsClass}`);
     const cells = [...Array(numberOfCells).keys()].map(() =>
-      this._createElement('td')
+      createElementDiff('td')
     );
     lineNumberCols.forEach(index => {
       cells[index].classList.add('moveControlsLineNumCol');
     });
 
-    const moveRangeHeader = this._createElement('gr-range-header');
+    const moveRangeHeader = createElementDiff('gr-range-header');
     moveRangeHeader.setAttribute('icon', 'gr-icons:move-item');
     moveRangeHeader.appendChild(descriptionTextDiv);
     cells[descriptionIndex].classList.add('moveHeader');
@@ -895,28 +876,28 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     const isStartOfRange = commit.ranges.some(r => r.start === lineNum);
 
     const date = new Date(commit.time * 1000).toLocaleDateString();
-    const blameNode = this._createElement(
+    const blameNode = createElementDiff(
       'span',
       isStartOfRange ? 'startOfRange' : ''
     );
 
-    const shaNode = this._createElement('a', 'blameDate');
+    const shaNode = createElementDiff('a', 'blameDate');
     shaNode.innerText = `${date}`;
     shaNode.setAttribute('href', `${getBaseUrl()}/q/${commit.id}`);
     blameNode.appendChild(shaNode);
 
     const shortName = commit.author.split(' ')[0];
-    const authorNode = this._createElement('span', 'blameAuthor');
+    const authorNode = createElementDiff('span', 'blameAuthor');
     authorNode.innerText = ` ${shortName}`;
     blameNode.appendChild(authorNode);
 
-    const hoverCardFragment = this._createElement('span', 'blameHoverCard');
+    const hoverCardFragment = createElementDiff('span', 'blameHoverCard');
     hoverCardFragment.innerText = `Commit ${commit.id}
 Author: ${commit.author}
 Date: ${date}
 
 ${commit.commit_msg}`;
-    const hovercard = this._createElement('gr-hovercard');
+    const hovercard = createElementDiff('gr-hovercard');
     hovercard.appendChild(hoverCardFragment);
     blameNode.appendChild(hovercard);
 
@@ -928,7 +909,7 @@ ${commit.commit_msg}`;
    * included in the cell if available.
    */
   _createBlameCell(lineNumber: LineNumber): HTMLTableDataCellElement {
-    const blameTd = this._createElement(
+    const blameTd = createElementDiff(
       'td',
       'blame'
     ) as HTMLTableDataCellElement;

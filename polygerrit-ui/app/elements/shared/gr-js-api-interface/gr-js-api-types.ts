@@ -64,4 +64,5 @@ export interface JsApiService extends Finalizable {
   handleCommitMessage(change: ChangeInfo | ParsedChangeInfo, msg: string): void;
   canSubmitChange(change: ChangeInfo, revision?: RevisionInfo | null): boolean;
   getReviewPostRevert(change?: ChangeInfo): ReviewInput;
+  getReviewLabelValue(labelName: string | undefined): string;
 }

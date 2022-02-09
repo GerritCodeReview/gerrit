@@ -27,6 +27,7 @@ import {
   QuickLabelInfo,
   DetailedLabelInfo,
 } from '../../../types/common';
+import {getAppContext} from '../../../services/app-context';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 
 export interface Label {
@@ -71,6 +72,9 @@ export class GrLabelScoreRow extends LitElement {
 
   @property({type: Object})
   labelValues?: LabelValuesMap;
+
+  // Accessed in tests.
+  readonly jsAPI = getAppContext().jsApiService;
 
   @state()
   private selectedValueText = 'No value selected';
@@ -168,7 +172,12 @@ export class GrLabelScoreRow extends LitElement {
     ];
   }
 
+  private customLabelValues = '';
+
   override render() {
+    // Get custom label values from plugins (if any).
+    this.customLabelValues = this.jsAPI.getReviewLabelValue(this.name);
+
     return html`
       <span class="labelNameCell" id="labelName" aria-hidden="true"
         >${this.label?.name ?? ''}</span
@@ -240,11 +249,18 @@ export class GrLabelScoreRow extends LitElement {
             light-tooltip
             title="${ifDefined(this.computeLabelValueTitle(value))}"
           >
-            ${value}
+            ${this.computeDisplayValue(value)}
           </gr-tooltip-content>
         </gr-button>
       `
     );
+  }
+
+  private computeDisplayValue(defaultValue: string): string {
+    if (this.customLabelValues === "") {
+      return defaultValue;
+    }
+    return this.customLabelValues;
   }
 
   private renderSelectedValue() {

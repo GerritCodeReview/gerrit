@@ -47,13 +47,13 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     if (this._useNewImageDiffUi) {
       this._emitImageViewer(section);
 
-      this._outputEl.appendChild(section);
+      this.outputEl.appendChild(section);
     } else {
       this._emitImagePair(section);
       this._emitImageLabels(section);
 
-      this._outputEl.appendChild(section);
-      this._outputEl.appendChild(this._createEndpoint());
+      this.outputEl.appendChild(section);
+      this.outputEl.appendChild(this._createEndpoint());
     }
   }
 
@@ -98,7 +98,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     imageViewer.baseUrl = this._getImageSrc(this._baseImage);
     imageViewer.revisionUrl = this._getImageSrc(this._revisionImage);
     imageViewer.automaticBlink =
-      !!this._renderPrefs?.image_diff_prefs?.automatic_blink;
+      !!this.renderPrefs?.image_diff_prefs?.automatic_blink;
 
     td.appendChild(imageViewer);
     tr.appendChild(td);
@@ -218,7 +218,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 
   override updateRenderPrefs(renderPrefs: RenderPreferences) {
-    const imageViewer = this._outputEl.querySelector(
+    const imageViewer = this.outputEl.querySelector(
       'gr-image-viewer'
     ) as GrImageViewer;
     if (this._useNewImageDiffUi && imageViewer) {

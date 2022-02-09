@@ -166,6 +166,20 @@ export const htmlTemplate = html`
     .content {
       background-color: var(--diff-blank-background-color);
     }
+
+    /*
+      Describes two states of semantic tokens: whenever a token has a definition that can be navigated to (navigationable) and
+      whenever the token is actually clickable to perform this navigation.
+    */
+    .semantic-token.navigationable {
+      text-decoration-style: dotted;
+      text-decoration-line: underline;
+    }
+    .semantic-token.navigationable.clickable {
+      text-decoration-style: solid;
+      cursor: pointer;
+    }
+
     /*
       The file line, which has no contentText, add some margin before the first
       comment. We cannot add padding the container because we only want it if

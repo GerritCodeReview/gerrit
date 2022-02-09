@@ -16,6 +16,29 @@
       "message": "adding Ben as Chris doesn\u0027t know whenever he\u0027ll have time to review",
       "revId": "4c90c8cceb598b2fd28b290280a9ed10fd5d7ca4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88937be0_e61b6b46",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:53:21Z",
+      "side": 1,
+      "message": "s/navigationable/navigable/",
+      "range": {
+        "startLine": 172,
+        "startChar": 46,
+        "endLine": 172,
+        "endChar": 47
+      },
+      "revId": "4c90c8cceb598b2fd28b290280a9ed10fd5d7ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

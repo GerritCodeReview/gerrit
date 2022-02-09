@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a723655f_9ce565c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-09T08:37:14Z",
+      "side": 1,
+      "message": "The `this.reporting.timeEnd(Timing.CHANGE_RELOAD);` call is still at the same place. Does you change affect `CHANGE_RELOAD` at all?",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "660b97ce37d99947b082562d31738fcbd54109f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e122d624_ea96408b",
@@ -31,6 +54,57 @@
       "writtenOn": "2022-02-09T08:33:09Z",
       "side": 1,
       "message": "PTAL.",
+      "revId": "660b97ce37d99947b082562d31738fcbd54109f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80fa89c6_e75effbb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-09T08:37:14Z",
+      "side": 1,
+      "message": "I am not sure whether adding `performPostChangeLoadTasks` helps, because it only awaits `untilModelLoaded()` (which is already part of other promises) and `prefCompletes` (which is unlikely to be relevant, because prefetched).",
+      "revId": "660b97ce37d99947b082562d31738fcbd54109f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3e94f23_c151e38f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2194,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-09T08:37:14Z",
+      "side": 1,
+      "message": "Which of the promises in `allDataPromises` is the one that helps achieving what you want?",
+      "revId": "660b97ce37d99947b082562d31738fcbd54109f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62b4a7c9_41a0e52e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2197,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-09T08:37:14Z",
+      "side": 1,
+      "message": "Changing `Timing.SEND_REPLY` is fine to me, but maybe let\u0027s be more careful about `changeDisplayed`. Milutin, WDYT? Also with this change `changeFullyLoaded` would not make much sense anymore, because it becomes identical to `changeDisplayed`.",
       "revId": "660b97ce37d99947b082562d31738fcbd54109f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

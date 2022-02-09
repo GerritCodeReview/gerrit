@@ -130,7 +130,8 @@ public class SubmitRequirementJsonSerializerTest {
           + "\"failingAtoms\":[\"label:Override=+1\"]}},"
           + "\"patchSetCommitId\":\"4663ab9e9eb49a214e68e60f0fe5d0b6f44f763e\","
           + "\"legacy\":{\"value\":true},"
-          + "\"forced\":{\"value\":null}}";
+          + "\"forced\":{\"value\":null},"
+          + "\"hidden\":{\"value\":null}}";
 
   private static final Gson gson = new ChangeNoteJson().getGson();
 
@@ -225,6 +226,37 @@ public class SubmitRequirementJsonSerializerTest {
   public void submitRequirementResult_roundTrip() throws Exception {
     TypeAdapter<SubmitRequirementResult> adapter = SubmitRequirementResult.typeAdapter(gson);
     assertThat(adapter.fromJson(adapter.toJson(srReqResult))).isEqualTo(srReqResult);
+  }
+
+  @Test
+  public void submitRequirementResult_withHidden_roundTrip() throws Exception {
+    SubmitRequirementResult srResultWithHidden =
+        srReqResult.toBuilder().hidden(Optional.of(true)).build();
+    TypeAdapter<SubmitRequirementResult> adapter = SubmitRequirementResult.typeAdapter(gson);
+    assertThat(adapter.fromJson(adapter.toJson(srResultWithHidden))).isEqualTo(srResultWithHidden);
+  }
+
+  @Test
+  public void submitRequirementResult_deserializeNoHidden() throws Exception {
+    String srResultSerialMandatoryLegacyFieldFormat =
+        srReqResultSerial.replace(",hidden\":{\"value\":null}", "");
+    assertThat(
+            SubmitRequirementResult.typeAdapter(gson)
+                .fromJson(srResultSerialMandatoryLegacyFieldFormat))
+        .isEqualTo(srReqResult);
+  }
+
+  @Test
+  public void submitRequirementResult_deserializeNonExistentField() throws Exception {
+    // Tests that unrecognized fields are skipped on deserialization (e.g. when the new fields are
+    // introduced, the old binary can parse the new-format Json)
+    String srResultSerialMandatoryLegacyFieldFormat =
+        srReqResultSerial.replace(
+            "\"hidden\":{\"value\":null}}", "\"non-existent\":{\"value\":null}}");
+    assertThat(
+            SubmitRequirementResult.typeAdapter(gson)
+                .fromJson(srResultSerialMandatoryLegacyFieldFormat))
+        .isEqualTo(srReqResult);
   }
 
   @Test

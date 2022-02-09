@@ -67,6 +67,20 @@ public abstract class SubmitRequirementResult {
    */
   public abstract Optional<Boolean> forced();
 
+  /**
+   * Whether this result should be filtered out when returned from REST API.
+   *
+   * <p>This can be used by {@link
+   * com.google.gerrit.server.project.OnStoreSubmitRequirementResultModifier}. It can override the
+   * {@code SubmitRequirementResult} status and might want to hide the SR from the API as if it was
+   * non-applicable (non-applicable SRs are currently hidden on UI).
+   */
+  public abstract Optional<Boolean> hidden();
+
+  public boolean isHidden() {
+    return hidden().orElse(false);
+  }
+
   public Optional<String> errorMessage() {
     if (!status().equals(Status.ERROR)) {
       return Optional.empty();
@@ -187,6 +201,8 @@ public abstract class SubmitRequirementResult {
     public abstract Builder legacy(Optional<Boolean> value);
 
     public abstract Builder forced(Optional<Boolean> value);
+
+    public abstract Builder hidden(Optional<Boolean> value);
 
     public abstract SubmitRequirementResult build();
   }

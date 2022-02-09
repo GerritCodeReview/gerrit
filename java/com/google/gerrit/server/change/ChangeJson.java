@@ -62,7 +62,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Status;
-import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
@@ -379,10 +378,10 @@ public class ChangeJson {
 
   private Collection<SubmitRequirementResultInfo> submitRequirementsFor(ChangeData cd) {
     Collection<SubmitRequirementResultInfo> reqInfos = new ArrayList<>();
-    Map<SubmitRequirement, SubmitRequirementResult> requirements = cd.submitRequirements();
-    for (Map.Entry<SubmitRequirement, SubmitRequirementResult> entry : requirements.entrySet()) {
-      reqInfos.add(SubmitRequirementsJson.toInfo(entry.getKey(), entry.getValue()));
-    }
+    cd.submitRequirements().entrySet().stream()
+        .filter(entry -> !entry.getValue().isHidden())
+        .forEach(
+            entry -> reqInfos.add(SubmitRequirementsJson.toInfo(entry.getKey(), entry.getValue())));
     return reqInfos;
   }
 

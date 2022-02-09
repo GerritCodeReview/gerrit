@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 
 /** A {@link BatchUpdateOp} that stores the evaluated submit requirements of a change in NoteDb. */
 public class StoreSubmitRequirementsOp implements BatchUpdateOp {
-  private final boolean storeRequirementsInNoteDb;
   private final Collection<SubmitRequirementResult> submitRequirementResults;
   private final ChangeData changeData;
   private final OnStoreSubmitRequirementResultModifier onStoreSubmitRequirementResultModifier;
@@ -50,25 +49,16 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
 
   @Inject
   public StoreSubmitRequirementsOp(
-      ExperimentFeatures experimentFeatures,
       OnStoreSubmitRequirementResultModifier onStoreSubmitRequirementResultModifier,
       @Assisted Collection<SubmitRequirementResult> submitRequirementResults,
       @Assisted ChangeData changeData) {
     this.onStoreSubmitRequirementResultModifier = onStoreSubmitRequirementResultModifier;
     this.submitRequirementResults = submitRequirementResults;
     this.changeData = changeData;
-    this.storeRequirementsInNoteDb =
-        experimentFeatures.isFeatureEnabled(
-            ExperimentFeaturesConstants
-                .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE);
   }
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws Exception {
-    if (!storeRequirementsInNoteDb) {
-      // Temporarily stop storing submit requirements in NoteDb when the change is merged.
-      return false;
-    }
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
     List<SubmitRequirementResult> nonLegacySubmitRequirements =
         submitRequirementResults.stream()

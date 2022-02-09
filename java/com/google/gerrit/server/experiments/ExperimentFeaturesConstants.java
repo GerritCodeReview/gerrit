@@ -25,10 +25,6 @@ public class ExperimentFeaturesConstants {
   public static String GERRIT_BACKEND_REQUEST_FEATURE_REMOVE_REVISION_ETAG =
       "GerritBackendRequestFeature__remove_revision_etag";
 
-  /** Enable storing submit requirements in NoteDb when the change is merged. */
-  public static final String GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE =
-      "GerritBackendRequestFeature__store_submit_requirements_on_merge";
-
   /**
    * When set, we compute information from All-Users repository if able, instead of computing it
    * from the change index.

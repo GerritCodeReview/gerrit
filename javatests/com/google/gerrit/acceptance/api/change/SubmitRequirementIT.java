@@ -1045,11 +1045,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_storedForClosedChanges() throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
@@ -1090,11 +1085,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_storedForAbandonedChanges() throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
@@ -1130,11 +1120,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_loadedFromTheLatestRevisionNoteForClosedChanges() throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
@@ -1185,11 +1170,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_abandonRestoreUpdateMerge() throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
@@ -1240,11 +1220,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_returnsEmpty_forAbandonedChangeWithPreviouslyStoredSRs()
       throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
@@ -1291,11 +1266,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_returnsEmpty_forMergedChangeWithPreviouslyStoredSRs()
       throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
@@ -1342,11 +1312,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_withMultipleAbandonAndRestore() throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
@@ -1396,11 +1361,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_retrievedFromNoteDbForAbandonedChanges() throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
@@ -1475,11 +1435,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_retrievedFromNoteDbForClosedChanges() throws Exception {
     configSubmitRequirement(
         project,
@@ -1523,11 +1478,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void
       submitRequirements_returnOneEntryForMatchingLegacyAndNonLegacyResultsWithTheSameName_ifLegacySubmitRecordsAreEnabled()
           throws Exception {
@@ -1757,11 +1707,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_backFilledFromIndexForClosedChanges() throws Exception {
     configSubmitRequirement(
         project,
@@ -2201,11 +2146,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void globalSubmitRequirement_storedForClosedChanges() throws Exception {
     SubmitRequirement globalSubmitRequirement =
         SubmitRequirement.builder()
@@ -2484,12 +2424,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        ExperimentFeaturesConstants
-            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
-      })
   public void submitRequirements_forcedByDirectSubmission() throws Exception {
     projectOperations
         .project(project)

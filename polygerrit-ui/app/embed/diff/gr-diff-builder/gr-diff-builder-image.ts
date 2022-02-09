@@ -22,6 +22,7 @@ import {GrEndpointParam} from '../../../elements/plugins/gr-endpoint-param/gr-en
 import {RenderPreferences} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
 import {GrImageViewer} from '../gr-diff-image-viewer/gr-image-viewer';
+import {createElementDiff} from '../gr-diff/gr-diff-utils';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -41,7 +42,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 
   public renderDiff() {
-    const section = this._createElement('tbody', 'image-diff');
+    const section = createElementDiff('tbody', 'image-diff');
 
     if (this._useNewImageDiffUi) {
       this._emitImageViewer(section);
@@ -57,14 +58,14 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 
   private _createEndpoint() {
-    const tbody = this._createElement('tbody');
-    const tr = this._createElement('tr');
-    const td = this._createElement('td');
+    const tbody = createElementDiff('tbody');
+    const tr = createElementDiff('tr');
+    const td = createElementDiff('td');
 
     // TODO(kaspern): Support blame for image diffs and remove the hardcoded 4
     // column limit.
     td.setAttribute('colspan', '4');
-    const endpointDomApi = this._createElement('gr-endpoint-decorator');
+    const endpointDomApi = createElementDiff('gr-endpoint-decorator');
     endpointDomApi.setAttribute('name', 'image-diff');
     endpointDomApi.appendChild(
       this._createEndpointParam('baseImage', this._baseImage)
@@ -79,7 +80,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 
   private _createEndpointParam(name: string, value: ImageInfo | null) {
-    const endpointParam = this._createElement(
+    const endpointParam = createElementDiff(
       'gr-endpoint-param'
     ) as GrEndpointParam;
     endpointParam.name = name;
@@ -88,11 +89,11 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 
   private _emitImageViewer(section: HTMLElement) {
-    const tr = this._createElement('tr');
-    const td = this._createElement('td');
+    const tr = createElementDiff('tr');
+    const td = createElementDiff('td');
     // TODO(hermannloose): Support blame for image diffs, see above.
     td.setAttribute('colspan', '4');
-    const imageViewer = this._createElement('gr-image-viewer') as GrImageViewer;
+    const imageViewer = createElementDiff('gr-image-viewer') as GrImageViewer;
 
     imageViewer.baseUrl = this._getImageSrc(this._baseImage);
     imageViewer.revisionUrl = this._getImageSrc(this._revisionImage);
@@ -111,12 +112,12 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 
   private _emitImagePair(section: HTMLElement) {
-    const tr = this._createElement('tr');
+    const tr = createElementDiff('tr');
 
-    tr.appendChild(this._createElement('td', 'left lineNum blank'));
+    tr.appendChild(createElementDiff('td', 'left lineNum blank'));
     tr.appendChild(this._createImageCell(this._baseImage, 'left', section));
 
-    tr.appendChild(this._createElement('td', 'right lineNum blank'));
+    tr.appendChild(createElementDiff('td', 'right lineNum blank'));
     tr.appendChild(
       this._createImageCell(this._revisionImage, 'right', section)
     );
@@ -129,10 +130,10 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     className: string,
     section: HTMLElement
   ) {
-    const td = this._createElement('td', className);
+    const td = createElementDiff('td', className);
     const src = this._getImageSrc(image);
     if (image && src) {
-      const imageEl = this._createElement('img') as HTMLImageElement;
+      const imageEl = createElementDiff('img') as HTMLImageElement;
       imageEl.onload = () => {
         image._height = imageEl.naturalHeight;
         image._width = imageEl.naturalWidth;
@@ -164,7 +165,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 
   private _emitImageLabels(section: HTMLElement) {
-    const tr = this._createElement('tr');
+    const tr = createElementDiff('tr');
 
     let addNamesInLabel = false;
 
@@ -176,17 +177,17 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
       addNamesInLabel = true;
     }
 
-    tr.appendChild(this._createElement('td', 'left lineNum blank'));
-    let td = this._createElement('td', 'left');
-    let label = this._createElement('label');
+    tr.appendChild(createElementDiff('td', 'left lineNum blank'));
+    let td = createElementDiff('td', 'left');
+    let label = createElementDiff('label');
     let nameSpan;
-    let labelSpan = this._createElement('span', 'label');
+    let labelSpan = createElementDiff('span', 'label');
 
     if (addNamesInLabel) {
-      nameSpan = this._createElement('span', 'name');
+      nameSpan = createElementDiff('span', 'name');
       nameSpan.textContent = this._baseImage?._name ?? '';
       label.appendChild(nameSpan);
-      label.appendChild(this._createElement('br'));
+      label.appendChild(createElementDiff('br'));
     }
 
     this._setLabelText(labelSpan, this._baseImage);
@@ -195,16 +196,16 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     td.appendChild(label);
     tr.appendChild(td);
 
-    tr.appendChild(this._createElement('td', 'right lineNum blank'));
-    td = this._createElement('td', 'right');
-    label = this._createElement('label');
-    labelSpan = this._createElement('span', 'label');
+    tr.appendChild(createElementDiff('td', 'right lineNum blank'));
+    td = createElementDiff('td', 'right');
+    label = createElementDiff('label');
+    labelSpan = createElementDiff('span', 'label');
 
     if (addNamesInLabel) {
-      nameSpan = this._createElement('span', 'name');
+      nameSpan = createElementDiff('span', 'name');
       nameSpan.textContent = this._revisionImage?._name ?? '';
       label.appendChild(nameSpan);
-      label.appendChild(this._createElement('br'));
+      label.appendChild(createElementDiff('br'));
     }
 
     this._setLabelText(labelSpan, this._revisionImage);

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "795ff4c9_8be728f7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T15:04:30Z",
+      "side": 1,
+      "message": "navigationable -\u003e navigable",
+      "revId": "5b4a496823bc764be39e347f7b9791ac96c4da7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf3cfff9_4344423c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T15:04:30Z",
+      "side": 1,
+      "message": "Could you rewrap this comment so no line is longer than 80?",
+      "revId": "5b4a496823bc764be39e347f7b9791ac96c4da7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

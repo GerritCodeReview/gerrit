@@ -429,6 +429,7 @@ export class GrThreadList extends LitElement {
         .account="${account}"
         @click="${this.handleAccountClicked}"
         selectionChipStyle
+        noStatusIcons
         ?selected="${selected}"
       ></gr-account-label>
     `;

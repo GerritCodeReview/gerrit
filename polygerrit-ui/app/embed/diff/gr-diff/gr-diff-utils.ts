@@ -14,15 +14,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {CommentRange} from '../../../types/common';
+import {BlameInfo, CommentRange} from '../../../types/common';
 import {FILE, LineNumber} from './gr-diff-line';
 import {Side} from '../../../constants/constants';
 import {DiffInfo} from '../../../types/diff';
+import {
+  DiffPreferencesInfo,
+  DiffResponsiveMode,
+  RenderPreferences,
+} from '../../../api/diff';
+import {getBaseUrl} from '../../../utils/url-util';
+
+/**
+ * In JS, unicode code points above 0xFFFF occupy two elements of a string.
+ * For example '𐀏'.length is 2. An occurrence of such a code point is called a
+ * surrogate pair.
+ *
+ * This regex segments a string along tabs ('\t') and surrogate pairs, since
+ * these are two cases where '1 char' does not automatically imply '1 column'.
+ *
+ * TODO: For human languages whose orthographies use combining marks, this
+ * approach won't correctly identify the grapheme boundaries. In those cases,
+ * a grapheme consists of multiple code points that should count as only one
+ * character against the column limit. Getting that correct (if it's desired)
+ * is probably beyond the limits of a regex, but there are nonstandard APIs to
+ * do this, and proposed (but, as of Nov 2017, unimplemented) standard APIs.
+ *
+ * Further reading:
+ *   On Unicode in JS: https://mathiasbynens.be/notes/javascript-unicode
+ *   Graphemes: http://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries
+ *   A proposed JS API: https://github.com/tc39/proposal-intl-segmenter
+ */
+const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
 // If any line of the diff is more than the character limit, then disable
 // syntax highlighting for the entire file.
 export const SYNTAX_MAX_LINE_LENGTH = 500;
+
+export function getResponsiveMode(
+  prefs: DiffPreferencesInfo,
+  renderPrefs?: RenderPreferences
+): DiffResponsiveMode {
+  if (renderPrefs?.responsive_mode) {
+    return renderPrefs.responsive_mode;
+  }
+  // Backwards compatibility to the line_wrapping param.
+  if (prefs.line_wrapping) {
+    return 'FULL_RESPONSIVE';
+  }
+  return 'NONE';
+}
+
+export function isResponsive(responsiveMode: DiffResponsiveMode) {
+  return (
+    responsiveMode === 'FULL_RESPONSIVE' || responsiveMode === 'SHRINK_ONLY'
+  );
+}
 
 /**
  * Compare two ranges. Either argument may be falsy, but will only return
@@ -185,4 +232,140 @@ export function createElementDiffWithText(
   const element = createElementDiff(tagName);
   element.textContent = textContent;
   return element;
+}
+
+export function createLineBreak(mode: DiffResponsiveMode) {
+  return isResponsive(mode)
+    ? createElementDiff('wbr')
+    : createElementDiff('span', 'br');
+}
+
+/**
+ * Returns a <span> element holding a '\t' character, that will visually
+ * occupy |tabSize| many columns.
+ *
+ * @param tabSize The effective size of this tab stop.
+ */
+export function createTabWrapper(tabSize: number): HTMLElement {
+  // Force this to be a number to prevent arbitrary injection.
+  const result = createElementDiff('span', 'tab');
+  result.setAttribute(
+    'style',
+    `tab-size: ${tabSize}; -moz-tab-size: ${tabSize};`
+  );
+  result.innerText = '\t';
+  return result;
+}
+
+/**
+ * Returns a 'div' element containing the supplied |text| as its innerText,
+ * with '\t' characters expanded to a width determined by |tabSize|, and the
+ * text wrapped at column |lineLimit|, which may be Infinity if no wrapping is
+ * desired.
+ *
+ * @param text The text to be formatted.
+ * @param responsiveMode The responsive mode of the diff.
+ * @param tabSize The width of each tab stop.
+ * @param lineLimit The column after which to wrap lines.
+ */
+export function formatText(
+  text: string,
+  responsiveMode: DiffResponsiveMode,
+  tabSize: number,
+  lineLimit: number
+): HTMLElement {
+  const contentText = createElementDiff('div', 'contentText');
+  contentText.ariaLabel = text;
+  let columnPos = 0;
+  let textOffset = 0;
+  for (const segment of text.split(REGEX_TAB_OR_SURROGATE_PAIR)) {
+    if (segment) {
+      // |segment| contains only normal characters. If |segment| doesn't fit
+      // entirely on the current line, append chunks of |segment| followed by
+      // line breaks.
+      let rowStart = 0;
+      let rowEnd = lineLimit - columnPos;
+      while (rowEnd < segment.length) {
+        contentText.appendChild(
+          document.createTextNode(segment.substring(rowStart, rowEnd))
+        );
+        contentText.appendChild(createLineBreak(responsiveMode));
+        columnPos = 0;
+        rowStart = rowEnd;
+        rowEnd += lineLimit;
+      }
+      // Append the last part of |segment|, which fits on the current line.
+      contentText.appendChild(
+        document.createTextNode(segment.substring(rowStart))
+      );
+      columnPos += segment.length - rowStart;
+      textOffset += segment.length;
+    }
+    if (textOffset < text.length) {
+      // Handle the special character at |textOffset|.
+      if (text.startsWith('\t', textOffset)) {
+        // Append a single '\t' character.
+        let effectiveTabSize = tabSize - (columnPos % tabSize);
+        if (columnPos + effectiveTabSize > lineLimit) {
+          contentText.appendChild(createLineBreak(responsiveMode));
+          columnPos = 0;
+          effectiveTabSize = tabSize;
+        }
+        contentText.appendChild(createTabWrapper(effectiveTabSize));
+        columnPos += effectiveTabSize;
+        textOffset++;
+      } else {
+        // Append a single surrogate pair.
+        if (columnPos >= lineLimit) {
+          contentText.appendChild(createLineBreak(responsiveMode));
+          columnPos = 0;
+        }
+        contentText.appendChild(
+          document.createTextNode(text.substring(textOffset, textOffset + 2))
+        );
+        textOffset += 2;
+        columnPos += 1;
+      }
+    }
+  }
+  return contentText;
+}
+
+/**
+ * Given the number of a base line and the BlameInfo create a <span> element
+ * with a hovercard. This is supposed to be put into a <td> cell of the diff.
+ */
+export function createBlameElement(
+  lineNum: LineNumber,
+  commit: BlameInfo
+): HTMLElement {
+  const isStartOfRange = commit.ranges.some(r => r.start === lineNum);
+
+  const date = new Date(commit.time * 1000).toLocaleDateString();
+  const blameNode = createElementDiff(
+    'span',
+    isStartOfRange ? 'startOfRange' : ''
+  );
+
+  const shaNode = createElementDiff('a', 'blameDate');
+  shaNode.innerText = `${date}`;
+  shaNode.setAttribute('href', `${getBaseUrl()}/q/${commit.id}`);
+  blameNode.appendChild(shaNode);
+
+  const shortName = commit.author.split(' ')[0];
+  const authorNode = createElementDiff('span', 'blameAuthor');
+  authorNode.innerText = ` ${shortName}`;
+  blameNode.appendChild(authorNode);
+
+  const hoverCardFragment = createElementDiff('span', 'blameHoverCard');
+  hoverCardFragment.innerText = `Commit ${commit.id}
+Author: ${commit.author}
+Date: ${date}
+
+${commit.commit_msg}`;
+  const hovercard = createElementDiff('gr-hovercard');
+  hovercard.appendChild(hoverCardFragment);
+  blameNode.appendChild(hovercard);
+
+  return blameNode;
 }

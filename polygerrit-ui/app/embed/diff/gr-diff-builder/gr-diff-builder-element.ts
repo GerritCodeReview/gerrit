@@ -588,7 +588,7 @@ export class GrDiffBuilderElement extends PolymerElement {
 
   setBlame(blame: BlameInfo[] | null) {
     if (!this._builder) return;
-    this._builder.setBlame(blame);
+    this._builder.setBlame(blame ?? []);
   }
 
   updateRenderPrefs(renderPrefs: RenderPreferences) {

@@ -2103,24 +2103,14 @@ export class GrChangeView extends base {
     // Resolves when the change detail and the edit patch set (if available)
     // are loaded.
     const detailCompletes = this.untilModelLoaded();
-    this.performPostChangeLoadTasks();
     allDataPromises.push(detailCompletes);
 
     // Resolves when the loading flag is set to false, meaning that some
     // change content may start appearing.
-    const loadingFlagSet = detailCompletes
-      .then(() => {
-        this._loading = false;
-        fireEvent(this, 'change-details-loaded');
-      })
-      .then(() => {
-        this.reporting.timeEnd(Timing.CHANGE_RELOAD);
-        if (isLocationChange) {
-          this.reporting.changeDisplayed(
-            roleDetails(this._change, this._account)
-          );
-        }
-      });
+    const loadingFlagSet = detailCompletes.then(() => {
+      this._loading = false;
+      this.performPostChangeLoadTasks();
+    });
 
     // Resolves when the project config has successfully loaded.
     const projectConfigLoaded = detailCompletes.then(() => {
@@ -2170,6 +2160,15 @@ export class GrChangeView extends base {
     }
 
     allDataPromises.push(coreDataPromise);
+    coreDataPromise.then(() => {
+      fireEvent(this, 'change-details-loaded');
+      this.reporting.timeEnd(Timing.CHANGE_RELOAD);
+      if (isLocationChange) {
+        this.reporting.changeDisplayed(
+          roleDetails(this._change, this._account)
+        );
+      }
+    });
 
     if (isLocationChange) {
       this._editingCommitMessage = false;

@@ -91,6 +91,9 @@ export class GrAccountLabel extends LitElement {
   @property({type: Boolean, reflect: true})
   selectionChipStyle = false;
 
+  @property({type: Boolean, reflect: true})
+  noStatusIcons = false;
+
   @property({
     type: Boolean,
     reflect: true,
@@ -268,7 +271,7 @@ export class GrAccountLabel extends LitElement {
   }
 
   private renderAccountStatusPlugins() {
-    if (!this.account?._account_id) {
+    if (!this.account?._account_id || this.noStatusIcons) {
       return;
     }
     return html`

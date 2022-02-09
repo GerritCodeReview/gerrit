@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b1afc67_926e49bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-09T09:46:51Z",
+      "side": 1,
+      "message": "Why? I think it is fine. And it is just what `prettier` does, so not for Milutin to fix here?\n\nNote that `\u003cspan\u003e` (and all `display:inline` elements) render spaces, so\n```\n\u003cspan\u003e\n  Verified\n\u003c/span\u003e\n```\nis not the same as:\n```\n\u003cspan\n  \u003eVerified\u003c/span\n\u003e\n```",
+      "parentUuid": "8a2d6230_c0e73616",
+      "revId": "bead43e9c44b85872fe9617c21782d657077454f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c04c76f7_a17eeb27",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_test.ts",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-09T09:36:31Z",
       "side": 1,
       "message": "Any reason why we don\u0027t put the \u003e on the same line as gr-button?",
+      "revId": "bead43e9c44b85872fe9617c21782d657077454f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56915d61_60ea0a44",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-09T09:46:51Z",
+      "side": 1,
+      "message": "Because of the space that would be rendered, if this has `display:inline`.",
+      "parentUuid": "c04c76f7_a17eeb27",
       "revId": "bead43e9c44b85872fe9617c21782d657077454f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5eeeec26_b82aa6b4",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-09T09:46:51Z",
+      "side": 1,
+      "message": "+1 to generally doing a line break after the backtick.",
+      "parentUuid": "1fb7a99f_6f595dd2",
+      "revId": "bead43e9c44b85872fe9617c21782d657077454f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "711ea703_27f11843",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip_test.ts",
         "patchSetId": 1
@@ -65,6 +119,24 @@
       "writtenOn": "2022-02-09T09:36:31Z",
       "side": 1,
       "message": "In general consider starting the html on the next line.",
+      "revId": "bead43e9c44b85872fe9617c21782d657077454f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f862b06_4e8bdb5b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-09T09:46:51Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "711ea703_27f11843",
       "revId": "bead43e9c44b85872fe9617c21782d657077454f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

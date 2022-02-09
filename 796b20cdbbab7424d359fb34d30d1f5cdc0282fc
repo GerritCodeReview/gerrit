@@ -16,6 +16,23 @@
       "message": "Adding two reviewers because we are touching security checks",
       "revId": "796b20cdbbab7424d359fb34d30d1f5cdc0282fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9df4fc38_f8a08ea0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-09T11:54:24Z",
+      "side": 1,
+      "message": "Checked all modifications. LGTM.",
+      "revId": "796b20cdbbab7424d359fb34d30d1f5cdc0282fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

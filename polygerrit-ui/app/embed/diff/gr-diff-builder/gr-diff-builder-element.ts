@@ -22,7 +22,7 @@ import './gr-diff-builder-side-by-side';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-builder-element_html';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {DiffContextExpandedEventDetail, GrDiffBuilder} from './gr-diff-builder';
+import {DiffBuilder, DiffContextExpandedEventDetail} from './gr-diff-builder';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
@@ -150,7 +150,7 @@ export class GrDiffBuilderElement extends PolymerElement {
   renderPrefs?: RenderPreferences;
 
   @property({type: Object})
-  _builder?: GrDiffBuilder;
+  _builder?: DiffBuilder;
 
   // This is written to only from the processor via property notify
   // And then passed to the builder via a property observer.
@@ -420,7 +420,7 @@ export class GrDiffBuilderElement extends PolymerElement {
     throw Error(`Invalid preference value: ${pref}`);
   }
 
-  _getDiffBuilder(): GrDiffBuilder {
+  _getDiffBuilder(): DiffBuilder {
     if (!this.diff) {
       throw Error('Cannot render a diff without DiffInfo.');
     }

@@ -181,7 +181,18 @@ export const htmlTemplate = html`
           account="[[change.owner]]"
           change="[[change]]"
           highlightAttention
-        ></gr-account-chip>
+          vote="[[_computeVote(change.owner, change)]]"
+          label="[[_computeCodeReviewLabel(change)]]"
+        >
+          <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
+            <gr-vote-chip
+              slot="vote-chip"
+              vote="[[_computeVote(change.owner, change)]]"
+              label="[[_computeCodeReviewLabel(change)]]"
+              circle-shape
+            ></gr-vote-chip>
+          </template>
+        </gr-account-chip>
         <template is="dom-if" if="[[_pushCertificateValidation]]">
           <gr-tooltip-content
             has-tooltip=""
@@ -210,7 +221,18 @@ export const htmlTemplate = html`
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.UPLOADER)]]"
           change="[[change]]"
           highlightAttention
-        ></gr-account-chip>
+          vote="[[_computeVoteForRole(_CHANGE_ROLE.UPLOADER, change)]]"
+          label="[[_computeCodeReviewLabel(change)]]"
+        >
+          <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
+            <gr-vote-chip
+              slot="vote-chip"
+              vote="[[_computeVoteForRole(_CHANGE_ROLE.UPLOADER, change)]]"
+              label="[[_computeCodeReviewLabel(change)]]"
+              circle-shape
+            ></gr-vote-chip>
+          </template>
+        </gr-account-chip>
       </span>
     </section>
     <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.AUTHOR)]]">
@@ -226,7 +248,18 @@ export const htmlTemplate = html`
         <gr-account-chip
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.AUTHOR)]]"
           change="[[change]]"
-        ></gr-account-chip>
+          vote="[[_computeVoteForRole(_CHANGE_ROLE.AUTHOR, change)]]"
+          label="[[_computeCodeReviewLabel(change)]]"
+        >
+          <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
+            <gr-vote-chip
+              slot="vote-chip"
+              vote="[[_computeVoteForRole(_CHANGE_ROLE.AUTHOR, change)]]"
+              label="[[_computeCodeReviewLabel(change)]]"
+              circle-shape
+            ></gr-vote-chip>
+          </template>
+        </gr-account-chip>
       </span>
     </section>
     <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.COMMITTER)]]">
@@ -242,7 +275,18 @@ export const htmlTemplate = html`
         <gr-account-chip
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"
           change="[[change]]"
-        ></gr-account-chip>
+          vote="[[_computeVoteForRole(_CHANGE_ROLE.COMMITTER, change)]]"
+          label="[[_computeCodeReviewLabel(change)]]"
+        >
+          <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
+            <gr-vote-chip
+              slot="vote-chip"
+              vote="[[_computeVoteForRole(_CHANGE_ROLE.COMMITTER, change)]]"
+              label="[[_computeCodeReviewLabel(change)]]"
+              circle-shape
+            ></gr-vote-chip>
+          </template>
+        </gr-account-chip>
       </span>
     </section>
     <section

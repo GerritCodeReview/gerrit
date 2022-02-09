@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d89543e_9d07ef27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T09:16:07Z",
+      "side": 1,
+      "message": "Thank you 😊",
+      "revId": "ee71718263f200478e05501c833163d2e2c21877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6246313c_92481119",
@@ -31,6 +48,30 @@
       "writtenOn": "2022-02-09T09:12:39Z",
       "side": 1,
       "message": "Great spot to capture change loading.\nI would move \n```\nthis.reporting.timeEnd(Timing.CHANGE_RELOAD);\n      if (isLocationChange) {\n        this.reporting.changeDisplayed(\n          roleDetails(this._change, this._account)\n        );\n      }\n``` \nhere as well. They are related.",
+      "range": {
+        "startLine": 2169,
+        "startChar": 4,
+        "endLine": 2171,
+        "endChar": 7
+      },
+      "revId": "ee71718263f200478e05501c833163d2e2c21877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "356bd614_be80bd9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2171,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T09:16:07Z",
+      "side": 1,
+      "message": "Thanks for the guidance on this!",
+      "parentUuid": "6246313c_92481119",
       "range": {
         "startLine": 2169,
         "startChar": 4,

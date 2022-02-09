@@ -374,6 +374,25 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     return review;
   }
 
+  getReviewLabelValues(labelName: string|undefined): Map<string, string> {
+    let labelValues = new Map<string, string>();;
+    for (const cb of this._getEventCallbacks(EventType.REPLY_LABEL_VALUE)) {
+      try {
+        const lvs: Map<string, string> = cb(labelName);
+        if (lvs) {
+          labelValues = lvs;
+        }
+      } catch (err: unknown) {
+        this.reporting.error(
+          new Error('getReviewLabelValues callback error'),
+          undefined,
+          err
+        );
+      }
+    }
+    return labelValues;
+  }
+
   _getEventCallbacks(type: EventType) {
     return eventCallbacks[type] || [];
   }

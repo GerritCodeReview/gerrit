@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7f48917_53571525",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f5842f7_beab099a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4459f5e8_c3d70a1c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c8003e4_64e45406",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirements-summary/gr-change-list-column-requirements-summary_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6857b4a0_cb09c7f1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirements-summary/gr-change-list-column-requirements-summary_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6c45f67_2db8407f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc41f13b_3f9171c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote/gr-trigger-vote_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "485d50b9_4c8e00e8",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Move `/* HTML */ ` to previous line (as well as backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf62e750_efc6ef2e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Could you share a bit more detail as to why?",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6842c063_09c8ee40",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93018ca5_29b65f70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe0cf263_d6aa6de8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2becb21_0a1dea4e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28a906fa_8addb69e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-09T14:59:58Z",
+      "side": 1,
+      "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

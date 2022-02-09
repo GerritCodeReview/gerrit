@@ -310,7 +310,7 @@ suite('gr-thread-list tests', () => {
 
   test('renders', async () => {
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(`
+    expect(element).shadowDom.to.equal(/* HTML */ `
       <div class="header">
         <span class="sort-text">Sort By:</span>
         <gr-dropdown-list id="sortDropdown"></gr-dropdown-list>
@@ -318,26 +318,63 @@ suite('gr-thread-list tests', () => {
         <span class="filter-text">Filter By:</span>
         <gr-dropdown-list id="filterDropdown"></gr-dropdown-list>
         <span class="author-text">From:</span>
-        <gr-account-label deselected="" selectionchipstyle=""></gr-account-label>
-        <gr-account-label deselected="" selectionchipstyle=""></gr-account-label>
-        <gr-account-label deselected="" selectionchipstyle=""></gr-account-label>
-        <gr-account-label deselected="" selectionchipstyle=""></gr-account-label>
-        <gr-account-label deselected="" selectionchipstyle=""></gr-account-label>
+        <gr-account-label
+          deselected=""
+          selectionchipstyle=""
+          nostatusicons=""
+        ></gr-account-label>
+        <gr-account-label
+          deselected=""
+          selectionchipstyle=""
+          nostatusicons=""
+        ></gr-account-label>
+        <gr-account-label
+          deselected=""
+          selectionchipstyle=""
+          nostatusicons=""
+        ></gr-account-label>
+        <gr-account-label
+          deselected=""
+          selectionchipstyle=""
+          nostatusicons=""
+        ></gr-account-label>
+        <gr-account-label
+          deselected=""
+          selectionchipstyle=""
+          nostatusicons=""
+        ></gr-account-label>
       </div>
       <div id="threads" part="threads">
-        <gr-comment-thread show-file-name="" show-file-path=""></gr-comment-thread>
+        <gr-comment-thread
+          show-file-name=""
+          show-file-path=""
+        ></gr-comment-thread>
         <gr-comment-thread show-file-path=""></gr-comment-thread>
         <div class="thread-separator"></div>
-        <gr-comment-thread show-file-name="" show-file-path=""></gr-comment-thread>
+        <gr-comment-thread
+          show-file-name=""
+          show-file-path=""
+        ></gr-comment-thread>
         <gr-comment-thread show-file-path=""></gr-comment-thread>
         <div class="thread-separator"></div>
-        <gr-comment-thread has-draft="" show-file-name="" show-file-path=""></gr-comment-thread>
+        <gr-comment-thread
+          has-draft=""
+          show-file-name=""
+          show-file-path=""
+        ></gr-comment-thread>
         <gr-comment-thread show-file-path=""></gr-comment-thread>
         <gr-comment-thread show-file-path=""></gr-comment-thread>
         <div class="thread-separator"></div>
-        <gr-comment-thread show-file-name="" show-file-path=""></gr-comment-thread>
+        <gr-comment-thread
+          show-file-name=""
+          show-file-path=""
+        ></gr-comment-thread>
         <div class="thread-separator"></div>
-        <gr-comment-thread has-draft="" show-file-name="" show-file-path=""></gr-comment-thread>
+        <gr-comment-thread
+          has-draft=""
+          show-file-name=""
+          show-file-path=""
+        ></gr-comment-thread>
       </div>
     `);
   });

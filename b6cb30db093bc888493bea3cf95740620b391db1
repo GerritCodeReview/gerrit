@@ -16,6 +16,23 @@
       "message": "Updated commit message and rebased to current master.",
       "revId": "b6cb30db093bc888493bea3cf95740620b391db1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99ba091f_f56a5cfc",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 15
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-09T15:29:30Z",
+      "side": 1,
+      "message": "Why does version 11.3 end up in our yarn.lock? Is that a problem?",
+      "revId": "b6cb30db093bc888493bea3cf95740620b391db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

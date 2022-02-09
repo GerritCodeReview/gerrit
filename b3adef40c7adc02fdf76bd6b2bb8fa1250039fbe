@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "965a0f9b_f38156f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-02-09T04:08:04Z",
+      "side": 1,
+      "message": "Ran tests using cmd:\n\n time bazelisk test --local_ram_resources\u003dHOST_RAM*.4 --local_cpu_resources\u003dHOST_CPUS-3 --test_env\u003dGERRIT_NOTEDB\u003dON --java_toolchain\u003d//tools:error_prone_warnings_toolchain --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky,-elastic //...",
+      "revId": "b3adef40c7adc02fdf76bd6b2bb8fa1250039fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

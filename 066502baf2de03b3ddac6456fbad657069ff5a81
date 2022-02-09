@@ -16,6 +16,23 @@
       "message": "This code is very hard to understand, would love your input from both.",
       "revId": "066502baf2de03b3ddac6456fbad657069ff5a81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6067114_b80738a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T08:05:59Z",
+      "side": 1,
+      "message": "Thanks for quick fix. It better captures send reply but still not fully.\nhttps://imgur.com/a/hwQGslv - detail request api is still not finished\n\nhttps://imgur.com/a/WMHScii - there is still reply dialog open.",
+      "revId": "066502baf2de03b3ddac6456fbad657069ff5a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

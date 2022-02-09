@@ -194,7 +194,11 @@ export class GrSubmitRequirements extends LitElement {
 
   renderRequirement(requirement: SubmitRequirementResultInfo, index: number) {
     return html`
-      <tr id="requirement-${index}-${charsOnly(requirement.name)}">
+      <tr
+        id="requirement-${index}-${charsOnly(requirement.name)}"
+        role="button"
+        tabindex="0"
+      >
         <td>${this.renderStatus(requirement.status)}</td>
         <td class="name">
           <gr-limited-text

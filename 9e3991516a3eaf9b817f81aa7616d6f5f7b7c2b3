@@ -16,6 +16,41 @@
       "message": "Should I modify gerrit here or in google3?\n",
       "revId": "9e3991516a3eaf9b817f81aa7616d6f5f7b7c2b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f28dae6_e3c515a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-09T08:20:04Z",
+      "side": 1,
+      "message": "Here is the right spot. We import this code and can adapt build files then.",
+      "parentUuid": "21ec24da_f3ca91aa",
+      "revId": "9e3991516a3eaf9b817f81aa7616d6f5f7b7c2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "861d1d6a_61e3a215",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-09T08:20:04Z",
+      "side": 1,
+      "message": "I\u0027ve retriggered CI because results have expired and logs were not accessible anymore",
+      "revId": "9e3991516a3eaf9b817f81aa7616d6f5f7b7c2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

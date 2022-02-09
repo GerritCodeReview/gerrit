@@ -58,6 +58,9 @@ export class GrVoteChip extends LitElement {
   @property()
   displayValue?: string;
 
+  @property({type: Boolean, attribute: 'tooltip-with-who-voted'})
+  tooltipWithWhoVoted = false;
+
   private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
@@ -186,6 +189,13 @@ export class GrVoteChip extends LitElement {
     if (!this.label || !isDetailedLabelInfo(this.label)) {
       return '';
     }
-    return this.label.values?.[valueString(this.vote?.value)] ?? '';
+    const voteDescription =
+      this.label.values?.[valueString(this.vote?.value)] ?? '';
+
+    if (this.tooltipWithWhoVoted && this.vote) {
+      return `${this.vote?.name}: ${voteDescription}`;
+    } else {
+      return voteDescription;
+    }
   }
 }

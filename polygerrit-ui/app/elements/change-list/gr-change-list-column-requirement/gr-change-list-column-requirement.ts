@@ -33,9 +33,12 @@ import {
   getAllUniqueApprovals,
   getRequirements,
   hasNeutralStatus,
+  hasVotes,
   iconForStatus,
 } from '../../../utils/label-util';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {ifDefined} from 'lit/directives/if-defined';
+import {capitalizeFirstLetter} from '../../../utils/string-util';
 
 @customElement('gr-change-list-column-requirement')
 export class GrChangeListColumnRequirement extends LitElement {
@@ -67,7 +70,10 @@ export class GrChangeListColumnRequirement extends LitElement {
   }
 
   override render() {
-    return html`<div class="container ${this.computeClass()}">
+    return html`<div
+      class="container ${this.computeClass()}"
+      title="${ifDefined(this.computeLabelTitle())}"
+    >
       ${this.renderContent()}
     </div>`;
   }
@@ -112,6 +118,7 @@ export class GrChangeListColumnRequirement extends LitElement {
       return html`<gr-vote-chip
         .vote="${worstVote}"
         .label="${labelInfo}"
+        tooltip-with-who-voted
       ></gr-vote-chip>`;
     }
   }
@@ -131,6 +138,40 @@ export class GrChangeListColumnRequirement extends LitElement {
       return 'not-applicable';
     }
     return '';
+  }
+
+  private computeLabelTitle() {
+    if (!this.labelName) return;
+    const requirements = this.getRequirement(this.labelName);
+    if (requirements.length === 0) return 'Requirement not applicable';
+
+    const requirement = requirements[0];
+    if (requirement.status === SubmitRequirementStatus.UNSATISFIED) {
+      const requirementLabels = extractAssociatedLabels(
+        requirement,
+        'onlySubmittability'
+      );
+      const allLabels = this.change?.labels ?? {};
+      const associatedLabels = Object.keys(allLabels).filter(label =>
+        requirementLabels.includes(label)
+      );
+      const requirementWithoutLabelToVoteOn = associatedLabels.length === 0;
+      if (requirementWithoutLabelToVoteOn) {
+        const status = capitalizeFirstLetter(requirement.status.toLowerCase());
+        return status;
+      }
+
+      const everyAssociatedLabelsIsWithoutVotes = associatedLabels.every(
+        label => !hasVotes(allLabels[label])
+      );
+      if (everyAssociatedLabelsIsWithoutVotes) {
+        return 'No votes';
+      } else {
+        return; // there is a vote with tooltip, so undefined label title
+      }
+    } else {
+      return capitalizeFirstLetter(requirement.status.toLowerCase());
+    }
   }
 
   private getRequirement(labelName: string) {

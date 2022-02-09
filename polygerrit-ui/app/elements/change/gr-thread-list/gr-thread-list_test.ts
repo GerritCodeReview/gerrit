@@ -321,22 +321,27 @@ suite('gr-thread-list tests', () => {
         <gr-account-label
           deselected=""
           selectionchipstyle=""
+          nostatusicons=""
         ></gr-account-label>
         <gr-account-label
           deselected=""
           selectionchipstyle=""
+          nostatusicons=""
         ></gr-account-label>
         <gr-account-label
           deselected=""
           selectionchipstyle=""
+          nostatusicons=""
         ></gr-account-label>
         <gr-account-label
           deselected=""
           selectionchipstyle=""
+          nostatusicons=""
         ></gr-account-label>
         <gr-account-label
           deselected=""
           selectionchipstyle=""
+          nostatusicons=""
         ></gr-account-label>
       </div>
       <div id="threads" part="threads">

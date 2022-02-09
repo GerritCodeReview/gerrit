@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7304c86_91390ab1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "b7f48917_53571525",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f5842f7_beab099a",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-09T14:59:58Z",
       "side": 1,
       "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16a088f4_5b3c784a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "4f5842f7_beab099a",
       "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dc7f302_e26bba36",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "4459f5e8_c3d70a1c",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c8003e4_64e45406",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-02-09T14:59:58Z",
       "side": 1,
       "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "007ab28d_3938586e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirements-summary/gr-change-list-column-requirements-summary_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "2c8003e4_64e45406",
       "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20f81462_1a7d3562",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirements-summary/gr-change-list-column-requirements-summary_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "6857b4a0_cb09c7f1",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6c45f67_2db8407f",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-02-09T14:59:58Z",
       "side": 1,
       "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c18fb1f7_ef51637f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "f6c45f67_2db8407f",
       "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81ce5a19_e4c07193",
+        "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote/gr-trigger-vote_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "fc41f13b_3f9171c0",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "485d50b9_4c8e00e8",
@@ -133,6 +259,24 @@
       "writtenOn": "2022-02-09T14:59:58Z",
       "side": 1,
       "message": "Move `/* HTML */ ` to previous line (as well as backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddb39907_9eb9640e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is pushing it like this. I cannot change it much",
+      "parentUuid": "485d50b9_4c8e00e8",
       "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -154,6 +298,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41a0a502_a7427c56",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "I can investigate this once I will solve b/218657029 Currently I haven\u0027t found a way how to make prettier and semantic diff work well on this test.",
+      "parentUuid": "bf62e750_efc6ef2e",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6842c063_09c8ee40",
@@ -167,6 +329,24 @@
       "writtenOn": "2022-02-09T14:59:58Z",
       "side": 1,
       "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71320890_2b149064",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "6842c063_09c8ee40",
       "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -188,6 +368,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb7c6064_4f4a1e88",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "93018ca5_29b65f70",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe0cf263_d6aa6de8",
@@ -201,6 +399,24 @@
       "writtenOn": "2022-02-09T14:59:58Z",
       "side": 1,
       "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3305f358_cb938d94",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "fe0cf263_d6aa6de8",
       "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -222,6 +438,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe8a5072_e08629e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "e2becb21_0a1dea4e",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28a906fa_8addb69e",
@@ -235,6 +469,24 @@
       "writtenOn": "2022-02-09T14:59:58Z",
       "side": 1,
       "message": "Put html on newline (newline after backtick)",
+      "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "310001b7_5d840512",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T19:09:48Z",
+      "side": 1,
+      "message": "prettier is removing newline.",
+      "parentUuid": "28a906fa_8addb69e",
       "revId": "6a2eed2526aa6eb8c7cd4cbeace2c6025799208b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

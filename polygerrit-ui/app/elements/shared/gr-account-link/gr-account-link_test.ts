@@ -38,16 +38,17 @@ suite('gr-account-link tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<span>
-      <a href="">
-        <gr-account-label
-          deselected=""
-          exportparts="gr-account-label-text: gr-account-link-text"
-        >
-        </gr-account-label>
-      </a>
-    </span>
-  `);
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <span>
+        <a href="">
+          <gr-account-label
+            deselected=""
+            exportparts="gr-account-label-text: gr-account-link-text"
+          >
+          </gr-account-label>
+        </a>
+      </span>
+    `);
   });
 
   test('computed fields', () => {

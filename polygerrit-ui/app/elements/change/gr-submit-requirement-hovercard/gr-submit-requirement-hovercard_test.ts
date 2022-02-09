@@ -48,11 +48,8 @@ suite('gr-submit-requirement-hovercard tests', () => {
   });
 
   test('renders', async () => {
-    expect(element).shadowDom.to.equal(`<div
-        id="container"
-        role="tooltip"
-        tabindex="-1"
-      >
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
           <div class="sectionIcon">
             <iron-icon
@@ -63,28 +60,18 @@ suite('gr-submit-requirement-hovercard tests', () => {
           </div>
           <div class="sectionContent">
             <h3 class="heading-3 name">
-              <span>
-                Verified
-              </span>
+              <span> Verified </span>
             </h3>
           </div>
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <iron-icon
-              class="small"
-              icon="gr-icons:info-outline"
-            >
-            </iron-icon>
+            <iron-icon class="small" icon="gr-icons:info-outline"> </iron-icon>
           </div>
           <div class="sectionContent">
             <div class="row">
-              <div class="title">
-                Status
-              </div>
-              <div>
-                SATISFIED
-              </div>
+              <div class="title">Status</div>
+              <div>SATISFIED</div>
             </div>
           </div>
         </div>
@@ -97,23 +84,19 @@ suite('gr-submit-requirement-hovercard tests', () => {
             tabindex="0"
           >
             View conditions
-            <iron-icon icon="gr-icons:expand-more">
-            </iron-icon>
+            <iron-icon icon="gr-icons:expand-more"> </iron-icon>
           </gr-button>
         </div>
       </div>
-      `);
+    `);
   });
 
   test('renders conditions after click', async () => {
     const button = queryAndAssert<GrButton>(element, '#toggleConditionsButton');
     button.click();
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(`<div
-        id="container"
-        role="tooltip"
-        tabindex="-1"
-      >
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
           <div class="sectionIcon">
             <iron-icon
@@ -124,28 +107,18 @@ suite('gr-submit-requirement-hovercard tests', () => {
           </div>
           <div class="sectionContent">
             <h3 class="heading-3 name">
-              <span>
-                Verified
-              </span>
+              <span> Verified </span>
             </h3>
           </div>
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <iron-icon
-              class="small"
-              icon="gr-icons:info-outline"
-            >
-            </iron-icon>
+            <iron-icon class="small" icon="gr-icons:info-outline"> </iron-icon>
           </div>
           <div class="sectionContent">
             <div class="row">
-              <div class="title">
-                Status
-              </div>
-              <div>
-                SATISFIED
-              </div>
+              <div class="title">Status</div>
+              <div>SATISFIED</div>
             </div>
           </div>
         </div>
@@ -158,21 +131,20 @@ suite('gr-submit-requirement-hovercard tests', () => {
             tabindex="0"
           >
             Hide conditions
-            <iron-icon icon="gr-icons:expand-less">
-            </iron-icon>
+            <iron-icon icon="gr-icons:expand-less"> </iron-icon>
           </gr-button>
         </div>
         <div class="section condition">
           <div class="sectionContent">
             Submit condition:
-            <br>
+            <br />
             <span class="expression">
               label:Verified=MAX -label:Verified=MIN
             </span>
           </div>
         </div>
       </div>
-      `);
+    `);
   });
 
   test('renders label', async () => {
@@ -205,11 +177,8 @@ suite('gr-submit-requirement-hovercard tests', () => {
         .account=${createAccountWithId()}
       ></gr-submit-requirement-hovercard>`
     );
-    expect(element).shadowDom.to.equal(`<div
-        id="container"
-        role="tooltip"
-        tabindex="-1"
-      >
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
           <div class="sectionIcon">
             <iron-icon
@@ -220,49 +189,34 @@ suite('gr-submit-requirement-hovercard tests', () => {
           </div>
           <div class="sectionContent">
             <h3 class="heading-3 name">
-              <span>
-                Verified
-              </span>
+              <span> Verified </span>
             </h3>
           </div>
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <iron-icon
-              class="small"
-              icon="gr-icons:info-outline"
-            >
-            </iron-icon>
+            <iron-icon class="small" icon="gr-icons:info-outline"> </iron-icon>
           </div>
           <div class="sectionContent">
             <div class="row">
-              <div class="title">
-                Status
-              </div>
-              <div>
-                SATISFIED
-              </div>
+              <div class="title">Status</div>
+              <div>SATISFIED</div>
             </div>
           </div>
         </div>
         <div class="section">
-          <div class="sectionIcon">
-          </div>
+          <div class="sectionIcon"></div>
           <div class="row">
             <div>
-              <gr-label-info>
-              </gr-label-info>
+              <gr-label-info> </gr-label-info>
             </div>
           </div>
         </div>
         <div class="section description">
           <div class="sectionIcon">
-            <iron-icon icon="gr-icons:description">
-            </iron-icon>
+            <iron-icon icon="gr-icons:description"> </iron-icon>
           </div>
-          <div class="sectionContent">
-          Test Description
-          </div>
+          <div class="sectionContent">Test Description</div>
         </div>
         <div class="button">
           <gr-button
@@ -273,12 +227,11 @@ suite('gr-submit-requirement-hovercard tests', () => {
             tabindex="0"
           >
             View conditions
-            <iron-icon icon="gr-icons:expand-more">
-            </iron-icon>
+            <iron-icon icon="gr-icons:expand-more"> </iron-icon>
           </gr-button>
         </div>
       </div>
-      `);
+    `);
   });
 
   suite('quick approve label', () => {
@@ -319,15 +272,12 @@ suite('gr-submit-requirement-hovercard tests', () => {
         ></gr-submit-requirement-hovercard>`
       );
       const quickApprove = queryAndAssert(element, '.quickApprove');
-      expect(quickApprove).dom.to.equal(`<div class="button quickApprove">
-        <gr-button
-          aria-disabled="false"
-          link=""
-          role="button"
-          tabindex="0"
-        >Vote Verified +2
-        </gr-button>
-      </div>
+      expect(quickApprove).dom.to.equal(/* HTML */ `
+        <div class="button quickApprove">
+          <gr-button aria-disabled="false" link="" role="button" tabindex="0">
+            Vote Verified +2
+          </gr-button>
+        </div>
       `);
     });
 
@@ -403,15 +353,12 @@ suite('gr-submit-requirement-hovercard tests', () => {
         ></gr-submit-requirement-hovercard>`
       );
       const quickApprove = queryAndAssert(element, '.quickApprove');
-      expect(quickApprove).dom.to.equal(`<div class="button quickApprove">
-        <gr-button
-          aria-disabled="false"
-          link=""
-          role="button"
-          tabindex="0"
-        >Override (Build-Cop)
-        </gr-button>
-      </div>
+      expect(quickApprove).dom.to.equal(/* HTML */ `
+        <div class="button quickApprove">
+          <gr-button aria-disabled="false" link="" role="button" tabindex="0"
+            >Override (Build-Cop)
+          </gr-button>
+        </div>
       `);
     });
   });

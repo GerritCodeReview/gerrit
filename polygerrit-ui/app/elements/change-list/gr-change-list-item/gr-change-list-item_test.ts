@@ -548,7 +548,8 @@ suite('gr-change-list-item tests', () => {
     );
 
     const requirement = queryAndAssert(element, '.requirement');
-    expect(requirement).dom.to.equal(`<gr-change-list-column-requirement>
+    expect(requirement).dom.to
+      .equal(/* HTML */ ` <gr-change-list-column-requirement>
     </gr-change-list-column-requirement>`);
   });
 });

@@ -75,30 +75,23 @@ suite('gr-hovercard-account tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<div
-      id="container"
-      role="tooltip"
-      tabindex="-1"
-    >
-      <div class="top">
-        <div class="avatar">
-          <gr-avatar hidden="" imagesize="56"></gr-avatar>
-        </div>
-        <div class="account">
-          <h3 class="heading-3 name">
-            Kermit The Frog
-          </h3>
-          <div class="email">
-            kermit@gmail.com
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div id="container" role="tooltip" tabindex="-1">
+        <div class="top">
+          <div class="avatar">
+            <gr-avatar hidden="" imagesize="56"></gr-avatar>
+          </div>
+          <div class="account">
+            <h3 class="heading-3 name">Kermit The Frog</h3>
+            <div class="email">kermit@gmail.com</div>
           </div>
         </div>
+        <div class="statusPlugin">
+          <gr-endpoint-decorator name="hovercard-status">
+            <gr-endpoint-param name="account"></gr-endpoint-param>
+          </gr-endpoint-decorator>
+        </div>
       </div>
-      <div class="statusPlugin">
-        <gr-endpoint-decorator name="hovercard-status">
-          <gr-endpoint-param name="account"></gr-endpoint-param>
-        </gr-endpoint-decorator>
-      </div>
-    </div>
     `);
   });
 

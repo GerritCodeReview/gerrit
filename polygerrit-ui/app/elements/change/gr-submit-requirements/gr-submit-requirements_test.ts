@@ -71,10 +71,8 @@ suite('gr-submit-requirements tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `<h3
-        class="heading-3 metadata-title"
-        id="submit-requirements-caption"
-      >
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <h3 class="heading-3 metadata-title" id="submit-requirements-caption">
         Submit Requirements
       </h3>
       <table aria-labelledby="submit-requirements-caption" class="requirements">
@@ -113,7 +111,8 @@ suite('gr-submit-requirements tests', () => {
         </tbody>
       </table>
       <gr-submit-requirement-hovercard for="requirement-0-Verified">
-      </gr-submit-requirement-hovercard> `);
+      </gr-submit-requirement-hovercard>
+    `);
   });
 
   test('calculateEndpointName()', () => {

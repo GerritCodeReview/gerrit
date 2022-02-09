@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import '../../../test/common-test-setup-karma.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff-builder-element.js';
@@ -29,6 +28,7 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {DiffViewMode, Side} from '../../../api/diff.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
+import {createElementDiff} from '../gr-diff/gr-diff-utils.js';
 
 const basicFixture = fixtureFromTemplate(html`
     <gr-diff-builder>
@@ -69,13 +69,6 @@ suite('gr-diff-builder tests', () => {
     stubBaseUrl('/r');
     prefs = {...DEFAULT_PREFS};
     builder = new GrDiffBuilder({content: []}, prefs);
-  });
-
-  test('_createElement classStr applies all classes', () => {
-    const node = builder._createElement('div', 'test classes');
-    assert.isTrue(node.classList.contains('gr-diff'));
-    assert.isTrue(node.classList.contains('test'));
-    assert.isTrue(node.classList.contains('classes'));
   });
 
   test('newlines 1', () => {

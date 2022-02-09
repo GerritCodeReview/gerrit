@@ -21,6 +21,7 @@ import {stubBaseUrl} from '../../../test/test-utils.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
+import {createTabWrapper, formatText, createElementDiff} from '../gr-diff/gr-diff-utils.js';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
@@ -29,6 +30,7 @@ import {DiffViewMode, Side} from '../../../api/diff.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {createElementDiff} from '../gr-diff/gr-diff-utils.js';
+import {GrDiffBuilderLegacy} from './gr-diff-builder-legacy.js';
 
 const basicFixture = fixtureFromTemplate(html`
     <gr-diff-builder>
@@ -68,7 +70,7 @@ suite('gr-diff-builder tests', () => {
     stubRestApi('getProjectConfig').returns(Promise.resolve({}));
     stubBaseUrl('/r');
     prefs = {...DEFAULT_PREFS};
-    builder = new GrDiffBuilder({content: []}, prefs);
+    builder = new GrDiffBuilderLegacy({content: []}, prefs);
   });
 
   test('_createElement classStr applies all classes', () => {
@@ -81,9 +83,9 @@ suite('gr-diff-builder tests', () => {
   test('newlines 1', () => {
     let text = 'abcdef';
 
-    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML, text);
+    assert.equal(formatText(text, 'NONE', 4, 10).innerHTML, text);
     text = 'a'.repeat(20);
-    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML,
+    assert.equal(formatText(text, 'NONE', 4, 10).innerHTML,
         'a'.repeat(10) +
         LINE_BREAK_HTML +
         'a'.repeat(10));
@@ -91,7 +93,7 @@ suite('gr-diff-builder tests', () => {
 
   test('newlines 2', () => {
     const text = '<span class="thumbsup">👍</span>';
-    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML,
+    assert.equal(formatText(text, 'NONE', 4, 10).innerHTML,
         '&lt;span clas' +
         LINE_BREAK_HTML +
         's="thumbsu' +
@@ -103,15 +105,15 @@ suite('gr-diff-builder tests', () => {
 
   test('newlines 3', () => {
     const text = '01234\t56789';
-    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML,
-        '01234' + builder._getTabWrapper(3).outerHTML + '56' +
+    assert.equal(formatText(text, 'NONE', 4, 10).innerHTML,
+        '01234' + createTabWrapper(3).outerHTML + '56' +
         LINE_BREAK_HTML +
         '789');
   });
 
   test('newlines 4', () => {
     const text = '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍';
-    assert.equal(builder._formatText(text, 'NONE', 4, 20).innerHTML,
+    assert.equal(formatText(text, 'NONE', 4, 20).innerHTML,
         '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍' +
         LINE_BREAK_HTML +
         '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍' +
@@ -177,7 +179,7 @@ suite('gr-diff-builder tests', () => {
   test('text length with tabs and unicode', () => {
     function expectTextLength(text, tabSize, expected) {
       // Formatting to |expected| columns should not introduce line breaks.
-      const result = builder._formatText(text, 'NONE', tabSize, expected);
+      const result = formatText(text, 'NONE', tabSize, expected);
       assert.isNotOk(result.querySelector('.contentText > .br'),
           `  Expected the result of: \n` +
           `      _formatText(${text}', 'NONE',  ${tabSize}, ${expected})\n` +
@@ -186,15 +188,15 @@ suite('gr-diff-builder tests', () => {
 
       // Increasing the line limit should produce the same markup.
       assert.equal(
-          builder._formatText(text, 'NONE', tabSize, Infinity).innerHTML,
+          formatText(text, 'NONE', tabSize, Infinity).innerHTML,
           result.innerHTML);
       assert.equal(
-          builder._formatText(text, 'NONE', tabSize, expected + 1).innerHTML,
+          formatText(text, 'NONE', tabSize, expected + 1).innerHTML,
           result.innerHTML);
 
       // Decreasing the line limit should introduce line breaks.
       if (expected > 0) {
-        const tooSmall = builder._formatText(text,
+        const tooSmall = formatText(text,
             'NONE', tabSize, expected - 1);
         assert.isOk(tooSmall.querySelector('.contentText > .br'),
             `  Expected the result of: \n` +
@@ -219,11 +221,11 @@ suite('gr-diff-builder tests', () => {
   test('tab wrapper insertion', () => {
     const html = 'abc\tdef';
     const tabSize = builder._prefs.tab_size;
-    const wrapper = builder._getTabWrapper(tabSize - 3);
+    const wrapper = createTabWrapper(tabSize - 3);
     assert.ok(wrapper);
     assert.equal(wrapper.innerText, '\t');
     assert.equal(
-        builder._formatText(html, 'NONE', tabSize, Infinity).innerHTML,
+        formatText(html, 'NONE', tabSize, Infinity).innerHTML,
         'abc' + wrapper.outerHTML + 'def');
   });
 
@@ -232,7 +234,7 @@ suite('gr-diff-builder tests', () => {
       'style="((?:-moz-)?tab-size: (\\d+);.?)+">\\t<\\/span>$');
 
     for (const size of [1, 3, 8, 55]) {
-      const html = builder._getTabWrapper(size).outerHTML;
+      const html = createTabWrapper(size).outerHTML;
       expect(html).to.match(pattern);
       assert.equal(html.match(pattern)[2], size);
     }
@@ -1156,12 +1158,12 @@ suite('gr-diff-builder tests', () => {
     test('escaping HTML', () => {
       let input = '<script>alert("XSS");<' + '/script>';
       let expected = '&lt;script&gt;alert("XSS");&lt;/script&gt;';
-      let result = builder._formatText(input, 1, Infinity).innerHTML;
+      let result = formatText(input, 1, Infinity).innerHTML;
       assert.equal(result, expected);
 
       input = '& < > " \' / `';
       expected = '&amp; &lt; &gt; " \' / `';
-      result = builder._formatText(input, 1, Infinity).innerHTML;
+      result = formatText(input, 1, Infinity).innerHTML;
       assert.equal(result, expected);
     });
   });
@@ -1177,14 +1179,14 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('setBlame attempts to render each blamed line', () => {
-      const getBlameStub = sinon.stub(builder, '_getBlameByLineNum')
+      const getBlameStub = sinon.stub(builder, 'getBlameTdByLine')
           .returns(null);
       builder.setBlame(mockBlame);
       assert.equal(getBlameStub.callCount, 32);
     });
 
     test('_getBlameCommitForBaseLine', () => {
-      sinon.stub(builder, '_getBlameByLineNum').returns(null);
+      sinon.stub(builder, 'getBlameTdByLine').returns(undefined);
       builder.setBlame(mockBlame);
       assert.isOk(builder._getBlameCommitForBaseLine(1));
       assert.equal(builder._getBlameCommitForBaseLine(1).id, 'commit 1');
@@ -1195,19 +1197,25 @@ suite('gr-diff-builder tests', () => {
       assert.isOk(builder._getBlameCommitForBaseLine(32));
       assert.equal(builder._getBlameCommitForBaseLine(32).id, 'commit 2');
 
-      assert.isNull(builder._getBlameCommitForBaseLine(33));
+      assert.isUndefined(builder._getBlameCommitForBaseLine(33));
     });
 
     test('_getBlameCommitForBaseLine w/o blame returns null', () => {
-      assert.isNull(builder._getBlameCommitForBaseLine(1));
-      assert.isNull(builder._getBlameCommitForBaseLine(11));
-      assert.isNull(builder._getBlameCommitForBaseLine(31));
+      assert.isUndefined(builder._getBlameCommitForBaseLine(1));
+      assert.isUndefined(builder._getBlameCommitForBaseLine(11));
+      assert.isUndefined(builder._getBlameCommitForBaseLine(31));
     });
 
     test('_createBlameCell', () => {
-      const mocbBlameCell = document.createElement('span');
-      const getBlameStub = sinon.stub(builder, '_getBlameForBaseLine')
-          .returns(mocbBlameCell);
+      const mockBlameInfo = {
+        time: 1576155200,
+        id: 1234567890,
+        author: 'Clark Kent',
+        commit_msg: 'Testing Commit',
+        ranges: [1],
+      };
+      const getBlameStub = sinon.stub(builder, '_getBlameCommitForBaseLine')
+          .returns(mockBlameInfo);
       const line = new GrDiffLine(GrDiffLineType.BOTH);
       line.beforeNumber = 3;
       line.afterNumber = 5;
@@ -1216,34 +1224,23 @@ suite('gr-diff-builder tests', () => {
 
       assert.isTrue(getBlameStub.calledWithExactly(3));
       assert.equal(result.getAttribute('data-line-number'), '3');
-      assert.equal(result.firstChild, mocbBlameCell);
-    });
-
-    test('_getBlameForBaseLine', () => {
-      const mockCommit = {
-        time: 1576105200,
-        id: 1234567890,
-        author: 'Clark Kent',
-        commit_msg: 'Testing Commit',
-        ranges: [1],
-      };
-      const blameNode = builder._getBlameForBaseLine(1, mockCommit);
-
-      const authors = blameNode.getElementsByClassName('blameAuthor');
-      assert.equal(authors.length, 1);
-      assert.equal(authors[0].innerText, ' Clark');
-
-      const date = (new Date(mockCommit.time * 1000)).toLocaleDateString();
-      flush();
-      const cards = blameNode.getElementsByClassName('blameHoverCard');
-      assert.equal(cards.length, 1);
-      assert.equal(cards[0].innerHTML,
-          `Commit 1234567890<br>Author: Clark Kent<br>Date: ${date}`
-        + '<br><br>Testing Commit'
-      );
-
-      const url = blameNode.getElementsByClassName('blameDate');
-      assert.equal(url[0].getAttribute('href'), '/r/q/1234567890');
+      expect(result).dom.to.equal(/* HTML */`
+        <span class="gr-diff style-scope">
+          <a class="blameDate gr-diff style-scope" href="/r/q/1234567890">
+            12/12/2019
+          </a>
+          <span class="blameAuthor gr-diff style-scope">Clark</span>
+          <gr-hovercard class="gr-diff style-scope">
+            <span class="blameHoverCard gr-diff style-scope">
+              Commit 1234567890<br>
+              Author: Clark Kent<br>
+              Date: 12/12/2019<br>
+              <br>
+              Testing Commit
+            </span>
+          </gr-hovercard>
+        </span>
+      `);
     });
   });
 });

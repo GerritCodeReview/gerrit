@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
-import {GrDiffBuilder} from './gr-diff-builder';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 import {RenderPreferences} from '../../../api/diff';
 import {createElementDiff} from '../gr-diff/gr-diff-utils';
+import {GrDiffBuilderLegacy} from './gr-diff-builder-legacy';
 
-export class GrDiffBuilderUnified extends GrDiffBuilder {
+export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
   constructor(
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,

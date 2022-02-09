@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4844776_cccabbba",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T09:47:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a2d6230_c0e73616",
+      "revId": "bead43e9c44b85872fe9617c21782d657077454f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c04c76f7_a17eeb27",
@@ -66,6 +84,24 @@
       "writtenOn": "2022-02-09T09:46:51Z",
       "side": 1,
       "message": "Because of the space that would be rendered, if this has `display:inline`.",
+      "parentUuid": "c04c76f7_a17eeb27",
+      "revId": "bead43e9c44b85872fe9617c21782d657077454f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbcb40a2_82f84a62",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T09:47:23Z",
+      "side": 1,
+      "message": "I just run eslintfix. But I think there is a flexibility in prettier and it is ok with this. I fixed it.",
       "parentUuid": "c04c76f7_a17eeb27",
       "revId": "bead43e9c44b85872fe9617c21782d657077454f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -106,6 +142,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "105ddf34_9c3f707e",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T09:47:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eeeec26_b82aa6b4",
+      "revId": "bead43e9c44b85872fe9617c21782d657077454f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "711ea703_27f11843",
@@ -137,6 +191,24 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "711ea703_27f11843",
+      "revId": "bead43e9c44b85872fe9617c21782d657077454f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d0711eb_c13e06e5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T09:47:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f862b06_4e8bdb5b",
       "revId": "bead43e9c44b85872fe9617c21782d657077454f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

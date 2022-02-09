@@ -203,7 +203,6 @@ export class GrLabelInfo extends LitElement {
         gr-vote-chip {
           --gr-vote-chip-width: 14px;
           --gr-vote-chip-height: 14px;
-          margin-right: var(--spacing-s);
         }
       `,
     ];
@@ -268,11 +267,17 @@ export class GrLabelInfo extends LitElement {
       (isDetailedLabelInfo(labelInfo) &&
         hasNeutralStatus(labelInfo, approvalInfo));
     return html`<div class="reviewer-row">
-      <gr-account-chip .account="${reviewer}" .change="${this.change}">
+      <gr-account-chip
+        .account="${reviewer}"
+        .change="${this.change}"
+        .vote="${approvalInfo}"
+        .label="${labelInfo}"
+      >
         <gr-vote-chip
           slot="vote-chip"
           .vote="${approvalInfo}"
           .label="${labelInfo}"
+          circle-shape
         ></gr-vote-chip
       ></gr-account-chip>
       ${noVoteYet

@@ -182,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "906118d3_1976a1e5",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-09T10:56:11Z",
+      "side": 1,
+      "message": "Looks good, thank you!",
+      "parentUuid": "9db093f7_ae0fc293",
+      "range": {
+        "startLine": 405,
+        "startChar": 8,
+        "endLine": 405,
+        "endChar": 12
+      },
+      "revId": "391e65ec9cdae886292dcf557414ccbe52152694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b961f55_19508c72",

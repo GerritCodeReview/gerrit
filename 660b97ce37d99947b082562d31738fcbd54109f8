@@ -196,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "107b6768_075622c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2194,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T09:12:39Z",
+      "side": 1,
+      "message": "Great, `coreData` are for changeDisplayed, replyDialog\n`allData` are for changeFullyDisplayed\n\nThese capture best what means for user that change is loaded.\n\nThanks a lot for looking here.",
+      "parentUuid": "db8803b4_8fbf7833",
+      "revId": "660b97ce37d99947b082562d31738fcbd54109f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62b4a7c9_41a0e52e",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 2

@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {GrDiffBuilder} from './gr-diff-builder';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
@@ -23,8 +21,9 @@ import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 import {RenderPreferences} from '../../../api/diff';
 import {createElementDiff} from '../gr-diff/gr-diff-utils';
+import {GrDiffBuilderLegacy} from './gr-diff-builder-legacy';
 
-export class GrDiffBuilderSideBySide extends GrDiffBuilder {
+export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
   constructor(
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,

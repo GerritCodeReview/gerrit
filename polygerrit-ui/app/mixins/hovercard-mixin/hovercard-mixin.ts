@@ -330,6 +330,9 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         return;
       }
       if (!keyboard && this.keyboard) return;
+      if (this.keyboard) {
+        this._target?.focus();
+      }
       // Make sure to reset the keyboard variable so new shows will not
       // assume keyboard is the reason for opening the hovercard.
       this.keyboard = false;
@@ -391,15 +394,18 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     readonly show = async (keyboard?: boolean) => {
       this.cancelHideTask();
       this.cancelShowTask();
+      // If we are calling show again because of a mouse reason, then keep
+      // the keyboard valuable set.
+      this.keyboard = this.keyboard || (keyboard ?? false);
       if (this._isShowing || !this.container) {
+        if (keyboard && this._isShowing) {
+          this.focus();
+        }
         return;
       }
 
       // Mark that the hovercard is now visible
       this._isShowing = true;
-      // If we are calling show again because of a mouse reason, then keep
-      // the keyboard valuable set.
-      this.keyboard = this.keyboard || (keyboard ?? false);
       this.setAttribute('tabindex', '0');
 
       // Add it to the DOM and calculate its position
@@ -416,6 +422,9 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       });
       this.updatePosition();
       this.classList.remove(HIDE_CLASS);
+      if (keyboard) {
+        this.focus();
+      }
     };
 
     updatePosition() {

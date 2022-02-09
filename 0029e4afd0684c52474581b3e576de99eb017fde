@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e9c297e_9381957a",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-09T10:34:48Z",
+      "side": 1,
+      "message": "If keyboard is set, ESC will not close it",
+      "range": {
+        "startLine": 150,
+        "startChar": 58,
+        "endLine": 150,
+        "endChar": 68
+      },
+      "revId": "0029e4afd0684c52474581b3e576de99eb017fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd73017d_0b51a547",
         "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
         "patchSetId": 2

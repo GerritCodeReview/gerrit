@@ -21,6 +21,7 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 import {RenderPreferences} from '../../../api/diff';
+import {createElementDiff} from '../gr-diff/gr-diff-utils';
 
 export class GrDiffBuilderUnified extends GrDiffBuilder {
   constructor(
@@ -43,7 +44,7 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
   }
 
   buildSectionElement(group: GrDiffGroup): HTMLElement {
-    const sectionEl = this._createElement('tbody', 'section');
+    const sectionEl = createElementDiff('tbody', 'section');
     sectionEl.classList.add(group.type);
     if (this._isTotal(group)) {
       sectionEl.classList.add('total');
@@ -79,7 +80,7 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
     const colgroup = document.createElement('colgroup');
 
     // Add the blame column.
-    let col = this._createElement('col', 'blame');
+    let col = createElementDiff('col', 'blame');
     colgroup.appendChild(col);
 
     // Add left-side line number.
@@ -99,7 +100,7 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
   }
 
   _createRow(line: GrDiffLine) {
-    const row = this._createElement('tr', line.type);
+    const row = createElementDiff('tr', line.type);
     row.classList.add('diff-row', 'unified');
     // TabIndex makes screen reader read a row when navigating with j/k
     row.tabIndex = -1;

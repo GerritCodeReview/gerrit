@@ -22,6 +22,7 @@ import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 import {RenderPreferences} from '../../../api/diff';
+import {createElementDiff} from '../gr-diff/gr-diff-utils';
 
 export class GrDiffBuilderSideBySide extends GrDiffBuilder {
   constructor(
@@ -44,7 +45,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
   }
 
   buildSectionElement(group: GrDiffGroup) {
-    const sectionEl = this._createElement('tbody', 'section');
+    const sectionEl = createElementDiff('tbody', 'section');
     sectionEl.classList.add(group.type);
     if (this._isTotal(group)) {
       sectionEl.classList.add('total');
@@ -75,16 +76,16 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     const colgroup = document.createElement('colgroup');
 
     // Add the blame column.
-    let col = this._createElement('col', 'blame');
+    let col = createElementDiff('col', 'blame');
     colgroup.appendChild(col);
 
     // Add left-side line number.
-    col = this._createElement('col', 'left');
+    col = createElementDiff('col', 'left');
     col.setAttribute('width', lineNumberWidth.toString());
     colgroup.appendChild(col);
 
     // Add left-side content.
-    colgroup.appendChild(this._createElement('col', 'left'));
+    colgroup.appendChild(createElementDiff('col', 'left'));
 
     // Add right-side line number.
     col = document.createElement('col');
@@ -98,7 +99,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
   }
 
   _createRow(leftLine: GrDiffLine, rightLine: GrDiffLine) {
-    const row = this._createElement('tr');
+    const row = createElementDiff('tr');
     row.classList.add('diff-row', 'side-by-side');
     row.setAttribute('left-type', leftLine.type);
     row.setAttribute('right-type', rightLine.type);

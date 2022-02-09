@@ -62,6 +62,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Status;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
@@ -108,6 +109,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.RemoveReviewerControl;
+import com.google.gerrit.server.project.SubmitRequirementsUtil;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
@@ -235,6 +237,7 @@ public class ChangeJson {
   private final Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory;
   private final boolean includeMergeable;
   private final boolean lazyLoad;
+  private final SubmitRequirementsUtil submitRequirementsUtil;
 
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -254,6 +257,7 @@ public class ChangeJson {
       TrackingFooters trackingFooters,
       Metrics metrics,
       RevisionJson.Factory revisionJsonFactory,
+      SubmitRequirementsUtil submitRequirementsUtil,
       @GerritServerConfig Config cfg,
       @Assisted Iterable<ListChangesOption> options,
       @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
@@ -273,6 +277,7 @@ public class ChangeJson {
     this.options = Sets.immutableEnumSet(options);
     this.includeMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
+    this.submitRequirementsUtil = submitRequirementsUtil;
     this.pluginDefinedInfosFactory = pluginDefinedInfosFactory;
 
     logger.atFine().log("options = %s", options);
@@ -673,6 +678,33 @@ public class ChangeJson {
     out.submitRecords = submitRecordsFor(cd);
     if (has(SUBMIT_REQUIREMENTS)) {
       out.submitRequirements = submitRequirementsFor(cd);
+
+      if (out.labels != null) {
+        // Filter out labels that are associated with non-applicable submit requirements. Such
+        // labels are not needed and should not be returned on the API.
+        // Reason: historically we had submit requirements enforced by prolog rules where
+        // admins can control what {label, status} tuples are returned based on change data. Admins
+        // had the opportunity to control (hide) some labels if they are not applicable.
+        List<String> labelsInApplicableSrs =
+            extractLabelNamesFromSubmitRequirements(
+                cd.submitRequirements(),
+                SubmitRequirementResult.Status.NOT_APPLICABLE,
+                /* include= */ false);
+
+        List<String> labelsInNonApplicableSrs =
+            extractLabelNamesFromSubmitRequirements(
+                cd.submitRequirements(),
+                SubmitRequirementResult.Status.NOT_APPLICABLE,
+                /* include= */ true);
+
+        out.labels =
+            out.labels.entrySet().stream()
+                .filter(
+                    entry ->
+                        labelsInApplicableSrs.contains(entry.getKey().toLowerCase())
+                            || !labelsInNonApplicableSrs.contains(entry.getKey().toLowerCase()))
+                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+      }
     }
 
     if (out.labels != null && has(DETAILED_LABELS)) {
@@ -944,5 +976,36 @@ public class ChangeJson {
       return pluginDefinedInfosFactory.get().createPluginDefinedInfos(cds);
     }
     return ImmutableListMultimap.of();
+  }
+
+  private List<String> extractLabelNamesFromSubmitRequirements(
+      Map<SubmitRequirement, SubmitRequirementResult> submitRequirements,
+      SubmitRequirementResult.Status status,
+      boolean include) {
+    return extractLabelNamesFromSubmitRequirements(
+        submitRequirements.entrySet().stream()
+            .filter(
+                entry ->
+                    include
+                        ? status.equals(entry.getValue().status())
+                        : !status.equals(entry.getValue().status()))
+            .map(entry -> entry.getKey())
+            .collect(Collectors.toList()));
+  }
+
+  private List<String> extractLabelNamesFromSubmitRequirements(
+      List<SubmitRequirement> submitRequirements) {
+    List<String> labelNames = new ArrayList<>();
+    for (SubmitRequirement sr : submitRequirements) {
+      labelNames.addAll(
+          submitRequirementsUtil.extractLabelNamesFromExpression(
+              sr.submittabilityExpression().expressionString()));
+      if (sr.overrideExpression().isPresent()) {
+        labelNames.addAll(
+            submitRequirementsUtil.extractLabelNamesFromExpression(
+                sr.overrideExpression().get().expressionString()));
+      }
+    }
+    return labelNames;
   }
 }

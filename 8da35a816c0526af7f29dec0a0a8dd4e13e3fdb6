@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1cf2086_33e20899",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-09T09:41:52Z",
+      "side": 1,
+      "message": "Thanks!\n\nYeah, would be good to check that `highlight.min.js` does its job as before on a running Gerrit server. Just resolve when you have done that.",
+      "parentUuid": "4647b5e8_2aad92ae",
+      "revId": "8da35a816c0526af7f29dec0a0a8dd4e13e3fdb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e0185b86_365b65a7",

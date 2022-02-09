@@ -75,7 +75,7 @@ suite('gr-hovercard-account tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<div
+    expect(element).shadowDom.to.equal(/* HTML */ `<div
       id="container"
       role="tooltip"
       tabindex="-1"
@@ -85,12 +85,8 @@ suite('gr-hovercard-account tests', () => {
           <gr-avatar hidden="" imagesize="56"></gr-avatar>
         </div>
         <div class="account">
-          <h3 class="heading-3 name">
-            Kermit The Frog
-          </h3>
-          <div class="email">
-            kermit@gmail.com
-          </div>
+          <h3 class="heading-3 name">Kermit The Frog</h3>
+          <div class="email">kermit@gmail.com</div>
         </div>
       </div>
       <div class="statusPlugin">
@@ -98,8 +94,7 @@ suite('gr-hovercard-account tests', () => {
           <gr-endpoint-param name="account"></gr-endpoint-param>
         </gr-endpoint-decorator>
       </div>
-    </div>
-    `);
+    </div> `);
   });
 
   test('account name is shown', () => {

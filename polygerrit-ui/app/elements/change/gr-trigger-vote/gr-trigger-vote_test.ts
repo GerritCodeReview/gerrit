@@ -76,15 +76,12 @@ suite('gr-trigger-vote tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<div class="container">
+    expect(element).shadowDom.to.equal(/* HTML */ `<div class="container">
       <gr-trigger-vote-hovercard>
         <gr-label-info slot="label-info"></gr-label-info>
       </gr-trigger-vote-hovercard>
-      <span class="label">
-        Verified
-      </span>
-      <gr-vote-chip>
-      </gr-vote-chip>
+      <span class="label"> Verified </span>
+      <gr-vote-chip> </gr-vote-chip>
     </div>`);
   });
 });

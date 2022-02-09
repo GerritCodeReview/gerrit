@@ -101,130 +101,206 @@ suite('gr-comment-thread tests', () => {
   test('renders with draft', async () => {
     element.thread = createThread(c1, c2, c3);
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(`
-        <div class="fileName">
-          <span>test-path-comment-thread</span>
-          <gr-copy-clipboard hideinput=""></gr-copy-clipboard>
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="fileName">
+        <span>test-path-comment-thread</span>
+        <gr-copy-clipboard hideinput=""></gr-copy-clipboard>
+      </div>
+      <div class="pathInfo">
+        <span>#314</span>
+      </div>
+      <div id="container">
+        <h3 class="assistive-tech-only">Draft Comment thread by Kermit</h3>
+        <div class="comment-box" tabindex="0">
+          <gr-comment
+            collapsed=""
+            initially-collapsed=""
+            robot-button-disabled=""
+            show-patchset=""
+          ></gr-comment>
+          <gr-comment
+            collapsed=""
+            initially-collapsed=""
+            robot-button-disabled=""
+            show-patchset=""
+          ></gr-comment>
+          <gr-comment robot-button-disabled="" show-patchset=""></gr-comment>
         </div>
-        <div class="pathInfo">
-          <span>#314</span>
-        </div>
-        <div id="container">
-          <h3 class="assistive-tech-only">Draft Comment thread by Kermit</h3>
-          <div class="comment-box" tabindex="0">
-            <gr-comment collapsed="" initially-collapsed="" robot-button-disabled="" show-patchset=""></gr-comment>
-            <gr-comment collapsed="" initially-collapsed="" robot-button-disabled="" show-patchset=""></gr-comment>
-            <gr-comment robot-button-disabled="" show-patchset=""></gr-comment>
-          </div>
-        </div>
-      `);
+      </div>
+    `);
   });
 
   test('renders unsaved', async () => {
     element.thread = createThread();
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(`
-        <div class="fileName">
-          <span>test-path-comment-thread</span>
-          <gr-copy-clipboard hideinput=""></gr-copy-clipboard>
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="fileName">
+        <span>test-path-comment-thread</span>
+        <gr-copy-clipboard hideinput=""></gr-copy-clipboard>
+      </div>
+      <div class="pathInfo">
+        <span>#314</span>
+      </div>
+      <div id="container">
+        <h3 class="assistive-tech-only">
+          Unresolved Draft Comment thread by Yoda
+        </h3>
+        <div class="comment-box unresolved" tabindex="0">
+          <gr-comment robot-button-disabled="" show-patchset=""></gr-comment>
         </div>
-        <div class="pathInfo">
-          <span>#314</span>
-        </div>
-        <div id="container">
-          <h3 class="assistive-tech-only">Unresolved Draft Comment thread by Yoda</h3>
-          <div class="comment-box unresolved" tabindex="0">
-            <gr-comment robot-button-disabled="" show-patchset=""></gr-comment>
-          </div>
-        </div>
-      `);
+      </div>
+    `);
   });
 
   test('renders with actions resolved', async () => {
     element.thread = createThread(c1, c2);
     await element.updateComplete;
-    expect(queryAndAssert(element, '#container')).dom.to.equal(`
-        <div id="container">
-          <h3 class="assistive-tech-only">Comment thread by Kermit</h3>
-          <div class="comment-box" tabindex="0">
-            <gr-comment collapsed="" initially-collapsed="" show-patchset=""></gr-comment>
-            <gr-comment collapsed="" initially-collapsed="" show-patchset=""></gr-comment>
-            <div id="actionsContainer">
-              <span id="unresolvedLabel">
-                Resolved
-              </span>
-              <div id="actions">
-                <iron-icon class="copy link-icon" icon="gr-icons:link" role="button" tabindex="0" title="Copy link to this comment">
-                </iron-icon>
-                <gr-button aria-disabled="false" class="action reply" id="replyBtn" link="" role="button" tabindex="0">
-                  Reply
-                </gr-button>
-                <gr-button aria-disabled="false" class="action quote" id="quoteBtn" link="" role="button" tabindex="0">
-                  Quote
-                </gr-button>
-              </div>
+    expect(queryAndAssert(element, '#container')).dom.to.equal(/* HTML */ `
+      <div id="container">
+        <h3 class="assistive-tech-only">Comment thread by Kermit</h3>
+        <div class="comment-box" tabindex="0">
+          <gr-comment
+            collapsed=""
+            initially-collapsed=""
+            show-patchset=""
+          ></gr-comment>
+          <gr-comment
+            collapsed=""
+            initially-collapsed=""
+            show-patchset=""
+          ></gr-comment>
+          <div id="actionsContainer">
+            <span id="unresolvedLabel"> Resolved </span>
+            <div id="actions">
+              <iron-icon
+                class="copy link-icon"
+                icon="gr-icons:link"
+                role="button"
+                tabindex="0"
+                title="Copy link to this comment"
+              >
+              </iron-icon>
+              <gr-button
+                aria-disabled="false"
+                class="action reply"
+                id="replyBtn"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                Reply
+              </gr-button>
+              <gr-button
+                aria-disabled="false"
+                class="action quote"
+                id="quoteBtn"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                Quote
+              </gr-button>
             </div>
           </div>
         </div>
-      `);
+      </div>
+    `);
   });
 
   test('renders with actions unresolved', async () => {
     element.thread = createThread(c1, {...c2, unresolved: true});
     await element.updateComplete;
-    expect(queryAndAssert(element, '#container')).dom.to.equal(`
-        <div id="container">
-          <h3 class="assistive-tech-only">Unresolved Comment thread by Kermit</h3>
-          <div class="comment-box unresolved" tabindex="0">
-            <gr-comment show-patchset=""></gr-comment>
-            <gr-comment show-patchset=""></gr-comment>
-            <div id="actionsContainer">
-              <span id="unresolvedLabel">
-                Unresolved
-              </span>
-              <div id="actions">
-                <iron-icon class="copy link-icon" icon="gr-icons:link" role="button" tabindex="0" title="Copy link to this comment">
-                </iron-icon>
-                <gr-button aria-disabled="false" class="action reply" id="replyBtn" link="" role="button" tabindex="0">
-                  Reply
-                </gr-button>
-                <gr-button aria-disabled="false" class="action quote" id="quoteBtn" link="" role="button" tabindex="0">
-                  Quote
-                </gr-button>
-                <gr-button aria-disabled="false" class="action ack" id="ackBtn" link="" role="button" tabindex="0">
-                  Ack
-                </gr-button>
-                <gr-button aria-disabled="false" class="action done" id="doneBtn" link="" role="button" tabindex="0">
-                  Done
-                </gr-button>
-              </div>
+    expect(queryAndAssert(element, '#container')).dom.to.equal(/* HTML */ `
+      <div id="container">
+        <h3 class="assistive-tech-only">Unresolved Comment thread by Kermit</h3>
+        <div class="comment-box unresolved" tabindex="0">
+          <gr-comment show-patchset=""></gr-comment>
+          <gr-comment show-patchset=""></gr-comment>
+          <div id="actionsContainer">
+            <span id="unresolvedLabel"> Unresolved </span>
+            <div id="actions">
+              <iron-icon
+                class="copy link-icon"
+                icon="gr-icons:link"
+                role="button"
+                tabindex="0"
+                title="Copy link to this comment"
+              >
+              </iron-icon>
+              <gr-button
+                aria-disabled="false"
+                class="action reply"
+                id="replyBtn"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                Reply
+              </gr-button>
+              <gr-button
+                aria-disabled="false"
+                class="action quote"
+                id="quoteBtn"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                Quote
+              </gr-button>
+              <gr-button
+                aria-disabled="false"
+                class="action ack"
+                id="ackBtn"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                Ack
+              </gr-button>
+              <gr-button
+                aria-disabled="false"
+                class="action done"
+                id="doneBtn"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                Done
+              </gr-button>
             </div>
           </div>
         </div>
-      `);
+      </div>
+    `);
   });
 
   test('renders with diff', async () => {
     element.showCommentContext = true;
     element.thread = createThread(commentWithContext);
     await element.updateComplete;
-    expect(queryAndAssert(element, '.diff-container')).dom.to.equal(`
-        <div class="diff-container">
-          <gr-diff
-            class="disable-context-control-buttons hide-line-length-indicator no-left"
-            id="diff"
-            style="--line-limit-marker:100ch; --content-width:none; --diff-max-width:none; --font-size:12px;"
-          >
-          </gr-diff>
-          <div class="view-diff-container">
-            <a href="">
-              <gr-button aria-disabled="false" class="view-diff-button" link="" role="button" tabindex="0">
-                View Diff
-              </gr-button>
-            </a>
-          </div>
+    expect(queryAndAssert(element, '.diff-container')).dom.to.equal(/* HTML */ `
+      <div class="diff-container">
+        <gr-diff
+          class="disable-context-control-buttons hide-line-length-indicator no-left"
+          id="diff"
+          style="--line-limit-marker:100ch; --content-width:none; --diff-max-width:none; --font-size:12px;"
+        >
+        </gr-diff>
+        <div class="view-diff-container">
+          <a href="">
+            <gr-button
+              aria-disabled="false"
+              class="view-diff-button"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              View Diff
+            </gr-button>
+          </a>
         </div>
-      `);
+      </div>
+    `);
   });
 
   suite('action button clicks', () => {

@@ -38,7 +38,7 @@ suite('gr-account-link tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<span>
+    expect(element).shadowDom.to.equal(/* HTML */ `<span>
       <a href="">
         <gr-account-label
           deselected=""
@@ -46,8 +46,7 @@ suite('gr-account-link tests', () => {
         >
         </gr-account-label>
       </a>
-    </span>
-  `);
+    </span> `);
   });
 
   test('computed fields', () => {

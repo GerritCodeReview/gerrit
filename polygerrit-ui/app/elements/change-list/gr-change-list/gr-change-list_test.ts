@@ -59,57 +59,25 @@ suite('gr-change-list basic tests', () => {
       {...createChange(), _number: 2 as NumericChangeId},
     ];
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(`
-      <gr-change-list-item
-        aria-label="Test subject"
-        selected=""
-      >
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-change-list-item aria-label="Test subject" selected="">
       </gr-change-list-item>
-      <gr-change-list-item aria-label="Test subject">
-      </gr-change-list-item>
-      <gr-change-list-item aria-label="Test subject">
-      </gr-change-list-item>
+      <gr-change-list-item aria-label="Test subject"> </gr-change-list-item>
+      <gr-change-list-item aria-label="Test subject"> </gr-change-list-item>
       <table id="changeList">
         <tbody class="groupContent">
           <tr class="groupTitle">
-            <td
-              aria-hidden="true"
-              class="leftPadding"
-            >
-            </td>
-            <td
-              aria-label="Star status column"
-              class="star"
-              hidden=""
-            >
-            </td>
-            <td class="number">
-              #
-            </td>
-            <td class="subject">
-              Subject
-            </td>
-            <td class="status">
-              Status
-            </td>
-            <td class="owner">
-              Owner
-            </td>
-            <td class="reviewers">
-              Reviewers
-            </td>
-            <td class="repo">
-              Repo
-            </td>
-            <td class="branch">
-              Branch
-            </td>
-            <td class="updated">
-              Updated
-            </td>
-            <td class="size">
-              Size
-            </td>
+            <td aria-hidden="true" class="leftPadding"></td>
+            <td aria-label="Star status column" class="star" hidden=""></td>
+            <td class="number">#</td>
+            <td class="subject">Subject</td>
+            <td class="status">Status</td>
+            <td class="owner">Owner</td>
+            <td class="reviewers">Reviewers</td>
+            <td class="repo">Repo</td>
+            <td class="branch">Branch</td>
+            <td class="updated">Updated</td>
+            <td class="size">Size</td>
           </tr>
         </tbody>
       </table>

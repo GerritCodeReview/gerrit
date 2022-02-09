@@ -67,7 +67,7 @@ suite('gr-change-list-column-requirement tests', () => {
       >
       </gr-change-list-column-requirement>`
     );
-    expect(element).shadowDom.to.equal(`<div class="container">
+    expect(element).shadowDom.to.equal(/* HTML */ `<div class="container">
       <iron-icon
         class="check-circle-filled"
         icon="gr-icons:check-circle-filled"
@@ -114,11 +114,11 @@ suite('gr-change-list-column-requirement tests', () => {
       >
       </gr-change-list-column-requirement>`
     );
-    expect(element).shadowDom.to.equal(`<div class="container">
+    expect(element).shadowDom.to.equal(/* HTML */ `<div class="container">
       <gr-vote-chip></gr-vote-chip>
     </div>`);
     const voteChip = queryAndAssert(element, 'gr-vote-chip');
-    expect(voteChip).shadowDom.to.equal(`<gr-tooltip-content
+    expect(voteChip).shadowDom.to.equal(/* HTML */ `<gr-tooltip-content
       class="container"
       has-tooltip=""
       title="bad"

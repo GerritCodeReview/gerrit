@@ -336,9 +336,10 @@ suite('gr-label-row-score tests', () => {
   });
 
   test('shadowDom test', () => {
-    expect(element).shadowDom.to.equal(`
+    expect(element).shadowDom.to.equal(/* HTML */ `
       <span class="labelNameCell" id="labelName" aria-hidden="true"
-      >Verified</span>
+        >Verified</span
+      >
       <div class="buttonsCell">
         <span class="placeholder" data-label="Verified"></span>
         <iron-selector

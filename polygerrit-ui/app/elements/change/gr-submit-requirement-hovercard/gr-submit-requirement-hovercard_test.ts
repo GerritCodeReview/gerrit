@@ -278,16 +278,13 @@ suite('gr-submit-requirement-hovercard tests', () => {
         ></gr-submit-requirement-hovercard>`
       );
       const quickApprove = queryAndAssert(element, '.quickApprove');
-      expect(quickApprove).dom.to.equal(`<div class="button quickApprove">
-        <gr-button
-          aria-disabled="false"
-          link=""
-          role="button"
-          tabindex="0"
-        >Vote Verified +2
+      expect(quickApprove).dom.to.equal(/* HTML */ `<div
+        class="button quickApprove"
+      >
+        <gr-button aria-disabled="false" link="" role="button" tabindex="0"
+          >Vote Verified +2
         </gr-button>
-      </div>
-      `);
+      </div> `);
     });
 
     test("doesn't render when already voted max vote", async () => {
@@ -362,16 +359,13 @@ suite('gr-submit-requirement-hovercard tests', () => {
         ></gr-submit-requirement-hovercard>`
       );
       const quickApprove = queryAndAssert(element, '.quickApprove');
-      expect(quickApprove).dom.to.equal(`<div class="button quickApprove">
-        <gr-button
-          aria-disabled="false"
-          link=""
-          role="button"
-          tabindex="0"
-        >Override (Build-Cop)
+      expect(quickApprove).dom.to.equal(/* HTML */ `<div
+        class="button quickApprove"
+      >
+        <gr-button aria-disabled="false" link="" role="button" tabindex="0"
+          >Override (Build-Cop)
         </gr-button>
-      </div>
-      `);
+      </div> `);
     });
   });
 });

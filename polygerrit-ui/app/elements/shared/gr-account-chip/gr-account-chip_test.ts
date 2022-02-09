@@ -37,7 +37,7 @@ suite('gr-account-chip tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<div class="container">
+    expect(element).shadowDom.to.equal(/* HTML */ `<div class="container">
       <gr-account-link></gr-account-link>
       <slot name="vote-chip"></slot>
       <gr-button
@@ -52,7 +52,6 @@ suite('gr-account-chip tests', () => {
       >
         <iron-icon icon="gr-icons:close"></iron-icon>
       </gr-button>
-    </div>
-  `);
+    </div> `);
   });
 });

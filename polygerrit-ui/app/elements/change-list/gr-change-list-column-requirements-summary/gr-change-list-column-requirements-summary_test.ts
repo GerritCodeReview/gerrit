@@ -72,14 +72,10 @@ suite('gr-change-list-column-requirements-summary tests', () => {
       html`<gr-change-list-column-requirements-summary .change=${change}>
       </gr-change-list-column-requirements-summary>`
     );
-    expect(element).shadowDom.to.equal(`<span class="block">
+    expect(element).shadowDom.to.equal(/* HTML */ `<span class="block">
       <gr-submit-requirement-dashboard-hovercard>
       </gr-submit-requirement-dashboard-hovercard>
-      <iron-icon
-        class="block"
-        icon="gr-icons:block"
-        role="img"
-      ></iron-icon>
+      <iron-icon class="block" icon="gr-icons:block" role="img"></iron-icon>
       <span>
         <span class="unsatisfied">1</span>
         <span class="total">(of 1)</span>
@@ -96,23 +92,19 @@ suite('gr-change-list-column-requirements-summary tests', () => {
       html`<gr-change-list-column-requirements-summary .change=${change}>
       </gr-change-list-column-requirements-summary>`
     );
-    expect(element).shadowDom.to.equal(`<span class="block">
-      <gr-submit-requirement-dashboard-hovercard>
-      </gr-submit-requirement-dashboard-hovercard>
-      <iron-icon
-        class="block"
-        icon="gr-icons:block"
-        role="img"
-      ></iron-icon>
-      <span>
-        <span class="unsatisfied">1</span>
-        <span class="total">(of 1)</span>
+    expect(element).shadowDom.to.equal(/* HTML */ `<span class="block">
+        <gr-submit-requirement-dashboard-hovercard>
+        </gr-submit-requirement-dashboard-hovercard>
+        <iron-icon class="block" icon="gr-icons:block" role="img"></iron-icon>
+        <span>
+          <span class="unsatisfied">1</span>
+          <span class="total">(of 1)</span>
+        </span>
       </span>
-    </span>
-    <iron-icon
-      class="commentIcon"
-      icon="gr-icons:comment"
-      title="5 unresolved comments"
-    ></iron-icon>`);
+      <iron-icon
+        class="commentIcon"
+        icon="gr-icons:comment"
+        title="5 unresolved comments"
+      ></iron-icon>`);
   });
 });

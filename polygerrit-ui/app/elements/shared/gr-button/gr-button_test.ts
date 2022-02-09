@@ -56,7 +56,7 @@ suite('gr-button tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<paper-button
+    expect(element).shadowDom.to.equal(/* HTML */ `<paper-button
       animated=""
       aria-disabled="false"
       elevation="1"
@@ -64,9 +64,8 @@ suite('gr-button tests', () => {
       raised=""
       role="button"
       tabindex="-1"
-    ><slot></slot><i class="downArrow"></i>
-    </paper-button>
-    `);
+      ><slot></slot><i class="downArrow"></i>
+    </paper-button> `);
   });
 
   test('disabled is set by disabled', async () => {

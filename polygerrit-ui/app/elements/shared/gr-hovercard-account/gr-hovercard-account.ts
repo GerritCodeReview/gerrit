@@ -235,7 +235,7 @@ export class GrHovercardAccount extends base {
     if (!this.account.status) return;
     return html`
       <div class="status">
-        <span class="title">Status:</span>
+        <span class="title">About me:</span>
         <span class="value">${this.account.status}</span>
       </div>
     `;

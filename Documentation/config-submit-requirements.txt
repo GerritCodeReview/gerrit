@@ -200,6 +200,15 @@ the change page. For more about configuring labels, see the
 link:config-labels.html[config labels] documentation.
 
 
+[[labels-visibility]]
+== Labels Visibility
+Label votes that are associated with non-applicable submit requirements are
+not visible in the change page. Specifically, a label is visible if:
+
+  * It is associated with any of the applicable submit requirements.
+  * Or if it is not associated with any non-applicable submit requirements.
+
+
 [[examples]]
 == Examples
 

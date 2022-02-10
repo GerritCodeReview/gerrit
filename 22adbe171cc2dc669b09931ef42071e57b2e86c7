@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12821712_d5c0b71b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-10T15:19:52Z",
+      "side": 1,
+      "message": "This is ready for another look. It now hides the hovercard on click outside of the hovercard.",
+      "revId": "22adbe171cc2dc669b09931ef42071e57b2e86c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

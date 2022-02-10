@@ -159,10 +159,8 @@ export class GrDownloadCommands extends LitElement {
   }
 
   private renderCommands() {
-    if (!this.schemes.length) return;
-
     return html`
-      <div class="commands">
+      <div class="commands" ?hidden="${!this.schemes.length}"></div>
         ${this.commands?.map((command, index) =>
           this.renderShellCommand(command, index)
         )}

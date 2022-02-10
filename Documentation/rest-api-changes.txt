@@ -7643,7 +7643,7 @@ The `RangeInfo` entity stores the coordinates of a range.
 === RebaseInput
 The `RebaseInput` entity contains information for changing parent when rebasing.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`base`        |optional|

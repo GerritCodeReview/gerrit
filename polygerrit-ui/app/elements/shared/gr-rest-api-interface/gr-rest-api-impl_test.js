@@ -554,7 +554,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('saveChangeEdit', () => {
-    element._projectLookup = {1: 'test'};
+    element._projectLookup = {1: Promise.resolve('test')};
     const change_num = '1';
     const file_name = 'index.php';
     const file_contents = '<?php';
@@ -576,7 +576,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('putChangeCommitMessage', () => {
-    element._projectLookup = {1: 'test'};
+    element._projectLookup = {1: Promise.resolve('test')};
     const change_num = '1';
     const message = 'this is a commit message';
     sinon.stub(element._restApiHelper, 'send').returns(
@@ -595,7 +595,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('deleteChangeCommitMessage', () => {
-    element._projectLookup = {1: 'test'};
+    element._projectLookup = {1: Promise.resolve('test')};
     const change_num = '1';
     const messageId = 'abc';
     sinon.stub(element._restApiHelper, 'send').returns(
@@ -894,7 +894,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
     test('_getChangeDetail passes params to ETags decorator', () => {
       const changeNum = 4321;
-      element._projectLookup[changeNum] = 'test';
+      element._projectLookup[changeNum] = Promise.resolve('test');
       const expectedUrl =
           window.CANONICAL_PATH + '/changes/test~4321/detail?O=516714';
       sinon.stub(element._etags, 'getOptions');
@@ -928,7 +928,8 @@ suite('gr-rest-api-service-impl tests', () => {
           }));
       await element._getChangeDetail(1, '516714');
       assert.equal(Object.keys(element._projectLookup).length, 1);
-      assert.equal(element._projectLookup[1], 'test');
+      const project = await element._projectLookup[1];
+      assert.equal(project, 'test');
     });
 
     suite('_getChangeDetail ETag cache', () => {
@@ -982,41 +983,32 @@ suite('gr-rest-api-service-impl tests', () => {
     });
   });
 
-  test('setInProjectLookup', () => {
-    element.setInProjectLookup('test', 'project');
-    assert.deepEqual(element._projectLookup, {test: 'project'});
+  test('setInProjectLookup', async () => {
+    await element.setInProjectLookup('test', 'project');
+    const project = await element.getFromProjectLookup('test');
+    assert.deepEqual(project, 'project');
   });
 
   suite('getFromProjectLookup', () => {
-    test('getChange fails', () => {
-      sinon.stub(element, 'getChange')
-          .returns(Promise.resolve(null));
-      return element.getFromProjectLookup().then(val => {
-        assert.strictEqual(val, undefined);
-        assert.deepEqual(element._projectLookup, {});
-      });
-    });
-
-    test('getChange succeeds, no project', () => {
+    test('getChange succeeds, no project', async () => {
       sinon.stub(element, 'getChange').returns(Promise.resolve(null));
-      return element.getFromProjectLookup().then(val => {
-        assert.strictEqual(val, undefined);
-        assert.deepEqual(element._projectLookup, {});
-      });
+      const val = await element.getFromProjectLookup();
+      assert.strictEqual(val, undefined);
     });
 
     test('getChange succeeds with project', () => {
       sinon.stub(element, 'getChange')
           .returns(Promise.resolve({project: 'project'}));
-      return element.getFromProjectLookup('test').then(val => {
+      const projectLookup = element.getFromProjectLookup('test');
+      return projectLookup.then(val => {
         assert.equal(val, 'project');
-        assert.deepEqual(element._projectLookup, {test: 'project'});
+        assert.deepEqual(element._projectLookup, {test: projectLookup});
       });
     });
   });
 
   suite('getChanges populates _projectLookup', () => {
-    test('multiple queries', () => {
+    test('multiple queries', async () => {
       sinon.stub(element._restApiHelper, 'fetchJSON')
           .returns(Promise.resolve([
             [
@@ -1028,15 +1020,17 @@ suite('gr-rest-api-service-impl tests', () => {
           ]));
       // When opt_query instanceof Array, _fetchJSON returns
       // Array<Array<Object>>.
-      return element.getChanges(null, []).then(() => {
-        assert.equal(Object.keys(element._projectLookup).length, 3);
-        assert.equal(element._projectLookup[1], 'test');
-        assert.equal(element._projectLookup[2], 'test');
-        assert.equal(element._projectLookup[3], 'test/test');
-      });
+      await element.getChanges(null, []);
+      assert.equal(Object.keys(element._projectLookup).length, 3);
+      const project1 = await element.getFromProjectLookup(1);
+      assert.equal(project1, 'test');
+      const project2 = await element.getFromProjectLookup(2);
+      assert.equal(project2, 'test');
+      const project3 = await element.getFromProjectLookup(3);
+      assert.equal(project3, 'test/test');
     });
 
-    test('no query', () => {
+    test('no query', async () => {
       sinon.stub(element._restApiHelper, 'fetchJSON')
           .returns(Promise.resolve([
             {_number: 1, project: 'test'},
@@ -1046,17 +1040,19 @@ suite('gr-rest-api-service-impl tests', () => {
 
       // When opt_query !instanceof Array, _fetchJSON returns
       // Array<Object>.
-      return element.getChanges().then(() => {
-        assert.equal(Object.keys(element._projectLookup).length, 3);
-        assert.equal(element._projectLookup[1], 'test');
-        assert.equal(element._projectLookup[2], 'test');
-        assert.equal(element._projectLookup[3], 'test/test');
-      });
+      await element.getChanges();
+      assert.equal(Object.keys(element._projectLookup).length, 3);
+      const project1 = await element.getFromProjectLookup(1);
+      assert.equal(project1, 'test');
+      const project2 = await element.getFromProjectLookup(2);
+      assert.equal(project2, 'test');
+      const project3 = await element.getFromProjectLookup(3);
+      assert.equal(project3, 'test/test');
     });
   });
 
   test('_getChangeURLAndFetch', () => {
-    element._projectLookup = {1: 'test'};
+    element._projectLookup = {1: Promise.resolve('test')};
     const fetchStub = sinon.stub(element._restApiHelper, 'fetchJSON')
         .returns(Promise.resolve());
     const req = {changeNum: 1, endpoint: '/test', revision: 1};
@@ -1067,7 +1063,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('_getChangeURLAndSend', () => {
-    element._projectLookup = {1: 'test'};
+    element._projectLookup = {1: Promise.resolve('test')};
     const sendStub = sinon.stub(element._restApiHelper, 'send')
         .returns(Promise.resolve());
 

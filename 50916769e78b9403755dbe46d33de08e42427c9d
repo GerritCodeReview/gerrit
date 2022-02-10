@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ff8a465_d4a5fea5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T10:20:47Z",
+      "side": 1,
+      "message": "Maybe leave a bit of motivational comment here and in the change description? I am guessing this is to provide an alternative lit / virtual implementation, but it would be useful to have this info here for the next person coming along with no context.",
+      "revId": "50916769e78b9403755dbe46d33de08e42427c9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db486475_82fa26d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-10T09:40:34Z",
+      "side": 1,
+      "message": "This is a footer and should not have a blank line separating it from the other footers.\n\nNote that the screenshot lines are no footers.",
+      "revId": "0adbc83d1b21f33b5737f30005806e59f927ce6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

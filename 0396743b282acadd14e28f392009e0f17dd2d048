@@ -122,6 +122,24 @@
       "parentUuid": "ec5c96b1_c38b0137",
       "revId": "0396743b282acadd14e28f392009e0f17dd2d048",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25bdbb27_05589e65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-10T07:32:43Z",
+      "side": 1,
+      "message": "This is not the right form to bring up such observations.\n\nThis bot is not new.  Please refrain from sniping code reviews with unrelated comments.",
+      "parentUuid": "2efb7436_be739371",
+      "revId": "0396743b282acadd14e28f392009e0f17dd2d048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

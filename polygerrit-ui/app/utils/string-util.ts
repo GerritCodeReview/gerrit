@@ -47,3 +47,7 @@ export function ordinal(n?: number): string {
 export function convertToString(key?: unknown) {
   return key !== undefined ? String(key) : '';
 }
+
+export function capitalizeFirstLetter(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

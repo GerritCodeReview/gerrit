@@ -46,6 +46,7 @@ export enum EventType {
   ANNOTATE_DIFF = 'annotatediff',
   ADMIN_MENU_LINKS = 'admin-menu-links',
   HIGHLIGHTJS_LOADED = 'highlightjs-loaded',
+  REPLY_LABEL_VALUE = 'reply-label-value',
 }
 
 export declare interface PluginApi {

@@ -91,6 +91,30 @@
       },
       "revId": "8cf521ba49b09c28b570ee9443a3d4f0c6cc7612",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89b6c11a_4121f8af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-02-10T13:47:31Z",
+      "side": 1,
+      "message": "Thank Milutin. I noticed this in https://imgur.com/6aOBJiH.  I propose we add a spacing `--spacing-xs` between Waldo chips and votes",
+      "parentUuid": "b223dd2b_1e2f3d52",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "8cf521ba49b09c28b570ee9443a3d4f0c6cc7612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

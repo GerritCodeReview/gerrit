@@ -323,14 +323,6 @@ public class Submit
 
     String submitProblems = problemsForSubmittingChangeset(cd, cs, resource.getUser());
 
-    // Recheck mergeability rather than using value stored in the index, which may be stale.
-    // TODO(dborowitz): This is ugly; consider providing a way to not read stored fields from the
-    // index in the first place.
-    // cd.setMergeable(null);
-    // That was done in unmergeableChanges which was called by problemsForSubmittingChangeset, so
-    // now it is safe to read from the cache, as it yields the same result.
-    Boolean enabled = cd.isMergeable();
-
     if (submitProblems != null) {
       return new UiAction.Description()
           .setLabel(treatWithTopic ? submitTopicLabel : (cs.size() > 1) ? labelWithParents : label)
@@ -338,6 +330,14 @@ public class Submit
           .setVisible(true)
           .setEnabled(false);
     }
+
+    // Recheck mergeability rather than using value stored in the index, which may be stale.
+    // TODO(dborowitz): This is ugly; consider providing a way to not read stored fields from the
+    // index in the first place.
+    // cd.setMergeable(null);
+    // That was done in unmergeableChanges which was called by problemsForSubmittingChangeset, so
+    // now it is safe to read from the cache, as it yields the same result.
+    Boolean enabled = cd.isMergeable();
 
     if (treatWithTopic) {
       Map<String, String> params =

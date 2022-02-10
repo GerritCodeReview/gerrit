@@ -75,6 +75,13 @@ export class GrLabelScoreRow extends LitElement {
   @property({type: Object})
   labelValues?: LabelValuesMap;
 
+  // Accessed in tests.
+  readonly jsAPI = getAppContext().jsApiService;
+
+  // Map of default label values to the values they should be replaced with for
+  // display.
+  private customDisplayLabelValues = new Map<string, string>();
+
   @state()
   private selectedValueText = 'No value selected';
 
@@ -184,6 +191,9 @@ export class GrLabelScoreRow extends LitElement {
   }
 
   override render() {
+    // Get custom label values from plugins (if any).
+    this.customDisplayLabelValues = this.jsAPI.getReviewLabelValues(this.name);
+
     return html`
       <span
         class="${classMap({
@@ -261,11 +271,21 @@ export class GrLabelScoreRow extends LitElement {
             light-tooltip
             title="${ifDefined(this.computeLabelValueTitle(value))}"
           >
-            ${value}
+            ${this.computeDisplayValue(value)}
           </gr-tooltip-content>
         </gr-button>
       `
     );
+  }
+
+  computeDisplayValue(defaultValue: string): string {
+    if (
+      this.customDisplayLabelValues.size === 0 ||
+      !this.customDisplayLabelValues.has(defaultValue)
+    ) {
+      return defaultValue;
+    }
+    return this.customDisplayLabelValues.get(defaultValue)!;
   }
 
   private renderSelectedValue() {

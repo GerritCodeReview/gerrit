@@ -33,6 +33,42 @@
       "message": "To be clear, this could also be used by other hosts than Gerrit if they have a similar use case?",
       "revId": "f0df76ca015bc12379bedd99ead843190af038e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "162c1ed1_a4b29079",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-10T19:59:47Z",
+      "side": 1,
+      "message": "Yes, for any requirement that in submit condition doesn\u0027t have any `label`",
+      "parentUuid": "e1a4669a_f00fb321",
+      "revId": "f0df76ca015bc12379bedd99ead843190af038e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea97dec4_ff49f3af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-10T19:59:47Z",
+      "side": 1,
+      "message": "Good idea to add more test coverage. I added a few tests.",
+      "parentUuid": "73daaefc_7585bfc3",
+      "revId": "f0df76ca015bc12379bedd99ead843190af038e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

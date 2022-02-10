@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8f7487c_0465175c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-02-10T13:42:33Z",
+      "side": 1,
+      "message": "It SGTM to still display on CR a tooltip that fully spells out the name of the column \"Code-Review\".",
+      "range": {
+        "startLine": 11,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "2ee6b955b5e0c61aa522aeda33eb5540fdc91a2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67a4ae99_9d707b18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-02-10T13:42:33Z",
+      "side": 1,
+      "message": "It looks like this is happening in Screenshot 2: https://imgur.com/a/sqhxcUw\n\nIn Screenshot 2, it looks like when users hover over a fulfilled (checkmark icon) or unfulfilled requirement (blocking icon) then a tooltip with \"Code review\" is displayed.\n\nI think it would be more helpful to display the status as a tooltip on fulfilled (checkmark icon) with `satisfied` or unfulfilled requirement (blocking icon) with `No votes` or `Unsatisfied` depending on the label so that users can learn about the status from the dashboard.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "2ee6b955b5e0c61aa522aeda33eb5540fdc91a2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

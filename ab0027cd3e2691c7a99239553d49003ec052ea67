@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c513d285_bc6422dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-10T18:37:52Z",
+      "side": 1,
+      "message": "It looks like the current testing for ssh commands is pretty simple and just checks that command --help output is as expected. Is there a good way to manipulate users and groups such that one group is subgroup of another and they have different membership lists so that ls-members --recursive output can be verified as being complete?\n\nI\u0027ll attempt to test this locally as well since its a bit easier for me to use our functional testing of Gerrit to check something like this than figure out how to manipulate Gerrit in that manner via the test framework.",
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

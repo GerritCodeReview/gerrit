@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d469c30_7ee02b59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-10T20:30:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67a4ae99_9d707b18",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "2ee6b955b5e0c61aa522aeda33eb5540fdc91a2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34cf6f37_096efc18",
@@ -60,6 +84,42 @@
       "writtenOn": "2022-02-10T15:19:02Z",
       "side": 1,
       "message": "please use tooltip-with-who-voted and add \u0027attribute: ...\u0027 to the property definition",
+      "revId": "2ee6b955b5e0c61aa522aeda33eb5540fdc91a2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "269762ba_a7e25885",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-10T20:30:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34cf6f37_096efc18",
+      "revId": "2ee6b955b5e0c61aa522aeda33eb5540fdc91a2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81336138_88e86e87",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-10T20:30:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34cf6f37_096efc18",
       "revId": "2ee6b955b5e0c61aa522aeda33eb5540fdc91a2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

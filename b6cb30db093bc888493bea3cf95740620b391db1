@@ -69,6 +69,24 @@
       "parentUuid": "41599761_8de5f327",
       "revId": "b6cb30db093bc888493bea3cf95740620b391db1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bd13739_4647c2b3",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 15
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-02-10T09:53:00Z",
+      "side": 1,
+      "message": "https://classic.yarnpkg.com/en/docs/dependency-versions#toc-unions",
+      "parentUuid": "61bd0ba5_3c6fd547",
+      "revId": "b6cb30db093bc888493bea3cf95740620b391db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

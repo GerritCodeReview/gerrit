@@ -22,6 +22,30 @@
       },
       "revId": "bd2d7ab59696d932d3ba5369dd331d6a471d891c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faa32b3e_b4737d2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-10T11:31:56Z",
+      "side": 1,
+      "message": "Thanks, good point. You are right that the rebase REST endpoint is another candidate to which we might want to add this option. At the moment I\u0027m not aware of anyone needing this, but if I find some free time I\u0027ll might add this with another change.",
+      "parentUuid": "6122167f_30303b84",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "bd2d7ab59696d932d3ba5369dd331d6a471d891c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a71b2c7_e748943e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-binary.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 0,
+      "message": "Personally liked it more to ignore this here - at least it makes every renderer think about whether they might need to respect the render preferences in some way...",
+      "revId": "e6e08e91fec0c0cbb7260f6541365fc003d5185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

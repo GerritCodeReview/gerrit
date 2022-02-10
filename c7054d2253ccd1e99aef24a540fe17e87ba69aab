@@ -1,0 +1,313 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9856aecf_ea17d54a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Thanks for the thorough description explaining where this is going!",
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6483a02d_7d1bd05b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Why as a subclass? Should this not use composition instead, where the class that manages the diff building process and data has a \"renderer\" that does the actual DOM building?",
+      "range": {
+        "startLine": 14,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5b53bd8_20521665",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Can this be instatiated outside of tests? It feels like this should probably be abstract and maybe inherited in the test if we want to test base class behavior in isolation?",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 72,
+        "endChar": 37
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49f3ca65_89647b11",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Move all these tests to the utils tests?",
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75cabe4a_29717b43",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Mhhm, makes me wonder if this should really be passed through a builder. This seems like it should ideally go straight from the thing that holds the data to the element returned from the builder... Maybe a future cleanup.",
+      "range": {
+        "startLine": 220,
+        "startChar": 2,
+        "endLine": 228,
+        "endChar": 3
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef49178_3b2e270e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Is it possible in Git to force this being branched off gr-diff-builder to keep some blame history and simplify review?",
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c555fdde_365f2292",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "With the explanation from the commit message, I wonder if *Builder is really he correct name for this. Given that this is the part that will stick around (even after *Legacy is hopefully retired), it might be worth thinking of a better name, and possibly long term structure. What is the distinction between the new DiffBuilder and the GrDiff element itself? GrDiff also seems to maintain data about the diff. Maybe those two should be merged? Maybe they should get names that make it clearer what is what? And what is the purpose of GrDiffBuilderElement? Should that really just be a factory for GrDiffBuilders (and then maybe be renamed *Factory) or is that also maintaining some state? Should that maybe get the state that we no longer want in *Builder?\n\nNot sure if this question needs to be answered for this CL, but I think the roles and responsibilities here need further cleanup.",
+      "range": {
+        "startLine": 45,
+        "startChar": 21,
+        "endLine": 45,
+        "endChar": 28
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "966ecc5e_6e15eb6a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Maybe in a follow up CL (maybe add a TODO):\nReally weird that the return types here are so inconsistent:\n1) Element|null\n2) Element|undefined\n3) HTMLEelement|null\n\nCan we settle on one and use that consistently?",
+      "range": {
+        "startLine": 205,
+        "startChar": 63,
+        "endLine": 205,
+        "endChar": 75
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8dd7a15_187303fb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Maybe as a follow up, maybe with a TODO:\n\nWhy would one call this with null? It seems all this does is read some data? Is this because one can pick between two different output formats? Maybe then this should be two different methods with a proper return value and maybe some shared helper?\n\nThis is especially weird now that we split the classes, because it feels outputting the elements is really a Builder job, while outputting the lines is maybe a data job?\n\nThe underscore naming instead of camel case is also a bit weird, or is that a Gerrit convention for out variables? Do we ever need them given one can instead return an object with two fields?",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 38
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61c3bed9_06554d47",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Remove or point to bug?",
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3124ba3_7de2f42d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Add return type to improve readability?",
+      "range": {
+        "startLine": 337,
+        "startChar": 57,
+        "endLine": 337,
+        "endChar": 58
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fa447ad_34ef5293",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Why does this not do anything? Should this be abstract? Or is this the default behavior to ignore render preferences? Add a comment explaining?",
+      "range": {
+        "startLine": 350,
+        "startChar": 42,
+        "endLine": 350,
+        "endChar": 44
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "159333cc_f184090b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "High-level, it is not clear to me why all these DOM creation things are moving to util - they will no longer be needed with Lit, no? Why can they not stay in the legacy builders?\n\nYou mention something about stateless, but is not the entire builder stateless? Now that settings and data are managed somewhere else, should the builder not just return a DOM element and be fully stateless?",
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f212ae3_2835646d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Below you use the ResponsiveMode enum - better to be consistent?",
+      "range": {
+        "startLine": 229,
+        "startChar": 32,
+        "endLine": 229,
+        "endChar": 51
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93538e68_eaaf2b2e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-10T12:20:52Z",
+      "side": 1,
+      "message": "Param list missing responiveMode...",
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

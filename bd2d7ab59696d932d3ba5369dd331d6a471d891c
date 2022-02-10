@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6122167f_30303b84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-10T11:11:11Z",
+      "side": 1,
+      "message": "Bringing to attention in case we might need to support the same for the rebase endpoint as well. This might also result in conflicts that will fail the code-owners validator, right?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "bd2d7ab59696d932d3ba5369dd331d6a471d891c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

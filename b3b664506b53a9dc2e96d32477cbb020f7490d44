@@ -16,6 +16,23 @@
       "message": "@Luca FYI. Please approve the change if you\u0027re OK with merging.",
       "revId": "b3b664506b53a9dc2e96d32477cbb020f7490d44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9079ff60_d02e4f7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-10T09:51:35Z",
+      "side": 1,
+      "message": "Thanks a lot guys, much appreciated!\nOnce this is merged, I\u0027ll communicate to the mailing list as well.",
+      "revId": "b3b664506b53a9dc2e96d32477cbb020f7490d44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

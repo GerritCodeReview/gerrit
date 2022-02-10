@@ -88,7 +88,8 @@ export class GrShellCommand extends LitElement {
       </div>`;
   }
 
-  focusOnCopy() {
+  async focusOnCopy() {
+    await this.updateComplete
     const copyClipboard = queryAndAssert<GrCopyClipboard>(
       this,
       'gr-copy-clipboard'

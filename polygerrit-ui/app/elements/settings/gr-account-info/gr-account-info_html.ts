@@ -111,7 +111,7 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
-      <label class="title" for="statusInput">Status (e.g. "Vacation")</label>
+      <label class="title" for="statusInput">About me (e.g. employer)</label>
       <span class="value">
         <iron-input
           on-keydown="_handleKeydown"

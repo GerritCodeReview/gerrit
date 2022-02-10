@@ -60,9 +60,9 @@ suite('gr-account-info tests', () => {
     account = createAccountWithIdNameAndEmail(123) as AccountDetailInfo;
     config = createServerInfo();
 
-    stubRestApi('getAccount').returns(Promise.resolve(account));
-    stubRestApi('getConfig').returns(Promise.resolve(config));
-    stubRestApi('getPreferences').returns(Promise.resolve(createPreferences()));
+    stubRestApi('getAccount').resolves(account);
+    stubRestApi('getConfig').resolves(config);
+    stubRestApi('getPreferences').resolves(createPreferences());
 
     element = basicFixture.instantiate();
     await element.loadData();
@@ -124,7 +124,7 @@ suite('gr-account-info tests', () => {
         </section>
         <section>
           <label class="title" for="statusInput">
-            Status (e.g. "Vacation")
+            About me (e.g. employer)
           </label>
           <span class="value">
             <iron-input>
@@ -217,11 +217,9 @@ suite('gr-account-info tests', () => {
         auth: {editable_account_fields: ['FULL_NAME', 'USER_NAME']},
       });
 
-      nameStub = stubRestApi('setAccountName').returns(Promise.resolve());
-      usernameStub = stubRestApi('setAccountUsername').returns(
-        Promise.resolve()
-      );
-      statusStub = stubRestApi('setAccountStatus').returns(Promise.resolve());
+      nameStub = stubRestApi('setAccountName').resolves();
+      usernameStub = stubRestApi('setAccountUsername').resolves();
+      statusStub = stubRestApi('setAccountStatus').resolves();
     });
 
     test('name', async () => {
@@ -292,9 +290,9 @@ suite('gr-account-info tests', () => {
         auth: {editable_account_fields: ['FULL_NAME']},
       });
 
-      nameStub = stubRestApi('setAccountName').returns(Promise.resolve());
-      statusStub = stubRestApi('setAccountStatus').returns(Promise.resolve());
-      stubRestApi('setAccountUsername').returns(Promise.resolve());
+      nameStub = stubRestApi('setAccountName').resolves();
+      statusStub = stubRestApi('setAccountStatus').resolves();
+      stubRestApi('setAccountUsername').resolves();
     });
 
     test('set name and status', async () => {
@@ -329,7 +327,7 @@ suite('gr-account-info tests', () => {
       statusChangedSpy = sinon.spy(element, '_statusChanged');
       element.set('_serverConfig', {auth: {editable_account_fields: []}});
 
-      statusStub = stubRestApi('setAccountStatus').returns(Promise.resolve());
+      statusStub = stubRestApi('setAccountStatus').resolves();
     });
 
     test('read full name but set status', async () => {

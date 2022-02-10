@@ -181,7 +181,10 @@ export class GrDownloadCommands extends LitElement {
 
   async focusOnCopy() {
     await this.updateComplete;
-    queryAndAssert<GrShellCommand>(this, 'gr-shell-command').focusOnCopy();
+    await queryAndAssert<GrShellCommand>(
+      this,
+      'gr-shell-command'
+    ).focusOnCopy();
   }
 
   private handleTabChange = (e: CustomEvent<{value: number}>) => {

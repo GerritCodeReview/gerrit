@@ -51,6 +51,24 @@
       "parentUuid": "99ba091f_f56a5cfc",
       "revId": "b6cb30db093bc888493bea3cf95740620b391db1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61bd0ba5_3c6fd547",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 15
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-10T09:37:24Z",
+      "side": 1,
+      "message": "Definitely don\u0027t mess with yarn.lock manually.\n\nI was wondering if yarn has a problem with the `||` syntax.\n\nBut I am also fine with just submitting as is.",
+      "parentUuid": "41599761_8de5f327",
+      "revId": "b6cb30db093bc888493bea3cf95740620b391db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

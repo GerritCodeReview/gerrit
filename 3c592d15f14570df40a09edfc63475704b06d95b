@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a36f0eb7_f9c43e25",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-10T13:22:00Z",
+      "side": 1,
+      "message": "can this be added back? The entire focusOnCopy() chain seems to be for auto-focusing on the first copy button when the dialog is opened, but with that disabled all those methods are never called.",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 78
+      },
+      "revId": "3c592d15f14570df40a09edfc63475704b06d95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e5f4538_384cc533",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-10T13:22:00Z",
+      "side": 1,
+      "message": "would GrShellCommand.focusOnCopy() also need to do the same waiting for it\u0027s sub-call?",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 30
+      },
+      "revId": "3c592d15f14570df40a09edfc63475704b06d95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

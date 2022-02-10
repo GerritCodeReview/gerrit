@@ -26,6 +26,19 @@ const openingSpan = new RegExp('<span class="(.*?)">');
 const closingSpan = new RegExp('</span>');
 
 /**
+ * Reverse what HighlightJS does in `escapeHTML()`, see:
+ * https://github.com/highlightjs/highlight.js/blob/main/src/lib/utils.js
+ */
+function unescapeHTML(value: string) {
+  return value
+    .replace(/&#x27;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&gt;/g, '>')
+    .replace(/&lt;/g, '<')
+    .replace(/&amp;/g, '&');
+}
+
+/**
  * HighlightJS produces one long HTML string with HTML elements spanning
  * multiple lines. <gr-diff> is line based, needs all elements closed at the end
  * of the line, and is not interested in the HTML that HighlightJS produces.
@@ -51,6 +64,7 @@ export function highlightedStringToRanges(
     // For each opening <span ...> push a new (unclosed) range.
     // For each closing </span> close the latest unclosed range.
     let removal: SpanRemoval | undefined;
+    line = unescapeHTML(line);
     while ((removal = removeFirstSpan(line)) !== undefined) {
       if (removal.type === SpanType.OPENING) {
         ranges.push({

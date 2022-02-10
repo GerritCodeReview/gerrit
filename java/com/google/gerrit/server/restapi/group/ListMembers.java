@@ -48,7 +48,7 @@ public class ListMembers implements RestReadView<GroupResource> {
   private final AccountLoader.Factory accountLoaderFactory;
 
   @Option(name = "--recursive", usage = "to resolve included groups recursively")
-  private boolean recursive;
+  protected boolean recursive;
 
   @Inject
   protected ListMembers(
@@ -80,11 +80,16 @@ public class ListMembers implements RestReadView<GroupResource> {
       throws PermissionBackendException {
     Optional<InternalGroup> group = groupCache.get(groupUuid);
     if (group.isPresent()) {
-      InternalGroupDescription internalGroup = new InternalGroupDescription(group.get());
-      GroupControl groupControl = groupControlFactory.controlFor(internalGroup);
-      return getTransitiveMembers(internalGroup, groupControl);
+      return getTransitiveMembers(group.get());
     }
     return ImmutableList.of();
+  }
+
+  public List<AccountInfo> getTransitiveMembers(InternalGroup group)
+      throws PermissionBackendException {
+    InternalGroupDescription internalGroup = new InternalGroupDescription(group);
+    GroupControl groupControl = groupControlFactory.controlFor(internalGroup);
+    return getTransitiveMembers(internalGroup, groupControl);
   }
 
   private List<AccountInfo> getTransitiveMembers(

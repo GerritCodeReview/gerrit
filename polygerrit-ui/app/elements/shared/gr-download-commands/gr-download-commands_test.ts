@@ -72,12 +72,12 @@ suite('gr-download-commands', () => {
       await element.updateComplete;
     });
 
-    test('focusOnCopy', () => {
+    test('focusOnCopy', async () => {
       const focusStub = sinon.stub(
         queryAndAssert<GrShellCommand>(element, 'gr-shell-command'),
         'focusOnCopy'
       );
-      element.focusOnCopy();
+      await element.focusOnCopy();
       assert.isTrue(focusStub.called);
     });
 

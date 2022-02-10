@@ -251,7 +251,7 @@ export class GrDownloadDialog extends LitElement {
   override focus() {
     if (this.schemes.length) {
       assertIsDefined(this.downloadCommands, 'downloadCommands');
-      this.downloadCommands.focusOnCopy();
+      // this.updateComplete.then(() => this.downloadCommands!.focusOnCopy());
     } else {
       assertIsDefined(this.download, 'download');
       this.download.focus();

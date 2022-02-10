@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cfca09f_cee0e6d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-10T12:18:20Z",
+      "side": 1,
+      "message": "The error in CI is puzzling and I cannot reproduce locally.",
+      "revId": "8c96477d3972bd787950666ef19949ab2b208f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

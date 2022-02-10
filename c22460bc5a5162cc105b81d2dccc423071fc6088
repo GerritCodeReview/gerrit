@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fb6d6b7_06ede2bd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-10T15:16:01Z",
+      "side": 1,
+      "message": "I checked this with the frontend team and they are relying on the submit revision action to decide whether the Submit button should be shown.\n\nThe backend implementation for the submit revision actions already checks the submittability of other changes in the series/topic, hence the frontend doesn\u0027t need to do anything specifically about this.\n\nHowever I noticed that the assertion that the test is doing is not correct / sufficient. For the returned submit action it also needs to check whether \u0027enabled\u0027 is true. Checking that makes the tests fail. Need to look further into this.",
+      "parentUuid": "a57dd725_842803c5",
+      "revId": "c22460bc5a5162cc105b81d2dccc423071fc6088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9b31498d_ab1164f4",

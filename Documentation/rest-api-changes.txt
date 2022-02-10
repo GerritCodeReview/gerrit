@@ -6754,28 +6754,28 @@ The `CherryPickInput` entity contains information for cherry-picking a change to
 
 [options="header",cols="1,^1,5"]
 |===========================
-|Field Name         ||Description
-|`message`          |optional|
+|Field Name          ||Description
+|`message`           |optional|
 Commit message for the cherry-pick change. If not set, the commit message of
 the cherry-picked commit is used.
-|`destination`      ||Destination branch
-|`base`             |optional|
+|`destination`       ||Destination branch
+|`base`              |optional|
 40-hex digit SHA-1 of the commit which will be the parent commit of the newly created change.
 If set, it must be a merged commit or a change revision on the destination branch.
-|`parent`           |optional, defaults to 1|
+|`parent`            |optional, defaults to 1|
 Number of the parent relative to which the cherry-pick should be considered.
-|`notify`           |optional|
+|`notify`            |optional|
 Notify handling that defines to whom email notifications should be sent
 after the cherry-pick. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
-|`notify_details`   |optional|
+|`notify_details`    |optional|
 Additional information about whom to notify about the update as a map
 of link:user-notify.html#recipient-types[recipient type] to
 link:#notify-info[NotifyInfo] entity.
-|`keep_reviewers`   |optional, defaults to false|
+|`keep_reviewers`    |optional, defaults to false|
 If `true`, carries reviewers and ccs over from original change to newly created one.
-|`allow_conflicts`  |optional, defaults to false|
+|`allow_conflicts`   |optional, defaults to false|
 If `true`, the cherry-pick uses content merge and succeeds also if
 there are conflicts. If there are conflicts the file contents of the
 created change contain git conflict markers to indicate the conflicts.
@@ -6783,7 +6783,7 @@ Callers can find out if there were conflicts by checking the
 `contains_git_conflicts` field in the link:#change-info[ChangeInfo]. If
 there are conflicts the cherry-pick change is marked as
 work-in-progress.
-|`topic`            |optional|
+|`topic`             |optional|
 The topic of the created cherry-picked change. If not set, the default depends
 on the source. If the source is a change with a topic, the resulting topic
 of the cherry-picked change will be {source_change_topic}-{destination_branch}.
@@ -6791,10 +6791,18 @@ Otherwise, if the source change has no topic, or the source is a commit,
 the created change will have no topic.
 If the change already exists, the topic will not change if not set. If set, the
 topic will be overridden.
-|`allow_empty`      |optional, defaults to false|
+|`allow_empty`       |optional, defaults to false|
 If `true`, the cherry-pick succeeds also if the created commit will be empty.
 If `false`, a cherry-pick that would create an empty commit fails without creating
 the commit.
+|`validation_options`|optional|
+Map with key-value pairs that are forwarded as options to the commit validation
+listeners (e.g. can be used to skip certain validations). Which validation
+options are supported depends on the installed commit validation listeners.
+Gerrit core doesn't support any validation options, but commit validation
+listeners that are implemented in plugins may. Please refer to the
+documentation of the installed plugins to learn whether they support validation
+options. Unknown validation options are silently ignored.
 |===========================
 
 [[comment-info]]

@@ -19,6 +19,7 @@ import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -70,6 +71,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -250,7 +252,6 @@ public class CherryPickChange {
       @Nullable Boolean workInProgress)
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
-
     IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
         // This inserter and revwalk *must* be passed to any BatchUpdates
@@ -357,6 +358,7 @@ public class CherryPickChange {
                   cherryPickCommit,
                   sourceChange,
                   newTopic,
+                  input,
                   workInProgress);
         } else {
           // Change key not found on destination branch. We can create a new
@@ -439,6 +441,7 @@ public class CherryPickChange {
       CodeReviewCommit cherryPickCommit,
       @Nullable Change sourceChange,
       String topic,
+      CherryPickInput input,
       @Nullable Boolean workInProgress)
       throws IOException {
     Change destChange = destNotes.getChange();
@@ -452,6 +455,7 @@ public class CherryPickChange {
     if (shouldSetToReady(cherryPickCommit, destNotes, workInProgress)) {
       inserter.setWorkInProgress(false);
     }
+    inserter.setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions));
     bu.addOp(destChange.getId(), inserter);
     PatchSet.Id sourcePatchSetId = sourceChange == null ? null : sourceChange.currentPatchSetId();
     // If sourceChange is not provided, reset cherryPickOf to avoid stale value.
@@ -502,6 +506,7 @@ public class CherryPickChange {
           (sourceChange != null && sourceChange.isWorkInProgress())
               || !cherryPickCommit.getFilesWithGitConflicts().isEmpty());
     }
+    ins.setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions));
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
     PatchSet.Id sourcePatchSetId = sourceChange == null ? null : sourceChange.currentPatchSetId();
     ins.setMessage(
@@ -543,6 +548,20 @@ public class CherryPickChange {
     }
     bu.insertChange(ins);
     return changeId;
+  }
+
+  private static ImmutableListMultimap<String, String> getValidateOptionsAsMultimap(
+      @Nullable Map<String, String> validationOptions) {
+    if (validationOptions == null) {
+      return ImmutableListMultimap.of();
+    }
+
+    ImmutableListMultimap.Builder<String, String> validationOptionsBuilder =
+        ImmutableListMultimap.builder();
+    validationOptions
+        .entrySet()
+        .forEach(e -> validationOptionsBuilder.put(e.getKey(), e.getValue()));
+    return validationOptionsBuilder.build();
   }
 
   private NotifyResolver.Result resolveNotify(CherryPickInput input)

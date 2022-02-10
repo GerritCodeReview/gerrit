@@ -313,6 +313,7 @@ public class ChangeInserter implements InsertChangeOp {
 
   public ChangeInserter setValidationOptions(
       ImmutableListMultimap<String, String> validationOptions) {
+    requireNonNull(validationOptions, "validationOptions may not be null");
     checkState(
         patchSet == null,
         "setValidationOptions(ImmutableListMultimap<String, String>) only valid before creating a"

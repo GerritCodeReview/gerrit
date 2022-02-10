@@ -44,9 +44,7 @@ the upload to Maven Central, and to sign the release announcement email.
 +
 Generate and publish a PGP key as described in
 link:http://central.sonatype.org/pages/working-with-pgp-signatures.html[
-Working with PGP Signatures,role=external,window=_blank]. In addition to the keyserver mentioned
-there it is recommended to also publish the key to the
-link:https://keyserver.ubuntu.com/[Ubuntu key server].
+Working with PGP Signatures,role=external,window=_blank].
 +
 Please be aware that after publishing your public key it may take a
 while until it is visible to the Sonatype server.

@@ -140,6 +140,24 @@
       "parentUuid": "2efb7436_be739371",
       "revId": "0396743b282acadd14e28f392009e0f17dd2d048",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0160171_fedef6c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-10T11:48:31Z",
+      "side": 1,
+      "message": "\u003e This bot is not new.\n\nindeed, at least since jul 2020. i wonder how i managed to miss that. did the \"presentation\" change?\n\n\u003e Please refrain from sniping code reviews with unrelated comments.\n\nwhat you\u0027re doing here is making sure that minor \"meta\" issues don\u0027t get reported at all.",
+      "parentUuid": "25bdbb27_05589e65",
+      "revId": "0396743b282acadd14e28f392009e0f17dd2d048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

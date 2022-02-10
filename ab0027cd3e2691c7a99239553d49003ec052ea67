@@ -33,6 +33,24 @@
       "message": "I\u0027m attempting to test this downstream via https://review.opendev.org/c/opendev/system-config/+/828786",
       "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58570b12_371408a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-10T22:11:33Z",
+      "side": 1,
+      "message": "The job logs end up being a bit verbose but I think https://zuul.opendev.org/t/openstack/build/82be22c4e5b646438f0038851f3042f1/log/job-output.txt#30230-30264 shows this is working. Non recursive listings continue to show only the direct membership. Recursive listings include members from subgroups.",
+      "parentUuid": "9eac8b3c_2e552dca",
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -72,12 +72,12 @@ suite('gr-download-commands', () => {
       await element.updateComplete;
     });
 
-    test('focusOnCopy', () => {
+    test('focusOnCopy', async () => {
       const focusStub = sinon.stub(
         queryAndAssert<GrShellCommand>(element, 'gr-shell-command'),
         'focusOnCopy'
       );
-      element.focusOnCopy();
+      await element.focusOnCopy();
       assert.isTrue(focusStub.called);
     });
 
@@ -89,7 +89,8 @@ suite('gr-download-commands', () => {
       element.schemes = [];
       await element.updateComplete;
       assert.isTrue(isHidden(queryAndAssert(element, 'paper-tabs')));
-      assert.isFalse(Boolean(query(element, '.commands')));
+      assert.isTrue(Boolean(query(element, '.commands')));
+      assert.isTrue(isHidden(queryAndAssert(element, '.commands')));
       // Should still be present but hidden
       assert.isTrue(Boolean(query(element, '#downloadTabs')));
       assert.isTrue(isHidden(queryAndAssert(element, '#downloadTabs')));

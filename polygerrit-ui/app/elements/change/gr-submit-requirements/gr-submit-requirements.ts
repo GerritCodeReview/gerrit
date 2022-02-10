@@ -42,7 +42,7 @@ import {
   orderSubmitRequirements,
 } from '../../../utils/label-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {charsOnly} from '../../../utils/string-util';
+import {capitalizeFirstLetter, charsOnly} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {CheckRun} from '../../../models/checks/checks-model';
 import {getResultsOf, hasResultsOf} from '../../../models/checks/checks-util';
@@ -263,6 +263,12 @@ export class GrSubmitRequirements extends LitElement {
     );
 
     const checksChips = this.renderChecks(requirement);
+
+    const requirementWithoutLabelToVoteOn = associatedLabels.length === 0;
+    if (requirementWithoutLabelToVoteOn) {
+      const status = capitalizeFirstLetter(requirement.status.toLowerCase());
+      return checksChips || html`${status}`;
+    }
 
     if (everyAssociatedLabelsIsWithoutVotes) {
       return checksChips || html`No votes`;

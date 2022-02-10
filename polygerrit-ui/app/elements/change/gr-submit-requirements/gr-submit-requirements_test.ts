@@ -34,6 +34,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 
 suite('gr-submit-requirements tests', () => {
   let element: GrSubmitRequirements;
+  let change: ParsedChangeInfo;
   setup(async () => {
     const submitRequirement: SubmitRequirementResultInfo = {
       ...createSubmitRequirementResultInfo(),
@@ -43,7 +44,7 @@ suite('gr-submit-requirements tests', () => {
         expression: 'label:Verified=MAX -label:Verified=MIN',
       },
     };
-    const change: ParsedChangeInfo = {
+    change = {
       ...createParsedChange(),
       submit_requirements: [
         submitRequirement,
@@ -113,6 +114,48 @@ suite('gr-submit-requirements tests', () => {
       <gr-submit-requirement-hovercard for="requirement-0-Verified">
       </gr-submit-requirement-hovercard>
     `);
+  });
+
+  suite('votes-cell', () => {
+    setup(async () => {
+      element.disableEndpoints = true;
+      await element.updateComplete;
+    });
+    test('with vote', () => {
+      const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+      expect(votesCell?.[0]).dom.equal(/* HTML */ `
+        <div class="votes-cell">
+          <gr-vote-chip> </gr-vote-chip>
+        </div>
+      `);
+    });
+
+    test('no votes', async () => {
+      const modifiedChange = {...change};
+      modifiedChange.labels = {
+        Verified: {
+          ...createDetailedLabelInfo(),
+        },
+      };
+      element.change = modifiedChange;
+      await element.updateComplete;
+      const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+      expect(votesCell?.[0]).dom.equal(/* HTML */ `
+        <div class="votes-cell">No votes</div>
+      `);
+    });
+
+    test('without label to vote on', async () => {
+      const modifiedChange = {...change};
+      modifiedChange.submit_requirements![0]!.submittability_expression_result!.expression =
+        'hasfooter:"Release-Notes"';
+      element.change = modifiedChange;
+      await element.updateComplete;
+      const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+      expect(votesCell?.[0]).dom.equal(/* HTML */ `
+        <div class="votes-cell">Satisfied</div>
+      `);
+    });
   });
 
   test('calculateEndpointName()', () => {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2da3ad4_ae1493a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-10T13:35:01Z",
+      "side": 1,
+      "message": "PTAL - verified that it focuses the copy button.",
+      "revId": "e53d0112bff2294485677a1ffc8549a2bc9c51ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

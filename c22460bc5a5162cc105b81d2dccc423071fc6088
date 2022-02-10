@@ -56,6 +56,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "55b30432_79b04a33",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-10T16:20:51Z",
+      "side": 1,
+      "message": "I think I understood this now and was able to make a partial fix. PTAL.",
+      "parentUuid": "1fb6d6b7_06ede2bd",
+      "revId": "c22460bc5a5162cc105b81d2dccc423071fc6088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9b31498d_ab1164f4",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
         "patchSetId": 1

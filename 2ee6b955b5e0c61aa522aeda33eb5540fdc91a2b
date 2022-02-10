@@ -45,6 +45,23 @@
       },
       "revId": "2ee6b955b5e0c61aa522aeda33eb5540fdc91a2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34cf6f37_096efc18",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-10T15:19:02Z",
+      "side": 1,
+      "message": "please use tooltip-with-who-voted and add \u0027attribute: ...\u0027 to the property definition",
+      "revId": "2ee6b955b5e0c61aa522aeda33eb5540fdc91a2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

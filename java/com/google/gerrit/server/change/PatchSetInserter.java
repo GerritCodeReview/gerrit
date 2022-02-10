@@ -100,6 +100,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private boolean validate = true;
   private boolean checkAddPatchSetPermission = true;
   private List<String> groups = Collections.emptyList();
+  private ImmutableListMultimap<String, String> validationOptions = ImmutableListMultimap.of();
   private boolean fireRevisionCreated = true;
   private boolean allowClosed;
   private boolean sendEmail = true;
@@ -181,6 +182,13 @@ public class PatchSetInserter implements BatchUpdateOp {
   public PatchSetInserter setGroups(List<String> groups) {
     requireNonNull(groups, "groups may not be null");
     this.groups = groups;
+    return this;
+  }
+
+  public PatchSetInserter setValidationOptions(
+      ImmutableListMultimap<String, String> validationOptions) {
+    requireNonNull(validationOptions, "validationOptions may not be null");
+    this.validationOptions = validationOptions;
     return this;
   }
 
@@ -367,7 +375,7 @@ public class PatchSetInserter implements BatchUpdateOp {
                 .orElseThrow(illegalState(origNotes.getProjectName()))
                 .getProject(),
             origNotes.getChange().getDest().branch(),
-            ImmutableListMultimap.of(),
+            validationOptions,
             ctx.getRepoView().getConfig(),
             ctx.getRevWalk().getObjectReader(),
             commitId,

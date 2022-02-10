@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73daaefc_7585bfc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-10T15:31:28Z",
+      "side": 1,
+      "message": "Although each change/case has been small that you do not want to test, in total there are a lot of if statements and cases in these SR files. I would feel uncomfortable doing any refactoring/fixes in them because I would never know if I am breaking some small case.",
+      "revId": "f0df76ca015bc12379bedd99ead843190af038e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

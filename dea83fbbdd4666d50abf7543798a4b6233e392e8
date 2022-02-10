@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4834703b_5b6bc5ce",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-10T13:29:08Z",
+      "side": 0,
+      "message": "Yes, actually code owners also replace :)",
+      "range": {
+        "startLine": 97,
+        "startChar": 5,
+        "endLine": 98,
+        "endChar": 43
+      },
+      "revId": "dea83fbbdd4666d50abf7543798a4b6233e392e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

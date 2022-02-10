@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77446cae_e31927c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-10T13:29:08Z",
+      "side": 1,
+      "message": "There is also bigger padding on right when no icons. Check delphine chip:\nBefore:\nhttps://imgur.com/a/x4X33oi\nAfter this change:\nhttps://imgur.com/a/wueNRdA",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "8cf521ba49b09c28b570ee9443a3d4f0c6cc7612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b223dd2b_1e2f3d52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-10T13:29:08Z",
+      "side": 1,
+      "message": "Adding Delphine - just a question if it is ok if there are 2 icons, there is no space between them.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "8cf521ba49b09c28b570ee9443a3d4f0c6cc7612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f04a329_63560a78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-10T13:29:08Z",
+      "side": 1,
+      "message": "Another issue is bigger space between name and remove reviewer or between name and removing vote in old submit requirements:\nBefore:\nhttps://imgur.com/a/F7E78lO\n\nAfter:\nhttps://imgur.com/a/kOzYHyA",
+      "range": {
+        "startLine": 18,
+        "startChar": 6,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "8cf521ba49b09c28b570ee9443a3d4f0c6cc7612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75e6c134_653d250d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-10T13:29:08Z",
+      "side": 1,
+      "message": "I tested this and there is now bigger space between name and calendar icon https://imgur.com/a/Cl79CK7",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "8cf521ba49b09c28b570ee9443a3d4f0c6cc7612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

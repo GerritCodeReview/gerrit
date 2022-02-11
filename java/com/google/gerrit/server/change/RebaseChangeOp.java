@@ -17,8 +17,10 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -94,6 +96,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private boolean sendEmail = true;
   private boolean storeCopiedVotes = true;
   private boolean matchAuthorToCommitterDate = false;
+  private ImmutableListMultimap<String, String> validationOptions = ImmutableListMultimap.of();
 
   private CodeReviewCommit rebasedCommit;
   private PatchSet.Id rebasedPatchSetId;
@@ -191,6 +194,13 @@ public class RebaseChangeOp implements BatchUpdateOp {
     return this;
   }
 
+  public RebaseChangeOp setValidationOptions(
+      ImmutableListMultimap<String, String> validationOptions) {
+    requireNonNull(validationOptions, "validationOptions may not be null");
+    this.validationOptions = validationOptions;
+    return this;
+  }
+
   @Override
   public void updateRepo(RepoContext ctx)
       throws MergeConflictException, InvalidChangeOperationException, RestApiException, IOException,
@@ -240,6 +250,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
         && !notes.getChange().isWorkInProgress()) {
       patchSetInserter.setWorkInProgress(true);
     }
+
+    patchSetInserter.setValidationOptions(validationOptions);
 
     if (postMessage) {
       patchSetInserter.setMessage(

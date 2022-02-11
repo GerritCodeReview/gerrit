@@ -163,7 +163,11 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.testing.TestChangeETagComputation;
+import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.ChangeMessageModifier;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -1011,6 +1015,31 @@ public class ChangeIT extends AbstractDaemonTest {
     AuthException thrown =
         assertThrows(AuthException.class, () -> gApi.changes().id(changeId).rebase());
     assertThat(thrown).hasMessageThat().contains("rebase not permitted");
+  }
+
+  @Test
+  public void rebaseWithValidationOptions() throws Exception {
+    // Create two changes both with the same parent
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Approve and submit the first change
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    revision.review(ReviewInput.approve());
+    revision.submit();
+
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.validationOptions = ImmutableMap.of("key", "value");
+
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+      // Rebase the second change
+      gApi.changes().id(r2.getChangeId()).current().rebase(rebaseInput);
+      assertThat(testCommitValidationListener.receiveEvent.pushOptions)
+          .containsExactly("key", "value");
+    }
   }
 
   @Test
@@ -4706,5 +4735,16 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
     gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
+  }
+
+  private static class TestCommitValidationListener implements CommitValidationListener {
+    public CommitReceivedEvent receiveEvent;
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      this.receiveEvent = receiveEvent;
+      return ImmutableList.of();
+    }
   }
 }

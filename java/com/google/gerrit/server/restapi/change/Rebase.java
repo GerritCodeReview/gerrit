@@ -16,8 +16,10 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -53,6 +55,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -126,6 +129,7 @@ public class Rebase
               .create(rsrc.getNotes(), rsrc.getPatchSet(), findBaseRev(repo, rw, rsrc, input))
               .setForceContentMerge(true)
               .setAllowConflicts(input.allowConflicts)
+              .setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions))
               .setFireRevisionCreated(true);
       // TODO(dborowitz): Why no notification? This seems wrong; dig up blame.
       bu.setNotify(NotifyResolver.Result.none());
@@ -244,6 +248,20 @@ public class Rebase
       return description.setVisible(true).setEnabled(enabled);
     }
     return description;
+  }
+
+  private static ImmutableListMultimap<String, String> getValidateOptionsAsMultimap(
+      @Nullable Map<String, String> validationOptions) {
+    if (validationOptions == null) {
+      return ImmutableListMultimap.of();
+    }
+
+    ImmutableListMultimap.Builder<String, String> validationOptionsBuilder =
+        ImmutableListMultimap.builder();
+    validationOptions
+        .entrySet()
+        .forEach(e -> validationOptionsBuilder.put(e.getKey(), e.getValue()));
+    return validationOptionsBuilder.build();
   }
 
   public static class CurrentRevision implements RestModifyView<ChangeResource, RebaseInput> {

@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "259452d0_c9e2ac5c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-11T14:36:54Z",
+      "side": 1,
+      "message": "Looks good to me. So unfortunately the submit action relies on the index so a series of changes will compute submittability using stale data of other changes (not the current one).\n\nThanks for the improvement though.",
+      "parentUuid": "55b30432_79b04a33",
+      "revId": "c22460bc5a5162cc105b81d2dccc423071fc6088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9b31498d_ab1164f4",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
         "patchSetId": 1

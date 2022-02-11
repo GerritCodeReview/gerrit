@@ -245,6 +245,24 @@
       "parentUuid": "ed74a7c8_4993b070",
       "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0f14923_7fa97105",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-11T12:30:58Z",
+      "side": 1,
+      "message": "I prefer to keep them separate. This change is getting too big with extra refactors on top of the original refactor.\n\nI added the same topic to ensure submission simultaneously.",
+      "parentUuid": "09821f30_9e2b83d9",
+      "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

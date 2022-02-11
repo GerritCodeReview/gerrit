@@ -22,7 +22,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
 import {accountKey, isSelf} from '../../../utils/account-util';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
 import {
   AccountInfo,
   ChangeInfo,
@@ -43,7 +43,9 @@ import {isInvolved, isRemovableReviewer} from '../../../utils/change-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {css, html, LitElement} from 'lit';
+import {ifDefined} from 'lit/directives/if-defined';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -53,7 +55,7 @@ export class GrHovercardAccount extends base {
   @property({type: Object})
   account!: AccountInfo;
 
-  @property({type: Object})
+  @state()
   _selfAccount?: AccountInfo;
 
   /**
@@ -107,6 +109,9 @@ export class GrHovercardAccount extends base {
         .voteable {
           padding: var(--spacing-s) var(--spacing-l);
         }
+        .links {
+          padding: var(--spacing-l) var(--spacing-xxl);
+        }
         .statusPlugin {
           padding: var(--spacing-l) var(--spacing-l) var(--spacing-m);
         }
@@ -150,6 +155,17 @@ export class GrHovercardAccount extends base {
           position: relative;
           top: 3px;
         }
+        iron-icon.linkIcon {
+          width: var(--line-height-normal, 20px);
+          height: var(--line-height-normal, 20px);
+          vertical-align: top;
+          color: var(--deemphasized-text-color);
+          padding-right: 12px;
+        }
+        .links a {
+          color: var(--link-color);
+          padding: 0px 4px;
+        }
         .reason {
           padding-top: var(--spacing-s);
         }
@@ -178,6 +194,7 @@ export class GrHovercardAccount extends base {
         </div>
       </div>
       ${this.renderAccountStatusPlugins()} ${this.renderAccountStatus()}
+      ${this.renderLinks()}
       ${this.voteableText
         ? html`
             <div class="voteable">
@@ -229,6 +246,16 @@ export class GrHovercardAccount extends base {
         </gr-endpoint-decorator>
       </div>
     `;
+  }
+
+  private renderLinks() {
+    return html` <div class="links">
+      <iron-icon class="linkIcon" icon="gr-icons:link"></iron-icon
+      ><a href="${ifDefined(this.computeOwnerChangesLink())}">Changes</a>·<a
+        href="${ifDefined(this.computeOwnerDashboardLink())}"
+        >Dashboard</a
+      >
+    </div>`;
   }
 
   private renderAccountStatus() {
@@ -315,6 +342,25 @@ export class GrHovercardAccount extends base {
   computePronoun() {
     if (!this.account || !this._selfAccount) return '';
     return isSelf(this.account, this._selfAccount) ? 'Your' : 'Their';
+  }
+
+  computeOwnerChangesLink() {
+    if (!this.account) return undefined;
+    return GerritNav.getUrlForOwner(
+      this.account.email ||
+        this.account.username ||
+        this.account.name ||
+        `${this.account._account_id}`
+    );
+  }
+
+  computeOwnerDashboardLink() {
+    if (!this.account) return undefined;
+    if (this.account._account_id)
+      return GerritNav.getUrlForUserDashboard(`${this.account._account_id}`);
+    if (this.account.email)
+      return GerritNav.getUrlForUserDashboard(`${this.account.email}`);
+    return undefined;
   }
 
   get isAttentionEnabled() {

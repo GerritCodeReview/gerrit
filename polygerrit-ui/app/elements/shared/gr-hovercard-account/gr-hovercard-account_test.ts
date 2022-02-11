@@ -96,6 +96,12 @@ suite('gr-hovercard-account tests', () => {
           <span class="title">About me:</span>
           <span class="value">I am a frog</span>
         </div>
+        <div class="links">
+          <iron-icon class="linkIcon" icon="gr-icons:link"></iron-icon>
+          <a href="/q/owner:kermit@gmail.com">Changes</a>
+          ·
+          <a href="/dashboard/kermit@gmail.com">Dashboard</a>
+        </div>
       </div>
     `);
   });

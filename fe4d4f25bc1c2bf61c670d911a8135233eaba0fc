@@ -209,6 +209,24 @@
       "parentUuid": "c96c7d43_9466ef3b",
       "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed74a7c8_4993b070",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-11T11:28:44Z",
+      "side": 1,
+      "message": "329962: Add shadow dom UT for gr-change-list | https://gerrit-review.googlesource.com/c/gerrit/+/329962\n\n329964: Add shadow dom UT for gr-change-list-item | https://gerrit-review.googlesource.com/c/gerrit/+/329964\n\n329967: Add shadow dom UT for gr-change-list-section | https://gerrit-review.googlesource.com/c/gerrit/+/329967",
+      "parentUuid": "e8a9bf48_23a04caf",
+      "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

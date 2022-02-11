@@ -33,6 +33,24 @@
       "message": "Do you know who can set Library-Compliance+1?",
       "revId": "0dabf7e912f3b3d3a6be8672e6a5abe601c5456c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da0aa4c7_4eff5b59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-11T08:22:14Z",
+      "side": 1,
+      "message": "Only Googlers can approve this label:\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries",
+      "parentUuid": "9b72bd72_35530168",
+      "revId": "0dabf7e912f3b3d3a6be8672e6a5abe601c5456c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

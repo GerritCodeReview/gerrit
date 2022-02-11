@@ -798,12 +798,29 @@ are supported.
 Note that a query like `label:Code-Review=+1,count<x` will not match with
 changes having zero +1 votes to this label.
 
-`label:Non-Author-Code-Review=need`::
+`label:Non-Author-Code-Review=need` (deprecated)::
 +
 Matches changes where the submit rules indicate that a label named
 `Non-Author-Code-Review` is needed. (See the
 link:prolog-cookbook.html#NonAuthorCodeReview[Prolog Cookbook] for how
 this label can be configured.)
++
+This operator also matches changes having a
+link:config-submit-requirements.html[submit requirement] named
+`Non-Author-Code-Review` whose result is `UNSATISFIED`.
+
+`label:Non-Author-Code-Review=ok` (deprecated)::
++
+Matches changes where the submit rules indicate that a label named
+`Non-Author-Code-Review` is fulfilled. (See the
+link:prolog-cookbook.html#NonAuthorCodeReview[Prolog Cookbook] for how
+this label can be configured.)
++
+This operator also matches changes having a
+link:config-submit-requirements.html[submit requirement] named
+`Non-Author-Code-Review` whose result is either `SATISFIED` or `OVERRIDDEN`.
+The search operator `label:Non-Author-Code-Review=may` will also match changes
+using submit requirements with the same semantics.
 
 `label:Code-Review=+2,aname`::
 `label:Code-Review=ok,aname`::

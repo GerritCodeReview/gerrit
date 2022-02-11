@@ -227,6 +227,24 @@
       "parentUuid": "e8a9bf48_23a04caf",
       "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09821f30_9e2b83d9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-11T12:10:18Z",
+      "side": 1,
+      "message": "Please add the last one into this change.",
+      "parentUuid": "ed74a7c8_4993b070",
+      "revId": "fe4d4f25bc1c2bf61c670d911a8135233eaba0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

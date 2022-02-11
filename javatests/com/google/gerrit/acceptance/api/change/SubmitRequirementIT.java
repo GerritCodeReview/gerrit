@@ -2709,6 +2709,41 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         .isFalse();
   }
 
+  @Test
+  public void queryChangesBySubmitRequirementResultUsingTheLabelPredicate() throws Exception {
+    // Create a non-blocking label and a submit-requirement that necessitates voting on this label.
+    configLabel("LC", LabelFunction.NO_OP);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("LC").ref("refs/heads/master").group(REGISTERED_USERS).range(-1, 1))
+        .update();
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("LC")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:LC=MAX"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    List<ChangeInfo> changeInfos = gApi.changes().query("label:LC=NEED").get();
+    assertThat(changeInfos).hasSize(1);
+    assertThat(changeInfos.get(0).changeId).isEqualTo(changeId);
+    assertThat(gApi.changes().query("label:LC=OK").get()).isEmpty();
+    // case does not matter
+    changeInfos = gApi.changes().query("label:lc=NEED").get();
+    assertThat(changeInfos).hasSize(1);
+    assertThat(changeInfos.get(0).changeId).isEqualTo(changeId);
+
+    voteLabel(r.getChangeId(), "LC", +1);
+    changeInfos = gApi.changes().query("label:LC=OK").get();
+    assertThat(changeInfos.get(0).changeId).isEqualTo(changeId);
+    assertThat(gApi.changes().query("label:LC=NEED").get()).isEmpty();
+  }
+
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
     gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
   }

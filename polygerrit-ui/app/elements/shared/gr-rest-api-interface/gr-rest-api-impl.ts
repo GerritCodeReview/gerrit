@@ -157,7 +157,6 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {ErrorCallback} from '../../../api/rest';
 import {addDraftProp, DraftInfo} from '../../../utils/comment-util';
 import {BaseScheduler} from '../../../services/scheduler/scheduler';
-import {RetryScheduler} from '../../../services/scheduler/retry-scheduler';
 import {MaxInFlightScheduler} from '../../../services/scheduler/max-in-flight-scheduler';
 
 const MAX_PROJECT_RESULTS = 25;
@@ -283,19 +282,11 @@ declare global {
 }
 
 function createReadScheduler() {
-  return new RetryScheduler<Response>(
-    new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 10),
-    3,
-    50
-  );
+  return new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 10);
 }
 
 function createWriteScheduler() {
-  return new RetryScheduler<Response>(
-    new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 5),
-    3,
-    50
-  );
+  return new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 5);
 }
 
 @customElement('gr-rest-api-service-impl')

@@ -96,6 +96,10 @@ suite('gr-hovercard-account tests', () => {
           <span class="title">About me:</span>
           <span class="value">I am a frog</span>
         </div>
+        <div class="links">
+          <iron-icon class="linkIcon" icon="gr-icons:link"></iron-icon>
+          <a href="">Changes</a>·<a href="">Dashboard</a>
+        </div>
       </div>
     `);
   });

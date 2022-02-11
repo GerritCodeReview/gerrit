@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef0a36dc_a3280b6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-11T12:11:54Z",
+      "side": 1,
+      "message": "I checked that in current release I cannot see download links as guest. With this fix I can see download links even as guest.",
+      "revId": "81887e90d9b71e89c0b627bf43c7f852f3b5ad35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

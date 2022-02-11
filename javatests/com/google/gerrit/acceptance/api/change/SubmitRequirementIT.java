@@ -78,6 +78,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -2742,6 +2743,77 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     changeInfos = gApi.changes().query("label:LC=OK").get();
     assertThat(changeInfos.get(0).changeId).isEqualTo(changeId);
     assertThat(gApi.changes().query("label:LC=NEED").get()).isEmpty();
+  }
+
+  @Test
+  public void stalenessCheckerReindexesTheChangeIfRefsMetaConfigIsStale() throws Exception {
+    // 1. Config submit requirement
+    // 2. Create a change
+    // 3. Query -> Make sure SR is correct
+    // 4. Update the SR
+    // 5. Query -> SR result is stale
+    // 6. Reindex the change if stale -> detector says the change is stale
+    // 7. Query change -> SR is not stale
+
+    // 1. Config submit requirement
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.maxCodeReview())
+            .setAllowOverrideInChildProjects(true)
+            .build());
+
+    // 2. Create a change
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    voteLabel(changeId, "Code-Review", +1);
+    // 3. Query the change. SR is unsatisfied because MAX (+2) vote is required
+    List<ChangeInfo> changeInfos =
+        gApi.changes().query("status:open").withOption(ListChangesOption.SUBMIT_REQUIREMENTS).get();
+    assertThat(changeInfos).hasSize(1);
+    assertSubmitRequirementStatus(
+        changeInfos.stream()
+            .flatMap(c -> c.submitRequirements.stream())
+            .collect(Collectors.toList()),
+        /* requirementName= */ "Code-Review",
+        Status.UNSATISFIED,
+        /* isLegacy= */ false);
+
+    // 4. Update the SR to make it satisfied for the change
+    clearSubmitRequirements(project);
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+1"))
+            .setAllowOverrideInChildProjects(true)
+            .build());
+    // 5. Query the change. SR is still unsatisfied (i.e. change data are stale)
+    changeInfos =
+        gApi.changes().query("status:open").withOption(ListChangesOption.SUBMIT_REQUIREMENTS).get();
+    assertThat(changeInfos).hasSize(1);
+    assertSubmitRequirementStatus(
+        changeInfos.stream()
+            .flatMap(c -> c.submitRequirements.stream())
+            .collect(Collectors.toList()),
+        /* requirementName= */ "Code-Review",
+        Status.UNSATISFIED,
+        /* isLegacy= */ false);
+
+    // 6. Reindex the change if stale. Staleness checker re-indexes the change successfully
+    indexer.reindexIfStale(project, r.getChange().getId()).get();
+    // 7. Query the change. SR is not stale anymore
+    changeInfos =
+        gApi.changes().query("status:open").withOption(ListChangesOption.SUBMIT_REQUIREMENTS).get();
+    assertThat(changeInfos).hasSize(1);
+    assertSubmitRequirementStatus(
+        changeInfos.stream()
+            .flatMap(c -> c.submitRequirements.stream())
+            .collect(Collectors.toList()),
+        /* requirementName= */ "Code-Review",
+        Status.SATISFIED,
+        /* isLegacy= */ false);
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

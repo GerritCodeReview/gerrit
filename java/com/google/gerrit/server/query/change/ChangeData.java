@@ -1285,6 +1285,17 @@ public class ChangeData {
                       RefState.create(
                           RefNames.refsDraftComments(getId(), r.getKey()), r.getValue())));
 
+      // Add REFS_CONFIG for current project and all parent projects. This is needed so that a
+      // change to the project's config (e.g. label or submit-requirement change) is detected
+      // by the staleness checker and allows the change to be re-indexed.
+      Iterable<ProjectState> projectStates = projectCache.get(project).get().treeInOrder();
+      projectStates.forEach(
+          projectState ->
+              result.put(
+                  projectState.getNameKey(),
+                  RefState.create(
+                      RefNames.REFS_CONFIG, projectState.getConfig().getRevision().get())));
+
       refStates = result.build();
     }
 

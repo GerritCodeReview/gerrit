@@ -42,6 +42,7 @@ import {CURRENT} from '../../../utils/patch-set-util';
 import {isInvolved, isRemovableReviewer} from '../../../utils/change-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {getBaseUrl} from '../../../utils/url-util';
 import {css, html, LitElement} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 
@@ -107,6 +108,9 @@ export class GrHovercardAccount extends base {
         .voteable {
           padding: var(--spacing-s) var(--spacing-l);
         }
+        .links {
+          padding: var(--spacing-l) var(--spacing-xxl);
+        }
         .statusPlugin {
           padding: var(--spacing-l) var(--spacing-l) var(--spacing-m);
         }
@@ -150,6 +154,17 @@ export class GrHovercardAccount extends base {
           position: relative;
           top: 3px;
         }
+        iron-icon.linkIcon {
+          width: var(--line-height-normal, 20px);
+          height: var(--line-height-normal, 20px);
+          vertical-align: top;
+          color: var(--deemphasized-text-color);
+          padding-right: 12px;
+        }
+        .links a {
+          color: var(--link-color);
+          padding: 0px 4px;
+        }
         .reason {
           padding-top: var(--spacing-s);
         }
@@ -178,6 +193,7 @@ export class GrHovercardAccount extends base {
         </div>
       </div>
       ${this.renderAccountStatusPlugins()} ${this.renderAccountStatus()}
+      ${this.renderLinks()}
       ${this.voteableText
         ? html`
             <div class="voteable">
@@ -229,6 +245,16 @@ export class GrHovercardAccount extends base {
         </gr-endpoint-decorator>
       </div>
     `;
+  }
+
+  private renderLinks() {
+    return html` <div class="links">
+      <iron-icon class="linkIcon" icon="gr-icons:link"></iron-icon
+      ><a href="${this.computeOwnerChangesLink()}">Changes</a>·<a
+        href="${this.computeOwnerDashboardLink()}"
+        >Dashboard</a
+      >
+    </div>`;
   }
 
   private renderAccountStatus() {
@@ -315,6 +341,14 @@ export class GrHovercardAccount extends base {
   computePronoun() {
     if (!this.account || !this._selfAccount) return '';
     return isSelf(this.account, this._selfAccount) ? 'Your' : 'Their';
+  }
+
+  computeOwnerChangesLink() {
+    return `${getBaseUrl()}/q/owner:${this.account.email}`;
+  }
+
+  computeOwnerDashboardLink() {
+    return `${getBaseUrl()}/dashboard/${this.account.email}`;
   }
 
   get isAttentionEnabled() {

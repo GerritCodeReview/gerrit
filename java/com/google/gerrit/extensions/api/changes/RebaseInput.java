@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import java.util.Map;
+
 public class RebaseInput {
   public String base;
 
@@ -24,4 +26,6 @@ public class RebaseInput {
    * to indicate the conflicts.
    */
   public boolean allowConflicts;
+
+  public Map<String, String> validationOptions;
 }

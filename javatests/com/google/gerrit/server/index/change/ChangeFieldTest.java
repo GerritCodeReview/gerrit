@@ -27,6 +27,10 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.testing.FakeStoredValue;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -86,6 +90,18 @@ public class ChangeFieldTest {
                         label(SubmitRecord.Label.Status.OK, "Label-2", 1))),
                 Account.id(1)))
         .containsExactly("OK", "MAY,label-1", "OK,label-2", "OK,label-2,0", "OK,label-2,1");
+  }
+
+  @Test
+  public void formatSubmitRequirementValues() {
+    assertThat(
+            ChangeField.formatSubmitRequirementValues(
+                ImmutableList.of(
+                    submitRequirementResult(
+                        "CR", "label:CR=+1", SubmitRequirementExpressionResult.Status.PASS),
+                    submitRequirementResult(
+                        "LC", "label:LC=+1", SubmitRequirementExpressionResult.Status.FAIL))))
+        .containsExactly("MAY,cr", "OK,cr", "NEED,lc", "REJECT,lc");
   }
 
   @Test
@@ -159,6 +175,25 @@ public class ChangeFieldTest {
       r.labels = ImmutableList.copyOf(labels);
     }
     return r;
+  }
+
+  private SubmitRequirementResult submitRequirementResult(
+      String srName, String submitExpr, SubmitRequirementExpressionResult.Status submitExprStatus) {
+    return SubmitRequirementResult.builder()
+        .submitRequirement(
+            SubmitRequirement.builder()
+                .setName(srName)
+                .setSubmittabilityExpression(SubmitRequirementExpression.create("NA"))
+                .setAllowOverrideInChildProjects(false)
+                .build())
+        .submittabilityExpressionResult(
+            SubmitRequirementExpressionResult.create(
+                SubmitRequirementExpression.create(submitExpr),
+                submitExprStatus,
+                ImmutableList.of(submitExpr),
+                ImmutableList.of()))
+        .patchSetCommitId(ObjectId.zeroId())
+        .build();
   }
 
   private static SubmitRecord.Label label(

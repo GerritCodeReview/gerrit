@@ -1209,8 +1209,17 @@ public class ChangeField {
   }
 
   public static List<String> formatSubmitRecordValues(ChangeData cd) {
-    return formatSubmitRecordValues(
-        cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
+    List<String> submitRecordValues =
+        formatSubmitRecordValues(
+            cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
+    // Also backfill results of submit requirements such that users can query submit requirement
+    // results using the label operator, for example a query with "label:CR=NEED" will match with
+    // changes that have a submit-requirement with name="CR" and status=UNSATISFIED.
+    // Reason: We are preserving backward compatibility of the operators `label:$name=$status`
+    // which were previously working with submit records. Now admins can configure submit
+    // requirements and continue querying them with the label operator.
+    submitRecordValues.addAll(formatSubmitRequirementValues(cd.submitRequirements().values()));
+    return submitRecordValues;
   }
 
   @VisibleForTesting
@@ -1231,6 +1240,46 @@ public class ChangeField {
             result.add(slc + ChangeQueryBuilder.OWNER_ACCOUNT_ID.get());
           }
         }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Generate submit requirement result formats that are compatible with the legacy submit record
+   * statuses.
+   */
+  @VisibleForTesting
+  static List<String> formatSubmitRequirementValues(Collection<SubmitRequirementResult> srResults) {
+    List<String> result = new ArrayList<>();
+    for (SubmitRequirementResult srResult : srResults) {
+      switch (srResult.status()) {
+        case SATISFIED:
+        case OVERRIDDEN:
+          result.add(
+              SubmitRecord.Label.Status.OK.name()
+                  + ","
+                  + srResult.submitRequirement().name().toLowerCase());
+          result.add(
+              SubmitRecord.Label.Status.MAY.name()
+                  + ","
+                  + srResult.submitRequirement().name().toLowerCase());
+          break;
+        case UNSATISFIED:
+          result.add(
+              SubmitRecord.Label.Status.NEED.name()
+                  + ","
+                  + srResult.submitRequirement().name().toLowerCase());
+          result.add(
+              SubmitRecord.Label.Status.REJECT.name()
+                  + ","
+                  + srResult.submitRequirement().name().toLowerCase());
+          break;
+        default:
+          result.add(
+              SubmitRecord.Label.Status.IMPOSSIBLE.name()
+                  + ","
+                  + srResult.submitRequirement().name().toLowerCase());
       }
     }
     return result;

@@ -804,6 +804,19 @@ Matches changes where the submit rules indicate that a label named
 `Non-Author-Code-Review` is needed. (See the
 link:prolog-cookbook.html#NonAuthorCodeReview[Prolog Cookbook] for how
 this label can be configured.)
++
+This operator also matches changes that define a submit requirement named
+`Non-Author-Code-Review` whose result is either `NEED` or `REJECT`.
+
+`label:Non-Author-Code-Review=ok`::
++
+Matches changes where the submit rules indicate that a label named
+`Non-Author-Code-Review` is fulfilled. (See the
+link:prolog-cookbook.html#NonAuthorCodeReview[Prolog Cookbook] for how
+this label can be configured.)
++
+This operator also matches changes that define a submit requirement named
+`Non-Author-Code-Review` whose result is either `SATISFIED` or `OVERRIDDEN`.
 
 `label:Code-Review=+2,aname`::
 `label:Code-Review=ok,aname`::

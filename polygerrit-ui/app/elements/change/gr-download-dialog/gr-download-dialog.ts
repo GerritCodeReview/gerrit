@@ -153,10 +153,10 @@ export class GrDownloadDialog extends LitElement {
   }
 
   private renderDownloadCommands() {
-    if (!this.schemes.length) return;
+    const cssClass = this.schemes.length ? '' : 'hidden';
 
     return html`
-      <section>
+      <section class=${cssClass}>
         <gr-download-commands
           id="downloadCommands"
           .commands=${this.computeDownloadCommands()}
@@ -216,7 +216,8 @@ export class GrDownloadDialog extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('schemes')) {
+    if (changedProperties.has('change') ||
+        changedProperties.has('patchNum')) {
       this.schemesChanged();
     }
   }

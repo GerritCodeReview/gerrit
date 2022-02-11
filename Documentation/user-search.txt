@@ -798,12 +798,25 @@ are supported.
 Note that a query like `label:Code-Review=+1,count<x` will not match with
 changes having zero +1 votes to this label.
 
-`label:Non-Author-Code-Review=need`::
+`label:Non-Author-Code-Review=need` (deprecated)::
 +
 Matches changes where the submit rules indicate that a label named
 `Non-Author-Code-Review` is needed. (See the
 link:prolog-cookbook.html#NonAuthorCodeReview[Prolog Cookbook] for how
 this label can be configured.)
++
+This operator is also compatible with
+link:config-submit-requirements.html[submit requirement] results. A submit
+requirement name could be used instead of the label name. The submit record
+statuses are mapped to submit requirement result statuses as follows:
++
+  * {`need`, `reject`} -> {`UNSATISFED`}
+  * {`ok`, `may`} -> {`SATISFIED`, `OVERRIDDEN`}
++
+For example, a query like `label:Code-Review=ok` will also match changes
+having a submit requirement with a result that is either `SATISFIED` or
+`OVERRIDDEN`. Users are encouraged not to rely on this operator since submit
+records are deprecated.
 
 `label:Code-Review=+2,aname`::
 `label:Code-Review=ok,aname`::

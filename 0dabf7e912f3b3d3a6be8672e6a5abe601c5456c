@@ -69,6 +69,24 @@
       "parentUuid": "da0aa4c7_4eff5b59",
       "revId": "0dabf7e912f3b3d3a6be8672e6a5abe601c5456c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad1168a0_f0d73ae9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-11T08:36:19Z",
+      "side": 1,
+      "message": "Yes, we have a weekly sheriff rotation and one of the sheriff tasks is to check changes that need LC. Unfortunately the query that the sheriff is using to find such changes is currently broken, due to rollout of submit requirements. So currently it might happen that changes are missed.",
+      "parentUuid": "95cf53d5_77b7286c",
+      "revId": "0dabf7e912f3b3d3a6be8672e6a5abe601c5456c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

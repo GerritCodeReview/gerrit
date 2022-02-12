@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad6c5e0e_cae71a5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T16:14:23Z",
+      "side": 1,
+      "message": "This is not accurate. In original change 45114, where this command was added t worked just fine. So that this is regression from this refactoring change 134334. Can you mention here for the reference the abbreviated Change-Id: of root cause of this regression: Id3ec26677.\n\nAlso given, this is a regression, we usually try to upload fixed to the oldest still supported release line, that is currently 3.3. Can you move that change to stable-3.3 branch?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64340f1d_95bb12dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T16:14:23Z",
+      "side": 1,
+      "message": "Remove this part, if you follow my suggestion.",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 13
+      },
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c513d285_bc6422dd",
@@ -49,6 +95,92 @@
       "side": 1,
       "message": "The job logs end up being a bit verbose but I think https://zuul.opendev.org/t/openstack/build/82be22c4e5b646438f0038851f3042f1/log/job-output.txt#30230-30264 shows this is working. Non recursive listings continue to show only the direct membership. Recursive listings include members from subgroups.",
       "parentUuid": "9eac8b3c_2e552dca",
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd2af9b1_11b55bde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T16:14:23Z",
+      "side": 1,
+      "message": "Thanks for flagging this regression and for the fix. Also it would be great to find a way to test it.",
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d91a47dd_810e3384",
+        "filename": "java/com/google/gerrit/server/restapi/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T16:14:23Z",
+      "side": 1,
+      "message": "Keep this private.",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 11
+      },
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd19a663_af557abe",
+        "filename": "java/com/google/gerrit/server/restapi/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T16:14:23Z",
+      "side": 1,
+      "message": "private\n\nLooking at the root cause of the problem, apply() method was erroneously replaced with getDirectMembers().\n\nMy idea is to reverse this by adding new protected method:\n\n  protected List\u003cAccountInfo\u003e getMembers(InternalGroup group) {\n    if (recursive) {\n      return getTransitiveMembers(group);\n    } else {\n      return getDirectMembers(group);\n    }\n  }",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 8
+      },
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df5bb62f_4e6458a0",
+        "filename": "java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T16:14:23Z",
+      "side": 1,
+      "message": "See my other comments, so that this can just be:\n\n  List\u003cAccountInfo\u003e members \u003d getMembers(group.get());",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 7
+      },
       "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

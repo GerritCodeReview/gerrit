@@ -39,7 +39,7 @@ async function main() {
     process.exit(1);
   }
 
-  const jsonRedirects: JSONRedirects = JSON.parse(fs.readFileSync(process.argv[3], {encoding: "utf-8"}));
+  const jsonRedirects: JSONRedirects = JSON.parse(fs.readFileSync(process.argv[3], {encoding: "utf-8"})) as JSONRedirects;
   const redirectsResolver = new RedirectsResolver(jsonRedirects.redirects);
 
   const input = readMultilineParamFile(process.argv[2]);

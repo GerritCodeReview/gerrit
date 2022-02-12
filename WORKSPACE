@@ -58,9 +58,13 @@ protobuf_deps()
 
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "d63ecec7192394f5cc4ad95a115f8a6c9de55c60d56c1f08da79c306355e4654",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/4.6.1/rules_nodejs-4.6.1.tar.gz"],
+    sha256 = "c077680a307eb88f3e62b0b662c2e9c6315319385bc8c637a861ffdbed8ca247",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.1.0/rules_nodejs-5.1.0.tar.gz"],
 )
+
+load("@build_bazel_rules_nodejs//:repositories.bzl", "build_bazel_rules_nodejs_dependencies")
+
+build_bazel_rules_nodejs_dependencies()
 
 http_archive(
     name = "rules_pkg",
@@ -151,7 +155,6 @@ yarn_install(
     name = "npm",
     frozen_lockfile = False,
     package_json = "//:package.json",
-    package_path = "",
     yarn_lock = "//:yarn.lock",
 )
 
@@ -170,7 +173,6 @@ yarn_install(
     ],
     frozen_lockfile = False,
     package_json = "//:polygerrit-ui/app/package.json",
-    package_path = "polygerrit-ui/app",
     yarn_lock = "//:polygerrit-ui/app/yarn.lock",
 )
 
@@ -178,7 +180,6 @@ yarn_install(
     name = "ui_dev_npm",
     frozen_lockfile = False,
     package_json = "//:polygerrit-ui/package.json",
-    package_path = "polygerrit-ui",
     yarn_lock = "//:polygerrit-ui/yarn.lock",
 )
 
@@ -186,7 +187,6 @@ yarn_install(
     name = "tools_npm",
     frozen_lockfile = False,
     package_json = "//:tools/node_tools/package.json",
-    package_path = "tools/node_tools",
     yarn_lock = "//:tools/node_tools/yarn.lock",
 )
 
@@ -195,7 +195,6 @@ yarn_install(
     args = ["--prod"],
     frozen_lockfile = False,
     package_json = "//:plugins/package.json",
-    package_path = "plugins",
     yarn_lock = "//:plugins/yarn.lock",
 )
 

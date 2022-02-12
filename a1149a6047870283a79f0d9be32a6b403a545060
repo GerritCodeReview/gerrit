@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "efa4358a_f4702fa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T08:48:33Z",
+      "side": 1,
+      "message": "Add the bug reference as normal commit footer:\n\n  Bug: Issue 15686",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "a1149a6047870283a79f0d9be32a6b403a545060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed5a5dd2_d78a7666",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T08:48:33Z",
+      "side": 1,
+      "message": "\"Release Notes: skip\" is now required. See this announcement: [1].\n\n[1] https://groups.google.com/g/repo-discuss/c/F_GBFb9yNaQ",
+      "revId": "a1149a6047870283a79f0d9be32a6b403a545060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "639be6e9_307bbad9",
@@ -14,6 +54,23 @@
       "writtenOn": "2022-02-12T01:14:48Z",
       "side": 1,
       "message": "It works: the GUI is alive again and I can see the changes table.",
+      "revId": "a1149a6047870283a79f0d9be32a6b403a545060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61338626_242fde9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T08:48:33Z",
+      "side": 1,
+      "message": "Thanks, Luca.\n\nI uploaded alternative fix in change 330239, but I\u0027m fine to revert first and upload a proper fix.",
       "revId": "a1149a6047870283a79f0d9be32a6b403a545060",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

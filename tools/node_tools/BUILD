@@ -32,12 +32,12 @@ nodejs_binary(
     name = "tsc_wrapped-bin",
     # Point bazel to your node_modules to find the entry point
     data = [
-        "@tools_npm//@bazel/typescript",
+        "@tools_npm//@bazel/concatjs",
         "@tools_npm//typescript",
     ],
     # It seems, bazel uses different approaches to compile ts files (it runs some
     # ts service in background). It works without any workaround.
-    entry_point = "@tools_npm//:node_modules/@bazel/typescript/internal/tsc_wrapped/tsc_wrapped.js",
+    entry_point = "@tools_npm//:node_modules/@bazel/concatjs/internal/tsc_wrapped/tsc_wrapped.js",
 )
 
 # Wrap a typescript into a tsc-bin binary.

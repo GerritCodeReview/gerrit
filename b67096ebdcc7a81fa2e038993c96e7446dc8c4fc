@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ada2011_c2375956",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T15:31:09Z",
+      "side": 1,
+      "message": "Moved to stable-3.3 branch, as 3.2 release line is discontinued. Done.",
+      "parentUuid": "e7c12248_1de9a67f",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "b67096ebdcc7a81fa2e038993c96e7446dc8c4fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f66b42f3_0ea67dad",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-12-02T22:59:58Z",
       "side": 1,
       "message": "The REST-API docs were updated, but not the SSH-API command.\nOther flags also are missing, as you mentioned.",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 33
+      },
+      "revId": "b67096ebdcc7a81fa2e038993c96e7446dc8c4fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8ff9fc4_76c77d59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T15:31:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f66b42f3_0ea67dad",
       "range": {
         "startLine": 11,
         "startChar": 10,

@@ -492,20 +492,39 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@bazel/rollup@^3.0.0-rc.1":
-  version "3.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-3.0.0-rc.1.tgz#153fb7ca556dfb0397aa3a86cbef71bcefb00733"
-  integrity sha512-O2WGfDw17aiQfUF6t5aL1kbVGeR6BnCImmtCOoFf1I8/Nw0dx+iE9x2qfqPyvSivZRuL2EBTI+xUcti42bpWgA==
-
-"@bazel/typescript@^3.0.0-rc.1":
-  version "3.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-3.0.0-rc.1.tgz#4a80682124475db63abc97b7da358caaadbd3077"
-  integrity sha512-KaGaCEbXjCKaRuwH/hLjW7aBuNyU8p/9yUe4KlP4KKoRqHAmjYISbUOw7VAksOW6BxXHgknOcZYaVF6PzE4CgQ==
+"@bazel/concatjs@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@bazel/concatjs/-/concatjs-5.1.0.tgz#f4321dec4a225c3ceac41b2dc7ec7c3dd3dd5e21"
+  integrity sha512-sj+vxHVB/swh7awOfQ37h3p/gxSPgLSnUkDt6POrj26qkfi7HrLB1ZkWAPFIIxjEhsBp1LchoHiezjw2GylZQg==
   dependencies:
+    protobufjs "6.8.8"
+    source-map-support "0.5.9"
+    tsutils "3.21.0"
+
+"@bazel/rollup@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-5.1.0.tgz#dc858ddc93c9fdb9cc2e7982e632c939c646ebdc"
+  integrity sha512-wEiWdSyVbsycSirSYjR6FGfPGbRNI7sGNAYmrV0hIzYIi+KqXeTNcwKIRSE9PESP3mb0VWbZmHvXvmrWk6daPQ==
+  dependencies:
+    "@bazel/worker" "5.1.0"
+
+"@bazel/typescript@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-5.1.0.tgz#348552355cc92a43f22e637fabce76ed64505548"
+  integrity sha512-E7wYv1tBFtcsFp0YN7Cf9Lv184xOzvT5WJKwZxt+43oq8R5tGmTSuqQwm4c9JmEq6s0eZmwUaRv+WXp9hxsE4A==
+  dependencies:
+    "@bazel/worker" "5.1.0"
     protobufjs "6.8.8"
     semver "5.6.0"
     source-map-support "0.5.9"
-    tsutils "2.27.2"
+    tsutils "3.21.0"
+
+"@bazel/worker@5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@bazel/worker/-/worker-5.1.0.tgz#6f1e0f3ef628e3449d424cacd341c9abd09a3735"
+  integrity sha512-u3aU93UtHz3vL6ozezq0jnw83s1cNT4dAnW+vvB7M++YKFlB3CWzZFb0JRJbCp1b6DDe30ML0WOdd3nVYuylpw==
+  dependencies:
+    google-protobuf "^3.6.1"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"

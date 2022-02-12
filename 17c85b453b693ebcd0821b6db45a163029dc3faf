@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d00e4af0_2f1ef4cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T19:56:12Z",
+      "side": 1,
+      "message": "Optional: Add a working configuration file for Gitea, may be as a follow-up change? For example, in: Documentation/config-gitweb.txt some alternative are already mentioned:\n\n  \u003d\u003d\u003d Alternatives to gitweb\n  There are other alternatives to gitweb that can also be used\n  with Gerrit, such as cgit.\n\nJust extend this section and add some specifics for Gitea configuration?",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27f8a974_0c2aeed5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T19:56:12Z",
+      "side": 1,
+      "message": "Release-Notes footer is missing.",
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4c81afe0_4362fcfc",
@@ -31,6 +71,178 @@
       "writtenOn": "2022-02-01T21:15:35Z",
       "side": 1,
       "message": "We have tested this via a depends on in our downstream Gerrit using Zuul. In this case a change to implement gitea links has been written, https://review.opendev.org/c/opendev/system-config/+/825339/, that depends on this change in Gerrit\u0027s Gerrit. We then followed that up with a change that forces a failure so that we can examine the test node directly. This all works because Zuul is able to mix in the pre merge state from this upstream change with our downstream Gerrit tree when we build our Gerrit docker images.\n\nIf you\u0027d like to see what this all results in your can visit https://172.99.69.247/c/x/test-project/+/3/1/file-3.txt and check the gitea link there (it includes the change hash as anticipated). Note that test server has a self signed cert that you\u0027ll need to tell your browser to ignore.\n\nThought I would point out this neat Zuul functionality and how it can help us enable further collaboration. In particular if there are specific features where it would be useful to test Gerrit upstream changes with a semi real world deployment we can probably arrange to hold that node in the same manner.",
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d85484d6_d4fb9690",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T19:56:12Z",
+      "side": 1,
+      "message": "A test is missing. I cherry-picked this change to master branch, and tried to address some of my comments, and added new test and (with addition of fileWebLinks in ExtensionRegistry). My version is here: [1].\n\n[1] https://paste.opendev.org/show/bUXy4NeLmPQTtBf9JzQL",
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3a35e7a_c674c4c1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2500,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T19:56:12Z",
+      "side": 1,
+      "message": "Elaborate here whether or not base patch set presents:\n\n  revA \u003d basePatchSet !\u003d null ? basePatchSet.refName() : sideA.fileInfo().commitId;",
+      "range": {
+        "startLine": 2500,
+        "startChar": 57,
+        "endLine": 2500,
+        "endChar": 72
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9d42991_68b880f0",
+        "filename": "java/com/google/gerrit/extensions/webui/FileWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T19:56:12Z",
+      "side": 1,
+      "message": "May be consistently use SHA-1 or commit ID?",
+      "range": {
+        "startLine": 52,
+        "startChar": 17,
+        "endLine": 52,
+        "endChar": 21
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61e194ff_103d8152",
+        "filename": "java/com/google/gerrit/extensions/webui/FileWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T19:56:12Z",
+      "side": 1,
+      "message": "This smells like a bad design, because the GitilesWeblinks class is still using the method without hash parameter, but GetDiff REST endpoint uses the one with hash parameter.\n\nJust add String hash parameter to the existing FileWebLink#getFileWebLink() method, and don\u0027t add addition method to the interface.",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 3
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80d32e81_347e7de6",
+        "filename": "java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T19:56:12Z",
+      "side": 1,
+      "message": "Extend Javadocs.",
+      "range": {
+        "startLine": 114,
+        "startChar": 3,
+        "endLine": 119,
+        "endChar": 5
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b65f8f34_dfa0e836",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T19:56:12Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 206,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 11
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7730f2ce_c199a811",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T19:56:12Z",
+      "side": 1,
+      "message": "Not needed, here and below in log statement.",
+      "range": {
+        "startLine": 214,
+        "startChar": 6,
+        "endLine": 214,
+        "endChar": 11
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f982165_20f574f6",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-12T19:56:12Z",
+      "side": 1,
+      "message": "This should be tested. Luckily, with plugin registration, it should be easy to add a test.",
       "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -56,8 +56,3 @@
 	path = plugins/webhooks
 	url = ../plugins/webhooks
 	branch = .
-
-[submodule "polymer-bridges"]
-	path = polymer-bridges
-	url = ../polymer-bridges
-	branch = .

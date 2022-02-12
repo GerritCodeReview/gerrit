@@ -894,8 +894,8 @@ suite('gr-diff tests', () => {
   });
 
   suite('trailing newline warnings', () => {
-    const NO_NEWLINE_BASE = 'No newline at end of base file.';
-    const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
+    const NO_NEWLINE_LEFT = 'No newline at end of left file.';
+    const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
 
     const getWarning = element =>
       element.shadowRoot.querySelector('.newlineWarning').textContent;
@@ -910,40 +910,40 @@ suite('gr-diff tests', () => {
       element.showNewlineWarningLeft = true;
       element.showNewlineWarningRight = true;
       assert.include(getWarning(element),
-          NO_NEWLINE_BASE + ' \u2014 ' + NO_NEWLINE_REVISION);// \u2014 - '—'
+          NO_NEWLINE_LEFT + ' \u2014 ' + NO_NEWLINE_RIGHT);// \u2014 - '—'
     });
 
     suite('showNewlineWarningLeft', () => {
       test('show warning if true', () => {
         element.showNewlineWarningLeft = true;
-        assert.include(getWarning(element), NO_NEWLINE_BASE);
+        assert.include(getWarning(element), NO_NEWLINE_LEFT);
       });
 
       test('hide warning if false', () => {
         element.showNewlineWarningLeft = false;
-        assert.notInclude(getWarning(element), NO_NEWLINE_BASE);
+        assert.notInclude(getWarning(element), NO_NEWLINE_LEFT);
       });
 
       test('hide warning if undefined', () => {
         element.showNewlineWarningLeft = undefined;
-        assert.notInclude(getWarning(element), NO_NEWLINE_BASE);
+        assert.notInclude(getWarning(element), NO_NEWLINE_LEFT);
       });
     });
 
     suite('showNewlineWarningRight', () => {
       test('show warning if true', () => {
         element.showNewlineWarningRight = true;
-        assert.include(getWarning(element), NO_NEWLINE_REVISION);
+        assert.include(getWarning(element), NO_NEWLINE_RIGHT);
       });
 
       test('hide warning if false', () => {
         element.showNewlineWarningRight = false;
-        assert.notInclude(getWarning(element), NO_NEWLINE_REVISION);
+        assert.notInclude(getWarning(element), NO_NEWLINE_RIGHT);
       });
 
       test('hide warning if undefined', () => {
         element.showNewlineWarningRight = undefined;
-        assert.notInclude(getWarning(element), NO_NEWLINE_REVISION);
+        assert.notInclude(getWarning(element), NO_NEWLINE_RIGHT);
       });
     });
 

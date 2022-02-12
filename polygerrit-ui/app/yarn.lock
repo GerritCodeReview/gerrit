@@ -814,8 +814,9 @@ path-to-regexp@~1.2.1:
   dependencies:
     isarray "0.0.1"
 
-"polymer-bridges@file:../../polymer-bridges":
+"polymer-bridges@https://github.com/GerritCodeReview/polymer-bridges":
   version "1.0.0"
+  resolved "https://github.com/GerritCodeReview/polymer-bridges#855f4781b702de120953a64da5c277ea4908deaa"
 
 polymer-resin@^2.0.1:
   version "2.0.1"

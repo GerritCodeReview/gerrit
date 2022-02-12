@@ -4,9 +4,10 @@
   "description": "Gerrit Code Review",
   "dependencies": {},
   "devDependencies": {
-    "@bazel/rollup": "^3.0.0-rc.1",
-    "@bazel/terser": "^3.0.0-rc.1",
-    "@bazel/typescript": "^3.0.0-rc.1",
+    "@bazel/concatjs": "^5.1.0",
+    "@bazel/rollup": "^5.1.0",
+    "@bazel/terser": "^5.1.0",
+    "@bazel/typescript": "^5.1.0",
     "eslint": "^6.6.0",
     "eslint-config-google": "^0.13.0",
     "eslint-plugin-html": "^6.0.0",

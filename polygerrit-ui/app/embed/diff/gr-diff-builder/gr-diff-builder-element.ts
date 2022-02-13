@@ -53,6 +53,7 @@ import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
+import {GrDiffBuilderLit} from './gr-diff-builder-lit';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
@@ -334,11 +335,9 @@ export class GrDiffBuilderElement extends PolymerElement {
     return this.getContentTdByLine(line, side, row);
   }
 
-  getLineElByNumber(lineNumber: LineNumber, side?: Side) {
-    const sideSelector = side ? '.' + side : '';
-    return this.diffElement.querySelector(
-      `.lineNum[data-value="${lineNumber}"]${sideSelector}`
-    );
+  getLineElByNumber(lineNumber: LineNumber, side: Side) {
+    if (!this._builder) return null;
+    return this._builder.getLineElByNumber(lineNumber, side);
   }
 
   /**
@@ -394,11 +393,15 @@ export class GrDiffBuilderElement extends PolymerElement {
    */
   private rerenderSection(
     newGroups: readonly GrDiffGroup[],
-    sectionEl: HTMLElement
+    sectionEl?: HTMLElement
   ) {
     if (!this._builder) return;
+    if (!newGroups.length) return;
 
-    const contextIndex = this._builder.getIndexOfSection(sectionEl);
+    const contextIndex = this._builder.getIndexOfSection(
+      sectionEl,
+      newGroups[0]
+    );
     this._builder.spliceGroups(contextIndex, 1, ...newGroups);
 
     setTimeout(() => fireEvent(this, 'render-content'), 1);
@@ -454,13 +457,24 @@ export class GrDiffBuilderElement extends PolymerElement {
       // If the diff is binary, but not an image.
       return new GrDiffBuilderBinary(this.diff, localPrefs, this.diffElement);
     } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-      builder = new GrDiffBuilderSideBySide(
-        this.diff,
-        localPrefs,
-        this.diffElement,
-        this._layers,
-        this.renderPrefs
-      );
+      const useLit = this.renderPrefs?.use_lit_components;
+      if (useLit) {
+        builder = new GrDiffBuilderLit(
+          this.diff,
+          localPrefs,
+          this.diffElement,
+          this._layers,
+          this.renderPrefs
+        );
+      } else {
+        builder = new GrDiffBuilderSideBySide(
+          this.diff,
+          localPrefs,
+          this.diffElement,
+          this._layers,
+          this.renderPrefs
+        );
+      }
     } else if (this.viewMode === DiffViewMode.UNIFIED) {
       builder = new GrDiffBuilderUnified(
         this.diff,

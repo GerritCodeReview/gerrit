@@ -22,8 +22,7 @@ import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 import {createTabWrapper, formatText, createElementDiff} from '../gr-diff/gr-diff-utils.js';
-import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
-import {GrDiffBuilder} from './gr-diff-builder.js';
+import {GrDiffGroup, GrDiffGroupType, isTotal} from '../gr-diff/gr-diff-group.js';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {DiffViewMode, Side} from '../../../api/diff.js';
@@ -260,7 +259,7 @@ suite('gr-diff-builder tests', () => {
         lines.push(new GrDiffLine(GrDiffLineType.ADD));
       }
       const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      assert.isTrue(GrDiffBuilder.prototype.isTotal(group));
+      assert.isTrue(isTotal(group));
     });
 
     test('is total for remove', () => {
@@ -269,12 +268,12 @@ suite('gr-diff-builder tests', () => {
         lines.push(new GrDiffLine(GrDiffLineType.REMOVE));
       }
       const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      assert.isTrue(GrDiffBuilder.prototype.isTotal(group));
+      assert.isTrue(isTotal(group));
     });
 
     test('not total for empty', () => {
       const group = new GrDiffGroup({type: GrDiffGroupType.BOTH});
-      assert.isFalse(GrDiffBuilder.prototype.isTotal(group));
+      assert.isFalse(isTotal(group));
     });
 
     test('not total for non-delta', () => {
@@ -283,7 +282,7 @@ suite('gr-diff-builder tests', () => {
         lines.push(new GrDiffLine(GrDiffLineType.BOTH));
       }
       const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      assert.isFalse(GrDiffBuilder.prototype.isTotal(group));
+      assert.isFalse(isTotal(group));
     });
   });
 

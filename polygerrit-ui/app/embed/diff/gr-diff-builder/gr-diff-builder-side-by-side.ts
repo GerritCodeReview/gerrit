@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
+import {GrDiffGroup, GrDiffGroupType, isTotal} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {DiffViewMode, Side} from '../../../constants/constants';
@@ -46,7 +46,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
   protected override buildSectionElement(group: GrDiffGroup) {
     const sectionEl = createElementDiff('tbody', 'section');
     sectionEl.classList.add(group.type);
-    if (this.isTotal(group)) {
+    if (isTotal(group)) {
       sectionEl.classList.add('total');
     }
     if (group.dueToRebase) {

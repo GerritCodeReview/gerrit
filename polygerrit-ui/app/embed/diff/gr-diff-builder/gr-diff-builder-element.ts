@@ -53,6 +53,7 @@ import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
+import {GrDiffBuilderLit} from './gr-diff-builder-lit';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
@@ -454,13 +455,24 @@ export class GrDiffBuilderElement extends PolymerElement {
       // If the diff is binary, but not an image.
       return new GrDiffBuilderBinary(this.diff, localPrefs, this.diffElement);
     } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-      builder = new GrDiffBuilderSideBySide(
-        this.diff,
-        localPrefs,
-        this.diffElement,
-        this._layers,
-        this.renderPrefs
-      );
+      const useLit = this.renderPrefs?.use_lit_components;
+      if (useLit) {
+        builder = new GrDiffBuilderLit(
+          this.diff,
+          localPrefs,
+          this.diffElement,
+          this._layers,
+          this.renderPrefs
+        );
+      } else {
+        builder = new GrDiffBuilderSideBySide(
+          this.diff,
+          localPrefs,
+          this.diffElement,
+          this._layers,
+          this.renderPrefs
+        );
+      }
     } else if (this.viewMode === DiffViewMode.UNIFIED) {
       builder = new GrDiffBuilderUnified(
         this.diff,

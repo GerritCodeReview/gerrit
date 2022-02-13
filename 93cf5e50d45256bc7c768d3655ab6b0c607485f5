@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc7d6657_54f818f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-13T15:13:37Z",
+      "side": 1,
+      "message": "Release-Notes footer is now required.",
+      "revId": "93cf5e50d45256bc7c768d3655ab6b0c607485f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b5b60f8b_394194a2",
@@ -14,6 +31,29 @@
       "writtenOn": "2022-02-09T07:22:11Z",
       "side": 1,
       "message": "I just rebased, resolved conflicts and fixed the style issues.",
+      "revId": "93cf5e50d45256bc7c768d3655ab6b0c607485f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bc5371a_1a210e55",
+        "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-13T15:13:37Z",
+      "side": 1,
+      "message": "Curly brackets are required around if statements. It\u0027s strange that GJF doesn\u0027t enforce it.\n\nI know, that the condition was copied from another class:\n\n  \u0026\u0026 Strings.emptyToNull(authConfig.getHttpEmailHeader()) \u003d\u003d null\n\nbut it could be simplified using combined condition:\n\n  return Strings.isNullOrEmpty(httpEmailHeader) || httpAllowRegisterNewEmail;",
+      "range": {
+        "startLine": 357,
+        "startChar": 4,
+        "endLine": 358,
+        "endChar": 42
+      },
       "revId": "93cf5e50d45256bc7c768d3655ab6b0c607485f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

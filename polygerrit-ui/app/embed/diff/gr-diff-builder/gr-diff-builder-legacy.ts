@@ -66,6 +66,13 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     );
   }
 
+  override getLineElByNumber(lineNumber: LineNumber, side: Side) {
+    const sideSelector = side ? '.' + side : '';
+    return this.outputEl.querySelector(
+      `.lineNum[data-value="${lineNumber}"]${sideSelector}`
+    ) as HTMLElement | null;
+  }
+
   override getBlameTdByLine(lineNum: number): Element | undefined {
     return (
       this.outputEl.querySelector(`td.blame[data-line-number="${lineNum}"]`) ??

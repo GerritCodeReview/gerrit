@@ -31,7 +31,7 @@ import {DiffLayer} from '../../../types/types';
 export interface DiffContextExpandedEventDetail
   extends DiffContextExpandedExternalDetail {
   groups: GrDiffGroup[];
-  section: HTMLElement;
+  section?: HTMLElement;
   numLines: number;
 }
 
@@ -54,7 +54,7 @@ export interface DiffBuilder {
     deleteCount: number,
     ...addedGroups: GrDiffGroup[]
   ): GrDiffGroup[];
-  getIndexOfSection(sectionEl: HTMLElement): number;
+  getIndexOfSection(sectionEl?: HTMLElement, group?: GrDiffGroup): number;
   addColumns(outputEl: HTMLElement, fontSize: number): void;
   // TODO: Change `null` to `undefined`.
   getContentTdByLine(
@@ -62,6 +62,8 @@ export interface DiffBuilder {
     side?: Side,
     root?: Element
   ): Element | null;
+  // TODO: Change `null` to `undefined`.
+  getLineElByNumber(lineNumber: LineNumber, side: Side): HTMLElement | null;
   // TODO: Change `null` to `undefined`.
   setBlame(blame: BlameInfo[] | null): void;
   updateRenderPrefs(renderPrefs: RenderPreferences): void;
@@ -150,8 +152,18 @@ export abstract class GrDiffBuilder implements DiffBuilder {
 
   protected abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
 
-  getIndexOfSection(sectionEl: HTMLElement) {
-    return this.groups.findIndex(group => group.element === sectionEl);
+  getIndexOfSection(sectionEl?: HTMLElement, group?: GrDiffGroup) {
+    if (sectionEl) {
+      return this.groups.findIndex(g => g.element === sectionEl);
+    }
+    if (group) {
+      return this.groups.findIndex(
+        g =>
+          g.type === GrDiffGroupType.CONTEXT_CONTROL &&
+          g.contextGroups[0] === group
+      );
+    }
+    throw new Error('section or group must be provided');
   }
 
   spliceGroups(
@@ -188,7 +200,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     group.element = element;
   }
 
-  private getGroupsByLineRange(
+  protected getGroupsByLineRange(
     startLine: LineNumber,
     endLine: LineNumber,
     side: Side
@@ -212,6 +224,11 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     side?: Side,
     root?: Element
   ): Element | null;
+
+  abstract getLineElByNumber(
+    lineNumber: LineNumber,
+    side: Side
+  ): HTMLElement | null;
 
   protected abstract getBlameTdByLine(lineNum: number): Element | undefined;
 
@@ -248,13 +265,12 @@ export abstract class GrDiffBuilder implements DiffBuilder {
       let content: HTMLElement | null = null;
       for (const line of group.lines) {
         if (
-          (side === 'left' && line.type === GrDiffLineType.ADD) ||
-          (side === 'right' && line.type === GrDiffLineType.REMOVE)
+          (side === Side.LEFT && line.type === GrDiffLineType.ADD) ||
+          (side === Side.RIGHT && line.type === GrDiffLineType.REMOVE)
         ) {
           continue;
         }
-        const lineNumber =
-          side === 'left' ? line.beforeNumber : line.afterNumber;
+        const lineNumber = line.lineNumber(side);
         if (lineNumber < start || lineNumber > end) {
           continue;
         }
@@ -309,18 +325,6 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     movedInIndex: number;
     lineNumberCols: number[];
   };
-
-  /**
-   * Determines whether the given group is either totally an addition or totally
-   * a removal.
-   */
-  protected isTotal(group: GrDiffGroup): boolean {
-    return (
-      group.type === GrDiffGroupType.DELTA &&
-      (!group.adds.length || !group.removes.length) &&
-      !(!group.adds.length && !group.removes.length)
-    );
-  }
 
   /**
    * Set the blame information for the diff. For any already-rendered line,

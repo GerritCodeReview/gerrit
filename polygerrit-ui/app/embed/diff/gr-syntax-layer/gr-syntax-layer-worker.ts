@@ -77,6 +77,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
   }
 
   annotate(el: HTMLElement, _: HTMLElement, line: GrDiffLine) {
+    console.log(`syntax layer annotate ${line.beforeNumber}`);
     if (!this.enabled) return;
     if (line.beforeNumber === FILE || line.afterNumber === FILE) return;
     if (line.beforeNumber === 'LOST' || line.afterNumber === 'LOST') return;
@@ -101,6 +102,9 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     const rangesPerLine = isLeft ? this.leftRanges : this.rightRanges;
     const ranges = rangesPerLine[lineNumber - 1]?.ranges ?? [];
 
+    console.log(
+      `syntax layer annotate ranges ${line.beforeNumber} ${ranges.length}`
+    );
     for (const range of ranges) {
       if (!CLASS_SAFELIST.has(range.className)) continue;
       GrAnnotation.annotateElement(
@@ -162,6 +166,9 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     const rightPromise = this.highlight(rightLanguage, rightContent);
     this.leftRanges = await leftPromise;
     this.rightRanges = await rightPromise;
+    console.log(
+      `syntax layer processed ${this.leftRanges.length} ${this.rightRanges.length}`
+    );
     this.notify();
   }
 

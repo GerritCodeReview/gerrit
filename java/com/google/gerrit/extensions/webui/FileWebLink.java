@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 
 @ExtensionPoint
 public interface FileWebLink extends WebLink {
-
   /**
    * {@link com.google.gerrit.extensions.common.WebLinkInfo} describing a link from a file to an
    * external service.
@@ -32,8 +31,9 @@ public interface FileWebLink extends WebLink {
    *
    * @param projectName Name of the project
    * @param revision Name of the revision (e.g. branch or commit ID)
+   * @param hash SHA-1 of the commit
    * @param fileName Name of the file
    * @return WebLinkInfo that links to project in external service, null if there should be no link.
    */
-  WebLinkInfo getFileWebLink(String projectName, String revision, String fileName);
+  WebLinkInfo getFileWebLink(String projectName, String revision, String hash, String fileName);
 }

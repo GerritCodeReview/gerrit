@@ -185,6 +185,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this._target?.addEventListener('mouseleave', this.mouseDebounceHide);
       this._target?.addEventListener('blur', this.focusDebounceHide);
       this._target?.addEventListener('click', this.mouseHide);
+      document.addEventListener('click', this.mouseHide);
       if (this._target) {
         this.targetCleanups.push(
           addShortcut(this._target, {key: Key.ENTER}, (e: KeyboardEvent) => {
@@ -205,6 +206,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this._target?.removeEventListener('mouseleave', this.mouseDebounceHide);
       this._target?.removeEventListener('blur', this.focusDebounceHide);
       this._target?.removeEventListener('click', this.mouseHide);
+      document.removeEventListener('click', this.mouseHide);
       for (const cleanup of this.targetCleanups) {
         cleanup();
       }
@@ -339,18 +341,20 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       if (!this._isShowing) {
         return;
       }
-      if (!props?.keyboardEvent && this.openedByKeyboard) return;
+      // if opened by keyboard can be closed only by keyboard or by clicking
+      // outside
+      if (
+        !props?.keyboardEvent &&
+        this.openedByKeyboard &&
+        !this.isMouseClickOutside(props?.mouseEvent)
+      ) {
+        return;
+      }
       // If the user is clicking on a link and still hovering over the hovercard
       // or the user is returning from the hovercard but now hovering over the
       // target (to stop an annoying flicker effect), just return.
-      if (props?.mouseEvent) {
-        const e = props.mouseEvent;
-        if (
-          e.relatedTarget === this ||
-          (e.target === this && e.relatedTarget === this._target)
-        ) {
-          return;
-        }
+      if (this.mouseEventInsideHovercardOrTarget(props?.mouseEvent)) {
+        return;
       }
       if (this.openedByKeyboard) {
         if (this._target) {
@@ -377,6 +381,20 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.container.removeChild(this);
       }
     };
+
+    private isMouseClickOutside(e?: MouseEvent) {
+      return (
+        e && e.type === 'click' && !this.mouseEventInsideHovercardOrTarget(e)
+      );
+    }
+
+    private mouseEventInsideHovercardOrTarget(e?: MouseEvent) {
+      return (
+        e &&
+        (e.relatedTarget === this ||
+          (e.target === this && e.relatedTarget === this._target))
+      );
+    }
 
     /**
      * Shows/opens the hovercard with a fixed delay.

@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4090ab92_d9aecd40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-14T11:29:38Z",
+      "side": 1,
+      "message": "\u003e If this is the final solution I\u0027m concerned about the technical debt that we are adding here:\n\nI think in the final solution we should deprecate label: \u003cOK,NEED\u003e etc. We could already mark this functionality deprecated in docs now?\n\nThen we can follow the usual deprecation cycle (one release with marking as deprecated, then removing)\n\n\u003e I would prefer if all of this would be clearly documented for the label predicate.\n\n+1",
+      "parentUuid": "175e22c0_ad546b8d",
+      "range": {
+        "startLine": 35,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "a5448d743ad10bcdaf0f66f539f1e38b107e5e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "def08d08_df29b788",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
         "patchSetId": 4

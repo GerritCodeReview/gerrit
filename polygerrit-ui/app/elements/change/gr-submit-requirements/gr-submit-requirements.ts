@@ -193,9 +193,8 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   renderRequirement(requirement: SubmitRequirementResultInfo, index: number) {
-    return html`
-      <tr id="requirement-${index}-${charsOnly(requirement.name)}">
-        <td>${this.renderStatus(requirement.status)}</td>
+    const row = html`
+     <td>${this.renderStatus(requirement.status)}</td>
         <td class="name">
           <gr-limited-text
             class="name"
@@ -212,6 +211,21 @@ export class GrSubmitRequirements extends LitElement {
         </td>
       </tr>
     `;
+
+    if (!this.disableHovercards) {
+      return html`<tr
+        id="requirement-${index}-${charsOnly(requirement.name)}"
+        role="button"
+        tabindex="0"
+      >
+        ${row}
+      </tr>`;
+    } else {
+      return html`<tr>
+        ${row}
+      </tr>`;
+    }
+    return;
   }
 
   renderEndpoint(

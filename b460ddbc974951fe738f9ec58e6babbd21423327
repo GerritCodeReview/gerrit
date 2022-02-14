@@ -118,6 +118,30 @@
       },
       "revId": "b460ddbc974951fe738f9ec58e6babbd21423327",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a4ac813_7d6a437b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-14T14:07:59Z",
+      "side": 1,
+      "message": "\u003e [...] so we should look at removing tech-debt rather than adding it.\n\nTo stream line this discussion, and keep it focused, can we agree on the fact, that nobody in the wild is interesting to add new tech debt to this project? Thanks.\n\n\u003e My proposal would be that *IF* auth is HTTP, then allowRegisterNewEmail is false by default (keeping existing behaviour), unless you turn it on.\n\nUnfortunately, this suggestion doesn\u0027t really work, because currently: `auth.allowRegisterNewEmail` is enabled per default and that\u0027s why James introduced the new option httpAllowRegisterNewEmail (that disabled per default) in the first place.\n\nQuoting the base version:\n\n```\n[[auth.allowRegisterNewEmail]]auth.allowRegisterNewEmail::\n\nWhether users are allowed to register new email addresses.\n\nIn addition for the HTTP authentication type\nlink:#auth.httpemailheader[auth.httpemailheader] must *not* be set to\nenable registration of new email addresses.\n\nBy default, true.\n```",
+      "parentUuid": "15b73cd5_77deef95",
+      "range": {
+        "startLine": 716,
+        "startChar": 7,
+        "endLine": 716,
+        "endChar": 32
+      },
+      "revId": "b460ddbc974951fe738f9ec58e6babbd21423327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

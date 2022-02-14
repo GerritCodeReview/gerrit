@@ -262,7 +262,7 @@ const LEGACY_QUERY_SUFFIX_PATTERN = /,n,z$/;
 const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;
 
 // Polymer makes `app` intrinsically defined on the window by virtue of the
-// custom element having the id "app", but it is made explicit here.
+// custom element having the id "pg-app", but it is made explicit here.
 // If you move this code to other place, please update comment about
 // gr-router and gr-app in the PolyGerritIndexHtml.soy file if needed
 const app = document.querySelector('gr-app');
@@ -334,11 +334,11 @@ export class GrRouter extends PolymerElement {
     // explicitly in app, or by delegating to it.
 
     // It is expected that application has a GrAppElement(id=='app-element')
-    // at the document level or inside the shadow root of the GrApp (id='app')
+    // at the document level or inside the shadow root of the GrApp ('gr-app')
     // element.
     return (document.getElementById('app-element') ||
       document
-        .getElementById('app')!
+        .querySelector('gr-app')!
         .shadowRoot!.getElementById('app-element')!) as AppElement;
   }
 

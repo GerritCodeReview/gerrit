@@ -80,7 +80,7 @@ public class ListMembersCommand extends SshCommand {
         return;
       }
 
-      List<AccountInfo> members = getDirectMembers(group.get());
+      List<AccountInfo> members = getMembers(group.get());
       ColumnFormatter formatter = new ColumnFormatter(writer, '\t');
       formatter.addColumn("id");
       formatter.addColumn("username");

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98b3729d_892960ac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 3022,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-14T09:23:21Z",
+      "side": 1,
+      "message": "There\u0027s a race-condition here in case getChange terminates instantly.",
+      "revId": "e5d828fdd3cd3ef54d6e813f9bd93aec55ffe1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30612255_735e894e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 3026,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-14T09:23:21Z",
+      "side": 1,
+      "message": "Why is this `[\u0027${changeNum}\u0027]` but on line 2993 it\u0027s simply `[changeNum]`.\n\nIs this intentional?",
+      "revId": "e5d828fdd3cd3ef54d6e813f9bd93aec55ffe1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

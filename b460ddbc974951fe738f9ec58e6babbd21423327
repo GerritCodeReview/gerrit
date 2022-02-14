@@ -94,6 +94,30 @@
       },
       "revId": "b460ddbc974951fe738f9ec58e6babbd21423327",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15b73cd5_77deef95",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-14T13:44:27Z",
+      "side": 1,
+      "message": "\u003e \u003e So why don\u0027t we do that instead? Make the allowRegisterNewEmail be honoured unconditionally?\n\u003e \n\u003e Those two options were done mutual exclusive for a reason. The approach of this change was minimal invasive: allow to register new emails but preserve mutual exclusive kind of the above options as-is per default.\n\nYes, that is appreciated for a stable branch. I believe this change is for master, so we should look at removing tech-debt rather than adding it.\n\n\u003e If we would like to consider to change that logic, we would have to do further investigations, why it was done that way in the first place, and whom we would break, if we would change this behaviour per default.\n\nSure, I agree. My proposal would be that *IF* auth is HTTP, then allowRegisterNewEmail is false by default (keeping existing behaviour), unless you turn it on.\n\nAdvantages:\nA1) Keep existing behaviour and defaults for current users\nA2) Allow to register new e-mail if \u0027allowRegisterNewEmail\u0027 is set\n\nDisadvantages: \nD1) allowRegisterNewEmail has different defaults based on the auth type (which is confusing, but it won\u0027t be the first one)\n\nAnyway, this is open for discussion :-) so that we can find a clean solution for master, without being afraid of having breaking changes, as long as they have a proper communication and a way of resolution.",
+      "parentUuid": "55a5e72c_a309e622",
+      "range": {
+        "startLine": 716,
+        "startChar": 7,
+        "endLine": 716,
+        "endChar": 32
+      },
+      "revId": "b460ddbc974951fe738f9ec58e6babbd21423327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

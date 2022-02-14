@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46371c01_d64ba62d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T16:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad6c5e0e_cae71a5b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64340f1d_95bb12dc",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-12T16:14:23Z",
       "side": 1,
       "message": "Remove this part, if you follow my suggestion.",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 13
+      },
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f08c041_e568085d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T16:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64340f1d_95bb12dc",
       "range": {
         "startLine": 14,
         "startChar": 5,
@@ -116,6 +164,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb8945e_3eae8910",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T16:45:11Z",
+      "side": 1,
+      "message": "I\u0027ve pushed https://gerrit-review.googlesource.com/c/gerrit/+/330359 to stable-3.3. I\u0027ll abandon this change and push a merge up into 3.4 for testing in our downstream setup.",
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d91a47dd_810e3384",
@@ -129,6 +194,30 @@
       "writtenOn": "2022-02-12T16:14:23Z",
       "side": 1,
       "message": "Keep this private.",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 11
+      },
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "284a3a97_91fc30d4",
+        "filename": "java/com/google/gerrit/server/restapi/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T16:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91a47dd_810e3384",
       "range": {
         "startLine": 51,
         "startChar": 2,
@@ -162,6 +251,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ab0db2b_440ff3a8",
+        "filename": "java/com/google/gerrit/server/restapi/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T16:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd19a663_af557abe",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 8
+      },
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df5bb62f_4e6458a0",
@@ -175,6 +288,30 @@
       "writtenOn": "2022-02-12T16:14:23Z",
       "side": 1,
       "message": "See my other comments, so that this can just be:\n\n  List\u003cAccountInfo\u003e members \u003d getMembers(group.get());",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 7
+      },
+      "revId": "ab0027cd3e2691c7a99239553d49003ec052ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aeee7f1_95b8a533",
+        "filename": "java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T16:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df5bb62f_4e6458a0",
       "range": {
         "startLine": 83,
         "startChar": 6,

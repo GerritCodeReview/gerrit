@@ -401,7 +401,6 @@ public class PrologRuleEvaluator {
   private SubmitTypeRecord typeError(String err, Exception e) {
     if (opts.logErrors()) {
       logger.atSevere().withCause(e).log(err);
-      return typeError(DEFAULT_MSG);
     }
     return SubmitTypeRecord.error(err);
   }

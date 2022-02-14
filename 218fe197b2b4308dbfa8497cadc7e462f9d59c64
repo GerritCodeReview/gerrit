@@ -279,6 +279,24 @@
       "parentUuid": "0db7620f_919c4d0e",
       "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2208d22d_b7f73fc0",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-14T08:43:05Z",
+      "side": 1,
+      "message": "Can you do this.updateComplete.then(() \u003d\u003e this.focus());",
+      "parentUuid": "9f131670_98eab42b",
+      "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

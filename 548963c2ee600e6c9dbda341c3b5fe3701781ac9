@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cee0d413_0bc84d55",
+        "filename": "plugins/gitiles",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-14T19:33:58Z",
+      "side": 1,
+      "message": "Here is where/how we bumped the git submodule reference to point to the commit from the change 330380.",
+      "revId": "548963c2ee600e6c9dbda341c3b5fe3701781ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

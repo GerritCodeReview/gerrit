@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca7cc227_dea237c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-14T11:39:33Z",
+      "side": 1,
+      "message": "Are we shipping these on our API? If so, can we do this in the web UI instead?\n\nI think the purpose of it is improved UX, not any sort of security etc, so if it can, I think it would be a better fit for a client-side feature.",
+      "range": {
+        "startLine": 7,
+        "startChar": 43,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "142de5d3eff92e859da50b1ddf3c28a856d86366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "497687db_bfb8ffa2",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-14T11:39:33Z",
+      "side": 1,
+      "message": "This can be misread as being a security promise, while it\u0027s actually a UX enhancement. Can you add a sentence about this not being a security guarantee?",
+      "revId": "142de5d3eff92e859da50b1ddf3c28a856d86366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ed4f184_b8e4a00c",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-14T11:39:33Z",
+      "side": 1,
+      "message": "nit: on",
+      "range": {
+        "startLine": 206,
+        "startChar": 12,
+        "endLine": 206,
+        "endChar": 14
+      },
+      "revId": "142de5d3eff92e859da50b1ddf3c28a856d86366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

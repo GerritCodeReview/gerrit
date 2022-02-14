@@ -71,12 +71,10 @@ public class Capabilities implements ChildCollection<AccountResource, AccountRes
     }
 
     GlobalOrPluginPermission perm = parse(id);
-    try {
-      permissionBackend.absentUser(target.getAccountId()).check(perm);
+    if (permissionBackend.absentUser(target.getAccountId()).test(perm)) {
       return new AccountResource.Capability(target, globalOrPluginPermissionName(perm));
-    } catch (AuthException e) {
-      throw new ResourceNotFoundException(id, e);
     }
+    throw new ResourceNotFoundException(id);
   }
 
   private GlobalOrPluginPermission parse(IdString id) throws ResourceNotFoundException {

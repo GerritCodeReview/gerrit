@@ -22,7 +22,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritInstanceId;
@@ -170,9 +169,8 @@ public class EventBroker implements EventDispatcher {
         return false;
       }
 
-      permissionBackend.user(user).project(project).check(ProjectPermission.ACCESS);
-      return true;
-    } catch (AuthException | PermissionBackendException e) {
+      return permissionBackend.user(user).project(project).test(ProjectPermission.ACCESS);
+    } catch (PermissionBackendException e) {
       return false;
     }
   }
@@ -185,15 +183,10 @@ public class EventBroker implements EventDispatcher {
     if (!pe.isPresent() || !pe.get().statePermitsRead()) {
       return false;
     }
-    try {
-      permissionBackend
-          .user(user)
-          .change(notesFactory.createChecked(change))
-          .check(ChangePermission.READ);
-      return true;
-    } catch (AuthException e) {
-      return false;
-    }
+    return permissionBackend
+        .user(user)
+        .change(notesFactory.createChecked(change))
+        .test(ChangePermission.READ);
   }
 
   protected boolean isVisibleTo(BranchNameKey branchName, CurrentUser user)
@@ -203,12 +196,7 @@ public class EventBroker implements EventDispatcher {
       return false;
     }
 
-    try {
-      permissionBackend.user(user).ref(branchName).check(RefPermission.READ);
-      return true;
-    } catch (AuthException e) {
-      return false;
-    }
+    return permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
   }
 
   protected boolean isVisibleTo(Event event, CurrentUser user) throws PermissionBackendException {

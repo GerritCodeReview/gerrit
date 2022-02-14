@@ -48,7 +48,6 @@ import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.AnonymousUser;
@@ -378,9 +377,10 @@ public class ReviewerModifier {
   @Nullable
   private ReviewerModification addByEmail(ReviewerInput input, ChangeNotes notes, CurrentUser user)
       throws PermissionBackendException {
-    try {
-      permissionBackend.user(anonymousProvider.get()).change(notes).check(ChangePermission.READ);
-    } catch (AuthException e) {
+    if (!permissionBackend
+        .user(anonymousProvider.get())
+        .change(notes)
+        .test(ChangePermission.READ)) {
       return fail(
           input,
           FailureType.OTHER,
@@ -399,15 +399,10 @@ public class ReviewerModifier {
 
   private boolean isValidReviewer(BranchNameKey branch, Account member)
       throws PermissionBackendException {
-    try {
-      // Check ref permission instead of change permission, since change permissions take into
-      // account the private bit, whereas adding a user as a reviewer is explicitly allowing them to
-      // see private changes.
-      permissionBackend.absentUser(member.id()).ref(branch).check(RefPermission.READ);
-      return true;
-    } catch (AuthException e) {
-      return false;
-    }
+    // Check ref permission instead of change permission, since change permissions take into
+    // account the private bit, whereas adding a user as a reviewer is explicitly allowing them to
+    // see private changes.
+    return permissionBackend.absentUser(member.id()).ref(branch).test(RefPermission.READ);
   }
 
   private ReviewerModification fail(ReviewerInput input, FailureType failureType, String error) {

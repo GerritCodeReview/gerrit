@@ -26,7 +26,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.permissions.LabelPermission;
@@ -129,11 +128,8 @@ public class ReviewerJson {
             continue;
           }
 
-          try {
-            perm.check(new LabelPermission(type.get()));
+          if (perm.test(new LabelPermission(type.get()))) {
             out.approvals.put(name, formatValue((short) 0));
-          } catch (AuthException e) {
-            // Do nothing.
           }
         }
       }

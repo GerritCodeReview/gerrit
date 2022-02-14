@@ -108,30 +108,10 @@ public class RemoveReviewerControl {
     // owner and site admin can remove anyone
     PermissionBackend.WithUser withUser = permissionBackend.user(currentUser);
     PermissionBackend.ForProject forProject = withUser.project(change.getProject());
-    if (check(forProject.ref(change.getDest().branch()), RefPermission.WRITE_CONFIG)
-        || check(withUser, GlobalPermission.ADMINISTRATE_SERVER)) {
+    if (forProject.ref(change.getDest().branch()).test(RefPermission.WRITE_CONFIG)
+        || withUser.test(GlobalPermission.ADMINISTRATE_SERVER)) {
       return true;
     }
     return false;
-  }
-
-  private static boolean check(PermissionBackend.ForRef forRef, RefPermission perm)
-      throws PermissionBackendException {
-    try {
-      forRef.check(perm);
-      return true;
-    } catch (AuthException e) {
-      return false;
-    }
-  }
-
-  private static boolean check(PermissionBackend.WithUser withUser, GlobalPermission perm)
-      throws PermissionBackendException {
-    try {
-      withUser.check(perm);
-      return true;
-    } catch (AuthException e) {
-      return false;
-    }
   }
 }

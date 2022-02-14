@@ -27,7 +27,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
@@ -319,17 +318,14 @@ class DefaultRefFilter {
     }
 
     if (visibleChangesCache.isVisible(id)) {
-      try {
-        // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
-        permissionBackendForProject
-            .ref(visibleChangesCache.getBranchNameKey(id).branch())
-            .check(RefPermission.READ_PRIVATE_CHANGES);
-        logger.atFinest().log("Foreign change edit ref is visible: %s", name);
-        return true;
-      } catch (AuthException e) {
-        logger.atFinest().log("Foreign change edit ref is not visible: %s", name);
-        return false;
-      }
+      // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
+      boolean canRead =
+          permissionBackendForProject
+              .ref(visibleChangesCache.getBranchNameKey(id).branch())
+              .test(RefPermission.READ_PRIVATE_CHANGES);
+      logger.atFinest().log(
+          "Foreign change edit ref is " + (canRead ? "visible" : "invisible") + ": %s", name);
+      return canRead;
     }
 
     logger.atFinest().log("Change %d of change edit ref %s is not visible", id.get(), name);
@@ -347,23 +343,14 @@ class DefaultRefFilter {
   }
 
   private boolean canReadRef(String ref) throws PermissionBackendException {
-    try {
-      permissionBackendForProject.ref(ref).check(RefPermission.READ);
-    } catch (AuthException e) {
-      return false;
-    }
-    return projectState.statePermitsRead();
+    return permissionBackendForProject.ref(ref).test(RefPermission.READ)
+        && projectState.statePermitsRead();
   }
 
   private boolean checkProjectPermission(
       PermissionBackend.ForProject forProject, ProjectPermission perm)
       throws PermissionBackendException {
-    try {
-      forProject.check(perm);
-    } catch (AuthException e) {
-      return false;
-    }
-    return true;
+    return forProject.test(perm);
   }
 
   /**
@@ -394,12 +381,7 @@ class DefaultRefFilter {
     } catch (StorageException e) {
       throw new PermissionBackendException("can't construct change notes", e);
     }
-    try {
-      permissionBackendForProject.change(notes).check(ChangePermission.READ);
-      return true;
-    } catch (AuthException e) {
-      return false;
-    }
+    return permissionBackendForProject.change(notes).test(ChangePermission.READ);
   }
 
   @AutoValue

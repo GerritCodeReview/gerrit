@@ -19,7 +19,6 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -189,10 +188,7 @@ public class GroupControl {
 
   private boolean canAdministrateServer() {
     try {
-      perm.check(GlobalPermission.ADMINISTRATE_SERVER);
-      return true;
-    } catch (AuthException e) {
-      return false;
+      return perm.test(GlobalPermission.ADMINISTRATE_SERVER);
     } catch (PermissionBackendException e) {
       logger.atFine().log(
           "Failed to check %s global capability for user %s",

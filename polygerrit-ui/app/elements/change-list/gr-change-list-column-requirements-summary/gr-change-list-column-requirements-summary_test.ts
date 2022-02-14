@@ -72,7 +72,11 @@ suite('gr-change-list-column-requirements-summary tests', () => {
       html`<gr-change-list-column-requirements-summary .change=${change}>
       </gr-change-list-column-requirements-summary>`
     );
-    expect(element).shadowDom.to.equal(/* HTML */ ` <span class="block">
+    expect(element).shadowDom.to.equal(/* HTML */ ` <span
+      class="block"
+      role="button"
+      tabindex="0"
+    >
       <gr-submit-requirement-dashboard-hovercard>
       </gr-submit-requirement-dashboard-hovercard>
       <iron-icon class="block" icon="gr-icons:block" role="img"></iron-icon>
@@ -92,7 +96,11 @@ suite('gr-change-list-column-requirements-summary tests', () => {
       html`<gr-change-list-column-requirements-summary .change=${change}>
       </gr-change-list-column-requirements-summary>`
     );
-    expect(element).shadowDom.to.equal(/* HTML */ ` <span class="block">
+    expect(element).shadowDom.to.equal(/* HTML */ ` <span
+        class="block"
+        role="button"
+        tabindex="0"
+      >
         <gr-submit-requirement-dashboard-hovercard>
         </gr-submit-requirement-dashboard-hovercard>
         <iron-icon class="block" icon="gr-icons:block" role="img"></iron-icon>

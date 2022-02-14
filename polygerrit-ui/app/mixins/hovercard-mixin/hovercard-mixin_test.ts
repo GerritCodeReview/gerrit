@@ -62,7 +62,7 @@ suite('gr-hovercard tests', () => {
 
   teardown(() => {
     pressKey(element, Key.ESC);
-    element.mouseClickHide(new MouseEvent('click'));
+    element.mouseHide(new MouseEvent('click'));
     button?.remove();
   });
 
@@ -97,7 +97,7 @@ suite('gr-hovercard tests', () => {
   });
 
   test('hide', () => {
-    element.mouseClickHide(new MouseEvent('click'));
+    element.mouseHide(new MouseEvent('click'));
     const style = getComputedStyle(element);
     assert.isFalse(element._isShowing);
     assert.isFalse(element.classList.contains('hovered'));

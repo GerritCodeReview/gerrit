@@ -148,9 +148,9 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       super(...args);
       // show the hovercard if mouse moves to hovercard
       // this will cancel pending hide as well
-      this.addEventListener('mouseenter', () => this.show);
+      this.addEventListener('mouseenter', this.mouseShow);
       // when leave hovercard, hide it immediately
-      this.addEventListener('mouseleave', () => this.hide);
+      this.addEventListener('mouseleave', this.mouseHide);
       const keyboardController = new ShortcutController(this);
       keyboardController.addGlobal({key: Key.ESC}, (e: KeyboardEvent) =>
         this.hide({keyboardEvent: e})
@@ -184,7 +184,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this._target?.addEventListener('mousemove', this.mouseDebounceShow);
       this._target?.addEventListener('mouseleave', this.mouseDebounceHide);
       this._target?.addEventListener('blur', this.focusDebounceHide);
-      this._target?.addEventListener('click', this.mouseClickHide);
+      this._target?.addEventListener('click', this.mouseHide);
       if (this._target) {
         this.targetCleanups.push(
           addShortcut(this._target, {key: Key.ENTER}, (e: KeyboardEvent) => {
@@ -204,7 +204,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this._target?.removeEventListener('mousemove', this.mouseDebounceShow);
       this._target?.removeEventListener('mouseleave', this.mouseDebounceHide);
       this._target?.removeEventListener('blur', this.focusDebounceHide);
-      this._target?.removeEventListener('click', this.mouseClickHide);
+      this._target?.removeEventListener('click', this.mouseHide);
       for (const cleanup of this.targetCleanups) {
         cleanup();
       }
@@ -231,6 +231,14 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
     readonly mouseDebounceShow = (e: MouseEvent) => {
       this.debounceShow({mouseEvent: e});
+    };
+
+    readonly mouseHide = (e: MouseEvent) => {
+      this.hide({mouseEvent: e});
+    };
+
+    readonly mouseShow = (e: MouseEvent) => {
+      this.show({mouseEvent: e});
     };
 
     readonly focusDebounceHide = (e: FocusEvent) => {
@@ -319,22 +327,6 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       );
     };
 
-    mouseClickHide = (e: MouseEvent) => {
-      // If the user is clicking on a link and still hovering over the hovercard
-      // or the user is returning from the hovercard but now hovering over the
-      // target (to stop an annoying flicker effect), just return.
-      if (
-        e &&
-        (e.relatedTarget === this ||
-          (e.target === this && e.relatedTarget === this._target))
-      ) {
-        return;
-      }
-      // We allow hiding hovercards on clicks outside even if the keyboard was
-      // the reason that it was displayed.
-      this.hide({mouseEvent: e});
-    };
-
     /**
      * Hides/closes the hovercard. This occurs when the user triggers the
      * `mouseleave` event on the hovercard's `target` element (as long as the
@@ -348,6 +340,18 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         return;
       }
       if (!props?.keyboardEvent && this.openedByKeyboard) return;
+      // If the user is clicking on a link and still hovering over the hovercard
+      // or the user is returning from the hovercard but now hovering over the
+      // target (to stop an annoying flicker effect), just return.
+      if (props?.mouseEvent) {
+        const e = props.mouseEvent;
+        if (
+          e.relatedTarget === this ||
+          (e.target === this && e.relatedTarget === this._target)
+        ) {
+          return;
+        }
+      }
       if (this.openedByKeyboard) {
         if (this._target) {
           this._target.focus();
@@ -557,7 +561,7 @@ export interface HovercardMixinInterface {
   show(props: MouseKeyboardOrFocusEvent): void;
 
   // Used for tests
-  mouseClickHide(e: MouseEvent): void;
+  mouseHide(e: MouseEvent): void;
   hide(props: MouseKeyboardOrFocusEvent): void;
   container: HTMLElement | null;
   hideTask?: DelayedTask;

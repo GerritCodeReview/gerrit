@@ -22,6 +22,30 @@
       },
       "revId": "2f842c43d0070314b812955e9c53aca48189bed7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59882040_dcba10ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T08:53:36Z",
+      "side": 1,
+      "message": "We could, but wouldn\u0027t this mean that submit rules will be executed for all involved changes, which can take very long if a topic has 100s of changes? Probably not worth doing such much computational effort just to enabled/disable the submit button, given that changes to submit requirements / labels happen rather seldom.\n\n\u003e One I recall was in the submitted together code.\n\nHmm, if this was the case, I would expect this code here to just work, because that\u0027s the exactly logic (MergeSuperSet computation) that it\u0027s invoking here. \nDo you have a code pointer? There seem to be no callers of ChangeData#setSubmitRequirements that set null. If we do this for submitted together I wonder how this can scale.",
+      "parentUuid": "b3aa3ab5_137160ca",
+      "range": {
+        "startLine": 21,
+        "startChar": 64,
+        "endLine": 22,
+        "endChar": 46
+      },
+      "revId": "2f842c43d0070314b812955e9c53aca48189bed7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

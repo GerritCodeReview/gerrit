@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a31fe49_735ad655",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T19:26:43Z",
+      "side": 1,
+      "message": "https://zuul.opendev.org/t/openstack/build/6e1864cc53354239bca270a0db23cbbd/log/job-output.txt#30223-30272 Is the updated downstream testing. This look happy. I think we are all set.",
+      "parentUuid": "7433fc06_4c606e51",
+      "revId": "9f50c7e84a6f774db779552c922c4e5824b0a408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d97c9bb7_5d9bd61c",

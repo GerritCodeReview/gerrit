@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a29c144_b87b57b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T08:42:49Z",
+      "side": 1,
+      "message": "IIUC the implication of this is that any change in the project.config will cause all changes of that project to be detected as stale. For any change of project.config in a parent project this will cause all changes of that project and all child projects to be detected as stale. So if a change happens in the project.config of the All-Projects project all changes will be detected as stale?\n\nIIRC the staleness checker needs to be triggered explicitly, so maybe this is fine and reindexing all changes at that moment is feasible, but are we confident that this will work reasonable with large Gerrit instances that have many changes?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 44
+      },
+      "revId": "94daf2e05448c24c11098da1fa378c4c74d8db54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

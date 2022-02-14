@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dad6c238_2aeae4eb",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T15:32:27Z",
+      "side": 1,
+      "message": "Thanks for updating the examples below.\n\nShould we also extend this generic part of the description saying that the label operator can also be used to match submit requirements? Otherwise the support for submit requirements is not explicitly stated and I\u0027m not sure whether users will be able to deducing this from looking at the examples below.",
+      "range": {
+        "startLine": 722,
+        "startChar": 0,
+        "endLine": 723,
+        "endChar": 14
+      },
+      "revId": "4bc4baf6b7204e40775914a0ca0893f02d0baaab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

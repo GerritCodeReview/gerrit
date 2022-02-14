@@ -315,11 +315,13 @@ public class GitwebConfig {
     }
 
     @Override
-    public WebLinkInfo getFileWebLink(String projectName, String revision, String fileName) {
+    public WebLinkInfo getFileWebLink(
+        String projectName, String revision, String hash, String fileName) {
       if (file != null) {
         return link(
             file.replace("project", encode(projectName))
                 .replace("commit", encode(revision))
+                .replace("hash", encode(revision))
                 .replace("file", encode(fileName))
                 .toString());
       }

@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3b2d05e2_8eb2526e",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-14T08:45:01Z",
+      "side": 1,
+      "message": "Maybe it needs to be MouseKeyboardOrFocusEvent?\n\nAnd then you could have a mouseBlur function and a mouseHide function and those could call debounceHide with props?",
+      "parentUuid": "ca79644a_1e01b869",
+      "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2c8188d_cc6a5f1f",
         "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
         "patchSetId": 1

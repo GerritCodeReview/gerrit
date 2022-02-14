@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f10869b_147dbe1b",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-14T08:45:01Z",
+      "side": 1,
+      "message": "MouseOrKeyboardEvent",
+      "revId": "07d47998ea4ad0f87e9d96304b48c484035b48c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2039a60_6e113792",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-14T08:45:01Z",
+      "side": 1,
+      "message": "Could you add to the comment what the absence of either mouse or keyboard means? (namely that we assume it\u0027s mouse?)",
+      "revId": "07d47998ea4ad0f87e9d96304b48c484035b48c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

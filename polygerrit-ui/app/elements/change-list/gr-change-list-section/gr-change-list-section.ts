@@ -5,7 +5,7 @@
  */
 
 import {LitElement} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import {
   CLOSED,
@@ -79,6 +79,8 @@ export class GrChangeListSection extends LitElement {
   @property({type: Object})
   account: AccountInfo | undefined = undefined;
 
+  @state() bulkActionsModel?: BulkActionsModel;
+
   private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
@@ -103,10 +105,11 @@ export class GrChangeListSection extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    this.bulkActionsModel = new BulkActionsModel(getAppContext().restApiService);
     provide(
       this,
       bulkActionsModelToken,
-      () => new BulkActionsModel(getAppContext().restApiService)
+      () => this.bulkActionsModel
     );
   }
 
@@ -175,8 +178,10 @@ export class GrChangeListSection extends LitElement {
   }
 
   private renderColumnHeaders(columns: string[]) {
+    const selectedChanges =  this.bulkActionsModel!.getState().selectedChanges;
     return html`
       <tr class="groupTitle">
+      ${selectedChanges.length ? html `
         <td class="leftPadding" aria-hidden="true"></td>
         ${this.renderSelectionHeader()}
         <td
@@ -189,9 +194,9 @@ export class GrChangeListSection extends LitElement {
         ${this.labelNames?.map(labelName => this.renderLabelHeader(labelName))}
         ${this.dynamicHeaderEndpoints?.map(pluginHeader =>
           this.renderEndpointHeader(pluginHeader)
-        )}
-      </tr>
-    `;
+        )}` : html `<td></td>`
+      }
+      </tr>`;
   }
 
   private renderSelectionHeader() {

@@ -16,6 +16,58 @@
       "message": "is this code used by the unified diff view as well?",
       "revId": "cda24579b892463875c10478afd8bc268c1428a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b218f9a_de8d2906",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-14T10:52:26Z",
+      "side": 1,
+      "message": "Yes, but unified diff is 1% of diff usage compared to 99% side-by-side, so I am not so concerned about it.\n\n`base` and `revision` is just wrong and confusing. I think even in unified diff mode `left` and `right` and clearer to understand, even if not actually correct.\n\nBut I would really appreciate suggestions for better terminology. The only other words that come to my mind are `old` and `new`. I am not quite sure whether I like those better. Replacing `left` and `right` by `old` and `new` across the entire code base would be a huge effort.",
+      "parentUuid": "bc7a6037_786bb5ce",
+      "revId": "cda24579b892463875c10478afd8bc268c1428a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "864d6b28_bc6a9a76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-14T10:52:26Z",
+      "side": 1,
+      "message": "You have to add a footer:\n```\nRelease-Notes: skip\n```",
+      "revId": "cda24579b892463875c10478afd8bc268c1428a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7724f4b7_1dece8ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-14T10:52:26Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "cda24579b892463875c10478afd8bc268c1428a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

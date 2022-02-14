@@ -16,6 +16,23 @@
       "message": "Moving the code review onto this change for stable-3.3 as previously requested. Old stable-3.4 change is at https://gerrit-review.googlesource.com/c/gerrit/+/330179 and will be abandoned.",
       "revId": "9f50c7e84a6f774db779552c922c4e5824b0a408",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d97c9bb7_5d9bd61c",
+        "filename": "java/com/google/gerrit/server/restapi/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-14T17:49:50Z",
+      "side": 1,
+      "message": "Private?",
+      "revId": "9f50c7e84a6f774db779552c922c4e5824b0a408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

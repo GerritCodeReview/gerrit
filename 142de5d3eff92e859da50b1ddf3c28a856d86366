@@ -67,6 +67,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e13c6549_ae53b74a",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T16:19:08Z",
+      "side": 1,
+      "message": "... are only associated ...",
+      "range": {
+        "startLine": 205,
+        "startChar": 12,
+        "endLine": 205,
+        "endChar": 26
+      },
+      "revId": "142de5d3eff92e859da50b1ddf3c28a856d86366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8ed4f184_b8e4a00c",
         "filename": "Documentation/config-submit-requirements.txt",
         "patchSetId": 6
@@ -83,6 +106,52 @@
         "startChar": 12,
         "endLine": 206,
         "endChar": 14
+      },
+      "revId": "142de5d3eff92e859da50b1ddf3c28a856d86366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbdc4128_e8c2d2fa",
+        "filename": "java/com/google/gerrit/entities/LabelType.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T16:19:08Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t mean to put the whole regular expression here, but only the part that matches the label name (\u0027[a-zA-Z0-9][a-zA-Z0-9-]+\u0027). I think this class shouldn\u0027t know anything about the label predicate.",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 58
+      },
+      "revId": "142de5d3eff92e859da50b1ddf3c28a856d86366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b219d207_093b136e",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T16:19:08Z",
+      "side": 1,
+      "message": "... are only associated ...",
+      "range": {
+        "startLine": 680,
+        "startChar": 34,
+        "endLine": 680,
+        "endChar": 48
       },
       "revId": "142de5d3eff92e859da50b1ddf3c28a856d86366",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

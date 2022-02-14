@@ -400,6 +400,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34a4f278_e127d69d",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T16:19:08Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s better!",
+      "parentUuid": "c926f92d_114170d6",
+      "range": {
+        "startLine": 138,
+        "startChar": 33,
+        "endLine": 138,
+        "endChar": 47
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c2fd7af_22e6a69f",

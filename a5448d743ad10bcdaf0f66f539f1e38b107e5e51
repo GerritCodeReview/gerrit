@@ -145,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4602f0b8_298f3440",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T15:36:20Z",
+      "side": 1,
+      "message": "Thanks for confirming that this is a temporary solution. Maybe state this explicitly here in the commit message. Also if anything is deprecated, it\u0027s important to mentioned this in the commit message as well. Otherwise there is only a low chance that the deprecation will make it into the release notes.\n\nSorry, I think the documentation is not clear enough yet.",
+      "parentUuid": "d3390b83_0a2ba82a",
+      "range": {
+        "startLine": 35,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "a5448d743ad10bcdaf0f66f539f1e38b107e5e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "def08d08_df29b788",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
         "patchSetId": 4

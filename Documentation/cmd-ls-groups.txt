@@ -11,7 +11,7 @@ _ssh_ -p <port> <host> _gerrit ls-groups_
   [--user <NAME> | -u <NAME>]
   [--owned]
   [--visible-to-all]
-  [-q <GROUP>]
+  [-g <GROUP>]
   [--verbose | -v]
 --
 
@@ -67,8 +67,8 @@ This option can't be used together with the '--project' option.
 	(groups that are explicitly marked as visible to all registered
 	users).
 
--q::
-	Group that should be inspected. The `-q` option can be specified
+-g::
+	Group that should be inspected. The `-g` option can be specified
 	multiple times to define several groups to be inspected. If
 	specified the listed groups will only contain groups that were
 	specified to be inspected. This is e.g. useful in combination with

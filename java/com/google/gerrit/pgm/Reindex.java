@@ -39,6 +39,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.options.AutoFlush;
+import com.google.gerrit.server.index.options.EnsureReadsConsistentWithWrite;
 import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.util.ReplicaUtil;
@@ -208,6 +209,16 @@ public class Reindex extends SiteProgram {
             OptionalBinder.newOptionalBinder(binder(), IsFirstInsertForEntry.class)
                 .setBinding()
                 .toInstance(IsFirstInsertForEntry.YES);
+          }
+        });
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            super.configure();
+            OptionalBinder.newOptionalBinder(binder(), EnsureReadsConsistentWithWrite.class)
+                .setBinding()
+                .toInstance(EnsureReadsConsistentWithWrite.FALSE);
           }
         });
     modules.add(new BatchProgramModule(dbInjector));

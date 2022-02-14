@@ -26,6 +26,7 @@ import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.options.AutoFlush;
+import com.google.gerrit.server.index.options.EnsureReadsConsistentWithWrite;
 import java.util.Map;
 import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
@@ -68,6 +69,10 @@ public class LuceneIndexModule extends AbstractIndexModule {
   protected void configure() {
     super.configure();
     bind(AutoFlush.class).toInstance(autoFlush);
+    // Set to false, since Lucene implementation does not ensure to return the new data when
+    // read request is fired immediately after write request. Remove this override
+    // when Lucene implementation is updated to ensure the same.
+    bind(EnsureReadsConsistentWithWrite.class).toInstance(EnsureReadsConsistentWithWrite.FALSE);
   }
 
   @Override

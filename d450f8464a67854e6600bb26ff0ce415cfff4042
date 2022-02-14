@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d93c90ad_9fd3df43",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-14T14:24:36Z",
+      "side": 1,
+      "message": "do you know what this comment means?",
+      "range": {
+        "startLine": 40,
+        "startChar": 29,
+        "endLine": 40,
+        "endChar": 65
+      },
+      "revId": "d450f8464a67854e6600bb26ff0ce415cfff4042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "730de9ed_72c7df65",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-14T14:24:36Z",
+      "side": 1,
+      "message": "This is wrong here? all section and change properties look needed",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "d450f8464a67854e6600bb26ff0ce415cfff4042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "786ea956_1ecc7ff4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-14T14:24:36Z",
+      "side": 1,
+      "message": "also check query, countLabel?",
+      "range": {
+        "startLine": 137,
+        "startChar": 51,
+        "endLine": 137,
+        "endChar": 55
+      },
+      "revId": "d450f8464a67854e6600bb26ff0ce415cfff4042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c75c7d2_5c615c06",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-14T14:24:36Z",
+      "side": 1,
+      "message": "I think it\u0027s better for parent to compute relative index and send that to gr-change-list-section instead of absolute index. That way there\u0027s no other need for all sections data and sectionIndex to be passed into a single section",
+      "range": {
+        "startLine": 272,
+        "startChar": 21,
+        "endLine": 272,
+        "endChar": 45
+      },
+      "revId": "d450f8464a67854e6600bb26ff0ce415cfff4042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d02fb327_f38396a2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-14T14:24:36Z",
+      "side": 1,
+      "message": "does this go before imports?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 0
+      },
+      "revId": "d450f8464a67854e6600bb26ff0ce415cfff4042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

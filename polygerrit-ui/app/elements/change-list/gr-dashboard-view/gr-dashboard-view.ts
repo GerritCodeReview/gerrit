@@ -33,7 +33,7 @@ import {
   YOUR_TURN,
 } from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
-import {changeIsOpen} from '../../../utils/change-util';
+import {changeIsOpen, ListChangesOption, listChangesOptionsToHex} from '../../../utils/change-util';
 import {parseDate} from '../../../utils/date-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
@@ -284,7 +284,7 @@ export class GrDashboardView extends PolymerElement {
       }
     }
 
-    return this.restApiService.getChanges(undefined, queries).then(changes => {
+    return this.restApiService.getChanges(undefined, queries).then(async changes => {
       if (!changes) {
         throw new Error('getChanges returns undefined');
       }
@@ -293,6 +293,16 @@ export class GrDashboardView extends PolymerElement {
         const lastResultSet = changes.pop();
         this._showNewUserHelp = lastResultSet!.length === 0;
       }
+
+      const options = [
+        ListChangesOption.CHANGE_ACTIONS,
+        ListChangesOption.DETAILED_LABELS,
+        ListChangesOption.CURRENT_ACTIONS,
+        ListChangesOption.CURRENT_COMMIT
+      ];
+      const detailedChanges = await this.restApiService.getChanges(undefined, queries, undefined, listChangesOptionsToHex(...options));
+      console.log(detailedChanges);
+
       this._results = changes
         .map((results, i) => {
           return {

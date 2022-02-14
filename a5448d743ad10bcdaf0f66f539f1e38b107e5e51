@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3390b83_0a2ba82a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T14:55:51Z",
+      "side": 1,
+      "message": "Done. I marked the operators as deprecated and rephrased the description. I explicitly mentioned that they are matching with SR result statuses.",
+      "parentUuid": "4090ab92_d9aecd40",
+      "range": {
+        "startLine": 35,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "a5448d743ad10bcdaf0f66f539f1e38b107e5e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "def08d08_df29b788",

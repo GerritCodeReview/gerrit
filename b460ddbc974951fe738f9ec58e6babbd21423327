@@ -22,6 +22,30 @@
       },
       "revId": "b460ddbc974951fe738f9ec58e6babbd21423327",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e401cab_5d52dc54",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-14T08:39:01Z",
+      "side": 1,
+      "message": "\u003e Can you help me understand what would be the scenario where you would need to set allowRegisterNewEmail to false but httpAllowRegisterNewEmail to true?\n\nThey don\u0027t set allowRegisterNewEmail to false.\n\nThey set HttpEmailHeader, and that would currently neutralize AllowRegisterNewEmail option. See, the base version of DefaultRealm#allowsEdit() method, that amended in this change:\n\n    case REGISTER_NEW_EMAIL:\n      return authConfig.isAllowRegisterNewEmail()\n          \u0026\u0026 Strings.emptyToNull(authConfig.getHttpEmailHeader()) \u003d\u003d null;\n          \nAlso, have you noticed very detail problem description of linked issue 13490, quoting:\n\n```\nThe docs are very clear that setting auth.httpEmailHeader will cause auth.allowRegisterNewEmail to be ignored. This, however, means that systems that end up having to set auth.httpEmailHeader (such as for the SAML plugin) are _not_ able to register alternate email address for accounts.\n\nWhile this may seem like a non-issue for some folks, others, like in our case, this because a major problem. We\u0027ve been switching off of using LDAP as our backend (which allows for registering new email addresses) to using the SAML plugin which requires the setting of multiple different auth.http* headers, including auth.httpEmailHeader. We just discovered that because of this we can no longer have our end customer self-service adding extra email addresses!\n\nI\u0027m requesting that this forced ignoring of the auth.allowRegisterNewEmail when auth.httpEmailHeader is set is in fact a _bad_ design. If an admin desires to allow their users to register new email addresses they should be able to do that and the flag should be honored no matter what!\n```",
+      "parentUuid": "f0eb84f8_c1778543",
+      "range": {
+        "startLine": 716,
+        "startChar": 7,
+        "endLine": 716,
+        "endChar": 32
+      },
+      "revId": "b460ddbc974951fe738f9ec58e6babbd21423327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

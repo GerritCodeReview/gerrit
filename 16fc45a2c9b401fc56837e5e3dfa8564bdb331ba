@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f98f935e_8c332f96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T14:01:52Z",
+      "side": 1,
+      "message": "Thanks for fixing. That will work with future SR predicates which (now) can throw this new exception. I wonder if it makes sense to throw an exception explicitly from the \"match\" interface as well, such that it\u0027s possible to catch the error for all existing search predicates.",
+      "revId": "16fc45a2c9b401fc56837e5e3dfa8564bdb331ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

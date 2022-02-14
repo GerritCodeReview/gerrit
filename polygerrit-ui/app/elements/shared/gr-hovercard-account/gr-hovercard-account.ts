@@ -494,7 +494,7 @@ export class GrHovercardAccount extends base {
       .then(() => {
         this.dispatchEventThroughTarget('hide-alert');
       });
-    this.mouseClickHide(e);
+    this.mouseHide(e);
   }
 
   private handleClickRemoveFromAttentionSet(e: MouseEvent) {
@@ -525,7 +525,7 @@ export class GrHovercardAccount extends base {
       .then(() => {
         this.dispatchEventThroughTarget('hide-alert');
       });
-    this.mouseClickHide(e);
+    this.mouseHide(e);
   }
 
   private reportingDetails() {

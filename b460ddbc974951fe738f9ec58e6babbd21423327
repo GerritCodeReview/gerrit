@@ -46,6 +46,30 @@
       },
       "revId": "b460ddbc974951fe738f9ec58e6babbd21423327",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "178bb04d_348982d3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-14T08:44:25Z",
+      "side": 1,
+      "message": "\u003e \u003e Can you help me understand what would be the scenario where you would need to set allowRegisterNewEmail to false but httpAllowRegisterNewEmail to true?\n\u003e \n\u003e They don\u0027t set allowRegisterNewEmail to false.\n\u003e \n\u003e They set HttpEmailHeader, and that would currently neutralize AllowRegisterNewEmail option.\n\nSo, why not making the allowRegisterNewEmail to true also work with HTTP instead? It looks a much clear solution rather than introducing yet another configuration parameter: we have way too many of them, we should remove the ones that are less needed rather than introducing new ones for corner cases, isn\u0027t it?\n\n\u003e I\u0027m requesting that this forced ignoring of the auth.allowRegisterNewEmail when auth.httpEmailHeader is set is in fact a _bad_ design. If an admin desires to allow their users to register new email addresses they should be able to do that and the flag should be honored no matter what!\n\nYes, agreed. So why don\u0027t we do that instead? Make the allowRegisterNewEmail be honoured unconditionally? That would also work for James isn\u0027t it?\nIt also looks a much better design go understand and config option to use.",
+      "parentUuid": "7e401cab_5d52dc54",
+      "range": {
+        "startLine": 716,
+        "startChar": 7,
+        "endLine": 716,
+        "endChar": 32
+      },
+      "revId": "b460ddbc974951fe738f9ec58e6babbd21423327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

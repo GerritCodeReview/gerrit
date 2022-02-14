@@ -86,6 +86,24 @@
       "parentUuid": "934c79b1_e414cdf8",
       "revId": "8df7255efe435c97e5e4bc7c1223cc828dee5cce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfae5cd8_cb6ee378",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-14T14:41:23Z",
+      "side": 1,
+      "message": "A comment should at least explain why `fixtureFromTemplate(\u0027\u003ctable\u003e\u003cgr-c-l-s/\u003e\u003c/table\u003e\u0027)` doesn\u0027t work.",
+      "parentUuid": "5b030d81_274708b6",
+      "revId": "8df7255efe435c97e5e4bc7c1223cc828dee5cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

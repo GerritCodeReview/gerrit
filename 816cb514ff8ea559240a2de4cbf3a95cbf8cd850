@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ca381e0_0cff03bb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-14T14:41:23Z",
+      "side": 1,
+      "message": "This makes it sound like our production component setup won\u0027t work. We should have more explanation to clarify why it works, or get the test to be more like production",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 0
+      },
+      "revId": "816cb514ff8ea559240a2de4cbf3a95cbf8cd850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "580b4a2e_439524b6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-14T14:41:23Z",
+      "side": 1,
+      "message": "\"basic tests\" suite should be first and render test suite should be last",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 53
+      },
+      "revId": "816cb514ff8ea559240a2de4cbf3a95cbf8cd850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ada058e5_7dbae590",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-14T14:41:23Z",
+      "side": 1,
+      "message": "`as any` should not be needed, same above",
+      "range": {
+        "startLine": 231,
+        "startChar": 46,
+        "endLine": 231,
+        "endChar": 49
+      },
+      "revId": "816cb514ff8ea559240a2de4cbf3a95cbf8cd850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

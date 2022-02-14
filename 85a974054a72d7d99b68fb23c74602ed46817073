@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d58afa1f_30fd4bd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52ee0e69_319239d1",
+      "range": {
+        "startLine": 14,
+        "startChar": 7,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ae0811b_60c7949f",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-14T09:39:27Z",
       "side": 1,
       "message": "\"are only associated\" (since a label that appears in a non-applicable SR can also appear in another applicable SR)",
+      "range": {
+        "startLine": 19,
+        "startChar": 40,
+        "endLine": 19,
+        "endChar": 54
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96848af4_2c721df5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "Right, done.",
+      "parentUuid": "1ae0811b_60c7949f",
       "range": {
         "startLine": 19,
         "startChar": 40,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6879c8c2_37ae2d3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "7f5bb93f_ed19a4b3",
+      "range": {
+        "startLine": 20,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 65
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "539d3a3c_ee8b03e1",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-02-14T09:39:27Z",
       "side": 1,
       "message": "nit: be hidden",
+      "range": {
+        "startLine": 24,
+        "startChar": 45,
+        "endLine": 24,
+        "endChar": 51
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b8318b3_a271834f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "539d3a3c_ee8b03e1",
       "range": {
         "startLine": 24,
         "startChar": 45,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad81fccd_5c353f66",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "This is tested here: https://gerrit-review.googlesource.com/c/gerrit/+/330087/4/javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java#2631\n\nThis test is configuring one label that appears in the submittability expression of 2 SRs, where one is applicable and the other isn\u0027t. The label is returned in this case.\n\nSorry the test contained wrong names and was confusing. I fixed it.",
+      "parentUuid": "0220f6ce_7cd5912f",
+      "range": {
+        "startLine": 704,
+        "startChar": 23,
+        "endLine": 705,
+        "endChar": 96
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c074098_7abc3d28",
@@ -129,6 +249,24 @@
       "writtenOn": "2022-02-14T09:39:27Z",
       "side": 1,
       "message": "Could you maybe add javadoc? E.g. just looking at the method signature, it\u0027s not clear to me what the include parameter is about.",
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4736d5b_ac682468",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c074098_7abc3d28",
       "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -156,6 +294,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "036566af_dcd6e4a8",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "Right. Thanks for catching. I moved this to LabelType.\n\nDone.",
+      "parentUuid": "0c053f79_c907d6a5",
+      "range": {
+        "startLine": 43,
+        "startChar": 74,
+        "endLine": 43,
+        "endChar": 84
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0096904c_154b626d",
@@ -173,6 +335,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e63146b_e7343338",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0096904c_154b626d",
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3cf5097_13e28b57",
@@ -186,6 +366,30 @@
       "writtenOn": "2022-02-14T09:39:27Z",
       "side": 1,
       "message": "Why to lower case?",
+      "range": {
+        "startLine": 138,
+        "startChar": 33,
+        "endLine": 138,
+        "endChar": 47
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c926f92d_114170d6",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "The reason was when we do the comparison (we want to filter labels on the API that only occur in SR expressions), we want to do it case insensitive.\n\nI moved toLowerCase from here and moved it up to the caller.",
+      "parentUuid": "d3cf5097_13e28b57",
       "range": {
         "startLine": 138,
         "startChar": 33,
@@ -219,6 +423,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fd48901_d9277083",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2631,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "My bad: the SR at line 2646 should be named LC instead of LC applicable. Sorry for the confusion.\n\nDone.",
+      "parentUuid": "4c2fd7af_22e6a69f",
+      "range": {
+        "startLine": 2631,
+        "startChar": 14,
+        "endLine": 2631,
+        "endChar": 74
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd859d07_eef0b415",
@@ -242,6 +470,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2044f2be_16ba7519",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2637,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd859d07_eef0b415",
+      "range": {
+        "startLine": 2637,
+        "startChar": 25,
+        "endLine": 2637,
+        "endChar": 27
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50a80b46_15600e5a",
@@ -255,6 +507,30 @@
       "writtenOn": "2022-02-14T09:39:27Z",
       "side": 1,
       "message": "I\u0027m confused, why is label \"LC\" expected to be returned if there is an applicable SR for label \"LC-Applicable\"? Shouldn\u0027t the label names match?",
+      "range": {
+        "startLine": 2664,
+        "startChar": 7,
+        "endLine": 2664,
+        "endChar": 94
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f6becd0_af50946d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2664,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:09:45Z",
+      "side": 1,
+      "message": "The names were wrong. I fixed it. Sorry for the confusion.",
+      "parentUuid": "50a80b46_15600e5a",
       "range": {
         "startLine": 2664,
         "startChar": 7,

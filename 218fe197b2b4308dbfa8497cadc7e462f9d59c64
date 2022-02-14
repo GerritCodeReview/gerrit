@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34f4be24_b53de460",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T09:01:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b2d05e2_8eb2526e",
+      "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2c8188d_cc6a5f1f",

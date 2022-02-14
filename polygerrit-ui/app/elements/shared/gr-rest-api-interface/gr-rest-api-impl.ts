@@ -177,7 +177,7 @@ let siteBasedCache = new SiteBasedCache(); // Shared across instances.
 let fetchPromisesCache = new FetchPromisesCache(); // Shared across instances.
 let pendingRequest: {[promiseName: string]: Array<Promise<unknown>>} = {}; // Shared across instances.
 let grEtagDecorator = new GrEtagDecorator(); // Shared across instances.
-let projectLookup: {[changeNum: string]: RepoName} = {}; // Shared across instances.
+let projectLookup: {[changeNum: string]: Promise<RepoName | undefined>} = {}; // Shared across instances.
 
 function suppress404s(res?: Response | null) {
   if (!res || res.status === 404) return;
@@ -2980,17 +2980,15 @@ export class GrRestApiServiceImpl
       });
   }
 
-  setInProjectLookup(changeNum: NumericChangeId, project: RepoName) {
-    if (
-      this._projectLookup[changeNum] &&
-      this._projectLookup[changeNum] !== project
-    ) {
+  async setInProjectLookup(changeNum: NumericChangeId, project: RepoName) {
+    const lookupProject = await this._projectLookup[changeNum];
+    if (lookupProject && lookupProject !== project) {
       console.warn(
         'Change set with multiple project nums.' +
           'One of them must be invalid.'
       );
     }
-    this._projectLookup[changeNum] = project;
+    this._projectLookup[changeNum] = Promise.resolve(project);
   }
 
   /**
@@ -3003,18 +3001,22 @@ export class GrRestApiServiceImpl
   ): Promise<RepoName | undefined> {
     const project = this._projectLookup[`${changeNum}`];
     if (project) {
-      return Promise.resolve(project);
+      return project;
     }
 
     const onError = (response?: Response | null) => firePageError(response);
 
-    return this.getChange(changeNum, onError).then(change => {
+    const projectPromise = this.getChange(changeNum, onError).then(change => {
       if (!change || !change.project) {
         return;
       }
       this.setInProjectLookup(changeNum, change.project);
       return change.project;
     });
+
+    this._projectLookup[changeNum] = projectPromise;
+
+    return projectPromise;
   }
 
   // if errFn is not set, then only Response possible

@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b2ede5e_cf4c9f87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T19:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff8189d_e80037b5",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27f8a974_0c2aeed5",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "This change was drafted before the new requirement, but we can add a footer with new patchsets.",
       "parentUuid": "27f8a974_0c2aeed5",
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e749ef8c_c20e5435",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T19:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8674f1e_e831b29b",
       "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -175,6 +217,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce99ebc0_8ace4195",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2500,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T19:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3a35e7a_c674c4c1",
+      "range": {
+        "startLine": 2500,
+        "startChar": 57,
+        "endLine": 2500,
+        "endChar": 72
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9d42991_68b880f0",
@@ -188,6 +254,30 @@
       "writtenOn": "2022-02-12T19:56:12Z",
       "side": 1,
       "message": "May be consistently use SHA-1 or commit ID?",
+      "range": {
+        "startLine": 52,
+        "startChar": 17,
+        "endLine": 52,
+        "endChar": 21
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bc4fbc4_be7b7f37",
+        "filename": "java/com/google/gerrit/extensions/webui/FileWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T19:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9d42991_68b880f0",
       "range": {
         "startLine": 52,
         "startChar": 17,
@@ -317,6 +407,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4510e927_30aa56ae",
+        "filename": "java/com/google/gerrit/extensions/webui/FileWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T19:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24dadd30_2d794f57",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 3
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80d32e81_347e7de6",
@@ -330,6 +444,30 @@
       "writtenOn": "2022-02-12T19:56:12Z",
       "side": 1,
       "message": "Extend Javadocs.",
+      "range": {
+        "startLine": 114,
+        "startChar": 3,
+        "endLine": 119,
+        "endChar": 5
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91bdf044_8344c027",
+        "filename": "java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T19:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80d32e81_347e7de6",
       "range": {
         "startLine": 114,
         "startChar": 3,
@@ -363,6 +501,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a57e872_dcd883d8",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T19:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b65f8f34_dfa0e836",
+      "range": {
+        "startLine": 206,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 11
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7730f2ce_c199a811",
@@ -376,6 +538,30 @@
       "writtenOn": "2022-02-12T19:56:12Z",
       "side": 1,
       "message": "Not needed, here and below in log statement.",
+      "range": {
+        "startLine": 214,
+        "startChar": 6,
+        "endLine": 214,
+        "endChar": 11
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12594f4a_892b0e76",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T19:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7730f2ce_c199a811",
       "range": {
         "startLine": 214,
         "startChar": 6,
@@ -417,6 +603,24 @@
       "side": 1,
       "message": "Looks like your master patch has examples for testing that I can try to adapt. Thank you.",
       "parentUuid": "6f982165_20f574f6",
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "635ef48b_a2ca86d3",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T19:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ac1bf2c_dd67e220",
       "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9041991c_fbbc04bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T08:37:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0c0094f_c578c487",
+      "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04d3e57e_a59a40ff",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-14T07:49:45Z",
       "side": 1,
       "message": "Pass in mouse event.",
+      "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca79644a_1e01b869",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T08:37:47Z",
+      "side": 1,
+      "message": "I would like to, but debounceHide is used for \u0027blur\u0027 as well and \u0027blur\u0027 is not mouseEvent but focusEvent.",
+      "parentUuid": "04d3e57e_a59a40ff",
       "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fe176fd_f20ed088",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T08:37:47Z",
+      "side": 1,
+      "message": "Discussion: https://gerrit-review.googlesource.com/c/gerrit/+/330301/comments/04d3e57e_a59a40ff",
+      "parentUuid": "a2c8188d_cc6a5f1f",
+      "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a8f7c80_6ca818aa",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-02-14T07:49:45Z",
       "side": 1,
       "message": "Make this non-optional.",
+      "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0cae383_e97ac380",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T08:37:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a8f7c80_6ca818aa",
       "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b0dacec_c9ca19ac",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T08:37:47Z",
+      "side": 1,
+      "message": "Discussion: https://gerrit-review.googlesource.com/c/gerrit/+/330301/comments/04d3e57e_a59a40ff",
+      "parentUuid": "595bb2a1_6c44ef37",
+      "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9a4ddab_bbc5eca2",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-02-14T07:49:45Z",
       "side": 1,
       "message": "Pass alonge mouse event",
+      "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57a77fe0_87ec51ca",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T08:37:47Z",
+      "side": 1,
+      "message": "Discussion: https://gerrit-review.googlesource.com/c/gerrit/+/330301/comments/04d3e57e_a59a40ff",
+      "parentUuid": "a9a4ddab_bbc5eca2",
       "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f48b4eb9_4d4ef33b",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T08:37:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aec59cbe_25f6e8d6",
+      "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0db7620f_919c4d0e",
@@ -133,6 +259,24 @@
       "writtenOn": "2022-02-14T07:49:45Z",
       "side": 1,
       "message": "Does this need to happen after updateComplete?",
+      "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f131670_98eab42b",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T08:37:47Z",
+      "side": 1,
+      "message": "Yes, We want to be sure whole hovercard is rendered.",
+      "parentUuid": "0db7620f_919c4d0e",
       "revId": "218fe197b2b4308dbfa8497cadc7e462f9d59c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

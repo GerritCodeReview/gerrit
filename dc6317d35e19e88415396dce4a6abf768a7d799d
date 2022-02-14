@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b00b094_ff2520ac",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1222,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-14T14:58:05Z",
+      "side": 1,
+      "message": "Should we deduplicate values here?\n\nIf prolog and new SRs are both present, is there a chance we emit the same value twice? (using a set would dedupe them).",
+      "revId": "dc6317d35e19e88415396dce4a6abf768a7d799d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "59d73b3d_419ecf84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1145260
+      },
+      "writtenOn": "2022-02-14T18:46:52Z",
+      "side": 1,
+      "message": "why not just include both terminologies?:\n\u0027No newline at end of left (base) file.\u0027",
+      "parentUuid": "bc7a6037_786bb5ce",
+      "revId": "cda24579b892463875c10478afd8bc268c1428a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "864d6b28_bc6a9a76",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

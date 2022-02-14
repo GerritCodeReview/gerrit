@@ -22,6 +22,30 @@
       },
       "revId": "94daf2e05448c24c11098da1fa378c4c74d8db54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "054901ff_ecae4d49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-14T11:35:25Z",
+      "side": 1,
+      "message": "+1 to your concern overall.\n\nThere was always a chance for label/prolog-based SRs to become stale and we didn\u0027t hear much complaints about that (e.g. adding a new label would not be reflected in dashboards immediately).\n\nFor the migration, there is a one-time event, where we want to reindex all changes. I think scripting that and reindexing the last N (10k?) by issuing REST API calls for reindexing these changes would be good enough.\n\nI do wonder if we could do better and if this approach could be optimized a bit to become feasible. Some options that we discussed in the standup today:\n\n1) Trigger this logic only for open changes (reduces input set)\n2) Only include the current project, not the tree. This will limit the blast radius, yet give project owners an easy way to trigger reindexing.",
+      "parentUuid": "1a29c144_b87b57b9",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 44
+      },
+      "revId": "94daf2e05448c24c11098da1fa378c4c74d8db54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

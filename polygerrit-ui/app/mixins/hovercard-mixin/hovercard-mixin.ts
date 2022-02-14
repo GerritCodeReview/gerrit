@@ -327,6 +327,10 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       );
     };
 
+    readonly forceHide = () => {
+      this.hide({keyboardEvent: new KeyboardEvent('enter')});
+    };
+
     /**
      * Hides/closes the hovercard. This occurs when the user triggers the
      * `mouseleave` event on the hovercard's `target` element (as long as the
@@ -559,6 +563,7 @@ export interface HovercardMixinInterface {
   _isShowing: boolean;
   dispatchEventThroughTarget(eventName: string, detail?: unknown): void;
   show(props: MouseKeyboardOrFocusEvent): void;
+  forceHide(): void;
 
   // Used for tests
   mouseHide(e: MouseEvent): void;

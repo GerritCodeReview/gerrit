@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0eb84f8_c1778543",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-14T08:27:39Z",
+      "side": 1,
+      "message": "Can you help me understand what would be the scenario where you would need to set allowRegisterNewEmail to false but httpAllowRegisterNewEmail to true?\n\nIf you are using SAML, you have auth\u003dHTTP and you could set allowRegisterNewEmail to true. I know that was historically not used when auth\u003dHTTP, but you could amend the behaviour because this change is for master where we do allow breaking changes as long as they are properly documented and notified on the release notes.\n\nHaving yet another config option looks like a tech debt we\u0027ll need to remove anyway at some point in the future.",
+      "range": {
+        "startLine": 716,
+        "startChar": 7,
+        "endLine": 716,
+        "endChar": 32
+      },
+      "revId": "b460ddbc974951fe738f9ec58e6babbd21423327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

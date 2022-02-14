@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc21a5c8_99e45216",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-14T20:36:05Z",
+      "side": 1,
+      "message": "I admit that I don\u0027t know how to read a change like this.",
+      "revId": "7ef09bc90b4e9e4da6defca3f8d1a1d7661a7210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

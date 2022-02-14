@@ -16,6 +16,24 @@
       "message": "This belongs before the focus().",
       "revId": "3d8041fc05a4bb2283b86b3b200caa215198774e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1391620e_f8b079c4",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T12:46:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6655e71a_a9f65f1b",
+      "revId": "3d8041fc05a4bb2283b86b3b200caa215198774e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

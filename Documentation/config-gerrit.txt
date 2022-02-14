@@ -2593,8 +2593,9 @@ at the contents of a file in a specific commit when `gitweb.type` is
 set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit,
-`${file}` for the file name and `${commit}` for the SHA-1 hash for
-the commit.
+`${file}` for the file name, `${hash}` for the SHA-1 hash for the commit,
+and `${commit}` for the change ref or SHA-1 of the commit if no base
+patch set.
 
 [[gitweb.filehistory]]gitweb.filehistory::
 +

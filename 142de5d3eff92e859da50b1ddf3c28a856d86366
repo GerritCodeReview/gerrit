@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48998e8b_f3ae4163",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T12:39:16Z",
+      "side": 1,
+      "message": "\u003e Are we shipping these on our API? If so, can we do this in the web UI instead?\n\nYes.\n\nAnd yes, also the purpose of this change is only for better UI in the FE.\n\n@milutin: can we implement this on the FE side. If then, I can abandon this change.",
+      "parentUuid": "ca7cc227_dea237c9",
+      "range": {
+        "startLine": 7,
+        "startChar": 43,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "142de5d3eff92e859da50b1ddf3c28a856d86366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "497687db_bfb8ffa2",
         "filename": "Documentation/config-submit-requirements.txt",
         "patchSetId": 6

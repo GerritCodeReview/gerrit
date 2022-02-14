@@ -20,7 +20,7 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.lang.mutable.MutableLong;
+import org.apache.commons.lang3.mutable.MutableLong;
 
 /**
  * {@link com.google.gerrit.metrics.MetricMaker} to be bound in tests.

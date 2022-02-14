@@ -338,7 +338,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     /**
      * Hides/closes the hovercard. This occurs when the user triggers the
      * `mouseleave` event on the hovercard's `target` element (as long as the
-     * user is not hovering over the hovercard). If event not specified
+     * user is not hovering over the hovercard). If event is not specified
      * in props, code assumes mouseEvent
      */
     readonly hide = (props: MouseKeyboardOrFocusEvent) => {
@@ -409,7 +409,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     /**
      * Shows/opens the hovercard. This occurs when the user triggers the
      * `mousenter` event on the hovercard's `target` element or when a user
-     * presses enter/space on the hovercard's `target` element. If event not
+     * presses enter/space on the hovercard's `target` element. If event is not
      * specified in props, code assumes mouseEvent
      */
     readonly show = async (props: MouseKeyboardOrFocusEvent) => {

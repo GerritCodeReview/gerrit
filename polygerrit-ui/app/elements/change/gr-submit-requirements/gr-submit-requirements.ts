@@ -193,9 +193,8 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   renderRequirement(requirement: SubmitRequirementResultInfo, index: number) {
-    return html`
-      <tr id="requirement-${index}-${charsOnly(requirement.name)}">
-        <td>${this.renderStatus(requirement.status)}</td>
+    const row = html`
+     <td>${this.renderStatus(requirement.status)}</td>
         <td class="name">
           <gr-limited-text
             class="name"
@@ -212,6 +211,22 @@ export class GrSubmitRequirements extends LitElement {
         </td>
       </tr>
     `;
+
+    if (this.disableHovercards) {
+      // when hovercards are disabled, we don't make line focusable (tabindex)
+      // since otherwise there is no action associated with the line
+      return html`<tr>
+        ${row}
+      </tr>`;
+    } else {
+      return html`<tr
+        id="requirement-${index}-${charsOnly(requirement.name)}"
+        role="button"
+        tabindex="0"
+      >
+        ${row}
+      </tr>`;
+    }
   }
 
   renderEndpoint(

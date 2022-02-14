@@ -85,7 +85,7 @@ suite('gr-submit-requirements tests', () => {
           </tr>
         </thead>
         <tbody>
-          <tr id="requirement-0-Verified">
+          <tr id="requirement-0-Verified" role="button" tabindex="0">
             <td>
               <iron-icon
                 aria-label="satisfied"

@@ -31,6 +31,7 @@ def plugin_eslint():
             "//plugins:.eslintrc.js",
             "//plugins:.prettierrc.js",
             "//plugins:tsconfig-plugins-base.json",
+            "@npm//typescript",
         ],
         extensions = [".ts"],
         ignore = "//plugins:.eslintignore",
@@ -39,7 +40,9 @@ def plugin_eslint():
             "@npm//eslint-plugin-html",
             "@npm//eslint-plugin-import",
             "@npm//eslint-plugin-jsdoc",
+            "@npm//eslint-plugin-lit",
             "@npm//eslint-plugin-prettier",
+            "@npm//eslint-plugin-regex",
             "@npm//gts",
         ],
     )

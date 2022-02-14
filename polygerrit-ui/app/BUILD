@@ -238,6 +238,7 @@ eslint(
         "tsconfig_eslint.json",
         # tsconfig_eslint.json extends tsconfig.json, pass it as a dependency
         "tsconfig.json",
+        "@npm//typescript",
     ],
     extensions = [
         ".html",
@@ -250,7 +251,9 @@ eslint(
         "@npm//eslint-plugin-html",
         "@npm//eslint-plugin-import",
         "@npm//eslint-plugin-jsdoc",
+        "@npm//eslint-plugin-lit",
         "@npm//eslint-plugin-prettier",
+        "@npm//eslint-plugin-regex",
         "@npm//gts",
     ],
 )
@@ -266,6 +269,7 @@ filegroup(
     ) + [
         "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",
+        "@npm//typescript",
     ],
 )
 

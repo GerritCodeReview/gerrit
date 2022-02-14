@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f82d6054_f354d41e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:28:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7781b94_9af12752",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "a5448d743ad10bcdaf0f66f539f1e38b107e5e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "175e22c0_ad546b8d",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1b07841_cfdbce0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:28:47Z",
+      "side": 1,
+      "message": "Yes, this is temporary until we implement a SR predicate. After that, admins should migrate their search queries with {NEED, OK, etc...} to proper submit requirements queries.\n\nThe mapping of\n  * {Need, Reject} -\u003e UNSATISFIED \n  * {Ok, May} -\u003e {SATISFIED, OVERRIDDEN}\n\nis just a proxy. We map fulfilling submit record states to fulfilled submit requirement states. Same for unfulfilled states.\n\nI added documentation to the label operator. PTAL.",
+      "parentUuid": "175e22c0_ad546b8d",
+      "range": {
+        "startLine": 35,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "a5448d743ad10bcdaf0f66f539f1e38b107e5e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "def08d08_df29b788",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-02-14T08:21:22Z",
       "side": 1,
       "message": "Since we are not querying labels, but changes, I would suggest renaming this test a bit. Maybe \"queryChangesBySubmitRequirementResultUsingTheLabelPredicate\"",
+      "range": {
+        "startLine": 2713,
+        "startChar": 14,
+        "endLine": 2713,
+        "endChar": 58
+      },
+      "revId": "a5448d743ad10bcdaf0f66f539f1e38b107e5e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18816a37_b4af2ead",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2713,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-14T11:28:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "def08d08_df29b788",
       "range": {
         "startLine": 2713,
         "startChar": 14,

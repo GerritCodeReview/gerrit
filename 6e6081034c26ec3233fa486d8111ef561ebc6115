@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ce3672c_e9dc112b",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-14T09:25:08Z",
+      "side": 1,
+      "message": "Could you add some comment why you need the tabindex if you\u0027re not disabling hovercards.\n\nAlso consider naming it \u0027enableHovercards\u0027 so you don\u0027t have to think about double-negative.",
+      "revId": "6e6081034c26ec3233fa486d8111ef561ebc6115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

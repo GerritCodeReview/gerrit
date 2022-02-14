@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07bbef12_47df5d6b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 3022,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T09:44:44Z",
+      "side": 1,
+      "message": "My understanding is that since getChange is promise even if it is resolved, it will always be called once stack is finished. The line 3026 will be always called in stack so it will always be \n1. line 3026\n... other stacks\n2. inside of then for promise getChange.\n\nI was testing this and it worked well. There is also good test coverage for this cache.",
+      "parentUuid": "98b3729d_892960ac",
+      "revId": "e5d828fdd3cd3ef54d6e813f9bd93aec55ffe1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30612255_735e894e",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-14T09:23:21Z",
       "side": 1,
       "message": "Why is this `[\u0027${changeNum}\u0027]` but on line 2993 it\u0027s simply `[changeNum]`.\n\nIs this intentional?",
+      "revId": "e5d828fdd3cd3ef54d6e813f9bd93aec55ffe1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6799e94_0a630be3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 3026,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-14T09:44:44Z",
+      "side": 1,
+      "message": "Thanks, it was not intentional.",
+      "parentUuid": "30612255_735e894e",
       "revId": "e5d828fdd3cd3ef54d6e813f9bd93aec55ffe1f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

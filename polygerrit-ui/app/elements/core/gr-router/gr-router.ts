@@ -497,7 +497,10 @@ export class GrRouter extends PolymerElement {
     if (params.topic) {
       operators.push(
         'topic:' +
-          addQuotesWhen(encodeURL(params.topic, false), /\s/.test(params.topic))
+          addQuotesWhen(
+            encodeURL(params.topic, false),
+            /[\s:]/.test(params.topic)
+          )
       );
     }
     if (params.hashtag) {
@@ -505,7 +508,7 @@ export class GrRouter extends PolymerElement {
         'hashtag:' +
           addQuotesWhen(
             encodeURL(params.hashtag.toLowerCase(), false),
-            /\s/.test(params.hashtag)
+            /[\s:]/.test(params.hashtag)
           )
       );
     }

@@ -304,6 +304,12 @@ suite('gr-router tests', () => {
       };
       assert.equal(element._generateUrl(params),
           '/q/topic:"test+test"');
+      params = {
+        view: GerritNav.View.SEARCH,
+        topic: 'test:test',
+      };
+      assert.equal(element._generateUrl(params),
+          '/q/topic:"test:test"');
     });
 
     test('change', () => {

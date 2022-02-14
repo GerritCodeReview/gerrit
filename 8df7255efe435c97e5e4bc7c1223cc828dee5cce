@@ -16,6 +16,40 @@
       "message": "PTAL",
       "revId": "8df7255efe435c97e5e4bc7c1223cc828dee5cce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe6132b4_cb2ae18f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-14T09:00:15Z",
+      "side": 1,
+      "message": "Can you wrap all the suites into one top-level suite so it\u0027s a single suite for this file, aptly named \u0027gr-change-list-section\u0027?",
+      "revId": "8df7255efe435c97e5e4bc7c1223cc828dee5cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "934c79b1_e414cdf8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-14T09:00:15Z",
+      "side": 1,
+      "message": "I am concerned that we need to jump through extra hoops for the test to pass.\n\nHave you validated with the web components team whether our approach for production is kosher and well-supported?",
+      "revId": "8df7255efe435c97e5e4bc7c1223cc828dee5cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

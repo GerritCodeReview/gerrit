@@ -122,8 +122,8 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
   }
 
   renderState(icon: string, aggregation: string | TemplateResult) {
-    return html`<span class="${icon}"
-      ><gr-submit-requirement-dashboard-hovercard .change=${this.change}>
+    return html`<span class="${icon}" role="button" tabindex="0">
+      <gr-submit-requirement-dashboard-hovercard .change=${this.change}>
       </gr-submit-requirement-dashboard-hovercard>
       <iron-icon class="${icon}" icon="gr-icons:${icon}" role="img"></iron-icon
       >${aggregation}</span

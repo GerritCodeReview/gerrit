@@ -33,7 +33,11 @@ import {
   YOUR_TURN,
 } from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
-import {changeIsOpen} from '../../../utils/change-util';
+import {
+  changeIsOpen,
+  ListChangesOption,
+  listChangesOptionsToHex,
+} from '../../../utils/change-util';
 import {parseDate} from '../../../utils/date-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
@@ -284,31 +288,49 @@ export class GrDashboardView extends PolymerElement {
       }
     }
 
-    return this.restApiService.getChanges(undefined, queries).then(changes => {
-      if (!changes) {
-        throw new Error('getChanges returns undefined');
-      }
-      if (checkForNewUser) {
-        // Last set of results is not meant for dashboard display.
-        const lastResultSet = changes.pop();
-        this._showNewUserHelp = lastResultSet!.length === 0;
-      }
-      this._results = changes
-        .map((results, i) => {
-          return {
-            name: res.sections[i].name,
-            countLabel: this._computeSectionCountLabel(results),
-            query: res.sections[i].query,
-            results: this._maybeSortResults(res.sections[i].name, results),
-            emptyStateSlotName: slotNameBySectionName.get(res.sections[i].name),
-          };
-        })
-        .filter(
-          (section, i) =>
-            i < res.sections.length &&
-            (!res.sections[i].hideIfEmpty || section.results.length)
+    return this.restApiService
+      .getChanges(undefined, queries)
+      .then(async changes => {
+        if (!changes) {
+          throw new Error('getChanges returns undefined');
+        }
+        if (checkForNewUser) {
+          // Last set of results is not meant for dashboard display.
+          const lastResultSet = changes.pop();
+          this._showNewUserHelp = lastResultSet!.length === 0;
+        }
+
+        const options = [
+          ListChangesOption.CHANGE_ACTIONS,
+          ListChangesOption.DETAILED_LABELS,
+          ListChangesOption.CURRENT_COMMIT,
+        ];
+        const detailedChanges = await this.restApiService.getChanges(
+          undefined,
+          queries,
+          undefined,
+          listChangesOptionsToHex(...options)
         );
-    });
+        console.log(detailedChanges);
+
+        this._results = changes
+          .map((results, i) => {
+            return {
+              name: res.sections[i].name,
+              countLabel: this._computeSectionCountLabel(results),
+              query: res.sections[i].query,
+              results: this._maybeSortResults(res.sections[i].name, results),
+              emptyStateSlotName: slotNameBySectionName.get(
+                res.sections[i].name
+              ),
+            };
+          })
+          .filter(
+            (section, i) =>
+              i < res.sections.length &&
+              (!res.sections[i].hideIfEmpty || section.results.length)
+          );
+      });
   }
 
   /**

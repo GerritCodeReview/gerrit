@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15da7719_74aef8a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-14T12:15:10Z",
+      "side": 1,
+      "message": "\u003e Yes, but unified diff is 1% of diff usage compared to 99% side-by-side, so I am not so concerned about it.\n\nit\u0027s 99.9% of my diff usage. ;)\n\n\u003e `base` and `revision` is just wrong and confusing.\n\ni agree that it\u0027s confusing (because the meaning is overloaded in close proximity), but it\u0027s actually not wrong at all (though \"revision\" is seriously clunky).\n\n\u003e I think even in unified diff mode `left` and `right` and clearer to understand,\n\nit\u0027s not. it\u0027s arbitrary and western-centered.\n\n\u003e The only other words that come to my mind are `old` and `new`.\n\nthese were my first thought, too - and they are already established in the diff/patch world. of course, this *would* be actually wrong when viewing reverse diffs, but that\u0027s a corner case which i think gerrit users are capable of overlooking effortlessly.\n\nit seems unlikely that we\u0027ll come up with anything more pithy.",
+      "parentUuid": "7b218f9a_de8d2906",
+      "revId": "cda24579b892463875c10478afd8bc268c1428a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "864d6b28_bc6a9a76",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

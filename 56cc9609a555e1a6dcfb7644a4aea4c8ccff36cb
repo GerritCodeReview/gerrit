@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "305039e3_05b8152e",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-14T09:10:52Z",
+      "side": 1,
+      "message": "If event *is* not",
+      "revId": "56cc9609a555e1a6dcfb7644a4aea4c8ccff36cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -110,7 +110,7 @@ export class GrHovercardAccount extends base {
           padding: var(--spacing-s) var(--spacing-l);
         }
         .links {
-          padding: var(--spacing-l) var(--spacing-xxl);
+          padding: 0px 0px var(--spacing-l) var(--spacing-xxl);
         }
         .statusPlugin {
           padding: var(--spacing-l) var(--spacing-l) var(--spacing-m);
@@ -251,9 +251,14 @@ export class GrHovercardAccount extends base {
   private renderLinks() {
     return html` <div class="links">
       <iron-icon class="linkIcon" icon="gr-icons:link"></iron-icon
-      ><a href="${ifDefined(this.computeOwnerChangesLink())}">Changes</a>·<a
+      ><a
+        href="${ifDefined(this.computeOwnerChangesLink())}"
+        @click=${this.forceHide}
+      >Changes</a
+      >·<a
         href="${ifDefined(this.computeOwnerDashboardLink())}"
-        >Dashboard</a
+        @click=${this.forceHide}
+      >Dashboard</a
       >
     </div>`;
   }

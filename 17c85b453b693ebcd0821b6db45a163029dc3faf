@@ -247,6 +247,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc6abf00_78d1f036",
+        "filename": "java/com/google/gerrit/extensions/webui/FileWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-14T18:48:31Z",
+      "side": 1,
+      "message": "That\u0027s easy. Just upload change to gitiles plugin. And the update core plugin to point to this commit in your Gerrit change. I can help with that in yor prefer.",
+      "parentUuid": "c38ef131_7f1a5b7e",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 3
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "80d32e81_347e7de6",
         "filename": "java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 1

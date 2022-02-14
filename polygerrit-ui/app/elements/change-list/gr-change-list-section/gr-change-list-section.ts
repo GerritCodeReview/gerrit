@@ -85,6 +85,12 @@ export class GrChangeListSection extends LitElement {
   @property({type: Object})
   account: AccountInfo | undefined = undefined;
 
+  @property({type: Boolean})
+  showBulkActionsHeader = false;
+
+  @property({type: Boolean})
+  disableSubmitAction = false;
+
   private readonly flagsService = getAppContext().flagsService;
 
   bulkActionsModel: BulkActionsModel = new BulkActionsModel(
@@ -193,9 +199,25 @@ export class GrChangeListSection extends LitElement {
     `;
   }
 
+  private renderSubmitAction() {
+    return html `
+      <td class="spacing"></td>
+      <td>
+        <gr-button
+        ?disabled=${this.disableSubmitAction}
+        >Submit</gr-button>
+      </td>
+      `
+  }
+
+  private renderBulkActionsHeader() {
+    return html `${this.renderSubmitAction()}`
+  }
+
   private renderColumnHeaders(columns: string[]) {
     return html`
       <tr class="groupTitle">
+      ${this.showBulkActionsHeader ? this.renderBulkActionsHeader() : html `
         <td class="leftPadding" aria-hidden="true"></td>
         ${this.renderSelectionHeader()}
         <td
@@ -208,9 +230,9 @@ export class GrChangeListSection extends LitElement {
         ${this.labelNames?.map(labelName => this.renderLabelHeader(labelName))}
         ${this.dynamicHeaderEndpoints?.map(pluginHeader =>
           this.renderEndpointHeader(pluginHeader)
-        )}
-      </tr>
-    `;
+        )}`
+      }
+      </tr>`;
   }
 
   private renderSelectionHeader() {

@@ -193,8 +193,14 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   renderRequirement(requirement: SubmitRequirementResultInfo, index: number) {
+    const hovercardId = `requirement-${index}-${charsOnly(requirement.name)}`;
     return html`
-      <tr id="requirement-${index}-${charsOnly(requirement.name)}">
+      <tr
+        id="${hovercardId}"
+        aria-controls="${hovercardId}"
+        role="button"
+        tabindex="0"
+      >
         <td>${this.renderStatus(requirement.status)}</td>
         <td class="name">
           <gr-limited-text

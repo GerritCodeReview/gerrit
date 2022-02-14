@@ -19,7 +19,8 @@ import '../../test/common-test-setup-karma.js';
 import {HovercardMixin} from './hovercard-mixin.js';
 import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators';
-import {MockPromise, mockPromise} from '../../test/test-utils.js';
+import {MockPromise, mockPromise, pressKey} from '../../test/test-utils.js';
+import {Key} from '../../utils/dom-util.js';
 
 const base = HovercardMixin(LitElement);
 
@@ -60,7 +61,8 @@ suite('gr-hovercard tests', () => {
   });
 
   teardown(() => {
-    element.hide(new MouseEvent('click'));
+    pressKey(element, Key.ESC);
+    element.mouseClickHide(new MouseEvent('click'));
     button?.remove();
   });
 
@@ -95,7 +97,7 @@ suite('gr-hovercard tests', () => {
   });
 
   test('hide', () => {
-    element.hide(new MouseEvent('click'));
+    element.mouseClickHide(new MouseEvent('click'));
     const style = getComputedStyle(element);
     assert.isFalse(element._isShowing);
     assert.isFalse(element.classList.contains('hovered'));
@@ -174,4 +176,38 @@ suite('gr-hovercard tests', () => {
     assert.isFalse(element.isScheduledToShow);
     assert.isFalse(element._isShowing);
   });
+
+  test('do not show on focus', async () => {
+    const button = document.querySelector('button');
+    button?.focus();
+    await element.updateComplete;
+    assert.isNotTrue(element.isScheduledToShow);
+    assert.isFalse(element._isShowing);
+  });
+
+  test('show on pressing enter when focused', async () => {
+    const button = document.querySelector('button')!;
+    button.focus();
+    await element.updateComplete;
+    pressKey(button, Key.ENTER);
+    await element.updateComplete;
+    assert.isTrue(element._isShowing);
+  });
+
+  test('show on pressing space when focused', async () => {
+    const button = document.querySelector('button')!;
+    button.focus();
+    await element.updateComplete;
+    pressKey(button, Key.SPACE);
+    await element.updateComplete;
+    assert.isTrue(element._isShowing);
+  });
+
+  // test('when on pressing enter, focus is moved to hovercard', () => {
+  //   assert.isTrue(true);
+  // });
+
+  // test('when on hover, focus is not moved to hovercard', () => {
+  //   assert.isTrue(true);
+  // });
 });

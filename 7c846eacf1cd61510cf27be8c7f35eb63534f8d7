@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34f1cf5d_286c3747",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T20:02:25Z",
+      "side": 1,
+      "message": "I\u0027m having some issues running bazel test //javatests/com/google/gerrit/acceptance/api/revision:RevisionDiffIT locally due to what I believe is the java version bazel is running under. It appears to be 8 rather than 11. However, gerrit/BUILD seems to set java 11?\n\nApologies if I fumble around here with test failures as a result.",
+      "revId": "7c846eacf1cd61510cf27be8c7f35eb63534f8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

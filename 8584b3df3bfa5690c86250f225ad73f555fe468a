@@ -16,6 +16,24 @@
       "message": "Can you also push this into master?",
       "revId": "8584b3df3bfa5690c86250f225ad73f555fe468a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9043bfd5_7bd73e9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-14T07:40:07Z",
+      "side": 1,
+      "message": "Yes, I will upload a merge series from stable-branches to master later today.",
+      "parentUuid": "32b5223b_89c528a0",
+      "revId": "8584b3df3bfa5690c86250f225ad73f555fe468a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

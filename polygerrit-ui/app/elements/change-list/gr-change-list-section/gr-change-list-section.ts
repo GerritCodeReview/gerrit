@@ -85,6 +85,15 @@ export class GrChangeListSection extends LitElement {
   @property({type: Object})
   account: AccountInfo | undefined = undefined;
 
+  @property({type: Boolean})
+  showBulkActionsHeader = false;
+
+  @property({type: Boolean})
+  disableSubmitAction = false;
+
+  @property({type: Boolean})
+  disableAbandonAction = false;
+
   private readonly flagsService = getAppContext().flagsService;
 
   bulkActionsModel: BulkActionsModel = new BulkActionsModel(
@@ -114,6 +123,10 @@ export class GrChangeListSection extends LitElement {
   constructor() {
     super();
     provide(this, bulkActionsModelToken, () => this.bulkActionsModel);
+    this.bulkActionsModel.selectedChangeIds$.subscribe(
+      selectedChanges =>
+        (this.showBulkActionsHeader = selectedChanges.length > 0)
+    );
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -193,24 +206,48 @@ export class GrChangeListSection extends LitElement {
     `;
   }
 
-  private renderColumnHeaders(columns: string[]) {
+  private renderSubmitAction() {
     return html`
-      <tr class="groupTitle">
-        <td class="leftPadding" aria-hidden="true"></td>
-        ${this.renderSelectionHeader()}
-        <td
-          class="star"
-          aria-label="Star status column"
-          ?hidden=${!this.showStar}
-        ></td>
-        <td class="number" ?hidden=${!this.showNumber}>#</td>
-        ${columns.map(item => this.renderHeaderCell(item))}
-        ${this.labelNames?.map(labelName => this.renderLabelHeader(labelName))}
-        ${this.dynamicHeaderEndpoints?.map(pluginHeader =>
-          this.renderEndpointHeader(pluginHeader)
-        )}
-      </tr>
+      <td class="spacing"></td>
+      <td>
+        <gr-button ?disabled=${this.disableSubmitAction}>Submit</gr-button>
+      </td>
     `;
+  }
+
+  private renderAbandonAction() {
+    return html`
+      <td class="spacing"></td>
+      <td>
+        <gr-button ?disabled=${this.disableAbandonAction}>Abandon</gr-button>
+      </td>
+    `;
+  }
+
+  private renderBulkActionsHeader() {
+    return html`${this.renderSubmitAction()} ${this.renderAbandonAction()}`;
+  }
+
+  private renderColumnHeaders(columns: string[]) {
+    return html` <tr class="groupTitle">
+      ${this.showBulkActionsHeader
+        ? this.renderBulkActionsHeader()
+        : html` <td class="leftPadding" aria-hidden="true"></td>
+            ${this.renderSelectionHeader()}
+            <td
+              class="star"
+              aria-label="Star status column"
+              ?hidden=${!this.showStar}
+            ></td>
+            <td class="number" ?hidden=${!this.showNumber}>#</td>
+            ${columns.map(item => this.renderHeaderCell(item))}
+            ${this.labelNames?.map(labelName =>
+              this.renderLabelHeader(labelName)
+            )}
+            ${this.dynamicHeaderEndpoints?.map(pluginHeader =>
+              this.renderEndpointHeader(pluginHeader)
+            )}`}
+    </tr>`;
   }
 
   private renderSelectionHeader() {

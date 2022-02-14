@@ -21,6 +21,7 @@ import {
   query,
   queryAndAssert,
   stubFlags,
+  waitUntilObserved,
 } from '../../../test/test-utils';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {columnNames, ChangeListSection} from '../gr-change-list/gr-change-list';
@@ -67,6 +68,23 @@ suite('gr-change-list section', () => {
     assert.isOk(query(element, '.selection'));
   });
 
+  test('selection header is only shown if experiment is enabled', async () => {
+    element.bulkActionsModel.setState({
+      ...element.bulkActionsModel.getState(),
+      selectedChangeNums: [1 as NumericChangeId],
+    });
+    await waitUntilObserved(
+      element.bulkActionsModel.selectedChangeNums$,
+      s => s.length === 1
+    );
+
+    assert.isNotOk(query(element, 'abandon'));
+    stubFlags('isEnabled').returns(true);
+    element.requestUpdate();
+    await element.updateComplete;
+    queryAndAssert(element, '.abandon');
+  });
+
   suite('bulk actions selection', () => {
     setup(async () => {
       stubFlags('isEnabled').returns(true);
@@ -92,6 +110,28 @@ suite('gr-change-list section', () => {
       await element.updateComplete;
 
       assert.isTrue(syncStub.called);
+    });
+
+    test('actions header is enabled/disabled based on selected changes', async () => {
+      element.bulkActionsModel.setState({
+        ...element.bulkActionsModel.getState(),
+        selectedChangeNums: [],
+      });
+      await waitUntilObserved(
+        element.bulkActionsModel.selectedChangeNums$,
+        s => s.length === 0
+      );
+      assert.isFalse(element.showBulkActionsHeader);
+
+      element.bulkActionsModel.setState({
+        ...element.bulkActionsModel.getState(),
+        selectedChangeNums: [1 as NumericChangeId],
+      });
+      await waitUntilObserved(
+        element.bulkActionsModel.selectedChangeNums$,
+        s => s.length === 1
+      );
+      assert.isTrue(element.showBulkActionsHeader);
     });
   });
 

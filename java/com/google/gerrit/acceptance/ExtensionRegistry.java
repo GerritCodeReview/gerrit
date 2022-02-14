@@ -49,6 +49,8 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.logging.PerformanceLogger;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeHasOperandFactory;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeIsOperandFactory;
 import com.google.gerrit.server.restapi.change.OnPostReview;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.validators.AccountActivationValidationListener;
@@ -98,6 +100,9 @@ public class ExtensionRegistry {
   private final DynamicSet<ReviewerAddedListener> reviewerAddedListeners;
   private final DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners;
 
+  private final DynamicMap<ChangeHasOperandFactory> hasOperands;
+  private final DynamicMap<ChangeIsOperandFactory> isOperands;
+
   @Inject
   ExtensionRegistry(
       DynamicSet<AccountIndexedListener> accountIndexedListeners,
@@ -134,7 +139,9 @@ public class ExtensionRegistry {
       DynamicSet<PluginPushOption> pluginPushOption,
       DynamicSet<OnPostReview> onPostReviews,
       DynamicSet<ReviewerAddedListener> reviewerAddedListeners,
-      DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners) {
+      DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners,
+      DynamicMap<ChangeHasOperandFactory> hasOperands,
+      DynamicMap<ChangeIsOperandFactory> isOperands) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -170,6 +177,8 @@ public class ExtensionRegistry {
     this.onPostReviews = onPostReviews;
     this.reviewerAddedListeners = reviewerAddedListeners;
     this.reviewerDeletedListeners = reviewerDeletedListeners;
+    this.hasOperands = hasOperands;
+    this.isOperands = isOperands;
   }
 
   public Registration newRegistration() {
@@ -222,6 +231,14 @@ public class ExtensionRegistry {
 
     public Registration add(SubmitRequirement submitRequirement) {
       return add(submitRequirements, submitRequirement);
+    }
+
+    public Registration add(ChangeHasOperandFactory hasOperand, String exportName) {
+      return add(hasOperands, hasOperand, exportName);
+    }
+
+    public Registration add(ChangeIsOperandFactory isOperand, String exportName) {
+      return add(isOperands, isOperand, exportName);
     }
 
     public Registration add(ChangeMessageModifier changeMessageModifier) {

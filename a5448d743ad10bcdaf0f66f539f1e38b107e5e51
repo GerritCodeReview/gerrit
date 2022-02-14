@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7781b94_9af12752",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T08:21:22Z",
+      "side": 1,
+      "message": "Maybe mention that label:\u003clabel-name\u003e\u003d\u003csubmit-record-status\u003e,\u003capprover\u003e will still not work with submit requirements? Do we need separate changes to document \u0026 deprecate this?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "a5448d743ad10bcdaf0f66f539f1e38b107e5e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "175e22c0_ad546b8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T08:21:22Z",
+      "side": 1,
+      "message": "Is this our final solution or a temporary solution until a dedicated submit requirements predicate is in place and querying by label:\u003cname\u003e\u003d\u003csubmit-record-status\u003e can be deprecated?\n\nIf this is the final solution I\u0027m concerned about the technical debt that we are adding here:\n- it\u0027s confusing for users that the label predicate, matches submit requirements which are not labels\n- we continue using the deprecated submit record terms (NEED, REJECT, OK, MAY) instead of the new submit requirement terms (SATISFIED, UNSATISFIED) which is confusing to users\n- it\u0027s confusing for users that with submit requirements NEED \u003d\u003d REJECT and OK \u003d\u003d MAY\n\nI\u0027m fine with these limitations as a temporary solution, but to keep user confusion minimal for the transition phase, I would prefer if all of this would be clearly documented for the label predicate.",
+      "range": {
+        "startLine": 35,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "a5448d743ad10bcdaf0f66f539f1e38b107e5e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "def08d08_df29b788",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2713,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T08:21:22Z",
+      "side": 1,
+      "message": "Since we are not querying labels, but changes, I would suggest renaming this test a bit. Maybe \"queryChangesBySubmitRequirementResultUsingTheLabelPredicate\"",
+      "range": {
+        "startLine": 2713,
+        "startChar": 14,
+        "endLine": 2713,
+        "endChar": 58
+      },
+      "revId": "a5448d743ad10bcdaf0f66f539f1e38b107e5e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,268 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52ee0e69_319239d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "... and a change is not touching this directory ...",
+      "range": {
+        "startLine": 14,
+        "startChar": 7,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ae0811b_60c7949f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "\"are only associated\" (since a label that appears in a non-applicable SR can also appear in another applicable SR)",
+      "range": {
+        "startLine": 19,
+        "startChar": 40,
+        "endLine": 19,
+        "endChar": 54
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f5bb93f_ed19a4b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "Should this be documented anywhere in the SR documentation?",
+      "range": {
+        "startLine": 20,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 65
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "539d3a3c_ee8b03e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "nit: be hidden",
+      "range": {
+        "startLine": 24,
+        "startChar": 45,
+        "endLine": 24,
+        "endChar": 51
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0220f6ce_7cd5912f",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "If a label appears in 2 submit requirements and only one of them is not applicable, shouldn\u0027t the label still be returned? Maybe this should be tested?",
+      "range": {
+        "startLine": 704,
+        "startChar": 23,
+        "endLine": 705,
+        "endChar": 96
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c074098_7abc3d28",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "Could you maybe add javadoc? E.g. just looking at the method signature, it\u0027s not clear to me what the include parameter is about.",
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c053f79_c907d6a5",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "Does this match all possible label names? E.g. what about 0-9 that can also appear in label names?\n\nMaybe add a constant for this to LabelType, since this is the class where label names are checked (see method checkNameInternal). This way updating this pattern will less likely be forgotten when the allowed set of characters for label names changes.",
+      "range": {
+        "startLine": 43,
+        "startChar": 74,
+        "endLine": 43,
+        "endChar": 84
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0096904c_154b626d",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "Could this method be static?",
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3cf5097_13e28b57",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "Why to lower case?",
+      "range": {
+        "startLine": 138,
+        "startChar": 33,
+        "endLine": 138,
+        "endChar": 47
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c2fd7af_22e6a69f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2631,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "Is this test name accurate?\nIf I read the test correctly it\u0027s checking that a label that is neither associated with an applicable nor non-applicable SR is returned. Is that behaviour intended? But maybe I\u0027m just confused because I don\u0027t understand the reasoning in line 2664.",
+      "range": {
+        "startLine": 2631,
+        "startChar": 14,
+        "endLine": 2631,
+        "endChar": 74
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd859d07_eef0b415",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2637,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "for better readability, maybe spell this out as \"NonApplicable\"",
+      "range": {
+        "startLine": 2637,
+        "startChar": 25,
+        "endLine": 2637,
+        "endChar": 27
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50a80b46_15600e5a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2664,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-14T09:39:27Z",
+      "side": 1,
+      "message": "I\u0027m confused, why is label \"LC\" expected to be returned if there is an applicable SR for label \"LC-Applicable\"? Shouldn\u0027t the label names match?",
+      "range": {
+        "startLine": 2664,
+        "startChar": 7,
+        "endLine": 2664,
+        "endChar": 94
+      },
+      "revId": "85a974054a72d7d99b68fb23c74602ed46817073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

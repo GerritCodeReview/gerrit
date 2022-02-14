@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.ExtensionRegistry.PLUGIN_NAME;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
@@ -37,9 +38,15 @@ import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.project.SubmitRequirementEvaluationException;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeIsOperandFactory;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.query.change.SubmitRequirementPredicate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Map;
@@ -94,6 +101,25 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
     assertThat(result.status()).isEqualTo(Status.FAIL);
     assertThat(result.errorMessage()).isEqualTo(Optional.empty());
+  }
+
+  @Test
+  public void throwingSubmitRequirementPredicate() throws Exception {
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(
+                new ThrowingSubmitRequirementPredicate(),
+                ThrowingSubmitRequirementPredicate.OPERAND)) {
+      SubmitRequirementExpression expression =
+          SubmitRequirementExpression.create(
+              String.format("is:%s_%s", ThrowingSubmitRequirementPredicate.OPERAND, PLUGIN_NAME));
+      SubmitRequirementExpressionResult result =
+          evaluator.evaluateExpression(expression, changeData);
+      assertThat(result.status()).isEqualTo(Status.ERROR);
+      assertThat(result.errorMessage().get())
+          .isEqualTo(ThrowingSubmitRequirementPredicate.ERROR_MESSAGE);
+    }
   }
 
   @Test
@@ -467,5 +493,33 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
         .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
         .setAllowOverrideInChildProjects(allowOverrideInChildProjects)
         .build();
+  }
+
+  /** Submit requirement predicate that always throws an error on match. */
+  static class ThrowingSubmitRequirementPredicate extends SubmitRequirementPredicate
+      implements ChangeIsOperandFactory {
+
+    public static final String OPERAND = "throwing-predicate";
+
+    public static final String ERROR_MESSAGE = "Error is storage";
+
+    public ThrowingSubmitRequirementPredicate() {
+      super("is", OPERAND);
+    }
+
+    @Override
+    public boolean match(ChangeData object) {
+      throw new SubmitRequirementEvaluationException(ERROR_MESSAGE);
+    }
+
+    @Override
+    public int getCost() {
+      return 0;
+    }
+
+    @Override
+    public Predicate<ChangeData> create(ChangeQueryBuilder builder) throws QueryParseException {
+      return this;
+    }
   }
 }

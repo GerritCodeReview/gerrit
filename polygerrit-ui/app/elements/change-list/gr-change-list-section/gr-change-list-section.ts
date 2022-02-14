@@ -5,7 +5,7 @@
  */
 
 import {LitElement, html, css, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import {
   CLOSED,
@@ -26,6 +26,7 @@ import {
   bulkActionsModelToken,
   BulkActionsModel,
 } from '../../../models/bulk-actions/bulk-actions-model';
+import {subscribe} from '../../lit/subscription-controller';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -85,6 +86,8 @@ export class GrChangeListSection extends LitElement {
   @property({type: Object})
   account: AccountInfo | undefined = undefined;
 
+  @state() showBulkActionsHeader = false;
+
   private readonly flagsService = getAppContext().flagsService;
 
   bulkActionsModel: BulkActionsModel = new BulkActionsModel(
@@ -114,6 +117,16 @@ export class GrChangeListSection extends LitElement {
   constructor() {
     super();
     provide(this, bulkActionsModelToken, () => this.bulkActionsModel);
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    subscribe(
+      this,
+      this.bulkActionsModel.selectedChangeNums$,
+      selectedChanges =>
+        (this.showBulkActionsHeader = selectedChanges.length > 0)
+    );
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -193,24 +206,40 @@ export class GrChangeListSection extends LitElement {
     `;
   }
 
-  private renderColumnHeaders(columns: string[]) {
+  // TODO: move to it's own component
+  private renderAbandonAction() {
     return html`
-      <tr class="groupTitle">
-        <td class="leftPadding" aria-hidden="true"></td>
-        ${this.renderSelectionHeader()}
-        <td
-          class="star"
-          aria-label="Star status column"
-          ?hidden=${!this.showStar}
-        ></td>
-        <td class="number" ?hidden=${!this.showNumber}>#</td>
-        ${columns.map(item => this.renderHeaderCell(item))}
-        ${this.labelNames?.map(labelName => this.renderLabelHeader(labelName))}
-        ${this.dynamicHeaderEndpoints?.map(pluginHeader =>
-          this.renderEndpointHeader(pluginHeader)
-        )}
-      </tr>
+      <td>
+        <gr-button class="abandon">Abandon</gr-button>
+      </td>
     `;
+  }
+
+  private renderBulkActionsHeader() {
+    return html`${this.renderAbandonAction()}`;
+  }
+
+  private renderColumnHeaders(columns: string[]) {
+    return html` <tr class="groupTitle">
+      ${this.showBulkActionsHeader &&
+      this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)
+        ? this.renderBulkActionsHeader()
+        : html` <td class="leftPadding" aria-hidden="true"></td>
+            ${this.renderSelectionHeader()}
+            <td
+              class="star"
+              aria-label="Star status column"
+              ?hidden=${!this.showStar}
+            ></td>
+            <td class="number" ?hidden=${!this.showNumber}>#</td>
+            ${columns.map(item => this.renderHeaderCell(item))}
+            ${this.labelNames?.map(labelName =>
+              this.renderLabelHeader(labelName)
+            )}
+            ${this.dynamicHeaderEndpoints?.map(pluginHeader =>
+              this.renderEndpointHeader(pluginHeader)
+            )}`}
+    </tr>`;
   }
 
   private renderSelectionHeader() {

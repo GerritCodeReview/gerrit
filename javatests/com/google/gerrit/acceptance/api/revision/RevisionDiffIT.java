@@ -42,6 +42,7 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.webui.FileWebLink;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -139,6 +140,26 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffForPatchsetLevelFile).metaA().isNull();
     assertThat(diffForPatchsetLevelFile).metaB().isNull();
     assertThat(diffForPatchsetLevelFile).webLinks().isNull();
+  }
+
+  @Test
+  public void gitwebFileWebLinkIncludedInDiff() throws Exception {
+    try (Registration registration = newGitwebFileWebLink()) {
+      String fileName = "foo.txt";
+      String fileContent = "bar\n";
+      PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
+      DiffInfo info =
+          gApi.changes()
+              .id(result.getChangeId())
+              .revision(result.getCommit().name())
+              .file(fileName)
+              .diff();
+      assertThat(info.metaB.webLinks).hasSize(1);
+      assertThat(info.metaB.webLinks.get(0).url)
+          .isEqualTo(
+              String.format(
+                  "http://gitweb/?p=%s;hb=%s;f=%s", project, result.getCommit().name(), fileName));
+    }
   }
 
   @Test
@@ -2873,6 +2894,21 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             BadRequestException.class,
             () -> getDiffRequest(changeId, CURRENT, FILE_NAME).withBase("0").get());
     assertThat(e).hasMessageThat().isEqualTo("edit not allowed as base");
+  }
+
+  private Registration newGitwebFileWebLink() {
+    FileWebLink fileWebLink =
+        new FileWebLink() {
+          @Override
+          public WebLinkInfo getFileWebLink(
+              String projectName, String revision, String hash, String fileName) {
+            return new WebLinkInfo(
+                "name",
+                "imageURL",
+                String.format("http://gitweb/?p=%s;hb=%s;f=%s", projectName, hash, fileName));
+          }
+        };
+    return extensionRegistry.newRegistration().add(fileWebLink);
   }
 
   private String updatedCommitMessage() {

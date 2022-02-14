@@ -271,6 +271,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24dadd30_2d794f57",
+        "filename": "java/com/google/gerrit/extensions/webui/FileWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T18:49:33Z",
+      "side": 1,
+      "message": "Here are the specific errors:\n\n  plugins/gitiles/src/main/java/com/googlesource/gerrit/plugins/gitiles/GitilesWeblinks.java:37: error: GitilesWeblinks is not abstract and does not override abstract method getFileWebLink(String,String,String,String) in FileWebLink\n  public class GitilesWeblinks\n         ^\n  plugins/gitiles/src/main/java/com/googlesource/gerrit/plugins/gitiles/GitilesWeblinks.java:92: error: method does not override or implement a method from a supertype\n    @Override\n    ^",
+      "parentUuid": "c38ef131_7f1a5b7e",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 3
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "80d32e81_347e7de6",
         "filename": "java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 1

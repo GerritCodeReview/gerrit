@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f0f0bb9_7f62cfc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T18:00:40Z",
+      "side": 1,
+      "message": "https://zuul.opendev.org/t/openstack/build/82be22c4e5b646438f0038851f3042f1/log/job-output.txt#30216-30265 seems to show this updated code is still working.",
+      "revId": "9f50c7e84a6f774db779552c922c4e5824b0a408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d97c9bb7_5d9bd61c",
@@ -31,6 +48,24 @@
       "writtenOn": "2022-02-14T17:49:50Z",
       "side": 1,
       "message": "Private?",
+      "revId": "9f50c7e84a6f774db779552c922c4e5824b0a408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d367e55_ecea0bd6",
+        "filename": "java/com/google/gerrit/server/restapi/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-14T18:00:40Z",
+      "side": 1,
+      "message": "I kept this public because getDirectMembers(InternalGroup group) is public. I\u0027m not sure if it is safe to change that one to be private (I think plugins could be consuming it?). stable-3.3 does build if I change both to private though.\n\nI\u0027ll defer to you on whether or not changing getTransitiveMembers to private and/or getDirectMembers is appropriate.",
+      "parentUuid": "d97c9bb7_5d9bd61c",
       "revId": "9f50c7e84a6f774db779552c922c4e5824b0a408",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -21,6 +21,7 @@ import {
   query,
   queryAndAssert,
   stubFlags,
+  waitUntilObserved,
 } from '../../../test/test-utils';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {columnNames, ChangeListSection} from '../gr-change-list/gr-change-list';
@@ -92,6 +93,28 @@ suite('gr-change-list section', () => {
       await element.updateComplete;
 
       assert.isTrue(syncStub.called);
+    });
+
+    test('actions header is enabled/disabled based on selected changes', async () => {
+      element.bulkActionsModel.setState({
+        ...element.bulkActionsModel.getState(),
+        selectedChangeNums: [],
+      });
+      await waitUntilObserved(
+        element.bulkActionsModel.selectedChangeNums$,
+        s => s.length === 0
+      );
+      assert.isFalse(element.showBulkActionsHeader);
+
+      element.bulkActionsModel.setState({
+        ...element.bulkActionsModel.getState(),
+        selectedChangeNums: [1 as NumericChangeId],
+      });
+      await waitUntilObserved(
+        element.bulkActionsModel.selectedChangeNums$,
+        s => s.length === 1
+      );
+      assert.isTrue(element.showBulkActionsHeader);
     });
   });
 

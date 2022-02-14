@@ -293,6 +293,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "359ed744_4be82f2e",
+        "filename": "java/com/google/gerrit/extensions/webui/FileWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-14T19:20:05Z",
+      "side": 1,
+      "message": "To demonstrate how to do it I uploaded my mentioned change to master branch in change 330379 and adapted gitiles-plugin to this change in change 330380. Then I updated plugins/gitiles git submodule to point to the commit from the gitiles-plugin change.",
+      "parentUuid": "24dadd30_2d794f57",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 3
+      },
+      "revId": "17c85b453b693ebcd0821b6db45a163029dc3faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80d32e81_347e7de6",

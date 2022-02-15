@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e84503f_8e4d10b4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-themes/gr-syntax-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-15T15:58:21Z",
+      "side": 1,
+      "message": "The diff here is really bad... too bad as that is going to break blame etc. Nothing you can do about it I guess.",
+      "revId": "c712bd4172eb198a064fcbbd34f13fa50677d945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

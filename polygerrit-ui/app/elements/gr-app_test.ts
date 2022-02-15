@@ -18,7 +18,7 @@
 import '../test/common-test-setup-karma';
 import './gr-app';
 import {getAppContext} from '../services/app-context';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {fixture, html} from '@open-wc/testing-helpers';
 import {queryAndAssert, stubRestApi} from '../test/test-utils';
 import {GrApp} from './gr-app';
 import {
@@ -29,8 +29,6 @@ import {
 } from '../test/test-data-generators';
 import {GrAppElement} from './gr-app-element';
 import {GrPluginHost} from './plugins/gr-plugin-host/gr-plugin-host';
-
-const basicFixture = fixtureFromTemplate(html`<gr-app id="app"></gr-app>`);
 
 suite('gr-app tests', () => {
   let grApp: GrApp;
@@ -49,7 +47,7 @@ suite('gr-app tests', () => {
     stubRestApi('getVersion').returns(Promise.resolve('42'));
     stubRestApi('probePath').returns(Promise.resolve(false));
 
-    grApp = basicFixture.instantiate() as GrApp;
+    grApp = await fixture<GrApp>(html`<gr-app id="app"></gr-app>`);
     await flush();
   });
 

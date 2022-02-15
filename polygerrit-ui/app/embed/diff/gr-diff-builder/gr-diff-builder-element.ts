@@ -120,12 +120,6 @@ export class GrDiffBuilderElement extends PolymerElement {
   diff?: DiffInfo;
 
   @property({type: String})
-  changeNum?: string;
-
-  @property({type: String})
-  patchNum?: string;
-
-  @property({type: String})
   viewMode?: string;
 
   @property({type: Boolean})

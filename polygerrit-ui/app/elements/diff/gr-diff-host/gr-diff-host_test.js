@@ -760,11 +760,6 @@ suite('gr-diff-host tests', () => {
     assert.equal(stub.lastCall.args.length, 0);
   });
 
-  test('passes in changeNum', () => {
-    element.changeNum = 12345;
-    assert.equal(element.$.diff.changeNum, 12345);
-  });
-
   test('passes in noAutoRender', () => {
     const value = true;
     element.noAutoRender = value;
@@ -781,11 +776,6 @@ suite('gr-diff-host tests', () => {
     const value = {};
     element.prefs = value;
     assert.equal(element.$.diff.prefs, value);
-  });
-
-  test('passes in changeNum', () => {
-    element.changeNum = 12345;
-    assert.equal(element.$.diff.changeNum, 12345);
   });
 
   test('passes in displayLine', () => {

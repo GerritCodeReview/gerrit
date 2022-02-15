@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bacd502d_bcd2a5be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-15T18:51:04Z",
+      "side": 1,
+      "message": "FE needs expression (query) for not-applicable requirement so FE check what labels it is using to calculate expression. Such labels are not trigger votes (currently they are and on gerrit host you have library compliance as trigger vote) \n\nmore https://gerrit-review.googlesource.com/c/gerrit/+/330439\n\nCurrent FE will work with this change but FE will probably release with fix that will work with/without this change.",
+      "parentUuid": "e27f211a_d73e1842",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 62
+      },
+      "revId": "8dba7f6193d76b76baece755b7d231209be31cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47a1d272_d44adc42",

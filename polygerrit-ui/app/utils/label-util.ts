@@ -296,7 +296,10 @@ export function orderSubmitRequirements(
 
 export function getTriggerVotes(change?: ParsedChangeInfo | ChangeInfo) {
   const allLabels = Object.keys(change?.labels ?? {});
-  const submitReqs = getRequirements(change);
+  // Normally there is utility method getRequirements, which filter out
+  // not_applicable requirements. In this case we don't want to filter out them,
+  // because trigger votes are labels not associated with any requirement.
+  const submitReqs = change?.submit_requirements ?? [];
   const labelAssociatedWithSubmitReqs = submitReqs
     .flatMap(req => extractAssociatedLabels(req))
     .filter(unique);

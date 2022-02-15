@@ -189,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fecd013a_29de326b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-15T15:14:07Z",
+      "side": 1,
+      "message": "As discussed convert the absolute index that is being passed down to the relative index of the section instead.",
+      "parentUuid": "98bef3ac_ebf4ecde",
+      "range": {
+        "startLine": 272,
+        "startChar": 21,
+        "endLine": 272,
+        "endChar": 45
+      },
+      "revId": "d450f8464a67854e6600bb26ff0ce415cfff4042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d02fb327_f38396a2",

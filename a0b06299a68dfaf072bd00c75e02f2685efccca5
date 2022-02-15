@@ -390,6 +390,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d20a664_be033934",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-15T15:14:07Z",
+      "side": 1,
+      "message": "This happens very intermittently in prod as well. It happens once every 5-6 times, the same issue that the sectionChanged is triggered before gr-change-list-item is added to the DOM.\nI restored the await.",
+      "parentUuid": "4925a10b_11405fb1",
+      "revId": "a0b06299a68dfaf072bd00c75e02f2685efccca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e954d820_3e44f1f1",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
         "patchSetId": 15

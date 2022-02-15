@@ -17,6 +17,26 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
+  <style include="shared-styles">
+    :host(.selected-left:not(.selected-comment)) {
+      --diff-user-select-left-text: text;
+    }
+    :host(.selected-left) ::slotted(*) {
+      --diff-user-select-left-text: text;
+    }
+    :host(.selected-right:not(.selected-comment)) {
+      --diff-user-select-right-text: text;
+    }
+    :host(.selected-blame:not(.selected-comment)) {
+      --diff-user-select-blame: text;
+    }
+    :host(.selected-left.selected-comment) {
+      --diff-user-select-left-comment: text;
+    }
+    :host(.selected-right.selected-comment) {
+      --diff-user-select-right-comment: text;
+    }
+  </style>
   <div class="contentWrapper">
     <slot></slot>
   </div>

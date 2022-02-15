@@ -34,6 +34,24 @@
       "parentUuid": "04e3dab0_374ff7d6",
       "revId": "dd1878fea1dcaa77843c22c252ba818a87b186f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e90a1ac_b6a27a7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-15T11:24:52Z",
+      "side": 1,
+      "message": "it\u0027s a SHOULD, as defined by RFC2119. ;)",
+      "parentUuid": "9661bd28_e102d57e",
+      "revId": "dd1878fea1dcaa77843c22c252ba818a87b186f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

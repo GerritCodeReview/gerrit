@@ -126,6 +126,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f79a2f0_07a6e5c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-15T11:24:52Z",
+      "side": 1,
+      "message": "a contested change is never just some change. by integrating it, facts are created, and often enough they are later used to justify further changes in the wrong direction, intentionally or not.\n\ni\u0027m against using two terms - that looks clumsy, and adds visual noise to the ui.\n\nif you use \"geometric\" labels that are plain incorrect under some circumstances, you could use \u0027foo\u0027 and \u0027bar\u0027 just as well. or \u0027a\u0027 and \u0027b\u0027 (fun fact: that\u0027s actually git-diff\u0027s default).",
+      "parentUuid": "2508a3c7_7de0d24e",
+      "revId": "cda24579b892463875c10478afd8bc268c1428a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "864d6b28_bc6a9a76",

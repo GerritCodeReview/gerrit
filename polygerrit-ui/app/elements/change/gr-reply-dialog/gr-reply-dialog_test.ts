@@ -143,7 +143,7 @@ suite('gr-reply-dialog tests', () => {
         'Code-Review': {
           values: {
             '-2': 'Do not submit',
-            '-1': "I would prefer that you didn't submit this",
+            '-1': 'I would prefer this is not merged as is',
             ' 0': 'No score',
             '+1': 'Looks good to me, but someone else must approve',
             '+2': 'Looks good to me, approved',
@@ -862,7 +862,7 @@ suite('gr-reply-dialog tests', () => {
           ],
           values: {
             '-2': 'Do not submit',
-            '-1': 'I would prefer that you didnt submit this',
+            '-1': 'I would prefer this is not merged as is',
             ' 0': 'No score',
             '+1': 'Looks good to me, but someone else must approve',
             '+2': 'Looks good to me, approved',

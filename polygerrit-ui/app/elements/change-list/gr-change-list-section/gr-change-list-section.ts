@@ -97,7 +97,7 @@ export class GrChangeListSection extends LitElement {
   }
 
   override render() {
-    if (!this.changeSection || this.sectionIndex === undefined) return;
+    if (!this.changeSection || this.sectionIndex === undefined) return html`<tbody></tbody>`;
     const columns = this.computeColumns();
     const colSpan = this.computeColspan(columns);
     return html`
@@ -319,7 +319,7 @@ export class GrChangeListSection extends LitElement {
 
   // private but used in test
   isEmpty(section: ChangeListSection) {
-    return !section.results?.length;
+    return !section?.results?.length;
   }
 
   private computeAriaLabel(change?: ChangeInfo, sectionName?: string) {

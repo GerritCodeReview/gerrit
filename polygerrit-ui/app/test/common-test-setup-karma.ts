@@ -235,4 +235,5 @@ function fixtureFromElementImpl<T extends keyof HTMLElementTagNameMap>(
 
 window.fixtureFromTemplate = fixtureFromTemplateImpl;
 window.fixtureFromElement = fixtureFromElementImpl;
+window.fixtureFromLit = fixtureFromLitImpl;
 window.testResolver = testResolverImpl;

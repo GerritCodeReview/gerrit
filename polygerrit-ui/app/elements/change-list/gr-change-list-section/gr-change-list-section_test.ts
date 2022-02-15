@@ -5,11 +5,13 @@ import {
   createChange,
   createAccountDetailWithId,
   createServerInfo,
+  createConfig,
 } from '../../../test/test-data-generators';
 import {NumericChangeId} from '../../../api/rest-api';
 import {queryAll, query, queryAndAssert} from '../../../test/test-utils';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
-import {columnNames} from '../gr-change-list/gr-change-list';
+import {columnNames, ChangeListSection} from '../gr-change-list/gr-change-list';
+import {fixture, html} from '@open-wc/testing-helpers';
 
 /**
  * @license
@@ -163,24 +165,48 @@ suite('gr-change-list-section tests', () => {
     });
   });
 
-  suite('shadow dom test', () => {
-    let element: GrChangeListSection;
+  suite.only('shadow dom test', () => {
+    // let element: GrChangeListSection;
     let table: HTMLTableElement;
 
     setup(async () => {
-      table = document.createElement('table');
-      element = basicFixture.instantiate() as any;
-      element.account = createAccountDetailWithId(1);
-      element.config = createServerInfo();
-      element.visibleChangeTableColumns = columnNames;
-      element.sectionIndex = 0;
-      element.selectedIndex = 0;
-      element.changeSection = {results: [{...createChange()}], name: 'a'};
-      await element.updateComplete;
-      // element needs to be wrapped inside a table to get proper dom testing
-      // table and tbody element cannot be separated by shadowDom so
-      // table.appendChild(element) does not work
-      table.appendChild(element.shadowRoot!);
+      debugger;
+      const changeSection:ChangeListSection = {results: [{...createChange()}], name: 'a'};
+      const config = createConfig();
+      const account = createAccountDetailWithId(1);
+      table = await fixture<HTMLTableElement>(html`
+        <table>
+          <gr-change-list-section
+            .changeSection=${changeSection}
+            .selectedIndex=${0}
+            .sectionIndex=${0}
+            .labelNames=${[]}
+            .dynamicHeaderEndpoints=${[]}
+            .isCursorMoving=${false}
+            .config=${config}
+            .account=${account}
+            .sections=${[changeSection]}
+            ?showStar=${false}
+            .showNumber=${false}
+            .visibleChangeTableColumns=${[]}
+
+          >
+          </gr-change-list-section>
+        </table>
+      `)
+      debugger;
+      // element = fixture.instantiate() as any;
+      // element.account = createAccountDetailWithId(1);
+      // element.config = createServerInfo();
+      // element.visibleChangeTableColumns = columnNames;
+      // element.sectionIndex = 0;
+      // element.selectedIndex = 0;
+      // element.changeSection = {results: [{...createChange()}], name: 'a'};
+      // await element.updateComplete;
+      // // element needs to be wrapped inside a table to get proper dom testing
+      // // table and tbody element cannot be separated by shadowDom so
+      // // table.appendChild(element) does not work
+      // table.appendChild(element.shadowRoot!);
     });
 
     test('renders', () => {

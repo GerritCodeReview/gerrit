@@ -16,6 +16,24 @@
       "message": "I can\u0027t quite parse this comment, could you rewrite it?",
       "revId": "ca4eae43584354d4f9fa75c8968cf262617085de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee9bcf66_da63619a",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-15T19:02:27Z",
+      "side": 1,
+      "message": "Yeah, sorry for that :)",
+      "parentUuid": "8d53e484_eafa7a70",
+      "revId": "ca4eae43584354d4f9fa75c8968cf262617085de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

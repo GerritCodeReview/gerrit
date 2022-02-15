@@ -17,30 +17,22 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-select';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {fixture, html} from '@open-wc/testing-helpers';
 import {GrSelect} from './gr-select';
-
-const basicFixture = fixtureFromTemplate(html`
-  <gr-select>
-    <select>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
-  </gr-select>
-`);
-
-const noOptionsFixture = fixtureFromTemplate(html`
-  <gr-select>
-    <select></select>
-  </gr-select>
-`);
 
 suite('gr-select tests', () => {
   let element: GrSelect;
 
-  setup(() => {
-    element = basicFixture.instantiate() as GrSelect;
+  setup(async () => {
+    element = await fixture<GrSelect>(html`
+      <gr-select>
+        <select>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </gr-select>
+    `);
   });
 
   test('bindValue must be set to the first option value', () => {
@@ -98,8 +90,12 @@ suite('gr-select tests', () => {
   suite('gr-select no options tests', () => {
     let element: GrSelect;
 
-    setup(() => {
-      element = noOptionsFixture.instantiate() as GrSelect;
+    setup(async () => {
+      element = await fixture<GrSelect>(html`
+        <gr-select>
+          <select></select>
+        </gr-select>
+      `);
     });
 
     test('bindValue must not be changed', () => {

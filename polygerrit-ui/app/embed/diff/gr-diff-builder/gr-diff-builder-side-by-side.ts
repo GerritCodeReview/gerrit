@@ -46,7 +46,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
   protected override buildSectionElement(group: GrDiffGroup) {
     const sectionEl = createElementDiff('tbody', 'section');
     sectionEl.classList.add(group.type);
-    if (this.isTotal(group)) {
+    if (group.isTotal()) {
       sectionEl.classList.add('total');
     }
     if (group.dueToRebase) {

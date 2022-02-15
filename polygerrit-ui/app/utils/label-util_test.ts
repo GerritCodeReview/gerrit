@@ -46,7 +46,7 @@ import {
   createNonApplicableSubmitRequirementResultInfo,
   createDetailedLabelInfo,
 } from '../test/test-data-generators';
-import {SubmitRequirementResultInfo} from '../api/rest-api';
+import {SubmitRequirementResultInfo, SubmitRequirementStatus} from '../api/rest-api';
 
 const VALUES_0 = {
   '0': 'neutral',
@@ -279,12 +279,6 @@ suite('label-util', () => {
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['Verified', 'Build-cop-override']);
     });
-    test('non-applicable that has no labels', () => {
-      const submitRequirement =
-        createNonApplicableSubmitRequirementResultInfo();
-      const labels = extractAssociatedLabels(submitRequirement);
-      assert.deepEqual(labels, []);
-    });
   });
 
   suite('getRequirements()', () => {
@@ -342,6 +336,27 @@ suite('label-util', () => {
         submit_requirements: [
           {
             ...createSubmitRequirementResultInfo(),
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${triggerVote}=MAX`,
+            },
+            is_legacy: false,
+          },
+        ],
+        labels: {
+          [triggerVote]: createDetailedLabelInfo(),
+        },
+      };
+      assert.deepEqual(getTriggerVotes(change), []);
+    });
+    test('labels in non-applicable requirement are not trigger vote', () => {
+      const triggerVote = 'Trigger-Vote';
+      const change = {
+        ...createChange(),
+        submit_requirements: [
+          {
+            ...createSubmitRequirementResultInfo(),
+            status: SubmitRequirementStatus.NOT_APPLICABLE,
             submittability_expression_result: {
               ...createSubmitRequirementExpressionInfo(),
               expression: `label:${triggerVote}=MAX`,

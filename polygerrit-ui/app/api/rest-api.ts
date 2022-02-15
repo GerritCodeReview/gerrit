@@ -1079,7 +1079,7 @@ export declare interface SubmitRequirementResultInfo {
   description?: string;
   status: SubmitRequirementStatus;
   applicability_expression_result?: SubmitRequirementExpressionInfo;
-  submittability_expression_result?: SubmitRequirementExpressionInfo;
+  submittability_expression_result: SubmitRequirementExpressionInfo;
   override_expression_result?: SubmitRequirementExpressionInfo;
   is_legacy?: boolean;
 }
@@ -1091,10 +1091,18 @@ export declare interface SubmitRequirementResultInfo {
  */
 export declare interface SubmitRequirementExpressionInfo {
   expression: string;
-  fulfilled: boolean;
+  fulfilled?: boolean;
+  status?: SubmitRequirementExpressionInfoStatus;
   passing_atoms?: string[];
   failing_atoms?: string[];
   error_message?: string;
+}
+
+export enum SubmitRequirementExpressionInfoStatus {
+  PASS = 'PASS',
+  FAIL = 'FAIL',
+  ERROR = 'ERROR',
+  NOT_EVALUATED = 'NOT_EVALUATED',
 }
 
 /**

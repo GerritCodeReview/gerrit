@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84a45406_321fa29f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "Yes, that would be nicer. I will look into this in further refactorings.",
+      "parentUuid": "6483a02d_7d1bd05b",
+      "range": {
+        "startLine": 14,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5b53bd8_20521665",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "faef48e4_f76d3781",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "I agree, but it is not in scope for this change, and I think not worthwhile doing on its own.",
+      "parentUuid": "f5b53bd8_20521665",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 72,
+        "endChar": 37
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49f3ca65_89647b11",
@@ -77,6 +125,24 @@
       "writtenOn": "2022-02-10T12:20:52Z",
       "side": 1,
       "message": "Move all these tests to the utils tests?",
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e490821_8c36e215",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49f3ca65_89647b11",
       "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -117,6 +183,24 @@
       "writtenOn": "2022-02-10T12:20:52Z",
       "side": 1,
       "message": "Is it possible in Git to force this being branched off gr-diff-builder to keep some blame history and simplify review?",
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37ceb670_801d0685",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "I am not aware of how this could be done. :-(",
+      "parentUuid": "4ef49178_3b2e270e",
       "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -167,6 +251,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e5a7e2b_e40e08ba",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "+1 Added TODOs to change from null to undefined.",
+      "parentUuid": "966ecc5e_6e15eb6a",
+      "range": {
+        "startLine": 205,
+        "startChar": 63,
+        "endLine": 205,
+        "endChar": 75
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8dd7a15_187303fb",
@@ -180,6 +288,30 @@
       "writtenOn": "2022-02-10T12:20:52Z",
       "side": 1,
       "message": "Maybe as a follow up, maybe with a TODO:\n\nWhy would one call this with null? It seems all this does is read some data? Is this because one can pick between two different output formats? Maybe then this should be two different methods with a proper return value and maybe some shared helper?\n\nThis is especially weird now that we split the classes, because it feels outputting the elements is really a Builder job, while outputting the lines is maybe a data job?\n\nThe underscore naming instead of camel case is also a bit weird, or is that a Gerrit convention for out variables? Do we ever need them given one can instead return an object with two fields?",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 38
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44ebda8f_0664e5f9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "Agree. TODO added.",
+      "parentUuid": "a8dd7a15_187303fb",
       "range": {
         "startLine": 227,
         "startChar": 0,
@@ -207,6 +339,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "025d15ba_cf15dfe9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61c3bed9_06554d47",
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3124ba3_7de2f42d",
@@ -220,6 +370,30 @@
       "writtenOn": "2022-02-10T12:20:52Z",
       "side": 1,
       "message": "Add return type to improve readability?",
+      "range": {
+        "startLine": 337,
+        "startChar": 57,
+        "endLine": 337,
+        "endChar": 58
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef5e79c5_991cac87",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3124ba3_7de2f42d",
       "range": {
         "startLine": 337,
         "startChar": 57,
@@ -253,6 +427,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcd39aae_4ff13e3b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fa447ad_34ef5293",
+      "range": {
+        "startLine": 350,
+        "startChar": 42,
+        "endLine": 350,
+        "endChar": 44
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "159333cc_f184090b",
@@ -266,6 +464,24 @@
       "writtenOn": "2022-02-10T12:20:52Z",
       "side": 1,
       "message": "High-level, it is not clear to me why all these DOM creation things are moving to util - they will no longer be needed with Lit, no? Why can they not stay in the legacy builders?\n\nYou mention something about stateless, but is not the entire builder stateless? Now that settings and data are managed somewhere else, should the builder not just return a DOM element and be fully stateless?",
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "080d834a_ea8973c2",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "I still find the builders easier to reason about when they are smaller. Maybe it was not strictly *required* to move those methods to functions. But they will stay around for a while, so why not improve the code base.\n\nThe builder is stateless, but it still depends on a bunch of common input properties (diff, layers, prefs, etc.). So it makes sense to model the builder as a class. Utility functions have much smaller scope. They have less input and do not have multiple layers of builder functions calling each other.\n\nBut eventually yes, the builders would probably not need to be classes. But then again, they will be obsolete fairly soon, so ...",
+      "parentUuid": "159333cc_f184090b",
       "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -293,6 +509,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "868bfb4f_9590cebd",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f212ae3_2835646d",
+      "range": {
+        "startLine": 229,
+        "startChar": 32,
+        "endLine": 229,
+        "endChar": 51
+      },
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93538e68_eaaf2b2e",
@@ -306,6 +546,24 @@
       "writtenOn": "2022-02-10T12:20:52Z",
       "side": 1,
       "message": "Param list missing responiveMode...",
+      "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b95a06f1_3ffff643",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93538e68_eaaf2b2e",
       "revId": "c7054d2253ccd1e99aef24a540fe17e87ba69aab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

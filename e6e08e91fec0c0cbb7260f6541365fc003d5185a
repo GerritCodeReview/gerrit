@@ -16,6 +16,24 @@
       "message": "Personally liked it more to ignore this here - at least it makes every renderer think about whether they might need to respect the render preferences in some way...",
       "revId": "e6e08e91fec0c0cbb7260f6541365fc003d5185a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d5e25d3_9ace121a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-binary.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:32Z",
+      "side": 0,
+      "message": "I don\u0027t feel strongly about this actually, but I find this to be a very small nit not worth optimizing. This will hopefully change anyway down the road.",
+      "parentUuid": "6a71b2c7_e748943e",
+      "revId": "e6e08e91fec0c0cbb7260f6541365fc003d5185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

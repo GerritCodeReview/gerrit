@@ -108,7 +108,7 @@ suite('gr-rule-editor tests', () => {
       element.label = {
         values: [
           {value: -2, text: 'This shall not be merged'},
-          {value: -1, text: 'I would prefer this is not merged as is'},
+          {value: -1, text: 'I would prefer this is not submitted as is'},
           {value: -0, text: 'No score'},
           {value: 1, text: 'Looks good to me, but someone else must approve'},
           {value: 2, text: 'Looks good to me, approved'},
@@ -414,7 +414,7 @@ suite('gr-rule-editor tests', () => {
       element.label = {
         values: [
           {value: -2, text: 'This shall not be merged'},
-          {value: -1, text: 'I would prefer this is not merged as is'},
+          {value: -1, text: 'I would prefer this is not submitted as is'},
           {value: -0, text: 'No score'},
           {value: 1, text: 'Looks good to me, but someone else must approve'},
           {value: 2, text: 'Looks good to me, approved'},
@@ -481,7 +481,7 @@ suite('gr-rule-editor tests', () => {
       element.label = {
         values: [
           {value: -2, text: 'This shall not be merged'},
-          {value: -1, text: 'I would prefer this is not merged as is'},
+          {value: -1, text: 'I would prefer this is not submitted as is'},
           {value: -0, text: 'No score'},
           {value: 1, text: 'Looks good to me, but someone else must approve'},
           {value: 2, text: 'Looks good to me, approved'},

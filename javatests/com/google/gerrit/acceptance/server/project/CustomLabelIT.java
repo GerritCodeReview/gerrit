@@ -300,7 +300,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
         value(2, "Looks good to me, approved"),
         value(1, "Looks good to me, but someone else must approve"),
         value(0, "No score"),
-        value(-1, "I would prefer this is not merged as is"),
+        value(-1, "I would prefer this is not submitted as is"),
         value(-2, "This shall not be merged"));
 
     projectOperations

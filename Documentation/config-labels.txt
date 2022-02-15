@@ -31,7 +31,7 @@ is submittable.
 +
 *Any -2 blocks submit.*
 
-* -1 I would prefer this is not merged as is
+* -1 I would prefer this is not submitted as is
 +
 The code doesn't look right, or could be done differently, but
 the reviewer is willing to live with it as-is if another reviewer

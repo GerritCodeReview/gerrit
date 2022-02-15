@@ -3072,7 +3072,7 @@ label name.
       "function": "MaxWithBlock",
       "values": {
         " 0": "No score",
-        "-1": "I would prefer this is not merged as is",
+        "-1": "I would prefer this is not submitted as is",
         "-2": "This shall not be merged",
         "+1": "Looks good to me, but someone else must approve",
         "+2": "Looks good to me, approved"
@@ -3119,7 +3119,7 @@ Labels that belong to the same project are sorted by label name.
       "function": "MaxWithBlock",
       "values": {
         " 0": "No score",
-        "-1": "I would prefer this is not merged as is",
+        "-1": "I would prefer this is not submitted as is",
         "-2": "This shall not be merged",
         "+1": "Looks good to me, but someone else must approve",
         "+2": "Looks good to me, approved"
@@ -3137,7 +3137,7 @@ Labels that belong to the same project are sorted by label name.
       "function": "MaxWithBlock",
       "values": {
         " 0": "No score",
-        "-1": "I would prefer this is not merged as is",
+        "-1": "I would prefer this is not submitted as is",
         "-2": "This shall not be merged",
         "+1": "Looks good to me, but someone else must approve",
         "+2": "Looks good to me, approved"
@@ -3182,7 +3182,7 @@ returned that describes the label.
     "function": "MaxWithBlock",
     "values": {
       " 0": "No score",
-      "-1": "I would prefer this is not merged as is",
+      "-1": "I would prefer this is not submitted as is",
       "-2": "This shall not be merged",
       "+1": "Looks good to me, but someone else must approve",
       "+2": "Looks good to me, approved"
@@ -3219,7 +3219,7 @@ definition is updated (see link:#set-label[Set Label]).
     "commit_message": "Create Foo Label",
     "values": {
       " 0": "No score",
-      "-1": "I would prefer this is not merged as is",
+      "-1": "I would prefer this is not submitted as is",
       "-2": "This shall not be merged",
       "+1": "Looks good to me, but someone else must approve",
       "+2": "Looks good to me, approved"
@@ -3243,7 +3243,7 @@ returned that describes the created label.
     "function": "MaxWithBlock",
     "values": {
       " 0": "No score",
-      "-1": "I would prefer this is not merged as is",
+      "-1": "I would prefer this is not submitted as is",
       "-2": "This shall not be merged",
       "+1": "Looks good to me, but someone else must approve",
       "+2": "Looks good to me, approved"
@@ -3295,7 +3295,7 @@ returned that describes the updated label.
     "function": "MaxWithBlock",
     "values": {
       " 0": "No score",
-      "-1": "I would prefer this is not merged as is",
+      "-1": "I would prefer this is not submitted as is",
       "-2": "This shall not be merged",
       "+1": "Looks good to me, but someone else must approve",
       "+2": "Looks good to me, approved"
@@ -3377,7 +3377,7 @@ The updates are processed in the following order:
         "name": "Foo-Review",
         "values": {
           " 0": "No score",
-          "-1": "I would prefer this is not merged as is",
+          "-1": "I would prefer this is not submitted as is",
           "-2": "This shall not be merged",
           "+1": "Looks good to me, but someone else must approve",
           "+2": "Looks good to me, approved"

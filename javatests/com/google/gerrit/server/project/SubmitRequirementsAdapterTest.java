@@ -46,7 +46,7 @@ public class SubmitRequirementsAdapterTest {
                 ImmutableList.of(
                     LabelValue.create((short) 1, "Looks good to me"),
                     LabelValue.create((short) 0, "No score"),
-                    LabelValue.create((short) -1, "I would prefer this is not merged as is")))
+                    LabelValue.create((short) -1, "I would prefer this is not submitted as is")))
             .setFunction(LabelFunction.MAX_WITH_BLOCK)
             .build();
 
@@ -56,7 +56,7 @@ public class SubmitRequirementsAdapterTest {
                 ImmutableList.of(
                     LabelValue.create((short) 1, "Looks good to me"),
                     LabelValue.create((short) 0, "No score"),
-                    LabelValue.create((short) -1, "I would prefer this is not merged as is")))
+                    LabelValue.create((short) -1, "I would prefer this is not submitted as is")))
             .setFunction(LabelFunction.MAX_NO_BLOCK)
             .build();
 
@@ -66,7 +66,7 @@ public class SubmitRequirementsAdapterTest {
                 ImmutableList.of(
                     LabelValue.create((short) 1, "Looks good to me"),
                     LabelValue.create((short) 0, "No score"),
-                    LabelValue.create((short) -1, "I would prefer this is not merged as is")))
+                    LabelValue.create((short) -1, "I would prefer this is not submitted as is")))
             .setFunction(LabelFunction.ANY_WITH_BLOCK)
             .build();
 
@@ -76,7 +76,7 @@ public class SubmitRequirementsAdapterTest {
                 ImmutableList.of(
                     LabelValue.create((short) 1, "Looks good to me"),
                     LabelValue.create((short) 0, "No score"),
-                    LabelValue.create((short) -1, "I would prefer this is not merged as is")))
+                    LabelValue.create((short) -1, "I would prefer this is not submitted as is")))
             .setFunction(LabelFunction.MAX_WITH_BLOCK)
             .setIgnoreSelfApproval(true)
             .build();

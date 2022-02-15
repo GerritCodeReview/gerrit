@@ -795,7 +795,7 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
         ]
         "values": {
           "-2": "This shall not be merged",
-          "-1": "I would prefer this is not merged as is",
+          "-1": "I would prefer this is not submitted as is",
           " 0": "No score",
           "+1": "Looks good to me, but someone else must approve",
           "+2": "Looks good to me, approved"
@@ -1926,7 +1926,7 @@ options `NON_VISIBLE_CHANGES` and `TOPIC_CLOSURE`.
           ],
           "values": {
             "-2": "This shall not be merged",
-            "-1": "I would prefer this is not merged as is",
+            "-1": "I would prefer this is not submitted as is",
             " 0": "No score",
             "+1": "Looks good to me, but someone else must approve",
             "+2": "Looks good to me, approved"
@@ -2023,7 +2023,7 @@ options `NON_VISIBLE_CHANGES` and `TOPIC_CLOSURE`.
           ],
           "values": {
             "-2": "This shall not be merged",
-            "-1": "I would prefer this is not merged as is",
+            "-1": "I would prefer this is not submitted as is",
             " 0": "No score",
             "+1": "Looks good to me, but someone else must approve",
             "+2": "Looks good to me, approved"
@@ -3974,7 +3974,7 @@ for the current patch set.
         ]
         "values": {
           "-2": "This shall not be merged",
-          "-1": "I would prefer this is not merged as is",
+          "-1": "I would prefer this is not submitted as is",
           " 0": "No score",
           "+1": "Looks good to me, but someone else must approve",
           "+2": "Looks good to me, approved"

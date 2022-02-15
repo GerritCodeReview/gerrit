@@ -62,7 +62,7 @@ suite('gr-access-section tests', () => {
         'Code-Review': {
           values: {
             ' 0': 'No score',
-            '-1': 'I would prefer this is not merged as is',
+            '-1': 'I would prefer this is not submitted as is',
             '-2': 'This shall not be merged',
             '+1': 'Looks good to me, but someone else must approve',
             '+2': 'Looks good to me, approved',
@@ -287,7 +287,7 @@ suite('gr-access-section tests', () => {
         'Code-Review': {
           values: {
             ' 0': 'No score',
-            '-1': 'I would prefer this is not merged as is',
+            '-1': 'I would prefer this is not submitted as is',
             '-2': 'This shall not be merged',
             '+1': 'Looks good to me, but someone else must approve',
             '+2': 'Looks good to me, approved',

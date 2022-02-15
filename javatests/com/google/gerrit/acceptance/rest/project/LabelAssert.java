@@ -35,7 +35,7 @@ public class LabelAssert {
             " 0",
             "No score",
             "-1",
-            "I would prefer this is not merged as is",
+            "I would prefer this is not submitted as is",
             "-2",
             "This shall not be merged");
     assertThat(codeReviewLabel.defaultValue).isEqualTo(0);

@@ -226,6 +226,7 @@ export class GrCursorManager {
    */
   setCursor(element: HTMLElement, noScroll?: boolean, applyFocus?: boolean) {
     if (!this.targetableStops.includes(element)) {
+      console.log('setCursor row not targetable');
       this.unsetCursor();
       return;
     }

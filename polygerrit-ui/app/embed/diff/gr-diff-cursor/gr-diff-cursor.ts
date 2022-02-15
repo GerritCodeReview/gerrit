@@ -229,6 +229,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
     intentionalMove?: boolean
   ) {
     const row = this._findRowByNumberAndFile(number, side, path);
+    console.log(`moveToLineNumber ${side} ${number} ${row}`);
     if (row) {
       this.side = side;
       this.cursorManager.setCursor(row, undefined, intentionalMove);

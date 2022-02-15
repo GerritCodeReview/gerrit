@@ -144,6 +144,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f5507e6_90d28aa7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-15T11:26:22Z",
+      "side": 1,
+      "message": "@Ossi: Please consider if your comments are adding value to reviews.  I notice a pattern of endless arguing on comment threads and I don\u0027t think this is healthy for forward progress.",
+      "parentUuid": "2508a3c7_7de0d24e",
+      "revId": "cda24579b892463875c10478afd8bc268c1428a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "864d6b28_bc6a9a76",

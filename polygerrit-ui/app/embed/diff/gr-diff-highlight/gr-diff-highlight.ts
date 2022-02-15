@@ -267,7 +267,9 @@ export class GrDiffHighlight extends PolymerElement {
     if (selection instanceof Range) {
       return this._normalizeRange(selection);
     }
+    if (selection.toString().length < 3) return;
     const rangeCount = selection.rangeCount;
+    console.log(`_getNormalizedRange ${rangeCount}`);
     if (rangeCount === 0) {
       return null;
     } else if (rangeCount === 1) {
@@ -426,6 +428,7 @@ export class GrDiffHighlight extends PolymerElement {
   }
 
   _handleSelection(selection: Selection | Range, isMouseUp: boolean) {
+    console.log(`_handleSelection ${selection}`);
     /* On Safari, the selection events may return a null range that should
        be ignored */
     if (!selection) {
@@ -433,6 +436,11 @@ export class GrDiffHighlight extends PolymerElement {
     }
     const normalizedRange = this._getNormalizedRange(selection);
     if (!this._isRangeValid(normalizedRange)) {
+      console.log(
+        `_handleSelection invalid normalizedRange ${JSON.stringify(
+          normalizedRange
+        )}`
+      );
       this._removeActionBox();
       return;
     }
@@ -442,6 +450,9 @@ export class GrDiffHighlight extends PolymerElement {
       selection instanceof Range ? selection : selection.getRangeAt(0);
     const start = normalizedRange!.start!;
     const end = normalizedRange!.end!;
+    console.log(
+      `_handleSelection normalizedRange ${start.side} ${start.line} ${start.column} ${end.side} ${end.line} ${end.column}`
+    );
 
     // TODO (viktard): Drop empty first and last lines from selection.
 
@@ -531,6 +542,7 @@ export class GrDiffHighlight extends PolymerElement {
       throw Error('Selected Range is needed for new range comment!');
     }
     const {side, range} = this.selectedRange;
+    console.log(`_handleRangeCommentRequest ${side} ${JSON.stringify(range)}`);
     this._fireCreateRangeComment(side, range);
   }
 

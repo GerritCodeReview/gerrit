@@ -42,6 +42,9 @@ export function normalize(range: Range): NormalizedRange {
   const endContainer = _getContentTextParent(range.endContainer);
   const endOffset =
     range.endOffset + _getTextOffset(endContainer, range.endContainer);
+  console.log(
+    `normalize ${range.startContainer} ${range.startOffset} ${range.endContainer} ${range.endOffset} ${startContainer} ${startOffset} ${endContainer} ${endOffset}`
+  );
   return {
     startContainer,
     startOffset,

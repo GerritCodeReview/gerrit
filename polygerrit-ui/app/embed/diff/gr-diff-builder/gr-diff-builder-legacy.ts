@@ -61,10 +61,36 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     lineNumber: LineNumber,
     side?: Side,
     root: Element = this.outputEl
-  ): Element | null {
-    const sideSelector: string = side ? `.${side}` : '';
-    return root.querySelector(
+  ): HTMLTableCellElement | null {
+    const sideSelector = side ? `.${side}` : '';
+    return root.querySelector<HTMLTableCellElement>(
       `td.lineNum[data-value="${lineNumber}"]${sideSelector} ~ td.content`
+    );
+  }
+
+  override getLineElByNumber(
+    lineNumber: LineNumber,
+    side?: Side
+  ): HTMLTableCellElement | null {
+    const sideSelector = side ? `.${side}` : '';
+    return this.outputEl.querySelector<HTMLTableCellElement>(
+      `td.lineNum[data-value="${lineNumber}"]${sideSelector}`
+    );
+  }
+
+  override getLineNumberRows() {
+    return Array.from(
+      this.outputEl.querySelectorAll<HTMLTableRowElement>(
+        ':not(.contextControl) > .diff-row'
+      ) || []
+    ).filter(tr => tr.querySelector('button'));
+  }
+
+  override getLineNumEls(side: Side): HTMLTableCellElement[] {
+    return Array.from(
+      this.outputEl.querySelectorAll<HTMLTableCellElement>(
+        `td.lineNum.${side}`
+      ) ?? []
     );
   }
 

@@ -24,7 +24,7 @@ import '../gr-syntax-themes/gr-syntax-theme';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {htmlTemplate} from './gr-diff_html';
 import {LineNumber} from './gr-diff-line';
 import {
@@ -77,7 +77,7 @@ import {
   GrDiff as GrDiffApi,
   DisplayLine,
 } from '../../../api/diff';
-import {isSafari, toggleClass} from '../../../utils/dom-util';
+import {isElementTarget, isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 
@@ -524,8 +524,10 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   _handleTap(e: CustomEvent) {
-    const el = (dom(e) as EventApi).localTarget as Element;
+    const el = e.composedPath()[0];
+    if (!isElementTarget(el)) return;
 
+    console.log(`handleTap ${el.tagName} ${el.classList.toString()}`);
     if (
       el.getAttribute('data-value') !== 'LOST' &&
       (el.classList.contains('lineNum') ||
@@ -551,6 +553,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   _dispatchSelectedLine(number: LineNumber, side: Side) {
+    console.log(`_dispatchSelectedLine ${side} ${number}`);
     this.dispatchEvent(
       new CustomEvent('line-selected', {
         detail: {
@@ -569,6 +572,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   addDraftAtLine(el: Element) {
+    console.log(`addDraftAtLine ${getLineNumber(el)}`);
     this._selectLine(el);
 
     const lineNum = getLineNumber(el);
@@ -614,6 +618,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (!contentEl) throw new Error('content el not found for line el');
     side = side ?? this._getCommentSideByLineAndContent(lineEl, contentEl);
     assertIsDefined(this.path, 'path');
+    console.log(
+      `_createComment dispatchEvent ${side} ${lineNum} ${range} ${this.path}`
+    );
     this.dispatchEvent(
       new CustomEvent<CreateCommentEventDetail>('create-comment', {
         bubbles: true,

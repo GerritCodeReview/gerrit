@@ -327,9 +327,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   getLineNumEls(side: Side): HTMLElement[] {
-    return Array.from(
-      this.root?.querySelectorAll<HTMLElement>(`.lineNum.${side}`) ?? []
-    );
+    return this.$.diffBuilder.getLineNumEls(side);
   }
 
   showNoChangeMessage(
@@ -500,12 +498,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (this.loading) {
       return [new AbortStop()];
     }
-
-    return Array.from(
-      this.root?.querySelectorAll<HTMLElement>(
-        ':not(.contextControl) > .diff-row'
-      ) || []
-    ).filter(tr => tr.querySelector('button'));
+    return this.$.diffBuilder.getLineNumberRows();
   }
 
   isRangeSelected() {
@@ -645,17 +638,13 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     );
   }
 
-  _getThreadGroupForLine(contentEl: Element) {
-    return contentEl.querySelector('.thread-group');
-  }
-
   /**
    * Gets or creates a comment thread group for a specific line and side on a
    * diff.
    */
   _getOrCreateThreadGroup(contentEl: Element, commentSide: Side) {
     // Check if thread group exists.
-    let threadGroupEl = this._getThreadGroupForLine(contentEl);
+    let threadGroupEl = contentEl.querySelector('.thread-group');
     if (!threadGroupEl) {
       threadGroupEl = document.createElement('div');
       threadGroupEl.className = 'thread-group';

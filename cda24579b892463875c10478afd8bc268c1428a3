@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2508a3c7_7de0d24e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T10:53:38Z",
+      "side": 1,
+      "message": "I find this discussion getting inappropriately getting out of hand, given that we are talking about the `No newline at end of file` string.\n\nI am fine either way regarding the user visible string: \u0027left\u0027 is fine. \u0027left (base)\u0027 is fine. \u0027base\u0027 is fine.",
+      "parentUuid": "20ed1f09_b606d694",
+      "revId": "cda24579b892463875c10478afd8bc268c1428a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "864d6b28_bc6a9a76",

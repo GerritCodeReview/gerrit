@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb9fbfca_563fbbc6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-15T12:41:49Z",
+      "side": 1,
+      "message": "Not really. Existing code.",
+      "parentUuid": "d93c90ad_9fd3df43",
+      "range": {
+        "startLine": 40,
+        "startChar": 29,
+        "endLine": 40,
+        "endChar": 65
+      },
+      "revId": "d450f8464a67854e6600bb26ff0ce415cfff4042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "730de9ed_72c7df65",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82ffe3c8_8304b8ca",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-15T12:41:49Z",
+      "side": 1,
+      "message": "Existing code.\nI don\u0027t understand what you\u0027re saying. It\u0027s not talking about anything being \"needed\" at all?",
+      "parentUuid": "730de9ed_72c7df65",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "d450f8464a67854e6600bb26ff0ce415cfff4042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "786ea956_1ecc7ff4",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
         "patchSetId": 28
@@ -60,6 +108,30 @@
       "writtenOn": "2022-02-14T14:24:36Z",
       "side": 1,
       "message": "also check query, countLabel?",
+      "range": {
+        "startLine": 137,
+        "startChar": 51,
+        "endLine": 137,
+        "endChar": 55
+      },
+      "revId": "d450f8464a67854e6600bb26ff0ce415cfff4042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf6e1724_fd34e7d7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-15T12:41:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786ea956_1ecc7ff4",
       "range": {
         "startLine": 137,
         "startChar": 51,
@@ -95,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98bef3ac_ebf4ecde",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-15T12:41:49Z",
+      "side": 1,
+      "message": "selectedIndex is absolute so how would parent computing relative index solve the issue of determining if item is selected?\nabsolute index would need to be sent or else isItemSelected property is passed down instead.\nIs that what you meant?",
+      "parentUuid": "1c75c7d2_5c615c06",
+      "range": {
+        "startLine": 272,
+        "startChar": 21,
+        "endLine": 272,
+        "endChar": 45
+      },
+      "revId": "d450f8464a67854e6600bb26ff0ce415cfff4042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d02fb327_f38396a2",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
         "patchSetId": 28
@@ -106,6 +202,30 @@
       "writtenOn": "2022-02-14T14:24:36Z",
       "side": 1,
       "message": "does this go before imports?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 0
+      },
+      "revId": "d450f8464a67854e6600bb26ff0ce415cfff4042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24f38c48_f36723fe",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-15T12:41:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d02fb327_f38396a2",
       "range": {
         "startLine": 14,
         "startChar": 0,

@@ -392,8 +392,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     });
   }
 
-  // TODO(brohlfs): Rewrite gr-diff to be agnostic of GrCommentThread, because
-  // other users of gr-diff may use different comment widgets.
   _updateRanges(
     addedThreadEls: GrDiffThreadElement[],
     removedThreadEls: GrDiffThreadElement[]

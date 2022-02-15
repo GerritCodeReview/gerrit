@@ -24,6 +24,7 @@ import {
   RenderPreferences,
 } from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
+import {html} from 'lit';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -45,11 +46,19 @@ import {getBaseUrl} from '../../../utils/url-util';
  *   Graphemes: http://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries
  *   A proposed JS API: https://github.com/tc39/proposal-intl-segmenter
  */
-const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+export const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
 // If any line of the diff is more than the character limit, then disable
 // syntax highlighting for the entire file.
 export const SYNTAX_MAX_LINE_LENGTH = 500;
+
+export function countLines(diff?: DiffInfo, side?: Side) {
+  if (!diff?.content || !side) return 0;
+  return diff.content.reduce((sum, chunk) => {
+    const sideChunk = side === Side.LEFT ? chunk.a : chunk.b;
+    return sum + (sideChunk?.length ?? chunk.ab?.length ?? chunk.skip ?? 0);
+  }, 0);
+}
 
 export function getResponsiveMode(
   prefs: DiffPreferencesInfo,
@@ -65,7 +74,7 @@ export function getResponsiveMode(
   return 'NONE';
 }
 
-export function isResponsive(responsiveMode: DiffResponsiveMode) {
+export function isResponsive(responsiveMode?: DiffResponsiveMode) {
   return (
     responsiveMode === 'FULL_RESPONSIVE' || responsiveMode === 'SHRINK_ONLY'
   );
@@ -195,6 +204,19 @@ export function anyLineTooLong(diff?: DiffInfo) {
 }
 
 /**
+ * Simple helper method for creating element classes in the context of
+ * gr-diff.
+ *
+ * We are adding 'style-scope', 'gr-diff' classes for compatibility with
+ * Shady DOM. TODO: Is that still required??
+ *
+ * Otherwise this is just a super simple convenience function.
+ */
+export function diffClasses(...additionalClasses: string[]) {
+  return `style-scope gr-diff ${additionalClasses.join(' ')}`;
+}
+
+/**
  * Simple helper method for creating elements in the context of gr-diff.
  *
  * We are adding 'style-scope', 'gr-diff' classes for compatibility with
@@ -237,6 +259,12 @@ export function createLineBreak(mode: DiffResponsiveMode) {
     : createElementDiff('span', 'br');
 }
 
+export function lineBreak(responsive: boolean) {
+  return responsive
+    ? html`<wbr class="${diffClasses()}"></wbr>`
+    : html`<span class="${diffClasses('br')}"></span>`;
+}
+
 /**
  * Returns a <span> element holding a '\t' character, that will visually
  * occupy |tabSize| many columns.
@@ -252,6 +280,14 @@ export function createTabWrapper(tabSize: number): HTMLElement {
   );
   result.innerText = '\t';
   return result;
+}
+
+export function tabWrapper(tabSize: number) {
+  return html`<span
+    class="${diffClasses('tab')}"
+    style="tab-size: ${tabSize}; -moz-tab-size: ${tabSize};"
+    >\\t</span
+  >`;
 }
 
 /**

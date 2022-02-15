@@ -18,25 +18,23 @@
 import '../../../test/common-test-setup-karma';
 import './gr-linked-text';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {fixture, html} from '@open-wc/testing-helpers';
 import {GrLinkedText} from './gr-linked-text';
 import {CommentLinks} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
-
-const basicFixture = fixtureFromTemplate(html`
-  <gr-linked-text>
-    <div id="output"></div>
-  </gr-linked-text>
-`);
 
 suite('gr-linked-text tests', () => {
   let element: GrLinkedText;
 
   let originalCanonicalPath: string | undefined;
 
-  setup(() => {
+  setup(async () => {
     originalCanonicalPath = window.CANONICAL_PATH;
-    element = basicFixture.instantiate() as GrLinkedText;
+    element = await fixture<GrLinkedText>(html`
+      <gr-linked-text>
+        <div id="output"></div>
+      </gr-linked-text>
+    `);
 
     sinon.stub(GerritNav, 'mapCommentlinks').value((x: CommentLinks) => x);
     element.config = {

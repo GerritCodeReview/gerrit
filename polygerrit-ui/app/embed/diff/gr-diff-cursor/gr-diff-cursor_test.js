@@ -18,15 +18,11 @@
 import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {fixture, html} from '@open-wc/testing-helpers';
 import {listenOnce, mockPromise} from '../../../test/test-utils.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {GrDiffCursor} from './gr-diff-cursor.js';
-
-const basicFixture = fixtureFromTemplate(html`
-  <gr-diff></gr-diff>
-`);
 
 suite('gr-diff-cursor tests', () => {
   let cursor;
@@ -34,7 +30,7 @@ suite('gr-diff-cursor tests', () => {
   let diff;
 
   setup(async () => {
-    diffElement = basicFixture.instantiate();
+    diffElement = await fixture(html`<gr-diff></gr-diff>`);
     cursor = new GrDiffCursor();
 
     // Register the diff with the cursor.
@@ -634,16 +630,14 @@ suite('gr-diff-cursor tests', () => {
   });
 
   suite('multi diff', () => {
-    const multiDiffFixture = fixtureFromTemplate(html`
-      <gr-diff></gr-diff>
-      <gr-diff></gr-diff>
-      <gr-diff></gr-diff>
-    `);
-
     let diffElements;
 
-    setup(() => {
-      diffElements = multiDiffFixture.instantiate();
+    setup(async () => {
+      diffElements = [
+        await fixture(html`<gr-diff></gr-diff>`),
+        await fixture(html`<gr-diff></gr-diff>`),
+        await fixture(html`<gr-diff></gr-diff>`),
+      ];
       cursor = new GrDiffCursor();
 
       // Register the diff with the cursor.

@@ -37,11 +37,10 @@ suite('gr-diff-cursor tests', () => {
     cursor.replaceDiffs([diffElement]);
 
     diffElement.loggedIn = false;
-    diffElement.patchRange = {basePatchNum: 1, patchNum: 2};
     diffElement.comments = {
       left: [],
       right: [],
-      meta: {patchRange: undefined},
+      meta: {},
     };
     diffElement.path = 'some/path.ts';
     const promise = mockPromise();

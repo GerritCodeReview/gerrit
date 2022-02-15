@@ -777,6 +777,7 @@ export function createNonApplicableSubmitRequirementResultInfo(): SubmitRequirem
     name: 'Verified',
     status: SubmitRequirementStatus.NOT_APPLICABLE,
     applicability_expression_result: createSubmitRequirementExpressionInfo(),
+    submittability_expression_result: createSubmitRequirementExpressionInfo(),
     is_legacy: false,
   };
 }

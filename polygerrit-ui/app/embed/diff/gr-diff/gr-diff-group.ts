@@ -35,6 +35,18 @@ export interface GrDiffLinePair {
 }
 
 /**
+ * Determines whether the given group is either totally an addition or totally
+ * a removal.
+ */
+export function isTotal(group: GrDiffGroup): boolean {
+  return (
+    group.type === GrDiffGroupType.DELTA &&
+    (!group.adds.length || !group.removes.length) &&
+    !(!group.adds.length && !group.removes.length)
+  );
+}
+
+/**
  * Hides lines in the given range behind a context control group.
  *
  * Groups that would be partially visible are split into their visible and

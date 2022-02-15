@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2050e26c_636df51e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "006bbb8a_8bcae9a8",
+      "revId": "e6e08e91fec0c0cbb7260f6541365fc003d5185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d971f39b_524e8280",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4812a888_62b902e3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element_test.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d971f39b_524e8280",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 22
+      },
+      "revId": "e6e08e91fec0c0cbb7260f6541365fc003d5185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b35cc11_e9589c0e",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-02-10T10:28:51Z",
       "side": 1,
       "message": "Some comments here what this is for? Or maybe a better name? It seems to have two purposes: \n\n1) Adding two special classes to all elements that have to do with the diff - is that still needed? Do you still use a ShadyDOM polyfill that needs this specificity bump? \n\n2) Providing a more convenient single line syntax to commonly used DOM APIs (textContent and classList.",
+      "range": {
+        "startLine": 153,
+        "startChar": 16,
+        "endLine": 153,
+        "endChar": 33
+      },
+      "revId": "e6e08e91fec0c0cbb7260f6541365fc003d5185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b58b779a_cb2bddde",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T14:29:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b35cc11_e9589c0e",
       "range": {
         "startLine": 153,
         "startChar": 16,

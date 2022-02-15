@@ -1663,6 +1663,32 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(approveButton);
       });
 
+      test('added even when label is optional', async () => {
+        element.change = {
+          ...createChangeViewChange(),
+          current_revision: 'abc1234' as CommitId,
+          labels: {
+            'Code-Review': {
+              optional: true,
+              values: {
+                '-1': '',
+                ' 0': '',
+                '+1': '',
+              },
+            },
+          },
+          permitted_labels: {
+            'Code-Review': ['-1', ' 0', '+1'],
+          },
+        };
+        await flush();
+        const approveButton = query(
+          element,
+          "gr-button[data-action-key='review']"
+        );
+        assert.isOk(approveButton);
+      });
+
       test('approves when tapped', async () => {
         const fireActionStub = sinon.stub(element, '_fireAction');
         tap(queryAndAssert(element, "gr-button[data-action-key='review']"));

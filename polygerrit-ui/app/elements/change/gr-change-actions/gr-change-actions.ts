@@ -974,7 +974,6 @@ export class GrChangeActions
       codeReviewPermittedValues &&
       this.account?._account_id &&
       isDetailedLabelInfo(codeReviewLabel) &&
-      this._getLabelStatus(codeReviewLabel) === LabelStatus.OK &&
       !isOwner(this.change, this.account) &&
       getApprovalInfo(codeReviewLabel, this.account)?.value !==
         getVotingRange(codeReviewLabel)?.max

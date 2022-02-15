@@ -18,22 +18,20 @@
 import '../../../test/common-test-setup-karma';
 import './gr-page-nav';
 import {GrPageNav} from './gr-page-nav';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {fixture, html} from '@open-wc/testing-helpers';
 import {queryAndAssert} from '../../../test/test-utils';
-
-const basicFixture = fixtureFromTemplate(html`
-  <gr-page-nav>
-    <ul>
-      <li>item</li>
-    </ul>
-  </gr-page-nav>
-`);
 
 suite('gr-page-nav tests', () => {
   let element: GrPageNav;
 
   setup(async () => {
-    element = basicFixture.instantiate() as GrPageNav;
+    element = await fixture<GrPageNav>(html`
+    <gr-page-nav>
+      <ul>
+        <li>item</li>
+      </ul>
+    </gr-page-nav>
+  `);
     await element.updateComplete;
   });
 

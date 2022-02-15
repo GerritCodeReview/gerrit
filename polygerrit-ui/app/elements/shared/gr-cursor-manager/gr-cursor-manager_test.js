@@ -17,25 +17,23 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-cursor-manager.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {fixture, html} from '@open-wc/testing-helpers';
 import {AbortStop, CursorMoveResult} from '../../../api/core.js';
 import {GrCursorManager} from './gr-cursor-manager.js';
 
-const basicTestFixutre = fixtureFromTemplate(html`
-    <ul>
-      <li>A</li>
-      <li>B</li>
-      <li>C</li>
-      <li>D</li>
-    </ul>
-`);
 
 suite('gr-cursor-manager tests', () => {
   let cursor;
   let list;
 
-  setup(() => {
-    list = basicTestFixutre.instantiate();
+  setup(async () => {
+    list = await fixture(html`
+    <ul>
+      <li>A</li>
+      <li>B</li>
+      <li>C</li>
+      <li>D</li>
+    </ul>`);
     cursor = new GrCursorManager();
     cursor.cursorTargetClass = 'targeted';
   });

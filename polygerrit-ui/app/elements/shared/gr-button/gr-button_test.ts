@@ -19,23 +19,12 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import '../../../test/common-test-setup-karma';
 import './gr-button';
 import {addListener} from '@polymer/polymer/lib/utils/gestures';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {fixture, html} from '@open-wc/testing-helpers';
 import {GrButton} from './gr-button';
 import {pressKey, queryAndAssert} from '../../../test/test-utils';
 import {PaperButtonElement} from '@polymer/paper-button';
 import {Key, Modifier} from '../../../utils/dom-util';
 
-const basicFixture = fixtureFromElement('gr-button');
-
-const nestedFixture = fixtureFromTemplate(html`
-  <div id="test">
-    <gr-button class="testBtn"></gr-button>
-  </div>
-`);
-
-const tabindexFixture = fixtureFromTemplate(html`
-  <gr-button tabindex="3"></gr-button>
-`);
 
 suite('gr-button tests', () => {
   let element: GrButton;
@@ -51,7 +40,7 @@ suite('gr-button tests', () => {
   };
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture<GrButton>('<gr-button></gr-button>');
     await element.updateComplete;
   });
 
@@ -126,7 +115,9 @@ suite('gr-button tests', () => {
   });
 
   test('tabindex should be preserved', async () => {
-    const tabIndexElement = tabindexFixture.instantiate() as GrButton;
+    const tabIndexElement = await fixture<GrButton>(html`
+      <gr-button tabindex="3"></gr-button>
+    `);
     tabIndexElement.disabled = false;
     await element.updateComplete;
     assert.equal(tabIndexElement.getAttribute('tabindex'), '3');
@@ -213,19 +204,22 @@ suite('gr-button tests', () => {
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
-        path: `html>body>test-fixture#${element.parentElement!.id}>gr-button`,
+        path: `html>body>div>gr-button`,
       });
     });
 
-    test('report event after click on nested', () => {
-      const nestedElement = nestedFixture.instantiate() as HTMLDivElement;
+    test('report event after click on nested', async () => {
+      const nestedElement = await fixture<HTMLDivElement>(html`
+        <div id="test">
+          <gr-button class="testBtn"></gr-button>
+        </div>
+      `);
       MockInteractions.click(queryAndAssert(nestedElement, 'gr-button'));
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
         path:
-          `html>body>test-fixture#${nestedElement.parentElement!.id}` +
-          '>div#test>gr-button.testBtn',
+          'html>body>div>div#test>gr-button.testBtn',
       });
     });
   });

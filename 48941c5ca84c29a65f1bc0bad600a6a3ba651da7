@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0000f399_e652ee4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-15T14:51:55Z",
+      "side": 1,
+      "message": "see other comment",
+      "parentUuid": "12a7846d_9ae8d906",
+      "revId": "48941c5ca84c29a65f1bc0bad600a6a3ba651da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9696e59_22335d88",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-15T14:47:59Z",
       "side": 1,
       "message": "Same question, it\u0027s not referenced anywhere else.",
+      "revId": "48941c5ca84c29a65f1bc0bad600a6a3ba651da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8863b5af_44c67984",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-15T14:51:55Z",
+      "side": 1,
+      "message": "they are reflected as attributes so they can be used in the css like this:\n```\n:host([avatarShown]:not([attentionIconShown])) {\n```\nalso see: https://developers.google.com/web/fundamentals/web-components/best-practices#do-not-self-apply-classes.",
+      "parentUuid": "d9696e59_22335d88",
       "revId": "48941c5ca84c29a65f1bc0bad600a6a3ba651da7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

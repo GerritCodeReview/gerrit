@@ -335,10 +335,18 @@ export class GrDiffBuilderElement extends PolymerElement {
   }
 
   getLineElByNumber(lineNumber: LineNumber, side?: Side) {
-    const sideSelector = side ? '.' + side : '';
-    return this.diffElement.querySelector(
-      `.lineNum[data-value="${lineNumber}"]${sideSelector}`
-    );
+    if (!this._builder) return null;
+    return this._builder.getLineElByNumber(lineNumber, side);
+  }
+
+  getLineNumberRows() {
+    if (!this._builder) return [];
+    return this._builder.getLineNumberRows();
+  }
+
+  getLineNumEls(side: Side) {
+    if (!this._builder) return [];
+    return this._builder.getLineNumEls(side);
   }
 
   /**

@@ -61,7 +61,13 @@ export interface DiffBuilder {
     lineNumber: LineNumber,
     side?: Side,
     root?: Element
-  ): Element | null;
+  ): HTMLTableCellElement | null;
+  getLineElByNumber(
+    lineNumber: LineNumber,
+    side?: Side
+  ): HTMLTableCellElement | null;
+  getLineNumberRows(): HTMLTableRowElement[];
+  getLineNumEls(side: Side): HTMLTableCellElement[];
   setBlame(blame: BlameInfo[]): void;
   updateRenderPrefs(renderPrefs: RenderPreferences): void;
 }
@@ -210,7 +216,17 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     lineNumber: LineNumber,
     side?: Side,
     root?: Element
-  ): Element | null;
+  ): HTMLTableCellElement | null;
+
+  // TODO: Change `null` to `undefined`.
+  abstract getLineElByNumber(
+    lineNumber: LineNumber,
+    side?: Side
+  ): HTMLTableCellElement | null;
+
+  abstract getLineNumberRows(): HTMLTableRowElement[];
+
+  abstract getLineNumEls(side: Side): HTMLTableCellElement[];
 
   protected abstract getBlameTdByLine(lineNum: number): Element | undefined;
 

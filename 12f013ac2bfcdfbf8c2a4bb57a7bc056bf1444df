@@ -85,6 +85,42 @@
       "message": "Also I found that hovercard doesn\u0027t work properly anymore, it is always shown in top right corner.",
       "revId": "12f013ac2bfcdfbf8c2a4bb57a7bc056bf1444df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60164ce2_7e0809ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-15T13:59:20Z",
+      "side": 1,
+      "message": "Done. Screenshot added.",
+      "parentUuid": "5586f4a1_26e52af2",
+      "revId": "12f013ac2bfcdfbf8c2a4bb57a7bc056bf1444df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6527d1a4_8e567ec9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-15T13:59:20Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "b214cf10_91fdd3f1",
+      "revId": "12f013ac2bfcdfbf8c2a4bb57a7bc056bf1444df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

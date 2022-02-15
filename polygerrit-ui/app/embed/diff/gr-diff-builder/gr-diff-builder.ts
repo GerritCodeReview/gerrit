@@ -20,7 +20,7 @@ import {
   RenderPreferences,
 } from '../../../api/diff';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
-import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
+import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 
 import '../gr-context-controls/gr-context-controls';
 import {BlameInfo} from '../../../types/common';

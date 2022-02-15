@@ -42,12 +42,7 @@ import {
 } from './gr-diff-utils';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll';
 import {customElement, observe, property} from '@polymer/decorators';
-import {
-  BlameInfo,
-  CommentRange,
-  ImageInfo,
-  NumericChangeId,
-} from '../../../types/common';
+import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {
   DiffInfo,
   DiffPreferencesInfo,
@@ -152,9 +147,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
    *
    * @event diff-context-expanded
    */
-
-  @property({type: String})
-  changeNum?: NumericChangeId;
 
   @property({type: Boolean})
   noAutoRender = false;

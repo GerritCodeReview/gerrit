@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4131b8d9_b0b6232c",
+        "filename": "javatests/com/google/gerrit/server/project/SubmitRequirementsAdapterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-15T18:58:05Z",
+      "side": 1,
+      "message": "Comment",
+      "range": {
+        "startLine": 366,
+        "startChar": 6,
+        "endLine": 366,
+        "endChar": 29
+      },
+      "revId": "627fe0c110257b4fd8ebd1b8f1f323113769cc23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

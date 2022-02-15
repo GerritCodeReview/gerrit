@@ -40,7 +40,7 @@ export class GrChangeListSection extends LitElement {
   showNumber?: boolean; // No default value to prevent flickering.
 
   @property({type: Number})
-  selectedIndex?: number;
+  selectedIndex?: number; // The relative number of the change that is selected
 
   @property({type: Number})
   sectionIndex?: number;
@@ -256,27 +256,8 @@ export class GrChangeListSection extends LitElement {
     return cols;
   }
 
-  /**
-   * Maps an index local to a particular section to the absolute index
-   * across all the changes on the page.
-   *
-   * private but used in test
-   *
-   * @param sectionIndex index of section
-   * @param localIndex index of row within section
-   * @return absolute index of row in the aggregate dashboard
-   */
-  computeItemAbsoluteIndex(localIndex: number) {
-    let idx = 0;
-    for (let i = 0; i < this.sectionIndex!; i++) {
-      idx += this.sections[i].results.length;
-    }
-    return idx + localIndex;
-  }
-
   private computeItemSelected(index: number) {
-    const idx = this.computeItemAbsoluteIndex(index);
-    return idx === this.selectedIndex;
+    return index === this.selectedIndex;
   }
 
   private computeTabIndex(index: number) {

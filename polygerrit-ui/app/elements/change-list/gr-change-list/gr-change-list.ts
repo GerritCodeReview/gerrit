@@ -237,7 +237,10 @@ export class GrChangeList extends LitElement {
         .config=${this.config}
         .account=${this.account}
         .sections=${this.sections}
-        .selectedIndex=${this.selectedIndex}
+        .selectedIndex=${this.getRelativeIndex(
+          this.selectedIndex,
+          sectionIndex
+        )}
         ?showStar=${this.showStar}
         .showNumber=${this.showNumber}
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
@@ -271,6 +274,27 @@ export class GrChangeList extends LitElement {
     if (changedProperties.has('sections')) {
       this.sectionsChanged();
     }
+  }
+
+  /**
+   * Calculate the relative index of the currently selected change wrt to the
+   * section it belongs to.
+   * The 10th change in the overall list may be the 4th change in it's section
+   * so this method maps 10 to 4.
+   * selectedIndex contains the index of the change wrt the entire change list.
+   * Private but used in test
+   *
+   */
+  getRelativeIndex(selectedIndex?: number, sectionIndex?: number) {
+    if (!selectedIndex || !sectionIndex) return;
+    for (let i = 0; i < sectionIndex; i++)
+      selectedIndex -= this.sections[i].results.length;
+    if (selectedIndex < 0) return; // selected change lies in previous sections
+
+    // the selectedIndex lies in the current section
+    if (selectedIndex < this.sections[sectionIndex].results.length)
+      return selectedIndex;
+    return; // selected change lies in future sections
   }
 
   private computePreferences() {

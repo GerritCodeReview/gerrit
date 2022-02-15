@@ -19,6 +19,7 @@ import {
   GrDiffLine as GrDiffLineApi,
   GrDiffLineType,
   LineNumber,
+  Side,
 } from '../../../api/diff';
 
 export {GrDiffLineType, LineNumber};
@@ -37,6 +38,10 @@ export class GrDiffLine implements GrDiffLineApi {
   highlights: Highlights[] = [];
 
   text = '';
+
+  lineNumber(side: Side) {
+    return side === Side.LEFT ? this.beforeNumber : this.afterNumber;
+  }
 
   // TODO(TS): remove this properties
   static readonly Type = GrDiffLineType;

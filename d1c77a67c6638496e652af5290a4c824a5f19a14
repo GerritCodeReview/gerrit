@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "592640c9_91b671ed",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-15T15:49:45Z",
+      "side": 1,
+      "message": "(Optional) Do we need to verify style-scope is added?",
+      "revId": "d1c77a67c6638496e652af5290a4c824a5f19a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

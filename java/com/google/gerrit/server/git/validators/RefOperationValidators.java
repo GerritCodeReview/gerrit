@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.validators;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
@@ -47,7 +48,11 @@ public class RefOperationValidators {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    RefOperationValidators create(Project project, IdentifiedUser user, ReceiveCommand cmd);
+    RefOperationValidators create(
+        Project project,
+        IdentifiedUser user,
+        ReceiveCommand cmd,
+        ImmutableListMultimap<String, String> pushOptions);
   }
 
   public static ReceiveCommand getCommand(RefUpdate update, ReceiveCommand.Type type) {
@@ -67,7 +72,8 @@ public class RefOperationValidators {
       PluginSetContext<RefOperationValidationListener> refOperationValidationListeners,
       @Assisted Project project,
       @Assisted IdentifiedUser user,
-      @Assisted ReceiveCommand cmd) {
+      @Assisted ReceiveCommand cmd,
+      @Assisted ImmutableListMultimap<String, String> pushOptions) {
     this.perm = permissionBackend.user(user);
     this.allUsersName = allUsersName;
     this.refOperationValidationListeners = refOperationValidationListeners;
@@ -75,6 +81,7 @@ public class RefOperationValidators {
     event.command = cmd;
     event.project = project;
     event.user = user;
+    event.pushOptions = pushOptions;
   }
 
   /**

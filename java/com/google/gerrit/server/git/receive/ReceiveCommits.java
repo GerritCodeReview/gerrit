@@ -3349,7 +3349,9 @@ class ReceiveCommits {
   // REJECTED, and the return value is 'false'
   private boolean validRefOperation(ReceiveCommand cmd) {
     try (TraceTimer traceTimer = newTimer("validRefOperation")) {
-      RefOperationValidators refValidators = refValidatorsFactory.create(getProject(), user, cmd);
+      RefOperationValidators refValidators =
+          refValidatorsFactory.create(
+              getProject(), user, cmd, ImmutableListMultimap.copyOf(pushOptions));
 
       try {
         messages.addAll(refValidators.validateForRefOperation());

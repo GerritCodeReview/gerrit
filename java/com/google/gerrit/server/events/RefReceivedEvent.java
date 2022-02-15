@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.google.gerrit.server.events;
 
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -22,6 +23,7 @@ public class RefReceivedEvent extends RefEvent {
   public ReceiveCommand command;
   public Project project;
   public IdentifiedUser user;
+  public ImmutableListMultimap<String, String> pushOptions;
 
   public RefReceivedEvent() {
     super(TYPE);

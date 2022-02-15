@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
@@ -26,6 +27,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
@@ -438,6 +440,22 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createBranchViaRestApiWithValidationOptions() throws Exception {
+    BranchInput input = new BranchInput();
+    input.ref = "new";
+    input.validationOptions = ImmutableMap.of("key", "value");
+
+    TestRefOperationValidationListener testRefOperationValidationListener =
+        new TestRefOperationValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testRefOperationValidationListener)) {
+      gApi.projects().name(project.get()).branch(input.ref).create(input);
+      assertThat(testRefOperationValidationListener.refReceivedEvent.pushOptions)
+          .containsExactly("key", "value");
+    }
+  }
+
+  @Test
   public void createBranchViaPushFailsIfCommitIsInvalid() throws Exception {
     TestRefOperationValidationListener testRefOperationValidationListener =
         new TestRefOperationValidationListener();
@@ -457,6 +475,25 @@ public class CreateBranchIT extends AbstractDaemonTest {
           String.format(
               "Validation for creation of ref 'refs/heads/new' in project %s failed:\n%s",
               project, TestRefOperationValidationListener.FAILURE_MESSAGE));
+    }
+  }
+
+  @Test
+  public void createBranchViaPushWithValidationOptions() throws Exception {
+    TestRefOperationValidationListener testRefOperationValidationListener =
+        new TestRefOperationValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testRefOperationValidationListener)) {
+      PushResult r =
+          pushHead(
+              testRepo,
+              "refs/heads/new",
+              /* pushTags= */ false,
+              /* force= */ false,
+              /* pushOptions= */ ImmutableList.of("key=value"));
+      assertPushOk(r, "refs/heads/new");
+      assertThat(testRefOperationValidationListener.refReceivedEvent.pushOptions)
+          .containsExactly("key", "value");
     }
   }
 
@@ -510,10 +547,13 @@ public class CreateBranchIT extends AbstractDaemonTest {
     static final String FAILURE_MESSAGE = "failure from test";
 
     public boolean doReject;
+    public RefReceivedEvent refReceivedEvent;
 
     @Override
     public List<ValidationMessage> onRefOperation(RefReceivedEvent refReceivedEvent)
         throws ValidationException {
+      this.refReceivedEvent = refReceivedEvent;
+
       if (doReject) {
         throw new ValidationException(FAILURE_MESSAGE);
       }

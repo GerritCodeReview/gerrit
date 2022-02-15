@@ -3547,14 +3547,22 @@ a new branch.
 
 [options="header",cols="1,^2,4"]
 |=======================
-|Field Name||Description
-|`ref`     |optional|
+|Field Name          ||Description
+|`ref`               |optional|
 The name of the branch. The prefix `refs/heads/` can be
 omitted. +
 If set, must match the branch ID in the URL.
-|`revision`|optional|
+|`revision`          |optional|
 The base revision of the new branch. +
 If not set, `HEAD` will be used as base revision.
+|`validation_options`|optional|
+Map with key-value pairs that are forwarded as options to the ref operation
+validation listeners (e.g. can be used to skip certain validations). Which
+validation options are supported depends on the installed ref operation
+validation listeners. Gerrit core doesn't support any validation options, but
+ref operation validation listeners that are implemented in plugins may. Please
+refer to the documentation of the installed plugins to learn whether they
+support validation options. Unknown validation options are silently ignored.
 |=======================
 
 [[check-project-input]]

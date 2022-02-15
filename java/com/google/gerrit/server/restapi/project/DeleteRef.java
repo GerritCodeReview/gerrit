@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
@@ -118,7 +119,11 @@ public class DeleteRef {
       u.setExpectedOldObjectId(repository.exactRef(ref).getObjectId());
       u.setNewObjectId(ObjectId.zeroId());
       u.setForceUpdate(true);
-      refDeletionValidator.validateRefOperation(projectState.getName(), identifiedUser.get(), u);
+      refDeletionValidator.validateRefOperation(
+          projectState.getName(),
+          identifiedUser.get(),
+          u,
+          /* pushOptions */ ImmutableListMultimap.of());
       result = u.delete();
 
       switch (result) {
@@ -245,7 +250,11 @@ public class DeleteRef {
     u.setForceUpdate(true);
     u.setExpectedOldObjectId(r.exactRef(refName).getObjectId());
     u.setNewObjectId(ObjectId.zeroId());
-    refDeletionValidator.validateRefOperation(projectState.getName(), identifiedUser.get(), u);
+    refDeletionValidator.validateRefOperation(
+        projectState.getName(),
+        identifiedUser.get(),
+        u,
+        /* pushOptions */ ImmutableListMultimap.of());
     return command;
   }
 

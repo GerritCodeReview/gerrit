@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12a7846d_9ae8d906",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-15T14:47:59Z",
+      "side": 1,
+      "message": "Why did this become a class variable if it\u0027s getting computed in render?",
+      "revId": "48941c5ca84c29a65f1bc0bad600a6a3ba651da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9696e59_22335d88",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-15T14:47:59Z",
+      "side": 1,
+      "message": "Same question, it\u0027s not referenced anywhere else.",
+      "revId": "48941c5ca84c29a65f1bc0bad600a6a3ba651da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

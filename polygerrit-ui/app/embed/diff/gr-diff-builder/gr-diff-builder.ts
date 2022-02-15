@@ -30,8 +30,9 @@ import {DiffLayer} from '../../../types/types';
 
 export interface DiffContextExpandedEventDetail
   extends DiffContextExpandedExternalDetail {
+  /** The context control group that should be replaced by `groups`. */
+  contextGroup: GrDiffGroup;
   groups: GrDiffGroup[];
-  section: HTMLElement;
   numLines: number;
 }
 
@@ -49,12 +50,13 @@ declare global {
  */
 export interface DiffBuilder {
   clear(): void;
-  spliceGroups(
-    start: number,
-    deleteCount: number,
-    ...addedGroups: GrDiffGroup[]
-  ): GrDiffGroup[];
-  getIndexOfSection(sectionEl: HTMLElement): number;
+  addGroups(groups: readonly GrDiffGroup[]): void;
+  clearGroups(): void;
+  replaceGroup(
+    contextControl: GrDiffGroup,
+    groups: readonly GrDiffGroup[]
+  ): void;
+  findGroup(side: Side, line: LineNumber): GrDiffGroup | undefined;
   addColumns(outputEl: HTMLElement, fontSize: number): void;
   // TODO: Change `null` to `undefined`.
   getContentTdByLine(
@@ -77,9 +79,8 @@ export interface DiffBuilder {
  *
  * The builder takes GrDiffGroups, and builds the corresponding DOM elements,
  * called sections. Only the builder should add or remove sections from the
- * DOM. Callers can use the spliceGroups method to add groups that
- * will then be rendered - or remove groups whose sections will then be
- * removed from the DOM.
+ * DOM. Callers can use the ...group() methods to modify groups and thus cause
+ * rendering changes.
  *
  * TODO: Do not subclass `GrDiffBuilder`. Use composition and interfaces.
  */
@@ -94,7 +95,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
 
   protected readonly outputEl: HTMLElement;
 
-  protected readonly groups: GrDiffGroup[];
+  protected groups: GrDiffGroup[];
 
   private blameInfo: BlameInfo[] = [];
 
@@ -155,41 +156,39 @@ export abstract class GrDiffBuilder implements DiffBuilder {
 
   protected abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
 
-  getIndexOfSection(sectionEl: HTMLElement) {
-    return this.groups.findIndex(group => group.element === sectionEl);
+  addGroups(groups: readonly GrDiffGroup[]) {
+    for (const group of groups) {
+      this.groups.push(group);
+      this.emitGroup(group);
+    }
   }
 
-  spliceGroups(
-    start: number,
-    deleteCount: number,
-    ...addedGroups: GrDiffGroup[]
-  ) {
-    // TODO: Change `null` to `undefined`.
-    const sectionBeforeWhichToInsert =
-      start < this.groups.length ? this.groups[start].element ?? null : null;
-    // Update the groups array
-    const deletedGroups = this.groups.splice(
-      start,
-      deleteCount,
-      ...addedGroups
-    );
-
-    // Add new sections for the new groups
-    for (const addedGroup of addedGroups) {
-      this.emitGroup(addedGroup, sectionBeforeWhichToInsert);
+  clearGroups() {
+    this.groups = [];
+    for (const deletedGroup of this.groups) {
+      deletedGroup.element?.remove();
     }
-    // Remove sections corresponding to deleted groups from the DOM
-    for (const deletedGroup of deletedGroups) {
-      const section = deletedGroup.element;
-      section?.parentNode?.removeChild(section);
-    }
-    return deletedGroups;
   }
 
-  // TODO: Change `null` to `undefined`.
-  private emitGroup(group: GrDiffGroup, beforeSection: HTMLElement | null) {
+  replaceGroup(contextControl: GrDiffGroup, groups: readonly GrDiffGroup[]) {
+    const i = this.groups.findIndex(g => g === contextControl);
+    if (i === -1) throw new Error('cannot find context control group');
+    const contextControlSection = this.groups[i].element;
+    if (!contextControlSection) throw new Error('diff group element not set');
+    this.groups.splice(i, 1, ...groups);
+    for (const group of groups) {
+      this.emitGroup(group, contextControlSection);
+    }
+    contextControlSection?.remove();
+  }
+
+  findGroup(side: Side, line: LineNumber) {
+    return this.groups.find(group => group.containsLine(side, line));
+  }
+
+  private emitGroup(group: GrDiffGroup, beforeSection?: HTMLElement) {
     const element = this.buildSectionElement(group);
-    this.outputEl.insertBefore(element, beforeSection);
+    this.outputEl.insertBefore(element, beforeSection ?? null);
     group.element = element;
   }
 

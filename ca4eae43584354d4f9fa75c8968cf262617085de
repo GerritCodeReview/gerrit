@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d53e484_eafa7a70",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-15T17:25:43Z",
+      "side": 1,
+      "message": "I can\u0027t quite parse this comment, could you rewrite it?",
+      "revId": "ca4eae43584354d4f9fa75c8968cf262617085de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

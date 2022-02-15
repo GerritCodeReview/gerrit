@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "20ed1f09_b606d694",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-15T10:08:52Z",
+      "side": 1,
+      "message": "i wouldn\u0027t argue for changing the internal terminology, as that does indeed seem to be a rather vast and pointless effort (beyond making it consistent).\n\nhowever, as-is, this patch *does* change user-visible strings, and i find it inappropriate to leave changing it again for later. that part should be brought into an agreed upon final state, or backed out.",
+      "parentUuid": "627a9a6d_ff13b187",
+      "revId": "cda24579b892463875c10478afd8bc268c1428a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "864d6b28_bc6a9a76",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

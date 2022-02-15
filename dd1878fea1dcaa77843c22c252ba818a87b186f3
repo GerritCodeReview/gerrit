@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04e3dab0_374ff7d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-15T10:08:52Z",
+      "side": 1,
+      "message": "you need to fix your git config and --amend --reset-author.",
+      "revId": "dd1878fea1dcaa77843c22c252ba818a87b186f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

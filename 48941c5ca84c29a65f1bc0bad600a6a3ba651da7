@@ -69,6 +69,24 @@
       "parentUuid": "d9696e59_22335d88",
       "revId": "48941c5ca84c29a65f1bc0bad600a6a3ba651da7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d02a2f83_59e7aec1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-15T14:53:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8863b5af_44c67984",
+      "revId": "48941c5ca84c29a65f1bc0bad600a6a3ba651da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

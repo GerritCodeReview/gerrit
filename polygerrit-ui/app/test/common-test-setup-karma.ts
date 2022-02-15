@@ -17,17 +17,20 @@
 import {testResolver as testResolverImpl} from './common-test-setup';
 import '@polymer/test-fixture/test-fixture';
 import 'chai/chai';
+import {render, TemplateResult} from 'lit';
 
 declare global {
   interface Window {
     flush: typeof flushImpl;
     fixtureFromTemplate: typeof fixtureFromTemplateImpl;
     fixtureFromElement: typeof fixtureFromElementImpl;
+    fixtureFromLit: typeof fixtureFromLitImpl;
     testResolver: typeof testResolverImpl;
   }
   let flush: typeof flushImpl;
   let fixtureFromTemplate: typeof fixtureFromTemplateImpl;
   let fixtureFromElement: typeof fixtureFromElementImpl;
+  let fixtureFromLit: typeof fixtureFromLitImpl;
   let testResolver: typeof testResolverImpl;
 }
 
@@ -137,6 +140,29 @@ class TestFixture {
     // The window.fixture method is defined in common-test-setup.js
     return window.fixture(this.fixtureId, model);
   }
+}
+
+/**
+ * Wraps provided Lit template to a test-fixture tag and adds test-fixture to
+ * the document. You can use lit's html function to create a template
+ *
+ * Exmaple:
+ * import {html} from 'lit'
+ * const basicTestFixture = fixtureFromLit(html`
+ *  <table>
+ *    <gr-change-list-section></gr-change-list-section>
+ *  </table>
+ * `);
+ *
+ * Note: HTML_RESULT = 1 but lit does not currently export this constant.
+ */
+function fixtureFromLitImpl(template: TemplateResult<1>): TestFixture {
+  const fixtureId = TestFixtureIdProvider.instance.generateNewFixtureId();
+  const testFixture = document.createElement('test-fixture');
+  testFixture.setAttribute('id', fixtureId);
+  render(template, testFixture);
+  document.body.appendChild(testFixture);
+  return new TestFixture(fixtureId);
 }
 
 /**

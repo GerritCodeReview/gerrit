@@ -18,7 +18,7 @@
 import '../test/common-test-setup-karma';
 import './gr-app';
 import {getAppContext} from '../services/app-context';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {html} from 'lit';
 import {queryAndAssert, stubRestApi} from '../test/test-utils';
 import {GrApp} from './gr-app';
 import {
@@ -30,7 +30,7 @@ import {
 import {GrAppElement} from './gr-app-element';
 import {GrPluginHost} from './plugins/gr-plugin-host/gr-plugin-host';
 
-const basicFixture = fixtureFromTemplate(html`<gr-app id="app"></gr-app>`);
+const basicFixture = fixtureFromLit(html`<gr-app id="app"></gr-app>`);
 
 suite('gr-app tests', () => {
   let grApp: GrApp;

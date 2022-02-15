@@ -17,10 +17,10 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-select';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {html} from 'lit';
 import {GrSelect} from './gr-select';
 
-const basicFixture = fixtureFromTemplate(html`
+const basicFixture = fixtureFromLit(html`
   <gr-select>
     <select>
       <option value="1">One</option>
@@ -30,7 +30,7 @@ const basicFixture = fixtureFromTemplate(html`
   </gr-select>
 `);
 
-const noOptionsFixture = fixtureFromTemplate(html`
+const noOptionsFixture = fixtureFromLit(html`
   <gr-select>
     <select></select>
   </gr-select>

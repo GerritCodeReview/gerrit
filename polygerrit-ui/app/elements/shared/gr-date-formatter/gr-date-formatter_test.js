@@ -18,15 +18,15 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-date-formatter.js';
 import {parseDate} from '../../../utils/date-util.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'lit';
 import {stubRestApi} from '../../../test/test-utils.js';
 
-const basicFixture = fixtureFromTemplate(html`
+const basicFixture = fixtureFromLit(html`
 <gr-date-formatter withTooltip dateStr="2015-09-24 23:30:17.033000000">
 </gr-date-formatter>
 `);
 
-const lightFixture = fixtureFromTemplate(html`
+const lightFixture = fixtureFromLit(html`
 <gr-date-formatter dateStr="2015-09-24 23:30:17.033000000"></gr-date-formatter>
 `);
 

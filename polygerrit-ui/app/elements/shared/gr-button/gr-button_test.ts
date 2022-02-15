@@ -19,7 +19,7 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import '../../../test/common-test-setup-karma';
 import './gr-button';
 import {addListener} from '@polymer/polymer/lib/utils/gestures';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {html} from 'lit';
 import {GrButton} from './gr-button';
 import {pressKey, queryAndAssert} from '../../../test/test-utils';
 import {PaperButtonElement} from '@polymer/paper-button';
@@ -27,13 +27,13 @@ import {Key, Modifier} from '../../../utils/dom-util';
 
 const basicFixture = fixtureFromElement('gr-button');
 
-const nestedFixture = fixtureFromTemplate(html`
+const nestedFixture = fixtureFromLit(html`
   <div id="test">
     <gr-button class="testBtn"></gr-button>
   </div>
 `);
 
-const tabindexFixture = fixtureFromTemplate(html`
+const tabindexFixture = fixtureFromLit(html`
   <gr-button tabindex="3"></gr-button>
 `);
 

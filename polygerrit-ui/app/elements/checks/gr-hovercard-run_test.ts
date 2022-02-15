@@ -17,10 +17,10 @@
 
 import '../../test/common-test-setup-karma';
 import './gr-hovercard-run';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {html} from 'lit';
 import {GrHovercardRun} from './gr-hovercard-run';
 
-const basicFixture = fixtureFromTemplate(html`
+const basicFixture = fixtureFromLit(html`
   <gr-hovercard-run class="hovered"></gr-hovercard-run>
 `);
 

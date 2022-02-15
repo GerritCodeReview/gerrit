@@ -18,13 +18,13 @@
 import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'lit';
 import {listenOnce, mockPromise} from '../../../test/test-utils.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {GrDiffCursor} from './gr-diff-cursor.js';
 
-const basicFixture = fixtureFromTemplate(html`
+const basicFixture = fixtureFromLit(html`
   <gr-diff></gr-diff>
 `);
 

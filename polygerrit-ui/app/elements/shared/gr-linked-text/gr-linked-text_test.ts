@@ -18,12 +18,12 @@
 import '../../../test/common-test-setup-karma';
 import './gr-linked-text';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {html} from 'lit';
 import {GrLinkedText} from './gr-linked-text';
 import {CommentLinks} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
 
-const basicFixture = fixtureFromTemplate(html`
+const basicFixture = fixtureFromLit(html`
   <gr-linked-text>
     <div id="output"></div>
   </gr-linked-text>

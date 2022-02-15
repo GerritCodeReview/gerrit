@@ -80,6 +80,19 @@ function findBlockTreePathForLine(
 
 export type GrContextControlsShowConfig = 'above' | 'below' | 'both';
 
+export function getShowConfig(
+  showAbove: boolean,
+  showBelow: boolean
+): GrContextControlsShowConfig {
+  if (showAbove && !showBelow) return 'above';
+  if (!showAbove && showBelow) return 'below';
+
+  // Note that !showAbove && !showBelow also intentionally creates
+  // "show-both". This means the file is completely collapsed, which is
+  // unusual, but at least happens in one test.
+  return 'both';
+}
+
 @customElement('gr-context-controls')
 export class GrContextControls extends LitElement {
   @property({type: Object}) renderPreferences?: RenderPreferences;

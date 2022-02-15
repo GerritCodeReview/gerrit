@@ -153,9 +153,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
    * @event diff-context-expanded
    */
 
-  @property({type: String})
-  changeNum?: NumericChangeId;
-
   @property({type: Boolean})
   noAutoRender = false;
 

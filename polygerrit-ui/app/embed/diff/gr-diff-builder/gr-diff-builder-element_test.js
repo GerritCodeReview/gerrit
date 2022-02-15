@@ -21,8 +21,6 @@ import {stubBaseUrl} from '../../../test/test-utils.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
-import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
-import {GrDiffBuilder} from './gr-diff-builder.js';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {DiffViewMode, Side} from '../../../api/diff.js';
@@ -138,40 +136,6 @@ suite('gr-diff-builder tests', () => {
     assert.equal(errorStub.lastCall.args[0].detail.message,
         `The value of the 'tab size' user preference is invalid. ` +
       `Fix in diff preferences`);
-  });
-
-  suite('isTotal', () => {
-    test('is total for add', () => {
-      const lines = [];
-      for (let idx = 0; idx < 10; idx++) {
-        lines.push(new GrDiffLine(GrDiffLineType.ADD));
-      }
-      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      assert.isTrue(GrDiffBuilder.prototype.isTotal(group));
-    });
-
-    test('is total for remove', () => {
-      const lines = [];
-      for (let idx = 0; idx < 10; idx++) {
-        lines.push(new GrDiffLine(GrDiffLineType.REMOVE));
-      }
-      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      assert.isTrue(GrDiffBuilder.prototype.isTotal(group));
-    });
-
-    test('not total for empty', () => {
-      const group = new GrDiffGroup({type: GrDiffGroupType.BOTH});
-      assert.isFalse(GrDiffBuilder.prototype.isTotal(group));
-    });
-
-    test('not total for non-delta', () => {
-      const lines = [];
-      for (let idx = 0; idx < 10; idx++) {
-        lines.push(new GrDiffLine(GrDiffLineType.BOTH));
-      }
-      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      assert.isFalse(GrDiffBuilder.prototype.isTotal(group));
-    });
   });
 
   suite('intraline differences', () => {

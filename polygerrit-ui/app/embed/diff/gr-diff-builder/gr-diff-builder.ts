@@ -20,7 +20,7 @@ import {
   RenderPreferences,
 } from '../../../api/diff';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
-import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
+import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 
 import '../gr-context-controls/gr-context-controls';
 import {BlameInfo} from '../../../types/common';
@@ -309,18 +309,6 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     movedInIndex: number;
     lineNumberCols: number[];
   };
-
-  /**
-   * Determines whether the given group is either totally an addition or totally
-   * a removal.
-   */
-  protected isTotal(group: GrDiffGroup): boolean {
-    return (
-      group.type === GrDiffGroupType.DELTA &&
-      (!group.adds.length || !group.removes.length) &&
-      !(!group.adds.length && !group.removes.length)
-    );
-  }
 
   /**
    * Set the blame information for the diff. For any already-rendered line,

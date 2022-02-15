@@ -88,8 +88,8 @@ import {
   isResponsive,
 } from '../gr-diff-builder/gr-diff-builder';
 
-const NO_NEWLINE_BASE = 'No newline at end of base file.';
-const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
+const NO_NEWLINE_LEFT = 'No newline at end of left file.';
+const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
 
 const LARGE_DIFF_THRESHOLD_LINES = 10000;
 const FULL_CONTEXT = -1;
@@ -1061,10 +1061,10 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   _computeNewlineWarning(warnLeft: boolean, warnRight: boolean) {
     const messages = [];
     if (warnLeft) {
-      messages.push(NO_NEWLINE_BASE);
+      messages.push(NO_NEWLINE_LEFT);
     }
     if (warnRight) {
-      messages.push(NO_NEWLINE_REVISION);
+      messages.push(NO_NEWLINE_RIGHT);
     }
     if (!messages.length) {
       return null;

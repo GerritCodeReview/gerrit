@@ -107,7 +107,10 @@ public abstract class SubmitRequirementExpressionResult {
     FAIL,
 
     /** Submit requirement expression contains invalid syntax and is not parsable. */
-    ERROR
+    ERROR,
+
+    /** Submit requirement expression was not evaluated. */
+    NOT_EVALUATED
   }
 
   /**

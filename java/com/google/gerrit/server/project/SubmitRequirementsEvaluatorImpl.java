@@ -17,11 +17,13 @@ package com.google.gerrit.server.project;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateResult;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -105,8 +107,22 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
           sr.applicabilityExpression().isPresent()
               ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
               : Optional.empty();
-      Optional<SubmitRequirementExpressionResult> submittabilityResult = Optional.empty();
-      Optional<SubmitRequirementExpressionResult> overrideResult = Optional.empty();
+      Optional<SubmitRequirementExpressionResult> submittabilityResult =
+          Optional.of(
+              SubmitRequirementExpressionResult.create(
+                  sr.submittabilityExpression(),
+                  Status.NOT_EVALUATED,
+                  ImmutableList.of(),
+                  ImmutableList.of()));
+      Optional<SubmitRequirementExpressionResult> overrideResult =
+          sr.overrideExpression().isPresent()
+              ? Optional.of(
+                  SubmitRequirementExpressionResult.create(
+                      sr.overrideExpression().get(),
+                      Status.NOT_EVALUATED,
+                      ImmutableList.of(),
+                      ImmutableList.of()))
+              : Optional.empty();
       if (!sr.applicabilityExpression().isPresent()
           || SubmitRequirementResult.assertPass(applicabilityResult)) {
         submittabilityResult = Optional.of(evaluateExpression(sr.submittabilityExpression(), cd));

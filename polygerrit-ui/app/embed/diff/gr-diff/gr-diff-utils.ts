@@ -24,6 +24,7 @@ import {
   RenderPreferences,
 } from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
+import {html, TemplateResult} from 'lit';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -45,11 +46,21 @@ import {getBaseUrl} from '../../../utils/url-util';
  *   Graphemes: http://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries
  *   A proposed JS API: https://github.com/tc39/proposal-intl-segmenter
  */
-const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+export const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+
+export const SURROGATE_PAIR = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
 // If any line of the diff is more than the character limit, then disable
 // syntax highlighting for the entire file.
 export const SYNTAX_MAX_LINE_LENGTH = 500;
+
+export function countLines(diff?: DiffInfo, side?: Side) {
+  if (!diff?.content || !side) return 0;
+  return diff.content.reduce((sum, chunk) => {
+    const sideChunk = side === Side.LEFT ? chunk.a : chunk.b;
+    return sum + (sideChunk?.length ?? chunk.ab?.length ?? chunk.skip ?? 0);
+  }, 0);
+}
 
 export function getResponsiveMode(
   prefs: DiffPreferencesInfo,
@@ -65,7 +76,7 @@ export function getResponsiveMode(
   return 'NONE';
 }
 
-export function isResponsive(responsiveMode: DiffResponsiveMode) {
+export function isResponsive(responsiveMode?: DiffResponsiveMode) {
   return (
     responsiveMode === 'FULL_RESPONSIVE' || responsiveMode === 'SHRINK_ONLY'
   );
@@ -116,7 +127,12 @@ export function getLineElByChild(node?: Node): HTMLElement | null {
         return null;
       }
     }
-    node = node.previousSibling ?? node.parentElement ?? undefined;
+    node =
+      (node as Element).assignedSlot ??
+      (node as ShadowRoot).host ??
+      node.previousSibling ??
+      node.parentNode ??
+      undefined;
   }
   return null;
 }
@@ -195,6 +211,19 @@ export function anyLineTooLong(diff?: DiffInfo) {
 }
 
 /**
+ * Simple helper method for creating element classes in the context of
+ * gr-diff.
+ *
+ * We are adding 'style-scope', 'gr-diff' classes for compatibility with
+ * Shady DOM. TODO: Is that still required??
+ *
+ * Otherwise this is just a super simple convenience function.
+ */
+export function diffClasses(...additionalClasses: string[]) {
+  return ['style-scope', 'gr-diff', ...additionalClasses].join(' ');
+}
+
+/**
  * Simple helper method for creating elements in the context of gr-diff.
  *
  * We are adding 'style-scope', 'gr-diff' classes for compatibility with
@@ -237,6 +266,12 @@ export function createLineBreak(mode: DiffResponsiveMode) {
     : createElementDiff('span', 'br');
 }
 
+export function lineBreak(responsive: boolean) {
+  return responsive
+    ? html`<wbr class="${diffClasses()}"></wbr>`
+    : html`<span class="${diffClasses('br')}"></span>`;
+}
+
 /**
  * Returns a <span> element holding a '\t' character, that will visually
  * occupy |tabSize| many columns.
@@ -254,7 +289,133 @@ export function createTabWrapper(tabSize: number): HTMLElement {
   return result;
 }
 
+export function tabWrapper(tabSize: number) {
+  const tab = '\t';
+  return html`<span
+    class="${diffClasses('tab')}"
+    style="tab-size: ${tabSize}; -moz-tab-size: ${tabSize};"
+    >${tab}</span
+  >`;
+}
+
 /**
+ * Renders the text content of a diff line, taking care of
+ * - tabs
+ * - line breaks
+ * - surrogate pairs
+ */
+export function renderText(
+  text: string,
+  isResponsive = false,
+  tabSize = 2,
+  lineLimit = 80
+): (string | TemplateResult)[] {
+  const p = new TextContentRenderer(isResponsive, tabSize, lineLimit);
+  return p.render(text);
+}
+
+/**
+ * Renders the text content of a diff line, taking care of
+ * - tabs
+ * - line breaks
+ * - surrogate pairs
+ */
+class TextContentRenderer {
+  private text = '';
+
+  private columnPos = 0;
+
+  private textOffset = 0;
+
+  private pieces: (string | TemplateResult)[] = [];
+
+  constructor(
+    private readonly isResponsive = false,
+    private readonly tabSize = 2,
+    private readonly lineLimit = 80
+  ) {}
+
+  /** Split up the string into tabs, surrogate pairs and regular segments. */
+  render(text: string) {
+    this.text = text;
+    this.textOffset = 0;
+    this.columnPos = 0;
+    this.pieces = [];
+    const splitByTab = this.text.split('\t');
+    for (let i = 0; i < splitByTab.length; i++) {
+      const splitBySurrogate = splitByTab[i].split(SURROGATE_PAIR);
+      for (let j = 0; j < splitBySurrogate.length; j++) {
+        this.renderSegment(splitBySurrogate[j]);
+        if (j < splitBySurrogate.length - 1) {
+          this.renderSurrogatePair();
+        }
+      }
+      if (i < splitByTab.length - 1) {
+        this.renderTab();
+      }
+    }
+    if (this.textOffset !== this.text.length) throw new Error('unfinished');
+    return this.pieces;
+  }
+
+  /** Render regular characters, but insert line breaks appropriately. */
+  private renderSegment(segment: string) {
+    let segmentOffset = 0;
+    while (segmentOffset < segment.length) {
+      const newOffset = Math.min(
+        segment.length,
+        segmentOffset + this.lineLimit - this.columnPos
+      );
+      this.renderString(segment.substring(segmentOffset, newOffset));
+      segmentOffset = newOffset;
+      if (segmentOffset < segment.length && this.columnPos === this.lineLimit) {
+        this.renderLineBreak();
+      }
+    }
+  }
+
+  /** Render regular characters. */
+  private renderString(s: string) {
+    if (s.length === 0) return;
+    this.pieces.push(s);
+    this.textOffset += s.length;
+    this.columnPos += s.length;
+    if (this.columnPos > this.lineLimit) throw new Error('over line limit');
+  }
+
+  /** Render a tab character. */
+  private renderTab() {
+    let effectiveTabSize = this.tabSize - (this.columnPos % this.tabSize);
+    if (this.columnPos + effectiveTabSize > this.lineLimit) {
+      this.renderLineBreak();
+      effectiveTabSize = this.tabSize;
+    }
+    this.pieces.push(tabWrapper(effectiveTabSize));
+    this.textOffset += 1;
+    this.columnPos += effectiveTabSize;
+  }
+
+  /** Render a surrogate pair: string length is 2, but is just 1 char. */
+  private renderSurrogatePair() {
+    if (this.columnPos === this.lineLimit) {
+      this.renderLineBreak();
+    }
+    this.pieces.push(this.text.substring(this.textOffset, this.textOffset + 2));
+    this.textOffset += 2;
+    this.columnPos += 1;
+  }
+
+  /** Render a line break, don't advance text offset, reset col position. */
+  private renderLineBreak() {
+    this.pieces.push(lineBreak(this.isResponsive));
+    // this.textOffset += 0;
+    this.columnPos = 0;
+  }
+}
+
+/**
+ * Deprecated: Lit based rendering uses the textToPieces() function above.
+ *
  * Returns a 'div' element containing the supplied |text| as its innerText,
  * with '\t' characters expanded to a width determined by |tabSize|, and the
  * text wrapped at column |lineLimit|, which may be Infinity if no wrapping is

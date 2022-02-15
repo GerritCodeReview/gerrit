@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e27f211a_d73e1842",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-15T17:54:53Z",
+      "side": 1,
+      "message": "It looks like the frontend currently does not show NON_APPLICABLE submit requirement in any way,so I wonder why the actual expression strings are required?\n\nShould the frontend be adjusted to this change first? (From the first glance, it looks like \u0027fulfilled\u0027 is not used now, only the overall SubmitRequirementResult.Status)\n\n+milutin@google.com could you, please, comment?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 62
+      },
+      "revId": "8dba7f6193d76b76baece755b7d231209be31cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47a1d272_d44adc42",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-15T17:54:53Z",
+      "side": 1,
+      "message": "Can you, please, add a test to SubmitRequirementJsonSerializerTest.java to make sure that unrecognized Enum value can be safely parsed?",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 17
+      },
+      "revId": "8dba7f6193d76b76baece755b7d231209be31cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b709327_61b36daa",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRequirementExpressionInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-15T17:54:53Z",
+      "side": 1,
+      "message": "Would it be possible to just reference SubmitRequirementExpressionResult.Status here?\nIf not, maybe you could add a link to com.google.gerrit.entities.SubmitRequirementExpressionResult.Status here and drop other comments (since it should always match).",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "8dba7f6193d76b76baece755b7d231209be31cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55703e79_2491f19c",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-15T17:54:53Z",
+      "side": 1,
+      "message": "nit: maybe add a SubmitRequirementExpressionResult.notEvaluated() for readability/to avoid duplication.",
+      "range": {
+        "startLine": 112,
+        "startChar": 14,
+        "endLine": 116,
+        "endChar": 38
+      },
+      "revId": "8dba7f6193d76b76baece755b7d231209be31cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,7 +24,7 @@ import '../gr-syntax-themes/gr-syntax-theme';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {htmlTemplate} from './gr-diff_html';
 import {LineNumber} from './gr-diff-line';
 import {
@@ -77,7 +77,7 @@ import {
   GrDiff as GrDiffApi,
   DisplayLine,
 } from '../../../api/diff';
-import {isSafari, toggleClass} from '../../../utils/dom-util';
+import {isElementTarget, isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 
@@ -524,7 +524,8 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   _handleTap(e: CustomEvent) {
-    const el = (dom(e) as EventApi).localTarget as Element;
+    const el = e.composedPath()[0];
+    if (!isElementTarget(el)) return;
 
     if (
       el.getAttribute('data-value') !== 'LOST' &&

@@ -177,29 +177,6 @@ suite('gr-diff tests', () => {
               .contains('displayLine'));
     });
 
-    test('thread groups', () => {
-      const contentEl = document.createElement('div');
-
-      element.changeNum = 123;
-      element.patchRange = {basePatchNum: 1, patchNum: 2};
-      element.path = 'file.txt';
-      element.$.diffBuilder.diff = getMockDiffResponse();
-      element.$.diffBuilder.prefs = {...MINIMAL_PREFS};
-      element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder();
-
-      // No thread groups.
-      assert.isNotOk(element._getThreadGroupForLine(contentEl));
-
-      // A thread group gets created.
-      const threadGroupEl = element._getOrCreateThreadGroup(contentEl);
-      assert.isOk(threadGroupEl);
-
-      // The new thread group can be fetched.
-      assert.isOk(element._getThreadGroupForLine(contentEl));
-
-      assert.equal(contentEl.querySelectorAll('.thread-group').length, 1);
-    });
-
     suite('image diffs', () => {
       let mockFile1;
       let mockFile2;

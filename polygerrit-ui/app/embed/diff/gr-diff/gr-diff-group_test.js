@@ -198,5 +198,39 @@ suite('gr-diff-group tests', () => {
           hideInContextControl(groups, 3, 4), groups);
     });
   });
+
+  suite('isTotal', () => {
+    test('is total for add', () => {
+      const lines = [];
+      for (let idx = 0; idx < 10; idx++) {
+        lines.push(new GrDiffLine(GrDiffLineType.ADD));
+      }
+      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
+      assert.isTrue(group.isTotal(group));
+    });
+
+    test('is total for remove', () => {
+      const lines = [];
+      for (let idx = 0; idx < 10; idx++) {
+        lines.push(new GrDiffLine(GrDiffLineType.REMOVE));
+      }
+      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
+      assert.isTrue(group.isTotal(group));
+    });
+
+    test('not total for empty', () => {
+      const group = new GrDiffGroup({type: GrDiffGroupType.BOTH});
+      assert.isFalse(group.isTotal(group));
+    });
+
+    test('not total for non-delta', () => {
+      const lines = [];
+      for (let idx = 0; idx < 10; idx++) {
+        lines.push(new GrDiffLine(GrDiffLineType.BOTH));
+      }
+      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
+      assert.isFalse(group.isTotal(group));
+    });
+  });
 });
 

@@ -311,18 +311,6 @@ export abstract class GrDiffBuilder implements DiffBuilder {
   };
 
   /**
-   * Determines whether the given group is either totally an addition or totally
-   * a removal.
-   */
-  protected isTotal(group: GrDiffGroup): boolean {
-    return (
-      group.type === GrDiffGroupType.DELTA &&
-      (!group.adds.length || !group.removes.length) &&
-      !(!group.adds.length && !group.removes.length)
-    );
-  }
-
-  /**
    * Set the blame information for the diff. For any already-rendered line,
    * re-render its blame cell content.
    *

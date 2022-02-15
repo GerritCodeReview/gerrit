@@ -432,7 +432,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
           .hasMessageThat()
           .isEqualTo(
               String.format(
-                  "Ref \"refs/heads/new\" CREATE in project %s validation failed\n%s",
+                  "Validation for creation of ref 'refs/heads/new' in project %s failed:\n%s",
                   project, TestRefOperationValidationListener.FAILURE_MESSAGE));
     }
   }
@@ -455,7 +455,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
           r,
           "refs/heads/new",
           String.format(
-              "Ref \"refs/heads/new\" CREATE in project %s validation failed\n%s",
+              "Validation for creation of ref 'refs/heads/new' in project %s failed:\n%s",
               project, TestRefOperationValidationListener.FAILURE_MESSAGE));
     }
   }

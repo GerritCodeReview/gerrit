@@ -8240,8 +8240,13 @@ single submit requirement expression, for example `label:code-review=+2`.
 |`expression`|optional|
 The submit requirement expression as a string, for example
 `branch:refs/heads/foo and label:verified=+1`.
-|`fulfilled`||
-True if the submit requirement is fulfilled for the change.
+|`status`||
+A string containing the status of evaluating the expression which can be one
+of the following: +
+  * `PASS` - expression was evaluated and result is true. +
+  * `FAIL` - expression was evaluated and result is false. +
+  * `ERROR` - an error occurred while evaluating the expression. +
+  * `NOT_EVALUATED` - expression was not evaluated.
 |`passing_atoms`|optional|
 A list of passing atoms as strings. For the above expression,
 `passing_atoms` can contain ["branch:refs/heads/foo"] if the branch predicate is
@@ -8306,16 +8311,17 @@ containing the result of evaluating the applicability expression. Not set if the
 submit requirement did not define an applicability expression.
 Note that fields `expression`, `passing_atoms` and `failing_atoms` are always
 omitted for the `applicability_expression_result`.
-|`submittability_expression_result`|optional|
+|`submittability_expression_result`||
 A link:#submit-requirement-expression-info[SubmitRequirementExpressionInfo]
 containing the result of evaluating the submittability expression. +
-If the submit requirement does not apply, the expression is not evaluated and
-the field is not set.
+If the submit requirement does not apply, the `status` field of the result
+will be set to `NOT_EVALUATED`.
 |`override_expression_result`|optional|
 A link:#submit-requirement-expression-info[SubmitRequirementExpressionInfo]
 containing the result of evaluating the override expression. +
-Not set if the submit requirement did not define an override expression or
-if it does not apply.
+Not set if the submit requirement did not define an override expression. If the
+submit requirement does not apply, the `status` field of the result will be set
+to `NOT_EVALUATED`.
 |===========================
 
 [[submitted-together-info]]

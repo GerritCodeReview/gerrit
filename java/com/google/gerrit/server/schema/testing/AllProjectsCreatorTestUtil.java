@@ -104,8 +104,8 @@ public class AllProjectsCreatorTestUtil {
           "  defaultValue = 0",
           "  copyMinScore = true",
           "  copyAllScoresOnTrivialRebase = true",
-          "  value = -2 This shall not be merged",
-          "  value = -1 I would prefer this is not merged as is",
+          "  value = -2 This shall not be submitted",
+          "  value = -1 I would prefer this is not submitted as is",
           "  value = 0 No score",
           "  value = +1 Looks good to me, but someone else must approve",
           "  value = +2 Looks good to me, approved");

@@ -142,8 +142,8 @@ suite('gr-reply-dialog tests', () => {
         },
         'Code-Review': {
           values: {
-            '-2': 'Do not submit',
-            '-1': "I would prefer that you didn't submit this",
+            '-2': 'This shall not be submitted',
+            '-1': 'I would prefer this is not submitted as is',
             ' 0': 'No score',
             '+1': 'Looks good to me, but someone else must approve',
             '+2': 'Looks good to me, approved',
@@ -861,8 +861,8 @@ suite('gr-reply-dialog tests', () => {
             {_account_id: 3 as AccountId, value: 2},
           ],
           values: {
-            '-2': 'Do not submit',
-            '-1': 'I would prefer that you didnt submit this',
+            '-2': 'This shall not be submitted',
+            '-1': 'I would prefer this is not submitted as is',
             ' 0': 'No score',
             '+1': 'Looks good to me, but someone else must approve',
             '+2': 'Looks good to me, approved',

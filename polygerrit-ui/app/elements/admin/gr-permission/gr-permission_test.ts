@@ -88,8 +88,8 @@ suite('gr-permission tests', () => {
           default_value: 0,
           values: {
             ' 0': 'No score',
-            '-1': 'I would prefer this is not merged as is',
-            '-2': 'This shall not be merged',
+            '-1': 'I would prefer this is not submitted as is',
+            '-2': 'This shall not be submitted',
             '+1': 'Looks good to me, but someone else must approve',
             '+2': 'Looks good to me, approved',
           },
@@ -117,8 +117,8 @@ suite('gr-permission tests', () => {
       };
 
       const expectedLabelValues = [
-        {value: -2, text: 'This shall not be merged'},
-        {value: -1, text: 'I would prefer this is not merged as is'},
+        {value: -2, text: 'This shall not be submitted'},
+        {value: -1, text: 'I would prefer this is not submitted as is'},
         {value: 0, text: 'No score'},
         {value: 1, text: 'Looks good to me, but someone else must approve'},
         {value: 2, text: 'Looks good to me, approved'},
@@ -284,8 +284,8 @@ suite('gr-permission tests', () => {
         'Code-Review': {
           values: {
             ' 0': 'No score',
-            '-1': 'I would prefer this is not merged as is',
-            '-2': 'This shall not be merged',
+            '-1': 'I would prefer this is not submitted as is',
+            '-2': 'This shall not be submitted',
             '+1': 'Looks good to me, but someone else must approve',
             '+2': 'Looks good to me, approved',
           },

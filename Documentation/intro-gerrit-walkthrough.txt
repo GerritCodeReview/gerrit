@@ -161,8 +161,8 @@ and 2. The possible options are:
 * `+2 Looks good to me, approved`
 * `+1 Looks good to me, but someone else must approve`
 * `0 No score`
-* `-1 I would prefer that you didn't submit this`
-* `-2 Do not submit`
+* `-1 I would prefer this is not submitted as is`
+* `-2 This shall not be submitted`
 
 In addition, a change must have at least one `+2` vote and no `-2` votes before
 it can be submitted. These numerical values do not accumulate. Two

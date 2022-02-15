@@ -213,7 +213,6 @@ suite('gr-diff tests', () => {
           type: 'image/bmp',
         };
 
-        element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
         element.isImageDiff = true;
         element.prefs = {
           context: 10,
@@ -569,7 +568,6 @@ suite('gr-diff tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
       element.loggedIn = true;
-      element.patchRange = {};
 
       fakeLineEl = {
         getAttribute: sinon.stub().returns(42),

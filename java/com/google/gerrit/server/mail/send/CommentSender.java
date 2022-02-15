@@ -207,6 +207,9 @@ public class CommentSender extends ReplyToChangeSender {
         }
 
         groups.add(currentGroup);
+
+        // We only map the comments for modified files in emails. This is why the comments for
+        // 'unchanged' files will be missing in emails
         if (modifiedFiles != null && !modifiedFiles.isEmpty()) {
           try {
             currentGroup.fileData = new PatchFile(repo, modifiedFiles, c.key.filename);

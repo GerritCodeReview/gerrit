@@ -262,6 +262,41 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void patchsetLevelCommentEmailNotification_unchangedFiles() throws Exception {
+    // Create a change with a file. "a.txt" fill be added by default in the change
+    createChange();
+
+    // Stack a second change that adds a different file
+    PushOneCommit.Result r = createChange("subject", "f1.txt", "content");
+    String changeId = r.getChangeId();
+    String currentRevision = gApi.changes().id(changeId).get().currentRevision;
+
+    // Add a comment on the file, unmodified in this change.
+    email.clear();
+    DraftInput comment =
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, "This is an example of incorrect IR.");
+    addDraft(changeId, currentRevision, comment);
+
+    // Publish all drafts.
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+
+    gApi.changes().id(changeId).revision(currentRevision).review(reviewInput);
+
+    // Comment for unchanged file is present in revision
+    Map<String, List<CommentInfo>> comments =
+        gApi.changes().id(changeId).revision(currentRevision).comments();
+    assertThat(comments.keySet()).containsExactly(FILE_NAME);
+    assertThat(Iterables.getOnlyElement(comments.get(FILE_NAME)).message)
+        .isEqualTo("This is an example of incorrect IR.");
+
+    // Message contains the filename, but not the comment itself.
+    Message commentMessage = Iterables.getOnlyElement(email.getMessages());
+    assertThat(commentMessage.body()).contains("File a.txt:");
+    assertThat(commentMessage.body()).doesNotContain("This is an example of incorrect IR.");
+  }
+
+  @Test
   public void patchsetLevelCommentCantHaveLine() throws Exception {
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();

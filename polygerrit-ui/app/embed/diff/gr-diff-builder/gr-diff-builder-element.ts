@@ -146,8 +146,15 @@ export class GrDiffBuilderElement extends PolymerElement {
   @property({type: Object})
   _builder?: DiffBuilder;
 
-  // This is written to only from the processor via property notify
-  // And then passed to the builder via a property observer.
+  /**
+   * The gr-diff-processor adds (and only adds!) to this array. It does so by
+   * using `this.push()` and Polymer's two-way data binding.
+   * Below (@observe('_groups.splices')) we are observing the groups that the
+   * processor adds, and pass them on to the builder for rendering. Henceforth
+   * the builder groups are the source of truth, because when
+   * expanding/collapsing groups only the builder is updated. This field and the
+   * corresponsing one in the processor are not updated.
+   */
   @property({type: Array})
   _groups: GrDiffGroup[] = [];
 
@@ -206,7 +213,7 @@ export class GrDiffBuilderElement extends PolymerElement {
         (e: CustomEvent<DiffContextExpandedEventDetail>) => {
           // Don't stop propagation. The host may listen for reporting or
           // resizing.
-          this.rerenderSection(e.detail.groups, e.detail.section);
+          this.replaceGroup(e.detail.contextGroup, e.detail.groups);
         }
       );
     });
@@ -353,12 +360,9 @@ export class GrDiffBuilderElement extends PolymerElement {
    */
   unhideLine(lineNum: number, side: Side) {
     if (!this._builder) return;
-    const groupIndex = this.$.processor.groups.findIndex(group =>
-      group.containsLine(side, lineNum)
-    );
+    const group = this._builder.findGroup(side, lineNum);
     // Cannot unhide a line that is not part of the diff.
-    if (groupIndex < 0) return;
-    const group = this._groups[groupIndex];
+    if (!group) return;
     // If it's already visible, great!
     if (group.type !== GrDiffGroupType.CONTEXT_CONTROL) return;
     const lineRange = group.lineRange[side];
@@ -384,25 +388,24 @@ export class GrDiffBuilderElement extends PolymerElement {
         lineRange.end_line - lineRange.start_line + 1
       )
     );
-    this._builder.spliceGroups(groupIndex, 1, ...newGroups);
+    this._builder.replaceGroup(group, newGroups);
     setTimeout(() => fireEvent(this, 'render-content'), 1);
   }
 
   /**
-   * Replace the provided section by rendering the provided groups.
+   * Replace the group of a context control section by rendering the provided
+   * groups instead. This happens in response to expanding a context control
+   * group.
    *
-   * @param newGroups The groups to be rendered in the place of the section.
-   * @param sectionEl The context section that should be expanded from.
+   * @param contextGroup The context control group to replace
+   * @param newGroups The groups that are replacing the context control group
    */
-  private rerenderSection(
-    newGroups: readonly GrDiffGroup[],
-    sectionEl: HTMLElement
+  private replaceGroup(
+    contextGroup: GrDiffGroup,
+    newGroups: readonly GrDiffGroup[]
   ) {
     if (!this._builder) return;
-
-    const contextIndex = this._builder.getIndexOfSection(sectionEl);
-    this._builder.spliceGroups(contextIndex, 1, ...newGroups);
-
+    this._builder.replaceGroup(contextGroup, newGroups);
     setTimeout(() => fireEvent(this, 'render-content'), 1);
   }
 
@@ -482,18 +485,28 @@ export class GrDiffBuilderElement extends PolymerElement {
     this.diffElement.innerHTML = '';
   }
 
+  /**
+   * Forward groups added by the processor to the builder for rendering.
+   */
   @observe('_groups.splices')
   _groupsChanged(changeRecord: PolymerSpliceChange<GrDiffGroup[]>) {
-    if (!changeRecord || !this._builder) {
+    if (!changeRecord || !this._builder) return;
+
+    // The processor either removes all groups or adds new ones to the end,
+    // so let's simplify the Polymer splices.
+    const isRemoval = changeRecord.indexSplices.find(
+      splice => splice.removed.length > 0
+    );
+    if (isRemoval) {
+      this._builder.clearGroups();
       return;
     }
-    // Forward any splices to the builder
     for (const splice of changeRecord.indexSplices) {
       const added = splice.object.slice(
         splice.index,
         splice.index + splice.addedCount
       );
-      this._builder.spliceGroups(splice.index, splice.removed.length, ...added);
+      this._builder.addGroups(added);
     }
   }
 

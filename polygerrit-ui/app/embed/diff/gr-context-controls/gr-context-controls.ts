@@ -86,8 +86,6 @@ export class GrContextControls extends LitElement {
 
   @property({type: Object}) diff?: DiffInfo;
 
-  @property({type: Object}) section?: HTMLElement;
-
   @property({type: Object}) group?: GrDiffGroup;
 
   @property({type: String, reflect: true})
@@ -361,10 +359,9 @@ export class GrContextControls extends LitElement {
           lineRange: this.group.lineRange,
         });
       } else {
-        assertIsDefined(this.section, 'section');
         fire(this, 'diff-context-expanded', {
+          contextGroup: this.group,
           groups,
-          section: this.section!,
           numLines: this.numLines(),
           buttonType: type,
           expandedLines: linesToExpand,
@@ -491,7 +488,7 @@ export class GrContextControls extends LitElement {
   }
 
   private hasValidProperties() {
-    return !!(this.diff && this.section && this.group?.contextGroups?.length);
+    return !!(this.diff && this.group?.contextGroups?.length);
   }
 
   override render() {

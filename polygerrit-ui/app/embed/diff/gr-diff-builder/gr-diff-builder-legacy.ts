@@ -197,13 +197,7 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
       section.appendChild(paddingRow);
     }
     section.appendChild(
-      this.createContextControlRow(
-        section,
-        group,
-        showAbove,
-        showBelow,
-        viewMode
-      )
+      this.createContextControlRow(group, showAbove, showBelow, viewMode)
     );
     if (showBelow) {
       const paddingRow = this.createContextControlPaddingRow(viewMode);
@@ -218,7 +212,6 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
    * method up or down into the area of code that they affect.
    */
   private createContextControlRow(
-    section: HTMLElement,
     group: GrDiffGroup,
     showAbove: boolean,
     showBelow: boolean,
@@ -252,7 +245,6 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     ) as GrContextControls;
     contextControls.diff = this._diff;
     contextControls.renderPreferences = this.renderPrefs;
-    contextControls.section = section;
     contextControls.group = group;
     contextControls.showConfig = showConfig;
     cell.appendChild(contextControls);

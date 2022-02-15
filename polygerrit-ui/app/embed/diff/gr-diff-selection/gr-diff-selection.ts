@@ -23,7 +23,11 @@ import {
   normalize,
   NormalizedRange,
 } from '../gr-diff-highlight/gr-range-normalizer';
-import {descendedFromClass, querySelectorAll} from '../../../utils/dom-util';
+import {
+  descendedFromClass,
+  isElementTarget,
+  querySelectorAll,
+} from '../../../utils/dom-util';
 import {customElement, property, observe} from '@polymer/decorators';
 import {DiffInfo} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
@@ -109,8 +113,9 @@ export class GrDiffSelection extends PolymerElement {
   }
 
   _handleDown(e: Event) {
-    const target = e.target;
-    if (!(target instanceof Element)) return;
+    const target = e.composedPath()[0];
+    if (!isElementTarget(target)) return;
+
     // Handle the down event on comment thread in Polymer 2
     const handled = this._handleDownOnRangeComment(target);
     if (handled) return;

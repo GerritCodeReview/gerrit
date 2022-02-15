@@ -162,6 +162,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb23cc7_e0d81f40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-15T12:23:12Z",
+      "side": 1,
+      "message": "it takes (at least) two to argue ...\n\ni for one think that coherent terminology is important for UX and making a professional impression, and i don\u0027t see why this shouldn\u0027t be the place where we come to an agreement about it.",
+      "parentUuid": "7f5507e6_90d28aa7",
+      "revId": "cda24579b892463875c10478afd8bc268c1428a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "864d6b28_bc6a9a76",

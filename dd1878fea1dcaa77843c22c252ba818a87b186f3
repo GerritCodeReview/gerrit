@@ -70,6 +70,24 @@
       "parentUuid": "0e90a1ac_b6a27a7b",
       "revId": "dd1878fea1dcaa77843c22c252ba818a87b186f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "867825cc_526bad7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-15T12:23:12Z",
+      "side": 1,
+      "message": "i assure you that there was absolutely nothing sarcastic about it. a wink as such is merely a playful gesture.",
+      "parentUuid": "947498d0_619465ca",
+      "revId": "dd1878fea1dcaa77843c22c252ba818a87b186f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

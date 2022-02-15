@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "627a9a6d_ff13b187",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-15T08:33:27Z",
+      "side": 1,
+      "message": "For user visible messaging I am open to suggestions.\n\nThis change is more about making the source code consistent. And I think in the source code it is just fine to use LEFT/RIGHT. Changing to something else would be a major effort, see https://cs.opensource.google/search?q\u003df:polygerrit%20left\n\nPlease submit as is.",
+      "parentUuid": "59d73b3d_419ecf84",
+      "revId": "cda24579b892463875c10478afd8bc268c1428a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "864d6b28_bc6a9a76",

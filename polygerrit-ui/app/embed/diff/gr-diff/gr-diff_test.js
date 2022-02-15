@@ -188,15 +188,13 @@ suite('gr-diff tests', () => {
       element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder();
 
       // No thread groups.
-      assert.isNotOk(element._getThreadGroupForLine(contentEl));
+      assert.equal(contentEl.querySelectorAll('.thread-group').length, 0);
 
       // A thread group gets created.
       const threadGroupEl = element._getOrCreateThreadGroup(contentEl);
       assert.isOk(threadGroupEl);
 
       // The new thread group can be fetched.
-      assert.isOk(element._getThreadGroupForLine(contentEl));
-
       assert.equal(contentEl.querySelectorAll('.thread-group').length, 1);
     });
 

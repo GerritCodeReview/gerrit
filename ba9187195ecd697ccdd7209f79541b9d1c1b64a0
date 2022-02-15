@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "908db435_0212c4b6",
+        "filename": "java/com/google/gerrit/acceptance/ExtensionRegistry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T17:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c0b39be_6c409d36",
+      "range": {
+        "startLine": 81,
+        "startChar": 57,
+        "endLine": 81,
+        "endChar": 76
+      },
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ee51388_00123657",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a397e8a4_67851d92",
+        "filename": "java/com/google/gerrit/acceptance/ExtensionRegistry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T17:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ee51388_00123657",
+      "range": {
+        "startLine": 120,
+        "startChar": 47,
+        "endLine": 120,
+        "endChar": 66
+      },
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25abc021_2bbda874",
@@ -77,6 +125,30 @@
       "writtenOn": "2022-01-26T15:17:07Z",
       "side": 1,
       "message": "refsUpdatedListener",
+      "range": {
+        "startLine": 255,
+        "startChar": 57,
+        "endLine": 255,
+        "endChar": 75
+      },
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96c82b44_9c656fc8",
+        "filename": "java/com/google/gerrit/acceptance/ExtensionRegistry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T17:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25abc021_2bbda874",
       "range": {
         "startLine": 255,
         "startChar": 57,
@@ -140,6 +212,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f5be3e6_56968cf6",
+        "filename": "java/com/google/gerrit/extensions/events/GitReferencesUpdatedListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T17:04:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b87040c8_9985984f",
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc1a979f_e592b3c7",
@@ -153,6 +243,30 @@
       "writtenOn": "2022-01-26T15:17:07Z",
       "side": 1,
       "message": "refsUpdatedEvents",
+      "range": {
+        "startLine": 63,
+        "startChar": 51,
+        "endLine": 63,
+        "endChar": 67
+      },
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90fa4341_96932ac2",
+        "filename": "java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T17:04:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fc1a979f_e592b3c7",
       "range": {
         "startLine": 63,
         "startChar": 51,
@@ -186,6 +300,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07bc60fa_cc0b1804",
+        "filename": "java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T17:04:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0ec1a26e_02d942f8",
+      "range": {
+        "startLine": 65,
+        "startChar": 50,
+        "endLine": 65,
+        "endChar": 69
+      },
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b57f06f2_ce015dd8",
@@ -209,6 +347,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec7a5f81_6b4cc22e",
+        "filename": "java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T17:04:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b57f06f2_ce015dd8",
+      "range": {
+        "startLine": 69,
+        "startChar": 14,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a265e002_8f24e980",
@@ -222,6 +384,30 @@
       "writtenOn": "2022-01-26T15:17:07Z",
       "side": 1,
       "message": "resetRefsUpdatedEvents",
+      "range": {
+        "startLine": 73,
+        "startChar": 14,
+        "endLine": 73,
+        "endChar": 35
+      },
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7919e111_18b71fcd",
+        "filename": "java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T17:04:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a265e002_8f24e980",
       "range": {
         "startLine": 73,
         "startChar": 14,
@@ -257,6 +443,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "53a7ef62_7895f103",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T17:04:05Z",
+      "side": 1,
+      "message": "AFAIK those listeners are registered by the plugins and not in core, right?",
+      "parentUuid": "dbabcd76_bf7c040a",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 72
+      },
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c334bb80_22832abf",
         "filename": "java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
         "patchSetId": 7
@@ -268,6 +478,24 @@
       "writtenOn": "2022-01-26T15:17:07Z",
       "side": 1,
       "message": "GitReferencesUpdated",
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f6a73f8_83e3fbd6",
+        "filename": "java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T17:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c334bb80_22832abf",
       "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

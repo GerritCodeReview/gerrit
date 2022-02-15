@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9df7612_aecd8213",
+        "filename": "java/com/google/gerrit/server/extensions/events/GitReferencesUpdated.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T17:04:05Z",
+      "side": 1,
+      "message": "In some situations I couldn\u0027t observe the old event being fired in case of batch updates. This should be part of the tests and fixed.",
+      "revId": "313bdce7e6dca066d872651b352e1309bf02b605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

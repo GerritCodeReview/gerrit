@@ -34,6 +34,7 @@ import {
   getRange,
   getSide,
   getSideByLineEl,
+  GrDiffThreadElement,
 } from '../gr-diff/gr-diff-utils';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {queryAndAssert} from '../../../utils/common-util';
@@ -53,11 +54,6 @@ interface NormalizedPosition {
 interface NormalizedRange {
   start: NormalizedPosition | null;
   end: NormalizedPosition | null;
-}
-
-// TODO(TS): Replace by GrCommentThread once that is converted.
-interface CommentThreadElement extends HTMLElement {
-  rootId: string;
 }
 
 @customElement('gr-diff-highlight')
@@ -142,21 +138,21 @@ export class GrDiffHighlight extends PolymerElement {
     );
   }
 
-  _getThreadEl(e: Event): CommentThreadElement | null {
+  _getThreadEl(e: Event): GrDiffThreadElement | null {
     const path = (dom(e) as EventApi).path || [];
     for (const pathEl of path) {
       if (
         pathEl instanceof HTMLElement &&
         pathEl.classList.contains('comment-thread')
       ) {
-        return pathEl as CommentThreadElement;
+        return pathEl as GrDiffThreadElement;
       }
     }
     return null;
   }
 
   _toggleRangeElHighlight(
-    threadEl: CommentThreadElement,
+    threadEl: GrDiffThreadElement,
     highlightRange = false
   ) {
     // We don't want to re-create the line just for highlighting the range which

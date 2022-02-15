@@ -22,8 +22,8 @@ public class SubmitRequirementExpressionInfo {
   /** Submit requirement expression as a String. */
   public String expression;
 
-  /** A boolean indicating if the expression is fulfilled on a change. */
-  public boolean fulfilled;
+  /** A status indicating if the expression is fulfilled, non-fulfilled or not evaluated. */
+  public Status status;
 
   /**
    * A list of all atoms that are passing, for example query "branch:refs/heads/foo and project:bar"
@@ -42,4 +42,18 @@ public class SubmitRequirementExpressionInfo {
    * during its evaluation.
    */
   public String errorMessage;
+
+  public enum Status {
+    /** Expression was evaluated and the result was true. */
+    PASS,
+
+    /** Expression was evaluated and the result was false. */
+    FAIL,
+
+    /** An error occurred while evaluating the expression. */
+    ERROR,
+
+    /** Expression was not evaluated. */
+    NOT_EVALUATED
+  }
 }

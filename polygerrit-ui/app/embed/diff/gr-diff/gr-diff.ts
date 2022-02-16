@@ -836,6 +836,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
    * render once.
    */
   _debounceRenderDiffTable() {
+    fireEvent(this, 'render-required');
     this.renderDiffTableTask = debounce(this.renderDiffTableTask, () =>
       this._renderDiffTable()
     );

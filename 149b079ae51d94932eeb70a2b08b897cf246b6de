@@ -140,6 +140,24 @@
       "parentUuid": "a3c91cf3_afd2b7fe",
       "revId": "149b079ae51d94932eeb70a2b08b897cf246b6de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75cedcac_ee164eea",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-16T12:01:22Z",
+      "side": 1,
+      "message": "Have you tested this with dev-helper? My understanding is that the first render can execute before properties are bound.",
+      "parentUuid": "ac65329c_1ae313cb",
+      "revId": "149b079ae51d94932eeb70a2b08b897cf246b6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

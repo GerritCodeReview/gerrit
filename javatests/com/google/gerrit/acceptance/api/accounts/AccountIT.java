@@ -214,6 +214,7 @@ public class AccountIT extends AbstractDaemonTest {
     // are stable.
     cfg.setBoolean("index", null, "autoReindexIfStale", false);
 
+    cfg.setBoolean("auth", null, "allowRegisterNewEmail", true);
     return cfg;
   }
 

@@ -69,6 +69,7 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
   @GerritConfig(
       name = "auth.registerEmailPrivateKey",
       value = "HsOc6l_2lhS9G7sE_RsnS7Z6GJjdRDX14co=")
+  @GerritConfig(name = "auth.allowRegisterNewEmail", value = "true")
   public void messageIdHeaderFromAccountUpdate() throws Exception {
     Repository allUsersRepo = repoManager.openRepository(allUsers);
     String email = "new.email@example.com";

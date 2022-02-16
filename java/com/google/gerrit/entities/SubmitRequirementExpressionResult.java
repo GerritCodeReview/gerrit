@@ -99,6 +99,23 @@ public abstract class SubmitRequirementExpressionResult {
     return new AutoValue_SubmitRequirementExpressionResult.GsonTypeAdapter(gson);
   }
 
+  public abstract Builder toBuilder();
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder expression(SubmitRequirementExpression expression);
+
+    public abstract Builder status(Status status);
+
+    public abstract Builder errorMessage(Optional<String> errorMessage);
+
+    public abstract Builder passingAtoms(ImmutableList<String> passingAtoms);
+
+    public abstract Builder failingAtoms(ImmutableList<String> failingAtoms);
+
+    public abstract SubmitRequirementExpressionResult build();
+  }
+
   public enum Status {
     /** Submit requirement expression is fulfilled for a given change. */
     PASS,

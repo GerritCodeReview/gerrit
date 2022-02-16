@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "dd5e7bbb_d1ffa200",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element_test.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-16T09:47:01Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/330485",
+      "parentUuid": "5367f1a6_63210a19",
+      "range": {
+        "startLine": 916,
+        "startChar": 31,
+        "endLine": 916,
+        "endChar": 42
+      },
+      "revId": "17858ebbb8e574ea9f33f51fa10faff0504892b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "41d4adc5_9389c8f1",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element_test.js",
         "patchSetId": 10
@@ -60,6 +84,30 @@
       "writtenOn": "2022-02-16T09:37:12Z",
       "side": 1,
       "message": "can you add the motivation for the reason behind this?\nI am still not sure why we need a builder that adds DOM elements programmatically.",
+      "range": {
+        "startLine": 43,
+        "startChar": 36,
+        "endLine": 43,
+        "endChar": 78
+      },
+      "revId": "17858ebbb8e574ea9f33f51fa10faff0504892b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82dd296f_aeba5f16",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-16T09:47:01Z",
+      "side": 1,
+      "message": "That is why the builder is called \"legacy\". :-) We want to get rid of it in favor of Lit element based rendering.",
+      "parentUuid": "8af8b1f9_145f04f2",
       "range": {
         "startLine": 43,
         "startChar": 36,

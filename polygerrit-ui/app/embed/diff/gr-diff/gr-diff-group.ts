@@ -320,6 +320,9 @@ export class GrDiffGroup {
    */
   readonly keyLocation: boolean = false;
 
+  /**
+   * Once rendered the diff builder sets this to the diff section element.
+   */
   element?: HTMLElement;
 
   readonly lines: GrDiffLine[] = [];

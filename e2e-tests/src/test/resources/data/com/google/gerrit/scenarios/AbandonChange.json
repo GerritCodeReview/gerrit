@@ -1,6 +1,6 @@
 [
   {
-    "url": "HTTP_SCHEME://HOSTNAME:HTTP_PORT/a/changes/",
+    "url": "HTTP_SCHEME://HOSTNAME:HTTP_PORTCONTEXT_PATH/a/changes/",
     "number": "NUMBER"
   }
 ]

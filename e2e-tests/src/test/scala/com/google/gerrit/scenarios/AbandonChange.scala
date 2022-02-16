@@ -24,7 +24,6 @@ import scala.concurrent.duration.DurationInt
 
 class AbandonChange extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
-  private val projectName = className
   private var numbersCopy: mutable.Queue[Int] = mutable.Queue[Int]()
   private var createChange: Option[CreateChange] = Some(new CreateChange(projectName))
 

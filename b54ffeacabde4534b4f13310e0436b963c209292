@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35007954_ba7be348",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-16T16:22:59Z",
+      "side": 1,
+      "message": "nit: n",
+      "range": {
+        "startLine": 18,
+        "startChar": 29,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f38f1b07_6636a757",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8249,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-16T16:22:59Z",
+      "side": 1,
+      "message": "If we change this entity, we have to adapt the storage and make sure the change rolls out in a safe manner as you suggest.\n\nI wonder what other options we have that don\u0027t require this. Two ideas:\n\n1) We could just populate expression and leave the rest of the fields empty. Status is the only one that isn\u0027t already optional.\n2) Instead of shipping this entity (it\u0027s called SubmitRequirementExpressionInfo but in the case at hand we didn\u0027t actually compute anything, so there is no result), we ship a different entity/string: e.g. rawApplicabilityExpressionResult",
+      "range": {
+        "startLine": 8243,
+        "startChar": 0,
+        "endLine": 8249,
+        "endChar": 51
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

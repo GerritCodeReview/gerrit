@@ -104,6 +104,24 @@
       "parentUuid": "5b030d81_274708b6",
       "revId": "8df7255efe435c97e5e4bc7c1223cc828dee5cce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d136c518_3b89112e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T17:20:34Z",
+      "side": 1,
+      "message": "FWIW the existing test is already weird with gr-change-list-item being sibling to the table. https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts;l\u003d62-84\n\nI\u0027d prefer we get any test submitted that will start catching regressions, even if it\u0027s not a perfect production representation and the exact issue is still a bit misunderstood.",
+      "parentUuid": "dfae5cd8_cb6ee378",
+      "revId": "8df7255efe435c97e5e4bc7c1223cc828dee5cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

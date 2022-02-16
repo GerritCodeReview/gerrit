@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ef40a1d_b4353881",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T17:20:34Z",
+      "side": 1,
+      "message": "From other discussion and investigation. I think this comment just needs to add a sentence that this issue is not present in a real env.",
+      "parentUuid": "3ca381e0_0cff03bb",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 0
+      },
+      "revId": "816cb514ff8ea559240a2de4cbf3a95cbf8cd850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "580b4a2e_439524b6",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
         "patchSetId": 11

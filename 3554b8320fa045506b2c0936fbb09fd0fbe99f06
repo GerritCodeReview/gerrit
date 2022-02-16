@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1743ab06_44a9265e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T17:20:34Z",
+      "side": 1,
+      "message": "+1 for this strategy, assuming rebase and stuff is addressed.",
+      "revId": "3554b8320fa045506b2c0936fbb09fd0fbe99f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

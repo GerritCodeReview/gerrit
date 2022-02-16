@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c536b352_a09f3ebf",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:13:25Z",
+      "side": 0,
+      "message": "Is this tested anywhere else? I understand that testing private functions is not ideal, but do we test this behavior through the public API somewhere?",
+      "revId": "a3de754c33d43152f0909fb65740144a2e704dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "480aa9ba_2a2c1127",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:13:25Z",
+      "side": 1,
+      "message": "consistent",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "260cbad2f7bed520504279229676b08768f6e1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ded00f38_8d993b9b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:13:25Z",
+      "side": 1,
+      "message": "I wonder if it would not be more consistent to use a real bottom value here like null or undefined to explicitly model the \"uninitialized\" case.",
+      "range": {
+        "startLine": 343,
+        "startChar": 31,
+        "endLine": 343,
+        "endChar": 33
+      },
+      "revId": "260cbad2f7bed520504279229676b08768f6e1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68bbbf89_975af344",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:13:25Z",
+      "side": 1,
+      "message": "Maybe follow up: Feels like there is too much duplication here. The selectors in these three methods overlap quite a bit. Maybe this should be reworked to have nested querySelector calls where selecting the parent can be shared? Or at least the selector string construction could be shared?",
+      "revId": "260cbad2f7bed520504279229676b08768f6e1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86476dec_ac14a175",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:13:25Z",
+      "side": 1,
+      "message": "Probably not in this change, but I find it a code smell to expose that we use a table for layout here. Probably the caller does not case, and it would be better to in the long run move towards something less limiting given this is not really tabular data.",
+      "range": {
+        "startLine": 64,
+        "startChar": 5,
+        "endLine": 64,
+        "endChar": 18
+      },
+      "revId": "260cbad2f7bed520504279229676b08768f6e1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

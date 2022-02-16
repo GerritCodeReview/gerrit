@@ -158,6 +158,24 @@
       "parentUuid": "ac65329c_1ae313cb",
       "revId": "149b079ae51d94932eeb70a2b08b897cf246b6de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "099fb444_f915b8cb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-16T12:10:47Z",
+      "side": 1,
+      "message": "I did test this with dev helper and I saw the property was set on render().\n\nPerhaps I missed some corner case on how to trigger the failure.",
+      "parentUuid": "75cedcac_ee164eea",
+      "revId": "149b079ae51d94932eeb70a2b08b897cf246b6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

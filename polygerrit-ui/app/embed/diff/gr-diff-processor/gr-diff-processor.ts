@@ -97,7 +97,14 @@ export class GrDiffProcessor extends PolymerElement {
   @property({type: Number})
   context = 3;
 
-  @property({type: Array, notify: true})
+  /**
+   * The builder elements watches this (two-way data binding and @observe) and
+   * thus passes each added group on to the renderer (i.e. gr-diff-builder).
+   * You must only add to this array and not modify it later (only when
+   * resetting). The source of truth is then held by gr-diff-builder, which also
+   * reflects expanding and collapsing of groups.
+   */
+  @property({ type: Array, notify: true })
   groups: GrDiffGroup[] = [];
 
   @property({type: Object})

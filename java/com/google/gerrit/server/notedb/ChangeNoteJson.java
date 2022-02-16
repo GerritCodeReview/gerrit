@@ -16,6 +16,8 @@ package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.EntitiesAdapterFactory;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import com.google.gerrit.json.EnumTypeAdapterFactory;
 import com.google.gerrit.json.OptionalSubmitRequirementExpressionResultAdapterFactory;
 import com.google.gson.Gson;
@@ -63,6 +65,9 @@ public class ChangeNoteJson {
             new OptionalBooleanAdapter().nullSafe())
         .registerTypeAdapterFactory(new OptionalSubmitRequirementExpressionResultAdapterFactory())
         .registerTypeAdapter(ObjectId.class, new ObjectIdAdapter())
+        .registerTypeAdapter(
+            SubmitRequirementExpressionResult.Status.class,
+            new SubmitRequirementExpressionResultStatusAdapter())
         .setPrettyPrinting()
         .create();
   }
@@ -154,6 +159,34 @@ public class ChangeNoteJson {
       }
       in.endArray();
       return builder.build();
+    }
+  }
+
+  /**
+   * A Json type adapter for the Status enum in {@link SubmitRequirementExpressionResult}. This
+   * adapter is able to parse unrecognized values. Unrecognized values are converted to the value
+   * "ERROR" The adapter is needed to ensure forward compatibility since we want to add more values
+   * to this enum. We do that to ensure safer rollout in distributed setups where some tasks are
+   * updated before others. We make sure that tasks running the old binaries are still able to parse
+   * values written by tasks running the new binaries.
+   *
+   * <p>TODO(ghareeb): Remove this adapter.
+   */
+  static class SubmitRequirementExpressionResultStatusAdapter
+      extends TypeAdapter<SubmitRequirementExpressionResult.Status> {
+    @Override
+    public void write(JsonWriter jsonWriter, Status status) throws IOException {
+      jsonWriter.value(status.name());
+    }
+
+    @Override
+    public Status read(JsonReader jsonReader) throws IOException {
+      String val = jsonReader.nextString();
+      try {
+        return SubmitRequirementExpressionResult.Status.valueOf(val);
+      } catch (IllegalArgumentException e) {
+        return SubmitRequirementExpressionResult.Status.ERROR;
+      }
     }
   }
 }

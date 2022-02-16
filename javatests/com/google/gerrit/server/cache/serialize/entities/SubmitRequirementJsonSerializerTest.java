@@ -191,6 +191,18 @@ public class SubmitRequirementJsonSerializerTest {
   }
 
   @Test
+  public void submitRequirementExpressionResult_deserializeUnrecognizedStatus() throws Exception {
+    // If the status field has an unrecognized value while deserialization, we set the status field
+    // to ERROR.
+    String serial = srExpResultSerial.replace("FAIL", "UNKNOWN");
+    SubmitRequirementExpressionResult entity =
+        srExpResult.toBuilder().status(SubmitRequirementExpressionResult.Status.ERROR).build();
+    TypeAdapter<SubmitRequirementExpressionResult> adapter =
+        SubmitRequirementExpressionResult.typeAdapter(gson);
+    assertThat(adapter.fromJson(serial)).isEqualTo(entity);
+  }
+
+  @Test
   public void submitRequirementResult_serialize() throws Exception {
     assertThat(SubmitRequirementResult.typeAdapter(gson).toJson(srReqResult))
         .isEqualTo(srReqResultSerial);

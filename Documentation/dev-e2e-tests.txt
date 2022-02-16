@@ -173,6 +173,7 @@ currently be set with either one or many of these supported properties, from the
 * `-Dcom.google.gerrit.scenarios.ssh_port=29418`
 * `-Dcom.google.gerrit.scenarios.http_port=8080`
 * `-Dcom.google.gerrit.scenarios.http_scheme=http`
+* `-Dcom.google.gerrit.scenarios.username=admin`
 
 Above, the properties can be set with values matching specific deployment topologies under test.
 The name of the property corresponds to the uppercase keyword found in the json file. For example,

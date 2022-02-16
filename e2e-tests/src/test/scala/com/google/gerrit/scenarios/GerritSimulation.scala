@@ -80,6 +80,7 @@ class GerritSimulation extends Simulation {
       in = replaceProperty("hostname", "localhost", in)
       in = replaceProperty("http_port", 8080, in)
       in = replaceProperty("http_scheme", "http", in)
+      in = replaceProperty("username", "admin", in)
       replaceProperty("ssh_port", 29418, in)
   }
 

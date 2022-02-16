@@ -237,6 +237,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65c6a824_a5789720",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 39
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T17:14:23Z",
+      "side": 1,
+      "message": "yeah this is the kind of test I was thinking about, I just didn\u0027t notice it up a level and I expected it to be here instead. Done.",
+      "parentUuid": "272de743_58c9a864",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 30
+      },
+      "revId": "b064bcd84b49c139635b061992ddab59265ef339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87128a78_4a16e856",

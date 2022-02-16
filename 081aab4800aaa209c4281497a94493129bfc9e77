@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "223792ec_47f4ad90",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-16T09:19:04Z",
+      "side": 1,
+      "message": "Make sure to verify the array has at least one element.",
+      "revId": "081aab4800aaa209c4281497a94493129bfc9e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

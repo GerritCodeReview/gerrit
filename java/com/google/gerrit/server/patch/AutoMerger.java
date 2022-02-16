@@ -174,6 +174,17 @@ public class AutoMerger {
       return Optional.empty();
     }
 
+    return Optional.of(
+        new ReceiveCommand(
+            ObjectId.zeroId(),
+            createAutoMergeCommit(repoView, rw, ins, maybeMergeCommit),
+            RefNames.refsCacheAutomerge(maybeMergeCommit.name())));
+  }
+
+  public ObjectId createAutoMergeCommit(
+      RepoView repoView, RevWalk rw, ObjectInserter ins, RevCommit maybeMergeCommit)
+      throws IOException {
+
     ObjectId autoMerge;
     try (Timer1.Context<OperationType> ignored = latency.start(OperationType.ON_DISK_WRITE)) {
       autoMerge =
@@ -182,9 +193,7 @@ public class AutoMerger {
     }
     counter.increment(OperationType.ON_DISK_WRITE);
     logger.atFine().log("Added %s AutoMerge ref update for commit", autoMerge.name());
-    return Optional.of(
-        new ReceiveCommand(
-            ObjectId.zeroId(), autoMerge, RefNames.refsCacheAutomerge(maybeMergeCommit.name())));
+    return autoMerge;
   }
 
   /**
@@ -255,7 +264,7 @@ public class AutoMerger {
     return rw.parseCommit(ins.insert(cb));
   }
 
-  private Optional<RevCommit> lookupCommit(Repository repo, RevWalk rw, String refName)
+  public Optional<RevCommit> lookupCommit(Repository repo, RevWalk rw, String refName)
       throws IOException {
     Ref ref = repo.getRefDatabase().exactRef(refName);
     if (ref != null && ref.getObjectId() != null) {

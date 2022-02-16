@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdeac9da_1a651184",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011417
+      },
+      "writtenOn": "2022-02-16T18:07:35Z",
+      "side": 1,
+      "message": "Should this have also been removed from the docs?\n\nIt\u0027s still mentioned as being accessible in the file list, as of latest published docs:\nhttps://gerrit-documentation.storage.googleapis.com/Documentation/3.5.0.1/concept-patch-sets.html#_description",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "608f452287fd100feb359ceca0a00d09426367c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -37,7 +37,7 @@ public class LabelTypeSerializer {
             proto.getValuesList().stream()
                 .map(LabelValueSerializer::deserialize)
                 .collect(toImmutableList()))
-        .setDescription(Optional.ofNullable(proto.getDescription()))
+        .setDescription(Optional.of(proto.getDescription()))
         .setFunction(FUNCTION_CONVERTER.convert(proto.getFunction()))
         .setAllowPostSubmit(proto.getAllowPostSubmit())
         .setIgnoreSelfApproval(proto.getIgnoreSelfApproval())

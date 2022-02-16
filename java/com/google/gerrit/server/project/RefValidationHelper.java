@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.IdentifiedUser;
@@ -40,13 +41,18 @@ public class RefValidationHelper {
     this.operationType = operationType;
   }
 
-  public void validateRefOperation(String projectName, IdentifiedUser user, RefUpdate update)
+  public void validateRefOperation(
+      String projectName,
+      IdentifiedUser user,
+      RefUpdate update,
+      ImmutableListMultimap<String, String> pushOptions)
       throws ResourceConflictException {
     RefOperationValidators refValidators =
         refValidatorsFactory.create(
             Project.builder(Project.nameKey(projectName)).build(),
             user,
-            RefOperationValidators.getCommand(update, operationType));
+            RefOperationValidators.getCommand(update, operationType),
+            pushOptions);
     try {
       refValidators.validateForRefOperation();
     } catch (ValidationException e) {

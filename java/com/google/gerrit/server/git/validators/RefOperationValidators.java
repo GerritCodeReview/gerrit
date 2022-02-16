@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.validators;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
@@ -33,6 +34,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -46,7 +48,11 @@ public class RefOperationValidators {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    RefOperationValidators create(Project project, IdentifiedUser user, ReceiveCommand cmd);
+    RefOperationValidators create(
+        Project project,
+        IdentifiedUser user,
+        ReceiveCommand cmd,
+        ImmutableListMultimap<String, String> pushOptions);
   }
 
   public static ReceiveCommand getCommand(RefUpdate update, ReceiveCommand.Type type) {
@@ -66,7 +72,8 @@ public class RefOperationValidators {
       PluginSetContext<RefOperationValidationListener> refOperationValidationListeners,
       @Assisted Project project,
       @Assisted IdentifiedUser user,
-      @Assisted ReceiveCommand cmd) {
+      @Assisted ReceiveCommand cmd,
+      @Assisted ImmutableListMultimap<String, String> pushOptions) {
     this.perm = permissionBackend.user(user);
     this.allUsersName = allUsersName;
     this.refOperationValidationListeners = refOperationValidationListeners;
@@ -74,6 +81,7 @@ public class RefOperationValidators {
     event.command = cmd;
     event.project = project;
     event.user = user;
+    event.pushOptions = pushOptions;
   }
 
   /**
@@ -106,11 +114,28 @@ public class RefOperationValidators {
       throws RefOperationValidationException {
     String header =
         String.format(
-            "Ref \"%s\" %S in project %s validation failed",
-            event.command.getRefName(), event.command.getType(), event.project.getName());
+            "Validation for %s of ref '%s' in project %s failed:",
+            formatReceiveCommandType(event.command.getType()),
+            event.command.getRefName(),
+            event.project.getName());
     logger.atSevere().log("%s", header);
     throw new RefOperationValidationException(
         header, messages.stream().filter(ValidationMessage::isError).collect(toImmutableList()));
+  }
+
+  private static String formatReceiveCommandType(ReceiveCommand.Type type) {
+    switch (type) {
+      case CREATE:
+        return "creation";
+      case DELETE:
+        return "deletion";
+      case UPDATE:
+        return "update";
+      case UPDATE_NONFASTFORWARD:
+        return "non-fast-forward update";
+      default:
+        return type.toString().toLowerCase(Locale.US);
+    }
   }
 
   private static class DisallowCreationAndDeletionOfGerritMaintainedBranches

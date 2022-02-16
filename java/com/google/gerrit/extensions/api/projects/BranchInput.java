@@ -15,8 +15,10 @@
 package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import java.util.Map;
 
 public class BranchInput {
   @DefaultInput public String revision;
   public String ref;
+  public Map<String, String> validationOptions;
 }

@@ -465,6 +465,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b3af45b_80ac6c83",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-02-16T14:34:26Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "53a7ef62_7895f103",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 72
+      },
+      "revId": "ba9187195ecd697ccdd7209f79541b9d1c1b64a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c334bb80_22832abf",

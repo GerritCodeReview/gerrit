@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de5017c4_9f62e339",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-16T09:21:39Z",
+      "side": 1,
+      "message": "This needs at least a couple of lines of documentation. Otherwise in the future developers will have no chance to understand what this is supposed to be doing. For example gr-diff could be re-written in some way, then it would be good to know what consumers expect from this event.\n\nMaybe just move this call into _renderDiffTable() (line 866?), because this is just a 0 ms debounce. Do you really need multiple events when this is called multiple times in one microtask? If yes, then add a comment explaining why.\n\nMaybe rename the event from `render-required` to `render-started`?",
+      "revId": "c0788e65cba67f460b0457bfaf9218ae5a37551e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

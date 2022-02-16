@@ -25,7 +25,6 @@ import scala.concurrent.duration._
 class SubmitChangeInBranch extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
   private var changesCopy: mutable.Queue[Int] = mutable.Queue[Int]()
-  private val projectName = className
 
   override def relativeRuntimeWeight = 10
 

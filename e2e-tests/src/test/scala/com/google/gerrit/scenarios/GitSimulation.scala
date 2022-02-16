@@ -15,6 +15,7 @@
 package com.google.gerrit.scenarios
 
 import java.io.{File, IOException}
+import java.net.URLEncoder
 
 import com.github.barbasa.gatling.git.GitRequestSession
 import com.github.barbasa.gatling.git.protocol.GitProtocol
@@ -28,6 +29,11 @@ class GitSimulation extends GerritSimulation {
 
   protected val gitRequest = new GitRequestBuilder(GitRequestSession("${cmd}", "${url}"))
   protected val gitProtocol: GitProtocol = GitProtocol()
+
+  override def replaceOverride(in: String): String = {
+    var next = replaceKeyWith("_project", URLEncoder.encode(getProperty("project_prefix", "") + projectName, "UTF-8"), in)
+    super.replaceOverride(next)
+  }
 
   after {
     Thread.sleep(5000)

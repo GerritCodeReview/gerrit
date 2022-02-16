@@ -14,10 +14,12 @@
 
 package com.google.gerrit.scenarios
 
+import java.net.URLEncoder
+
 class ProjectSimulation extends GerritSimulation {
-  protected var projectName: String = "defaultTestProject"
+  projectName = "defaultTestProject"
 
   override def replaceOverride(in: String): String = {
-    replaceProperty("project", projectName, in)
+    replaceProperty("project", URLEncoder.encode(getProperty("project_prefix", "") + projectName, "UTF-8"), in)
   }
 }

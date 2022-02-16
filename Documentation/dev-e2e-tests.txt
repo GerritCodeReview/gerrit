@@ -176,6 +176,7 @@ currently be set with either one or many of these supported properties, from the
 * `-Dcom.google.gerrit.scenarios.username=admin`
 * `-Dcom.google.gerrit.scenarios.replica_hostname=localhost`
 * `-Dcom.google.gerrit.scenarios.context_path=`
+* `-Dcom.google.gerrit.scenarios.project_prefix=`
 
 Above, the properties can be set with values matching specific deployment topologies under test.
 The name of the property corresponds to the uppercase keyword found in the json file. For example,

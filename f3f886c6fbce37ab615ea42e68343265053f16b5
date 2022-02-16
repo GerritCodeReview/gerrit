@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fe97b88_98377422",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-16T18:31:01Z",
+      "side": 1,
+      "message": "You have to add\n```\nRelease-Notes: skip\n```\nto the commit message. We have a new submit requirement for that, see widget on the left.",
+      "revId": "f3f886c6fbce37ab615ea42e68343265053f16b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

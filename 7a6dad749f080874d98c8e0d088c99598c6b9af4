@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a94b669_c819017f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-16T10:25:51Z",
+      "side": 1,
+      "message": "Looks like they were obsolete before any of the changes in the stack?\nNice!",
+      "revId": "7a6dad749f080874d98c8e0d088c99598c6b9af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

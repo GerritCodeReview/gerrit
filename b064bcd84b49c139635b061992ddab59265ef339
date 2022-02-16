@@ -215,6 +215,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "272de743_58c9a864",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 39
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-16T16:50:25Z",
+      "side": 1,
+      "message": "The usage of enter and navigation updating selectedIndex properly is already being done here https://gerrit-review.googlesource.com/c/gerrit/+/329580/37/polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts#240\n\nYou asked to test a property usage in GrChangeListSection but I guess what you\u0027re really looking for is the one above?\n\nOtherwise the only thing left to remain is that the property is being passed from parent to child correctly which probably isn\u0027t what you had in mind?",
+      "parentUuid": "55359529_39266014",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 30
+      },
+      "revId": "b064bcd84b49c139635b061992ddab59265ef339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87128a78_4a16e856",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
         "patchSetId": 39

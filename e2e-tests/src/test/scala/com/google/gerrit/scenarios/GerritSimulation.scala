@@ -42,7 +42,7 @@ class GerritSimulation extends Simulation {
   protected val SecondsPerWeightUnit = 2
   val maxExecutionTime: Int = (SecondsPerWeightUnit * relativeRuntimeWeight * powerFactor).toInt
   private var cumulativeWaitTime = 0
-
+  protected var projectName: String = className
   /**
    * How long a scenario step should wait before starting to execute.
    * This is also registering that step's resulting wait time, so that time
@@ -73,7 +73,7 @@ class GerritSimulation extends Simulation {
       replaceProperty("parent", "All-Projects", parent.toString)
     case ("project", project) =>
       var precedes = replaceKeyWith("_project", className, project.toString)
-      precedes = replaceOverride(precedes)
+      precedes = replaceProperty("project", getFullProjectName(projectName), precedes)
       replaceProperty("project", precedes)
     case ("url", url) =>
       var in = replaceOverride(url.toString)
@@ -84,6 +84,10 @@ class GerritSimulation extends Simulation {
       in = replaceProperty("username", "admin", in)
       in = replaceProperty("context_path", "", in)
       replaceProperty("ssh_port", 29418, in)
+  }
+
+  protected def getFullProjectName(projectName: String) {
+    getProperty("project_prefix", "") + projectName
   }
 
   private def replaceProperty(term: String, in: String): String = {

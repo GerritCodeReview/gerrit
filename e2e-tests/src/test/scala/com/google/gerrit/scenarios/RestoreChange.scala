@@ -24,7 +24,6 @@ import scala.concurrent.duration.DurationInt
 
 class RestoreChange extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
-  private val projectName = className
   private var numbersCopy: mutable.Queue[Int] = mutable.Queue[Int]()
 
   override def relativeRuntimeWeight = 10

@@ -705,11 +705,7 @@ Default is true.
 +
 Whether users are allowed to register new email addresses.
 +
-In addition for the HTTP authentication type
-link:#auth.httpemailheader[auth.httpemailheader] must *not* be set to
-enable registration of new email addresses.
-+
-By default, true.
+By default, false.
 
 [[auth.autoUpdateAccountActiveStatus]]auth.autoUpdateAccountActiveStatus::
 +

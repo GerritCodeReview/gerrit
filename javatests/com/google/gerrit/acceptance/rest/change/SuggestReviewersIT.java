@@ -535,6 +535,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "auth.allowRegisterNewEmail", value = "true")
   public void suggestBySecondaryEmailWithModifyAccount() throws Exception {
     String secondaryEmail = "foo.secondary@example.com";
     TestAccount foo = createAccountWithSecondaryEmail("foo", secondaryEmail);
@@ -544,6 +545,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "auth.allowRegisterNewEmail", value = "true")
   public void cannotSuggestBySecondaryEmailWithoutModifyAccount() throws Exception {
     // Test that even if the account exists, the result is still empty since
     // it shouldn't match to that account based only on the secondary email.
@@ -554,6 +556,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "auth.allowRegisterNewEmail", value = "true")
   public void secondaryEmailsInSuggestions() throws Exception {
     String secondaryEmail = "foo.secondary@example.com";
     TestAccount foo = createAccountWithSecondaryEmail("foo", secondaryEmail);

@@ -96,7 +96,7 @@ public class AuthConfig {
     gitBasicAuthPolicy = getBasicAuthPolicy(cfg);
     useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
-    allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
+    allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", false);
     userNameCaseInsensitive = cfg.getBoolean("auth", "userNameCaseInsensitive", false);
     userNameCaseInsensitiveMigrationMode =
         cfg.getBoolean("auth", "userNameCaseInsensitiveMigrationMode", false);

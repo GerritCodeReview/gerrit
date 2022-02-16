@@ -47,12 +47,14 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class EmailIT extends AbstractDaemonTest {
@@ -67,6 +69,13 @@ public class EmailIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExternalIdFactory externalIdFactory;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
+
+  @ConfigSuite.Default
+  public static Config enableRegisterNewEmail() {
+    Config cfg = new Config();
+    cfg.setBoolean("auth", null, "allowRegisterNewEmail", true);
+    return cfg;
+  }
 
   @Test
   public void addEmail() throws Exception {

@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c34bb018_8a2e2a2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-16T13:17:04Z",
+      "side": 1,
+      "message": "something is wrong with the grammar here, to the point that i don\u0027t know what you want to say.",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "c603fd4e8fc1a6ea528929c120587503fe153073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6734ef56_80e28f73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-16T13:17:04Z",
+      "side": 1,
+      "message": "\"Using the\"",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 6
+      },
+      "revId": "c603fd4e8fc1a6ea528929c120587503fe153073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "427bc908_289de315",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-16T13:17:04Z",
+      "side": 1,
+      "message": "can/should drop that",
+      "range": {
+        "startLine": 20,
+        "startChar": 36,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "c603fd4e8fc1a6ea528929c120587503fe153073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d34fe173_f686b64c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-16T13:17:04Z",
+      "side": 1,
+      "message": "weird grammar.",
+      "range": {
+        "startLine": 22,
+        "startChar": 18,
+        "endLine": 23,
+        "endChar": 10
+      },
+      "revId": "c603fd4e8fc1a6ea528929c120587503fe153073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd93cdb7_962aa477",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-16T13:17:04Z",
+      "side": 1,
+      "message": "\"change\" would fit better here.\n\nsame below.",
+      "range": {
+        "startLine": 32,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 7
+      },
+      "revId": "c603fd4e8fc1a6ea528929c120587503fe153073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "937e98a8_40a00e63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-16T13:17:04Z",
+      "side": 1,
+      "message": "\"suggested\"",
+      "range": {
+        "startLine": 34,
+        "startChar": 29,
+        "endLine": 34,
+        "endChar": 40
+      },
+      "revId": "c603fd4e8fc1a6ea528929c120587503fe153073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d96c4b9_32e7c53f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-16T13:17:04Z",
+      "side": 1,
+      "message": "+default\n\n+\"and removed the implicit link to auth.httpemailheader\" or something like that.",
+      "range": {
+        "startLine": 41,
+        "startChar": 62,
+        "endLine": 41,
+        "endChar": 63
+      },
+      "revId": "c603fd4e8fc1a6ea528929c120587503fe153073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb350713_0981c904",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-16T13:17:04Z",
+      "side": 1,
+      "message": "docu nits. the change makes sense to me.",
+      "revId": "c603fd4e8fc1a6ea528929c120587503fe153073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

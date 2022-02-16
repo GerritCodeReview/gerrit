@@ -105,8 +105,14 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
           sr.applicabilityExpression().isPresent()
               ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
               : Optional.empty();
-      Optional<SubmitRequirementExpressionResult> submittabilityResult = Optional.empty();
-      Optional<SubmitRequirementExpressionResult> overrideResult = Optional.empty();
+      Optional<SubmitRequirementExpressionResult> submittabilityResult =
+          Optional.of(
+              SubmitRequirementExpressionResult.notEvaluated(sr.submittabilityExpression()));
+      Optional<SubmitRequirementExpressionResult> overrideResult =
+          sr.overrideExpression().isPresent()
+              ? Optional.of(
+                  SubmitRequirementExpressionResult.notEvaluated(sr.overrideExpression().get()))
+              : Optional.empty();
       if (!sr.applicabilityExpression().isPresent()
           || SubmitRequirementResult.assertPass(applicabilityResult)) {
         submittabilityResult = Optional.of(evaluateExpression(sr.submittabilityExpression(), cd));

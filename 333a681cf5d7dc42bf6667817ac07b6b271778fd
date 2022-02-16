@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60e4332e_772c3d44",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-16T08:45:09Z",
+      "side": 1,
+      "message": "createDiffElement reads cleaner I think",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 19
+      },
+      "revId": "333a681cf5d7dc42bf6667817ac07b6b271778fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -104,6 +104,24 @@
       "parentUuid": "a6fe5450_59fb5d57",
       "revId": "149b079ae51d94932eeb70a2b08b897cf246b6de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3c91cf3_afd2b7fe",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T10:35:41Z",
+      "side": 1,
+      "message": "The problem is that pretty much all properties in lit have to be marked as optional to make typescript happy since they are not set in the constructor, and then we have to add code for impossible cases that hurts readability (\"is this a real case we should worry about?\"). We could:\n1. supply a default value in some cases such as an empty section here.\n2. Use ! instead of ? to override typescript: `@property({type: Object}) changeSection!: ChangeListSection;`\n3. keep doing stuff like `if(!this.requiredProp) return;`\n\nThese differences are important when we have children doing data loading for the parent like we saw in download dialog, which is a code smell on its own.",
+      "parentUuid": "876b94a9_d60f0ccc",
+      "revId": "149b079ae51d94932eeb70a2b08b897cf246b6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

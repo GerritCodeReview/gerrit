@@ -127,8 +127,8 @@ export class GrAccountLabel extends LitElement {
         }
         .rightSidePadding {
           padding-right: var(--account-label-padding-right, 0);
-          /* The existence of this element will also add another flexbox gap */
-          margin-left: -3px;
+          /* The existence of this element will also add 2(!) flexbox gaps */
+          margin-left: -6px;
         }
         .container {
           display: flex;

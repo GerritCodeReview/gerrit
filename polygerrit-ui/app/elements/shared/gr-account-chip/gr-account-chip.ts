@@ -117,7 +117,7 @@ export class GrAccountChip extends LitElement {
              So, these values are passed down to gr-account-label and any
              outermost elements will use the value and then override it. */
           --account-label-padding-left: 6px;
-          --account-label-padding-right: 3px;
+          --account-label-padding-right: 6px;
           --account-label-circle-padding-left: 0;
           --account-label-circle-padding-right: 0;
         }

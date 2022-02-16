@@ -23,6 +23,7 @@ import {
   ApprovalInfo,
   ChangeInfo,
   isDetailedLabelInfo,
+  isQuickLabelInfo,
   LabelInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
@@ -32,6 +33,7 @@ import {
   extractAssociatedLabels,
   getAllUniqueApprovals,
   getRequirements,
+  getTriggerVotes,
   hasNeutralStatus,
   hasVotes,
   iconForStatus,
@@ -81,7 +83,9 @@ export class GrChangeListColumnRequirement extends LitElement {
   private renderContent() {
     if (!this.labelName) return;
     const requirements = this.getRequirement(this.labelName);
-    if (requirements.length === 0) return;
+    if (requirements.length === 0) {
+      return this.renderTriggerVote();
+    }
 
     const requirement = requirements[0];
     if (requirement.status === SubmitRequirementStatus.UNSATISFIED) {
@@ -89,6 +93,28 @@ export class GrChangeListColumnRequirement extends LitElement {
     } else {
       return this.renderStatusIcon(requirement.status);
     }
+  }
+
+  private renderTriggerVote() {
+    const triggerVotes = getTriggerVotes(this.change);
+    if (!this.labelName || !triggerVotes.includes(this.labelName)) return;
+    const allLabels = this.change?.labels ?? {};
+    const labelInfo = allLabels[this.labelName];
+    if (isDetailedLabelInfo(labelInfo)) {
+      const approvals = getAllUniqueApprovals(labelInfo).filter(
+        approval => !hasNeutralStatus(labelInfo, approval)
+      );
+      if (approvals[0]) {
+        return html`<gr-vote-chip
+          .vote="${approvals[0]}"
+          .label="${labelInfo}"
+        ></gr-vote-chip>`;
+      }
+    }
+    if (isQuickLabelInfo(labelInfo)) {
+      return html`<gr-vote-chip .label="${labelInfo}"></gr-vote-chip>`;
+    }
+    return;
   }
 
   private renderUnsatisfiedState(requirement: SubmitRequirementResultInfo) {

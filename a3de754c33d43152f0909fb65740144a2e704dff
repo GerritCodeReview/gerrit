@@ -39,6 +39,46 @@
       "message": "Nice!",
       "revId": "a3de754c33d43152f0909fb65740144a2e704dff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc91f6ae_8306d426",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T14:25:59Z",
+      "side": 1,
+      "message": "Makes much more sense.",
+      "revId": "a3de754c33d43152f0909fb65740144a2e704dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb5d6ef5_35a93c83",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T14:25:59Z",
+      "side": 1,
+      "message": "(Optional) Honestly I find this name not very obvious - is this to distinguish it from a modification? Maybe `isAddOrRemoveOnly` or the make the inverse function `isModification`? I am not quite sure what a good name would be, but maybe you have an idea?",
+      "range": {
+        "startLine": 469,
+        "startChar": 4,
+        "endLine": 469,
+        "endChar": 9
+      },
+      "revId": "a3de754c33d43152f0909fb65740144a2e704dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

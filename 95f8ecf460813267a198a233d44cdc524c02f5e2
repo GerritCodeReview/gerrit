@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf5fb99a_de5acd89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T17:07:38Z",
+      "side": 1,
+      "message": "Nice change. ",
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91add0a5_263854bc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T17:07:38Z",
+      "side": 1,
+      "message": "If this isn\u0027t an `@state()` then I think it won\u0027t re-render when `selectedChanges$` updates it\u0027s value.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 26
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "039731db_5c36293f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T17:07:38Z",
+      "side": 1,
+      "message": "is there a way to add tests that 1) checking the box will update the model and 2) the box will get updates from the model?\n\nFor #1 you could just move the test you are adding in section element.",
+      "range": {
+        "startLine": 125,
+        "startChar": 11,
+        "endLine": 125,
+        "endChar": 30
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab9a3248_4ddf8554",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T17:07:38Z",
+      "side": 1,
+      "message": "I think you can combine these into a single query:\n`queryAndAssert(changeItems[0], \u0027.selection \u003e input\u0027);`\n\nwhere `\u003e` means `input` is a direct child of `.selection`, and without the `\u003e` if it\u0027s just a descendant of any kind. https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors#reference_table_of_selectors\n\nI think you cannot combine with your queryAll above since it won\u0027t pierce gr-change-list-item\u0027s shadowDOM",
+      "range": {
+        "startLine": 71,
+        "startChar": 23,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41f054a3_807f50f4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T17:07:38Z",
+      "side": 1,
+      "message": "Start with 1 and 0 both selected, so that it\u0027s clear you\u0027re not just totally wiping selection. (Although that behavior wouldn\u0027t be that surprising as a user).",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 59
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de095f99_83abe2dc",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T17:07:38Z",
+      "side": 1,
+      "message": "I think there\u0027s a subtle bug where selectedChanges will still point to the old ChangeInfo for the change and not the new one. Example:\n```\nselectedChanges \u003d [{id: 5, stuff: \u0027foo\u0027}];\nsync([{id: 5, stuff: \u0027updatedFoo\u0027}]);\n// now selectedChanges still does not have \u0027updatedFoo\u0027\n```\nThe fix would be to flip this line of code to be `visibileChanges.filter(current.selectedChanges.some(...))`\nso the new values come out instead of the old ones.\n\nConsider starting a test file for this model",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 0
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

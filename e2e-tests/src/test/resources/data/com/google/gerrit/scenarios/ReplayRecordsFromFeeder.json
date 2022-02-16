@@ -1,6 +1,6 @@
 [
   {
-    "url": "ssh://admin@HOSTNAME:SSH_PORT/_PROJECT",
+    "url": "ssh://USERNAME@HOSTNAME:SSH_PORT/_PROJECT",
     "cmd": "clone"
   },
   {

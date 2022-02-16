@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89b54f36_1d8a8259",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 39
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T13:02:03Z",
+      "side": 1,
+      "message": "flag test",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 77
+      },
+      "revId": "b064bcd84b49c139635b061992ddab59265ef339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0d38ed9_c94b8e06",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 39
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T13:02:03Z",
+      "side": 1,
+      "message": "gr-change-list-section",
+      "range": {
+        "startLine": 75,
+        "startChar": 7,
+        "endLine": 75,
+        "endChar": 30
+      },
+      "revId": "b064bcd84b49c139635b061992ddab59265ef339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cf0db21_1322ecad",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 39
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T13:02:03Z",
+      "side": 1,
+      "message": "this suite can be merged into your main one. It has the same setup except selection, which looks untested anyway",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 51
+      },
+      "revId": "b064bcd84b49c139635b061992ddab59265ef339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ad85531_89911542",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 39
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T13:02:03Z",
+      "side": 1,
+      "message": "add selectedIndex tests",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 30
+      },
+      "revId": "b064bcd84b49c139635b061992ddab59265ef339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87128a78_4a16e856",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+        "patchSetId": 39
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T13:02:03Z",
+      "side": 1,
+      "message": "this test should be moved to section test. That\u0027s what you\u0027re asserting on, and that\u0027s where the flag logic lives",
+      "range": {
+        "startLine": 313,
+        "startChar": 30,
+        "endLine": 313,
+        "endChar": 34
+      },
+      "revId": "b064bcd84b49c139635b061992ddab59265ef339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

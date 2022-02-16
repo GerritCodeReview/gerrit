@@ -451,7 +451,7 @@ public class ChangeField {
           .build(
               cd ->
                   // All submit requirements should be fulfilled
-                  cd.submitRequirements().values().stream()
+                  cd.submitRequirementsIncludingLegacy().values().stream()
                           .allMatch(SubmitRequirementResult::fulfilled)
                       ? "1"
                       : "0");

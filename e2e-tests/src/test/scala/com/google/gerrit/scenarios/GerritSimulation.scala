@@ -23,6 +23,7 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 class GerritSimulation extends Simulation {
   implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
 
+  private val defaultHostname: String = "localhost"
   protected val numberKey: String = "number"
 
   private val packageName = getClass.getPackage.getName
@@ -77,7 +78,8 @@ class GerritSimulation extends Simulation {
       replaceProperty("project", precedes)
     case ("url", url) =>
       var in = replaceOverride(url.toString)
-      in = replaceProperty("hostname", "localhost", in)
+      in = replaceProperty("replica_hostname", getProperty("hostname", defaultHostname), in)
+      in = replaceProperty("hostname", defaultHostname, in)
       in = replaceProperty("http_port", 8080, in)
       in = replaceProperty("http_scheme", "http", in)
       in = replaceProperty("username", "admin", in)

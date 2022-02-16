@@ -66,6 +66,7 @@ import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -2742,6 +2743,57 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     changeInfos = gApi.changes().query("label:LC=OK").get();
     assertThat(changeInfos.get(0).changeId).isEqualTo(changeId);
     assertThat(gApi.changes().query("label:LC=NEED").get()).isEmpty();
+  }
+
+  @Test
+  public void queryingChangesWithSubmitRequirementOptionDoesNotTouchDatabase() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            // Always not submittable
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("is:false"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r1 = createChange();
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .review(ReviewInput.approve());
+
+    ChangeInfo changeInfo = gApi.changes().id(r1.getChangeId()).get();
+    assertThat(changeInfo.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(
+        changeInfo.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy = */ false);
+    assertSubmitRequirementStatus(
+        changeInfo.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy = */ true);
+
+    requestScopeOperations.setApiUser(user.id());
+    try (AutoCloseable ignored = disableNoteDb()) {
+      List<ChangeInfo> changeInfos =
+          gApi.changes()
+              .query()
+              .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
+              .withOptions(
+                  new ImmutableSet.Builder<ListChangesOption>()
+                      .addAll(IndexPreloadingUtil.DASHBOARD_OPTIONS)
+                      .add(ListChangesOption.SUBMIT_REQUIREMENTS)
+                      .build())
+              .get();
+      assertThat(changeInfos).hasSize(1);
+      assertSubmitRequirementStatus(
+          changeInfos.get(0).submitRequirements,
+          "Code-Review",
+          Status.UNSATISFIED,
+          /* isLegacy = */ false);
+      assertSubmitRequirementStatus(
+          changeInfos.get(0).submitRequirements,
+          "Code-Review",
+          Status.SATISFIED,
+          /* isLegacy = */ true);
+    }
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

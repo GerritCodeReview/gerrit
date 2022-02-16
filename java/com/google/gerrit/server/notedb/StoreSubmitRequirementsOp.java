@@ -40,9 +40,9 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
      * {@code submitRequirements} are explicitly passed to the operation so that they are evaluated
      * before the {@link #updateChange} is called.
      *
-     * <p>This is because the return results of {@link ChangeData#submitRequirements()} depend on
-     * the status of the change, which can be modified by other {@link BatchUpdateOp}, sharing the
-     * same {@link ChangeContext}.
+     * <p>This is because the return results of {@link
+     * ChangeData#submitRequirementsIncludingLegacy()} depend on the status of the change, which can
+     * be modified by other {@link BatchUpdateOp}, sharing the same {@link ChangeContext}.
      */
     StoreSubmitRequirementsOp create(
         Collection<SubmitRequirementResult> submitRequirements, ChangeData changeData);

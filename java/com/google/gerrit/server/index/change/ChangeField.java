@@ -451,7 +451,7 @@ public class ChangeField {
           .build(
               cd ->
                   // All submit requirements should be fulfilled
-                  cd.submitRequirements().values().stream()
+                  cd.submitRequirementsIncludingLegacy().values().stream()
                           .allMatch(SubmitRequirementResult::fulfilled)
                       ? "1"
                       : "0");
@@ -1220,7 +1220,8 @@ public class ChangeField {
     // Reason: We are preserving backward compatibility of the operators `label:$name=$status`
     // which were previously working with submit records. Now admins can configure submit
     // requirements and continue querying them with the label operator.
-    submitRecordValues.addAll(formatSubmitRequirementValues(cd.submitRequirements().values()));
+    submitRecordValues.addAll(
+        formatSubmitRequirementValues(cd.submitRequirementsIncludingLegacy().values()));
     return submitRecordValues.stream().collect(Collectors.toList());
   }
 
@@ -1293,7 +1294,8 @@ public class ChangeField {
           .buildRepeatable(
               cd ->
                   toProtos(
-                      SubmitRequirementProtoConverter.INSTANCE, cd.submitRequirements().values()),
+                      SubmitRequirementProtoConverter.INSTANCE,
+                      cd.submitRequirementsIncludingLegacy().values()),
               (cd, field) -> parseSubmitRequirements(field, cd));
 
   private static void parseSubmitRequirements(Iterable<byte[]> values, ChangeData out) {

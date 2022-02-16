@@ -378,7 +378,7 @@ public class ChangeJson {
 
   private Collection<SubmitRequirementResultInfo> submitRequirementsFor(ChangeData cd) {
     Collection<SubmitRequirementResultInfo> reqInfos = new ArrayList<>();
-    cd.submitRequirements().entrySet().stream()
+    cd.submitRequirementsIncludingLegacy().entrySet().stream()
         .filter(entry -> !entry.getValue().isHidden())
         .forEach(
             entry -> reqInfos.add(SubmitRequirementsJson.toInfo(entry.getKey(), entry.getValue())));
@@ -786,7 +786,8 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) {
-    return cd.submitRequirements().values().stream().allMatch(SubmitRequirementResult::fulfilled);
+    return cd.submitRequirementsIncludingLegacy().values().stream()
+        .allMatch(SubmitRequirementResult::fulfilled);
   }
 
   private void setSubmitter(ChangeData cd, ChangeInfo out) {

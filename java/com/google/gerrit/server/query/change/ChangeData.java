@@ -942,6 +942,21 @@ public class ChangeData {
   }
 
   /**
+   * Similar to {@link #submitRequirements}, except that it also converts submit records resulting
+   * from the evaluation of legacy submit rules to submit requirements.
+   */
+  public Map<SubmitRequirement, SubmitRequirementResult> submitRequirementsIncludingLegacy() {
+    Map<SubmitRequirement, SubmitRequirementResult> projectConfigReqs =
+        submitRequirements().entrySet().stream()
+            .filter(r -> !r.getValue().isLegacy())
+            .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+    Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
+        SubmitRequirementsAdapter.getLegacyRequirements(this);
+    return submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
+        projectConfigReqs, legacyReqs, project());
+  }
+
+  /**
    * Get all evaluated submit requirements for this change, including those from parent projects.
    * For closed changes, submit requirements are read from the change notes. For active changes,
    * submit requirements are evaluated online.
@@ -958,19 +973,14 @@ public class ChangeData {
       if (c == null || !c.isClosed()) {
         // Open changes: Evaluate submit requirements online.
         submitRequirements =
-            submitRequirementsEvaluator.evaluateAllRequirements(this, /* includeLegacy= */ true);
+            submitRequirementsEvaluator.evaluateAllRequirements(this, /* includeLegacy= */ false);
         return submitRequirements;
       }
       // Closed changes: Load submit requirement results from NoteDb.
-      Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements =
+      submitRequirements =
           notes().getSubmitRequirementsResult().stream()
               .filter(r -> !r.isLegacy())
               .collect(Collectors.toMap(r -> r.submitRequirement(), Function.identity()));
-      Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements =
-          SubmitRequirementsAdapter.getLegacyRequirements(this);
-      submitRequirements =
-          submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
-              projectConfigRequirements, legacyRequirements, project());
     }
     return submitRequirements;
   }

@@ -95,8 +95,30 @@ public abstract class SubmitRequirementExpressionResult {
         ImmutableList.of());
   }
 
+  public static SubmitRequirementExpressionResult notEvaluated(SubmitRequirementExpression expr) {
+    return SubmitRequirementExpressionResult.create(
+        expr, Status.NOT_EVALUATED, ImmutableList.of(), ImmutableList.of());
+  }
+
   public static TypeAdapter<SubmitRequirementExpressionResult> typeAdapter(Gson gson) {
     return new AutoValue_SubmitRequirementExpressionResult.GsonTypeAdapter(gson);
+  }
+
+  public abstract Builder toBuilder();
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder expression(SubmitRequirementExpression expression);
+
+    public abstract Builder status(Status status);
+
+    public abstract Builder errorMessage(Optional<String> errorMessage);
+
+    public abstract Builder passingAtoms(ImmutableList<String> passingAtoms);
+
+    public abstract Builder failingAtoms(ImmutableList<String> failingAtoms);
+
+    public abstract SubmitRequirementExpressionResult build();
   }
 
   public enum Status {
@@ -107,7 +129,10 @@ public abstract class SubmitRequirementExpressionResult {
     FAIL,
 
     /** Submit requirement expression contains invalid syntax and is not parsable. */
-    ERROR
+    ERROR,
+
+    /** Submit requirement expression was not evaluated. */
+    NOT_EVALUATED
   }
 
   /**

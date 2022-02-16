@@ -16,6 +16,8 @@ package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.EntitiesAdapterFactory;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import com.google.gerrit.json.EnumTypeAdapterFactory;
 import com.google.gerrit.json.OptionalSubmitRequirementExpressionResultAdapterFactory;
 import com.google.gson.Gson;
@@ -63,6 +65,9 @@ public class ChangeNoteJson {
             new OptionalBooleanAdapter().nullSafe())
         .registerTypeAdapterFactory(new OptionalSubmitRequirementExpressionResultAdapterFactory())
         .registerTypeAdapter(ObjectId.class, new ObjectIdAdapter())
+        .registerTypeAdapter(
+            SubmitRequirementExpressionResult.Status.class,
+            new SubmitRequirementExpressionResultStatusAdapter())
         .setPrettyPrinting()
         .create();
   }
@@ -154,6 +159,24 @@ public class ChangeNoteJson {
       }
       in.endArray();
       return builder.build();
+    }
+  }
+
+  static class SubmitRequirementExpressionResultStatusAdapter
+      extends TypeAdapter<SubmitRequirementExpressionResult.Status> {
+    @Override
+    public void write(JsonWriter jsonWriter, Status status) throws IOException {
+      jsonWriter.value(status.name());
+    }
+
+    @Override
+    public Status read(JsonReader jsonReader) throws IOException {
+      String val = jsonReader.nextString();
+      try {
+        return SubmitRequirementExpressionResult.Status.valueOf(val);
+      } catch (IllegalArgumentException e) {
+        return SubmitRequirementExpressionResult.Status.ERROR;
+      }
     }
   }
 }

@@ -34,7 +34,6 @@ suite('gr-context-control tests', () => {
     element = document.createElement('gr-context-controls');
     element.diff = {content: []} as any as DiffInfo;
     element.renderPreferences = {};
-    element.section = document.createElement('div');
     blankFixture.instantiate().appendChild(element);
     await flush();
   });

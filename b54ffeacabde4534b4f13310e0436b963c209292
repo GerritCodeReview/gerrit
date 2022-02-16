@@ -26,6 +26,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69a4ce29_b8dd26fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-16T18:07:01Z",
+      "side": 1,
+      "message": "Not sure, but maybe we should mention something about the NoteDb format update in the release notes?",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e19402f_f533d1ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-16T18:07:01Z",
+      "side": 1,
+      "message": "LGTM, + my suggestion in the predecessor change. \nAlso, could you, please, file a bug to track the rollout, since we first need to make sure the predecessor is roll back safe, only than import this change?",
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f38f1b07_6636a757",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7
@@ -42,6 +82,76 @@
         "startChar": 0,
         "endLine": 8249,
         "endChar": 51
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3eee0fc_18c30678",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8249,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-16T18:07:01Z",
+      "side": 1,
+      "message": "I think that Youssef noticed the possible roolout issue (see the predecessor change).\n\nOption #1 was actually suggested as an implementation in this PS [1], but I agree with Youssef\u0027s comment [2] this is more clear in the API if we are explicit whether the submit requirement is evaluated.\nI am in favor of having actual statuses instead of the \u0027fulfilled\u0027 field, that we can not populate meaningfully for the non-evaluated expression. \n\n[1]https://gerrit-review.googlesource.com/c/gerrit/+/328617/7\n[2]https://gerrit-review.googlesource.com/c/gerrit/+/328617/comments/2fde331d_2107a0ba",
+      "parentUuid": "f38f1b07_6636a757",
+      "range": {
+        "startLine": 8243,
+        "startChar": 0,
+        "endLine": 8249,
+        "endChar": 51
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5baef048_3b52475b",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRequirementExpressionInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-16T18:07:01Z",
+      "side": 1,
+      "message": "nit: link com.google.gerrit.entities.SubmitRequirementExpressionResult.Status and mention they should match.",
+      "range": {
+        "startLine": 49,
+        "startChar": 14,
+        "endLine": 49,
+        "endChar": 20
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab149e37_9af6635c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1974,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-16T18:07:01Z",
+      "side": 1,
+      "message": "Should there also be an assertion that the expression string is populated, since we are interested in it in the frontend?",
+      "range": {
+        "startLine": 1974,
+        "startChar": 4,
+        "endLine": 1974,
+        "endChar": 65
       },
       "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

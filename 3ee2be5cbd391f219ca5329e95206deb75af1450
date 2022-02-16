@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9c2c64c_1efb1ed2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:39:07Z",
+      "side": 1,
+      "message": "Great improvement, though still lots of room for making this even better.",
+      "revId": "3ee2be5cbd391f219ca5329e95206deb75af1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c418c98_236996cb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:39:07Z",
+      "side": 1,
+      "message": "This is really a footgun, even with this comment on it. Why not call addGroups directly instead of keeping this false state around? Can we have a TODO at least?",
+      "revId": "3ee2be5cbd391f219ca5329e95206deb75af1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc416783_4f166c9f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:39:07Z",
+      "side": 1,
+      "message": "Is DiffContextExpandedExternal an event that is fired \n1) to request replacing the groups or\n2) to indicate that groups have been replaced?\n\n\"Expanded\" in the event sounds like it is 2), but this comment reads as if it is 1).",
+      "range": {
+        "startLine": 33,
+        "startChar": 37,
+        "endLine": 33,
+        "endChar": 55
+      },
+      "revId": "3ee2be5cbd391f219ca5329e95206deb75af1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd0a5e54_d6e6024f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:39:07Z",
+      "side": 1,
+      "message": "This would be empty now, no? I think you either need to turn this around or store the array before resetting it.",
+      "range": {
+        "startLine": 169,
+        "startChar": 31,
+        "endLine": 169,
+        "endChar": 42
+      },
+      "revId": "3ee2be5cbd391f219ca5329e95206deb75af1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46e913dc_9d273585",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:39:07Z",
+      "side": 1,
+      "message": "Not in this change: I would really like to get rid of this / invert the relationship. It is weird for the model to depend on its rendering - it would be nicer for the rendering to know its model...",
+      "revId": "3ee2be5cbd391f219ca5329e95206deb75af1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

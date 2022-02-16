@@ -23,6 +23,7 @@ import {
   ApprovalInfo,
   ChangeInfo,
   isDetailedLabelInfo,
+  isQuickLabelInfo,
   LabelInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
@@ -32,6 +33,7 @@ import {
   extractAssociatedLabels,
   getAllUniqueApprovals,
   getRequirements,
+  getTriggerVotes,
   hasNeutralStatus,
   hasVotes,
   iconForStatus,
@@ -81,7 +83,9 @@ export class GrChangeListColumnRequirement extends LitElement {
   private renderContent() {
     if (!this.labelName) return;
     const requirements = this.getRequirement(this.labelName);
-    if (requirements.length === 0) return;
+    if (requirements.length === 0) {
+      return this.renderTriggerVote();
+    }
 
     const requirement = requirements[0];
     if (requirement.status === SubmitRequirementStatus.UNSATISFIED) {
@@ -89,6 +93,28 @@ export class GrChangeListColumnRequirement extends LitElement {
     } else {
       return this.renderStatusIcon(requirement.status);
     }
+  }
+
+  private renderTriggerVote() {
+    const triggerVotes = getTriggerVotes(this.change);
+    if (!this.labelName || !triggerVotes.includes(this.labelName)) return;
+    const allLabels = this.change?.labels ?? {};
+    const labelInfo = allLabels[this.labelName];
+    if (isDetailedLabelInfo(labelInfo)) {
+      // votes sorted from best e.g +2 to worst e.g -2
+      const votes = this.getSortedVotes(this.labelName);
+      if (votes.length > 0) {
+        const bestVote = votes[0];
+        return html`<gr-vote-chip
+          .vote="${bestVote}"
+          .label="${labelInfo}"
+        ></gr-vote-chip>`;
+      }
+    }
+    if (isQuickLabelInfo(labelInfo)) {
+      return html`<gr-vote-chip .label="${labelInfo}"></gr-vote-chip>`;
+    }
+    return;
   }
 
   private renderUnsatisfiedState(requirement: SubmitRequirementResultInfo) {
@@ -104,9 +130,11 @@ export class GrChangeListColumnRequirement extends LitElement {
     let worstVote: ApprovalInfo | undefined;
     let labelInfo: LabelInfo | undefined;
     for (const label of associatedLabels) {
-      const votes = this.getSortedVotes(label);
+      // votes sorted from worst e.g -2 to best e.g +2
+      const votes = this.getSortedVotes(label).sort(
+        (a, b) => (a.value ?? 0) - (b.value ?? 0)
+      );
       if (votes.length === 0) break;
-      // votes are already sorted from worst e.g -2 to best e.g +2
       if (!worstVote || (worstVote.value ?? 0) > (votes[0].value ?? 0)) {
         worstVote = votes[0];
         labelInfo = allLabels[label];
@@ -190,9 +218,9 @@ export class GrChangeListColumnRequirement extends LitElement {
     const allLabels = this.change?.labels ?? {};
     const labelInfo = allLabels[label];
     if (isDetailedLabelInfo(labelInfo)) {
-      return getAllUniqueApprovals(labelInfo)
-        .filter(approval => !hasNeutralStatus(labelInfo, approval))
-        .sort((a, b) => (a.value ?? 0) - (b.value ?? 0));
+      return getAllUniqueApprovals(labelInfo).filter(
+        approval => !hasNeutralStatus(labelInfo, approval)
+      );
     }
     return [];
   }

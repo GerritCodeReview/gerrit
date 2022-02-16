@@ -1,111 +1,27 @@
 {
-  "comments": [],
-  "submitRequirementResults": [
+  "comments": [
     {
-      "submitRequirement": {
-        "name": "Code-Review",
-        "description": {
-          "value": "At least one maximum vote for label \u0027Code-Review\u0027 is required"
-        },
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Review\u003dMAX,user\u003dnon_uploader AND -label:Code-Review\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": true
+      "unresolved": true,
+      "key": {
+        "uuid": "11e38b47_2d1677ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
       },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Review=MAX,user=non_uploader"],"failingAtoms":["label:Code-Review=MIN"]},
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "7f5579cef70f9d31031d9feac58d3c5ceafbf855",
-      "legacy": {
-        "value": false
+      "lineNbr": 2113,
+      "author": {
+        "id": 1026112
       },
-      "forced": {}
-    },
-    {
-      "submitRequirement": {
-        "name": "Code-Style",
-        "description": {
-          "value": "Code has correct style and format"
-        },
-        "applicabilityExpression": {
-          "value": {
-            "expressionString": "-branch:refs/meta/config"
-          }
-        },
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "writtenOn": "2022-02-16T16:17:49Z",
+      "side": 1,
+      "message": "Could it be that this made it so that we wait for all requests before we report change-loaded (that would be change fully loaded). Metrics show a regression that hints at that.",
+      "range": {
+        "startLine": 2109,
+        "startChar": 4,
+        "endLine": 2113,
+        "endChar": 7
       },
-      "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
-      },
-      "submittabilityExpressionResult": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Style=MAX"],"failingAtoms":["label:Code-Style=MIN"]},
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "7f5579cef70f9d31031d9feac58d3c5ceafbf855",
-      "legacy": {
-        "value": false
-      },
-      "forced": {}
-    },
-    {
-      "submitRequirement": {
-        "name": "Library-Compliance",
-        "description": {
-          "value": "Changes to specific library/metadata files require additional approval"
-        },
-        "applicabilityExpression": {
-          "value": {
-            "expressionString": "-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"
-          }
-        },
-        "submittabilityExpression": {
-          "expressionString": "label:Library-Compliance\u003dMAX,user\u003dnon_uploader AND -label:Library-Compliance\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^lib/.*\"","file:\"^WORKSPACE$\"","file:\"^.gitmodule$\"","file:\"^tools/deps.bzl$\""]}
-      },
-      "submittabilityExpressionResult": {"expression":{"expressionString":"label:Library-Compliance=MAX,user=non_uploader AND -label:Library-Compliance=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Library-Compliance=MAX,user=non_uploader","label:Library-Compliance=MIN"]},
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "7f5579cef70f9d31031d9feac58d3c5ceafbf855",
-      "legacy": {
-        "value": false
-      },
-      "forced": {}
-    },
-    {
-      "submitRequirement": {
-        "name": "Verified",
-        "description": {
-          "value": "CI result status for build and tests is passing"
-        },
-        "applicabilityExpression": {
-          "value": {
-            "expressionString": "-branch:refs/meta/config"
-          }
-        },
-        "submittabilityExpression": {
-          "expressionString": "label:Verified\u003dMAX AND -label:Verified\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": true
-      },
-      "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
-      },
-      "submittabilityExpressionResult": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX"],"failingAtoms":["label:Verified=MIN"]},
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "7f5579cef70f9d31031d9feac58d3c5ceafbf855",
-      "legacy": {
-        "value": false
-      },
-      "forced": {}
+      "revId": "7f5579cef70f9d31031d9feac58d3c5ceafbf855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -154,7 +154,7 @@ export class GrComment extends LitElement {
   @property({type: Boolean, attribute: 'robot-button-disabled'})
   robotButtonDisabled = false;
 
-  /* internal only, but used in css rules */
+  /* private, but used in css rules */
   @property({type: Boolean, reflect: true})
   saving = false;
 

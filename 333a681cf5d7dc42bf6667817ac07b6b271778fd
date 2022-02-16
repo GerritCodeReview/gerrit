@@ -22,6 +22,30 @@
       },
       "revId": "333a681cf5d7dc42bf6667817ac07b6b271778fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74da4bcf_3ca1ebe7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-16T09:10:33Z",
+      "side": 1,
+      "message": "But it is not a diff element, rather an element in the diff. So I am not sure which one is better. And this is a temporary function. Hopefully it will be gone by EOQ. So let\u0027s not optimize its name. OK?",
+      "parentUuid": "60e4332e_772c3d44",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 19
+      },
+      "revId": "333a681cf5d7dc42bf6667817ac07b6b271778fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

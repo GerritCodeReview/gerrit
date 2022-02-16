@@ -408,6 +408,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8dc5c7c8_7c96a443",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-16T09:06:38Z",
+      "side": 1,
+      "message": "Please do not await serially.\n\nIf you have to await, await in parallel\n\nawait Promise.all(sections.map(s \u003d\u003e s.updateComplete));",
+      "parentUuid": "0d20a664_be033934",
+      "revId": "a0b06299a68dfaf072bd00c75e02f2685efccca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e954d820_3e44f1f1",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
         "patchSetId": 15

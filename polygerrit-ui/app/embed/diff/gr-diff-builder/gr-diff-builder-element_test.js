@@ -1025,7 +1025,7 @@ suite('gr-diff-builder tests', () => {
       });
     });
 
-    test('_renderContentByRange notexistent elements', () => {
+    test('_renderContentByRange nonexistent elements', () => {
       const spy = sinon.spy(builder, '_createTextEl');
 
       sinon.stub(builder, '_getLineNumberEl').returns(

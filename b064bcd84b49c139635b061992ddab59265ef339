@@ -191,6 +191,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55359529_39266014",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 39
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-16T16:38:05Z",
+      "side": 1,
+      "message": "Exposing and calling internal methods of the element should be a last resort when you can\u0027t test the output directly. It makes it impossible to refactor without rewriting all those tests, when the tests are supposed to be unchanged to give you confidence in the refactor. It shouldn\u0027t be done just because a DOM query is a little more work. If that adds lot of boilerplate then we should work on making it easier to do.\n\nIn this case, you can check that the right gr-change-list-item gets selected, or some followup action that uses the selected element (enter button or something).\n\nIn polymer-land it might also be good to check that the reactivity is working since that relied on the right computeFoo() parameters, but it isn\u0027t needed here.",
+      "parentUuid": "7d5bac59_d71bd49e",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 30
+      },
+      "revId": "b064bcd84b49c139635b061992ddab59265ef339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87128a78_4a16e856",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
         "patchSetId": 39

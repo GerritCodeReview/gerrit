@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54f4018c_1ed336bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:16:37Z",
+      "side": 1,
+      "message": "I don",
+      "revId": "907557dad2e04c23e6198bb61303a1987960f64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3705b61_8ce36128",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-02-16T16:16:37Z",
+      "side": 1,
+      "message": "I am confused - is this not going in the opposite direction than the TODO suggested? Other clients of gr-diff may not use GrDiffThreadElements. Why would we use that type here instead of a more narrow type that has everything that is needed and can be exposed as an interface in the API?",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "907557dad2e04c23e6198bb61303a1987960f64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1430db4_ecdadd8f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-16T09:14:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d082a21f_5835600d",
+      "revId": "149b079ae51d94932eeb70a2b08b897cf246b6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e0a2c74_06553cd1",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82f45cef_eac9f7e6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-16T09:14:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e0a2c74_06553cd1",
+      "revId": "149b079ae51d94932eeb70a2b08b897cf246b6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6fe5450_59fb5d57",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-02-16T09:06:38Z",
       "side": 1,
       "message": "As discussed, don\u0027t return an empty value here, figure out how to make the logic work with an empty or non-present change-section.",
+      "revId": "149b079ae51d94932eeb70a2b08b897cf246b6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "876b94a9_d60f0ccc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-16T09:14:45Z",
+      "side": 1,
+      "message": "SectionIndex is no longer a property.\nSo what remains is a `changeSection` and a GrChangeListSection with an undefined changeSection, I think it\u0027s fine to return undefined here?\n\nThe issues were due to the test library and rendering a GrChangeListSection with an undefined changeSection doesn\u0027t make sense to me.",
+      "parentUuid": "a6fe5450_59fb5d57",
       "revId": "149b079ae51d94932eeb70a2b08b897cf246b6de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

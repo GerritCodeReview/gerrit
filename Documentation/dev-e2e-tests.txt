@@ -196,6 +196,13 @@ plugin's own `replicationDelay`, in seconds, and typically takes some more secon
 That whole replication time depends on the system under test. Therefore, this property here should
 be set to a value high enough, so that the test checks for a done replication at the right time.
 
+==== Context path
+
+The `context_path` property allows test scenarios to send Gerrit REST requests to Gerrit instances
+that use a context path in the URL. Its default is no context path and can be set using another value:
+
+* `-Dcom.google.gerrit.scenarios.context_path=/context`
+
 ==== Automatic properties
 
 The link:#_input_file[example keywords,role=external,window=_blank] also include `_PROJECT`,

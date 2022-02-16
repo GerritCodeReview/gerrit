@@ -77,6 +77,7 @@ class GerritSimulation extends Simulation {
       replaceProperty("project", precedes)
     case ("url", url) =>
       var in = replaceOverride(url.toString)
+      in = replaceProperty("replica_hostname", "localhost", in)
       in = replaceProperty("hostname", "localhost", in)
       in = replaceProperty("http_port", 8080, in)
       in = replaceProperty("http_scheme", "http", in)

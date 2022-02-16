@@ -826,9 +826,8 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   /**
-   * When called multiple times from the same microtask, will call
-   * _renderDiffTable only once, in the next microtask, unless it is cancelled
-   * before that microtask runs.
+   * When called multiple times from the same task, will call
+   * _renderDiffTable only once, in the next task (scheduled via `setTimeout`).
    *
    * This should be used instead of calling _renderDiffTable directly to
    * render the diff in response to an input change, because there may be
@@ -836,6 +835,14 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
    * render once.
    */
   _debounceRenderDiffTable() {
+    // at this point gr-diff might be considered as rendered from the outside
+    // (client), although it was not actually rendered. Clients need to know
+    // when it is safe to perform operations like cursor moves, for example,
+    // and if changing an input actually requires a reload of the diff table.
+    // Since `fireEvent` is synchronous it allows clients to be aware when an
+    // async render is needed and that they can wait for a further `render`
+    // event to actually take further action.
+    fireEvent(this, 'render-required');
     this.renderDiffTableTask = debounce(this.renderDiffTableTask, () =>
       this._renderDiffTable()
     );

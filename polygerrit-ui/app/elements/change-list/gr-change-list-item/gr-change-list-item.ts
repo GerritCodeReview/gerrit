@@ -551,7 +551,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderChangeLabels(labelName: string) {
-    if (showNewSubmitRequirements(this.flagsService, this.change)) {
+    if (showNewSubmitRequirements(this.flagsService)) {
       return html` <td class="cell label requirement">
         <gr-change-list-column-requirement
           .change=${this.change}

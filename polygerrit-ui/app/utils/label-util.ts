@@ -313,6 +313,7 @@ export function showNewSubmitRequirements(
     KnownExperimentId.SUBMIT_REQUIREMENTS_UI
   );
   if (!isSubmitRequirementsUiEnabled) return false;
+  if (!change) return true;
   if ((getRequirements(change) ?? []).length === 0) return false;
 
   return true;

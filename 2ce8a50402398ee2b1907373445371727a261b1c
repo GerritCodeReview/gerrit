@@ -16,6 +16,24 @@
       "message": "Cool, thanks!!\n\nThere are some prettier warnings.",
       "revId": "2ce8a50402398ee2b1907373445371727a261b1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ac2682e_3bec1097",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-16T10:29:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77ca6239_bfc35b2a",
+      "revId": "2ce8a50402398ee2b1907373445371727a261b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

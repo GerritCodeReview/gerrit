@@ -39,6 +39,30 @@
       },
       "revId": "907557dad2e04c23e6198bb61303a1987960f64c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7418bf3_f8c43648",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-16T18:39:03Z",
+      "side": 1,
+      "message": "Did you look at `GrDiffThreadElement`? It is identical to the interface that I am removing. And yes, next step would be to move to API, see TODOs over there.\n\nFYI `GrCommentThread` is the Gerrit specific component.",
+      "parentUuid": "e3705b61_8ce36128",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "907557dad2e04c23e6198bb61303a1987960f64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

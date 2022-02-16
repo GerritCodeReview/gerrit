@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77ca6239_bfc35b2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-16T09:31:19Z",
+      "side": 1,
+      "message": "Cool, thanks!!\n\nThere are some prettier warnings.",
+      "revId": "2ce8a50402398ee2b1907373445371727a261b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "Can this be branched in Git so that it is easier to review and keeps blame history?",
       "revId": "b0a6412a10b262f24e5ce0e1eba371845dfa15bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e15124f_cc9b228c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-16T09:11:28Z",
+      "side": 1,
+      "message": "No, I don\u0027t think that there is an easy way to do it. What we need is proper cross-file move detection ...",
+      "parentUuid": "2d7631bf_8ac01b89",
+      "revId": "b0a6412a10b262f24e5ce0e1eba371845dfa15bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

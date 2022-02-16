@@ -909,7 +909,8 @@ suite('gr-diff tests', () => {
     test('shows combined warning if both sides set to warn', () => {
       element.showNewlineWarningLeft = true;
       element.showNewlineWarningRight = true;
-      assert.include(getWarning(element),
+      assert.include(
+          getWarning(element),
           NO_NEWLINE_LEFT + ' \u2014 ' + NO_NEWLINE_RIGHT);// \u2014 - '—'
     });
 

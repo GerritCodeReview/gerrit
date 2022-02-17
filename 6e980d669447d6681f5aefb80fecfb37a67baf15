@@ -163,6 +163,24 @@
       "parentUuid": "c2860f3d_28ba4d3d",
       "revId": "6e980d669447d6681f5aefb80fecfb37a67baf15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10697cfe_c73569f4",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T16:07:05Z",
+      "side": 1,
+      "message": "Updated method names and arguments to reflect changeId instead of change.",
+      "parentUuid": "813e65b4_076ab7dd",
+      "revId": "6e980d669447d6681f5aefb80fecfb37a67baf15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

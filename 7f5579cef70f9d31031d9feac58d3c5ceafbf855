@@ -22,6 +22,30 @@
       },
       "revId": "7f5579cef70f9d31031d9feac58d3c5ceafbf855",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43b5f07a_00556592",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2113,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-17T08:48:07Z",
+      "side": 1,
+      "message": "Right, I\u0027ve moved the metric over to be later.",
+      "parentUuid": "11e38b47_2d1677ad",
+      "range": {
+        "startLine": 2109,
+        "startChar": 4,
+        "endLine": 2113,
+        "endChar": 7
+      },
+      "revId": "7f5579cef70f9d31031d9feac58d3c5ceafbf855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

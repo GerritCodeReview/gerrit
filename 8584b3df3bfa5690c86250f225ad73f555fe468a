@@ -57,6 +57,30 @@
       },
       "revId": "8584b3df3bfa5690c86250f225ad73f555fe468a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b26c560_4f0b1127",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-17T11:00:30Z",
+      "side": 1,
+      "message": "No, this is correct.  We are looking for the element tag, not the id",
+      "parentUuid": "1c99dd0a_9f8e0d89",
+      "range": {
+        "startLine": 339,
+        "startChar": 24,
+        "endLine": 339,
+        "endChar": 30
+      },
+      "revId": "8584b3df3bfa5690c86250f225ad73f555fe468a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

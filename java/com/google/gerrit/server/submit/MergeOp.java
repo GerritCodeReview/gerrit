@@ -310,7 +310,8 @@ public class MergeOp implements AutoCloseable {
     if (patchSet == null) {
       throw new ResourceConflictException("missing current patch set for change " + cd.getId());
     }
-    Map<SubmitRequirement, SubmitRequirementResult> srResults = cd.submitRequirements();
+    Map<SubmitRequirement, SubmitRequirementResult> srResults =
+        cd.submitRequirementsIncludingLegacy();
     if (srResults.values().stream().allMatch(SubmitRequirementResult::fulfilled)) {
       return;
     } else if (srResults.isEmpty()) {
@@ -405,7 +406,7 @@ public class MergeOp implements AutoCloseable {
 
       // Also bypass submit requirements. Mark them as forced.
       Map<SubmitRequirement, SubmitRequirementResult> forcedSRs =
-          cd.submitRequirements().entrySet().stream()
+          cd.submitRequirementsIncludingLegacy().entrySet().stream()
               .collect(
                   Collectors.toMap(
                       Map.Entry::getKey,
@@ -647,7 +648,8 @@ public class MergeOp implements AutoCloseable {
             .get(project)
             .addOp(
                 changeId,
-                storeSubmitRequirementsOpFactory.create(cd.submitRequirements().values(), cd));
+                storeSubmitRequirementsOpFactory.create(
+                    cd.submitRequirementsIncludingLegacy().values(), cd));
       }
       try {
         submissionExecutor.setAdditionalBatchUpdateListeners(

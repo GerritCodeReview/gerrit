@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae3021eb_be94b234",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T15:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15bdfee7_3c9ae120",
+      "range": {
+        "startLine": 18,
+        "startChar": 41,
+        "endLine": 18,
+        "endChar": 43
+      },
+      "revId": "66c141954c6a268e3e0ecde288217a7637cd2244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "030479a0_167a6ec9",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-17T09:32:44Z",
       "side": 1,
       "message": "I think we already have a test that checks that we serve legacy+non-legacy SRs in SRs correctly. Would you mind referencing that here?",
+      "range": {
+        "startLine": 20,
+        "startChar": 42,
+        "endLine": 20,
+        "endChar": 43
+      },
+      "revId": "66c141954c6a268e3e0ecde288217a7637cd2244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95676014_b2e13b54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T15:33:52Z",
+      "side": 1,
+      "message": "Yes. SubmitRequirementIT contains so many test cases that cover legacy SRs.\n\nI added a note in the commit message.",
+      "parentUuid": "030479a0_167a6ec9",
       "range": {
         "startLine": 20,
         "startChar": 42,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f742297a_de8d3393",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T15:33:52Z",
+      "side": 1,
+      "message": "Right! this minimizes confusion. Thanks for suggesting!\n\nDone.",
+      "parentUuid": "7c228c5a_c908fe16",
+      "range": {
+        "startLine": 949,
+        "startChar": 3,
+        "endLine": 952,
+        "endChar": 75
+      },
+      "revId": "66c141954c6a268e3e0ecde288217a7637cd2244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1894f76_dd6d198e",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-02-17T09:32:44Z",
       "side": 1,
       "message": "This method contains a call that I had a hard time reasoning if it would or would not load data from Git:\n\n\u003e     ObjectId commitId \u003d cd.currentPatchSet().commitId();\n\nLoading data from Git would mean we throw an exception, because on dashboards loading repo data is forbidden for performance reasons.\n\nCould you add a test similar to ChangeIT#defaultSearchDoesNotTouchDatabase that queries for a change with legacy and new SRs while NoteDb is disabled? That will make sure we aren\u0027t regression here in the future.",
+      "range": {
+        "startLine": 954,
+        "startChar": 34,
+        "endLine": 954,
+        "endChar": 55
+      },
+      "revId": "66c141954c6a268e3e0ecde288217a7637cd2244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d020794c_4f689aca",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T15:33:52Z",
+      "side": 1,
+      "message": "Done.\n\nI traced the code: cd.currentPatchset() uses the change field [1] which we set from the index [2], [3].\n\n[1] https://gerrit.googlesource.com/gerrit/+/d8c2778c6a60425ddfd2343fa4a785737e852f35/java/com/google/gerrit/server/query/change/ChangeData.java#585\n\n[2] https://gerrit.googlesource.com/gerrit/+/d8c2778c6a60425ddfd2343fa4a785737e852f35/java/com/google/gerrit/server/query/change/ChangeData.java#550\n\n[3] https://gerrit.googlesource.com/gerrit/+/d8c2778c6a60425ddfd2343fa4a785737e852f35/java/com/google/gerrit/server/index/change/ChangeField.java#820",
+      "parentUuid": "b1894f76_dd6d198e",
       "range": {
         "startLine": 954,
         "startChar": 34,

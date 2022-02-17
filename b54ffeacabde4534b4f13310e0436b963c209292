@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae83c8bc_3af66136",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T09:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35007954_ba7be348",
+      "range": {
+        "startLine": 18,
+        "startChar": 29,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69a4ce29_b8dd26fb",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-16T18:07:01Z",
       "side": 1,
       "message": "Not sure, but maybe we should mention something about the NoteDb format update in the release notes?",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4d70cb3_a2e259f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T09:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69a4ce29_b8dd26fb",
       "range": {
         "startLine": 22,
         "startChar": 15,
@@ -111,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b542b77d_c0d1f0bb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8249,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T09:52:22Z",
+      "side": 1,
+      "message": "Thank you Maria for the clarifications.\n\n@Patrick, yes the change to the storage requires a safe rollout, for which I added the predecessor change. I\u0027d actually prefer to keep as is and be more explicit on the API; i.e. if we just keep the \"fulfilled\" boolean and populate expression strings, a user won\u0027t be able to differentiate between the expression being evaluated or not, and the fulfilled boolean will be confusing. The user will need to inspect the overall result, and if it\u0027s \"NOT_APPLICABLE\" then they will deduce that the \"fulfilled\" is redundant. Putting this explicit on the API is better IMO.\n\nPlease LMK if you see otherwise.",
+      "parentUuid": "f3eee0fc_18c30678",
+      "range": {
+        "startLine": 8243,
+        "startChar": 0,
+        "endLine": 8249,
+        "endChar": 51
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5baef048_3b52475b",
@@ -134,6 +206,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d05feca_f51fb649",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRequirementExpressionInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T09:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5baef048_3b52475b",
+      "range": {
+        "startLine": 49,
+        "startChar": 14,
+        "endLine": 49,
+        "endChar": 20
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab149e37_9af6635c",
@@ -147,6 +243,30 @@
       "writtenOn": "2022-02-16T18:07:01Z",
       "side": 1,
       "message": "Should there also be an assertion that the expression string is populated, since we are interested in it in the frontend?",
+      "range": {
+        "startLine": 1974,
+        "startChar": 4,
+        "endLine": 1974,
+        "endChar": 65
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d579d0ca_339ed2be",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1974,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T09:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab149e37_9af6635c",
       "range": {
         "startLine": 1974,
         "startChar": 4,

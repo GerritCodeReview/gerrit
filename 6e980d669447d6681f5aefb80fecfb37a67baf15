@@ -132,6 +132,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eff2de51_547de316",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-17T16:12:38Z",
+      "side": 1,
+      "message": "Ok, I\u0027m fine with this in a follow-up change. But it will affect how you create a BulkActionsModel in test-code",
+      "parentUuid": "58f1ba50_296b9176",
+      "revId": "6e980d669447d6681f5aefb80fecfb37a67baf15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c2860f3d_28ba4d3d",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 17

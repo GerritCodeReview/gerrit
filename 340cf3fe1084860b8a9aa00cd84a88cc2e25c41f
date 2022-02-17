@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bb475f3_68911838",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRequirementExpressionInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-17T12:51:57Z",
+      "side": 0,
+      "message": "Is the web UI currently using this property (I assume so)? Then this change is not rollout safe, because the JS code would need to be updated first to understand both the fulfilled boolean and the status enum.",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "340cf3fe1084860b8a9aa00cd84a88cc2e25c41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

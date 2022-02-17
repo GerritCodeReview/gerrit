@@ -185,6 +185,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "453d42db_a37bb927",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8249,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-17T12:51:57Z",
+      "side": 1,
+      "message": "I looked at this some more and here is what I think we should do:\n\n1) NOT_EVALUATED will never be serialized in Notedb. Because we only store SRs that were applicable (if we store not applicable SRs, we can just remove that). So we can update the Status enum directly and add a checkState to the logic that serializes SubmitRequirementExpressionResults into NoteDb to make sure the status is either pass or fail (also, we would not serialize an error status).\n\nSo we can spare the extra rollout hop, by just adding the enum value + a checkState call. We can also spare the adapter for unknown enum values. Already in this change, we can use the set NOT_EVALUATED because we aren\u0027t putting it into the storage.\n\n2) The web UI actually warrants a staged rollout: It is currently using the boolean fulfilled, so we need to ship status next to fulfilled to allow for an online migration (both values are there in the API and the web UI gets updated to use status). So we need a change that ships status next to the boolean.\n\n3) Remove the boolean once the web UI is rollback safe in using status.",
+      "parentUuid": "b542b77d_c0d1f0bb",
+      "range": {
+        "startLine": 8243,
+        "startChar": 0,
+        "endLine": 8249,
+        "endChar": 51
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5baef048_3b52475b",
         "filename": "java/com/google/gerrit/extensions/common/SubmitRequirementExpressionInfo.java",
         "patchSetId": 7

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcaef65b_56c7e14b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-17T15:32:56Z",
+      "side": 1,
+      "message": "Some high-level comments first before I jump into te details",
+      "revId": "b31c64ceabe82404e465a92ead5a00bfb2496762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa7b4cde_f8a3e402",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-17T15:32:56Z",
+      "side": 1,
+      "message": "We shouldn\u0027t be creating a new model each time we reconnect.  Move this to the constructor",
+      "revId": "b31c64ceabe82404e465a92ead5a00bfb2496762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15730d22_475cb363",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-17T15:32:56Z",
+      "side": 1,
+      "message": "We should only be providing the model once, move this to the constructor",
+      "revId": "b31c64ceabe82404e465a92ead5a00bfb2496762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f22fee36_b9b2b66a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-17T15:32:56Z",
+      "side": 1,
+      "message": "Why does this need to be a DIPolymerElement?",
+      "revId": "b31c64ceabe82404e465a92ead5a00bfb2496762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01c6e259_8af22907",
+        "filename": "polygerrit-ui/app/test/test-app-context-init.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-17T15:32:56Z",
+      "side": 1,
+      "message": "I don\u0027t think this belongs here.  Let\u0027s figure out a way to inject models into test-fixtures instead.",
+      "revId": "b31c64ceabe82404e465a92ead5a00bfb2496762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

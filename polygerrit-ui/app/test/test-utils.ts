@@ -28,6 +28,8 @@ import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {queryAndAssert, query} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';
 import {Key, Modifier} from '../utils/dom-util';
+import {Observable} from 'rxjs';
+import {filter, take, timeout} from 'rxjs/operators';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise<T> extends Promise<T> {
@@ -205,6 +207,27 @@ export function waitUntil(
 
 export function waitUntilCalled(stub: SinonStub | SinonSpy, name: string) {
   return waitUntil(() => stub.called, `${name} was not called`);
+}
+
+/**
+ * Subscribes to the observable and resolves once it emits a matching value.
+ * Usage:
+ *   await waitUntilObserved(
+ *     myTestModel.state$,
+ *     state => state.prop === expectedValue
+ *   );
+ */
+export async function waitUntilObserved<T>(
+  observable$: Observable<T>,
+  predicate: (t: T) => boolean,
+  message = 'The waitUntilObserved() predicate did not match after 1000 ms.'
+): Promise<T> {
+  return new Promise((resolve, reject) => {
+    observable$.pipe(filter(predicate), take(1), timeout(1000)).subscribe({
+      next: t => resolve(t),
+      error: () => reject(new Error(message)),
+    });
+  });
 }
 
 /**

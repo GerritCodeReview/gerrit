@@ -34,6 +34,29 @@
       "parentUuid": "32b5223b_89c528a0",
       "revId": "8584b3df3bfa5690c86250f225ad73f555fe468a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c99dd0a_9f8e0d89",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-17T10:50:57Z",
+      "side": 1,
+      "message": "It should be pg-app, not gr-app",
+      "range": {
+        "startLine": 339,
+        "startChar": 24,
+        "endLine": 339,
+        "endChar": 30
+      },
+      "revId": "8584b3df3bfa5690c86250f225ad73f555fe468a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

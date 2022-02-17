@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "623d98f6_255e5931",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T12:50:48Z",
+      "side": 1,
+      "message": "I think this was working fine in practice because on the first click, the checkbox ticks itself and doesn\u0027t rely on selectedChanges$.\n\nOn subsequent re-renders the checked boolean has the correct value assigned.\n\nAdded the state(),",
+      "parentUuid": "91add0a5_263854bc",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 26
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "039731db_5c36293f",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-02-16T17:07:38Z",
       "side": 1,
       "message": "is there a way to add tests that 1) checking the box will update the model and 2) the box will get updates from the model?\n\nFor #1 you could just move the test you are adding in section element.",
+      "range": {
+        "startLine": 125,
+        "startChar": 11,
+        "endLine": 125,
+        "endChar": 30
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14fd4bae_448be391",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T12:50:48Z",
+      "side": 1,
+      "message": "1) checking the box will update the model\n\nThere is a test where tapping the checkbox updates the model state. So this part is already tested.\n\n 2) the box will get updates from the model?\n \nI already have a test where tapping the checkbox clears the model, we can add a check that the checkbox is unchecked after it to ensure that the checkbox receives updates from the state. Should be enough?\n\nSpecifically I added these lines\n\n```\n      tap(checkbox);\n      await flush();\n      selectedChanges \u003d \n         element.bulkActionsModel!.getState().selectedChanges;\n      assert.deepEqual(selectedChanges, []);\n      assert.isFalse(checkbox.checked);\n```",
+      "parentUuid": "039731db_5c36293f",
       "range": {
         "startLine": 125,
         "startChar": 11,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f872e656_98ddacd1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T12:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab9a3248_4ddf8554",
+      "range": {
+        "startLine": 71,
+        "startChar": 23,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41f054a3_807f50f4",
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b32a59b_6f9becda",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T12:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41f054a3_807f50f4",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 59
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de095f99_83abe2dc",
@@ -123,6 +219,30 @@
       "writtenOn": "2022-02-16T17:07:38Z",
       "side": 1,
       "message": "I think there\u0027s a subtle bug where selectedChanges will still point to the old ChangeInfo for the change and not the new one. Example:\n```\nselectedChanges \u003d [{id: 5, stuff: \u0027foo\u0027}];\nsync([{id: 5, stuff: \u0027updatedFoo\u0027}]);\n// now selectedChanges still does not have \u0027updatedFoo\u0027\n```\nThe fix would be to flip this line of code to be `visibileChanges.filter(current.selectedChanges.some(...))`\nso the new values come out instead of the old ones.\n\nConsider starting a test file for this model",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 0
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21f11cd2_79f528cf",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T12:50:48Z",
+      "side": 1,
+      "message": "Yeah the possibility of it keeping stale information is a known one.\nThe solution is to migrate to only keeping Change Id\u0027s which will fix the issue.\n\nI have a TODO for this already. I\u0027ll do it in the next change.",
+      "parentUuid": "de095f99_83abe2dc",
       "range": {
         "startLine": 57,
         "startChar": 0,

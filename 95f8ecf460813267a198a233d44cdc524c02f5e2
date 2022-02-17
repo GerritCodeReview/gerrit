@@ -162,6 +162,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e8b9033d_83db7da0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-17T16:22:34Z",
+      "side": 1,
+      "message": "+1 to Frank\u0027s point.",
+      "parentUuid": "0c6bd673_028d1e78",
+      "range": {
+        "startLine": 125,
+        "startChar": 11,
+        "endLine": 125,
+        "endChar": 30
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab9a3248_4ddf8554",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
         "patchSetId": 11

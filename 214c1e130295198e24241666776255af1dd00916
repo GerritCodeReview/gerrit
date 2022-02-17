@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0d828be_ab7e3ac1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-02-17T05:28:12Z",
+      "side": 1,
+      "message": "@Youssef/Patrick, can you guys take a look and see if this fix makes sense to you? There wasn\u0027t ever a forced migration of the cache-automerge refs to be commits, so older sites just end up broken when upgrading.",
+      "revId": "214c1e130295198e24241666776255af1dd00916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdbfb16c_d466e972",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-02-17T05:28:12Z",
+      "side": 1,
+      "message": "nit: this should come before the private createAutoMergeCommit() method now",
+      "revId": "214c1e130295198e24241666776255af1dd00916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

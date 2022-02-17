@@ -321,7 +321,7 @@ public class GitwebConfig {
         return link(
             file.replace("project", encode(projectName))
                 .replace("commit", encode(revision))
-                .replace("hash", encode(revision))
+                .replace("hash", encode(hash))
                 .replace("file", encode(fileName))
                 .toString());
       }

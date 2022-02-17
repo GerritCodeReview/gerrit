@@ -4,18 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ChangeInfo} from '../../api/rest-api';
+import {ChangeInfo, ChangeInfoId} from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 
-// TODO: consider keeping only changeId's as the object might become stale
 export interface BulkActionsState {
-  selectedChanges: ChangeInfo[];
+  selectedChangeIds: ChangeInfoId[];
 }
 
 const initialState: BulkActionsState = {
-  selectedChanges: [],
+  selectedChangeIds: [],
 };
 
 export class BulkActionsModel
@@ -28,18 +27,18 @@ export class BulkActionsModel
 
   addSelectedChange(change: ChangeInfo) {
     const current = this.subject$.getValue();
-    const selectedChanges = [...current.selectedChanges];
-    selectedChanges.push(change);
-    this.setState({...current, selectedChanges});
+    const selectedChangeIds = [...current.selectedChangeIds];
+    selectedChangeIds.push(change.id);
+    this.setState({...current, selectedChangeIds});
   }
 
   removeSelectedChange(change: ChangeInfo) {
     const current = this.subject$.getValue();
-    const selectedChanges = [...current.selectedChanges];
-    const index = selectedChanges.findIndex(item => item.id === change.id);
+    const selectedChangeIds = [...current.selectedChangeIds];
+    const index = selectedChangeIds.findIndex(item => item === change.id);
     if (index === -1) return;
-    selectedChanges.splice(index, 1);
-    this.setState({...current, selectedChanges});
+    selectedChangeIds.splice(index, 1);
+    this.setState({...current, selectedChangeIds});
   }
 
   /** Required for testing */

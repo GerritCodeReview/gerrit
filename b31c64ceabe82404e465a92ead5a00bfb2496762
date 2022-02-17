@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28b4d627_0941bba3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T16:01:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa7b4cde_f8a3e402",
+      "revId": "b31c64ceabe82404e465a92ead5a00bfb2496762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15730d22_475cb363",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-02-17T15:32:56Z",
       "side": 1,
       "message": "We should only be providing the model once, move this to the constructor",
+      "revId": "b31c64ceabe82404e465a92ead5a00bfb2496762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25474c0e_812c90d7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T16:01:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15730d22_475cb363",
       "revId": "b31c64ceabe82404e465a92ead5a00bfb2496762",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "437f0049_ee5cc7ec",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T16:01:32Z",
+      "side": 1,
+      "message": "Originally I had this provide the model hence needed this to be a DI element.\nReverted now.",
+      "parentUuid": "f22fee36_b9b2b66a",
+      "revId": "b31c64ceabe82404e465a92ead5a00bfb2496762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01c6e259_8af22907",
@@ -82,6 +136,24 @@
       "writtenOn": "2022-02-17T15:32:56Z",
       "side": 1,
       "message": "I don\u0027t think this belongs here.  Let\u0027s figure out a way to inject models into test-fixtures instead.",
+      "revId": "b31c64ceabe82404e465a92ead5a00bfb2496762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b607e2d0_24dd8377",
+        "filename": "polygerrit-ui/app/test/test-app-context-init.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T16:01:32Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "01c6e259_8af22907",
       "revId": "b31c64ceabe82404e465a92ead5a00bfb2496762",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

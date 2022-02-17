@@ -114,6 +114,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58f1ba50_296b9176",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T16:01:32Z",
+      "side": 1,
+      "message": "Do you mean the model stores the rendered changes along with the selected changes?\n\nIf so then it\u0027s not a part of this change but probably worth doing in a separate change? This only deals with maintaining selected changes.",
+      "parentUuid": "6858a96d_6ebd4884",
+      "revId": "6e980d669447d6681f5aefb80fecfb37a67baf15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c2860f3d_28ba4d3d",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 17
@@ -125,6 +143,24 @@
       "writtenOn": "2022-02-17T15:32:56Z",
       "side": 1,
       "message": "It doesn\u0027t make to store full changes, it makes more sense to simply store their IDs",
+      "revId": "6e980d669447d6681f5aefb80fecfb37a67baf15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "813e65b4_076ab7dd",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T16:01:32Z",
+      "side": 1,
+      "message": "yeah I\u0027m adding Id\u0027s only in the latest ps. Updated this change.",
+      "parentUuid": "c2860f3d_28ba4d3d",
       "revId": "6e980d669447d6681f5aefb80fecfb37a67baf15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

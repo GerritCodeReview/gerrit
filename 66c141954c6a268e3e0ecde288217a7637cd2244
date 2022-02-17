@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15bdfee7_3c9ae120",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-17T09:32:44Z",
+      "side": 1,
+      "message": "at",
+      "range": {
+        "startLine": 18,
+        "startChar": 41,
+        "endLine": 18,
+        "endChar": 43
+      },
+      "revId": "66c141954c6a268e3e0ecde288217a7637cd2244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "030479a0_167a6ec9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-17T09:32:44Z",
+      "side": 1,
+      "message": "I think we already have a test that checks that we serve legacy+non-legacy SRs in SRs correctly. Would you mind referencing that here?",
+      "range": {
+        "startLine": 20,
+        "startChar": 42,
+        "endLine": 20,
+        "endChar": 43
+      },
+      "revId": "66c141954c6a268e3e0ecde288217a7637cd2244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c228c5a_c908fe16",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-17T09:32:44Z",
+      "side": 1,
+      "message": "I think this filtering should move to either setSubmitRequirements in this class or ChangeField l.1291. This ensures that the `submitRequirements ` field in this class will not contain legacy requirements (ever) and seems cleaner.",
+      "range": {
+        "startLine": 949,
+        "startChar": 3,
+        "endLine": 952,
+        "endChar": 75
+      },
+      "revId": "66c141954c6a268e3e0ecde288217a7637cd2244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1894f76_dd6d198e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-17T09:32:44Z",
+      "side": 1,
+      "message": "This method contains a call that I had a hard time reasoning if it would or would not load data from Git:\n\n\u003e     ObjectId commitId \u003d cd.currentPatchSet().commitId();\n\nLoading data from Git would mean we throw an exception, because on dashboards loading repo data is forbidden for performance reasons.\n\nCould you add a test similar to ChangeIT#defaultSearchDoesNotTouchDatabase that queries for a change with legacy and new SRs while NoteDb is disabled? That will make sure we aren\u0027t regression here in the future.",
+      "range": {
+        "startLine": 954,
+        "startChar": 34,
+        "endLine": 954,
+        "endChar": 55
+      },
+      "revId": "66c141954c6a268e3e0ecde288217a7637cd2244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

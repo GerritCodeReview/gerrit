@@ -37,6 +37,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a74fc592_fcb27e14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T14:37:46Z",
+      "side": 1,
+      "message": "Looks good to me overall. Added minor comments.\n\nPlease also add a \"Release-Notes\" footer.",
+      "revId": "214c1e130295198e24241666776255af1dd00916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93239074_2e3e9aa5",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T14:37:46Z",
+      "side": 1,
+      "message": "Could you please add Javadocs? also we can rename maybeMergeCommit to mergeCommit (We are not checking inside the method on the number of parents, so we are assuming callers are passing correct merge commits)\n\nI\u0027d also check that num parents is 2, and if not, throw an exception.",
+      "revId": "214c1e130295198e24241666776255af1dd00916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ac65380_3ec3df9f",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T14:37:46Z",
+      "side": 1,
+      "message": "You can drop public. This method can be made package private.",
+      "range": {
+        "startLine": 184,
+        "startChar": 2,
+        "endLine": 184,
+        "endChar": 8
+      },
+      "revId": "214c1e130295198e24241666776255af1dd00916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cdbfb16c_d466e972",
         "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
         "patchSetId": 3
@@ -48,6 +105,29 @@
       "writtenOn": "2022-02-17T05:28:12Z",
       "side": 1,
       "message": "nit: this should come before the private createAutoMergeCommit() method now",
+      "revId": "214c1e130295198e24241666776255af1dd00916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c63a2ec7_d6239fdd",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T14:37:46Z",
+      "side": 1,
+      "message": "I assume you need this in case the ref is already pointing to a tree (as described in the commit message), that\u0027s why you need to force update?",
+      "range": {
+        "startLine": 153,
+        "startChar": 15,
+        "endLine": 153,
+        "endChar": 26
+      },
       "revId": "214c1e130295198e24241666776255af1dd00916",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

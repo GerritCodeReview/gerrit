@@ -16,6 +16,23 @@
       "message": "Added example cleanup with it. PTAL",
       "revId": "abdfc228637a5b9bc805a48ec1d11c265d2d9a2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c491e831_9d8ecef1",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-17T16:58:34Z",
+      "side": 1,
+      "message": "You probably mean `\u003d\u003d\u003d` instead of `\u003d`",
+      "revId": "abdfc228637a5b9bc805a48ec1d11c265d2d9a2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

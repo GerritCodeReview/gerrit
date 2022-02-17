@@ -49,6 +49,54 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "398d4b7f_497991b8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T09:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae92aa13_45160cb6",
+      "range": {
+        "startLine": 165,
+        "startChar": 15,
+        "endLine": 165,
+        "endChar": 61
+      },
+      "revId": "ae1d30bd317eca077ad8d9f98966fcf5580246ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95bb51ec_48a7bf06",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T09:39:08Z",
+      "side": 1,
+      "message": "Thanks for suggesting. I\u0027d actually prefer not to do that since:\n1) it shouldn\u0027t be the norm to accept unrecognized enums, and it\u0027s better to throw a storage exception. Here in our case, we are retreating to the value \"ERROR\" which is present in this enum. What we should do for other enums?\n2) this is added temporarily to ensure a safe rollout of the change, but it shouldn\u0027t be needed in o(days) moving forward.\n\nI\u0027d prefer we delete this adapter in 1 or 2 weeks. It will not be needed after we rollout the next change. I added a TODO.",
+      "parentUuid": "f606df65_8edb21ca",
+      "range": {
+        "startLine": 165,
+        "startChar": 2,
+        "endLine": 165,
+        "endChar": 61
+      },
+      "revId": "ae1d30bd317eca077ad8d9f98966fcf5580246ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c17902e1_272d6f4f",
         "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementJsonSerializerTest.java",
         "patchSetId": 2

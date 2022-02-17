@@ -16,6 +16,24 @@
       "message": "You might want to make sure that we resolve only once.",
       "revId": "32240bb9879ac33d704e337c1ecc4ff35c8c7d14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67b72ad3_21c53dab",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-17T16:55:53Z",
+      "side": 1,
+      "message": "added `take(1)` for this purpose, and put in 1 second timeout to error like other methods here. Verified error case maunally.",
+      "parentUuid": "8802ee6d_14326692",
+      "revId": "32240bb9879ac33d704e337c1ecc4ff35c8c7d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

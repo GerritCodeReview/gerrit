@@ -123,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38ac2c08_fba93827",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 40
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T09:52:30Z",
+      "side": 1,
+      "message": "It turns out tabIndex is not being used by GrChangeListItem so it\u0027s being passed and computed for no reason.\nRemoved the property.",
+      "parentUuid": "c333dc75_e7c733f9",
+      "revId": "fbd66019286d300df2e31238b2cc4090d7d1a875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1a2c949_fbbe0b9a",

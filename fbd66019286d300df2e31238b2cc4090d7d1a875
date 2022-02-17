@@ -141,6 +141,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b15ae4a_0eeebaaa",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 40
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-17T10:03:24Z",
+      "side": 1,
+      "message": "tabindex is an aria property, please add it again.\n\nhttps://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex",
+      "parentUuid": "38ac2c08_fba93827",
+      "revId": "fbd66019286d300df2e31238b2cc4090d7d1a875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1a2c949_fbbe0b9a",

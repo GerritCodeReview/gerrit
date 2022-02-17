@@ -16,6 +16,24 @@
       "message": "What about other callers of ChangeData#submitRequirements? (Abandon, BatchAbandon)",
       "revId": "764b699e44f01d7a20e139eba81d4ed79f5684ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df3c5389_19d9506e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-17T17:03:48Z",
+      "side": 1,
+      "message": "I deliberately made them call submitRequirements() and not submitRequirementsIncludingLegacy() since we only store non-legacy SRs in NoteDb upon merge/abandon. See https://gerrit.googlesource.com/gerrit/+/d8c2778c6a60425ddfd2343fa4a785737e852f35/java/com/google/gerrit/server/notedb/StoreSubmitRequirementsOp.java#79",
+      "parentUuid": "eb3cd795_4e468e59",
+      "revId": "764b699e44f01d7a20e139eba81d4ed79f5684ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

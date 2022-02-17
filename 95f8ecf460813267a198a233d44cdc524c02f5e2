@@ -138,6 +138,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c6bd673_028d1e78",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T15:03:25Z",
+      "side": 1,
+      "message": "I added a test in GrChangeListItem which updates checkbox state without using `tap`.",
+      "parentUuid": "0be9197e_715462ce",
+      "range": {
+        "startLine": 125,
+        "startChar": 11,
+        "endLine": 125,
+        "endChar": 30
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab9a3248_4ddf8554",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
         "patchSetId": 11
@@ -291,6 +315,30 @@
       "side": 1,
       "message": "If you are going to redo it next change anyway then leave this method out of this change. If you are going to add the sync functionality in this change, it should be correct and tested.",
       "parentUuid": "21f11cd2_79f528cf",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 0
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9d3052c_04ef47e8",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-17T15:03:25Z",
+      "side": 1,
+      "message": "I think this method is required so I added Change 330561 before this to resolve that TODO.",
+      "parentUuid": "65986e1e_15001b80",
       "range": {
         "startLine": 57,
         "startChar": 0,

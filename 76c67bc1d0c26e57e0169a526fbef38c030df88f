@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "19e9fee4_ca401bd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T15:20:47Z",
+      "side": 1,
+      "message": "Done. PTAL.",
+      "parentUuid": "0c9bdac8_ab77201a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ce36510e_f5c816de",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -90,6 +114,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "87e18ee8_1d7fd092",
+        "filename": "polygerrit-ui/app/models/di-provider-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T15:20:47Z",
+      "side": 1,
+      "message": "I expect that to be a rare case. The question is how often that will happen. Either:\n\n#1) wrapInProvider could accept [token,value] pairs and provide all of them like `wrapInProvider(html\u0027\u0027, [token1, value1], [token2, value2])`\n#2) wrapInProvider accepts single pair so multi-model users will have to stack like `wrapInProvider(wrapInProvider(html\u0027\u0027, token1, value1), token2, value2)`\n\n#1 is a extra pair of [] in the normal single-dep case, #2 is annoying in the rarer multi-dep case but possible to accomplish. Chris already had a comment pushing for #2. I can add another elaborate test case to demonstrate #2 if you would like",
+      "parentUuid": "db7ac0a3_66c0db61",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "634db337_1f946cd6",
         "filename": "polygerrit-ui/app/models/di-provider-element.ts",
         "patchSetId": 3
@@ -101,6 +149,30 @@
       "writtenOn": "2022-02-18T15:01:27Z",
       "side": 1,
       "message": "!: instead?",
+      "range": {
+        "startLine": 52,
+        "startChar": 21,
+        "endLine": 52,
+        "endChar": 23
+      },
+      "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d3c2832_888abf94",
+        "filename": "polygerrit-ui/app/models/di-provider-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T15:20:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "634db337_1f946cd6",
       "range": {
         "startLine": 52,
         "startChar": 21,

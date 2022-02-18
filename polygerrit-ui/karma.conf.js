@@ -58,7 +58,7 @@ function runInIde() {
       process.argv.some(arg => arg.toLowerCase().contains('intellij'));
 }
 
-module.exports = function(config) {
+module.exports = function (config) {
   let root = config.root;
   if (!root) {
     console.warn(`--root argument not set. Falling back to __dirname.`)

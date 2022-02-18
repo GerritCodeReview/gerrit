@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c9bdac8_ab77201a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-18T15:01:27Z",
+      "side": 1,
+      "message": "this needs more detail.\n\nreading this looks like it\u0027s just a normal object that can be passed to the object as a property but there\u0027s a lot of complexity hidden here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ce36510e_f5c816de",
@@ -14,6 +37,52 @@
       "writtenOn": "2022-02-18T14:58:00Z",
       "side": 1,
       "message": "Thanks!",
+      "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db7ac0a3_66c0db61",
+        "filename": "polygerrit-ui/app/models/di-provider-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-18T15:01:27Z",
+      "side": 1,
+      "message": "what if the element expects more than one model to be provided?\nhow is the usage supposed to look like then?",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "634db337_1f946cd6",
+        "filename": "polygerrit-ui/app/models/di-provider-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-18T15:01:27Z",
+      "side": 1,
+      "message": "!: instead?",
+      "range": {
+        "startLine": 52,
+        "startChar": 21,
+        "endLine": 52,
+        "endChar": 23
+      },
       "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

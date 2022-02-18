@@ -58,9 +58,13 @@ protobuf_deps()
 
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "d63ecec7192394f5cc4ad95a115f8a6c9de55c60d56c1f08da79c306355e4654",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/4.6.1/rules_nodejs-4.6.1.tar.gz"],
+    sha256 = "c077680a307eb88f3e62b0b662c2e9c6315319385bc8c637a861ffdbed8ca247",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.1.0/rules_nodejs-5.1.0.tar.gz"],
 )
+
+load("@build_bazel_rules_nodejs//:repositories.bzl", "build_bazel_rules_nodejs_dependencies")
+
+build_bazel_rules_nodejs_dependencies()
 
 http_archive(
     name = "rules_pkg",
@@ -145,13 +149,20 @@ http_file(
 
 declare_nongoogle_deps()
 
-load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
+load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
+
+node_repositories(
+    node_version = "16.13.2",
+    yarn_version = "1.22.17",
+)
 
 yarn_install(
     name = "npm",
+    exports_directories_only = False,
     frozen_lockfile = False,
     package_json = "//:package.json",
     package_path = "",
+    symlink_node_modules = True,
     yarn_lock = "//:yarn.lock",
 )
 
@@ -168,34 +179,42 @@ yarn_install(
         # explicitly added to package.json.
         "--ignore-optional",
     ],
+    exports_directories_only = False,
     frozen_lockfile = False,
     package_json = "//:polygerrit-ui/app/package.json",
     package_path = "polygerrit-ui/app",
+    symlink_node_modules = True,
     yarn_lock = "//:polygerrit-ui/app/yarn.lock",
 )
 
 yarn_install(
     name = "ui_dev_npm",
+    exports_directories_only = False,
     frozen_lockfile = False,
     package_json = "//:polygerrit-ui/package.json",
     package_path = "polygerrit-ui",
+    symlink_node_modules = True,
     yarn_lock = "//:polygerrit-ui/yarn.lock",
 )
 
 yarn_install(
     name = "tools_npm",
+    exports_directories_only = False,
     frozen_lockfile = False,
     package_json = "//:tools/node_tools/package.json",
     package_path = "tools/node_tools",
+    symlink_node_modules = True,
     yarn_lock = "//:tools/node_tools/yarn.lock",
 )
 
 yarn_install(
     name = "plugins_npm",
     args = ["--prod"],
+    exports_directories_only = False,
     frozen_lockfile = False,
     package_json = "//:plugins/package.json",
     package_path = "plugins",
+    symlink_node_modules = True,
     yarn_lock = "//:plugins/yarn.lock",
 )
 

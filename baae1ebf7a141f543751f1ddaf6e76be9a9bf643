@@ -16,6 +16,24 @@
       "message": "Unfortunately this change breaks the build in Eclipse. \n\nAfter generating the Eclipse project (the generation itself is successful), the build inside Eclipse fails with:\nThe project was not built since its build path is incomplete. Cannot find the class file for com.google.protobuf.InvalidProtocolBufferException. Fix the build path then try building this project\nThe type com.google.protobuf.InvalidProtocolBufferException cannot be resolved. It is indirectly referenced from required .class files\n\nWhen I revert this commit the problem goes away.\n",
       "revId": "baae1ebf7a141f543751f1ddaf6e76be9a9bf643",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c16b218a_162f04a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-18T21:33:36Z",
+      "side": 1,
+      "message": "Thanks for the detailed error message. Should be fixed in change 330679.",
+      "parentUuid": "0d9c0a42_4fbf4007",
+      "revId": "baae1ebf7a141f543751f1ddaf6e76be9a9bf643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

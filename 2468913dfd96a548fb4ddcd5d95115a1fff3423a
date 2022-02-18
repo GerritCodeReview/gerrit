@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f64e50b4_60794789",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T07:51:46Z",
+      "side": 0,
+      "message": "This TODO should stay.",
+      "revId": "2468913dfd96a548fb4ddcd5d95115a1fff3423a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

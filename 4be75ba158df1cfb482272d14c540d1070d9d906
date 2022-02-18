@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65d815a3_5450f004",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T11:31:50Z",
+      "side": 1,
+      "message": "Just curious what\u0027s the use case you have in mind? Any element that would use it could just provide the dep itself, right?",
+      "parentUuid": "16d3af05_90aea16f",
+      "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fb74357f_4a66ad37",
         "filename": "polygerrit-ui/app/test/di-provider-element.ts",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-18T10:56:27Z",
       "side": 1,
       "message": "Simplify the API to have a single token and model. IF we want more than one ,we can just use multiple wrapping elements.",
+      "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a12cc488_03c74179",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T11:31:50Z",
+      "side": 1,
+      "message": "How would we get the provided values out of the multiple elements easily? I think flattening them is worth the single [] added in the API. It will be important that each instantiation of the fixture gets it\u0027s own object, so the value cannot be supplied at fixture-time.\n\nSee my proposed code in the element about how to get out the tested elements and provided value.",
+      "parentUuid": "fb74357f_4a66ad37",
       "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0931b67b_a672f1f4",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T11:31:50Z",
+      "side": 1,
+      "message": "Are you saying the existing fixture methods should be expanded to do this? Or that all test files will write out what I have here? It\u0027s kinda verbose and not valuable to the test IMO, it\u0027s infra.",
+      "parentUuid": "01470bc9_383f900e",
+      "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "15bf1926_7ea25408",
         "filename": "polygerrit-ui/app/test/di-provider-element.ts",
         "patchSetId": 1
@@ -65,6 +119,24 @@
       "writtenOn": "2022-02-18T10:56:27Z",
       "side": 1,
       "message": "Make the CSS use \n\n```\n        :host {\n          display: contents;\n        }\n```\n\nShould we want to use this in production code.",
+      "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6bae92f_dd063355",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T11:31:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15bf1926_7ea25408",
       "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

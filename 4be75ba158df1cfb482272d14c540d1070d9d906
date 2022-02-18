@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb74357f_4a66ad37",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T10:56:27Z",
+      "side": 1,
+      "message": "Simplify the API to have a single token and model. IF we want more than one ,we can just use multiple wrapping elements.",
+      "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01470bc9_383f900e",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T10:56:27Z",
+      "side": 1,
+      "message": "I would not add this utility function, we can simply use \n\nawait fixture\u003cDIProviderElement\u003e(html`...`);",
+      "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15bf1926_7ea25408",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T10:56:27Z",
+      "side": 1,
+      "message": "Make the CSS use \n\n```\n        :host {\n          display: contents;\n        }\n```\n\nShould we want to use this in production code.",
+      "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ed03bfa_82b317ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-18T00:59:10Z",
+      "side": 1,
+      "message": "The test instance at https://158.69.76.92/c/x/test-project/+/3/1/file-3.txt shows a hash in the gitea file link indicating this should correct the issue. Sorry about that.",
+      "revId": "21b75586a38c8f2e92503394ee1dad059f4f26bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

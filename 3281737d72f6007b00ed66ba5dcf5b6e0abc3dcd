@@ -16,6 +16,29 @@
       "message": "Thanks, Ben!",
       "revId": "3281737d72f6007b00ed66ba5dcf5b6e0abc3dcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28632e71_f208cc81",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-02-18T17:43:38Z",
+      "side": 1,
+      "message": "Can we instead use https://gerrit.googlesource.com/polymer-bridges/ ?",
+      "range": {
+        "startLine": 45,
+        "startChar": 24,
+        "endLine": 45,
+        "endChar": 75
+      },
+      "revId": "3281737d72f6007b00ed66ba5dcf5b6e0abc3dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -174,17 +174,42 @@ public class AutoMerger {
       return Optional.empty();
     }
 
+    return Optional.of(
+        new ReceiveCommand(
+            ObjectId.zeroId(),
+            createAutoMergeCommit(repoView, rw, ins, maybeMergeCommit),
+            RefNames.refsCacheAutomerge(maybeMergeCommit.name())));
+  }
+
+  /**
+   * Creates an auto merge commit for the provided merge commit.
+   *
+   * <p>Callers are expected to ensure that the provided commit indeed has 2 parents.
+   *
+   * @return An auto-merge commit. Headers of the returned RevCommit are parsed.
+   */
+  ObjectId createAutoMergeCommit(
+      RepoView repoView, RevWalk rw, ObjectInserter ins, RevCommit mergeCommit) throws IOException {
     ObjectId autoMerge;
     try (Timer1.Context<OperationType> ignored = latency.start(OperationType.ON_DISK_WRITE)) {
       autoMerge =
           createAutoMergeCommit(
-              repoView.getConfig(), rw, ins, maybeMergeCommit, configuredMergeStrategy);
+              repoView.getConfig(), rw, ins, mergeCommit, configuredMergeStrategy);
     }
     counter.increment(OperationType.ON_DISK_WRITE);
     logger.atFine().log("Added %s AutoMerge ref update for commit", autoMerge.name());
-    return Optional.of(
-        new ReceiveCommand(
-            ObjectId.zeroId(), autoMerge, RefNames.refsCacheAutomerge(maybeMergeCommit.name())));
+    return autoMerge;
+  }
+
+  Optional<RevCommit> lookupCommit(Repository repo, RevWalk rw, String refName) throws IOException {
+    Ref ref = repo.getRefDatabase().exactRef(refName);
+    if (ref != null && ref.getObjectId() != null) {
+      RevObject obj = rw.parseAny(ref.getObjectId());
+      if (obj instanceof RevCommit) {
+        return Optional.of((RevCommit) obj);
+      }
+    }
+    return Optional.empty();
   }
 
   /**
@@ -253,18 +278,6 @@ public class AutoMerger {
     }
 
     return rw.parseCommit(ins.insert(cb));
-  }
-
-  private Optional<RevCommit> lookupCommit(Repository repo, RevWalk rw, String refName)
-      throws IOException {
-    Ref ref = repo.getRefDatabase().exactRef(refName);
-    if (ref != null && ref.getObjectId() != null) {
-      RevObject obj = rw.parseAny(ref.getObjectId());
-      if (obj instanceof RevCommit) {
-        return Optional.of((RevCommit) obj);
-      }
-    }
-    return Optional.empty();
   }
 
   private static class NonFlushingWrapper extends ObjectInserter.Filter {

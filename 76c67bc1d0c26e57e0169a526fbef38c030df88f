@@ -85,6 +85,23 @@
       },
       "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dbb250b_23a3b769",
+        "filename": "polygerrit-ui/app/models/di-provider-element_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-18T15:05:24Z",
+      "side": 1,
+      "message": "can you add a test where the element requires 2 models to be injected?",
+      "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

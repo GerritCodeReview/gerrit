@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1766869_c15110da",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T11:47:38Z",
+      "side": 1,
+      "message": "Why not simply pass the provider to provide? What\u0027s the value of caching this function?\n\nI would just call the provider and let it worry about caching if need be.",
+      "revId": "f720c9590aaad9fae3cf397bb87264e1ba446e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a8c1465_a9e2ee1c",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T11:47:38Z",
+      "side": 1,
+      "message": "Please ensure we call provide only once. It creates a Lit controller that does the right thing for connected and disconnected callback.\n\nBy having it provided each time it\u0027s reconnected we\u0027ll be creating multiple of these controllers and listeners",
+      "revId": "f720c9590aaad9fae3cf397bb87264e1ba446e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

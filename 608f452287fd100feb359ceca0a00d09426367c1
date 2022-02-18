@@ -22,6 +22,30 @@
       },
       "revId": "608f452287fd100feb359ceca0a00d09426367c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15c9754c_c25aa9c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-18T14:22:18Z",
+      "side": 1,
+      "message": "The documentation was removed in this change and I can see it removed currently on master as well.\n\nShould be fixed in the next release.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/324954\n\n[2] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:Documentation/concept-patch-sets.txt;l\u003d91?q\u003d%22add%20a%20patch%20set%20description%20provide%22\u0026sq\u003d",
+      "parentUuid": "bdeac9da_1a651184",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "608f452287fd100feb359ceca0a00d09426367c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

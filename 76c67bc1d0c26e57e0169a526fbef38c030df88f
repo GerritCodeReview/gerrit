@@ -64,6 +64,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e5c685c_728dac65",
+        "filename": "polygerrit-ui/app/models/di-provider-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T15:06:30Z",
+      "side": 1,
+      "message": "Then you wrap twice.",
+      "parentUuid": "db7ac0a3_66c0db61",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "634db337_1f946cd6",
@@ -100,6 +124,24 @@
       "writtenOn": "2022-02-18T15:05:24Z",
       "side": 1,
       "message": "can you add a test where the element requires 2 models to be injected?",
+      "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1254854_40a78788",
+        "filename": "polygerrit-ui/app/models/di-provider-element_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T15:06:30Z",
+      "side": 1,
+      "message": "If you want more than one model, you simply wrap twice. Let\u0027s try to get this submitted so we can make forward progress with your change.\n\nI don\u0027t think testing with extra providers is necessary for this change to go through.",
+      "parentUuid": "8dbb250b_23a3b769",
       "revId": "76c67bc1d0c26e57e0169a526fbef38c030df88f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

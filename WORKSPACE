@@ -150,9 +150,9 @@ maven_jar(
 
 # JGit's transitive dependencies
 maven_jar(
-    name = "hamcrest-library",
-    artifact = "org.hamcrest:hamcrest-library:1.3",
-    sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
+    name = "hamcrest",
+    artifact = "org.hamcrest:hamcrest:2.2",
+    sha1 = "1820c0968dba3a11a1b30669bb1f01978a91dedc",
 )
 
 maven_jar(

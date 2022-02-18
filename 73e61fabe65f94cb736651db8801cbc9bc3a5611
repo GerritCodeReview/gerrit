@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "598d7dee_ab4c4a71",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T07:46:18Z",
+      "side": 1,
+      "message": "createDiffChildElement",
+      "revId": "73e61fabe65f94cb736651db8801cbc9bc3a5611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e94eebc_11d737e2",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T07:46:18Z",
+      "side": 1,
+      "message": "Rather than having this optional, why not make this a repeated var-arg",
+      "revId": "73e61fabe65f94cb736651db8801cbc9bc3a5611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

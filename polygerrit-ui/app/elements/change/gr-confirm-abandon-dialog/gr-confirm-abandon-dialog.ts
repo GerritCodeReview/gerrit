@@ -16,18 +16,13 @@
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../shared/gr-dialog/gr-dialog';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-confirm-abandon-dialog_html';
-import {customElement, property} from '@polymer/decorators';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
-
-export interface GrConfirmAbandonDialog {
-  $: {
-    messageInput: IronAutogrowTextareaElement;
-  };
-}
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, html, css} from 'lit';
+import {customElement, property, query} from 'lit/decorators';
+import {assertIsDefined} from '../../../utils/common-util';
+import {BindValueChangeEvent} from '../../../types/events';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -36,11 +31,7 @@ declare global {
 }
 
 @customElement('gr-confirm-abandon-dialog')
-export class GrConfirmAbandonDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrConfirmAbandonDialog extends LitElement {
   /**
    * Fired when the confirm button is pressed.
    *
@@ -52,6 +43,8 @@ export class GrConfirmAbandonDialog extends PolymerElement {
    *
    * @event cancel
    */
+
+  @query('#messageInput') private messageInput?: IronAutogrowTextareaElement;
 
   @property({type: String})
   message = '';
@@ -69,27 +62,89 @@ export class GrConfirmAbandonDialog extends PolymerElement {
     super.connectedCallback();
     this.cleanups.push(
       addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]}, _ =>
-        this._confirm()
+        this.confirm()
       )
     );
     this.cleanups.push(
       addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.META_KEY]}, _ =>
-        this._confirm()
+        this.confirm()
       )
     );
   }
 
-  resetFocus() {
-    this.$.messageInput.textarea.focus();
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+        :host([disabled]) {
+          opacity: 0.5;
+          pointer-events: none;
+        }
+        .main {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+        label {
+          cursor: pointer;
+          display: block;
+          width: 100%;
+        }
+        iron-autogrow-textarea {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
+          width: 73ch; /* Add a char to account for the border. */
+        }
+      `,
+    ];
   }
 
-  _handleConfirmTap(e: Event) {
+  override render() {
+    return html`
+      <gr-dialog
+        confirm-label="Abandon"
+        @confirm=${(e: Event) => {
+          this.handleConfirmTap(e);
+        }}
+        @cancel=${(e: Event) => {
+          this.handleCancelTap(e);
+        }}
+      >
+        <div class="header" slot="header">Abandon Change</div>
+        <div class="main" slot="main">
+          <label for="messageInput">Abandon Message</label>
+          <iron-autogrow-textarea
+            id="messageInput"
+            class="message"
+            autocomplete="on"
+            placeholder="<Insert reasoning here>"
+            .bindValue=${this.message}
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              this.handleBindValueChanged(e);
+            }}
+          ></iron-autogrow-textarea>
+        </div>
+      </gr-dialog>
+    `;
+  }
+
+  resetFocus() {
+    assertIsDefined(this.messageInput, 'messageInput');
+    this.messageInput.textarea.focus();
+  }
+
+  // private but used in test
+  handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this._confirm();
+    this.confirm();
   }
 
-  _confirm() {
+  private confirm() {
     this.dispatchEvent(
       new CustomEvent('confirm', {
         detail: {reason: this.message},
@@ -99,7 +154,8 @@ export class GrConfirmAbandonDialog extends PolymerElement {
     );
   }
 
-  _handleCancelTap(e: Event) {
+  // private but used in test
+  handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
@@ -108,5 +164,9 @@ export class GrConfirmAbandonDialog extends PolymerElement {
         bubbles: false,
       })
     );
+  }
+
+  private handleBindValueChanged(e: BindValueChangeEvent) {
+    this.message = e.detail.value;
   }
 }

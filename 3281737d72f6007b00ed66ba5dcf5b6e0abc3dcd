@@ -63,6 +63,30 @@
       },
       "revId": "3281737d72f6007b00ed66ba5dcf5b6e0abc3dcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de8c3dde_42e10c26",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-18T18:10:05Z",
+      "side": 1,
+      "message": "No applicable any more. This part of the change was reverted.",
+      "parentUuid": "fd5a0dc8_52f21028",
+      "range": {
+        "startLine": 45,
+        "startChar": 24,
+        "endLine": 45,
+        "endChar": 75
+      },
+      "revId": "3281737d72f6007b00ed66ba5dcf5b6e0abc3dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

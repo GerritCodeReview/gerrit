@@ -60,6 +60,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e43c0ff0_b6a10bec",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-18T09:03:38Z",
+      "side": 1,
+      "message": "AFAICT 1 is actually going on so ExpandDiffContextDetail is a better name?",
+      "parentUuid": "fc416783_4f166c9f",
+      "range": {
+        "startLine": 33,
+        "startChar": 37,
+        "endLine": 33,
+        "endChar": 55
+      },
+      "revId": "3ee2be5cbd391f219ca5329e95206deb75af1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd0a5e54_d6e6024f",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
         "patchSetId": 2
@@ -71,6 +95,30 @@
       "writtenOn": "2022-02-16T16:39:07Z",
       "side": 1,
       "message": "This would be empty now, no? I think you either need to turn this around or store the array before resetting it.",
+      "range": {
+        "startLine": 169,
+        "startChar": 31,
+        "endLine": 169,
+        "endChar": 42
+      },
+      "revId": "3ee2be5cbd391f219ca5329e95206deb75af1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e700d90e_9708f845",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-18T09:03:38Z",
+      "side": 1,
+      "message": "+1 maybe a test as well?",
+      "parentUuid": "bd0a5e54_d6e6024f",
       "range": {
         "startLine": 169,
         "startChar": 31,

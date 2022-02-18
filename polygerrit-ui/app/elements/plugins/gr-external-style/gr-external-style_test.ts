@@ -14,32 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../test/common-test-setup-karma.js';
-import {resetPlugins} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import {resetPlugins} from '../../../test/test-utils';
 import './gr-external-style.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {GrExternalStyle} from './gr-external-style.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {PluginApi} from '../../../api/plugin';
 
 const basicFixture = fixtureFromTemplate(
-    html`<gr-external-style name="foo"></gr-external-style>`
+  html`<gr-external-style name="foo"></gr-external-style>`
 );
 
 suite('gr-external-style integration tests', () => {
   const TEST_URL = 'http://some.com/plugins/url.js';
 
-  let element;
-  let plugin;
+  let element: GrExternalStyle;
+  let plugin: PluginApi;
+  let applyStyleSpy: sinon.SinonSpy;
 
   const installPlugin = () => {
-    if (plugin) { return; }
-    window.Gerrit.install(p => {
-      plugin = p;
-    }, '0.1', TEST_URL);
+    if (plugin) {
+      return;
+    }
+    window.Gerrit.install(
+      p => {
+        plugin = p;
+      },
+      '0.1',
+      TEST_URL
+    );
   };
 
   const createElement = () => {
-    element = basicFixture.instantiate();
-    sinon.spy(element, '_applyStyle');
+    element = basicFixture.instantiate() as GrExternalStyle;
+    applyStyleSpy = sinon.spy(element, '_applyStyle');
   };
 
   /**
@@ -61,20 +70,22 @@ suite('gr-external-style integration tests', () => {
   };
 
   setup(() => {
-    sinon.stub(getPluginLoader(), 'awaitPluginsLoaded')
-        .returns(Promise.resolve());
+    sinon
+      .stub(getPluginLoader(), 'awaitPluginsLoaded')
+      .returns(Promise.resolve());
   });
 
   teardown(() => {
     resetPlugins();
-    document.body.querySelectorAll('custom-style')
-        .forEach(style => style.remove());
+    document.body
+      .querySelectorAll('custom-style')
+      .forEach(style => style.remove());
   });
 
   test('applies plugin-provided styles', async () => {
     lateRegister();
     await new Promise(flush);
-    assert.isTrue(element._applyStyle.calledWith('some-module'));
+    assert.isTrue(applyStyleSpy.calledWith('some-module'));
   });
 
   test('does not double apply', async () => {
@@ -82,14 +93,15 @@ suite('gr-external-style integration tests', () => {
     await new Promise(flush);
     plugin.registerStyleModule('foo', 'some-module');
     await new Promise(flush);
-    const stylesApplied =
-        element._stylesApplied.filter(name => name === 'some-module');
+    const stylesApplied = element._stylesApplied.filter(
+      name => name === 'some-module'
+    );
     assert.strictEqual(stylesApplied.length, 1);
   });
 
   test('loads and applies preloaded modules', async () => {
     earlyRegister();
     await new Promise(flush);
-    assert.isTrue(element._applyStyle.calledWith('some-module'));
+    assert.isTrue(applyStyleSpy.calledWith('some-module'));
   });
 });

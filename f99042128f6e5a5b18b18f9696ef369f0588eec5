@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb732063_a4865770",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-18T16:11:36Z",
+      "side": 1,
+      "message": "Updated to use the util method waitUntilObserved and removed the usage of flush().",
+      "parentUuid": "7fc7b824_0f0e4543",
+      "revId": "f99042128f6e5a5b18b18f9696ef369f0588eec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af4dd9b1_f81073b4",

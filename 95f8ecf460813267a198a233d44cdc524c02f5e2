@@ -186,6 +186,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b8c3f4d_1deae3ef",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-18T16:11:36Z",
+      "side": 1,
+      "message": "I moved the checkbox test from GrChangeListSection to GrChangeListItem.\n\nI did keep the test which checks that stale changes are removed from the model.",
+      "parentUuid": "e8b9033d_83db7da0",
+      "range": {
+        "startLine": 125,
+        "startChar": 11,
+        "endLine": 125,
+        "endChar": 30
+      },
+      "revId": "95f8ecf460813267a198a233d44cdc524c02f5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab9a3248_4ddf8554",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
         "patchSetId": 11

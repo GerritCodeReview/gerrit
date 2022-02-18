@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19fb8114_faa3dd8a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-18T16:11:36Z",
+      "side": 1,
+      "message": "Relaced with specific waitUntils.",
+      "parentUuid": "bc2e5765_94dc7274",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 20
+      },
+      "revId": "6e980d669447d6681f5aefb80fecfb37a67baf15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6858a96d_6ebd4884",
@@ -144,6 +168,24 @@
       "side": 1,
       "message": "Ok, I\u0027m fine with this in a follow-up change. But it will affect how you create a BulkActionsModel in test-code",
       "parentUuid": "58f1ba50_296b9176",
+      "revId": "6e980d669447d6681f5aefb80fecfb37a67baf15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf2f593b_f5f4b858",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-18T16:11:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "eff2de51_547de316",
       "revId": "6e980d669447d6681f5aefb80fecfb37a67baf15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -152,6 +152,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "709c5307_1448b4c7",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-18T10:03:35Z",
+      "side": 1,
+      "message": "OK, I think that\u0027s fine. Thank for adding.",
+      "parentUuid": "fe3a1033_985e876d",
+      "revId": "214c1e130295198e24241666776255af1dd00916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdbfb16c_d466e972",

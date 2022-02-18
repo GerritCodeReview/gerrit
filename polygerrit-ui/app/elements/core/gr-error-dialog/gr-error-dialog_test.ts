@@ -28,7 +28,7 @@ suite('gr-error-dialog tests', () => {
 
   setup(async () => {
     element = basicFixture.instantiate();
-    await flush();
+    await element.updateComplete;
   });
 
   test('dismiss tap fires event', async () => {

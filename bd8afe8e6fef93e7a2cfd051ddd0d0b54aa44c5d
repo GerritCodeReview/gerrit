@@ -16,6 +16,24 @@
       "message": "Please use the word \u0027submit\u0027 to be consistent with the terminology for -2",
       "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eb8db12_3dec6e24",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-18T12:15:31Z",
+      "side": 1,
+      "message": "heh, that can of worms. 😂\n\nnote that i\u0027m just making it consistent with the string used elsewhere (which, btw, is duplicated in *way* too many places for my taste).\n\nif others agree, i can change the scope of the change, but that wasn\u0027t the original intent.\n(i ran into it while looking for the cause of https://crbug.com/gerrit/15711).",
+      "parentUuid": "506af0d6_3937ead4",
+      "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

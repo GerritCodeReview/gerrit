@@ -122,6 +122,24 @@
       "parentUuid": "dfae5cd8_cb6ee378",
       "revId": "8df7255efe435c97e5e4bc7c1223cc828dee5cce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b710345_e068b12b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T15:09:55Z",
+      "side": 1,
+      "message": "Rather than using fixtures, I propose you use `render(html...` as proposed by rictic@",
+      "parentUuid": "dfae5cd8_cb6ee378",
+      "revId": "8df7255efe435c97e5e4bc7c1223cc828dee5cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

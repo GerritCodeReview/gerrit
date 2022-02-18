@@ -25,8 +25,7 @@ guava
 guice-assistedinject
 guice-library
 guice-servlet
-hamcrest-core
-hamcrest-library
+hamcrest
 httpasyncclient
 httpcore-nio
 impl-log4j

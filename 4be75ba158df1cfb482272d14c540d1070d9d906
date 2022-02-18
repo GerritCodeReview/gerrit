@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d040ef82_ea570502",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T14:55:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a98ba95_5f7bfcf8",
+      "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb74357f_4a66ad37",
@@ -89,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3dce607_905db54f",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T14:55:44Z",
+      "side": 1,
+      "message": "leaving as single for now. It seems clearer to accept an array rather than having tests stack wrappers, but that case will be very rare.",
+      "parentUuid": "a12cc488_03c74179",
+      "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01470bc9_383f900e",
@@ -120,6 +156,24 @@
       "side": 1,
       "message": "Are you saying the existing fixture methods should be expanded to do this? Or that all test files will write out what I have here? It\u0027s kinda verbose and not valuable to the test IMO, it\u0027s infra.",
       "parentUuid": "01470bc9_383f900e",
+      "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4aee3ce_d1c2ca12",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T14:55:44Z",
+      "side": 1,
+      "message": "Utility function is valuable. Maybe we can convert into a `fixtureWithDependency` at some point.",
+      "parentUuid": "0931b67b_a672f1f4",
       "revId": "4be75ba158df1cfb482272d14c540d1070d9d906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

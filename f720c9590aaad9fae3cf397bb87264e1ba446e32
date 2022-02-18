@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe5f11ae_79407592",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T14:55:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "021ba45a_58f23b5e",
+      "revId": "f720c9590aaad9fae3cf397bb87264e1ba446e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1766869_c15110da",
@@ -53,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6be2e5fc_9e90bc8c",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T14:55:44Z",
+      "side": 1,
+      "message": "Done. this is fine when `fixture()` is inside `setup()`",
+      "parentUuid": "b1766869_c15110da",
+      "revId": "f720c9590aaad9fae3cf397bb87264e1ba446e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a8c1465_a9e2ee1c",
@@ -66,6 +102,24 @@
       "writtenOn": "2022-02-18T11:47:38Z",
       "side": 1,
       "message": "Please ensure we call provide only once. It creates a Lit controller that does the right thing for connected and disconnected callback.\n\nBy having it provided each time it\u0027s reconnected we\u0027ll be creating multiple of these controllers and listeners",
+      "revId": "f720c9590aaad9fae3cf397bb87264e1ba446e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5260f36a_c4e92542",
+        "filename": "polygerrit-ui/app/test/di-provider-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-18T14:55:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a8c1465_a9e2ee1c",
       "revId": "f720c9590aaad9fae3cf397bb87264e1ba446e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

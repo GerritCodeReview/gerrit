@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c125fb6_1ebfd1a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T08:27:47Z",
+      "side": 1,
+      "message": "I can see why it makes sense to do it for this change. But in general I find subclassing an anti-pattern. I prefer composition over inheritance because subclassing \u0027APIs\u0027 are never as thoughtfully defined as public APIs and I\u0027ve seen scenarios where this can result in very complex to reason through logic as subclasses play with the internals of their parent class.",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f567f26_abf66ffa",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T08:27:47Z",
+      "side": 1,
+      "message": "Does this need to be a subclass? Could this be a component that gets injected into GrDiffBuilder that has a specific API?\n\nI can see two approaches:\n\nGrDiffBuilder takes as input a parameter with a given interface and legacy implements that interface.\n\nWe have a DiffBuilder interface and GrDiffBuilderLegacy implements that interface and gets as parameter a GrDiffBuilder component.\n\nIn general I really dislike subclassing as they make code hard to reason through.",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c757df99_dba127c9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T08:27:47Z",
+      "side": 1,
+      "message": "Why do you need an undefined state? Why can\u0027t this default to an empty array?",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6144949_f61ee5cb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T08:27:47Z",
+      "side": 1,
+      "message": "This deserves a helper function (not method) with a meaningful name.",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3b0715f_fcfb0268",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T08:27:47Z",
+      "side": 1,
+      "message": "Maybe make this todo that we don\u0027t accept either? An empty array seems like a valid nullary value given the behavior of this function.",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32f66e61_113742e4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T08:27:47Z",
+      "side": 1,
+      "message": "TODO: Split this function up into smaller helper functions.",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

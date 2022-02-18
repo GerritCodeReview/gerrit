@@ -58,7 +58,8 @@ function runInIde() {
       process.argv.some(arg => arg.toLowerCase().contains('intellij'));
 }
 
-module.exports = function(config) {
+module.exports = function (config) {
+  console.warn(`KARMA CONFIG ${runUnderBazel}`)
   let root = config.root;
   if (!root) {
     console.warn(`--root argument not set. Falling back to __dirname.`)
@@ -94,10 +95,7 @@ module.exports = function(config) {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '../',
     plugins: [
-      // Do not use karma-* to load all installed plugin
-      // This can lead to unexpected behavior under bazel
-      // if you forget to add a plugin in a bazel rule.
-      require.resolve('@open-wc/karma-esm'),
+      '@open-wc/karma-esm',
       'karma-mocha',
       'karma-chrome-launcher',
       'karma-mocha-reporter',

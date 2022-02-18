@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69c13802_873320b9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T08:34:46Z",
+      "side": 1,
+      "message": "Be consistent with use of ?? vs ||",
+      "revId": "657737dad7a04f78ec1a7d6a63707a634feb5d09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

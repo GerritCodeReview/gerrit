@@ -16,6 +16,24 @@
       "message": "Is this tested anywhere else? I understand that testing private functions is not ideal, but do we test this behavior through the public API somewhere?",
       "revId": "a3de754c33d43152f0909fb65740144a2e704dff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19575505_2789dbd6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-18T08:34:46Z",
+      "side": 0,
+      "message": "+1 Let\u0027s not reduce number of tests on refactors.",
+      "parentUuid": "c536b352_a09f3ebf",
+      "revId": "a3de754c33d43152f0909fb65740144a2e704dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

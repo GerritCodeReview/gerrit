@@ -33,6 +33,24 @@
       "message": "Is this bug visible in any of the released Gerrit packages?",
       "revId": "21b75586a38c8f2e92503394ee1dad059f4f26bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e42dd2b1_4d236119",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-18T15:43:26Z",
+      "side": 1,
+      "message": "It shouldn\u0027t be. This is why I set Release-Notes to skip.",
+      "parentUuid": "cd2ca842_9d42d9b7",
+      "revId": "21b75586a38c8f2e92503394ee1dad059f4f26bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

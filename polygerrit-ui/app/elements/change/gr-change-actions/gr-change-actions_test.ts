@@ -34,6 +34,7 @@ import {
   query,
   queryAll,
   queryAndAssert,
+  spyStorage,
   stubReporting,
   stubRestApi,
 } from '../../../test/test-utils';
@@ -643,6 +644,51 @@ suite('gr-change-actions tests', () => {
         await flush();
 
         assert.equal(fireActionStub.lastCall.args[0], '/edit');
+      });
+
+      test('all cached change edits get deleted on delete edit', async () => {
+        element.set('editMode', true);
+        element.set('editPatchsetLoaded', true);
+
+        element.storage.setEditableContentItem(
+          'c42_ps2_index.php',
+          '<?php\necho 42_ps_2'
+        );
+        element.storage.setEditableContentItem(
+          'c42_psedit_index.php',
+          '<?php\necho 42_ps_edit'
+        );
+
+        assert.equal(
+          element.storage.getEditableContentItem('c42_ps2_index.php')!.message,
+          '<?php\necho 42_ps_2'
+        );
+        assert.equal(
+          element.storage.getEditableContentItem('c42_psedit_index.php')!
+            .message,
+          '<?php\necho 42_ps_edit'
+        );
+
+        assert.deepEqual(element.storage.getAllKeys(), [
+          'editablecontent:c42_ps2_index.php',
+          'editablecontent:c42_psedit_index.php',
+        ]);
+
+        const eraseEditableContentItemSpy = spyStorage(
+          'eraseEditableContentItem'
+        );
+        sinon.stub(element, '_fireAction');
+        element._handleDeleteEditTap();
+        assert.isFalse(element.$.confirmDeleteEditDialog.hidden);
+        tap(
+          queryAndAssert(
+            queryAndAssert(element, '#confirmDeleteEditDialog'),
+            'gr-button[primary]'
+          )
+        );
+        await flush();
+        assert.isTrue(eraseEditableContentItemSpy.called);
+        assert.deepEqual(element.storage.getAllKeys(), []);
       });
 
       test('edit patchset is loaded, needs rebase', async () => {

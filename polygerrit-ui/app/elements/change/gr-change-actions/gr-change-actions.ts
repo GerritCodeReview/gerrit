@@ -555,6 +555,9 @@ export class GrChangeActions
 
   private readonly restApiService = getAppContext().restApiService;
 
+  // private but used in test
+  readonly storage = getAppContext().storageService;
+
   constructor() {
     super();
     this.addEventListener('fullscreen-overlay-opened', () =>
@@ -1495,11 +1498,34 @@ export class GrChangeActions
   _handleDeleteEditConfirm() {
     this._hideAllDialogs();
 
+    // We need to make sure that all cached version of a change
+    // edit are deleted.
+    this.deleteCachedChangeEdits();
+
     this._fireAction(
       '/edit',
       assertUIActionInfo(this.actions.deleteEdit),
       false
     );
+  }
+
+  deleteCachedChangeEdits() {
+    // Requires changeNum due to the fact that the key is under the changeNum
+    // and we don't want to delete unrelated keys.
+    if (!this.changeNum) return;
+
+    // Fetch all keys and then match them up to the keys we want.
+    for (const key of this.storage.getAllKeys()) {
+      // Only delete the value that starts with editablecontent:c${changeNum}_ps
+      // to prevent deleting unrelated keys.
+      if (key.startsWith(`editablecontent:c${this.changeNum}_ps`)) {
+        // We have to remove editablecontent: from the string as it is
+        // automatically added to the string within the storage.
+        this.storage.eraseEditableContentItem(
+          key.replace('editablecontent:', '')
+        );
+      }
+    }
   }
 
   _handleSubmitConfirm() {
@@ -1813,9 +1839,12 @@ export class GrChangeActions
   }
 
   _handlePublishEditTap() {
-    if (!this.actions.publishEdit) {
-      return;
-    }
+    if (!this.actions.publishEdit) return;
+
+    // We need to make sure that all cached version of a change
+    // edit are deleted.
+    this.deleteCachedChangeEdits();
+
     this._fireAction(
       '/edit:publish',
       assertUIActionInfo(this.actions.publishEdit),

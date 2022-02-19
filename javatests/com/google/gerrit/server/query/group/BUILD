@@ -54,6 +54,5 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:jgit",
         "//lib/guice",
-        "@truth//jar",
     ],
 )

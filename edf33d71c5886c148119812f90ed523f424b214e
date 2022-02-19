@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f771eb3b_c841616b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-02-19T19:19:21Z",
+      "side": 1,
+      "message": "CI struggles with it\n```\nERROR: /home/jenkins/.cache/bazel/_bazel_jenkins/c577b5fea9708e4542a249f405bb8cbb/external/jgit/lib/BUILD:206:13: no such package \u0027@hamcrest//jar\u0027: The repository \u0027@hamcrest\u0027 could not be resolved and referenced by \u0027@jgit//lib:junit\u0027\n```",
+      "revId": "edf33d71c5886c148119812f90ed523f424b214e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

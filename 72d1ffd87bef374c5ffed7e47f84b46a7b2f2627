@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3f6fd03_2e389b01",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-19T00:18:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure what the replacement is in lit? Any ideas?",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 19
+      },
+      "revId": "72d1ffd87bef374c5ffed7e47f84b46a7b2f2627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

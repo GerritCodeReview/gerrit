@@ -51,6 +51,10 @@ export class GrStorageService implements StorageService, Finalizable {
     this.storage.removeItem(key);
   }
 
+  getAllKeys() {
+    return Object.keys(this.storage);
+  }
+
   getEditableContentItem(key: string): StorageObject | null {
     this.cleanupItems();
     return this.getObject(this.getEditableContentKey(key));

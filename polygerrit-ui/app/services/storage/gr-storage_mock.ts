@@ -59,6 +59,10 @@ export const grStorageMock: StorageService = {
     storage.delete(key);
   },
 
+  getAllKeys() {
+    return Array.from(storage.keys());
+  },
+
   getEditableContentItem(key: string): StorageObject | null {
     return storage.get(getEditableContentKey(key)) ?? null;
   },

@@ -38,6 +38,8 @@ export interface StorageService extends Finalizable {
 
   eraseDraftComment(location: StorageLocation): void;
 
+  getAllKeys(): Array<string>;
+
   getEditableContentItem(key: string): StorageObject | null;
 
   setEditableContentItem(key: string, message: string): void;

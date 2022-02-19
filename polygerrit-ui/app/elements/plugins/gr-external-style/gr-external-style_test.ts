@@ -46,9 +46,10 @@ suite('gr-external-style integration tests', () => {
     );
   };
 
-  const createElement = () => {
+  const createElement = async () => {
     element = basicFixture.instantiate() as GrExternalStyle;
-    applyStyleSpy = sinon.spy(element, '_applyStyle');
+    applyStyleSpy = sinon.spy(element, 'applyStyle');
+    await element.updateComplete;
   };
 
   /**
@@ -84,16 +85,16 @@ suite('gr-external-style integration tests', () => {
 
   test('applies plugin-provided styles', async () => {
     lateRegister();
-    await new Promise(flush);
+    await element.updateComplete;
     assert.isTrue(applyStyleSpy.calledWith('some-module'));
   });
 
   test('does not double apply', async () => {
     earlyRegister();
-    await new Promise(flush);
+    await element.updateComplete;
     plugin.registerStyleModule('foo', 'some-module');
-    await new Promise(flush);
-    const stylesApplied = element._stylesApplied.filter(
+    await element.updateComplete;
+    const stylesApplied = element.stylesApplied.filter(
       name => name === 'some-module'
     );
     assert.strictEqual(stylesApplied.length, 1);
@@ -101,7 +102,7 @@ suite('gr-external-style integration tests', () => {
 
   test('loads and applies preloaded modules', async () => {
     earlyRegister();
-    await new Promise(flush);
+    await element.updateComplete;
     assert.isTrue(applyStyleSpy.calledWith('some-module'));
   });
 });

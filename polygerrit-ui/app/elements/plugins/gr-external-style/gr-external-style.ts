@@ -14,31 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {updateStyles} from '@polymer/polymer/lib/mixins/element-mixin';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-external-style_html';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {customElement, property} from '@polymer/decorators';
+import {LitElement, html} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
 
 @customElement('gr-external-style')
-export class GrExternalStyle extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrExternalStyle extends LitElement {
   // This is a required value for this component.
   @property({type: String})
   name!: string;
 
-  @property({type: Array})
-  _stylesApplied: string[] = [];
+  // private but used in test
+  @state() stylesApplied: string[] = [];
 
-  _applyStyle(name: string) {
-    if (this._stylesApplied.includes(name)) {
+  override render() {
+    return html`<slot></slot>`;
+  }
+
+  // private but used in test
+  applyStyle(name: string) {
+    if (this.stylesApplied.includes(name)) {
       return;
     }
-    this._stylesApplied.push(name);
+    this.stylesApplied.push(name);
 
     const s = document.createElement('style');
     s.setAttribute('include', name);
@@ -51,23 +52,19 @@ export class GrExternalStyle extends PolymerElement {
     updateStyles();
   }
 
-  _importAndApply() {
+  private importAndApply() {
     const moduleNames = getPluginEndpoints().getModules(this.name);
     for (const name of moduleNames) {
-      this._applyStyle(name);
+      this.applyStyle(name);
     }
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    this._importAndApply();
-  }
-
-  override ready() {
-    super.ready();
+    this.importAndApply();
     getPluginLoader()
       .awaitPluginsLoaded()
-      .then(() => this._importAndApply());
+      .then(() => this.importAndApply());
   }
 }
 

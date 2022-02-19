@@ -51,6 +51,10 @@ export class GrStorageService implements StorageService, Finalizable {
     this.storage.removeItem(key);
   }
 
+  getAllKeys() {
+    return Object.keys(this.storage);
+  }
+
   getEditableContentItem(key: string): StorageObject | null {
     this.cleanupItems();
     return this.getObject(this.getEditableContentKey(key));
@@ -99,7 +103,7 @@ export class GrStorageService implements StorageService, Finalizable {
     }
     this.lastCleanup = Date.now();
 
-    Object.keys(this.storage).forEach(key => {
+    this.getAllKeys().forEach(key => {
       const entries = CLEANUP_PREFIXES_MAX_AGE_MAP.entries();
       for (const [prefix, expiration] of entries) {
         if (key.startsWith(prefix)) {

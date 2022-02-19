@@ -17,6 +17,7 @@
 
 import {StorageLocation, StorageObject, StorageService} from './gr-storage';
 import {Finalizable} from '../registry';
+import {NumericChangeId} from '../../types/common';
 
 export const DURATION_DAY = 24 * 60 * 60 * 1000;
 
@@ -65,6 +66,26 @@ export class GrStorageService implements StorageService, Finalizable {
 
   eraseEditableContentItem(key: string) {
     this.storage.removeItem(this.getEditableContentKey(key));
+  }
+
+  /**
+   * Deletes all keys for cached edits.
+   *
+   * @param changeNum
+   */
+  eraseEditableContentItemsForChangeEdit(changeNum?: NumericChangeId) {
+    if (!changeNum) return;
+
+    // Fetch all keys and then match them up to the keys we want.
+    for (const key of Object.keys(this.storage)) {
+      // Only delete the value that starts with editablecontent:c${changeNum}_ps
+      // to prevent deleting unrelated keys.
+      if (key.startsWith(`editablecontent:c${changeNum}_ps`)) {
+        // We have to remove editablecontent: from the string as it is
+        // automatically added to the string within the storage.
+        this.eraseEditableContentItem(key.replace('editablecontent:', ''));
+      }
+    }
   }
 
   private getDraftKey(location: StorageLocation): string {

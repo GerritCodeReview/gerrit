@@ -555,6 +555,8 @@ export class GrChangeActions
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly storage = getAppContext().storageService;
+
   constructor() {
     super();
     this.addEventListener('fullscreen-overlay-opened', () =>
@@ -1495,6 +1497,10 @@ export class GrChangeActions
   _handleDeleteEditConfirm() {
     this._hideAllDialogs();
 
+    // We need to make sure that all cached version of a change
+    // edit are deleted.
+    this.storage.eraseEditableContentItemsForChangeEdit(this.changeNum);
+
     this._fireAction(
       '/edit',
       assertUIActionInfo(this.actions.deleteEdit),
@@ -1813,9 +1819,12 @@ export class GrChangeActions
   }
 
   _handlePublishEditTap() {
-    if (!this.actions.publishEdit) {
-      return;
-    }
+    if (!this.actions.publishEdit) return;
+
+    // We need to make sure that all cached version of a change
+    // edit are deleted.
+    this.storage.eraseEditableContentItemsForChangeEdit(this.changeNum);
+
     this._fireAction(
       '/edit:publish',
       assertUIActionInfo(this.actions.publishEdit),

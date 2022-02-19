@@ -14,20 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-editable-label/gr-editable-label';
 import '../gr-default-editor/gr-default-editor';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-editor-view_html';
 import {
   GerritNav,
   GenerateUrlEditViewParameters,
 } from '../../core/gr-navigation/gr-navigation';
 import {computeTruncatedPath} from '../../../utils/path-list-util';
-import {customElement, observe, property} from '@polymer/decorators';
 import {
   PatchSetNum,
   EditPreferencesInfo,
@@ -43,10 +40,10 @@ import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
-import {GrButton} from '../../shared/gr-button/gr-button';
-import {GrDefaultEditor} from '../gr-default-editor/gr-default-editor';
-import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {addShortcut, Modifier} from '../../../utils/dom-util';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html, css} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -57,23 +54,8 @@ const PUBLISH_FAILED_MSG = 'Failed to publish edit';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 
-// Used within the tests
-export interface GrEditorView {
-  $: {
-    close: GrButton;
-    editorEndpoint: GrEndpointDecorator;
-    file: GrDefaultEditor;
-    publish: GrButton;
-    save: GrButton;
-  };
-}
-
 @customElement('gr-editor-view')
-export class GrEditorView extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrEditorView extends LitElement {
   /**
    * Fired when the title of the page should change.
    *
@@ -86,47 +68,39 @@ export class GrEditorView extends PolymerElement {
    * @event show-alert
    */
 
-  @property({type: Object, observer: '_paramsChanged'})
+  @property({type: Object})
   params?: GenerateUrlEditViewParameters;
 
-  @property({type: Object, observer: '_editChange'})
-  _change?: ParsedChangeInfo;
+  // private but used in test
+  @state() change?: ParsedChangeInfo;
 
-  @property({type: Number})
-  _changeNum?: NumericChangeId;
+  // private but used in test
+  @state() changeNum?: NumericChangeId;
 
-  @property({type: String})
-  _patchNum?: PatchSetNum;
+  // private but used in test
+  @state() patchNum?: PatchSetNum;
 
-  @property({type: String})
-  _path?: string;
+  // private but used in test
+  @state() path?: string;
 
-  @property({type: String})
-  _type?: string;
+  // private but used in test
+  @state() type?: string;
 
-  @property({type: String})
-  _content?: string;
+  // private but used in test
+  @state() content?: string;
 
-  @property({type: String})
-  _newContent = '';
+  // private but used in test
+  @state() newContent = '';
 
-  @property({type: Boolean})
-  _saving = false;
+  // private but used in test
+  @state() saving = false;
 
-  @property({type: Boolean})
-  _successfulSave = false;
+  // private but used in test
+  @state() successfulSave = false;
 
-  @property({
-    type: Boolean,
-    computed: '_computeSaveDisabled(_content, _newContent, _saving)',
-  })
-  _saveDisabled = true;
+  @state() private prefs?: EditPreferencesInfo;
 
-  @property({type: Object})
-  _prefs?: EditPreferencesInfo;
-
-  @property({type: Number})
-  _lineNum?: number;
+  @state() private lineNum?: number;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -143,23 +117,23 @@ export class GrEditorView extends PolymerElement {
   constructor() {
     super();
     this.addEventListener('content-change', e => {
-      this._handleContentChange(e as CustomEvent<{value: string}>);
+      this.handleContentChange(e as CustomEvent<{value: string}>);
     });
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    this._getEditPrefs().then(prefs => {
-      this._prefs = prefs;
+    this.restApiService.getEditPreferences().then(prefs => {
+      this.prefs = prefs;
     });
     this.cleanups.push(
       addShortcut(this, {key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>
-        this._handleSaveShortcut()
+        this.handleSaveShortcut()
       )
     );
     this.cleanups.push(
       addShortcut(this, {key: 's', modifiers: [Modifier.META_KEY]}, () =>
-        this._handleSaveShortcut()
+        this.handleSaveShortcut()
       )
     );
   }
@@ -171,27 +145,168 @@ export class GrEditorView extends PolymerElement {
     super.disconnectedCallback();
   }
 
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          background-color: var(--view-background-color);
+        }
+        .stickyHeader {
+          background-color: var(--edit-mode-background-color);
+          border-bottom: 1px var(--border-color) solid;
+          position: sticky;
+          top: 0;
+          z-index: 1;
+        }
+        header {
+          align-items: center;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          padding: var(--spacing-m) var(--spacing-l);
+        }
+        header gr-editable-label {
+          font-family: var(--header-font-family);
+          font-size: var(--font-size-h3);
+          font-weight: var(--font-weight-h3);
+          line-height: var(--line-height-h3);
+        }
+        header gr-editable-label::part(label) {
+          text-overflow: initial;
+          white-space: initial;
+          word-break: break-all;
+        }
+        header gr-editable-label::part(input-container) {
+          margin-top: var(--spacing-l);
+        }
+        .textareaWrapper {
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          margin: var(--spacing-l);
+        }
+        .textareaWrapper .editButtons {
+          display: none;
+        }
+        .controlGroup {
+          align-items: center;
+          display: flex;
+          font-family: var(--header-font-family);
+          font-size: var(--font-size-h3);
+          font-weight: var(--font-weight-h3);
+          line-height: var(--line-height-h3);
+        }
+        .rightControls {
+          justify-content: flex-end;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <div class="stickyHeader">
+        <header>
+          <span class="controlGroup">
+            <span>Edit mode</span>
+            <span class="separator"></span>
+            <gr-editable-label
+              label-text="File path"
+              .value=${this.path}
+              placeholder="File path..."
+              @changed=${this.handlePathChanged}
+            ></gr-editable-label>
+          </span>
+          <span class="controlGroup rightControls">
+            <gr-button
+              id="close"
+              link=""
+              @click=${() => {
+                this.handleCloseTap();
+              }}
+              >Cancel</gr-button
+            >
+            <gr-button
+              id="save"
+              ?disabled=${this.computeSaveDisabled()}
+              primary=""
+              link=""
+              title="Save and Close the file"
+              @click=${() => {
+                this.handleSaveTap();
+              }}
+              >Save</gr-button
+            >
+            <gr-button
+              id="publish"
+              link=""
+              primary=""
+              title="Publish your edit. A new patchset will be created."
+              @click=${() => {
+                this.handlePublishTap();
+              }}
+              ?disabled=${this.computeSaveDisabled()}
+              >Save & Publish</gr-button
+            >
+          </span>
+        </header>
+      </div>
+      <div class="textareaWrapper">
+        <gr-endpoint-decorator id="editorEndpoint" name="editor">
+          <gr-endpoint-param
+            name="fileContent"
+            .value=${this.newContent}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="prefs"
+            .value=${this.prefs}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="fileType"
+            .value=${this.type}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="lineNum"
+            .value=${this.lineNum}
+          ></gr-endpoint-param>
+          <gr-default-editor
+            id="file"
+            .fileContent=${this.newContent}
+          ></gr-default-editor>
+        </gr-endpoint-decorator>
+      </div>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this.paramsChanged();
+    }
+
+    if (changedProperties.has('change')) {
+      this.editChange();
+    }
+
+    if (changedProperties.has('change') || changedProperties.has('type')) {
+      this.editType();
+    }
+  }
+
   get storageKey() {
-    return `c${this._changeNum}_ps${this._patchNum}_${this._path}`;
+    return `c${this.changeNum}_ps${this.patchNum}_${this.path}`;
   }
 
-  _getLoggedIn() {
-    return this.restApiService.getLoggedIn();
-  }
-
-  _getEditPrefs() {
-    return this.restApiService.getEditPreferences();
-  }
-
-  _paramsChanged(value: GenerateUrlEditViewParameters) {
+  // private but used in test
+  paramsChanged() {
+    const value = this.params as GenerateUrlEditViewParameters;
     if (value.view !== GerritNav.View.EDIT) {
       return;
     }
 
-    this._changeNum = value.changeNum;
-    this._path = value.path;
-    this._patchNum = value.patchNum || (EditPatchSetNum as PatchSetNum);
-    this._lineNum =
+    this.changeNum = value.changeNum;
+    this.path = value.path;
+    this.patchNum = value.patchNum || (EditPatchSetNum as PatchSetNum);
+    this.lineNum =
       typeof value.lineNum === 'string' ? Number(value.lineNum) : value.lineNum;
 
     // NOTE: This may be called before attachment (e.g. while parentElement is
@@ -204,66 +319,66 @@ export class GrEditorView extends PolymerElement {
 
     const promises = [];
 
-    promises.push(this._getChangeDetail(this._changeNum));
-    promises.push(
-      this._getFileData(this._changeNum, this._path, this._patchNum)
-    );
+    promises.push(this.getChangeDetail(this.changeNum));
+    promises.push(this.getFileData(this.changeNum, this.path, this.patchNum));
     return Promise.all(promises);
   }
 
-  async _getChangeDetail(changeNum: NumericChangeId) {
-    this._change = await this.restApiService.getChangeDetail(changeNum);
+  private async getChangeDetail(changeNum: NumericChangeId) {
+    this.change = await this.restApiService.getChangeDetail(changeNum);
   }
 
-  _editChange(value?: ParsedChangeInfo | null) {
-    if (!value) return;
-    if (!changeIsMerged(value) && !changeIsAbandoned(value)) return;
+  private editChange() {
+    if (!this.change) return;
+    if (!changeIsMerged(this.change) && !changeIsAbandoned(this.change)) return;
     fireAlert(
       this,
       'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
     );
-    GerritNav.navigateToChange(value);
+    GerritNav.navigateToChange(this.change);
   }
 
-  @observe('_change', '_type')
-  _editType(change?: ParsedChangeInfo | null, type?: string) {
-    if (!change || !type || !type.startsWith('image/')) return;
+  private editType() {
+    if (!this.change || !this.type || !this.type.startsWith('image/')) return;
 
     // Prevent editing binary files
     fireAlert(this, 'You cannot edit binary files within the inline editor.');
-    GerritNav.navigateToChange(change);
+    GerritNav.navigateToChange(this.change);
   }
 
-  _handlePathChanged(e: CustomEvent<string>) {
+  // private but used in test
+  handlePathChanged(e: CustomEvent<string>) {
     // TODO(TS) could be cleaned up, it was added for type requirements
-    if (this._changeNum === undefined || !this._path) {
+    if (this.changeNum === undefined || !this.path) {
       return Promise.reject(new Error('changeNum or path undefined'));
     }
     const path = e.detail;
-    if (path === this._path) {
+    if (path === this.path) {
       return Promise.resolve();
     }
     return this.restApiService
-      .renameFileInChangeEdit(this._changeNum, this._path, path)
+      .renameFileInChangeEdit(this.changeNum, this.path, path)
       .then(res => {
         if (!res || !res.ok) {
           return;
         }
 
-        this._successfulSave = true;
-        this._viewEditInChangeView();
+        this.successfulSave = true;
+        this.viewEditInChangeView();
       });
   }
 
-  _viewEditInChangeView() {
-    if (this._change)
-      GerritNav.navigateToChange(this._change, {
+  // private but used in test
+  viewEditInChangeView() {
+    if (this.change)
+      GerritNav.navigateToChange(this.change, {
         isEdit: true,
         forceReload: true,
       });
   }
 
-  _getFileData(
+  // private but used in test
+  getFileData(
     changeNum: NumericChangeId,
     path: string,
     patchNum?: PatchSetNum
@@ -284,89 +399,88 @@ export class GrEditorView extends PolymerElement {
         ) {
           fireAlert(this, RESTORED_MESSAGE);
 
-          this._newContent = storedContent.message;
+          this.newContent = storedContent.message;
         } else {
-          this._newContent = content;
+          this.newContent = content;
         }
-        this._content = content;
+        this.content = content;
 
         // A non-ok response may result if the file does not yet exist.
         // The `type` field of the response is only valid when the file
         // already exists.
         if (res && res.ok && res.type) {
-          this._type = res.type;
+          this.type = res.type;
         } else {
-          this._type = '';
+          this.type = '';
         }
       });
   }
 
-  _saveEdit() {
-    if (this._changeNum === undefined || !this._path) {
+  // private but used in test
+  saveEdit() {
+    if (this.changeNum === undefined || !this.path) {
       return Promise.reject(new Error('changeNum or path undefined'));
     }
-    this._saving = true;
-    this._showAlert(SAVING_MESSAGE);
+    this.saving = true;
+    this.showAlert(SAVING_MESSAGE);
     this.storage.eraseEditableContentItem(this.storageKey);
-    if (!this._newContent)
+    if (!this.newContent)
       return Promise.reject(new Error('new content undefined'));
     return this.restApiService
-      .saveChangeEdit(this._changeNum, this._path, this._newContent)
+      .saveChangeEdit(this.changeNum, this.path, this.newContent)
       .then(res => {
-        this._saving = false;
-        this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
+        this.saving = false;
+        this.showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
         if (!res.ok) {
           return res;
         }
 
-        this._content = this._newContent;
-        this._successfulSave = true;
+        this.content = this.newContent;
+        this.successfulSave = true;
         return res;
       });
   }
 
-  _showAlert(message: string) {
+  // private but used in test
+  showAlert(message: string) {
     fireAlert(this, message);
   }
 
-  _computeSaveDisabled(
-    content?: string,
-    newContent?: string,
-    saving?: boolean
-  ) {
+  computeSaveDisabled() {
     // Polymer 2: check for undefined
-    if ([content, newContent, saving].includes(undefined)) {
+    if ([this.content, this.newContent, this.saving].includes(undefined)) {
       return true;
     }
 
-    if (saving) {
+    if (this.saving) {
       return true;
     }
-    return content === newContent;
+    return this.content === this.newContent;
   }
 
-  _handleCloseTap() {
+  // private but used in test
+  handleCloseTap() {
     // TODO(kaspern): Add a confirm dialog if there are unsaved changes.
-    this._viewEditInChangeView();
+    this.viewEditInChangeView();
   }
 
-  _handleSaveTap() {
-    this._saveEdit().then(res => {
-      if (res.ok) this._viewEditInChangeView();
+  private handleSaveTap() {
+    this.saveEdit().then(res => {
+      if (res.ok) this.viewEditInChangeView();
     });
   }
 
-  _handlePublishTap() {
-    assertIsDefined(this._changeNum, '_changeNum');
+  private handlePublishTap() {
+    assertIsDefined(this.changeNum, 'changeNum');
 
-    const changeNum = this._changeNum;
-    this._saveEdit().then(() => {
+    const changeNum = this.changeNum;
+    this.saveEdit().then(() => {
       const handleError: ErrorCallback = response => {
-        this._showAlert(PUBLISH_FAILED_MSG);
+        this.showAlert(PUBLISH_FAILED_MSG);
         this.reporting.error(new Error(response?.statusText));
       };
 
-      this._showAlert(PUBLISHING_EDIT_MSG);
+      this.showAlert(PUBLISHING_EDIT_MSG);
 
       this.restApiService
         .executeChangeAction(
@@ -378,19 +492,19 @@ export class GrEditorView extends PolymerElement {
           handleError
         )
         .then(() => {
-          assertIsDefined(this._change, '_change');
-          GerritNav.navigateToChange(this._change, {forceReload: true});
+          assertIsDefined(this.change, 'change');
+          GerritNav.navigateToChange(this.change, {forceReload: true});
         });
     });
   }
 
-  _handleContentChange(e: CustomEvent<{value: string}>) {
+  private handleContentChange(e: CustomEvent<{value: string}>) {
     this.storeTask = debounce(
       this.storeTask,
       () => {
         const content = e.detail.value;
         if (content) {
-          this.set('_newContent', e.detail.value);
+          this.newContent = e.detail.value;
           this.storage.setEditableContentItem(this.storageKey, content);
         } else {
           this.storage.eraseEditableContentItem(this.storageKey);
@@ -400,9 +514,10 @@ export class GrEditorView extends PolymerElement {
     );
   }
 
-  _handleSaveShortcut() {
-    if (!this._saveDisabled) {
-      this._saveEdit();
+  // private but used in test
+  handleSaveShortcut() {
+    if (!this.computeSaveDisabled()) {
+      this.saveEdit();
     }
   }
 }

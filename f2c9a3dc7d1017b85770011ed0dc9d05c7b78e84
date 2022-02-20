@@ -33,6 +33,24 @@
       "message": "Should this also be done on the stable branches (so M1 macs can build)",
       "revId": "f2c9a3dc7d1017b85770011ed0dc9d05c7b78e84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1529c19_85c2f4b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-20T18:37:40Z",
+      "side": 1,
+      "message": "Good point. I can try to cherry pick this series to stable-3.5.",
+      "parentUuid": "f101651e_7a5a7584",
+      "revId": "f2c9a3dc7d1017b85770011ed0dc9d05c7b78e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

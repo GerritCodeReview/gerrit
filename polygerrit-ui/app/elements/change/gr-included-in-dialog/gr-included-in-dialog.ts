@@ -80,7 +80,7 @@ export class GrIncludedInDialog extends LitElement {
           margin-top: var(--spacing-xs);
         }
         #filterInput {
-          display: inline-block;
+          display: block;
           float: right;
           margin: 0 var(--spacing-l);
           padding: var(--spacing-xs);

@@ -28,6 +28,7 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {Timestamp} from '../../../types/common';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
+import {GrButton} from '../gr-button/gr-button';
 
 /**
  * Required values are text and value. mobileText and triggerText will
@@ -52,6 +53,7 @@ export interface DropdownItem {
 export interface GrDropdownList {
   $: {
     dropdown: IronDropdownElement;
+    trigger: GrButton;
   };
 }
 

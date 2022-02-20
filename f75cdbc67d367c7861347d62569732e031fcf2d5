@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c3580bc_521e45c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-20T15:25:26Z",
+      "side": 1,
+      "message": "See https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/80686/console",
+      "revId": "f75cdbc67d367c7861347d62569732e031fcf2d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

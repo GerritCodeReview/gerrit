@@ -283,7 +283,7 @@ export interface PageContextWithQueryMap extends PageContext {
 
 type QueryStringItem = [string, string]; // [key, value]
 
-interface PatchRangeParams {
+export interface PatchRangeParams {
   patchNum?: PatchSetNum;
   basePatchNum?: BasePatchSetNum;
 }

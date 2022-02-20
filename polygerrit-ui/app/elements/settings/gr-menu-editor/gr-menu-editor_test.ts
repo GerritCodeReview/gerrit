@@ -15,17 +15,24 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-menu-editor.js';
-import {flush as flush$0} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import '../../../test/common-test-setup-karma';
+import './gr-menu-editor';
+import {GrMenuEditor} from './gr-menu-editor';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {query, queryAll} from '../../../test/test-utils';
+import {PaperButtonElement} from '@polymer/paper-button';
+import {TopMenuItemInfo} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-menu-editor');
 
 suite('gr-menu-editor tests', () => {
-  let element;
-  let menu;
+  let element: GrMenuEditor;
+  let menu: TopMenuItemInfo[];
 
-  function assertMenuNamesEqual(element, expected) {
+  function assertMenuNamesEqual(
+    element: GrMenuEditor,
+    expected: Array<string>
+  ) {
     const names = element.menuItems.map(i => i.name);
     assert.equal(names.length, expected.length);
     for (let i = 0; i < names.length; i++) {
@@ -35,15 +42,14 @@ suite('gr-menu-editor tests', () => {
 
   // Click the up/down button (according to direction) for the index'th row.
   // The index of the first row is 0, corresponding to the array.
-  function move(element, index, direction) {
-    const selector = 'tr:nth-child(' + (index + 1) + ') .move' +
-        direction + 'Button';
-    const button =
-        element.shadowRoot
-            .querySelector('tbody').querySelector(selector)
-            .shadowRoot
-            .querySelector('paper-button');
-    MockInteractions.tap(button);
+  function move(element: GrMenuEditor, index: number, direction: string) {
+    const selector = `tr:nth-child(${index + 1}) .move${direction}Button`;
+
+    const button = query<PaperButtonElement>(
+      query<HTMLElement>(query<HTMLTableElement>(element, 'tbody'), selector),
+      'paper-button'
+    );
+    MockInteractions.tap(button!);
   }
 
   setup(async () => {
@@ -54,13 +60,11 @@ suite('gr-menu-editor tests', () => {
       {url: '/third/url', name: 'third name', target: '_blank'},
     ];
     element.set('menuItems', menu);
-    flush$0();
     await flush();
   });
 
   test('renders', () => {
-    const rows = element.shadowRoot
-        .querySelector('tbody').querySelectorAll('tr');
+    const rows = queryAll(query<HTMLElement>(element, 'tbody')!, 'tr');
     let tds;
 
     assert.equal(rows.length, menu.length);
@@ -70,8 +74,9 @@ suite('gr-menu-editor tests', () => {
       assert.equal(tds[1].textContent, menu[i].url);
     }
 
-    assert.isTrue(element._computeAddDisabled(element._newName,
-        element._newUrl));
+    assert.isTrue(
+      element._computeAddDisabled(element._newName, element._newUrl)
+    );
   });
 
   test('_computeAddDisabled', () => {
@@ -87,70 +92,71 @@ suite('gr-menu-editor tests', () => {
 
     element._newName = newName;
     element._newUrl = newUrl;
-    assert.isFalse(element._computeAddDisabled(element._newName,
-        element._newUrl));
+    assert.isFalse(
+      element._computeAddDisabled(element._newName, element._newUrl)
+    );
 
     const originalMenuLength = element.menuItems.length;
 
     element._handleAddButton();
 
     assert.equal(element.menuItems.length, originalMenuLength + 1);
-    assert.equal(element.menuItems[element.menuItems.length - 1].name,
-        newName);
+    assert.equal(element.menuItems[element.menuItems.length - 1].name, newName);
     assert.equal(element.menuItems[element.menuItems.length - 1].url, newUrl);
   });
 
   test('move items down', () => {
-    assertMenuNamesEqual(element,
-        ['first name', 'second name', 'third name']);
+    assertMenuNamesEqual(element, ['first name', 'second name', 'third name']);
 
     // Move the middle item down
     move(element, 1, 'Down');
-    assertMenuNamesEqual(element,
-        ['first name', 'third name', 'second name']);
+    assertMenuNamesEqual(element, ['first name', 'third name', 'second name']);
 
     // Moving the bottom item down is a no-op.
     move(element, 2, 'Down');
-    assertMenuNamesEqual(element,
-        ['first name', 'third name', 'second name']);
+    assertMenuNamesEqual(element, ['first name', 'third name', 'second name']);
   });
 
   test('move items up', () => {
-    assertMenuNamesEqual(element,
-        ['first name', 'second name', 'third name']);
+    assertMenuNamesEqual(element, ['first name', 'second name', 'third name']);
 
     // Move the last item up twice to be the first.
     move(element, 2, 'Up');
     move(element, 1, 'Up');
-    assertMenuNamesEqual(element,
-        ['third name', 'first name', 'second name']);
+    assertMenuNamesEqual(element, ['third name', 'first name', 'second name']);
 
     // Moving the top item up is a no-op.
     move(element, 0, 'Up');
-    assertMenuNamesEqual(element,
-        ['third name', 'first name', 'second name']);
+    assertMenuNamesEqual(element, ['third name', 'first name', 'second name']);
   });
 
   test('remove item', () => {
-    assertMenuNamesEqual(element,
-        ['first name', 'second name', 'third name']);
+    assertMenuNamesEqual(element, ['first name', 'second name', 'third name']);
 
     // Tap the delete button for the middle item.
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('tbody')
-        .querySelector('tr:nth-child(2) .remove-button')
-        .shadowRoot
-        .querySelector('paper-button'));
+    MockInteractions.tap(
+      query<PaperButtonElement>(
+        query<HTMLElement>(
+          query<HTMLTableElement>(element, 'tbody'),
+          'tr:nth-child(2) .remove-button'
+        ),
+        'paper-button'
+      )!
+    );
 
     assertMenuNamesEqual(element, ['first name', 'third name']);
 
     // Delete remaining items.
     for (let i = 0; i < 2; i++) {
-      MockInteractions.tap(element.shadowRoot
-          .querySelector('tbody')
-          .querySelector('tr:first-child .remove-button')
-          .shadowRoot
-          .querySelector('paper-button'));
+      MockInteractions.tap(
+        query<PaperButtonElement>(
+          query<HTMLElement>(
+            query<HTMLTableElement>(element, 'tbody'),
+            'tr:first-child .remove-button'
+          ),
+          'paper-button'
+        )!
+      );
     }
     assertMenuNamesEqual(element, []);
 
@@ -161,4 +167,3 @@ suite('gr-menu-editor tests', () => {
     assertMenuNamesEqual(element, ['new name']);
   });
 });
-

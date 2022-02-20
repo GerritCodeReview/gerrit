@@ -15,32 +15,44 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-ssh-editor.js';
-import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-ssh-editor';
+import {
+  mockPromise,
+  query,
+  queryAll,
+  stubRestApi,
+} from '../../../test/test-utils';
+import {GrSshEditor} from './gr-ssh-editor';
+import {SshKeyInfo} from '../../../types/common';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-ssh-editor');
 
 suite('gr-ssh-editor tests', () => {
-  let element;
-  let keys;
+  let element: GrSshEditor;
+  let keys: SshKeyInfo[];
 
   setup(async () => {
-    keys = [{
-      seq: 1,
-      ssh_public_key: 'ssh-rsa <key 1> comment-one@machine-one',
-      encoded_key: '<key 1>',
-      algorithm: 'ssh-rsa',
-      comment: 'comment-one@machine-one',
-      valid: true,
-    }, {
-      seq: 2,
-      ssh_public_key: 'ssh-rsa <key 2> comment-two@machine-two',
-      encoded_key: '<key 2>',
-      algorithm: 'ssh-rsa',
-      comment: 'comment-two@machine-two',
-      valid: true,
-    }];
+    keys = [
+      {
+        seq: 1,
+        ssh_public_key: 'ssh-rsa <key 1> comment-one@machine-one',
+        encoded_key: '<key 1>',
+        algorithm: 'ssh-rsa',
+        comment: 'comment-one@machine-one',
+        valid: true,
+      },
+      {
+        seq: 2,
+        ssh_public_key: 'ssh-rsa <key 2> comment-two@machine-two',
+        encoded_key: '<key 2>',
+        algorithm: 'ssh-rsa',
+        comment: 'comment-two@machine-two',
+        valid: true,
+      },
+    ];
 
     stubRestApi('getAccountSSHKeys').returns(Promise.resolve(keys));
 
@@ -51,31 +63,34 @@ suite('gr-ssh-editor tests', () => {
   });
 
   test('renders', () => {
-    const rows = element.root.querySelectorAll('tbody tr');
+    const rows = queryAll<HTMLTableElement>(element, 'tbody tr');
 
     assert.equal(rows.length, 2);
 
-    let cells = rows[0].querySelectorAll('td');
+    let cells = queryAll<HTMLTableElement>(rows[0], 'td');
     assert.equal(cells[0].textContent, keys[0].comment);
 
-    cells = rows[1].querySelectorAll('td');
+    cells = queryAll<HTMLTableElement>(rows[1], 'td');
     assert.equal(cells[0].textContent, keys[1].comment);
   });
 
   test('remove key', async () => {
     const lastKey = keys[1];
 
-    const saveStub = stubRestApi('deleteAccountSSHKey')
-        .callsFake(() => Promise.resolve());
+    const saveStub = stubRestApi('deleteAccountSSHKey').callsFake(() =>
+      Promise.resolve()
+    );
 
     assert.equal(element._keysToRemove.length, 0);
     assert.isFalse(element.hasUnsavedChanges);
 
     // Get the delete button for the last row.
-    const button = element.root.querySelector(
-        'tbody tr:last-of-type td:nth-child(5) gr-button');
+    const button = query<GrButton>(
+      element,
+      'tbody tr:last-of-type td:nth-child(5) gr-button'
+    );
 
-    MockInteractions.tap(button);
+    MockInteractions.tap(button!);
 
     assert.equal(element._keys.length, 1);
     assert.equal(element._keysToRemove.length, 1);
@@ -85,7 +100,7 @@ suite('gr-ssh-editor tests', () => {
 
     await element.save();
     assert.isTrue(saveStub.called);
-    assert.equal(saveStub.lastCall.args[0], lastKey.seq);
+    assert.equal(saveStub.lastCall.args[0], lastKey.seq as any);
     assert.equal(element._keysToRemove.length, 0);
     assert.isFalse(element.hasUnsavedChanges);
   });
@@ -94,10 +109,12 @@ suite('gr-ssh-editor tests', () => {
     const openSpy = sinon.spy(element.$.viewKeyOverlay, 'open');
 
     // Get the show button for the last row.
-    const button = element.root.querySelector(
-        'tbody tr:last-of-type td:nth-child(3) gr-button');
+    const button = query<GrButton>(
+      element,
+      'tbody tr:last-of-type td:nth-child(3) gr-button'
+    );
 
-    MockInteractions.tap(button);
+    MockInteractions.tap(button!);
 
     assert.equal(element._keyToView, keys[1]);
     assert.isTrue(openSpy.called);
@@ -114,9 +131,9 @@ suite('gr-ssh-editor tests', () => {
       valid: true,
     };
 
-    const addStub = stubRestApi(
-        'addAccountSSHKey').callsFake(
-        () => Promise.resolve(newKeyObject));
+    const addStub = stubRestApi('addAccountSSHKey').callsFake(() =>
+      Promise.resolve(newKeyObject)
+    );
 
     element._newKey = newKeyString;
 
@@ -142,9 +159,9 @@ suite('gr-ssh-editor tests', () => {
   test('add invalid key', async () => {
     const newKeyString = 'not even close to valid';
 
-    const addStub = stubRestApi(
-        'addAccountSSHKey').callsFake(
-        () => Promise.reject(new Error('error')));
+    const addStub = stubRestApi('addAccountSSHKey').callsFake(() =>
+      Promise.reject(new Error('error'))
+    );
 
     element._newKey = newKeyString;
 
@@ -167,4 +184,3 @@ suite('gr-ssh-editor tests', () => {
     await promise;
   });
 });
-

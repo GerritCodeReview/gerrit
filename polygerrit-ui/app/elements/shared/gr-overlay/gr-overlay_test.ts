@@ -15,21 +15,22 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-overlay.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import '../../../test/common-test-setup-karma';
+import './gr-overlay';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {GrOverlay} from './gr-overlay';
 
 const basicFixture = fixtureFromTemplate(html`
-<gr-overlay>
-      <div>content</div>
-    </gr-overlay>
+  <gr-overlay>
+    <div>content</div>
+  </gr-overlay>
 `);
 
 suite('gr-overlay tests', () => {
-  let element;
+  let element: GrOverlay;
 
   setup(() => {
-    element = basicFixture.instantiate();
+    element = basicFixture.instantiate() as GrOverlay;
   });
 
   test('popstate listener is attached on open and removed on close', () => {
@@ -38,17 +39,21 @@ suite('gr-overlay tests', () => {
     element.open();
     assert.isTrue(addEventListenerStub.called);
     assert.equal(addEventListenerStub.lastCall.args[0], 'popstate');
-    assert.equal(addEventListenerStub.lastCall.args[1],
-        element._boundHandleClose);
+    assert.equal(
+      addEventListenerStub.lastCall.args[1],
+      element._boundHandleClose
+    );
     element._overlayClosed();
     assert.isTrue(removeEventListenerStub.called);
     assert.equal(removeEventListenerStub.lastCall.args[0], 'popstate');
-    assert.equal(removeEventListenerStub.lastCall.args[1],
-        element._boundHandleClose);
+    assert.equal(
+      removeEventListenerStub.lastCall.args[1],
+      element._boundHandleClose
+    );
   });
 
   test('events are fired on fullscreen view', async () => {
-    sinon.stub(element, '_isMobile').returns(true);
+    const isMobileStub = sinon.stub(element, '_isMobile').returns(true as any);
     const openHandler = sinon.stub();
     const closeHandler = sinon.stub();
     element.addEventListener('fullscreen-overlay-opened', openHandler);
@@ -56,7 +61,7 @@ suite('gr-overlay tests', () => {
 
     await element.open();
 
-    assert.isTrue(element._isMobile.called);
+    assert.isTrue(isMobileStub.called);
     assert.isTrue(element.fullScreenOpen);
     assert.isTrue(openHandler.called);
 
@@ -66,7 +71,7 @@ suite('gr-overlay tests', () => {
   });
 
   test('events are not fired on desktop view', async () => {
-    sinon.stub(element, '_isMobile').returns(false);
+    const isMobileStub = sinon.stub(element, '_isMobile').returns(false as any);
     const openHandler = sinon.stub();
     const closeHandler = sinon.stub();
     element.addEventListener('fullscreen-overlay-opened', openHandler);
@@ -74,7 +79,7 @@ suite('gr-overlay tests', () => {
 
     await element.open();
 
-    assert.isTrue(element._isMobile.called);
+    assert.isTrue(isMobileStub.called);
     assert.isFalse(element.fullScreenOpen);
     assert.isFalse(openHandler.called);
 
@@ -83,4 +88,3 @@ suite('gr-overlay tests', () => {
     assert.isFalse(closeHandler.called);
   });
 });
-

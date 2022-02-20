@@ -221,7 +221,7 @@ export interface GenerateUrlEditViewParameters {
   changeNum: NumericChangeId;
   project: RepoName;
   path: string;
-  patchNum: PatchSetNum;
+  patchNum?: PatchSetNum;
   lineNum?: number | string;
 }
 

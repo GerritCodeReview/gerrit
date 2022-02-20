@@ -61,9 +61,11 @@ export class GrOverlay extends base {
    * @event fullscreen-overlay-opened
    */
 
-  private fullScreenOpen = false;
+  // private but used in test
+  fullScreenOpen = false;
 
-  private _boundHandleClose: () => void = () => super.close();
+  // private but used in test
+  _boundHandleClose: () => void = () => super.close();
 
   private focusableNodes?: Node[];
 

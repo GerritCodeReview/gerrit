@@ -15,38 +15,52 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-gpg-editor.js';
-import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-gpg-editor';
+import {
+  mockPromise,
+  queryAll,
+  queryAndAssert,
+  stubRestApi,
+} from '../../../test/test-utils';
+import {GrGpgEditor} from './gr-gpg-editor';
+import {
+  GpgKeyFingerprint,
+  GpgKeyInfo,
+  GpgKeyInfoStatus,
+  OpenPgpUserIds,
+} from '../../../api/rest-api';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-gpg-editor');
 
 suite('gr-gpg-editor tests', () => {
-  let element;
-  let keys;
+  let element: GrGpgEditor;
+  let keys: Record<string, GpgKeyInfo>;
 
   setup(async () => {
-    const fingerprint1 = '0192 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B';
-    const fingerprint2 = '0196 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B';
+    const fingerprint1 =
+      '0192 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B' as GpgKeyFingerprint;
+    const fingerprint2 =
+      '0196 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B' as GpgKeyFingerprint;
     keys = {
       AFC8A49B: {
         fingerprint: fingerprint1,
-        user_ids: [
-          'John Doe john.doe@example.com',
-        ],
-        key: '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
-             '\nVersion: BCPG v1.52\n\t<key 1>',
-        status: 'TRUSTED',
+        user_ids: ['John Doe john.doe@example.com'] as OpenPgpUserIds[],
+        key:
+          '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
+          '\nVersion: BCPG v1.52\n\t<key 1>',
+        status: 'TRUSTED' as GpgKeyInfoStatus,
         problems: [],
       },
       AED9B59C: {
         fingerprint: fingerprint2,
-        user_ids: [
-          'Gerrit gerrit@example.com',
-        ],
-        key: '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
-             '\nVersion: BCPG v1.52\n\t<key 2>',
-        status: 'TRUSTED',
+        user_ids: ['Gerrit gerrit@example.com'] as OpenPgpUserIds[],
+        key:
+          '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
+          '\nVersion: BCPG v1.52\n\t<key 2>',
+        status: 'TRUSTED' as GpgKeyInfoStatus,
         problems: [],
       },
     };
@@ -60,7 +74,7 @@ suite('gr-gpg-editor tests', () => {
   });
 
   test('renders', () => {
-    const rows = element.root.querySelectorAll('tbody tr');
+    const rows = queryAll(element, 'tbody tr');
 
     assert.equal(rows.length, 2);
 
@@ -74,15 +88,18 @@ suite('gr-gpg-editor tests', () => {
   test('remove key', async () => {
     const lastKey = keys[Object.keys(keys)[1]];
 
-    const saveStub = stubRestApi('deleteAccountGPGKey')
-        .callsFake(() => Promise.resolve());
+    const saveStub = stubRestApi('deleteAccountGPGKey').callsFake(() =>
+      Promise.resolve(new Response())
+    );
 
     assert.equal(element._keysToRemove.length, 0);
     assert.isFalse(element.hasUnsavedChanges);
 
     // Get the delete button for the last row.
-    const button = element.root.querySelector(
-        'tbody tr:last-of-type td:nth-child(6) gr-button');
+    const button = queryAndAssert<GrButton>(
+      element,
+      'tbody tr:last-of-type td:nth-child(6) gr-button'
+    );
 
     MockInteractions.tap(button);
 
@@ -103,8 +120,10 @@ suite('gr-gpg-editor tests', () => {
     const openSpy = sinon.spy(element.$.viewKeyOverlay, 'open');
 
     // Get the show button for the last row.
-    const button = element.root.querySelector(
-        'tbody tr:last-of-type td:nth-child(4) gr-button');
+    const button = queryAndAssert<GrButton>(
+      element,
+      'tbody tr:last-of-type td:nth-child(4) gr-button'
+    );
 
     MockInteractions.tap(button);
 
@@ -114,23 +133,22 @@ suite('gr-gpg-editor tests', () => {
 
   test('add key', async () => {
     const newKeyString =
-        '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
-        '\nVersion: BCPG v1.52\n\t<key 3>';
+      '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
+      '\nVersion: BCPG v1.52\n\t<key 3>';
     const newKeyObject = {
       ADE8A59B: {
-        fingerprint: '0194 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B',
-        user_ids: [
-          'John john@example.com',
-        ],
+        fingerprint:
+          '0194 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B' as GpgKeyFingerprint,
+        user_ids: ['John john@example.com'] as OpenPgpUserIds[],
         key: newKeyString,
-        status: 'TRUSTED',
+        status: 'TRUSTED' as GpgKeyInfoStatus,
         problems: [],
       },
     };
 
-    const addStub = stubRestApi(
-        'addAccountGPGKey').callsFake(
-        () => Promise.resolve(newKeyObject));
+    const addStub = stubRestApi('addAccountGPGKey').callsFake(() =>
+      Promise.resolve(newKeyObject)
+    );
 
     element._newKey = newKeyString;
 
@@ -156,9 +174,9 @@ suite('gr-gpg-editor tests', () => {
   test('add invalid key', async () => {
     const newKeyString = 'not even close to valid';
 
-    const addStub = stubRestApi(
-        'addAccountGPGKey').callsFake(
-        () => Promise.reject(new Error('error')));
+    const addStub = stubRestApi('addAccountGPGKey').callsFake(() =>
+      Promise.reject(new Error('error'))
+    );
 
     element._newKey = newKeyString;
 
@@ -181,4 +199,3 @@ suite('gr-gpg-editor tests', () => {
     await promise;
   });
 });
-

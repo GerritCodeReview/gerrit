@@ -44,14 +44,14 @@ enum CherryPickType {
 }
 
 // These values are directly displayed in the dialog to show progress of change
-enum ProgressStatus {
+export enum ProgressStatus {
   RUNNING = 'RUNNING',
   FAILED = 'FAILED',
   NOT_STARTED = 'NOT STARTED',
   SUCCESSFUL = 'SUCCESSFUL',
 }
 
-type Statuses = {[changeId: string]: Status};
+export type Statuses = {[changeId: string]: Status};
 
 interface Status {
   status: ProgressStatus;

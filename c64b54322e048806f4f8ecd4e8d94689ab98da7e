@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70c6e62a_3dc4698b",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T21:29:31Z",
+      "side": 1,
+      "message": "is it possible to split this render() method into sub methods? I think the header can have it\u0027s own method.\n\nIt\u0027s one of the things I like the most about Lit. Render function doesn\u0027t have to be a huge string.",
+      "range": {
+        "startLine": 206,
+        "startChar": 11,
+        "endLine": 206,
+        "endChar": 17
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f2432a9_41878fb4",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T21:29:31Z",
+      "side": 1,
+      "message": "updated instead?\nIt\u0027s what we use in other places and it\u0027s nice to be consistent unless there is a specific reason for using willUpdate.",
+      "range": {
+        "startLine": 281,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 21
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "738d35a1_7196ed5c",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T21:29:31Z",
+      "side": 1,
+      "message": "I don\u0027t really like the name \"editChange\" for this method. It\u0027s observing the change object and not really performing an action on it.\n\nIt\u0027s instead simply navigating to the change so it has the \"edit\" part in the url already?\n\n`navigateToChangeEdit` instead. WDYT?",
+      "range": {
+        "startLine": 331,
+        "startChar": 10,
+        "endLine": 331,
+        "endChar": 20
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ceb2fb8_e10663b0",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T21:29:31Z",
+      "side": 1,
+      "message": "same as above, this just fires an alert and navigates.",
+      "range": {
+        "startLine": 341,
+        "startChar": 10,
+        "endLine": 341,
+        "endChar": 18
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0650592b_1857b9dd",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T21:29:31Z",
+      "side": 1,
+      "message": "use async/await syntax?",
+      "range": {
+        "startLine": 350,
+        "startChar": 2,
+        "endLine": 350,
+        "endChar": 19
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34eb6d16_a0262d49",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T21:29:31Z",
+      "side": 1,
+      "message": "any idea what this TODO is?\n\n@Milutin added it luckily so perhaps he can mention the cleanup here.",
+      "range": {
+        "startLine": 351,
+        "startChar": 7,
+        "endLine": 351,
+        "endChar": 37
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8185f779_38c25edd",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T21:29:31Z",
+      "side": 1,
+      "message": "why is this method here?\nJust inline the usages?",
+      "range": {
+        "startLine": 445,
+        "startChar": 2,
+        "endLine": 445,
+        "endChar": 27
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67f05249_045cfb8e",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T21:29:31Z",
+      "side": 1,
+      "message": "why is this still here?\nPolymer 2 checks?",
+      "range": {
+        "startLine": 450,
+        "startChar": 4,
+        "endLine": 453,
+        "endChar": 5
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

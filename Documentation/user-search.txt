@@ -334,6 +334,10 @@ of the argument.
 message:'MESSAGE'::
 +
 Changes that match 'MESSAGE' arbitrary string in the commit message body.
+By default full text matching is used, but regular expressions can be
+enabled by starting with `^`.
+The link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
+is used for the evaluation of such patterns.
 
 [[comment]]
 comment:'TEXT'::

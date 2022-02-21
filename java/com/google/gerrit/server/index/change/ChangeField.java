@@ -871,6 +871,10 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE =
       fullText(ChangeQueryBuilder.FIELD_MESSAGE).build(ChangeData::commitMessage);
 
+  /** Commit message of the current patch set. */
+  public static final FieldDef<ChangeData, String> COMMIT_MESSAGE_EXACT =
+      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(ChangeData::commitMessage);
+
   /** Summary or inline comment. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
       fullText(ChangeQueryBuilder.FIELD_COMMENT)

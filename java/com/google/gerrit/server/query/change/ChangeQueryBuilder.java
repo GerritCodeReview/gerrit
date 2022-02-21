@@ -181,6 +181,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_MERGEABLE = "mergeable2";
   public static final String FIELD_MERGED_ON = "mergedon";
   public static final String FIELD_MESSAGE = "message";
+  public static final String FIELD_MESSAGE_EXACT = "messageexact";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
   public static final String FIELD_PARENTOF = "parentof";
@@ -1106,7 +1107,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> message(String text) {
+  public Predicate<ChangeData> message(String text) throws QueryParseException {
+    if (text.startsWith("^")) {
+      checkFieldAvailable(ChangeField.COMMIT_MESSAGE_EXACT, "messageexact");
+      return new RegexMessagePredicate(text);
+    }
     return ChangePredicates.message(text);
   }
 

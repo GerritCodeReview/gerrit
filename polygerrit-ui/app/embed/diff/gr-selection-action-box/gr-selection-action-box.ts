@@ -95,7 +95,8 @@ export class GrSelectionActionBox extends PolymerElement {
     return null;
   }
 
-  private _getTargetBoundingRect(el: Text | Element | Range) {
+  // private but used in test
+  _getTargetBoundingRect(el: Text | Element | Range) {
     let rect;
     if (el instanceof Text) {
       const range = document.createRange();
@@ -108,7 +109,8 @@ export class GrSelectionActionBox extends PolymerElement {
     return rect;
   }
 
-  private _handleMouseDown(e: MouseEvent) {
+  // private but used in test
+  _handleMouseDown(e: MouseEvent) {
     if (e.button !== 0) {
       return;
     } // 0 = main button

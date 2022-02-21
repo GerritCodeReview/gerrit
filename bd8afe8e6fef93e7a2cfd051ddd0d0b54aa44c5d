@@ -51,6 +51,24 @@
       "parentUuid": "506af0d6_3937ead4",
       "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f195b5e8_dd0e4366",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-21T11:38:54Z",
+      "side": 1,
+      "message": "I\u0027m with Ossi here. The intention of this change is to make this description consistent across the code base and \"I would prefer this is not merged as is\" is the text that was agreed on by change I035a615a6c [1]. It was a bug in that change that the description was not changed everywhere and I agree we should fix this (hence my Code-Review+2 on this change).\n\nWhether we think this description can be improved further is an important discussion, but sounds more like a follow-up to me and is independent to making the description consistent now.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/54000",
+      "parentUuid": "3eb8db12_3dec6e24",
+      "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -209,6 +209,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "270f8882_dbeeff62",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8249,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-02-21T16:58:42Z",
+      "side": 1,
+      "message": "I think that currently non-applicable SR\u0027s are stored, but I don\u0027t see any strong reason why this is the case.\n\nI am not opposed to Patrick\u0027s suggestion (to skip the enum adoption on storage level), however, I really dislike the logic of EnumTypeAdapterFactory[1]. This is like a ticking bomb, that might explode with any change.\n\nI will let Youssef to select an option to proceed with. +1 for the more explicit API though.\n\nhttps://gerrit.googlesource.com/gerrit/+/edc37bcca670d31a19ccc15011bbea3317d29083/java/com/google/gerrit/json/EnumTypeAdapterFactory.java",
+      "parentUuid": "453d42db_a37bb927",
+      "range": {
+        "startLine": 8243,
+        "startChar": 0,
+        "endLine": 8249,
+        "endChar": 51
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5baef048_3b52475b",
         "filename": "java/com/google/gerrit/extensions/common/SubmitRequirementExpressionInfo.java",
         "patchSetId": 7

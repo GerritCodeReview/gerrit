@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1782f5e_6dd958a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-21T08:47:20Z",
+      "side": 1,
+      "message": "The exclamation mark should no longer be needed with queryAndAssert.\n\nHere and throughout.",
+      "revId": "c5a6ab71e185d24e723df66d571034841af03100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -498,6 +498,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('shows confirm dialog for delete edit', () => {
+        element.set('loggedIn', true);
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
 
@@ -515,6 +516,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('hide publishEdit and rebaseEdit if change is not open', () => {
+        element.set('loggedIn', true);
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
         element.change = {status: 'MERGED'};
@@ -531,6 +533,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('edit patchset is loaded, needs rebase', () => {
+        element.set('loggedIn', true);
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
         element.change = {status: 'NEW'};
@@ -550,6 +553,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('edit patchset is loaded, does not need rebase', () => {
+        element.set('loggedIn', true);
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
         element.change = {status: 'NEW'};
@@ -569,6 +573,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('edit mode is loaded, no edit patchset', () => {
+        element.set('loggedIn', true);
         element.set('editMode', true);
         element.set('editPatchsetLoaded', false);
         element.change = {status: 'NEW'};
@@ -587,6 +592,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('normal patch set', () => {
+        element.set('loggedIn', true);
         element.set('editMode', false);
         element.set('editPatchsetLoaded', false);
         element.change = {status: 'NEW'};
@@ -605,6 +611,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('edit action', done => {
+        element.set('loggedIn', true);
         element.addEventListener('edit-tap', () => { done(); });
         element.set('editMode', true);
         element.change = {status: 'NEW'};
@@ -627,6 +634,25 @@ suite('gr-change-actions tests', () => {
             .querySelector('gr-button[data-action-key="edit"]');
         assert.isOk(editButton);
         MockInteractions.tap(editButton);
+      });
+
+      test('edit action not shown for logged out user', async () => {
+        element.set('loggedIn', false);
+        element.set('editMode', false);
+        element.set('editPatchsetLoaded', false);
+        element.change = {status: 'NEW'};
+        await flush();
+
+        assert.isNotOk(element.shadowRoot
+            .querySelector('gr-button[data-action-key="publishEdit"]'));
+        assert.isNotOk(element.shadowRoot
+            .querySelector('gr-button[data-action-key="rebaseEdit"]'));
+        assert.isNotOk(element.shadowRoot
+            .querySelector('gr-button[data-action-key="deleteEdit"]'));
+        assert.isOk(element.shadowRoot
+            .querySelector('gr-button[data-action-key="edit"]'));
+        assert.isNotOk(element.shadowRoot
+            .querySelector('gr-button[data-action-key="stopEdit"]'));
       });
     });
 

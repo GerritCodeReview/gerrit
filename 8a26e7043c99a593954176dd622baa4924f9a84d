@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aaa4ec6_6930cc36",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-21T09:07:14Z",
+      "side": 1,
+      "message": "One more queryAndAssert and unnecessary `!`",
+      "revId": "8a26e7043c99a593954176dd622baa4924f9a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

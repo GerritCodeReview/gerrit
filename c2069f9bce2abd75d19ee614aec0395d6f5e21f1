@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcf026e4_e4918461",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-21T10:02:56Z",
+      "side": 1,
+      "message": "Shouldn\u0027t !loggedIn delete these actions?",
+      "revId": "c2069f9bce2abd75d19ee614aec0395d6f5e21f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c35e8a7_058b6507",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-21T10:02:56Z",
+      "side": 1,
+      "message": "Please add a test case for logged in false",
+      "revId": "c2069f9bce2abd75d19ee614aec0395d6f5e21f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

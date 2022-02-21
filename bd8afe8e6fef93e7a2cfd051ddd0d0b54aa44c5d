@@ -87,6 +87,24 @@
       "parentUuid": "f195b5e8_dd0e4366",
       "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19ec693e_35315ba7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-02-21T13:53:06Z",
+      "side": 1,
+      "message": "+1 to making the writing consistent across the UI, thanks Ossi for proposing this change.\n\nAs for changing the UX writing for -1, I propose we keep it as it is today as we have no negative signals about the current writing.",
+      "parentUuid": "690c68a1_ac2143ba",
+      "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

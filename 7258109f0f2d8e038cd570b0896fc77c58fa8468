@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b631a23a_f731f880",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-21T07:48:00Z",
+      "side": 1,
+      "message": "c",
+      "revId": "7258109f0f2d8e038cd570b0896fc77c58fa8468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e8864e9_db5c81b9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-21T07:48:00Z",
+      "side": 1,
+      "message": "this can be simplified to\n\nassert.isOk(copyEl);",
+      "revId": "7258109f0f2d8e038cd570b0896fc77c58fa8468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8828d994_3163570f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-21T07:48:00Z",
+      "side": 1,
+      "message": "queryAndAssert?",
+      "revId": "7258109f0f2d8e038cd570b0896fc77c58fa8468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cddf800_67f04da4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-21T07:48:00Z",
+      "side": 1,
+      "message": "queryAndAssert?",
+      "revId": "7258109f0f2d8e038cd570b0896fc77c58fa8468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec4eae7e_917ec0a1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-21T07:48:00Z",
+      "side": 1,
+      "message": "queryAndAssert?",
+      "revId": "7258109f0f2d8e038cd570b0896fc77c58fa8468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

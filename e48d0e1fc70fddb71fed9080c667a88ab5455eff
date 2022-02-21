@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5c18560_207f5b5e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T11:11:00Z",
+      "side": 1,
+      "message": "is the await on #494 required?\n\nIf so, leave a comment on why we need to await twice here.",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 497,
+        "endChar": 0
+      },
+      "revId": "e48d0e1fc70fddb71fed9080c667a88ab5455eff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

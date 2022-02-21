@@ -16,6 +16,23 @@
       "message": "See https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/80686/console",
       "revId": "f75cdbc67d367c7861347d62569732e031fcf2d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05cb0e7a_2b3f8953",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-21T07:48:57Z",
+      "side": 1,
+      "message": "Have you tested this manually that it still looks ok?",
+      "revId": "f75cdbc67d367c7861347d62569732e031fcf2d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

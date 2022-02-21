@@ -355,7 +355,8 @@ export const htmlTemplate = html`
           </gr-copy-clipboard>
         </div>
         <!-- end headerTitle -->
-        <div class="commitActions" hidden$="[[!_loggedIn]]">
+        <!-- always show gr-change-actions regardless if logged in or not -->
+        <div class="commitActions">
           <gr-change-actions
             id="actions"
             change="[[_change]]"

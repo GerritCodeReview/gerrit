@@ -39,7 +39,7 @@ import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
-import {MockHighlightService} from '../services/highlight/highlight-service_test';
+import {MockHighlightService} from '../services/highlight/highlight-service-mock';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {

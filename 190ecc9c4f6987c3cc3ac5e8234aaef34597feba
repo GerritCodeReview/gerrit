@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42f98609_8dceb1dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-21T12:33:28Z",
+      "side": 1,
+      "message": "as edwin pointed out to me, i actually ran into this issue, see https://crbug.com/gerrit/15708.\n\nmy use case is as pointed out by nasser: i have an automation script that actually wants all the results. the limit makes things unreasonably complicated.\n\nmy understanding from a frontend/user perspective is indeed that the \"limit\" is in fact only a default, to prevent _accidentally_ unreasonable queries.\n\nas was pointed out already, limiting the number of returned results isn\u0027t an effective way to prevent DoS, as even small continuation queries can cause vast load.\nan actual DoS protection needs to set cpu time limits, accumulated by account (where anonymous users are more or less lumped together), with exponential back-off. this of course requires worker threads that cooperate with interruption.\n\ni suppose the bug report might be a better place to continue the discussion.",
+      "revId": "190ecc9c4f6987c3cc3ac5e8234aaef34597feba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

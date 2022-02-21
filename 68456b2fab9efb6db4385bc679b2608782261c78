@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ecfe51d_f1946f82",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T17:29:48Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4528b93d_e72a307c",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 52
+      },
+      "revId": "68456b2fab9efb6db4385bc679b2608782261c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80769f7c_55e62e8c",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-21T14:25:33Z",
       "side": 1,
       "message": "use helper `createRevision` from test-data-generators so that test has realistic data, rather than casting to hide that data is incomplete.\n\nSame below",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 57
+      },
+      "revId": "68456b2fab9efb6db4385bc679b2608782261c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8da13b87_2158cee0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T17:29:48Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "80769f7c_55e62e8c",
       "range": {
         "startLine": 129,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3be38db8_ca838c1a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T17:29:48Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "baeac896_8b946328",
+      "range": {
+        "startLine": 161,
+        "startChar": 25,
+        "endLine": 161,
+        "endChar": 39
+      },
+      "revId": "68456b2fab9efb6db4385bc679b2608782261c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56c04d7b_3ae3b687",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-02-21T14:25:33Z",
       "side": 1,
       "message": "RequestPayload ?\n\nsame in next lines",
+      "range": {
+        "startLine": 168,
+        "startChar": 31,
+        "endLine": 168,
+        "endChar": 34
+      },
+      "revId": "68456b2fab9efb6db4385bc679b2608782261c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22725ec2_824bd268",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T17:29:48Z",
+      "side": 1,
+      "message": "That won\u0027t work because destination, allow_conflicts and allow_empty don\u0027t exist on RequestPayload so it complains.",
+      "parentUuid": "56c04d7b_3ae3b687",
       "range": {
         "startLine": 168,
         "startChar": 31,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3609ea2a_cc1644d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T17:29:48Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "505e36b7_2f85fff8",
+      "range": {
+        "startLine": 228,
+        "startChar": 38,
+        "endLine": 228,
+        "endChar": 46
+      },
+      "revId": "68456b2fab9efb6db4385bc679b2608782261c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c3558fc_8540bbbf",
@@ -129,6 +249,30 @@
       "writtenOn": "2022-02-21T14:25:33Z",
       "side": 1,
       "message": "`{status: ProgressStatus.RUNNING}`\n\nsame everywhere",
+      "range": {
+        "startLine": 250,
+        "startChar": 40,
+        "endLine": 250,
+        "endChar": 75
+      },
+      "revId": "68456b2fab9efb6db4385bc679b2608782261c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8ff4c5f_7d483083",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T17:29:48Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2c3558fc_8540bbbf",
       "range": {
         "startLine": 250,
         "startChar": 40,

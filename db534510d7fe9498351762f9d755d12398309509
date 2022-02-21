@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02bb91dd_42816f26",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-21T11:08:17Z",
+      "side": 1,
+      "message": "use `lastKey.seq.toString()` or\n```\n`${lasKey.seq}`\n```\ninstead of casting to any. We have an integer and a string is expected just like the prod code.",
+      "range": {
+        "startLine": 103,
+        "startChar": 44,
+        "endLine": 103,
+        "endChar": 62
+      },
+      "revId": "db534510d7fe9498351762f9d755d12398309509",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d1b8dea_6b1889cf",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-21T11:08:17Z",
+      "side": 1,
+      "message": "FYI you should be able to shorten these to call the promise methods directly.\n`stubRestApi(\u0027addAccountSSHKey\u0027).resolves(newKeyObject);` and similar for reject\nif you would like to clean up",
+      "range": {
+        "startLine": 134,
+        "startChar": 20,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "db534510d7fe9498351762f9d755d12398309509",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

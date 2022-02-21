@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a56f9c45_70c9080c",
+        "filename": "polygerrit-ui/app/services/storage/gr-storage_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-21T16:54:24Z",
+      "side": 1,
+      "message": "Not necessary, but if you use a closure Map\u003cstring, unknown\u003e in `mockStorage()` instead of the current `this[key]` then you probably won\u0027t have this issue. Or you can verify individually the missing items are gone and the kept items are still there.\nIt\u0027s ok to leave it how you have it since your comment is clear enough.",
+      "range": {
+        "startLine": 189,
+        "startChar": 3,
+        "endLine": 192,
+        "endChar": 40
+      },
+      "revId": "a80ea7cd6a0f48da5fa2e76a601ff052b2bd4715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

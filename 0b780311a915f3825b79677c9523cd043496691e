@@ -16,6 +16,24 @@
       "message": "Is this necessary?",
       "revId": "0b780311a915f3825b79677c9523cd043496691e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2c03675_bf9f2cd4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T08:40:41Z",
+      "side": 1,
+      "message": "Appears not, removed, thanks.",
+      "parentUuid": "dda5b54b_87926797",
+      "revId": "0b780311a915f3825b79677c9523cd043496691e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

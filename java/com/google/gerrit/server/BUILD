@@ -113,6 +113,7 @@ java_library(
         "//lib/commons:dbcp",
         "//lib/commons:lang3",
         "//lib/commons:net",
+        "//lib/commons:text",
         "//lib/commons:validator",
         "//lib/errorprone:annotations",
         "//lib/flogger:api",

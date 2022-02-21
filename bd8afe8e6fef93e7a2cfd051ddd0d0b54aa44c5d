@@ -69,6 +69,24 @@
       "parentUuid": "3eb8db12_3dec6e24",
       "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "690c68a1_ac2143ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-21T11:51:29Z",
+      "side": 1,
+      "message": "the counter-argument to that position is that it would cause additional code churn, which i\u0027m personally not a fan of. so if the change is to be made, i\u0027d be in favor of squashing it here.\n\nthe change would be trivial to execute, so i\u0027m basically just waiting for a consensus. i\u0027m actually leaning towards actually doing it at this point.",
+      "parentUuid": "f195b5e8_dd0e4366",
+      "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

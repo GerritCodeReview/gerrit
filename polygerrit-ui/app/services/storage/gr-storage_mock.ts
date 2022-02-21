@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import {NumericChangeId} from '../../types/common';
 import {StorageLocation, StorageObject, StorageService} from './gr-storage';
 
 const storage = new Map<string, StorageObject>();
@@ -72,5 +73,13 @@ export const grStorageMock: StorageService = {
 
   eraseEditableContentItem(key: string): void {
     storage.delete(getEditableContentKey(key));
+  },
+
+  eraseEditableContentItemsForChangeEdit(changeNum?: NumericChangeId): void {
+    for (const key of Array.from(storage.keys())) {
+      if (key.startsWith(`editablecontent:c${changeNum}_ps`)) {
+        this.eraseEditableContentItem(key.replace('editablecontent:', ''));
+      }
+    }
   },
 };

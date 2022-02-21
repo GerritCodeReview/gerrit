@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {CommentRange, PatchSetNum} from '../../types/common';
+import {CommentRange, NumericChangeId, PatchSetNum} from '../../types/common';
 import {Finalizable} from '../registry';
 
 export interface StorageLocation {
@@ -43,4 +43,6 @@ export interface StorageService extends Finalizable {
   setEditableContentItem(key: string, message: string): void;
 
   eraseEditableContentItem(key: string): void;
+
+  eraseEditableContentItemsForChangeEdit(changeNum?: NumericChangeId): void;
 }

@@ -34,6 +34,7 @@ import {
   query,
   queryAll,
   queryAndAssert,
+  spyStorage,
   stubReporting,
   stubRestApi,
 } from '../../../test/test-utils';
@@ -60,6 +61,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {UIActionInfo} from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {getAppContext} from '../../../services/app-context';
 
 const basicFixture = fixtureFromElement('gr-change-actions');
 
@@ -643,6 +645,51 @@ suite('gr-change-actions tests', () => {
         await flush();
 
         assert.equal(fireActionStub.lastCall.args[0], '/edit');
+      });
+
+      test('all cached change edits get deleted on delete edit', async () => {
+        element.set('editMode', true);
+        element.set('editPatchsetLoaded', true);
+
+        const storage = getAppContext().storageService;
+        storage.setEditableContentItem(
+          'c42_ps2_index.php',
+          '<?php\necho 42_ps_2'
+        );
+        storage.setEditableContentItem(
+          'c42_psedit_index.php',
+          '<?php\necho 42_ps_edit'
+        );
+
+        assert.equal(
+          storage.getEditableContentItem('c42_ps2_index.php')!.message,
+          '<?php\necho 42_ps_2'
+        );
+        assert.equal(
+          storage.getEditableContentItem('c42_psedit_index.php')!.message,
+          '<?php\necho 42_ps_edit'
+        );
+
+        assert.isOk(storage.getEditableContentItem('c42_psedit_index.php')!);
+        assert.isOk(storage.getEditableContentItem('c42_ps2_index.php')!);
+        assert.isNotOk(storage.getEditableContentItem('c50_psedit_index.php')!);
+
+        const eraseEditableContentItemsForChangeEditSpy = spyStorage(
+          'eraseEditableContentItemsForChangeEdit'
+        );
+        sinon.stub(element, '_fireAction');
+        element._handleDeleteEditTap();
+        assert.isFalse(element.$.confirmDeleteEditDialog.hidden);
+        tap(
+          queryAndAssert(
+            queryAndAssert(element, '#confirmDeleteEditDialog'),
+            'gr-button[primary]'
+          )
+        );
+        await flush();
+        assert.isTrue(eraseEditableContentItemsForChangeEditSpy.called);
+        assert.isNotOk(storage.getEditableContentItem('c42_psedit_index.php')!);
+        assert.isNotOk(storage.getEditableContentItem('c42_ps2_index.php')!);
       });
 
       test('edit patchset is loaded, needs rebase', async () => {

@@ -3,8 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import {LitElement} from 'lit';
+import {LitElement, html, css} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import {
@@ -12,14 +11,12 @@ import {
   YOUR_TURN,
   GerritNav,
 } from '../../core/gr-navigation/gr-navigation';
-import {html} from 'lit-html/static';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {getAppContext} from '../../../services/app-context';
 import {ChangeInfo, ServerInfo, AccountInfo} from '../../../api/rest-api';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css} from '@lit/reactive-element';
 import {Metadata} from '../../../utils/change-metadata-util';
 import {WAITING} from '../../../constants/constants';
 import {ifDefined} from 'lit/directives/if-defined';

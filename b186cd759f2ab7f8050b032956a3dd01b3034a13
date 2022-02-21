@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "548e7022_65aa8a80",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "This bypasses the permitted limit that is granted to the user, which means all users can now do unlimited queries which opens the door for DoS attacks.\n\nAlso this ignores the limit which is supported by the index backend. This means you can now trigger queries which a larger limit than the max limit that is supported by the index backend (not really because if the index backend has a max limit, setting --no-limit triggers an exception in QueryProcessor.query which add +1 to the limit, making this limit fall over to MIN_INTEGER and then resulting in a failure).",
       "revId": "b186cd759f2ab7f8050b032956a3dd01b3034a13",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b103ebdb_68d91447",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
@@ -32,8 +33,25 @@
       "message": "Proposed fix: https://gerrit-review.googlesource.com/c/gerrit/+/250256",
       "parentUuid": "548e7022_65aa8a80",
       "revId": "b186cd759f2ab7f8050b032956a3dd01b3034a13",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "500e81d3_ec9e8609",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-21T17:03:03Z",
+      "side": 1,
+      "message": "\u003e This bypasses the permitted limit that is granted to the user, which means all users can now do unlimited queries which opens the door for DoS attacks.\n\nI fully agree: this needs to be fixed. We cannot have an ACL defined by the Gerrit admin being overridden by any random user.",
+      "parentUuid": "b103ebdb_68d91447",
+      "revId": "b186cd759f2ab7f8050b032956a3dd01b3034a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

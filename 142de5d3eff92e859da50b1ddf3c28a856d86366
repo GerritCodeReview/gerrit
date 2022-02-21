@@ -48,6 +48,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca5c43f7_c06a89f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-21T09:34:00Z",
+      "side": 1,
+      "message": "Should this be abandoned? I think we are going for the FE solution.",
+      "revId": "142de5d3eff92e859da50b1ddf3c28a856d86366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "497687db_bfb8ffa2",

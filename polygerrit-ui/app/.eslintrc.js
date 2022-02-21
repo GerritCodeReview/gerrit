@@ -293,6 +293,12 @@ module.exports = {
       extends: [require.resolve('gts/.eslintrc.json')],
       rules: {
         'no-restricted-imports': ['error', {
+          name: 'lit-html/static',
+          message: 'Use lit instead',
+        }, {
+          name: '@lit/reactive-element',
+          message: 'Use lit instead',
+        }, {
           name: '@polymer/decorators/lib/decorators',
           message: 'Use @polymer/decorators instead',
         }],

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8077328_aa56e567",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1528,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T16:44:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2fc2adb7_dfd1a82e",
+      "range": {
+        "startLine": 1518,
+        "startChar": 3,
+        "endLine": 1528,
+        "endChar": 5
+      },
+      "revId": "0f7e643b5e0b0369acbd60672dc572f4f1d0b32e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d68be5a6_3fe98589",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-21T14:14:12Z",
       "side": 1,
       "message": "use `getAppContext().storageService` instead of exposing private from element.",
+      "range": {
+        "startLine": 653,
+        "startChar": 8,
+        "endLine": 653,
+        "endChar": 23
+      },
+      "revId": "0f7e643b5e0b0369acbd60672dc572f4f1d0b32e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bedc881_b3b37af9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T16:44:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d68be5a6_3fe98589",
       "range": {
         "startLine": 653,
         "startChar": 8,

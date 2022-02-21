@@ -22,6 +22,30 @@
       },
       "revId": "e48d0e1fc70fddb71fed9080c667a88ab5455eff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa929edc_6601e740",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T12:31:38Z",
+      "side": 1,
+      "message": "I\u0027ve changed it so loading is set to false in the finally.",
+      "parentUuid": "c5c18560_207f5b5e",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 497,
+        "endChar": 0
+      },
+      "revId": "e48d0e1fc70fddb71fed9080c667a88ab5455eff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

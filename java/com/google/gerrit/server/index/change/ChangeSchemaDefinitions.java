@@ -214,8 +214,13 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .build();
 
   /** Added new field {@link ChangeField#FOOTER_NAME}. */
+  @Deprecated
   static final Schema<ChangeData> V76 =
       new Schema.Builder<ChangeData>().add(V75).add(ChangeField.FOOTER_NAME).build();
+
+  /** Added new field {@link ChangeField#COMMIT_MESSAGE_EXACT}. */
+  static final Schema<ChangeData> V77 =
+      new Schema.Builder<ChangeData>().add(V76).add(ChangeField.COMMIT_MESSAGE_EXACT).build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

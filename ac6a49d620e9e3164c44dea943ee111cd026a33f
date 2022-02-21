@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76345b19_a4bc4434",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 42
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-21T10:52:23Z",
+      "side": 1,
+      "message": "you can probably just use the return value of `waitUntilObserved` directly instead of `model.getState().selectedChangeIds`. It returns the matching `s` that fit the predicate.",
+      "range": {
+        "startLine": 345,
+        "startChar": 0,
+        "endLine": 345,
+        "endChar": 76
+      },
+      "revId": "ac6a49d620e9e3164c44dea943ee111cd026a33f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff26ffef_61247025",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
         "patchSetId": 42
@@ -48,6 +71,29 @@
       "writtenOn": "2022-02-18T16:45:31Z",
       "side": 1,
       "message": "I don\u0027t like this tight coupling with the structure of gr-change-list-item.\n\nWhy not explicitly set the selectedChangeIds on the model and then keep the rest of the test.\n\nelement.bulkActionsModel.addSelectedChangeId(\u00271\u0027);\nelement.bulkActionsModel.addSelectedChangeId(\u00272\u0027);",
+      "revId": "ac6a49d620e9e3164c44dea943ee111cd026a33f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31648c73_069ca064",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 42
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-21T10:52:23Z",
+      "side": 1,
+      "message": "this should take Ids now? Nothing else uses ChangeInfo and you can shorten your logic to\n```\nconst selectedChangeIds \u003d\n  current.selectedChanges.filter(visibleChangeIds.includes);\n```",
+      "range": {
+        "startLine": 54,
+        "startChar": 7,
+        "endLine": 54,
+        "endChar": 21
+      },
       "revId": "ac6a49d620e9e3164c44dea943ee111cd026a33f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

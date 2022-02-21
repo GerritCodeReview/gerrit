@@ -553,6 +553,9 @@ export class GrChangeActions
   @property({type: Object})
   _config?: ServerInfo;
 
+  @property({type: Boolean})
+  loggedIn = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
@@ -830,6 +833,7 @@ export class GrChangeActions
     'editPatchsetLoaded',
     'editBasedOnCurrentPatchSet',
     'disableEdit',
+    'loggedIn',
     'actions.*',
     'change.*'
   )
@@ -838,13 +842,19 @@ export class GrChangeActions
     editPatchsetLoaded: boolean,
     editBasedOnCurrentPatchSet: boolean,
     disableEdit: boolean,
+    loggedIn: boolean,
     actionsChangeRecord?: PolymerDeepPropertyChange<
       ActionNameToActionInfoMap,
       ActionNameToActionInfoMap
     >,
     changeChangeRecord?: PolymerDeepPropertyChange<ChangeInfo, ChangeInfo>
   ) {
-    if (actionsChangeRecord === undefined || changeChangeRecord === undefined) {
+    // Hide change edits if not logged in
+    if (
+      actionsChangeRecord === undefined ||
+      changeChangeRecord === undefined ||
+      !loggedIn
+    ) {
       return;
     }
     if (disableEdit) {

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34483ae1_9e1fd722",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-21T14:34:38Z",
+      "side": 1,
+      "message": "`element \u003d queryAndAssert\u003cGrSelectionActionBox\u003e(...)` will give you type checking instead of cast",
+      "range": {
+        "startLine": 38,
+        "startChar": 14,
+        "endLine": 38,
+        "endChar": 37
+      },
+      "revId": "c9b243e975bfddd1baa1dfe189504caca57c8c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ff57997_346cc3c9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-21T14:34:38Z",
+      "side": 1,
+      "message": "`target \u003d queryAndAssert\u003cHTMLDivElement\u003e(\u0027.target\u0027);`",
+      "range": {
+        "startLine": 83,
+        "startChar": 15,
+        "endLine": 83,
+        "endChar": 38
+      },
+      "revId": "c9b243e975bfddd1baa1dfe189504caca57c8c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df395766_89d4d0db",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-21T14:34:38Z",
+      "side": 1,
+      "message": "can you do `target.firstElementChild` instead of casting? same below",
+      "range": {
+        "startLine": 114,
+        "startChar": 31,
+        "endLine": 114,
+        "endChar": 63
+      },
+      "revId": "c9b243e975bfddd1baa1dfe189504caca57c8c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

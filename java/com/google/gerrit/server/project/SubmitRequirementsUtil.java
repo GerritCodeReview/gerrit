@@ -112,10 +112,21 @@ public class SubmitRequirementsUtil {
       String srName = legacy.getKey().name().toLowerCase();
       SubmitRequirementResult projectConfigResult = requirementsByName.get(srName);
       SubmitRequirementResult legacyResult = legacy.getValue();
-      if (projectConfigResult != null && matchByStatus(projectConfigResult, legacyResult)) {
+      // If there's no project config requirement with the same name as the legacy requirement
+      // then add the legacy SR to the result. There is no mismatch in results in this case.
+      if (projectConfigResult == null) {
+        result.put(legacy.getKey(), legacy.getValue());
+        continue;
+      }
+      if (matchByStatus(projectConfigResult, legacyResult)) {
+        // There exists a project config SR with the same name as the legacy SR, and they are
+        // matching in result. No need to include the legacy SR in the output since the project
+        // config SR is already there.
         metrics.submitRequirementsMatchingWithLegacy.increment(project.get(), srName);
         continue;
       }
+      // There exists a project config SR with the same name as the legacy SR but they are not
+      // matching in their result. Increment the mismatch count and add the legacy SR to the result.
       metrics.submitRequirementsMismatchingWithLegacy.increment(project.get(), srName);
       result.put(legacy.getKey(), legacy.getValue());
     }

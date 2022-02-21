@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6bbcba7_7a2fc1c2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T11:00:36Z",
+      "side": 1,
+      "message": "I changed it so we no longer use a class to hide the element, rather we do this directly in javascript.",
+      "parentUuid": "dc00c3d7_f38ba42f",
+      "range": {
+        "startLine": 283,
+        "startChar": 7,
+        "endLine": 283,
+        "endChar": 49
+      },
+      "revId": "9101817e30bc5f2277ff20a6ffeb31840293a183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54072308_e9e83e5f",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41776965_f086c6da",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T11:00:36Z",
+      "side": 1,
+      "message": "Not particularly, i can change it to updated, thanks.",
+      "parentUuid": "54072308_e9e83e5f",
+      "range": {
+        "startLine": 299,
+        "startChar": 2,
+        "endLine": 299,
+        "endChar": 21
+      },
+      "revId": "9101817e30bc5f2277ff20a6ffeb31840293a183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7dd3530f_cd622c73",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-02-21T10:57:16Z",
       "side": 1,
       "message": "this method no longer exists.\nwhy is there a test file with its name still?",
+      "range": {
+        "startLine": 476,
+        "startChar": 8,
+        "endLine": 476,
+        "endChar": 31
+      },
+      "revId": "9101817e30bc5f2277ff20a6ffeb31840293a183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfa06bea_980614cc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T11:00:36Z",
+      "side": 1,
+      "message": "I forgot to rename the test, thanks.",
+      "parentUuid": "7dd3530f_cd622c73",
       "range": {
         "startLine": 476,
         "startChar": 8,

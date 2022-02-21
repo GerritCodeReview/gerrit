@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f5ab848_d5878df2",
+        "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T21:07:13Z",
+      "side": 1,
+      "message": "queryAndAssert then perhaps you don\u0027t need to use `button!`?",
+      "range": {
+        "startLine": 99,
+        "startChar": 19,
+        "endLine": 99,
+        "endChar": 24
+      },
+      "revId": "e4bc0eb664807a80f6efaa4def46d809c834639c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

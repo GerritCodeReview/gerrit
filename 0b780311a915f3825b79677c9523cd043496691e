@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dda5b54b_87926797",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-21T07:42:25Z",
+      "side": 1,
+      "message": "Is this necessary?",
+      "revId": "0b780311a915f3825b79677c9523cd043496691e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

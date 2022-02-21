@@ -15,33 +15,41 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {GrStorageService} from './gr-storage_impl.js';
+import '../../test/common-test-setup-karma';
+import {PatchSetNum} from '../../types/common';
+import {StorageLocation} from './gr-storage';
+import {GrStorageService} from './gr-storage_impl';
 
 suite('gr-storage tests', () => {
-  let grStorage;
+  // We have to type as any because we access private methods
+  // for testing
+  let grStorage: any;
 
-  function mockStorage(opt_quotaExceeded) {
+  function mockStorage(opt_quotaExceeded: boolean) {
     return {
-      getItem(key) { return this[key]; },
-      removeItem(key) { delete this[key]; },
-      setItem(key, value) {
+      getItem(key: string) {
+        return (this as any)[key];
+      },
+      removeItem(key: string) {
+        delete (this as any)[key];
+      },
+      setItem(key: string, value: string) {
         if (opt_quotaExceeded) {
           throw new DOMException('error', 'QuotaExceededError');
         }
-        this[key] = value;
+        (this as any)[key] = value;
       },
     };
   }
 
   setup(() => {
     grStorage = new GrStorageService();
-    grStorage.storage = mockStorage();
+    grStorage.storage = mockStorage(false);
   });
 
   test('storing, retrieving and erasing drafts', () => {
     const changeNum = 1234;
-    const patchNum = 5;
+    const patchNum = 5 as PatchSetNum;
     const path = 'my_source_file.js';
     const line = 123;
     const location = {
@@ -62,8 +70,10 @@ suite('gr-storage tests', () => {
     // Setting the draft stores it under the expected key.
     grStorage.setDraftComment(location, 'my comment');
     assert.isOk(grStorage.storage.getItem(key));
-    assert.equal(JSON.parse(grStorage.storage.getItem(key)).message,
-        'my comment');
+    assert.equal(
+      JSON.parse(grStorage.storage.getItem(key)).message,
+      'my comment'
+    );
     assert.isOk(JSON.parse(grStorage.storage.getItem(key)).updated);
 
     // Erasing the draft removes the key.
@@ -91,10 +101,13 @@ suite('gr-storage tests', () => {
     const cleanupSpy = sinon.spy(grStorage, 'cleanupItems');
 
     // Create a message with a timestamp that is a second behind the max age.
-    grStorage.storage.setItem(key, JSON.stringify({
-      message: 'old message',
-      updated: Date.now() - 24 * 60 * 60 * 1000 - 1000,
-    }));
+    grStorage.storage.setItem(
+      key,
+      JSON.stringify({
+        message: 'old message',
+        updated: Date.now() - 24 * 60 * 60 * 1000 - 1000,
+      })
+    );
 
     // Getting the draft should cause it to be removed.
     const draft = grStorage.getDraftComment(location);
@@ -106,10 +119,10 @@ suite('gr-storage tests', () => {
 
   test('getDraftKey', () => {
     const changeNum = 1234;
-    const patchNum = 5;
+    const patchNum = 5 as PatchSetNum;
     const path = 'my_source_file.js';
     const line = 123;
-    const location = {
+    const location: StorageLocation = {
       changeNum,
       patchNum,
       path,
@@ -219,4 +232,3 @@ suite('gr-storage tests', () => {
     );
   });
 });
-

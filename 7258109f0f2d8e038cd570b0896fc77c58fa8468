@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e47df61_2649ae6c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T08:43:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5e8864e9_db5c81b9",
+      "revId": "7258109f0f2d8e038cd570b0896fc77c58fa8468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8828d994_3163570f",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-02-21T07:48:00Z",
       "side": 1,
       "message": "queryAndAssert?",
+      "revId": "7258109f0f2d8e038cd570b0896fc77c58fa8468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd5476fc_46cceba4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T08:43:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8828d994_3163570f",
       "revId": "7258109f0f2d8e038cd570b0896fc77c58fa8468",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "762df677_212886f1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T08:43:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3cddf800_67f04da4",
+      "revId": "7258109f0f2d8e038cd570b0896fc77c58fa8468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec4eae7e_917ec0a1",
@@ -82,6 +136,24 @@
       "writtenOn": "2022-02-21T07:48:00Z",
       "side": 1,
       "message": "queryAndAssert?",
+      "revId": "7258109f0f2d8e038cd570b0896fc77c58fa8468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fac45b3_89ed7022",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T08:43:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ec4eae7e_917ec0a1",
       "revId": "7258109f0f2d8e038cd570b0896fc77c58fa8468",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

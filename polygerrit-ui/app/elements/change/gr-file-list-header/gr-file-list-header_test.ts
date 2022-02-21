@@ -15,22 +15,33 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-file-list-header.js';
-import {FilesExpandedState} from '../gr-file-list-constants.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import 'lodash/lodash.js';
-import {createRevisions} from '../../../test/test-data-generators.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-file-list-header';
+import {FilesExpandedState} from '../gr-file-list-constants';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import 'lodash/lodash';
+import {createChange} from '../../../test/test-data-generators';
+import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {GrFileListHeader} from './gr-file-list-header';
+import {DiffPreferencesInfo} from '../../../api/diff';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {
+  BasePatchSetNum,
+  ChangeId,
+  NumericChangeId,
+  PatchSetNum,
+} from '../../../types/common.js';
+import {ChangeInfo, ChangeStatus, RevisionInfo} from '../../../api/rest-api.js';
+import {PatchSet} from '../../../utils/patch-set-util';
+import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-file-list-header');
 
 suite('gr-file-list-header tests', () => {
-  let element;
+  let element: GrFileListHeader;
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({test: 'config'}));
-    stubRestApi('getAccount').returns(Promise.resolve(null));
+    stubRestApi('getAccount').returns(Promise.resolve(undefined));
     element = basicFixture.instantiate();
   });
 
@@ -39,50 +50,50 @@ suite('gr-file-list-header tests', () => {
   });
 
   test('Diff preferences hidden when no prefs', () => {
-    assert.isTrue(element.$.diffPrefsContainer.hidden);
+    assert.isTrue(
+      queryAndAssert<HTMLElement>(element, '#diffPrefsContainer').hidden
+    );
 
-    element.diffPrefs = {font_size: '12'};
+    element.diffPrefs = {font_size: 12} as DiffPreferencesInfo;
     element.loggedIn = true;
     flush();
-    assert.isFalse(element.$.diffPrefsContainer.hidden);
+    assert.isFalse(
+      queryAndAssert<HTMLElement>(element, '#diffPrefsContainer').hidden
+    );
   });
 
   test('expandAllDiffs called when expand button clicked', () => {
     element.shownFileCount = 1;
     flush();
-    sinon.stub(element, '_expandAllDiffs');
-    MockInteractions.tap(element.root.querySelector(
-        '#expandBtn'));
-    assert.isTrue(element._expandAllDiffs.called);
+    const expandAllDiffsStub = sinon.stub(element, '_expandAllDiffs');
+    MockInteractions.tap(queryAndAssert(element, '#expandBtn'));
+    assert.isTrue(expandAllDiffsStub.called);
   });
 
   test('collapseAllDiffs called when collapse button clicked', () => {
     element.shownFileCount = 1;
     flush();
-    sinon.stub(element, '_collapseAllDiffs');
-    MockInteractions.tap(element.root.querySelector(
-        '#collapseBtn'));
-    assert.isTrue(element._collapseAllDiffs.called);
+    const collapseAllDiffsStub = sinon.stub(element, '_collapseAllDiffs');
+    MockInteractions.tap(queryAndAssert(element, '#collapseBtn'));
+    assert.isTrue(collapseAllDiffsStub.called);
   });
 
   test('show/hide diffs disabled for large amounts of files', async () => {
     const computeSpy = sinon.spy(element, '_fileListActionsVisible');
-    element._files = [];
-    element.changeNum = '42';
-    element.basePatchNum = 'PARENT';
-    element.patchNum = '2';
+    element.changeNum = 42 as NumericChangeId;
+    element.basePatchNum = 'PARENT' as BasePatchSetNum;
+    element.patchNum = '2' as PatchSetNum;
     element.shownFileCount = 1;
     await flush();
     assert.isTrue(computeSpy.lastCall.returnValue);
     _.times(element._maxFilesForBulkActions + 1, () => {
-      element.shownFileCount = element.shownFileCount + 1;
+      element.shownFileCount = element.shownFileCount! + 1;
     });
     assert.isFalse(computeSpy.lastCall.returnValue);
   });
 
   test('fileViewActions are properly hidden', async () => {
-    const actions = element.shadowRoot
-        .querySelector('.fileViewActions');
+    const actions = queryAndAssert(element, '.fileViewActions');
     assert.equal(getComputedStyle(actions).display, 'none');
     element.filesExpanded = FilesExpandedState.SOME;
     await flush();
@@ -100,8 +111,8 @@ suite('gr-file-list-header tests', () => {
     // NO files are expanded.
     element.shownFileCount = 10;
     await flush();
-    const expandBtn = element.shadowRoot.querySelector('#expandBtn');
-    const collapseBtn = element.shadowRoot.querySelector('#collapseBtn');
+    const expandBtn = queryAndAssert(element, '#expandBtn');
+    const collapseBtn = queryAndAssert(element, '#collapseBtn');
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
     assert.equal(getComputedStyle(collapseBtn).display, 'none');
 
@@ -128,56 +139,82 @@ suite('gr-file-list-header tests', () => {
   test('navigateToChange called when range select changes', () => {
     const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
     element.change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      ...createChange(),
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca' as ChangeId,
       revisions: {
-        rev2: {_number: 2},
-        rev1: {_number: 1},
-        rev13: {_number: 13},
-        rev3: {_number: 3},
+        rev2: {_number: 2 as PatchSetNum} as RevisionInfo,
+        rev1: {_number: 1 as PatchSetNum} as RevisionInfo,
+        rev13: {_number: 13 as PatchSetNum} as RevisionInfo,
+        rev3: {_number: 3 as PatchSetNum} as RevisionInfo,
       },
-      status: 'NEW',
+      status: 'NEW' as ChangeStatus,
       labels: {},
-    };
-    element.basePatchNum = 1;
-    element.patchNum = 2;
+    } as ChangeInfo;
+    element.basePatchNum = 1 as BasePatchSetNum;
+    element.patchNum = 2 as PatchSetNum;
 
-    element._handlePatchChange({detail: {basePatchNum: 1, patchNum: 3}});
+    element._handlePatchChange({
+      detail: {basePatchNum: 1, patchNum: 3},
+    } as CustomEvent);
     assert.equal(navigateToChangeStub.callCount, 1);
-    assert.isTrue(navigateToChangeStub.lastCall
-        .calledWithExactly(element.change, {patchNum: 3, basePatchNum: 1}));
+    assert.isTrue(
+      navigateToChangeStub.lastCall.calledWithExactly(element.change, {
+        patchNum: 3 as PatchSetNum,
+        basePatchNum: 1 as BasePatchSetNum,
+      })
+    );
   });
 
   test('class is applied to file list on old patch set', () => {
-    const allPatchSets = [{num: 4}, {num: 2}, {num: 1}];
-    assert.equal(element._computePatchInfoClass(1, allPatchSets),
-        'patchInfoOldPatchSet');
-    assert.equal(element._computePatchInfoClass(2, allPatchSets),
-        'patchInfoOldPatchSet');
-    assert.equal(element._computePatchInfoClass(4, allPatchSets), '');
+    const allPatchSets: PatchSet[] = [
+      {num: 4 as PatchSetNum, desc: undefined, sha: ''},
+      {num: 2 as PatchSetNum, desc: undefined, sha: ''},
+      {num: 1 as PatchSetNum, desc: undefined, sha: ''},
+    ];
+    assert.equal(
+      element._computePatchInfoClass(1 as PatchSetNum, allPatchSets),
+      'patchInfoOldPatchSet'
+    );
+    assert.equal(
+      element._computePatchInfoClass(2 as PatchSetNum, allPatchSets),
+      'patchInfoOldPatchSet'
+    );
+    assert.equal(
+      element._computePatchInfoClass(4 as PatchSetNum, allPatchSets),
+      ''
+    );
   });
 
   suite('editMode behavior', () => {
     setup(() => {
       element.loggedIn = true;
-      element.diffPrefs = {};
+      element.diffPrefs = createDefaultDiffPrefs();
     });
 
-    const isVisible = el => {
+    const isVisible = (el: HTMLElement) => {
       assert.ok(el);
       return getComputedStyle(el).getPropertyValue('display') !== 'none';
     };
 
     test('patch specific elements', () => {
       element.editMode = true;
-      element.allPatchSets = createRevisions(2);
+      element.allPatchSets = [
+        {num: 1 as PatchSetNum, desc: undefined, sha: ''},
+        {num: 2 as PatchSetNum, desc: undefined, sha: ''},
+        {num: 3 as PatchSetNum, desc: undefined, sha: ''},
+      ];
       flush();
 
-      assert.isFalse(isVisible(element.$.diffPrefsContainer));
+      assert.isFalse(
+        isVisible(queryAndAssert<HTMLElement>(element, '#diffPrefsContainer'))
+      );
 
       element.editMode = false;
       flush();
 
-      assert.isTrue(isVisible(element.$.diffPrefsContainer));
+      assert.isTrue(
+        isVisible(queryAndAssert<HTMLElement>(element, '#diffPrefsContainer'))
+      );
     });
 
     test('edit-controls visibility', () => {
@@ -185,19 +222,24 @@ suite('gr-file-list-header tests', () => {
       flush();
       // on the first render, when editMode is false, editControls are not
       // in the DOM to reduce size of DOM and make first render faster.
-      assert.isNull(element.shadowRoot
-          .querySelector('#editControls'));
+      assert.isUndefined(query(element, '#editControls'));
 
       element.editMode = true;
       flush();
-      assert.isTrue(isVisible(element.shadowRoot
-          .querySelector('#editControls').parentElement));
+      queryAndAssert<HTMLElement>(element, '#editControls').parentElement;
+      assert.isTrue(
+        isVisible(
+          queryAndAssert<HTMLElement>(element, '#editControls').parentElement!
+        )
+      );
 
       element.editMode = false;
       flush();
-      assert.isFalse(isVisible(element.shadowRoot
-          .querySelector('#editControls').parentElement));
+      assert.isFalse(
+        isVisible(
+          queryAndAssert<HTMLElement>(element, '#editControls').parentElement!
+        )
+      );
     });
   });
 });
-

@@ -1000,6 +1000,29 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byMessageRegEx() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.COMMIT_MESSAGE_EXACT)).isTrue();
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 = repo.parseBody(repo.commit().message("aaaabcc").create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    RevCommit commit2 = repo.parseBody(repo.commit().message("aaaacc").create());
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    RevCommit commit3 = repo.parseBody(repo.commit().message("Title\n\nDO NOT SUBMIT").create());
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
+    RevCommit commit4 =
+        repo.parseBody(repo.commit().message("Title\n\nfoobar do NOT submit").create());
+    Change change4 = insert(repo, newChangeForCommit(repo, commit4));
+
+    assertQuery("message:\"^aaaa(b|c)*\"", change2, change1);
+    assertQuery("message:\"^aaaa(c)*c.*\"", change2);
+    assertQuery("message:\"^.*DO NOT SUBMIT.*\"", change3);
+    assertQuery(
+        "message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\"",
+        change4,
+        change3);
+  }
+
+  @Test
   public void fullTextWithNumbers() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 = repo.parseBody(repo.commit().message("12345 67890").create());

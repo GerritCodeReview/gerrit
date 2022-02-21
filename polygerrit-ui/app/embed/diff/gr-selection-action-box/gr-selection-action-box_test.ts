@@ -15,9 +15,12 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-selection-action-box.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import '../../../test/common-test-setup-karma';
+import './gr-selection-action-box';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {GrSelectionActionBox} from './gr-selection-action-box';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {queryAndAssert} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromTemplate(html`
   <div>
@@ -27,23 +30,27 @@ const basicFixture = fixtureFromTemplate(html`
 `);
 
 suite('gr-selection-action-box', () => {
-  let container;
-  let element;
+  let container: GrSelectionActionBox;
+  let element: GrSelectionActionBox;
+  let dispatchEventStub: sinon.SinonStub;
 
   setup(() => {
-    container = basicFixture.instantiate();
-    element = container.querySelector('gr-selection-action-box');
+    container = basicFixture.instantiate() as GrSelectionActionBox;
+    element = queryAndAssert<GrSelectionActionBox>(
+      container,
+      'gr-selection-action-box'
+    );
 
-    sinon.stub(element, 'dispatchEvent');
+    dispatchEventStub = sinon.stub(element, 'dispatchEvent');
   });
 
   test('ignores regular keys', () => {
     MockInteractions.pressAndReleaseKeyOn(document.body, 27, null, 'esc');
-    assert.isFalse(element.dispatchEvent.called);
+    assert.isFalse(dispatchEventStub.called);
   });
 
   suite('mousedown reacts only to main button', () => {
-    let e;
+    let e: any;
 
     setup(() => {
       e = {
@@ -57,8 +64,8 @@ suite('gr-selection-action-box', () => {
       element._handleMouseDown(e);
       assert.isTrue(e.preventDefault.called);
       assert.equal(
-          element.dispatchEvent.lastCall.args[0].type,
-          'create-comment-requested'
+        dispatchEventStub.lastCall.args[0].type,
+        'create-comment-requested'
       );
     });
 
@@ -66,21 +73,37 @@ suite('gr-selection-action-box', () => {
       e.button = 1;
       element._handleMouseDown(e);
       assert.isFalse(e.preventDefault.called);
-      assert.isFalse(element.dispatchEvent.called);
+      assert.isFalse(dispatchEventStub.called);
     });
   });
 
   suite('placeAbove', () => {
-    let target;
+    let target: HTMLDivElement;
+    let getTargetBoundingRectStub: sinon.SinonStub;
 
     setup(() => {
-      target = container.querySelector('.target');
-      sinon.stub(container, 'getBoundingClientRect').returns(
-          {top: 1, bottom: 2, left: 3, right: 4, width: 50, height: 6});
-      sinon.stub(element, '_getTargetBoundingRect').returns(
-          {top: 42, bottom: 20, left: 30, right: 40, width: 100, height: 60});
-      sinon.stub(element.$.tooltip, 'getBoundingClientRect').returns(
-          {width: 10, height: 10});
+      target = queryAndAssert<HTMLDivElement>(container, '.target');
+      sinon.stub(container, 'getBoundingClientRect').returns({
+        top: 1,
+        bottom: 2,
+        left: 3,
+        right: 4,
+        width: 50,
+        height: 6,
+      } as DOMRect);
+      getTargetBoundingRectStub = sinon
+        .stub(element, '_getTargetBoundingRect')
+        .returns({
+          top: 42,
+          bottom: 20,
+          left: 30,
+          right: 40,
+          width: 100,
+          height: 60,
+        } as DOMRect);
+      sinon
+        .stub(element.$.tooltip, 'getBoundingClientRect')
+        .returns({width: 10, height: 10} as DOMRect);
     });
 
     test('placeAbove for Element argument', async () => {
@@ -90,7 +113,7 @@ suite('gr-selection-action-box', () => {
     });
 
     test('placeAbove for Text Node argument', async () => {
-      await element.placeAbove(target.firstChild);
+      await element.placeAbove(target.firstElementChild!);
       assert.equal(element.style.top, '25px');
       assert.equal(element.style.left, '72px');
     });
@@ -102,18 +125,16 @@ suite('gr-selection-action-box', () => {
     });
 
     test('placeBelow for Text Node argument', async () => {
-      await element.placeBelow(target.firstChild);
+      await element.placeBelow(target.firstElementChild!);
       assert.equal(element.style.top, '45px');
       assert.equal(element.style.left, '72px');
     });
 
     test('uses document.createRange', async () => {
-      sinon.spy(document, 'createRange');
-      element._getTargetBoundingRect.restore();
-      sinon.spy(element, '_getTargetBoundingRect');
-      await element.placeAbove(target.firstChild);
-      assert.isTrue(document.createRange.called);
+      const createRangeSpy = sinon.spy(document, 'createRange');
+      getTargetBoundingRectStub.restore();
+      await element.placeAbove(target.firstChild as HTMLElement);
+      assert.isTrue(createRangeSpy.called);
     });
   });
 });
-

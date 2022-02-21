@@ -1258,6 +1258,7 @@ public class ChangeField {
       switch (srResult.status()) {
         case SATISFIED:
         case OVERRIDDEN:
+        case FORCED:
           result.add(
               SubmitRecord.Label.Status.OK.name()
                   + ","
@@ -1277,7 +1278,8 @@ public class ChangeField {
                   + ","
                   + srResult.submitRequirement().name().toLowerCase());
           break;
-        default:
+        case NOT_APPLICABLE:
+        case ERROR:
           result.add(
               SubmitRecord.Label.Status.IMPOSSIBLE.name()
                   + ","

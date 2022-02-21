@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19df39bf_058fba32",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T18:28:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cae2de4f_1b0ddda9",
+      "range": {
+        "startLine": 48,
+        "startChar": 21,
+        "endLine": 48,
+        "endChar": 39
+      },
+      "revId": "f4626a8d1cc48a27fd157677484c3f6a39174752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c973641_221c2897",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c53721a9_ef87b080",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T18:28:30Z",
+      "side": 1,
+      "message": "Seems the test fails when i do that.\n\n    isViewActive\n      ✖ nothing happens when user param is falsy\n        Chrome Headless 98.0.4758.102 (Mac OS 10.15.7)\n      AssertionError: expected 1 to equal 0\n\n      + expected - actual\n\n      -1\n      +0\n      \n    at Context.\u003canonymous\u003e (polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts:246:14)\n\n\nand\n\n    isViewActive\n      ✖ nothing happens when user param is falsy\n        Chrome Headless 98.0.4758.102 (Mac OS 10.15.7)\n      AssertionError: expected 2 to equal 0\n\n      + expected - actual\n\n      -2\n      +0\n      \n    at Context.\u003canonymous\u003e (polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts:254:14)\n\n\n(for the one under)",
+      "parentUuid": "6c973641_221c2897",
+      "range": {
+        "startLine": 243,
+        "startChar": 6,
+        "endLine": 243,
+        "endChar": 13
+      },
+      "revId": "f4626a8d1cc48a27fd157677484c3f6a39174752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e1734a53_caf2c6e2",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
         "patchSetId": 11
@@ -60,6 +108,30 @@
       "writtenOn": "2022-02-21T14:43:44Z",
       "side": 1,
       "message": "await",
+      "range": {
+        "startLine": 251,
+        "startChar": 6,
+        "endLine": 251,
+        "endChar": 13
+      },
+      "revId": "f4626a8d1cc48a27fd157677484c3f6a39174752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd36f047_bb84303f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T18:28:30Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "e1734a53_caf2c6e2",
       "range": {
         "startLine": 251,
         "startChar": 6,

@@ -17,7 +17,7 @@ package com.google.gerrit.server.util;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.server.project.RefPattern;
 import java.util.Comparator;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 
 /**
  * Order the Ref Pattern by the most specific. This sort is done by:
@@ -89,7 +89,7 @@ public final class MostSpecificComparator implements Comparator<AccessSection> {
     } else {
       return Math.max(pattern.length(), refName.length());
     }
-    return StringUtils.getLevenshteinDistance(example, refName);
+    return LevenshteinDistance.getDefaultInstance().apply(example, refName);
   }
 
   private boolean finite(String pattern) {

@@ -51,6 +51,7 @@ Apache2.0
 * commons:lang3
 * commons:net
 * commons:pool
+* commons:text
 * commons:validator
 * dropwizard:dropwizard-core
 * errorprone:annotations

@@ -118,9 +118,8 @@ public class ListMembers implements RestReadView<GroupResource> {
   protected List<AccountInfo> getMembers(InternalGroup group) throws PermissionBackendException {
     if (recursive) {
       return getTransitiveMembers(group);
-    } else {
-      return getDirectMembers(group);
     }
+    return getDirectMembers(group);
   }
 
   private List<AccountInfo> toAccountInfos(Set<Account.Id> members)

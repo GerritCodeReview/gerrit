@@ -33,6 +33,24 @@
       "message": "Have you tested this manually that it still looks ok?",
       "revId": "f75cdbc67d367c7861347d62569732e031fcf2d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f016ca9c_9bda52d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T08:34:22Z",
+      "side": 1,
+      "message": "Nope, https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/80686/console stated:\n\n\u003e     inline-block is ignored due to the float. If \u0027float\u0027 has a value other than \u0027none\u0027, the box is floated and \u0027display\u0027 is treated as \u0027block\u0027\n\u003e    84:  float: right;\n\u003e    no-invalid-css\n\nso i presumed this would work because it\u0027s already being treated as block.",
+      "parentUuid": "05cb0e7a_2b3f8953",
+      "revId": "f75cdbc67d367c7861347d62569732e031fcf2d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

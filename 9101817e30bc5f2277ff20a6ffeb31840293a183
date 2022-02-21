@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc00c3d7_f38ba42f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T10:57:16Z",
+      "side": 1,
+      "message": "this was being passed a class based on _computeUserHeaderClass(params)\n\nwhat happened to this and the method?\n\n```\n    \u003cgr-user-header\n      user-id\u003d\"[[params.user]]\"\n      class$\u003d\"[[_computeUserHeaderClass(params)]]\"\n    \u003e\u003c/gr-user-header\u003e\n```",
+      "range": {
+        "startLine": 283,
+        "startChar": 7,
+        "endLine": 283,
+        "endChar": 49
+      },
+      "revId": "9101817e30bc5f2277ff20a6ffeb31840293a183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54072308_e9e83e5f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T10:57:16Z",
+      "side": 1,
+      "message": "any reason for choosing willUpdate over updated() ?",
+      "range": {
+        "startLine": 299,
+        "startChar": 2,
+        "endLine": 299,
+        "endChar": 21
+      },
+      "revId": "9101817e30bc5f2277ff20a6ffeb31840293a183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dd3530f_cd622c73",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-21T10:57:16Z",
+      "side": 1,
+      "message": "this method no longer exists.\nwhy is there a test file with its name still?",
+      "range": {
+        "startLine": 476,
+        "startChar": 8,
+        "endLine": 476,
+        "endChar": 31
+      },
+      "revId": "9101817e30bc5f2277ff20a6ffeb31840293a183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

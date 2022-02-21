@@ -366,7 +366,10 @@ Changes that add new libraries or upgrade existing libraries require an approval
 * If the library is used within Google, the version of the library must be compatible with the
   version that is used at Google.
 
-Only maintainers from Google can vote on the `Library-Compliance` label.
+Only maintainers from Google can vote on the `Library-Compliance` label. The
+Gerrit team at Google uses this
+link:https://gerrit-review.googlesource.com/q/label:%2522Library-Compliance%253Dneed%2522+-ownerin:google-gerrit-team+status:open+project:gerrit+-age:4week+-is:wip+-is:private+label:Code-Review%252B2[change query]
+to find changes that require a `Library-Compliance` approval.
 
 Gerrit's library dependencies should only be upgraded if the new version contains
 something we need in Gerrit. This includes new features, API changes as well as bug

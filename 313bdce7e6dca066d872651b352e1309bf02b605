@@ -51,6 +51,24 @@
       "parentUuid": "d9df7612_aecd8213",
       "revId": "313bdce7e6dca066d872651b352e1309bf02b605",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6ff330f_84c66bbd",
+        "filename": "java/com/google/gerrit/server/extensions/events/GitReferencesUpdated.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-21T12:09:24Z",
+      "side": 1,
+      "message": "I actually couldn\u0027t reproduce the issue anymore. To be sure, I added an additional test case to check whether both events are fired after a BatchRefUpdate and a RefUpdate.",
+      "parentUuid": "bd0211a4_76d4f506",
+      "revId": "313bdce7e6dca066d872651b352e1309bf02b605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

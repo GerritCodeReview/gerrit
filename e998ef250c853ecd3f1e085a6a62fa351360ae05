@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e247fba_2dfededd",
+        "filename": "java/com/google/gerrit/server/extensions/events/GitReferencesUpdated.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-21T12:09:24Z",
+      "side": 1,
+      "message": "This rename causes a large part of the size of this change. I am not totally convinced that the rename is necessary. While now also a \"refs-updated\" event is fired by this class, it was already triggered by BatchRefUpdates, i.e. update of multiple references.\nWDYT, should I revert the rename?",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "e998ef250c853ecd3f1e085a6a62fa351360ae05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

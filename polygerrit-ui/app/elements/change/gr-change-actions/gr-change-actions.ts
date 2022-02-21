@@ -551,7 +551,14 @@ export class GrChangeActions
   @property({type: Object})
   _config?: ServerInfo;
 
+<<<<<<< HEAD   (21b755 Fix the ${hash} substitution for diff file web links)
   private readonly restApiService = appContext.restApiService;
+=======
+  @property({type: Boolean})
+  loggedIn = false;
+
+  private readonly restApiService = getAppContext().restApiService;
+>>>>>>> CHANGE (7e2f9f Show gr-change-actions regardless if logged in or not)
 
   constructor() {
     super();
@@ -825,6 +832,7 @@ export class GrChangeActions
     'editPatchsetLoaded',
     'editBasedOnCurrentPatchSet',
     'disableEdit',
+    'loggedIn',
     'actions.*',
     'change.*'
   )
@@ -833,13 +841,19 @@ export class GrChangeActions
     editPatchsetLoaded: boolean,
     editBasedOnCurrentPatchSet: boolean,
     disableEdit: boolean,
+    loggedIn: boolean,
     actionsChangeRecord?: PolymerDeepPropertyChange<
       ActionNameToActionInfoMap,
       ActionNameToActionInfoMap
     >,
     changeChangeRecord?: PolymerDeepPropertyChange<ChangeInfo, ChangeInfo>
   ) {
-    if (actionsChangeRecord === undefined || changeChangeRecord === undefined) {
+    // Hide change edits if not logged in
+    if (
+      actionsChangeRecord === undefined ||
+      changeChangeRecord === undefined ||
+      !loggedIn
+    ) {
       return;
     }
     if (disableEdit) {

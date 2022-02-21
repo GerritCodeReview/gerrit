@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab9bc290_bf454efd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-21T16:49:19Z",
+      "side": 1,
+      "message": "Instead of having a --no-limit option (unrestricted) which would allow anyone to skip the ACLs, why don\u0027t we just introduce an \"no-limit\" permission instead? For all of those who want to have the system users making operations on Gerrit without limits, that would be a viable option.\n\n@Edwin @Nasser @Martin what do you think?",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "190ecc9c4f6987c3cc3ac5e8234aaef34597feba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42f98609_8dceb1dd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

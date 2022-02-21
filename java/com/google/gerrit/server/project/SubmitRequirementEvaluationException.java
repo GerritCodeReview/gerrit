@@ -15,15 +15,15 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.entities.SubmitRequirementExpression;
-import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.server.query.change.SubmitRequirementPredicate;
 
 /**
  * Exception that might occur when evaluating {@link SubmitRequirementPredicate} in {@link
  * SubmitRequirementExpression}.
  *
- * <p>This exception will result in {@link SubmitRequirementResult.Status#ERROR} overall ubmit
- * requirement evaluation status.
+ * <p>This exception will result in {@link
+ * com.google.gerrit.entities.SubmitRequirementResult.Status#ERROR} overall submit requirement
+ * evaluation status.
  */
 public class SubmitRequirementEvaluationException extends RuntimeException {
   private static final long serialVersionUID = 1L;

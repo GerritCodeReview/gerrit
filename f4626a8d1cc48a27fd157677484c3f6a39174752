@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cae2de4f_1b0ddda9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-21T14:43:44Z",
+      "side": 1,
+      "message": "We are using open-wc fixture for lit element tests now in setup() methods: https://open-wc.org/docs/testing/testing-package/\n\nex: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.ts;l\u003d33;drc\u003d7fa3aab5913ef99c9c36ccf3bce14936c2100ea8\n\nCan you change that here since it is moving to Lit? Our other fixture stuff wraps polymer I think.",
+      "range": {
+        "startLine": 48,
+        "startChar": 21,
+        "endLine": 48,
+        "endChar": 39
+      },
+      "revId": "f4626a8d1cc48a27fd157677484c3f6a39174752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c973641_221c2897",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-21T14:43:44Z",
+      "side": 1,
+      "message": "await",
+      "range": {
+        "startLine": 243,
+        "startChar": 6,
+        "endLine": 243,
+        "endChar": 13
+      },
+      "revId": "f4626a8d1cc48a27fd157677484c3f6a39174752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1734a53_caf2c6e2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-21T14:43:44Z",
+      "side": 1,
+      "message": "await",
+      "range": {
+        "startLine": 251,
+        "startChar": 6,
+        "endLine": 251,
+        "endChar": 13
+      },
+      "revId": "f4626a8d1cc48a27fd157677484c3f6a39174752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

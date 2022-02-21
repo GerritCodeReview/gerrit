@@ -69,6 +69,24 @@
       "parentUuid": "f016ca9c_9bda52d8",
       "revId": "f75cdbc67d367c7861347d62569732e031fcf2d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d878cd19_12a67f59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-21T08:47:53Z",
+      "side": 1,
+      "message": "Tested locally and seems to work (i saw no difference).",
+      "parentUuid": "8d4c17dd_6a6dc895",
+      "revId": "f75cdbc67d367c7861347d62569732e031fcf2d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

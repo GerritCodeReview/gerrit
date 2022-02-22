@@ -53,8 +53,8 @@ export class BulkActionsModel
 
   sync(visibleChangesId: ChangeInfoId[]) {
     const current = this.subject$.getValue();
-    const selectedChangeIds = [...current.selectedChangeIds].filter(changeId =>
-      visibleChangesId.some(visibleChangeId => visibleChangeId === changeId)
+    const selectedChangeIds = current.selectedChangeIds.filter(changeId =>
+      visibleChangesId.includes(changeId)
     );
     this.setState({...current, selectedChangeIds});
   }

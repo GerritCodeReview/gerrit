@@ -28,6 +28,9 @@ import {
   BulkActionsModel,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {subscribe} from '../../lit/subscription-controller';
+import '../../change/gr-bulk-abandon-dialog/gr-bulk-abandon-dialog';
+import {queryAndAssert} from '../../../test/test-utils';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -128,6 +131,9 @@ export class GrChangeListSection extends LitElement {
       selectedChanges =>
         (this.showBulkActionsHeader = selectedChanges.length > 0)
     );
+    this.bulkActionsModel.abandonable$.subscribe(
+      abandonable => (this.disableAbandonAction = !abandonable)
+    );
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -151,6 +157,11 @@ export class GrChangeListSection extends LitElement {
         ${this.changeSection.results.map((change, index) =>
           this.renderChangeRow(change, index, columns)
         )}
+        <gr-overlay id="abandonOverlay" with-backdrop="">
+          <gr-bulk-abandon-dialog
+            @cancel=${this.closeAbandonDialog}
+          ></gr-bulk-abandon-dialog>
+        </gr-overlay>
       </tbody>
     `;
   }
@@ -304,6 +315,14 @@ export class GrChangeListSection extends LitElement {
   // private but used in test
   computeItemSelected(index: number) {
     return index === this.selectedIndex;
+  }
+
+  private openAbandonDialog() {
+    queryAndAssert<GrOverlay>(this, '#abandonOverlay').open();
+  }
+
+  private closeAbandonDialog() {
+    queryAndAssert<GrOverlay>(this, '#abandonOverlay').close();
   }
 
   private computeTabIndex(index: number) {

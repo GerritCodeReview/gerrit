@@ -19,7 +19,11 @@ import '../../../test/common-test-setup-karma';
 import './gr-dashboard-view';
 import {GrDashboardView} from './gr-dashboard-view';
 import {GerritView} from '../../../services/router/router-model';
-import {changeIsOpen} from '../../../utils/change-util';
+import {
+  changeIsOpen,
+  listChangesOptionsToHex,
+  ListChangesOption,
+} from '../../../utils/change-util';
 import {ChangeStatus} from '../../../constants/constants';
 import {
   createAccountDetailWithId,
@@ -80,12 +84,30 @@ suite('gr-dashboard-view tests', () => {
   });
 
   suite('bulk actions', () => {
+    const queryHex = listChangesOptionsToHex(
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.CURRENT_ACTIONS,
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.DETAILED_LABELS
+    );
     setup(async () => {
       const sections = [
         {name: 'test1', query: 'test1', hideIfEmpty: true},
         {name: 'test2', query: 'test2', hideIfEmpty: true},
       ];
-      getChangesStub.returns(Promise.resolve([[createChange()]]));
+      getChangesStub.callsFake(
+        (
+          _changesPerPage?: number,
+          _query?: string[],
+          _offset?: 'n,z' | number,
+          options?: string
+        ) => {
+          if (options === queryHex)
+            return Promise.resolve([{...createChange(), actions: {}}]);
+          else return Promise.resolve([[createChange()]]);
+        }
+      );
+
       await element.fetchDashboardChanges({sections}, false);
       element.loading = false;
       stubFlags('isEnabled').returns(true);
@@ -105,7 +127,6 @@ suite('gr-dashboard-view tests', () => {
       await waitUntil(() => checkbox.checked);
 
       getChangesStub.restore();
-      getChangesStub.returns(Promise.resolve([[createChange()]]));
 
       await element.reload({
         view: GerritView.DASHBOARD,

@@ -56,6 +56,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {WAITING} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
+import {subscribe} from '../../lit/subscription-controller';
 
 enum ChangeSize {
   XS = 10,
@@ -133,12 +134,12 @@ export class GrChangeListItem extends LitElement {
           'change-list-item-cell'
         );
       });
-    this.getBulkActionsModel().selectedChangeIds$.subscribe(
-      selectedChangeIds => {
+    subscribe(
+      this,
+      this.getBulkActionsModel().selectedChangeNums$,
+      selectedChangeNums => {
         if (!this.change) return;
-        this.checked = selectedChangeIds.some(
-          selectedChangeId => selectedChangeId === this.change!.id
-        );
+        this.checked = selectedChangeNums.includes(this.change!._number);
       }
     );
   }
@@ -613,8 +614,9 @@ export class GrChangeListItem extends LitElement {
     assertIsDefined(this.change, 'change');
     this.checked = !this.checked;
     if (this.checked)
-      this.getBulkActionsModel().addSelectedChangeId(this.change!.id);
-    else this.getBulkActionsModel().removeSelectedChangeId(this.change!.id);
+      this.getBulkActionsModel().addSelectedChangeNum(this.change!._number);
+    else
+      this.getBulkActionsModel().removeSelectedChangeNum(this.change!._number);
   }
 
   private changeStatuses() {

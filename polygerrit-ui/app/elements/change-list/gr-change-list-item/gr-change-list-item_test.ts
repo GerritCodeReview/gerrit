@@ -17,7 +17,10 @@
 
 import {fixture} from '@open-wc/testing-helpers';
 import {html} from 'lit';
-import {SubmitRequirementResultInfo, ChangeInfoId} from '../../../api/rest-api';
+import {
+  SubmitRequirementResultInfo,
+  NumericChangeId,
+} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import '../../../test/common-test-setup-karma';
 import {
@@ -327,7 +330,7 @@ suite('gr-change-list-item tests', () => {
 
     test('bulk actions checkboxes', async () => {
       stubFlags('isEnabled').returns(true);
-      element.change = {...createChange(), id: '1' as ChangeInfoId};
+      element.change = {...createChange(), _number: 1 as NumericChangeId};
       bulkActionsModel.sync([element.change]);
       await element.updateComplete;
 
@@ -336,20 +339,20 @@ suite('gr-change-list-item tests', () => {
         '.selection > input'
       );
       tap(checkbox);
-      let selectedChangeIds = await waitUntilObserved(
-        bulkActionsModel.selectedChangeIds$,
+      let selectedChangeNums = await waitUntilObserved(
+        bulkActionsModel.selectedChangeNums$,
         s => s.length === 1
       );
 
-      assert.deepEqual(selectedChangeIds, ['1']);
+      assert.deepEqual(selectedChangeNums, [1]);
 
       tap(checkbox);
-      selectedChangeIds = await waitUntilObserved(
-        bulkActionsModel.selectedChangeIds$,
+      selectedChangeNums = await waitUntilObserved(
+        bulkActionsModel.selectedChangeNums$,
         s => s.length === 0
       );
 
-      assert.deepEqual(selectedChangeIds, []);
+      assert.deepEqual(selectedChangeNums, []);
     });
 
     test('checkbox state updates with model updates', async () => {
@@ -357,11 +360,11 @@ suite('gr-change-list-item tests', () => {
       element.requestUpdate();
       await element.updateComplete;
 
-      element.change = {...createChange(), id: '1' as ChangeInfoId};
+      element.change = {...createChange(), _number: 1 as NumericChangeId};
       bulkActionsModel.sync([element.change]);
-      bulkActionsModel.addSelectedChangeId(element.change.id);
+      bulkActionsModel.addSelectedChangeNum(element.change._number);
       await waitUntilObserved(
-        bulkActionsModel.selectedChangeIds$,
+        bulkActionsModel.selectedChangeNums$,
         s => s.length === 1
       );
       await element.updateComplete;
@@ -372,9 +375,9 @@ suite('gr-change-list-item tests', () => {
       );
       assert.isTrue(checkbox.checked);
 
-      bulkActionsModel.removeSelectedChangeId(element.change.id);
+      bulkActionsModel.removeSelectedChangeNum(element.change._number);
       await waitUntilObserved(
-        bulkActionsModel.selectedChangeIds$,
+        bulkActionsModel.selectedChangeNums$,
         s => s.length === 0
       );
       await element.updateComplete;

@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e31d29f6_c3f16adf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-22T19:02:00Z",
+      "side": 1,
+      "message": "I agree that the query mechanics need some refactoring to make it more robust and resilient to DoSes.\n\nsetting limits is one aspect to tackle, I agree with that isn’t the only one. Tacking the limit alone won’t solve the whole problem, but it would certainly be a step in the right direction.\n\nwould you come to the hackathon and help out with the other steps?",
+      "parentUuid": "9b6c144a_f9ef3a49",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "190ecc9c4f6987c3cc3ac5e8234aaef34597feba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42f98609_8dceb1dd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

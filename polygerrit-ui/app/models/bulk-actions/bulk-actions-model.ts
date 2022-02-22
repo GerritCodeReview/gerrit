@@ -14,6 +14,7 @@ import {
   listChangesOptionsToHex,
   ListChangesOption,
 } from '../../utils/change-util';
+import {combineLatest} from 'rxjs';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -50,6 +51,18 @@ export class BulkActionsModel
     bulkActionsState => bulkActionsState.loading
   );
 
+  public readonly abandonable$ = select(
+    combineLatest([this.selectedChangeIds$, this.loading$]),
+    ([selectedChangeIds, loading]) => {
+      if (loading) return false;
+      return selectedChangeIds.every(selectedChangeId => {
+        const change = this.allChanges.get(selectedChangeId);
+        if (!change) throw new Error('invalid changeId in model');
+        return !!change.actions!.abandon;
+      });
+    }
+  );
+
   addSelectedChangeId(changeId: ChangeInfoId) {
     if (!this.allChanges.has(changeId)) {
       throw new Error(
@@ -84,12 +97,11 @@ export class BulkActionsModel
         if (!this.allChanges.get(changeId))
           throw new Error('invalid change id');
         const change = this.allChanges.get(changeId)!;
-        const currentRevision = change.revisions![change.current_revision!];
         return this.restApiService.executeChangeAction(
           change._number,
           change.actions!.abandon!.method,
           '/abandon',
-          currentRevision._number,
+          undefined,
           {message: reason ?? ''}
         );
       })
@@ -105,7 +117,7 @@ export class BulkActionsModel
     );
     this.setState({...current, loading: true, selectedChangeIds});
 
-    const query = changes.map(c => `change:${c.id}`).join(' OR ');
+    const query = changes.map(c => `change:${c._number}`).join(' OR ');
     const changeDetails = await this.restApiService.getChanges(
       undefined,
       query,

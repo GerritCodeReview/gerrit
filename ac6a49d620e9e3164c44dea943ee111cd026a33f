@@ -155,6 +155,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad2ed8ba_c30600ab",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 42
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-22T08:56:26Z",
+      "side": 1,
+      "message": "We are tightly coupling gr-change-list-section_test with the HTML-layout of gr-change-list-item.  That\u0027s a code-smell.\n\nThe other alternative is to break this into two tests.\n\n1. Testing the sync method in bulk-actions-model_test\n2. Testing that sync gets called correctly in this test.",
+      "parentUuid": "4ad4fea2_3bb694a0",
+      "revId": "ac6a49d620e9e3164c44dea943ee111cd026a33f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f56191d8_b09314b3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 42
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-22T08:56:26Z",
+      "side": 1,
+      "message": "Revert this file.",
+      "revId": "ac6a49d620e9e3164c44dea943ee111cd026a33f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31648c73_069ca064",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 42

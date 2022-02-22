@@ -16,6 +16,24 @@
       "message": "To expand on this a bit more if you try to ssh to the latest Gerrit as built by this Dockerfile [0] using an RSA key with an up to date openssh client you get \"debug1: send_pubkey_test: no mutual signature algorithm\" and authentication fails. \n\nThe reason is that even though Gerrit has updated to MINA 2.8.0 it didn\u0027t register a kex handler that can handle server-sig-algs to negotiate an RSA+SHA2 signature algorithm. This change explicitly register\u0027s MINA\u0027s new default kex handler which implements server-sig-algs. With that in place you can see the client finds server-sig-algs which include RSA+SHA2 options and it selects one of those. Authentication succeeds in this case.",
       "revId": "b007aac9eed381d4779fc214c00cad98e291e733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddb11722_29fd9ca4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-22T19:51:21Z",
+      "side": 1,
+      "message": "Whoops forgot to provide the Dockerfile link: https://github.com/GerritCodeReview/docker-gerrit/blob/master/ubuntu/20/Dockerfile-dev",
+      "parentUuid": "a95d4f8e_3d8d7ac4",
+      "revId": "b007aac9eed381d4779fc214c00cad98e291e733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

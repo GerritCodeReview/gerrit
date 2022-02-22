@@ -33,6 +33,24 @@
       "message": "Why this change?",
       "revId": "c3ce14088812d110f3f6a4cc5c0d90323a0f6340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cba3993e_073c4715",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-22T10:12:09Z",
+      "side": 1,
+      "message": "Because TypeScript compiler produced an error for line 474 otherwise: You cannot spread something undefined and have the value be `EditablePermissionRuleInfo`.\n\nI was considering to create an if-else statement for `this.rule.value \u003d ...`, but thinking about it that did not really make a lot of sense. We could probably add an assertion that `originalRuleValues` is defined, but I did not really dare to do that.\n\nOverall I find this component is not very well written with regards to `rule`, `originalRuleValues` and default rule values. But I think I have already done more than worthwhile to this component as is. So I am leaving this to the next one refactoring the component. :-)",
+      "parentUuid": "93bda73f_617493fc",
+      "revId": "c3ce14088812d110f3f6a4cc5c0d90323a0f6340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

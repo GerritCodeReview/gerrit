@@ -12,6 +12,7 @@ import {pluralize} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
 import '../gr-change-list-mark-active-flow/gr-change-list-mark-active-flow';
+import '../gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow';
 
 /**
  * An action bar for the top of a <gr-change-list-section> element. Assumes it
@@ -108,6 +109,8 @@ export class GrChangeListActionBar extends LitElement {
           </div>
           <div class="actionButtons">
             <gr-change-list-mark-active-flow></gr-change-list-mark-active-flow>
+            <gr-change-list-bulk-abandon-flow>
+            </gr-change-list-bulk-abandon-flow>
           </div>
         </div>
       </td>

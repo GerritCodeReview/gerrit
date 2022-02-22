@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c8cc4d3_5ba76cc4",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 48
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-22T10:03:42Z",
+      "side": 1,
+      "message": "there is no need to copy this array, `filter` will not change the base array. `current.selectedChangeIds.filter(...`",
+      "range": {
+        "startLine": 56,
+        "startChar": 30,
+        "endLine": 56,
+        "endChar": 60
+      },
+      "revId": "1fc656f2d08073a5438ee574846198036d594cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df3dc759_42337652",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 48
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-22T10:03:42Z",
+      "side": 1,
+      "message": "just do `changeId \u003d\u003e visibleChangesId.includes(changeId)` since there is no destructuring happening",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 76
+      },
+      "revId": "1fc656f2d08073a5438ee574846198036d594cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

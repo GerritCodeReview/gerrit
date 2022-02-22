@@ -12,54 +12,77 @@ import '../../test/common-test-setup-karma';
 import {waitUntilObserved} from '../../test/test-utils';
 
 suite('bulk actions model test', () => {
-  test('add and remove selected changes', () => {
+  let bulkActionsModel: BulkActionsModel;
+  setup(() => {
+    bulkActionsModel = new BulkActionsModel(getAppContext().restApiService);
+  });
+
+  test('add changes before sync', () => {
     const c1 = createChange();
     c1.id = '1' as ChangeInfoId;
     const c2 = createChange();
     c2.id = '2' as ChangeInfoId;
 
-    const bulkActionsModel = new BulkActionsModel(
-      getAppContext().restApiService
-    );
+    assert.isEmpty(bulkActionsModel.getState().selectedChangeIds);
 
-    assert.deepEqual(bulkActionsModel.getState().selectedChangeIds, []);
-
-    bulkActionsModel.addSelectedChangeId(c1.id);
-    assert.deepEqual(bulkActionsModel.getState().selectedChangeIds, [c1.id]);
+    assert.throws(() => bulkActionsModel.addSelectedChangeId(c1.id));
+    assert.isEmpty(bulkActionsModel.getState().selectedChangeIds);
+    bulkActionsModel.sync([c1, c2]);
 
     bulkActionsModel.addSelectedChangeId(c2.id);
-    assert.deepEqual(bulkActionsModel.getState().selectedChangeIds, [
+    assert.sameMembers(bulkActionsModel.getState().selectedChangeIds, [c2.id]);
+
+    bulkActionsModel.removeSelectedChangeId(c2.id);
+    assert.isEmpty(bulkActionsModel.getState().selectedChangeIds);
+  });
+
+  test('add and remove selected changes', () => {
+    const c1 = createChange();
+    c1.id = '1' as ChangeInfoId;
+    const c2 = createChange();
+    c2.id = '2' as ChangeInfoId;
+    bulkActionsModel.sync([c1, c2]);
+
+    assert.isEmpty(bulkActionsModel.getState().selectedChangeIds);
+
+    bulkActionsModel.addSelectedChangeId(c1.id);
+    assert.sameMembers(bulkActionsModel.getState().selectedChangeIds, [c1.id]);
+
+    bulkActionsModel.addSelectedChangeId(c2.id);
+    assert.sameMembers(bulkActionsModel.getState().selectedChangeIds, [
       c1.id,
       c2.id,
     ]);
 
     bulkActionsModel.removeSelectedChangeId(c1.id);
-    assert.deepEqual(bulkActionsModel.getState().selectedChangeIds, [c2.id]);
+    assert.sameMembers(bulkActionsModel.getState().selectedChangeIds, [c2.id]);
 
     bulkActionsModel.removeSelectedChangeId(c2.id);
-    assert.deepEqual(bulkActionsModel.getState().selectedChangeIds, []);
+    assert.isEmpty(bulkActionsModel.getState().selectedChangeIds);
   });
 
   test('stale changes are removed from the model', async () => {
-    const bulkActionsModel = new BulkActionsModel(
-      getAppContext().restApiService
-    );
+    const c1 = createChange();
+    c1.id = '1' as ChangeInfoId;
+    const c2 = createChange();
+    c2.id = '2' as ChangeInfoId;
+    bulkActionsModel.sync([c1, c2]);
 
-    bulkActionsModel.addSelectedChangeId('0' as ChangeInfoId);
-    bulkActionsModel.addSelectedChangeId('1' as ChangeInfoId);
+    bulkActionsModel.addSelectedChangeId(c1.id);
+    bulkActionsModel.addSelectedChangeId(c2.id);
 
     let selectedChangeIds = await waitUntilObserved(
       bulkActionsModel!.selectedChangeIds$,
       s => s.length === 2
     );
 
-    assert.deepEqual(selectedChangeIds, ['0', '1']);
+    assert.sameMembers(selectedChangeIds, [c1.id, c2.id]);
 
-    bulkActionsModel.sync(['1' as ChangeInfoId]);
+    bulkActionsModel.sync([c1]);
     selectedChangeIds = await waitUntilObserved(
       bulkActionsModel!.selectedChangeIds$,
       s => s.length === 1
     );
-    assert.deepEqual(selectedChangeIds, ['1']);
+    assert.sameMembers(selectedChangeIds, [c1.id]);
   });
 });

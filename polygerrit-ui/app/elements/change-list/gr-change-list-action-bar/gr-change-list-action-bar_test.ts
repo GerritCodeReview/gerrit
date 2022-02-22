@@ -18,12 +18,11 @@ import {
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId} from '../../../types/common';
-import {GrButton} from '../../shared/gr-button/gr-button';
 import './gr-change-list-action-bar';
 import type {GrChangeListActionBar} from './gr-change-list-action-bar';
 
-const change1 = {...createChange(), _number: 1 as NumericChangeId};
-const change2 = {...createChange(), _number: 2 as NumericChangeId};
+const change1 = {...createChange(), _number: 1 as NumericChangeId, actions: {}};
+const change2 = {...createChange(), _number: 2 as NumericChangeId, actions: {}};
 
 suite('gr-change-list-action-bar tests', () => {
   let element: GrChangeListActionBar;
@@ -65,13 +64,8 @@ suite('gr-change-list-action-bar tests', () => {
             <span>1 change selected</span>
           </div>
           <div class="actionButtons">
-            <gr-button
-              flatten=""
-              aria-disabled="false"
-              role="button"
-              tabindex="0"
-              >abandon</gr-button
-            >
+            <gr-change-list-bulk-abandon-flow>
+            </gr-change-list-bulk-abandon-flow>
           </div>
         </div>
       </td>
@@ -140,18 +134,5 @@ suite('gr-change-list-action-bar tests', () => {
       s => s.length === 0
     );
     assert.isEmpty(selectedChangeNums);
-  });
-
-  test('abandoned clicked', async () => {
-    await selectChange(change1);
-    const consoleInfoSpy = sinon.spy(console, 'info');
-    const button = queryAndAssert<GrButton>(
-      element,
-      '.actionButtons gr-button'
-    );
-
-    button.click();
-
-    assert.isTrue(consoleInfoSpy.calledWith('abandon clicked'));
   });
 });

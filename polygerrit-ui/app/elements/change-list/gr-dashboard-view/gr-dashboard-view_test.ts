@@ -108,7 +108,9 @@ suite('gr-dashboard-view tests', () => {
       await waitUntil(() => checkbox.checked);
 
       getChangesStub.restore();
-      stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
+      stubRestApi('getChanges').returns(
+        Promise.resolve([[{...createChange(), actions: {}}]])
+      );
 
       await element.reload({
         view: GerritView.DASHBOARD,

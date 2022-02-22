@@ -51,6 +51,24 @@
       "message": "Is it possible for changeSection to remain the same but for the changes in changeSection to update?",
       "revId": "f99042128f6e5a5b18b18f9696ef369f0588eec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dba0b89f_c256dece",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-22T09:25:17Z",
+      "side": 1,
+      "message": "Not in the current code usages.\nWe assign a new changeSection object each time.",
+      "parentUuid": "af4dd9b1_f81073b4",
+      "revId": "f99042128f6e5a5b18b18f9696ef369f0588eec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e507b682_85381524",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-22T09:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce80e9f0_717c338c",
+      "revId": "7e01217f6f8be6f08bf9c76107f9834897a987c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b07b1d6_be50b0ac",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-22T09:16:08Z",
       "side": 1,
       "message": "Why this await?",
+      "revId": "7e01217f6f8be6f08bf9c76107f9834897a987c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9374ff9_e9ceac47",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-22T09:25:17Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "3b07b1d6_be50b0ac",
       "revId": "7e01217f6f8be6f08bf9c76107f9834897a987c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcb127c4_db590e76",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-22T09:25:17Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "439851da_fcecdd33",
+      "revId": "7e01217f6f8be6f08bf9c76107f9834897a987c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9ba3993_4da18763",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-02-22T09:16:08Z",
       "side": 1,
       "message": "This belongs after the element modification `element.change \u003d ...`",
+      "revId": "7e01217f6f8be6f08bf9c76107f9834897a987c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cdafa85_49e2b6dd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-22T09:25:17Z",
+      "side": 1,
+      "message": "This await is to wait for the checkbox being ticked.\nUpdating the model is not a guarantee that the component subscriber is called and the component updated it\u0027s state.",
+      "parentUuid": "e9ba3993_4da18763",
       "revId": "7e01217f6f8be6f08bf9c76107f9834897a987c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "893a90b3_7ec6aa1b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-22T09:25:17Z",
+      "side": 1,
+      "message": "This is the await needed to fill the gap between model getting updated and the component listening to the model changes and updating its checkbox state.",
+      "parentUuid": "a0824426_7ef4b612",
+      "revId": "7e01217f6f8be6f08bf9c76107f9834897a987c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f21a4646_e915dc02",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-02-22T09:16:08Z",
       "side": 1,
       "message": "Remove whitespace on 90 and add it after this line. `await element.updateComplete` logically belongs to the change to element.changeSection.",
+      "revId": "7e01217f6f8be6f08bf9c76107f9834897a987c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50448076_62cd5ccb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 47
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-22T09:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f21a4646_e915dc02",
       "revId": "7e01217f6f8be6f08bf9c76107f9834897a987c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ec2210e_ca2c3135",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-22T09:47:18Z",
+      "side": 1,
+      "message": "Thanks for the cleanup, only one question",
+      "revId": "c3ce14088812d110f3f6a4cc5c0d90323a0f6340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93bda73f_617493fc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-22T09:47:18Z",
+      "side": 1,
+      "message": "Why this change?",
+      "revId": "c3ce14088812d110f3f6a4cc5c0d90323a0f6340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

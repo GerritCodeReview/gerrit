@@ -5,12 +5,14 @@
  */
 
 import {css, html, LitElement, nothing} from 'lit';
-import {customElement, state} from 'lit/decorators';
+import {customElement, state, query} from 'lit/decorators';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
 import {pluralize} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import '../../change/gr-bulk-abandon-dialog/gr-bulk-abandon-dialog';
 
 interface ActionButton {
   name: string;
@@ -53,6 +55,8 @@ export class GrChangeListActionBar extends LitElement {
   @state()
   private numSelected = 0;
 
+  @query('#actionOverlay') actionOverlay!: GrOverlay;
+
   @state()
   private totalChangeCount = 0;
 
@@ -61,6 +65,8 @@ export class GrChangeListActionBar extends LitElement {
   private readonly actionButtons: ActionButton[] = [
     {name: 'abandon', onClick: () => this.onAbandonClicked()},
   ];
+
+  @state() disableAbandonButton = true;
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -73,6 +79,11 @@ export class GrChangeListActionBar extends LitElement {
       this,
       this.getBulkActionsModel().totalChangeCount$,
       totalChangeCount => (this.totalChangeCount = totalChangeCount)
+    );
+    subscribe(
+      this,
+      this.getBulkActionsModel().abandonable$,
+      abanonable => (this.disableAbandonButton = !abanonable)
     );
   }
 
@@ -117,16 +128,39 @@ export class GrChangeListActionBar extends LitElement {
           <div class="actionButtons">
             ${this.actionButtons.map(
               ({name, onClick}) =>
-                html`<gr-button flatten @click=${onClick}>${name}</gr-button>`
+                html`<gr-button
+                  flatten
+                  ?disabled=${this.computeDisabled(name)}
+                  @click=${onClick}
+                  >${name}</gr-button
+                >`
             )}
           </div>
         </div>
       </td>
+      <gr-overlay id="actionOverlay" with-backdrop="">
+        <gr-bulk-abandon-dialog
+          @cancel=${this.closeAbandonDialog}
+        ></gr-bulk-abandon-dialog>
+      </gr-overlay>
     `;
   }
 
+  private computeDisabled(action: string) {
+    if (action === 'abandon') return this.disableAbandonButton;
+    return false;
+  }
+
   private onAbandonClicked() {
-    console.info('abandon clicked');
+    this.openAbandonDialog();
+  }
+
+  private openAbandonDialog() {
+    this.actionOverlay.open();
+  }
+
+  private closeAbandonDialog() {
+    this.actionOverlay.close();
   }
 }
 

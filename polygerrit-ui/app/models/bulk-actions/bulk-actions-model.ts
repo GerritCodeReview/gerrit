@@ -15,6 +15,7 @@ import {
   ListChangesOption,
 } from '../../utils/change-util';
 import {combineLatest} from 'rxjs';
+import {ProgressStatus} from '../../elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -22,11 +23,13 @@ export const bulkActionsModelToken =
 export interface BulkActionsState {
   loading: boolean;
   selectedChangeIds: ChangeInfoId[];
+  progress: Map<ChangeInfoId, ProgressStatus>;
 }
 
 const initialState: BulkActionsState = {
   loading: false,
   selectedChangeIds: [],
+  progress: new Map(),
 };
 
 export class BulkActionsModel
@@ -49,6 +52,11 @@ export class BulkActionsModel
   public readonly loading$ = select(
     this.state$,
     bulkActionsState => bulkActionsState.loading
+  );
+
+  public readonly progress$ = select(
+    this.state$,
+    bulkActionsState => bulkActionsState.progress
   );
 
   public readonly abandonable$ = select(
@@ -89,21 +97,45 @@ export class BulkActionsModel
     this.setState({...current, selectedChangeIds});
   }
 
+  getChange(changeId: ChangeInfoId): ChangeInfo {
+    if (!this.allChanges.has(changeId)) {
+      throw new Error(`${changeId} is not part of bulk-actions model`);
+    }
+    return this.allChanges.get(changeId)!;
+  }
+
   async abandonChanges(reason?: string) {
     const current = this.subject$.getValue();
     const selectedChangeIds = [...current.selectedChangeIds];
+    const progress = new Map();
+    selectedChangeIds.forEach(id => progress.set(id, ProgressStatus.RUNNING));
+    this.setState({...current, progress});
     return Promise.all(
       selectedChangeIds.map(changeId => {
         if (!this.allChanges.get(changeId))
           throw new Error('invalid change id');
         const change = this.allChanges.get(changeId)!;
-        return this.restApiService.executeChangeAction(
-          change._number,
-          change.actions!.abandon!.method,
-          '/abandon',
-          undefined,
-          {message: reason ?? ''}
-        );
+        const errFn = () => {
+          const current = this.subject$.getValue();
+          const progress = new Map(current.progress);
+          progress.set(changeId, ProgressStatus.FAILED);
+          this.setState({...current, progress});
+        };
+        return this.restApiService
+          .executeChangeAction(
+            change._number,
+            change.actions!.abandon!.method,
+            '/abandon',
+            undefined,
+            {message: reason ?? ''},
+            errFn
+          )
+          .then(() => {
+            const current = this.subject$.getValue();
+            const progress = new Map(current.progress);
+            progress.set(changeId, ProgressStatus.SUCCESSFUL);
+            this.setState({...current, progress});
+          });
       })
     );
   }

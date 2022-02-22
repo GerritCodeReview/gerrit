@@ -64,6 +64,11 @@ export class BulkActionsModel
     bulkActionsState => bulkActionsState.progress
   );
 
+  public readonly progress$ = select(
+    this.state$,
+    bulkActionsState => bulkActionsState.progress
+  );
+
   public readonly abandonable$ = select(
     combineLatest([this.selectedChangeNums$, this.loadingState$]),
     ([selectedChangeNums, loadingState]) => {
@@ -100,6 +105,13 @@ export class BulkActionsModel
     if (index === -1) return;
     selectedChangeNums.splice(index, 1);
     this.setState({...current, selectedChangeNums});
+  }
+
+  getChange(changeId: ChangeInfoId): ChangeInfo {
+    if (!this.allChanges.has(changeId)) {
+      throw new Error(`${changeId} is not part of bulk-actions model`);
+    }
+    return this.allChanges.get(changeId)!;
   }
 
   async abandonChanges(reason?: string) {

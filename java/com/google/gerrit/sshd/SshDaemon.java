@@ -85,6 +85,7 @@ import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
 import org.apache.sshd.common.kex.BuiltinDHFactories;
 import org.apache.sshd.common.kex.KeyExchangeFactory;
+import org.apache.sshd.common.kex.extension.DefaultServerKexExtensionHandler;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.random.Random;
@@ -480,6 +481,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initKeyExchanges(Config cfg) {
+    setKexExtensionHandler(DefaultServerKexExtensionHandler.INSTANCE);
     List<KeyExchangeFactory> a =
         NamedFactory.setUpTransformedFactories(
             true,

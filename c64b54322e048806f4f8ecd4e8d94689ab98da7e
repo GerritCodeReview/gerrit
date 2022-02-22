@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5070a95_e09f0eec",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-22T10:56:38Z",
+      "side": 1,
+      "message": "why not just `@click\u003d${this.handleCloseTap}`\n\nand if it is ok, same can be done for other @click",
+      "range": {
+        "startLine": 224,
+        "startChar": 14,
+        "endLine": 226,
+        "endChar": 16
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f2432a9_41878fb4",
         "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
         "patchSetId": 3
@@ -42,6 +65,53 @@
         "startChar": 2,
         "endLine": 281,
         "endChar": 21
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15b239ed_7c64fc1e",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-22T10:56:38Z",
+      "side": 1,
+      "message": "I think willUpdate is better in this case \nhttps://lit.dev/docs/components/properties/#:~:text\u003din%20most%20cases%2C%20you%20do%20not%20need%20to%20create%20custom%20property%20accessors.%20to%20compute%20values%20from%20existing%20properties%2C%20we%20recommend%20using%20the%20willupdate%20callback%2C%20which%20allows%20you%20to%20set%20values%20during%20the%20update%20cycle%20without%20triggering%20an%20additional%20update",
+      "parentUuid": "9f2432a9_41878fb4",
+      "range": {
+        "startLine": 281,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 21
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92b5f6d9_af0c9a04",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-22T10:56:38Z",
+      "side": 1,
+      "message": "Instead of using `as GenerateUrlEditViewParameters` this need \n```\nif (!this.params) {\n  return;\n}\n```",
+      "range": {
+        "startLine": 301,
+        "startChar": 33,
+        "endLine": 301,
+        "endChar": 62
       },
       "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

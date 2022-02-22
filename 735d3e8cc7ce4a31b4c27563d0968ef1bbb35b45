@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b6146d9_bd3ecc50",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-22T15:51:52Z",
+      "side": 1,
+      "message": "\"update\" means sync?",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 33
+      },
+      "revId": "735d3e8cc7ce4a31b4c27563d0968ef1bbb35b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "884dd995_04633f76",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-22T15:51:52Z",
+      "side": 1,
+      "message": "consider putting all this in setup, all tests do it",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 23,
+        "endChar": 6
+      },
+      "revId": "735d3e8cc7ce4a31b4c27563d0968ef1bbb35b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f098d38_03acffcc",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-22T15:51:52Z",
+      "side": 1,
+      "message": "optional: `assert.isEmpty` and `assert.includeMembers`/`assert.sameMembers` would be more clear than `assert.deepEqual` everywhere, but you can leave it if you don\u0027t want to convert the whole file.",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 77
+      },
+      "revId": "735d3e8cc7ce4a31b4c27563d0968ef1bbb35b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

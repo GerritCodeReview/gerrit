@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3766dc0a_6636d50b",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-22T15:51:52Z",
+      "side": 1,
+      "message": "should we assert / throw instead of ignoring? These should be impossible cases.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 47
+      },
+      "revId": "c05982be6501cd515a0fb8e4296c37afb94d503a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dff54e51_f9995351",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-22T15:51:52Z",
+      "side": 1,
+      "message": "these are the non-\"upgraded\" changes so they cannot be used for permissions, is that expected? Are you planning a second map for the upgraded ChangeInfo\u0027s?",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 59
+      },
+      "revId": "c05982be6501cd515a0fb8e4296c37afb94d503a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

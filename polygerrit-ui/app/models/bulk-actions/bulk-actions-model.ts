@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ChangeInfoId} from '../../api/rest-api';
+import {ChangeInfo, ChangeInfoId} from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
@@ -26,6 +26,9 @@ export class BulkActionsModel
   extends Model<BulkActionsState>
   implements Finalizable
 {
+  // A map of all the changes in a section that can be bulk-acted upon.
+  private allChanges: Map<ChangeInfoId, ChangeInfo> = new Map();
+
   constructor(_restApiService: RestApiService) {
     super(initialState);
   }
@@ -36,6 +39,7 @@ export class BulkActionsModel
   );
 
   addSelectedChangeId(changeId: ChangeInfoId) {
+    if (!this.allChanges.has(changeId)) return;
     const current = this.subject$.getValue();
     const selectedChangeIds = [...current.selectedChangeIds];
     selectedChangeIds.push(changeId);
@@ -43,6 +47,7 @@ export class BulkActionsModel
   }
 
   removeSelectedChangeId(changeId: ChangeInfoId) {
+    if (!this.allChanges.has(changeId)) return;
     const current = this.subject$.getValue();
     const selectedChangeIds = [...current.selectedChangeIds];
     const index = selectedChangeIds.findIndex(item => item === changeId);
@@ -51,10 +56,11 @@ export class BulkActionsModel
     this.setState({...current, selectedChangeIds});
   }
 
-  sync(visibleChangesId: ChangeInfoId[]) {
+  sync(changes: ChangeInfo[]) {
+    this.allChanges = new Map(changes.map(c => [c.id, c]));
     const current = this.subject$.getValue();
     const selectedChangeIds = current.selectedChangeIds.filter(changeId =>
-      visibleChangesId.includes(changeId)
+      this.allChanges.has(changeId)
     );
     this.setState({...current, selectedChangeIds});
   }

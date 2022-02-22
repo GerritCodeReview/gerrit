@@ -97,7 +97,7 @@ export enum MessageTag {
 }
 
 /**
- * @desc These values are directly displayed in the dialog to show progress of
+ * @description These values are directly displayed in the dialog to show progress of
  * change.
  */
 export enum ProgressStatus {
@@ -108,7 +108,7 @@ export enum ProgressStatus {
 }
 
 /**
- * @desc Modes for gr-diff-cursor
+ * @description Modes for gr-diff-cursor
  * The scroll behavior for the cursor. Values are 'never' and
  * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
  * the viewport.

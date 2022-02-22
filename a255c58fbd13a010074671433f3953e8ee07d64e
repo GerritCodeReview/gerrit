@@ -46,6 +46,30 @@
       },
       "revId": "a255c58fbd13a010074671433f3953e8ee07d64e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7dca7fb_dc563c75",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-22T13:48:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa087bc8_0ba061ad",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 0
+      },
+      "revId": "a255c58fbd13a010074671433f3953e8ee07d64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

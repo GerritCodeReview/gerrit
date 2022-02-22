@@ -5,11 +5,12 @@
  */
 
 import {createChange} from '../../test/test-data-generators';
-import {ChangeInfoId} from '../../api/rest-api';
+import {ChangeInfo, ChangeInfoId} from '../../api/rest-api';
 import {BulkActionsModel} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
 import '../../test/common-test-setup-karma';
-import {waitUntilObserved} from '../../test/test-utils';
+import {stubRestApi, waitUntilObserved} from '../../test/test-utils';
+import {mockPromise, MockPromise} from '../../test/test-utils';
 
 suite('bulk actions model test', () => {
   let bulkActionsModel: BulkActionsModel;
@@ -84,5 +85,100 @@ suite('bulk actions model test', () => {
       s => s.length === 1
     );
     assert.sameMembers(selectedChangeIds, [c1.id]);
+  });
+
+  test('sync fetches new changes', async () => {
+    const c1 = createChange();
+    c1.id = '1' as ChangeInfoId;
+    const c2 = createChange();
+    c2.id = '2' as ChangeInfoId;
+
+    const responsePromise: MockPromise<ChangeInfo[]> = mockPromise();
+    const getChangesStub = stubRestApi('getChanges').callsFake(
+      (changesPerPage, query, offset, options) => {
+        assert.isUndefined(changesPerPage);
+        assert.strictEqual(query, 'change:1 OR change:2');
+        assert.isUndefined(offset);
+        assert.strictEqual(options, '1110502');
+        return responsePromise;
+      }
+    );
+    bulkActionsModel.sync([c1, c2]);
+    assert.strictEqual(getChangesStub.callCount, 1);
+    await waitUntilObserved(bulkActionsModel!.loading$, s => s === true);
+
+    debugger;
+    responsePromise.resolve([
+      {...createChange(), id: '1', subject: 'Subject 1'},
+      {...createChange(), id: '2', subject: 'Subject 2'},
+    ] as ChangeInfo[]);
+    await waitUntilObserved(bulkActionsModel!.loading$, s => s === false);
+    assert.strictEqual(
+      bulkActionsModel.allChanges.get('1' as ChangeInfoId)?.subject,
+      'Subject 1'
+    );
+    assert.strictEqual(
+      bulkActionsModel.allChanges.get('2' as ChangeInfoId)?.subject,
+      'Subject 2'
+    );
+  });
+
+  test('sync respects last fetch', async () => {
+    const c1 = createChange();
+    c1.id = '1' as ChangeInfoId;
+    const c2 = createChange();
+    c2.id = '2' as ChangeInfoId;
+
+    const responsePromise1: MockPromise<ChangeInfo[]> = mockPromise();
+    let promise = responsePromise1;
+    const getChangesStub = stubRestApi('getChanges').callsFake(
+      (changesPerPage, query, offset, options) => {
+        assert.isUndefined(changesPerPage);
+        assert.strictEqual(query, 'change:1 OR change:2');
+        assert.isUndefined(offset);
+        assert.strictEqual(options, '1110502');
+        return promise;
+      }
+    );
+    bulkActionsModel.sync([c1, c2]);
+    assert.strictEqual(getChangesStub.callCount, 1);
+    await waitUntilObserved(bulkActionsModel!.loading$, s => s === true);
+    const responsePromise2: MockPromise<ChangeInfo[]> = mockPromise();
+
+    promise = responsePromise2;
+    bulkActionsModel.sync([c1, c2]);
+    assert.strictEqual(getChangesStub.callCount, 2);
+
+    responsePromise2.resolve([
+      {...createChange(), id: '1', subject: 'Subject 1'},
+      {...createChange(), id: '2', subject: 'Subject 2'},
+    ] as ChangeInfo[]);
+
+    await waitUntilObserved(bulkActionsModel!.loading$, s => s === false);
+    assert.strictEqual(
+      bulkActionsModel.allChanges.get('1' as ChangeInfoId)?.subject,
+      'Subject 1'
+    );
+    assert.strictEqual(
+      bulkActionsModel.allChanges.get('2' as ChangeInfoId)?.subject,
+      'Subject 2'
+    );
+
+    // Resolve the old promise.
+    responsePromise1.resolve([
+      {...createChange(), id: '1', subject: 'Subject 1-old'},
+      {...createChange(), id: '2', subject: 'Subject 2-old'},
+    ] as ChangeInfo[]);
+    await flush();
+
+    // No change should happen.
+    assert.strictEqual(
+      bulkActionsModel.allChanges.get('1' as ChangeInfoId)?.subject,
+      'Subject 1'
+    );
+    assert.strictEqual(
+      bulkActionsModel.allChanges.get('2' as ChangeInfoId)?.subject,
+      'Subject 2'
+    );
   });
 });

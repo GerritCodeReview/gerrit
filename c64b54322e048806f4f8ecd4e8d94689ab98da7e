@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9c84835_d247b28e",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-22T10:58:39Z",
+      "side": 1,
+      "message": "To make that work handleCloseTap needs to be defined as a variable that\u0027s assigned an anonymous function that binds this. As follows:\n\n```\nhandleCloseTap \u003d () \u003d\u003e {\n}\n```",
+      "parentUuid": "e5070a95_e09f0eec",
+      "range": {
+        "startLine": 224,
+        "startChar": 14,
+        "endLine": 226,
+        "endChar": 16
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f2432a9_41878fb4",
         "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
         "patchSetId": 3

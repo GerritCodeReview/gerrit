@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4be3ad8_9fd592f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-22T16:16:08Z",
+      "side": 1,
+      "message": "Thanks, PTAL",
+      "revId": "c05982be6501cd515a0fb8e4296c37afb94d503a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3766dc0a_6636d50b",
@@ -14,6 +31,30 @@
       "writtenOn": "2022-02-22T15:51:52Z",
       "side": 1,
       "message": "should we assert / throw instead of ignoring? These should be impossible cases.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 47
+      },
+      "revId": "c05982be6501cd515a0fb8e4296c37afb94d503a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6cc479b_030d022d",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-22T16:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3766dc0a_6636d50b",
       "range": {
         "startLine": 42,
         "startChar": 0,
@@ -61,6 +102,30 @@
       "side": 1,
       "message": "maybe call it `basicChangeInfos` or something if there will be another store of the full data.",
       "parentUuid": "dff54e51_f9995351",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 59
+      },
+      "revId": "c05982be6501cd515a0fb8e4296c37afb94d503a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3716fd3d_bdc04525",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-22T16:16:08Z",
+      "side": 1,
+      "message": "I have logic to add a lookup right after this part of sync.\n\nI\u0027ll rename in a following change if I decide I need more than one variable.",
+      "parentUuid": "f8262790_d6c40493",
       "range": {
         "startLine": 60,
         "startChar": 0,

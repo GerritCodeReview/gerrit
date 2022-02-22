@@ -89,6 +89,15 @@ export class BulkActionsModel
     this.setState({...current, selectedChangeIds});
   }
 
+  getChange(changeId: ChangeInfoId): ChangeInfo {
+    if (!this.allChanges.has(changeId)) {
+      throw new Error(
+        `${changeId} is not part of bulk-actions model`
+      );
+    }
+    return this.allChanges.get(changeId)!;
+  }
+
   async abandonChanges(reason?: string) {
     const current = this.subject$.getValue();
     const selectedChangeIds = [...current.selectedChangeIds];

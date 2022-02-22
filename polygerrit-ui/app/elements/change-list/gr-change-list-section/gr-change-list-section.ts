@@ -26,6 +26,9 @@ import {
   bulkActionsModelToken,
   BulkActionsModel,
 } from '../../../models/bulk-actions/bulk-actions-model';
+import '../../change/gr-bulk-abandon-dialog/gr-bulk-abandon-dialog';
+import {queryAndAssert} from '../../../test/test-utils';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -150,6 +153,9 @@ export class GrChangeListSection extends LitElement {
         ${this.changeSection.results.map((change, index) =>
           this.renderChangeRow(change, index, columns)
         )}
+        <gr-overlay id="abandonOverlay" with-backdrop="">
+          <gr-bulk-abandon-dialog></gr-bulk-abandon-dialog>
+        </gr-overlay>
       </tbody>
     `;
   }
@@ -219,7 +225,11 @@ export class GrChangeListSection extends LitElement {
     return html`
       <td class="spacing"></td>
       <td>
-        <gr-button ?disabled=${this.disableAbandonAction}>Abandon</gr-button>
+        <gr-button
+          ?disabled=${this.disableAbandonAction}
+          @click=${() => this.openAbandonDialog()}
+          >Abandon</gr-button
+        >
       </td>
     `;
   }
@@ -322,6 +332,10 @@ export class GrChangeListSection extends LitElement {
   // private but used in test
   computeItemSelected(index: number) {
     return index === this.selectedIndex;
+  }
+
+  private openAbandonDialog() {
+    queryAndAssert<GrOverlay>(this, '#abandonOverlay').open();
   }
 
   private computeTabIndex(index: number) {

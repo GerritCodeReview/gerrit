@@ -658,6 +658,27 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     byAuthorOrCommitterFullText("committer:");
   }
 
+  @Test
+  public void byAuthorRegex() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    PersonIdent johnDoe = new PersonIdent("john doe", "john.doe@example.com");
+    PersonIdent john = new PersonIdent("john", "john@example.com");
+    PersonIdent doeSmith = new PersonIdent("doe smith", "doe_smith@other.com");
+    Change change1 = createChange(repo, johnDoe);
+    Change change2 = createChange(repo, john);
+    Change change3 = createChange(repo, doeSmith);
+
+    // By regex email
+    assertQuery("author:\"^.*@example\\.com\"", change2, change1);
+    assertQuery("author:\"^.*@other\\.com\"", change3);
+    assertQuery("author:\"^.*doe.*\"", change3, change1);
+    assertQuery("author:\"^.*smith@.*\\.com\"", change3);
+
+    // By regex name
+    assertQuery("author:\"^.*doe$\"", change1);
+    assertQuery("author:\"^.*smith\"", change3);
+  }
+
   private void byAuthorOrCommitterExact(String searchOperator) throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     PersonIdent johnDoe = new PersonIdent("John Doe", "john.doe@example.com");
@@ -1012,10 +1033,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     RevCommit commit4 =
         repo.parseBody(repo.commit().message("Title\n\nfoobar do NOT submit").create());
     Change change4 = insert(repo, newChangeForCommit(repo, commit4));
+    RevCommit commit5 = repo.parseBody(repo.commit().message("Something\n\nDO NOT Title").create());
+    Change change5 = insert(repo, newChangeForCommit(repo, commit5));
 
     assertQuery("message:\"^aaaa(b|c)*\"", change2, change1);
     assertQuery("message:\"^aaaa(c)*c.*\"", change2);
-    assertQuery("message:\"^.*DO NOT SUBMIT.*\"", change3);
+    assertQuery("message:\"^Title\"", change5);
     assertQuery(
         "message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\"",
         change4,

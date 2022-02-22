@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bd1917a_deb32755",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-22T08:53:13Z",
+      "side": 1,
+      "message": "What is this spy used for?\n\nAlso this method is already stubed, so this spy feels superfluous.",
+      "revId": "1e1f10f37432edf0a7b8b24cd35a4b2cba5cf0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

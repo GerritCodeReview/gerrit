@@ -21,8 +21,8 @@ import {ChangeInfo, NumericChangeId} from '../../../types/common';
 import './gr-change-list-action-bar';
 import type {GrChangeListActionBar} from './gr-change-list-action-bar';
 
-const change1 = {...createChange(), _number: 1 as NumericChangeId};
-const change2 = {...createChange(), _number: 2 as NumericChangeId};
+const change1 = {...createChange(), _number: 1 as NumericChangeId, actions: {}};
+const change2 = {...createChange(), _number: 2 as NumericChangeId, actions: {}};
 
 suite('gr-change-list-action-bar tests', () => {
   let element: GrChangeListActionBar;
@@ -65,6 +65,8 @@ suite('gr-change-list-action-bar tests', () => {
           </div>
           <div class="actionButtons">
             <gr-change-list-mark-active-flow></gr-change-list-mark-active-flow>
+            <gr-change-list-bulk-abandon-flow>
+            </gr-change-list-bulk-abandon-flow>
           </div>
         </div>
       </td>

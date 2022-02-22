@@ -15,7 +15,6 @@ import {
   ListChangesOption,
 } from '../../utils/change-util';
 import {combineLatest} from 'rxjs';
-import {ProgressStatus} from '../../constants/constants';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -106,22 +105,32 @@ export class BulkActionsModel
     this.setState({...this.subject$.getValue(), selectedChangeNums: []});
   }
 
-  async abandonChanges(reason?: string) {
+  getChange(changeNum: NumericChangeId): ChangeInfo {
+    if (!this.allChanges.has(changeNum)) {
+      throw new Error(`${changeNum} is not part of bulk-actions model`);
+    }
+    return this.allChanges.get(changeNum)!;
+  }
+
+  async abandonChanges(
+    reason?: string,
+    errFn?: (changeNum: NumericChangeId) => void
+  ) {
     const current = this.subject$.getValue();
     const selectedChangeNums = [...current.selectedChangeNums];
     return Promise.all(
-      selectedChangeNums.map(changeId => {
-        if (!this.allChanges.get(changeId))
+      selectedChangeNums.map(changeNum => {
+        if (!this.allChanges.get(changeNum))
           throw new Error('invalid change id');
-        const change = this.allChanges.get(changeId)!;
-        return this.restApiService
-          .executeChangeAction(
-            change._number,
-            change.actions!.abandon!.method,
-            '/abandon',
-            undefined,
-            {message: reason ?? ''},
-          );
+        const change = this.allChanges.get(changeNum)!;
+        return this.restApiService.executeChangeAction(
+          change._number,
+          change.actions!.abandon!.method,
+          '/abandon',
+          undefined,
+          {message: reason ?? ''},
+          () => errFn && errFn(change._number)
+        );
       })
     );
   }

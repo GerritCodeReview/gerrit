@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9ca031a_55e3dca1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-22T22:20:47Z",
+      "side": 1,
+      "message": "I\u0027m not sure this test makes sense or having _isViewActive but i fixed the test that i previously broke with the conversion to typescript (though it was kind of broken already as it didn\u0027t do await flush() so you could have easily broke it like i did without knowing).",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 240,
+        "endChar": 7
+      },
+      "revId": "bd09c31015ea434a4ffd541d1edce856407c941b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

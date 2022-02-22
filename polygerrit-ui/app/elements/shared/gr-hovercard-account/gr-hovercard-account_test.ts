@@ -87,11 +87,9 @@ suite('gr-hovercard-account tests', () => {
             <div class="email">kermit@gmail.com</div>
           </div>
         </div>
-        <div class="statusPlugin">
-          <gr-endpoint-decorator name="hovercard-status">
-            <gr-endpoint-param name="account"></gr-endpoint-param>
-          </gr-endpoint-decorator>
-        </div>
+        <gr-endpoint-decorator name="hovercard-status">
+          <gr-endpoint-param name="account"></gr-endpoint-param>
+        </gr-endpoint-decorator>
         <div class="status">
           <span class="title">About me:</span>
           <span class="value">I am a frog</span>

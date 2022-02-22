@@ -110,10 +110,7 @@ export class GrHovercardAccount extends base {
           padding: var(--spacing-s) var(--spacing-l);
         }
         .links {
-          padding: 0px 0px var(--spacing-l) var(--spacing-xxl);
-        }
-        .statusPlugin {
-          padding: var(--spacing-l) var(--spacing-l) var(--spacing-m);
+          padding: var(--spacing-l) 0px var(--spacing-l) var(--spacing-xxl);
         }
         .top {
           display: flex;
@@ -237,14 +234,12 @@ export class GrHovercardAccount extends base {
 
   private renderAccountStatusPlugins() {
     return html`
-      <div class="statusPlugin">
-        <gr-endpoint-decorator name="hovercard-status">
-          <gr-endpoint-param
-            name="account"
-            .value="${this.account}"
-          ></gr-endpoint-param>
-        </gr-endpoint-decorator>
-      </div>
+      <gr-endpoint-decorator name="hovercard-status">
+        <gr-endpoint-param
+          name="account"
+          .value="${this.account}"
+        ></gr-endpoint-param>
+      </gr-endpoint-decorator>
     `;
   }
 

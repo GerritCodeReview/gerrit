@@ -11,6 +11,7 @@ import {resolve} from '../../../models/dependency';
 import {pluralize} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
+import '../gr-change-list-bulk-abandon-flow/gr-bulk-abandon-dialog';
 
 interface ActionButton {
   name: string;
@@ -58,9 +59,7 @@ export class GrChangeListActionBar extends LitElement {
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
-  private readonly actionButtons: ActionButton[] = [
-    {name: 'abandon', onClick: () => this.onAbandonClicked()},
-  ];
+  private readonly actionButtons: ActionButton[] = [];
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -123,10 +122,6 @@ export class GrChangeListActionBar extends LitElement {
         </div>
       </td>
     `;
-  }
-
-  private onAbandonClicked() {
-    console.info('abandon clicked');
   }
 }
 

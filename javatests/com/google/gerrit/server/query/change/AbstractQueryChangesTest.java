@@ -658,6 +658,27 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     byAuthorOrCommitterFullText("committer:");
   }
 
+  @Test
+  public void byAuthorRegex() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    PersonIdent johnDoe = new PersonIdent("john doe", "john.doe@example.com");
+    PersonIdent john = new PersonIdent("john", "john@example.com");
+    PersonIdent doeSmith = new PersonIdent("doe smith", "doe_smith@other.com");
+    Change change1 = createChange(repo, johnDoe);
+    Change change2 = createChange(repo, john);
+    Change change3 = createChange(repo, doeSmith);
+
+    // By regex email
+    assertQuery("author:\"^.*@example\\.com\"", change2, change1);
+    assertQuery("author:\"^.*@other\\.com\"", change3);
+    assertQuery("author:\"^.*doe.*\"", change3, change1);
+    assertQuery("author:\"^.*smith@.*\\.com\"", change3);
+
+    // By regex name
+    assertQuery("author:\"^.*doe$\"", change1);
+    assertQuery("author:\"^.*smith\"", change3);
+  }
+
   private void byAuthorOrCommitterExact(String searchOperator) throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     PersonIdent johnDoe = new PersonIdent("John Doe", "john.doe@example.com");

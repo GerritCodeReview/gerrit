@@ -650,6 +650,10 @@ author:'AUTHOR'::
 Changes where 'AUTHOR' is the author of the current patch set. 'AUTHOR' may be
 the author's exact email address, or part of the name or email address. The
 special case of `author:self` will find changes authored by the caller.
+By default full text matching is used, but regular expressions can be
+enabled by starting with `^`.
+The link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
+is used for the evaluation of such patterns.
 
 [[committer]]
 committer:'COMMITTER'::

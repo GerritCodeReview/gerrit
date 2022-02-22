@@ -355,7 +355,8 @@ export const htmlTemplate = html`
           </gr-copy-clipboard>
         </div>
         <!-- end headerTitle -->
-        <div class="commitActions" hidden$="[[!_loggedIn]]">
+        <!-- always show gr-change-actions regardless if logged in or not -->
+        <div class="commitActions">
           <gr-change-actions
             id="actions"
             change="[[_change]]"
@@ -373,6 +374,7 @@ export const htmlTemplate = html`
             edit-mode="[[_editMode]]"
             edit-based-on-current-patch-set="[[_hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
             private-by-default="[[_projectConfig.private_by_default]]"
+            logged-in="[[_loggedIn]]"
             on-edit-tap="_handleEditTap"
             on-stop-edit-tap="_handleStopEditTap"
             on-download-tap="_handleOpenDownloadDialog"

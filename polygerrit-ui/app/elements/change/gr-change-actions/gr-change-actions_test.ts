@@ -630,6 +630,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('shows confirm dialog for delete edit', async () => {
+        element.set('loggedIn', true);
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
 
@@ -693,6 +694,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('edit patchset is loaded, needs rebase', async () => {
+        element.set('loggedIn', true);
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
         element.change = {
@@ -712,6 +714,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('edit patchset is loaded, does not need rebase', async () => {
+        element.set('loggedIn', true);
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
         element.change = {
@@ -731,6 +734,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('edit mode is loaded, no edit patchset', async () => {
+        element.set('loggedIn', true);
         element.set('editMode', true);
         element.set('editPatchsetLoaded', false);
         element.change = {
@@ -753,6 +757,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('normal patch set', async () => {
+        element.set('loggedIn', true);
         element.set('editMode', false);
         element.set('editPatchsetLoaded', false);
         element.change = {
@@ -775,6 +780,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('edit action', async () => {
+        element.set('loggedIn', true);
         const editTapped = mockPromise();
         element.addEventListener('edit-tap', () => {
           editTapped.resolve();
@@ -809,6 +815,25 @@ suite('gr-change-actions tests', () => {
         tap(editButton);
         await editTapped;
       });
+    });
+
+    test('edit action not shown for logged out user', async () => {
+      element.set('loggedIn', false);
+      element.set('editMode', false);
+      element.set('editPatchsetLoaded', false);
+      element.change = {
+        ...createChangeViewChange(),
+        status: ChangeStatus.NEW,
+      };
+      await flush();
+
+      assert.isNotOk(
+        query(element, 'gr-button[data-action-key="publishEdit"]')
+      );
+      assert.isNotOk(query(element, 'gr-button[data-action-key="rebaseEdit"]'));
+      assert.isNotOk(query(element, 'gr-button[data-action-key="deleteEdit"]'));
+      assert.isNotOk(query(element, 'gr-button[data-action-key="edit"]'));
+      assert.isNotOk(query(element, 'gr-button[data-action-key="stopEdit"]'));
     });
 
     suite('cherry-pick', () => {

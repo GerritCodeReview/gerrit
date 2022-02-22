@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8df7144a_66e37795",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-22T10:27:42Z",
+      "side": 1,
+      "message": "it would be nice to introduce createDiffPreferences() in test-data-generators",
+      "range": {
+        "startLine": 57,
+        "startChar": 43,
+        "endLine": 57,
+        "endChar": 62
+      },
+      "revId": "410294717681b1394d070bbe890182ad6136e00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed7546c8_3eb1317a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-02-22T10:27:42Z",
+      "side": 1,
+      "message": "Can be rewritten to:\n\n`rev2: createRevision(2)`",
+      "range": {
+        "startLine": 145,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 58
+      },
+      "revId": "410294717681b1394d070bbe890182ad6136e00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

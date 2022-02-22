@@ -26,8 +26,11 @@ export class BulkActionsModel
   extends Model<BulkActionsState>
   implements Finalizable
 {
-  constructor(_restApiService: RestApiService) {
+
+  private readonly restApiService: RestApiService;
+  constructor(restApiService: RestApiService) {
     super(initialState);
+    this.restApiService = restApiService;
   }
 
   public readonly selectedChangeIds$ = select(
@@ -57,6 +60,22 @@ export class BulkActionsModel
       visibleChangesId.some(visibleChangeId => visibleChangeId === changeId)
     );
     this.setState({...current, selectedChangeIds});
+  }
+
+  abandonChanges() {
+    return this.restApiService
+          .executeChangeAction(
+            changeNum,
+            method,
+            actionEndpoint,
+            patchNum,
+            payload,
+            handleError
+          )
+          .then(response => {
+            cleanupFn.call(this);
+            return response;
+          });
   }
 
   /** Required for testing */

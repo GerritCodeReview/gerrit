@@ -18,8 +18,7 @@ import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.inject.Singleton;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.mutable.MutableLong;
 
 /**
@@ -49,7 +48,7 @@ import org.apache.commons.lang3.mutable.MutableLong;
  */
 @Singleton
 public class TestMetricMaker extends DisabledMetricMaker {
-  private final Map<String, MutableLong> counts = new HashMap<>();
+  private final ConcurrentHashMap<String, MutableLong> counts = new ConcurrentHashMap<>();
 
   public long getCount(String counter0Name) {
     return get(counter0Name).longValue();

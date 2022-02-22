@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf5d47bb_8de59934",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-02-22T05:39:38Z",
+      "side": 1,
+      "message": "Note to the reviewers: a similar change 326632 addressed the other places, but more rollup_bundlle() places were added later.",
+      "revId": "511b3e846f050c43353224137ee01538404b5132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

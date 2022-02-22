@@ -120,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "46df76d2_5c1f5593",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-22T11:01:33Z",
+      "side": 1,
+      "message": "I see a few usages like these [1]. Should they be changed to use `willUpdate` as well ideally or is there something specific about this usage?\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts;l\u003d124?q\u003d%22%20this.updateItemName();%22\u0026sq\u003d\n\n[2] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts;l\u003d82?q\u003d%22if%20(changedProperties.has(%27repo%27))%20%7B%22",
+      "parentUuid": "15b239ed_7c64fc1e",
+      "range": {
+        "startLine": 281,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 21
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92b5f6d9_af0c9a04",
         "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
         "patchSetId": 3

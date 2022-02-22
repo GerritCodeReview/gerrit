@@ -232,7 +232,7 @@ suite('gr-dashboard-view tests', () => {
         dashboard: '' as DashboardId,
       };
       await paramsChangedPromise;
-      assert.equal(getChangesStub.callCount, 1);
+      assert.isTrue(getChangesStub.called);
     });
 
     test('nothing happens when user param is falsy', async () => {
@@ -310,11 +310,7 @@ suite('gr-dashboard-view tests', () => {
       ],
     };
     await paramsChangedPromise;
-    assert.isTrue(getChangesStub.calledOnce);
-    assert.deepEqual(getChangesStub.firstCall.args, [
-      undefined,
-      ['1', '2 suffix'],
-    ]);
+    assert.isTrue(getChangesStub.calledWith(undefined, ['1', '2 suffix']));
   });
 
   suite('_getProjectDashboard', () => {

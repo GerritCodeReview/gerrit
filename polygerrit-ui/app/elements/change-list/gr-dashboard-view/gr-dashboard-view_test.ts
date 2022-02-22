@@ -62,9 +62,6 @@ suite('gr-dashboard-view tests', () => {
       })
     );
     stubRestApi('getAccountStatus').returns(Promise.resolve(undefined));
-    getChangesStub = stubRestApi('getChanges').callsFake((_, qs) =>
-      Promise.resolve((qs as string[]).map(() => []))
-    );
 
     element = await fixture<GrDashboardView>(html`
       <gr-dashboard-view></gr-dashboard-view>
@@ -87,7 +84,6 @@ suite('gr-dashboard-view tests', () => {
         {name: 'test1', query: 'test1', hideIfEmpty: true},
         {name: 'test2', query: 'test2', hideIfEmpty: true},
       ];
-      getChangesStub.restore();
       stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
       await element.fetchDashboardChanges({sections}, false);
       element.loading = false;
@@ -96,7 +92,7 @@ suite('gr-dashboard-view tests', () => {
       await element.updateComplete;
     });
 
-    test('checkboxes remain checked after soft reload', async () => {
+    test.only('checkboxes remain checked after soft reload', async () => {
       const checkbox = queryAndAssert<HTMLInputElement>(
         query(
           query(query(element, 'gr-change-list'), 'gr-change-list-section'),
@@ -107,8 +103,9 @@ suite('gr-dashboard-view tests', () => {
       MockInteractions.tap(checkbox);
       await waitUntil(() => checkbox.checked);
 
-      getChangesStub.restore();
-      stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
+      stubRestApi('getChanges').returns(
+        Promise.resolve([[{...createChange()}]])
+      );
 
       await element.reload({
         view: GerritView.DASHBOARD,
@@ -414,7 +411,6 @@ suite('gr-dashboard-view tests', () => {
       {name: 'test1', query: 'test1', hideIfEmpty: true},
       {name: 'test2', query: 'test2', hideIfEmpty: true},
     ];
-    getChangesStub.restore();
     stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
 
     await element.fetchDashboardChanges({sections}, false);
@@ -427,7 +423,6 @@ suite('gr-dashboard-view tests', () => {
       {name: 'Outgoing reviews', query: 'test1'},
       {name: 'test2', query: 'test2'},
     ];
-    getChangesStub.restore();
     stubRestApi('getChanges').returns(Promise.resolve([[], []]));
 
     await element.fetchDashboardChanges({sections}, false);

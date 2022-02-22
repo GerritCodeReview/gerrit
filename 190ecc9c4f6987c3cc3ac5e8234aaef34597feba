@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "38c03ff8_1acc346c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-22T09:12:54Z",
+      "side": 1,
+      "message": "i don\u0027t, because i think it\u0027s a rather crude measure for the intended purpose - it only helps against very stupid attackers, while imposing significant disadvantages on actual users.\n\napproaching it from another angle: what is even the point of no-limit after your change? defeating other parameters from the same command really makes no sense.",
+      "parentUuid": "9b6c144a_f9ef3a49",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "190ecc9c4f6987c3cc3ac5e8234aaef34597feba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42f98609_8dceb1dd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

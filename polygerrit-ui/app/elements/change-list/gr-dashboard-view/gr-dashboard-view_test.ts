@@ -225,6 +225,12 @@ suite('gr-dashboard-view tests', () => {
   });
 
   suite('_isViewActive', () => {
+    test('nothing happens when user param is falsy', async () => {
+      element.params = undefined;
+      await flush();
+      assert.equal(getChangesStub.callCount, 0);
+    });
+
     test('content is refreshed when user param is updated', async () => {
       element.params = {
         view: GerritView.DASHBOARD,
@@ -233,23 +239,6 @@ suite('gr-dashboard-view tests', () => {
       };
       await paramsChangedPromise;
       assert.equal(getChangesStub.callCount, 1);
-    });
-
-    test('nothing happens when user param is falsy', async () => {
-      element.params = {
-        view: GerritView.DASHBOARD,
-        dashboard: '' as DashboardId,
-      };
-      flush();
-      assert.equal(getChangesStub.callCount, 0);
-
-      element.params = {
-        view: GerritView.DASHBOARD,
-        user: '',
-        dashboard: '' as DashboardId,
-      };
-      flush();
-      assert.equal(getChangesStub.callCount, 0);
     });
   });
 

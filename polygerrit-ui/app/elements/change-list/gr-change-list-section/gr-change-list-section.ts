@@ -121,7 +121,7 @@ export class GrChangeListSection extends LitElement {
       // In case the list of changes is updated due to auto reloading, we want
       // to ensure the model removes any stale change that is not a part of the
       // new section changes.
-      this.bulkActionsModel!.sync(this.changeSection.results.map(c => c.id));
+      this.bulkActionsModel.sync(this.changeSection.results);
     }
   }
 

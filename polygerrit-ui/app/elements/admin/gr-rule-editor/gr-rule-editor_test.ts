@@ -23,15 +23,96 @@ import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-
-const basicFixture = fixtureFromElement('gr-rule-editor');
+import {fixture, html} from '@open-wc/testing-helpers';
+import {EditablePermissionRuleInfo} from '../gr-repo-access/gr-repo-access-interfaces';
+import {PermissionAction} from '../../../constants/constants';
 
 suite('gr-rule-editor tests', () => {
   let element: GrRuleEditor;
 
   setup(async () => {
-    element = basicFixture.instantiate() as GrRuleEditor;
+    element = await fixture<GrRuleEditor>(html`
+      <gr-rule-editor></gr-rule-editor>
+    `);
     await element.updateComplete;
+  });
+
+  suite('dom tests', () => {
+    test('default', () => {
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <div class="gr-form-styles" id="mainContainer">
+          <div id="options">
+            <gr-select id="action">
+              <select disabled="">
+                <option value="ALLOW">ALLOW</option>
+                <option value="DENY">DENY</option>
+                <option value="BLOCK">BLOCK</option>
+              </select>
+            </gr-select>
+            <a class="groupPath"> </a>
+            <gr-select id="force">
+              <select disabled=""></select>
+            </gr-select>
+          </div>
+          <gr-button
+            aria-disabled="false"
+            id="removeBtn"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            Remove
+          </gr-button>
+        </div>
+        <div class="gr-form-styles" id="deletedContainer">
+          was deleted
+          <gr-button
+            aria-disabled="false"
+            id="undoRemoveBtn"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            Undo
+          </gr-button>
+        </div>
+      `);
+    });
+
+    test('push options', async () => {
+      const rule: {value: EditablePermissionRuleInfo} = {
+        value: {
+          action: PermissionAction.ALLOW,
+        },
+      };
+      element = await fixture<GrRuleEditor>(html`
+        <gr-rule-editor
+          .editing=${true}
+          .rule=${rule}
+          .permission=${AccessPermissionId.PUSH}
+        ></gr-rule-editor>
+      `);
+      expect(queryAndAssert(element, '#options')).dom.to.equal(/* HTML */ `
+        <div id="options">
+          <gr-select id="action">
+            <select>
+              <option value="ALLOW">ALLOW</option>
+              <option value="DENY">DENY</option>
+              <option value="BLOCK">BLOCK</option>
+            </select>
+          </gr-select>
+          <a class="groupPath"> </a>
+          <gr-select class="force" id="force">
+            <select>
+              <option value="false">
+                Allow pushing (but not force pushing)
+              </option>
+              <option value="true">Allow pushing with or without force</option>
+            </select>
+          </gr-select>
+        </div>
+      `);
+    });
   });
 
   suite('unit tests', () => {
@@ -58,21 +139,21 @@ suite('gr-rule-editor tests', () => {
         },
       ];
       element.permission = 'push' as AccessPermissionId;
-      let action = 'ALLOW';
+      let action = PermissionAction.ALLOW;
       assert.isTrue(element.computeForce(action));
       assert.deepEqual(
         element.computeForceOptions(action),
         ForcePushOptions.ALLOW
       );
 
-      action = 'BLOCK';
+      action = PermissionAction.BLOCK;
       assert.isTrue(element.computeForce(action));
       assert.deepEqual(
         element.computeForceOptions(action),
         ForcePushOptions.BLOCK
       );
 
-      action = 'DENY';
+      action = PermissionAction.DENY;
       assert.isFalse(element.computeForce(action));
       assert.equal(element.computeForceOptions(action).length, 0);
 
@@ -102,7 +183,7 @@ suite('gr-rule-editor tests', () => {
     test('getDefaultRuleValues', () => {
       element.permission = 'priority' as AccessPermissionId;
       assert.deepEqual(element.getDefaultRuleValues(), {
-        action: 'BATCH',
+        action: PermissionAction.BATCH,
       });
       element.permission = 'label-Code-Review' as AccessPermissionId;
       element.label = {
@@ -115,25 +196,25 @@ suite('gr-rule-editor tests', () => {
         ],
       };
       assert.deepEqual(element.getDefaultRuleValues(), {
-        action: 'ALLOW',
+        action: PermissionAction.ALLOW,
         max: 2,
         min: -2,
       });
       element.permission = 'push' as AccessPermissionId;
       element.label = undefined;
       assert.deepEqual(element.getDefaultRuleValues(), {
-        action: 'ALLOW',
+        action: PermissionAction.ALLOW,
         force: false,
       });
       element.permission = 'submit' as AccessPermissionId;
       assert.deepEqual(element.getDefaultRuleValues(), {
-        action: 'ALLOW',
+        action: PermissionAction.ALLOW,
       });
     });
 
     test('setDefaultRuleValues', async () => {
-      element.rule = {value: {}};
-      const defaultValue = {action: 'ALLOW'};
+      element.rule = {};
+      const defaultValue = {action: PermissionAction.ALLOW};
       const getDefaultRuleValuesStub = sinon
         .stub(element, 'getDefaultRuleValues')
         .returns(defaultValue);
@@ -144,7 +225,11 @@ suite('gr-rule-editor tests', () => {
 
     test('computeOptions', () => {
       const PRIORITY_OPTIONS = ['BATCH', 'INTERACTIVE'];
-      const DROPDOWN_OPTIONS = ['ALLOW', 'DENY', 'BLOCK'];
+      const DROPDOWN_OPTIONS = [
+        PermissionAction.ALLOW,
+        PermissionAction.DENY,
+        PermissionAction.BLOCK,
+      ];
       element.permission = 'priority' as AccessPermissionId;
       assert.deepEqual(element.computeOptions(), PRIORITY_OPTIONS);
       element.permission = 'submit' as AccessPermissionId;
@@ -153,19 +238,21 @@ suite('gr-rule-editor tests', () => {
 
     test('handleValueChange', () => {
       const modifiedHandler = sinon.stub();
-      element.rule = {value: {}};
+      element.rule = {
+        value: {action: PermissionAction.ALLOW},
+      };
       element.addEventListener('access-modified', modifiedHandler);
       element.handleValueChange();
       assert.isNotOk(element.rule!.value!.modified);
-      element.originalRuleValues = {};
+      element.originalRuleValues = {action: PermissionAction.ALLOW};
       element.handleValueChange();
       assert.isTrue(element.rule!.value!.modified);
       assert.isTrue(modifiedHandler.called);
     });
 
     test('handleAccessSaved', () => {
-      const originalValue = {action: 'DENY'};
-      const newValue = {action: 'ALLOW'};
+      const originalValue = {action: PermissionAction.DENY};
+      const newValue = {action: PermissionAction.ALLOW};
       element.originalRuleValues = originalValue;
       element.rule = {value: newValue};
       element.handleAccessSaved();
@@ -175,7 +262,7 @@ suite('gr-rule-editor tests', () => {
     test('setOriginalRuleValues', () => {
       element.rule = {
         value: {
-          action: 'ALLOW',
+          action: PermissionAction.ALLOW,
           force: false,
         },
       };
@@ -190,7 +277,7 @@ suite('gr-rule-editor tests', () => {
       element.permission = 'submit' as AccessPermissionId;
       element.rule = {
         value: {
-          action: 'ALLOW',
+          action: PermissionAction.ALLOW,
           force: false,
         },
       };
@@ -217,7 +304,8 @@ suite('gr-rule-editor tests', () => {
     });
 
     test('modify and cancel restores original values', async () => {
-      element.rule = {value: {}};
+      element.rule = {value: {action: PermissionAction.ALLOW}};
+      element.setOriginalRuleValues();
       element.editing = true;
       await element.updateComplete;
       assert.notEqual(
@@ -227,7 +315,8 @@ suite('gr-rule-editor tests', () => {
       );
       assert.isNotOk(element.rule!.value!.modified);
       const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
-      actionBindValue.bindValue = 'DENY';
+      actionBindValue.bindValue = PermissionAction.DENY;
+      await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
       element.editing = false;
       await element.updateComplete;
@@ -237,17 +326,18 @@ suite('gr-rule-editor tests', () => {
         'none'
       );
       assert.deepEqual(element.originalRuleValues, element.rule!.value);
+      assert.isNotOk(element.rule!.value!.modified);
+      assert.equal(element.rule?.value?.action, PermissionAction.ALLOW);
       assert.equal(
         queryAndAssert<GrSelect>(element, '#action').bindValue,
-        'ALLOW'
+        PermissionAction.ALLOW
       );
-      assert.isNotOk(element.rule!.value!.modified);
     });
 
     test('modify value', async () => {
       assert.isNotOk(element.rule!.value!.modified);
       const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
-      actionBindValue.bindValue = 'DENY';
+      actionBindValue.bindValue = PermissionAction.DENY;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
@@ -269,7 +359,7 @@ suite('gr-rule-editor tests', () => {
 
     test('remove rule and undo remove', async () => {
       element.editing = true;
-      element.rule = {value: {action: 'ALLOW'}};
+      element.rule = {value: {action: PermissionAction.ALLOW}};
       await element.updateComplete;
       assert.isFalse(
         queryAndAssert<HTMLDivElement>(
@@ -309,7 +399,7 @@ suite('gr-rule-editor tests', () => {
         'none'
       );
 
-      element.rule = {value: {action: 'ALLOW'}};
+      element.rule = {value: {action: PermissionAction.ALLOW}};
       await element.updateComplete;
       MockInteractions.tap(queryAndAssert<GrButton>(element, '#removeBtn'));
       await element.updateComplete;
@@ -371,7 +461,7 @@ suite('gr-rule-editor tests', () => {
       // be set. The original values should be set to those too.
       assert.isNotOk(element.rule!.value!.modified);
       const expectedRuleValue = {
-        action: 'ALLOW',
+        action: PermissionAction.ALLOW,
         force: false,
         added: true,
       };
@@ -424,7 +514,7 @@ suite('gr-rule-editor tests', () => {
       element.permission = 'label-Code-Review' as AccessPermissionId;
       element.rule = {
         value: {
-          action: 'ALLOW',
+          action: PermissionAction.ALLOW,
           force: false,
           max: 2,
           min: -2,
@@ -507,7 +597,7 @@ suite('gr-rule-editor tests', () => {
       const expectedRuleValue = {
         max: element.label!.values![element.label!.values.length - 1].value,
         min: element.label!.values![0].value,
-        action: 'ALLOW',
+        action: PermissionAction.ALLOW,
         added: true,
       };
       assert.deepEqual(element.rule!.value, expectedRuleValue);
@@ -545,7 +635,7 @@ suite('gr-rule-editor tests', () => {
       element.permission = 'push' as AccessPermissionId;
       element.rule = {
         value: {
-          action: 'ALLOW',
+          action: PermissionAction.ALLOW,
           force: true,
         },
       };
@@ -605,7 +695,7 @@ suite('gr-rule-editor tests', () => {
       // be set. The original values should be set to those too.
       assert.isNotOk(element.rule!.value!.modified);
       const expectedRuleValue = {
-        action: 'ALLOW',
+        action: PermissionAction.ALLOW,
         force: false,
         added: true,
       };
@@ -640,7 +730,7 @@ suite('gr-rule-editor tests', () => {
       element.permission = 'editTopicName' as AccessPermissionId;
       element.rule = {
         value: {
-          action: 'ALLOW',
+          action: PermissionAction.ALLOW,
           force: true,
         },
       };

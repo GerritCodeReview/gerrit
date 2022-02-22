@@ -26,6 +26,8 @@ import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {BindValueChangeEvent} from '../../../types/events';
 import {ifDefined} from 'lit/directives/if-defined';
+import {EditablePermissionRuleInfo} from '../gr-repo-access/gr-repo-access-interfaces';
+import {PermissionAction} from '../../../constants/constants';
 
 /**
  * Fired when the rule has been modified or removed.
@@ -39,15 +41,19 @@ import {ifDefined} from 'lit/directives/if-defined';
  * @event added-rule-removed
  */
 
-const PRIORITY_OPTIONS = ['BATCH', 'INTERACTIVE'];
+const PRIORITY_OPTIONS = [PermissionAction.BATCH, PermissionAction.INTERACTIVE];
 
 const Action = {
-  ALLOW: 'ALLOW',
-  DENY: 'DENY',
-  BLOCK: 'BLOCK',
+  ALLOW: PermissionAction.ALLOW,
+  DENY: PermissionAction.DENY,
+  BLOCK: PermissionAction.BLOCK,
 };
 
-const DROPDOWN_OPTIONS = [Action.ALLOW, Action.DENY, Action.BLOCK];
+const DROPDOWN_OPTIONS = [
+  PermissionAction.ALLOW,
+  PermissionAction.DENY,
+  PermissionAction.BLOCK,
+];
 
 const ForcePushOptions = {
   ALLOW: [
@@ -71,19 +77,7 @@ const FORCE_EDIT_OPTIONS = [
   },
 ];
 
-interface Rule {
-  value?: RuleValue;
-}
-
-interface RuleValue {
-  min?: number;
-  max?: number;
-  force?: boolean;
-  action?: string;
-  added?: boolean;
-  modified?: boolean;
-  deleted?: boolean;
-}
+type Rule = {value?: EditablePermissionRuleInfo};
 
 interface RuleLabel {
   values: RuleLabelValue[];
@@ -131,7 +125,7 @@ export class GrRuleEditor extends LitElement {
   @state() deleted = false;
 
   // private but used in test
-  @state() originalRuleValues?: RuleValue;
+  @state() originalRuleValues?: EditablePermissionRuleInfo;
 
   constructor() {
     super();
@@ -243,7 +237,7 @@ export class GrRuleEditor extends LitElement {
             <select ?disabled=${!this.editing}>
               ${this.computeForceOptions(this.rule?.value?.action).map(
                 item => html`
-                  <option value=${item.value}>${item.value}</option>
+                  <option value=${item.value}>${item.name}</option>
                 `
               )}
             </select>
@@ -412,20 +406,24 @@ export class GrRuleEditor extends LitElement {
   }
 
   // private but used in test
-  getDefaultRuleValues() {
-    const ruleAction = Action.ALLOW;
-    const value: RuleValue = {};
+  getDefaultRuleValues(): EditablePermissionRuleInfo {
     if (this.permission === AccessPermissionId.PRIORITY) {
-      value.action = PRIORITY_OPTIONS[0];
-      return value;
-    } else if (this.label) {
-      value.min = this.label.values[0].value;
-      value.max = this.label.values[this.label.values.length - 1].value;
-    } else if (this.computeForce(ruleAction)) {
-      value.force = this.computeForceOptions(ruleAction)[0].value;
+      return {action: PRIORITY_OPTIONS[0]};
     }
-    value.action = DROPDOWN_OPTIONS[0];
-    return value;
+    if (this.label) {
+      return {
+        action: DROPDOWN_OPTIONS[0],
+        min: this.label.values[0].value,
+        max: this.label.values[this.label.values.length - 1].value,
+      };
+    }
+    if (this.computeForce(Action.ALLOW)) {
+      return {
+        action: DROPDOWN_OPTIONS[0],
+        force: this.computeForceOptions(Action.ALLOW)[0].value,
+      };
+    }
+    return {action: DROPDOWN_OPTIONS[0]};
   }
 
   // private but used in test
@@ -465,7 +463,9 @@ export class GrRuleEditor extends LitElement {
   }
 
   private handleUndoChange() {
-    if (!this.rule?.value) return;
+    if (!this.originalRuleValues || !this.rule?.value) {
+      return;
+    }
     // gr-permission will take care of removing rules that were added but
     // unsaved. We need to keep the added bit for the filter.
     if (this.rule.value.added) {
@@ -495,7 +495,7 @@ export class GrRuleEditor extends LitElement {
   // private but used in test
   setOriginalRuleValues() {
     if (!this.rule?.value) return;
-    this.originalRuleValues = {...this.rule!.value};
+    this.originalRuleValues = {...this.rule.value};
   }
 
   private handleActionBindValueChanged(e: BindValueChangeEvent) {
@@ -506,7 +506,7 @@ export class GrRuleEditor extends LitElement {
     )
       return;
 
-    this.rule.value.action = String(e.detail.value);
+    this.rule.value.action = String(e.detail.value) as PermissionAction;
 
     this.handleValueChange();
   }

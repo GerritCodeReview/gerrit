@@ -11,6 +11,9 @@ import {resolve} from '../../../models/dependency';
 import {pluralize} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
+import {queryAndAssert} from '../../../test/test-utils';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import '../../change/gr-bulk-abandon-dialog/gr-bulk-abandon-dialog';
 
 interface ActionButton {
   name: string;
@@ -122,11 +125,24 @@ export class GrChangeListActionBar extends LitElement {
           </div>
         </div>
       </td>
+      <gr-overlay id="actionOverlay" with-backdrop="">
+        <gr-bulk-abandon-dialog
+          @cancel=${this.closeAbandonDialog}
+        ></gr-bulk-abandon-dialog>
+      </gr-overlay>
     `;
   }
 
   private onAbandonClicked() {
-    console.info('abandon clicked');
+    this.openAbandonDialog();
+  }
+
+  private openAbandonDialog() {
+    queryAndAssert<GrOverlay>(this, '#actionOverlay').open();
+  }
+
+  private closeAbandonDialog() {
+    queryAndAssert<GrOverlay>(this, '#actionOverlay').close();
   }
 }
 

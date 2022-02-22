@@ -328,6 +328,7 @@ suite('gr-change-list-item tests', () => {
     test('bulk actions checkboxes', async () => {
       stubFlags('isEnabled').returns(true);
       element.change = {...createChange(), id: '1' as ChangeInfoId};
+      bulkActionsModel.sync([element.change]);
       await element.updateComplete;
 
       const checkbox = queryAndAssert<HTMLInputElement>(
@@ -357,6 +358,7 @@ suite('gr-change-list-item tests', () => {
       await element.updateComplete;
 
       element.change = {...createChange(), id: '1' as ChangeInfoId};
+      bulkActionsModel.sync([element.change]);
       bulkActionsModel.addSelectedChangeId(element.change.id);
       await waitUntilObserved(
         bulkActionsModel.selectedChangeIds$,

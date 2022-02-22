@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61dfd91b_dac7a49c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-22T16:37:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "609f15d1_b82d17eb",
+      "range": {
+        "startLine": 108,
+        "startChar": 40,
+        "endLine": 108,
+        "endChar": 43
+      },
+      "revId": "2356ddc6d38c7dc64d973f86d976051eec30bd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32e5b708_a2275f5b",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-02-22T10:22:43Z",
       "side": 1,
       "message": "Maybe this should be `GenerateUrlParameters`",
+      "range": {
+        "startLine": 668,
+        "startChar": 14,
+        "endLine": 668,
+        "endChar": 20
+      },
+      "revId": "2356ddc6d38c7dc64d973f86d976051eec30bd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8942c73c_224efcfb",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-22T16:37:37Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nHad to also use AppElementParams. So AppElementParams | GenerateUrlParameters.",
+      "parentUuid": "32e5b708_a2275f5b",
       "range": {
         "startLine": 668,
         "startChar": 14,
@@ -81,6 +129,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e94e99c_7ad35339",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1672,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-22T16:37:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "232de136_d562692a",
+      "revId": "2356ddc6d38c7dc64d973f86d976051eec30bd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8be6a822_27497d23",
@@ -94,6 +160,30 @@
       "writtenOn": "2022-02-22T10:22:43Z",
       "side": 1,
       "message": "Shouldn\u0027t be this `GenerateUrlEditViewParameters`",
+      "range": {
+        "startLine": 2185,
+        "startChar": 25,
+        "endLine": 2185,
+        "endChar": 28
+      },
+      "revId": "2356ddc6d38c7dc64d973f86d976051eec30bd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aadb6cd2_6b1a202b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2185,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-22T16:37:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8be6a822_27497d23",
       "range": {
         "startLine": 2185,
         "startChar": 25,

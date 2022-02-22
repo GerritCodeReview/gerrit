@@ -39,6 +39,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
         config_file = ":rollup.config.js",
         entry_point = "_pg_ts_out/workers/syntax-worker.js",
         rollup_bin = "//tools/node_tools:rollup-bin",
+        silent = True,
         sourcemap = "hidden",
         deps = [
             "@tools_npm//rollup-plugin-node-resolve",

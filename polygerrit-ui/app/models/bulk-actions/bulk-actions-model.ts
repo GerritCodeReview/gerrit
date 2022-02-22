@@ -10,8 +10,6 @@ import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
-import {combineLatest} from 'rxjs';
-import {map} from 'rxjs/operators';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -61,19 +59,14 @@ export class BulkActionsModel
     bulkActionsState => bulkActionsState.allChanges
   );
 
-  public readonly selectedChanges$ = combineLatest([
-    this.selectedChangeNums$,
-    this.allChanges$,
-  ]).pipe(
-    map(([selected, allChanges]) => {
-      const result = [];
-      for (const changeNum of selected) {
-        const change = allChanges.get(changeNum);
-        if (change) result.push(change);
-      }
-      return result;
-    })
-  );
+  public readonly selectedChanges$ = select(this.state$, bulkActionsState => {
+    const result = [];
+    for (const changeNum of bulkActionsState.selectedChangeNums) {
+      const change = bulkActionsState.allChanges.get(changeNum);
+      if (change) result.push(change);
+    }
+    return result;
+  });
 
   addSelectedChangeNum(changeNum: NumericChangeId) {
     const current = this.getState();

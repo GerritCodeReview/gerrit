@@ -10,15 +10,21 @@ import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
+import {
+  listChangesOptionsToHex,
+  ListChangesOption,
+} from '../../utils/change-util';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
 
 export interface BulkActionsState {
+  loading: boolean;
   selectedChangeIds: ChangeInfoId[];
 }
 
 const initialState: BulkActionsState = {
+  loading: false,
   selectedChangeIds: [],
 };
 
@@ -27,15 +33,21 @@ export class BulkActionsModel
   implements Finalizable
 {
   // A map of all the changes in a section that can be bulk-acted upon.
-  private allChanges: Map<ChangeInfoId, ChangeInfo> = new Map();
+  // Private but used in tests.
+  allChanges: Map<ChangeInfoId, ChangeInfo> = new Map();
 
-  constructor(_restApiService: RestApiService) {
+  constructor(private readonly restApiService: RestApiService) {
     super(initialState);
   }
 
   public readonly selectedChangeIds$ = select(
     this.state$,
     bulkActionsState => bulkActionsState.selectedChangeIds
+  );
+
+  public readonly loading$ = select(
+    this.state$,
+    bulkActionsState => bulkActionsState.loading
   );
 
   addSelectedChangeId(changeId: ChangeInfoId) {
@@ -64,13 +76,33 @@ export class BulkActionsModel
     this.setState({...current, selectedChangeIds});
   }
 
-  sync(changes: ChangeInfo[]) {
-    this.allChanges = new Map(changes.map(c => [c.id, c]));
+  async sync(changes: ChangeInfo[]) {
+    const newChanges = new Map(changes.map(c => [c.id, c]));
+    this.allChanges = newChanges;
     const current = this.subject$.getValue();
     const selectedChangeIds = current.selectedChangeIds.filter(changeId =>
-      this.allChanges.has(changeId)
+      newChanges.has(changeId)
     );
-    this.setState({...current, selectedChangeIds});
+    this.setState({...current, loading: true, selectedChangeIds});
+
+    const query = changes.map(c => `change:${c.id}`).join(' OR ');
+    const changeDetails = await this.restApiService.getChanges(
+      undefined,
+      query,
+      undefined,
+      listChangesOptionsToHex(
+        ListChangesOption.CHANGE_ACTIONS,
+        ListChangesOption.CURRENT_ACTIONS,
+        ListChangesOption.CURRENT_REVISION,
+        ListChangesOption.DETAILED_LABELS
+      )
+    );
+    // Return early if sync has been called again since starting the load.
+    if (newChanges !== this.allChanges) return;
+    for (const change of changeDetails ?? []) {
+      this.allChanges.set(change.id, change);
+    }
+    this.setState({...this.subject$.getValue(), loading: false});
   }
 
   /** Required for testing */

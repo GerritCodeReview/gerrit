@@ -31,6 +31,9 @@ suite('gr-change-list section', () => {
   let element: GrChangeListSection;
 
   setup(async () => {
+    // TODO: add a proper mock for stubRestApi based on query parsing
+    // number of changes returned needs to be parsed from the query
+    // changeNum:A or changeNum:B or changeNum:C
     const changeSection: ChangeListSection = {
       name: 'test',
       query: 'test',
@@ -39,11 +42,13 @@ suite('gr-change-list section', () => {
           ...createChange(),
           _number: 0 as NumericChangeId,
           id: '0' as ChangeInfoId,
+          actions: {},
         },
         {
           ...createChange(),
           _number: 1 as NumericChangeId,
           id: '1' as ChangeInfoId,
+          actions: {},
         },
       ],
       emptyStateSlotName: 'test',
@@ -103,6 +108,7 @@ suite('gr-change-list section', () => {
             ...createChange(),
             _number: 1 as NumericChangeId,
             id: '1' as ChangeInfoId,
+            actions: {},
           },
         ],
         emptyStateSlotName: 'test',

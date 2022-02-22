@@ -37,6 +37,10 @@ import {
 } from '../../../api/rest-api.js';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {waitUntil} from '@open-wc/testing-helpers';
+import {
+  listChangesOptionsToHex,
+  ListChangesOption,
+} from '../../../utils/change-util.js';
 
 const basicFixture = fixtureFromElement('gr-change-list-view');
 
@@ -45,10 +49,11 @@ const COMMIT_HASH = '12345678';
 
 suite('gr-change-list-view tests', () => {
   let element: GrChangeListView;
+  let getChangesStub: sinon.SinonStub;
 
   setup(async () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-    stubRestApi('getChanges').returns(Promise.resolve([]));
+    getChangesStub = stubRestApi('getChanges').returns(Promise.resolve([]));
     stubRestApi('getAccountDetails').returns(Promise.resolve(undefined));
     stubRestApi('getAccountStatus').returns(Promise.resolve(undefined));
     element = basicFixture.instantiate();
@@ -60,11 +65,26 @@ suite('gr-change-list-view tests', () => {
   });
 
   suite('bulk actions', () => {
-    let getChangesStub: sinon.SinonStub;
+    const queryHex = listChangesOptionsToHex(
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.CURRENT_ACTIONS,
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.DETAILED_LABELS
+    );
     setup(async () => {
       stubFlags('isEnabled').returns(true);
-      getChangesStub = sinon.stub(element, 'getChanges');
-      getChangesStub.returns(Promise.resolve([createChange()]));
+      getChangesStub.callsFake(
+        (
+          _changesPerPage?: number,
+          _query?: string[],
+          _offset?: 'n,z' | number,
+          options?: string
+        ) => {
+          if (options === queryHex)
+            return Promise.resolve([{...createChange(), actions: {}}]);
+          else return Promise.resolve([createChange()]);
+        }
+      );
       element.loading = false;
       element.reload();
       await waitUntil(() => element.loading === false);
@@ -82,9 +102,6 @@ suite('gr-change-list-view tests', () => {
       );
       tap(checkbox);
       await waitUntil(() => checkbox.checked);
-
-      getChangesStub.restore();
-      getChangesStub.returns(Promise.resolve([[createChange()]]));
 
       element.reload();
       await element.updateComplete;

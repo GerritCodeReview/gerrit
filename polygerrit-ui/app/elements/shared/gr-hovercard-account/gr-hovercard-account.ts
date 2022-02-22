@@ -110,7 +110,7 @@ export class GrHovercardAccount extends base {
           padding: var(--spacing-s) var(--spacing-l);
         }
         .links {
-          padding: var(--spacing-l) 0px var(--spacing-l) var(--spacing-xxl);
+          padding: var(--spacing-m) 0px var(--spacing-l) var(--spacing-xxl);
         }
         .top {
           display: flex;

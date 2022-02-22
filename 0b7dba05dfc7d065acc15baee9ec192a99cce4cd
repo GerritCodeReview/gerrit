@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "637336b7_8d5c4cc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2022-02-22T23:42:43Z",
+      "side": 1,
+      "message": "BTW: That is true for OpenSSH. An Apache MINA client that itself has RSA+SHA2 would try RSA+SHA2 first in any case, even if the server didn\u0027t announce it in server-sig-algs.",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 63
+      },
+      "revId": "0b7dba05dfc7d065acc15baee9ec192a99cce4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

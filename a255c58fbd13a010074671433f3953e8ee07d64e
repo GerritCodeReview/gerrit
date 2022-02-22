@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa087bc8_0ba061ad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-22T10:26:17Z",
+      "side": 1,
+      "message": "you should check if you need to div to make this a block element. custom elements are `display: inline` by default. Add a screenshot 😊",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 0
+      },
+      "revId": "a255c58fbd13a010074671433f3953e8ee07d64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

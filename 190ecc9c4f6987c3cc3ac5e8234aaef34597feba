@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b6c144a_f9ef3a49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-22T07:17:37Z",
+      "side": 1,
+      "message": "Yes, I think admins should be in control of whether unlimited queries are allowed or not.\n\nI don\u0027t mind much, wether unlimited queries are allowed by assigning the the highest possible query limit (as suggested in the commit message) or by a dedicated new permission, .",
+      "parentUuid": "3361a32c_371ede02",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "190ecc9c4f6987c3cc3ac5e8234aaef34597feba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42f98609_8dceb1dd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

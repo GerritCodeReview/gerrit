@@ -15,7 +15,6 @@ import {
   ListChangesOption,
 } from '../../utils/change-util';
 import {combineLatest} from 'rxjs';
-import {ProgressStatus} from '../../constants/constants';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -106,6 +105,13 @@ export class BulkActionsModel
     this.setState({...this.subject$.getValue(), selectedChangeNums: []});
   }
 
+  getChange(changeId: ChangeInfoId): ChangeInfo {
+    if (!this.allChanges.has(changeId)) {
+      throw new Error(`${changeId} is not part of bulk-actions model`);
+    }
+    return this.allChanges.get(changeId)!;
+  }
+
   async abandonChanges(reason?: string) {
     const current = this.subject$.getValue();
     const selectedChangeNums = [...current.selectedChangeNums];
@@ -114,14 +120,13 @@ export class BulkActionsModel
         if (!this.allChanges.get(changeId))
           throw new Error('invalid change id');
         const change = this.allChanges.get(changeId)!;
-        return this.restApiService
-          .executeChangeAction(
-            change._number,
-            change.actions!.abandon!.method,
-            '/abandon',
-            undefined,
-            {message: reason ?? ''},
-          );
+        return this.restApiService.executeChangeAction(
+          change._number,
+          change.actions!.abandon!.method,
+          '/abandon',
+          undefined,
+          {message: reason ?? ''}
+        );
       })
     );
   }

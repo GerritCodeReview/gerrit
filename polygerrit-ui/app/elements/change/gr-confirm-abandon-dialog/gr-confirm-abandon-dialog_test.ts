@@ -26,15 +26,16 @@ const basicFixture = fixtureFromElement('gr-confirm-abandon-dialog');
 suite('gr-confirm-abandon-dialog tests', () => {
   let element: GrConfirmAbandonDialog;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
-  test('_handleConfirmTap', () => {
+  test('handleConfirmTap', () => {
     const confirmHandler = sinon.stub();
     element.addEventListener('confirm', confirmHandler);
-    const confirmTapSpy = sinon.spy(element, '_handleConfirmTap');
-    const confirmSpy = sinon.spy(element, '_confirm');
+    const confirmTapSpy = sinon.spy(element, 'handleConfirmTap');
+    const confirmSpy = sinon.spy(element, 'confirm');
     queryAndAssert<GrDialog>(element, 'gr-dialog').dispatchEvent(
       new CustomEvent('confirm', {
         composed: true,
@@ -48,10 +49,10 @@ suite('gr-confirm-abandon-dialog tests', () => {
     assert.isTrue(confirmSpy.calledOnce);
   });
 
-  test('_handleCancelTap', () => {
+  test('handleCancelTap', () => {
     const cancelHandler = sinon.stub();
     element.addEventListener('cancel', cancelHandler);
-    const cancelTapSpy = sinon.spy(element, '_handleCancelTap');
+    const cancelTapSpy = sinon.spy(element, 'handleCancelTap');
     queryAndAssert<GrDialog>(element, 'gr-dialog').dispatchEvent(
       new CustomEvent('cancel', {
         composed: true,

@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a015f1af_936f9cec",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-22T22:21:06Z",
+      "side": 1,
+      "message": "Fixed the test with https://gerrit-review.googlesource.com/c/gerrit/+/330980.",
+      "parentUuid": "5d2e57b9_dca7167f",
+      "range": {
+        "startLine": 243,
+        "startChar": 6,
+        "endLine": 243,
+        "endChar": 13
+      },
+      "revId": "f4626a8d1cc48a27fd157677484c3f6a39174752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e1734a53_caf2c6e2",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
         "patchSetId": 11

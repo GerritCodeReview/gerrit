@@ -75,19 +75,6 @@ export class BulkActionsModel
     })
   );
 
-  public readonly abandonable$ = select(
-    combineLatest([this.selectedChangeNums$, this.loadingState$]),
-    ([selectedChangeNums, loadingState]) => {
-      if (loadingState !== LoadingState.LOADED) return false;
-      return selectedChangeNums.every(selectedChangeNum => {
-        const change = this.allChanges.get(selectedChangeNum);
-        if (!change) throw new Error('invalid changeId in model');
-        return !!change.actions!.abandon;
-      });
-    }
-  );
-
-
   addSelectedChangeNum(changeNum: NumericChangeId) {
     const current = this.getState();
     if (!current.allChanges.has(changeNum)) {
@@ -118,23 +105,25 @@ export class BulkActionsModel
     this.setState({...this.subject$.getValue(), selectedChangeNums: []});
   }
 
-  async abandonChanges(reason?: string) {
+  abandonChanges(
+    reason?: string,
+    // errorFn is needed to avoid showing an error dialog
+    errFn?: (changeNum: NumericChangeId) => void
+  ): Promise<Response | undefined>[] {
     const current = this.subject$.getValue();
-    const selectedChangeNums = [...current.selectedChangeNums];
-    return Promise.all(
-      selectedChangeNums.map(changeId => {
-        if (!this.allChanges.get(changeId))
-          throw new Error('invalid change id');
-        const change = this.allChanges.get(changeId)!;
-        return this.restApiService.executeChangeAction(
-          change._number,
-          change.actions!.abandon!.method,
-          '/abandon',
-          undefined,
-          {message: reason ?? ''}
-        );
-      })
-    );
+    return current.selectedChangeNums.map(changeNum => {
+      if (!current.allChanges.get(changeNum))
+        throw new Error('invalid change id');
+      const change = current.allChanges.get(changeNum)!;
+      return this.restApiService.executeChangeAction(
+        change._number,
+        change.actions!.abandon!.method,
+        '/abandon',
+        undefined,
+        {message: reason ?? ''},
+        () => errFn && errFn(change._number)
+      );
+    });
   }
 
   async sync(changes: ChangeInfo[]) {

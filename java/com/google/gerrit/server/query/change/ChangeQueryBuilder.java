@@ -1508,6 +1508,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> author(String who) throws QueryParseException {
+    if (who.startsWith("^")) {
+      checkFieldAvailable(ChangeField.EXACT_AUTHOR, "exactauthor");
+      return new RegexAuthorPredicate(who);
+    }
     return getAuthorOrCommitterPredicate(
         who.trim(), ChangePredicates::exactAuthor, ChangePredicates::author);
   }

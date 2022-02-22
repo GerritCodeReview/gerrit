@@ -649,6 +649,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('all cached change edits get deleted on delete edit', async () => {
+        element.set('loggedIn', true);
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
 

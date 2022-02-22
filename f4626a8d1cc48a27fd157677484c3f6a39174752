@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d2e57b9_dca7167f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-22T09:56:57Z",
+      "side": 1,
+      "message": "Seems like a real bug in the code then and the test should be failing?\ngetChangesStub is being called and you expect it not to be called. Rushing through the assert by not waiting for the element is just breaking the test so it passes",
+      "parentUuid": "c53721a9_ef87b080",
+      "range": {
+        "startLine": 243,
+        "startChar": 6,
+        "endLine": 243,
+        "endChar": 13
+      },
+      "revId": "f4626a8d1cc48a27fd157677484c3f6a39174752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e1734a53_caf2c6e2",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
         "patchSetId": 11
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "See above.",
       "parentUuid": "e1734a53_caf2c6e2",
+      "range": {
+        "startLine": 251,
+        "startChar": 6,
+        "endLine": 251,
+        "endChar": 13
+      },
+      "revId": "f4626a8d1cc48a27fd157677484c3f6a39174752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2191d85_2287d0e7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-22T09:56:57Z",
+      "side": 1,
+      "message": "resolving this one since they can be done together",
+      "parentUuid": "dd36f047_bb84303f",
       "range": {
         "startLine": 251,
         "startChar": 6,

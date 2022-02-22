@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa78592c_6a644e81",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-22T14:45:18Z",
+      "side": 1,
+      "message": "which changes are these?\nrendered changes, selected changes?\nlooks like it\u0027s renderedChanges to perhaps add rendered/visible to the name?\n\nalso the name suggests the type is an array not a Map.",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 17
+      },
+      "revId": "80376df567cf53e8d7121a3ebd5bd6de4d07a132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "80376df567cf53e8d7121a3ebd5bd6de4d07a132",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0527fd51_9e79841c",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-22T15:09:29Z",
+      "side": 1,
+      "message": "It doesn\u0027t make sense to talk about renderedChanges or visibleChanges, I think that nomenclature is confusing as this is a model, not a UI component.\n\nI could call it allChangesMap, but I don\u0027t like suffixing names with the type of a variable, you can easily get the type of a variable by hovering over the variable in CS code.\n\nSo the best I\u0027ve got is `allChanges` which imho doesn\u0027t add a lot.",
+      "parentUuid": "aa78592c_6a644e81",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 17
+      },
+      "revId": "80376df567cf53e8d7121a3ebd5bd6de4d07a132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

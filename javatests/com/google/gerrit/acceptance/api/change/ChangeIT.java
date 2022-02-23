@@ -83,6 +83,7 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
+import com.google.gerrit.acceptance.api.change.ChangeIT.TestAttentionSetListenerModule.TestAttentionSetListener;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
@@ -137,6 +138,7 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
+import com.google.gerrit.extensions.common.AttentionSetInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -146,6 +148,7 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
+import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -163,6 +166,7 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.testing.TestChangeETagComputation;
+import com.google.gerrit.server.extensions.events.AttentionSetChanged;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -184,6 +188,8 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -228,6 +234,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private TestAttentionSetListener attentionSetListener;
 
   @Inject
   @Named("diff_intraline")
@@ -1502,6 +1509,27 @@ public class ChangeIT extends AbstractDaemonTest {
                 + "* "
                 + PushOneCommit.FILE_NAME
                 + "\n");
+  }
+
+  @Test
+  public void attentionSetListener_firesOnChange() throws Exception {
+    String reason = "because";
+
+    PushOneCommit.Result r1 = createChange();
+    AttentionSetInput addUser = new AttentionSetInput(user.email(), reason);
+
+    gApi.changes().id(r1.getChangeId()).addReviewer(user.email());
+    gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);
+    //assertThat(listener.attentionSet).isNotNull();
+    //assertThat(listener.attentionSet.size()).isEqualTo(1);
+    //assert that the user is right (I suppose)
+    //assert that the reason is present
+
+    assertThat(attentionSetListener.fired).isTrue();
+
+    // Add thing
+    // assert that it happened
+
   }
 
   @Test
@@ -4701,6 +4729,30 @@ public class ChangeIT extends AbstractDaemonTest {
       this.invoked = true;
       this.wip =
           event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
+    }
+  }
+
+  @Override
+  public Module createModule() {
+    return new TestAttentionSetListenerModule();
+  }
+
+  public static class TestAttentionSetListenerModule extends AbstractModule {
+    @Override
+    public void configure() {
+      bind(AttentionSetListener.class).toInstance(new TestAttentionSetListener());
+    }
+
+    @Singleton
+    public static class TestAttentionSetListener implements AttentionSetListener {
+      Map<Integer, AttentionSetInfo> attentionSet;
+      boolean fired;
+
+      @Override
+      public void onAttentionSetChanged(Event event) {
+        fired = true;
+        attentionSet = event.getChange().attentionSet;
+      }
     }
   }
 

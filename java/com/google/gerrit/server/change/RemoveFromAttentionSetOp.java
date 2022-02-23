@@ -22,6 +22,7 @@ import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.extensions.events.AttentionSetChanged;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -47,6 +48,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
   private final MessageIdGenerator messageIdGenerator;
   private final RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender;
   private final AttentionSetEmail.Factory attentionSetEmailFactory;
+  private final AttentionSetChanged attentionSetChanged;
 
   private final Account.Id attentionUserId;
   private final String reason;
@@ -67,6 +69,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
       MessageIdGenerator messageIdGenerator,
       RemoveFromAttentionSetSender.Factory removeFromAttentionSetSenderFactory,
       AttentionSetEmail.Factory attentionSetEmailFactory,
+      AttentionSetChanged attentionSetChanged,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
       @Assisted boolean notify) {
@@ -74,6 +77,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
     this.messageIdGenerator = messageIdGenerator;
     this.removeFromAttentionSetSender = removeFromAttentionSetSenderFactory;
     this.attentionSetEmailFactory = attentionSetEmailFactory;
+    this.attentionSetChanged = attentionSetChanged;
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
     this.notify = notify;
@@ -118,5 +122,6 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(e.getMessage(), change.getId());
     }
+    attentionSetChanged.fire(changeDataFactory.create(change), ctx.getAccount(), ctx.getWhen());
   }
 }

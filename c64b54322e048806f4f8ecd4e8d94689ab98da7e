@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ce5126e_9bad7246",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T23:08:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "70c6e62a_3dc4698b",
+      "range": {
+        "startLine": 206,
+        "startChar": 11,
+        "endLine": 206,
+        "endChar": 17
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5070a95_e09f0eec",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "To make that work handleCloseTap needs to be defined as a variable that\u0027s assigned an anonymous function that binds this. As follows:\n\n```\nhandleCloseTap \u003d () \u003d\u003e {\n}\n```",
       "parentUuid": "e5070a95_e09f0eec",
+      "range": {
+        "startLine": 224,
+        "startChar": 14,
+        "endLine": 226,
+        "endChar": 16
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db6f4b14_6981f364",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T23:08:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a9c84835_d247b28e",
       "range": {
         "startLine": 224,
         "startChar": 14,
@@ -142,6 +190,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b9db96d_ca8fb152",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T23:08:26Z",
+      "side": 1,
+      "message": "Resolved per Milutin.",
+      "parentUuid": "46df76d2_5c1f5593",
+      "range": {
+        "startLine": 281,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 21
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92b5f6d9_af0c9a04",
@@ -155,6 +227,30 @@
       "writtenOn": "2022-02-22T10:56:38Z",
       "side": 1,
       "message": "Instead of using `as GenerateUrlEditViewParameters` this need \n```\nif (!this.params) {\n  return;\n}\n```",
+      "range": {
+        "startLine": 301,
+        "startChar": 33,
+        "endLine": 301,
+        "endChar": 62
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2c73034_39584df0",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T23:08:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "92b5f6d9_af0c9a04",
       "range": {
         "startLine": 301,
         "startChar": 33,
@@ -188,6 +284,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8f0384d_b0339cbe",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T23:08:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "738d35a1_7196ed5c",
+      "range": {
+        "startLine": 331,
+        "startChar": 10,
+        "endLine": 331,
+        "endChar": 20
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ceb2fb8_e10663b0",
@@ -201,6 +321,30 @@
       "writtenOn": "2022-02-21T21:29:31Z",
       "side": 1,
       "message": "same as above, this just fires an alert and navigates.",
+      "range": {
+        "startLine": 341,
+        "startChar": 10,
+        "endLine": 341,
+        "endChar": 18
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3850d291_4cbf90c2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T23:08:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7ceb2fb8_e10663b0",
       "range": {
         "startLine": 341,
         "startChar": 10,
@@ -234,6 +378,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c60d397_3152e454",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T23:08:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0650592b_1857b9dd",
+      "range": {
+        "startLine": 350,
+        "startChar": 2,
+        "endLine": 350,
+        "endChar": 19
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34eb6d16_a0262d49",
@@ -247,6 +415,30 @@
       "writtenOn": "2022-02-21T21:29:31Z",
       "side": 1,
       "message": "any idea what this TODO is?\n\n@Milutin added it luckily so perhaps he can mention the cleanup here.",
+      "range": {
+        "startLine": 351,
+        "startChar": 7,
+        "endLine": 351,
+        "endChar": 37
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c331a04_49c7ef2f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T23:08:26Z",
+      "side": 1,
+      "message": "Nope.",
+      "parentUuid": "34eb6d16_a0262d49",
       "range": {
         "startLine": 351,
         "startChar": 7,
@@ -280,6 +472,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b45ff0d3_c3d884e5",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T23:08:26Z",
+      "side": 1,
+      "message": "We currently use this in the tests and there\u0027s no easy way at changing it from showAlert to fireAlert (from what i can tell, stubbing \"const alertStub \u003d sinon.stub(element, \u0027showAlert\u0027)\").",
+      "parentUuid": "8185f779_38c25edd",
+      "range": {
+        "startLine": 445,
+        "startChar": 2,
+        "endLine": 445,
+        "endChar": 27
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67f05249_045cfb8e",
@@ -293,6 +509,30 @@
       "writtenOn": "2022-02-21T21:29:31Z",
       "side": 1,
       "message": "why is this still here?\nPolymer 2 checks?",
+      "range": {
+        "startLine": 450,
+        "startChar": 4,
+        "endLine": 453,
+        "endChar": 5
+      },
+      "revId": "c64b54322e048806f4f8ecd4e8d94689ab98da7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1736f5c_2375e252",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T23:08:26Z",
+      "side": 1,
+      "message": "This is still needed as if i remove it, it breaks the test.",
+      "parentUuid": "67f05249_045cfb8e",
       "range": {
         "startLine": 450,
         "startChar": 4,

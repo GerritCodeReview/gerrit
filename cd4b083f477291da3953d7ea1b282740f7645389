@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b46bd58_f79e2e60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-23T14:52:19Z",
+      "side": 1,
+      "message": "maybe add \", take 2\" or something like that - i had to research why i\u0027m having a deja-vu. 😂",
+      "revId": "cd4b083f477291da3953d7ea1b282740f7645389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6971f03b_17ecab34",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-23T14:52:19Z",
+      "side": 1,
+      "message": "that\u0027s a somewhat inaccurate formulation.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 31
+      },
+      "revId": "cd4b083f477291da3953d7ea1b282740f7645389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

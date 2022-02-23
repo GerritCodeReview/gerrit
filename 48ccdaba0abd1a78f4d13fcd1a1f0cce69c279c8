@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d9bb827_a8cb639c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-23T12:28:28Z",
+      "side": 1,
+      "message": "Done.\n\nHowever I made it matching on the author\u0027s email address. The author is the email address associated with the latest commit (latest PS). That\u0027s the same behaviour of the prolog predicate.",
+      "parentUuid": "ac03f3b0_9525d714",
+      "revId": "48ccdaba0abd1a78f4d13fcd1a1f0cce69c279c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cd1749c_2dd3f902",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-02-22T17:02:38Z",
       "side": 1,
       "message": "I am sorry, I gave you the wrong advice earlier: This field is a repeated field of (name, email and \"name \u003cemail@example.com\u003e\"), so it is spoof-able (you can specify something that looks like an email as name to make the check pass).\n\nFor search, that\u0027s OK, for SRs, we need to protect against that IMO.",
+      "range": {
+        "startLine": 26,
+        "startChar": 22,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "48ccdaba0abd1a78f4d13fcd1a1f0cce69c279c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ec29c8e_d3bd685f",
+        "filename": "java/com/google/gerrit/server/query/change/RegexAuthorPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-23T12:28:28Z",
+      "side": 1,
+      "message": "Nice. Thanks for spotting! Yeah that makes sense.\n\nI think now it makes sense to implement this as an SR predicate and only allow email addresses to be used.\n\nDone.",
+      "parentUuid": "6cd1749c_2dd3f902",
       "range": {
         "startLine": 26,
         "startChar": 22,

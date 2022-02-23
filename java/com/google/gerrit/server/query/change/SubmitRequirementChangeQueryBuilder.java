@@ -31,9 +31,13 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> def =
       new QueryBuilder.Definition<>(SubmitRequirementChangeQueryBuilder.class);
 
+  private final DistinctVotersPredicate.Factory distinctVotersPredicateFactory;
+
   @Inject
-  SubmitRequirementChangeQueryBuilder(Arguments args) {
+  SubmitRequirementChangeQueryBuilder(
+      Arguments args, DistinctVotersPredicate.Factory distinctVotersPredicateFactory) {
     super(def, args);
+    this.distinctVotersPredicateFactory = distinctVotersPredicateFactory;
   }
 
   @Override
@@ -58,5 +62,10 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   @Operator
   public Predicate<ChangeData> authoremail(String who) throws QueryParseException {
     return new RegexAuthorEmailPredicate(who);
+  }
+
+  @Operator
+  public Predicate<ChangeData> distinctvoters(String value) throws QueryParseException {
+    return distinctVotersPredicateFactory.create(value);
   }
 }

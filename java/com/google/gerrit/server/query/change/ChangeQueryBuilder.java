@@ -60,6 +60,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.DestinationList;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupMembers;
@@ -96,6 +97,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -479,6 +481,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   private final Arguments args;
   protected Map<String, String> hasOperandAliases = Collections.emptyMap();
+  private Map<Account.Id, DestinationList> destinationListByAccount = new HashMap<>();
 
   private static final Splitter RULE_SPLITTER = Splitter.on("=");
   private static final Splitter PLUGIN_SPLITTER = Splitter.on("_");
@@ -1497,9 +1500,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         account = self();
       }
 
-      VersionedAccountDestinations d = VersionedAccountDestinations.forUser(account);
-      d.load(args.allUsersName, git);
-      Set<BranchNameKey> destinations = d.getDestinationList().getDestinations(name);
+      Set<BranchNameKey> destinations = getDestinationList(git, account).getDestinations(name);
       if (destinations != null && !destinations.isEmpty()) {
         return new DestinationPredicate(destinations, value);
       }
@@ -1510,6 +1511,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       throw new QueryParseException("Error parsing named destination: " + value, e);
     }
     throw new QueryParseException("Unknown named destination: " + name);
+  }
+
+  protected DestinationList getDestinationList(Repository git, Account.Id account)
+      throws ConfigInvalidException, RepositoryNotFoundException, IOException {
+    DestinationList dl = destinationListByAccount.get(account);
+    if (dl == null) {
+      dl = loadDestinationList(git, account);
+      destinationListByAccount.put(account, dl);
+    }
+    return dl;
+  }
+
+  protected DestinationList loadDestinationList(Repository git, Account.Id account)
+      throws ConfigInvalidException, RepositoryNotFoundException, IOException {
+    VersionedAccountDestinations d = VersionedAccountDestinations.forUser(account);
+    d.load(args.allUsersName, git);
+    return d.getDestinationList();
   }
 
   @Operator

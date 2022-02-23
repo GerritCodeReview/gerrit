@@ -56,6 +56,30 @@
       },
       "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27a84887_f710b537",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-02-23T12:01:34Z",
+      "side": 1,
+      "message": "I believe so yeah, this needs to be provided and aligned by the version of hamcrest expected by jgit [1].\n\nFailing explicitly import hamcrest would result in a missing dependency error:\n\n```\nERROR: /home/jenkins/.cache/bazel/_bazel_jenkins/c577b5fea9708e4542a249f405bb8cbb/external/jgit/lib/BUILD:206:13: no such package \u0027@hamcrest//jar\u0027: The repository \u0027@hamcrest\u0027 could not be resolved and referenced by \u0027@jgit//lib:junit\u0027\n```\n\n[1]https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/stable-5.13/WORKSPACE#192",
+      "parentUuid": "cf9052c0_b155b9cc",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

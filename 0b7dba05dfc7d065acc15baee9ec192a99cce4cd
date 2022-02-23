@@ -22,6 +22,30 @@
       },
       "revId": "0b7dba05dfc7d065acc15baee9ec192a99cce4cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1af496c1_4d38b227",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-02-23T00:02:51Z",
+      "side": 1,
+      "message": "That is good to know. I know the ssh protocol RFC indicates that the fallback/default should be SHA2 once servers are likely to support it. Once the clients (like openssh) have dropped SHA1 by default it seems like they should\u0027ve updated to using SHA2 as well, but unfortunately they did not.",
+      "parentUuid": "637336b7_8d5c4cc4",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 63
+      },
+      "revId": "0b7dba05dfc7d065acc15baee9ec192a99cce4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

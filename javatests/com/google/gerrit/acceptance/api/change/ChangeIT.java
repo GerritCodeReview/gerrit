@@ -83,6 +83,7 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
+import com.google.gerrit.acceptance.api.change.ChangeIT.TestAttentionSetListenerModule.TestAttentionSetListener;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
@@ -137,6 +138,7 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
+import com.google.gerrit.extensions.common.AttentionSetInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -146,7 +148,9 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
+import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -188,6 +192,8 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -232,6 +238,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private TestAttentionSetListener attentionSetListener;
 
   @Inject
   @Named("diff_intraline")
@@ -1531,6 +1538,24 @@ public class ChangeIT extends AbstractDaemonTest {
                 + "* "
                 + PushOneCommit.FILE_NAME
                 + "\n");
+  }
+
+  @Test
+  public void attentionSetListener_firesOnChange() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    AttentionSetInput addUser = new AttentionSetInput(user.email(), "some reason");
+
+    gApi.changes().id(r1.getChangeId()).addReviewer(user.email());
+    gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);
+
+    assertThat(attentionSetListener.fired).isTrue();
+    assertThat(attentionSetListener.attentionSet).containsKey(user.id().get());
+
+    attentionSetListener.fired = false;
+    gApi.changes().id(r1.getChangeId()).attention(user.username()).remove(addUser);
+
+    assertThat(attentionSetListener.fired).isTrue();
+    assertThat(attentionSetListener.attentionSet).isEmpty();
   }
 
   @Test
@@ -4730,6 +4755,33 @@ public class ChangeIT extends AbstractDaemonTest {
       this.invoked = true;
       this.wip =
           event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
+    }
+  }
+
+  @Override
+  public Module createModule() {
+    return new TestAttentionSetListenerModule();
+  }
+
+  public static class TestAttentionSetListenerModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), AttentionSetListener.class).to(TestAttentionSetListener.class);
+    }
+
+    @Singleton
+    public static class TestAttentionSetListener implements AttentionSetListener {
+      Map<Integer, AttentionSetInfo> attentionSet;
+      boolean fired;
+
+      @Inject
+      public TestAttentionSetListener() {}
+
+      @Override
+      public void onAttentionSetChanged(Event event) {
+        fired = true;
+        attentionSet = event.getChange().attentionSet;
+      }
     }
   }
 

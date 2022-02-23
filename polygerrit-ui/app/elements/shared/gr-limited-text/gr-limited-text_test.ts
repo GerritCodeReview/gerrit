@@ -15,13 +15,16 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-limited-text.js';
+import '../../../test/common-test-setup-karma';
+import {query, queryAndAssert} from '../../../test/test-utils';
+import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
+import './gr-limited-text';
+import {GrLimitedText} from './gr-limited-text';
 
 const basicFixture = fixtureFromElement('gr-limited-text');
 
 suite('gr-limited-text tests', () => {
-  let element;
+  let element: GrLimitedText;
 
   setup(async () => {
     element = basicFixture.instantiate();
@@ -31,45 +34,52 @@ suite('gr-limited-text tests', () => {
   test('tooltip without title input', async () => {
     element.text = 'abc 123';
     await element.updateComplete;
-    assert.isNotOk(element.shadowRoot.querySelector('gr-tooltip-content'));
+    assert.isNotOk(query(element, 'gr-tooltip-content'));
 
     element.limit = 10;
     await element.updateComplete;
-    assert.isNotOk(element.shadowRoot.querySelector('gr-tooltip-content'));
+    assert.isNotOk(query(element, 'gr-tooltip-content'));
 
     element.limit = 3;
     await element.updateComplete;
-    assert.isOk(element.shadowRoot.querySelector('gr-tooltip-content'));
+    assert.isOk(query(element, 'gr-tooltip-content'));
     assert.equal(
-        element.shadowRoot.querySelector('gr-tooltip-content').title,
-        'abc 123');
+      queryAndAssert<GrTooltipContent>(element, 'gr-tooltip-content').title,
+      'abc 123'
+    );
 
     element.limit = 100;
     await element.updateComplete;
-    assert.isNotOk(element.shadowRoot.querySelector('gr-tooltip-content'));
+    assert.isNotOk(query(element, 'gr-tooltip-content'));
 
-    element.limit = null;
+    element.limit = null as any;
     await element.updateComplete;
-    assert.isNotOk(element.shadowRoot.querySelector('gr-tooltip-content'));
+    assert.isNotOk(query(element, 'gr-tooltip-content'));
   });
 
   test('with tooltip input', async () => {
     element.tooltip = 'abc 123';
     await element.updateComplete;
-    let tooltipContent = element.shadowRoot.querySelector('gr-tooltip-content');
+    let tooltipContent = queryAndAssert<GrTooltipContent>(
+      element,
+      'gr-tooltip-content'
+    );
     assert.isOk(tooltipContent);
     assert.equal(tooltipContent.title, 'abc 123');
 
     element.text = 'abc';
     await element.updateComplete;
-    tooltipContent = element.shadowRoot.querySelector('gr-tooltip-content');
+    tooltipContent = queryAndAssert<GrTooltipContent>(
+      element,
+      'gr-tooltip-content'
+    );
     assert.isOk(tooltipContent);
     assert.equal(tooltipContent.title, 'abc 123');
 
     element.text = 'abcdef';
     element.limit = 3;
     await element.updateComplete;
-    tooltipContent = element.shadowRoot.querySelector('gr-tooltip-content');
+    tooltipContent = queryAndAssert(element, 'gr-tooltip-content');
     assert.isOk(tooltipContent);
     assert.equal(tooltipContent.title, 'abcdef (abc 123)');
   });
@@ -84,4 +94,3 @@ suite('gr-limited-text tests', () => {
     assert.equal(element.renderText(), 'foo bar');
   });
 });
-

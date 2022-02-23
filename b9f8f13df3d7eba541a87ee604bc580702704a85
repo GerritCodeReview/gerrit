@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "875c3d0f_bce354dc",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-23T12:51:37Z",
+      "side": 1,
+      "message": "we need 3 values right? Not-started, in progress, loaded\n\nRight now loading$ is false to start and components will think that loading is done. They will even find basic ChangeInfo data in allChanges when expecting upgraded ChangeInfos.\n\nWe could also just default to true",
+      "range": {
+        "startLine": 27,
+        "startChar": 11,
+        "endLine": 27,
+        "endChar": 16
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "af4e903f_30a03fc1",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 3
@@ -42,6 +65,98 @@
         "startChar": 37,
         "endLine": 111,
         "endChar": 9
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24556046_c096c899",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-23T12:51:37Z",
+      "side": 1,
+      "message": "`assert.isTrue(getChangesStub.calledOnce);`\n\nThere is also calledTwice and calledThrice for below",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 52
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e946b5bd_2843b74b",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-23T12:51:37Z",
+      "side": 1,
+      "message": "! is not needed on 115, why here and 123? I see old test has the same",
+      "range": {
+        "startLine": 117,
+        "startChar": 44,
+        "endLine": 117,
+        "endChar": 45
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5f58a6e_d50693cf",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-23T12:51:37Z",
+      "side": 1,
+      "message": "respects is not descriptive.\n`\u0027sync ignore outdated fetch responses\u0027`",
+      "range": {
+        "startLine": 134,
+        "startChar": 13,
+        "endLine": 134,
+        "endChar": 21
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7f78e98_4daf19d7",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-23T12:51:37Z",
+      "side": 1,
+      "message": "I think this would be nicer and you won\u0027t need to import MockPromise\n`const responsePromise1 \u003d mockPromise\u003cChangeInfo[]\u003e();`",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 70
       },
       "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb96769a_67a8f75c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-23T14:31:57Z",
+      "side": 1,
+      "message": "TODO: unit-tests for the new streaming API",
+      "revId": "9e7bb57166a22ef82638ab8c20c15f9217e450d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

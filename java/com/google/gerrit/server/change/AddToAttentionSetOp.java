@@ -118,5 +118,6 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(e.getMessage(), change.getId());
     }
+    attentionSetChanged.fire(changeDataFactory.create(change), ctx.getAccount(), ctx.getWhen());
   }
 }

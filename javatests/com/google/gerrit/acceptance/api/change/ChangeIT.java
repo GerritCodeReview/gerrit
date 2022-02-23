@@ -1505,6 +1505,28 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void attentionSetListener_firesOnChange() throws Exception {
+    String reason = "because";
+
+    PushOneCommit.Result r1 = createChange();
+
+    AttentionSetInput addUser = new AttentionSetInput(admin.email(), reason);
+
+    gApi.changes().id(r1.getChangeId()).addReviewer(user.email());
+    gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);
+    //assertThat(listener.attentionSet).isNotNull();
+    //assertThat(listener.attentionSet.size()).isEqualTo(1);
+    //assert that the user is right (I suppose)
+    //assert that the reason is present
+
+    assertThat(attentionSetListener.fired).isTrue();
+
+    // Add thing
+    // assert that it happened
+
+  }
+
+  @Test
   public void rebaseChangeBase() throws Exception {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();

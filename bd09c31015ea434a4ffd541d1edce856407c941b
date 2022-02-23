@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "84b79e3f_76b41b71",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T16:46:55Z",
+      "side": 1,
+      "message": "Thanks for explaining! Was just about to do that myself.",
+      "parentUuid": "ee010234_0a893035",
+      "revId": "bd09c31015ea434a4ffd541d1edce856407c941b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e9ca031a_55e3dca1",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
         "patchSetId": 2

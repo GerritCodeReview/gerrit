@@ -151,6 +151,19 @@ specific regular expression pattern. The
 link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
 is used for the evaluation of such patterns.
 
+[[operator_distinctvoters]]
+distinctvoters:'[Label1,Label2,...,LabelN],value=MAX,count>1'::
++
+An operator that allows checking for distinct voters across more than one label.
++
+2..N labels are supported, filtering by a value (MIN,MAX,integer) is optional.
+Count is mandatory.
++
+Examples:
+`distinctvoters:[Code-Review,Trust],value=MAX,count>1`
++
+`distinctvoters:[Code-Review,Trust,API-Review],count>2`
+
 [[operator_is_true]]
 is:true::
 +

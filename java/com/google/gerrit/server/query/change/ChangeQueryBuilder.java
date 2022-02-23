@@ -477,7 +477,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
   }
 
-  private final Arguments args;
+  protected final Arguments args;
   protected Map<String, String> hasOperandAliases = Collections.emptyMap();
 
   private static final Splitter RULE_SPLITTER = Splitter.on("=");

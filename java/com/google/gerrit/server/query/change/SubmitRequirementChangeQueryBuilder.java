@@ -59,4 +59,9 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   public Predicate<ChangeData> authoremail(String who) throws QueryParseException {
     return new RegexAuthorEmailPredicate(who);
   }
+
+  @Operator
+  public Predicate<ChangeData> distinctvoters(String value) throws QueryParseException {
+    return new DistinctVotersPredicate(value, args.projectCache);
+  }
 }

@@ -1007,19 +1007,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(repo, newChangeForCommit(repo, commit1));
     RevCommit commit2 = repo.parseBody(repo.commit().message("aaaacc").create());
     Change change2 = insert(repo, newChangeForCommit(repo, commit2));
-    RevCommit commit3 = repo.parseBody(repo.commit().message("Title\n\nDO NOT SUBMIT").create());
+    RevCommit commit3 = repo.parseBody(repo.commit().message("Title\n\nHELLO WORLD").create());
     Change change3 = insert(repo, newChangeForCommit(repo, commit3));
     RevCommit commit4 =
-        repo.parseBody(repo.commit().message("Title\n\nfoobar do NOT submit").create());
+        repo.parseBody(repo.commit().message("Title\n\nfoobar hello WORLD").create());
     Change change4 = insert(repo, newChangeForCommit(repo, commit4));
 
     assertQuery("message:\"^aaaa(b|c)*\"", change2, change1);
     assertQuery("message:\"^aaaa(c)*c.*\"", change2);
-    assertQuery("message:\"^.*DO NOT SUBMIT.*\"", change3);
+    assertQuery("message:\"^.*HELLO WORLD.*\"", change3);
     assertQuery(
-        "message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\"",
-        change4,
-        change3);
+        "message:\"^.*(H|h)(E|e)(L|l)(L|l)(O|o) (W|w)(O|o)(R|r)(L|l)(D|d).*\"", change4, change3);
   }
 
   @Test

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e24c6243_ede82451",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-23T09:08:56Z",
+      "side": 1,
+      "message": "why are all these options required?\n\nListChangesOption.SUBMITTABLE AFAICT only determines if the SR for that specific change has been satisfied.\n\nFor submittability I think the first 3 should be enough.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 0
+      },
+      "revId": "15f595e3c5a668a682f7f96de94373859e0c3a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51e5e2ce_7b8cf74d",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-23T09:08:56Z",
+      "side": 1,
+      "message": "remove?\n\nbtw it\u0027s really bad we need this debugger to run breakpoint 😞",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 13
+      },
+      "revId": "15f595e3c5a668a682f7f96de94373859e0c3a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

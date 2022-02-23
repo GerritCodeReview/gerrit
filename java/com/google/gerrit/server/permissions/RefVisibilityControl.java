@@ -174,7 +174,7 @@ class RefVisibilityControl {
       // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
       projectControl
           .asForProject()
-          .ref(cd.change().getDest().branch())
+          .ref(cd.getChangeDest().branch())
           .check(RefPermission.READ_PRIVATE_CHANGES);
       logger.atFinest().log("Foreign change edit ref is visible: %s", refName);
       return true;

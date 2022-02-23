@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c11be4b_35be8672",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-23T09:32:25Z",
+      "side": 1,
+      "message": "nit: extract as a constant to avoid duplication.",
+      "range": {
+        "startLine": 106,
+        "startChar": 37,
+        "endLine": 111,
+        "endChar": 9
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

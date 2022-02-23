@@ -16,6 +16,24 @@
       "message": "please use\n\n```\nelement \u003d await fixture\u003cGrLimitedText\u003e(html`\u003cgr-limited-text\u003e\u003c/gr-limited-text\u003e`);\n```\n\nFor this you\u0027ll want to import `{fixture, html} from \"@open-wc/testing\"\u0027\n\nYou will no longer need `await.updateComplete` for the initial render.\n\nWe are moving to those fixtures for lit-based elements.",
       "revId": "c218ff151dfb19dea37da6de6b2905fa739e2d28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4a95d75_f9515a14",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T16:56:23Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4385b9a7_dbb1ccc2",
+      "revId": "c218ff151dfb19dea37da6de6b2905fa739e2d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

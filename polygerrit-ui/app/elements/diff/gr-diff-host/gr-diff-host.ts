@@ -952,9 +952,16 @@ export class GrDiffHost extends DIPolymerElement {
       // are different. Such as when a thread was originally attached on the
       // right side of the diff but now should be attached on the left side of
       // the diff.
+      // There is another case possible where the original thread element was
+      // associated with a ported thread, hence had the LineNum set to LOST.
+      // In this case we cannot reuse the thread element if the same thread
+      // now is being attached in it's proper location since the LineNum needs
+      // to be updated hence create a new thread element.
       if (
         existingThreadEl &&
-        existingThreadEl.getAttribute('diff-side') === this.getDiffSide(thread)
+        existingThreadEl.getAttribute('diff-side') ===
+          this.getDiffSide(thread) &&
+        existingThreadEl.thread!.ported === thread.ported
       ) {
         existingThreadEl.thread = thread;
         dontRemove.add(existingThreadEl);

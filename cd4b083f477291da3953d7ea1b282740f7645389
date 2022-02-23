@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "113be40e_9635a116",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-23T15:19:26Z",
+      "side": 1,
+      "message": "yeah, i found out already. my point was to make that research unnecessary for the reader. i\u0027d typically use \"re-apply ...\" or \"..., take 2\" in the summary, and \"this reverts xxx and thus re-applies yyy [with modifications].\" or some such in the description. and also mention what is different this time around, i.e., why the reason for the revert is obsolete.",
+      "parentUuid": "fb5b1626_ec8daa0a",
+      "revId": "cd4b083f477291da3953d7ea1b282740f7645389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6971f03b_17ecab34",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 1

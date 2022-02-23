@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81499d51_ba2e28d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T09:44:48Z",
+      "side": 1,
+      "message": "I agree 100%. This is just temporary. It makes refactoring easier (smaller steps). I am committed to remove this hierarchy before completing my work on gr-diff.",
+      "parentUuid": "6c125fb6_1ebfd1a3",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f567f26_abf66ffa",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-18T08:27:47Z",
       "side": 1,
       "message": "Does this need to be a subclass? Could this be a component that gets injected into GrDiffBuilder that has a specific API?\n\nI can see two approaches:\n\nGrDiffBuilder takes as input a parameter with a given interface and legacy implements that interface.\n\nWe have a DiffBuilder interface and GrDiffBuilderLegacy implements that interface and gets as parameter a GrDiffBuilder component.\n\nIn general I really dislike subclassing as they make code hard to reason through.",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f996e4e3_017152bf",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T09:44:48Z",
+      "side": 1,
+      "message": "I also dislike subclassing very much. I am trying to avoid it as much as I can.\n\nI have added a TODO and am committed to address this before completing my work on gr-diff. But refactorings are often easier step by step, and I am trying to keep myself focussed at the moment. It is really easy to get lost here. :-)",
+      "parentUuid": "1f567f26_abf66ffa",
       "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f13839cb_2a7fa532",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T09:44:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c757df99_dba127c9",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6144949_f61ee5cb",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-02-18T08:27:47Z",
       "side": 1,
       "message": "This deserves a helper function (not method) with a meaningful name.",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "404f1d9c_7eed13fb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T09:44:48Z",
+      "side": 1,
+      "message": "Yes! Have already done that, but in change 330300. :-)",
+      "parentUuid": "c6144949_f61ee5cb",
       "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "192ae478_697663f0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T09:44:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3b0715f_fcfb0268",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32f66e61_113742e4",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-02-18T08:27:47Z",
       "side": 1,
       "message": "TODO: Split this function up into smaller helper functions.",
+      "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7688a9ff_b714ae52",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T09:44:48Z",
+      "side": 1,
+      "message": "Agreed. I have moved this comment to change 330300, where it applies to the new renderer. The `formatText()` function here is soon obsolete.",
+      "parentUuid": "32f66e61_113742e4",
       "revId": "c39f3c63159571d7342e2befa92737b2245e28f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

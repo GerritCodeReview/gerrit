@@ -32,7 +32,11 @@ import {
 } from '../../../types/common';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrTypedAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {HttpMethod, ChangeStatus} from '../../../constants/constants';
+import {
+  HttpMethod,
+  ChangeStatus,
+  ProgressStatus,
+} from '../../../constants/constants';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {fireEvent} from '../../../utils/event-util';
 
@@ -41,14 +45,6 @@ const CHANGE_SUBJECT_LIMIT = 50;
 enum CherryPickType {
   SINGLE_CHANGE = 1,
   TOPIC,
-}
-
-// These values are directly displayed in the dialog to show progress of change
-export enum ProgressStatus {
-  RUNNING = 'RUNNING',
-  FAILED = 'FAILED',
-  NOT_STARTED = 'NOT STARTED',
-  SUCCESSFUL = 'SUCCESSFUL',
 }
 
 export type Statuses = {[changeId: string]: Status};
@@ -134,7 +130,7 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
   @property({type: Boolean})
   _invalidBranch = false;
 
-  private selectedChangeIds = new Set<ChangeInfoId>();
+  private selectedChangeNums = new Set<ChangeInfoId>();
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -162,7 +158,7 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
     this.changes = changes;
     this._statuses = {};
     changes.forEach(change => {
-      this.selectedChangeIds.add(change.id);
+      this.selectedChangeNums.add(change.id);
     });
     this._duplicateProjectChanges = this.containsDuplicateProject(changes);
     this._changesCount = changes.length;
@@ -178,18 +174,18 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
   }
 
   _isChangeSelected(changeId: ChangeInfoId) {
-    return this.selectedChangeIds.has(changeId);
+    return this.selectedChangeNums.has(changeId);
   }
 
   _toggleChangeSelected(e: Event) {
     const changeId = ((dom(e) as EventApi).localTarget as HTMLElement).dataset[
       'item'
     ]! as ChangeInfoId;
-    if (this.selectedChangeIds.has(changeId))
-      this.selectedChangeIds.delete(changeId);
-    else this.selectedChangeIds.add(changeId);
+    if (this.selectedChangeNums.has(changeId))
+      this.selectedChangeNums.delete(changeId);
+    else this.selectedChangeNums.add(changeId);
     const changes = this.changes.filter(change =>
-      this.selectedChangeIds.has(change.id)
+      this.selectedChangeNums.has(change.id)
     );
     this._duplicateProjectChanges = this.containsDuplicateProject(changes);
   }
@@ -317,7 +313,7 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
 
   _handleCherryPickTopic() {
     const changes = this.changes.filter(change =>
-      this.selectedChangeIds.has(change.id)
+      this.selectedChangeNums.has(change.id)
     );
     if (!changes.length) {
       const errorSpan = this.shadowRoot?.querySelector('.error-message');

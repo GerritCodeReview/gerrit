@@ -18,10 +18,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-confirm-cherrypick-dialog';
 import {queryAll, queryAndAssert, stubRestApi} from '../../../test/test-utils';
-import {
-  GrConfirmCherrypickDialog,
-  ProgressStatus,
-} from './gr-confirm-cherrypick-dialog';
+import {GrConfirmCherrypickDialog} from './gr-confirm-cherrypick-dialog';
 import {
   BranchName,
   ChangeId,
@@ -38,6 +35,7 @@ import {
 import {createChange, createRevision} from '../../../test/test-data-generators';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog.js';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {ProgressStatus} from '../../../constants/constants';
 
 const basicFixture = fixtureFromElement('gr-confirm-cherrypick-dialog');
 

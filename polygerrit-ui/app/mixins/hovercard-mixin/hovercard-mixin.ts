@@ -7,7 +7,7 @@
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ *u
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ import {debounce, DelayedTask} from '../../utils/async-util';
 import {hovercardStyles} from '../../styles/gr-hovercard-styles';
 import {sharedStyles} from '../../styles/shared-styles';
 import {DependencyRequestEvent} from '../../models/dependency';
-import {addShortcut, Key} from '../../utils/dom-util';
+import {addShortcut, getFocusableElements, Key} from '../../utils/dom-util';
 import {ShortcutController} from '../../elements/lit/shortcut-controller';
 
 interface ReloadEventDetail {
@@ -34,6 +34,7 @@ const HOVER_CLASS = 'hovered';
 const HIDE_CLASS = 'hide';
 
 /**
+ * test
  * ID for the container element.
  */
 const containerId = 'gr-hovercard-container';
@@ -449,7 +450,9 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this.updatePosition();
       this.classList.remove(HIDE_CLASS);
       if (props?.keyboardEvent) {
-        this.focus();
+        const focusableElements = getFocusableElements(this);
+        const firstFocusableElement = focusableElements?.[0] as HTMLElement;
+        firstFocusableElement.focus();
       }
     };
 

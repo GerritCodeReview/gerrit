@@ -54,4 +54,9 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
     }
     return super.is(value);
   }
+
+  @Operator
+  public Predicate<ChangeData> authorregex(String who) throws QueryParseException {
+    return new RegexAuthorPredicate(who);
+  }
 }

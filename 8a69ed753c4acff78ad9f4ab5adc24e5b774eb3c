@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa7b9471_f6438551",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-23T16:59:45Z",
+      "side": 1,
+      "message": "I\u0027m assuming this is mostly just moving code over to the new file?",
+      "revId": "8a69ed753c4acff78ad9f4ab5adc24e5b774eb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5ae32c7_59a6595a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-23T16:59:45Z",
+      "side": 1,
+      "message": "In general I find fully closed ranges harder to reason about than half-open ranges.\n\nBecause renderBlameByRange(b, x, y) is followed by renderBlameByRange(b2, y+1, z) rather than renderBlameByRange(b2, y, z);",
+      "revId": "8a69ed753c4acff78ad9f4ab5adc24e5b774eb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29072408_9b8e214d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-23T16:59:45Z",
+      "side": 1,
+      "message": "What are these?",
+      "revId": "8a69ed753c4acff78ad9f4ab5adc24e5b774eb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53007544_ac84a231",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-23T16:59:45Z",
+      "side": 1,
+      "message": "What are context controls?",
+      "revId": "8a69ed753c4acff78ad9f4ab5adc24e5b774eb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e5648e0_8d969198",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils_test.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-23T16:59:45Z",
+      "side": 1,
+      "message": "consider using `\u0027👍\u0027.repeat(...)`",
+      "revId": "8a69ed753c4acff78ad9f4ab5adc24e5b774eb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5eda044b_4db6b7df",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils_test.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-23T16:59:45Z",
+      "side": 1,
+      "message": "consider using `\u0027👍\u0027.repeat(20)` so don\u0027t have to count.",
+      "revId": "8a69ed753c4acff78ad9f4ab5adc24e5b774eb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

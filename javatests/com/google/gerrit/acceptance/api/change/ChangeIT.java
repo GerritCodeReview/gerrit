@@ -83,6 +83,7 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
+import com.google.gerrit.acceptance.api.change.ChangeIT.TestAttentionSetListenerModule.TestAttentionSetListener;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
@@ -147,7 +148,9 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
+import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -1533,6 +1536,39 @@ public class ChangeIT extends AbstractDaemonTest {
                 + "* "
                 + PushOneCommit.FILE_NAME
                 + "\n");
+  }
+
+  @Test
+  public void attentionSetListener_firesOnChange() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    AttentionSetInput addUser = new AttentionSetInput(user.email(), "some reason");
+    TestAttentionSetListener attentionSetListener = new TestAttentionSetListener();
+
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(attentionSetListener)) {
+
+      gApi.changes().id(r1.getChangeId()).addReviewer(user.email());
+      gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);
+
+      assertThat(attentionSetListener.fired).isTrue();
+      assertThat(attentionSetListener.lastEvent.usersAdded().size()).isEqualTo(1);
+      attentionSetListener
+          .lastEvent
+          .usersAdded()
+          .forEach(u -> assertThat(u).isEqualTo(user.id().get()));
+      assertThat(attentionSetListener.lastEvent.usersRemoved()).isEmpty();
+
+      attentionSetListener.fired = false;
+      gApi.changes().id(r1.getChangeId()).attention(user.username()).remove(addUser);
+
+      assertThat(attentionSetListener.fired).isTrue();
+      assertThat(attentionSetListener.lastEvent.usersAdded()).isEmpty();
+      assertThat(attentionSetListener.lastEvent.usersRemoved().size()).isEqualTo(1);
+      attentionSetListener
+          .lastEvent
+          .usersRemoved()
+          .forEach(u -> assertThat(u).isEqualTo(user.id().get()));
+    }
   }
 
   @Test
@@ -4749,6 +4785,27 @@ public class ChangeIT extends AbstractDaemonTest {
       this.invoked = true;
       this.wip =
           event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
+    }
+  }
+
+  public static class TestAttentionSetListenerModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), AttentionSetListener.class).to(TestAttentionSetListener.class);
+    }
+
+    public static class TestAttentionSetListener implements AttentionSetListener {
+      Event lastEvent;
+      boolean fired;
+
+      @Inject
+      public TestAttentionSetListener() {}
+
+      @Override
+      public void onAttentionSetChanged(Event event) {
+        fired = true;
+        lastEvent = event;
+      }
     }
   }
 

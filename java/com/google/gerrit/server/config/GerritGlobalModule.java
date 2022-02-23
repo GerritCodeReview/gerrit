@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.AgreementSignupListener;
 import com.google.gerrit.extensions.events.AssigneeChangedListener;
+import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.events.ChangeAbandonedListener;
 import com.google.gerrit.extensions.events.ChangeDeletedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
@@ -454,6 +455,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), MailSoyTemplateProvider.class);
     DynamicSet.setOf(binder(), OnPostReview.class);
     DynamicMap.mapOf(binder(), AccountTagProvider.class);
+    DynamicSet.setOf(binder(), AttentionSetListener.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

@@ -195,6 +195,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
+import com.google.gerrit.server.query.change.DistinctVotersPredicate;
 import com.google.gerrit.server.quota.QuotaEnforcer;
 import com.google.gerrit.server.restapi.change.OnPostReview;
 import com.google.gerrit.server.restapi.change.SuggestReviewers;
@@ -292,6 +293,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeJson.AssistedFactory.class);
     factory(ChangeIsVisibleToPredicate.Factory.class);
+    factory(DistinctVotersPredicate.Factory.class);
     factory(DeadlineChecker.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(MultiProgressMonitor.Factory.class);

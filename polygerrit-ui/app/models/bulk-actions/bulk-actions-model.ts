@@ -76,6 +76,26 @@ export class BulkActionsModel
     this.setState({...current, selectedChangeIds});
   }
 
+  async abandonChanges(reason?: string) {
+    const current = this.subject$.getValue();
+    const selectedChangeIds = [...current.selectedChangeIds];
+    await Promise.all(
+      selectedChangeIds.map(changeId => {
+        if (!this.allChanges.get(changeId))
+          throw new Error('invalid change id');
+        const change = this.allChanges.get(changeId)!;
+        const currentRevision = change.revisions![change.current_revision!];
+        return this.restApiService.executeChangeAction(
+          change._number,
+          change.actions!.abandon!.method,
+          '/abandon',
+          currentRevision._number,
+          {message: reason ?? ''}
+        );
+      })
+    );
+  }
+
   async sync(changes: ChangeInfo[]) {
     const newChanges = new Map(changes.map(c => [c.id, c]));
     this.allChanges = newChanges;

@@ -103,12 +103,15 @@ suite('bulk actions model test', () => {
         assert.isUndefined(changesPerPage);
         assert.strictEqual(query, 'change:1 OR change:2');
         assert.isUndefined(offset);
-        assert.strictEqual(options, listChangesOptionsToHex(
-          ListChangesOption.CHANGE_ACTIONS,
-          ListChangesOption.CURRENT_ACTIONS,
-          ListChangesOption.CURRENT_REVISION,
-          ListChangesOption.DETAILED_LABELS
-        ));
+        assert.strictEqual(
+          options,
+          listChangesOptionsToHex(
+            ListChangesOption.CHANGE_ACTIONS,
+            ListChangesOption.CURRENT_ACTIONS,
+            ListChangesOption.CURRENT_REVISION,
+            ListChangesOption.DETAILED_LABELS
+          )
+        );
         return responsePromise;
       }
     );
@@ -144,12 +147,15 @@ suite('bulk actions model test', () => {
         assert.isUndefined(changesPerPage);
         assert.strictEqual(query, 'change:1 OR change:2');
         assert.isUndefined(offset);
-        assert.strictEqual(options, listChangesOptionsToHex(
-          ListChangesOption.CHANGE_ACTIONS,
-          ListChangesOption.CURRENT_ACTIONS,
-          ListChangesOption.CURRENT_REVISION,
-          ListChangesOption.DETAILED_LABELS
-        ));
+        assert.strictEqual(
+          options,
+          listChangesOptionsToHex(
+            ListChangesOption.CHANGE_ACTIONS,
+            ListChangesOption.CURRENT_ACTIONS,
+            ListChangesOption.CURRENT_REVISION,
+            ListChangesOption.DETAILED_LABELS
+          )
+        );
         return promise;
       }
     );

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af4e903f_30a03fc1",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-23T12:07:55Z",
+      "side": 1,
+      "message": "this needs to be urlEncoded otherwise the request won\u0027t work.\n\nreplacing with encodeURL(c.id, true) fixes the issue",
+      "range": {
+        "startLine": 88,
+        "startChar": 36,
+        "endLine": 88,
+        "endChar": 51
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c11be4b_35be8672",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
         "patchSetId": 3

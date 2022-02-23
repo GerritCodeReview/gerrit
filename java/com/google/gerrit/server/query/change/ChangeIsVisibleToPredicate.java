@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
@@ -63,10 +62,6 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   public boolean match(ChangeData cd) {
     if (cd.fastIsVisibleTo(user)) {
       return true;
-    }
-    Change change = cd.change();
-    if (change == null) {
-      return false;
     }
 
     Optional<ProjectState> projectState = projectCache.get(cd.project());

@@ -75,6 +75,19 @@ export class BulkActionsModel
     })
   );
 
+  public readonly abandonable$ = select(
+    combineLatest([this.selectedChangeNums$, this.loadingState$]),
+    ([selectedChangeNums, loadingState]) => {
+      if (loadingState !== LoadingState.LOADED) return false;
+      return selectedChangeNums.every(selectedChangeNum => {
+        const change = this.allChanges.get(selectedChangeNum);
+        if (!change) throw new Error('invalid changeId in model');
+        return !!change.actions!.abandon;
+      });
+    }
+  );
+
+
   addSelectedChangeNum(changeNum: NumericChangeId) {
     const current = this.getState();
     if (!current.allChanges.has(changeNum)) {
@@ -103,6 +116,25 @@ export class BulkActionsModel
 
   clearSelectedChangeNums() {
     this.setState({...this.subject$.getValue(), selectedChangeNums: []});
+  }
+
+  async abandonChanges(reason?: string) {
+    const current = this.subject$.getValue();
+    const selectedChangeNums = [...current.selectedChangeNums];
+    return Promise.all(
+      selectedChangeNums.map(changeId => {
+        if (!this.allChanges.get(changeId))
+          throw new Error('invalid change id');
+        const change = this.allChanges.get(changeId)!;
+        return this.restApiService.executeChangeAction(
+          change._number,
+          change.actions!.abandon!.method,
+          '/abandon',
+          undefined,
+          {message: reason ?? ''}
+        );
+      })
+    );
   }
 
   async sync(changes: ChangeInfo[]) {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4474e938_c7d57725",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T09:14:31Z",
+      "side": 1,
+      "message": "I have tried the renaming, but I run into a ton of rebasing conflicts because of it.\n\nThis function will be obsolete once we have switched to lit based rendering, so I think it is ok, if we stick to the non-perfect name here.",
+      "parentUuid": "598d7dee_ab4c4a71",
+      "revId": "73e61fabe65f94cb736651db8801cbc9bc3a5611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e94eebc_11d737e2",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-18T07:46:18Z",
       "side": 1,
       "message": "Rather than having this optional, why not make this a repeated var-arg",
+      "revId": "73e61fabe65f94cb736651db8801cbc9bc3a5611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "483b7641_bd211590",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T09:14:31Z",
+      "side": 1,
+      "message": "Agreed. I have already done this in change 330300 (function `diffClasses`) for the new lit based rendering. What you are commenting on is just the function used by the legacy renderers, so let\u0027s not optimize them anymore.",
+      "parentUuid": "2e94eebc_11d737e2",
       "revId": "73e61fabe65f94cb736651db8801cbc9bc3a5611",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

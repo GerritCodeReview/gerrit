@@ -23,7 +23,7 @@ import {debounce, DelayedTask} from '../../utils/async-util';
 import {hovercardStyles} from '../../styles/gr-hovercard-styles';
 import {sharedStyles} from '../../styles/shared-styles';
 import {DependencyRequestEvent} from '../../models/dependency';
-import {addShortcut, Key} from '../../utils/dom-util';
+import {addShortcut, getFocusableElements, Key} from '../../utils/dom-util';
 import {ShortcutController} from '../../elements/lit/shortcut-controller';
 
 interface ReloadEventDetail {
@@ -449,7 +449,9 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this.updatePosition();
       this.classList.remove(HIDE_CLASS);
       if (props?.keyboardEvent) {
-        this.focus();
+        const focusableElements = getFocusableElements(this);
+        const firstFocusableElement = focusableElements?.[0] as HTMLElement;
+        firstFocusableElement.focus();
       }
     };
 

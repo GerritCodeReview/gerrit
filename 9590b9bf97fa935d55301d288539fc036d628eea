@@ -16,6 +16,24 @@
       "message": "Makes sense, but can you add a screenshot in the commit message to showcase the difference?",
       "revId": "9590b9bf97fa935d55301d288539fc036d628eea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86a5021f_f132beeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-23T17:47:56Z",
+      "side": 1,
+      "message": "This is just cherry picking from the master branch.",
+      "parentUuid": "c088668f_6df9c646",
+      "revId": "9590b9bf97fa935d55301d288539fc036d628eea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

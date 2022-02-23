@@ -26,7 +26,9 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelFunction;
@@ -37,6 +39,7 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -60,6 +63,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<InternalChangeQuery> changeQueryProvider;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private ChangeData changeData;
   private String changeId;
@@ -445,6 +449,52 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
         changeQueryProvider.get().byLegacyChangeId(Change.Id.tryParse(revertId).get()).get(0);
     result = evaluator.evaluateRequirement(sr, revertChangeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+  }
+
+  @Test
+  public void byAuthorRegex() throws Exception {
+    TestAccount user2 =
+        accountCreator.create("Foo", "user@example.com", "User", /* displayName = */ null);
+    requestScopeOperations.setApiUser(user2.id());
+    ChangeInfo info =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get();
+    ChangeData cd =
+        changeQueryProvider
+            .get()
+            .byLegacyChangeId(Change.Id.tryParse(Integer.toString(info._number)).get())
+            .get(0);
+
+    // Match by email works
+    checkSubmitRequirementResult(
+        cd,
+        /* submittabilityExpr= */ "authorregex:\"^.*@example\\.com\"",
+        SubmitRequirementResult.Status.SATISFIED);
+    checkSubmitRequirementResult(
+        cd,
+        /* submittabilityExpr= */ "authorregex:\"^user@.*\\.com\"",
+        SubmitRequirementResult.Status.SATISFIED);
+
+    // Match by name does not work
+    checkSubmitRequirementResult(
+        cd,
+        /* submittabilityExpr= */ "authorregex:\"^Foo$\"",
+        SubmitRequirementResult.Status.UNSATISFIED);
+    checkSubmitRequirementResult(
+        cd,
+        /* submittabilityExpr= */ "authorregex:\"^User$\"",
+        SubmitRequirementResult.Status.UNSATISFIED);
+  }
+
+  private void checkSubmitRequirementResult(
+      ChangeData cd, String submittabilityExpr, SubmitRequirementResult.Status expectedStatus) {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "project:" + project.get(),
+            submittabilityExpr,
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, cd);
+    assertThat(result.status()).isEqualTo(expectedStatus);
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

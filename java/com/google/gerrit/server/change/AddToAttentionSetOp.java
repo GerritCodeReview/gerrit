@@ -20,6 +20,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -39,6 +40,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final AddToAttentionSetSender.Factory addToAttentionSetSender;
   private final AttentionSetEmail.Factory attentionSetEmailFactory;
+  private final AttentionSetObserver attentionSetObserver;
 
   private final Account.Id attentionUserId;
   private final String reason;
@@ -58,12 +60,14 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
       ChangeData.Factory changeDataFactory,
       AddToAttentionSetSender.Factory addToAttentionSetSender,
       AttentionSetEmail.Factory attentionSetEmailFactory,
+      AttentionSetObserver attentionSetObserver,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
       @Assisted boolean notify) {
     this.changeDataFactory = changeDataFactory;
     this.addToAttentionSetSender = addToAttentionSetSender;
     this.attentionSetEmailFactory = attentionSetEmailFactory;
+    this.attentionSetObserver = attentionSetObserver;
 
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
@@ -85,10 +89,13 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
 
     change = ctx.getChange();
 
-    ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-    update.addToPlannedAttentionSetUpdates(
+    ChangeUpdate changeUpdate = ctx.getUpdate(ctx.getChange().currentPatchSetId());
+    AttentionSetUpdate attentionUpdate =
         AttentionSetUpdate.createForWrite(
-            attentionUserId, AttentionSetUpdate.Operation.ADD, reason));
+            attentionUserId, AttentionSetUpdate.Operation.ADD, reason);
+    changeUpdate.addToPlannedAttentionSetUpdates(attentionUpdate);
+    attentionSetObserver.fire(
+        changeDataFactory.create(change), ctx.getAccount(), attentionUpdate, ctx.getWhen());
     return true;
   }
 

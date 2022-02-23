@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
 import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
+import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
@@ -103,6 +104,7 @@ public class ExtensionRegistry {
   private final DynamicSet<OnPostReview> onPostReviews;
   private final DynamicSet<ReviewerAddedListener> reviewerAddedListeners;
   private final DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners;
+  private final DynamicSet<AttentionSetListener> attentionSetListeners;
 
   private final DynamicMap<ChangeHasOperandFactory> hasOperands;
   private final DynamicMap<ChangeIsOperandFactory> isOperands;
@@ -147,7 +149,8 @@ public class ExtensionRegistry {
       DynamicSet<ReviewerAddedListener> reviewerAddedListeners,
       DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners,
       DynamicMap<ChangeHasOperandFactory> hasOperands,
-      DynamicMap<ChangeIsOperandFactory> isOperands) {
+      DynamicMap<ChangeIsOperandFactory> isOperands,
+      DynamicSet<AttentionSetListener> attentionSetListeners) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -187,6 +190,7 @@ public class ExtensionRegistry {
     this.reviewerDeletedListeners = reviewerDeletedListeners;
     this.hasOperands = hasOperands;
     this.isOperands = isOperands;
+    this.attentionSetListeners = attentionSetListeners;
   }
 
   public Registration newRegistration() {
@@ -328,6 +332,10 @@ public class ExtensionRegistry {
 
     public Registration add(WorkInProgressStateChangedListener workInProgressStateChangedListener) {
       return add(workInProgressStateChangedListeners, workInProgressStateChangedListener);
+    }
+
+    public Registration add(AttentionSetListener attentionSetListener) {
+      return add(attentionSetListeners, attentionSetListener);
     }
 
     public Registration add(CapabilityDefinition capabilityDefinition, String exportName) {

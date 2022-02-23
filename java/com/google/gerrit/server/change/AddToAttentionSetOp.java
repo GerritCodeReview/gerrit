@@ -21,6 +21,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.extensions.events.AttentionSetChanged;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -45,6 +46,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
   private final MessageIdGenerator messageIdGenerator;
   private final AddToAttentionSetSender.Factory addToAttentionSetSender;
   private final AttentionSetEmail.Factory attentionSetEmailFactory;
+  private final AttentionSetChanged attentionSetChanged;
 
   private final Account.Id attentionUserId;
   private final String reason;
@@ -65,6 +67,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
       AddToAttentionSetSender.Factory addToAttentionSetSender,
       MessageIdGenerator messageIdGenerator,
       AttentionSetEmail.Factory attentionSetEmailFactory,
+      AttentionSetChanged attentionSetChanged,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
       @Assisted boolean notify) {
@@ -72,6 +75,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
     this.addToAttentionSetSender = addToAttentionSetSender;
     this.messageIdGenerator = messageIdGenerator;
     this.attentionSetEmailFactory = attentionSetEmailFactory;
+    this.attentionSetChanged = attentionSetChanged;
 
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
@@ -118,5 +122,6 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(e.getMessage(), change.getId());
     }
+    attentionSetChanged.fire(changeDataFactory.create(change), ctx.getAccount(), ctx.getWhen());
   }
 }

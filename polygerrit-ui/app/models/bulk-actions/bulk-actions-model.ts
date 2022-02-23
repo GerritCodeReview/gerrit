@@ -14,6 +14,7 @@ import {
   listChangesOptionsToHex,
   ListChangesOption,
 } from '../../utils/change-util';
+import {combineLatest} from 'rxjs';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -55,6 +56,18 @@ export class BulkActionsModel
     bulkActionsState => bulkActionsState.loadingState
   );
 
+  public readonly abandonable$ = select(
+    combineLatest([this.selectedChangeNums$, this.loadingState$]),
+    ([selectedChangeNums, loadingState]) => {
+      if (loadingState !== LoadingState.LOADED) return false;
+      return selectedChangeNums.every(selectedChangeNum => {
+        const change = this.allChanges.get(selectedChangeNum);
+        if (!change) throw new Error('invalid changeId in model');
+        return !!change.actions!.abandon;
+      });
+    }
+  );
+
   addSelectedChangeNum(changeNum: NumericChangeId) {
     if (!this.allChanges.has(changeNum)) {
       throw new Error(
@@ -79,6 +92,25 @@ export class BulkActionsModel
     if (index === -1) return;
     selectedChangeNums.splice(index, 1);
     this.setState({...current, selectedChangeNums});
+  }
+
+  async abandonChanges(reason?: string) {
+    const current = this.subject$.getValue();
+    const selectedChangeNums = [...current.selectedChangeNums];
+    return Promise.all(
+      selectedChangeNums.map(changeId => {
+        if (!this.allChanges.get(changeId))
+          throw new Error('invalid change id');
+        const change = this.allChanges.get(changeId)!;
+        return this.restApiService.executeChangeAction(
+          change._number,
+          change.actions!.abandon!.method,
+          '/abandon',
+          undefined,
+          {message: reason ?? ''}
+        );
+      })
+    );
   }
 
   async sync(changes: ChangeInfo[]) {

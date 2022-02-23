@@ -34,6 +34,15 @@ function isElementWithShadowRoot(
   return 'shadowRoot' in el;
 }
 
+export function getFocusableElements(el: Element | ShadowRoot) {
+  // TODO: order of elements is wrong, it looks like BFS, not DFS, so first
+  // element is not first focusable element
+  return querySelectorAll(
+    el,
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+}
+
 export function isElement(node: Node): node is Element {
   return node.nodeType === 1;
 }

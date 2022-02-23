@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb5b1626_ec8daa0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-23T15:09:02Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/324218/7 ;)\n\nWe submitted this change before but it was revert submitted.",
+      "parentUuid": "7b46bd58_f79e2e60",
+      "revId": "cd4b083f477291da3953d7ea1b282740f7645389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6971f03b_17ecab34",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 1

@@ -16,6 +16,7 @@ package com.google.gerrit.index.query;
 
 import com.google.common.collect.ImmutableList;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * Result from any data store query function.
@@ -41,6 +42,21 @@ public interface ResultSet<T> extends Iterable<T> {
    * @return immutable list of the complete results.
    */
   ImmutableList<T> toList();
+
+  /**
+   * Stream all materialized results.
+   *
+   * <p>Prior to returning {@link #close()} is invoked. This method must not be combined with {@link
+   * #iterator()} or {@link #toList()} on the same instance.
+   *
+   * <p>Implementations should provide a memory-optimized implementation of this method that would
+   * perform a lazy materialization of results without loading all of them in memory up-front.
+   *
+   * @return stream of the complete results.
+   */
+  default Stream<T> stream() {
+    return toList().stream();
+  }
 
   /**
    * Close the result, discarding any further results.

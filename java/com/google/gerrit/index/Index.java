@@ -14,7 +14,6 @@
 
 package com.google.gerrit.index;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
@@ -22,6 +21,7 @@ import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Secondary index implementation for arbitrary documents.
@@ -97,16 +97,17 @@ public interface Index<K, V> {
    */
   default Optional<V> get(K key, QueryOptions opts) {
     opts = opts.withStart(0).withLimit(2);
-    ImmutableList<V> results;
+    Stream<V> resultsStream;
     try {
-      results = getSource(keyPredicate(key), opts).read().toList();
+      resultsStream = getSource(keyPredicate(key), opts).read().stream().limit(2);
     } catch (QueryParseException e) {
       throw new StorageException("Unexpected QueryParseException during get()", e);
     }
-    if (results.size() > 1) {
-      throw new StorageException("Multiple results found in index for key " + key + ": " + results);
+    Optional<V> result = resultsStream.findFirst();
+    if (resultsStream.count() > 1) {
+      throw new StorageException("Multiple results found in index for key " + key);
     }
-    return results.stream().findFirst();
+    return result;
   }
 
   /**
@@ -119,16 +120,17 @@ public interface Index<K, V> {
    */
   default Optional<FieldBundle> getRaw(K key, QueryOptions opts) {
     opts = opts.withStart(0).withLimit(2);
-    ImmutableList<FieldBundle> results;
+    Stream<FieldBundle> resultsStream;
     try {
-      results = getSource(keyPredicate(key), opts).readRaw().toList();
+      resultsStream = getSource(keyPredicate(key), opts).readRaw().stream().limit(2);
     } catch (QueryParseException e) {
       throw new StorageException("Unexpected QueryParseException during get()", e);
     }
-    if (results.size() > 1) {
-      throw new StorageException("Multiple results found in index for key " + key + ": " + results);
+    Optional<FieldBundle> result = resultsStream.findFirst();
+    if (resultsStream.count() > 1) {
+      throw new StorageException("Multiple results found in index for key " + key);
     }
-    return results.stream().findFirst();
+    return result;
   }
 
   /**

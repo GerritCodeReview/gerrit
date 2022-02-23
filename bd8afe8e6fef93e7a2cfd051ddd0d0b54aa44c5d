@@ -105,6 +105,24 @@
       "parentUuid": "690c68a1_ac2143ba",
       "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52bca248_8705c51c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-23T08:51:03Z",
+      "side": 1,
+      "message": "\"negative signals\" ... gotta love google speak. 😂\n\nchris\u0027 point is that \"-1 ... not merged as is\" is inconsistent with \"-2 do not submit\". and the precise word used is a sufficiently hot bikeshed that we have the change.submitLabel option (which is why i was joking about a can of worms above). so it would indeed be kinda logical to change it to \"... not submitted as is\" while i\u0027m at it. go/no-go?",
+      "parentUuid": "19ec693e_35315ba7",
+      "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

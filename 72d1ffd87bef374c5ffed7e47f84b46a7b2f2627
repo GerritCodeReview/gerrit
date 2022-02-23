@@ -22,6 +22,30 @@
       },
       "revId": "72d1ffd87bef374c5ffed7e47f84b46a7b2f2627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "647a2432_1cc62aee",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T18:11:58Z",
+      "side": 1,
+      "message": "I think as long as we are still using \u003ccustom-style\u003e we will also have to keep the `updateStyles()` call. Not 100% sure, but better leave it in for now.\n\nI have it on my TODO list to replace \u003cgr-external-style\u003e entirely by something simpler that is not using \u003ccustom-style\u003e, so there is no need to worry about this now.",
+      "parentUuid": "c3f6fd03_2e389b01",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 19
+      },
+      "revId": "72d1ffd87bef374c5ffed7e47f84b46a7b2f2627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

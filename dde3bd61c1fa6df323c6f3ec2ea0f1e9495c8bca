@@ -33,6 +33,24 @@
       "message": "Unfortunately this also results in a warning:\n\n  Description\tResource\tPath\tLocation\tType\nThe value of the local variable unused is not used\tGroupReferenceTest.java\t/gerrit/javatests/com/google/gerrit/common/data\tline 132\tJava Problem\n\nCan you use an ignore annotation instead?\n\nOr maybe you can write it as\n\n  assertThat(GroupReference.create(\"bar\").hashCode()).isNotNull();\n  \n?",
       "revId": "dde3bd61c1fa6df323c6f3ec2ea0f1e9495c8bca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "337b79c1_deeae612",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-02-23T11:33:27Z",
+      "side": 1,
+      "message": "After looking at the test, I noticed that we do not have a separate tests for GroupReference without uuid. Instead of suppressing unused return value, I added a new tests, which executes hashCode function.",
+      "parentUuid": "3e4cb219_c2109414",
+      "revId": "dde3bd61c1fa6df323c6f3ec2ea0f1e9495c8bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "I do not have +2, unfortunately.",
       "revId": "dde3bd61c1fa6df323c6f3ec2ea0f1e9495c8bca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e4cb219_c2109414",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-23T09:52:42Z",
+      "side": 1,
+      "message": "Unfortunately this also results in a warning:\n\n  Description\tResource\tPath\tLocation\tType\nThe value of the local variable unused is not used\tGroupReferenceTest.java\t/gerrit/javatests/com/google/gerrit/common/data\tline 132\tJava Problem\n\nCan you use an ignore annotation instead?\n\nOr maybe you can write it as\n\n  assertThat(GroupReference.create(\"bar\").hashCode()).isNotNull();\n  \n?",
+      "revId": "dde3bd61c1fa6df323c6f3ec2ea0f1e9495c8bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

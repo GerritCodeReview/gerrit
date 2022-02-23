@@ -159,6 +159,24 @@
       "parentUuid": "68850e1c_939f037c",
       "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47058bf7_f4bb0cd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-02-23T20:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f95c06f9_8b368d9f",
+      "revId": "bd8afe8e6fef93e7a2cfd051ddd0d0b54aa44c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

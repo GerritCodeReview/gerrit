@@ -96,6 +96,29 @@ export function isResponsive(responsiveMode: DiffResponsiveMode) {
 }
 
 /**
+ * Given that GrDiffBuilder has ~1,000 lines of code, this interface is just
+ * making refactorings easier by emphasizing what the public facing "contract"
+ * of this class is. There are no plans for adding separate implementations.
+ */
+export interface DiffBuilder {
+  clear(): void;
+  spliceGroups(
+    start: number,
+    deleteCount: number,
+    ...addedGroups: GrDiffGroup[]
+  ): GrDiffGroup[];
+  getIndexOfSection(sectionEl: HTMLElement): number;
+  addColumns(outputEl: HTMLElement, fontSize: number): void;
+  getContentTdByLine(
+    lineNumber: LineNumber,
+    side?: Side,
+    root?: Element
+  ): Element | null;
+  setBlame(blame: BlameInfo[] | null): void;
+  updateRenderPrefs(_renderPrefs: RenderPreferences): void;
+}
+
+/**
  * Base class for different diff builders, like side-by-side, unified etc.
  *
  * The builder takes GrDiffGroups, and builds the corresponding DOM elements,
@@ -104,7 +127,7 @@ export function isResponsive(responsiveMode: DiffResponsiveMode) {
  * will then be rendered - or remove groups whose sections will then be
  * removed from the DOM.
  */
-export abstract class GrDiffBuilder {
+export abstract class GrDiffBuilder implements DiffBuilder {
   private readonly _diff: DiffInfo;
 
   private readonly _numLinesLeft: number;
@@ -188,7 +211,7 @@ export abstract class GrDiffBuilder {
 
   abstract addColumns(outputEl: HTMLElement, fontSize: number): void;
 
-  abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
+  protected abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
 
   getIndexOfSection(sectionEl: HTMLElement) {
     return this.groups.findIndex(group => group.element === sectionEl);

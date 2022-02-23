@@ -2088,7 +2088,7 @@ export class GrChangeView extends base {
    * Some non-core data loading may still be in-flight when the core data
    * promise resolves.
    */
-  loadData(isLocationChange?: boolean, clearPatchset?: boolean): Promise<void> {
+  loadData(isLocationChange?: boolean, clearPatchset?: boolean) {
     if (this.isChangeObsolete()) return Promise.resolve();
     if (clearPatchset && this._change) {
       GerritNav.navigateToChange(this._change, {
@@ -2133,15 +2133,7 @@ export class GrChangeView extends base {
 
       // Promise resolves when the change detail and patch dependent resources
       // have loaded.
-      const detailAndPatchResourcesLoaded = Promise.all([
-        patchResourcesLoaded,
-        loadingFlagSet,
-      ]);
-
-      // The core data is loaded when mergeability is known.
-      coreDataPromise = detailAndPatchResourcesLoaded.then(() =>
-        this._getMergeability()
-      );
+      coreDataPromise = Promise.all([patchResourcesLoaded, loadingFlagSet]);
     } else {
       // Resolves when the file list has loaded.
       const fileListReload = loadingFlagSet.then(() =>
@@ -2158,11 +2150,13 @@ export class GrChangeView extends base {
       });
       allDataPromises.push(latestCommitMessageLoaded);
 
-      // Core data is loaded when mergeability has been loaded.
-      coreDataPromise = loadingFlagSet.then(() => this._getMergeability());
+      coreDataPromise = loadingFlagSet;
     }
+    const mergeabilityLoaded = coreDataPromise.then(() =>
+      this._getMergeability()
+    );
+    allDataPromises.push(mergeabilityLoaded);
 
-    allDataPromises.push(coreDataPromise);
     coreDataPromise.then(() => {
       fireEvent(this, 'change-details-loaded');
       this.reporting.timeEnd(Timing.CHANGE_RELOAD);

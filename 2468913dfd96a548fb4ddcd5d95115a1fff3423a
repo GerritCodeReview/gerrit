@@ -16,6 +16,24 @@
       "message": "This TODO should stay.",
       "revId": "2468913dfd96a548fb4ddcd5d95115a1fff3423a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cedb7eef_a75b7d94",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T10:06:00Z",
+      "side": 0,
+      "message": "+1, but the best place for the TODO is with `GrDiffThreadElement`, not here. And there is a nice TODO written over there already.",
+      "parentUuid": "f64e50b4_60794789",
+      "revId": "2468913dfd96a548fb4ddcd5d95115a1fff3423a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

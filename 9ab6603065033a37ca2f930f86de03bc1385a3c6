@@ -142,6 +142,30 @@
       },
       "revId": "9ab6603065033a37ca2f930f86de03bc1385a3c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed3570e_0e06fe32",
+        "filename": "java/com/google/gerrit/server/account/AccountCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-23T08:07:46Z",
+      "side": 0,
+      "message": "Cycling back here, the ref cache implemented in JGit solves the problem and is a nice and generic enough solution, that it will help us in other cases, too. Thanks Mathias!",
+      "parentUuid": "94ea82fd_6f4e3db8",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 18
+      },
+      "revId": "9ab6603065033a37ca2f930f86de03bc1385a3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "221dd113_8c4015ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-23T12:31:40Z",
+      "side": 1,
+      "message": "optional nit: authoremail?\n\nI don\u0027t think we have to use the word regex because regexes will start with ^. using email might make it more clear what this matches over.",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "affbe77d4e1a122904ab827fac06868a401d3926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

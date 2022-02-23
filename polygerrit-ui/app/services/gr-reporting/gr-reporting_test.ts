@@ -15,15 +15,23 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {GrReporting, DEFAULT_STARTUP_TIMERS, initErrorReporter} from './gr-reporting_impl.js';
-import {getAppContext} from '../app-context.js';
-import {Deduping} from '../../api/reporting.js';
-suite('gr-reporting tests', () => {
-  let service;
+import '../../test/common-test-setup-karma';
+import {
+  GrReporting,
+  DEFAULT_STARTUP_TIMERS,
+  initErrorReporter,
+} from './gr-reporting_impl';
+import {getAppContext} from '../app-context';
+import {Deduping} from '../../api/reporting';
+import {SinonFakeTimers} from 'sinon';
 
-  let clock;
-  let fakePerformance;
+suite('gr-reporting tests', () => {
+  // We have to type as any because we access
+  // private properties for testing.
+  let service: any;
+
+  let clock: SinonFakeTimers;
+  let fakePerformance: any;
 
   const NOW_TIME = 100;
 
@@ -48,23 +56,36 @@ suite('gr-reporting tests', () => {
     sinon.stub(window.performance, 'now').returns(42);
     service.appStarted();
     assert.isTrue(
-        service.reporter.calledWithMatch(
-            'timing-report', 'UI Latency', 'App Started', 42
-        ));
+      service.reporter.calledWithMatch(
+        'timing-report',
+        'UI Latency',
+        'App Started',
+        42
+      )
+    );
     assert.isTrue(
-        service.reporter.calledWithExactly(
-            'timing-report', 'UI Latency', 'NavResTime - loadEventEnd',
-            fakePerformance.loadEventEnd - fakePerformance.navigationStart,
-            undefined, true)
+      service.reporter.calledWithExactly(
+        'timing-report',
+        'UI Latency',
+        'NavResTime - loadEventEnd',
+        fakePerformance.loadEventEnd - fakePerformance.navigationStart,
+        undefined,
+        true
+      )
     );
   });
 
   test('WebComponentsReady', () => {
     sinon.stub(window.performance, 'now').returns(42);
     service.timeEnd('WebComponentsReady');
-    assert.isTrue(service.reporter.calledWithMatch(
-        'timing-report', 'UI Latency', 'WebComponentsReady', 42
-    ));
+    assert.isTrue(
+      service.reporter.calledWithMatch(
+        'timing-report',
+        'UI Latency',
+        'WebComponentsReady',
+        42
+      )
+    );
   });
 
   test('beforeLocationChanged', () => {
@@ -76,7 +97,9 @@ suite('gr-reporting tests', () => {
     assert.isTrue(service.time.calledWithExactly('ChangeFullyLoaded'));
     assert.isTrue(service.time.calledWithExactly('DiffViewDisplayed'));
     assert.isTrue(service.time.calledWithExactly('FileListDisplayed'));
-    assert.isFalse(service._baselines.hasOwnProperty('garbage'));
+    assert.isFalse(
+      Object.prototype.hasOwnProperty.call(service._baselines, 'garbage')
+    );
   });
 
   test('changeDisplayed', () => {
@@ -91,10 +114,10 @@ suite('gr-reporting tests', () => {
   test('changeFullyLoaded', () => {
     sinon.spy(service, 'timeEnd');
     service.changeFullyLoaded();
-    assert.isFalse(
-        service.timeEnd.calledWithExactly('ChangeFullyLoaded'));
+    assert.isFalse(service.timeEnd.calledWithExactly('ChangeFullyLoaded'));
     assert.isTrue(
-        service.timeEnd.calledWithExactly('StartupChangeFullyLoaded'));
+      service.timeEnd.calledWithExactly('StartupChangeFullyLoaded')
+    );
     service.changeFullyLoaded();
     assert.isTrue(service.timeEnd.calledWithExactly('ChangeFullyLoaded'));
   });
@@ -111,10 +134,10 @@ suite('gr-reporting tests', () => {
   test('fileListDisplayed', () => {
     sinon.spy(service, 'timeEnd');
     service.fileListDisplayed();
-    assert.isFalse(
-        service.timeEnd.calledWithExactly('FileListDisplayed'));
+    assert.isFalse(service.timeEnd.calledWithExactly('FileListDisplayed'));
     assert.isTrue(
-        service.timeEnd.calledWithExactly('StartupFileListDisplayed'));
+      service.timeEnd.calledWithExactly('StartupFileListDisplayed')
+    );
     service.fileListDisplayed();
     assert.isTrue(service.timeEnd.calledWithExactly('FileListDisplayed'));
   });
@@ -130,46 +153,49 @@ suite('gr-reporting tests', () => {
 
   test('dashboardDisplayed details', () => {
     sinon.spy(service, 'timeEnd');
-    sinon.stub(window, 'performance').value( {
+    sinon.stub(window, 'performance').value({
       memory: {
         usedJSHeapSize: 1024 * 1024,
       },
       measure: () => {},
-      now: () => { 42; },
+      now: () => {
+        42;
+      },
     });
     service.reportRpcTiming('/changes/*~*/comments', 500);
     service.dashboardDisplayed();
     assert.isTrue(
-        service.timeEnd.calledWithExactly('StartupDashboardDisplayed',
-            {rpcList: [
-              {
-                anonymizedUrl: '/changes/*~*/comments',
-                elapsed: 500,
-              },
-            ],
-            screenSize: {
-              width: window.screen.width,
-              height: window.screen.height,
-            },
-            viewport: {
-              width: document.documentElement.clientWidth,
-              height: document.documentElement.clientHeight,
-            },
-            usedJSHeapSizeMb: 1,
-            hiddenDurationMs: 0,
-            }
-        ));
+      service.timeEnd.calledWithExactly('StartupDashboardDisplayed', {
+        rpcList: [
+          {
+            anonymizedUrl: '/changes/*~*/comments',
+            elapsed: 500,
+          },
+        ],
+        screenSize: {
+          width: window.screen.width,
+          height: window.screen.height,
+        },
+        viewport: {
+          width: document.documentElement.clientWidth,
+          height: document.documentElement.clientHeight,
+        },
+        usedJSHeapSizeMb: 1,
+        hiddenDurationMs: 0,
+      })
+    );
   });
 
   suite('hidden duration', () => {
-    let nowStub;
-    let visibilityStateStub;
-    const assertHiddenDurationsMs = hiddenDurationMs => {
+    let nowStub: sinon.SinonStub;
+    let visibilityStateStub: sinon.SinonStub;
+    const assertHiddenDurationsMs = (hiddenDurationMs: number) => {
       service.dashboardDisplayed();
       assert.isTrue(
-          service.timeEnd.calledWithMatch('StartupDashboardDisplayed',
-              {hiddenDurationMs}
-          ));
+        service.timeEnd.calledWithMatch('StartupDashboardDisplayed', {
+          hiddenDurationMs,
+        })
+      );
     };
 
     setup(() => {
@@ -177,10 +203,12 @@ suite('gr-reporting tests', () => {
       nowStub = sinon.stub(window.performance, 'now');
       visibilityStateStub = {
         value: value => {
-          Object.defineProperty(document, 'visibilityState',
-              {value, configurable: true});
+          Object.defineProperty(document, 'visibilityState', {
+            value,
+            configurable: true,
+          });
         },
-      };
+      } as sinon.SinonStub;
     });
 
     test('starts in hidden', () => {
@@ -229,9 +257,10 @@ suite('gr-reporting tests', () => {
       service.timeEnd.resetHistory();
       service.dashboardDisplayed();
       assert.isTrue(
-          service.timeEnd.calledWithMatch('DashboardDisplayed',
-              {hiddenDurationMs: 0}
-          ));
+        service.timeEnd.calledWithMatch('DashboardDisplayed', {
+          hiddenDurationMs: 0,
+        })
+      );
     });
   });
 
@@ -244,12 +273,12 @@ suite('gr-reporting tests', () => {
     service.timeEnd('bar');
     nowStub.returns(3);
     service.timeEnd('foo');
-    assert.isTrue(service.reporter.calledWithMatch(
-        'timing-report', 'UI Latency', 'foo', 3
-    ));
-    assert.isTrue(service.reporter.calledWithMatch(
-        'timing-report', 'UI Latency', 'bar', 1
-    ));
+    assert.isTrue(
+      service.reporter.calledWithMatch('timing-report', 'UI Latency', 'foo', 3)
+    );
+    assert.isTrue(
+      service.reporter.calledWithMatch('timing-report', 'UI Latency', 'bar', 1)
+    );
   });
 
   test('timer object', () => {
@@ -257,8 +286,14 @@ suite('gr-reporting tests', () => {
     const timer = service.getTimer('foo-bar');
     nowStub.returns(150);
     timer.end();
-    assert.isTrue(service.reporter.calledWithMatch(
-        'timing-report', 'UI Latency', 'foo-bar', 50));
+    assert.isTrue(
+      service.reporter.calledWithMatch(
+        'timing-report',
+        'UI Latency',
+        'foo-bar',
+        50
+      )
+    );
   });
 
   test('timer object double call', () => {
@@ -285,10 +320,15 @@ suite('gr-reporting tests', () => {
 
   test('reportExtension', () => {
     service.reportExtension('foo');
-    assert.isTrue(service.reporter.calledWithExactly(
-        'lifecycle', 'Extension detected', 'Extension detected', undefined,
+    assert.isTrue(
+      service.reporter.calledWithExactly(
+        'lifecycle',
+        'Extension detected',
+        'Extension detected',
+        undefined,
         {name: 'foo'}
-    ));
+      )
+    );
   });
 
   test('reportInteraction', () => {
@@ -296,13 +336,13 @@ suite('gr-reporting tests', () => {
     sinon.spy(service, '_reportEvent');
     service.pluginsLoaded(); // so we don't cache
     service.reportInteraction('button-click', {name: 'sendReply'});
-    assert.isTrue(service._reportEvent.getCall(2).calledWithMatch(
-        {
-          type: 'interaction',
-          name: 'button-click',
-          eventDetails: JSON.stringify({name: 'sendReply'}),
-        }
-    ));
+    assert.isTrue(
+      service._reportEvent.getCall(2).calledWithMatch({
+        type: 'interaction',
+        name: 'button-click',
+        eventDetails: JSON.stringify({name: 'sendReply'}),
+      })
+    );
   });
 
   test('trackApi reports same event only once', () => {
@@ -323,16 +363,19 @@ suite('gr-reporting tests', () => {
     service.pluginsLoaded();
     service.time('timeAction');
     service.timeEnd('timeAction');
-    assert.isTrue(service._reportEvent.getCall(2).calledWithMatch(
-        {
-          type: 'timing-report',
-          category: 'UI Latency',
-          name: 'timeAction',
-          value: 0,
-          eventStart: 42,
-        }
-    ));
-    assert.equal(dispatchStub.getCall(2).args[0].detail.eventStart, 42);
+    assert.isTrue(
+      service._reportEvent.getCall(2).calledWithMatch({
+        type: 'timing-report',
+        category: 'UI Latency',
+        name: 'timeAction',
+        value: 0,
+        eventStart: 42,
+      })
+    );
+    assert.equal(
+      (dispatchStub.getCall(2).args[0] as CustomEvent).detail.eventStart,
+      42
+    );
   });
 
   test('dedup', () => {
@@ -382,25 +425,25 @@ suite('gr-reporting tests', () => {
     test('pluginsLoaded reports time', () => {
       sinon.stub(window.performance, 'now').returns(42);
       service.pluginsLoaded();
-      assert.isTrue(service._reportEvent.calledWithMatch(
-          {
-            type: 'timing-report',
-            category: 'UI Latency',
-            name: 'PluginsLoaded',
-            value: 42,
-          }
-      ));
+      assert.isTrue(
+        service._reportEvent.calledWithMatch({
+          type: 'timing-report',
+          category: 'UI Latency',
+          name: 'PluginsLoaded',
+          value: 42,
+        })
+      );
     });
 
     test('pluginsLoaded reports plugins', () => {
       service.pluginsLoaded(['foo', 'bar']);
-      assert.isTrue(service._reportEvent.calledWithMatch(
-          {
-            type: 'lifecycle',
-            category: 'Plugins installed',
-            eventDetails: JSON.stringify({pluginsList: ['foo', 'bar']}),
-          }
-      ));
+      assert.isTrue(
+        service._reportEvent.calledWithMatch({
+          type: 'lifecycle',
+          category: 'Plugins installed',
+          eventDetails: JSON.stringify({pluginsList: ['foo', 'bar']}),
+        })
+      );
     });
 
     test('caches reports if plugins are not loaded', () => {
@@ -424,33 +467,58 @@ suite('gr-reporting tests', () => {
       service.timeEnd('foo');
       service.pluginsLoaded();
       service.timeEnd('bar');
-      assert.isTrue(service._reportEvent.getCall(0).calledWithMatch(
-          {type: 'timing-report', category: 'UI Latency', name: 'foo'}
-      ));
-      assert.isTrue(service._reportEvent.getCall(1).calledWithMatch(
-          {type: 'timing-report', category: 'UI Latency',
-            name: 'PluginsLoaded'}
-      ));
-      assert.isTrue(service._reportEvent.getCall(2).calledWithMatch(
-          {type: 'lifecycle', category: 'Plugins installed'}
-      ));
-      assert.isTrue(service._reportEvent.getCall(3).calledWithMatch(
-          {type: 'timing-report', category: 'UI Latency', name: 'bar'}
-      ));
+      assert.isTrue(
+        service._reportEvent.getCall(0).calledWithMatch({
+          type: 'timing-report',
+          category: 'UI Latency',
+          name: 'foo',
+        })
+      );
+      assert.isTrue(
+        service._reportEvent.getCall(1).calledWithMatch({
+          type: 'timing-report',
+          category: 'UI Latency',
+          name: 'PluginsLoaded',
+        })
+      );
+      assert.isTrue(
+        service._reportEvent
+          .getCall(2)
+          .calledWithMatch({type: 'lifecycle', category: 'Plugins installed'})
+      );
+      assert.isTrue(
+        service._reportEvent.getCall(3).calledWithMatch({
+          type: 'timing-report',
+          category: 'UI Latency',
+          name: 'bar',
+        })
+      );
     });
   });
 
   test('search', () => {
     service.locationChanged('_handleSomeRoute');
-    assert.isTrue(service.reporter.calledWithExactly(
-        'nav-report', 'Location Changed', 'Page', '_handleSomeRoute'));
+    assert.isTrue(
+      service.reporter.calledWithExactly(
+        'nav-report',
+        'Location Changed',
+        'Page',
+        '_handleSomeRoute'
+      )
+    );
   });
 
   suite('exception logging', () => {
-    let fakeWindow;
-    let reporter;
+    let fakeWindow: any;
+    let reporter: sinon.SinonStub;
 
-    const emulateThrow = function(msg, url, line, column, error) {
+    const emulateThrow = function (
+      msg?: string,
+      url?: string,
+      line?: number,
+      column?: number,
+      error?: Error
+    ) {
       return fakeWindow.onerror(msg, url, line, column, error);
     };
 
@@ -458,7 +526,7 @@ suite('gr-reporting tests', () => {
       reporter = service.reporter;
       fakeWindow = {
         handlers: {},
-        addEventListener(type, handler) {
+        addEventListener(type: string, handler: object) {
           this.handlers[type] = handler;
         },
       };
@@ -493,9 +561,9 @@ suite('gr-reporting tests', () => {
     test('unhandled rejection', () => {
       const newError = new Error('bar');
       fakeWindow.handlers['unhandledrejection']({reason: newError});
-      assert.isTrue(reporter.calledWith('error', 'exception',
-          'unhandledrejection: bar'));
+      assert.isTrue(
+        reporter.calledWith('error', 'exception', 'unhandledrejection: bar')
+      );
     });
   });
 });
-

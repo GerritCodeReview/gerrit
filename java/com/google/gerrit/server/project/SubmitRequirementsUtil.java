@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -40,6 +41,8 @@ public class SubmitRequirementsUtil {
   static class Metrics {
     final Counter2<String, String> submitRequirementsMatchingWithLegacy;
     final Counter2<String, String> submitRequirementsMismatchingWithLegacy;
+    final Counter2<String, String> legacyNotInSrs;
+    final Counter2<String, String> srsNotInLegacy;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -65,6 +68,30 @@ public class SubmitRequirementsUtil {
                           + "submit requirements with the same name for a change, "
                           + "and the evaluation of both requirements had a different result "
                           + "w.r.t. change submittability.")
+                  .setRate()
+                  .setUnit("count"),
+              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
+                  .description("Submit requirement name")
+                  .build());
+      legacyNotInSrs =
+          metricMaker.newCounter(
+              "change/submit_requirements/legacy_not_in_srs",
+              new Description(
+                      "Total number of times there was a legacy submit requirement result "
+                          + "but not a project config requirement with the same name for a change.")
+                  .setRate()
+                  .setUnit("count"),
+              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
+                  .description("Submit requirement name")
+                  .build());
+      srsNotInLegacy =
+          metricMaker.newCounter(
+              "change/submit_requirements/srs_not_in_legacy",
+              new Description(
+                      "Total number of times there was a project config submit requirement "
+                          + "result but not a legacy requirement with the same name for a change.")
                   .setRate()
                   .setUnit("count"),
               Field.ofString("project", Metadata.Builder::projectName).build(),
@@ -116,6 +143,7 @@ public class SubmitRequirementsUtil {
       // then add the legacy SR to the result. There is no mismatch in results in this case.
       if (projectConfigResult == null) {
         result.put(legacy.getKey(), legacy.getValue());
+        metrics.legacyNotInSrs.increment(project.get(), srName);
         continue;
       }
       if (matchByStatus(projectConfigResult, legacyResult)) {
@@ -130,6 +158,16 @@ public class SubmitRequirementsUtil {
       metrics.submitRequirementsMismatchingWithLegacy.increment(project.get(), srName);
       result.put(legacy.getKey(), legacy.getValue());
     }
+    Set<String> legacyNames =
+        legacyRequirements.keySet().stream()
+            .map(SubmitRequirement::name)
+            .collect(Collectors.toSet());
+    for (String projectConfigSrName : requirementsByName.keySet()) {
+      if (!legacyNames.contains(projectConfigSrName)) {
+        metrics.srsNotInLegacy.increment(project.get(), projectConfigSrName);
+      }
+    }
+
     return ImmutableMap.copyOf(result);
   }
 

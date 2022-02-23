@@ -129,6 +129,6 @@ public class GroupReferenceTest {
         .isEqualTo(GroupReference.create(uuid1, "bar").hashCode());
 
     // Check that the following calls don't fail with an exception.
-    GroupReference.create("bar").hashCode();
+    int unused = GroupReference.create("bar").hashCode();
   }
 }

@@ -34,8 +34,10 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
@@ -488,28 +490,67 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private ChangeData toChangeData(
-      ListMultimap<String, IndexableField> doc, Set<String> fields, String idFieldName) {
-    ChangeData cd;
-    // Either change or the ID field was guaranteed to be included in the call
-    // to fields() above.
-    IndexableField cb = Iterables.getFirst(doc.get(CHANGE_FIELD), null);
-    if (cb != null) {
-      BytesRef proto = cb.binaryValue();
-      cd = changeDataFactory.create(parseProtoFrom(proto, ChangeProtoConverter.INSTANCE));
-    } else {
-      IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
+      ListMultimap<String, IndexableField> document, Set<String> fields, String idFieldName) {
 
-      // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
-      IndexableField project = doc.get(PROJECT.getName()).iterator().next();
-      cd = changeDataFactory.create(Project.nameKey(project.stringValue()), extractor.extract(f));
-    }
+    ChangeData changeData;
 
-    for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
-      if (fields.contains(field.getName()) && doc.get(field.getName()) != null) {
-        field.setIfPossible(cd, new LuceneStoredValue(doc.get(field.getName())));
+    IndexableField f = Iterables.getFirst(document.get(idFieldName), null);
+
+    // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
+    IndexableField project = Iterables.getFirst(document.get(PROJECT.getName()), null);
+
+    NameKey projectName = null;
+    Change changeFromProto = null;
+    IndexableField changeField = Iterables.getFirst(document.get(CHANGE_FIELD), null);
+
+    if (project == null) {
+      // Either change or the ID field was guaranteed to be included in the call
+      // to fields() above.
+      if (changeField != null) {
+        changeFromProto = parseProtoFrom(changeField.binaryValue(), ChangeProtoConverter.INSTANCE);
+        projectName = changeFromProto.getProject();
       }
+    } else {
+      projectName = Project.nameKey(project.stringValue());
     }
-    return cd;
+
+    @SuppressWarnings("unchecked")
+    ChangeData.IndexMaterializer materializer =
+        (cd, doc) -> {
+          // Either change or the ID field was guaranteed to be included in the call
+          // to fields() above.
+          IndexableField cb = (IndexableField) Iterables.getFirst(doc.get(CHANGE_FIELD), null);
+          if (cb != null) {
+            BytesRef proto = cb.binaryValue();
+            cd.setChange(parseProtoFrom(proto, ChangeProtoConverter.INSTANCE));
+          }
+
+          for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
+            if (fields.contains(field.getName()) && doc.get(field.getName()) != null) {
+              field.setIfPossible(
+                  cd, new LuceneStoredValue((List<IndexableField>) doc.get(field.getName())));
+            }
+          }
+        };
+
+    requireNonNull(projectName);
+
+    Change.Id changeId = f != null ? extractor.extract(f) : changeFromProto.getId();
+    changeData = changeDataFactory.create(projectName, changeId, document, materializer);
+
+    IndexableField branchNameField =
+        Iterables.getFirst(document.get(ChangeField.REF.getName()), null);
+    if (branchNameField != null) {
+      String branchName = branchNameField.stringValue();
+      changeData.setChangeDest(BranchNameKey.create(projectName, branchName));
+    } else {
+      if (changeFromProto == null && changeField != null) {
+        changeFromProto = parseProtoFrom(changeField.binaryValue(), ChangeProtoConverter.INSTANCE);
+      }
+      changeData.setChangeDest(changeFromProto.getDest());
+    }
+
+    return changeData;
   }
 
   private static <P extends MessageLite, T> T parseProtoFrom(

@@ -191,7 +191,8 @@ export class Auth implements AuthService, Finalizable {
     }
   }
 
-  private _getCookie(name: string): string {
+  // private but used in test
+  _getCookie(name: string): string {
     const key = name + '=';
     let result = '';
     document.cookie.split(';').some(c => {
@@ -205,7 +206,8 @@ export class Auth implements AuthService, Finalizable {
     return result;
   }
 
-  private _isTokenValid(token: Token | null): token is ValidToken {
+  // private but used in test
+  _isTokenValid(token: Token | null): token is ValidToken {
     if (!token) {
       return false;
     }

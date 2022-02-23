@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4ba007c_74b24d6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-23T13:35:46Z",
+      "side": 1,
+      "message": "This is a relanding of https://gerrit-review.googlesource.com/c/gerrit/+/324218/7 which was previously reverted because the Query grammar syntax change in the previous change was no compatible with the Antlr version in google3.",
+      "revId": "9f0a6aee936c860f59076b5f3b375cff5793c0e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

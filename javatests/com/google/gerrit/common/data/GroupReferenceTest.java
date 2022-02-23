@@ -127,8 +127,5 @@ public class GroupReferenceTest {
     AccountGroup.UUID uuid1 = AccountGroup.uuid("uuid1");
     assertThat(GroupReference.create(uuid1, "foo").hashCode())
         .isEqualTo(GroupReference.create(uuid1, "bar").hashCode());
-
-    // Check that the following calls don't fail with an exception.
-    GroupReference.create("bar").hashCode();
   }
 }

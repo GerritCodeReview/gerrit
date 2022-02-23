@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16f68fdd_894230d8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-23T14:29:40Z",
+      "side": 1,
+      "message": "Please factor out this logic that generates this string and reuse it for line 67",
+      "revId": "cb5432e8bcaefd4c437f514be94531524de860f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

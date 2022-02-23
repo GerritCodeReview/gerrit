@@ -1886,6 +1886,9 @@ export class GrChangeView extends base {
     // one location.
     if (!this.routerPatchNum && latestPsNum === editParentRev._number) {
       this.set('_patchRange.patchNum', EditPatchSetNum);
+      // The file list is not reactive (yet) with regards to patch range
+      // changes, so we have to actively trigger it.
+      this._reloadPatchNumDependentResources();
     }
   }
 

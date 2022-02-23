@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d2d68b54_dea304cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-23T15:32:08Z",
+      "side": 1,
+      "message": "Yes you\u0027re right. The change is not yet ready for review as I need to make a small adjustment then I should include the reasoning and a reference to the previous revert in the commit message.\n\nThanks for suggesting.",
+      "parentUuid": "113be40e_9635a116",
+      "revId": "cd4b083f477291da3953d7ea1b282740f7645389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6971f03b_17ecab34",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 1

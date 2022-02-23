@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {Auth} from './gr-auth_impl.js';
-import {getAppContext} from '../app-context.js';
-import {stubBaseUrl} from '../../test/test-utils.js';
+import '../../test/common-test-setup-karma';
+import {Auth} from './gr-auth_impl';
+import {getAppContext} from '../app-context';
+import {stubBaseUrl} from '../../test/test-utils';
+import {EventEmitterService} from '../gr-event-interface/gr-event-interface';
+import {SinonFakeTimers} from 'sinon';
+import {AuthRequestInit, DefaultAuthOptions} from './gr-auth';
 
 suite('gr-auth', () => {
-  let auth;
-  let eventEmitter;
+  let auth: Auth;
+  let eventEmitter: EventEmitterService;
 
   setup(() => {
     // TODO(poucet): Mock the eventEmitter completely instead of getting it
@@ -32,7 +35,7 @@ suite('gr-auth', () => {
   });
 
   suite('Auth class methods', () => {
-    let fakeFetch;
+    let fakeFetch: sinon.SinonStub;
     setup(() => {
       fakeFetch = sinon.stub(window, 'fetch');
     });
@@ -67,8 +70,8 @@ suite('gr-auth', () => {
   });
 
   suite('cache and events behavior', () => {
-    let fakeFetch;
-    let clock;
+    let fakeFetch: sinon.SinonStub;
+    let clock: SinonFakeTimers;
     setup(() => {
       clock = sinon.useFakeTimers();
       fakeFetch = sinon.stub(window, 'fetch');
@@ -177,23 +180,25 @@ suite('gr-auth', () => {
   });
 
   suite('default (xsrf token header)', () => {
+    let fakeFetch: sinon.SinonStub;
+
     setup(() => {
-      sinon.stub(window, 'fetch').returns(Promise.resolve({ok: true}));
+      fakeFetch = sinon
+        .stub(window, 'fetch')
+        .returns(Promise.resolve({...new Response(), ok: true}));
     });
 
     test('GET', async () => {
-      await auth.fetch('/url', {bar: 'bar'});
-      const [url, options] = fetch.lastCall.args;
+      await auth.fetch('/url', {bar: 'bar'} as AuthRequestInit);
+      const [url, options] = fakeFetch.lastCall.args;
       assert.equal(url, '/url');
       assert.equal(options.credentials, 'same-origin');
     });
 
     test('POST', async () => {
-      sinon.stub(auth, '_getCookie')
-          .withArgs('XSRF_TOKEN')
-          .returns('foobar');
+      sinon.stub(auth, '_getCookie').withArgs('XSRF_TOKEN').returns('foobar');
       await auth.fetch('/url', {method: 'POST'});
-      const [url, options] = fetch.lastCall.args;
+      const [url, options] = fakeFetch.lastCall.args;
       assert.equal(url, '/url');
       assert.equal(options.credentials, 'same-origin');
       assert.equal(options.headers.get('X-Gerrit-Auth'), 'foobar');
@@ -201,13 +206,17 @@ suite('gr-auth', () => {
   });
 
   suite('cors (access token)', () => {
+    let fakeFetch: sinon.SinonStub;
+
     setup(() => {
-      sinon.stub(window, 'fetch').returns(Promise.resolve({ok: true}));
+      fakeFetch = sinon
+        .stub(window, 'fetch')
+        .returns(Promise.resolve({...new Response(), ok: true}));
     });
 
-    let getToken;
+    let getToken: sinon.SinonStub;
 
-    const makeToken = opt_accessToken => {
+    const makeToken = (opt_accessToken?: string) => {
       return {
         access_token: opt_accessToken || 'zbaz',
         expires_at: new Date(Date.now() + 10e8).getTime(),
@@ -217,29 +226,32 @@ suite('gr-auth', () => {
     setup(() => {
       getToken = sinon.stub();
       getToken.returns(Promise.resolve(makeToken()));
-      auth.setup(getToken);
+      const defaultOptions: DefaultAuthOptions = {
+        credentials: 'include',
+      };
+      auth.setup(getToken, defaultOptions);
     });
 
     test('base url support', async () => {
       const baseUrl = 'http://foo';
       stubBaseUrl(baseUrl);
-      await auth.fetch(baseUrl + '/url', {bar: 'bar'});
-      const [url] = fetch.lastCall.args;
+      await auth.fetch(baseUrl + '/url', {bar: 'bar'} as AuthRequestInit);
+      const [url] = fakeFetch.lastCall.args;
       assert.equal(url, 'http://foo/a/url?access_token=zbaz');
     });
 
     test('fetch not signed in', async () => {
       getToken.returns(Promise.resolve());
-      await auth.fetch('/url', {bar: 'bar'});
-      const [url, options] = fetch.lastCall.args;
+      await auth.fetch('/url', {bar: 'bar'} as AuthRequestInit);
+      const [url, options] = fakeFetch.lastCall.args;
       assert.equal(url, '/url');
       assert.equal(options.bar, 'bar');
       assert.equal(Object.keys(options.headers).length, 0);
     });
 
     test('fetch signed in', async () => {
-      await auth.fetch('/url', {bar: 'bar'});
-      const [url, options] = fetch.lastCall.args;
+      await auth.fetch('/url', {bar: 'bar'} as AuthRequestInit);
+      const [url, options] = fakeFetch.lastCall.args;
       assert.equal(url, '/a/url?access_token=zbaz');
       assert.equal(options.bar, 'bar');
     });
@@ -250,42 +262,47 @@ suite('gr-auth', () => {
     });
 
     test('getToken refreshes token', async () => {
-      sinon.stub(auth, '_isTokenValid');
-      auth._isTokenValid
-          .onFirstCall().returns(true)
-          .onSecondCall()
-          .returns(false)
-          .onThirdCall()
-          .returns(true);
+      const isTokenValidStub = sinon.stub(auth, '_isTokenValid');
+      isTokenValidStub
+        .onFirstCall()
+        .returns(true)
+        .onSecondCall()
+        .returns(false)
+        .onThirdCall()
+        .returns(true);
       await auth.fetch('/url-one');
       getToken.returns(Promise.resolve(makeToken('bzzbb')));
       await auth.fetch('/url-two');
 
-      const [[firstUrl], [secondUrl]] = fetch.args;
+      const [[firstUrl], [secondUrl]] = fakeFetch.args;
       assert.equal(firstUrl, '/a/url-one?access_token=zbaz');
       assert.equal(secondUrl, '/a/url-two?access_token=bzzbb');
     });
 
     test('signed in token error falls back to anonymous', async () => {
       getToken.returns(Promise.resolve('rubbish'));
-      await auth.fetch('/url', {bar: 'bar'});
-      const [url, options] = fetch.lastCall.args;
+      await auth.fetch('/url', {bar: 'bar'} as AuthRequestInit);
+      const [url, options] = fakeFetch.lastCall.args;
       assert.equal(url, '/url');
       assert.equal(options.bar, 'bar');
     });
 
     test('_isTokenValid', () => {
-      assert.isFalse(auth._isTokenValid());
+      assert.isFalse(auth._isTokenValid(null));
       assert.isFalse(auth._isTokenValid({}));
       assert.isFalse(auth._isTokenValid({access_token: 'foo'}));
-      assert.isFalse(auth._isTokenValid({
-        access_token: 'foo',
-        expires_at: Date.now()/1000 - 1,
-      }));
-      assert.isTrue(auth._isTokenValid({
-        access_token: 'foo',
-        expires_at: Date.now()/1000 + 1,
-      }));
+      assert.isFalse(
+        auth._isTokenValid({
+          access_token: 'foo',
+          expires_at: `${Date.now() / 1000 - 1}`,
+        })
+      );
+      assert.isTrue(
+        auth._isTokenValid({
+          access_token: 'foo',
+          expires_at: `${Date.now() / 1000 + 1}`,
+        })
+      );
     });
 
     test('HTTP PUT with content type', async () => {
@@ -295,7 +312,7 @@ suite('gr-auth', () => {
       };
       await auth.fetch('/url', originalOptions);
       assert.isTrue(getToken.called);
-      const [url, options] = fetch.lastCall.args;
+      const [url, options] = fakeFetch.lastCall.args;
       assert.include(url, '$ct=mail%2Fpigeon');
       assert.include(url, '$m=PUT');
       assert.include(url, 'access_token=zbaz');
@@ -309,7 +326,7 @@ suite('gr-auth', () => {
       };
       await auth.fetch('/url', originalOptions);
       assert.isTrue(getToken.called);
-      const [url, options] = fetch.lastCall.args;
+      const [url, options] = fakeFetch.lastCall.args;
       assert.include(url, '$ct=text%2Fplain');
       assert.include(url, '$m=PUT');
       assert.include(url, 'access_token=zbaz');
@@ -318,4 +335,3 @@ suite('gr-auth', () => {
     });
   });
 });
-

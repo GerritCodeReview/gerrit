@@ -16,6 +16,29 @@
       "message": "Thanks!",
       "revId": "df2b56cdb167b5ccafeb8d53413175325115512a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa9153c8_6f414ee1",
+        "filename": "polygerrit-ui/app/services/gr-auth/gr-auth_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-23T17:31:56Z",
+      "side": 1,
+      "message": "can you save this as a suite var `let fetchStub: sinon.SinonStub` instead of recasting from `window` every time?",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 0
+      },
+      "revId": "df2b56cdb167b5ccafeb8d53413175325115512a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

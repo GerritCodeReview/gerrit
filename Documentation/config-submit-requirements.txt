@@ -143,6 +143,14 @@ addition to that, submit requirements support extra operators.
 [[submit_requirements_operators]]
 === Submit Requirements Operators
 
+[[operator_authoremail]]
+authoremail:'EMAIL_PATTERN'::
++
+An operator that returns true if the change author's email address matches a
+specific regular expression pattern. The
+link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
+is used for the evaluation of such patterns.
+
 [[operator_is_true]]
 is:true::
 +

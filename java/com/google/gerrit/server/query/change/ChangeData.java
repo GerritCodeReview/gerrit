@@ -40,6 +40,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -228,6 +229,10 @@ public class ChangeData {
     }
   }
 
+  public interface IndexMaterializer {
+    void materialize(ChangeData cd, ListMultimap<String, ?> document);
+  }
+
   public static class Factory {
     private final AssistedFactory assistedFactory;
 
@@ -237,16 +242,29 @@ public class ChangeData {
     }
 
     public ChangeData create(Project.NameKey project, Change.Id id) {
-      return assistedFactory.create(project, id, null, null);
+      return assistedFactory.create(project, id, null, null, null, null);
     }
 
     public ChangeData create(Change change) {
-      return assistedFactory.create(change.getProject(), change.getId(), change, null);
+      return assistedFactory.create(change.getProject(), change.getId(), change, null, null, null);
     }
 
     public ChangeData create(ChangeNotes notes) {
       return assistedFactory.create(
-          notes.getChange().getProject(), notes.getChangeId(), notes.getChange(), notes);
+          notes.getChange().getProject(),
+          notes.getChangeId(),
+          notes.getChange(),
+          notes,
+          null,
+          null);
+    }
+
+    public ChangeData create(
+        Project.NameKey project,
+        Change.Id id,
+        ListMultimap<String, ?> document,
+        IndexMaterializer materializer) {
+      return assistedFactory.create(project, id, null, null, document, materializer);
     }
   }
 
@@ -255,7 +273,9 @@ public class ChangeData {
         Project.NameKey project,
         Change.Id id,
         @Nullable Change change,
-        @Nullable ChangeNotes notes);
+        @Nullable ChangeNotes notes,
+        @Nullable ListMultimap<String, ?> document,
+        @Nullable IndexMaterializer materializer);
   }
 
   /**
@@ -272,7 +292,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, project, id, null, null);
+            null, null, null, project, id, null, null, null, null);
     cd.currentPatchSet =
         PatchSet.builder()
             .id(PatchSet.id(id, currentPatchSetId))
@@ -363,6 +383,12 @@ public class ChangeData {
   private Optional<Timestamp> mergedOn;
   private ImmutableSetMultimap<NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
+  private BranchNameKey changeDest;
+  private Boolean privateFlag;
+  private boolean materialized;
+
+  private final ListMultimap<String, ?> document;
+  private final IndexMaterializer materializer;
 
   @Inject
   private ChangeData(
@@ -386,7 +412,9 @@ public class ChangeData {
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
       @Assisted @Nullable Change change,
-      @Assisted @Nullable ChangeNotes notes) {
+      @Assisted @Nullable ChangeNotes notes,
+      @Assisted @Nullable ListMultimap<String, ?> document,
+      @Assisted @Nullable IndexMaterializer materializer) {
     this.approvalsUtil = approvalsUtil;
     this.allUsersName = allUsersName;
     this.cmUtil = cmUtil;
@@ -410,6 +438,9 @@ public class ChangeData {
 
     this.change = change;
     this.notes = notes;
+    this.document = document;
+    this.materializer = materializer;
+    this.materialized = materializer == null;
   }
 
   /**
@@ -443,6 +474,8 @@ public class ChangeData {
   }
 
   public List<String> currentFilePaths() {
+    materializeIfNeeded();
+
     if (currentFiles == null) {
       if (!lazyload()) {
         return Collections.emptyList();
@@ -454,6 +487,8 @@ public class ChangeData {
   }
 
   private Optional<DiffSummary> getDiffSummary() {
+    materializeIfNeeded();
+
     if (diffSummary == null) {
       if (!lazyload()) {
         return Optional.empty();
@@ -485,6 +520,8 @@ public class ChangeData {
   }
 
   public Optional<ChangedLines> changedLines() {
+    materializeIfNeeded();
+
     if (changedLines == null) {
       if (!lazyload()) {
         return Optional.empty();
@@ -539,6 +576,11 @@ public class ChangeData {
   }
 
   public Change change() {
+    if (change != null) {
+      return change;
+    }
+
+    materializeIfNeeded();
     if (change == null && lazyload()) {
       reloadChange();
     }
@@ -561,6 +603,8 @@ public class ChangeData {
   }
 
   public LabelTypes getLabelTypes() {
+    materializeIfNeeded();
+
     if (labelTypes == null) {
       ProjectState state = projectCache.get(project()).orElseThrow(illegalState(project()));
       labelTypes = state.getLabelTypes(change().getDest());
@@ -569,6 +613,8 @@ public class ChangeData {
   }
 
   public ChangeNotes notes() {
+    materializeIfNeeded();
+
     if (notes == null) {
       if (!lazyload()) {
         throw new StorageException("ChangeNotes not available, lazyLoad = false");
@@ -579,6 +625,8 @@ public class ChangeData {
   }
 
   public PatchSet currentPatchSet() {
+    materializeIfNeeded();
+
     if (currentPatchSet == null) {
       Change c = change();
       if (c == null) {
@@ -595,6 +643,8 @@ public class ChangeData {
   }
 
   public List<PatchSetApproval> currentApprovals() {
+    materializeIfNeeded();
+
     if (currentApprovals == null) {
       if (!lazyload()) {
         return Collections.emptyList();
@@ -623,6 +673,8 @@ public class ChangeData {
   }
 
   public String commitMessage() {
+    materializeIfNeeded();
+
     if (commitMessage == null) {
       if (!loadCommitData()) {
         return null;
@@ -633,6 +685,8 @@ public class ChangeData {
 
   /** Returns the list of commit footers (which may be empty). */
   public List<FooterLine> commitFooters() {
+    materializeIfNeeded();
+
     if (commitFooters == null) {
       if (!loadCommitData()) {
         return ImmutableList.of();
@@ -642,10 +696,14 @@ public class ChangeData {
   }
 
   public ListMultimap<String, String> trackingFooters() {
+    materializeIfNeeded();
+
     return trackingFooters.extract(commitFooters());
   }
 
   public PersonIdent getAuthor() {
+    materializeIfNeeded();
+
     if (author == null) {
       if (!loadCommitData()) {
         return null;
@@ -655,6 +713,8 @@ public class ChangeData {
   }
 
   public PersonIdent getCommitter() {
+    materializeIfNeeded();
+
     if (committer == null) {
       if (!loadCommitData()) {
         return null;
@@ -664,6 +724,8 @@ public class ChangeData {
   }
 
   private boolean loadCommitData() {
+    materializeIfNeeded();
+
     PatchSet ps = currentPatchSet();
     if (ps == null) {
       return false;
@@ -688,6 +750,8 @@ public class ChangeData {
 
   /** Returns the most recent update (i.e. status) per user. */
   public ImmutableSet<AttentionSetUpdate> attentionSet() {
+    materializeIfNeeded();
+
     if (attentionSet == null) {
       if (!lazyload()) {
         return ImmutableSet.of();
@@ -708,6 +772,8 @@ public class ChangeData {
    *     because we do not expect to call the database.
    */
   public Optional<Timestamp> getMergedOn() throws StorageException {
+    materializeIfNeeded();
+
     if (mergedOn == null) {
       // The value was not loaded yet, try to get from the database.
       mergedOn = notes().getMergedOn();
@@ -737,6 +803,8 @@ public class ChangeData {
 
   /** Returns patches for the change, in patch set ID order. */
   public Collection<PatchSet> patchSets() {
+    materializeIfNeeded();
+
     if (patchSets == null) {
       patchSets = psUtil.byChange(notes());
     }
@@ -766,6 +834,8 @@ public class ChangeData {
    * patch set.
    */
   public ListMultimap<PatchSet.Id, PatchSetApproval> approvals() {
+    materializeIfNeeded();
+
     if (allApprovals == null) {
       if (!lazyload()) {
         return ImmutableListMultimap.of();
@@ -783,6 +853,8 @@ public class ChangeData {
   }
 
   public ReviewerSet reviewers() {
+    materializeIfNeeded();
+
     if (reviewers == null) {
       if (!lazyload()) {
         // We are not allowed to load values from NoteDb. Reviewers were not populated with values
@@ -799,6 +871,8 @@ public class ChangeData {
   }
 
   public ReviewerByEmailSet reviewersByEmail() {
+    materializeIfNeeded();
+
     if (reviewersByEmail == null) {
       if (!lazyload()) {
         return ReviewerByEmailSet.empty();
@@ -813,6 +887,8 @@ public class ChangeData {
   }
 
   public ReviewerByEmailSet getReviewersByEmail() {
+    materializeIfNeeded();
+
     return reviewersByEmail;
   }
 
@@ -821,10 +897,14 @@ public class ChangeData {
   }
 
   public ReviewerSet getPendingReviewers() {
+    materializeIfNeeded();
+
     return this.pendingReviewers;
   }
 
   public ReviewerSet pendingReviewers() {
+    materializeIfNeeded();
+
     if (pendingReviewers == null) {
       if (!lazyload()) {
         return ReviewerSet.empty();
@@ -839,10 +919,14 @@ public class ChangeData {
   }
 
   public ReviewerByEmailSet getPendingReviewersByEmail() {
+    materializeIfNeeded();
+
     return pendingReviewersByEmail;
   }
 
   public ReviewerByEmailSet pendingReviewersByEmail() {
+    materializeIfNeeded();
+
     if (pendingReviewersByEmail == null) {
       if (!lazyload()) {
         return ReviewerByEmailSet.empty();
@@ -853,6 +937,8 @@ public class ChangeData {
   }
 
   public List<ReviewerStatusUpdate> reviewerUpdates() {
+    materializeIfNeeded();
+
     if (reviewerUpdates == null) {
       if (!lazyload()) {
         return Collections.emptyList();
@@ -867,10 +953,14 @@ public class ChangeData {
   }
 
   public List<ReviewerStatusUpdate> getReviewerUpdates() {
+    materializeIfNeeded();
+
     return reviewerUpdates;
   }
 
   public Collection<HumanComment> publishedComments() {
+    materializeIfNeeded();
+
     if (publishedComments == null) {
       if (!lazyload()) {
         return Collections.emptyList();
@@ -881,6 +971,8 @@ public class ChangeData {
   }
 
   public Collection<RobotComment> robotComments() {
+    materializeIfNeeded();
+
     if (robotComments == null) {
       if (!lazyload()) {
         return Collections.emptyList();
@@ -891,6 +983,8 @@ public class ChangeData {
   }
 
   public Integer unresolvedCommentCount() {
+    materializeIfNeeded();
+
     if (unresolvedCommentCount == null) {
       if (!lazyload()) {
         return null;
@@ -913,6 +1007,8 @@ public class ChangeData {
   }
 
   public Integer totalCommentCount() {
+    materializeIfNeeded();
+
     if (totalCommentCount == null) {
       if (!lazyload()) {
         return null;
@@ -930,6 +1026,8 @@ public class ChangeData {
   }
 
   public List<ChangeMessage> messages() {
+    materializeIfNeeded();
+
     if (messages == null) {
       if (!lazyload()) {
         return Collections.emptyList();
@@ -948,6 +1046,8 @@ public class ChangeData {
    * com.google.gerrit.server.index.change.ChangeField#STORED_SUBMIT_REQUIREMENTS}.
    */
   public Map<SubmitRequirement, SubmitRequirementResult> submitRequirements() {
+    materializeIfNeeded();
+
     if (!experimentFeatures.isFeatureEnabled(
         ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)) {
       return Collections.emptyMap();
@@ -991,6 +1091,8 @@ public class ChangeData {
   }
 
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
+    materializeIfNeeded();
+
     // If the change is not submitted yet, 'strict' and 'lenient' both have the same result. If the
     // change is submitted, SubmitRecord requested with 'strict' will contain just a single entry
     // that with status=CLOSED. The latter is cheap to evaluate as we don't have to run any actual
@@ -1025,6 +1127,8 @@ public class ChangeData {
   }
 
   public SubmitTypeRecord submitTypeRecord() {
+    materializeIfNeeded();
+
     if (submitTypeRecord == null) {
       submitTypeRecord =
           submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults()).getSubmitType(this);
@@ -1038,6 +1142,8 @@ public class ChangeData {
 
   @Nullable
   public Boolean isMergeable() {
+    materializeIfNeeded();
+
     if (mergeable == null) {
       Change c = change();
       if (c == null) {
@@ -1082,6 +1188,8 @@ public class ChangeData {
 
   @Nullable
   public Boolean isMerge() {
+    materializeIfNeeded();
+
     if (parentCount == null) {
       if (!loadCommitData()) {
         return null;
@@ -1091,10 +1199,14 @@ public class ChangeData {
   }
 
   public Set<Account.Id> editsByUser() {
+    materializeIfNeeded();
+
     return editRefs().rowKeySet();
   }
 
   public Table<Account.Id, PatchSet.Id, ObjectId> editRefs() {
+    materializeIfNeeded();
+
     if (editsByUser == null) {
       if (!lazyload()) {
         return HashBasedTable.create();
@@ -1126,14 +1238,20 @@ public class ChangeData {
   }
 
   public Set<Account.Id> draftsByUser() {
+    materializeIfNeeded();
+
     return draftRefs().keySet();
   }
 
   public boolean isReviewedBy(Account.Id accountId) {
+    materializeIfNeeded();
+
     return reviewedBy().contains(accountId);
   }
 
   public Set<Account.Id> reviewedBy() {
+    materializeIfNeeded();
+
     if (reviewedBy == null) {
       if (!lazyload()) {
         return Collections.emptySet();
@@ -1166,6 +1284,8 @@ public class ChangeData {
   }
 
   public Set<String> hashtags() {
+    materializeIfNeeded();
+
     if (hashtags == null) {
       if (!lazyload()) {
         return Collections.emptySet();
@@ -1180,6 +1300,8 @@ public class ChangeData {
   }
 
   public ImmutableListMultimap<Account.Id, String> stars() {
+    materializeIfNeeded();
+
     if (stars == null) {
       if (!lazyload()) {
         return ImmutableListMultimap.of();
@@ -1208,6 +1330,8 @@ public class ChangeData {
   }
 
   public Set<String> stars(Account.Id accountId) {
+    materializeIfNeeded();
+
     if (starsOf != null) {
       if (!starsOf.accountId().equals(accountId)) {
         starsOf = null;
@@ -1232,6 +1356,8 @@ public class ChangeData {
    */
   @Nullable
   public Boolean isPureRevert() {
+    materializeIfNeeded();
+
     if (change().getRevertOf() == null) {
       return null;
     }
@@ -1264,6 +1390,8 @@ public class ChangeData {
   }
 
   public SetMultimap<NameKey, RefState> getRefStates() {
+    materializeIfNeeded();
+
     if (refStates == null) {
       if (!lazyload()) {
         return ImmutableSetMultimap.of();
@@ -1333,11 +1461,34 @@ public class ChangeData {
   }
 
   public ImmutableList<byte[]> getRefStatePatterns() {
+    materializeIfNeeded();
     return refStatePatterns;
   }
 
   public void setRefStatePatterns(Iterable<byte[]> refStatePatterns) {
     this.refStatePatterns = ImmutableList.copyOf(refStatePatterns);
+  }
+
+  public BranchNameKey getChangeDest() {
+    if (changeDest == null) {
+      changeDest = change().getDest();
+    }
+    return changeDest;
+  }
+
+  public void setChangeDest(BranchNameKey changeDest) {
+    this.changeDest = changeDest;
+  }
+
+  public boolean isPrivate() {
+    if (privateFlag == null) {
+      privateFlag = Boolean.valueOf(change().isPrivate());
+    }
+    return privateFlag;
+  }
+
+  public void setPrivate(boolean privateFlag) {
+    this.privateFlag = privateFlag;
   }
 
   @AutoValue
@@ -1360,6 +1511,13 @@ public class ChangeData {
     public abstract Account.Id accountId();
 
     public abstract ImmutableSortedSet<String> stars();
+  }
+
+  private void materializeIfNeeded() {
+    if (!materialized) {
+      materializer.materialize(this, document);
+      materialized = true;
+    }
   }
 
   private Map<Account.Id, ObjectId> draftRefs() {

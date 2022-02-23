@@ -114,7 +114,7 @@ class ProjectControl {
   }
 
   ChangeControl controlFor(ChangeData cd) {
-    return new ChangeControl(controlForRef(cd.change().getDest()), cd);
+    return new ChangeControl(controlForRef(cd.getChangeDest()), cd);
   }
 
   RefControl controlForRef(BranchNameKey ref) {

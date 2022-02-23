@@ -46,6 +46,30 @@
       },
       "revId": "ed2767c76661f82a29dcf6b6020f47326b89f735",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "105d50f4_646a4702",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T10:07:34Z",
+      "side": 1,
+      "message": "Absolutely! We have a TODO on `GrDiffThreadElement` and I am happy to address that before completing my effort on gr-diff.",
+      "parentUuid": "58b0e1cf_1c35b0c1",
+      "range": {
+        "startLine": 149,
+        "startChar": 41,
+        "endLine": 149,
+        "endChar": 50
+      },
+      "revId": "ed2767c76661f82a29dcf6b6020f47326b89f735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

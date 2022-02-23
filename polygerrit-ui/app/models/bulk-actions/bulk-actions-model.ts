@@ -14,6 +14,8 @@ import {
   listChangesOptionsToHex,
   ListChangesOption,
 } from '../../utils/change-util';
+import {combineLatest} from 'rxjs';
+import {ProgressStatus} from '../../constants/constants';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -26,11 +28,13 @@ export enum LoadingState {
 export interface BulkActionsState {
   loadingState: LoadingState;
   selectedChangeNums: NumericChangeId[];
+  progress: Map<NumericChangeId, ProgressStatus>;
 }
 
 const initialState: BulkActionsState = {
   loadingState: LoadingState.NOT_SYNCED,
   selectedChangeNums: [],
+  progress: new Map(),
 };
 
 export class BulkActionsModel
@@ -53,6 +57,23 @@ export class BulkActionsModel
   public readonly loadingState$ = select(
     this.state$,
     bulkActionsState => bulkActionsState.loadingState
+  );
+
+  public readonly progress$ = select(
+    this.state$,
+    bulkActionsState => bulkActionsState.progress
+  );
+
+  public readonly abandonable$ = select(
+    combineLatest([this.selectedChangeNums$, this.loadingState$]),
+    ([selectedChangeNums, loadingState]) => {
+      if (loadingState !== LoadingState.LOADED) return false;
+      return selectedChangeNums.every(selectedChangeNum => {
+        const change = this.allChanges.get(selectedChangeNum);
+        if (!change) throw new Error('invalid changeId in model');
+        return !!change.actions!.abandon;
+      });
+    }
   );
 
   addSelectedChangeNum(changeNum: NumericChangeId) {
@@ -79,6 +100,42 @@ export class BulkActionsModel
     if (index === -1) return;
     selectedChangeNums.splice(index, 1);
     this.setState({...current, selectedChangeNums});
+  }
+
+  async abandonChanges(reason?: string) {
+    const current = this.subject$.getValue();
+    const selectedChangeNums = [...current.selectedChangeNums];
+    const progress = new Map();
+    selectedChangeNums.forEach(id => progress.set(id, ProgressStatus.RUNNING));
+    this.setState({...current, progress});
+    return Promise.all(
+      selectedChangeNums.map(changeId => {
+        if (!this.allChanges.get(changeId))
+          throw new Error('invalid change id');
+        const change = this.allChanges.get(changeId)!;
+        const errFn = () => {
+          const current = this.subject$.getValue();
+          const progress = new Map(current.progress);
+          progress.set(changeId, ProgressStatus.FAILED);
+          this.setState({...current, progress});
+        };
+        return this.restApiService
+          .executeChangeAction(
+            change._number,
+            change.actions!.abandon!.method,
+            '/abandon',
+            undefined,
+            {message: reason ?? ''},
+            errFn
+          )
+          .then(() => {
+            const current = this.subject$.getValue();
+            const progress = new Map(current.progress);
+            progress.set(changeId, ProgressStatus.SUCCESSFUL);
+            this.setState({...current, progress});
+          });
+      })
+    );
   }
 
   async sync(changes: ChangeInfo[]) {

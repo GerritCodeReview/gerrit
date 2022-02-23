@@ -16,6 +16,24 @@
       "message": "Please factor out this logic that generates this string and reuse it for line 67",
       "revId": "cb5432e8bcaefd4c437f514be94531524de860f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b1de1ab_3501ff43",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-23T18:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16f68fdd_894230d8",
+      "revId": "cb5432e8bcaefd4c437f514be94531524de860f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

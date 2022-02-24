@@ -27,28 +27,28 @@ export const htmlTemplate = html`
     :host(.expanded) {
       cursor: auto;
     }
-    .collapsed .contentContainer {
+    .collapsed .contentText {
       align-items: center;
       color: var(--deemphasized-text-color);
       display: flex;
       white-space: nowrap;
     }
-    .contentContainer {
+    .contentText {
       padding: var(--spacing-m) var(--spacing-l);
     }
-    .expanded .contentContainer {
+    .expanded .contentText {
       background-color: var(--background-color-secondary);
     }
-    .collapsed .contentContainer {
+    .collapsed .contentText {
       background-color: var(--background-color-primary);
     }
-    div.serviceUser.expanded div.contentContainer {
+    div.serviceUser.expanded div.contentText {
       background-color: var(
         --background-color-service-user,
         var(--background-color-secondary)
       );
     }
-    div.serviceUser.collapsed div.contentContainer {
+    div.serviceUser.collapsed div.contentText {
       background-color: var(
         --background-color-service-user,
         var(--background-color-primary)
@@ -119,7 +119,7 @@ export const htmlTemplate = html`
     }
     .dateContainer {
       position: absolute;
-      /* right and top values should match .contentContainer padding */
+      /* right and top values should match .contentText padding */
       right: var(--spacing-l);
       top: var(--spacing-m);
     }

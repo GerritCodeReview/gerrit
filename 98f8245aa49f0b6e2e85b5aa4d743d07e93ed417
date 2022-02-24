@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3cd2dbc_531e0a86",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-24T08:45:21Z",
+      "side": 1,
+      "message": "The diff is confusing, but this change really only removes the two lines:\n\n`\u003cgr-external-style id\u003d\"externalStyle\" name\u003d\"change-metadata\"\u003e`\n\nand\n\n`\u003c/gr-external-style\u003e`\n\nEverything else is just re-formatting due to indentation changes.",
+      "revId": "98f8245aa49f0b6e2e85b5aa4d743d07e93ed417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -567,6 +567,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
 
       if (side) {
         contentText.setAttribute('data-side', side);
+        contentText.classList.add(side);
         const number = side === Side.LEFT ? beforeNumber : afterNumber;
         this._addLineNumberMouseEvents(td, number, side);
       }

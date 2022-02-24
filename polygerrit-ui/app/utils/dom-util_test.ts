@@ -145,7 +145,7 @@ suite('dom-util tests', () => {
       MockInteractions.click(aLink);
       assert.equal(
         path,
-        `html>body>test-fixture#${basicFixture.fixtureId}>` +
+        `html.lightTheme>body>test-fixture#${basicFixture.fixtureId}>` +
           'div#test.a.b.c>a.testBtn'
       );
     });

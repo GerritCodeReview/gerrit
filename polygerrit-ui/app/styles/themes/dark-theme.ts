@@ -5,6 +5,10 @@
  */
 import {render, css} from 'lit';
 
+// TODO: Replace `html` with `html.darkTheme`. But before we can do that we have
+// to ensure that all plugins also use `.darkTheme`, otherwise we would trump
+// their sepcificity here. When we do that we can also always execute
+// applyTheme() below (similar to app-theme).
 const darkThemeCss = css`
   html {
     /**

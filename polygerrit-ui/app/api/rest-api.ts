@@ -644,6 +644,7 @@ export declare interface GerritInfo {
   report_bug_url?: string;
   // The following property is missed in doc
   primary_weblink_name?: string;
+  instance_id?: string;
 }
 
 export type GitRef = BrandType<string, '_gitRef'>;

@@ -16,7 +16,8 @@ export class GrPluginHost extends LitElement {
   _configChanged(config: ServerInfo) {
     const jsPlugins = config.plugin?.js_resource_paths ?? [];
     const themes: string[] = config.default_theme ? [config.default_theme] : [];
-    getPluginLoader().loadPlugins([...themes, ...jsPlugins]);
+    const instanceId = config.gerrit?.instance_id;
+    getPluginLoader().loadPlugins([...themes, ...jsPlugins], instanceId);
   }
 
   override updated(changedProperties: PropertyValues<GrPluginHost>) {

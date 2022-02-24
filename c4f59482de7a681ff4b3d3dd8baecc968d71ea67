@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "40267851_d4865f92",
+        "filename": "java/com/google/gerrit/server/query/change/DistinctVotersPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-24T10:55:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "565e0d98_0cf35c88",
+      "revId": "c4f59482de7a681ff4b3d3dd8baecc968d71ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bea71b34_23c8b562",
         "filename": "java/com/google/gerrit/server/query/change/DistinctVotersPredicate.java",
         "patchSetId": 1
@@ -48,6 +66,30 @@
       "writtenOn": "2022-02-24T10:30:10Z",
       "side": 1,
       "message": "optional: this could be supplied with assisted inject.",
+      "range": {
+        "startLine": 50,
+        "startChar": 47,
+        "endLine": 50,
+        "endChar": 72
+      },
+      "revId": "c4f59482de7a681ff4b3d3dd8baecc968d71ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71553d99_f09dcf27",
+        "filename": "java/com/google/gerrit/server/query/change/DistinctVotersPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-24T10:55:22Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "bea71b34_23c8b562",
       "range": {
         "startLine": 50,
         "startChar": 47,
@@ -71,6 +113,24 @@
       "writtenOn": "2022-02-24T10:30:10Z",
       "side": 1,
       "message": "It\u0027s better to compare labels ignoring case IMO, also in L58 we can map all label names to lower.",
+      "revId": "c4f59482de7a681ff4b3d3dd8baecc968d71ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5558fd6c_dc909aac",
+        "filename": "java/com/google/gerrit/server/query/change/DistinctVotersPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-24T10:55:22Z",
+      "side": 1,
+      "message": "Did we document that we ignore casing for labels and does that have sufficient test coverage? If not, I\u0027d rather respect casing here.",
+      "parentUuid": "63c83aad_49ef404a",
       "revId": "c4f59482de7a681ff4b3d3dd8baecc968d71ea67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -91,7 +91,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
         SubmitRequirementsAdapter.getLegacyRequirements(cd);
     return submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
-        projectConfigRequirements, legacyReqs, cd.project());
+        projectConfigRequirements, legacyReqs, cd.change());
   }
 
   @Override

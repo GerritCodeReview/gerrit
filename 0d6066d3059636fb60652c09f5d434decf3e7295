@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t the license stay the same?",
       "revId": "0d6066d3059636fb60652c09f5d434decf3e7295",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a393f453_7ec6c015",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-24T20:39:05Z",
+      "side": 1,
+      "message": "It is the same license, just presented differently. This is the new format that we want to be using for new files, and we can also use them for older files, if we want to. Depends on whether you want to spend the time on replacing them or not. Personally, I like \"short\" very much, so that is why you will probably see me replacing those licenses here and there. :-)",
+      "parentUuid": "eb3a58f8_8c098ec6",
+      "revId": "0d6066d3059636fb60652c09f5d434decf3e7295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

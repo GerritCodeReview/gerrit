@@ -23,19 +23,15 @@ import {
   stubFlags,
 } from '../../../test/test-utils';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
-import {columnNames} from '../gr-change-list/gr-change-list';
+import {columnNames, ChangeListSection} from '../gr-change-list/gr-change-list';
+import {fixture, html} from '@open-wc/testing-helpers';
 
-const basicFixture = fixtureFromElement('gr-change-list-section');
 
 suite('gr-change-list section', () => {
   let element: GrChangeListSection;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    element.account = createAccountDetailWithId(1);
-    element.config = createServerInfo();
-    element.visibleChangeTableColumns = columnNames;
-    element.changeSection = {
+    const changeSection: ChangeListSection = {
       name: 'test',
       query: 'test',
       results: [
@@ -52,7 +48,15 @@ suite('gr-change-list section', () => {
       ],
       emptyStateSlotName: 'test',
     };
-    await element.updateComplete;
+    element = await fixture<GrChangeListSection>(
+      html`<gr-change-list-section
+        .account=${createAccountDetailWithId(1)}
+        .config=${createServerInfo()}
+        .visibleChangeTableColumns=${columnNames}
+        .changeSection=${changeSection}
+      ></gr-change-list-section>
+      `
+    );
   });
 
   test('selection checkbox is only shown if experiment is enabled', async () => {
@@ -188,8 +192,9 @@ suite('gr-change-list section', () => {
 suite('dashboard queries', () => {
   let element: GrChangeListSection;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture<GrChangeListSection>(
+      html`<gr-change-list-section></gr-change-list-section>`);
   });
 
   teardown(() => {

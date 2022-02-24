@@ -117,7 +117,7 @@ export class GrChangeListSection extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('changeSection')) {
+    if (changedProperties.has('changeSection') && this.changeSection) {
       // In case the list of changes is updated due to auto reloading, we want
       // to ensure the model removes any stale change that is not a part of the
       // new section changes.
@@ -134,7 +134,7 @@ export class GrChangeListSection extends LitElement {
         ${this.isEmpty()
           ? this.renderNoChangesRow(colSpan)
           : this.renderColumnHeaders(columns)}
-        ${this.changeSection.results.map((change, index) =>
+        ${(this.changeSection?.results ?? []).map((change, index) =>
           this.renderChangeRow(change, index, columns)
         )}
       </tbody>
@@ -151,7 +151,7 @@ export class GrChangeListSection extends LitElement {
           ?hidden=${!this.showStar}
         ></td>
         <td class="cell" colspan="${colSpan}">
-          ${this.changeSection!.emptyStateSlotName
+          ${this.changeSection?.emptyStateSlotName
             ? html`<slot
                 name="${this.changeSection!.emptyStateSlotName}"
               ></slot>`
@@ -163,7 +163,7 @@ export class GrChangeListSection extends LitElement {
 
   private renderSectionHeader(colSpan: number) {
     if (
-      this.changeSection.name === undefined ||
+      this.changeSection?.name === undefined ||
       this.changeSection.countLabel === undefined ||
       this.changeSection.query === undefined
     )
@@ -315,7 +315,7 @@ export class GrChangeListSection extends LitElement {
 
   // private but used in test
   isEmpty() {
-    return !this.changeSection.results?.length;
+    return !this.changeSection?.results?.length;
   }
 
   private computeAriaLabel(change?: ChangeInfo) {

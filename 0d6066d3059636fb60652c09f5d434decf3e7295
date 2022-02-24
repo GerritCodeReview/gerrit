@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb3a58f8_8c098ec6",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-02-24T19:36:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the license stay the same?",
+      "revId": "0d6066d3059636fb60652c09f5d434decf3e7295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

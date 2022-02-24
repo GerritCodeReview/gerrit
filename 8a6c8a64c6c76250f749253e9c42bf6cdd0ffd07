@@ -16,6 +16,24 @@
       "message": "Thank you for fixing. Just noticed the report on our triage queue.\n\nCan we also add another test where we set WIP\u003dtrue?",
       "revId": "8a6c8a64c6c76250f749253e9c42bf6cdd0ffd07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93b2d8a0_f6c22796",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-24T14:58:43Z",
+      "side": 1,
+      "message": "Sure. Done.",
+      "parentUuid": "9614b5c5_1f51a366",
+      "revId": "8a6c8a64c6c76250f749253e9c42bf6cdd0ffd07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

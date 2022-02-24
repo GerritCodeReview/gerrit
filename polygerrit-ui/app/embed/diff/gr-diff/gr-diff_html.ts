@@ -159,10 +159,29 @@ export const htmlTemplate = html`
     }
     .diff-row.target-row.target-side-left .lineNumButton.left,
     .diff-row.target-row.target-side-right .lineNumButton.right,
+    .diff-row.target-row.target-side-left .contentText.left,
+    .diff-row.target-row.target-side-right .contentText.right,
     .diff-row.target-row.unified .lineNumButton {
       background-color: var(--diff-selection-background-color);
       color: var(--primary-text-color);
     }
+
+    .diff-row.target-row.target-side-left .lineNumButton.left,
+    .diff-row.target-row.target-side-right .lineNumButton.right{
+      box-shadow: 
+       inset 0 1px 0 0 var(--outline-color-focus), /* Border bottom */
+       inset 0 -1px 0 0 var(--outline-color-focus), /* Border top */
+       inset 1px 0 0 0 var(--outline-color-focus); /* Border left */
+    }
+
+    .diff-row.target-row.target-side-left .contentText.left,
+    .diff-row.target-row.target-side-right .contentText.right{
+      box-shadow: 
+        inset -1px 0 0 0 var(--outline-color-focus), /* Border right */
+        inset 0 1px 0 0 var(--outline-color-focus), /* Border bottom */
+        inset 0 -1px 0 0 var(--outline-color-focus); /* Border top */
+    }
+
     .content {
       background-color: var(--diff-blank-background-color);
     }

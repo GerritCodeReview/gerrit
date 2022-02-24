@@ -1,43 +1,21 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
+import {render, css} from 'lit';
 
-// Mark the file as a module. Otherwise typescript assumes this is a script
-// and $_documentContainer is a global variable.
-// See: https://www.typescriptlang.org/docs/handbook/modules.html
-import {
-  createStyle,
-  safeStyleSheet,
-  setInnerHtml,
-} from '../../utils/inner-html-util';
-
-const customStyle = document.createElement('custom-style');
-customStyle.setAttribute('id', 'light-theme');
-
-const styleSheet = safeStyleSheet`
+const appThemeCss = css`
   html {
     /**
-     * When adding a new color variable make sure to also add it to the other
-     * theme files in the same directory.
-     *
-     * For colors prefer lower case hex colors.
-     *
-     * Note that plugins might be using these variables, so removing a variable
-     * can be a breaking change that should go into the release notes.
-     */
+       * When adding a new color variable make sure to also add it to the other
+       * theme files in the same directory.
+       *
+       * For colors prefer lower case hex colors.
+       *
+       * Note that plugins might be using these variables, so removing a variable
+       * can be a breaking change that should go into the release notes.
+       */
 
     /* color palette */
     --gerrit-blue-light: #1565c0;
@@ -130,20 +108,44 @@ const styleSheet = safeStyleSheet`
 
     --error-foreground: var(--red-700);
     --error-background: var(--red-50);
-    --error-background-hover: linear-gradient(var(--red-700-04), var(--red-700-04)), var(--red-50);
-    --error-background-focus: linear-gradient(var(--red-700-12), var(--red-700-12)), var(--red-50);
+    --error-background-hover: linear-gradient(
+        var(--red-700-04),
+        var(--red-700-04)
+      ),
+      var(--red-50);
+    --error-background-focus: linear-gradient(
+        var(--red-700-12),
+        var(--red-700-12)
+      ),
+      var(--red-50);
     --error-ripple: var(--red-700-10);
 
     --warning-foreground: var(--orange-700);
     --warning-background: var(--orange-50);
-    --warning-background-hover: linear-gradient(var(--orange-700-04), var(--orange-700-04)), var(--orange-50);
-    --warning-background-focus: linear-gradient(var(--orange-700-12), var(--orange-700-12)), var(--orange-50);
+    --warning-background-hover: linear-gradient(
+        var(--orange-700-04),
+        var(--orange-700-04)
+      ),
+      var(--orange-50);
+    --warning-background-focus: linear-gradient(
+        var(--orange-700-12),
+        var(--orange-700-12)
+      ),
+      var(--orange-50);
     --warning-ripple: var(--orange-700-10);
 
     --info-foreground: var(--blue-700);
     --info-background: var(--blue-50);
-    --info-background-hover: linear-gradient(var(--blue-700-04), var(--blue-700-04)), var(--blue-50);
-    --info-background-focus: linear-gradient(var(--blue-700-12), var(--blue-700-12)), var(--blue-50);
+    --info-background-hover: linear-gradient(
+        var(--blue-700-04),
+        var(--blue-700-04)
+      ),
+      var(--blue-50);
+    --info-background-focus: linear-gradient(
+        var(--blue-700-12),
+        var(--blue-700-12)
+      ),
+      var(--blue-50);
     --info-ripple: var(--blue-700-10);
 
     --primary-button-text-color: white;
@@ -156,14 +158,30 @@ const styleSheet = safeStyleSheet`
 
     --success-foreground: var(--green-700);
     --success-background: var(--green-50);
-    --success-background-hover: linear-gradient(var(--green-700-04), var(--green-700-04)), var(--green-50);
-    --success-background-focus: linear-gradient(var(--green-700-12), var(--green-700-12)), var(--green-50);
+    --success-background-hover: linear-gradient(
+        var(--green-700-04),
+        var(--green-700-04)
+      ),
+      var(--green-50);
+    --success-background-focus: linear-gradient(
+        var(--green-700-12),
+        var(--green-700-12)
+      ),
+      var(--green-50);
     --success-ripple: var(--green-700-10);
 
     --gray-foreground: var(--gray-700);
     --gray-background: var(--gray-100);
-    --gray-background-hover: linear-gradient(var(--gray-700-04), var(--gray-700-04)), var(--gray-100);
-    --gray-background-focus: linear-gradient(var(--gray-700-12), var(--gray-700-12)), var(--gray-100);
+    --gray-background-hover: linear-gradient(
+        var(--gray-700-04),
+        var(--gray-700-04)
+      ),
+      var(--gray-100);
+    --gray-background-focus: linear-gradient(
+        var(--gray-700-12),
+        var(--gray-700-12)
+      ),
+      var(--gray-100);
     --gray-ripple: var(--gray-700-10);
 
     --disabled-foreground: var(--gray-800-38);
@@ -211,7 +229,9 @@ const styleSheet = safeStyleSheet`
     --expanded-background-color: var(--background-color-tertiary);
     --select-background-color: var(--background-color-secondary);
     --shell-command-background-color: var(--background-color-secondary);
-    --shell-command-decoration-background-color: var(--background-color-tertiary);
+    --shell-command-decoration-background-color: var(
+      --background-color-tertiary
+    );
     --table-header-background-color: var(--background-color-secondary);
     --table-subheader-background-color: var(--background-color-tertiary);
     --view-background-color: var(--background-color-primary);
@@ -292,30 +312,37 @@ const styleSheet = safeStyleSheet`
     --file-status-unchanged: var(--gray-300);
 
     /* fonts */
-    --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-    --header-font-family: 'Open Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-    --monospace-font-family: 'Roboto Mono', 'SF Mono', 'Lucida Console', Monaco, monospace;
-    --font-size-code: 12px;     /* 12px mono */
-    --font-size-mono: .929rem;  /* 13px mono */
-    --font-size-small: .857rem; /* 12px */
-    --font-size-normal: 1rem;   /* 14px */
-    --font-size-h3: 1.143rem;   /* 16px */
-    --font-size-h2: 1.429rem;   /* 20px */
-    --font-size-h1: 1.714rem;   /* 24px */
-    --line-height-mono: 1.286rem;   /* 18px */
-    --line-height-small: 1.143rem;  /* 16px */
+    --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+      Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+      'Segoe UI Symbol';
+    --header-font-family: 'Open Sans', 'Roboto', -apple-system,
+      BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    --monospace-font-family: 'Roboto Mono', 'SF Mono', 'Lucida Console', Monaco,
+      monospace;
+    --font-size-code: 12px; /* 12px mono */
+    --font-size-mono: 0.929rem; /* 13px mono */
+    --font-size-small: 0.857rem; /* 12px */
+    --font-size-normal: 1rem; /* 14px */
+    --font-size-h3: 1.143rem; /* 16px */
+    --font-size-h2: 1.429rem; /* 20px */
+    --font-size-h1: 1.714rem; /* 24px */
+    --line-height-mono: 1.286rem; /* 18px */
+    --line-height-small: 1.143rem; /* 16px */
     --line-height-normal: 1.429rem; /* 20px */
-    --line-height-h3: 1.715rem;     /* 24px */
-    --line-height-h2: 2rem;         /* 28px */
-    --line-height-h1: 2.286rem;     /* 32px */
+    --line-height-h3: 1.715rem; /* 24px */
+    --line-height-h2: 2rem; /* 28px */
+    --line-height-h1: 2.286rem; /* 32px */
     --font-weight-normal: 400; /* 400 is the same as 'normal' */
     --font-weight-bold: 500;
     --font-weight-h1: 400;
     --font-weight-h2: 400;
     --font-weight-h3: var(--font-weight-bold, 500);
-    --context-control-button-font: var(--font-weight-normal) var(--font-size-normal) var(--font-family);
+    --context-control-button-font: var(--font-weight-normal)
+      var(--font-size-normal) var(--font-family);
     --code-hint-font-weight: 500;
-    --image-diff-button-font: var(--font-weight-normal) var(--font-size-normal) var(--font-family);
+    --image-diff-button-font: var(--font-weight-normal) var(--font-size-normal)
+      var(--font-family);
 
     /* spacing */
     --spacing-xxs: 1px;
@@ -397,11 +424,16 @@ const styleSheet = safeStyleSheet`
     --syntax-variable-color: var(--primary-text-color);
 
     /* elevation */
-    --elevation-level-1: 0px 1px 2px 0px rgba(60, 64, 67, .30), 0px 1px 3px 1px rgba(60, 64, 67, .15);
-    --elevation-level-2: 0px 1px 2px 0px rgba(60, 64, 67, .30), 0px 2px 6px 2px rgba(60, 64, 67, .15);
-    --elevation-level-3: 0px 1px 3px 0px rgba(60, 64, 67, .30), 0px 4px 8px 3px rgba(60, 64, 67, .15);
-    --elevation-level-4: 0px 2px 3px 0px rgba(60, 64, 67, .30), 0px 6px 10px 4px rgba(60, 64, 67, .15);
-    --elevation-level-5: 0px 4px 4px 0px rgba(60, 64, 67, .30), 0px 8px 12px 6px rgba(60, 64, 67, .15);
+    --elevation-level-1: 0px 1px 2px 0px rgba(60, 64, 67, 0.3),
+      0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+    --elevation-level-2: 0px 1px 2px 0px rgba(60, 64, 67, 0.3),
+      0px 2px 6px 2px rgba(60, 64, 67, 0.15);
+    --elevation-level-3: 0px 1px 3px 0px rgba(60, 64, 67, 0.3),
+      0px 4px 8px 3px rgba(60, 64, 67, 0.15);
+    --elevation-level-4: 0px 2px 3px 0px rgba(60, 64, 67, 0.3),
+      0px 6px 10px 4px rgba(60, 64, 67, 0.15);
+    --elevation-level-5: 0px 4px 4px 0px rgba(60, 64, 67, 0.3),
+      0px 8px 12px 6px rgba(60, 64, 67, 0.15);
 
     /* misc */
     --border-radius: 4px;
@@ -411,19 +443,14 @@ const styleSheet = safeStyleSheet`
     /* paper and iron component overrides */
     --iron-overlay-backdrop-background-color: black;
     --iron-overlay-backdrop-opacity: 0.32;
-    --iron-overlay-backdrop: {
-      transition: none;
-    };
+
     --paper-tooltip-delay-in: 200ms;
     --paper-tooltip-delay-out: 0;
     --paper-tooltip-duration-in: 0;
     --paper-tooltip-duration-out: 0;
     --paper-tooltip-background: var(--tooltip-background-color);
-    --paper-tooltip-opacity: 1.0;
+    --paper-tooltip-opacity: 1;
     --paper-tooltip-text-color: var(--tooltip-text-color);
-    --paper-tooltip: {
-      font-size: var(--font-size-small);
-    }
   }
   @media screen and (max-width: 50em) {
     html {
@@ -435,8 +462,30 @@ const styleSheet = safeStyleSheet`
       --spacing-xl: 12px;
       --spacing-xxl: 16px;
     }
-  }`;
+  }
+`;
 
-setInnerHtml(customStyle, createStyle(styleSheet));
+const styleEl = document.createElement('style');
+render(appThemeCss, styleEl);
+document.head.appendChild(styleEl);
 
-document.head.appendChild(customStyle);
+// TODO: The following can be removed when Paper and Iron components have been
+// removed from Gerrit. css mixins (@apply ... and --var: {...}) are only
+// supported through apply-shim and custom-style.
+
+const appThemeCssPolymerLegacy = css`
+  html {
+    --paper-tooltip: {
+      font-size: var(--font-size-small);
+    }
+    --iron-overlay-backdrop: {
+      transition: none;
+    }
+  }
+`;
+
+const customStyleEl = document.createElement('custom-style');
+const innerStyleEl = document.createElement('style');
+render(appThemeCssPolymerLegacy, innerStyleEl);
+customStyleEl.appendChild(innerStyleEl);
+document.head.appendChild(customStyleEl);

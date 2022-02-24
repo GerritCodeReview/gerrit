@@ -354,6 +354,7 @@ const styleSheet = safeStyleSheet`
     --diff-selection-background-color: #c7dbf9;
     --diff-tab-indicator-color: var(--deemphasized-text-color);
     --diff-trailing-whitespace-indicator: #ff9ad2;
+    --focused-line-outline-color: rgba(0,0,0, .5);
     --light-add-highlight-color: #d8fed8;
     --light-rebased-add-highlight-color: #eef;
     --diff-moved-in-background: var(--cyan-50);

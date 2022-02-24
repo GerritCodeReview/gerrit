@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28a7a0dc_00d2b9a7",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-24T11:20:03Z",
+      "side": 1,
+      "message": "The initial state is such a state. The data still needs to be fetched but we are saying it\u0027s up-to-date. For example the action-bar using this boolean will have to go from disabled --\u003e spinner --\u003e real state because it won\u0027t have enough information to avoid starting in disabled.",
+      "parentUuid": "c7b3d50c_18802b07",
+      "range": {
+        "startLine": 27,
+        "startChar": 11,
+        "endLine": 27,
+        "endChar": 16
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "af4e903f_30a03fc1",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 3

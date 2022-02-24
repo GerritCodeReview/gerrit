@@ -53,9 +53,6 @@ export const htmlTemplate = html`
       display: inline;
       vertical-align: top;
     }
-    #externalStyle {
-      display: block;
-    }
     .parentList.merge {
       list-style-type: decimal;
       padding-left: var(--spacing-l);
@@ -117,7 +114,7 @@ export const htmlTemplate = html`
       --iron-icon-width: 18px;
     }
   </style>
-  <gr-external-style id="externalStyle" name="change-metadata">
+  <div>
     <div class="metadata-header">
       <h3 class="metadata-title heading-3">Change Info</h3>
       <gr-button link="" class="show-all-button" on-click="_onShowAllClick"
@@ -558,5 +555,5 @@ export const htmlTemplate = html`
         value="[[revision]]"
       ></gr-endpoint-param>
     </gr-endpoint-decorator>
-  </gr-external-style>
+  </div>
 `;

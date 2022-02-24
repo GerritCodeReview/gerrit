@@ -131,7 +131,7 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
   }
 
   getNextContentOnSide(content: HTMLElement, side: Side): HTMLElement | null {
-    let tr: HTMLElement = content.parentElement!.parentElement!;
+    let tr: HTMLElement = content.closest('tr')!;
     while ((tr = tr.nextSibling as HTMLElement)) {
       if (
         tr.classList.contains('both') ||

@@ -16,6 +16,23 @@
       "message": "Adding Delphine for the css.",
       "revId": "49c6d3e151a2def2e1afdfa346f558b01c6a910c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d78997c_47980321",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-24T20:55:15Z",
+      "side": 1,
+      "message": "Thanks for the contribution!\n\nFor each of the new colors we need examples. Otherwise we cannot easily advice on the choice of colors. Also, it is not clear which impact each of those new colors have. Maybe you can motivate this change more?",
+      "revId": "49c6d3e151a2def2e1afdfa346f558b01c6a910c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

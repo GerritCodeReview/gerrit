@@ -188,15 +188,13 @@ suite('gr-diff tests', () => {
       element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder();
 
       // No thread groups.
-      assert.isNotOk(element._getThreadGroupForLine(contentEl));
+      assert.equal(contentEl.querySelectorAll('.thread-group').length, 0);
 
       // A thread group gets created.
       const threadGroupEl = element._getOrCreateThreadGroup(contentEl);
       assert.isOk(threadGroupEl);
 
       // The new thread group can be fetched.
-      assert.isOk(element._getThreadGroupForLine(contentEl));
-
       assert.equal(contentEl.querySelectorAll('.thread-group').length, 1);
     });
 
@@ -215,7 +213,6 @@ suite('gr-diff tests', () => {
           type: 'image/bmp',
         };
 
-        element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
         element.isImageDiff = true;
         element.prefs = {
           context: 10,
@@ -571,7 +568,6 @@ suite('gr-diff tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
       element.loggedIn = true;
-      element.patchRange = {};
 
       fakeLineEl = {
         getAttribute: sinon.stub().returns(42),

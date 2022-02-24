@@ -461,4 +461,16 @@ export class GrDiffGroup {
       }
     }
   }
+
+  /**
+   * Determines whether the group is either totally an addition or totally
+   * a removal.
+   */
+  isTotal(): boolean {
+    return (
+      this.type === GrDiffGroupType.DELTA &&
+      (!this.adds.length || !this.removes.length) &&
+      !(!this.adds.length && !this.removes.length)
+    );
+  }
 }

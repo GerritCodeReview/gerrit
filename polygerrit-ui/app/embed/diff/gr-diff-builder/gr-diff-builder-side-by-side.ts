@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {GrDiffBuilder} from './gr-diff-builder';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
@@ -23,8 +21,9 @@ import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 import {RenderPreferences} from '../../../api/diff';
 import {createElementDiff} from '../gr-diff/gr-diff-utils';
+import {GrDiffBuilderLegacy} from './gr-diff-builder-legacy';
 
-export class GrDiffBuilderSideBySide extends GrDiffBuilder {
+export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
   constructor(
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
@@ -35,7 +34,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     super(diff, prefs, outputEl, layers, renderPrefs);
   }
 
-  _getMoveControlsConfig() {
+  protected override getMoveControlsConfig() {
     return {
       numberOfCells: 4,
       movedOutIndex: 1,
@@ -44,10 +43,10 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     };
   }
 
-  buildSectionElement(group: GrDiffGroup) {
+  protected override buildSectionElement(group: GrDiffGroup) {
     const sectionEl = createElementDiff('tbody', 'section');
     sectionEl.classList.add(group.type);
-    if (this._isTotal(group)) {
+    if (group.isTotal()) {
       sectionEl.classList.add('total');
     }
     if (group.dueToRebase) {
@@ -55,24 +54,24 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     }
     if (group.moveDetails) {
       sectionEl.classList.add('dueToMove');
-      sectionEl.appendChild(this._buildMoveControls(group));
+      sectionEl.appendChild(this.buildMoveControls(group));
     }
     if (group.ignoredWhitespaceOnly) {
       sectionEl.classList.add('ignoredWhitespaceOnly');
     }
     if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
-      this._createContextControls(sectionEl, group, DiffViewMode.SIDE_BY_SIDE);
+      this.createContextControls(sectionEl, group, DiffViewMode.SIDE_BY_SIDE);
       return sectionEl;
     }
 
     const pairs = group.getSideBySidePairs();
     for (let i = 0; i < pairs.length; i++) {
-      sectionEl.appendChild(this._createRow(pairs[i].left, pairs[i].right));
+      sectionEl.appendChild(this.createRow(pairs[i].left, pairs[i].right));
     }
     return sectionEl;
   }
 
-  addColumns(outputEl: HTMLElement, lineNumberWidth: number): void {
+  override addColumns(outputEl: HTMLElement, lineNumberWidth: number): void {
     const colgroup = document.createElement('colgroup');
 
     // Add the blame column.
@@ -98,7 +97,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     outputEl.appendChild(colgroup);
   }
 
-  _createRow(leftLine: GrDiffLine, rightLine: GrDiffLine) {
+  private createRow(leftLine: GrDiffLine, rightLine: GrDiffLine) {
     const row = createElementDiff('tr');
     row.classList.add('diff-row', 'side-by-side');
     row.setAttribute('left-type', leftLine.type);
@@ -106,25 +105,28 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     // TabIndex makes screen reader read a row when navigating with j/k
     row.tabIndex = -1;
 
-    row.appendChild(this._createBlameCell(leftLine.beforeNumber));
+    row.appendChild(this.createBlameCell(leftLine.beforeNumber));
 
-    this._appendPair(row, leftLine, leftLine.beforeNumber, Side.LEFT);
-    this._appendPair(row, rightLine, rightLine.afterNumber, Side.RIGHT);
+    this.appendPair(row, leftLine, leftLine.beforeNumber, Side.LEFT);
+    this.appendPair(row, rightLine, rightLine.afterNumber, Side.RIGHT);
     return row;
   }
 
-  _appendPair(
+  private appendPair(
     row: HTMLElement,
     line: GrDiffLine,
     lineNumber: LineNumber,
     side: Side
   ) {
-    const lineNumberEl = this._createLineEl(line, lineNumber, line.type, side);
+    const lineNumberEl = this.createLineEl(line, lineNumber, line.type, side);
     row.appendChild(lineNumberEl);
-    row.appendChild(this._createTextEl(lineNumberEl, line, side));
+    row.appendChild(this.createTextEl(lineNumberEl, line, side));
   }
 
-  _getNextContentOnSide(content: HTMLElement, side: Side): HTMLElement | null {
+  protected override getNextContentOnSide(
+    content: HTMLElement,
+    side: Side
+  ): HTMLElement | null {
     let tr: HTMLElement = content.parentElement!.parentElement!;
     while ((tr = tr.nextSibling as HTMLElement)) {
       const nextContent = tr.querySelector(
@@ -134,6 +136,4 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     }
     return null;
   }
-
-  override updateRenderPrefs(_renderPrefs: RenderPreferences) {}
 }

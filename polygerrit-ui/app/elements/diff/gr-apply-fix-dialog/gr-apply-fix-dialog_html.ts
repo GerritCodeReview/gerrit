@@ -58,7 +58,6 @@ export const htmlTemplate = html`
           <div class="diffContainer">
             <gr-diff
               prefs="[[overridePartialPrefs(prefs)]]"
-              change-num="[[changeNum]]"
               path="[[item.filepath]]"
               diff="[[item.preview]]"
               layers="[[layers]]"

@@ -14,108 +14,108 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-// Mark the file as a module. Otherwise typescript assumes this is a script
-// and $_documentContainer is a global variable.
-// See: https://www.typescriptlang.org/docs/handbook/modules.html
-export {};
+import {css} from 'lit';
 
 const $_documentContainer = document.createElement('template');
+
+/**
+ * HighlightJS emits the following classes that do not have styles here:
+ *    subst, symbol, class, function, doctag, meta-string, section, name,
+ *    builtin-name, bulletm, code, formula, quote, addition, deletion,
+ *    attribute
+ *
+ * @see {@link http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html}
+ */
+export const grSyntaxTheme = css`
+  .contentText {
+    color: var(--syntax-default-color);
+  }
+  .gr-syntax-attribute {
+    color: var(--syntax-attribute-color);
+  }
+  .gr-syntax-function {
+    color: var(--syntax-function-color);
+  }
+  .gr-syntax-meta {
+    color: var(--syntax-meta-color);
+  }
+  .gr-syntax-keyword,
+  .gr-syntax-name {
+    color: var(--syntax-keyword-color);
+  }
+  .gr-syntax-number {
+    color: var(--syntax-number-color);
+  }
+  .gr-syntax-selector-class {
+    color: var(--syntax-selector-class-color);
+  }
+  .gr-syntax-variable {
+    color: var(--syntax-variable-color);
+  }
+  .gr-syntax-template-variable {
+    color: var(--syntax-template-variable-color);
+  }
+  .gr-syntax-comment {
+    color: var(--syntax-comment-color);
+  }
+  .gr-syntax-string {
+    color: var(--syntax-string-color);
+  }
+  .gr-syntax-selector-id {
+    color: var(--syntax-selector-id-color);
+  }
+  .gr-syntax-built_in {
+    color: var(--syntax-built_in-color);
+  }
+  .gr-syntax-tag {
+    color: var(--syntax-tag-color);
+  }
+  .gr-syntax-link {
+    color: var(--syntax-link-color);
+  }
+  .gr-syntax-meta-keyword {
+    color: var(--syntax-meta-keyword-color);
+  }
+  .gr-syntax-type {
+    color: var(--syntax-type-color);
+  }
+  .gr-syntax-title {
+    color: var(--syntax-title-color);
+  }
+  .gr-syntax-attr {
+    color: var(--syntax-attr-color);
+  }
+  .gr-syntax-literal {
+    /* XML/HTML Attribute */
+    color: var(--syntax-literal-color);
+  }
+  .gr-syntax-property {
+    color: var(--syntax-property-color);
+  }
+  .gr-syntax-selector-pseudo {
+    color: var(--syntax-selector-pseudo-color);
+  }
+  .gr-syntax-regexp {
+    color: var(--syntax-regexp-color);
+  }
+  .gr-syntax-selector-attr {
+    color: var(--syntax-selector-attr-color);
+  }
+  .gr-syntax-template-tag {
+    color: var(--syntax-template-tag-color);
+  }
+  .gr-syntax-params {
+    color: var(--syntax-params-color);
+  }
+  .gr-syntax-doctag {
+    font-weight: var(--syntax-doctag-weight);
+  }
+`;
 
 $_documentContainer.innerHTML = `<dom-module id="gr-syntax-theme">
   <template>
     <style>
-      /**
-       * @overview Highlight.js emits the following classes that do not have
-       * styles here:
-       *    subst, symbol, class, function, doctag, meta-string, section, name,
-       *    builtin-name, bulletm, code, formula, quote, addition, deletion,
-       *    attribute
-       * @see {@link http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html}
-       */
-
-      .contentText {
-        color: var(--syntax-default-color);
-      }
-      .gr-syntax-attribute {
-        color: var(--syntax-attribute-color);
-      }
-      .gr-syntax-function {
-        color: var(--syntax-function-color);
-      }
-      .gr-syntax-meta {
-        color: var(--syntax-meta-color);
-      }
-      .gr-syntax-keyword,
-      .gr-syntax-name {
-        color: var(--syntax-keyword-color);
-      }
-      .gr-syntax-number {
-        color: var(--syntax-number-color);
-      }
-      .gr-syntax-selector-class {
-        color: var(--syntax-selector-class-color);
-      }
-      .gr-syntax-variable {
-        color: var(--syntax-variable-color);
-      }
-      .gr-syntax-template-variable {
-        color: var(--syntax-template-variable-color);
-      }
-      .gr-syntax-comment {
-        color: var(--syntax-comment-color);
-      }
-      .gr-syntax-string {
-        color: var(--syntax-string-color);
-      }
-      .gr-syntax-selector-id {
-        color: var(--syntax-selector-id-color);
-      }
-      .gr-syntax-built_in {
-        color: var(--syntax-built_in-color);
-      }
-      .gr-syntax-tag {
-        color: var(--syntax-tag-color);
-      }
-      .gr-syntax-link {
-        color: var(--syntax-link-color);
-      }
-      .gr-syntax-meta-keyword {
-        color: var(--syntax-meta-keyword-color);
-      }
-      .gr-syntax-type {
-        color: var(--syntax-type-color);
-      }
-      .gr-syntax-title {
-        color: var(--syntax-title-color);
-      }
-      .gr-syntax-attr {
-        color: var(--syntax-attr-color);
-      }
-      .gr-syntax-literal { /* XML/HTML Attribute */
-        color: var(--syntax-literal-color);
-      }
-      .gr-syntax-property {
-        color: var(--syntax-property-color);
-      }
-      .gr-syntax-selector-pseudo {
-        color: var(--syntax-selector-pseudo-color);
-      }
-      .gr-syntax-regexp {
-        color: var(--syntax-regexp-color);
-      }
-      .gr-syntax-selector-attr {
-        color: var(--syntax-selector-attr-color);
-      }
-      .gr-syntax-template-tag {
-        color: var(--syntax-template-tag-color);
-      }
-      .gr-syntax-params {
-        color: var(--syntax-params-color);
-      }
-      .gr-syntax-doctag {
-        font-weight: var(--syntax-doctag-weight);
-      }
+    ${grSyntaxTheme.cssText}
     </style>
   </template>
 </dom-module>`;

@@ -502,10 +502,11 @@ export abstract class GrDiffBuilder implements DiffBuilder {
         return td;
       }
 
-      const button = createElementDiff('button');
-      td.appendChild(button);
+      const button = createElementDiff('button', 'lineNumButton');
+      const lineNumContainer = createElementDiff('div', 'lineNumContainer');
+      lineNumContainer.appendChild(button);
+      td.appendChild(lineNumContainer);
       button.tabIndex = -1;
-      button.classList.add('lineNumButton');
       button.classList.add(side);
       button.dataset['value'] = number.toString();
       button.textContent = number === 'FILE' ? 'File' : number.toString();
@@ -567,6 +568,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
 
       if (side) {
         contentText.setAttribute('data-side', side);
+        contentText.classList.add(side);
         const number = side === Side.LEFT ? beforeNumber : afterNumber;
         this._addLineNumberMouseEvents(td, number, side);
       }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6fb5fd9_f6458cdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-24T11:12:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "829b0a27_3f725866",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "06575ba9a4a4172ce79287ab4baea49329746107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bce107c_e6614d44",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-24T11:02:34Z",
       "side": 1,
       "message": "move this to bulk-actions-model and export as a constant. Then we don\u0027t have to worry about keeping them in sync.\n\nIt\u0027s being used in the getChanges() method there.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 2
+      },
+      "revId": "06575ba9a4a4172ce79287ab4baea49329746107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd90066c_aea92bcd",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-24T11:12:39Z",
+      "side": 1,
+      "message": "That would defy the purpose of a test.",
+      "parentUuid": "9bce107c_e6614d44",
       "range": {
         "startLine": 19,
         "startChar": 0,

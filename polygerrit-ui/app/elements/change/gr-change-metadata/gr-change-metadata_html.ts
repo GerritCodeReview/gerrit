@@ -117,446 +117,436 @@ export const htmlTemplate = html`
       --iron-icon-width: 18px;
     }
   </style>
-  <gr-external-style id="externalStyle" name="change-metadata">
-    <div class="metadata-header">
-      <h3 class="metadata-title heading-3">Change Info</h3>
-      <gr-button link="" class="show-all-button" on-click="_onShowAllClick"
-        >[[_computeShowAllLabelText(_showAllSections)]]
-        <iron-icon
-          icon="gr-icons:expand-more"
-          hidden$="[[_showAllSections]]"
-        ></iron-icon
-        ><iron-icon
-          icon="gr-icons:expand-less"
-          hidden$="[[!_showAllSections]]"
-        ></iron-icon>
-      </gr-button>
-    </div>
-    <template is="dom-if" if="[[change.submitted]]">
-      <section
-        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.SUBMITTED)]]"
-      >
-        <span class="title">Submitted</span>
-        <span class="value">
-          <gr-date-formatter
-            withTooltip
-            date-str="[[change.submitted]]"
-            showYesterday=""
-          ></gr-date-formatter>
-        </span>
-      </section>
-    </template>
+  <div class="metadata-header">
+    <h3 class="metadata-title heading-3">Change Info</h3>
+    <gr-button link="" class="show-all-button" on-click="_onShowAllClick"
+      >[[_computeShowAllLabelText(_showAllSections)]]
+      <iron-icon
+        icon="gr-icons:expand-more"
+        hidden$="[[_showAllSections]]"
+      ></iron-icon
+      ><iron-icon
+        icon="gr-icons:expand-less"
+        hidden$="[[!_showAllSections]]"
+      ></iron-icon>
+    </gr-button>
+  </div>
+  <template is="dom-if" if="[[change.submitted]]">
     <section
-      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.UPDATED)]]"
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.SUBMITTED)]]"
     >
-      <span class="title">
-        <gr-tooltip-content
-          has-tooltip=""
-          title="Last update of (meta)data for this change."
-        >
-          Updated
-        </gr-tooltip-content>
-      </span>
+      <span class="title">Submitted</span>
       <span class="value">
         <gr-date-formatter
           withTooltip
-          date-str="[[change.updated]]"
-          showYesterday
+          date-str="[[change.submitted]]"
+          showYesterday=""
         ></gr-date-formatter>
       </span>
     </section>
-    <section
-      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.OWNER)]]"
-    >
-      <span class="title">
-        <gr-tooltip-content
-          has-tooltip=""
-          title="This user created or uploaded the first patchset of this change."
-        >
-          Owner
-        </gr-tooltip-content>
-      </span>
-      <span class="value">
-        <gr-account-chip
-          account="[[change.owner]]"
-          change="[[change]]"
-          highlightAttention
-          vote="[[_computeVote(change.owner, change)]]"
-          label="[[_computeCodeReviewLabel(change)]]"
-        >
-          <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
-            <gr-vote-chip
-              slot="vote-chip"
-              vote="[[_computeVote(change.owner, change)]]"
-              label="[[_computeCodeReviewLabel(change)]]"
-              circle-shape
-            ></gr-vote-chip>
-          </template>
-        </gr-account-chip>
-        <template is="dom-if" if="[[_pushCertificateValidation]]">
-          <gr-tooltip-content
-            has-tooltip=""
-            title$="[[_pushCertificateValidation.message]]"
-          >
-            <iron-icon
-              class$="icon [[_pushCertificateValidation.class]]"
-              icon="[[_pushCertificateValidation.icon]]"
-            >
-            </iron-icon>
-          </gr-tooltip-content>
+  </template>
+  <section
+    class$="[[_computeDisplayState(_showAllSections, change, _SECTION.UPDATED)]]"
+  >
+    <span class="title">
+      <gr-tooltip-content
+        has-tooltip=""
+        title="Last update of (meta)data for this change."
+      >
+        Updated
+      </gr-tooltip-content>
+    </span>
+    <span class="value">
+      <gr-date-formatter
+        withTooltip
+        date-str="[[change.updated]]"
+        showYesterday
+      ></gr-date-formatter>
+    </span>
+  </section>
+  <section
+    class$="[[_computeDisplayState(_showAllSections, change, _SECTION.OWNER)]]"
+  >
+    <span class="title">
+      <gr-tooltip-content
+        has-tooltip=""
+        title="This user created or uploaded the first patchset of this change."
+      >
+        Owner
+      </gr-tooltip-content>
+    </span>
+    <span class="value">
+      <gr-account-chip
+        account="[[change.owner]]"
+        change="[[change]]"
+        highlightAttention
+        vote="[[_computeVote(change.owner, change)]]"
+        label="[[_computeCodeReviewLabel(change)]]"
+      >
+        <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
+          <gr-vote-chip
+            slot="vote-chip"
+            vote="[[_computeVote(change.owner, change)]]"
+            label="[[_computeCodeReviewLabel(change)]]"
+            circle-shape
+          ></gr-vote-chip>
         </template>
-      </span>
-    </section>
-    <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.UPLOADER)]]">
-      <span class="title">
+      </gr-account-chip>
+      <template is="dom-if" if="[[_pushCertificateValidation]]">
         <gr-tooltip-content
           has-tooltip=""
-          title="This user uploaded the patchset to Gerrit (typically by running the 'git push' command)."
+          title$="[[_pushCertificateValidation.message]]"
         >
-          Uploader
+          <iron-icon
+            class$="icon [[_pushCertificateValidation.class]]"
+            icon="[[_pushCertificateValidation.icon]]"
+          >
+          </iron-icon>
         </gr-tooltip-content>
-      </span>
-      <span class="value">
-        <gr-account-chip
-          account="[[_getNonOwnerRole(change, _CHANGE_ROLE.UPLOADER)]]"
-          change="[[change]]"
-          highlightAttention
-          vote="[[_computeVoteForRole(_CHANGE_ROLE.UPLOADER, change)]]"
-          label="[[_computeCodeReviewLabel(change)]]"
-        >
-          <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
-            <gr-vote-chip
-              slot="vote-chip"
-              vote="[[_computeVoteForRole(_CHANGE_ROLE.UPLOADER, change)]]"
-              label="[[_computeCodeReviewLabel(change)]]"
-              circle-shape
-            ></gr-vote-chip>
-          </template>
-        </gr-account-chip>
-      </span>
-    </section>
-    <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.AUTHOR)]]">
-      <span class="title">
-        <gr-tooltip-content
-          has-tooltip=""
-          title="This user wrote the code change."
-        >
-          Author
-        </gr-tooltip-content>
-      </span>
-      <span class="value">
-        <gr-account-chip
-          account="[[_getNonOwnerRole(change, _CHANGE_ROLE.AUTHOR)]]"
-          change="[[change]]"
-          vote="[[_computeVoteForRole(_CHANGE_ROLE.AUTHOR, change)]]"
-          label="[[_computeCodeReviewLabel(change)]]"
-        >
-          <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
-            <gr-vote-chip
-              slot="vote-chip"
-              vote="[[_computeVoteForRole(_CHANGE_ROLE.AUTHOR, change)]]"
-              label="[[_computeCodeReviewLabel(change)]]"
-              circle-shape
-            ></gr-vote-chip>
-          </template>
-        </gr-account-chip>
-      </span>
-    </section>
-    <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.COMMITTER)]]">
-      <span class="title">
-        <gr-tooltip-content
-          has-tooltip=""
-          title="This user committed the code change to the Git repository (typically to the local Git repo before uploading)."
-        >
-          Committer
-        </gr-tooltip-content>
-      </span>
-      <span class="value">
-        <gr-account-chip
-          account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"
-          change="[[change]]"
-          vote="[[_computeVoteForRole(_CHANGE_ROLE.COMMITTER, change)]]"
-          label="[[_computeCodeReviewLabel(change)]]"
-        >
-          <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
-            <gr-vote-chip
-              slot="vote-chip"
-              vote="[[_computeVoteForRole(_CHANGE_ROLE.COMMITTER, change)]]"
-              label="[[_computeCodeReviewLabel(change)]]"
-              circle-shape
-            ></gr-vote-chip>
-          </template>
-        </gr-account-chip>
-      </span>
-    </section>
+      </template>
+    </span>
+  </section>
+  <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.UPLOADER)]]">
+    <span class="title">
+      <gr-tooltip-content
+        has-tooltip=""
+        title="This user uploaded the patchset to Gerrit (typically by running the 'git push' command)."
+      >
+        Uploader
+      </gr-tooltip-content>
+    </span>
+    <span class="value">
+      <gr-account-chip
+        account="[[_getNonOwnerRole(change, _CHANGE_ROLE.UPLOADER)]]"
+        change="[[change]]"
+        highlightAttention
+        vote="[[_computeVoteForRole(_CHANGE_ROLE.UPLOADER, change)]]"
+        label="[[_computeCodeReviewLabel(change)]]"
+      >
+        <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
+          <gr-vote-chip
+            slot="vote-chip"
+            vote="[[_computeVoteForRole(_CHANGE_ROLE.UPLOADER, change)]]"
+            label="[[_computeCodeReviewLabel(change)]]"
+            circle-shape
+          ></gr-vote-chip>
+        </template>
+      </gr-account-chip>
+    </span>
+  </section>
+  <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.AUTHOR)]]">
+    <span class="title">
+      <gr-tooltip-content
+        has-tooltip=""
+        title="This user wrote the code change."
+      >
+        Author
+      </gr-tooltip-content>
+    </span>
+    <span class="value">
+      <gr-account-chip
+        account="[[_getNonOwnerRole(change, _CHANGE_ROLE.AUTHOR)]]"
+        change="[[change]]"
+        vote="[[_computeVoteForRole(_CHANGE_ROLE.AUTHOR, change)]]"
+        label="[[_computeCodeReviewLabel(change)]]"
+      >
+        <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
+          <gr-vote-chip
+            slot="vote-chip"
+            vote="[[_computeVoteForRole(_CHANGE_ROLE.AUTHOR, change)]]"
+            label="[[_computeCodeReviewLabel(change)]]"
+            circle-shape
+          ></gr-vote-chip>
+        </template>
+      </gr-account-chip>
+    </span>
+  </section>
+  <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.COMMITTER)]]">
+    <span class="title">
+      <gr-tooltip-content
+        has-tooltip=""
+        title="This user committed the code change to the Git repository (typically to the local Git repo before uploading)."
+      >
+        Committer
+      </gr-tooltip-content>
+    </span>
+    <span class="value">
+      <gr-account-chip
+        account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"
+        change="[[change]]"
+        vote="[[_computeVoteForRole(_CHANGE_ROLE.COMMITTER, change)]]"
+        label="[[_computeCodeReviewLabel(change)]]"
+      >
+        <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
+          <gr-vote-chip
+            slot="vote-chip"
+            vote="[[_computeVoteForRole(_CHANGE_ROLE.COMMITTER, change)]]"
+            label="[[_computeCodeReviewLabel(change)]]"
+            circle-shape
+          ></gr-vote-chip>
+        </template>
+      </gr-account-chip>
+    </span>
+  </section>
+  <section
+    class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REVIEWERS)]]"
+  >
+    <span class="title">Reviewers</span>
+    <span class="value">
+      <gr-reviewer-list
+        change="{{change}}"
+        mutable="[[_mutable]]"
+        reviewers-only=""
+        account="[[account]]"
+        server-config="[[serverConfig]]"
+      ></gr-reviewer-list>
+    </span>
+  </section>
+  <section
+    class$="[[_computeDisplayState(_showAllSections, change, _SECTION.CC)]]"
+  >
+    <span class="title">CC</span>
+    <span class="value">
+      <gr-reviewer-list
+        change="{{change}}"
+        mutable="[[_mutable]]"
+        ccs-only=""
+        account="[[account]]"
+        server-config="[[serverConfig]]"
+      ></gr-reviewer-list>
+    </span>
+  </section>
+  <template
+    is="dom-if"
+    if="[[_computeShowRepoBranchTogether(change.project, change.branch)]]"
+  >
     <section
-      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REVIEWERS)]]"
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REPO_BRANCH)]]"
     >
-      <span class="title">Reviewers</span>
+      <span class="title">Repo | Branch</span>
       <span class="value">
-        <gr-reviewer-list
-          change="{{change}}"
-          mutable="[[_mutable]]"
-          reviewers-only=""
-          account="[[account]]"
-          server-config="[[serverConfig]]"
-        ></gr-reviewer-list>
-      </span>
-    </section>
-    <section
-      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.CC)]]"
-    >
-      <span class="title">CC</span>
-      <span class="value">
-        <gr-reviewer-list
-          change="{{change}}"
-          mutable="[[_mutable]]"
-          ccs-only=""
-          account="[[account]]"
-          server-config="[[serverConfig]]"
-        ></gr-reviewer-list>
-      </span>
-    </section>
-    <template
-      is="dom-if"
-      if="[[_computeShowRepoBranchTogether(change.project, change.branch)]]"
-    >
-      <section
-        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REPO_BRANCH)]]"
-      >
-        <span class="title">Repo | Branch</span>
-        <span class="value">
-          <a href$="[[_computeProjectUrl(change.project)]]"
-            >[[change.project]]</a
-          >
-          |
-          <a href$="[[_computeBranchUrl(change.project, change.branch)]]"
-            >[[change.branch]]</a
-          >
-        </span>
-      </section>
-    </template>
-    <template
-      is="dom-if"
-      if="[[!_computeShowRepoBranchTogether(change.project, change.branch)]]"
-    >
-      <section
-        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REPO_BRANCH)]]"
-      >
-        <span class="title">Repo</span>
-        <span class="value">
-          <a href$="[[_computeProjectUrl(change.project)]]">
-            <gr-limited-text
-              limit="40"
-              text="[[change.project]]"
-            ></gr-limited-text>
-          </a>
-        </span>
-      </section>
-      <section
-        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REPO_BRANCH)]]"
-      >
-        <span class="title">Branch</span>
-        <span class="value">
-          <a href$="[[_computeBranchUrl(change.project, change.branch)]]">
-            <gr-limited-text
-              limit="40"
-              text="[[change.branch]]"
-            ></gr-limited-text>
-          </a>
-        </span>
-      </section>
-    </template>
-    <section
-      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.PARENT)]]"
-    >
-      <span class="title">[[_computeParentsLabel(_currentParents)]]</span>
-      <span class="value">
-        <ol
-          class$="[[_computeParentListClass(_currentParents, parentIsCurrent)]]"
+        <a href$="[[_computeProjectUrl(change.project)]]">[[change.project]]</a>
+        |
+        <a href$="[[_computeBranchUrl(change.project, change.branch)]]"
+          >[[change.branch]]</a
         >
-          <template is="dom-repeat" items="[[_currentParents]]" as="parent">
-            <li>
-              <gr-commit-info
-                change="[[change]]"
-                commit-info="[[parent]]"
-                server-config="[[serverConfig]]"
-              ></gr-commit-info>
-              <gr-tooltip-content
-                id="parentNotCurrentMessage"
-                has-tooltip
-                show-icon
-                title$="[[_notCurrentMessage]]"
-              ></gr-tooltip-content>
-            </li>
-          </template>
-        </ol>
       </span>
     </section>
-    <template is="dom-if" if="[[_isChangeMerged(change)]]">
-      <section
-        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.MERGED_AS)]]"
-      >
-        <span class="title">Merged As</span>
-        <span class="value">
-          <gr-commit-info
-            change="[[change]]"
-            commit-info="[[_computeMergedCommitInfo(change.current_revision, change.revisions)]]"
-            server-config="[[serverConfig]]"
-          ></gr-commit-info>
-        </span>
-      </section>
-    </template>
-    <template is="dom-if" if="[[_showRevertCreatedAs(change)]]">
-      <section
-        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REVERT_CREATED_AS)]]"
-      >
-        <span class="title"
-          >[[_getRevertSectionTitle(change, revertedChange)]]</span
-        >
-        <span class="value">
-          <gr-commit-info
-            change="[[change]]"
-            commit-info="[[_computeRevertCommit(change, revertedChange)]]"
-            server-config="[[serverConfig]]"
-          ></gr-commit-info>
-        </span>
-      </section>
-    </template>
-    <template is="dom-if" if="[[_showTopic(change.*, _topicReadOnly)]]">
-      <section
-        class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC, account)]]"
-      >
-        <span class="title">Topic</span>
-        <span class="value">
-          <template
-            is="dom-if"
-            if="[[_showTopicChip(change.*, _settingTopic)]]"
-          >
-            <gr-linked-chip
-              text="[[change.topic]]"
-              limit="40"
-              href="[[_computeTopicUrl(change.topic)]]"
-              removable="[[!_topicReadOnly]]"
-              on-remove="_handleTopicRemoved"
-            ></gr-linked-chip>
-          </template>
-          <template
-            is="dom-if"
-            if="[[_showAddTopic(change.*, _settingTopic, _topicReadOnly)]]"
-          >
-            <gr-editable-label
-              class="topicEditableLabel"
-              label-text="Add a topic"
-              value="[[change.topic]]"
-              max-length="1024"
-              placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
-              read-only="[[_topicReadOnly]]"
-              on-changed="_handleTopicChanged"
-              show-as-edit-pencil="true"
-              autocomplete="true"
-              query="[[queryTopic]]"
-            ></gr-editable-label>
-          </template>
-        </span>
-      </section>
-    </template>
-    <template is="dom-if" if="[[_showCherryPickOf(change.*)]]">
-      <section
-        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.CHERRY_PICK_OF)]]"
-      >
-        <span class="title">Cherry pick of</span>
-        <span class="value">
-          <a
-            href$="[[_computeCherryPickOfUrl(change.cherry_pick_of_change, change.cherry_pick_of_patch_set, change.project)]]"
-          >
-            <gr-limited-text
-              text="[[change.cherry_pick_of_change]],[[change.cherry_pick_of_patch_set]]"
-              limit="40"
-            >
-            </gr-limited-text>
-          </a>
-        </span>
-      </section>
-    </template>
+  </template>
+  <template
+    is="dom-if"
+    if="[[!_computeShowRepoBranchTogether(change.project, change.branch)]]"
+  >
     <section
-      class$="strategy [[_computeDisplayState(_showAllSections, change, _SECTION.STRATEGY)]]"
-      hidden$="[[_computeHideStrategy(change)]]"
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REPO_BRANCH)]]"
     >
-      <span class="title">Strategy</span>
-      <span class="value">[[_computeStrategy(change)]]</span>
-    </section>
-    <section
-      class$="hashtag [[_computeDisplayState(_showAllSections, change, _SECTION.HASHTAGS)]]"
-    >
-      <span class="title">Hashtags</span>
+      <span class="title">Repo</span>
       <span class="value">
-        <template is="dom-repeat" items="[[change.hashtags]]">
-          <gr-linked-chip
-            class="hashtagChip"
-            text="[[item]]"
-            href="[[_computeHashtagUrl(item)]]"
-            removable="[[!_hashtagReadOnly]]"
-            on-remove="_handleHashtagRemoved"
+        <a href$="[[_computeProjectUrl(change.project)]]">
+          <gr-limited-text
             limit="40"
-          >
-          </gr-linked-chip>
+            text="[[change.project]]"
+          ></gr-limited-text>
+        </a>
+      </span>
+    </section>
+    <section
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REPO_BRANCH)]]"
+    >
+      <span class="title">Branch</span>
+      <span class="value">
+        <a href$="[[_computeBranchUrl(change.project, change.branch)]]">
+          <gr-limited-text
+            limit="40"
+            text="[[change.branch]]"
+          ></gr-limited-text>
+        </a>
+      </span>
+    </section>
+  </template>
+  <section
+    class$="[[_computeDisplayState(_showAllSections, change, _SECTION.PARENT)]]"
+  >
+    <span class="title">[[_computeParentsLabel(_currentParents)]]</span>
+    <span class="value">
+      <ol
+        class$="[[_computeParentListClass(_currentParents, parentIsCurrent)]]"
+      >
+        <template is="dom-repeat" items="[[_currentParents]]" as="parent">
+          <li>
+            <gr-commit-info
+              change="[[change]]"
+              commit-info="[[parent]]"
+              server-config="[[serverConfig]]"
+            ></gr-commit-info>
+            <gr-tooltip-content
+              id="parentNotCurrentMessage"
+              has-tooltip
+              show-icon
+              title$="[[_notCurrentMessage]]"
+            ></gr-tooltip-content>
+          </li>
         </template>
-        <template is="dom-if" if="[[!_hashtagReadOnly]]">
+      </ol>
+    </span>
+  </section>
+  <template is="dom-if" if="[[_isChangeMerged(change)]]">
+    <section
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.MERGED_AS)]]"
+    >
+      <span class="title">Merged As</span>
+      <span class="value">
+        <gr-commit-info
+          change="[[change]]"
+          commit-info="[[_computeMergedCommitInfo(change.current_revision, change.revisions)]]"
+          server-config="[[serverConfig]]"
+        ></gr-commit-info>
+      </span>
+    </section>
+  </template>
+  <template is="dom-if" if="[[_showRevertCreatedAs(change)]]">
+    <section
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REVERT_CREATED_AS)]]"
+    >
+      <span class="title"
+        >[[_getRevertSectionTitle(change, revertedChange)]]</span
+      >
+      <span class="value">
+        <gr-commit-info
+          change="[[change]]"
+          commit-info="[[_computeRevertCommit(change, revertedChange)]]"
+          server-config="[[serverConfig]]"
+        ></gr-commit-info>
+      </span>
+    </section>
+  </template>
+  <template is="dom-if" if="[[_showTopic(change.*, _topicReadOnly)]]">
+    <section
+      class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC, account)]]"
+    >
+      <span class="title">Topic</span>
+      <span class="value">
+        <template is="dom-if" if="[[_showTopicChip(change.*, _settingTopic)]]">
+          <gr-linked-chip
+            text="[[change.topic]]"
+            limit="40"
+            href="[[_computeTopicUrl(change.topic)]]"
+            removable="[[!_topicReadOnly]]"
+            on-remove="_handleTopicRemoved"
+          ></gr-linked-chip>
+        </template>
+        <template
+          is="dom-if"
+          if="[[_showAddTopic(change.*, _settingTopic, _topicReadOnly)]]"
+        >
           <gr-editable-label
-            uppercase=""
-            label-text="Add a hashtag"
-            value="{{_newHashtag}}"
-            placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
-            read-only="[[_hashtagReadOnly]]"
-            on-changed="_handleHashtagChanged"
+            class="topicEditableLabel"
+            label-text="Add a topic"
+            value="[[change.topic]]"
+            max-length="1024"
+            placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
+            read-only="[[_topicReadOnly]]"
+            on-changed="_handleTopicChanged"
             show-as-edit-pencil="true"
+            autocomplete="true"
+            query="[[queryTopic]]"
           ></gr-editable-label>
         </template>
       </span>
     </section>
-    <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
-      <div class="separatedSection">
-        <gr-submit-requirements
-          change="[[change]]"
-          account="[[account]]"
-          mutable="[[_mutable]]"
-        ></gr-submit-requirements>
-      </div>
-    </template>
-    <template is="dom-if" if="[[!_showNewSubmitRequirements(change)]]">
-      <div class="oldSeparatedSection">
-        <gr-change-requirements
-          change="{{change}}"
-          account="[[account]]"
-          mutable="[[_mutable]]"
-        ></gr-change-requirements>
-      </div>
-    </template>
+  </template>
+  <template is="dom-if" if="[[_showCherryPickOf(change.*)]]">
     <section
-      id="webLinks"
-      hidden$="[[!_computeWebLinks(commitInfo, serverConfig)]]"
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.CHERRY_PICK_OF)]]"
     >
-      <span class="title">Links</span>
+      <span class="title">Cherry pick of</span>
       <span class="value">
-        <template
-          is="dom-repeat"
-          items="[[_computeWebLinks(commitInfo, serverConfig)]]"
-          as="link"
+        <a
+          href$="[[_computeCherryPickOfUrl(change.cherry_pick_of_change, change.cherry_pick_of_patch_set, change.project)]]"
         >
-          <a href="[[link.url]]" class="webLink" rel="noopener" target="_blank">
-            [[link.name]]
-          </a>
-        </template>
+          <gr-limited-text
+            text="[[change.cherry_pick_of_change]],[[change.cherry_pick_of_patch_set]]"
+            limit="40"
+          >
+          </gr-limited-text>
+        </a>
       </span>
     </section>
-    <gr-endpoint-decorator name="change-metadata-item">
-      <gr-endpoint-param name="labels" value="[[labels]]"></gr-endpoint-param>
-      <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
-      <gr-endpoint-param
-        name="revision"
-        value="[[revision]]"
-      ></gr-endpoint-param>
-    </gr-endpoint-decorator>
-  </gr-external-style>
+  </template>
+  <section
+    class$="strategy [[_computeDisplayState(_showAllSections, change, _SECTION.STRATEGY)]]"
+    hidden$="[[_computeHideStrategy(change)]]"
+  >
+    <span class="title">Strategy</span>
+    <span class="value">[[_computeStrategy(change)]]</span>
+  </section>
+  <section
+    class$="hashtag [[_computeDisplayState(_showAllSections, change, _SECTION.HASHTAGS)]]"
+  >
+    <span class="title">Hashtags</span>
+    <span class="value">
+      <template is="dom-repeat" items="[[change.hashtags]]">
+        <gr-linked-chip
+          class="hashtagChip"
+          text="[[item]]"
+          href="[[_computeHashtagUrl(item)]]"
+          removable="[[!_hashtagReadOnly]]"
+          on-remove="_handleHashtagRemoved"
+          limit="40"
+        >
+        </gr-linked-chip>
+      </template>
+      <template is="dom-if" if="[[!_hashtagReadOnly]]">
+        <gr-editable-label
+          uppercase=""
+          label-text="Add a hashtag"
+          value="{{_newHashtag}}"
+          placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
+          read-only="[[_hashtagReadOnly]]"
+          on-changed="_handleHashtagChanged"
+          show-as-edit-pencil="true"
+        ></gr-editable-label>
+      </template>
+    </span>
+  </section>
+  <template is="dom-if" if="[[_showNewSubmitRequirements(change)]]">
+    <div class="separatedSection">
+      <gr-submit-requirements
+        change="[[change]]"
+        account="[[account]]"
+        mutable="[[_mutable]]"
+      ></gr-submit-requirements>
+    </div>
+  </template>
+  <template is="dom-if" if="[[!_showNewSubmitRequirements(change)]]">
+    <div class="oldSeparatedSection">
+      <gr-change-requirements
+        change="{{change}}"
+        account="[[account]]"
+        mutable="[[_mutable]]"
+      ></gr-change-requirements>
+    </div>
+  </template>
+  <section
+    id="webLinks"
+    hidden$="[[!_computeWebLinks(commitInfo, serverConfig)]]"
+  >
+    <span class="title">Links</span>
+    <span class="value">
+      <template
+        is="dom-repeat"
+        items="[[_computeWebLinks(commitInfo, serverConfig)]]"
+        as="link"
+      >
+        <a href="[[link.url]]" class="webLink" rel="noopener" target="_blank">
+          [[link.name]]
+        </a>
+      </template>
+    </span>
+  </section>
+  <gr-endpoint-decorator name="change-metadata-item">
+    <gr-endpoint-param name="labels" value="[[labels]]"></gr-endpoint-param>
+    <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+    <gr-endpoint-param name="revision" value="[[revision]]"></gr-endpoint-param>
+  </gr-endpoint-decorator>
 `;

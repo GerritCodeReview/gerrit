@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0317c662_fb95a3c2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-24T13:16:40Z",
+      "side": 1,
+      "message": "not directly related but since you are here can you change this to subscription controller with `subscribe` util so we get disconnected support. https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/lit/subscription-controller.ts;l\u003d25;drc\u003d0ca140aba7417dc0d5ffea2833f66716ddb6583d",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 0
+      },
+      "revId": "cd08151b0c93df811d4b8dfb37b516fa0d28b294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

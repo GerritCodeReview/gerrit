@@ -132,7 +132,7 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
       }
       const lineNumberEl = this.getLineNumberEl(el, side);
       el.parentElement.replaceChild(
-        this.createTextEl(lineNumberEl, line, side).firstChild!,
+        this.createTextEl(lineNumberEl, line, side).querySelector('.contentText')!,
         el
       );
     }
@@ -370,8 +370,10 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
         this._prefs.line_length
       );
 
+      const contentTextContainer = createElementDiff('div', 'contentTextContainer');
       if (side) {
         contentText.setAttribute('data-side', side);
+        td.classList.add(side);
         const number = side === Side.LEFT ? beforeNumber : afterNumber;
         this.addLineNumberMouseEvents(td, number, side);
       }
@@ -386,7 +388,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
         console.error('lineNumberEl or side not set, skipping layer.annotate');
       }
 
-      td.appendChild(contentText);
+      contentTextContainer.appendChild(contentText);
+      td.appendChild(contentTextContainer);
     } else if (line.beforeNumber === 'FILE') td.classList.add('file');
     else if (line.beforeNumber === 'LOST') td.classList.add('lost');
 

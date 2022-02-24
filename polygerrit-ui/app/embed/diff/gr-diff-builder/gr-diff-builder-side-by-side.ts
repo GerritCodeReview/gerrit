@@ -127,7 +127,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     content: HTMLElement,
     side: Side
   ): HTMLElement | null {
-    let tr: HTMLElement = content.parentElement!.parentElement!;
+    let tr: HTMLElement = content.closest('tr')!;
     while ((tr = tr.nextSibling as HTMLElement)) {
       const nextContent = tr.querySelector(
         'td.content .contentText[data-side="' + side + '"]'

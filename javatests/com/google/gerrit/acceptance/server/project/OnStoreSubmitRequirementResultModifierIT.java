@@ -26,7 +26,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestOnStoreSubmitRequirementResultModifier;
 import com.google.gerrit.acceptance.TestOnStoreSubmitRequirementResultModifier.ModificationStrategy;
-import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementResult;
@@ -35,7 +34,6 @@ import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.change.TestSubmitInput;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.OnStoreSubmitRequirementResultModifier;
 import com.google.inject.AbstractModule;
@@ -49,21 +47,24 @@ import org.junit.Test;
 @NoHttpd
 public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest {
 
-  private TestOnStoreSubmitRequirementResultModifier testOnStoreSrModifier;
+  private static final TestOnStoreSubmitRequirementResultModifier
+      TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER =
+          new TestOnStoreSubmitRequirementResultModifier();
 
   @Override
   public Module createModule() {
-    testOnStoreSrModifier = new TestOnStoreSubmitRequirementResultModifier();
     return new AbstractModule() {
       @Override
       protected void configure() {
-        bind(OnStoreSubmitRequirementResultModifier.class).toInstance(testOnStoreSrModifier);
+        bind(OnStoreSubmitRequirementResultModifier.class)
+            .toInstance(TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER);
       }
     };
   }
 
   @Before
   public void setUp() throws Exception {
+    TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER.hide(false);
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
@@ -74,41 +75,9 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.disabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
-  public void submitRequirementsNotStored_overrideNoOp() throws Exception {
-
-    testOnStoreSrModifier.setModificationStrategy(ModificationStrategy.OVERRIDE);
-
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-
-    approve(changeId);
-
-    ChangeInfo change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(
-        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
-
-    gApi.changes().id(changeId).current().submit();
-
-    change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(
-        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirementStored_canBeOverriddenForMergedChanges() throws Exception {
-    testOnStoreSrModifier.setModificationStrategy(ModificationStrategy.OVERRIDE);
+    TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER.setModificationStrategy(
+        ModificationStrategy.OVERRIDE);
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -129,13 +98,9 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirementStored_canBeOverriddenForAbandonedChanges() throws Exception {
-    testOnStoreSrModifier.setModificationStrategy(ModificationStrategy.OVERRIDE);
+    TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER.setModificationStrategy(
+        ModificationStrategy.OVERRIDE);
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -156,14 +121,10 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirementStored_notReturnedWhenHidden() throws Exception {
-    testOnStoreSrModifier.setModificationStrategy(ModificationStrategy.OVERRIDE);
-    testOnStoreSrModifier.hide(true);
+    TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER.setModificationStrategy(
+        ModificationStrategy.OVERRIDE);
+    TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER.hide(true);
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -191,13 +152,9 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void overrideToUnsatisfied_unsatisfied_doesNotBlockSubmission() throws Exception {
-    testOnStoreSrModifier.setModificationStrategy(ModificationStrategy.FAIL);
+    TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER.setModificationStrategy(
+        ModificationStrategy.FAIL);
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -220,13 +177,9 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void overrideToUnsatisfied_doesNotBlockSubmissionWithRetries() throws Exception {
-    testOnStoreSrModifier.setModificationStrategy(ModificationStrategy.FAIL);
+    TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER.setModificationStrategy(
+        ModificationStrategy.FAIL);
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -251,13 +204,9 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void overrideToSatisfied_doesNotBypassSubmitRequirement() throws Exception {
-    testOnStoreSrModifier.setModificationStrategy(ModificationStrategy.PASS);
+    TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER.setModificationStrategy(
+        ModificationStrategy.PASS);
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();

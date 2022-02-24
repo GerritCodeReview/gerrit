@@ -22,6 +22,30 @@
       },
       "revId": "f2dfbf602f41635ec7ef6eca585366458da5f545",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "358b178d_252d1fb9",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-02-24T20:43:12Z",
+      "side": 1,
+      "message": "Yes, see TODO in `dark-theme.ts`. I have tried getting rid of it, but we have a problem with specificity. If I change `dark-theme.ts` to using `html.darkTheme`, then it will have higher specificity than plugins ... :-/",
+      "parentUuid": "8c451fb9_67e99cd6",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 5
+      },
+      "revId": "f2dfbf602f41635ec7ef6eca585366458da5f545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

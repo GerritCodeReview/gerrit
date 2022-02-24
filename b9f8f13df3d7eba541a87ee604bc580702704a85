@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1e51b414_f257f16e",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-24T12:14:37Z",
+      "side": 1,
+      "message": "Just to clarify the flow:\n\nFirst load\n\nInitially in the model loading \u003d false, allChanges is empty\n\nDashboard requests [c1,c2] and then calls sync()\n\nWhen sync is called, loading \u003d true\n\nWhen sync finishes, loading \u003d false, allChanges \u003d [c1, c2]\n\nDashboard auto reloads, this time changes returned are [c3, c4]\n\nWhen Dashboard is requesting c3,c4 (sync is not called until request for c3, c4 is resolved) we have in the model loading \u003d false, allChanges \u003d [c1, c2]\n\nModel is storing changes that are not visible.",
+      "parentUuid": "28a7a0dc_00d2b9a7",
+      "range": {
+        "startLine": 27,
+        "startChar": 11,
+        "endLine": 27,
+        "endChar": 16
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "af4e903f_30a03fc1",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 3

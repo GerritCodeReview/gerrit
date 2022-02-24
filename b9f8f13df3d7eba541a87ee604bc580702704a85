@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7b3d50c_18802b07",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-24T10:51:43Z",
+      "side": 1,
+      "message": "I\u0027m not sure you need more than 2 states.\n\nWhen loading is false, the data is up-to-date, when loading is true, then the data is not correct.\n\nThere\u0027s currently no state where allChanges has the basic info but loading is false.",
+      "parentUuid": "875c3d0f_bce354dc",
+      "range": {
+        "startLine": 27,
+        "startChar": 11,
+        "endLine": 27,
+        "endChar": 16
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af4e903f_30a03fc1",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-23T12:07:55Z",
       "side": 1,
       "message": "this needs to be urlEncoded otherwise the request won\u0027t work.\n\nreplacing with encodeURL(c.id, true) fixes the issue",
+      "range": {
+        "startLine": 88,
+        "startChar": 36,
+        "endLine": 88,
+        "endChar": 51
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccf4ddce_7c32163c",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-24T10:51:43Z",
+      "side": 1,
+      "message": "No longer necessary",
+      "parentUuid": "af4e903f_30a03fc1",
       "range": {
         "startLine": 88,
         "startChar": 36,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a804e6fd_d46c9c79",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-24T10:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c11be4b_35be8672",
+      "range": {
+        "startLine": 106,
+        "startChar": 37,
+        "endLine": 111,
+        "endChar": 9
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24556046_c096c899",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-02-23T12:51:37Z",
       "side": 1,
       "message": "`assert.isTrue(getChangesStub.calledOnce);`\n\nThere is also calledTwice and calledThrice for below",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 52
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a62ca3d7_f3bcdefd",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-24T10:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24556046_c096c899",
       "range": {
         "startLine": 116,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c1cfbf3_5d8eb62e",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-24T10:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e946b5bd_2843b74b",
+      "range": {
+        "startLine": 117,
+        "startChar": 44,
+        "endLine": 117,
+        "endChar": 45
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5f58a6e_d50693cf",
@@ -139,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a95693b_d65aacc1",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-24T10:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5f58a6e_d50693cf",
+      "range": {
+        "startLine": 134,
+        "startChar": 13,
+        "endLine": 134,
+        "endChar": 21
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7f78e98_4daf19d7",
@@ -152,6 +296,30 @@
       "writtenOn": "2022-02-23T12:51:37Z",
       "side": 1,
       "message": "I think this would be nicer and you won\u0027t need to import MockPromise\n`const responsePromise1 \u003d mockPromise\u003cChangeInfo[]\u003e();`",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 70
+      },
+      "revId": "b9f8f13df3d7eba541a87ee604bc580702704a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33938b07_0d1ccdee",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-24T10:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7f78e98_4daf19d7",
       "range": {
         "startLine": 140,
         "startChar": 0,

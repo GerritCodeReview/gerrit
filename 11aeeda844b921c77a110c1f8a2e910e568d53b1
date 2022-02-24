@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2cf41af_fe8898da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-02-24T20:11:19Z",
+      "side": 1,
+      "message": "It doesn\u0027t look like master has this commit yet. Based on https://www.gerritcodereview.com/2022-01-12-esc-minutes.html#definition-of-a-policy-for-updating-jgit-on-stable-gerrit-branches I would expect that to happen first. Am I understanding that ESC update correctly?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "11aeeda844b921c77a110c1f8a2e910e568d53b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

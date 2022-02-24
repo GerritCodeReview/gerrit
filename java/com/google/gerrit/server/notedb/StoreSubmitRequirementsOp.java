@@ -15,8 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.entities.SubmitRequirementResult;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.project.OnStoreSubmitRequirementResultModifier;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -50,25 +48,16 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
 
   @Inject
   public StoreSubmitRequirementsOp(
-      ExperimentFeatures experimentFeatures,
       OnStoreSubmitRequirementResultModifier onStoreSubmitRequirementResultModifier,
       @Assisted Collection<SubmitRequirementResult> submitRequirementResults,
       @Assisted ChangeData changeData) {
     this.onStoreSubmitRequirementResultModifier = onStoreSubmitRequirementResultModifier;
     this.submitRequirementResults = submitRequirementResults;
     this.changeData = changeData;
-    this.storeRequirementsInNoteDb =
-        experimentFeatures.isFeatureEnabled(
-            ExperimentFeaturesConstants
-                .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE);
   }
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws Exception {
-    if (!storeRequirementsInNoteDb) {
-      // Temporarily stop storing submit requirements in NoteDb when the change is merged.
-      return false;
-    }
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
     List<SubmitRequirementResult> nonLegacySubmitRequirements =
         submitRequirementResults.stream()

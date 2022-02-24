@@ -15,7 +15,12 @@
  * limitations under the License.
  */
 import {getAppContext} from '../../../services/app-context';
-import {PLUGIN_LOADING_TIMEOUT_MS, getPluginNameFromUrl} from './gr-api-utils';
+import {
+  PLUGIN_LOADING_TIMEOUT_MS,
+  getPluginNameFromUrl,
+  isThemeFile,
+  THEME_JS,
+} from './gr-api-utils';
 import {Plugin} from './gr-public-js-api';
 import {getBaseUrl} from '../../../utils/url-util';
 import {getPluginEndpoints} from './gr-plugin-endpoints';
@@ -84,6 +89,8 @@ export class PluginLoader {
   // Resolver to resolve _loadingPromise once all plugins loaded
   _loadingResolver: (() => void) | null = null;
 
+  private instanceId?: string;
+
   _getReporting() {
     if (!this._reporting) {
       this._reporting = getAppContext().reportingService;
@@ -101,7 +108,8 @@ export class PluginLoader {
   /**
    * Load multiple plugins with certain options.
    */
-  loadPlugins(plugins: string[] = []) {
+  loadPlugins(plugins: string[] = [], instanceId?: string) {
+    this.instanceId = instanceId;
     this._pluginListLoaded = true;
 
     plugins.forEach(path => {
@@ -320,16 +328,16 @@ export class PluginLoader {
   }
 
   _urlFor(pathOrUrl: string, assetsPath?: string): string {
-    // theme is per host, should always load from assetsPath
-    const isThemeFile = pathOrUrl.endsWith('static/gerrit-theme.js');
-    const shouldTryLoadFromAssetsPathFirst = !isThemeFile && assetsPath;
+    if (isThemeFile(pathOrUrl)) {
+      if (assetsPath && this.instanceId) {
+        return `${assetsPath}/hosts/${this.instanceId}${THEME_JS}`;
+      }
+      return window.location.origin + getBaseUrl() + THEME_JS;
+    }
+
     if (pathOrUrl.startsWith('http')) {
       // Plugins are loaded from another domain or preloaded.
-      if (
-        pathOrUrl.includes(location.host) &&
-        shouldTryLoadFromAssetsPathFirst &&
-        assetsPath
-      ) {
+      if (pathOrUrl.includes(location.host) && assetsPath) {
         // if is loading from host server, try replace with cdn when assetsPath provided
         return pathOrUrl.replace(location.origin, assetsPath);
       }
@@ -339,11 +347,9 @@ export class PluginLoader {
     if (!pathOrUrl.startsWith('/')) {
       pathOrUrl = '/' + pathOrUrl;
     }
-
-    if (shouldTryLoadFromAssetsPathFirst && assetsPath) {
+    if (assetsPath) {
       return assetsPath + pathOrUrl;
     }
-
     return window.location.origin + getBaseUrl() + pathOrUrl;
   }
 

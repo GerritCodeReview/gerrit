@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3197ad00_486ea8c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-24T14:55:12Z",
+      "side": 1,
+      "message": "I attempted before https://gerrit-review.googlesource.com/c/gerrit/+/330085 but got the same verified-1 error. didn\u0027t have time to look back at it yet.",
+      "revId": "5f78c5610aaec3868bb55850e9d768361ac28006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

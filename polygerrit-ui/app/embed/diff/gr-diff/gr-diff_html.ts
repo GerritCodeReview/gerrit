@@ -35,12 +35,13 @@ export const htmlTemplate = html`
     }
 
     :host {
-      font-family: var(--monospace-font-family, ''), 'Roboto Mono';
-      font-size: var(--font-size, var(--font-size-code, 12px));
       /* usually 16px = 12px + 4px */
-      line-height: calc(
+      --line-height-code: calc(
         var(--font-size, var(--font-size-code, 12px)) + var(--spacing-s, 4px)
       );
+      font-family: var(--monospace-font-family, ''), 'Roboto Mono';
+      font-size: var(--font-size, var(--font-size-code, 12px));
+      line-height: var(--line-height-code);
     }
 
     .thread-group {
@@ -106,13 +107,19 @@ export const htmlTemplate = html`
       border-top: 1px solid var(--border-color);
     }
 
+    .lineNum {
+      height: 100%;
+      padding: 1px;
+    }
+
     .lineNumButton {
       display: block;
       width: 100%;
-      height: 100%;
+      line-height: calc(var(--line-height-code) - 2px);
       background-color: var(--diff-blank-background-color);
       box-shadow: var(--line-number-box-shadow, unset);
     }
+
     td.lineNum {
       vertical-align: top;
     }
@@ -157,12 +164,24 @@ export const htmlTemplate = html`
       outline: none;
       user-select: none;
     }
-    .diff-row.target-row.target-side-left .lineNumButton.left,
-    .diff-row.target-row.target-side-right .lineNumButton.right,
-    .diff-row.target-row.unified .lineNumButton {
-      background-color: var(--diff-selection-background-color);
+
+    .diff-row.target-row.target-side-left .left.lineNum,
+    .diff-row.target-row.target-side-right .right.lineNum{
       color: var(--primary-text-color);
+      box-shadow: 
+       inset 0 1px 0 0 var(--focused-line-outline-color), /* Border top*/
+       inset 0 -1px 0 0 var(--focused-line-outline-color), /* Border bottom */
+       inset 1px 0 0 0 var(--focused-line-outline-color); /* Border left */
     }
+
+    .diff-row.target-row.target-side-left .contentText.left,
+    .diff-row.target-row.target-side-right .contentText.right{
+      box-shadow: 
+        inset -1px 0 0 0 var(--focused-line-outline-color), /* Border right */
+        inset 0 1px 0 0 var(--focused-line-outline-color), /* Border top */
+        inset 0 -1px 0 0 var(--focused-line-outline-color) ; /* Border bottom */
+    }
+
     .content {
       background-color: var(--diff-blank-background-color);
     }
@@ -405,6 +424,11 @@ export const htmlTemplate = html`
     #diffTable:focus {
       outline: none;
     }
+
+    #diffTable {
+      height: 100%;
+    }
+
     #loadingError,
     #sizeWarning {
       display: none;

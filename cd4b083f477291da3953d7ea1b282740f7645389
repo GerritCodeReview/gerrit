@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23b30b4a_78df29c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-24T12:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2d68b54_dea304cb",
+      "revId": "cd4b083f477291da3953d7ea1b282740f7645389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6971f03b_17ecab34",
@@ -85,6 +103,30 @@
       "writtenOn": "2022-02-23T14:52:19Z",
       "side": 1,
       "message": "that\u0027s a somewhat inaccurate formulation.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 31
+      },
+      "revId": "cd4b083f477291da3953d7ea1b282740f7645389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22f436d4_a8157a14",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-24T12:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6971f03b_17ecab34",
       "range": {
         "startLine": 52,
         "startChar": 0,

@@ -6,7 +6,7 @@
 import {render, css} from 'lit';
 
 const darkThemeCss = css`
-  html {
+  html.darkTheme {
     /**
        * Sections and variables must stay consistent with app-theme.js.
        *
@@ -267,9 +267,7 @@ const darkThemeCss = css`
   }
 `;
 
-export function applyTheme() {
-  const styleEl = document.createElement('style');
-  styleEl.setAttribute('id', 'dark-theme');
-  render(darkThemeCss, styleEl);
-  document.head.appendChild(styleEl);
-}
+const styleEl = document.createElement('style');
+styleEl.setAttribute('id', 'dark-theme');
+render(darkThemeCss, styleEl);
+document.head.appendChild(styleEl);

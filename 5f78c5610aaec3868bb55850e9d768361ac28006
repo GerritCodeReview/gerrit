@@ -16,6 +16,24 @@
       "message": "I attempted before https://gerrit-review.googlesource.com/c/gerrit/+/330085 but got the same verified-1 error. didn\u0027t have time to look back at it yet.",
       "revId": "5f78c5610aaec3868bb55850e9d768361ac28006",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b43b21c5_819d223f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-24T15:05:19Z",
+      "side": 1,
+      "message": "I forgot to add back @Test annotations, let\u0027s see if it works with that.",
+      "parentUuid": "3197ad00_486ea8c7",
+      "revId": "5f78c5610aaec3868bb55850e9d768361ac28006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -218,6 +218,7 @@ const darkThemeCss = safeStyleSheet`
     --diff-selection-background-color: #3a71d8;
     --diff-tab-indicator-color: var(--deemphasized-text-color);
     --diff-trailing-whitespace-indicator: #ff9ad2;
+    --focused-line-outline-color: rgba(0,0,0, .5);    
     --light-add-highlight-color: #182b1f;
     --light-rebased-add-highlight-color: #487165;
     --diff-moved-in-background: #1d4042;

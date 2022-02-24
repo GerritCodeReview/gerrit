@@ -132,7 +132,7 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
       }
       const lineNumberEl = this.getLineNumberEl(el, side);
       el.parentElement.replaceChild(
-        this.createTextEl(lineNumberEl, line, side).firstChild!,
+        this.createTextEl(lineNumberEl, line, side).querySelector('.contentText')!,
         el
       );
     }
@@ -372,6 +372,7 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
 
       if (side) {
         contentText.setAttribute('data-side', side);
+        td.classList.add(side);
         const number = side === Side.LEFT ? beforeNumber : afterNumber;
         this.addLineNumberMouseEvents(td, number, side);
       }

@@ -709,6 +709,43 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertSubmissionSuppressNotifications() throws Exception {
+    String firstResult = createChange("first change", "a.txt", "message").getChangeId();
+    approve(firstResult);
+    gApi.changes().id(firstResult).addReviewer(user.email());
+    String secondResult = createChange("second change", "b.txt", "other").getChangeId();
+    approve(secondResult);
+    gApi.changes().id(secondResult).addReviewer(user.email());
+
+    gApi.changes().id(secondResult).current().submit();
+
+    sender.clear();
+    RevertInput revertInput = new RevertInput();
+    revertInput.notify = NotifyHandling.NONE;
+    gApi.changes().id(secondResult).revertSubmission(revertInput);
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void revertSubmissionSuppressNotificationsWithWip() throws Exception {
+    String firstResult = createChange("first change", "a.txt", "message").getChangeId();
+    approve(firstResult);
+    gApi.changes().id(firstResult).addReviewer(user.email());
+    String secondResult = createChange("second change", "b.txt", "other").getChangeId();
+    approve(secondResult);
+    gApi.changes().id(secondResult).addReviewer(user.email());
+
+    gApi.changes().id(secondResult).current().submit();
+
+    sender.clear();
+    RevertInput revertInput = new RevertInput();
+    revertInput.workInProgress = true;
+    revertInput.notify = NotifyHandling.NONE;
+    gApi.changes().id(secondResult).revertSubmission(revertInput);
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
   public void revertSubmissionWipNotificationsWithNotifyHandlingAll() throws Exception {
     String changeId1 = createChange("first change", "a.txt", "message").getChangeId();
     approve(changeId1);

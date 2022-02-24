@@ -46,6 +46,30 @@
       },
       "revId": "e4bc0eb664807a80f6efaa4def46d809c834639c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7e0c844_24698c28",
+        "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1145735
+      },
+      "writtenOn": "2022-02-24T06:07:17Z",
+      "side": 1,
+      "message": "\u003e Thanks, done.",
+      "parentUuid": "3ab6c58f_cd031adc",
+      "range": {
+        "startLine": 99,
+        "startChar": 19,
+        "endLine": 99,
+        "endChar": 24
+      },
+      "revId": "e4bc0eb664807a80f6efaa4def46d809c834639c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

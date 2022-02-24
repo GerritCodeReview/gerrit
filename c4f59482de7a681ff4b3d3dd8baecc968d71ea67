@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b3e389f_0a9afd27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-24T10:30:10Z",
+      "side": 1,
+      "message": "Nice! This is really neat and thanks for the thorough testing!",
+      "revId": "c4f59482de7a681ff4b3d3dd8baecc968d71ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "565e0d98_0cf35c88",
+        "filename": "java/com/google/gerrit/server/query/change/DistinctVotersPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-24T10:30:10Z",
+      "side": 1,
+      "message": "nit: leave one blank line after license.",
+      "revId": "c4f59482de7a681ff4b3d3dd8baecc968d71ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bea71b34_23c8b562",
+        "filename": "java/com/google/gerrit/server/query/change/DistinctVotersPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-24T10:30:10Z",
+      "side": 1,
+      "message": "optional: this could be supplied with assisted inject.",
+      "range": {
+        "startLine": 50,
+        "startChar": 47,
+        "endLine": 50,
+        "endChar": 72
+      },
+      "revId": "c4f59482de7a681ff4b3d3dd8baecc968d71ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63c83aad_49ef404a",
+        "filename": "java/com/google/gerrit/server/query/change/DistinctVotersPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-24T10:30:10Z",
+      "side": 1,
+      "message": "It\u0027s better to compare labels ignoring case IMO, also in L58 we can map all label names to lower.",
+      "revId": "c4f59482de7a681ff4b3d3dd8baecc968d71ea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

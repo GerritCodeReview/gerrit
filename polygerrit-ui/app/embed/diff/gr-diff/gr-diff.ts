@@ -632,14 +632,14 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
    * Gets or creates a comment thread group for a specific line and side on a
    * diff.
    */
-  _getOrCreateThreadGroup(contentEl: Element, commentSide: Side) {
+  _getOrCreateThreadGroup(contentContainer: Element, commentSide: Side) {
     // Check if thread group exists.
-    let threadGroupEl = contentEl.querySelector('.thread-group');
+    let threadGroupEl = contentContainer.querySelector('.thread-group');
     if (!threadGroupEl) {
       threadGroupEl = document.createElement('div');
       threadGroupEl.className = 'thread-group';
       threadGroupEl.setAttribute('data-side', commentSide);
-      contentEl.appendChild(threadGroupEl);
+      contentContainer.appendChild(threadGroupEl);
     }
     return threadGroupEl;
   }
@@ -895,12 +895,13 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
           continue;
         }
         const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
-        if (!contentEl) continue;
-        if (lineNum === 'LOST' && !contentEl.hasChildNodes()) {
-          contentEl.appendChild(this._portedCommentsWithoutRangeMessage());
+        const contentContainer = contentEl?.querySelector('.contentContainer');
+        if (!contentContainer) continue;
+        if (lineNum === 'LOST' && !contentContainer.hasChildNodes()) {
+          contentContainer.appendChild(this._portedCommentsWithoutRangeMessage());
         }
         const threadGroupEl = this._getOrCreateThreadGroup(
-          contentEl,
+          contentContainer,
           commentSide
         );
 

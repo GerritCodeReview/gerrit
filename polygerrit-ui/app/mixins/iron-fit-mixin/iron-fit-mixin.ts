@@ -38,5 +38,5 @@ export const IronFitMixin = <T extends Constructor<PolymerElement>>(
 ): T & Constructor<IronFitBehavior> =>
   // TODO(TS): mixinBehaviors in some lib is returning: `new () => T` instead
   // which will fail the type check due to missing IronFitBehavior interface
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  mixinBehaviors([IronFitBehavior], superClass);
+  // eslint-disable-next-line
+  mixinBehaviors([IronFitBehavior], superClass) as any;

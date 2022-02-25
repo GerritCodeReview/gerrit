@@ -354,9 +354,10 @@ export class GrAutocomplete extends PolymerElement {
   @observe('_suggestions', '_focused')
   _maybeOpenDropdown(suggestions: AutocompleteSuggestion[], focused: boolean) {
     if (suggestions.length > 0 && focused) {
-      return this.$.suggestions.open();
+      this.$.suggestions.open();
+      return;
     }
-    return this.$.suggestions.close();
+    this.$.suggestions.close();
   }
 
   _computeClass(borderless?: boolean) {

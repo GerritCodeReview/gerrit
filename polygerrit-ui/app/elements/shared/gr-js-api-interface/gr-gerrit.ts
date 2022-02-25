@@ -294,7 +294,7 @@ class GerritImpl implements GerritInternal {
 
   off(eventName: string, cb: EventCallback) {
     this.reportingService.trackApi(fakeApi, 'global', 'off');
-    return this.eventEmitter.off(eventName, cb);
+    this.eventEmitter.off(eventName, cb);
   }
 
   on(eventName: string, cb: EventCallback) {
@@ -309,11 +309,11 @@ class GerritImpl implements GerritInternal {
 
   removeAllListeners(eventName: string) {
     this.reportingService.trackApi(fakeApi, 'global', 'removeAllListeners');
-    return this.eventEmitter.removeAllListeners(eventName);
+    this.eventEmitter.removeAllListeners(eventName);
   }
 
   removeListener(eventName: string, cb: EventCallback) {
     this.reportingService.trackApi(fakeApi, 'global', 'removeListener');
-    return this.eventEmitter.removeListener(eventName, cb);
+    this.eventEmitter.removeListener(eventName, cb);
   }
 }

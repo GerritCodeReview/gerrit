@@ -29,8 +29,8 @@ suite('gr-diff-check-result tests', () => {
     await element.updateComplete;
   });
 
-  teardown(async () => {
-    element?.remove();
+  teardown(() => {
+    if (element) element.remove();
   });
 
   test('renders', async () => {

@@ -734,7 +734,7 @@ export class GrDiffHost extends DIPolymerElement {
   }
 
   createRangeComment() {
-    return this.$.diff.createRangeComment();
+    this.$.diff.createRangeComment();
   }
 
   toggleLeftDiff() {

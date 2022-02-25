@@ -9,12 +9,12 @@
       "updated": "2022-02-25T14:41:43Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/62%252F331262%252F1/2/console",
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/10220/console",
       "started": "2022-02-25T14:35:12Z",
-      "finished": "2022-02-25T14:10:46Z",
+      "finished": "2022-02-25T14:44:46Z",
       "created": "2022-02-25T13:58:11Z",
-      "updated": "2022-02-25T14:33:03Z"
+      "updated": "2022-02-25T14:42:37Z"
     }
   }
 }

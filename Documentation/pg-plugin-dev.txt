@@ -95,32 +95,26 @@ Gerrit.install(plugin => {
 [[low-level-style]]
 === Styling DOM Elements
 
-A plugin may provide Polymer's
-https://polymer-library.polymer-project.org/3.0/docs/devguide/style-shadow-dom[style
-modules,role=external,window=_blank] to style individual endpoints using
-`plugin.registerStyleModule(endpointName, moduleName)`. A style must be defined
-as a standalone `<dom-module>` defined in the same .js file.
+Gerrit only offers customized CSS styling by setting
+link:https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_[custom_properties]
+(aka css variables).
 
-See
-link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/samples/theme-plugin.js[samples/theme-plugin.js]
-for an example.
+See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/styles/themes/[app-theme.ts]
+for the list of available variables.
+
+Just add code like this to your JavaScript plugin:
 
 ``` js
-const styleElement = document.createElement('dom-module');
-styleElement.innerHTML =
- `<template>
-    <style>
-    html {
-      --primary-text-color: red;
-    }
-   </style>
- </template>`;
-
-styleElement.register('some-style-module');
-
-Gerrit.install(plugin => {
-  plugin.registerStyleModule('change-metadata', 'some-style-module');
-});
+    const styleEl = document.createElement('style');
+    styleEl.innerHTML = `
+        html {
+          --header-background-color: #c3d9ff;
+        }
+        html.darkTheme {
+          --header-background-color: #c3d9ff90;
+        }
+    `;
+    document.head.appendChild(styleEl);
 ```
 
 [[high-level-api-concepts]]
@@ -169,7 +163,8 @@ See link:pg-plugin-endpoints.html[endpoints].
 === registerStyleModule
 `plugin.registerStyleModule(endpointName, moduleName)`
 
-See link:#low-level-style[above].
+This API is deprecated and will be removed either in version 3.6 or 3.7,
+see link:#low-level-style[above] for an alternative.
 
 === on
 Register a JavaScript callback to be invoked when events occur within

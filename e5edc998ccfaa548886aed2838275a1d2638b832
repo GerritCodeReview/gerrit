@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8100398d_b7fd0935",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-02-25T11:17:33Z",
+      "side": 1,
+      "message": "test comment",
+      "range": {
+        "startLine": 1,
+        "startChar": 82,
+        "endLine": 1,
+        "endChar": 87
+      },
+      "revId": "e5edc998ccfaa548886aed2838275a1d2638b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "34ce7db4_ef2ec2a9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10

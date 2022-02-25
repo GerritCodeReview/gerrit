@@ -80,10 +80,10 @@ suite('gr-patch-range-select tests', () => {
 
   test('enabled/disabled options', async () => {
     element.revisions = [
-      createRevision(3) as RevisionInfo,
-      createEditRevision(2) as EditRevisionInfo,
-      createRevision(2) as RevisionInfo,
-      createRevision(1) as RevisionInfo,
+      createRevision(3),
+      createEditRevision(2),
+      createRevision(2),
+      createRevision(1),
     ];
     await element.updateComplete;
 
@@ -259,10 +259,10 @@ suite('gr-patch-range-select tests', () => {
     ];
     element.basePatchNum = 1 as BasePatchSetNum;
     element.revisions = [
-      createRevision(3) as RevisionInfo,
-      createEditRevision(2) as EditRevisionInfo,
-      createRevision(2, 'description') as RevisionInfo,
-      createRevision(1) as RevisionInfo,
+      createRevision(3),
+      createEditRevision(2),
+      createRevision(2, 'description'),
+      createRevision(1),
     ];
     await element.updateComplete;
 

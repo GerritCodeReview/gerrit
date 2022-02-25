@@ -323,9 +323,7 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(element._hiddenReviewerCount, 0);
     assert.equal(element._displayedReviewers.length, 4);
     assert.equal(element._reviewers.length, 4);
-    assert.isTrue(
-      (queryAndAssert(element, '.hiddenReviewers') as GrButton).hidden
-    );
+    assert.isTrue(queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden);
   });
 
   test('account owner comes first in list of reviewers', () => {
@@ -378,7 +376,7 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(element._displayedReviewers.length, 6);
     assert.equal(element._reviewers.length, 9);
     assert.isFalse(
-      (queryAndAssert(element, '.hiddenReviewers') as GrButton).hidden
+      queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden
     );
   });
 
@@ -406,7 +404,7 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(element._displayedReviewers.length, 6);
     assert.equal(element._reviewers.length, 100);
     assert.isFalse(
-      (queryAndAssert(element, '.hiddenReviewers') as GrButton).hidden
+      queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden
     );
 
     tap(queryAndAssert(element, '.hiddenReviewers'));
@@ -414,9 +412,7 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(element._hiddenReviewerCount, 0);
     assert.equal(element._displayedReviewers.length, 100);
     assert.equal(element._reviewers.length, 100);
-    assert.isTrue(
-      (queryAndAssert(element, '.hiddenReviewers') as GrButton).hidden
-    );
+    assert.isTrue(queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden);
   });
 
   test('votable labels', () => {

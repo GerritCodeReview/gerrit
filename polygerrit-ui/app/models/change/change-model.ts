@@ -244,7 +244,7 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
               this.updateStateReviewedFiles([]);
               return of(undefined);
             }
-            return from(this.fetchReviewedFiles(currentPatchNum!, changeNum!));
+            return from(this.fetchReviewedFiles(currentPatchNum, changeNum));
           })
         )
         .subscribe(),

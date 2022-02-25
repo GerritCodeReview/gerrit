@@ -81,12 +81,10 @@ export class GrChangeTableEditor extends PolymerElement {
    */
   _getDisplayedColumns() {
     if (this.root === null) return [];
-    return (
-      Array.from(
-        this.root.querySelectorAll(
-          '.checkboxContainer input:not([name=number])'
-        )
-      ) as HTMLInputElement[]
+    return Array.from(
+      this.root.querySelectorAll<HTMLInputElement>(
+        '.checkboxContainer input:not([name=number])'
+      )
     )
       .filter(checkbox => checkbox.checked)
       .map(checkbox => checkbox.name);

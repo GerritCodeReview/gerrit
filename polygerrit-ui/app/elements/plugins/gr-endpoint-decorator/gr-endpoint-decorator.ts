@@ -102,7 +102,7 @@ export class GrEndpointDecorator extends PolymerElement {
     [...directChildren, ...shadowChildren]
       .filter(node => node.nodeName !== 'GR-ENDPOINT-PARAM')
       .filter(node => node.nodeName !== 'SLOT')
-      .forEach(node => (node as ChildNode).remove());
+      .forEach(node => node.remove());
     const el = document.createElement(name);
     return this._initProperties(el, plugin).then((el: HTMLElement) =>
       this._appendChild(el)

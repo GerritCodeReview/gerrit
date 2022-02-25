@@ -115,9 +115,9 @@ suite('gr-repo-dashboards tests', () => {
       );
 
       const dashboard = element._dashboards!;
-      assert.equal(dashboard.length!, 2);
-      assert.equal(dashboard[0].section!, 'custom');
-      assert.equal(dashboard[1].section!, 'default');
+      assert.equal(dashboard.length, 2);
+      assert.equal(dashboard[0].section, 'custom');
+      assert.equal(dashboard[1].section, 'default');
 
       const dashboards = dashboard[0].dashboards;
       assert.equal(dashboards.length, 2);
@@ -148,6 +148,7 @@ suite('gr-repo-dashboards tests', () => {
     test('fires page-error', async () => {
       const response = {status: 404} as Response;
       stubRestApi('getRepoDashboards').callsFake((_repo, errFn) => {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         errFn!(response);
         return Promise.resolve([]);
       });

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-copy-clipboard';
 import {GrCopyClipboard} from './gr-copy-clipboard';
@@ -53,10 +52,10 @@ suite('gr-copy-clipboard tests', () => {
     const ironInputElement = queryAndAssert(element, 'iron-input');
     assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
 
-    const inputElement = queryAndAssert(element, 'input') as HTMLInputElement;
+    const inputElement = queryAndAssert<HTMLInputElement>(element, 'input');
     MockInteractions.tap(inputElement);
     assert.equal(inputElement.selectionStart, 0);
-    assert.equal(inputElement.selectionEnd, element.text!.length! - 1);
+    assert.equal(inputElement.selectionEnd, element.text!.length - 1);
   });
 
   test('hideInput', async () => {

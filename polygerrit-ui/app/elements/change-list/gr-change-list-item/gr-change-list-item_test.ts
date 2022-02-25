@@ -430,7 +430,7 @@ suite('gr-change-list-item tests', () => {
       attention_set: {},
     };
     for (let i = 0; i < reviewerIds.length; i++) {
-      element.change!.reviewers.REVIEWER!.push({
+      element.change.reviewers.REVIEWER!.push({
         _account_id: reviewerIds[i] as AccountId,
         name: reviewerNames[i],
       });

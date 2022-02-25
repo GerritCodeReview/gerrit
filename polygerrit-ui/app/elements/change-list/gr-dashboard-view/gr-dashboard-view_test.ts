@@ -123,7 +123,7 @@ suite('gr-dashboard-view tests', () => {
             results: [notOpenChange],
           },
         ];
-        assert.isFalse(changeIsOpen(element.results![0].results[0]));
+        assert.isFalse(changeIsOpen(element.results[0].results[0]));
         element.maybeShowDraftsBanner({
           view: GerritView.DASHBOARD,
           user: 'self',

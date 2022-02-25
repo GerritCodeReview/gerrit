@@ -133,16 +133,14 @@ suite('gr-message tests', () => {
         (e: CustomEvent<ChangeMessageDeletedEventDetail>) => {
           assert.deepEqual(e.detail.message, element.message);
           assert.isFalse(
-            (queryAndAssert(element, '.deleteBtn') as GrButton).disabled
+            queryAndAssert<GrButton>(element, '.deleteBtn').disabled
           );
           promise.resolve();
         }
       );
       await flush();
       tap(queryAndAssert(element, '.deleteBtn'));
-      assert.isTrue(
-        (queryAndAssert(element, '.deleteBtn') as GrButton).disabled
-      );
+      assert.isTrue(queryAndAssert<GrButton>(element, '.deleteBtn').disabled);
       await promise;
     });
 

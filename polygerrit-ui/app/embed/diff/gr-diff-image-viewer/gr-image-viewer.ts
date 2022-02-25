@@ -889,7 +889,7 @@ export class GrImageViewer extends LitElement {
   }
 
   private handleFollowMouse(event: MouseEvent) {
-    const rect = this.imageArea!.getBoundingClientRect();
+    const rect = this.imageArea.getBoundingClientRect();
     const offsetX = event.clientX - rect.left;
     const offsetY = event.clientY - rect.top;
     const fractionX = offsetX / rect.width;

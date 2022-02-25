@@ -48,9 +48,8 @@ suite('Registry', () => {
       foo: (_ctx: Partial<DemoContext>) => new Foo(final),
       bar: (ctx: Partial<DemoContext>) => new Bar(final, ctx.foo),
     };
-    const demoContext: DemoContext & Finalizable = create<DemoContext>(
-      demoRegistry
-    ) as DemoContext & Finalizable;
+    const demoContext: DemoContext & Finalizable =
+      create<DemoContext>(demoRegistry);
     demoContext.finalize();
     assert.deepEqual(final, ['Foo', 'Bar']);
   });

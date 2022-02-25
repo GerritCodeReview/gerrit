@@ -151,9 +151,9 @@ export class GrChangeListSection extends LitElement {
           ?hidden=${!this.showStar}
         ></td>
         <td class="cell" colspan="${colSpan}">
-          ${this.changeSection!.emptyStateSlotName
+          ${this.changeSection.emptyStateSlotName
             ? html`<slot
-                name="${this.changeSection!.emptyStateSlotName}"
+                name="${this.changeSection.emptyStateSlotName}"
               ></slot>`
             : 'No changes'}
         </td>
@@ -178,10 +178,10 @@ export class GrChangeListSection extends LitElement {
           <td class="cell" colspan="${colSpan}">
             <h2 class="heading-3">
               <a
-                href="${this.sectionHref(this.changeSection!.query)}"
+                href="${this.sectionHref(this.changeSection.query)}"
                 class="section-title"
               >
-                <span class="section-name">${this.changeSection!.name}</span>
+                <span class="section-name">${this.changeSection.name}</span>
                 <span class="section-count-label"
                   >${this.changeSection.countLabel}</span
                 >
@@ -252,7 +252,7 @@ export class GrChangeListSection extends LitElement {
         ?selected=${selected}
         .change=${change}
         .config=${this.config}
-        .sectionName=${this.changeSection!.name}
+        .sectionName=${this.changeSection.name}
         .visibleChangeTableColumns=${columns}
         .showNumber=${this.showNumber}
         ?showStar=${this.showStar}

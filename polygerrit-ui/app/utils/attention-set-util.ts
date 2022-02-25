@@ -49,7 +49,7 @@ export function getReason(
   if (change?.attention_set === undefined) return '';
   if (account?._account_id === undefined) return '';
 
-  const attentionSetInfo = change.attention_set[account._account_id!];
+  const attentionSetInfo = change.attention_set[account._account_id];
 
   if (attentionSetInfo?.reason === undefined) return '';
 

@@ -214,7 +214,7 @@ suite('gr-repo tests', () => {
     });
     await element.updateComplete;
 
-    assert.deepEqual(element.repoConfig!.plugin_config!.test, {
+    assert.deepEqual(element.repoConfig.plugin_config!.test, {
       test: {display_name: 'test plugin', type: 'STRING'},
     } as PluginParameterToConfigParameterInfoMap);
     assert.isTrue(requestUpdateStub.called);

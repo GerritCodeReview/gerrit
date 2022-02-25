@@ -72,7 +72,7 @@ export class GrPluginEndpoints {
   _getOrCreateModuleInfo(plugin: PluginApi, opts: Options): ModuleInfo {
     const {endpoint, slot, type, moduleName, domHook} = opts;
     const existingModule = this._endpoints
-      .get(endpoint!)!
+      .get(endpoint)!
       .find(
         (info: ModuleInfo) =>
           info.plugin === plugin &&
@@ -91,7 +91,7 @@ export class GrPluginEndpoints {
         domHook,
         slot,
       };
-      this._endpoints.get(endpoint!)!.push(newModule);
+      this._endpoints.get(endpoint)!.push(newModule);
       return newModule;
     }
   }

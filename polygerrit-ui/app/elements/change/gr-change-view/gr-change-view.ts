@@ -1638,7 +1638,7 @@ export class GrChangeView extends base {
     } else {
       const reason = getAddedByReason(this._account, this._serverConfig);
       fireAlert(this, 'Adding you to the attention set ...');
-      this._change.attention_set[this._account._account_id!] = {
+      this._change.attention_set[this._account._account_id] = {
         account: this._account,
         reason,
         reason_account: this._account,
@@ -2051,7 +2051,7 @@ export class GrChangeView extends base {
     assertIsDefined(this._changeNum, '_changeNum');
     assertIsDefined(this._patchRange?.patchNum, '_patchRange.patchNum');
     return this.restApiService
-      .getChangeCommitInfo(this._changeNum, this._patchRange!.patchNum)
+      .getChangeCommitInfo(this._changeNum, this._patchRange.patchNum)
       .then(commitInfo => {
         this._commitInfo = commitInfo;
       });

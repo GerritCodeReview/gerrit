@@ -39,4 +39,4 @@ export const IronOverlayMixin = <T extends Constructor<PolymerElement>>(
   // instead which will fail the type check due to missing
   // IronOverlayBehavior interface
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  mixinBehaviors([IronOverlayBehavior], superClass) as any;
+  mixinBehaviors([IronOverlayBehavior], superClass);

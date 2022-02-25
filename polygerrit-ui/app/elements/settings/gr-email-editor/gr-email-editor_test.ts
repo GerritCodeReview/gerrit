@@ -43,7 +43,7 @@ suite('gr-email-editor tests', () => {
   test('renders', () => {
     const rows = element
       .shadowRoot!.querySelector('table')!
-      .querySelectorAll('tbody tr') as NodeListOf<HTMLTableRowElement>;
+      .querySelectorAll('tbody tr');
 
     assert.equal(rows.length, 3);
 
@@ -69,7 +69,7 @@ suite('gr-email-editor tests', () => {
     const preferredChangedSpy = sinon.spy(element, '_handlePreferredChange');
     const radios = element
       .shadowRoot!.querySelector('table')!
-      .querySelectorAll('input[type=radio]') as NodeListOf<HTMLInputElement>;
+      .querySelectorAll<HTMLInputElement>('input[type=radio]');
 
     assert.isFalse(element.hasUnsavedChanges);
     assert.isNotOk(element._newPreferred);
@@ -125,7 +125,7 @@ suite('gr-email-editor tests', () => {
 
     // Delete the first email and set the last as preferred.
     rows[0].querySelector('gr-button')!.click();
-    (rows[2].querySelector('input[type=radio]')! as HTMLInputElement).click();
+    rows[2].querySelector<HTMLInputElement>('input[type=radio]')!.click();
 
     assert.isTrue(element.hasUnsavedChanges);
     assert.equal(element._newPreferred, 'email@three.com');

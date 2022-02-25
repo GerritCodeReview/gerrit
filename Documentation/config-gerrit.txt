@@ -611,7 +611,7 @@ needs to have `http.cookieFile` set to a local file, otherwise every
 single call would trigger a full LDAP authentication and groups resolution
 which could introduce a noticeable latency on the overall execution
 and produce unwanted load to the LDAP server.
-+
+
 [[auth.gitOAuthProvider]]auth.gitOAuthProvider::
 +
 Selects the OAuth 2 provider to authenticate git over HTTP traffic with.
@@ -2192,7 +2192,7 @@ to have Gerrit display URLs from this server, rather than itself.
 By default unset, as the HTTP daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
-+
+
 [[gerrit.installBatchModule]]gerrit.installBatchModule::
 +
 Repeatable list of class name of additional Guice modules to load as
@@ -2202,7 +2202,7 @@ class needs to be either declared in Gerrit or an additional JAR
 located under the `/lib` directory.
 +
 By default unset.
-+
+
 [[gerrit.installDbModule]]gerrit.installDbModule::
 +
 Repeatable list of class name of additional Guice modules to load at
@@ -5153,6 +5153,7 @@ are provided. If set to 0, suggestions are always provided. This is only
 used for suggesting accounts when adding members to a group.
 +
 By default 0.
+
 [[suggest.relevantChanges]]suggest.relevantChanges::
 +
 When suggesting reviewers, we go over recent changes of the user, and

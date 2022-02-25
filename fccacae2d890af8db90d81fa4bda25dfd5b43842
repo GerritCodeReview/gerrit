@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3730e3e_67d178d3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-25T14:21:45Z",
+      "side": 1,
+      "message": "what is this doing? also class is unused",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 31
+      },
+      "revId": "fccacae2d890af8db90d81fa4bda25dfd5b43842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6083fe23_047d83f9",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
         "patchSetId": 16

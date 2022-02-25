@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee49c426_02aa4b96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-25T13:06:03Z",
+      "side": 1,
+      "message": "I think it should mainly be shadow DOM testing which I plan to get to in the shadow DOM changes.\nOtherwise I added a basic test.\nLMK if you want something specific.",
+      "parentUuid": "3e41b33d_1edaced7",
+      "revId": "29e8721ac0f88775fbfad552c920d5dd724e87e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e228d2c7_19d334ca",

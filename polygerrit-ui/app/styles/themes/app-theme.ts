@@ -3,9 +3,9 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {render, css} from 'lit';
+import {safeStyleSheet, safeStyleEl} from '../../utils/inner-html-util';
 
-const appThemeCss = css`
+const appThemeCss = safeStyleSheet`
   html {
     /**
        * When adding a new color variable make sure to also add it to the other
@@ -467,13 +467,13 @@ const appThemeCss = css`
 
 const styleEl = document.createElement('style');
 styleEl.setAttribute('id', 'light-theme');
-render(appThemeCss, styleEl);
+safeStyleEl.setTextContent(styleEl, appThemeCss);
 document.head.appendChild(styleEl);
 
 // TODO: The following can be removed when Paper and Iron components have been
 // removed from Gerrit.
 
-const appThemeCssPolymerLegacy = css`
+const appThemeCssPolymerLegacy = safeStyleSheet`
   html {
     --paper-tooltip: {
       font-size: var(--font-size-small);
@@ -486,6 +486,6 @@ const appThemeCssPolymerLegacy = css`
 
 const customStyleEl = document.createElement('custom-style');
 const innerStyleEl = document.createElement('style');
-render(appThemeCssPolymerLegacy, innerStyleEl);
+safeStyleEl.setTextContent(innerStyleEl, appThemeCssPolymerLegacy);
 customStyleEl.appendChild(innerStyleEl);
 document.head.appendChild(customStyleEl);

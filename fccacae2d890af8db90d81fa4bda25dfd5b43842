@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67822ab5_5c15999b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-25T14:19:39Z",
+      "side": 1,
+      "message": "don\u0027t manage subscriptions manually, use subscription-controller utility `subscribe()`. https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/lit/subscription-controller.ts;l\u003d25;drc\u003d0ca140aba7417dc0d5ffea2833f66716ddb6583d",
+      "range": {
+        "startLine": 124,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 3
+      },
+      "revId": "fccacae2d890af8db90d81fa4bda25dfd5b43842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6083fe23_047d83f9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-25T14:19:39Z",
+      "side": 1,
+      "message": "use flag here instead of within renderBulkActionsHeader",
+      "range": {
+        "startLine": 235,
+        "startChar": 8,
+        "endLine": 235,
+        "endChar": 34
+      },
+      "revId": "fccacae2d890af8db90d81fa4bda25dfd5b43842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bf72685_b694011e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-25T14:19:39Z",
+      "side": 1,
+      "message": "why is all this hidden when you want to show the action bar? We still want column headers etc",
+      "range": {
+        "startLine": 239,
+        "startChar": 12,
+        "endLine": 251,
+        "endChar": 16
+      },
+      "revId": "fccacae2d890af8db90d81fa4bda25dfd5b43842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

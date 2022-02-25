@@ -1696,7 +1696,8 @@ export class GrChangeActions
         body &&
         !(body as CherryPickInput).allow_conflicts
       ) {
-        return this._showActionDialog(this.$.confirmCherrypickConflict);
+        this._showActionDialog(this.$.confirmCherrypickConflict);
+        return;
       }
     }
     return response.text().then(errText => {

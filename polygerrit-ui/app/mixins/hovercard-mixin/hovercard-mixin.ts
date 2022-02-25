@@ -562,7 +562,7 @@ export interface HovercardMixinInterface {
   _target: HTMLElement | null;
   _isShowing: boolean;
   dispatchEventThroughTarget(eventName: string, detail?: unknown): void;
-  show(props: MouseKeyboardOrFocusEvent): void;
+  show(props: MouseKeyboardOrFocusEvent): Promise<void>;
   forceHide(): void;
 
   // Used for tests

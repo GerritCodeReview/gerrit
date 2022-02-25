@@ -201,7 +201,7 @@ export class GrEditControls extends PolymerElement {
     }
 
     dialog.classList.toggle('invisible', true);
-    return this.$.overlay.close();
+    this.$.overlay.close();
   }
 
   _handleDialogCancel(e: Event) {

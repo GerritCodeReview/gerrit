@@ -71,7 +71,7 @@ suite('gr-hovercard-account tests', () => {
   });
 
   teardown(async () => {
-    await element.mouseHide(new MouseEvent('click'));
+    element.mouseHide(new MouseEvent('click'));
     await element.updateComplete;
   });
 

@@ -18,7 +18,6 @@ import '../../../test/common-test-setup-karma.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff-builder-element.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';

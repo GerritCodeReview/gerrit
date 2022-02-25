@@ -192,9 +192,10 @@ export class GrListView extends LitElement {
       () => {
         if (!this.isConnected || !this.path) return;
         if (filter) {
-          return page.show(`${this.path}/q/filter:${encodeURL(filter, false)}`);
+          page.show(`${this.path}/q/filter:${encodeURL(filter, false)}`);
+          return;
         }
-        return page.show(this.path);
+        page.show(this.path);
       },
       REQUEST_DEBOUNCE_INTERVAL_MS
     );

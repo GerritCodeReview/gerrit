@@ -181,7 +181,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     for (const group of groups) {
       this.emitGroup(group, contextControlSection);
     }
-    contextControlSection?.remove();
+    if (contextControlSection) contextControlSection.remove();
   }
 
   findGroup(side: Side, line: LineNumber) {

@@ -193,10 +193,12 @@ export function waitUntil(
   return new Promise((resolve, reject) => {
     const waiter = () => {
       if (predicate()) {
-        return resolve();
+        resolve();
+        return;
       }
       if (Date.now() - start >= 1000) {
-        return reject(error);
+        reject(error);
+        return;
       }
       setTimeout(waiter, sleep);
       sleep = sleep === 0 ? 1 : sleep * 4;

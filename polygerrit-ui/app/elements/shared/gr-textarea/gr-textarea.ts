@@ -193,7 +193,7 @@ export class GrTextarea extends PolymerElement {
   }
 
   closeDropdown() {
-    return this.$.emojiSuggestions.close();
+    this.$.emojiSuggestions.close();
   }
 
   getNativeTextarea() {

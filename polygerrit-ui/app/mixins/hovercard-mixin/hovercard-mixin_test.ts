@@ -63,7 +63,7 @@ suite('gr-hovercard tests', () => {
   teardown(() => {
     pressKey(element, Key.ESC);
     element.mouseHide(new MouseEvent('click'));
-    button?.remove();
+    if (button) button.remove();
   });
 
   test('updatePosition', async () => {
@@ -106,7 +106,7 @@ suite('gr-hovercard tests', () => {
   });
 
   test('show', async () => {
-    await element.show({});
+    element.show({});
     await element.updateComplete;
     const style = getComputedStyle(element);
     assert.isTrue(element._isShowing);
@@ -207,7 +207,7 @@ suite('gr-hovercard tests', () => {
     const button = document.querySelector('button')!;
     button.focus();
     await element.updateComplete;
-    await element.show({keyboardEvent: new KeyboardEvent('enter')});
+    element.show({keyboardEvent: new KeyboardEvent('enter')});
     await element.updateComplete;
     assert.isTrue(element._isShowing);
     const activeElement = findActiveElement(document);
@@ -218,7 +218,7 @@ suite('gr-hovercard tests', () => {
     const button = document.querySelector('button')!;
     button.focus();
     await element.updateComplete;
-    await element.show({mouseEvent: new MouseEvent('enter')});
+    element.show({mouseEvent: new MouseEvent('enter')});
     await element.updateComplete;
     assert.isTrue(element._isShowing);
     const activeElement = findActiveElement(document);

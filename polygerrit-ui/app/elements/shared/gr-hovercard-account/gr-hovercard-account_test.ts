@@ -66,12 +66,12 @@ suite('gr-hovercard-account tests', () => {
       >
       </gr-hovercard-account>`
     );
-    await element.show({});
+    element.show({});
     await element.updateComplete;
   });
 
   teardown(async () => {
-    await element.mouseHide(new MouseEvent('click'));
+    element.mouseHide(new MouseEvent('click'));
     await element.updateComplete;
   });
 

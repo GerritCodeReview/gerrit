@@ -200,7 +200,7 @@ export class TokenHighlightLayer implements DiffLayer {
       // If we are moving out of the currently hovered element, cancel the
       // update task.
       this.hoveredElement = undefined;
-      this.updateTokenTask?.cancel();
+      if (this.updateTokenTask) this.updateTokenTask.cancel();
     }
   }
 

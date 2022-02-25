@@ -105,7 +105,7 @@ export class GrAccountInfo extends PolymerElement {
       })
     );
 
-    promises.push(this.restApiService.invalidateAccountsDetailCache());
+    this.restApiService.invalidateAccountsDetailCache();
 
     promises.push(
       this.restApiService.getAccount().then(account => {

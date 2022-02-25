@@ -99,6 +99,9 @@ export class Plugin implements PluginApi {
   }
 
   registerStyleModule(endpoint: string, moduleName: string) {
+    console.warn(
+      `The deprecated plugin API 'registerStyleModule()' was called with parameters '${endpoint}' and '${moduleName}'.`
+    );
     this.report.trackApi(this, 'plugin', 'registerStyleModule');
     getPluginEndpoints().registerModule(this, {
       endpoint,

@@ -92,6 +92,7 @@ export declare interface PluginApi {
     moduleName?: string,
     options?: RegisterOptions
   ): HookApi<T>;
+  // DEPRECATED: Just add <style> elements to `document.head`.
   registerStyleModule(endpoint: string, moduleName: string): void;
   reporting(): ReportingPluginApi;
   restApi(): RestPluginApi;

@@ -493,7 +493,7 @@ export class GrGroup extends LitElement {
     // Because the value for e.detail.value is a string
     // we convert the value to a boolean.
     const value = e.detail.value === 'true' ? true : false;
-    this.groupConfig!.options!.visible_to_all = value;
+    this.groupConfig.options!.visible_to_all = value;
     this.requestUpdate();
   }
 }

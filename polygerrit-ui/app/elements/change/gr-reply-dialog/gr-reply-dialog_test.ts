@@ -69,7 +69,6 @@ import {
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -128,7 +127,7 @@ suite('gr-reply-dialog tests', () => {
       ...createChange(),
       _number: changeNum,
       owner: {
-        _account_id: 999 as AccountId as AccountId,
+        _account_id: 999 as AccountId,
         display_name: 'Kermit',
       },
       labels: {
@@ -237,7 +236,7 @@ suite('gr-reply-dialog tests', () => {
       ignore_automatic_attention_set_rules: true,
     });
     assert.isFalse(
-      (queryAndAssert(element, '#commentList') as GrThreadList).hidden
+      queryAndAssert<GrThreadList>(element, '#commentList').hidden
     );
   });
 
@@ -354,7 +353,7 @@ suite('gr-reply-dialog tests', () => {
     const hasDrafts = draftThreads.length > 0;
     element._computeNewAttention(
       user,
-      reviewers!,
+      reviewers,
       emptyAccountInfoInputChanges,
       change,
       draftThreads,
@@ -1037,20 +1036,20 @@ suite('gr-reply-dialog tests', () => {
 
   test('getlabelValue returns value', async () => {
     await flush();
-    const el = queryAndAssert(
+    const el = queryAndAssert<GrLabelScoreRow>(
       queryAndAssert(element, 'gr-label-scores'),
       'gr-label-score-row[name="Verified"]'
-    ) as GrLabelScoreRow;
+    );
     el.setSelectedValue('-1');
     assert.equal('-1', element.getLabelValue('Verified'));
   });
 
   test('getlabelValue when no score is selected', async () => {
     await flush();
-    const el = queryAndAssert(
+    const el = queryAndAssert<GrLabelScoreRow>(
       queryAndAssert(element, 'gr-label-scores'),
       'gr-label-score-row[name="Code-Review"]'
-    ) as GrLabelScoreRow;
+    );
     el.setSelectedValue('-1');
     assert.strictEqual(element.getLabelValue('Verified'), ' 0');
   });
@@ -1063,8 +1062,9 @@ suite('gr-reply-dialog tests', () => {
     element.setLabelValue(label, value);
     await flush();
 
-    const labels = (
-      queryAndAssert(element, '#labelScores') as GrLabelScores
+    const labels = queryAndAssert<GrLabelScores>(
+      element,
+      '#labelScores'
     ).getLabelValues();
     assert.deepEqual(labels, {
       'Code-Review': 0,
@@ -1166,8 +1166,9 @@ suite('gr-reply-dialog tests', () => {
     observer = overlayObserver('closed');
     const expected = 'Group name has 10 members';
     assert.notEqual(
-      (
-        queryAndAssert(element, 'reviewerConfirmationOverlay') as GrOverlay
+      queryAndAssert<HTMLElement>(
+        element,
+        'reviewerConfirmationOverlay'
       ).innerText.indexOf(expected),
       -1
     );
@@ -1181,19 +1182,18 @@ suite('gr-reply-dialog tests', () => {
     // We should be focused on account entry input.
     assert.isTrue(
       isFocusInsideElement(
-        (queryAndAssert(element, '#reviewers') as GrAccountList).$.entry.$.input
-          .$.input
+        queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
+          .input
       )
     );
 
     // No reviewer/CC should have been added.
     assert.equal(
-      (queryAndAssert(element, '#ccs') as GrAccountList).additions().length,
+      queryAndAssert<GrAccountList>(element, '#ccs').additions().length,
       0
     );
     assert.equal(
-      (queryAndAssert(element, '#reviewers') as GrAccountList).additions()
-        .length,
+      queryAndAssert<GrAccountList>(element, '#reviewers').additions().length,
       0
     );
 
@@ -1223,8 +1223,8 @@ suite('gr-reply-dialog tests', () => {
       isVisible(queryAndAssert(element, 'reviewerConfirmationOverlay'))
     );
     const additions = cc
-      ? (queryAndAssert(element, '#ccs') as GrAccountList).additions()
-      : (queryAndAssert(element, '#reviewers') as GrAccountList).additions();
+      ? queryAndAssert<GrAccountList>(element, '#ccs').additions()
+      : queryAndAssert<GrAccountList>(element, '#reviewers').additions();
     assert.deepEqual(additions, [
       {
         group: {
@@ -1241,15 +1241,14 @@ suite('gr-reply-dialog tests', () => {
     if (cc) {
       assert.isTrue(
         isFocusInsideElement(
-          (queryAndAssert(element, '#ccs') as GrAccountList).$.entry.$.input.$
-            .input
+          queryAndAssert<GrAccountList>(element, '#ccs').$.entry.$.input.$.input
         )
       );
     } else {
       assert.isTrue(
         isFocusInsideElement(
-          (queryAndAssert(element, '#reviewers') as GrAccountList).$.entry.$
-            .input.$.input
+          queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
+            .input
         )
       );
     }
@@ -1273,11 +1272,9 @@ suite('gr-reply-dialog tests', () => {
   test('_reviewersMutated when account-text-change is fired from ccs', () => {
     flush();
     assert.isFalse(element._reviewersMutated);
-    assert.isTrue(
-      (queryAndAssert(element, '#ccs') as GrAccountList).allowAnyInput
-    );
+    assert.isTrue(queryAndAssert<GrAccountList>(element, '#ccs').allowAnyInput);
     assert.isFalse(
-      (queryAndAssert(element, '#reviewers') as GrAccountList).allowAnyInput
+      queryAndAssert<GrAccountList>(element, '#reviewers').allowAnyInput
     );
     queryAndAssert(element, '#ccs').dispatchEvent(
       new CustomEvent('account-text-changed', {bubbles: true, composed: true})
@@ -1341,6 +1338,7 @@ suite('gr-reply-dialog tests', () => {
   test('400 converts to human-readable server-error', async () => {
     stubRestApi('saveChangeReview').callsFake(
       (_changeNum, _patchNum, _review, errFn) => {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         errFn!(
           cloneableResponse(
             400,
@@ -1370,6 +1368,7 @@ suite('gr-reply-dialog tests', () => {
   test('non-json 400 is treated as a normal server-error', async () => {
     stubRestApi('saveChangeReview').callsFake(
       (_changeNum, _patchNum, _review, errFn) => {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         errFn!(cloneableResponse(400, 'Comment validation error!') as Response);
         return Promise.resolve(new Response());
       }
@@ -1503,10 +1502,10 @@ suite('gr-reply-dialog tests', () => {
     // tap() cause a race in some situations in shadow DOM.
     // The send button can be tapped before the others, causing the test to
     // fail.
-    const el = queryAndAssert(
+    const el = queryAndAssert<GrLabelScoreRow>(
       queryAndAssert(element, 'gr-label-scores'),
       'gr-label-score-row[name="Verified"]'
-    ) as GrLabelScoreRow;
+    );
     el.setSelectedValue('-1');
     tap(queryAndAssert(element, '.send'));
     await promise;
@@ -1636,8 +1635,8 @@ suite('gr-reply-dialog tests', () => {
 
   test('migrate reviewers between states', async () => {
     flush();
-    const reviewers = queryAndAssert(element, '#reviewers') as GrAccountList;
-    const ccs = queryAndAssert(element, '#ccs') as GrAccountList;
+    const reviewers = queryAndAssert<GrAccountList>(element, '#reviewers');
+    const ccs = queryAndAssert<GrAccountList>(element, '#ccs');
     const reviewer1 = makeAccount();
     const reviewer2 = makeAccount();
     const cc1 = makeAccount();
@@ -1654,7 +1653,7 @@ suite('gr-reply-dialog tests', () => {
     const mutations: ReviewerInput[] = [];
 
     stubSaveReview((review: ReviewInput) => {
-      mutations.push(...review!.reviewers!);
+      mutations.push(...review.reviewers!);
     });
 
     // Remove and add to other field.
@@ -1749,8 +1748,8 @@ suite('gr-reply-dialog tests', () => {
 
   test('Ignore removal requests if being added as reviewer/CC', async () => {
     flush();
-    const reviewers = queryAndAssert(element, '#reviewers') as GrAccountList;
-    const ccs = queryAndAssert(element, '#ccs') as GrAccountList;
+    const reviewers = queryAndAssert<GrAccountList>(element, '#reviewers');
+    const ccs = queryAndAssert<GrAccountList>(element, '#ccs');
     const reviewer1 = makeAccount();
     element._reviewers = [reviewer1];
     element._ccs = [];
@@ -1763,7 +1762,7 @@ suite('gr-reply-dialog tests', () => {
     const mutations: ReviewerInput[] = [];
 
     stubSaveReview((review: ReviewInput) => {
-      mutations.push(...review!.reviewers!);
+      mutations.push(...review.reviewers!);
     });
 
     // Remove and add to other field.

@@ -20,7 +20,7 @@ export const RESEMBLEJS_LIBRARY_CONFIG: LibraryConfig = {
   src: 'bower_components/resemblejs/resemble.js',
   checkPresent: () => window.resemble !== undefined,
   configureCallback: () => {
-    window.resemble!.outputSettings({
+    window.resemble.outputSettings({
       errorColor: {red: 255, green: 0, blue: 255},
       errorType: 'flat',
       transparency: 0,

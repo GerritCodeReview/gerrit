@@ -220,7 +220,7 @@ suite('gr-rule-editor tests', () => {
         .returns(defaultValue);
       element.setDefaultRuleValues();
       assert.isTrue(getDefaultRuleValuesStub.called);
-      assert.equal(element.rule!.value, defaultValue);
+      assert.equal(element.rule.value, defaultValue);
     });
 
     test('computeOptions', () => {
@@ -243,10 +243,10 @@ suite('gr-rule-editor tests', () => {
       };
       element.addEventListener('access-modified', modifiedHandler);
       element.handleValueChange();
-      assert.isNotOk(element.rule!.value!.modified);
+      assert.isNotOk(element.rule.value!.modified);
       element.originalRuleValues = {action: PermissionAction.ALLOW};
       element.handleValueChange();
-      assert.isTrue(element.rule!.value!.modified);
+      assert.isTrue(element.rule.value!.modified);
       assert.isTrue(modifiedHandler.called);
     });
 
@@ -313,11 +313,11 @@ suite('gr-rule-editor tests', () => {
           .display,
         'none'
       );
-      assert.isNotOk(element.rule!.value!.modified);
+      assert.isNotOk(element.rule.value!.modified);
       const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
       actionBindValue.bindValue = PermissionAction.DENY;
       await element.updateComplete;
-      assert.isTrue(element.rule!.value!.modified);
+      assert.isTrue(element.rule.value!.modified);
       element.editing = false;
       await element.updateComplete;
       assert.equal(
@@ -325,8 +325,8 @@ suite('gr-rule-editor tests', () => {
           .display,
         'none'
       );
-      assert.deepEqual(element.originalRuleValues, element.rule!.value);
-      assert.isNotOk(element.rule!.value!.modified);
+      assert.deepEqual(element.originalRuleValues, element.rule.value);
+      assert.isNotOk(element.rule.value!.modified);
       assert.equal(element.rule?.value?.action, PermissionAction.ALLOW);
       assert.equal(
         queryAndAssert<GrSelect>(element, '#action').bindValue,
@@ -376,12 +376,12 @@ suite('gr-rule-editor tests', () => {
         ).classList.contains('deleted')
       );
       assert.isTrue(element.deleted);
-      assert.isTrue(element.rule!.value!.deleted);
+      assert.isTrue(element.rule.value!.deleted);
 
       MockInteractions.tap(queryAndAssert<GrButton>(element, '#undoRemoveBtn'));
       await element.updateComplete;
       assert.isFalse(element.deleted);
-      assert.isNotOk(element.rule!.value!.deleted);
+      assert.isNotOk(element.rule.value!.deleted);
     });
 
     test('remove rule and cancel', async () => {
@@ -415,15 +415,15 @@ suite('gr-rule-editor tests', () => {
         'none'
       );
       assert.isTrue(element.deleted);
-      assert.isTrue(element.rule!.value!.deleted);
+      assert.isTrue(element.rule.value!.deleted);
 
       element.editing = false;
       await element.updateComplete;
       assert.isFalse(element.deleted);
-      assert.isNotOk(element.rule!.value!.deleted);
-      assert.isNotOk(element.rule!.value!.modified);
+      assert.isNotOk(element.rule.value!.deleted);
+      assert.isNotOk(element.rule.value!.modified);
 
-      assert.deepEqual(element.originalRuleValues, element.rule!.value);
+      assert.deepEqual(element.originalRuleValues, element.rule.value);
       assert.equal(
         getComputedStyle(queryAndAssert<GrButton>(element, '#removeBtn'))
           .display,
@@ -451,7 +451,7 @@ suite('gr-rule-editor tests', () => {
       element.section = 'refs/*';
       element.setupValues();
       await element.updateComplete;
-      element.rule!.value!.added = true;
+      element.rule.value!.added = true;
       await element.updateComplete;
       element.connectedCallback();
     });
@@ -583,7 +583,7 @@ suite('gr-rule-editor tests', () => {
       element.section = 'refs/*';
       element.setupValues();
       await element.updateComplete;
-      element.rule!.value!.added = true;
+      element.rule.value!.added = true;
       await element.updateComplete;
       element.connectedCallback();
     });
@@ -595,8 +595,8 @@ suite('gr-rule-editor tests', () => {
       assert.isTrue(setDefaultRuleValuesSpy.called);
 
       const expectedRuleValue = {
-        max: element.label!.values![element.label!.values.length - 1].value,
-        min: element.label!.values![0].value,
+        max: element.label!.values[element.label!.values.length - 1].value,
+        min: element.label!.values[0].value,
         action: PermissionAction.ALLOW,
         added: true,
       };
@@ -685,7 +685,7 @@ suite('gr-rule-editor tests', () => {
       element.section = 'refs/*';
       element.setupValues();
       await element.updateComplete;
-      element.rule!.value!.added = true;
+      element.rule.value!.added = true;
       await element.updateComplete;
       element.connectedCallback();
     });

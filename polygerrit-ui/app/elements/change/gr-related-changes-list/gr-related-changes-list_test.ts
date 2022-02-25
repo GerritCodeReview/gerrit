@@ -214,7 +214,7 @@ suite('gr-related-changes-list', () => {
         section,
         'gr-related-collapse'
       );
-      assert.isTrue(relatedChanges!.classList.contains('first'));
+      assert.isTrue(relatedChanges.classList.contains('first'));
     });
 
     test('first empty second non-empty', async () => {
@@ -231,7 +231,7 @@ suite('gr-related-changes-list', () => {
         queryAndAssert<HTMLElement>(element, '#submittedTogether'),
         'gr-related-collapse'
       );
-      assert.isTrue(submittedTogetherSection!.classList.contains('first'));
+      assert.isTrue(submittedTogetherSection.classList.contains('first'));
     });
 
     test('first non-empty second empty third non-empty', async () => {
@@ -249,7 +249,7 @@ suite('gr-related-changes-list', () => {
         queryAndAssert<HTMLElement>(element, '#relatedChanges'),
         'gr-related-collapse'
       );
-      assert.isTrue(relatedChanges!.classList.contains('first'));
+      assert.isTrue(relatedChanges.classList.contains('first'));
       const submittedTogetherSection = query<HTMLElement>(
         element,
         '#submittedTogether'
@@ -259,7 +259,7 @@ suite('gr-related-changes-list', () => {
         queryAndAssert<HTMLElement>(element, '#cherryPicks'),
         'gr-related-collapse'
       );
-      assert.isFalse(cherryPicks!.classList.contains('first'));
+      assert.isFalse(cherryPicks.classList.contains('first'));
     });
   });
 

@@ -174,9 +174,7 @@ export class GrEditControls extends PolymerElement {
   }
 
   _hideAllDialogs() {
-    const dialogs = this.root!.querySelectorAll(
-      '.dialog'
-    ) as NodeListOf<GrDialog>;
+    const dialogs = this.root!.querySelectorAll<GrDialog>('.dialog');
     for (const dialog of dialogs) {
       // We set the second param to false, because this function
       // is called by _showDialog which when you open either restore,
@@ -327,7 +325,7 @@ export class GrEditControls extends PolymerElement {
   _handleFileUploadChanged(event: InputEvent) {
     if (!event.target) return;
     if (!(event.target instanceof HTMLInputElement)) return;
-    const input = event.target as HTMLInputElement;
+    const input = event.target;
     if (!input.files) return;
     this._fileUpload(input.files);
   }

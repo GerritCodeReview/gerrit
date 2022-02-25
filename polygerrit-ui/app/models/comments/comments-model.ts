@@ -330,7 +330,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
   }
 
   finalize() {
-    document.removeEventListener('reload', this.reloadListener!);
+    document.removeEventListener('reload', this.reloadListener);
     for (const s of this.subscriptions) {
       s.unsubscribe();
     }

@@ -522,7 +522,7 @@ suite('gr-change-metadata tests', () => {
     });
 
     test('Push Certificate Validation is missing test', () => {
-      change!.revisions.rev1! = createRevision(1);
+      change!.revisions.rev1 = createRevision(1);
       const result = element._computePushCertificateValidation(
         serverConfig,
         change

@@ -373,7 +373,7 @@ suite('gr-context-control tests', () => {
       tooltipBelow.querySelector('.breadcrumbTooltip')!.textContent?.trim(),
       '20 common lines'
     );
-    assert.equal(tooltipAbove!.getAttribute('position'), 'top');
-    assert.equal(tooltipBelow!.getAttribute('position'), 'bottom');
+    assert.equal(tooltipAbove.getAttribute('position'), 'top');
+    assert.equal(tooltipBelow.getAttribute('position'), 'bottom');
   });
 });

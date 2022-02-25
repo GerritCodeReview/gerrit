@@ -474,9 +474,7 @@ export class GrDiffHighlight extends PolymerElement {
       return;
     }
 
-    let actionBox = this.shadowRoot!.querySelector(
-      'gr-selection-action-box'
-    ) as GrSelectionActionBox | null;
+    let actionBox = this.shadowRoot!.querySelector('gr-selection-action-box');
     if (!actionBox) {
       actionBox = document.createElement('gr-selection-action-box');
       this.root!.insertBefore(actionBox, this.root!.firstElementChild);

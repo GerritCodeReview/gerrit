@@ -735,11 +735,7 @@ export class GrCommentThread extends LitElement {
     assertIsDefined(this.changeNum, 'changeNum');
     assertIsDefined(this.repoName, 'repoName');
     const url = generateAbsoluteUrl(
-      GerritNav.getUrlForCommentsTab(
-        this.changeNum!,
-        this.repoName!,
-        comment.id
-      )
+      GerritNav.getUrlForCommentsTab(this.changeNum, this.repoName, comment.id)
     );
     assertIsDefined(url, 'url for comment');
     navigator.clipboard.writeText(generateAbsoluteUrl(url)).then(() => {

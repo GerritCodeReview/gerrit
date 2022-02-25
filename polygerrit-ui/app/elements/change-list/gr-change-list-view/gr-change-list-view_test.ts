@@ -92,7 +92,7 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('prevArrow', async () => {
-    element.changes = _.times(25, _.constant(createChange())) as ChangeInfo[];
+    element.changes = _.times(25, _.constant(createChange()));
     element.offset = 0;
     element.loading = false;
     await element.updateComplete;
@@ -112,14 +112,14 @@ suite('gr-change-list-view tests', () => {
     await element.updateComplete;
     assert.isOk(query(element, '#nextArrow'));
 
-    element.changes = _.times(25, _.constant(createChange())) as ChangeInfo[];
+    element.changes = _.times(25, _.constant(createChange()));
     await element.updateComplete;
     assert.isNotOk(query(element, '#nextArrow'));
   });
 
   test('handleNextPage', async () => {
     const showStub = sinon.stub(page, 'show');
-    element.changes = _.times(25, _.constant(createChange())) as ChangeInfo[];
+    element.changes = _.times(25, _.constant(createChange()));
     element.changesPerPage = 10;
     element.loading = false;
     await element.updateComplete;
@@ -139,7 +139,7 @@ suite('gr-change-list-view tests', () => {
   test('handlePreviousPage', async () => {
     const showStub = sinon.stub(page, 'show');
     element.offset = 0;
-    element.changes = _.times(25, _.constant(createChange())) as ChangeInfo[];
+    element.changes = _.times(25, _.constant(createChange()));
     element.changesPerPage = 10;
     element.loading = false;
     await element.updateComplete;
@@ -233,6 +233,7 @@ suite('gr-change-list-view tests', () => {
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
         assert.equal(url, change);
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         assert.isTrue(opt!.redirect);
         promise.resolve();
       });
@@ -251,6 +252,7 @@ suite('gr-change-list-view tests', () => {
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
         assert.equal(url, change);
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         assert.isTrue(opt!.redirect);
         promise.resolve();
       });
@@ -265,6 +267,7 @@ suite('gr-change-list-view tests', () => {
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
         assert.equal(url, change);
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         assert.isTrue(opt!.redirect);
         promise.resolve();
       });

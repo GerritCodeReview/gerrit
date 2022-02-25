@@ -26,7 +26,7 @@ suite('gr-tooltip tests', () => {
   let element: GrTooltip;
 
   setup(async () => {
-    element = basicFixture.instantiate() as GrTooltip;
+    element = basicFixture.instantiate();
     await element.updateComplete;
   });
 

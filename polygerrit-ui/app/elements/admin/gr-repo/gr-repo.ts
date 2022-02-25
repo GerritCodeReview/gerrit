@@ -811,7 +811,7 @@ export class GrRepo extends LitElement {
         config.submit_type = config.default_submit_type.configured_value;
       }
       if (!config.state) {
-        config.state = STATES.active.value as ProjectState;
+        config.state = STATES.active.value;
       }
       // To properly check if the config has changed we need it to be a string
       // as it's converted to a string in the input.
@@ -1105,7 +1105,7 @@ export class GrRepo extends LitElement {
 
   private computeChangesUrl(name?: RepoName) {
     if (!name) return '';
-    return GerritNav.getUrlForProjectChanges(name as RepoName);
+    return GerritNav.getUrlForProjectChanges(name);
   }
 
   // private but used in test

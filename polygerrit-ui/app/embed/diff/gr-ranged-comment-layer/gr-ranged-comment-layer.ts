@@ -285,7 +285,7 @@ export class GrRangedCommentLayer extends PolymerElement implements DiffLayer {
           // Normalize invalid ranges where the start is after the end but the
           // start still makes sense. Set the end to the end of the line.
           // @see Issue 5744
-          if (range.start! >= range.end! && range.start! < line.text.length) {
+          if (range.start >= range.end && range.start < line.text.length) {
             range.end = line.text.length;
             this.dispatchEvent(
               new CustomEvent('normalize-range', {

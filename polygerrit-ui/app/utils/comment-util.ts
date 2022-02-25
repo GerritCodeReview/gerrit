@@ -111,7 +111,7 @@ export function sortComments<T extends SortableComment>(comments: T[]): T[] {
 
     const date1 = parseDate(c1.updated);
     const date2 = parseDate(c2.updated);
-    const dateDiff = date1!.valueOf() - date2!.valueOf();
+    const dateDiff = date1.valueOf() - date2.valueOf();
     if (dateDiff !== 0) return dateDiff;
 
     const id1 = c1.id;
@@ -390,7 +390,7 @@ export function getPatchRangeForCommentUrl(
     };
   } else {
     return {
-      patchNum: latestPatchNum as RevisionPatchSetNum,
+      patchNum: latestPatchNum,
       basePatchNum: comment.patch_set as BasePatchSetNum,
     };
   }

@@ -55,17 +55,17 @@ export function createTestAppContext(): AppContext & Finalizable {
     restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
     jsApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new GrJsApiInterface(ctx.reportingService!);
+      return new GrJsApiInterface(ctx.reportingService);
     },
     storageService: (_ctx: Partial<AppContext>) => grStorageMock,
     userModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new UserModel(ctx.restApiService!);
+      return new UserModel(ctx.restApiService);
     },
     shortcutsService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.userModel, 'userModel');
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ShortcutsService(ctx.userModel!, ctx.reportingService!);
+      return new ShortcutsService(ctx.userModel, ctx.reportingService);
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (_ctx: Partial<AppContext>) => new MockHighlightService(),
@@ -84,7 +84,7 @@ export function createTestDependencies(
   resolver: <T>(token: DependencyToken<T>) => T
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   const dependencies = new Map();
-  const browserModel = () => new BrowserModel(appContext.userModel!);
+  const browserModel = () => new BrowserModel(appContext.userModel);
   dependencies.set(browserModelToken, browserModel);
 
   const changeModelCreator = () =>

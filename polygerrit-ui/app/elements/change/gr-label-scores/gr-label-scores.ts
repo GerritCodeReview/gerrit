@@ -197,9 +197,9 @@ export class GrLabelScores extends LitElement {
       return labels;
     }
     for (const label of Object.keys(this.permittedLabels ?? {})) {
-      const selectorEl = this.shadowRoot.querySelector(
+      const selectorEl = this.shadowRoot.querySelector<GrLabelScoreRow>(
         `gr-label-score-row[name="${label}"]`
-      ) as null | GrLabelScoreRow;
+      );
       if (!selectorEl?.selectedItem) continue;
 
       const selectedVal =

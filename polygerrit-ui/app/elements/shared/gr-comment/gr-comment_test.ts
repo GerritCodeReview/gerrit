@@ -405,7 +405,7 @@ suite('gr-comment tests', () => {
     // messageText was empty so overwrite the message now
     assert.equal(element.messageText, 'hello world');
 
-    element.comment!.message = 'new message';
+    element.comment.message = 'new message';
     await element.updateComplete;
     // messageText was already set so do not overwrite it
     assert.equal(element.messageText, 'hello world');
@@ -430,7 +430,7 @@ suite('gr-comment tests', () => {
     // messageText was empty so overwrite the message now
     assert.equal(element.messageText, 'hello world');
 
-    element.comment!.message = 'new message';
+    element.comment.message = 'new message';
     await element.updateComplete;
     // messageText was already set so do not overwrite it
     assert.equal(element.messageText, 'hello world');
@@ -630,7 +630,7 @@ suite('gr-comment tests', () => {
         'create-fix-comment'
       );
       element.comment = createRobotComment();
-      element.comments = [element.comment!];
+      element.comments = [element.comment];
       await element.updateComplete;
 
       tap(queryAndAssert(element, '.fix'));

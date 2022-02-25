@@ -307,6 +307,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'off',
         // The following rules is required to match internal google rules
         '@typescript-eslint/restrict-plus-operands': 'error',
+        '@typescript-eslint/no-unnecessary-type-assertion': 'error',
         '@typescript-eslint/no-unused-vars': [
           'error',
           {argsIgnorePattern: '^_'},

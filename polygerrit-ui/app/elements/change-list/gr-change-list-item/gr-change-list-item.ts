@@ -139,7 +139,7 @@ export class GrChangeListItem extends LitElement {
       this.getBulkActionsModel().selectedChangeNums$,
       selectedChangeNums => {
         if (!this.change) return;
-        this.checked = selectedChangeNums.includes(this.change!._number);
+        this.checked = selectedChangeNums.includes(this.change._number);
       }
     );
   }
@@ -614,9 +614,9 @@ export class GrChangeListItem extends LitElement {
     assertIsDefined(this.change, 'change');
     this.checked = !this.checked;
     if (this.checked)
-      this.getBulkActionsModel().addSelectedChangeNum(this.change!._number);
+      this.getBulkActionsModel().addSelectedChangeNum(this.change._number);
     else
-      this.getBulkActionsModel().removeSelectedChangeNum(this.change!._number);
+      this.getBulkActionsModel().removeSelectedChangeNum(this.change._number);
   }
 
   private changeStatuses() {

@@ -307,7 +307,7 @@ suite('gr-change-actions tests', () => {
       // Total button number is one greater than the number of total actions
       // due to the existence of the overflow menu trigger.
       assert.equal(
-        buttonEls!.length + menuItems!.length,
+        buttonEls.length + menuItems!.length,
         element._allActionValues.length + 1
       );
       assert.isFalse(element.hidden);
@@ -871,10 +871,10 @@ suite('gr-change-actions tests', () => {
 
         element._handleCherrypickConfirm();
 
-        const autogrowEl = queryAndAssert(
+        const autogrowEl = queryAndAssert<IronAutogrowTextareaElement>(
           element.$.confirmCherrypick,
           '#messageInput'
-        ) as IronAutogrowTextareaElement;
+        );
         assert.equal(autogrowEl.value, 'foo message');
 
         assert.deepEqual(fireActionStub.lastCall.args, [
@@ -1003,10 +1003,10 @@ suite('gr-change-actions tests', () => {
 
         test('changes with duplicate project show an error', async () => {
           const dialog = element.$.confirmCherrypick;
-          const error = queryAndAssert(
+          const error = queryAndAssert<HTMLSpanElement>(
             dialog,
             '.error-message'
-          ) as HTMLSpanElement;
+          );
           assert.equal(error.innerText, '');
           dialog.updateChanges([
             {
@@ -1095,10 +1095,10 @@ suite('gr-change-actions tests', () => {
       const cleanup = element._setLoadingOnButtonWithKey(type, key);
       assert.equal(element._actionLoadingMessage, 'Rebasing...');
 
-      const button = queryAndAssert(
+      const button = queryAndAssert<GrButton>(
         element,
         '[data-action-key="' + key + '"]'
-      ) as GrButton;
+      );
       assert.isTrue(button.hasAttribute('loading'));
       assert.isTrue(button.disabled);
 
@@ -1293,14 +1293,14 @@ suite('gr-change-actions tests', () => {
           await flush();
           assert.equal(getChangesStub.args[0][1], 'submissionid: "199 0"');
           const confirmRevertDialog = element.$.confirmRevertDialog;
-          const revertSingleChangeLabel = queryAndAssert(
+          const revertSingleChangeLabel = queryAndAssert<HTMLLabelElement>(
             confirmRevertDialog,
             '.revertSingleChange'
-          ) as HTMLLabelElement;
-          const revertSubmissionLabel = queryAndAssert(
+          );
+          const revertSubmissionLabel = queryAndAssert<HTMLLabelElement>(
             confirmRevertDialog,
             '.revertSubmission'
-          ) as HTMLLabelElement;
+          );
           assert(
             revertSingleChangeLabel.innerText.trim() === 'Revert single change'
           );
@@ -1599,7 +1599,7 @@ suite('gr-change-actions tests', () => {
       test('shows confirm dialog', async () => {
         element._handleDeleteTap();
         assert.isFalse(
-          (queryAndAssert(element, '#confirmDeleteDialog') as GrDialog).hidden
+          queryAndAssert<GrDialog>(element, '#confirmDeleteDialog').hidden
         );
         tap(
           queryAndAssert(
@@ -1621,7 +1621,7 @@ suite('gr-change-actions tests', () => {
         );
         await flush();
         assert.isTrue(
-          (queryAndAssert(element, '#confirmDeleteDialog') as GrDialog).hidden
+          queryAndAssert<GrDialog>(element, '#confirmDeleteDialog').hidden
         );
         assert.isFalse(fireActionStub.called);
       });
@@ -2018,14 +2018,14 @@ suite('gr-change-actions tests', () => {
       test('move action from overflow', async () => {
         assert.isNotOk(query(element, '[data-action-key="cherrypick"]'));
         assert.strictEqual(
-          element.$.moreActions!.items![0].id,
+          element.$.moreActions.items![0].id,
           'cherrypick-revision'
         );
         element.setActionOverflow(ActionType.REVISION, 'cherrypick', false);
         await flush();
         assert.isOk(query(element, '[data-action-key="cherrypick"]'));
         assert.notEqual(
-          element.$.moreActions!.items![0].id,
+          element.$.moreActions.items![0].id,
           'cherrypick-revision'
         );
       });
@@ -2104,7 +2104,7 @@ suite('gr-change-actions tests', () => {
           revisions: createRevisions(element.latestPatchNum as number),
           messages: createChangeMessages(1),
         };
-        element.change!._number = 42 as NumericChangeId;
+        element.change._number = 42 as NumericChangeId;
 
         onShowError = sinon.stub();
         element.addEventListener('show-error', onShowError);
@@ -2308,6 +2308,7 @@ suite('gr-change-actions tests', () => {
           );
           const sendStub = stubRestApi('executeChangeAction').callsFake(
             (_num, _method, _patchNum, _endpoint, _payload, onErr) => {
+              // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               onErr!();
               return Promise.resolve(undefined);
             }

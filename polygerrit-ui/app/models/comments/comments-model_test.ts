@@ -17,7 +17,6 @@
 import '../../test/common-test-setup-karma';
 import {createDraft} from '../../test/test-data-generators';
 import {UrlEncodedCommentId} from '../../types/common';
-import {DraftInfo} from '../../utils/comment-util';
 import './comments-model';
 import {CommentsModel} from './comments-model';
 import {deleteDraft} from './comments-model';
@@ -42,7 +41,7 @@ suite('comments model tests', () => {
       comments: {},
       robotComments: {},
       drafts: {
-        [draft.path!]: [draft as DraftInfo],
+        [draft.path!]: [draft],
       },
       portedComments: {},
       portedDrafts: {},

@@ -112,7 +112,7 @@ suite('gr-rest-api-helper tests', () => {
       });
       assert.equal(writeScheduler.scheduled.length, 0);
       await assertReadRequest();
-      const res: Response = (await promise) as Response;
+      const res: Response = await promise;
       assert.equal(await res.text(), 'Yay');
     });
 
@@ -124,7 +124,7 @@ suite('gr-rest-api-helper tests', () => {
       });
       assert.equal(readScheduler.scheduled.length, 0);
       await assertWriteRequest();
-      const res: Response = (await promise) as Response;
+      const res: Response = await promise;
       assert.equal(await res.text(), 'Yay');
     });
   });
@@ -274,7 +274,7 @@ suite('gr-rest-api-helper tests', () => {
 
       // But we expect the result from the network to return a 429 error when
       // it's no longer being retried.
-      const res: Response = (await promise) as Response;
+      const res: Response = await promise;
       assert.equal(res.status, 429);
     });
 
@@ -306,7 +306,7 @@ suite('gr-rest-api-helper tests', () => {
       await flush();
       // We expect a retry.
       await assertReadRequest();
-      const res: Response = (await promise) as Response;
+      const res: Response = await promise;
       assert.equal(await res.text(), 'Yay');
     });
   });

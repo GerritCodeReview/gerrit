@@ -462,7 +462,7 @@ export class GrContextControls extends LitElement {
     referenceLine: number
   ) {
     assertIsDefined(this.diff, 'diff');
-    const syntaxTree = this.diff!.meta_b.syntax_tree;
+    const syntaxTree = this.diff.meta_b.syntax_tree;
     const outlineSyntaxPath = findBlockTreePathForLine(
       referenceLine,
       syntaxTree

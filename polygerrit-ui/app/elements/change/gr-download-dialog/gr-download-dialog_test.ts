@@ -186,7 +186,7 @@ suite('gr-download-dialog', () => {
         element,
         '.closeButtonContainer gr-button'
       );
-      tap(closeButton!);
+      tap(closeButton);
       await closeCalled;
     });
   });

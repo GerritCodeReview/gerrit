@@ -233,6 +233,7 @@ suite('gr-change-view tests', () => {
         {
           path: '/COMMIT_MSG',
           author: {
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
             _account_id: 1000000 as AccountId,
             name: 'user',
             username: 'user',
@@ -2022,7 +2023,7 @@ suite('gr-change-view tests', () => {
   test('patch range changed', () => {
     element._patchRange = undefined;
     element._change = createChangeViewChange();
-    element._change!.revisions = createRevisions(4);
+    element._change.revisions = createRevisions(4);
     element._change.current_revision = '1' as CommitId;
     element._change = {...element._change};
 

@@ -819,7 +819,7 @@ export class GrComment extends LitElement {
     if (!comment || !this.changeNum || !this.repoName) return '';
     if (!comment.id) throw new Error('comment must have an id');
     return GerritNav.getUrlForComment(
-      this.changeNum as NumericChangeId,
+      this.changeNum,
       this.repoName,
       comment.id
     );

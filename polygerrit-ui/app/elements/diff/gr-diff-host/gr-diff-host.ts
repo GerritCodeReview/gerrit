@@ -433,7 +433,7 @@ export class GrDiffHost extends DIPolymerElement {
       this.diff = diff;
       this.reporting.timeEnd(Timing.DIFF_LOAD, this.timingDetails());
       this.reporting.time(Timing.DIFF_CONTENT);
-      const event = (await waitForEventOnce(this, 'render')) as CustomEvent;
+      const event = await waitForEventOnce(this, 'render');
       this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());
       if (shouldReportMetric) {
         // We report diffViewContentDisplayed only on reload caused

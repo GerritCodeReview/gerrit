@@ -49,31 +49,31 @@ export function createAppContext(): AppContext & Finalizable {
       new FlagsServiceImplementation(),
     reportingService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.flagsService, 'flagsService)');
-      return new GrReporting(ctx.flagsService!);
+      return new GrReporting(ctx.flagsService);
     },
     eventEmitter: (_ctx: Partial<AppContext>) => new EventEmitter(),
     authService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.eventEmitter, 'eventEmitter');
-      return new Auth(ctx.eventEmitter!);
+      return new Auth(ctx.eventEmitter);
     },
     restApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.authService, 'authService');
-      return new GrRestApiServiceImpl(ctx.authService!);
+      return new GrRestApiServiceImpl(ctx.authService);
     },
     jsApiService: (ctx: Partial<AppContext>) => {
       const reportingService = ctx.reportingService;
       assertIsDefined(reportingService, 'reportingService');
-      return new GrJsApiInterface(reportingService!);
+      return new GrJsApiInterface(reportingService);
     },
     storageService: (_ctx: Partial<AppContext>) => new GrStorageService(),
     userModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new UserModel(ctx.restApiService!);
+      return new UserModel(ctx.restApiService);
     },
     shortcutsService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.userModel, 'userModel');
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ShortcutsService(ctx.userModel, ctx.reportingService!);
+      return new ShortcutsService(ctx.userModel, ctx.reportingService);
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (_ctx: Partial<AppContext>) => new HighlightService(),
@@ -85,7 +85,7 @@ export function createAppDependencies(
   appContext: AppContext
 ): Map<DependencyToken<unknown>, Finalizable> {
   const dependencies = new Map<DependencyToken<unknown>, Finalizable>();
-  const browserModel = new BrowserModel(appContext.userModel!);
+  const browserModel = new BrowserModel(appContext.userModel);
   dependencies.set(browserModelToken, browserModel);
 
   const changeModel = new ChangeModel(

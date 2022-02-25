@@ -224,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4676faf_461f9ddc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-25T13:42:20Z",
+      "side": 1,
+      "message": "I added a TODO.\nThe component probably makes sense once this gets more complicated but this is mainly for showing the action bar and not the action buttons themselves.",
+      "parentUuid": "ac5803ee_fbb09199",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 3
+      },
+      "revId": "29e8721ac0f88775fbfad552c920d5dd724e87e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3dcdd2b0_1474d1cb",

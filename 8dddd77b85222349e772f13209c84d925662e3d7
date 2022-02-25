@@ -16,6 +16,23 @@
       "message": "Thanks",
       "revId": "8dddd77b85222349e772f13209c84d925662e3d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3af3341_4a918201",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-02-25T09:07:32Z",
+      "side": 1,
+      "message": "Why this format change?",
+      "revId": "8dddd77b85222349e772f13209c84d925662e3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

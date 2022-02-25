@@ -16,6 +16,7 @@
  */
 import '../styles/shared-styles';
 import '../styles/themes/app-theme';
+import '../styles/themes/dark-theme';
 import {applyTheme as applyDarkTheme} from '../styles/themes/dark-theme';
 import './admin/gr-admin-view/gr-admin-view';
 import './documentation/gr-documentation-search/gr-documentation-search';
@@ -280,9 +281,10 @@ export class GrAppElement extends base {
       this._logWelcome();
     });
 
-    if (window.localStorage.getItem('dark-theme')) {
-      applyDarkTheme();
-    }
+    const isDarkTheme = !!window.localStorage.getItem('dark-theme');
+    document.documentElement.classList.toggle('darkTheme', isDarkTheme);
+    document.documentElement.classList.toggle('lightTheme', !isDarkTheme);
+    if (isDarkTheme) applyDarkTheme();
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837

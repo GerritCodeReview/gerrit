@@ -22,6 +22,14 @@ import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 export const PLUGIN_LOADING_TIMEOUT_MS = 10000;
 
+export const THEME_JS = '/static/gerrit-theme.js';
+
+const THEME_NAME = 'gerrit-theme';
+
+export function isThemeFile(path: string) {
+  return path.endsWith(THEME_JS);
+}
+
 /**
  * Retrieves the name of the plugin base on the url.
  */
@@ -40,12 +48,10 @@ export function getPluginNameFromUrl(url: URL | string) {
   if (window.ASSETS_PATH && url.href.includes(window.ASSETS_PATH)) {
     pathname = url.href.replace(window.ASSETS_PATH, '');
   }
-  // Site theme is server from predefined path.
-  if (
-    ['/static/gerrit-theme.html', '/static/gerrit-theme.js'].includes(pathname)
-  ) {
-    return 'gerrit-theme';
-  } else if (!pathname.startsWith('/plugins')) {
+
+  if (isThemeFile(pathname)) return THEME_NAME;
+
+  if (!pathname.startsWith('/plugins')) {
     console.warn(
       'Plugin not being loaded from /plugins base path:',
       url.href,

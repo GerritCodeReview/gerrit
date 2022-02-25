@@ -202,6 +202,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac5803ee_fbb09199",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-25T13:23:10Z",
+      "side": 1,
+      "message": "The actions is per section and section is it\u0027s own component.\nWhat\u0027s the benefit of having a component for the action bar?",
+      "parentUuid": "7c65d415_f8c456f2",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 3
+      },
+      "revId": "29e8721ac0f88775fbfad552c920d5dd724e87e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3dcdd2b0_1474d1cb",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
         "patchSetId": 10

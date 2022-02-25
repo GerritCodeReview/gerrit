@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd7e0a70_486c2b3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-25T13:02:52Z",
+      "side": 1,
+      "message": "add screenshot",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "29e8721ac0f88775fbfad552c920d5dd724e87e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3e41b33d_1edaced7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 10
@@ -14,6 +37,98 @@
       "writtenOn": "2022-02-25T12:54:52Z",
       "side": 1,
       "message": "add tests",
+      "revId": "29e8721ac0f88775fbfad552c920d5dd724e87e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e228d2c7_19d334ca",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-25T13:02:52Z",
+      "side": 1,
+      "message": "@state",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 92,
+        "endChar": 31
+      },
+      "revId": "29e8721ac0f88775fbfad552c920d5dd724e87e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c9dedd_c0409f00",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-25T13:02:52Z",
+      "side": 1,
+      "message": "not set anywhere? I think we should remove the field for now",
+      "range": {
+        "startLine": 210,
+        "startChar": 36,
+        "endLine": 210,
+        "endChar": 56
+      },
+      "revId": "29e8721ac0f88775fbfad552c920d5dd724e87e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c65d415_f8c456f2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-25T13:02:52Z",
+      "side": 1,
+      "message": "seems like the action bar should be it\u0027s own component.",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 3
+      },
+      "revId": "29e8721ac0f88775fbfad552c920d5dd724e87e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dcdd2b0_1474d1cb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-02-25T13:02:52Z",
+      "side": 1,
+      "message": "is this is leaking out of our flag?",
+      "range": {
+        "startLine": 222,
+        "startChar": 15,
+        "endLine": 222,
+        "endChar": 38
+      },
       "revId": "29e8721ac0f88775fbfad552c920d5dd724e87e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

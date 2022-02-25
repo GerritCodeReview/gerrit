@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ae0f72f_c7c1a477",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-25T14:29:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67822ab5_5c15999b",
+      "range": {
+        "startLine": 124,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 3
+      },
+      "revId": "fccacae2d890af8db90d81fa4bda25dfd5b43842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3730e3e_67d178d3",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-25T14:21:45Z",
       "side": 1,
       "message": "what is this doing? also class is unused",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 31
+      },
+      "revId": "fccacae2d890af8db90d81fa4bda25dfd5b43842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f1e9490_3e710757",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-25T14:29:18Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "d3730e3e_67d178d3",
       "range": {
         "startLine": 221,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b088f51_ae58f08e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-25T14:29:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6083fe23_047d83f9",
+      "range": {
+        "startLine": 235,
+        "startChar": 8,
+        "endLine": 235,
+        "endChar": 34
+      },
+      "revId": "fccacae2d890af8db90d81fa4bda25dfd5b43842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bf72685_b694011e",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-02-25T14:19:39Z",
       "side": 1,
       "message": "why is all this hidden when you want to show the action bar? We still want column headers etc",
+      "range": {
+        "startLine": 239,
+        "startChar": 12,
+        "endLine": 251,
+        "endChar": 16
+      },
+      "revId": "fccacae2d890af8db90d81fa4bda25dfd5b43842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a3c5603_5b28ba32",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-02-25T14:29:18Z",
+      "side": 1,
+      "message": "In the mocks the buttons take over the space that the column headers had so I\u0027m following the mocks.",
+      "parentUuid": "4bf72685_b694011e",
       "range": {
         "startLine": 239,
         "startChar": 12,

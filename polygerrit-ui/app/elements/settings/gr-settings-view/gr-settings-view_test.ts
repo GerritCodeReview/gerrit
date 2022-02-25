@@ -18,7 +18,6 @@
 import '../../../test/common-test-setup-karma';
 import './gr-settings-view';
 import {GrSettingsView} from './gr-settings-view';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GerritView} from '../../../services/router/router-model';
 import {queryAll, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {

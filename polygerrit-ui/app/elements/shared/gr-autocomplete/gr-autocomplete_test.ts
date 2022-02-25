@@ -17,7 +17,6 @@
 import '../../../test/common-test-setup-karma';
 import './gr-autocomplete';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
-import {flush as flush$0} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {AutocompleteSuggestion, GrAutocomplete} from './gr-autocomplete';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -521,7 +520,7 @@ suite('gr-autocomplete tests', () => {
       // When tabComplete is false, do not focus.
       element.tabComplete = false;
       focusSpy = sinon.spy(element, 'focus');
-      flush$0();
+      flush();
       assert.isFalse(suggestionsEl().isHidden);
 
       MockInteractions.pressAndReleaseKeyOn(
@@ -541,7 +540,7 @@ suite('gr-autocomplete tests', () => {
       // When tabComplete is true, focus.
       element.tabComplete = true;
       focusSpy = sinon.spy(element, 'focus');
-      flush$0();
+      flush();
       assert.isFalse(suggestionsEl().isHidden);
 
       MockInteractions.pressAndReleaseKeyOn(
@@ -560,7 +559,7 @@ suite('gr-autocomplete tests', () => {
       focusSpy = sinon.spy(element, 'focus');
       element._focused = true;
       element._suggestions = [{name: 'first suggestion'}];
-      flush$0();
+      flush();
       assert.isFalse(suggestionsEl().isHidden);
       MockInteractions.tap(queryAndAssert(suggestionsEl(), 'li:first-child'));
       flush();

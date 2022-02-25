@@ -19,7 +19,6 @@ import '../../../test/common-test-setup-karma';
 import '../gr-diff/gr-diff-group';
 import './gr-context-controls';
 import {GrContextControls} from './gr-context-controls';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';

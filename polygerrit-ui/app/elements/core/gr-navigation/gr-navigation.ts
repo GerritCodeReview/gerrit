@@ -535,14 +535,14 @@ export const GerritNav = {
    * Navigate to a search query
    */
   navigateToSearchQuery(query: string, offset?: number) {
-    return this._navigate(this.getUrlForSearchQuery(query, offset));
+    this._navigate(this.getUrlForSearchQuery(query, offset));
   },
 
   /**
    * Navigate to the user's dashboard
    */
   navigateToUserDashboard() {
-    return this._navigate(this.getUrlForUserDashboard('self'));
+    this._navigate(this.getUrlForUserDashboard('self'));
   },
 
   /**

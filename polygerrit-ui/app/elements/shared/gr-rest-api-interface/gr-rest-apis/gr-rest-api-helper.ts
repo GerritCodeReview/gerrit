@@ -516,7 +516,8 @@ s   */
       .catch(err => {
         fireNetworkError(err);
         if (req.errFn) {
-          return req.errFn.call(undefined, null, err);
+          req.errFn.call(undefined, null, err);
+          return;
         } else {
           throw err;
         }

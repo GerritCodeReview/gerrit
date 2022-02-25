@@ -22,6 +22,30 @@
       },
       "revId": "b6c19d04f23564db31185ba5f9facbe488ee123f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a241c3a7_99e7290e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/OnStoreSubmitRequirementResultModifierIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-02-25T10:59:08Z",
+      "side": 1,
+      "message": "Nice find! Thanks for debugging and explaining!",
+      "parentUuid": "8d7055b0_15167f8e",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 22
+      },
+      "revId": "b6c19d04f23564db31185ba5f9facbe488ee123f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

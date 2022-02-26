@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb8dc92_989558b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-02-26T09:11:56Z",
+      "side": 1,
+      "message": "@Luca here we go for `PS#3`:\n\n`stable-3.5:` before this change was able to handle `5` parallel calls (in `60s`  period of time) to:\n\n  changes/?q\u003dafter:%222018-01-01%2000:00:00.000000000%22+before:%222026-01-01%2000:00:00.000000000%22\u0026o\u003dall_revisions\u0026o\u003dall_files\u0026o\u003dmessages\u0026o\u003ddetailed_labels\u0026S\u003d20000\u0026n\u003d1\n\nand the initial `curl` to get the change in question took `15.748363s`\n\nafter applying the change it survived `7` which is `40%` better and initial `curl` took only `6.475330s` which is `~130%` better.\n\nI believe that this in combination with default `maxPages` and reasonable `maxLimit` (for anonymous group also being not able to issue a request with `no-limit`) would be the comprehensive answer to DoS threat, WDYT?\n\nI haven\u0027t tested it on `stable-3.4` yet as it requires a bit of conflict resolution but results will come.",
+      "revId": "f3f1034e76d71d7677d0b6a7c9e37617eace339b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,7 +36,6 @@ import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -124,11 +123,12 @@ public class DefaultPermissionBackend extends PermissionBackend {
     @Override
     public ForProject project(Project.NameKey project) {
       try {
-        ProjectState state = projectCache.get(project).orElseThrow(illegalState(project));
         ProjectControl control =
             PerThreadCache.getOrCompute(
                 PerThreadCache.Key.create(ProjectControl.class, project, user.getCacheKey()),
-                () -> projectControlFactory.create(user, state));
+                () ->
+                    projectControlFactory.create(
+                        user, projectCache.get(project).orElseThrow(illegalState(project))));
         return control.asForProject();
       } catch (Exception e) {
         Throwable cause = e.getCause() != null ? e.getCause() : e;

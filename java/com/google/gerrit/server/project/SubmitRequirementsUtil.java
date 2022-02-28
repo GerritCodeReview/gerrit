@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.metrics.Counter2;
@@ -23,6 +22,8 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeData.StorageConstraint;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.HashMap;
@@ -127,7 +128,7 @@ public class SubmitRequirementsUtil {
       mergeLegacyAndNonLegacyRequirements(
           Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements,
           Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements,
-          Change change) {
+          ChangeData cd) {
     // Cannot use ImmutableMap.Builder here since entries in the map may be overridden.
     Map<SubmitRequirement, SubmitRequirementResult> result = new HashMap<>();
     result.putAll(projectConfigRequirements);
@@ -143,8 +144,8 @@ public class SubmitRequirementsUtil {
       // then add the legacy SR to the result. There is no mismatch in results in this case.
       if (projectConfigResult == null) {
         result.put(legacy.getKey(), legacy.getValue());
-        if (change.getStatus().isOpen()) {
-          metrics.legacyNotInSrs.increment(change.getProject().get(), srName);
+        if (shouldReportMetric(cd)) {
+          metrics.legacyNotInSrs.increment(cd.project().get(), srName);
         }
         continue;
       }
@@ -152,16 +153,15 @@ public class SubmitRequirementsUtil {
         // There exists a project config SR with the same name as the legacy SR, and they are
         // matching in result. No need to include the legacy SR in the output since the project
         // config SR is already there.
-        if (change.getStatus().isOpen()) {
-          metrics.submitRequirementsMatchingWithLegacy.increment(change.getProject().get(), srName);
+        if (shouldReportMetric(cd)) {
+          metrics.submitRequirementsMatchingWithLegacy.increment(cd.project().get(), srName);
         }
         continue;
       }
       // There exists a project config SR with the same name as the legacy SR but they are not
       // matching in their result. Increment the mismatch count and add the legacy SR to the result.
-      if (change.getStatus().isOpen()) {
-        metrics.submitRequirementsMismatchingWithLegacy.increment(
-            change.getProject().get(), srName);
+      if (shouldReportMetric(cd)) {
+        metrics.submitRequirementsMismatchingWithLegacy.increment(cd.project().get(), srName);
       }
       result.put(legacy.getKey(), legacy.getValue());
     }
@@ -170,12 +170,18 @@ public class SubmitRequirementsUtil {
             .map(SubmitRequirement::name)
             .collect(Collectors.toSet());
     for (String projectConfigSrName : requirementsByName.keySet()) {
-      if (!legacyNames.contains(projectConfigSrName) && change.getStatus().isOpen()) {
-        metrics.srsNotInLegacy.increment(change.getProject().get(), projectConfigSrName);
+      if (!legacyNames.contains(projectConfigSrName) && shouldReportMetric(cd)) {
+        metrics.srsNotInLegacy.increment(cd.project().get(), projectConfigSrName);
       }
     }
 
     return ImmutableMap.copyOf(result);
+  }
+
+  private static boolean shouldReportMetric(ChangeData cd) {
+    // We only care about recording differences in old and new requirements for open changes
+    // that did not have their data retrieved from the (potentially stale) change index.
+    return cd.change().isNew() && cd.getStorageConstraint() == StorageConstraint.NOTEDB_ONLY;
   }
 
   /** Returns true if both input results are equal in allowing/disallowing change submission. */

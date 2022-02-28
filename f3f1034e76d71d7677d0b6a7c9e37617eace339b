@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b02e852_35b3e0bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-02-28T19:47:56Z",
+      "side": 1,
+      "message": "With `PS#9` it gets a bit improved in terms of requests and handles `8` parallel threads over `60s` period of time (`60%` improvement over `3.5.0.1`) but javamelody page is mostly unresponsive... initial `curl` time is on the same level `~6.5s` time.",
+      "parentUuid": "cfb8dc92_989558b4",
+      "revId": "f3f1034e76d71d7677d0b6a7c9e37617eace339b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0dd536d8_fa200728",
         "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 3

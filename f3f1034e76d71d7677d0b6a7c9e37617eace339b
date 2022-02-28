@@ -39,6 +39,30 @@
       },
       "revId": "f3f1034e76d71d7677d0b6a7c9e37617eace339b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e031562f_3c79ff9e",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-28T15:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dd536d8_fa200728",
+      "range": {
+        "startLine": 552,
+        "startChar": 6,
+        "endLine": 552,
+        "endChar": 44
+      },
+      "revId": "f3f1034e76d71d7677d0b6a7c9e37617eace339b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

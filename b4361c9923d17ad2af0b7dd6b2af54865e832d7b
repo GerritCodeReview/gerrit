@@ -122,6 +122,24 @@
       "parentUuid": "f6e6f457_f28ed91a",
       "revId": "b4361c9923d17ad2af0b7dd6b2af54865e832d7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "504bb780_5331fdf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-02-28T08:00:31Z",
+      "side": 1,
+      "message": "\u003e Ok. But does that matter? \n\nYes, I think so. The motivation for the 24h grace period is to be sure we are fine with the long-term support commitment that a new feature adds. For this feature there were no concerns with this on the original change, so I don\u0027t see why there should be concerns in this regards with exactly the same feature a little later. But I agree this is debatable. \n\n\u003e Further, even if you think this change is special and the guidance shouldn\u0027t \n\u003e apply, I\u0027m pretty sure there have been several other changes (largely\n\u003e related to SRs) in the past month we could use as examples.\n\nI believe this is true (without having checked the data). Since you are bringing this up, I understand that you see this as a problem?\nIf so, I think we should discuss in more details to which kind of changes this grace period should apply. At the moment it just says \"changes that imply a long-term support commitment, eg. user-visible features, or API extensions.\" which can mean a lot of different things to different people. Also I think we missed to document this rule as part of our processes. How should we proceed this with this discussion, should we put it onto the agenda for the next CM meeting, or is this too long to wait?",
+      "parentUuid": "d2f1fc4d_6d9c14e4",
+      "revId": "b4361c9923d17ad2af0b7dd6b2af54865e832d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

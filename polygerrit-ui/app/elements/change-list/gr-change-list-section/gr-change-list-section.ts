@@ -7,6 +7,7 @@
 import {LitElement, html, css, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
+import '../gr-change-list-action-bar/gr-change-list-action-bar';
 import {
   CLOSED,
   YOUR_TURN,
@@ -207,23 +208,23 @@ export class GrChangeListSection extends LitElement {
   }
 
   // TODO: move to it's own component
-  private renderAbandonAction() {
-    return html`
-      <td>
-        <gr-button class="abandon">Abandon</gr-button>
-      </td>
-    `;
-  }
+  // private renderAbandonAction() {
+  //   return html`
+  //     <td>
+  //       <gr-button class="abandon">Abandon</gr-button>
+  //     </td>
+  //   `;
+  // }
 
-  private renderBulkActionsHeader() {
-    return html`${this.renderAbandonAction()}`;
-  }
+  // private renderBulkActionsHeader() {
+  //   return html`${this.renderAbandonAction()}`;
+  // }
 
   private renderColumnHeaders(columns: string[]) {
     return html` <tr class="groupTitle">
       ${this.showBulkActionsHeader &&
       this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)
-        ? this.renderBulkActionsHeader()
+        ? html`<gr-change-list-action-bar></gr-change-list-action-bar>` //this.renderBulkActionsHeader()
         : html` <td class="leftPadding" aria-hidden="true"></td>
             ${this.renderSelectionHeader()}
             <td

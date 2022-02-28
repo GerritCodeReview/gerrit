@@ -268,4 +268,42 @@ suite('gr-change-list section', () => {
       assert.deepEqual(element.processQuery(query), expectedQuery);
     });
   });
+
+  test('shadowdom test', async () => {
+    const changeSection: ChangeListSection = {
+      name: 'test',
+      query: 'test',
+      results: [
+        {
+          ...createChange(),
+          _number: 0 as NumericChangeId,
+          id: '0' as ChangeInfoId,
+        },
+        {
+          ...createChange(),
+          _number: 1 as NumericChangeId,
+          id: '1' as ChangeInfoId,
+        },
+      ],
+      emptyStateSlotName: 'test',
+    };
+    let table = await fixture<HTMLTableElement>(html`
+      <table>
+        ${html`
+          <gr-change-list-section
+            .account=${createAccountDetailWithId(1)}
+            .config=${createServerInfo()}
+            .visibleChangeTableColumns=${columnNames}
+            .changeSection=${changeSection}
+          ></gr-change-list-section> `}
+      </table>
+    `);
+
+    expect(table).dom.to.equal(/* HTML */`
+      <gr-change-list-section>
+      </gr-change-list-section>
+      <table>
+      </table>
+    `);
+  });
 });

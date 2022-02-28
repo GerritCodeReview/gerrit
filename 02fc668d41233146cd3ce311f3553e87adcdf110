@@ -22,6 +22,30 @@
       },
       "revId": "02fc668d41233146cd3ce311f3553e87adcdf110",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b8c8932_2167347c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-02-28T07:41:09Z",
+      "side": 1,
+      "message": "I don\u0027t think users have a use case for directly querying for this in the web UI. If there is an automated use-case, using the label predicate and a bit of post-processing gets you the same result.\n\nThis would be quite complex to do as indexed predicate, since the actual label names, counts and values are arguments. When I look at the label predicate, I think it has reached its complexity ceiling and not all cases it supports are actually interesting for querying (in the web UI).",
+      "parentUuid": "d14afda3_017fb07b",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "02fc668d41233146cd3ce311f3553e87adcdf110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

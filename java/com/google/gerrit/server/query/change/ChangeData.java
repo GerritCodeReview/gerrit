@@ -950,7 +950,7 @@ public class ChangeData {
     Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
         SubmitRequirementsAdapter.getLegacyRequirements(this);
     return submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
-        projectConfigReqs, legacyReqs, change());
+        projectConfigReqs, legacyReqs, this);
   }
 
   /**

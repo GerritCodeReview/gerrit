@@ -78,11 +78,11 @@ suite('gr-change-list section', () => {
       s => s.length === 1
     );
 
-    assert.isNotOk(query(element, 'abandon'));
+    assert.isNotOk(query(element, 'gr-change-list-action-bar'));
     stubFlags('isEnabled').returns(true);
     element.requestUpdate();
     await element.updateComplete;
-    queryAndAssert(element, '.abandon');
+    queryAndAssert(element, 'gr-change-list-action-bar');
   });
 
   suite('bulk actions selection', () => {

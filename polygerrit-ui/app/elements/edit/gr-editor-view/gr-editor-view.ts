@@ -351,23 +351,19 @@ export class GrEditorView extends LitElement {
   }
 
   // private but used in test
-  async handlePathChanged(e: CustomEvent<string>) {
+  async handlePathChanged(e: CustomEvent<string>): Promise<void> {
     // TODO(TS) could be cleaned up, it was added for type requirements
     if (this.changeNum === undefined || !this.path) {
-      return await Promise.reject(new Error('changeNum or path undefined'));
+      throw new Error('changeNum or path undefined');
     }
     const path = e.detail;
-    if (path === this.path) {
-      return await Promise.resolve();
-    }
+    if (path === this.path) return;
     const res = await this.restApiService.renameFileInChangeEdit(
       this.changeNum,
       this.path,
       path
     );
-    if (!res || !res.ok) {
-      return;
-    }
+    if (!res?.ok) return;
 
     this.successfulSave = true;
     this.viewEditInChangeView();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1862d05a_598d4e10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-01T13:37:43Z",
+      "side": 1,
+      "message": "So we don\u0027t necessarily need the method for onclick to live on the component. It could be just a function that takes the bulkACtionsModel as input. I\u0027m fine doing that in a follow-up.\n\nAnother thing to add in a follow-up is that likely we\u0027ll want a prop computed for each button based on the bulkActionsModel and its selectedChanges prop that computes the state of the button.  For Submit this gets slightly trickier than the other buttons so let\u0027s figure out the non-submit case first.",
+      "revId": "3988ce941b0cb866da6cdcd8d6cbe643f6156d27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

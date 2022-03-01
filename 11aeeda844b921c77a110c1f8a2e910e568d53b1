@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "db29a778_f2883487",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2022-03-01T11:12:16Z",
+      "side": 1,
+      "message": "Good point - we\u0027ve created a new PR [1] to address this. Once that\u0027s been merged we\u0027ll wait two weeks before merging, as the policy dictates.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/331420",
+      "parentUuid": "e2cf41af_fe8898da",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "11aeeda844b921c77a110c1f8a2e910e568d53b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0e266e9c_89187509",

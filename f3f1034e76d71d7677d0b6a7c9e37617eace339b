@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5b3cf06_fafe5486",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-01T16:30:39Z",
+      "side": 1,
+      "message": "Thanks @Jacek for the feedback. Let me see if there is any other heap offender.",
+      "parentUuid": "4b02e852_35b3e0bb",
+      "revId": "f3f1034e76d71d7677d0b6a7c9e37617eace339b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0dd536d8_fa200728",
         "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 3

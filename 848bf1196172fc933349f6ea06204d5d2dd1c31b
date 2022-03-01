@@ -46,6 +46,30 @@
       },
       "revId": "848bf1196172fc933349f6ea06204d5d2dd1c31b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4267fd94_f83fe3bb",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-01T10:38:50Z",
+      "side": 1,
+      "message": "\u003e I prefer to keep the tooltip as short as possible.\n\nwhy? i can understand that for \"inline\" gui elements, but tooltips are specifically clarifying prose, so it seems inherently counter-productive to economize on words here.\n\n\u003e Anything in the tooltip is a note / fyi, so no need to mention that IMO.\n\nthen it\u0027s \"a note on a note\". you can\u0027t just argue away the semantic hierarchy.",
+      "parentUuid": "2779b6a4_f64e0486",
+      "range": {
+        "startLine": 223,
+        "startChar": 60,
+        "endLine": 223,
+        "endChar": 66
+      },
+      "revId": "848bf1196172fc933349f6ea06204d5d2dd1c31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

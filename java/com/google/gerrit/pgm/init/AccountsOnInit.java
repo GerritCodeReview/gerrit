@@ -115,7 +115,7 @@ public class AccountsOnInit {
       if (result != Result.NEW) {
         throw new IOException(String.format("Failed to update ref %s: %s", refName, result.name()));
       }
-      account.setMetaId(id.name()).build();
+      account.setMetaId(id.name());
     }
     return account.build();
   }

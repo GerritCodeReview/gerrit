@@ -33,6 +33,24 @@
       "message": "Why this format change?",
       "revId": "8dddd77b85222349e772f13209c84d925662e3d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "481c98fc_0d1b0def",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-01T00:25:24Z",
+      "side": 1,
+      "message": "I think eslint did that.",
+      "parentUuid": "e3af3341_4a918201",
+      "revId": "8dddd77b85222349e772f13209c84d925662e3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

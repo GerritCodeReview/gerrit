@@ -4,8 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {css, html, LitElement} from 'lit';
-import {customElement} from 'lit/decorators';
+import {css, html, LitElement, nothing} from 'lit';
+import {customElement, state} from 'lit/decorators';
+import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
+import {resolve} from '../../../models/dependency';
+import {pluralize} from '../../../utils/string-util';
+import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
 
 interface ActionButton {
@@ -30,12 +34,29 @@ export class GrChangeListActionBar extends LitElement {
       }
     `;
   }
+  @state()
+  private numSelected = 0;
 
-  private actionButtons: ActionButton[] = [
+  private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
+
+  private readonly actionButtons: ActionButton[] = [
     {name: 'abandon', onClick: () => this.onAbandonClicked()},
   ];
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    subscribe(
+      this,
+      this.getBulkActionsModel().selectedChangeNums$,
+      selectedChangeNums => (this.numSelected = selectedChangeNums.length)
+    );
+  }
+
   override render() {
+    const numSelectedLabel = `${pluralize(
+      this.numSelected,
+      'change'
+    )} selected`;
     return html`
       <!--
         500 chosen to be more than the actual number of columns but less than
@@ -43,6 +64,7 @@ export class GrChangeListActionBar extends LitElement {
         back to colspan="1"
       -->
       <td colspan="500">
+        ${this.numSelected ? html`<span>${numSelectedLabel}</span>` : nothing}
         <div class="container">
           ${this.actionButtons.map(
             ({name, onClick}) =>

@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -82,7 +81,10 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
                     .filter(u -> u instanceof GroupBackedUser || u instanceof InternalUser)
                     .orElseGet(anonymousUserProvider::get));
     try {
-      withUser.change(cd).check(ChangePermission.READ);
+      if (!withUser.change(cd).test(ChangePermission.READ)) {
+        logger.atFine().log("Filter out non-visisble change: %s", cd);
+        return false;
+      }
     } catch (PermissionBackendException e) {
       Throwable cause = e.getCause();
       if (cause instanceof RepositoryNotFoundException) {
@@ -92,9 +94,6 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
         return false;
       }
       throw new StorageException("unable to check permissions on change " + cd.getId(), e);
-    } catch (AuthException e) {
-      logger.atFine().log("Filter out non-visisble change: %s", cd);
-      return false;
     }
 
     cd.cacheVisibleTo(user);

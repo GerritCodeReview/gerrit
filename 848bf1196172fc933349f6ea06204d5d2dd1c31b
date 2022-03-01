@@ -94,6 +94,30 @@
       },
       "revId": "848bf1196172fc933349f6ea06204d5d2dd1c31b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0398b116_78fdc5c5",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-01T18:05:10Z",
+      "side": 1,
+      "message": "that statement applies to top-level structural elements. but text has internal structure as well, where it is important to mark up relative importance, etc.",
+      "parentUuid": "aeaa1705_ea4d3ba1",
+      "range": {
+        "startLine": 223,
+        "startChar": 60,
+        "endLine": 223,
+        "endChar": 66
+      },
+      "revId": "848bf1196172fc933349f6ea06204d5d2dd1c31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

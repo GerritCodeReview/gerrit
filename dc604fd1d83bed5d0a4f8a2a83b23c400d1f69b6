@@ -51,6 +51,24 @@
       "parentUuid": "b26dab5f_668de601",
       "revId": "dc604fd1d83bed5d0a4f8a2a83b23c400d1f69b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce9b0774_ad20390c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-01T11:13:37Z",
+      "side": 1,
+      "message": "I\u0027m not sure if a separate component for each button makes sense. This feels like we could solve it with a function for each button.\n\nOne function to compute the state, one function to click on the button.",
+      "parentUuid": "5c528822_35eb9c74",
+      "revId": "dc604fd1d83bed5d0a4f8a2a83b23c400d1f69b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

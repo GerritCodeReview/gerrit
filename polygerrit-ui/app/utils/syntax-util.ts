@@ -22,7 +22,7 @@ import {
  * is really that simple:
  * https://github.com/highlightjs/highlight.js/blob/main/src/lib/html_renderer.js
  */
-const openingSpan = new RegExp('<span class="(.*?)">');
+const openingSpan = new RegExp('<span class="([^"]*?)">');
 const closingSpan = new RegExp('</span>');
 
 /**
@@ -65,7 +65,12 @@ export function highlightedStringToRanges(
     // For each closing </span> close the latest unclosed range.
     let removal: SpanRemoval | undefined;
     line = unescapeHTML(line);
-    while ((removal = removeFirstSpan(line)) !== undefined) {
+    // We are keeping track of where we are within the line going from left to
+    // right, because the "decoded" string may end up looking like a
+    // highlighting span. Thus `removeFirstSpan()` must not keep matching from
+    // the beginning of the line once it has started removing already.
+    let minOffset = 0;
+    while ((removal = removeFirstSpan(line, minOffset)) !== undefined) {
       if (removal.type === SpanType.OPENING) {
         ranges.push({
           start: removal.offset,
@@ -76,6 +81,7 @@ export function highlightedStringToRanges(
         const unclosed = lastUnclosed(ranges);
         unclosed.length = removal.offset - unclosed.start;
       }
+      minOffset = removal.offset;
       line = removal.lineAfter;
     }
 
@@ -126,25 +132,34 @@ export interface SpanRemoval {
 /**
  * Finds the first <span ...> or </span>, removes it from the line and returns
  * details about the removal. Returns `undefined`, if neither is found.
+ *
+ * @param minOffset Searches for matches only beyond this offset.
  */
-export function removeFirstSpan(line: string): SpanRemoval | undefined {
-  const openingMatch = openingSpan.exec(line);
+export function removeFirstSpan(
+  line: string,
+  minOffset = 0
+): SpanRemoval | undefined {
+  const partialLine = line.slice(minOffset);
+  const openingMatch = openingSpan.exec(partialLine);
   const openingIndex = openingMatch?.index ?? Number.MAX_VALUE;
-  const closingMatch = closingSpan.exec(line);
+  const closingMatch = closingSpan.exec(partialLine);
   const closingIndex = closingMatch?.index ?? Number.MAX_VALUE;
   if (openingIndex === Number.MAX_VALUE && closingIndex === Number.MAX_VALUE) {
     return undefined;
   }
   const type =
     openingIndex < closingIndex ? SpanType.OPENING : SpanType.CLOSING;
-  const offset = type === SpanType.OPENING ? openingIndex : closingIndex;
+  const partialOffset = type === SpanType.OPENING ? openingIndex : closingIndex;
   const match = type === SpanType.OPENING ? openingMatch : closingMatch;
   if (match === null) return undefined;
   const length = match[0].length;
   const removal: SpanRemoval = {
     type,
-    lineAfter: line.slice(0, offset) + line.slice(offset + length),
-    offset,
+    lineAfter:
+      line.slice(0, minOffset) +
+      partialLine.slice(0, partialOffset) +
+      partialLine.slice(partialOffset + length),
+    offset: minOffset + partialOffset,
     class: type === SpanType.OPENING ? match[1] : undefined,
   };
   return removal;

@@ -22,6 +22,30 @@
       },
       "revId": "848bf1196172fc933349f6ea06204d5d2dd1c31b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2779b6a4_f64e0486",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-03-01T10:21:47Z",
+      "side": 1,
+      "message": "I prefer to keep the tooltip as short as possible.\n\nAnything in the tooltip is a note / fyi, so no need to mention that IMO.",
+      "parentUuid": "d2da2259_dc4fb4ee",
+      "range": {
+        "startLine": 223,
+        "startChar": 60,
+        "endLine": 223,
+        "endChar": 66
+      },
+      "revId": "848bf1196172fc933349f6ea06204d5d2dd1c31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

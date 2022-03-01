@@ -99,6 +99,27 @@ suite('file syntax-util', () => {
       );
     });
 
+    test('one complex line with escaped HTML', async () => {
+      assert.deepEqual(
+        highlightedStringToRanges(
+          '  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span>[[name]]<span class="tag">&lt;/<span class="name">span</span>&gt;</span>'
+        ),
+        [
+          {
+            ranges: [
+              // '  <span class="title">[[name]]</span>'
+              {start: 2, length: 20, className: 'tag'},
+              {start: 3, length: 4, className: 'name'},
+              {start: 8, length: 5, className: 'attr'},
+              {start: 14, length: 7, className: 'string'},
+              {start: 30, length: 7, className: 'tag'},
+              {start: 32, length: 4, className: 'name'},
+            ],
+          },
+        ]
+      );
+    });
+
     test('two lines, one span each', async () => {
       assert.deepEqual(
         highlightedStringToRanges(

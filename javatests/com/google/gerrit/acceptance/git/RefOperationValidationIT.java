@@ -15,7 +15,9 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -25,6 +27,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
@@ -76,6 +79,35 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
 
   private Registration testValidator(ReceiveCommand.Type rejectType) {
     return extensionRegistry.newRegistration().add(new TestRefValidator(rejectType));
+  }
+
+  @Test
+  public void infoMessagesAreReturnedOnPush() throws Exception {
+    String message1 = "for bar baz";
+    String message2 = "abc xyz";
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(
+                new RefOperationValidationListener() {
+                  @Override
+                  public List<ValidationMessage> onRefOperation(RefReceivedEvent refEvent)
+                      throws ValidationException {
+                    return ImmutableList.of(
+                        new ValidationMessage(message1, ValidationMessage.Type.HINT),
+                        new ValidationMessage(message2, ValidationMessage.Type.HINT));
+                  }
+                })) {
+      PushResult r =
+          pushHead(
+              testRepo,
+              "refs/heads/new",
+              /* pushTags= */ false,
+              /* force= */ false,
+              /* pushOptions= */ ImmutableList.of());
+      assertPushOk(r, "refs/heads/new");
+      assertThat(r.getMessages()).contains(String.format("hint: %s\nhint: %s", message1, message2));
+    }
   }
 
   @Test

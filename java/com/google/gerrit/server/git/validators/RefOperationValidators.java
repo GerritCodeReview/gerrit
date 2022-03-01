@@ -97,7 +97,7 @@ public class RefOperationValidators {
           new DisallowCreationAndDeletionOfGerritMaintainedBranches(perm, allUsersName)
               .onRefOperation(event));
       refOperationValidationListeners.runEach(
-          l -> l.onRefOperation(event), ValidationException.class);
+          l -> messages.addAll(l.onRefOperation(event)), ValidationException.class);
     } catch (ValidationException e) {
       messages.add(new ValidationMessage(e.getMessage(), true));
       withException = true;

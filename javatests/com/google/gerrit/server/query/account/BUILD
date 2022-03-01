@@ -53,11 +53,9 @@ junit_tests(
     visibility = ["//visibility:public"],
     deps = [
         ":abstract_query_tests",
-        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:jgit",
         "//lib/guice",
-        "@truth//jar",
     ],
 )

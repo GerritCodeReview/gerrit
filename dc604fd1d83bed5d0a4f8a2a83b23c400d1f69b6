@@ -16,6 +16,23 @@
       "message": "I thought we discussed not having \"add changes\" and \"remove changes\"",
       "revId": "dc604fd1d83bed5d0a4f8a2a83b23c400d1f69b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b26dab5f_668de601",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-01T10:42:37Z",
+      "side": 1,
+      "message": "Rather than hardcode these gr-buttons, what about having a list in the component of titles and actions which are functions that take the model as input.  \n\n${this.actions.map(({title, action}) \u003d\u003e \u003cgr-button @click\u003d${() \u003d\u003e action(this.model)}\u003e${title}\u003c/gr-button\u003e)}",
+      "revId": "dc604fd1d83bed5d0a4f8a2a83b23c400d1f69b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

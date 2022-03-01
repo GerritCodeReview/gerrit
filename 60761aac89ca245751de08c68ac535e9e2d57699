@@ -16,6 +16,24 @@
       "message": "I really wonder if we should be using a DomParser and walking an AST instead of relying on regexp-based techniques which will always be brittle.",
       "revId": "60761aac89ca245751de08c68ac535e9e2d57699",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f285d040_9448c386",
+        "filename": "polygerrit-ui/app/utils/syntax-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-01T13:13:17Z",
+      "side": 1,
+      "message": "I think we have discussed this before, and yes, it would definitely be the more robust and elegant solution.\n\nUnfortunately we have a fairly high maintenance cost for libraries, so we would trade one cost for another. And even a DOM parser would be brittle in the sense that HighlightJS might change the shape of HTML it produces any time.\n\nAlso, the \"right\" solution would probably be to contribute something to HighlightJS such that it can produce ranges instead of HTML.\n\nOverall I don\u0027t think it is worth spending time on this right now.",
+      "parentUuid": "47d09bd1_50530b47",
+      "revId": "60761aac89ca245751de08c68ac535e9e2d57699",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

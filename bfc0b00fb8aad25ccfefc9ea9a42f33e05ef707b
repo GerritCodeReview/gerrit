@@ -46,6 +46,30 @@
       },
       "revId": "bfc0b00fb8aad25ccfefc9ea9a42f33e05ef707b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5da8dc6_3ecb962b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-01T13:09:52Z",
+      "side": 1,
+      "message": "Fair enough, let\u0027s get this merged.",
+      "parentUuid": "04f40b62_cf77182c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "bfc0b00fb8aad25ccfefc9ea9a42f33e05ef707b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

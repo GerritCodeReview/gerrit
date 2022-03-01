@@ -70,6 +70,30 @@
       },
       "revId": "848bf1196172fc933349f6ea06204d5d2dd1c31b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeaa1705_ea4d3ba1",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-03-01T17:07:13Z",
+      "side": 1,
+      "message": "In any writing the prefix \"Note that .. \" is superfluous, and should be dropped in the interest of brevity.",
+      "parentUuid": "4267fd94_f83fe3bb",
+      "range": {
+        "startLine": 223,
+        "startChar": 60,
+        "endLine": 223,
+        "endChar": 66
+      },
+      "revId": "848bf1196172fc933349f6ea06204d5d2dd1c31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

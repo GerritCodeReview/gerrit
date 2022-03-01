@@ -168,6 +168,7 @@ public class SubmitRequirementsUtil {
     Set<String> legacyNames =
         legacyRequirements.keySet().stream()
             .map(SubmitRequirement::name)
+            .map(String::toLowerCase)
             .collect(Collectors.toSet());
     for (String projectConfigSrName : requirementsByName.keySet()) {
       if (!legacyNames.contains(projectConfigSrName) && shouldReportMetric(cd)) {

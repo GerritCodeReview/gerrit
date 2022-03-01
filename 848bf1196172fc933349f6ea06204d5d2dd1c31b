@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2da2259_dc4fb4ee",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-01T10:11:38Z",
+      "side": 1,
+      "message": "i\u0027d say \"note that this makes ...\", so it\u0027s clearer that this is just a side effect.",
+      "range": {
+        "startLine": 223,
+        "startChar": 60,
+        "endLine": 223,
+        "endChar": 66
+      },
+      "revId": "848bf1196172fc933349f6ea06204d5d2dd1c31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

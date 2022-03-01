@@ -219,7 +219,8 @@ public class Rebase
     UiAction.Description description =
         new UiAction.Description()
             .setLabel("Rebase")
-            .setTitle("Rebase onto tip of branch or parent change")
+            .setTitle(
+                "Rebase onto tip of branch or parent change. Makes you the uploader of this change which can affect validity of approvals.")
             .setVisible(false);
 
     Change change = rsrc.getChange();

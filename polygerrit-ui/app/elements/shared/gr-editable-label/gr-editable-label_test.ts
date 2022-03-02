@@ -15,43 +15,39 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-editable-label.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-const basicFixture = fixtureFromTemplate(html`
-<gr-editable-label
-        value="value text"
-        placeholder="label text"></gr-editable-label>
-`);
-
-const noPlaceholderFixture = fixtureFromTemplate(html`
-<gr-editable-label value=""></gr-editable-label>
-`);
-
-const readOnlyFixture = fixtureFromTemplate(html`
-<gr-editable-label
-        read-only
-        value="value text"
-        placeholder="label text"></gr-editable-label>
-`);
+import '../../../test/common-test-setup-karma';
+import './gr-editable-label';
+import {GrEditableLabel} from './gr-editable-label';
+import {queryAndAssert} from '../../../utils/common-util';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
+import {GrButton} from '../gr-button/gr-button';
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-editable-label tests', () => {
-  let element;
-  let elementNoPlaceholder;
-  let input;
-  let label;
+  let element: GrEditableLabel;
+  let elementNoPlaceholder: GrEditableLabel;
+  let input: HTMLInputElement;
+  let label: HTMLLabelElement;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    elementNoPlaceholder = noPlaceholderFixture.instantiate();
-    flush();
-    label = element.shadowRoot.querySelector('label');
+    element = await fixture<GrEditableLabel>(html`
+      <gr-editable-label
+        value="value text"
+        placeholder="label text"
+      ></gr-editable-label>
+    `);
+    elementNoPlaceholder = await fixture<GrEditableLabel>(html`
+      <gr-editable-label value=""></gr-editable-label>
+    `);
+    await flush();
+    label = queryAndAssert<HTMLLabelElement>(element, 'label');
 
     await flush();
     // In Polymer 2 inputElement isn't nativeInput anymore
-    const paperInput = element.shadowRoot.querySelector('#input');
-    input = paperInput.$.nativeInput || paperInput.inputElement;
+    const paperInput = queryAndAssert<PaperInputElement>(element, '#input');
+    input = (paperInput.$.nativeInput ||
+      paperInput.inputElement) as HTMLInputElement;
   });
 
   test('renders', () => {
@@ -120,7 +116,7 @@ suite('gr-editable-label tests', () => {
 
     MockInteractions.tap(label);
 
-    return showSpy.lastCall.returnValue.then(() => {
+    return showSpy.lastCall.returnValue!.then(() => {
       // The dropdown is open (which covers up the label):
       assert.isTrue(element.$.dropdown.opened);
       assert.isTrue(focusSpy.called);
@@ -128,19 +124,19 @@ suite('gr-editable-label tests', () => {
     });
   });
 
-  test('title with placeholder', () => {
+  test('title with placeholder', async () => {
     assert.equal(element.title, 'value text');
     element.value = '';
 
-    flush();
+    await flush();
     assert.equal(element.title, 'label text');
   });
 
-  test('title without placeholder', () => {
+  test('title without placeholder', async () => {
     assert.equal(elementNoPlaceholder.title, '');
     element.value = 'value text';
 
-    flush();
+    await flush();
     assert.equal(element.title, 'value text');
   });
 
@@ -150,7 +146,7 @@ suite('gr-editable-label tests', () => {
     assert.isFalse(element.editing);
 
     MockInteractions.tap(label);
-    flush();
+    await flush();
 
     assert.isTrue(element.editing);
     assert.isFalse(editedSpy.called);
@@ -158,41 +154,46 @@ suite('gr-editable-label tests', () => {
     element._inputText = 'new text';
     // Press enter:
     MockInteractions.keyDownOn(input, 13, null, 'Enter');
-    flush();
+    await flush();
 
     assert.isTrue(editedSpy.called);
     assert.equal(input.value, 'new text');
     assert.isFalse(element.editing);
   });
 
-  test('save button', () => {
+  test('save button', async () => {
     const editedSpy = sinon.spy();
     element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
     MockInteractions.tap(label);
-    flush();
+    await flush();
 
     assert.isTrue(element.editing);
     assert.isFalse(editedSpy.called);
 
     element._inputText = 'new text';
     // Press enter:
-    MockInteractions.tap(element.$.saveBtn, 13, null, 'Enter');
-    flush();
+    MockInteractions.pressAndReleaseKeyOn(
+      queryAndAssert<GrButton>(element, '#saveBtn'),
+      13,
+      null,
+      'Enter'
+    );
+    await flush();
 
     assert.isTrue(editedSpy.called);
     assert.equal(input.value, 'new text');
     assert.isFalse(element.editing);
   });
 
-  test('edit and then escape key', () => {
+  test('edit and then escape key', async () => {
     const editedSpy = sinon.spy();
     element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
     MockInteractions.tap(label);
-    flush();
+    await flush();
 
     assert.isTrue(element.editing);
     assert.isFalse(editedSpy.called);
@@ -200,7 +201,7 @@ suite('gr-editable-label tests', () => {
     element._inputText = 'new text';
     // Press escape:
     MockInteractions.keyDownOn(input, 27, null, 'Escape');
-    flush();
+    await flush();
 
     assert.isFalse(editedSpy.called);
     // Text changes should be discarded.
@@ -208,21 +209,21 @@ suite('gr-editable-label tests', () => {
     assert.isFalse(element.editing);
   });
 
-  test('cancel button', () => {
+  test('cancel button', async () => {
     const editedSpy = sinon.spy();
     element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
     MockInteractions.tap(label);
-    flush();
+    await flush();
 
     assert.isTrue(element.editing);
     assert.isFalse(editedSpy.called);
 
     element._inputText = 'new text';
     // Press escape:
-    MockInteractions.tap(element.$.cancelBtn);
-    flush();
+    MockInteractions.tap(queryAndAssert<GrButton>(element, '#cancelBtn'));
+    await flush();
 
     assert.isFalse(editedSpy.called);
     // Text changes should be discarded.
@@ -231,22 +232,27 @@ suite('gr-editable-label tests', () => {
   });
 
   suite('gr-editable-label read-only tests', () => {
-    let element;
-    let label;
+    let element: GrEditableLabel;
+    let label: HTMLLabelElement;
 
-    setup(() => {
-      element = readOnlyFixture.instantiate();
-      flush();
-      label = element.shadowRoot
-          .querySelector('label');
+    setup(async () => {
+      element = await fixture<GrEditableLabel>(html`
+        <gr-editable-label
+          read-only
+          value="value text"
+          placeholder="label text"
+        ></gr-editable-label>
+      `);
+      await flush();
+      label = queryAndAssert(element, 'label');
     });
 
-    test('disallows edit when read-only', () => {
+    test('disallows edit when read-only', async () => {
       // The dropdown is closed.
       assert.isFalse(element.$.dropdown.opened);
       MockInteractions.tap(label);
 
-      flush();
+      await flush();
 
       // The dropdown is still closed.
       assert.isFalse(element.$.dropdown.opened);
@@ -257,4 +263,3 @@ suite('gr-editable-label tests', () => {
     });
   });
 });
-

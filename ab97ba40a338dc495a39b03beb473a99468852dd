@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6972fb94_09dff551",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-02T11:35:15Z",
+      "side": 1,
+      "message": "without this change the checkbox was not visually reflecting model updates. The `input.checked` value was updating but no visual changes. Setting the property rather than the attribute fixes it.",
+      "range": {
+        "startLine": 315,
+        "startChar": 10,
+        "endLine": 315,
+        "endChar": 11
+      },
+      "revId": "ab97ba40a338dc495a39b03beb473a99468852dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

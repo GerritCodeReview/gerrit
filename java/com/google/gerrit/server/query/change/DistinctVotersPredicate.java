@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
  */
 public class DistinctVotersPredicate extends SubmitRequirementPredicate {
   public interface Factory {
-    DistinctVotersPredicate create(String value);
+    DistinctVotersPredicate create(String value) throws QueryParseException;
   }
 
   private static final Pattern PATTERN =

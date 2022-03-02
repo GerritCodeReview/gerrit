@@ -48,7 +48,7 @@ export enum AuthType {
 }
 
 /**
- * @desc Specifies status for a change
+ * Specifies status for a change
  */
 export enum ChangeStatus {
   ABANDONED = 'ABANDONED',
@@ -72,7 +72,7 @@ export enum ConfigParameterInfoType {
 }
 
 /**
- * @desc Used for server config of accounts
+ * Used for server config of accounts
  */
 export enum DefaultDisplayNameConfig {
   USERNAME = 'USERNAME',
@@ -91,7 +91,7 @@ export enum EditableAccountField {
 }
 
 /**
- * @desc The status of the file
+ * The status of the file
  */
 export enum FileInfoStatus {
   ADDED = 'A',
@@ -104,7 +104,7 @@ export enum FileInfoStatus {
 }
 
 /**
- * @desc The status of the file
+ * The status of the file
  */
 export enum GpgKeyInfoStatus {
   BAD = 'BAD',
@@ -144,7 +144,7 @@ export enum MergeabilityComputationBehavior {
 }
 
 /**
- * @desc The status of fixing the problem
+ * The status of fixing the problem
  */
 export enum ProblemInfoStatus {
   FIXED = 'FIXED',
@@ -152,7 +152,7 @@ export enum ProblemInfoStatus {
 }
 
 /**
- * @desc The state of the projects
+ * The state of the projects
  */
 export enum ProjectState {
   ACTIVE = 'ACTIVE',
@@ -161,7 +161,7 @@ export enum ProjectState {
 }
 
 /**
- * @desc The reviewer state
+ * The reviewer state
  */
 export enum RequirementStatus {
   OK = 'OK',
@@ -170,7 +170,7 @@ export enum RequirementStatus {
 }
 
 /**
- * @desc The reviewer state
+ * The reviewer state
  */
 export enum ReviewerState {
   REVIEWER = 'REVIEWER',
@@ -179,7 +179,7 @@ export enum ReviewerState {
 }
 
 /**
- * @desc The patchset kind
+ * The patchset kind
  */
 export enum RevisionKind {
   REWORK = 'REWORK',

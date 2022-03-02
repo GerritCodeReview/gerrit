@@ -22,7 +22,6 @@ type RevNumberToParentCountMap = {[revNumber: number]: number};
 
 export class RevisionInfo {
   /**
-   * @constructor
    * @param change A change object resulting from a change detail
    *     call that includes revision information.
    */

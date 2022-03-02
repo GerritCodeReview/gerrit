@@ -97,7 +97,7 @@ export function uniqueDefinedAvatar(
 }
 
 /**
- * @desc Get account in pseudonymized form, that can be send to the backend.
+ * Get account in pseudonymized form, that can be send to the backend.
  *
  * If account is not present, returns anonymous user name according to config.
  */
@@ -108,7 +108,7 @@ export function getAccountTemplate(account?: AccountInfo, config?: ServerInfo) {
 }
 
 /**
- * @desc Replace account templates with user display names in text, received from the backend.
+ * Replace account templates with user display names in text, received from the backend.
  */
 export function replaceTemplates(
   text: string,

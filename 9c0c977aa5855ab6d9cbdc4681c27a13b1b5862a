@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44d72cec_c293f55c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-abandon-button/gr-change-list-abandon-button.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-02T19:36:28Z",
+      "side": 1,
+      "message": "GrChangeListAbandonFlow? It\u0027s more than just a button as it contains the Dialog.",
+      "revId": "9c0c977aa5855ab6d9cbdc4681c27a13b1b5862a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5f8bee2_a62de3cc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-abandon-button/gr-change-list-abandon-button.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-02T19:36:28Z",
+      "side": 1,
+      "message": "isEnabled?",
+      "revId": "9c0c977aa5855ab6d9cbdc4681c27a13b1b5862a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e17783_79487f9e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-abandon-button/gr-change-list-abandon-button.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-02T19:36:28Z",
+      "side": 1,
+      "message": "Where will the logic for the dialog live?",
+      "revId": "9c0c977aa5855ab6d9cbdc4681c27a13b1b5862a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c40e298e_b6b5daf2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-02T10:10:07Z",
+      "side": 1,
+      "message": "Good point.",
+      "parentUuid": "9e636936_28e5f634",
+      "revId": "c2dcd59c1cf68cfdc65e7e78db8f5c038b9acd3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c859b91c_b22b6e55",

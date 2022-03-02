@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e636936_28e5f634",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-02T10:08:35Z",
+      "side": 1,
+      "message": "user will click it to clear all selections, take gmail as an example. Confirmed with Delphine",
+      "parentUuid": "c5f61293_c1c7b0e5",
+      "revId": "c2dcd59c1cf68cfdc65e7e78db8f5c038b9acd3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c859b91c_b22b6e55",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar_test.ts",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-02T10:03:11Z",
       "side": 1,
       "message": "You probably want to make this\n\n`selectedChangeNums \u003d\u003e selectedChangeNums.includes(change._number)`\n\nOtherwise the second selected change will be instantly true.",
+      "revId": "c2dcd59c1cf68cfdc65e7e78db8f5c038b9acd3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8aa1c41_ebfd58ea",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-02T10:08:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c859b91c_b22b6e55",
       "revId": "c2dcd59c1cf68cfdc65e7e78db8f5c038b9acd3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

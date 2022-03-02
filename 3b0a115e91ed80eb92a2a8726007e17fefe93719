@@ -16,6 +16,24 @@
       "message": "Newline before @state",
       "revId": "3b0a115e91ed80eb92a2a8726007e17fefe93719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b85072bf_2a18c70a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-02T10:08:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7885e2b_26c9ca57",
+      "revId": "3b0a115e91ed80eb92a2a8726007e17fefe93719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

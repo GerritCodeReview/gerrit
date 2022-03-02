@@ -113,6 +113,10 @@ export const htmlTemplate = html`
       --iron-icon-height: 18px;
       --iron-icon-width: 18px;
     }
+    gr-vote-chip {
+      --gr-vote-chip-width: 14px;
+      --gr-vote-chip-height: 14px;
+    }
   </style>
   <div>
     <div class="metadata-header">

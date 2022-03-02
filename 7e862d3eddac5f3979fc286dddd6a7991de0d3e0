@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7060328_a9aa0fd3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-02T12:58:59Z",
+      "side": 1,
+      "message": "What if they\u0027re both 0, then it should not be checked.",
+      "revId": "7e862d3eddac5f3979fc286dddd6a7991de0d3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69d48962_9bfccb86",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-02T12:58:59Z",
+      "side": 1,
+      "message": "Could you explain why?",
+      "revId": "7e862d3eddac5f3979fc286dddd6a7991de0d3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

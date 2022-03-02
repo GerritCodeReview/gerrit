@@ -26,11 +26,13 @@ export enum LoadingState {
 export interface BulkActionsState {
   loadingState: LoadingState;
   selectedChangeNums: NumericChangeId[];
+  totalChangeCount: number;
 }
 
 const initialState: BulkActionsState = {
   loadingState: LoadingState.NOT_SYNCED,
   selectedChangeNums: [],
+  totalChangeCount: 0,
 };
 
 export class BulkActionsModel
@@ -48,6 +50,11 @@ export class BulkActionsModel
   public readonly selectedChangeNums$ = select(
     this.state$,
     bulkActionsState => bulkActionsState.selectedChangeNums
+  );
+
+  public readonly totalChangeCount$ = select(
+    this.state$,
+    bulkActionsState => bulkActionsState.totalChangeCount
   );
 
   public readonly loadingState$ = select(
@@ -81,6 +88,10 @@ export class BulkActionsModel
     this.setState({...current, selectedChangeNums});
   }
 
+  clearSelectedChangeNums() {
+    this.setState({...this.subject$.getValue(), selectedChangeNums: []});
+  }
+
   async sync(changes: ChangeInfo[]) {
     const newChanges = new Map(changes.map(c => [c._number, c]));
     this.allChanges = newChanges;
@@ -92,6 +103,7 @@ export class BulkActionsModel
       ...current,
       loadingState: LoadingState.LOADING,
       selectedChangeNums,
+      totalChangeCount: this.allChanges.size,
     });
 
     const query = changes.map(c => `change:${c._number}`).join(' OR ');

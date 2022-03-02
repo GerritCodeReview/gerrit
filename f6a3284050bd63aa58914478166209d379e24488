@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d0f22f1_a6f02183",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_mock_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-02T15:48:59Z",
+      "side": 1,
+      "message": "why is this needed?",
+      "range": {
+        "startLine": 26,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "f6a3284050bd63aa58914478166209d379e24488",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

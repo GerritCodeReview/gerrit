@@ -11,11 +11,7 @@ import {resolve} from '../../../models/dependency';
 import {pluralize} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
-
-interface ActionButton {
-  name: string;
-  onClick: Function;
-}
+import '../gr-change-list-mark-active-flow/gr-change-list-mark-active-flow';
 
 /**
  * An action bar for the top of a <gr-change-list-section> element. Assumes it
@@ -57,10 +53,6 @@ export class GrChangeListActionBar extends LitElement {
   private totalChangeCount = 0;
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
-
-  private readonly actionButtons: ActionButton[] = [
-    {name: 'abandon', onClick: () => this.onAbandonClicked()},
-  ];
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -115,18 +107,11 @@ export class GrChangeListActionBar extends LitElement {
               : nothing}
           </div>
           <div class="actionButtons">
-            ${this.actionButtons.map(
-              ({name, onClick}) =>
-                html`<gr-button flatten @click=${onClick}>${name}</gr-button>`
-            )}
+            <gr-change-list-mark-active-flow></gr-change-list-mark-active-flow>
           </div>
         </div>
       </td>
     `;
-  }
-
-  private onAbandonClicked() {
-    console.info('abandon clicked');
   }
 }
 

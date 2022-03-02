@@ -174,7 +174,9 @@ module.exports = {
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-syntax
     'jsdoc/check-syntax': 0,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-tag-names
-    'jsdoc/check-tag-names': 0,
+    'jsdoc/check-tag-names': ['error', {
+      definedTags: ['attr', 'lit', 'mixinFunction', 'mixinClass', 'polymer'],
+    }],
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-types
     'jsdoc/check-types': 0,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-implements-on-classes
@@ -455,6 +457,12 @@ module.exports = {
     'import/resolver': {
       node: {},
       [path.resolve(__dirname, './.eslint-ts-resolver.js')]: {},
+    },
+    'jsdoc': {
+      tagNamePreference: {
+        returns: 'return',
+        file: 'fileoverview',
+      },
     },
   },
 };

@@ -50,7 +50,7 @@ export interface EventEmitterService extends Finalizable {
    * the event named eventName, in the order they were registered,
    * passing the supplied detail to each.
    *
-   * @returns true if the event had listeners, false otherwise.
+   * @return true if the event had listeners, false otherwise.
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emit(eventName: string, detail: any): boolean;

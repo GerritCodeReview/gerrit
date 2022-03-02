@@ -915,6 +915,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return file(file);
   }
 
+  /** @throws QueryParseException thrown if parsing the value fails (may be thrown by subclasses) */
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
     if (file.startsWith("^")) {

@@ -85,7 +85,7 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   }
 
   @Operator
-  public Predicate<ChangeData> distinctvoters(String value) throws QueryParseException {
+  public Predicate<ChangeData> distinctvoters(String value) {
     return distinctVotersPredicateFactory.create(value);
   }
 

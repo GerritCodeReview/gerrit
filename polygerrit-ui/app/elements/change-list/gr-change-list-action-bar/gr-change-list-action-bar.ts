@@ -53,6 +53,9 @@ export class GrChangeListActionBar extends LitElement {
   @state()
   private numSelected = 0;
 
+  @state()
+  private totalChangeCount = 0;
+
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   private readonly actionButtons: ActionButton[] = [
@@ -66,6 +69,11 @@ export class GrChangeListActionBar extends LitElement {
       this.getBulkActionsModel().selectedChangeNums$,
       selectedChangeNums => (this.numSelected = selectedChangeNums.length)
     );
+    subscribe(
+      this,
+      this.getBulkActionsModel().totalChangeCount$,
+      totalChangeCount => (this.totalChangeCount = totalChangeCount)
+    );
   }
 
   override render() {
@@ -73,12 +81,18 @@ export class GrChangeListActionBar extends LitElement {
       this.numSelected,
       'change'
     )} selected`;
+    const allChangesSelected = this.numSelected === this.totalChangeCount;
     return html`
       <!-- Empty cell added for spacing just like gr-change-list-item rows -->
       <td></td>
-      <!-- TODO: Make checkbox reflect the overall selection of the section -->
-      <!-- TODO: Clear behavior -->
-      <td><input type="checkbox" /></td>
+      <td>
+        <input
+          type="checkbox"
+          ?checked=${allChangesSelected}
+          .indeterminate=${!allChangesSelected}
+          @click=${() => this.getBulkActionsModel().clearSelectedChangeNums()}
+        />
+      </td>
       <!--
         500 chosen to be more than the actual number of columns but less than
         1000 where the browser apparently decides it is an error and reverts

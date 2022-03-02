@@ -53,7 +53,7 @@ suite('gr-change-list-action-bar tests', () => {
     await element.updateComplete;
   });
 
-  test('renders all buttons', async () => {
+  test('renders action bar', async () => {
     await selectChange(change1);
 
     expect(element).shadowDom.to.equal(/* HTML */ `
@@ -102,6 +102,39 @@ suite('gr-change-list-action-bar tests', () => {
       '.selectionInfo span'
     );
     assert.equal(numSelectedLabel.innerText, '2 changes selected');
+  });
+
+  test('checkbox matches partial and fully selected state', async () => {
+    // partial case
+    await selectChange(change1);
+    let checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
+    assert.isTrue(checkbox.indeterminate);
+
+    // plural case
+    await selectChange(change2);
+
+    checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
+    assert.isFalse(checkbox.indeterminate);
+    assert.isTrue(checkbox.checked);
+  });
+
+  test('clicking checkbox clears selection', async () => {
+    await selectChange(change1);
+    await selectChange(change2);
+    let selectedChangeNums = await waitUntilObserved(
+      model.selectedChangeNums$,
+      s => s.length === 2
+    );
+    assert.sameMembers(selectedChangeNums, [change1._number, change2._number]);
+
+    const checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
+    checkbox.click();
+
+    selectedChangeNums = await waitUntilObserved(
+      model.selectedChangeNums$,
+      s => s.length === 0
+    );
+    assert.isEmpty(selectedChangeNums);
   });
 
   test('abandoned clicked', async () => {

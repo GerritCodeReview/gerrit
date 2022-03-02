@@ -310,9 +310,10 @@ export class GrChangeListItem extends LitElement {
     if (!this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) return;
     return html`
       <td class="cell selection">
+        <!-- `.checked` property must be used rathern than the attribute -->
         <input
           type="checkbox"
-          ?checked=${this.checked}
+          .checked=${this.checked}
           @click=${() => this.handleChangeSelectionClick()}
         />
       </td>

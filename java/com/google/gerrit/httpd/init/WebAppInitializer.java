@@ -436,10 +436,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(sysInjector.getInstance(GetUserFilter.GetUserFilterModule.class));
 
     // StaticModule contains a "/*" wildcard, place it last.
-    GerritOptions opts = sysInjector.getInstance(GerritOptions.class);
-    if (opts.enableMasterFeatures()) {
-      modules.add(sysInjector.getInstance(StaticModule.class));
-    }
+    modules.add(sysInjector.getInstance(StaticModule.class));
 
     return sysInjector.createChildInjector(modules);
   }

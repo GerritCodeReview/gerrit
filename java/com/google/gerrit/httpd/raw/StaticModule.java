@@ -44,6 +44,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -99,6 +101,7 @@ public class StaticModule extends ServletModule {
   private static final String DOC_SERVLET = "DocServlet";
   private static final String FAVICON_SERVLET = "FaviconServlet";
   private static final String POLYGERRIT_INDEX_SERVLET = "PolyGerritUiIndexServlet";
+  private static final String REPLICA_TXT_SERVLET = "ReplicaTxtServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
 
   private final GerritOptions options;
@@ -120,10 +123,6 @@ public class StaticModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
-    serveRegex("^/Documentation$").with(named(DOC_SERVLET));
-    serveRegex("^/Documentation/$").with(named(DOC_SERVLET));
-    serveRegex("^/Documentation/(.+)$").with(named(DOC_SERVLET));
-    serve("/static/*").with(SiteStaticDirectoryServlet.class);
     install(
         new CacheModule() {
           @Override
@@ -133,6 +132,14 @@ public class StaticModule extends ServletModule {
                 .weigher(ResourceServlet.Weigher.class);
           }
         });
+    if (!options.enableMasterFeatures()) {
+      install(new ReplicaStaticModule());
+      return;
+    }
+    serveRegex("^/Documentation$").with(named(DOC_SERVLET));
+    serveRegex("^/Documentation/$").with(named(DOC_SERVLET));
+    serveRegex("^/Documentation/(.+)$").with(named(DOC_SERVLET));
+    serve("/static/*").with(SiteStaticDirectoryServlet.class);
     if (!options.headless()) {
       install(new CoreStaticModule());
       install(new PolyGerritModule());
@@ -158,6 +165,28 @@ public class StaticModule extends ServletModule {
           resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
       };
+    }
+  }
+
+  private class ReplicaStaticModule extends CoreStaticModule {
+    @Override
+    public void configureServlets() {
+      List<String> notServedByReplica = new ArrayList<>();
+      notServedByReplica.addAll(POLYGERRIT_INDEX_PATHS);
+      notServedByReplica.add("/Documentation/*");
+      notServedByReplica.add("/static/*");
+      serve(notServedByReplica).with(named(REPLICA_TXT_SERVLET));
+    }
+
+    @Provides
+    @Singleton
+    @Named(REPLICA_TXT_SERVLET)
+    HttpServlet getReplicaTxtServlet(@Named(CACHE) Cache<Path, Resource> cache) {
+      Paths p = getPaths();
+      if (p.warFs != null) {
+        return new SingleFileServlet(cache, p.warFs.getPath("/replica.txt"), false);
+      }
+      return new SingleFileServlet(cache, webappSourcePath("replica.txt"), true);
     }
   }
 
@@ -200,7 +229,7 @@ public class StaticModule extends ServletModule {
       return new SingleFileServlet(cache, webappSourcePath("favicon.ico"), true);
     }
 
-    private Path webappSourcePath(String name) {
+    Path webappSourcePath(String name) {
       Paths p = getPaths();
       if (p.unpackedWar != null) {
         return p.unpackedWar.resolve(name);

@@ -70,6 +70,30 @@
       },
       "revId": "34a3b9772566bb8d934f70436e0c6388fe0a61e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b021ae4_e9015948",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-02T11:41:15Z",
+      "side": 0,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/331720",
+      "parentUuid": "6557e8ba_26a9fef7",
+      "range": {
+        "startLine": 88,
+        "startChar": 67,
+        "endLine": 88,
+        "endChar": 86
+      },
+      "revId": "34a3b9772566bb8d934f70436e0c6388fe0a61e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

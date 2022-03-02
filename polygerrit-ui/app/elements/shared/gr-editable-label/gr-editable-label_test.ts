@@ -15,43 +15,52 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-editable-label.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import '../../../test/common-test-setup-karma';
+import './gr-editable-label';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {GrEditableLabel} from './gr-editable-label';
+import {queryAndAssert} from '../../../utils/common-util';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
+import {GrButton} from '../gr-button/gr-button.js';
 
 const basicFixture = fixtureFromTemplate(html`
-<gr-editable-label
-        value="value text"
-        placeholder="label text"></gr-editable-label>
+  <gr-editable-label
+    value="value text"
+    placeholder="label text"
+  ></gr-editable-label>
 `);
 
 const noPlaceholderFixture = fixtureFromTemplate(html`
-<gr-editable-label value=""></gr-editable-label>
+  <gr-editable-label value=""></gr-editable-label>
 `);
 
 const readOnlyFixture = fixtureFromTemplate(html`
-<gr-editable-label
-        read-only
-        value="value text"
-        placeholder="label text"></gr-editable-label>
+  <gr-editable-label
+    read-only
+    value="value text"
+    placeholder="label text"
+  ></gr-editable-label>
 `);
 
 suite('gr-editable-label tests', () => {
-  let element;
-  let elementNoPlaceholder;
-  let input;
-  let label;
+  let element: GrEditableLabel;
+  let elementNoPlaceholder: GrEditableLabel;
+  let input: HTMLInputElement;
+  let label: HTMLLabelElement;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    elementNoPlaceholder = noPlaceholderFixture.instantiate();
-    flush();
-    label = element.shadowRoot.querySelector('label');
+    element = basicFixture.instantiate() as GrEditableLabel;
+    elementNoPlaceholder =
+      noPlaceholderFixture.instantiate() as GrEditableLabel;
+    await flush();
+    label = queryAndAssert<HTMLLabelElement>(element, 'label');
 
     await flush();
     // In Polymer 2 inputElement isn't nativeInput anymore
-    const paperInput = element.shadowRoot.querySelector('#input');
-    input = paperInput.$.nativeInput || paperInput.inputElement;
+    const paperInput = queryAndAssert<PaperInputElement>(element, '#input');
+    input = (paperInput.$.nativeInput ||
+      paperInput.inputElement) as HTMLInputElement;
   });
 
   test('renders', () => {
@@ -120,7 +129,7 @@ suite('gr-editable-label tests', () => {
 
     MockInteractions.tap(label);
 
-    return showSpy.lastCall.returnValue.then(() => {
+    return showSpy.lastCall.returnValue!.then(() => {
       // The dropdown is open (which covers up the label):
       assert.isTrue(element.$.dropdown.opened);
       assert.isTrue(focusSpy.called);
@@ -178,7 +187,12 @@ suite('gr-editable-label tests', () => {
 
     element._inputText = 'new text';
     // Press enter:
-    MockInteractions.tap(element.$.saveBtn, 13, null, 'Enter');
+    MockInteractions.pressAndReleaseKeyOn(
+      queryAndAssert<GrButton>(element, '#saveBtn'),
+      13,
+      null,
+      'Enter'
+    );
     flush();
 
     assert.isTrue(editedSpy.called);
@@ -221,7 +235,7 @@ suite('gr-editable-label tests', () => {
 
     element._inputText = 'new text';
     // Press escape:
-    MockInteractions.tap(element.$.cancelBtn);
+    MockInteractions.tap(queryAndAssert<GrButton>(element, '#cancelBtn'));
     flush();
 
     assert.isFalse(editedSpy.called);
@@ -231,14 +245,13 @@ suite('gr-editable-label tests', () => {
   });
 
   suite('gr-editable-label read-only tests', () => {
-    let element;
-    let label;
+    let element: GrEditableLabel;
+    let label: HTMLLabelElement;
 
-    setup(() => {
-      element = readOnlyFixture.instantiate();
-      flush();
-      label = element.shadowRoot
-          .querySelector('label');
+    setup(async () => {
+      element = readOnlyFixture.instantiate() as GrEditableLabel;
+      await flush();
+      label = queryAndAssert(element, 'label');
     });
 
     test('disallows edit when read-only', () => {
@@ -257,4 +270,3 @@ suite('gr-editable-label tests', () => {
     });
   });
 });
-

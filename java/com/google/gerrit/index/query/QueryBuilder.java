@@ -31,6 +31,7 @@ import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -46,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.tree.CommonTree;
@@ -416,8 +418,13 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
       } catch (RuntimeException | IllegalAccessException e) {
         throw error("Error in operator " + name + ":" + value, e);
       } catch (InvocationTargetException e) {
-        if (e.getCause() instanceof QueryParseException) {
-          throw (QueryParseException) e.getCause();
+        Optional<QueryParseException> queryParseException =
+            Throwables.getCausalChain(e).stream()
+                .filter(QueryParseException.class::isInstance)
+                .map(QueryParseException.class::cast)
+                .findAny();
+        if (queryParseException.isPresent()) {
+          throw queryParseException.get();
         }
         throw error("Error in operator " + name + ":" + value, e.getCause());
       }

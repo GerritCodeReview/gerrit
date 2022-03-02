@@ -46,6 +46,30 @@
       },
       "revId": "f6a3284050bd63aa58914478166209d379e24488",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e331ecb1_dace484d",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_mock_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-02T18:04:44Z",
+      "side": 1,
+      "message": "`getOwnPropertyNames` returns type is `string[]` rather than `(keyof GrReporting)[]` which is `GrReporting`\u0027s index type. There\u0027s some reasons it isn\u0027t narrowed from `string` but we have to cast somewhere as a result, and `GrReporting as any` isn\u0027t much worse than `[name as keyof GrReporting]` here.",
+      "parentUuid": "8a7fd438_539035ba",
+      "range": {
+        "startLine": 26,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "f6a3284050bd63aa58914478166209d379e24488",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

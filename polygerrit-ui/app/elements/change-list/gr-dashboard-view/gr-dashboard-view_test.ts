@@ -32,6 +32,8 @@ import {
   mockPromise,
   queryAndAssert,
   query,
+  stubFlags,
+  waitUntil,
 } from '../../../test/test-utils';
 import {
   ChangeInfoId,
@@ -77,6 +79,45 @@ suite('gr-dashboard-view tests', () => {
     sinon
       .stub(element, 'paramsChanged')
       .callsFake(params => paramsChanged(params).then(() => resolver()));
+  });
+
+  suite('bulk actions', () => {
+    setup(async () => {
+      const sections = [
+        {name: 'test1', query: 'test1', hideIfEmpty: true},
+        {name: 'test2', query: 'test2', hideIfEmpty: true},
+      ];
+      getChangesStub.restore();
+      stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
+      await element.fetchDashboardChanges({sections}, false);
+      element.loading = false;
+      stubFlags('isEnabled').returns(true);
+      element.requestUpdate();
+      await element.updateComplete;
+    });
+
+    test('checkboxes remain checked after soft reload', async () => {
+      const checkbox = queryAndAssert<HTMLInputElement>(
+        query(
+          query(query(element, 'gr-change-list'), 'gr-change-list-section'),
+          'gr-change-list-item'
+        ),
+        '.selection > input'
+      );
+      MockInteractions.tap(checkbox);
+      await waitUntil(() => checkbox.checked);
+
+      getChangesStub.restore();
+      stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
+
+      await element.reload({
+        view: GerritView.DASHBOARD,
+        user: 'notself',
+        dashboard: '' as DashboardId,
+      });
+      await element.updateComplete;
+      assert.isTrue(checkbox.checked);
+    });
   });
 
   suite('drafts banner functionality', () => {

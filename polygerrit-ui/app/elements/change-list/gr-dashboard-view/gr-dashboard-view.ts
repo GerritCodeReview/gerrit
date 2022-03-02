@@ -238,10 +238,12 @@ export class GrDashboardView extends LitElement {
   }
 
   private renderContent() {
-    if (this.loading) return html`<div class="loading">Loading...</div>`;
-
+    // In case of an internal reload we want the ChangeList section components
+    // to remain in the DOM so that the Bulk Actions Model associated with them
+    // is not recreated after the reload resulting in user selections being lost
     return html`
-      <div>
+      <div class="loading" ?hidden=${!this.loading}>Loading...</div>
+      <div ?hidden=${this.loading}>
         ${this.renderUserHeader()}
         <h1 class="assistive-tech-only">Dashboard</h1>
         <gr-change-list

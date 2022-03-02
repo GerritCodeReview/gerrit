@@ -915,6 +915,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return file(file);
   }
 
+  /**
+   * Creates a predicate to match changes by file.
+   *
+   * @param file the value of the {@code file} query operator
+   * @throws QueryParseException thrown if parsing the value fails (may be thrown by subclasses)
+   */
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
     if (file.startsWith("^")) {

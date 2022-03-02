@@ -46,7 +46,9 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.inject.Inject;
 import java.util.Iterator;
 import java.util.List;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -431,6 +433,67 @@ public class CommitIT extends AbstractDaemonTest {
 
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
     assertThat(changeInfo.topic).isEqualTo(input.topic);
+  }
+
+  @Test
+  public void cherryPickOnTopOfOpenChange() throws Exception {
+    BranchNameKey srcBranch = BranchNameKey.create(project, "master");
+
+    // Create a target branch
+    BranchNameKey destBranch = BranchNameKey.create(project, "foo");
+    createBranch(destBranch);
+
+    // Create base change on the target branch
+    PushOneCommit.Result r = createChange("refs/for/" + destBranch.shortName());
+    String base = r.getCommit().name();
+    int baseChangeNumber = r.getChange().getId().get();
+
+    // Create commit to cherry-pick on the source branch (no change exists for this commit)
+    String changeId = "Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    RevCommit commitToCherryPick;
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      commitToCherryPick =
+          tr.commit()
+              .parent(repo.parseCommit(repo.exactRef(srcBranch.branch()).getObjectId()))
+              .message(String.format("Commit to be cherry-picked\n\nChange-Id: %s\n", changeId))
+              .add("file.txt", "content")
+              .create();
+      tr.branch(srcBranch.branch()).update(commitToCherryPick);
+    }
+
+    // Perform the cherry-pick (cherry-pick on top of the base change)
+    CherryPickInput input = new CherryPickInput();
+    input.destination = destBranch.shortName();
+    input.base = base;
+    ChangeInfo cherryPickChange =
+        gApi.projects()
+            .name(project.get())
+            .commit(commitToCherryPick.name())
+            .cherryPick(input)
+            .get();
+
+    // Verify that a new change in destination branch was created.
+    assertThat(cherryPickChange._number).isGreaterThan(baseChangeNumber);
+    assertThat(cherryPickChange.branch).isEqualTo(destBranch.shortName());
+    assertThat(cherryPickChange.revisions).hasSize(1);
+    assertThat(cherryPickChange.messages).hasSize(1);
+
+    // Verify that the Change-Id of the cherry-picked commit is used for the cherry pick change.
+    assertThat(cherryPickChange.changeId).isEqualTo(changeId);
+
+    // Verify that cherry-pick-of is not set, since we cherry-picked a commit and not a change.
+    assertThat(cherryPickChange.cherryPickOfChange).isNull();
+    assertThat(cherryPickChange.cherryPickOfPatchSet).isNull();
+
+    // Verify that the message of the cherry-picked commit was used for the cherry-pick change.
+    RevisionInfo revInfo = cherryPickChange.revisions.get(cherryPickChange.currentRevision);
+    assertThat(revInfo).isNotNull();
+    assertThat(revInfo.commit.message).isEqualTo(commitToCherryPick.getFullMessage());
+
+    // Expect that the provided base commit is the parent commit of the cherry pick revision.
+    assertThat(revInfo.commit.parents).hasSize(1);
+    assertThat(revInfo.commit.parents.get(0).commit).isEqualTo(input.base);
   }
 
   private IncludedInInfo getIncludedIn(ObjectId id) throws Exception {

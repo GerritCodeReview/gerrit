@@ -22,6 +22,30 @@
       },
       "revId": "34a3b9772566bb8d934f70436e0c6388fe0a61e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56e7dec4_2694f93e",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-02T11:17:13Z",
+      "side": 0,
+      "message": "Thanks for pointing this out.\n\nIn case the DistinctVotersPredicate constructor fails with a QueryParseException the \"throws QueryParseException\" declaration here doesn\u0027t have any effect. This is because that QueryParseException will be wrapped in a ProvisionException which is a RuntimeException. The ProvisionException will be wrapped in an InvocationTargetException when the Predicate is invoked which is handled in QueryBuilder#create. If the InvocationTargetException is caused by a QueryParseException we intend to throw that QueryParseException instead of the\nInvocationTargetException, but currently this doesn\u0027t work for this case since it doesn\u0027t take into account that the QueryParseException can also be wrapped in a ProvisionException, as it is here. I\u0027ve uploaded a follow-up change to fix this [1]. It seems we are missing tests that trigger the QueryParseExceptions in the DistinctVotersPredicate constructor so that this was not noticed?\n\nSo dropping this declaration of the QueryParseException here still seems right.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/331699",
+      "parentUuid": "82336f7b_85698f92",
+      "range": {
+        "startLine": 88,
+        "startChar": 67,
+        "endLine": 88,
+        "endChar": 86
+      },
+      "revId": "34a3b9772566bb8d934f70436e0c6388fe0a61e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

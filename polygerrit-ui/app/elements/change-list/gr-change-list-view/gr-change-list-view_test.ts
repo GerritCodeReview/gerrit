@@ -21,7 +21,13 @@ import {GrChangeListView} from './gr-change-list-view';
 import {page} from '../../../utils/page-wrapper-utils';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import 'lodash/lodash';
-import {mockPromise, query, stubRestApi} from '../../../test/test-utils';
+import {
+  mockPromise,
+  query,
+  stubRestApi,
+  queryAndAssert,
+  stubFlags,
+} from '../../../test/test-utils';
 import {createChange} from '../../../test/test-data-generators.js';
 import {
   ChangeInfo,
@@ -29,6 +35,8 @@ import {
   NumericChangeId,
   RepoName,
 } from '../../../api/rest-api.js';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
+import {waitUntil} from '@open-wc/testing-helpers';
 
 const basicFixture = fixtureFromElement('gr-change-list-view');
 
@@ -49,6 +57,46 @@ suite('gr-change-list-view tests', () => {
 
   teardown(async () => {
     await element.updateComplete;
+  });
+
+  suite('bulk actions', () => {
+    let getChangesStub: sinon.SinonStub;
+    setup(async () => {
+      stubFlags('isEnabled').returns(true);
+      getChangesStub = sinon.stub(element, 'getChanges');
+      getChangesStub.returns(Promise.resolve([createChange()]));
+      element.loading = false;
+      element.reload();
+      await waitUntil(() => element.loading === false);
+      element.requestUpdate();
+      await element.updateComplete;
+    });
+
+    test('checkboxes remain checked after soft reload', async () => {
+      let checkbox = queryAndAssert<HTMLInputElement>(
+        query(
+          query(query(element, 'gr-change-list'), 'gr-change-list-section'),
+          'gr-change-list-item'
+        ),
+        '.selection > input'
+      );
+      tap(checkbox);
+      await waitUntil(() => checkbox.checked);
+
+      getChangesStub.restore();
+      getChangesStub.returns(Promise.resolve([[createChange()]]));
+
+      element.reload();
+      checkbox = queryAndAssert<HTMLInputElement>(
+        query(
+          query(query(element, 'gr-change-list'), 'gr-change-list-section'),
+          'gr-change-list-item'
+        ),
+        '.selection > input'
+      );
+      await element.updateComplete;
+      assert.isTrue(checkbox.checked);
+    });
   });
 
   test('computePage', () => {

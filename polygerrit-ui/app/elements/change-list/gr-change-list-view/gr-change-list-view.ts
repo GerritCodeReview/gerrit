@@ -178,10 +178,13 @@ export class GrChangeListView extends LitElement {
   }
 
   override render() {
-    if (this.loading) return html`<div class="loading">Loading...</div>`;
     const loggedIn = !!(this.account && Object.keys(this.account).length > 0);
+    // In case of an internal reload we want the ChangeList section components
+    // to remain in the DOM so that the Bulk Actions Model associated with them
+    // is not recreated after the reload resulting in user selections being lost
     return html`
-      <div>
+      <div class="loading" ?hidden=${!this.loading}>Loading...</div>
+      <div ?hidden=${this.loading}>
         ${this.renderRepoHeader()} ${this.renderUserHeader(loggedIn)}
         <gr-change-list
           .account=${this.account}

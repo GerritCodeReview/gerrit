@@ -22,6 +22,30 @@
       },
       "revId": "e0058639db822aba61edbf78866d2b14ac8ef46e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec945c7d_d11c477a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-02T10:01:04Z",
+      "side": 1,
+      "message": "we need the total for indeterminate state like [here](https://i0.wp.com/css-tricks.com/wp-content/uploads/2011/08/checkboxstates.png?resize\u003d146%2C80\u0026ssl\u003d1)\n\nAdjusted wording that we separately want clear for clearing, and total for checkbox state.",
+      "parentUuid": "378c9257_44cfd278",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 33
+      },
+      "revId": "e0058639db822aba61edbf78866d2b14ac8ef46e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

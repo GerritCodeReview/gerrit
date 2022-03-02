@@ -2511,7 +2511,7 @@ export class GrRestApiServiceImpl
   }
 
   /**
-   * @returns Whether there are pending diff draft sends.
+   * @return Whether there are pending diff draft sends.
    */
   hasPendingDiffDrafts(): number {
     const promises = this._pendingRequests[Requests.SEND_DIFF_DRAFT];
@@ -2519,7 +2519,7 @@ export class GrRestApiServiceImpl
   }
 
   /**
-   * @returns A promise that resolves when all pending
+   * @return A promise that resolves when all pending
    * diff draft sends have resolved.
    */
   awaitPendingDiffDrafts(): Promise<void> {

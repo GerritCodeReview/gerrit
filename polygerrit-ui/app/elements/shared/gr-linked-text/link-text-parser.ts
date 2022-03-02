@@ -43,7 +43,6 @@ export class GrLinkTextParser {
    * in the text as well as custom links if any are specified in the linkConfig
    * parameter.
    *
-   * @constructor
    * @param linkConfig Comment links as specified by the commentlinks field on a
    *     project config.
    * @param callback The callback to be fired when an intermediate parse result

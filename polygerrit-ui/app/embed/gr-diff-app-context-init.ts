@@ -29,7 +29,7 @@ class MockFlagsService implements FlagsService {
   finalize() {}
 
   /**
-   * @returns array of all enabled experiments.
+   * @return array of all enabled experiments.
    */
   get enabledExperiments() {
     return [];

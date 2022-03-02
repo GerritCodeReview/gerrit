@@ -132,7 +132,7 @@ export class GrChangeList extends LitElement {
    * properties should not be used together.
    */
   @property({type: Array})
-  sections: ChangeListSection[] = [];
+  sections?: ChangeListSection[] = [];
 
   @state() private dynamicHeaderEndpoints?: string[];
 
@@ -242,6 +242,7 @@ export class GrChangeList extends LitElement {
   }
 
   override render() {
+    if (!this.sections) return;
     const labelNames = this.computeLabelNames(this.sections);
     return html`
       <table id="changeList">

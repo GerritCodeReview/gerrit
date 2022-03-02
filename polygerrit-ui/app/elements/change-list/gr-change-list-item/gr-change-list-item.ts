@@ -312,7 +312,7 @@ export class GrChangeListItem extends LitElement {
       <td class="cell selection">
         <input
           type="checkbox"
-          ?checked=${this.checked}
+          .checked=${this.checked}
           @click=${() => this.handleChangeSelectionClick()}
         />
       </td>

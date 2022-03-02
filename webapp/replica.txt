@@ -1,0 +1,4 @@
+Not found.
+
+You have tried to access the UI of a Gerrit Replica.
+Gerrit Replicas do not serve the REST API, WebUI or search operations.

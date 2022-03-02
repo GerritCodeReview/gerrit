@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "103c81fd_3513e398",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-03-02T13:01:07Z",
+      "side": 1,
+      "message": "Nice! yes this makes sense since Guice wraps the exception thrown by the assisted injection factory.",
+      "revId": "25da8120c95b416138ecdb37dd5bd011474c53f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

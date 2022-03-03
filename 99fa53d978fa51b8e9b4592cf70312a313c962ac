@@ -22,6 +22,23 @@
       },
       "revId": "99fa53d978fa51b8e9b4592cf70312a313c962ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "857c3427_5037bfb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-03-03T17:12:30Z",
+      "side": 1,
+      "message": "@Luca, does this impact plugins with UIs on replicas?",
+      "revId": "99fa53d978fa51b8e9b4592cf70312a313c962ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

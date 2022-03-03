@@ -14,47 +14,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-overlay/gr-overlay';
-import '../../../styles/shared-styles';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-edit-controls_html';
 import {GrEditAction, GrEditConstants} from '../gr-edit-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
 import {ChangeInfo, PatchSetNum} from '../../../types/common';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {
   AutocompleteQuery,
   AutocompleteSuggestion,
+  GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
-import {IronInputElement} from '@polymer/iron-input';
 import {fireAlert, fireReload} from '../../../utils/event-util';
-import {assertIsDefined} from '../../../utils/common-util';
-
-export interface GrEditControls {
-  $: {
-    newPathIronInput: IronInputElement;
-    overlay: GrOverlay;
-    openDialog: GrDialog;
-    deleteDialog: GrDialog;
-    renameDialog: GrDialog;
-    restoreDialog: GrDialog;
-  };
-}
+import {
+  assertIsDefined,
+  query as queryUtil,
+  queryAll,
+} from '../../../utils/common-util';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, html, css} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {BindValueChangeEvent} from '../../../types/events';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {IronInputElement} from '@polymer/iron-input/iron-input';
 
 @customElement('gr-edit-controls')
-export class GrEditControls extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrEditControls extends LitElement {
+  // private but used in test
+  @query('#newPathIronInput') newPathIronInput?: IronInputElement;
+
+  @query('#overlay') protected overlay?: GrOverlay;
+
+  // private but used in test
+  @query('#openDialog') openDialog?: GrDialog;
+
+  // private but used in test
+  @query('#deleteDialog') deleteDialog?: GrDialog;
+
+  // private but used in test
+  @query('#renameDialog') renameDialog?: GrDialog;
+
+  // private but used in test
+  @query('#restoreDialog') restoreDialog?: GrDialog;
 
   @property({type: Object})
   change?: ChangeInfo;
@@ -65,28 +72,229 @@ export class GrEditControls extends PolymerElement {
   @property({type: Array})
   hiddenActions: string[] = [GrEditConstants.Actions.RESTORE.id];
 
-  @property({type: Array})
-  _actions: GrEditAction[] = Object.values(GrEditConstants.Actions);
+  // private but used in test
+  @state() actions: GrEditAction[] = Object.values(GrEditConstants.Actions);
 
-  @property({type: String})
-  _path = '';
+  // private but used in test
+  @state() path = '';
 
-  @property({type: String})
-  _newPath = '';
+  // private but used in test
+  @state() newPath = '';
 
-  @property({type: Object})
-  _query: AutocompleteQuery;
+  private readonly query: AutocompleteQuery = (input: string) =>
+    this.queryFiles(input);
 
   private readonly restApiService = getAppContext().restApiService;
 
-  constructor() {
-    super();
-    this._query = (input: string) => this._queryFiles(input);
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          align-items: center;
+          display: flex;
+          justify-content: flex-end;
+        }
+        .invisible {
+          display: none;
+        }
+        gr-button {
+          margin-left: var(--spacing-l);
+          text-decoration: none;
+        }
+        gr-dialog {
+          width: 50em;
+        }
+        gr-dialog .main {
+          width: 100%;
+        }
+        gr-dialog .main > iron-input {
+          width: 100%;
+        }
+        input {
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          margin: var(--spacing-m) 0;
+          padding: var(--spacing-s);
+          width: 100%;
+          box-sizing: content-box;
+        }
+        #fileUploadBrowse {
+          margin-left: 0;
+        }
+        #dragDropArea {
+          border: 2px dashed var(--border-color);
+          border-radius: var(--border-radius);
+          margin-top: var(--spacing-l);
+          padding: var(--spacing-xxl) var(--spacing-xxl);
+          text-align: center;
+        }
+        #dragDropArea > p {
+          font-weight: var(--font-weight-bold);
+          padding: var(--spacing-s);
+        }
+        @media screen and (max-width: 50em) {
+          gr-dialog {
+            width: 100vw;
+          }
+        }
+      `,
+    ];
   }
 
-  _handleTap(e: Event) {
+  override render() {
+    return html`
+      ${this.actions.map(action => this.renderAction(action))}
+      <gr-overlay id="overlay" with-backdrop="">
+        ${this.renderOpenDialog()} ${this.renderDeleteDialog()}
+        ${this.renderRenameDialog()} ${this.renderRestoreDialog()}
+      </gr-overlay>
+    `;
+  }
+
+  private renderAction(action: GrEditAction) {
+    return html`
+      <gr-button
+        id="${action.id}"
+        class="${this.computeIsInvisible(action.id)}"
+        link=""
+        @click=${this.handleTap}
+        >${action.label}</gr-button
+      >
+    `;
+  }
+
+  private renderOpenDialog() {
+    return html`
+      <gr-dialog
+        id="openDialog"
+        class="invisible dialog"
+        ?disabled=${!this.isValidPath(this.path)}
+        confirm-label="Confirm"
+        confirm-on-enter=""
+        @confirm=${this.handleOpenConfirm}
+        @cancel=${this.handleDialogCancel}
+      >
+        <div class="header" slot="header">
+          Add a new file or open an existing file
+        </div>
+        <div class="main" slot="main">
+          <gr-autocomplete
+            placeholder="Enter an existing or new full file path."
+            .query=${this.query}
+            .text=${this.path}
+            @text-changed=${this.handleTextChanged}
+          ></gr-autocomplete>
+          <div
+            id="dragDropArea"
+            contenteditable="true"
+            @drop=${this.handleDragAndDropUpload}
+            @keypress=${this.handleKeyPress}
+          >
+            <p>Drag and drop a file here</p>
+            <p>or</p>
+            <p>
+              <iron-input>
+                <input
+                  id="fileUploadInput"
+                  type="file"
+                  @change=${this.handleFileUploadChanged}
+                  multiple
+                  hidden
+                />
+              </iron-input>
+              <label for="fileUploadInput">
+                <gr-button id="fileUploadBrowse">Browse</gr-button>
+              </label>
+            </p>
+          </div>
+        </div>
+      </gr-dialog>
+    `;
+  }
+
+  private renderDeleteDialog() {
+    return html`
+      <gr-dialog
+        id="deleteDialog"
+        class="invisible dialog"
+        ?disabled=${!this.isValidPath(this.path)}
+        confirm-label="Delete"
+        confirm-on-enter=""
+        @confirm=${this.handleDeleteConfirm}
+        @cancel=${this.handleDialogCancel}
+      >
+        <div class="header" slot="header">Delete a file from the repo</div>
+        <div class="main" slot="main">
+          <gr-autocomplete
+            placeholder="Enter an existing full file path."
+            .query=${this.query}
+            .text=${this.path}
+            @text-changed=${this.handleTextChanged}
+          ></gr-autocomplete>
+        </div>
+      </gr-dialog>
+    `;
+  }
+
+  private renderRenameDialog() {
+    return html`
+      <gr-dialog
+        id="renameDialog"
+        class="invisible dialog"
+        ?disabled=${!this.isValidPath(this.path) ||
+        !this.isValidPath(this.newPath)}
+        confirm-label="Rename"
+        confirm-on-enter=""
+        @confirm=${this.handleRenameConfirm}
+        @cancel=${this.handleDialogCancel}
+      >
+        <div class="header" slot="header">Rename a file in the repo</div>
+        <div class="main" slot="main">
+          <gr-autocomplete
+            placeholder="Enter an existing full file path."
+            .query=${this.query}
+            .text=${this.path}
+            @text-changed=${this.handleTextChanged}
+          ></gr-autocomplete>
+          <iron-input
+            id="newPathIronInput"
+            .bindValue=${this.newPath}
+            @bind-value-changed=${this.handleBindValueChangedNewPath}
+          >
+            <input id="newPathInput" placeholder="Enter the new path." />
+          </iron-input>
+        </div>
+      </gr-dialog>
+    `;
+  }
+
+  private renderRestoreDialog() {
+    return html`
+      <gr-dialog
+        id="restoreDialog"
+        class="invisible dialog"
+        confirm-label="Restore"
+        confirm-on-enter=""
+        @confirm=${this.handleRestoreConfirm}
+        @cancel=${this.handleDialogCancel}
+      >
+        <div class="header" slot="header">Restore this file?</div>
+        <div class="main" slot="main">
+          <iron-input
+            .bindValue=${this.path}
+            @bind-value-changed=${this.handleBindValueChangedPath}
+          >
+            <input ?disabled=${''} />
+          </iron-input>
+        </div>
+      </gr-dialog>
+    `;
+  }
+
+  private readonly handleTap = (e: Event) => {
     e.preventDefault();
-    const target = (dom(e) as EventApi).localTarget as Element;
+    const target = e.target as Element;
     const action = target.id;
     switch (action) {
       case GrEditConstants.Actions.OPEN.id:
@@ -102,89 +310,99 @@ export class GrEditControls extends PolymerElement {
         this.openRestoreDialog();
         return;
     }
-  }
+  };
 
   openOpenDialog(path?: string) {
     if (path) {
-      this._path = path;
+      this.path = path;
     }
-    return this._showDialog(this.$.openDialog);
+    assertIsDefined(this.openDialog, 'openDialog');
+    return this.showDialog(this.openDialog);
   }
 
   openDeleteDialog(path?: string) {
     if (path) {
-      this._path = path;
+      this.path = path;
     }
-    return this._showDialog(this.$.deleteDialog);
+    assertIsDefined(this.deleteDialog, 'deleteDialog');
+    return this.showDialog(this.deleteDialog);
   }
 
   openRenameDialog(path?: string) {
     if (path) {
-      this._path = path;
+      this.path = path;
     }
-    return this._showDialog(this.$.renameDialog);
+    assertIsDefined(this.renameDialog, 'renameDialog');
+    return this.showDialog(this.renameDialog);
   }
 
   openRestoreDialog(path?: string) {
+    assertIsDefined(this.restoreDialog, 'restoreDialog');
     if (path) {
-      this._path = path;
+      this.path = path;
     }
-    return this._showDialog(this.$.restoreDialog);
+    return this.showDialog(this.restoreDialog);
   }
 
   /**
    * Given a path string, checks that it is a valid file path.
+   *
+   * private but used in test
    */
-  _isValidPath(path: string) {
+  isValidPath(path: string) {
     // Double negation needed for strict boolean return type.
     return !!path.length && !path.endsWith('/');
   }
 
-  _computeRenameDisabled(path: string, newPath: string) {
-    return this._isValidPath(path) && this._isValidPath(newPath);
-  }
-
   /**
    * Given a dom event, gets the dialog that lies along this event path.
+   *
+   * private but used in test
    */
-  _getDialogFromEvent(e: Event): GrDialog | undefined {
-    return (dom(e) as EventApi).path.find(element => {
+  getDialogFromEvent(e: Event): GrDialog | undefined {
+    return e.composedPath().find(element => {
       if (!(element instanceof Element)) return false;
       if (!element.classList) return false;
       return element.classList.contains('dialog');
     }) as GrDialog | undefined;
   }
 
-  _showDialog(dialog: GrDialog) {
+  // private but used in test
+  showDialog(dialog: GrDialog) {
+    assertIsDefined(this.overlay, 'overlay');
+
     // Some dialogs may not fire their on-close event when closed in certain
     // ways (e.g. by clicking outside the dialog body). This call prevents
     // multiple dialogs from being shown in the same overlay.
-    this._hideAllDialogs();
+    this.hideAllDialogs();
 
-    return this.$.overlay.open().then(() => {
+    return this.overlay.open().then(() => {
       dialog.classList.toggle('invisible', false);
-      const autocomplete = dialog.querySelector('gr-autocomplete');
+      const autocomplete = queryUtil<GrAutocomplete>(dialog, 'gr-autocomplete');
       if (autocomplete) {
         autocomplete.focus();
       }
       setTimeout(() => {
-        this.$.overlay.center();
+        assertIsDefined(this.overlay, 'overlay');
+        this.overlay.center();
       }, 1);
     });
   }
 
-  _hideAllDialogs() {
-    const dialogs = this.root!.querySelectorAll<GrDialog>('.dialog');
+  // private but used in test
+  hideAllDialogs() {
+    const dialogs = queryAll<GrDialog>(this, '.dialog');
     for (const dialog of dialogs) {
       // We set the second param to false, because this function
-      // is called by _showDialog which when you open either restore,
+      // is called by showDialog which when you open either restore,
       // delete or rename dialogs, it reseted the automatically
       // set input.
-      this._closeDialog(dialog, false);
+      this.closeDialog(dialog, false);
     }
   }
 
-  _closeDialog(dialog?: GrDialog, clearInputs = true) {
+  // private but used in test
+  closeDialog(dialog?: GrDialog, clearInputs = true) {
     if (!dialog) return;
 
     if (clearInputs) {
@@ -201,32 +419,35 @@ export class GrEditControls extends PolymerElement {
     }
 
     dialog.classList.toggle('invisible', true);
-    this.$.overlay.close();
+
+    assertIsDefined(this.overlay, 'overlay');
+    this.overlay.close();
   }
 
-  _handleDialogCancel(e: Event) {
-    this._closeDialog(this._getDialogFromEvent(e));
-  }
+  private readonly handleDialogCancel = (e: Event) => {
+    this.closeDialog(this.getDialogFromEvent(e));
+  };
 
-  _handleOpenConfirm(e: Event) {
-    if (!this.change || !this._path) {
+  private readonly handleOpenConfirm = (e: Event) => {
+    if (!this.change || !this.path) {
       fireAlert(this, 'You must enter a path.');
-      this._closeDialog(this.$.openDialog);
+      this.closeDialog(this.openDialog);
       return;
     }
     const url = GerritNav.getEditUrlForDiff(
       this.change,
-      this._path,
+      this.path,
       this.patchNum
     );
     GerritNav.navigateToRelativeUrl(url);
-    this._closeDialog(this._getDialogFromEvent(e));
-  }
+    this.closeDialog(this.getDialogFromEvent(e));
+  };
 
-  _handleUploadConfirm(path: string, fileData: string) {
+  // private but used in test
+  handleUploadConfirm(path: string, fileData: string) {
     if (!this.change || !path || !fileData) {
       fireAlert(this, 'You must enter a path and data.');
-      this._closeDialog(this.$.openDialog);
+      this.closeDialog(this.openDialog);
       return Promise.resolve();
     }
     return this.restApiService
@@ -235,68 +456,68 @@ export class GrEditControls extends PolymerElement {
         if (!res || !res.ok) {
           return;
         }
-        this._closeDialog(this.$.openDialog);
+        this.closeDialog(this.openDialog);
         fireReload(this, true);
       });
   }
 
-  _handleDeleteConfirm(e: Event) {
+  private readonly handleDeleteConfirm = (e: Event) => {
     // Get the dialog before the api call as the event will change during bubbling
     // which will make Polymer.dom(e).path an empty array in polymer 2
-    const dialog = this._getDialogFromEvent(e);
-    if (!this.change || !this._path) {
+    const dialog = this.getDialogFromEvent(e);
+    if (!this.change || !this.path) {
       fireAlert(this, 'You must enter a path.');
-      this._closeDialog(dialog);
+      this.closeDialog(dialog);
       return;
     }
     this.restApiService
-      .deleteFileInChangeEdit(this.change._number, this._path)
+      .deleteFileInChangeEdit(this.change._number, this.path)
       .then(res => {
         if (!res || !res.ok) {
           return;
         }
-        this._closeDialog(dialog);
+        this.closeDialog(dialog);
         fireReload(this);
       });
-  }
+  };
 
-  _handleRestoreConfirm(e: Event) {
-    const dialog = this._getDialogFromEvent(e);
-    if (!this.change || !this._path) {
+  private readonly handleRestoreConfirm = (e: Event) => {
+    const dialog = this.getDialogFromEvent(e);
+    if (!this.change || !this.path) {
       fireAlert(this, 'You must enter a path.');
-      this._closeDialog(dialog);
+      this.closeDialog(dialog);
       return;
     }
     this.restApiService
-      .restoreFileInChangeEdit(this.change._number, this._path)
+      .restoreFileInChangeEdit(this.change._number, this.path)
       .then(res => {
         if (!res || !res.ok) {
           return;
         }
-        this._closeDialog(dialog);
+        this.closeDialog(dialog);
         fireReload(this);
       });
-  }
+  };
 
-  _handleRenameConfirm(e: Event) {
-    const dialog = this._getDialogFromEvent(e);
-    if (!this.change || !this._path || !this._newPath) {
+  private readonly handleRenameConfirm = (e: Event) => {
+    const dialog = this.getDialogFromEvent(e);
+    if (!this.change || !this.path || !this.newPath) {
       fireAlert(this, 'You must enter a old path and a new path.');
-      this._closeDialog(dialog);
+      this.closeDialog(dialog);
       return;
     }
-    return this.restApiService
-      .renameFileInChangeEdit(this.change._number, this._path, this._newPath)
+    this.restApiService
+      .renameFileInChangeEdit(this.change._number, this.path, this.newPath)
       .then(res => {
         if (!res || !res.ok) {
           return;
         }
-        this._closeDialog(dialog);
+        this.closeDialog(dialog);
         fireReload(this, true);
       });
-  }
+  };
 
-  _queryFiles(input: string): Promise<AutocompleteSuggestion[]> {
+  private queryFiles(input: string): Promise<AutocompleteSuggestion[]> {
     assertIsDefined(this.change, 'this.change');
     assertIsDefined(this.patchNum, 'this.patchNum');
     return this.restApiService
@@ -310,31 +531,31 @@ export class GrEditControls extends PolymerElement {
       });
   }
 
-  _computeIsInvisible(id: string, hiddenActions: string[]) {
-    return hiddenActions.includes(id) ? 'invisible' : '';
+  private computeIsInvisible(id: string) {
+    return this.hiddenActions.includes(id) ? 'invisible' : '';
   }
 
-  _handleDragAndDropUpload(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
+  private readonly handleDragAndDropUpload = (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-    if (!event.dataTransfer) return;
-    this._fileUpload(event.dataTransfer.files);
-  }
+    if (!e.dataTransfer) return;
+    this.fileUpload(e.dataTransfer.files);
+  };
 
-  _handleFileUploadChanged(event: InputEvent) {
-    if (!event.target) return;
-    if (!(event.target instanceof HTMLInputElement)) return;
-    const input = event.target;
+  private readonly handleFileUploadChanged = (e: InputEvent) => {
+    if (!e.target) return;
+    if (!(e.target instanceof HTMLInputElement)) return;
+    const input = e.target;
     if (!input.files) return;
-    this._fileUpload(input.files);
-  }
+    this.fileUpload(input.files);
+  };
 
-  _fileUpload(files: FileList) {
+  private fileUpload(files: FileList) {
     for (const file of files) {
       if (!file) continue;
 
-      let path = this._path;
+      let path = this.path;
       if (!path) {
         path = file.name;
       }
@@ -346,16 +567,30 @@ export class GrEditControls extends PolymerElement {
         if (!fileLoadEvent) return;
         const fileData = fileLoadEvent.target!.result;
         if (typeof fileData !== 'string') return;
-        this._handleUploadConfirm(path, fileData);
+        this.handleUploadConfirm(path, fileData);
       };
       fr.readAsDataURL(file);
     }
   }
 
-  _handleKeyPress(event: KeyboardEvent) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-  }
+  private readonly handleKeyPress = (e: KeyboardEvent) => {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  };
+
+  private readonly handleTextChanged = (e: BindValueChangeEvent) => {
+    this.path = e.detail.value;
+  };
+
+  private readonly handleBindValueChangedNewPath = (
+    e: BindValueChangeEvent
+  ) => {
+    this.newPath = e.detail.value;
+  };
+
+  private readonly handleBindValueChangedPath = (e: BindValueChangeEvent) => {
+    this.path = e.detail.value;
+  };
 }
 
 declare global {

@@ -15,24 +15,25 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-lib-loader.js';
-import {GrLibLoader} from './gr-lib-loader.js';
+import '../../../test/common-test-setup-karma';
+import './gr-lib-loader';
+import {GrLibLoader} from './gr-lib-loader';
 
 suite('gr-lib-loader tests', () => {
-  let grLibLoader;
-  let resolveLoad;
-  let rejectLoad;
-  let loadStub;
+  let grLibLoader: GrLibLoader;
+  let resolveLoad: any;
+  let rejectLoad: any;
+  let loadStub: sinon.SinonStub;
 
   setup(() => {
     grLibLoader = new GrLibLoader();
 
-    loadStub = sinon.stub(grLibLoader, '_loadScript').callsFake(() =>
-      new Promise((resolve, reject) => {
-        resolveLoad = resolve;
-        rejectLoad = reject;
-      })
+    loadStub = sinon.stub(grLibLoader, '_loadScript').callsFake(
+      () =>
+        new Promise((resolve, reject) => {
+          resolveLoad = resolve;
+          rejectLoad = reject;
+        })
     );
   });
 
@@ -109,7 +110,7 @@ suite('gr-lib-loader tests', () => {
 
     const libraryConfig = {
       src: 'foo.js',
-      configureCallback: () => window.library,
+      configureCallback: () => (window as any).library,
     };
 
     const loaded1 = sinon.stub();
@@ -118,7 +119,7 @@ suite('gr-lib-loader tests', () => {
     grLibLoader.getLibrary(libraryConfig).then(loaded1);
     grLibLoader.getLibrary(libraryConfig).then(loaded2);
 
-    window.library = library;
+    (window as any).library = library;
     resolveLoad();
     await flush();
 
@@ -135,19 +136,19 @@ suite('gr-lib-loader tests', () => {
 
   suite('preloaded', () => {
     setup(() => {
-      window.library = {
+      (window as any).library = {
         initialize: sinon.stub(),
       };
     });
 
     teardown(() => {
-      delete window.library;
+      delete (window as any).library;
     });
 
     test('does not load library again if detected present', async () => {
       const libraryConfig = {
         src: 'foo.js',
-        checkPresent: () => window.library !== undefined,
+        checkPresent: () => (window as any).library !== undefined,
       };
 
       const loaded1 = sinon.stub();
@@ -173,8 +174,8 @@ suite('gr-lib-loader tests', () => {
     test('runs configuration for externally loaded library', async () => {
       const libraryConfig = {
         src: 'foo.js',
-        checkPresent: () => window.library !== undefined,
-        configureCallback: () => window.library.initialize(),
+        checkPresent: () => (window as any).library !== undefined,
+        configureCallback: () => (window as any).library.initialize(),
       };
 
       grLibLoader.getLibrary(libraryConfig);
@@ -182,14 +183,14 @@ suite('gr-lib-loader tests', () => {
       resolveLoad();
       await flush();
 
-      assert.isTrue(window.library.initialize.calledOnce);
+      assert.isTrue((window as any).library.initialize.calledOnce);
     });
 
     test('loads library again if not detected present', async () => {
-      window.library = undefined;
+      (window as any).library = undefined;
       const libraryConfig = {
         src: 'foo.js',
-        checkPresent: () => window.library !== undefined,
+        checkPresent: () => (window as any).library !== undefined,
       };
 
       grLibLoader.getLibrary(libraryConfig);

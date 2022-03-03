@@ -22,6 +22,30 @@
       },
       "revId": "f39b8f8688c69b58c7ca02f85b56f42987cbb338",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8119559c_f88b8669",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractSubmitOnPush.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-03T13:06:55Z",
+      "side": 1,
+      "message": "Yes, exactly. Reflogs are unsupported if in-memory ref storage is used.\nUpdated the commit message to mention this.",
+      "parentUuid": "b04d8a8c_29b39fc7",
+      "range": {
+        "startLine": 69,
+        "startChar": 3,
+        "endLine": 69,
+        "endChar": 15
+      },
+      "revId": "f39b8f8688c69b58c7ca02f85b56f42987cbb338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

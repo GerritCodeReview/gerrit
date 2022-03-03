@@ -24,6 +24,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Address;
@@ -65,6 +66,7 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
   }
 
   @Test
+  @UseLocalDisk
   public void submitOnPush() throws Exception {
     projectOperations
         .project(project)
@@ -76,6 +78,8 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
     r.assertChange(Change.Status.MERGED, null, admin);
     assertSubmitApproval(r.getPatchSetId());
     assertCommit(project, "refs/heads/master");
+    assertThat(gApi.projects().name(project.get()).branch("master").reflog().get(0).comment)
+        .isEqualTo("forced-merge");
   }
 
   @Test

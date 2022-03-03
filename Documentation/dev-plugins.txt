@@ -2,8 +2,9 @@
 = Gerrit Code Review - Plugin Development
 
 The Gerrit server functionality can be extended by installing plugins.
-This page describes how plugins for Gerrit can be developed and hosted
-on gerrit-review.googlesource.com.
+This page describes how plugins for Gerrit can be developed. See the overall
+link:dev-plugins-lifecycle.html[Plugin Lifecycle] document for how plugins can
+be hosted on gerrit-review.googlesource.com.
 
 For JavaScript plugin development, consult with
 link:pg-plugin-dev.html[JavaScript Plugin Development] guide.

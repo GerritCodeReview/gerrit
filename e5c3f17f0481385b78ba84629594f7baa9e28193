@@ -52,6 +52,24 @@
       "parentUuid": "f5f598fa_cfaa2810",
       "revId": "e5c3f17f0481385b78ba84629594f7baa9e28193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eb0d807_a0149bfa",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-03T13:00:24Z",
+      "side": 1,
+      "message": "I have no strong opinion here.\n\nTo me changing the description to -2 \"This shall not be submitted\" makes sense, since it makes the text more consistent with the default submit label.",
+      "parentUuid": "fbabf026_de112812",
+      "revId": "e5c3f17f0481385b78ba84629594f7baa9e28193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -256,7 +256,7 @@ public class MergeOp implements AutoCloseable {
   private CommitStatus commitStatus;
   private SubmitInput submitInput;
   private NotifyResolver.Result notify;
-  private Set<Project.NameKey> allProjects;
+  private Set<Project.NameKey> projects;
   private boolean dryrun;
   private TopicMetrics topicMetrics;
 
@@ -635,8 +635,8 @@ public class MergeOp implements AutoCloseable {
       List<SubmitStrategy> strategies =
           getSubmitStrategies(
               toSubmit, updateOrderCalculator, submoduleCommits, subscriptionGraph, dryrun);
-      this.allProjects = updateOrderCalculator.getProjectsInOrder();
-      List<BatchUpdate> batchUpdates = orm.batchUpdates(allProjects);
+      this.projects = updateOrderCalculator.getProjectsInOrder();
+      List<BatchUpdate> batchUpdates = orm.batchUpdates(projects);
       // Group batch updates by project
       Map<Project.NameKey, BatchUpdate> batchUpdatesByProject =
           batchUpdates.stream().collect(Collectors.toMap(b -> b.getProject(), Function.identity()));
@@ -663,7 +663,7 @@ public class MergeOp implements AutoCloseable {
 
         // Do not leave executed BatchUpdates in the OpenRepos
         if (!dryrun) {
-          orm.resetUpdates(ImmutableSet.copyOf(this.allProjects));
+          orm.resetUpdates(ImmutableSet.copyOf(this.projects));
         }
       }
     } catch (NoSuchProjectException e) {
@@ -697,7 +697,7 @@ public class MergeOp implements AutoCloseable {
   }
 
   public Set<Project.NameKey> getAllProjects() {
-    return allProjects;
+    return projects;
   }
 
   public MergeOpRepoManager getMergeOpRepoManager() {

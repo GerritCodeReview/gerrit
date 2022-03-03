@@ -103,7 +103,10 @@ public class SubmoduleOp {
           }
         }
       }
-      BatchUpdate.execute(orm.batchUpdates(superProjects), ImmutableList.of(), dryrun);
+      BatchUpdate.execute(
+          orm.batchUpdates(superProjects, /* refLogMessage= */ "merged"),
+          ImmutableList.of(),
+          dryrun);
     } catch (UpdateException | IOException | NoSuchProjectException e) {
       throw new StorageException("Cannot update gitlinks", e);
     }

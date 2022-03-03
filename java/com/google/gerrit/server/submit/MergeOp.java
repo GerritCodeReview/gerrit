@@ -256,7 +256,7 @@ public class MergeOp implements AutoCloseable {
   private CommitStatus commitStatus;
   private SubmitInput submitInput;
   private NotifyResolver.Result notify;
-  private Set<Project.NameKey> allProjects;
+  private Set<Project.NameKey> projects;
   private boolean dryrun;
   private TopicMetrics topicMetrics;
 
@@ -526,7 +526,8 @@ public class MergeOp implements AutoCloseable {
                     logger.atFine().log("Bypassing submit rules");
                     bypassSubmitRulesAndRequirements(filteredNoteDbChangeSet);
                   }
-                  integrateIntoHistory(filteredNoteDbChangeSet, submissionExecutor);
+                  integrateIntoHistory(
+                      filteredNoteDbChangeSet, submissionExecutor, checkSubmitRules);
                   return null;
                 })
             .listener(retryTracker)
@@ -604,7 +605,8 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void integrateIntoHistory(ChangeSet cs, SubmissionExecutor submissionExecutor)
+  private void integrateIntoHistory(
+      ChangeSet cs, SubmissionExecutor submissionExecutor, boolean checkSubmitRules)
       throws RestApiException, UpdateException {
     checkArgument(!cs.furtherHiddenChanges(), "cannot integrate hidden changes into history");
     logger.atFine().log("Beginning merge attempt on %s", cs);
@@ -635,8 +637,10 @@ public class MergeOp implements AutoCloseable {
       List<SubmitStrategy> strategies =
           getSubmitStrategies(
               toSubmit, updateOrderCalculator, submoduleCommits, subscriptionGraph, dryrun);
-      this.allProjects = updateOrderCalculator.getProjectsInOrder();
-      List<BatchUpdate> batchUpdates = orm.batchUpdates(allProjects);
+      this.projects = updateOrderCalculator.getProjectsInOrder();
+      List<BatchUpdate> batchUpdates =
+          orm.batchUpdates(
+              projects, /* refLogMessage= */ checkSubmitRules ? "merged" : "forced-merge");
       // Group batch updates by project
       Map<Project.NameKey, BatchUpdate> batchUpdatesByProject =
           batchUpdates.stream().collect(Collectors.toMap(b -> b.getProject(), Function.identity()));
@@ -663,7 +667,7 @@ public class MergeOp implements AutoCloseable {
 
         // Do not leave executed BatchUpdates in the OpenRepos
         if (!dryrun) {
-          orm.resetUpdates(ImmutableSet.copyOf(this.allProjects));
+          orm.resetUpdates(ImmutableSet.copyOf(this.projects));
         }
       }
     } catch (NoSuchProjectException e) {
@@ -697,7 +701,7 @@ public class MergeOp implements AutoCloseable {
   }
 
   public Set<Project.NameKey> getAllProjects() {
-    return allProjects;
+    return projects;
   }
 
   public MergeOpRepoManager getMergeOpRepoManager() {

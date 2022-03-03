@@ -43,6 +43,7 @@ import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Base64;
 import java.util.Optional;
 import javax.servlet.FilterChain;
@@ -72,8 +73,6 @@ public class ProjectBasicAuthFilterTest {
   @Mock private AccountCache accountCache;
 
   @Mock private AccountState accountState;
-
-  @Mock private Account account;
 
   @Mock private AccountManager accountManager;
 
@@ -106,12 +105,12 @@ public class ProjectBasicAuthFilterTest {
     authRequestFactory = new AuthRequest.Factory(extIdKeyFactory);
     pwdVerifier = new PasswordVerifier(extIdKeyFactory, authConfig);
 
+    Account account = Account.builder(Account.id(1000000), Instant.now()).build();
     authSuccessful =
         new AuthResult(AUTH_ACCOUNT_ID, extIdKeyFactory.create("username", AUTH_USER), false);
     doReturn(Optional.of(accountState)).when(accountCache).getByUsername(AUTH_USER);
     doReturn(Optional.of(accountState)).when(accountCache).get(AUTH_ACCOUNT_ID);
     doReturn(account).when(accountState).account();
-    doReturn(true).when(account).isActive();
     doReturn(authSuccessful).when(accountManager).authenticate(any());
 
     doReturn(new WebSessionManager.Key(AUTH_COOKIE_VALUE)).when(webSessionManager).createKey(any());
@@ -170,7 +169,6 @@ public class ProjectBasicAuthFilterTest {
     requestBasicAuth(req);
     res.setStatus(HttpServletResponse.SC_OK);
 
-    doReturn(true).when(account).isActive();
     doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
 
     ProjectBasicAuthFilter basicAuthFilter =
@@ -267,7 +265,6 @@ public class ProjectBasicAuthFilterTest {
     initMockedWebSession();
     requestBasicAuth(req);
 
-    doReturn(true).when(account).isActive();
     doThrow(new AccountException("Authentication error")).when(accountManager).authenticate(any());
     doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
 
@@ -291,7 +288,6 @@ public class ProjectBasicAuthFilterTest {
   private void doFilterForRequestWhenAlreadySignedIn()
       throws IOException, ServletException, AccountException {
     initMockedWebSession();
-    doReturn(true).when(account).isActive();
     doReturn(true).when(webSession).isSignedIn();
     doReturn(authSuccessful).when(accountManager).authenticate(any());
     requestBasicAuth(req);

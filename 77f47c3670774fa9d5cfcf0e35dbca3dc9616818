@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "108b0ff5_942c5690",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-03T16:47:22Z",
+      "side": 1,
+      "message": "GrDomHook type. You may need a test PluginElement to use in the hook?",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 15
+      },
+      "revId": "77f47c3670774fa9d5cfcf0e35dbca3dc9616818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "826649c2_6ac25ce4",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-03T16:47:22Z",
+      "side": 1,
+      "message": "a ts conversion change should fix the types, not turn them back off with `as any` to continue covering problems",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 0
+      },
+      "revId": "77f47c3670774fa9d5cfcf0e35dbca3dc9616818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

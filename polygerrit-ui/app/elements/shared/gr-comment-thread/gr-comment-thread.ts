@@ -572,7 +572,6 @@ export class GrCommentThread extends LitElement {
       <div class="diff-container">
         <gr-diff
           id="diff"
-          .changeNum="${this.changeNum}"
           .diff="${this.diff}"
           .layers="${this.layers}"
           .path="${this.thread.path}"

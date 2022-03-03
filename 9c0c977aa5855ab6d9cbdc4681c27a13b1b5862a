@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1871cc7_00e140fe",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-abandon-button/gr-change-list-abandon-button.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-03T16:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44d72cec_c293f55c",
+      "revId": "9c0c977aa5855ab6d9cbdc4681c27a13b1b5862a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5f8bee2_a62de3cc",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aae1ad3b_509e04ed",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-abandon-button/gr-change-list-abandon-button.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-03T16:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5f8bee2_a62de3cc",
+      "revId": "9c0c977aa5855ab6d9cbdc4681c27a13b1b5862a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5e17783_79487f9e",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-03-02T19:36:28Z",
       "side": 1,
       "message": "Where will the logic for the dialog live?",
+      "revId": "9c0c977aa5855ab6d9cbdc4681c27a13b1b5862a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbc6a53b_a382c36b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-abandon-button/gr-change-list-abandon-button.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-03T16:24:21Z",
+      "side": 1,
+      "message": "Here. There were votes against putting it in the model or in a separate component, so there is nowhere else. If we want to refactor later we can.",
+      "parentUuid": "e5e17783_79487f9e",
       "revId": "9c0c977aa5855ab6d9cbdc4681c27a13b1b5862a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

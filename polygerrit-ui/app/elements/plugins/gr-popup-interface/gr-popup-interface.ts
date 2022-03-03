@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import './gr-plugin-popup';
-import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrPluginPopup} from './gr-plugin-popup';
 import {PluginApi} from '../../../api/plugin';
 import {PopupPluginApi} from '../../../api/popup';
@@ -67,7 +67,7 @@ export class GrPopupInterface implements PopupPluginApi {
       this.openingPromise = this.plugin
         .hook('plugin-overlay')
         .getLastAttached()
-        .then(hookEl => {
+        .then(async hookEl => {
           const popup = document.createElement('gr-plugin-popup');
           if (this.moduleName) {
             const el = popup.appendChild(
@@ -76,8 +76,9 @@ export class GrPopupInterface implements PopupPluginApi {
             el.plugin = this.plugin;
           }
           this.popup = hookEl.appendChild(popup);
-          flush();
-          return this.popup.open().then(() => this);
+          await this.popup.updateComplete;
+          await this.popup.open();
+          return this;
         });
     }
     return this.openingPromise;

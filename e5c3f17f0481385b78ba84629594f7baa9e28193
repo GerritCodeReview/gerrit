@@ -16,6 +16,24 @@
       "message": "waaaaait ... 😮 😂\n\nthis one is actually the dominant form (28 vs. 7).\nand it\u0027s also coming from that already mentioned commit (i didn\u0027t look at the diff previously ...).\n\ndid i already mention that the strings are duplicated in waaaay to many places for my taste? 😂\n\nthe default for submitLabel *is* \"Submit\", though, and with \"submit requirements\" and everything, it would be hard to eradicate it. the internal terminology is terminally inconsistent, and it would be insanity to try to fight that.\n\nso the practical options are:\n- change -2 to \"This shall not be submitted\"\n- leave -1 at \"not merged\" and fix the remaining -2 instances\n\ni\u0027m opting for the 1st option for now, as it\u0027s more consistent overall.\n\n... and to add my own color to the bikeshed, i like the term \"integrate\", which is kinda intuitive and isn\u0027t overloaded. no need to respond. 😂",
       "revId": "e5c3f17f0481385b78ba84629594f7baa9e28193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5f598fa_cfaa2810",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-03-03T11:52:12Z",
+      "side": 1,
+      "message": "As mentioned in https://gerrit-review.googlesource.com/c/gerrit/+/330571/comments/506af0d6_3937ead4 we would want to use a consistent naming so sounds good to use for -2 \"This shall not be submitted\". Edwin, Chris, what do you think?",
+      "parentUuid": "ac39173e_cc1ff8cb",
+      "revId": "e5c3f17f0481385b78ba84629594f7baa9e28193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

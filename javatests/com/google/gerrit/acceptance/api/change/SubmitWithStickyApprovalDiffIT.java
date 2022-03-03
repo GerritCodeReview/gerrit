@@ -61,8 +61,8 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
               value(2, "Looks good to me, approved"),
               value(1, "Looks good to me, but someone else must approve"),
               value(0, "No score"),
-              value(-1, "I would prefer that you didn't submit this"),
-              value(-2, "Do not submit"));
+              value(-1, "I would prefer this is not submitted as is"),
+              value(-2, "This shall not be submitted"));
       codeReview.setCopyAnyScore(true);
       u.getConfig().upsertLabelType(codeReview.build());
       u.save();

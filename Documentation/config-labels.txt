@@ -21,7 +21,7 @@ originally invented by the Android Open Source Project to mean
 
 The range of values is:
 
-* -2 This shall not be merged
+* -2 This shall not be submitted
 +
 The code is so horribly incorrect/buggy/broken that it must not be
 submitted to this project, or to this branch.  This value is valid
@@ -31,7 +31,7 @@ is submittable.
 +
 *Any -2 blocks submit.*
 
-* -1 I would prefer this is not merged as is
+* -1 I would prefer this is not submitted as is
 +
 The code doesn't look right, or could be done differently, but
 the reviewer is willing to live with it as-is if another reviewer
@@ -64,8 +64,8 @@ how the project will develop.
 
 For a change to be submittable, the latest patch set must have a
 `+2 Looks good to me, approved` in this category, and no
-`-2 Do not submit`.  Thus `-2` on any patch set can block a submit,
-while `+2` on the latest patch set can enable it.
+`-2 This shall not be submitted`.  Thus `-2` on any patch set can
+block a submit, while `+2` on the latest patch set can enable it.
 
 If a Gerrit installation does not wish to use this label in any project,
 the `[label "Code-Review"]` section can be deleted from `project.config`

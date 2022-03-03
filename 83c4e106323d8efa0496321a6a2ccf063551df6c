@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4f11b2b_db5aabdb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-03T09:01:11Z",
+      "side": 1,
+      "message": "I typically do not veto changes, however, this is a major regression for us.\nGerrit replicas have an HTTP servlet engine and there are plugins that need a valid authentication mechanism in place.\n\nExamples:\n- pull-replication\n- javamelody\n\nWhat is the rationale behind this removal? What are the benefits?",
+      "revId": "83c4e106323d8efa0496321a6a2ccf063551df6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -46,6 +46,47 @@
       },
       "revId": "0fff575cb1993ac904d6f49c577c7a3825e20ec6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b481dc9_e8f1353b",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-03T09:45:55Z",
+      "side": 1,
+      "message": "\u003e Yes",
+      "parentUuid": "6a02bb86_81638de5",
+      "range": {
+        "startLine": 79,
+        "startChar": 10,
+        "endLine": 79,
+        "endChar": 24
+      },
+      "revId": "0fff575cb1993ac904d6f49c577c7a3825e20ec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "035a8c68_ff4d7c6f",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-03T09:45:55Z",
+      "side": 1,
+      "message": "await this.popup.open();\nreturn this;",
+      "revId": "0fff575cb1993ac904d6f49c577c7a3825e20ec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

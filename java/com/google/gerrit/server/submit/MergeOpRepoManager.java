@@ -206,11 +206,12 @@ public class MergeOpRepoManager implements AutoCloseable {
     }
   }
 
-  public List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects)
+  public List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects, String refLogMessage)
       throws NoSuchProjectException, IOException {
+    requireNonNull(refLogMessage, "refLogMessage");
     List<BatchUpdate> updates = new ArrayList<>(projects.size());
     for (Project.NameKey project : projects) {
-      updates.add(getRepo(project).getUpdate().setNotify(notify).setRefLogMessage("merged"));
+      updates.add(getRepo(project).getUpdate().setNotify(notify).setRefLogMessage(refLogMessage));
     }
     return updates;
   }

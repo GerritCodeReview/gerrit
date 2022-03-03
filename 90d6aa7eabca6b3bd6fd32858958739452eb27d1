@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b21c523_09d0b374",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-03T09:54:20Z",
+      "side": 1,
+      "message": "can this just be inlined with the `queryAll` util?",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 70
+      },
+      "revId": "90d6aa7eabca6b3bd6fd32858958739452eb27d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

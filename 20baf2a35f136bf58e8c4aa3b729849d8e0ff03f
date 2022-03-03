@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4459ed10_a71c0e00",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-03-03T07:29:50Z",
+      "side": 1,
+      "message": "Can you please also verify that the changes are now stacked? When you get related changes for either, the other should be returned.\n\nSince we use groups (marker IDs) I have a suspicion that this logic might not be invoked here, so the changes seem independent while they are stacked.",
+      "revId": "20baf2a35f136bf58e8c4aa3b729849d8e0ff03f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

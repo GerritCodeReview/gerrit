@@ -34,6 +34,24 @@
       "parentUuid": "4459ed10_a71c0e00",
       "revId": "20baf2a35f136bf58e8c4aa3b729849d8e0ff03f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbce67d3_707ce0e2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-03-03T09:01:10Z",
+      "side": 1,
+      "message": "Nice thanks.\n\nSilently eating my words :-)",
+      "parentUuid": "6fa8aea6_eca95ec9",
+      "revId": "20baf2a35f136bf58e8c4aa3b729849d8e0ff03f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

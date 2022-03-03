@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97e52b7b_f9fab99f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-03T09:06:08Z",
+      "side": 1,
+      "message": "Not only the UI (see below).",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "83c4e106323d8efa0496321a6a2ccf063551df6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de695c52_02da93a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-03T09:06:08Z",
+      "side": 1,
+      "message": "True, but it does serve plugins that *may have* a UI (e.g. JavaMelody)",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "83c4e106323d8efa0496321a6a2ccf063551df6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e4cdd65_ae68af28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-03T09:06:08Z",
+      "side": 1,
+      "message": "Can you specify which cases?\nThe \u0027/login\u0027 endpoint works perfectly on Gerrit replicas, and allow a Gerrit admin to authenticate for accessing the JavaMelody screen.\n\nAny reason why we don\u0027t want that anymore?",
+      "range": {
+        "startLine": 12,
+        "startChar": 40,
+        "endLine": 13,
+        "endChar": 27
+      },
+      "revId": "83c4e106323d8efa0496321a6a2ccf063551df6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca17c1d4_5a248afe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

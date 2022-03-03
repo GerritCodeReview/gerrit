@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "481a51c5_dabcd278",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-03T07:05:57Z",
+      "side": 1,
+      "message": "Consider moving to `@open-wc/testing-helpers`\n\n`element \u003d await fixture\u003cGrEditableLabel\u003e(html...)`",
+      "revId": "0a73d4fa7bf5e5a3b3fb714ce0c5371d65ff32e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

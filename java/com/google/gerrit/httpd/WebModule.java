@@ -83,6 +83,9 @@ public class WebModule extends LifecycleModule {
   }
 
   private void installAuthModule() {
+    if (!options.enableMasterFeatures()) {
+      return;
+    }
     switch (authConfig.getAuthType()) {
       case HTTP:
       case HTTP_LDAP:

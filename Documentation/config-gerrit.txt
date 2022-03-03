@@ -296,7 +296,10 @@ When this is the configured authentication method a hyperlink titled
 user to a form where they can enter the username of any existing
 user account, and immediately login as that account, without any
 authentication taking place.
-
++
+If Gerrit is run as a replica, no authentication frontend will be served, since
+no UI is being served. The respective authentication backend will however be used,
+e.g. to assert group membership in LDAP.
 +
 By default, OpenID.
 

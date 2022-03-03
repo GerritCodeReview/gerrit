@@ -623,11 +623,13 @@ public class Daemon extends SiteProgram {
     }
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
-    if (authConfig.getAuthType() == AuthType.OPENID
-        || authConfig.getAuthType() == AuthType.OPENID_SSO) {
-      modules.add(new OpenIdModule());
-    } else if (authConfig.getAuthType() == AuthType.OAUTH) {
-      modules.add(new OAuthModule());
+    if (!replica) {
+      if (authConfig.getAuthType() == AuthType.OPENID
+          || authConfig.getAuthType() == AuthType.OPENID_SSO) {
+        modules.add(new OpenIdModule());
+      } else if (authConfig.getAuthType() == AuthType.OAUTH) {
+        modules.add(new OAuthModule());
+      }
     }
 
     modules.add(sysInjector.getInstance(GetUserFilterModule.class));

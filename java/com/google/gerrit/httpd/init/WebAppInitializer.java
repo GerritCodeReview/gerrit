@@ -426,10 +426,12 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new HttpPluginModule());
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
-    if (authConfig.getAuthType() == AuthType.OPENID) {
-      modules.add(new OpenIdModule());
-    } else if (authConfig.getAuthType() == AuthType.OAUTH) {
-      modules.add(new OAuthModule());
+    if (!config.getBoolean("container", "replica", false)) {
+      if (authConfig.getAuthType() == AuthType.OPENID) {
+        modules.add(new OpenIdModule());
+      } else if (authConfig.getAuthType() == AuthType.OAUTH) {
+        modules.add(new OAuthModule());
+      }
     }
     modules.add(new AuthModule(authConfig));
 

@@ -15,23 +15,28 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-plugin-config-array-editor.js';
-
-const basicFixture = fixtureFromElement('gr-plugin-config-array-editor');
+import {ConfigParameterInfoType} from '../../../constants/constants.js';
+import '../../../test/common-test-setup-karma';
+import './gr-plugin-config-array-editor';
+import {GrPluginConfigArrayEditor} from './gr-plugin-config-array-editor';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {queryAll, queryAndAssert} from '../../../test/test-utils.js';
+import {GrButton} from '../../shared/gr-button/gr-button.js';
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-plugin-config-array-editor tests', () => {
-  let element;
+  let element: GrPluginConfigArrayEditor;
 
-  let dispatchStub;
+  let dispatchStub: sinon.SinonStub;
 
-  const getAll = str => element.root.querySelectorAll(str);
-
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture<GrPluginConfigArrayEditor>(html`
+      <gr-plugin-config-array-editor></gr-plugin-config-array-editor>
+    `);
     element.pluginOption = {
       _key: 'test-key',
       info: {
+        type: ConfigParameterInfoType.ARRAY,
         values: [],
       },
     };
@@ -80,26 +85,29 @@ suite('gr-plugin-config-array-editor tests', () => {
     });
   });
 
-  test('deleting', () => {
+  test('deleting', async () => {
     dispatchStub = sinon.stub(element, '_dispatchChanged');
-    element.pluginOption = {info: {values: ['test', 'test2']}};
+    element.pluginOption = {
+      _key: '',
+      info: {type: ConfigParameterInfoType.ARRAY, values: ['test', 'test2']},
+    };
     element.disabled = true;
-    flush();
+    await flush();
 
-    const rows = getAll('.existingItems .row');
+    const rows = queryAll(element, '.existingItems .row');
     assert.equal(rows.length, 2);
-    const button = rows[0].querySelector('gr-button');
+    const button = queryAndAssert<GrButton>(rows[0], 'gr-button');
 
     MockInteractions.tap(button);
-    flush();
+    await flush();
 
     assert.isFalse(dispatchStub.called);
     element.disabled = false;
     element.notifyPath('pluginOption.info.editable');
-    flush();
+    await flush();
 
     MockInteractions.tap(button);
-    flush();
+    await flush();
 
     assert.isTrue(dispatchStub.called);
     assert.deepEqual(dispatchStub.lastCall.args[0], ['test2']);
@@ -110,10 +118,9 @@ suite('gr-plugin-config-array-editor tests', () => {
     element._dispatchChanged(['new-test-value']);
 
     assert.isTrue(eventStub.called);
-    const {detail} = eventStub.lastCall.args[0];
+    const {detail} = eventStub.lastCall.args[0] as CustomEvent;
     assert.equal(detail._key, 'test-key');
-    assert.deepEqual(detail.info, {values: ['new-test-value']});
+    assert.deepEqual(detail.info, {type: 'ARRAY', values: ['new-test-value']});
     assert.equal(detail.notifyPath, 'test-key.values');
   });
 });
-

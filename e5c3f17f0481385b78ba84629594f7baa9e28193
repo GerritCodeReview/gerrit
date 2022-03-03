@@ -34,6 +34,24 @@
       "parentUuid": "ac39173e_cc1ff8cb",
       "revId": "e5c3f17f0481385b78ba84629594f7baa9e28193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbabf026_de112812",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-03T12:31:16Z",
+      "side": 1,
+      "message": "I\u0027m fine with whatever you and Edwin agree to.",
+      "parentUuid": "f5f598fa_cfaa2810",
+      "revId": "e5c3f17f0481385b78ba84629594f7baa9e28193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

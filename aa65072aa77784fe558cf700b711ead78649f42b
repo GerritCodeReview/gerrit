@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e3f65fa_e9b8c6f6",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-04T13:07:24Z",
+      "side": 1,
+      "message": "Can you please find a native speaker to review this?\n\nI\u0027m always confused whether \"dependent change\" means\n\n1. a change that depends on another change or\n2. a change on which another change depends\n\nI think it\u0027s 1. in which case using \u0027dependent change\u0027 here would be wrong, but I\u0027m not really sure.",
+      "range": {
+        "startLine": 268,
+        "startChar": 45,
+        "endLine": 268,
+        "endChar": 61
+      },
+      "revId": "aa65072aa77784fe558cf700b711ead78649f42b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

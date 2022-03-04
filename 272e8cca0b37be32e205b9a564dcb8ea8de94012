@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "04a467a6_01707908",
+        "filename": "java/com/google/gerrit/extensions/events/GitReferencesUpdatedListener.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-04T08:14:17Z",
+      "side": 1,
+      "message": "I don\u0027t think that make sense, because this event will also be fired for a RefUpdate (single ref updated). The reasoning behind this ,is that each client only has to listen to one event not both.",
+      "parentUuid": "503cd749_24b9d948",
+      "range": {
+        "startLine": 24,
+        "startChar": 17,
+        "endLine": 24,
+        "endChar": 45
+      },
+      "revId": "272e8cca0b37be32e205b9a564dcb8ea8de94012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e660ef7e_bd4ab6cc",
         "filename": "java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
         "patchSetId": 16
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac2d0f21_e90f5d38",
+        "filename": "java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-04T08:14:17Z",
+      "side": 1,
+      "message": "See my reply on your first comment",
+      "parentUuid": "e660ef7e_bd4ab6cc",
+      "range": {
+        "startLine": 229,
+        "startChar": 22,
+        "endLine": 229,
+        "endChar": 47
+      },
+      "revId": "272e8cca0b37be32e205b9a564dcb8ea8de94012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9c5f65a_c0b65da9",
         "filename": "javatests/com/google/gerrit/server/extensions/events/GitReferencesUpdatedTest.java",
         "patchSetId": 16
@@ -60,6 +108,30 @@
       "writtenOn": "2022-03-04T08:02:14Z",
       "side": 1,
       "message": "rename to GitBatchRefUpdatedTest ?",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "272e8cca0b37be32e205b9a564dcb8ea8de94012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d77a7613_4b8a87ec",
+        "filename": "javatests/com/google/gerrit/server/extensions/events/GitReferencesUpdatedTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-04T08:14:17Z",
+      "side": 1,
+      "message": "See my reply on your first comment",
+      "parentUuid": "f9c5f65a_c0b65da9",
       "range": {
         "startLine": 40,
         "startChar": 13,

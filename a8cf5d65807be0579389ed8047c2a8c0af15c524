@@ -39,6 +39,30 @@
       },
       "revId": "a8cf5d65807be0579389ed8047c2a8c0af15c524",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcdc6cf1_0e447919",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-03-04T09:32:17Z",
+      "side": 1,
+      "message": "Thanks for pointing out, I can check this out.",
+      "parentUuid": "effbed63_95c972ce",
+      "range": {
+        "startLine": 649,
+        "startChar": 6,
+        "endLine": 649,
+        "endChar": 11
+      },
+      "revId": "a8cf5d65807be0579389ed8047c2a8c0af15c524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

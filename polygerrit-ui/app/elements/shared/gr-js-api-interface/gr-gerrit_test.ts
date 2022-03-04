@@ -15,24 +15,34 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import {getPluginLoader} from './gr-plugin-loader.js';
-import {resetPlugins} from '../../../test/test-utils.js';
-import {_testOnly_getGerritInternalPluginApi} from './gr-gerrit.js';
-import {stubRestApi} from '../../../test/test-utils.js';
-import {getAppContext} from '../../../services/app-context.js';
+import '../../../test/common-test-setup-karma';
+import {getPluginLoader} from './gr-plugin-loader';
+import {resetPlugins} from '../../../test/test-utils';
+import {
+  GerritInternal,
+  _testOnly_getGerritInternalPluginApi,
+} from './gr-gerrit';
+import {stubRestApi} from '../../../test/test-utils';
+import {getAppContext} from '../../../services/app-context';
+import {GrJsApiInterface} from './gr-js-api-interface-element';
+import {SinonFakeTimers} from 'sinon';
+import {Timestamp} from '../../../api/rest-api';
 
 suite('gr-gerrit tests', () => {
-  let element;
-  let clock;
-  let pluginApi;
+  let element: GrJsApiInterface;
+  let clock: SinonFakeTimers;
+  let pluginApi: GerritInternal;
 
   setup(() => {
     clock = sinon.useFakeTimers();
 
-    stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
-    stubRestApi('send').returns(Promise.resolve({status: 200}));
-    element = getAppContext().jsApiService;
+    stubRestApi('getAccount').returns(
+      Promise.resolve({name: 'Judy Hopps', registered_on: '' as Timestamp})
+    );
+    stubRestApi('send').returns(
+      Promise.resolve({...new Response(), status: 200})
+    );
+    element = getAppContext().jsApiService as GrJsApiInterface;
     pluginApi = _testOnly_getGerritInternalPluginApi();
   });
 
@@ -45,24 +55,20 @@ suite('gr-gerrit tests', () => {
   suite('proxy methods', () => {
     test('Gerrit._isPluginEnabled proxy to getPluginLoader()', () => {
       const stubFn = sinon.stub();
-      sinon.stub(
-          getPluginLoader(),
-          'isPluginEnabled')
-          .callsFake((...args) => stubFn(...args)
-          );
+      sinon
+        .stub(getPluginLoader(), 'isPluginEnabled')
+        .callsFake((...args) => stubFn(...args));
       pluginApi._isPluginEnabled('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
     test('Gerrit._isPluginLoaded proxy to getPluginLoader()', () => {
       const stubFn = sinon.stub();
-      sinon.stub(
-          getPluginLoader(),
-          'isPluginLoaded')
-          .callsFake((...args) => stubFn(...args));
+      sinon
+        .stub(getPluginLoader(), 'isPluginLoaded')
+        .callsFake((...args) => stubFn(...args));
       pluginApi._isPluginLoaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
   });
 });
-

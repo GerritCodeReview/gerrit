@@ -50,6 +50,7 @@ import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -2582,4 +2583,43 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     input.workInProgressByDefault = v;
     gApi.projects().name(p.get()).config(input);
   }
+
+  /*
+   * Tests for users with different mail format settings.
+   */
+
+  @Test
+  public void usersWithDifferentEmailFormats() throws Exception {
+    StagedChange sc = stageReviewableChange();
+
+    // Set preference of some users to receive only plaintext content
+    GeneralPreferencesInfo i = new GeneralPreferencesInfo();
+    requestScopeOperations.setApiUser(admin.id());
+    i.emailFormat = EmailFormat.PLAINTEXT;
+    gApi.accounts().id(sc.reviewer.id().toString()).setPreferences(i);
+    gApi.accounts().id(sc.ccer.id().toString()).setPreferences(i);
+    gApi.accounts().id(sc.starrer.id().toString()).setPreferences(i);
+
+    requestScopeOperations.setApiUser(user.id());
+    abandon(sc.changeId, sc.owner);
+    assertThat(sender)
+        .sent("abandon", sc)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(ABANDONED_CHANGES)
+        .noOneElse();
+    assertThat(sender)
+        .sent("abandon", sc)
+        .to(sc.reviewer, sc.ccer)  // TODO: ccer should be .cc()
+        .bcc(sc.starrer)
+        .noOneElse();
+    assertThat(sender).didNotSend();
+
+    // Reset user preference
+    requestScopeOperations.setApiUser(admin.id());
+    i.emailFormat = EmailFormat.HTML_PLAINTEXT;
+    gApi.accounts().id(sc.reviewer.id().toString()).setPreferences(i);
+    gApi.accounts().id(sc.ccer.id().toString()).setPreferences(i);
+    gApi.accounts().id(sc.starrer.id().toString()).setPreferences(i);
+  }
+
 }

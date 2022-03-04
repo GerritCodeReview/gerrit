@@ -15,20 +15,21 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {GrGroupSuggestionsProvider} from './gr-group-suggestions-provider.js';
-import {getAppContext} from '../../services/app-context.js';
-import {stubRestApi} from '../../test/test-utils.js';
+import '../../test/common-test-setup-karma';
+import {GrGroupSuggestionsProvider} from './gr-group-suggestions-provider';
+import {getAppContext} from '../../services/app-context';
+import {stubRestApi} from '../../test/test-utils';
+import {GroupId, GroupName} from '../../types/common';
 
 suite('GrGroupSuggestionsProvider tests', () => {
-  let provider;
+  let provider: GrGroupSuggestionsProvider;
   const group1 = {
-    name: 'Some name',
-    id: 1,
+    name: 'Some name' as GroupName,
+    id: '1' as GroupId,
   };
   const group2 = {
-    name: 'Other name',
-    id: 3,
+    name: 'Other name' as GroupName,
+    id: '3' as GroupId,
     url: 'abcd',
   };
 
@@ -37,12 +38,12 @@ suite('GrGroupSuggestionsProvider tests', () => {
   });
 
   test('getSuggestions', async () => {
-    const getSuggestedAccountsStub =
-        stubRestApi('getSuggestedGroups')
-            .returns(Promise.resolve({
-              'Some name': {id: 1},
-              'Other name': {id: 3, url: 'abcd'},
-            }));
+    const getSuggestedAccountsStub = stubRestApi('getSuggestedGroups').returns(
+      Promise.resolve({
+        'Some name': {id: '1' as GroupId},
+        'Other name': {id: '3' as GroupId, url: 'abcd'},
+      })
+    );
 
     const res = await provider.getSuggestions('Some input');
     assert.deepEqual(res, [group1, group2]);
@@ -52,24 +53,23 @@ suite('GrGroupSuggestionsProvider tests', () => {
 
   test('makeSuggestionItem', () => {
     assert.deepEqual(provider.makeSuggestionItem(group1), {
-      name: 'Some name',
+      name: 'Some name' as GroupName,
       value: {
         group: {
-          name: 'Some name',
-          id: 1,
+          name: 'Some name' as GroupName,
+          id: '1' as GroupId,
         },
       },
     });
 
     assert.deepEqual(provider.makeSuggestionItem(group2), {
-      name: 'Other name',
+      name: 'Other name' as GroupName,
       value: {
         group: {
-          name: 'Other name',
-          id: 3,
+          name: 'Other name' as GroupName,
+          id: '3' as GroupId,
         },
       },
     });
   });
 });
-

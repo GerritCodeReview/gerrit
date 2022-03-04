@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d08b635_7280ed35",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T13:45:16Z",
+      "side": 1,
+      "message": "Impressed that you saw it.",
+      "parentUuid": "359b9a27_a0ebe312",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "684f9caf7e299142553b6c2bd0d307fa1fcf6324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8bab441a_c4b26cab",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0adb4253_4c1c880d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T13:45:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bab441a_c4b26cab",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 16
+      },
+      "revId": "684f9caf7e299142553b6c2bd0d307fa1fcf6324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3987401e_2e4f05b9",
@@ -77,6 +125,30 @@
       "writtenOn": "2022-03-04T13:04:17Z",
       "side": 1,
       "message": "we have `mockPromise` util for this, something like:\n```\nconst executeChangeAction \u003d mockPromise\u003cResponse\u003e();\nstubRestApi(\u0027executeChangeAction\u0027).returns(executeChangeAction);\n```",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 38
+      },
+      "revId": "684f9caf7e299142553b6c2bd0d307fa1fcf6324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffb76e9e_2b756812",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow_test.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T13:45:16Z",
+      "side": 1,
+      "message": "Nice! Updated.",
+      "parentUuid": "3987401e_2e4f05b9",
       "range": {
         "startLine": 149,
         "startChar": 4,

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a2ea82f_af69df40",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T13:45:16Z",
+      "side": 1,
+      "message": "I thought \"disabled\" was a property in GrButton and we pass boolean properties using ? syntax",
+      "parentUuid": "00b6b435_94d7125d",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a1aea468_25893077",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
         "patchSetId": 33
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-04T13:04:17Z",
       "side": 1,
       "message": "Doesn\u0027t BE send 200 in cases of error too? Request \"worked\" (not 400 or 500 code) but still maybe didn\u0027t apply (ie successfully rejected)",
+      "range": {
+        "startLine": 131,
+        "startChar": 37,
+        "endLine": 131,
+        "endChar": 40
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6db6b0ab_a39e7ef2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T13:45:16Z",
+      "side": 1,
+      "message": "The first check is here for response.ok which should ideally cover all cases.\nI added this for extra safety.\n\nIf BE sends status 200 and response.ok for a failed request then something is wrong.\nI don\u0027t see how I can determine the failed state then.\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts;l\u003d526?q\u003d%22return%20Promise%20resolves%20to%20Response%2FParsedJSON%22",
+      "parentUuid": "a1aea468_25893077",
       "range": {
         "startLine": 131,
         "startChar": 37,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b78099da_6eace49d",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T13:45:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0be0ae51_53ba395e",
+      "range": {
+        "startLine": 112,
+        "startChar": 16,
+        "endLine": 112,
+        "endChar": 26
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe55754e_3cc6fac0",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd724ab9_16f538d0",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T13:45:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe55754e_3cc6fac0",
+      "range": {
+        "startLine": 120,
+        "startChar": 35,
+        "endLine": 120,
+        "endChar": 61
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e070d443_8948c762",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-03-04T13:04:17Z",
       "side": 1,
       "message": "maybe it\u0027s better to return the promises separately instead of `Promise.all`ing them together. You wouldn\u0027t need to pass in an error callback and you can process result of each change as it comes in rather than all at once for better UX",
+      "range": {
+        "startLine": 121,
+        "startChar": 11,
+        "endLine": 121,
+        "endChar": 22
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd295803_3ba556e8",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T13:45:16Z",
+      "side": 1,
+      "message": "errFn is inherently part of the rest-api call stack, being passed from executeChangeAction -\u003e _getChangeURLAndSend -\u003e send() \n\nI don\u0027t see how model does executeChangeAction without the component passing the errFn.",
+      "parentUuid": "e070d443_8948c762",
       "range": {
         "startLine": 121,
         "startChar": 11,

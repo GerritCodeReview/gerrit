@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b00fb69_b244eb36",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-04T11:15:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3b3da9e_8ac84a89",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 20
+      },
+      "revId": "9f57d8d88a942f4ac4e44616178667c67d7433db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa998e70_e102c8f0",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-04T09:02:26Z",
       "side": 1,
       "message": "perhaps stub isEnabled instead because currently the title of the test doesn\u0027t make any sense, button should not be enabled just because changes are selected.\n\nAdding temporary behaviour that is incorrect is fine(the actual definition of isEnabled) but I don\u0027t think we should be testing incorrect definitions.",
+      "range": {
+        "startLine": 71,
+        "startChar": 23,
+        "endLine": 71,
+        "endChar": 44
+      },
+      "revId": "9f57d8d88a942f4ac4e44616178667c67d7433db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88ae2727_c64b98d7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-04T11:15:28Z",
+      "side": 1,
+      "message": "I was previously asserting a console.log in the action bar test and I think it was a useful demonstration. In this case it\u0027s even true that selection should be a requirement for enabled, we will add more permission constraints later, but not remove `selectedNums.length \u003e 0` check. I added a TODO in the isEnabled logic, but I\u0027d prefer not to sub a private method for the test. I don\u0027t mind removing the test completely if you\u0027d prefer. WDYT?",
+      "parentUuid": "aa998e70_e102c8f0",
       "range": {
         "startLine": 71,
         "startChar": 23,

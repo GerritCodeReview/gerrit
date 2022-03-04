@@ -62,9 +62,6 @@ suite('gr-dashboard-view tests', () => {
       })
     );
     stubRestApi('getAccountStatus').returns(Promise.resolve(undefined));
-    getChangesStub = stubRestApi('getChanges').callsFake((_, qs) =>
-      Promise.resolve((qs as string[]).map(() => []))
-    );
 
     element = await fixture<GrDashboardView>(html`
       <gr-dashboard-view></gr-dashboard-view>
@@ -87,7 +84,6 @@ suite('gr-dashboard-view tests', () => {
         {name: 'test1', query: 'test1', hideIfEmpty: true},
         {name: 'test2', query: 'test2', hideIfEmpty: true},
       ];
-      getChangesStub.restore();
       stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
       await element.fetchDashboardChanges({sections}, false);
       element.loading = false;
@@ -106,9 +102,6 @@ suite('gr-dashboard-view tests', () => {
       );
       MockInteractions.tap(checkbox);
       await waitUntil(() => checkbox.checked);
-
-      getChangesStub.restore();
-      stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
 
       await element.reload({
         view: GerritView.DASHBOARD,
@@ -268,6 +261,10 @@ suite('gr-dashboard-view tests', () => {
   });
 
   suite('_isViewActive', () => {
+    setup(() => {
+      getChangesStub = stubRestApi('getChanges');
+    });
+
     test('nothing happens when user param is falsy', async () => {
       element.params = undefined;
       await element.updateComplete;
@@ -286,6 +283,10 @@ suite('gr-dashboard-view tests', () => {
   });
 
   suite('selfOnly sections', () => {
+    setup(() => {
+      getChangesStub = stubRestApi('getChanges');
+    });
+
     test('viewing self dashboard includes selfOnly sections', async () => {
       element.params = {
         view: GerritView.DASHBOARD,
@@ -333,6 +334,7 @@ suite('gr-dashboard-view tests', () => {
   });
 
   test('suffixForDashboard is included in getChanges query', async () => {
+    getChangesStub = stubRestApi('getChanges');
     element.params = {
       view: GerritView.DASHBOARD,
       dashboard: '' as DashboardId,
@@ -414,7 +416,6 @@ suite('gr-dashboard-view tests', () => {
       {name: 'test1', query: 'test1', hideIfEmpty: true},
       {name: 'test2', query: 'test2', hideIfEmpty: true},
     ];
-    getChangesStub.restore();
     stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
 
     await element.fetchDashboardChanges({sections}, false);
@@ -427,7 +428,6 @@ suite('gr-dashboard-view tests', () => {
       {name: 'Outgoing reviews', query: 'test1'},
       {name: 'test2', query: 'test2'},
     ];
-    getChangesStub.restore();
     stubRestApi('getChanges').returns(Promise.resolve([[], []]));
 
     await element.fetchDashboardChanges({sections}, false);

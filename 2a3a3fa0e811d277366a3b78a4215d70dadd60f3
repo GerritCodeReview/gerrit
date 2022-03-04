@@ -33,6 +33,24 @@
       "message": "Can you query it again, just to double-verify you\u0027re not querying an old element that\u0027s detached from the dom.",
       "revId": "2a3a3fa0e811d277366a3b78a4215d70dadd60f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b534a71_1ae6d217",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-04T08:47:02Z",
+      "side": 1,
+      "message": "I meant, not testing an old element that\u0027s detached from the dom.",
+      "parentUuid": "a2944f69_1528bac3",
+      "revId": "2a3a3fa0e811d277366a3b78a4215d70dadd60f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

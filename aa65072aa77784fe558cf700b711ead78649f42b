@@ -46,6 +46,30 @@
       },
       "revId": "aa65072aa77784fe558cf700b711ead78649f42b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "497f5d11_e4781bdf",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-04T13:40:41Z",
+      "side": 1,
+      "message": "I think we sometimes use the term \"predecessor change\", but as you say this doesn\u0027t work for topics. \"Related change\" sounds good to me.\n\nAsking Nasser is fine, you can also ask a non-maintainer, e.g. someone from the git team.",
+      "parentUuid": "28781ed4_0edc3eb0",
+      "range": {
+        "startLine": 268,
+        "startChar": 45,
+        "endLine": 268,
+        "endChar": 61
+      },
+      "revId": "aa65072aa77784fe558cf700b711ead78649f42b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Thanks Renan for looking into this. \nMy only feedback is that in dark mode the line should be the alternative color of blue in dark mode.\nSo that means if you\u0027re using blue-700, for dark mode you should use blue-200;\nhttps://screenshot.googleplex.com/C2KUmDEchjp7dcB\n\nbest regards",
       "revId": "abcff1f29f9afcd2591ce45707cd9b799f40b1fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cca68e77_50ce596d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-04T09:53:37Z",
+      "side": 1,
+      "message": "thanks! done :)",
+      "parentUuid": "80020b27_5c2360ee",
+      "revId": "abcff1f29f9afcd2591ce45707cd9b799f40b1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

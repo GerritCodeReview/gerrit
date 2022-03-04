@@ -273,15 +273,15 @@ public abstract class OutgoingEmail {
         // Send plaintext message
         Map<String, EmailHeader> shallowCopy = new HashMap<>();
         shallowCopy.putAll(headers);
-        // Remove To and Cc
-        shallowCopy.remove(FieldName.TO);
+        // Remove Cc ...
         shallowCopy.remove(FieldName.CC);
+        EmailHeader.AddressList to = new EmailHeader.AddressList();
         for (Address a : smtpRcptToPlaintextOnly) {
-          // Add new To
-          EmailHeader.AddressList to = new EmailHeader.AddressList();
           to.add(a);
-          shallowCopy.put(FieldName.TO, to);
         }
+        // ... and replace To.
+        // FIXME: This should recreate the multipart mail's To/Cc set.
+        shallowCopy.put(FieldName.TO, to);
         if (!validateEmail(va)) return;
         logger.atFine().log(
             "Sending plaintext '%s' from %s to %s",

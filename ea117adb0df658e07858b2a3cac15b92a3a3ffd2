@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00b6b435_94d7125d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-04T13:04:17Z",
+      "side": 1,
+      "message": "I think `.disabled` is more correct",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1aea468_25893077",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-04T13:04:17Z",
+      "side": 1,
+      "message": "Doesn\u0027t BE send 200 in cases of error too? Request \"worked\" (not 400 or 500 code) but still maybe didn\u0027t apply (ie successfully rejected)",
+      "range": {
+        "startLine": 131,
+        "startChar": 37,
+        "endLine": 131,
+        "endChar": 40
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0be0ae51_53ba395e",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-04T13:04:17Z",
+      "side": 1,
+      "message": "I think we should put this in the state and remove this method. The only difference is reactive vs not reactive, so reactive should be better.",
+      "range": {
+        "startLine": 112,
+        "startChar": 16,
+        "endLine": 112,
+        "endChar": 26
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e070d443_8948c762",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-04T13:04:17Z",
+      "side": 1,
+      "message": "maybe it\u0027s better to return the promises separately instead of `Promise.all`ing them together. You wouldn\u0027t need to pass in an error callback and you can process result of each change as it comes in rather than all at once for better UX",
+      "range": {
+        "startLine": 121,
+        "startChar": 11,
+        "endLine": 121,
+        "endChar": 22
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

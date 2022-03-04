@@ -542,6 +542,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             Iterables.getLast(getNotes().getPatchSets().values()).commitId();
         cache.get(latestPsCommitId).createEmptySubmitRequirementResults();
       } else {
+        // Clear any previously stored SRs first. The SRs in this update will overwrite any
+        // previously stored SRs (e.g. if the change is abandoned (SRs stored) -> un-abandoned ->
+        // merged).
+        submitRequirementResults.stream()
+            .map(SubmitRequirementResult::patchSetCommitId)
+            .distinct()
+            .forEach(commit -> cache.get(commit).clearSubmitRequirementResults());
         for (SubmitRequirementResult sr : submitRequirementResults) {
           cache.get(sr.patchSetCommitId()).putSubmitRequirementResult(sr);
         }

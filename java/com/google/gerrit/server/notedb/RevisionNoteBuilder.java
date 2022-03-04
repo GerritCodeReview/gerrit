@@ -90,6 +90,7 @@ class RevisionNoteBuilder {
       put = Maps.newHashMapWithExpectedSize(baseComments.size());
       if (base instanceof ChangeRevisionNote) {
         pushCert = ((ChangeRevisionNote) base).getPushCert();
+        submitRequirementResults = ((ChangeRevisionNote) base).getSubmitRequirementsResult();
       }
     } else {
       baseRaw = new byte[0];
@@ -121,6 +122,10 @@ class RevisionNoteBuilder {
    */
   void createEmptySubmitRequirementResults() {
     submitRequirementResults = new ArrayList<>();
+  }
+
+  void clearSubmitRequirementResults() {
+    submitRequirementResults = null;
   }
 
   void putSubmitRequirementResult(SubmitRequirementResult result) {

@@ -282,6 +282,30 @@
       },
       "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4882701d_b146d9e5",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-04T14:48:27Z",
+      "side": 1,
+      "message": "leave a comment that we can\u0027t use .catch because the callback is needed to avoid triggering an error dialog.",
+      "parentUuid": "fd295803_3ba556e8",
+      "range": {
+        "startLine": 121,
+        "startChar": 11,
+        "endLine": 121,
+        "endChar": 22
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

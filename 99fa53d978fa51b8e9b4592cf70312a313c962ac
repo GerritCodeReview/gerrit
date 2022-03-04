@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8169400_47df5641",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-04T07:22:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9feae3c0_4b9fc034",
+      "range": {
+        "startLine": 19,
+        "startChar": 15,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "99fa53d978fa51b8e9b4592cf70312a313c962ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "857c3427_5037bfb2",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-03-03T17:12:30Z",
       "side": 1,
       "message": "@Luca, does this impact plugins with UIs on replicas?",
+      "revId": "99fa53d978fa51b8e9b4592cf70312a313c962ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6f3080f_b4eff3e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-04T07:22:20Z",
+      "side": 1,
+      "message": "I tested it with JavaMelody and the UI stays accessible as are the metrics served by metrics-reporter-prometheus. This static page is only loaded for paths used by PolyGerrit, Documentation and custom static pages served under /static/. Those paths were not being served before and just returned 404 Not Found.",
+      "parentUuid": "857c3427_5037bfb2",
       "revId": "99fa53d978fa51b8e9b4592cf70312a313c962ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

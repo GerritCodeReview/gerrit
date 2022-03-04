@@ -117,8 +117,8 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
       assertThat(info.title)
-          .matches(
-              "Change "
+          .startsWith(
+              "Dependent change "
                   + legacyId2
                   + " is not ready: submit requirement 'Code-Review' is unsatisfied.");
     } else {

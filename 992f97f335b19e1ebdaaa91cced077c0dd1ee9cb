@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2ec8ec0_315ed531",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-04T08:35:16Z",
+      "side": 1,
+      "message": "these was a mere refactoring whenever I was trying to add a div inbetween. Althought not needed anymore I still think it\u0027s worth keeping it for clarity on the expectations.",
+      "range": {
+        "startLine": 130,
+        "startChar": 26,
+        "endLine": 130,
+        "endChar": 48
+      },
+      "revId": "992f97f335b19e1ebdaaa91cced077c0dd1ee9cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

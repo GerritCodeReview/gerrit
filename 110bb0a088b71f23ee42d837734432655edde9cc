@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d9c3ad96_06036a1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-04T08:35:16Z",
+      "side": 1,
+      "message": "I\u0027ll do that as soon we agree on the overall code. The visual behavior was kinda agreed in the meeting",
+      "parentUuid": "81a34ad2_016fcf42",
+      "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60268dfb_20cf0bd9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-02T12:10:42Z",
       "side": 1,
       "message": "Why remove the bg color?",
+      "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dad277ee_80463b38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-04T08:35:16Z",
+      "side": 1,
+      "message": "discussed and agreed on that in the gerrit UX meeting",
+      "parentUuid": "60268dfb_20cf0bd9",
       "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e0198315_9eb092b8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-04T08:35:16Z",
+      "side": 1,
+      "message": "We don\u0027t know exactly what\u0027s the height taken by the text - e.g. text-wrapping. It seems to work for me by changing the background colors to the cell and applying box-shadow there directly.",
+      "parentUuid": "3c2c08e5_55077127",
+      "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "397c3312_df09baa9",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
         "patchSetId": 16
@@ -65,6 +119,24 @@
       "writtenOn": "2022-03-02T12:10:42Z",
       "side": 1,
       "message": "What about a transparent border instead of a padding? Do we need a wrapper \u003cdiv\u003e inside the \u003ctd\u003e then?",
+      "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c86064d0_9030e957",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-04T08:35:16Z",
+      "side": 1,
+      "message": "I spent a good time experimenting all approaches - having transparent borders, divs between contentText and content, etc. My conclusions:\n\n- There is a expectation that there is no permanent padding/margin/border between lines, because their background needs to touch each other vertically.\n- There is also the expectation lineNumButton vertically touch vertical siblings (vertical line).\n\nI changed the code a bit. PTAL",
+      "parentUuid": "397c3312_df09baa9",
       "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -88,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "349ae086_5c161291",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-04T08:35:16Z",
+      "side": 1,
+      "message": "I would also prefer to have it as a padding-border combination. The problem here is that these cells can expand vertically for many reasons (e.g. content wrapping, new comments slotted in the sibling TD) and the line number buttons don\u0027t follow that expansion.\n\nThe problem in adding a permanent `padding: 1px` for all lineNumButton is that it clashes with another expectation - that they have contiguous vertical right border (https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts#114). This is used to simulate a vertical line numbers and content - adding a padding here would break that expectation. Maybe we should change that in the future to make these vertical lines directly at the cell, but it\u0027s a change I would prefer to do in the future.",
+      "parentUuid": "cc715b21_5b02aaaa",
+      "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "904a6a67_fd737170",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
         "patchSetId": 16
@@ -105,6 +195,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15c469d0_fcfef138",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-04T08:35:16Z",
+      "side": 1,
+      "message": "I replaced the background for add/remove to directly affect the cells - and therefore having the same box-shadow. It seems to work for the text but not for the line numbers (that are buttons) - apparently.",
+      "parentUuid": "904a6a67_fd737170",
+      "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a967e916_b08e3225",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
         "patchSetId": 16
@@ -116,6 +224,24 @@
       "writtenOn": "2022-03-02T12:10:42Z",
       "side": 1,
       "message": "nit: spaces after commas would be nice for consistency",
+      "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "615e6036_231ccaf2",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-04T08:35:16Z",
+      "side": 1,
+      "message": "Changed mat colors anyway.",
+      "parentUuid": "a967e916_b08e3225",
       "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

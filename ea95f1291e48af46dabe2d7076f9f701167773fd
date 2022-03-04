@@ -22,6 +22,30 @@
       },
       "revId": "ea95f1291e48af46dabe2d7076f9f701167773fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "505a8621_326cecd1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-04T08:35:16Z",
+      "side": 1,
+      "message": "I managed to change the box-shadow to the actual td elements (along with bg colors so they don\u0027t overplace them). With that we don\u0027t need this hack anymore.",
+      "parentUuid": "77df4f42_c73d49c5",
+      "range": {
+        "startLine": 437,
+        "startChar": 4,
+        "endLine": 443,
+        "endChar": 5
+      },
+      "revId": "ea95f1291e48af46dabe2d7076f9f701167773fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t this be ?disabled?",
       "revId": "9e89142f255e00a1a154af032a1528d38710d93b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9d40f5f_b6da29e1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-04T16:37:28Z",
+      "side": 1,
+      "message": "I think `.disabled` is more correct because it sets the property directly and not the attribute. In `gr-button`\u0027s case they should reflect to each other anyway via lit converter `{type: Boolean}`, but `?checked` only setting the attribute was a problem on `input` elements [here](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts;l\u003d93;drc\u003db633e02259033fd1f3434355ba1d72568cd0a62d) and I wanted to be safe. Let me know if you think this is not correct.",
+      "parentUuid": "bda13b93_e75747c8",
+      "revId": "9e89142f255e00a1a154af032a1528d38710d93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

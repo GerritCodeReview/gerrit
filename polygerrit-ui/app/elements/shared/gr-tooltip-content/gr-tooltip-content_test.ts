@@ -15,21 +15,23 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-tooltip-content.js';
-
-const basicFixture = fixtureFromElement('gr-tooltip-content');
+import '../../../test/common-test-setup-karma';
+import './gr-tooltip-content';
+import {GrTooltipContent} from './gr-tooltip-content';
+import {fixture, html} from '@open-wc/testing-helpers';
+import {GrTooltip} from '../gr-tooltip/gr-tooltip';
+import {query} from '../../../test/test-utils';
 
 suite('gr-tooltip-content tests', () => {
-  let element;
+  let element: GrTooltipContent;
 
-  function makeTooltip(tooltipRect, parentRect) {
+  function makeTooltip(tooltipRect: DOMRect, parentRect: DOMRect) {
     return {
       arrowCenterOffset: '0',
       getBoundingClientRect() {
         return tooltipRect;
       },
-      style: {left: 0, top: 0},
+      style: {left: '0', top: '0'},
       parentElement: {
         getBoundingClientRect() {
           return parentRect;
@@ -39,19 +41,21 @@ suite('gr-tooltip-content tests', () => {
   }
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture<GrTooltipContent>(html`
+      <gr-tooltip-content></gr-tooltip-content>
+    `);
     element.title = 'title';
     await element.updateComplete;
   });
 
   test('icon is not visible by default', () => {
-    assert.isNotOk(element.shadowRoot.querySelector('iron-icon'));
+    assert.isNotOk(query(element, 'iron-icon'));
   });
 
   test('icon is visible with showIcon property', async () => {
     element.showIcon = true;
     await element.updateComplete;
-    assert.isOk(element.shadowRoot.querySelector('iron-icon'));
+    assert.isOk(query(element, 'iron-icon'));
   });
 
   test('position-below attribute is reflected', async () => {
@@ -62,12 +66,13 @@ suite('gr-tooltip-content tests', () => {
   });
 
   test('normal position', () => {
-    sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
-      return {top: 100, left: 100, width: 200};
-    });
+    sinon
+      .stub(element, 'getBoundingClientRect')
+      .callsFake(() => ({top: 100, left: 100, width: 200} as DOMRect));
     const tooltip = makeTooltip(
-        {height: 30, width: 50},
-        {top: 0, left: 0, width: 1000});
+      {height: 30, width: 50} as DOMRect,
+      {top: 0, left: 0, width: 1000} as DOMRect
+    ) as GrTooltip;
 
     element._positionTooltip(tooltip);
     assert.equal(tooltip.arrowCenterOffset, '0');
@@ -76,12 +81,13 @@ suite('gr-tooltip-content tests', () => {
   });
 
   test('left side position', async () => {
-    sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
-      return {top: 100, left: 10, width: 50};
-    });
+    sinon
+      .stub(element, 'getBoundingClientRect')
+      .callsFake(() => ({top: 100, left: 10, width: 50} as DOMRect));
     const tooltip = makeTooltip(
-        {height: 30, width: 120},
-        {top: 0, left: 0, width: 1000});
+      {height: 30, width: 120} as DOMRect,
+      {top: 0, left: 0, width: 1000} as DOMRect
+    ) as GrTooltip;
 
     element._positionTooltip(tooltip);
     await element.updateComplete;
@@ -91,12 +97,13 @@ suite('gr-tooltip-content tests', () => {
   });
 
   test('right side position', () => {
-    sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
-      return {top: 100, left: 950, width: 50};
-    });
+    sinon
+      .stub(element, 'getBoundingClientRect')
+      .callsFake(() => ({top: 100, left: 950, width: 50} as DOMRect));
     const tooltip = makeTooltip(
-        {height: 30, width: 120},
-        {top: 0, left: 0, width: 1000});
+      {height: 30, width: 120} as DOMRect,
+      {top: 0, left: 0, width: 1000} as DOMRect
+    ) as GrTooltip;
 
     element._positionTooltip(tooltip);
     assert.isAbove(parseFloat(tooltip.arrowCenterOffset.replace(/px$/, '')), 0);
@@ -105,12 +112,15 @@ suite('gr-tooltip-content tests', () => {
   });
 
   test('position to bottom', () => {
-    sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
-      return {top: 100, left: 950, width: 50, height: 50};
-    });
+    sinon
+      .stub(element, 'getBoundingClientRect')
+      .callsFake(
+        () => ({top: 100, left: 950, width: 50, height: 50} as DOMRect)
+      );
     const tooltip = makeTooltip(
-        {height: 30, width: 120},
-        {top: 0, left: 0, width: 1000});
+      {height: 30, width: 120} as DOMRect,
+      {top: 0, left: 0, width: 1000} as DOMRect
+    ) as GrTooltip;
 
     element.positionBelow = true;
     element._positionTooltip(tooltip);
@@ -171,4 +181,3 @@ suite('gr-tooltip-content tests', () => {
     assert.isNotOk(element.tooltip);
   });
 });
-

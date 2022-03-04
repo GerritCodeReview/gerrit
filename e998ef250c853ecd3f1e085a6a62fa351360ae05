@@ -39,6 +39,30 @@
       },
       "revId": "e998ef250c853ecd3f1e085a6a62fa351360ae05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cee07d2b_558e1b26",
+        "filename": "java/com/google/gerrit/server/extensions/events/GitReferencesUpdated.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-03-04T07:23:55Z",
+      "side": 1,
+      "message": "Yes skip the rename for now, if we want to rename we could do that in a follow-up, refactor change.",
+      "parentUuid": "3e247fba_2dfededd",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "e998ef250c853ecd3f1e085a6a62fa351360ae05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

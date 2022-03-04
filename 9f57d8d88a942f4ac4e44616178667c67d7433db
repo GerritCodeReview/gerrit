@@ -93,6 +93,30 @@
       },
       "revId": "9f57d8d88a942f4ac4e44616178667c67d7433db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf49f158_35af491d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T11:18:18Z",
+      "side": 1,
+      "message": "I prefer temporarily stubbing a private method over naming a test incorrectly but since it\u0027s going to be changed in the next CL, I am fine with the way it is.",
+      "parentUuid": "88ae2727_c64b98d7",
+      "range": {
+        "startLine": 71,
+        "startChar": 23,
+        "endLine": 71,
+        "endChar": 44
+      },
+      "revId": "9f57d8d88a942f4ac4e44616178667c67d7433db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

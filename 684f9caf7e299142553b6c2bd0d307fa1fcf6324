@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d435700_7c0adb3b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-04T13:43:33Z",
+      "side": 1,
+      "message": "gr-bulk-abandon-flow?",
+      "revId": "684f9caf7e299142553b6c2bd0d307fa1fcf6324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "359b9a27_a0ebe312",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
         "patchSetId": 32
@@ -66,6 +83,23 @@
         "endLine": 151,
         "endChar": 38
       },
+      "revId": "684f9caf7e299142553b6c2bd0d307fa1fcf6324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073f8d70_51eb6e2f",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-04T13:43:33Z",
+      "side": 1,
+      "message": "You shouldn\u0027t return a promise all because then you can\u0027t track the status of each individually.",
       "revId": "684f9caf7e299142553b6c2bd0d307fa1fcf6324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

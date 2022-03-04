@@ -93,6 +93,30 @@
       },
       "revId": "77f47c3670774fa9d5cfcf0e35dbca3dc9616818",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fdf2770_86f8ad38",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-04T11:29:40Z",
+      "side": 1,
+      "message": "These conversion changes like `Convert foo_test.js to typescript` should be fixing the tests rather than casting `as any` to turn off type checks. In this case I think the `hookName` parts of the 2 tests should just be deleted because it\u0027s just an implementation detail and `getDomHook()` is already tested by the 2 sub-suites.",
+      "parentUuid": "a122be94_ab443b14",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 0
+      },
+      "revId": "77f47c3670774fa9d5cfcf0e35dbca3dc9616818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

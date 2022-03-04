@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc1e824e_737a23c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-04T20:26:47Z",
+      "side": 1,
+      "message": "this and the next patch are are accidental finds from investigating Issue 15687.\n\nthey are *completely* untested (i don\u0027t even have a jdk installed ...), and of course new autotests should be added. i hope somebody else picks this up ...",
+      "revId": "5ab35c2e2d34ca06f052bdfa18a07b7b451c6cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

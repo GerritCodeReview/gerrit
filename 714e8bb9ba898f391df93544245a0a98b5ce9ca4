@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6610290_f6ed260b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-04T10:14:00Z",
+      "side": 1,
+      "message": "Let me check E2E if prometheus and JavaMelody are impacted or not.\nWith regards to serving the static content, can we reuse the \u0027/static\u0027 path instead?",
+      "revId": "714e8bb9ba898f391df93544245a0a98b5ce9ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0948334c_a17277ca",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-04T10:14:00Z",
+      "side": 1,
+      "message": "Why not just serving static anyway? We can reuse it for serving the replica.txt, which would also allow companies to override its content.",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 42
+      },
+      "revId": "714e8bb9ba898f391df93544245a0a98b5ce9ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1a5c875_9eb7255f",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-04T10:14:00Z",
+      "side": 1,
+      "message": "Can we just use the \u0027/static\u0027 mechanism we have in place already?",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 3
+      },
+      "revId": "714e8bb9ba898f391df93544245a0a98b5ce9ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ad83619_97a1578f",
+        "filename": "webapp/replica.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-04T10:14:00Z",
+      "side": 1,
+      "message": "Why not serving this from static instead?",
+      "revId": "714e8bb9ba898f391df93544245a0a98b5ce9ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -180,16 +180,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void abandonReviewableChangeNotifyOwnerCcingSelf() throws Exception {
-    StagedChange sc = stageReviewableChange();
-    abandon(sc.changeId, sc.owner, CC_ON_OWN_COMMENTS, OWNER);
-    // Self-CC applies *after* need for sending notification is determined.
-    // Since there are no recipients before including the user taking action,
-    // there should no notification sent.
-    assertThat(sender).didNotSend();
-  }
-
-  @Test
   public void abandonReviewableChangeByOtherCcingSelfNotifyOwner() throws Exception {
     StagedChange sc = stageReviewableChange();
     TestAccount other = accountCreator.create("other", "other@example.com", "other", null);
@@ -516,24 +506,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void addReviewerToReviewableChangeNotifyOwnerReviewersBatch() throws Exception {
     addReviewerToReviewableChangeNotifyOwnerReviewers(batch());
-  }
-
-  private void addReviewerToReviewableChangeByOwnerCcingSelfNotifyOwner(Adder adder)
-      throws Exception {
-    StagedChange sc = stageReviewableChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), CC_ON_OWN_COMMENTS, OWNER);
-    assertThat(sender).didNotSend();
-  }
-
-  @Test
-  public void addReviewerToReviewableChangeByOwnerCcingSelfNotifyOwnerSingly() throws Exception {
-    addReviewerToReviewableChangeByOwnerCcingSelfNotifyOwner(singly());
-  }
-
-  @Test
-  public void addReviewerToReviewableChangeByOwnerCcingSelfNotifyOwnerBatch() throws Exception {
-    addReviewerToReviewableChangeByOwnerCcingSelfNotifyOwner(batch());
   }
 
   private void addReviewerToReviewableChangeByOwnerCcingSelfNotifyNone(Adder adder)

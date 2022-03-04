@@ -212,12 +212,14 @@ public abstract class OutgoingEmail {
                 Address.create(thisUserAccount.fullName(), thisUserAccount.preferredEmail()));
           }
         }
-        if (smtpRcptTo.isEmpty() && smtpRcptToPlaintextOnly.isEmpty()) {
-          logger.atFine().log("Not sending '%s': No SMTP recipients", messageClass);
-          return;
+        if (smtpRcptTo.isEmpty()) {
+          break;
         }
       }
-
+      if (smtpRcptTo.isEmpty() && smtpRcptToPlaintextOnly.isEmpty()) {
+        logger.atFine().log("Not sending '%s': No SMTP recipients", messageClass);
+        return;
+      }
       // Set Reply-To only if it hasn't been set by a child class
       // Reply-To will already be populated for the message types where Gerrit supports
       // inbound email replies.
@@ -506,16 +508,6 @@ public abstract class OutgoingEmail {
       // selection filters previously for this type of message were
       // unable to match a destination. Don't bother sending it.
       logger.atFine().log("Not sending '%s': No recipients", messageClass);
-      return false;
-    }
-
-    if (notify.accounts().isEmpty()
-        && smtpRcptTo.size() == 1
-        && rcptTo.size() == 1
-        && rcptTo.contains(fromId)) {
-      // If the only recipient is also the sender, don't bother.
-      //
-      logger.atFine().log("Not sending '%s': Sender is only recipient", messageClass);
       return false;
     }
 

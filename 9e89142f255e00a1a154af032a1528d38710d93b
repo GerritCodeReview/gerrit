@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7138a2a6_c096fa1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-04T16:58:29Z",
+      "side": 1,
+      "message": "Only nit would be renaming the component as per chat, but can do that in a follow-up.",
+      "revId": "9e89142f255e00a1a154af032a1528d38710d93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bda13b93_e75747c8",

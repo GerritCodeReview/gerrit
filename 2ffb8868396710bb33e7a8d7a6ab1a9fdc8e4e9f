@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "827e1837_c6df9ef8",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckNewProjectReplica1.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-03-04T07:20:00Z",
+      "side": 0,
+      "message": "I think we want to keep test-specific projectnames, could we just add a getProjectName(className: String) in GerritSimultation that prepends the prefix?",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 37
+      },
+      "revId": "2ffb8868396710bb33e7a8d7a6ab1a9fdc8e4e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e95dc0cb_dab3e205",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-03-04T05:09:40Z",
+      "side": 1,
+      "message": "\u003e given their final destination, release notes shouldn\u0027t be written in the imperative. simple past or something with \"now\" are typically used.\n\nGood point, thanks.\n\n\u003e \n\u003e though i don\u0027t think that this change in particular needs such an entry at all - it seems way below the notability threshold.\n\nMaybe? Looking back at prior releases [1][2], doc fixes do tend to get their own bullets. I\u0027d also be ok with some amount of consolidation, like \"Plugin documentation improvements\", but I\u0027ll leave that to the release manager\u0027s discretion.\n\nTried to improve in the next PS.\n\n[1] https://www.gerritcodereview.com/3.5.html#documentation-changes\n[2] https://www.gerritcodereview.com/3.4.html#documentation-changes",
+      "parentUuid": "8c05e50b_c0560f8c",
+      "revId": "970dabbdb32f77d74f3f41640788c4bca2084ef3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0505afbd_343c733b",

@@ -13,7 +13,7 @@ A design doc should discuss the following aspects:
 * Use-Cases:
   The interactions between a user and a system to attain particular
   goals.
-* Acceptance Criteria
+* Acceptance Criteria:
   Conditions that must be satisfied to consider the feature as done.
 * Background:
   Stuff one needs to know to understand the use-cases (e.g. motivating

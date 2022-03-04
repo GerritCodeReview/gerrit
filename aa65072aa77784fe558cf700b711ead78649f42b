@@ -70,6 +70,30 @@
       },
       "revId": "aa65072aa77784fe558cf700b711ead78649f42b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f5162bd_a77153f6",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-03-04T16:12:23Z",
+      "side": 1,
+      "message": "Happy to help here :-)\n\nLooking at the submit whole topic doc [1] wording, there dependent is used in the strict sense of referring to ancestors of changes in the \"topic-set\". I think that\u0027s consistent with how most Gerrit users expect dependent to refer to git ancestry. In general, we don\u0027t seem to have a word in the docs to describe the ChangeSet concept that I see used in the code here. I think both dependent and related are inaccurate in this context (we typically use related to refer to changes with the same Change-Id across branches). We might want to add a term to the glossary and submission-related docs for change-set/(change-)submission-set (and maybe for topic-set too?).\n\nUntil we have better terms for this I think you need to be wordier and say something like \"Change $c.id must be submitted with change $cd.id but $c.id is not ready because $message\". It would probably also be good to check that all the exception messages from checkSubmitRequirements() flow into that \u0027because ...\u0027 nicely (they seem pretty close already, but a few tweaks could help).\n\n[1] https://gerrit-review.googlesource.com/Documentation/cross-repository-changes.html#_topic_submission_behavior",
+      "parentUuid": "497f5d11_e4781bdf",
+      "range": {
+        "startLine": 268,
+        "startChar": 45,
+        "endLine": 268,
+        "endChar": 61
+      },
+      "revId": "aa65072aa77784fe558cf700b711ead78649f42b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

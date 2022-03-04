@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0051013_70be71cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-04T09:18:27Z",
+      "side": 1,
+      "message": "indeed. though from my perspective as the potential reader of the release notes i consider most of this noise. when some interesting piece of docu has been added that\u0027s one thing, but why would i care for some minor docu fixes? these are not actionable items for me.\n\nluca?",
+      "parentUuid": "e95dc0cb_dab3e205",
+      "revId": "970dabbdb32f77d74f3f41640788c4bca2084ef3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0505afbd_343c733b",

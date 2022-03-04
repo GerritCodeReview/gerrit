@@ -183,9 +183,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void abandonReviewableChangeNotifyOwnerCcingSelf() throws Exception {
     StagedChange sc = stageReviewableChange();
     abandon(sc.changeId, sc.owner, CC_ON_OWN_COMMENTS, OWNER);
-    // Self-CC applies *after* need for sending notification is determined.
-    // Since there are no recipients before including the user taking action,
-    // there should no notification sent.
+    assertThat(sender).sent("abandon", sc).to(sc.owner).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -523,6 +521,10 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), CC_ON_OWN_COMMENTS, OWNER);
+    assertThat(sender)
+        .sent("newchange", sc)
+        .cc(sc.owner)
+        .noOneElse();
     assertThat(sender).didNotSend();
   }
 

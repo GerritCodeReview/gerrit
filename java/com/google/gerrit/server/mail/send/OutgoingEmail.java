@@ -509,16 +509,6 @@ public abstract class OutgoingEmail {
       return false;
     }
 
-    if (notify.accounts().isEmpty()
-        && smtpRcptTo.size() == 1
-        && rcptTo.size() == 1
-        && rcptTo.contains(fromId)) {
-      // If the only recipient is also the sender, don't bother.
-      //
-      logger.atFine().log("Not sending '%s': Sender is only recipient", messageClass);
-      return false;
-    }
-
     return true;
   }
 

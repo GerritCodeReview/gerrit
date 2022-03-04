@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e4d84f5_8a4cc92d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T14:18:18Z",
+      "side": 1,
+      "message": "Following pattern in Change 331779.",
+      "parentUuid": "0d435700_7c0adb3b",
+      "revId": "684f9caf7e299142553b6c2bd0d307fa1fcf6324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "359b9a27_a0ebe312",
@@ -172,6 +190,24 @@
       "writtenOn": "2022-03-04T13:43:33Z",
       "side": 1,
       "message": "You shouldn\u0027t return a promise all because then you can\u0027t track the status of each individually.",
+      "revId": "684f9caf7e299142553b6c2bd0d307fa1fcf6324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0983edea_c2642bb9",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T14:18:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073f8d70_51eb6e2f",
       "revId": "684f9caf7e299142553b6c2bd0d307fa1fcf6324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

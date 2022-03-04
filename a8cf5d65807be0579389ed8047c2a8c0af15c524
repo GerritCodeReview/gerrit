@@ -16,6 +16,29 @@
       "message": "hiese",
       "revId": "a8cf5d65807be0579389ed8047c2a8c0af15c524",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "effbed63_95c972ce",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-03-04T08:43:56Z",
+      "side": 1,
+      "message": "Unrelated to this change, but maybe related to the problem: This logic is invoked inside the code block that we retry when there is a storage-level failure. I think we should move it out since otherwise retrying would yield multiple Ops that store SRs.",
+      "range": {
+        "startLine": 649,
+        "startChar": 6,
+        "endLine": 649,
+        "endChar": 11
+      },
+      "revId": "a8cf5d65807be0579389ed8047c2a8c0af15c524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

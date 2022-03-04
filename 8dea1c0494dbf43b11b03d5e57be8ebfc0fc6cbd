@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e7b4d49_8a52ab55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-04T16:47:40Z",
+      "side": 1,
+      "message": "nit: published",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "8dea1c0494dbf43b11b03d5e57be8ebfc0fc6cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10e5ceef_71e2a300",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-04T16:47:40Z",
+      "side": 1,
+      "message": "This comment looks a bit misplaced and is not clear to me:\n\n* How is \"Updates containing new comments\" related to the \"submitRequirementResults !\u003d null\" case?\n\n* Did you intent to say \"updates that only contain new comments\"? Although it may not occur in practise, on the abstraction level of the ChangeUpdate class it\u0027s possible that an update contains both, new comments and also submitRequirementResults.\n\n* What about other updates that do not have submitRequirementResults set. How are they different from updates that only add new comments? This comment makes the impression that previously stored SRs should only not be affected when updates contain new comments, but I think there can be other updates where previously stored SRs should also not be affected.\n\nPlease rephrase this comment to make it clearer, or dropping it is also fine.",
+      "range": {
+        "startLine": 540,
+        "startChar": 9,
+        "endLine": 541,
+        "endChar": 23
+      },
+      "revId": "8dea1c0494dbf43b11b03d5e57be8ebfc0fc6cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53a77c68_6bc5a1ab",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-04T16:47:40Z",
+      "side": 1,
+      "message": "Why had this to be moved out of the \"if (submitRequirementResults.isEmpty()) {\" block? It seems this variable is used only inside this block?",
+      "revId": "8dea1c0494dbf43b11b03d5e57be8ebfc0fc6cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e20adbae_f9d20f08",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-04T16:47:40Z",
+      "side": 1,
+      "message": "Maybe add .distinct() here to avoid clearing submit requirement results for the same commit multiple times?",
+      "revId": "8dea1c0494dbf43b11b03d5e57be8ebfc0fc6cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb3ba0d9_d30ccedb",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-04T16:47:40Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be safer to do something like \n\n  cache.getBuilders().keySet().forEach(builder -\u003e builder.clearSubmitRequirementResults())\n  \nOtherwise SRs are not cleared for commits for which no new submit requirements are present, are they?",
+      "range": {
+        "startLine": 550,
+        "startChar": 8,
+        "endLine": 552,
+        "endChar": 82
+      },
+      "revId": "8dea1c0494dbf43b11b03d5e57be8ebfc0fc6cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

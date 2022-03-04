@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c49dd15_b7556f67",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-04T14:37:52Z",
+      "side": 1,
+      "message": "`?` is for boolean attributes, not properties https://lit.dev/docs/templates/expressions/",
+      "parentUuid": "6a2ea82f_af69df40",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a1aea468_25893077",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
         "patchSetId": 33
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "The first check is here for response.ok which should ideally cover all cases.\nI added this for extra safety.\n\nIf BE sends status 200 and response.ok for a failed request then something is wrong.\nI don\u0027t see how I can determine the failed state then.\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts;l\u003d526?q\u003d%22return%20Promise%20resolves%20to%20Response%2FParsedJSON%22",
       "parentUuid": "a1aea468_25893077",
+      "range": {
+        "startLine": 131,
+        "startChar": 37,
+        "endLine": 131,
+        "endChar": 40
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb48b162_c9003495",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-04T14:37:52Z",
+      "side": 1,
+      "message": "you are right, docs says failed successfully is a 409\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#abandon-change",
+      "parentUuid": "6db6b0ab_a39e7ef2",
       "range": {
         "startLine": 131,
         "startChar": 37,

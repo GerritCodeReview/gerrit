@@ -1,21 +1,30 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an 'AS IS' BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {ReactiveController, ReactiveControllerHost} from 'lit';
 import {Observable, Subscription} from 'rxjs';
+
+const SUBSCRIPTION_SYMBOL = Symbol('subscriptions');
+
+// Checks whether a subscription can be added. Returns true if it can be added,
+// return false if it's already present.
+// Subscriptions are stored on the host so they have the same life-time as the
+// host.
+function checkSubscription<T>(
+  host: ReactiveControllerHost,
+  obs$: Observable<T>,
+  setProp: (t: T) => void
+): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const hostSubscriptions = ((host as any)[SUBSCRIPTION_SYMBOL] ||= new Map());
+  if (!hostSubscriptions.has(obs$)) hostSubscriptions.set(obs$, new Set());
+  const obsSubscriptions = hostSubscriptions.get(obs$);
+  if (obsSubscriptions.has(setProp)) return false;
+  obsSubscriptions.add(setProp);
+  return true;
+}
 
 /**
  * Enables components to simply hook up a property with an Observable like so:
@@ -27,9 +36,9 @@ export function subscribe<T>(
   obs$: Observable<T>,
   setProp: (t: T) => void
 ) {
+  if (!checkSubscription(host, obs$, setProp)) return;
   host.addController(new SubscriptionController(obs$, setProp));
 }
-
 export class SubscriptionController<T> implements ReactiveController {
   private sub?: Subscription;
 

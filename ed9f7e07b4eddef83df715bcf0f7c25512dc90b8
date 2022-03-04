@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a65ae30_795827b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-04T08:10:59Z",
+      "side": 1,
+      "message": "Add that this was removed here\nhttps://gerrit-review.googlesource.com/c/gerrit/+/330441",
+      "revId": "ed9f7e07b4eddef83df715bcf0f7c25512dc90b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

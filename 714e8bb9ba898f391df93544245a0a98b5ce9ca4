@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3cd868c4_5e017882",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-04T11:59:15Z",
+      "side": 1,
+      "message": "I did not serve it, because it was not served before this change. It might make sense, if some external tool or plugin would link to it. A user will likely not by chance go to something like \"https://gerrit.example.com/static/info.html\". If there is no direct requirement, I would not serve it for now until there is one to keep the scope as small as possible.\n\nBeing able to override the content would be really nice and would help us as well, since we run the setup I shortly described in the commit message. It would be nice to be able to explain that the primary is momentarily down. Let me see, whether I can figure out how to serve file from `static/` to all PolyGerrit and Documentation paths and how to provide a default file within gerrit.war. Otherwise, we could allow to set some text in the configuration.",
+      "parentUuid": "0948334c_a17277ca",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 42
+      },
+      "revId": "714e8bb9ba898f391df93544245a0a98b5ce9ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a1a5c875_9eb7255f",
         "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 4

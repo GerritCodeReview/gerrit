@@ -265,7 +265,10 @@ public class Submit
           // those may still be stale.
           MergeOp.checkSubmitRequirements(cd.getId().equals(c.getId()) ? cd : c);
         } catch (ResourceConflictException e) {
-          return "Change " + c.getId() + " is not ready: " + e.getMessage();
+          return (c.getId() != cd.getId() ? "Dependent change " : "change ")
+              + c.getId()
+              + " is not ready: "
+              + e.getMessage();
         }
       }
 

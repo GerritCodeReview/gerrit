@@ -51,6 +51,7 @@ import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -1197,11 +1198,24 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
 
       SubmitRequirementResult result =
           notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
-      assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
-      assertThat(result.submittabilityExpressionResult().get().status())
-          .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
-      assertThat(result.submittabilityExpressionResult().get().expression().expressionString())
-          .isEqualTo("label:Code-Review=MAX");
+      assertSubmitRequirementResult(
+          result,
+          "Code-Review",
+          SubmitRequirementResult.Status.SATISFIED,
+          /* submitExpr= */ "label:Code-Review=MAX",
+          SubmitRequirementExpressionResult.Status.PASS);
+
+      // Adding comments does not affect the stored SRs.
+      addComment(r.getChangeId(), /* file= */ "foo");
+      notes = notesFactory.create(project, r.getChange().getId());
+      result = notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
+      assertSubmitRequirementResult(
+          result,
+          "Code-Review",
+          SubmitRequirementResult.Status.SATISFIED,
+          /* submitExpr= */ "label:Code-Review=MAX",
+          SubmitRequirementExpressionResult.Status.PASS);
+      assertThat(notes.getHumanComments()).hasSize(1);
     }
   }
 
@@ -2732,6 +2746,19 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
   }
 
+  private void assertSubmitRequirementResult(
+      SubmitRequirementResult result,
+      String srName,
+      SubmitRequirementResult.Status status,
+      String submitExpr,
+      SubmitRequirementExpressionResult.Status submitStatus) {
+    assertThat(result.submitRequirement().name()).isEqualTo(srName);
+    assertThat(result.status()).isEqualTo(status);
+    assertThat(result.submittabilityExpressionResult().get().expression().expressionString())
+        .isEqualTo(submitExpr);
+    assertThat(result.submittabilityExpressionResult().get().status()).isEqualTo(submitStatus);
+  }
+
   private void assertSubmitRequirementStatus(
       Collection<SubmitRequirementResultInfo> results,
       String requirementName,
@@ -2863,5 +2890,15 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     input.submittabilityExpression = submittableIf;
     input.overrideExpression = overrideIf;
     return input;
+  }
+
+  private void addComment(String changeId, String file) throws Exception {
+    ReviewInput in = new ReviewInput();
+    CommentInput ci = new CommentInput();
+    ci.path = file;
+    ci.message = "message";
+    ci.line = 1;
+    in.comments = ImmutableMap.of("foo", ImmutableList.of(ci));
+    gApi.changes().id(changeId).current().review(in);
   }
 }

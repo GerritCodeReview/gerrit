@@ -537,11 +537,19 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       cache.get(c.getCommitId()).putComment(c);
     }
     if (submitRequirementResults != null) {
+      // Updates containing new comments should not affect any previously stored SRs in any
+      // revision note. Only if the update contains submit requirement results, then those should
+      // overwrite any previously stored SR results.
+      ObjectId latestPsCommitId = Iterables.getLast(getNotes().getPatchSets().values()).commitId();
       if (submitRequirementResults.isEmpty()) {
-        ObjectId latestPsCommitId =
-            Iterables.getLast(getNotes().getPatchSets().values()).commitId();
         cache.get(latestPsCommitId).createEmptySubmitRequirementResults();
       } else {
+        // Clear any previously stored SRs first. The SRs in this update will overwrite any
+        // previously stored SRs (e.g. if the change is abandoned (SRs stored) -> un-abandoned ->
+        // merged).
+        submitRequirementResults.stream()
+            .map(SubmitRequirementResult::patchSetCommitId)
+            .forEach(commit -> cache.get(commit).clearSubmitRequirementResults());
         for (SubmitRequirementResult sr : submitRequirementResults) {
           cache.get(sr.patchSetCommitId()).putSubmitRequirementResult(sr);
         }

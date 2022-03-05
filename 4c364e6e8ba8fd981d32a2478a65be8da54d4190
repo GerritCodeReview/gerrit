@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "986dd080_b212789a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-05T13:57:34Z",
+      "side": 1,
+      "message": "you\u0027ll need a release-notes footer now (maybe \"fixed lost watch notifications when attention-set-only is configured\").",
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f80c3329_0cdd499f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-05T13:57:34Z",
+      "side": 1,
+      "message": "david, did you forget about this?\nanyway, see my new comments.",
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bc662d4_63327f98",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-05T13:57:34Z",
+      "side": 1,
+      "message": "fwiw, in the qt project we call this \"the boolean trap\". the way out is to use an enum instead. of course, it would be overkill to do that in such a small scope.",
+      "range": {
+        "startLine": 400,
+        "startChar": 25,
+        "endLine": 400,
+        "endChar": 47
+      },
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cb693da_d3833485",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-05T13:57:34Z",
+      "side": 1,
+      "message": "that\u0027s the cheapest condition, so it should be evaluated first.",
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f2db5c8_1f9370bd",
+        "filename": "java/com/google/gerrit/server/mail/send/NotificationEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-05T13:57:34Z",
+      "side": 1,
+      "message": "did you check what this is about? kind of makes no sense to me ...",
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53d7da82_deef9125",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-05T13:57:34Z",
+      "side": 1,
+      "message": "fwiw, more elaborate tests assertThat(sender).sent(...) (see ChangeNotificationsIT.java), but this is apparently not an objective in the vicinity here.",
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

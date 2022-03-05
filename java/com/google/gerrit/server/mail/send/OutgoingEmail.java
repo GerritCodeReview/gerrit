@@ -260,6 +260,12 @@ public abstract class OutgoingEmail {
       if (!va.smtpRcptTo.isEmpty()) {
         // Send multipart message
         addMessageId(va, "-HTML");
+        if (headers.get(FieldName.TO).isEmpty()) {
+          // Promote Cc to To if the latter would be otherwise empty,
+          // as such mails are more or less malformed and set off SPAM
+          // prevention software.
+          headers.put(FieldName.TO, headers.remove(FieldName.CC));
+        }
         if (!validateEmail(va)) return;
         logger.atFine().log(
             "Sending multipart '%s' from %s to %s",

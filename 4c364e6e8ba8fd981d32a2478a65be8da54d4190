@@ -60,6 +60,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "782e1d73_c1eda7ba",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-05T17:23:00Z",
+      "side": 1,
+      "message": "\u0027es\u0027",
+      "range": {
+        "startLine": 403,
+        "startChar": 17,
+        "endLine": 403,
+        "endChar": 18
+      },
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3cb693da_d3833485",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 5
@@ -77,6 +100,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58fb84bd_bcaf8acd",
+        "filename": "java/com/google/gerrit/server/mail/send/CreateChangeSender.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-05T17:23:00Z",
+      "side": 1,
+      "message": "you need to adjust these as well - the above is only the special handling for project/branch owners.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 43
+      },
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f2db5c8_1f9370bd",
         "filename": "java/com/google/gerrit/server/mail/send/NotificationEmail.java",
         "patchSetId": 5
@@ -88,6 +134,24 @@
       "writtenOn": "2022-03-05T13:57:34Z",
       "side": 1,
       "message": "did you check what this is about? kind of makes no sense to me ...",
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bee0f227_63b072e1",
+        "filename": "java/com/google/gerrit/server/mail/send/NotificationEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-05T17:23:00Z",
+      "side": 1,
+      "message": "ok, i checked myself: it\u0027s for the NotifyConfig stuff, which allows adding arbitrary email addrs via the server config. this bypasses account-based filtering, so this makes sense as-is.",
+      "parentUuid": "6f2db5c8_1f9370bd",
       "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

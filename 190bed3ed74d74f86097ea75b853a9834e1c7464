@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "664a90ff_49ae9fb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-05T17:39:06Z",
+      "side": 1,
+      "message": "the autotest failure could be easily fixed (with the interesting side effect that assertNotifyCc() could be removed entirely), but i\u0027m actually not sure about the whole thing.\n\nthe original issue as i filed it suggests that there was no cc field, either, so the actual problem was probably the use of bcc instead of to/cc, and i ended up in reply-to only due to a bug (see acf084069a2).\n\nif so, i\u0027m not quite sure what to do about it - we could promote the Bcc to To, but that isn\u0027t acceptable if the message has multiple bccs, as they are not supposed to see each other.\n\ni suppose one could add a fake To containing the sender.\n\nbut there is a wider issue that bccs are generally a bit of spam filter trigger, so the real fix would be atomizing the bcc list and sending everyone their own mail with To. this would be a bit tougher on gerrit\u0027s smtp workers and the relaying mta\u0027s incoming queue.",
+      "revId": "190bed3ed74d74f86097ea75b853a9834e1c7464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

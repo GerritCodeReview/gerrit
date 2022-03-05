@@ -15,14 +15,19 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import {GrPopupInterface} from './gr-popup-interface.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import '../../../test/common-test-setup-karma';
+import '../../shared/gr-js-api-interface/gr-js-api-interface';
+import {GrPopupInterface} from './gr-popup-interface';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {PluginApi} from '../../../api/plugin';
+import {HookApi, PluginElement} from '../../../api/hook';
+import {queryAndAssert} from '../../../test/test-utils';
 
 class GrUserTestPopupElement extends PolymerElement {
-  static get is() { return 'gr-user-test-popup'; }
+  static get is() {
+    return 'gr-user-test-popup';
+  }
 
   static get template() {
     return html`<div id="barfoo">some test module</div>`;
@@ -34,19 +39,24 @@ customElements.define(GrUserTestPopupElement.is, GrUserTestPopupElement);
 const containerFixture = fixtureFromElement('div');
 
 suite('gr-popup-interface tests', () => {
-  let container;
-  let instance;
-  let plugin;
+  let container: HTMLElement;
+  let instance: GrPopupInterface;
+  let plugin: PluginApi;
 
   setup(() => {
-    window.Gerrit.install(p => { plugin = p; }, '0.1',
-        'http://test.com/plugins/testplugin/static/test.js');
+    window.Gerrit.install(
+      p => {
+        plugin = p;
+      },
+      '0.1',
+      'http://test.com/plugins/testplugin/static/test.js'
+    );
     container = containerFixture.instantiate();
     sinon.stub(plugin, 'hook').returns({
       getLastAttached() {
         return Promise.resolve(container);
       },
-    });
+    } as HookApi<PluginElement>);
   });
 
   suite('manual', () => {
@@ -55,7 +65,7 @@ suite('gr-popup-interface tests', () => {
     });
 
     test('open', async () => {
-      const api = await instance.open();
+      const api = (await instance.open()) as GrPopupInterface;
       assert.strictEqual(api, instance);
       const manual = document.createElement('div');
       manual.id = 'foobar';
@@ -63,14 +73,16 @@ suite('gr-popup-interface tests', () => {
       api._getElement().appendChild(manual);
       await flush();
       assert.equal(
-          container.querySelector('#foobar').textContent, 'manual content');
+        queryAndAssert(container, '#foobar').textContent,
+        'manual content'
+      );
     });
 
     test('close', async () => {
-      const api = await instance.open();
-      assert.isTrue(api._getElement().node.opened);
+      const api = (await instance.open()) as GrPopupInterface;
+      assert.isTrue((api._getElement() as any).node.opened);
       api.close();
-      assert.isFalse(api._getElement().node.opened);
+      assert.isFalse((api._getElement() as any).node.opened);
     });
   });
 
@@ -85,10 +97,10 @@ suite('gr-popup-interface tests', () => {
     });
 
     test('close', async () => {
-      const api = await instance.open();
-      assert.isTrue(api._getElement().node.opened);
+      const api = (await instance.open()) as GrPopupInterface;
+      assert.isTrue((api._getElement() as any).node.opened);
       api.close();
-      assert.isFalse(api._getElement().node.opened);
+      assert.isFalse((api._getElement() as any).node.opened);
     });
   });
 });

@@ -282,11 +282,14 @@ public abstract class OutgoingEmail {
           }
         }
         shallowCopy.put(FieldName.TO, to);
+        va.smtpRcptTo = smtpRcptToPlaintextOnly;
+        va.headers = shallowCopy;
+        va.htmlBody = null;
         if (!validateEmail(va)) return;
         logger.atFine().log(
             "Sending plaintext '%s' from %s to %s",
-            messageClass, va.smtpFromAddress, smtpRcptToPlaintextOnly);
-        args.emailSender.send(va.smtpFromAddress, smtpRcptToPlaintextOnly, shallowCopy, va.body);
+            messageClass, va.smtpFromAddress, va.smtpRcptTo);
+        args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body);
       }
     }
   }

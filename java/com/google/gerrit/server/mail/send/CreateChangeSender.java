@@ -27,7 +27,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.stream.StreamSupport;
 
 /** Notify interested parties of a brand new change. */
 public class CreateChangeSender extends NewChangeSender {
@@ -54,14 +53,8 @@ public class CreateChangeSender extends NewChangeSender {
     super.init();
 
     try {
-      // Upgrade watching owners from CC and BCC to TO.
       Watchers matching =
           getWatchers(NotifyType.NEW_CHANGES, !change.isWorkInProgress() && !change.isPrivate());
-      // TODO(hiesel): Remove special handling for owners
-      StreamSupport.stream(matching.all().accounts.spliterator(), false)
-          .filter(this::isOwnerOfProjectOrBranch)
-          .forEach(acc -> add(RecipientType.TO, acc));
-      // Add everyone else. Owners added above will not be duplicated.
       add(RecipientType.TO, matching.to);
       add(RecipientType.CC, matching.cc);
       add(RecipientType.BCC, matching.bcc);

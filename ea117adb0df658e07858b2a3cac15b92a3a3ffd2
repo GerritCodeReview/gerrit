@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e3bc6c8_18daa090",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-07T10:30:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c49dd15_b7556f67",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1aea468_25893077",
@@ -298,6 +322,30 @@
       "side": 1,
       "message": "leave a comment that we can\u0027t use .catch because the callback is needed to avoid triggering an error dialog.",
       "parentUuid": "fd295803_3ba556e8",
+      "range": {
+        "startLine": 121,
+        "startChar": 11,
+        "endLine": 121,
+        "endChar": 22
+      },
+      "revId": "ea117adb0df658e07858b2a3cac15b92a3a3ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85ffa382_d9370b2f",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-07T10:30:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4882701d_b146d9e5",
       "range": {
         "startLine": 121,
         "startChar": 11,

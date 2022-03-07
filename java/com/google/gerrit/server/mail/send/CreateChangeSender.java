@@ -23,11 +23,8 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.stream.StreamSupport;
 
 /** Notify interested parties of a brand new change. */
 public class CreateChangeSender extends NewChangeSender {
@@ -37,16 +34,12 @@ public class CreateChangeSender extends NewChangeSender {
     CreateChangeSender create(Project.NameKey project, Change.Id changeId);
   }
 
-  private final PermissionBackend permissionBackend;
-
   @Inject
   public CreateChangeSender(
       EmailArguments args,
-      PermissionBackend permissionBackend,
       @Assisted Project.NameKey project,
       @Assisted Change.Id changeId) {
     super(args, newChangeData(args, project, changeId));
-    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -54,14 +47,8 @@ public class CreateChangeSender extends NewChangeSender {
     super.init();
 
     try {
-      // Upgrade watching owners from CC and BCC to TO.
       Watchers matching =
           getWatchers(NotifyType.NEW_CHANGES, !change.isWorkInProgress() && !change.isPrivate());
-      // TODO(hiesel): Remove special handling for owners
-      StreamSupport.stream(matching.all().accounts.spliterator(), false)
-          .filter(this::isOwnerOfProjectOrBranch)
-          .forEach(acc -> add(RecipientType.TO, acc));
-      // Add everyone else. Owners added above will not be duplicated.
       add(RecipientType.TO, matching.to);
       add(RecipientType.CC, matching.cc);
       add(RecipientType.BCC, matching.bcc);
@@ -73,12 +60,5 @@ public class CreateChangeSender extends NewChangeSender {
     }
 
     includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
-  }
-
-  private boolean isOwnerOfProjectOrBranch(Account.Id userId) {
-    return permissionBackend
-        .absentUser(userId)
-        .ref(change.getDest())
-        .testOrFalse(RefPermission.WRITE_CONFIG);
   }
 }

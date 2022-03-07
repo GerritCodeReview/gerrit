@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27dd74ea_77ee9dea",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-07T08:56:44Z",
+      "side": 1,
+      "message": "Remove `.only`",
+      "revId": "518deb259f0ea8d554f5aec82ecbe21e67e1ba6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -54,14 +54,8 @@ public class CreateChangeSender extends NewChangeSender {
     super.init();
 
     try {
-      // Upgrade watching owners from CC and BCC to TO.
       Watchers matching =
           getWatchers(NotifyType.NEW_CHANGES, !change.isWorkInProgress() && !change.isPrivate());
-      // TODO(hiesel): Remove special handling for owners
-      StreamSupport.stream(matching.all().accounts.spliterator(), false)
-          .filter(this::isOwnerOfProjectOrBranch)
-          .forEach(acc -> add(RecipientType.TO, acc));
-      // Add everyone else. Owners added above will not be duplicated.
       add(RecipientType.TO, matching.to);
       add(RecipientType.CC, matching.cc);
       add(RecipientType.BCC, matching.bcc);

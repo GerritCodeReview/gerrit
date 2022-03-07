@@ -94,6 +94,30 @@
       },
       "revId": "aa65072aa77784fe558cf700b711ead78649f42b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6041ea1c_5a37ebbc",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-03-07T16:43:48Z",
+      "side": 1,
+      "message": "Thanks for the detailed reply. I agree we might need to introduce multiple terms for change/topic sets. \n\nI rephrased the message according to your suggestion. Could you please take a look?",
+      "parentUuid": "1f5162bd_a77153f6",
+      "range": {
+        "startLine": 268,
+        "startChar": 45,
+        "endLine": 268,
+        "endChar": 61
+      },
+      "revId": "aa65072aa77784fe558cf700b711ead78649f42b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

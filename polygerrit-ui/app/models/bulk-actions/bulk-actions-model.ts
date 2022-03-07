@@ -35,10 +35,7 @@ const initialState: BulkActionsState = {
   totalChangeCount: 0,
 };
 
-export class BulkActionsModel
-  extends Model<BulkActionsState>
-  implements Finalizable
-{
+export class BulkActionsModel extends Model<BulkActionsState> implements Finalizable {
   // A map of all the changes in a section that can be bulk-acted upon.
   // Private but used in tests.
   allChanges: Map<NumericChangeId, ChangeInfo> = new Map();
@@ -90,6 +87,21 @@ export class BulkActionsModel
 
   clearSelectedChangeNums() {
     this.setState({...this.subject$.getValue(), selectedChangeNums: []});
+  }
+
+  getChange(changeNum: NumericChangeId): ChangeInfo|undefined {
+    return this.allChanges.get(changeNum);
+  }
+
+  getSelectedChanges(): Map<NumericChangeId, ChangeInfo> {
+    const result = new Map();
+    const current = this.subject$.getValue();
+    for (const changeNum of current.selectedChangeNums) {
+      if (this.allChanges.has(changeNum)) {
+        result.set(changeNum, this.allChanges.get(changeNum));
+      }
+    }
+    return result;
   }
 
   async sync(changes: ChangeInfo[]) {

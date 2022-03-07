@@ -87,9 +87,8 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
             .filter(u -> u.account().equals(attentionUserId))
             .findAny();
     if (!existingEntry.isPresent() || existingEntry.get().operation() == Operation.REMOVE) {
-      // We still need to perform this update to ensure that we don't add the user in a follow-up
-      // operation, but no need to send an email about it.
       notify = false;
+      return false;
     }
 
     change = ctx.getChange();

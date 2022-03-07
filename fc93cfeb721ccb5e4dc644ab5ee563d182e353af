@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92de7b77_dc3aa4cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1142970
+      },
+      "writtenOn": "2022-03-07T09:44:28Z",
+      "side": 1,
+      "message": "I tested the patch (the two commits here) with 3.5.0.1, and I get the same behaviour. The first commit allows me to match my hardware key. After the initial LOGIN, I get an immediate LOGOUT - unless I add the second commit, which allows doing multiple AUTH requests. Let me know if there is another better approach ?",
+      "revId": "fc93cfeb721ccb5e4dc644ab5ee563d182e353af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

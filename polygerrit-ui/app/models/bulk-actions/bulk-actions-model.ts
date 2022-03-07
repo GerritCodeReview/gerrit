@@ -14,6 +14,8 @@ import {
   listChangesOptionsToHex,
   ListChangesOption,
 } from '../../utils/change-util';
+import {combineLatest} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -26,23 +28,19 @@ export enum LoadingState {
 export interface BulkActionsState {
   loadingState: LoadingState;
   selectedChangeNums: NumericChangeId[];
-  totalChangeCount: number;
+  allChanges: Map<NumericChangeId, ChangeInfo>
 }
 
 const initialState: BulkActionsState = {
   loadingState: LoadingState.NOT_SYNCED,
   selectedChangeNums: [],
-  totalChangeCount: 0,
+  allChanges: new Map(),
 };
 
 export class BulkActionsModel
   extends Model<BulkActionsState>
   implements Finalizable
 {
-  // A map of all the changes in a section that can be bulk-acted upon.
-  // Private but used in tests.
-  allChanges: Map<NumericChangeId, ChangeInfo> = new Map();
-
   constructor(private readonly restApiService: RestApiService) {
     super(initialState);
   }
@@ -54,7 +52,7 @@ export class BulkActionsModel
 
   public readonly totalChangeCount$ = select(
     this.state$,
-    bulkActionsState => bulkActionsState.totalChangeCount
+    bulkActionsState => bulkActionsState.allChanges.size
   );
 
   public readonly loadingState$ = select(
@@ -62,25 +60,44 @@ export class BulkActionsModel
     bulkActionsState => bulkActionsState.loadingState
   );
 
+  public readonly allChanges$ = select(
+    this.state$,
+    bulkActionsState => bulkActionsState.allChanges
+  )
+
+  public readonly selectedChanges$ = combineLatest([
+    this.selectedChangeNums$,
+    this.allChanges$]
+  ).pipe(
+    map(([selected, allChanges]) => {
+      const result = [];
+      for (const changeNum of selected) {
+        let change = allChanges.get(changeNum);
+        if (change) result.push(change)
+      }
+      return result;
+    })
+  )
+
   addSelectedChangeNum(changeNum: NumericChangeId) {
-    if (!this.allChanges.has(changeNum)) {
+    const current = this.getState();
+    if (!current.allChanges.has(changeNum)) {
       throw new Error(
         `Trying to add change ${changeNum} that is not part of bulk-actions model`
       );
     }
-    const current = this.subject$.getValue();
     const selectedChangeNums = [...current.selectedChangeNums];
     selectedChangeNums.push(changeNum);
     this.setState({...current, selectedChangeNums});
   }
 
   removeSelectedChangeNum(changeNum: NumericChangeId) {
-    if (!this.allChanges.has(changeNum)) {
+    const current = this.getState();
+    if (!current.allChanges.has(changeNum)) {
       throw new Error(
         `Trying to remove change ${changeNum} that is not part of bulk-actions model`
       );
     }
-    const current = this.subject$.getValue();
     const selectedChangeNums = [...current.selectedChangeNums];
     const index = selectedChangeNums.findIndex(item => item === changeNum);
     if (index === -1) return;
@@ -94,7 +111,6 @@ export class BulkActionsModel
 
   async sync(changes: ChangeInfo[]) {
     const newChanges = new Map(changes.map(c => [c._number, c]));
-    this.allChanges = newChanges;
     const current = this.subject$.getValue();
     const selectedChangeNums = current.selectedChangeNums.filter(changeNum =>
       newChanges.has(changeNum)
@@ -103,7 +119,7 @@ export class BulkActionsModel
       ...current,
       loadingState: LoadingState.LOADING,
       selectedChangeNums,
-      totalChangeCount: this.allChanges.size,
+      allChanges: newChanges,
     });
 
     const query = changes.map(c => `change:${c._number}`).join(' OR ');
@@ -118,14 +134,17 @@ export class BulkActionsModel
         ListChangesOption.DETAILED_LABELS
       )
     );
+    var newCurrent = this.subject$.getValue();
     // Return early if sync has been called again since starting the load.
-    if (newChanges !== this.allChanges) return;
+    if (newChanges !== newCurrent.allChanges) return;
+    const allDetailedChanges = new Map(newChanges);
     for (const change of changeDetails ?? []) {
-      this.allChanges.set(change._number, change);
+      allDetailedChanges.set(change._number, change);
     }
     this.setState({
-      ...this.subject$.getValue(),
+      ...newCurrent,
       loadingState: LoadingState.LOADED,
+      allChanges: allDetailedChanges,
     });
   }
 

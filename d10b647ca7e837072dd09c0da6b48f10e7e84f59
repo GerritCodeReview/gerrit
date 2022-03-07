@@ -39,6 +39,30 @@
       },
       "revId": "d10b647ca7e837072dd09c0da6b48f10e7e84f59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b64b254d_c43c5843",
+        "filename": "java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-07T14:52:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84e737ef_956a5c06",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 37
+      },
+      "revId": "d10b647ca7e837072dd09c0da6b48f10e7e84f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

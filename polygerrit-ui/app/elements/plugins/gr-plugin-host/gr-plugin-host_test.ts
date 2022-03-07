@@ -15,48 +15,61 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-plugin-host.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-
-const basicFixture = fixtureFromElement('gr-plugin-host');
+import '../../../test/common-test-setup-karma';
+import './gr-plugin-host';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {GrPluginHost} from './gr-plugin-host';
+import {fixture, html} from '@open-wc/testing-helpers';
+import {ServerInfo} from '../../../api/rest-api';
 
 suite('gr-plugin-host tests', () => {
-  let element;
+  let element: GrPluginHost;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture<GrPluginHost>(html`
+      <gr-plugin-host></gr-plugin-host>
+    `);
 
     sinon.stub(document.body, 'appendChild');
   });
 
   test('load plugins should be called', async () => {
-    sinon.stub(getPluginLoader(), 'loadPlugins');
+    const loadPluginsStub = sinon.stub(getPluginLoader(), 'loadPlugins');
     element.config = {
       plugin: {
+        has_avatars: false,
         js_resource_paths: ['plugins/42', 'plugins/foo/bar', 'plugins/baz'],
       },
-    };
+    } as ServerInfo;
     await flush();
-    assert.isTrue(getPluginLoader().loadPlugins.calledOnce);
-    assert.isTrue(getPluginLoader().loadPlugins.calledWith([
-      'plugins/42', 'plugins/foo/bar', 'plugins/baz',
-    ]));
+    assert.isTrue(loadPluginsStub.calledOnce);
+    assert.isTrue(
+      loadPluginsStub.calledWith([
+        'plugins/42',
+        'plugins/foo/bar',
+        'plugins/baz',
+      ])
+    );
   });
 
   test('theme plugins should be loaded if enabled', async () => {
-    sinon.stub(getPluginLoader(), 'loadPlugins');
+    const loadPluginsStub = sinon.stub(getPluginLoader(), 'loadPlugins');
     element.config = {
       default_theme: 'gerrit-theme.js',
       plugin: {
+        has_avatars: false,
         js_resource_paths: ['plugins/42', 'plugins/foo/bar', 'plugins/baz'],
       },
-    };
+    } as ServerInfo;
     await flush();
-    assert.isTrue(getPluginLoader().loadPlugins.calledOnce);
-    assert.isTrue(getPluginLoader().loadPlugins.calledWith([
-      'gerrit-theme.js', 'plugins/42', 'plugins/foo/bar', 'plugins/baz',
-    ]));
+    assert.isTrue(loadPluginsStub.calledOnce);
+    assert.isTrue(
+      loadPluginsStub.calledWith([
+        'gerrit-theme.js',
+        'plugins/42',
+        'plugins/foo/bar',
+        'plugins/baz',
+      ])
+    );
   });
 });
-

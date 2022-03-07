@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23dbccc3_1ee95b27",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-07T09:28:00Z",
+      "side": 1,
+      "message": "Rather than using queryAndAssert, why not set up @query\u0027s?\n\nAt the top of the class:\n\n```\n@query(\u0027#openDialog\u0027)\nopenDialog?: GrDialog;\n```\n\nHere and throughout.",
+      "revId": "a2215d0f06de0ef017b21c09659c0c1f4a089396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

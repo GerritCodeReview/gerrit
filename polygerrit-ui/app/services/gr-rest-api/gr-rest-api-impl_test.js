@@ -15,18 +15,15 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import {addListenerForTest, mockPromise, stubAuth} from '../../../test/test-utils.js';
-import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
-import {ListChangesOption} from '../../../utils/change-util.js';
-import {getAppContext} from '../../../services/app-context.js';
-import {createChange} from '../../../test/test-data-generators.js';
-import {CURRENT} from '../../../utils/patch-set-util.js';
-import {
-  parsePrefixedJSON,
-  readResponsePayload,
-} from './gr-rest-apis/gr-rest-api-helper.js';
-import {JSON_PREFIX} from './gr-rest-apis/gr-rest-api-helper.js';
+import '../../test/common-test-setup-karma.js';
+import {addListenerForTest, mockPromise, stubAuth} from '../../test/test-utils.js';
+import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js';
+import {ListChangesOption} from '../../utils/change-util.js';
+import {getAppContext} from '../app-context.js';
+import {createChange} from '../../test/test-data-generators.js';
+import {CURRENT} from '../../utils/patch-set-util.js';
+import {parsePrefixedJSON, readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
+import {JSON_PREFIX} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 import {GrRestApiServiceImpl} from './gr-rest-api-impl.js';
 
 suite('gr-rest-api-service-impl tests', () => {

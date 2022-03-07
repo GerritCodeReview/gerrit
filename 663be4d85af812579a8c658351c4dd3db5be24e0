@@ -39,6 +39,30 @@
       },
       "revId": "663be4d85af812579a8c658351c4dd3db5be24e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c01e59f_a3bc0559",
+        "filename": "java/com/google/gerrit/sshd/SshKeyCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1142970
+      },
+      "writtenOn": "2022-03-07T12:14:39Z",
+      "side": 1,
+      "message": "I am trying to _avoid_ comparing the (hash of the) ECPublicKey in SkEcdsaPublicKey, by only including the encoding of the key. So that it compares the values that were added through the Gerrit dialog, i.e. the contents of the ssh pub key file.\n\n```\npublic interface SecurityKeyPublicKey\u003cK extends PublicKey\u003e extends PublicKey {\n    String getAppName();\n\n    boolean isNoTouchRequired();\n\n    K getDelegatePublicKey();\n}\n```",
+      "parentUuid": "4676f488_19f8799c",
+      "range": {
+        "startLine": 39,
+        "startChar": 35,
+        "endLine": 39,
+        "endChar": 45
+      },
+      "revId": "663be4d85af812579a8c658351c4dd3db5be24e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

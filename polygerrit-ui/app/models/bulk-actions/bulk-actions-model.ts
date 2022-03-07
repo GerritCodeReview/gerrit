@@ -14,6 +14,8 @@ import {
   listChangesOptionsToHex,
   ListChangesOption,
 } from '../../utils/change-util';
+import {combineLatest} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -26,13 +28,13 @@ export enum LoadingState {
 export interface BulkActionsState {
   loadingState: LoadingState;
   selectedChangeNums: NumericChangeId[];
-  totalChangeCount: number;
+  allChanges: Map<NumericChangeId, ChangeInfo>
 }
 
 const initialState: BulkActionsState = {
   loadingState: LoadingState.NOT_SYNCED,
   selectedChangeNums: [],
-  totalChangeCount: 0,
+  allChanges: new Map(),
 };
 
 export class BulkActionsModel
@@ -54,13 +56,32 @@ export class BulkActionsModel
 
   public readonly totalChangeCount$ = select(
     this.state$,
-    bulkActionsState => bulkActionsState.totalChangeCount
+    bulkActionsState => bulkActionsState.allChanges.size
   );
 
   public readonly loadingState$ = select(
     this.state$,
     bulkActionsState => bulkActionsState.loadingState
   );
+
+  public readonly allChanges$ = select(
+    this.state$,
+    bulkActionsState => bulkActionsState.allChanges
+  )
+
+  public readonly selectedChanges$ = combineLatest([
+    this.selectedChangeNums$,
+    this.allChanges$]
+  ).pipe(
+    map(([selected, allChanges]) => {
+      const result = [];
+      for (const changeNum of selected) {
+        let change = allChanges.get(changeNum);
+        if (change) result.push(change)
+      }
+      return result;
+    })
+  )
 
   addSelectedChangeNum(changeNum: NumericChangeId) {
     if (!this.allChanges.has(changeNum)) {
@@ -103,7 +124,7 @@ export class BulkActionsModel
       ...current,
       loadingState: LoadingState.LOADING,
       selectedChangeNums,
-      totalChangeCount: this.allChanges.size,
+      allChanges: new Map(this.allChanges),
     });
 
     const query = changes.map(c => `change:${c._number}`).join(' OR ');
@@ -126,6 +147,7 @@ export class BulkActionsModel
     this.setState({
       ...this.subject$.getValue(),
       loadingState: LoadingState.LOADED,
+      allChanges: new Map(this.allChanges),
     });
   }
 

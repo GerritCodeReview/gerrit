@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec67923a_5e4c812d",
+        "filename": "polygerrit-ui/app/elements/lit/subscription-controller.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-07T11:36:48Z",
+      "side": 1,
+      "message": "My worry with that approach is that ReactiveControllerHost could introduce a property named subscriptions, the nice thing of a symbol is that noone can have something on that same symbol.\n\nI wish I could use the symbol for typing.\nThe typing of the Map is slightly more complicated because it\u0027s not just a single T.",
+      "parentUuid": "29b4df2f_7afd7e64",
+      "revId": "9c86a0ba37ed308a807bcd44768f516689190cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b13bf0ab_53704617",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-03-07T11:28:49Z",
       "side": 1,
       "message": "Maybe rename to `hasSubscription` or `checkSubscription` or `checkForExistingSubscription`?",
+      "range": {
+        "startLine": 39,
+        "startChar": 7,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "9c86a0ba37ed308a807bcd44768f516689190cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7749d85a_e51878f3",
+        "filename": "polygerrit-ui/app/elements/lit/subscription-controller.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-07T11:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b13bf0ab_53704617",
       "range": {
         "startLine": 39,
         "startChar": 7,

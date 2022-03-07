@@ -33,10 +33,7 @@ import {
 } from '../../../types/common';
 import {fire, fireEvent, fireReload} from '../../../utils/event-util';
 import {ScrollMode} from '../../../constants/constants';
-import {
-  getRequirements,
-  showNewSubmitRequirements,
-} from '../../../utils/label-util';
+import {getRequirements} from '../../../utils/label-util';
 import {addGlobalShortcut, Key} from '../../../utils/dom-util';
 import {unique} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
@@ -309,13 +306,10 @@ export class GrChangeList extends LitElement {
   private computePreferences() {
     if (!this.config) return;
 
-    const changes = (this.sections ?? [])
-      .map(section => section.results)
-      .flat();
     this.changeTableColumns = columnNames;
     this.showNumber = false;
     this.visibleChangeTableColumns = this.changeTableColumns.filter(col =>
-      this._isColumnEnabled(col, this.config, changes)
+      this._isColumnEnabled(col, this.config)
     );
     if (this.account && this.preferences) {
       this.showNumber = !!this.preferences?.legacycid_in_change_table;
@@ -327,7 +321,7 @@ export class GrChangeList extends LitElement {
           column === 'Project' ? 'Repo' : column
         );
         this.visibleChangeTableColumns = prefColumns.filter(col =>
-          this._isColumnEnabled(col, this.config, changes)
+          this._isColumnEnabled(col, this.config)
         );
       }
     }
@@ -336,23 +330,19 @@ export class GrChangeList extends LitElement {
   /**
    * Is the column disabled by a server config or experiment?
    */
-  _isColumnEnabled(
-    column: string,
-    config?: ServerInfo,
-    changes?: ChangeInfo[]
-  ) {
+  _isColumnEnabled(column: string, config?: ServerInfo) {
     if (!columnNames.includes(column)) return false;
     if (!config || !config.change) return true;
     if (column === 'Comments')
       return this.flagsService.isEnabled('comments-column');
     if (column === 'Status') {
-      return (changes ?? []).every(
-        change => !showNewSubmitRequirements(this.flagsService, change)
+      return !this.flagsService.isEnabled(
+        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
       );
     }
     if (column === ' Status ')
-      return (changes ?? []).some(change =>
-        showNewSubmitRequirements(this.flagsService, change)
+      return this.flagsService.isEnabled(
+        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
       );
     return true;
   }

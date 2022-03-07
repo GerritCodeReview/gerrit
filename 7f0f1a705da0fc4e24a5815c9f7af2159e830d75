@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6de3e146_caaacb67",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-07T13:21:52Z",
+      "side": 1,
+      "message": "Rather than making this a prop and a variable, simply have a method on this component to compute it.",
+      "revId": "7f0f1a705da0fc4e24a5815c9f7af2159e830d75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dda39ac_3650cbc6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-07T13:21:52Z",
+      "side": 1,
+      "message": "This feels superfluous. You can just do this.requestUpdate();",
+      "revId": "7f0f1a705da0fc4e24a5815c9f7af2159e830d75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

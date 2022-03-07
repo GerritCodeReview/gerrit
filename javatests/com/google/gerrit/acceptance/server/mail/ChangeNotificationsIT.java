@@ -993,7 +993,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedPreChange spc = stagePreChange("refs/for/master");
     assertThat(sender)
         .sent("newchange", spc)
-        .to(spc.watchingProjectOwner)
+        .bcc(spc.watchingProjectOwner)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -1060,7 +1060,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedPreChange spc = stagePreChange("refs/for/master%wip,notify=ALL");
     assertThat(sender)
         .sent("newchange", spc)
-        .to(spc.watchingProjectOwner)
+        .bcc(spc.watchingProjectOwner)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -1073,10 +1073,13 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
             "refs/for/master",
             users ->
                 ImmutableList.of("r=" + users.reviewer.username(), "cc=" + users.ccer.username()));
-    FakeEmailSenderSubject subject =
-        assertThat(sender).sent("newchange", spc).to(spc.reviewer, spc.watchingProjectOwner);
-    subject.cc(spc.ccer);
-    subject.bcc(NEW_CHANGES, NEW_PATCHSETS).noOneElse();
+    assertThat(sender)
+        .sent("newchange", spc)
+        .to(spc.reviewer)
+        .cc(spc.ccer)
+        .bcc(spc.watchingProjectOwner)
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -1090,8 +1093,8 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", spc)
         .to("nobody1@example.com")
-        .to(spc.watchingProjectOwner)
         .cc("nobody2@example.com")
+        .bcc(spc.watchingProjectOwner)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -2271,8 +2274,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
-        .to(sc.reviewer, sc.watchingProjectOwner, admin)
+        .to(sc.reviewer, admin)
         .cc(sc.ccer)
+        .bcc(sc.watchingProjectOwner)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
         .noOneElse();
 
@@ -2295,8 +2299,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
-        .to(sc.reviewer, sc.watchingProjectOwner, admin)
+        .to(sc.reviewer, admin)
         .cc(sc.owner, sc.ccer)
+        .bcc(sc.watchingProjectOwner)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
         .noOneElse();
 
@@ -2320,8 +2325,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
-        .to(sc.owner, sc.reviewer, sc.watchingProjectOwner, admin)
+        .to(sc.owner, sc.reviewer, admin)
         .cc(sc.ccer)
+        .bcc(sc.watchingProjectOwner)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
         .noOneElse();
 
@@ -2345,8 +2351,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
-        .to(sc.owner, sc.reviewer, sc.watchingProjectOwner, admin)
+        .to(sc.owner, sc.reviewer, admin)
         .cc(sc.ccer, other)
+        .bcc(sc.watchingProjectOwner)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
         .noOneElse();
 

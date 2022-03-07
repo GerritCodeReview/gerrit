@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29b4df2f_7afd7e64",
+        "filename": "polygerrit-ui/app/elements/lit/subscription-controller.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-07T11:28:49Z",
+      "side": 1,
+      "message": "Alternative:\n```\ninterface HostWithSubscriptions\u003cT\u003e \u003d ReactiveControllerHost \u0026 {\n  subscriptions: Map\u003cObservable\u003cT\u003e, Set\u003c(t: T) \u003d\u003e void\u003e\u003e\n}\n```\nThen you have a slightly nicer `as HostWithSubscriptions` and you don\u0027t have to use `any` and generic Maps and Sets.",
+      "revId": "9c86a0ba37ed308a807bcd44768f516689190cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b13bf0ab_53704617",
+        "filename": "polygerrit-ui/app/elements/lit/subscription-controller.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-07T11:28:49Z",
+      "side": 1,
+      "message": "Maybe rename to `hasSubscription` or `checkSubscription` or `checkForExistingSubscription`?",
+      "range": {
+        "startLine": 39,
+        "startChar": 7,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "9c86a0ba37ed308a807bcd44768f516689190cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "test?",
       "revId": "2684fa644d9dc9ee7e29f65dacfe61e0423bdf98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec7d59e9_a9576a9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-07T17:24:03Z",
+      "side": 1,
+      "message": "i wouldn\u0027t even know where to start. i found no test for actually plugging a validator into the sender.\n\nNotificationMailFormatIT doesn\u0027t appear to test mixing users with different settings of the plain-text option. though that\u0027s something i\u0027d probably be able to cobble together quickly.\n\nfwiw, the way the plain-text mails are handled is imo a complete mess. we get mails that don\u0027t distinguish to vs. cc (see FIXME in the parent change), plain-text mails that have a -HTML suffix on the message id (when html is disabled site-wide), and the code is extremely asymmetrical.",
+      "parentUuid": "52ff2c72_71daa632",
+      "revId": "2684fa644d9dc9ee7e29f65dacfe61e0423bdf98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

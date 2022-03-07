@@ -55,6 +55,7 @@ suite('gr-dashboard-view tests', () => {
   let getChangesStub: sinon.SinonStub;
 
   setup(async () => {
+    getChangesStub = stubRestApi('getChanges');
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getAccountDetails').returns(
       Promise.resolve({
@@ -62,9 +63,6 @@ suite('gr-dashboard-view tests', () => {
       })
     );
     stubRestApi('getAccountStatus').returns(Promise.resolve(undefined));
-    getChangesStub = stubRestApi('getChanges').callsFake((_, qs) =>
-      Promise.resolve((qs as string[]).map(() => []))
-    );
 
     element = await fixture<GrDashboardView>(html`
       <gr-dashboard-view></gr-dashboard-view>
@@ -87,8 +85,7 @@ suite('gr-dashboard-view tests', () => {
         {name: 'test1', query: 'test1', hideIfEmpty: true},
         {name: 'test2', query: 'test2', hideIfEmpty: true},
       ];
-      getChangesStub.restore();
-      stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
+      getChangesStub.returns(Promise.resolve([[createChange()]]));
       await element.fetchDashboardChanges({sections}, false);
       element.loading = false;
       stubFlags('isEnabled').returns(true);
@@ -108,7 +105,7 @@ suite('gr-dashboard-view tests', () => {
       await waitUntil(() => checkbox.checked);
 
       getChangesStub.restore();
-      stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
+      getChangesStub.returns(Promise.resolve([[createChange()]]));
 
       await element.reload({
         view: GerritView.DASHBOARD,
@@ -414,8 +411,7 @@ suite('gr-dashboard-view tests', () => {
       {name: 'test1', query: 'test1', hideIfEmpty: true},
       {name: 'test2', query: 'test2', hideIfEmpty: true},
     ];
-    getChangesStub.restore();
-    stubRestApi('getChanges').returns(Promise.resolve([[createChange()]]));
+    getChangesStub.returns(Promise.resolve([[createChange()]]));
 
     await element.fetchDashboardChanges({sections}, false);
     assert.equal(element.results!.length, 1);
@@ -427,8 +423,7 @@ suite('gr-dashboard-view tests', () => {
       {name: 'Outgoing reviews', query: 'test1'},
       {name: 'test2', query: 'test2'},
     ];
-    getChangesStub.restore();
-    stubRestApi('getChanges').returns(Promise.resolve([[], []]));
+    getChangesStub.returns(Promise.resolve([[], []]));
 
     await element.fetchDashboardChanges({sections}, false);
     assert.equal(element.results!.length, 2);
@@ -571,6 +566,7 @@ suite('gr-dashboard-view tests', () => {
         sections: [],
       })
     );
+    getChangesStub.returns(Promise.resolve([]));
     const dashboardDisplayedStub = stubReporting('dashboardDisplayed');
     element.params = {
       view: GerritView.DASHBOARD,

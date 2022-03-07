@@ -34,6 +34,24 @@
       "parentUuid": "fe2c1548_9408b4c1",
       "revId": "fcdd7dffd7a2c454e5c9fb34ec005b9e688926fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7339fb0d_c20d474e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-07T17:30:54Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem opened exists on node (Node type). Also i cannot cast with PolymerDomWrapper because it doesn\u0027t extend HTMLElement.",
+      "parentUuid": "0ab969ad_25f65c56",
+      "revId": "fcdd7dffd7a2c454e5c9fb34ec005b9e688926fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

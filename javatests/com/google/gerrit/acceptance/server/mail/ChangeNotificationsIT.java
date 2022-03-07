@@ -993,7 +993,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedPreChange spc = stagePreChange("refs/for/master");
     assertThat(sender)
         .sent("newchange", spc)
-        .to(spc.watchingProjectOwner)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -1060,7 +1059,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedPreChange spc = stagePreChange("refs/for/master%wip,notify=ALL");
     assertThat(sender)
         .sent("newchange", spc)
-        .to(spc.watchingProjectOwner)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -1090,7 +1088,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", spc)
         .to("nobody1@example.com")
-        .to(spc.watchingProjectOwner)
         .cc("nobody2@example.com")
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
         .noOneElse();

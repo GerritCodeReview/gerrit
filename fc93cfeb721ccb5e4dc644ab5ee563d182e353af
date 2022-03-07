@@ -34,6 +34,23 @@
       "parentUuid": "92de7b77_dc3aa4cd",
       "revId": "fc93cfeb721ccb5e4dc644ab5ee563d182e353af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d4cd548_041fcb4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1142970
+      },
+      "writtenOn": "2022-03-07T14:21:28Z",
+      "side": 1,
+      "message": "I misunderstood the earlier comment, the hardware keys were not implemented in mina-sshd 2.6.0 but they _are_ implemented in mina-sshd 2.7.0 (and 2.8.0)\n\nhttps://issues.apache.org/jira/browse/SSHD-1114\n\nAfter upgrading gerrit sshd from 2.6.0 to 2.8.0, all that is needed is to comment out the line that checks if we have already checked something for this user...\n\n`checkState(sd.getUser() \u003d\u003d null);`",
+      "revId": "fc93cfeb721ccb5e4dc644ab5ee563d182e353af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

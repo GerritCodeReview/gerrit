@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78fcea69_eb0df8d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-03-07T06:56:44Z",
+      "side": 1,
+      "message": "This looks great!\nCR-1 for the code-comment not the tool-shedding part.",
+      "revId": "d10b647ca7e837072dd09c0da6b48f10e7e84f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84e737ef_956a5c06",
+        "filename": "java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-03-07T06:56:44Z",
+      "side": 1,
+      "message": "\u0026\u0026 refUpdatedListeners.isEmtpy()",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 37
+      },
+      "revId": "d10b647ca7e837072dd09c0da6b48f10e7e84f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

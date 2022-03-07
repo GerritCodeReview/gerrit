@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6fad615_5072f8c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-03-07T11:49:11Z",
+      "side": 1,
+      "message": "You can fix code style with: https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#style\n\nSo:\n\nYou may download and run google-java-format on your own, or you may run ./tools/setup_gjf.sh + running it",
+      "revId": "c7768c7da3224ffe0861e107ff8049baa2d27b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

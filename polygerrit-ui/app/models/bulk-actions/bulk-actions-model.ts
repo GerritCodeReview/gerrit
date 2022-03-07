@@ -92,6 +92,22 @@ export class BulkActionsModel
     this.setState({...this.subject$.getValue(), selectedChangeNums: []});
   }
 
+  getChange(changeNum: NumericChangeId): ChangeInfo | undefined {
+    return this.allChanges.get(changeNum);
+  }
+
+  getSelectedChanges(): ChangeInfo[] {
+    const result = [];
+    const current = this.subject$.getValue();
+    for (const changeNum of current.selectedChangeNums) {
+      const change = this.allChanges.get(changeNum);
+      if (change) {
+        result.push(change);
+      }
+    }
+    return result;
+  }
+
   async sync(changes: ChangeInfo[]) {
     const newChanges = new Map(changes.map(c => [c._number, c]));
     this.allChanges = newChanges;

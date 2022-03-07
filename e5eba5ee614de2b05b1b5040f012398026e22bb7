@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58950350_aabebd19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-03-07T12:40:51Z",
+      "side": 1,
+      "message": "dmitrii is on leave for a couple of weeks. Patrick can find you a new reviewer.",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

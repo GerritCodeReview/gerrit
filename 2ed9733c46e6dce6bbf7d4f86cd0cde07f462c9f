@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9081c18_eab62a70",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-07T11:42:53Z",
+      "side": 1,
+      "message": "I don\u0027t think every change needs to be abandonable, we just need to be smart about only abandoning the changes that are abandonable.",
+      "revId": "2ed9733c46e6dce6bbf7d4f86cd0cde07f462c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db9f8db8_03796fd5",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-07T11:42:53Z",
+      "side": 1,
+      "message": "I don\u0027t think this needs to be a prop, this can be computed in the component similar to isEnabled in gr-mark-as-activ-eflow.",
+      "revId": "2ed9733c46e6dce6bbf7d4f86cd0cde07f462c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

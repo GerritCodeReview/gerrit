@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "996678ec_e514af36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-03-07T09:28:23Z",
+      "side": 1,
+      "message": "Yes.\n\nSubmitRequirementIT#withMultipleAbandonAndRestore (overwrites SRs on latest PS)\nSubmitRequirementIT#abandonRestoreUpdateMerge\nSubmitRequirementIT#returnsEmpty_forAbandonedChangeWithPreviouslyStoredSRs",
+      "parentUuid": "9658020a_85725c38",
+      "range": {
+        "startLine": 23,
+        "startChar": 49,
+        "endLine": 25,
+        "endChar": 72
+      },
+      "revId": "e7b8cf544a95788e03850a1b280b1b8c337003f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53de4b04_60773da9",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-07T08:50:50Z",
       "side": 1,
       "message": "Should we not just remove all SRs we have stored (cache.asMap().entrySet().foreach(... clearSubmitRequirementResult)?",
+      "range": {
+        "startLine": 548,
+        "startChar": 6,
+        "endLine": 551,
+        "endChar": 82
+      },
+      "revId": "e7b8cf544a95788e03850a1b280b1b8c337003f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d03cee74_df83fbbf",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-03-07T09:28:23Z",
+      "side": 1,
+      "message": "I tried that. We need to invoke cache.get(commit) since builders is initially empty [1] and all builders are initialized at the time you invoke cache.get(commit) [2]. Builders are initialized using the RevisionNoteBuilder::revisionNoteMap.\n\nWe could rework the code to fill all builders on initialization, but the way it\u0027s done right now is fine IMO: we only care about clearing SRs in the revision notes for which we want to store SRs with the current update.\n\n[1] https://gerrit.googlesource.com/gerrit/+/697880c856d8ce0aa76071ac05fd673b5770a191/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java#51\n[2] https://gerrit.googlesource.com/gerrit/+/697880c856d8ce0aa76071ac05fd673b5770a191/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java#57",
+      "parentUuid": "53de4b04_60773da9",
       "range": {
         "startLine": 548,
         "startChar": 6,

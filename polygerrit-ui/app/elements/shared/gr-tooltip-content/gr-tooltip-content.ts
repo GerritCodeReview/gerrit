@@ -168,7 +168,7 @@ export class GrTooltipContent extends LitElement {
     }
   }
 
-  _handleHideTooltip(e: Event | undefined) {
+  _handleHideTooltip(e?: Event) {
     if (this.isTouchDevice) {
       return;
     }

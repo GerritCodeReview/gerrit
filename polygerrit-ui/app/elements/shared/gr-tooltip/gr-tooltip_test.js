@@ -35,7 +35,9 @@ suite('gr-tooltip tests', () => {
     element.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' +
         ', sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
     element.maxWidth = '50px';
-    assert.equal(getComputedStyle(element).width, '50px');
+    setTimeout(() => {
+      assert.equal(getComputedStyle(element).width, '50px');
+    });
   });
 
   test('the correct arrow is displayed', () => {

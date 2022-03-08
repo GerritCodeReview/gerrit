@@ -22,15 +22,35 @@ import {
   queryAndAssert,
   stubFlags,
   waitUntilObserved,
+  stubRestApi,
 } from '../../../test/test-utils';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {columnNames, ChangeListSection} from '../gr-change-list/gr-change-list';
 import {fixture, html} from '@open-wc/testing-helpers';
+import { listChangesOptionsToHex, ListChangesOption } from '../../../utils/change-util';
 
 suite('gr-change-list section', () => {
   let element: GrChangeListSection;
 
   setup(async () => {
+    const queryHex = listChangesOptionsToHex(
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.CURRENT_ACTIONS,
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.DETAILED_LABELS
+    );
+    stubRestApi('getChanges').callsFake(
+      (
+        _changesPerPage?: number,
+        _query?: string[] | string,
+        _offset?: 'n,z' | number,
+        options?: string
+      ) => {
+        if (options === queryHex)
+          return Promise.resolve([{...createChange(), actions: {}}]);
+        else return Promise.resolve([createChange()]);
+      }
+    );
     const changeSection: ChangeListSection = {
       name: 'test',
       query: 'test',
@@ -39,13 +59,11 @@ suite('gr-change-list section', () => {
           ...createChange(),
           _number: 0 as NumericChangeId,
           id: '0' as ChangeInfoId,
-          actions: {},
         },
         {
           ...createChange(),
           _number: 1 as NumericChangeId,
           id: '1' as ChangeInfoId,
-          actions: {},
         },
       ],
       emptyStateSlotName: 'test',
@@ -105,7 +123,6 @@ suite('gr-change-list section', () => {
             ...createChange(),
             _number: 1 as NumericChangeId,
             id: '1' as ChangeInfoId,
-            actions: {},
           },
         ],
         emptyStateSlotName: 'test',

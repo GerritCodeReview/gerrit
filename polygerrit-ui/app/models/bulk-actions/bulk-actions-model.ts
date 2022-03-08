@@ -70,6 +70,7 @@ export class BulkActionsModel
       return selectedChangeNums.every(selectedChangeNum => {
         const change = this.allChanges.get(selectedChangeNum);
         if (!change) throw new Error('invalid changeId in model');
+        if (!change.action) debugger;
         return !!change.actions!.abandon;
       });
     }
@@ -162,6 +163,7 @@ export class BulkActionsModel
     // Return early if sync has been called again since starting the load.
     if (newChanges !== this.allChanges) return;
     for (const change of changeDetails ?? []) {
+      if (change.actions === undefined) debugger;
       this.allChanges.set(change._number, change);
     }
     this.setState({

@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f8bcf60_2d540333",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-08T09:54:56Z",
+      "side": 1,
+      "message": "I find it makes the component more encapsulated and independent, if it subscribes to dedicated selectors and has the component state be reflected in @state props. \n\nMaybe that is even easier to test, because you can just set those @state props directly from tests for getting the component into a specific state.",
+      "parentUuid": "c6a39882_d9c9b3cb",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73033fa7_d2167f4f",
@@ -154,6 +172,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3b5ffa45_694b972f",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-08T09:54:56Z",
+      "side": 1,
+      "message": "That means we are starting to distinguish between state being managed in a `...State` object and state being managed in member fields.\n\nI don\u0027t like that, because we will then have two ways of managing state instead of one. And member field state cannot be observed. As soon as you want to derive anything reactively from member field state you have to somehow move/convert into an Observable.",
+      "parentUuid": "020b024b_bb3ad8fd",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60a82287_12a963b5",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 2
@@ -183,6 +219,24 @@
       "side": 1,
       "message": "I don\u0027t know if I like that to be selector-based.  I feel like we\u0027re trying to force too much state into props.",
       "parentUuid": "60a82287_12a963b5",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9363b32_1ada5d0c",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-08T09:54:56Z",
+      "side": 1,
+      "message": "Why do you not like it?\n\nFrom my point of view we are not \"forcing\" anything into state props, but we have chosen to do so, because we get a lot benefit from that:\n1. Everything is reactive: Can be observed and selected from.\n2. Every model manages exactly one state object.\n3. The state object is pure data. Everything in there is immutable.\n\nWhat is it that you don\u0027t like about putting state into state props?",
+      "parentUuid": "db12a96a_fe3d6d57",
       "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

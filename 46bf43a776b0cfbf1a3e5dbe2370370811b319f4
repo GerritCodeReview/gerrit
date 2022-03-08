@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09b3b818_5a1b7c18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-08T08:43:06Z",
+      "side": 1,
+      "message": "All my comments are optional. It is the first time I am looking at bulk actions related code ...\n\nFeel free to submit as is.",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a4e21a0_30945436",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-08T08:43:06Z",
+      "side": 1,
+      "message": "This is a new pattern that may want to discuss more as a team: Should we assign model information to private @state and let Lit do its job, or should we just call `requestUpdate()` and fetch the latest model information in `render()`?\n\nWhy did you choose the latter here?",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73033fa7_d2167f4f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-08T08:43:06Z",
+      "side": 1,
+      "message": "Maybe this could be simplified to\n```\n?disabled\u003d${changes \u003d\u003d\u003d 0}\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 45
+      },
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc7d1311_4df40649",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-08T08:43:06Z",
+      "side": 1,
+      "message": "Maybe move all state such as this into `BulkActionsState`?",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60a82287_12a963b5",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-08T08:43:06Z",
+      "side": 1,
+      "message": "If `this.allChanges` was inside the state, then this could be selector based maybe.",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

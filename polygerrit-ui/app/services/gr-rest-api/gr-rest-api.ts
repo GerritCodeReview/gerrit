@@ -457,24 +457,12 @@ export interface RestApiService extends Finalizable {
     offset?: 'n,z' | number,
     options?: string
   ): Promise<ChangeInfo[] | undefined>;
-  getChanges(
+  getChangesForMultipleQueries(
     changesPerPage?: number,
     query?: string[],
     offset?: 'n,z' | number,
     options?: string
   ): Promise<ChangeInfo[][] | undefined>;
-  /**
-   * @return If opt_query is an
-   * array, _fetchJSON will return an array of arrays of changeInfos. If it
-   * is unspecified or a string, _fetchJSON will return an array of
-   * changeInfos.
-   */
-  getChanges(
-    changesPerPage?: number,
-    query?: string | string[],
-    offset?: 'n,z' | number,
-    options?: string
-  ): Promise<ChangeInfo[] | ChangeInfo[][] | undefined>;
 
   getDocumentationSearches(filter: string): Promise<DocResult[] | undefined>;
 

@@ -456,7 +456,7 @@ export class GrDashboardView extends LitElement {
       }
     }
 
-    return this.restApiService.getChanges(undefined, queries).then(changes => {
+    return this.restApiService.getChangesForMultipleQueries(undefined, queries).then(changes => {
       if (!changes) {
         throw new Error('getChanges returns undefined');
       }

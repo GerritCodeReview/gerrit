@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import 'lodash/lodash.js';
-import {GrEtagDecorator} from './gr-etag-decorator.js';
+import '../../../test/common-test-setup-karma';
+import 'lodash/lodash';
+import {GrEtagDecorator} from './gr-etag-decorator';
 
 suite('gr-etag-decorator', () => {
-  let etag;
+  let etag: GrEtagDecorator;
 
-  const fakeRequest = (opt_etag, opt_status) => {
+  const fakeRequest = (opt_etag?: string, opt_status?: number) => {
     const headers = new Headers();
     if (opt_etag) {
       headers.set('etag', opt_etag);
     }
     const status = opt_status || 200;
-    return {ok: true, status, headers};
+    return {...new Response(), ok: true, status, headers};
   };
 
   setup(() => {
@@ -40,35 +40,35 @@ suite('gr-etag-decorator', () => {
   });
 
   test('works', () => {
-    etag.collect('/foo', fakeRequest('bar'));
+    etag.collect('/foo', fakeRequest('bar'), '');
     const options = etag.getOptions('/foo');
-    assert.strictEqual(options.headers.get('If-None-Match'), 'bar');
+    assert.strictEqual(options!.headers!.get('If-None-Match'), 'bar');
   });
 
   test('updates etags', () => {
-    etag.collect('/foo', fakeRequest('bar'));
-    etag.collect('/foo', fakeRequest('baz'));
+    etag.collect('/foo', fakeRequest('bar'), '');
+    etag.collect('/foo', fakeRequest('baz'), '');
     const options = etag.getOptions('/foo');
-    assert.strictEqual(options.headers.get('If-None-Match'), 'baz');
+    assert.strictEqual(options!.headers!.get('If-None-Match'), 'baz');
   });
 
   test('discards empty etags', () => {
-    etag.collect('/foo', fakeRequest('bar'));
-    etag.collect('/foo', fakeRequest());
+    etag.collect('/foo', fakeRequest('bar'), '');
+    etag.collect('/foo', fakeRequest(), '');
     const options = etag.getOptions('/foo', {headers: new Headers()});
-    assert.isNull(options.headers.get('If-None-Match'));
+    assert.isNull(options!.headers!.get('If-None-Match'));
   });
 
   test('discards etags in order used', () => {
-    etag.collect('/foo', fakeRequest('bar'));
+    etag.collect('/foo', fakeRequest('bar'), '');
     _.times(29, i => {
-      etag.collect('/qaz/' + i, fakeRequest('qaz'));
+      etag.collect(`/qaz/${i}`, fakeRequest('qaz'), '');
     });
     let options = etag.getOptions('/foo');
-    assert.strictEqual(options.headers.get('If-None-Match'), 'bar');
-    etag.collect('/zaq', fakeRequest('zaq'));
+    assert.strictEqual(options!.headers!.get('If-None-Match'), 'bar');
+    etag.collect('/zaq', fakeRequest('zaq'), '');
     options = etag.getOptions('/foo', {headers: new Headers()});
-    assert.isNull(options.headers.get('If-None-Match'));
+    assert.isNull(options!.headers!.get('If-None-Match'));
   });
 
   test('getCachedPayload', () => {
@@ -81,4 +81,3 @@ suite('gr-etag-decorator', () => {
     assert.strictEqual(etag.getCachedPayload('/foo'), 'new payload');
   });
 });
-

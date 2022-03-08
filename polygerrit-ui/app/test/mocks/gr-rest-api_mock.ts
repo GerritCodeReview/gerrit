@@ -256,6 +256,9 @@ export const grRestApiMock: RestApiService = {
   getChanges() {
     return Promise.resolve([]);
   },
+  getChangesForMultipleQueries() {
+    return Promise.resolve([]);
+  },
   getChangesSubmittedTogether(): Promise<SubmittedTogetherInfo | undefined> {
     return Promise.resolve(createSubmittedTogetherInfo());
   },

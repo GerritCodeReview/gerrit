@@ -22,18 +22,59 @@ import {
   queryAndAssert,
   stubFlags,
   waitUntilObserved,
+  stubRestApi,
 } from '../../../test/test-utils';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {columnNames, ChangeListSection} from '../gr-change-list/gr-change-list';
 import {fixture, html} from '@open-wc/testing-helpers';
+import {
+  listChangesOptionsToHex,
+  ListChangesOption,
+} from '../../../utils/change-util';
 
 suite('gr-change-list section', () => {
   let element: GrChangeListSection;
 
   setup(async () => {
-    // TODO: add a proper mock for stubRestApi based on query parsing
-    // number of changes returned needs to be parsed from the query
-    // changeNum:A or changeNum:B or changeNum:C
+    const queryHex = listChangesOptionsToHex(
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.CURRENT_ACTIONS,
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.DETAILED_LABELS
+    );
+    stubRestApi('getChanges').callsFake(
+      (
+        _changesPerPage?: number,
+        query?: string[] | string,
+        _offset?: 'n,z' | number,
+        options?: string
+      ) => {
+        if (typeof query === 'object') {
+          throw new Error('mulitple queries not supported');
+        }
+        if (!query) throw new Error('query undefined');
+        const tokens = query.split('OR');
+        const changes = tokens.map(token => {
+          const changeNum = Number(
+            token.match('change:([0-9]+)')![1]
+          ) as NumericChangeId;
+          if (!changeNum) throw new Error('changeNum undefined');
+          if (options === queryHex) {
+            return {
+              ...createChange(),
+              _number: changeNum,
+              actions: {},
+            };
+          } else {
+            return {
+              ...createChange(),
+              _number: changeNum,
+            };
+          }
+        });
+        return Promise.resolve(changes);
+      }
+    );
     const changeSection: ChangeListSection = {
       name: 'test',
       query: 'test',
@@ -42,13 +83,11 @@ suite('gr-change-list section', () => {
           ...createChange(),
           _number: 0 as NumericChangeId,
           id: '0' as ChangeInfoId,
-          actions: {},
         },
         {
           ...createChange(),
           _number: 1 as NumericChangeId,
           id: '1' as ChangeInfoId,
-          actions: {},
         },
       ],
       emptyStateSlotName: 'test',
@@ -108,7 +147,6 @@ suite('gr-change-list section', () => {
             ...createChange(),
             _number: 1 as NumericChangeId,
             id: '1' as ChangeInfoId,
-            actions: {},
           },
         ],
         emptyStateSlotName: 'test',

@@ -22,6 +22,30 @@
       },
       "revId": "8e144f9e4ca1ff3362cc6ed89e6d79fe5d0153b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0e6a5fe_1e0bed50",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-08T08:53:15Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "8196bcd3_2f8251c5",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 35
+      },
+      "revId": "8e144f9e4ca1ff3362cc6ed89e6d79fe5d0153b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

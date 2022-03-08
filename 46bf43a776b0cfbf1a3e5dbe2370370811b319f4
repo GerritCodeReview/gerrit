@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bc99fa2_8c60090f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-08T08:53:15Z",
+      "side": 1,
+      "message": "Thanks, PTAL",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a4e21a0_30945436",
@@ -35,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6a39882_d9c9b3cb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-08T08:53:15Z",
+      "side": 1,
+      "message": "The model currently only contains the selected change-numbers as a prop, not the full list of changes.  I don\u0027t like having to copy all the data into props just to copy that into an `@state` variable, as it leads to duplication of state.  \n\nThe model should tell us when the selection changes and the model has loaded, from there I feel that `render()` can extract the necessary information from the model.",
+      "parentUuid": "6a4e21a0_30945436",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73033fa7_d2167f4f",
@@ -48,6 +83,30 @@
       "writtenOn": "2022-03-08T08:43:06Z",
       "side": 1,
       "message": "Maybe this could be simplified to\n```\n?disabled\u003d${changes \u003d\u003d\u003d 0}\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 45
+      },
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23393910_8bc6a0fd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-08T08:53:15Z",
+      "side": 1,
+      "message": "This function is expected to be extended in the future, the logic is just a placeholder.",
+      "parentUuid": "73033fa7_d2167f4f",
       "range": {
         "startLine": 40,
         "startChar": 8,

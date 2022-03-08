@@ -10,22 +10,12 @@ import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
 import '../../test/common-test-setup-karma';
 import {stubRestApi, waitUntilObserved} from '../../test/test-utils';
-import {mockPromise, MockPromise} from '../../test/test-utils';
-import {
-  listChangesOptionsToHex,
-  ListChangesOption,
-} from '../../utils/change-util';
-
-const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
-  ListChangesOption.CHANGE_ACTIONS,
-  ListChangesOption.CURRENT_ACTIONS,
-  ListChangesOption.CURRENT_REVISION,
-  ListChangesOption.DETAILED_LABELS
-);
+import {mockPromise} from '../../test/test-utils';
 
 suite('bulk actions model test', () => {
   let bulkActionsModel: BulkActionsModel;
   setup(() => {
+    stubRestApi('getChangesWithActions').restore();
     bulkActionsModel = new BulkActionsModel(getAppContext().restApiService);
   });
 
@@ -160,27 +150,12 @@ suite('bulk actions model test', () => {
       LoadingState.NOT_SYNCED
     );
 
-    const responsePromise: MockPromise<ChangeInfo[]> = mockPromise();
-    const getChangesStub = stubRestApi('getChanges').callsFake(
-      (changesPerPage, query, offset, options) => {
-        assert.isUndefined(changesPerPage);
-        assert.strictEqual(query, 'change:1 OR change:2');
-        assert.isUndefined(offset);
-        assert.strictEqual(options, EXPECTED_QUERY_OPTIONS);
-        return responsePromise;
-      }
-    );
     bulkActionsModel.sync([c1, c2]);
-    assert.isTrue(getChangesStub.calledOnce);
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
       s => s === LoadingState.LOADING
     );
 
-    responsePromise.resolve([
-      {...createChange(), _number: 1, subject: 'Subject 1'},
-      {...createChange(), _number: 2, subject: 'Subject 2'},
-    ] as ChangeInfo[]);
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
       s => s === LoadingState.LOADED
@@ -204,14 +179,8 @@ suite('bulk actions model test', () => {
 
     const responsePromise1 = mockPromise<ChangeInfo[]>();
     let promise = responsePromise1;
-    const getChangesStub = stubRestApi('getChanges').callsFake(
-      (changesPerPage, query, offset, options) => {
-        assert.isUndefined(changesPerPage);
-        assert.strictEqual(query, 'change:1 OR change:2');
-        assert.isUndefined(offset);
-        assert.strictEqual(options, EXPECTED_QUERY_OPTIONS);
-        return promise;
-      }
+    const getChangesStub = stubRestApi('getChangesWithActions').callsFake(
+      () => promise
     );
     bulkActionsModel.sync([c1, c2]);
     assert.strictEqual(getChangesStub.callCount, 1);

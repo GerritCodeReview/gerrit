@@ -16,15 +16,22 @@
  */
 
 import '../../test/common-test-setup-karma.js';
-import {addListenerForTest, mockPromise, stubAuth} from '../../test/test-utils.js';
+import {addListenerForTest, mockPromise, stubAuth, stubRestApi} from '../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js';
-import {ListChangesOption} from '../../utils/change-util.js';
+import {ListChangesOption, listChangesOptionsToHex} from '../../utils/change-util.js';
 import {getAppContext} from '../app-context.js';
 import {createChange} from '../../test/test-data-generators.js';
 import {CURRENT} from '../../utils/patch-set-util.js';
 import {parsePrefixedJSON, readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 import {JSON_PREFIX} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 import {GrRestApiServiceImpl} from './gr-rest-api-impl.js';
+
+const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
+    ListChangesOption.CHANGE_ACTIONS,
+    ListChangesOption.CURRENT_ACTIONS,
+    ListChangesOption.CURRENT_REVISION,
+    ListChangesOption.DETAILED_LABELS
+);
 
 suite('gr-rest-api-service-impl tests', () => {
   let element;
@@ -1046,6 +1053,24 @@ suite('gr-rest-api-service-impl tests', () => {
       const project3 = await element.getFromProjectLookup(3);
       assert.equal(project3, 'test/test');
     });
+  });
+
+  test('getChangesWithActions', async () => {
+    const c1 = createChange();
+    c1._number = 1;
+    const c2 = createChange();
+    c2._number = 2;
+    const getChangesStub = stubRestApi('getChanges').callsFake(
+        (changesPerPage, query, offset, options) => {
+          assert.isUndefined(changesPerPage);
+          assert.strictEqual(query, 'change:1 OR change:2');
+          assert.isUndefined(offset);
+          assert.strictEqual(options, EXPECTED_QUERY_OPTIONS);
+          return mockPromise();
+        }
+    );
+    element.getChangesWithActions([c1, c2]);
+    assert.isTrue(getChangesStub.calledOnce);
   });
 
   test('_getChangeURLAndFetch', () => {

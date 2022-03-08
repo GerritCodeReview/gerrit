@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "541efc72_8b18cab6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-03-08T21:06:05Z",
+      "side": 1,
+      "message": "Thanks for replying. I agree it\u0027s similar to Patrick\u0027s change except that this is extending an existing change search operator. Creating a difference between those does not seem desirable.\n\nThis is pretty much what I\u0027ll be replying to Patrick with as well, but I\u0027ll ask here since there is this difference. \"has one extra step as supporting it as an index predicate\" -\u003e is this truly required or just \"how we currently do things\"? We\u0027ve had plenty of non-index predicates in the past, why wouldn\u0027t we augment index capabilities with non-index functionality when we need to? I think this especially is relevant for this case where you are reusing an existing operator.",
+      "parentUuid": "3d8d41a3_cac3de4c",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 68
+      },
+      "revId": "b4361c9923d17ad2af0b7dd6b2af54865e832d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d36f2267_3685d648",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -109,6 +133,30 @@
       "side": 1,
       "message": "I didn\u0027t add documentation since there was no submit requirement documentation back then. Now we have one so I added documentation:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/332282",
       "parentUuid": "ba5b46a8_263d099d",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 7
+      },
+      "revId": "b4361c9923d17ad2af0b7dd6b2af54865e832d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a36cec45_571720ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-03-08T21:06:05Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "26fcd98e_e7247694",
       "range": {
         "startLine": 32,
         "startChar": 0,
@@ -204,6 +252,24 @@
       "side": 1,
       "message": "Nasser, I had this on my reply list. Thank you for your patience.\n\nI\u0027m happy to respect any guidelines and my apologies if this has caused some frustration. Regarding this change, it\u0027s an exact same re-land as the previously reverted change. The difference was only that our internal version of the Antlr lib wasn\u0027t compatible with this change back then. I fixed it with a tiny modification and re-landed the change. This change is orthogonal to any other dev work and is not affected by any development since the revert.\n\nFor this reason I asked Edwin for a quick approval since this change was previously approved. I was/am not aware of the 24h grace period but happy to learn how it works.",
       "parentUuid": "504bb780_5331fdf5",
+      "revId": "b4361c9923d17ad2af0b7dd6b2af54865e832d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68dd342f_9a2a04f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-03-08T21:06:05Z",
+      "side": 1,
+      "message": "\u003e Nasser, I had this on my reply list. Thank you for your patience.\n\nNo problem, I\u0027ve been behind on replies too.\n\n\u003e \n\u003e I\u0027m happy to respect any guidelines and my apologies if this has caused some frustration.\n\nThanks.\n\n\u003e Regarding this change, it\u0027s an exact same re-land as the previously reverted change. The difference was only that our internal version of the Antlr lib wasn\u0027t compatible with this change back then. I fixed it with a tiny modification and re-landed the change. This change is orthogonal to any other dev work and is not affected by any development since the revert.\n\n(combining this with Edwin\u0027s reply as my reply applies to both)\n\n\u003e Yes, I think so. The motivation for the 24h grace period is to be sure we are fine with the long-term support commitment that a new feature adds. For this feature there were no concerns with this on the original change, so I don\u0027t see why there should be concerns in this regards with exactly the same feature a little later. But I agree this is debatable. \n\nI do understand your view points; however, this sounds to me a bit like \"you missed your chance\". I do have concerns with how this is being implemented and advertised to users. Are those concerns not valid because I didn\u0027t raise them in November?\n\n\u003e \n\u003e For this reason I asked Edwin for a quick approval since this change was previously approved. I was/am not aware of the 24h grace period but happy to learn how it works.\n\nI provided a link to the ESC notes on it in my first comment.\n\nHow can we better ensure all maintainers are aware of this expectation? (likely related to comments below)\n\n\u003e I believe this is true (without having checked the data). Since you are bringing this up, I understand that you see this as a problem?\n\nI think it limits opportunities for feedback. Of course someone can comment on a change after it\u0027s merged, but it\u0027s much more difficult to get someone to go back and make more changes at that point.\n\n\u003e If so, I think we should discuss in more details to which kind of changes this grace period should apply. At the moment it just says \"changes that imply a long-term support commitment, eg. user-visible features, or API extensions.\" which can mean a lot of different things to different people. Also I think we missed to document this rule as part of our processes. How should we proceed this with this discussion, should we put it onto the agenda for the next CM meeting, or is this too long to wait?\n\nI don\u0027t think there\u0027s anything CM specific about this, do you? This feels more like a discussion that could happen on repo-discuss.",
+      "parentUuid": "737737dc_f9a399cc",
       "revId": "b4361c9923d17ad2af0b7dd6b2af54865e832d7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8196bcd3_2f8251c5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-08T08:41:21Z",
+      "side": 0,
+      "message": "I would retain this TODO",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 35
+      },
+      "revId": "8e144f9e4ca1ff3362cc6ed89e6d79fe5d0153b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

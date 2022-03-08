@@ -185,13 +185,14 @@ suite('bulk actions model test', () => {
       bulkActionsModel.loadingState$,
       s => s === LoadingState.LOADED
     );
+    const model = bulkActionsModel.getState();
 
     assert.strictEqual(
-      bulkActionsModel.allChanges.get(1 as NumericChangeId)?.subject,
+      model.allChanges.get(1 as NumericChangeId)?.subject,
       'Subject 1'
     );
     assert.strictEqual(
-      bulkActionsModel.allChanges.get(2 as NumericChangeId)?.subject,
+      model.allChanges.get(2 as NumericChangeId)?.subject,
       'Subject 2'
     );
   });
@@ -234,12 +235,13 @@ suite('bulk actions model test', () => {
       bulkActionsModel.loadingState$,
       s => s === LoadingState.LOADED
     );
+    const model = bulkActionsModel.getState();
     assert.strictEqual(
-      bulkActionsModel.allChanges.get(1 as NumericChangeId)?.subject,
+      model.allChanges.get(1 as NumericChangeId)?.subject,
       'Subject 1'
     );
     assert.strictEqual(
-      bulkActionsModel.allChanges.get(2 as NumericChangeId)?.subject,
+      model.allChanges.get(2 as NumericChangeId)?.subject,
       'Subject 2'
     );
 
@@ -249,14 +251,15 @@ suite('bulk actions model test', () => {
       {...createChange(), _number: 2, subject: 'Subject 2-old'},
     ] as ChangeInfo[]);
     await flush();
+    const model2 = bulkActionsModel.getState();
 
     // No change should happen.
     assert.strictEqual(
-      bulkActionsModel.allChanges.get(1 as NumericChangeId)?.subject,
+      model2.allChanges.get(1 as NumericChangeId)?.subject,
       'Subject 1'
     );
     assert.strictEqual(
-      bulkActionsModel.allChanges.get(2 as NumericChangeId)?.subject,
+      model2.allChanges.get(2 as NumericChangeId)?.subject,
       'Subject 2'
     );
   });

@@ -7,34 +7,36 @@ import {html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
-import {NumericChangeId} from '../../../types/common';
+import {ChangeInfo} from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-overlay/gr-overlay';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 
 @customElement('gr-change-list-mark-active-flow')
 export class GrChangeListMarkActiveFlow extends LitElement {
-  @state()
-  private selectedChangeNums: NumericChangeId[] = [];
-
   @query('gr-overlay')
   private overlay!: GrOverlay;
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
+  @state() selectedChanges: ChangeInfo[] = [];
+
   override connectedCallback(): void {
     super.connectedCallback();
     subscribe(
       this,
-      this.getBulkActionsModel().selectedChangeNums$,
-      selectedChangeNums => (this.selectedChangeNums = selectedChangeNums)
+      this.getBulkActionsModel().selectedChanges$,
+      selectedChanges => {
+        this.selectedChanges = selectedChanges;
+      }
     );
   }
 
   override render() {
+    const changesStr = this.selectedChanges.map(c => c._number).join(', ');
     return html`
       <gr-button
-        .disabled=${!this.isEnabled()}
+        ?disabled=${!this.isEnabled()}
         flatten
         @click=${() => this.overlay.open()}
         >mark as active</gr-button
@@ -43,17 +45,18 @@ export class GrChangeListMarkActiveFlow extends LitElement {
         <gr-dialog @cancel=${() => this.overlay.close()}>
           <div slot="header">Mark Changes as Active</div>
           <div slot="main">
-            <div>Selected changes: ${this.selectedChangeNums.join(', ')}</div>
+            <div>Selected changes: ${changesStr}</div>
           </div>
         </gr-dialog>
       </gr-overlay>
     `;
   }
 
-  private isEnabled() {
+  private isEnabled(): boolean {
     // TODO: This is sample enable logic. Normally we would also use permissions
     // from the model data somehow.
-    return this.selectedChangeNums.length > 0;
+    if (this.selectedChanges.length === 0) return false;
+    return true;
   }
 }
 declare global {

@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "59ab5b02_ebb8e83e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-03-08T22:27:46Z",
+      "side": 1,
+      "message": "Your suggestion looked good, so I picked it.",
+      "parentUuid": "986dd080_b212789a",
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f80c3329_0cdd499f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -81,6 +99,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd210451_03cc4fcb",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-03-08T22:27:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "782e1d73_c1eda7ba",
+      "range": {
+        "startLine": 403,
+        "startChar": 17,
+        "endLine": 403,
+        "endChar": 18
+      },
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cb693da_d3833485",
@@ -98,6 +140,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b9889df_a2cc3591",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-03-08T22:27:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cb693da_d3833485",
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58fb84bd_bcaf8acd",
@@ -111,6 +171,30 @@
       "writtenOn": "2022-03-05T17:23:00Z",
       "side": 1,
       "message": "you need to adjust these as well - the above is only the special handling for project/branch owners.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 43
+      },
+      "revId": "4c364e6e8ba8fd981d32a2478a65be8da54d4190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f26d134_8421e63b",
+        "filename": "java/com/google/gerrit/server/mail/send/CreateChangeSender.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-03-08T22:27:46Z",
+      "side": 1,
+      "message": "No, these call NotificationEmail#add(RecipientType, Watchers.List) which call addWatcher for the accounts.",
+      "parentUuid": "58fb84bd_bcaf8acd",
       "range": {
         "startLine": 65,
         "startChar": 0,

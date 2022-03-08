@@ -10,10 +10,6 @@ import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
-import {
-  listChangesOptionsToHex,
-  ListChangesOption,
-} from '../../utils/change-util';
 import {combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -122,18 +118,10 @@ export class BulkActionsModel
       allChanges: newChanges,
     });
 
-    const query = changes.map(c => `change:${c._number}`).join(' OR ');
-    const changeDetails = await this.restApiService.getChanges(
-      undefined,
-      query,
-      undefined,
-      listChangesOptionsToHex(
-        ListChangesOption.CHANGE_ACTIONS,
-        ListChangesOption.CURRENT_ACTIONS,
-        ListChangesOption.CURRENT_REVISION,
-        ListChangesOption.DETAILED_LABELS
-      )
-    );
+    const changeDetails =
+      await this.restApiService.getDetailedChangesWithActions(
+        changes.map(c => c._number)
+      );
     const newCurrent = this.subject$.getValue();
     // Return early if sync has been called again since starting the load.
     if (newChanges !== newCurrent.allChanges) return;

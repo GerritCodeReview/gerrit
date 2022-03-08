@@ -68,6 +68,7 @@ import {
   GroupId,
   GroupName,
   UrlEncodedRepoName,
+  NumericChangeId,
 } from '../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../types/diff';
 import {readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
@@ -257,6 +258,18 @@ export const grRestApiMock: RestApiService = {
   },
   getChangesSubmittedTogether(): Promise<SubmittedTogetherInfo | undefined> {
     return Promise.resolve(createSubmittedTogetherInfo());
+  },
+  getDetailedChangesWithActions(changeNums: NumericChangeId[]) {
+    return Promise.resolve(
+      changeNums.map(changeNum => {
+        return {
+          ...createChange(),
+          actions: {},
+          _number: changeNum,
+          subject: `Subject ${changeNum}`,
+        };
+      })
+    );
   },
   getChangesWithSameTopic(): Promise<ChangeInfo[] | undefined> {
     return Promise.resolve([]);

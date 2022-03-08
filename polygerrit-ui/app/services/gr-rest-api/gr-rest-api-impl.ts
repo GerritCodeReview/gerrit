@@ -1108,6 +1108,22 @@ export class GrRestApiServiceImpl
     });
   }
 
+  async getDetailedChangesWithActions(changeNums: NumericChangeId[]) {
+    const query = changeNums.map(num => `change:${num}`).join(' OR ');
+    const changeDetails = await this.getChanges(
+      undefined,
+      query,
+      undefined,
+      listChangesOptionsToHex(
+        ListChangesOption.CHANGE_ACTIONS,
+        ListChangesOption.CURRENT_ACTIONS,
+        ListChangesOption.CURRENT_REVISION,
+        ListChangesOption.DETAILED_LABELS
+      )
+    );
+    return changeDetails;
+  }
+
   /**
    * Inserts a change into _projectLookup iff it has a valid structure.
    */

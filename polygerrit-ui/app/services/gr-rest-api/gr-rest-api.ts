@@ -451,6 +451,10 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<{[pluginName: string]: PluginInfo} | undefined>;
 
+  getDetailedChangesWithActions(
+    changeNums: NumericChangeId[]
+  ): Promise<ChangeInfo[] | undefined>;
+
   getChanges(
     changesPerPage?: number,
     query?: string,

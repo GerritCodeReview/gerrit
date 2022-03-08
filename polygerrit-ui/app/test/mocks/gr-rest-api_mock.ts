@@ -68,6 +68,7 @@ import {
   GroupId,
   GroupName,
   UrlEncodedRepoName,
+  NumericChangeId,
 } from '../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../types/diff';
 import {readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
@@ -86,6 +87,7 @@ import {
   createDefaultPreferences,
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
+import { listChangesOptionsToHex, ListChangesOption } from '../../utils/change-util';
 
 export const grRestApiMock: RestApiService = {
   addAccountEmail(): Promise<Response> {
@@ -252,11 +254,45 @@ export const grRestApiMock: RestApiService = {
   getChangeSuggestedReviewers(): Promise<SuggestedReviewerInfo[] | undefined> {
     return Promise.resolve([]);
   },
-  getChanges() {
-    return Promise.resolve([]);
-  },
   getChangesForMultipleQueries() {
     return Promise.resolve([]);
+  },
+  getChanges(
+    _changesPerPage?: number,
+    query?: string[] | string,
+    _offset?: 'n,z' | number,
+    options?: string
+  ) {
+    const queryHex = listChangesOptionsToHex(
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.CURRENT_ACTIONS,
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.DETAILED_LABELS
+    );
+    if (typeof query === 'object') {
+      throw new Error('mulitple queries not supported');
+    }
+    if (!query) throw new Error('query undefined');
+    const tokens = query.split('OR');
+    const changes = tokens.map(token => {
+      const changeNum = Number(
+        token.match('change:([0-9]+)')![1]
+      ) as NumericChangeId;
+      if (!changeNum) throw new Error('changeNum undefined');
+      if (options === queryHex) {
+        return {
+          ...createChange(),
+          _number: changeNum,
+          actions: {},
+        };
+      } else {
+        return {
+          ...createChange(),
+          _number: changeNum,
+        };
+      }
+    });
+    return Promise.resolve(changes);
   },
   getChangesSubmittedTogether(): Promise<SubmittedTogetherInfo | undefined> {
     return Promise.resolve(createSubmittedTogetherInfo());

@@ -136,6 +136,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "020b024b_bb3ad8fd",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-08T09:00:03Z",
+      "side": 1,
+      "message": "See comment below.\n\nI feel like forcing everything into props doesn\u0027t make sense. It feels like multiplexing everything into a single object, only to demultiplex it again in the selectors.\n\nFrom a user-perspective, there are 2 reactive aspects to this model:\n  - Are the changes that are selected changed\n  - Is the information of the changes being loaded in the background.\n  \nGiven their reactive nature, it makes sense to have those as props.  But then trying to map selectedChangeNums.map(x \u003d\u003e allChanges.get(x)) into the model-state feels unnecessary as that can simply be fetched by a method on the model when you know the model has changed.",
+      "parentUuid": "bc7d1311_4df40649",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60a82287_12a963b5",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 2
@@ -147,6 +165,24 @@
       "writtenOn": "2022-03-08T08:43:06Z",
       "side": 1,
       "message": "If `this.allChanges` was inside the state, then this could be selector based maybe.",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db12a96a_fe3d6d57",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-08T09:00:03Z",
+      "side": 1,
+      "message": "I don\u0027t know if I like that to be selector-based.  I feel like we\u0027re trying to force too much state into props.",
+      "parentUuid": "60a82287_12a963b5",
       "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

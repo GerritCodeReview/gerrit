@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9118c8e_1acec686",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-08T18:27:03Z",
+      "side": 1,
+      "message": "getDetailedChangesWithActions?\n\nAlso I would simplify this to take as input simply an array of NumericChangeId.",
+      "revId": "efb79b02bf6e3e916faab40f4c1f162bfb9556ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

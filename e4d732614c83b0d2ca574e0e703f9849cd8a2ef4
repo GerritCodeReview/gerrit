@@ -16,6 +16,24 @@
       "message": "Typically these are moved to the class and defined as `@query`",
       "revId": "e4d732614c83b0d2ca574e0e703f9849cd8a2ef4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e04eb6ce_7dcd604b",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-08T22:30:50Z",
+      "side": 0,
+      "message": "Thanks, done.",
+      "parentUuid": "f55a6631_78d3a81f",
+      "revId": "e4d732614c83b0d2ca574e0e703f9849cd8a2ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

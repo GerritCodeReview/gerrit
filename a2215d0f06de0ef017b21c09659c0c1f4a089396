@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a094a2fb_4125fdb9",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-08T22:30:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b7fdd740_fdd324c0",
+      "revId": "a2215d0f06de0ef017b21c09659c0c1f4a089396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23dbccc3_1ee95b27",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6ca019b_bde7c747",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-08T22:30:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "23dbccc3_1ee95b27",
+      "revId": "a2215d0f06de0ef017b21c09659c0c1f4a089396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fe3d869_a71a0ca5",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-03-07T09:46:14Z",
       "side": 1,
       "message": "You don\u0027t need all these queryAndAssert if you define the dialogs as member variables as mentioned on the other file.",
+      "revId": "a2215d0f06de0ef017b21c09659c0c1f4a089396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a1f49c4_5abe4d0b",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-08T22:30:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6fe3d869_a71a0ca5",
       "revId": "a2215d0f06de0ef017b21c09659c0c1f4a089396",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -188,6 +188,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5667490_bb4e8d35",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-08T18:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b5ffa45_694b972f",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60a82287_12a963b5",
@@ -237,6 +255,24 @@
       "side": 1,
       "message": "Why do you not like it?\n\nFrom my point of view we are not \"forcing\" anything into state props, but we have chosen to do so, because we get a lot benefit from that:\n1. Everything is reactive: Can be observed and selected from.\n2. Every model manages exactly one state object.\n3. The state object is pure data. Everything in there is immutable.\n\nWhat is it that you don\u0027t like about putting state into state props?",
       "parentUuid": "db12a96a_fe3d6d57",
+      "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6d66ef1_46b51f7c",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-08T18:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9363b32_1ada5d0c",
       "revId": "46bf43a776b0cfbf1a3e5dbe2370370811b319f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -456,31 +456,35 @@ export class GrDashboardView extends LitElement {
       }
     }
 
-    return this.restApiService.getChanges(undefined, queries).then(changes => {
-      if (!changes) {
-        throw new Error('getChanges returns undefined');
-      }
-      if (checkForNewUser) {
-        // Last set of results is not meant for dashboard display.
-        const lastResultSet = changes.pop();
-        this.showNewUserHelp = lastResultSet!.length === 0;
-      }
-      this.results = changes
-        .map((results, i) => {
-          return {
-            name: res.sections[i].name,
-            countLabel: this.computeSectionCountLabel(results),
-            query: res.sections[i].query,
-            results: this.maybeSortResults(res.sections[i].name, results),
-            emptyStateSlotName: slotNameBySectionName.get(res.sections[i].name),
-          };
-        })
-        .filter(
-          (section, i) =>
-            i < res.sections.length &&
-            (!res.sections[i].hideIfEmpty || section.results.length)
-        );
-    });
+    return this.restApiService
+      .getChangesForMultipleQueries(undefined, queries)
+      .then(changes => {
+        if (!changes) {
+          throw new Error('getChanges returns undefined');
+        }
+        if (checkForNewUser) {
+          // Last set of results is not meant for dashboard display.
+          const lastResultSet = changes.pop();
+          this.showNewUserHelp = lastResultSet!.length === 0;
+        }
+        this.results = changes
+          .map((results, i) => {
+            return {
+              name: res.sections[i].name,
+              countLabel: this.computeSectionCountLabel(results),
+              query: res.sections[i].query,
+              results: this.maybeSortResults(res.sections[i].name, results),
+              emptyStateSlotName: slotNameBySectionName.get(
+                res.sections[i].name
+              ),
+            };
+          })
+          .filter(
+            (section, i) =>
+              i < res.sections.length &&
+              (!res.sections[i].hideIfEmpty || section.results.length)
+          );
+      });
   }
 
   /**

@@ -47,15 +47,19 @@ import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrCreateChangeHelp} from '../gr-create-change-help/gr-create-change-help';
 import {PageErrorEvent} from '../../../types/events';
 import {fixture, html} from '@open-wc/testing-helpers';
+import {SinonStubbedMember} from 'sinon';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 suite('gr-dashboard-view tests', () => {
   let element: GrDashboardView;
 
   let paramsChangedPromise: Promise<any>;
-  let getChangesStub: sinon.SinonStub;
+  let getChangesStub: SinonStubbedMember<
+    RestApiService['getChangesForMultipleQueries']
+  >;
 
   setup(async () => {
-    getChangesStub = stubRestApi('getChanges');
+    getChangesStub = stubRestApi('getChangesForMultipleQueries');
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getAccountDetails').returns(
       Promise.resolve({

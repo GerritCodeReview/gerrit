@@ -1024,7 +1024,7 @@ suite('gr-rest-api-service-impl tests', () => {
           ]));
       // When opt_query instanceof Array, _fetchJSON returns
       // Array<Array<Object>>.
-      await element.getChanges(null, []);
+      await element.getChangesForMultipleQueries(null, []);
       assert.equal(Object.keys(element._projectLookup).length, 3);
       const project1 = await element.getFromProjectLookup(1);
       assert.equal(project1, 'test');

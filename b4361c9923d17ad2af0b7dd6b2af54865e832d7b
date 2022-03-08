@@ -140,6 +140,24 @@
       "parentUuid": "d2f1fc4d_6d9c14e4",
       "revId": "b4361c9923d17ad2af0b7dd6b2af54865e832d7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "737737dc_f9a399cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-03-08T12:59:17Z",
+      "side": 1,
+      "message": "Nasser, I had this on my reply list. Thank you for your patience.\n\nI\u0027m happy to respect any guidelines and my apologies if this has caused some frustration. Regarding this change, it\u0027s an exact same re-land as the previously reverted change. The difference was only that our internal version of the Antlr lib wasn\u0027t compatible with this change back then. I fixed it with a tiny modification and re-landed the change. This change is orthogonal to any other dev work and is not affected by any development since the revert.\n\nFor this reason I asked Edwin for a quick approval since this change was previously approved. I was/am not aware of the 24h grace period but happy to learn how it works.",
+      "parentUuid": "504bb780_5331fdf5",
+      "revId": "b4361c9923d17ad2af0b7dd6b2af54865e832d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

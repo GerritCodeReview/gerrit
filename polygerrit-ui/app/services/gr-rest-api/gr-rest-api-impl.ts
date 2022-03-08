@@ -1028,32 +1028,13 @@ export class GrRestApiServiceImpl
     });
   }
 
-  getChanges(
-    changesPerPage?: number,
-    query?: string,
-    offset?: 'n,z' | number,
-    options?: string
-  ): Promise<ChangeInfo[] | undefined>;
-
-  getChanges(
+  getChangesForMultipleQueries(
     changesPerPage?: number,
     query?: string[],
     offset?: 'n,z' | number,
     options?: string
-  ): Promise<ChangeInfo[][] | undefined>;
-
-  /**
-   * @return If opt_query is an
-   * array, _fetchJSON will return an array of arrays of changeInfos. If it
-   * is unspecified or a string, _fetchJSON will return an array of
-   * changeInfos.
-   */
-  getChanges(
-    changesPerPage?: number,
-    query?: string | string[],
-    offset?: 'n,z' | number,
-    options?: string
-  ): Promise<ChangeInfo[] | ChangeInfo[][] | undefined> {
+  ): Promise<ChangeInfo[][] | undefined> {
+    if (!query) return Promise.resolve(undefined);
     options = options || this._getChangesOptionsHex();
     // Issue 4524: respect legacy token with max sortkey.
     if (offset === 'n,z') {
@@ -1088,23 +1069,61 @@ export class GrRestApiServiceImpl
           this._maybeInsertInLookup(change);
         }
       };
-      // Response may be an array of changes OR an array of arrays of
-      // changes.
-      if (query instanceof Array) {
-        // Normalize the response to look like a multi-query response
-        // when there is only one query.
-        const responseArray: Array<ChangeInfo[]> =
-          query.length === 1
-            ? [response as ChangeInfo[]]
-            : (response as ChangeInfo[][]);
-        for (const arr of responseArray) {
-          iterateOverChanges(arr);
-        }
-        return responseArray;
-      } else {
-        iterateOverChanges(response as ChangeInfo[]);
-        return response as ChangeInfo[];
+      // Normalize the response to look like a multi-query response
+      // when there is only one query.
+      const responseArray: Array<ChangeInfo[]> =
+        query.length === 1
+          ? [response as ChangeInfo[]]
+          : (response as ChangeInfo[][]);
+      for (const arr of responseArray) {
+        iterateOverChanges(arr);
       }
+      return responseArray;
+    });
+  }
+
+  getChanges(
+    changesPerPage?: number,
+    query?: string,
+    offset?: 'n,z' | number,
+    options?: string
+  ): Promise<ChangeInfo[] | undefined> {
+    options = options || this._getChangesOptionsHex();
+    // Issue 4524: respect legacy token with max sortkey.
+    if (offset === 'n,z') {
+      offset = 0;
+    }
+    const params: QueryChangesParams = {
+      O: options,
+      S: offset || 0,
+    };
+    if (changesPerPage) {
+      params.n = changesPerPage;
+    }
+    if (query && query.length > 0) {
+      params.q = query;
+    }
+    const request = {
+      url: '/changes/',
+      params,
+      reportUrlAsIs: true,
+    };
+
+    return Promise.resolve(
+      this._restApiHelper.fetchJSON(request, true) as Promise<
+        ChangeInfo[] | undefined
+      >
+    ).then(response => {
+      if (!response) {
+        return;
+      }
+      const iterateOverChanges = (arr: ChangeInfo[]) => {
+        for (const change of arr) {
+          this._maybeInsertInLookup(change);
+        }
+      };
+      iterateOverChanges(response);
+      return response;
     });
   }
 

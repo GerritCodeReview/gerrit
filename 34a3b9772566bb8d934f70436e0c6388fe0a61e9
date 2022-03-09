@@ -22,6 +22,30 @@
       },
       "revId": "34a3b9772566bb8d934f70436e0c6388fe0a61e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43e8a5b3_66eacba5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T10:23:03Z",
+      "side": 0,
+      "message": "because `.contentText` (a div inside content) used to contain the whole background for the cell (e.g. green/red). Since we now add an outline for the whole cell we want the background to take the whole cell instead (e.g. an added cell with a slotted comment). Besides, having the background in the same element with the inline box-shadow prevents it to be hidden from the background.",
+      "parentUuid": "f6c3cd0f_67e80214",
+      "range": {
+        "startLine": 194,
+        "startChar": 5,
+        "endLine": 194,
+        "endChar": 16
+      },
+      "revId": "34a3b9772566bb8d934f70436e0c6388fe0a61e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

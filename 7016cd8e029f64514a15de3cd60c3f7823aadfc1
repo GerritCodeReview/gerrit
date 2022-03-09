@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47c304c8_3b7f0adc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T10:23:03Z",
+      "side": 1,
+      "message": "no, this is not required. This was only a refactoring step I had to take whenever trying to place a div between the cell and the `.contentText` div - there are places in gr-diff where we have a strict dependency on direct parent-child relationship which makes changing the DOM much more rigid. Even though we didn\u0027t take this direction it took me a long time to find/remove these implicit expectations thought it would be healthier for gr-diff to don\u0027t have them so directly.\n\nI\u0027ve just split these refactorings into another change (https://gerrit-review.googlesource.com/c/gerrit/+/332379) to make a clear separation.",
+      "parentUuid": "bfc7362d_e1a86b9a",
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c13a8c5_b9118d46",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
         "patchSetId": 33
@@ -48,6 +66,24 @@
       "writtenOn": "2022-03-09T09:10:50Z",
       "side": 1,
       "message": "Does the UX team still want that? Or should we stick to the normal color of the line number?",
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "760f6c2c_7d63ccc6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T10:23:03Z",
+      "side": 1,
+      "message": "The color seems a tiny bit more prominent than regular font-color for line numbers so I kept this instead of removing it. I don\u0027t have a strong opinion and could remove it if UX team wants so - but it felt to me like a small change (not much worth discussing a lot) we can do later by iterating over the issue.",
+      "parentUuid": "8c13a8c5_b9118d46",
       "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4f24ee2_aef34cc2",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T10:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9029aaa_6f363cf1",
+      "range": {
+        "startLine": 194,
+        "startChar": 6,
+        "endLine": 194,
+        "endChar": 25
+      },
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0aa08d17_0e1f047b",
@@ -92,6 +152,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "111449f6_c6e54b19",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T10:23:03Z",
+      "side": 1,
+      "message": "it makes sense. Done!",
+      "parentUuid": "0aa08d17_0e1f047b",
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16c8d493_06f58f37",
@@ -105,6 +183,30 @@
       "writtenOn": "2022-03-09T09:10:50Z",
       "side": 1,
       "message": "Maybe `td.lineNum.right` for consistency?",
+      "range": {
+        "startLine": 204,
+        "startChar": 50,
+        "endLine": 204,
+        "endChar": 56
+      },
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dafbf1b_0e8a4862",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T10:23:03Z",
+      "side": 1,
+      "message": "The problem is that this cell doesn\u0027t always take `.lineNum` class (e.g. a removed line - there is no corresponding right line number on the right side and gr-diff-builder ends up not adding .lineNum).\n\nSince if I add `.lineNum` it won\u0027t work for these cases, I suppose I should keep simply `.right`?",
+      "parentUuid": "16c8d493_06f58f37",
       "range": {
         "startLine": 204,
         "startChar": 50,

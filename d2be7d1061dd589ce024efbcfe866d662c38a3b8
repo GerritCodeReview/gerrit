@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dd152f2_e02712ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-03-09T10:42:46Z",
+      "side": 1,
+      "message": "Thanks Renan for making the UX work without flickering!\n\nI noticed in the screencast that focus border in Gerrit while focusing on a comment card is now using black while we currently use a blue focus border around comment card in Gerrit. \n\nI would like to keep the current focus border color in Gerrit.",
+      "revId": "d2be7d1061dd589ce024efbcfe866d662c38a3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

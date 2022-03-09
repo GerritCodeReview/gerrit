@@ -178,6 +178,12 @@ An operator that always returns false for all changes. An example usage is to
 redefine a submit requirement in a child project and make the submit requirement
 always non-applicable.
 
+[[operator_file]]
+file:"'<filePattern>',withDiffContaining='<contentPattern>'"::
++
+An operator that returns true if the latest patchset contained a modified file
+matching `<filePattern>` with a modified region matching `<contentPattern>`.
+
 [[unsupported_operators]]
 === Unsupported Operators
 

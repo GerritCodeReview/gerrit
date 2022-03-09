@@ -77,6 +77,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "46a48d20_4be2c498",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-09T01:07:18Z",
+      "side": 1,
+      "message": "The default ChangeEvent has ChangeInfo, which already has an attentionSet() method to provide the current status of the attention set.\n\nI see that some events[1] extend the base event, but others[2] don\u0027t. The current attention set seemed enough, but it would be nice if it gave extra data on who exactly was added/deleted. Would AccountInfo[3] or AttentionSetUpdate[4] be a better way to represent someone like that?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/changes/39/331239/10/java/com/google/gerrit/extensions/events/ChangeAbandonedListener.java\n[2] https://gerrit.googlesource.com/gerrit/+/refs/changes/39/331239/10/java/com/google/gerrit/extensions/events/ChangeDeletedListener.java\n[3] https://gerrit.googlesource.com/gerrit/+/refs/changes/39/331239/10/java/com/google/gerrit/extensions/common/AccountInfo.java\n[4] https://gerrit.googlesource.com/gerrit/+/refs/changes/39/331239/10/java/com/google/gerrit/entities/AttentionSetUpdate.java",
+      "parentUuid": "4c568795_d5b6ca93",
+      "range": {
+        "startLine": 109,
+        "startChar": 24,
+        "endLine": 109,
+        "endChar": 28
+      },
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83625077_b8659e3f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 10

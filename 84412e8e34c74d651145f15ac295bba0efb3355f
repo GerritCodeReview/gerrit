@@ -33,6 +33,24 @@
       "message": "I think await element.updateComplete; should be sufficient.\n\nIf it\u0027s not you could add an await flush(); with a comment as to why it\u0027s necessary.\n\nawait flush(); basically does the same thing as setTimeout(() \u003d\u003e ...) but using async syntax.",
       "revId": "84412e8e34c74d651145f15ac295bba0efb3355f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a248fe23_52e62333",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-09T12:46:22Z",
+      "side": 1,
+      "message": "Can we even use element.updateComplete in Gerrit 3.3? I understood that this is only a property of LitElements, which was only introduced in Gerrit 3.5: https://gerrit-review.googlesource.com/c/gerrit/+/319695. I would like to keep the change as small as possible. I will try await flush().\nThanks!",
+      "parentUuid": "f748cf69_775d1882",
+      "revId": "84412e8e34c74d651145f15ac295bba0efb3355f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

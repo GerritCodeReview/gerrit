@@ -52,6 +52,57 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0e64be9_c601368b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-09T10:07:45Z",
+      "side": 1,
+      "message": "Sorry for the many comments, basically this LGTM except for a few nits and the question of what data should be included in the event.\n\nI\u0027ll be out today and back on the 17th.",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29cc697c_a26b2964",
+        "filename": "java/com/google/gerrit/extensions/events/AttentionSetListener.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-09T10:07:45Z",
+      "side": 1,
+      "message": "Why not take a ChangeEvent directly?",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01557dd9_655e910b",
+        "filename": "java/com/google/gerrit/extensions/events/AttentionSetListener.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-09T10:07:45Z",
+      "side": 1,
+      "message": "Could you add Javadoc here?",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c568795_d5b6ca93",
@@ -95,6 +146,98 @@
         "endLine": 109,
         "endChar": 28
       },
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59cdbef3_bc093cc2",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-09T10:07:45Z",
+      "side": 1,
+      "message": "I think the common caveat here is that across the network notifications may race, so if you embed the info in them you may get e.g. a sequence of \"added, removed\" which suggests the end state \"removed\" when in fact it was vice versa. To avoid this the notification can be considered to be only a hint that the current status should be requested from the authoritative source.\n\nThat being said, I\u0027m not sure about your use case, maybe this is not a relevant problem, in which case AttentionSetUpdate would seem useful to include. Can you say something about the context in the change description?",
+      "parentUuid": "46a48d20_4be2c498",
+      "range": {
+        "startLine": 109,
+        "startChar": 24,
+        "endLine": 109,
+        "endChar": 28
+      },
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b75b5fc_08a147e2",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-09T10:07:45Z",
+      "side": 1,
+      "message": "Can we have the name reflect that this helps with firing an event? The class name suggests that this object represents the change, or is in fact itself the event.",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fec28a53_f3712bc7",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-09T10:07:45Z",
+      "side": 1,
+      "message": "Since this is part of the public API, could you add Javadoc?",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c99ca251_261166a6",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-09T10:07:45Z",
+      "side": 1,
+      "message": "This wording seems a bit misleading in the case where the listener is called (so the event is fired) but throws an exception.",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f4f39bf_f9bdcd71",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-09T10:07:45Z",
+      "side": 1,
+      "message": "This class hierarchy seems confusing to me. Why not just use a ChangeEvent and remove this class and the homonymous one in AttentionSetListener? I realize there is precedent for this, but it does seem unnecessarily complex.",
       "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

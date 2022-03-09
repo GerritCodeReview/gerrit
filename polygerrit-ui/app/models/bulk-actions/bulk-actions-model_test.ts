@@ -5,12 +5,19 @@
  */
 
 import {createChange} from '../../test/test-data-generators';
-import {ChangeInfo, NumericChangeId} from '../../api/rest-api';
+import {
+  ChangeInfo,
+  NumericChangeId,
+  ChangeStatus,
+  HttpMethod,
+} from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
 import '../../test/common-test-setup-karma';
 import {stubRestApi, waitUntilObserved} from '../../test/test-utils';
 import {mockPromise} from '../../test/test-utils';
+import {SinonStubbedMember} from 'sinon';
+import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 
 suite('bulk actions model test', () => {
   let bulkActionsModel: BulkActionsModel;
@@ -100,6 +107,44 @@ suite('bulk actions model test', () => {
 
     assert.isEmpty(selectedChangeNums);
     assert.equal(totalChangeCount, 2);
+  });
+
+  suite('abandon changes', () => {
+    let detailedActionsStub: SinonStubbedMember<
+      RestApiService['getDetailedChangesWithActions']
+    >;
+    setup(async () => {
+      detailedActionsStub = stubRestApi('getDetailedChangesWithActions');
+      const c1 = createChange();
+      c1._number = 1 as NumericChangeId;
+      const c2 = createChange();
+      c2._number = 2 as NumericChangeId;
+
+      detailedActionsStub.returns(
+        Promise.resolve([
+          {...c1, actions: {abandon: {method: HttpMethod.POST}}},
+          {...c2, status: ChangeStatus.ABANDONED, actions: {abandon: {}}},
+        ])
+      );
+
+      bulkActionsModel.sync([c1, c2]);
+
+      bulkActionsModel.addSelectedChangeNum(c1._number);
+      bulkActionsModel.addSelectedChangeNum(c2._number);
+    });
+
+    test('already abandoned change does not call executeChangeAction', () => {
+      const actionStub = stubRestApi('executeChangeAction');
+      bulkActionsModel.abandonChanges();
+      assert.equal(actionStub.callCount, 1);
+      assert.deepEqual(actionStub.lastCall.args.slice(0, 5), [
+        1 as NumericChangeId,
+        HttpMethod.POST,
+        '/abandon',
+        undefined,
+        {message: ''},
+      ]);
+    });
   });
 
   test('stale changes are removed from the model', async () => {

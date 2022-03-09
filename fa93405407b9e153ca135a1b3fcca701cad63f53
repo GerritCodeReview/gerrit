@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9003f8a5_34cd94a0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T10:37:43Z",
+      "side": 1,
+      "message": "Are we sure this is the only place in our code that sends multiple queries?\n\n@brohlfs",
+      "revId": "fa93405407b9e153ca135a1b3fcca701cad63f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9b4ac26_40bdfe0f",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T10:37:43Z",
+      "side": 1,
+      "message": "Can you factor out the common logic?",
+      "revId": "fa93405407b9e153ca135a1b3fcca701cad63f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -148,7 +148,7 @@ interface SyntaxLayerRange {
   className: string;
 }
 
-interface SyntaxLayerState {
+export interface SyntaxLayerState {
   sectionIndex: number;
   lineIndex: number;
   baseContext: unknown;
@@ -162,9 +162,11 @@ export class GrSyntaxLayer implements DiffLayer {
 
   enabled = true;
 
-  private baseRanges: SyntaxLayerRange[][] = [];
+  // private but used in test
+  baseRanges: SyntaxLayerRange[][] = [];
 
-  private revisionRanges: SyntaxLayerRange[][] = [];
+  // private but used in test
+  revisionRanges: SyntaxLayerRange[][] = [];
 
   private baseLanguage?: string;
 

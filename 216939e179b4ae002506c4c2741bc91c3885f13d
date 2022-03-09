@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a940fa3b_bb6b3ac9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 40
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T17:19:16Z",
+      "side": 1,
+      "message": "the added unified here was a failed attempt to reuse these properties - excluded.\n\nIn general I\u0027m trying to find the balance between sharing behavior between side-by-side and unified, because there is a good amount of shared visual behavior for the outline (e.g. [line number - content] borders). But still handling the exceptional case for unified. I changed a bit (and fixed a thing I\u0027ve just saw in unified), PTAL.",
+      "parentUuid": "a3baa066_533fc95c",
+      "range": {
+        "startLine": 178,
+        "startChar": 4,
+        "endLine": 178,
+        "endChar": 73
+      },
+      "revId": "216939e179b4ae002506c4c2741bc91c3885f13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22df4188_8bd07e58",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
         "patchSetId": 40
@@ -37,6 +61,24 @@
       "writtenOn": "2022-03-09T15:36:04Z",
       "side": 1,
       "message": "Maybe generally set `line-height` for the \u003ctd\u003e, not the \u003cgr-button\u003e. The button will inherit.",
+      "revId": "216939e179b4ae002506c4c2741bc91c3885f13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a33865_f7e8f080",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 40
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T17:19:16Z",
+      "side": 1,
+      "message": "I agree. It\u0027s clearer as it\u0027s bound to the box-shadow and padding anyway.",
+      "parentUuid": "22df4188_8bd07e58",
       "revId": "216939e179b4ae002506c4c2741bc91c3885f13d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +96,30 @@
       "writtenOn": "2022-03-09T15:36:04Z",
       "side": 1,
       "message": "This is identical to lines 176-177. Can we just move the `color:...` line up into the other block?",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 190,
+        "endChar": 76
+      },
+      "revId": "216939e179b4ae002506c4c2741bc91c3885f13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb9d86d2_11f4e508",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 40
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T17:19:16Z",
+      "side": 1,
+      "message": "another failed attempt to split spacing and color rules to reuse spacing rules for the exception case (in unified) that shouldn\u0027t be colored. Anyway.. changed again. PTAL.",
+      "parentUuid": "782a3e9b_faea2c43",
       "range": {
         "startLine": 189,
         "startChar": 4,

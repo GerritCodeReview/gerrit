@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9d10bc6_2f778dec",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T12:35:07Z",
+      "side": 1,
+      "message": "`.disabled\u003d${!this.isEnabled()}`",
+      "revId": "e359b608be9250888138165b76e5af81d7e2498d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aded495e_858493f2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T12:35:07Z",
+      "side": 1,
+      "message": "To make this more legible, maybe consider:\n\n```\nprivate isEnabled() {\n  return this.selectedChanges.every(change \u003d\u003e {\n    return !!change.actions.abandon;\n  });\n}\n```\n\nThe double negation threw me off.",
+      "revId": "e359b608be9250888138165b76e5af81d7e2498d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

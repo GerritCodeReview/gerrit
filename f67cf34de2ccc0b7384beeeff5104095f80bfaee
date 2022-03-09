@@ -104,6 +104,24 @@
       "parentUuid": "90a669ec_03fbb836",
       "revId": "f67cf34de2ccc0b7384beeeff5104095f80bfaee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c64a63b3_234a3f4f",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 53
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T12:35:07Z",
+      "side": 1,
+      "message": "Sg.\n\nI was thinking it was looking for some changes that don\u0027t have the method.",
+      "parentUuid": "1caaa0e9_32d5ce1d",
+      "revId": "f67cf34de2ccc0b7384beeeff5104095f80bfaee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

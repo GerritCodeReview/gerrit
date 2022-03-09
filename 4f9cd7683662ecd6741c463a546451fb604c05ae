@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12176025_f3ad99d5",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-03-09T07:57:30Z",
+      "side": 1,
+      "message": "nit: would keep the original `doc` here and use `document|data` in lambda so that is closer to the original change - highly opinionated so will not insist :D",
+      "range": {
+        "startLine": 493,
+        "startChar": 43,
+        "endLine": 493,
+        "endChar": 51
+      },
+      "revId": "4f9cd7683662ecd6741c463a546451fb604c05ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90d51dc5_5908fa4f",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-03-09T07:57:30Z",
+      "side": 1,
+      "message": "nit: AFAIR we typically prefix `NameKey` with its parent class to avoid confusion so would add `Project.` here",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 502,
+        "endChar": 11
+      },
+      "revId": "4f9cd7683662ecd6741c463a546451fb604c05ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f68fabdc_8ed39a34",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-03-09T07:57:30Z",
+      "side": 1,
+      "message": "I have just freshly initiated `stable-3.5` Gerrit with the change in question and noticed that neither `ref` nor `private` are part of index document (have created change on two ways: from UI and pushing through SSH) hence it means that `changeFromProto` will be always parsed. Adding this up to #510 I can see that at present it may be parsed two times (as another time will happen when change data will be materialized). Would it make sense to reorder logic so that both fields are extracted before materializer is created so that it can parse change from proto only in case if it is not parsed earlier?\n\nHere are fields that are part of the `document` MultiMap:\n```\n_patch_set, updated2, added, _change, delta, full_submit_record_strict, project, reviewedby, cherrypick, ref_state, merge, total_comments, legacy_id_str, attentionuserscount, ref_state_pattern, unresolved, deleted, full_submit_record_lenient\n```",
+      "range": {
+        "startLine": 541,
+        "startChar": 0,
+        "endLine": 563,
+        "endChar": 5
+      },
+      "revId": "4f9cd7683662ecd6741c463a546451fb604c05ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

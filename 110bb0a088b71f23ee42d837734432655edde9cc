@@ -124,6 +124,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1ffa308_e0291964",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T08:52:38Z",
+      "side": 1,
+      "message": "I explained some of these in the comments and while having meetings. Marking this as resolved.",
+      "parentUuid": "e0198315_9eb092b8",
+      "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "397c3312_df09baa9",
@@ -155,6 +173,24 @@
       "side": 1,
       "message": "I spent a good time experimenting all approaches - having transparent borders, divs between contentText and content, etc. My conclusions:\n\n- There is a expectation that there is no permanent padding/margin/border between lines, because their background needs to touch each other vertically.\n- There is also the expectation lineNumButton vertically touch vertical siblings (vertical line).\n\nI changed the code a bit. PTAL",
       "parentUuid": "397c3312_df09baa9",
+      "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7fc2530_0b951367",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T08:52:38Z",
+      "side": 1,
+      "message": "I explained some of these in the comments and while having meetings. Marking this as resolved.",
+      "parentUuid": "c86064d0_9030e957",
       "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -194,6 +230,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d3319a9_9c68afdc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T08:52:38Z",
+      "side": 1,
+      "message": "I explained some of these in the comments and while having meetings. Marking this as resolved.",
+      "parentUuid": "349ae086_5c161291",
+      "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "904a6a67_fd737170",
@@ -225,6 +279,24 @@
       "side": 1,
       "message": "I replaced the background for add/remove to directly affect the cells - and therefore having the same box-shadow. It seems to work for the text but not for the line numbers (that are buttons) - apparently.",
       "parentUuid": "904a6a67_fd737170",
+      "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81863d16_6c1945c7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T08:52:38Z",
+      "side": 1,
+      "message": "I explained some of these in the comments and while having meetings. Marking this as resolved.",
+      "parentUuid": "15c469d0_fcfef138",
       "revId": "110bb0a088b71f23ee42d837734432655edde9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

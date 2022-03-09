@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99d730a5_0b220046",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T08:52:38Z",
+      "side": 1,
+      "message": "Hi folks,\n\nI tried to add somewhat comprehensive comments about why each \"hack\" is being made. I hope it\u0027s clear but we can still iterate on that if needed.",
+      "revId": "95511c95342bc31d0a8db1e54780819f59b29973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ChangeInfo, NumericChangeId} from '../../api/rest-api';
+import {ChangeInfo, NumericChangeId, ChangeStatus} from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
@@ -108,6 +108,9 @@ export class BulkActionsModel
       if (!current.allChanges.get(changeNum))
         throw new Error('invalid change id');
       const change = current.allChanges.get(changeNum)!;
+      if (change.status === ChangeStatus.ABANDONED) {
+        return Promise.resolve(new Response());
+      }
       return this.restApiService.executeChangeAction(
         change._number,
         change.actions!.abandon!.method,

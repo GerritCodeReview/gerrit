@@ -162,6 +162,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c11a60b2_ee33ef55",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-09T12:38:17Z",
+      "side": 1,
+      "message": "At the moment this rule does take effect, because of being less specific than the existing for deemphasized color. Maybe move this rule to the `.lineNumButton` section below.",
+      "parentUuid": "cf22b013_150ed669",
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9029aaa_6f363cf1",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
         "patchSetId": 33
@@ -279,6 +297,30 @@
       "side": 1,
       "message": "The problem is that this cell doesn\u0027t always take `.lineNum` class (e.g. a removed line - there is no corresponding right line number on the right side and gr-diff-builder ends up not adding .lineNum).\n\nSince if I add `.lineNum` it won\u0027t work for these cases, I suppose I should keep simply `.right`?",
       "parentUuid": "16c8d493_06f58f37",
+      "range": {
+        "startLine": 204,
+        "startChar": 50,
+        "endLine": 204,
+        "endChar": 56
+      },
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5931c72b_a0097192",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-09T12:38:17Z",
+      "side": 1,
+      "message": "Maybe `td.right` then? And add a short comment to the code:\n```\nNot using `.lineNum` here, because we also want to target cells in right line number column that don\u0027t contain an actual line number.\n```",
+      "parentUuid": "7dafbf1b_0e8a4862",
       "range": {
         "startLine": 204,
         "startChar": 50,

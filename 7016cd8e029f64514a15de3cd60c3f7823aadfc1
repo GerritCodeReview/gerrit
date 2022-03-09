@@ -178,6 +178,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "267610e5_944a1332",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T14:45:57Z",
+      "side": 1,
+      "message": "It makes sense and thanks for the catch! I didn\u0027t even realize this was rule was being overridden after my change (#css).",
+      "parentUuid": "c11a60b2_ee33ef55",
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9029aaa_6f363cf1",
@@ -321,6 +339,30 @@
       "side": 1,
       "message": "Maybe `td.right` then? And add a short comment to the code:\n```\nNot using `.lineNum` here, because we also want to target cells in right line number column that don\u0027t contain an actual line number.\n```",
       "parentUuid": "7dafbf1b_0e8a4862",
+      "range": {
+        "startLine": 204,
+        "startChar": 50,
+        "endLine": 204,
+        "endChar": 56
+      },
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40ff809f_2cbfbabb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T14:45:57Z",
+      "side": 1,
+      "message": "Done.\n\nBy doing that I broke the scenario - I think due to css specificity.\n\nI noticed `.right` was apparently less specific than some rules I had before for adding spaces - and it was mostly working for the empty td case. After adding `td.right` I broke the case of having an actual button inside this cell due to lack of spacing and I fixed it by making explicit we also need these \"fix the height\" for the unified case as we need for the selected td cases. PTAL",
+      "parentUuid": "5931c72b_a0097192",
       "range": {
         "startLine": 204,
         "startChar": 50,

@@ -70,6 +70,30 @@
       },
       "revId": "34a3b9772566bb8d934f70436e0c6388fe0a61e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bcafb0c_76031c12",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-09T14:45:57Z",
+      "side": 0,
+      "message": "Hi @Delphine and @Mariana, could you check if this background behavior is ok? I (had to) expand the (green/red) background to the whole cell whenever we have a comment. It doesn\u0027t affect the background of the comment card itself but the diff background of where the comment is placed.",
+      "parentUuid": "2a276ccf_8f34b207",
+      "range": {
+        "startLine": 194,
+        "startChar": 5,
+        "endLine": 194,
+        "endChar": 16
+      },
+      "revId": "34a3b9772566bb8d934f70436e0c6388fe0a61e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

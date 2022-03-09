@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61cf5737_0bb40f18",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-09T11:07:17Z",
+      "side": 1,
+      "message": "Not 100% but maybe you can check the results of this Code Search to be sure: https://cs.opensource.google/search?q\u003d%5C.getChanges%5C(%20f:polygerrit\u0026sq\u003d",
+      "parentUuid": "9003f8a5_34cd94a0",
+      "revId": "fa93405407b9e153ca135a1b3fcca701cad63f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e9b4ac26_40bdfe0f",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-09T10:37:43Z",
       "side": 1,
       "message": "Can you factor out the common logic?",
+      "revId": "fa93405407b9e153ca135a1b3fcca701cad63f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9170118a_a3dfed73",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-09T11:07:17Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "e9b4ac26_40bdfe0f",
       "revId": "fa93405407b9e153ca135a1b3fcca701cad63f53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

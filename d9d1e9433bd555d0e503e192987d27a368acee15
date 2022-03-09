@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbc39c5a_efd5c1f2",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T19:04:11Z",
+      "side": 1,
+      "message": "Don\u0027t you need to set the status to 200, or is that default for new Response?\n\nThis is one of the things that makes me wonder if we should be returning full responses to the component or just the Status.\n\nWDYT?",
+      "revId": "d9d1e9433bd555d0e503e192987d27a368acee15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

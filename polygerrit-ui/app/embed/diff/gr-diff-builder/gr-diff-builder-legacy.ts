@@ -132,7 +132,9 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
       }
       const lineNumberEl = this.getLineNumberEl(el, side);
       el.parentElement.replaceChild(
-        this.createTextEl(lineNumberEl, line, side).firstChild!,
+        this.createTextEl(lineNumberEl, line, side).querySelector(
+          '.contentText'
+        )!,
         el
       );
     }

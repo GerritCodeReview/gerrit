@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7214026f_43f0bdef",
+        "filename": "polygerrit-ui/app/utils/focusable.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T10:34:25Z",
+      "side": 1,
+      "message": "Good idea, done.",
+      "parentUuid": "39b0b180_c42172bc",
+      "range": {
+        "startLine": 16,
+        "startChar": 17,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "12be5fba11a54a493b8d889dacceaf13b087e674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20625502_acd039b5",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae07d335_1d4473fa",
+        "filename": "polygerrit-ui/app/utils/focusable.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T10:34:25Z",
+      "side": 1,
+      "message": "We check the shadowroot of the children in the recursive call at line 29.\n\nAnd no, I don\u0027t see why children could be shadowroot, we extract from the shadowroot in 29.",
+      "parentUuid": "20625502_acd039b5",
+      "range": {
+        "startLine": 32,
+        "startChar": 21,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "12be5fba11a54a493b8d889dacceaf13b087e674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34219631_2f488ec4",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-03-09T08:58:12Z",
       "side": 1,
       "message": "It would be nice to have test with shadow inside shadow like \n```\n\u003cgr-hovercard\u003e \n \u003cgr-account-chips\u003e\n```",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 6
+      },
+      "revId": "12be5fba11a54a493b8d889dacceaf13b087e674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "484583ec_c39b0bd9",
+        "filename": "polygerrit-ui/app/utils/focusable_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T10:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34219631_2f488ec4",
       "range": {
         "startLine": 42,
         "startChar": 2,

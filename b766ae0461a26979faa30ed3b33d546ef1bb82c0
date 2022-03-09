@@ -16,6 +16,24 @@
       "message": "that\u0027s still second, not first.\n(i suppose you might be trying to keep the diff small or prevent it from looking funny, but i think such considerations apply only when everything else is equal).\n\nactually, this whole block should read like this:\n\n  if (!isWatcher) {\n    Optional\u003cAccountState\u003e accountState \u003d args.accountCache.get(to);\n    if (accountState.isPresent()\n        \u0026\u0026 accountState.get().generalPreferences().getEmailStrategy()\n              \u003d\u003d EmailStrategy.ATTENTION_SET_ONLY\n        \u0026\u0026 !currentAttentionSet.contains(to)) {\n      return;\n    }\n  }\n\nthat mildly changes the logic, but it\u0027s what was actually there before fd238889b33c.",
       "revId": "b766ae0461a26979faa30ed3b33d546ef1bb82c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c906340d_6b021ab6",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-03-09T17:28:50Z",
+      "side": 1,
+      "message": "Now it is first :). I think I changed it a bit fast and did not look it through carefully enough.",
+      "parentUuid": "3825974a_c483e227",
+      "revId": "b766ae0461a26979faa30ed3b33d546ef1bb82c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2173ec9f_6cd96e50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-09T15:41:13Z",
+      "side": 1,
+      "message": "What is the reason for picking this into 3.3?\n\nIs Bazel already switched to version 5 in 3.3?\n\nGenerally I would say the change looks good, but it is also a very substantial BUILD change, so I would prefer to have someone from the community add a +2 to indicate that you really want and need this on stable branches.\n\n",
+      "revId": "6104d0f448fa8dc621fd7d745814b7877867afc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

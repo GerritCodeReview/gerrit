@@ -104,7 +104,8 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Test
   public void revisionActionsTwoChangesInTopic() throws Exception {
-    String changeId = createChangeWithTopic().getChangeId();
+    PushOneCommit.Result change1 = createChangeWithTopic();
+    String changeId = change1.getChangeId();
     approve(changeId);
     PushOneCommit.Result change2 = createChangeWithTopic();
     int legacyId2 = change2.getChange().getId().get();
@@ -117,8 +118,12 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
       assertThat(info.title)
-          .matches(
+          .startsWith(
               "Change "
+                  + change1.getChange().getId()
+                  + " must be submitted with change "
+                  + legacyId2
+                  + " but "
                   + legacyId2
                   + " is not ready: submit requirement 'Code-Review' is unsatisfied.");
     } else {

@@ -15,23 +15,31 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {AdminPluginApi} from '../../../api/admin';
+import {PluginApi} from '../../../api/plugin';
+import '../../../test/common-test-setup-karma';
+import '../../shared/gr-js-api-interface/gr-js-api-interface';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-admin-api tests', () => {
-  let adminApi;
+  let adminApi: AdminPluginApi;
+  let plugin: PluginApi;
 
   setup(() => {
-    let plugin;
-    window.Gerrit.install(p => { plugin = p; }, '0.1',
-        'http://test.com/plugins/testplugin/static/test.js');
+    window.Gerrit.install(
+      p => {
+        plugin = p;
+      },
+      '0.1',
+      'http://test.com/plugins/testplugin/static/test.js'
+    );
     getPluginLoader().loadPlugins([]);
     adminApi = plugin.admin();
   });
 
   teardown(() => {
-    adminApi = null;
+    // have to type as any to set this to null
+    adminApi = null as any;
   });
 
   test('exists', () => {
@@ -49,8 +57,10 @@ suite('gr-admin-api tests', () => {
     adminApi.addMenuLink('text', 'url', 'capability');
     const links = adminApi.getMenuLinks();
     assert.equal(links.length, 1);
-    assert.deepEqual(links[0],
-        {text: 'text', url: 'url', capability: 'capability'});
+    assert.deepEqual(links[0], {
+      text: 'text',
+      url: 'url',
+      capability: 'capability',
+    });
   });
 });
-

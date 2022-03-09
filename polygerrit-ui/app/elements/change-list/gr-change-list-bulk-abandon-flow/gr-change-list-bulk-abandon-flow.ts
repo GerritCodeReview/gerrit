@@ -8,7 +8,7 @@ import {customElement, state, query} from 'lit/decorators';
 import {LitElement, html, css} from 'lit';
 import {resolve} from '../../../models/dependency';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
-import {NumericChangeId, ChangeInfo} from '../../../api/rest-api';
+import {NumericChangeId, ChangeInfo, ChangeStatus} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ProgressStatus} from '../../../constants/constants';
@@ -96,8 +96,7 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
   private isEnabled() {
     return this.selectedChanges.every(
       change =>
-        // TODO: Add handling for when change is already abandoned
-        !!change.actions?.abandon
+        !!change.actions?.abandon || change.status === ChangeStatus.ABANDONED
     );
   }
 
@@ -113,11 +112,9 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
     };
     const promises = this.getBulkActionsModel().abandonChanges('', errFn);
     for (let index = 0; index < promises.length; index++) {
-      promises[index].then(result => {
+      promises[index].then(() => {
         const changeNum = this.selectedChanges[index]._number;
-        if (result?.status !== 200)
-          this.progress.set(changeNum, ProgressStatus.FAILED);
-        else this.progress.set(changeNum, ProgressStatus.SUCCESSFUL);
+        this.progress.set(changeNum, ProgressStatus.SUCCESSFUL);
         this.requestUpdate();
       });
     }

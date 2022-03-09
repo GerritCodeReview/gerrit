@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce6f81de_3a5ec871",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 53
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T11:09:50Z",
+      "side": 1,
+      "message": "This should not be possible.",
+      "revId": "f67cf34de2ccc0b7384beeeff5104095f80bfaee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcc20a61_c679e5f7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 53
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T11:09:50Z",
+      "side": 1,
+      "message": "I think we should check if the change is already abandoned.\n\nIf some change are not abandoned and not abandonable then we should disable the button, if some changes are not abandonable but they\u0027re already abandoned we should enable the button and make sure the bulk-actions-model does the right thing.\n\nBasically abandoning a change that\u0027s already abandoned should count as a no-op.  But we should guard against changes that are not abandonable at all.",
+      "revId": "f67cf34de2ccc0b7384beeeff5104095f80bfaee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90a669ec_03fbb836",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 53
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T11:09:50Z",
+      "side": 1,
+      "message": "What about those change actions that don\u0027t have an abandon method?\n\nIf they\u0027re already abandoned we should be returning an immediately fulfilled promise, if they\u0027re not abandoned and not abandonable, then we should return a failure.",
+      "revId": "f67cf34de2ccc0b7384beeeff5104095f80bfaee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "507fb913_98be3727",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-09T09:10:50Z",
+      "side": 1,
+      "message": "Looks good. Thanks! Just some nits.",
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfc7362d_e1a86b9a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-09T09:10:50Z",
+      "side": 1,
+      "message": "Is this required for this change?",
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c13a8c5_b9118d46",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-09T09:10:50Z",
+      "side": 1,
+      "message": "Does the UX team still want that? Or should we stick to the normal color of the line number?",
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9029aaa_6f363cf1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-09T09:10:50Z",
+      "side": 1,
+      "message": "Maybe move this comment to before \"inset\" for consistency with other comments.",
+      "range": {
+        "startLine": 194,
+        "startChar": 6,
+        "endLine": 194,
+        "endChar": 25
+      },
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aa08d17_0e1f047b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-09T09:10:50Z",
+      "side": 1,
+      "message": "This affects the line number cells, right? Then maybe move it to before the content cell styles.",
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16c8d493_06f58f37",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 33
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-09T09:10:50Z",
+      "side": 1,
+      "message": "Maybe `td.lineNum.right` for consistency?",
+      "range": {
+        "startLine": 204,
+        "startChar": 50,
+        "endLine": 204,
+        "endChar": 56
+      },
+      "revId": "7016cd8e029f64514a15de3cd60c3f7823aadfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

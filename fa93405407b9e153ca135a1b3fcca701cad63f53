@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "984c32c0_150b9e86",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T11:58:09Z",
+      "side": 1,
+      "message": "If there was an invalid usage then the compiler would throw an error?",
+      "parentUuid": "61cf5737_0bb40f18",
+      "revId": "fa93405407b9e153ca135a1b3fcca701cad63f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e9b4ac26_40bdfe0f",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 3
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "e9b4ac26_40bdfe0f",
+      "revId": "fa93405407b9e153ca135a1b3fcca701cad63f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b006ccf9_dcfea275",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T11:58:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9170118a_a3dfed73",
       "revId": "fa93405407b9e153ca135a1b3fcca701cad63f53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

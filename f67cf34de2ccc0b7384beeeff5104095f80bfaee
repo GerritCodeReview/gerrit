@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d9fc62a_abb217fc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 53
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T11:44:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce6f81de_3a5ec871",
+      "revId": "f67cf34de2ccc0b7384beeeff5104095f80bfaee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcc20a61_c679e5f7",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "193dcc74_a133b9c3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 53
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T11:44:57Z",
+      "side": 1,
+      "message": "I agree.\nI added a TODO and will tackle in a follow up change. I think it requires some consideration to see how we handle it in the model abandon() method, do we make the request at all.\nI want to keep this change for the basic flow.",
+      "parentUuid": "fcc20a61_c679e5f7",
+      "revId": "f67cf34de2ccc0b7384beeeff5104095f80bfaee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90a669ec_03fbb836",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-03-09T11:09:50Z",
       "side": 1,
       "message": "What about those change actions that don\u0027t have an abandon method?\n\nIf they\u0027re already abandoned we should be returning an immediately fulfilled promise, if they\u0027re not abandoned and not abandonable, then we should return a failure.",
+      "revId": "f67cf34de2ccc0b7384beeeff5104095f80bfaee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1caaa0e9_32d5ce1d",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 53
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T11:44:57Z",
+      "side": 1,
+      "message": "I don\u0027t understand the question.\n\n\u003e\u003e What about those change actions that don\u0027t have an abandon method?\nButton is disabled if abandon is not allowed.\n\nI\u0027ll add the cases for when change is abandoned already in a follow up change. Added a TODO for it",
+      "parentUuid": "90a669ec_03fbb836",
       "revId": "f67cf34de2ccc0b7384beeeff5104095f80bfaee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

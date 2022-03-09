@@ -194,6 +194,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b13e328_96deab22",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 46
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T11:44:57Z",
+      "side": 1,
+      "message": "I think in the meeting we agreed to unblock implementation by agreeing that model makes the API call otherwise we end up having the discussion here again(without Frank) which I think is not ideal.\nI would propose to go ahead with the proposed solution and refactor later if required.",
+      "parentUuid": "df07624f_a201acbf",
+      "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36dd3229_df86f5f0",

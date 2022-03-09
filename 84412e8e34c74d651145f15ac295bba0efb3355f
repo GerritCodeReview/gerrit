@@ -69,6 +69,24 @@
       "parentUuid": "a248fe23_52e62333",
       "revId": "84412e8e34c74d651145f15ac295bba0efb3355f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc42268f_52f4f78f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-09T12:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c288f977_14c35dc8",
+      "revId": "84412e8e34c74d651145f15ac295bba0efb3355f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

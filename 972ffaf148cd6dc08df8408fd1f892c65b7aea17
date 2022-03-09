@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "580e171f_f4a45830",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T13:27:48Z",
+      "side": 1,
+      "message": "This was already being used in gr-cherry-pick-confirm hence I decided to move it to constants so that we don\u0027t have to duplicate the definitions.",
+      "parentUuid": "2569777d_ec1a8757",
+      "revId": "972ffaf148cd6dc08df8408fd1f892c65b7aea17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf1ed3e6_31ce8e1f",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-07T11:42:53Z",
       "side": 1,
       "message": "Unrelated change?",
+      "revId": "972ffaf148cd6dc08df8408fd1f892c65b7aea17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa60d632_66d8a7e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T13:27:48Z",
+      "side": 1,
+      "message": "This was already being used is gr-cherry-pick-confirm hence I decided to move it to constants so that we don\u0027t have to duplicate the definitions.",
+      "parentUuid": "bf1ed3e6_31ce8e1f",
       "revId": "972ffaf148cd6dc08df8408fd1f892c65b7aea17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

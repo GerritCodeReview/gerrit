@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e34931d6_8dae75bb",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T13:27:48Z",
+      "side": 1,
+      "message": "Added a TODO to handle this later.",
+      "parentUuid": "d9081c18_eab62a70",
+      "revId": "2ed9733c46e6dce6bbf7d4f86cd0cde07f462c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db9f8db8_03796fd5",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-07T11:42:53Z",
       "side": 1,
       "message": "I don\u0027t think this needs to be a prop, this can be computed in the component similar to isEnabled in gr-mark-as-activ-eflow.",
+      "revId": "2ed9733c46e6dce6bbf7d4f86cd0cde07f462c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b05c412_9814fd20",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T13:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db9f8db8_03796fd5",
       "revId": "2ed9733c46e6dce6bbf7d4f86cd0cde07f462c9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

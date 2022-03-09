@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e7f3009_97ba2ea1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 46
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T10:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76af9ab6_6d580232",
+      "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71ecb556_7c5e14fe",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98574ff6_9b0a5773",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 46
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T10:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71ecb556_7c5e14fe",
+      "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cc5fb24_b538abe5",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-03-08T17:53:27Z",
       "side": 1,
       "message": "inline",
+      "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc4b4f5a_870c7070",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 46
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T10:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cc5fb24_b538abe5",
       "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +140,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a306547_c28d7f0a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 46
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T10:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9a374e1_debede74",
+      "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f4887ff_0d92bc3e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 46
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T10:56:47Z",
+      "side": 1,
+      "message": "We agreed in the meeting that the model will make the restAPI request?\nLet\u0027s proceed with what we agreed upon.\nWe can discuss again if necessary later.",
+      "parentUuid": "4f3359c8_a3643bcd",
+      "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36dd3229_df86f5f0",
@@ -103,6 +193,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c59f922f_5b5036f1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 46
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T10:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36dd3229_df86f5f0",
+      "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13983685_f605e8f4",
@@ -116,6 +224,24 @@
       "writtenOn": "2022-03-08T17:53:27Z",
       "side": 1,
       "message": "requestUpdate();",
+      "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af99adc6_f83c0044",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 46
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T10:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13983685_f605e8f4",
       "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -150,6 +276,24 @@
       "writtenOn": "2022-03-08T17:53:27Z",
       "side": 1,
       "message": "I wonder",
+      "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71e5e27c_e3919fbd",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 46
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-09T10:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e39cbffb_3fbca03e",
       "revId": "a84c949cbf56610f11b0dfd4211045aa505db5bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

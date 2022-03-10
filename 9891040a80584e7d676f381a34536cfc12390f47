@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bb1fbc6_f8fccfa8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T14:04:20Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: skip`",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccc000b2_e424e6d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T14:04:20Z",
+      "side": 1,
+      "message": "Thanks, overall looks good, just some minor nits.",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70e60b46_feaf1edb",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T14:04:20Z",
+      "side": 1,
+      "message": "Maybe put the newline right after the \u003d so the function reads as one line? Or was this the format that eslintfix chose?",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0291ea33_09de5382",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T14:04:20Z",
+      "side": 1,
+      "message": "You can remove the constructor all together, it\u0027s not dong anything new.",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5dc502a_1b9209e4",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T14:04:20Z",
+      "side": 1,
+      "message": "Same comment as for handleTextChanged",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "754f9ac9_ea796035",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T14:04:20Z",
+      "side": 1,
+      "message": "See my comment on handleTextChanged.\n\nThis could be applied to handleOpen* and handleDialogCancel.\n\nHere and throughout.",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "588c9227_525358e0",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T14:04:20Z",
+      "side": 1,
+      "message": "Don\u0027t pass in this arguments into methods, they should already have access to them.",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40f2e44a_e648b804",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T14:04:20Z",
+      "side": 1,
+      "message": "As mentioned above.\n\n```\nprivate readonly handleTap \u003d (e: Event) \u003d\u003e {\n...\n```\n\nThis will create a member variable that contains a function that binds this (because lambdas bind this from context).  And then you can simplify above with\n\n\n```\n@click\u003d${this.handleTap}\n```",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e41814f1_9b869122",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T14:04:20Z",
+      "side": 1,
+      "message": "Define these as private readonly member variables:\n\n```\nprivate readonly handleTextChanged \u003d (e: BindValueChangeEvent) \u003d\u003e {\n  this.path \u003d e.detail.value;\n}\n```\n\nThen `this` will be bound and you can simplify \n\n```\n            @text-changed\u003d${(e: BindValueChangeEvent) \u003d\u003e {\n              this.handleTextChanged(e);\n            }}\n```\n\nto\n\n```\n@text-changed\u003d${this.handleTextChanged}\n```",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7a01845_cdbb0db1",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T14:04:20Z",
+      "side": 1,
+      "message": "Just inline element.openDialog, no need to create the extra variable.",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "Does this warrant a test?",
       "revId": "f4f5e2558a6997e9e14ac8f02c5fd22151a3a707",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f57b313c_5fb4dd20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-10T07:20:14Z",
+      "side": 1,
+      "message": "I think writing a test would cost be about 4 hours, so I would say no, it is not worthwhile adding a test. The best way to test this would be a webdriver driven test. If we want to increase the coverage of our user journeys with such tests, then we should probably start with the more critical user journeys. And I would see this as more of a larger KR or fixit effort.",
+      "parentUuid": "6e9cb0a8_92884951",
+      "revId": "f4f5e2558a6997e9e14ac8f02c5fd22151a3a707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

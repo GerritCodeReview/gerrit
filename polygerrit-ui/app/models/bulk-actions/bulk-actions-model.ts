@@ -105,6 +105,27 @@ export class BulkActionsModel
     this.setState({...this.subject$.getValue(), selectedChangeNums: []});
   }
 
+  abandonChanges(
+    reason?: string,
+    // errorFn is needed to avoid showing an error dialog
+    errFn?: (changeNum: NumericChangeId) => void
+  ): Promise<Response | undefined>[] {
+    const current = this.subject$.getValue();
+    return current.selectedChangeNums.map(changeNum => {
+      if (!current.allChanges.get(changeNum))
+        throw new Error('invalid change id');
+      const change = current.allChanges.get(changeNum)!;
+      return this.restApiService.executeChangeAction(
+        change._number,
+        change.actions!.abandon!.method,
+        '/abandon',
+        undefined,
+        {message: reason ?? ''},
+        () => errFn && errFn(change._number)
+      );
+    });
+  }
+
   async sync(changes: ChangeInfo[]) {
     const newChanges = new Map(changes.map(c => [c._number, c]));
     const current = this.subject$.getValue();

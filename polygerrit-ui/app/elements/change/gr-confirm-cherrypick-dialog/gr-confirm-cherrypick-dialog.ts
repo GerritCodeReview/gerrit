@@ -32,7 +32,11 @@ import {
 } from '../../../types/common';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrTypedAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {HttpMethod, ChangeStatus} from '../../../constants/constants';
+import {
+  HttpMethod,
+  ChangeStatus,
+  ProgressStatus,
+} from '../../../constants/constants';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {fireEvent} from '../../../utils/event-util';
 
@@ -41,14 +45,6 @@ const CHANGE_SUBJECT_LIMIT = 50;
 enum CherryPickType {
   SINGLE_CHANGE = 1,
   TOPIC,
-}
-
-// These values are directly displayed in the dialog to show progress of change
-export enum ProgressStatus {
-  RUNNING = 'RUNNING',
-  FAILED = 'FAILED',
-  NOT_STARTED = 'NOT STARTED',
-  SUCCESSFUL = 'SUCCESSFUL',
 }
 
 export type Statuses = {[changeId: string]: Status};

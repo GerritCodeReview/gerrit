@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00daa096_aebc4ff3",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-10T09:10:00Z",
+      "side": 1,
+      "message": "The usage is here [1].\nBasically if promise resolves without throwing an error and response.ok is not fine then we want to avoid showing an error dialog such as in case of non 200X responses.\n\nWe don\u0027t fire a network error here if errFn is specified.\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts;l\u003d526?q\u003d%22if%20(response%20%26%26%20!response.ok)%20%7B%22\u0026sq\u003d",
+      "parentUuid": "87060c6c_a47257ec",
+      "revId": "310622d111f0f09a6d0737a5828aa7f0625c8cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "045c62b4_94ae4838",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-03-10T09:05:23Z",
       "side": 1,
       "message": "To make the API more usable, do you think it woud be cleaner to return a Promise of a ProgressStatus and do the html code-parsing in a .then() on the executeChangeAction?",
+      "revId": "310622d111f0f09a6d0737a5828aa7f0625c8cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcbe7dd5_55b74519",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-10T09:10:00Z",
+      "side": 1,
+      "message": "ProgressStatus is very component related state, I don\u0027t like the idea of the model returning something that is UI related.\nOnce we remove the enum in favour of spinners etc, I would prefer not to touch the model then.",
+      "parentUuid": "045c62b4_94ae4838",
       "revId": "310622d111f0f09a6d0737a5828aa7f0625c8cc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

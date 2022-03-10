@@ -16,6 +16,24 @@
       "message": "Any reason why this is linked to the Gerrit build on Apple M1?",
       "revId": "5af4dedfd1ecb18e7d1553f22e1387be8bb90919",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3b4c4d9_98ff9fdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-10T09:43:23Z",
+      "side": 1,
+      "message": "This is related to the node version being used. This pull request fixes the issue by using node 16 on M1 Macs: https://github.com/bazelbuild/rules_nodejs/commit/004da08145bb6d54bb7355418444850d6b30a329\n\nThat fix is part of rules_nodejs 3.7.0.\nAlso see Paladox\u0027s comment on the original change. That is how I came to do the cherry-pick originally.",
+      "parentUuid": "5e32b5f5_3498f6ce",
+      "revId": "5af4dedfd1ecb18e7d1553f22e1387be8bb90919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

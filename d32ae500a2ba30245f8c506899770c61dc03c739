@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1678e97a_5929d9df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 41
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-10T07:26:43Z",
+      "side": 1,
+      "message": "You have to add a line `Release-Notes: skip` here.",
+      "revId": "d32ae500a2ba30245f8c506899770c61dc03c739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d418559c_88972565",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 41
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-10T07:26:43Z",
+      "side": 1,
+      "message": "Thanks! Just fix the nits and submit. No need for another review round.",
+      "revId": "d32ae500a2ba30245f8c506899770c61dc03c739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aac4612_640ae71e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 41
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-10T07:26:43Z",
+      "side": 1,
+      "message": "This comment is at the wrong spot now, I think.",
+      "revId": "d32ae500a2ba30245f8c506899770c61dc03c739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ef43a52_ed47987e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 41
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-10T07:26:43Z",
+      "side": 1,
+      "message": "trailing ws",
+      "revId": "d32ae500a2ba30245f8c506899770c61dc03c739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c98fb17_e443c987",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 41
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-10T07:26:43Z",
+      "side": 1,
+      "message": "indentation",
+      "revId": "d32ae500a2ba30245f8c506899770c61dc03c739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

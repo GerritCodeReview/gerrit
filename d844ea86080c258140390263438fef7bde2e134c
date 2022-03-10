@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e233a0d5_b01363e7",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-admin-api/gr-admin-api_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-10T07:09:38Z",
+      "side": 1,
+      "message": "why is this required?",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 26
+      },
+      "revId": "d844ea86080c258140390263438fef7bde2e134c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

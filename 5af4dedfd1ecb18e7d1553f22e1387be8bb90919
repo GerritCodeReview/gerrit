@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e32b5f5_3498f6ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-10T09:10:47Z",
+      "side": 1,
+      "message": "Any reason why this is linked to the Gerrit build on Apple M1?",
+      "revId": "5af4dedfd1ecb18e7d1553f22e1387be8bb90919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

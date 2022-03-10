@@ -303,13 +303,13 @@ export const htmlTemplate = html`
     .content.add {
       background-color: var(--light-add-highlight-color);
     }
-    .content.remove .content .intraline,
+    .content.remove .intraline,
       /* If there are no intraline info, consider everything changed */
       .content.remove.no-intraline-info,
-      .delta.total .content.remove .content {
+      .delta.total .content.remove {
       background-color: var(--dark-remove-highlight-color);
     }
-    .content.remove .content {
+    .content.remove {
       background-color: var(--light-remove-highlight-color);
     }
 
@@ -321,11 +321,11 @@ export const htmlTemplate = html`
     .dueToRebase .content.add {
       background-color: var(--light-rebased-add-highlight-color);
     }
-    .dueToRebase .content.remove .content .intraline,
-    .delta.total.dueToRebase .content.remove .content {
+    .dueToRebase .content.remove .intraline,
+    .delta.total.dueToRebase .content.remove {
       background-color: var(--dark-rebased-remove-highlight-color);
     }
-    .dueToRebase .content.remove .content {
+    .dueToRebase .content.remove {
       background-color: var(--light-remove-add-highlight-color);
     }
 
@@ -336,9 +336,9 @@ export const htmlTemplate = html`
       background-color: var(--diff-moved-in-background);
     }
 
-    .dueToMove .content.remove .content,
+    .dueToMove .content.remove,
     .dueToMove .moveControls.movedOut .moveHeader,
-    .delta.total.dueToMove .content.remove .content {
+    .delta.total.dueToMove .content.remove {
       background-color: var(--diff-moved-out-background);
     }
 
@@ -357,9 +357,9 @@ export const htmlTemplate = html`
     .ignoredWhitespaceOnly .content.add .intraline,
     .delta.total.ignoredWhitespaceOnly .content.add,
     .ignoredWhitespaceOnly .content.add,
-    .ignoredWhitespaceOnly .content.remove .content .intraline,
-    .delta.total.ignoredWhitespaceOnly .content.remove .content,
-    .ignoredWhitespaceOnly .content.remove .content {
+    .ignoredWhitespaceOnly .content.remove .intraline,
+    .delta.total.ignoredWhitespaceOnly .content.remove,
+    .ignoredWhitespaceOnly .content.remove {
       background-color: var(--view-background-color);
     }
 

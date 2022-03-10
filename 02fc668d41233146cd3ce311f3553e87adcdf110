@@ -46,6 +46,30 @@
       },
       "revId": "02fc668d41233146cd3ce311f3553e87adcdf110",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fdec33e_b9a1ca51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-03-10T20:15:51Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think users have a use case for directly querying for this in the web UI. \n\nWhy not? This seems like a big assumption. At the very least, it\u0027s wonderfully useful (and well established practice) to test queries you want to use in configuration or automation with one of the query APIs.\n\n\u003e If there is an automated use-case, using the label predicate and a bit of post-processing gets you the same result.\n\nI\u0027ve shared this position before and I still think it\u0027s valid: Any post-processing you push onto a client results in duplicate effort for your clients. Not just in the per-request sense, but also in the \"every team that wants this feature has to write code for this now\" sense.\n\n\u003e \n\u003e This would be quite complex to do as indexed predicate, since the actual label names, counts and values are arguments. When I look at the label predicate, I think it has reached its complexity ceiling and not all cases it supports are actually interesting for querying (in the web UI).\n\nI brought this up on Youssef\u0027s change [1] and I\u0027ll include it here for completeness (but we should probably keep discussion on [1]). Why are we limited to \"indexed predicate\" for change search operators? We\u0027ve had plenty of non-index predicates in the past, so why wouldn\u0027t we augment index capabilities with non-index functionality when it makes sense to? I think creating this whole extra layer of SubmitRequirementPredicates goes away if we do that.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/331100/comments/b51886cc_acebe535",
+      "parentUuid": "4b8c8932_2167347c",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "02fc668d41233146cd3ce311f3553e87adcdf110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

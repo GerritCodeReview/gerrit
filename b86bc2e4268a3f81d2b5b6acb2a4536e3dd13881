@@ -33,6 +33,24 @@
       "message": "Why is this required on 3.3? Is it important that we make the linter more strict on a stable branch? Or is this just making other picks easier?",
       "revId": "b86bc2e4268a3f81d2b5b6acb2a4536e3dd13881",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdd57ad1_66accf56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-10T07:47:26Z",
+      "side": 1,
+      "message": "Because of the next change in this series. See codestyle build of PS1: https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/81259/console",
+      "parentUuid": "df2a2a01_b09d752c",
+      "revId": "b86bc2e4268a3f81d2b5b6acb2a4536e3dd13881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

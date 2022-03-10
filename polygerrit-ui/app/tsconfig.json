@@ -96,7 +96,6 @@
     "gr-diff/**/*",
     "mixins/**/*",
     "models/**/*",
-    "samples/**/*",
     "scripts/**/*",
     "services/**/*",
     "styles/**/*",

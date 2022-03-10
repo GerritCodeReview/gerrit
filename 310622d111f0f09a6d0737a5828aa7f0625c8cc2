@@ -16,6 +16,40 @@
       "message": "PTAL",
       "revId": "310622d111f0f09a6d0737a5828aa7f0625c8cc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87060c6c_a47257ec",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T09:05:23Z",
+      "side": 1,
+      "message": "Do you know where the error dialog is being created?\n\nIs this a question of us not using .catch() inside of the caller of this function?\n\nLooking at the code, it seems we always fire a network error, even if errFn is specified.",
+      "revId": "310622d111f0f09a6d0737a5828aa7f0625c8cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "045c62b4_94ae4838",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T09:05:23Z",
+      "side": 1,
+      "message": "To make the API more usable, do you think it woud be cleaner to return a Promise of a ProgressStatus and do the html code-parsing in a .then() on the executeChangeAction?",
+      "revId": "310622d111f0f09a6d0737a5828aa7f0625c8cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

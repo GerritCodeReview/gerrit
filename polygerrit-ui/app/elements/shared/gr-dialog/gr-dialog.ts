@@ -51,8 +51,12 @@ export class GrDialog extends LitElement {
   @property({type: String, attribute: 'cancel-label'})
   cancelLabel = 'Cancel';
 
+  // TODO: Add consistent naming after Lit conversion of the codebase
   @property({type: Boolean})
   disabled = false;
+
+  @property({type: Boolean})
+  disableCancel = false;
 
   @property({type: Boolean, attribute: 'confirm-on-enter'})
   confirmOnEnter = false;
@@ -134,6 +138,7 @@ export class GrDialog extends LitElement {
             id="cancel"
             class="${this.cancelLabel.length ? '' : 'hidden'}"
             link
+            ?disabled=${this.disableCancel}
             @click=${(e: Event) => this.handleCancelTap(e)}
           >
             ${this.cancelLabel}

@@ -16,6 +16,23 @@
       "message": "Overwriting V+1, since the tests fail due to the flaky test fixed in the followup change of the series, which again requires this change to pass the checks.",
       "revId": "b86bc2e4268a3f81d2b5b6acb2a4536e3dd13881",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df2a2a01_b09d752c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-10T07:39:37Z",
+      "side": 1,
+      "message": "Why is this required on 3.3? Is it important that we make the linter more strict on a stable branch? Or is this just making other picks easier?",
+      "revId": "b86bc2e4268a3f81d2b5b6acb2a4536e3dd13881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

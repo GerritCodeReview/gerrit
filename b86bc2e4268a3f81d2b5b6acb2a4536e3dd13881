@@ -69,6 +69,24 @@
       "parentUuid": "bdd57ad1_66accf56",
       "revId": "b86bc2e4268a3f81d2b5b6acb2a4536e3dd13881",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "203eb011_cb316938",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-10T08:23:46Z",
+      "side": 1,
+      "message": "Ah ok, my bad. I didn\u0027t notice that those are just warnings.",
+      "parentUuid": "3f2cc2c2_b4cd0dba",
+      "revId": "b86bc2e4268a3f81d2b5b6acb2a4536e3dd13881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

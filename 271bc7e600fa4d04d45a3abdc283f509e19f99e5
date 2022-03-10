@@ -16,6 +16,24 @@
       "message": "s/vulnerability/bug?",
       "revId": "271bc7e600fa4d04d45a3abdc283f509e19f99e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "234b0a62_f6c62d88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-03-10T16:52:37Z",
+      "side": 1,
+      "message": "Done. Also fixed format.",
+      "parentUuid": "0a11ec24_a0c016bf",
+      "revId": "271bc7e600fa4d04d45a3abdc283f509e19f99e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -53,6 +53,8 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
       >
       <gr-overlay id="actionOverlay" with-backdrop="">
         <gr-dialog
+          .disableCancel=${!this.isCancelEnabled()}
+          .disabled=${!this.isConfirmEnabled()}
           @confirm=${() => this.handleConfirm()}
           @cancel=${() => this.actionOverlay.close()}
         >
@@ -97,6 +99,22 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
       change =>
         !!change.actions?.abandon || change.status === ChangeStatus.ABANDONED
     );
+  }
+
+  private isConfirmEnabled() {
+    // Action is allowed if none of the changes have any bulk action performed
+    // on them. In case an error happens then we keep the button disabled.
+    for (const status of this.progress.values()) {
+      if (status !== ProgressStatus.NOT_STARTED) return false;
+    }
+    return true;
+  }
+
+  private isCancelEnabled() {
+    for (const status of this.progress.values()) {
+      if (status === ProgressStatus.RUNNING) return false;
+    }
+    return true;
   }
 
   private handleConfirm() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5692c85_4a6c45fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-10T14:07:42Z",
+      "side": 1,
+      "message": "Also remove the references in the Documentation.\n\nhttps://cs.opensource.google/search?q\u003d%2Fsamples%2F%20f:Documentation\u0026ss\u003dgerrit",
+      "revId": "e84aab38934d04657eaebc0e8f76abe7e0e2e501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -15,20 +15,21 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {GrEmailSuggestionsProvider} from './gr-email-suggestions-provider.js';
-import {getAppContext} from '../../services/app-context.js';
-import {stubRestApi} from '../../test/test-utils.js';
+import '../../test/common-test-setup-karma';
+import {GrEmailSuggestionsProvider} from './gr-email-suggestions-provider';
+import {getAppContext} from '../../services/app-context';
+import {stubRestApi} from '../../test/test-utils';
+import {AccountId, EmailAddress} from '../../types/common';
 
 suite('GrEmailSuggestionsProvider tests', () => {
-  let provider;
+  let provider: GrEmailSuggestionsProvider;
   const account1 = {
     name: 'Some name',
-    email: 'some@example.com',
+    email: 'some@example.com' as EmailAddress,
   };
   const account2 = {
-    email: 'other@example.com',
-    _account_id: 3,
+    email: 'other@example.com' as EmailAddress,
+    _account_id: 3 as AccountId,
   };
 
   setup(() => {
@@ -36,9 +37,9 @@ suite('GrEmailSuggestionsProvider tests', () => {
   });
 
   test('getSuggestions', async () => {
-    const getSuggestedAccountsStub =
-        stubRestApi('getSuggestedAccounts').returns(
-            Promise.resolve([account1, account2]));
+    const getSuggestedAccountsStub = stubRestApi(
+      'getSuggestedAccounts'
+    ).returns(Promise.resolve([account1, account2]));
 
     const res = await provider.getSuggestions('Some input');
     assert.deepEqual(res, [account1, account2]);
@@ -64,4 +65,3 @@ suite('GrEmailSuggestionsProvider tests', () => {
     });
   });
 });
-

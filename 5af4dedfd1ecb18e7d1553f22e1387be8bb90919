@@ -34,6 +34,24 @@
       "parentUuid": "5e32b5f5_3498f6ce",
       "revId": "5af4dedfd1ecb18e7d1553f22e1387be8bb90919",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc377e2b_5beaec90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-10T10:45:13Z",
+      "side": 1,
+      "message": "Does that mean that we do also upgrade Node to 16 as part of this change?\nIs Node 12 broken on Apple\u0027s M1 chip? (I thought it supported Intel instructions anyway)",
+      "parentUuid": "a3b4c4d9_98ff9fdd",
+      "revId": "5af4dedfd1ecb18e7d1553f22e1387be8bb90919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

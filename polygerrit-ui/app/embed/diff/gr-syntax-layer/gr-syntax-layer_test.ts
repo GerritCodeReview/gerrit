@@ -15,24 +15,25 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
-import './gr-syntax-layer.js';
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
-import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
-import {GrSyntaxLayer} from './gr-syntax-layer.js';
+import '../../../test/common-test-setup-karma';
+import {getMockDiffResponse} from '../../../test/mocks/diff-response';
+import './gr-syntax-layer';
+import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
+import {GrSyntaxLayer, SyntaxLayerState} from './gr-syntax-layer';
+import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 
 suite('gr-syntax-layer tests', () => {
-  let diff;
-  let element;
+  let diff: DiffInfo;
+  let element: GrSyntaxLayer;
   const lineNumberEl = document.createElement('td');
 
   function getMockHLJS() {
-    const html = '<span class="gr-diff gr-syntax gr-syntax-string">' +
-        'ipsum</span>';
+    const html =
+      '<span class="gr-diff gr-syntax gr-syntax-string">ipsum</span>';
     return {
       configure() {},
-      highlight(lang, line, ignore, state) {
+      highlight(_lang: string, line: string, _ignore: boolean, state: number) {
         return {
           value: line.replace(/ipsum/, html),
           top: state === undefined ? 1 : state + 1,
@@ -40,7 +41,7 @@ suite('gr-syntax-layer tests', () => {
       },
       // Return something truthy because this method is used to check if the
       // language is supported.
-      getLanguage(s) {
+      getLanguage(_s: string) {
         return {};
       },
     };
@@ -81,11 +82,13 @@ suite('gr-syntax-layer tests', () => {
     el.textContent = str;
     const line = new GrDiffLine(GrDiffLineType.REMOVE);
     line.beforeNumber = 12;
-    element.baseRanges[11] = [{
-      start,
-      length,
-      className,
-    }];
+    element.baseRanges[11] = [
+      {
+        start,
+        length,
+        className,
+      },
+    ];
 
     element.annotate(el, lineNumberEl, line);
 
@@ -108,11 +111,13 @@ suite('gr-syntax-layer tests', () => {
     el.textContent = str;
     const line = new GrDiffLine(GrDiffLineType.REMOVE);
     line.beforeNumber = 12;
-    element.baseRanges[11] = [{
-      start,
-      length,
-      className,
-    }];
+    element.baseRanges[11] = [
+      {
+        start,
+        length,
+        className,
+      },
+    ];
     element.enabled = false;
 
     element.annotate(el, lineNumberEl, line);
@@ -122,8 +127,10 @@ suite('gr-syntax-layer tests', () => {
 
   test('process on empty diff does nothing', async () => {
     element.diff = {
-      meta_a: {content_type: 'application/json'},
-      meta_b: {content_type: 'application/json'},
+      change_type: 'MODIFIED',
+      intraline_status: 'OK',
+      meta_a: {content_type: 'application/json'} as DiffFileMetaInfo,
+      meta_b: {content_type: 'application/json'} as DiffFileMetaInfo,
       content: [],
     };
     const processNextSpy = sinon.spy(element, '_processNextLine');
@@ -137,8 +144,14 @@ suite('gr-syntax-layer tests', () => {
 
   test('process for unsupported languages does nothing', async () => {
     element.diff = {
-      meta_a: {content_type: 'text/x+objective-cobol-plus-plus'},
-      meta_b: {content_type: 'application/not-a-real-language'},
+      change_type: 'MODIFIED',
+      intraline_status: 'OK',
+      meta_a: {
+        content_type: 'text/x+objective-cobol-plus-plus',
+      } as DiffFileMetaInfo,
+      meta_b: {
+        content_type: 'application/not-a-real-language',
+      } as DiffFileMetaInfo,
       content: [],
     };
     const processNextSpy = sinon.spy(element, '_processNextLine');
@@ -164,8 +177,8 @@ suite('gr-syntax-layer tests', () => {
   });
 
   test('process highlight ipsum', async () => {
-    element.diff.meta_a.content_type = 'application/json';
-    element.diff.meta_b.content_type = 'application/json';
+    element.diff!.meta_a.content_type = 'application/json';
+    element.diff!.meta_b.content_type = 'application/json';
 
     const mockHLJS = getMockHLJS();
     window.hljs = mockHLJS;
@@ -192,16 +205,16 @@ suite('gr-syntax-layer tests', () => {
     let ranges = [element.baseRanges[0], element.revisionRanges[0]];
     for (const range of ranges) {
       assert.equal(range.length, 1);
-      assert.equal(range[0].className,
-          'gr-diff gr-syntax gr-syntax-string');
+      assert.equal(range[0].className, 'gr-diff gr-syntax gr-syntax-string');
       assert.equal(range[0].start, 'lorem '.length);
       assert.equal(range[0].length, 'ipsum'.length);
     }
 
     // There are no ranges from ll.1-12 on the left and ll.1-11 on the
     // right.
-    ranges = element.baseRanges.slice(1, 12)
-        .concat(element.revisionRanges.slice(1, 11));
+    ranges = element.baseRanges
+      .slice(1, 12)
+      .concat(element.revisionRanges.slice(1, 11));
 
     for (const range of ranges) {
       assert.equal(range.length, 0);
@@ -213,8 +226,7 @@ suite('gr-syntax-layer tests', () => {
 
     for (const range of ranges) {
       assert.equal(range.length, 1);
-      assert.equal(range[0].className,
-          'gr-diff gr-syntax gr-syntax-string');
+      assert.equal(range[0].className, 'gr-diff gr-syntax gr-syntax-string');
       assert.equal(range[0].start, 32);
       assert.equal(range[0].length, 'ipsum'.length);
     }
@@ -236,7 +248,14 @@ suite('gr-syntax-layer tests', () => {
 
   test('init calls cancel', () => {
     const cancelSpy = sinon.spy(element, 'cancel');
-    element.init({content: []});
+
+    element.init({
+      change_type: 'MODIFIED',
+      intraline_status: 'OK',
+      meta_a: {} as DiffFileMetaInfo,
+      meta_b: {} as DiffFileMetaInfo,
+      content: [],
+    });
     assert.isTrue(cancelSpy.called);
   });
 
@@ -321,8 +340,10 @@ suite('gr-syntax-layer tests', () => {
     assert.equal(result[0].length, str1.length);
     assert.equal(result[0].className, className);
 
-    assert.equal(result[1].start,
-        str0.length + str1.length + str2.length + offset);
+    assert.equal(
+      result[1].start,
+      str0.length + str1.length + str2.length + offset
+    );
     assert.equal(result[1].length, str3.length);
     assert.equal(result[1].className, className);
   });
@@ -364,44 +385,45 @@ suite('gr-syntax-layer tests', () => {
     const str = [
       '<span class="non-whtelisted-class">',
       '<span class="gr-diff gr-syntax gr-syntax-keyword">public</span>',
-      '</span>'].join('');
+      '</span>',
+    ].join('');
     const result = element._rangesFromString(str, new Map());
     assert.notEqual(result.length, 0);
   });
 
   test('_rangesFromString cache same syntax markers', () => {
-    sinon.spy(element, '_rangesFromElement');
+    const rangesFromElementStub = sinon.spy(element, '_rangesFromElement');
     const str =
       '<span class="gr-diff gr-syntax gr-syntax-keyword">public</span>';
     const cacheMap = new Map();
     element._rangesFromString(str, cacheMap);
     element._rangesFromString(str, cacheMap);
-    assert.isTrue(element._rangesFromElement.calledOnce);
+    assert.isTrue(rangesFromElementStub.calledOnce);
   });
 
   test('_isSectionDone', () => {
-    let state = {sectionIndex: 0, lineIndex: 0};
+    let state = {sectionIndex: 0, lineIndex: 0} as SyntaxLayerState;
     assert.isFalse(element._isSectionDone(state));
 
-    state = {sectionIndex: 0, lineIndex: 2};
+    state = {sectionIndex: 0, lineIndex: 2} as SyntaxLayerState;
     assert.isFalse(element._isSectionDone(state));
 
-    state = {sectionIndex: 0, lineIndex: 4};
+    state = {sectionIndex: 0, lineIndex: 4} as SyntaxLayerState;
     assert.isTrue(element._isSectionDone(state));
 
-    state = {sectionIndex: 1, lineIndex: 2};
+    state = {sectionIndex: 1, lineIndex: 2} as SyntaxLayerState;
     assert.isFalse(element._isSectionDone(state));
 
-    state = {sectionIndex: 1, lineIndex: 3};
+    state = {sectionIndex: 1, lineIndex: 3} as SyntaxLayerState;
     assert.isTrue(element._isSectionDone(state));
 
-    state = {sectionIndex: 3, lineIndex: 0};
+    state = {sectionIndex: 3, lineIndex: 0} as SyntaxLayerState;
     assert.isFalse(element._isSectionDone(state));
 
-    state = {sectionIndex: 3, lineIndex: 3};
+    state = {sectionIndex: 3, lineIndex: 3} as SyntaxLayerState;
     assert.isFalse(element._isSectionDone(state));
 
-    state = {sectionIndex: 3, lineIndex: 4};
+    state = {sectionIndex: 3, lineIndex: 4} as SyntaxLayerState;
     assert.isTrue(element._isSectionDone(state));
   });
 
@@ -436,8 +458,8 @@ suite('gr-syntax-layer tests', () => {
 
     // Converts parameterized annotation.
     line = 'public static void foo(@SuppressWarnings("unused") int bar) { }';
-    const expected = 'public static void foo(@SuppressWarnings "unused" ' +
-        ' int bar) { }';
+    const expected =
+      'public static void foo(@SuppressWarnings "unused" ' + ' int bar) { }';
     assert.equal(element._workaround('java', line), expected);
   });
 
@@ -451,12 +473,12 @@ suite('gr-syntax-layer tests', () => {
     assert.equal(element._workaround('cpp', line), line);
 
     // Converts wchar_t character literal to string.
-    line = 'wchar_t myChar = L\'#\'';
+    line = "wchar_t myChar = L'#'";
     let expected = 'wchar_t myChar = L"."';
     assert.equal(element._workaround('cpp', line), expected);
 
     // Converts wchar_t character literal with escape sequence to string.
-    line = 'wchar_t myChar = L\'\\"\'';
+    line = "wchar_t myChar = L'\\\"'";
     expected = 'wchar_t myChar = L"\\."';
     assert.equal(element._workaround('cpp', line), expected);
   });
@@ -471,9 +493,8 @@ suite('gr-syntax-layer tests', () => {
     assert.equal(element._workaround('go', line), line);
 
     // Converts backslash literal character to a string.
-    line = 'c := \'\\\\\'';
+    line = "c := '\\\\'";
     const expected = 'c := "\\\\"';
     assert.equal(element._workaround('go', line), expected);
   });
 });
-

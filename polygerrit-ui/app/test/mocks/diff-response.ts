@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
-export function getMockDiffResponse() {
+import {DiffInfo} from '../../types/diff';
+
+export function getMockDiffResponse(): DiffInfo {
   // Return new response, so tests can't affect each other - if a test somehow
   // modifies it, the future calls return original value
   // Do not put it to a const outside of a method
@@ -42,7 +44,7 @@ export function getMockDiffResponse() {
       {
         ab: [
           'Lorem ipsum dolor sit amet, suspendisse inceptos vehicula, ' +
-          'nulla phasellus.',
+            'nulla phasellus.',
           'Mattis lectus.',
           'Sodales duis.',
           'Orci a faucibus.',
@@ -79,24 +81,10 @@ export function getMockDiffResponse() {
         ],
       },
       {
-        a: [
-          'Rhoncus tempor, ultricies aliquam ipsum.',
-        ],
-        b: [
-          'Rhoncus tempor, ultricies praesent ipsum.',
-        ],
-        edit_a: [
-          [
-            26,
-            7,
-          ],
-        ],
-        edit_b: [
-          [
-            26,
-            8,
-          ],
-        ],
+        a: ['Rhoncus tempor, ultricies aliquam ipsum.'],
+        b: ['Rhoncus tempor, ultricies praesent ipsum.'],
+        edit_a: [[26, 7]],
+        edit_b: [[26, 8]],
       },
       {
         ab: [
@@ -118,7 +106,7 @@ export function getMockDiffResponse() {
           'Urna velit.',
           'Urna a dolor.',
           'Lectus magna augue, convallis mattis tortor, sed tellus ' +
-          'consequat.',
+            'consequat.',
           'Etiam dui, blandit wisi.',
           'Mi nec.',
           'Vitae eget vestibulum.',

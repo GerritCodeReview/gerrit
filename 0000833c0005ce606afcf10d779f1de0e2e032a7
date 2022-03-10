@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c7f6441_79b5fd90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-10T19:38:26Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "0000833c0005ce606afcf10d779f1de0e2e032a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7ba8b0e_27c9c2e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-10T19:38:26Z",
+      "side": 1,
+      "message": "I would prefer `unknown[]`\n\n```function assertArraysEqual(actual: unknown[], expected: unknown[]) {```",
+      "range": {
+        "startLine": 46,
+        "startChar": 37,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "0000833c0005ce606afcf10d779f1de0e2e032a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "718e28c0_a04ac4a3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-10T19:38:26Z",
+      "side": 1,
+      "message": "I think this is not relevant anymore. We can remove this and introduce deepEqual since we use it quite often(more than 500 times)",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "0000833c0005ce606afcf10d779f1de0e2e032a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "2ff9733efb47af5911129c30fed9fa14d5c41759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8994e5b0_c0794bfc",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-03-10T12:43:26Z",
+      "side": 1,
+      "message": "Maybe, I thought about it too. However, a problem I see with that is that then the replica tests will pass even if you have not explicitly set a replica hostname. \nOn the other hand you may not be interested in the replica-tests and then you may prefer not to get an irrelevant failure thrown in your face when running all the tests.\nI set hostname as default to replica_hostname. Does this look better?",
+      "parentUuid": "b67243a8_9d8523df",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 63
+      },
+      "revId": "2ff9733efb47af5911129c30fed9fa14d5c41759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

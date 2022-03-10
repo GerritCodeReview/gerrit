@@ -20,6 +20,42 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "68290f46_dd50f1ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 41
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-10T08:08:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1678e97a_5929d9df",
+      "revId": "d32ae500a2ba30245f8c506899770c61dc03c739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84a224e9_4acf2eb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 41
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-10T08:08:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1678e97a_5929d9df",
+      "revId": "d32ae500a2ba30245f8c506899770c61dc03c739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d418559c_88972565",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 41
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4626100_429f4043",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 41
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-10T08:08:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aac4612_640ae71e",
+      "revId": "d32ae500a2ba30245f8c506899770c61dc03c739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ef43a52_ed47987e",
@@ -69,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67200c5e_296e34a4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 41
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-10T08:08:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ef43a52_ed47987e",
+      "revId": "d32ae500a2ba30245f8c506899770c61dc03c739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c98fb17_e443c987",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-03-10T07:26:43Z",
       "side": 1,
       "message": "indentation",
+      "revId": "d32ae500a2ba30245f8c506899770c61dc03c739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c28b5f58_dc5463ea",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 41
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-10T08:08:46Z",
+      "side": 1,
+      "message": "I didn\u0027t understand this comment. What do you mean by identation here? I\u0027ve tried to break comment lines here - which I can also do for the other comments. Is that what you mean?",
+      "parentUuid": "4c98fb17_e443c987",
       "revId": "d32ae500a2ba30245f8c506899770c61dc03c739",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

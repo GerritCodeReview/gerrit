@@ -34,6 +34,24 @@
       "parentUuid": "2173ec9f_6cd96e50",
       "revId": "6104d0f448fa8dc621fd7d745814b7877867afc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ef5112e_2d421bc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-10T07:29:16Z",
+      "side": 1,
+      "message": "SGTM and LGTM, but I would still like someone from the OS community to provide a +2, because I am not involved and impacted by work on stable branches and public releases.",
+      "parentUuid": "bceb131f_ee2d911b",
+      "revId": "6104d0f448fa8dc621fd7d745814b7877867afc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

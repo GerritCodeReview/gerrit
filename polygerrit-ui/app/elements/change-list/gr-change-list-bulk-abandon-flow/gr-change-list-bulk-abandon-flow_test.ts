@@ -249,4 +249,51 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
       `Status: ${ProgressStatus.FAILED}`
     );
   });
+
+  test('closing dialog triggers a reload', async () => {
+    const changes: ChangeInfo[] = [
+      {...change1, actions: {abandon: {}}},
+      {...change2, actions: {abandon: {}}},
+    ];
+    getChangesStub.returns(changes);
+
+    const fireStub = sinon.stub(element, 'dispatchEvent');
+
+    stubRestApi('executeChangeAction').callsFake(
+      (
+        _changeNum: NumericChangeId,
+        _method: HttpMethod | undefined,
+        _endpoint: string,
+        _patchNum?: PatchSetNum,
+        _payload?: RequestPayload,
+        errFn?: ErrorCallback
+      ) =>
+        Promise.resolve(new Response()).then(res => {
+          errFn && errFn();
+          return res;
+        })
+    );
+
+    model.sync(changes);
+    await waitUntilObserved(
+      model.loadingState$,
+      state => state === LoadingState.LOADED
+    );
+    await selectChange(change1);
+    await selectChange(change2);
+    await element.updateComplete;
+
+    tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
+
+    await waitUntil(
+      () => element.progress.get(2 as NumericChangeId) === ProgressStatus.FAILED
+    );
+
+    assert.isFalse(fireStub.called);
+
+    tap(queryAndAssert(query(element, 'gr-dialog'), '#cancel'));
+
+    await waitUntil(() => fireStub.called);
+    assert.equal(fireStub.lastCall.args[0].type, 'reload');
+  });
 });

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7302884_8c84564c",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-10T09:59:53Z",
+      "side": 0,
+      "message": "* asdf\n* asdf\n* asdf",
+      "range": {
+        "startLine": 45,
+        "startChar": 33,
+        "endLine": 45,
+        "endChar": 39
+      },
+      "revId": "980cf50afbe4b2bcf6315c4b6b0e2b340da13456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

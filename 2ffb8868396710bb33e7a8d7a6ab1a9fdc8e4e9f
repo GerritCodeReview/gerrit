@@ -22,6 +22,30 @@
       },
       "revId": "2ffb8868396710bb33e7a8d7a6ab1a9fdc8e4e9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77bc130c_05dfda82",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckNewProjectReplica1.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-03-10T11:08:12Z",
+      "side": 0,
+      "message": "\"I think we want to keep test-specific projectnames\" What do you mean? Do we not keep test-specific projectnames?\nThis line was moved to GerritSimulation, so projectName will be the class name if it is not overwritten.",
+      "parentUuid": "827e1837_c6df9ef8",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 37
+      },
+      "revId": "2ffb8868396710bb33e7a8d7a6ab1a9fdc8e4e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

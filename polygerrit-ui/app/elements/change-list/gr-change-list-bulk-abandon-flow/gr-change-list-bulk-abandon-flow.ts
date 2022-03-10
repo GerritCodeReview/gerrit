@@ -12,6 +12,7 @@ import {NumericChangeId, ChangeInfo, ChangeStatus} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ProgressStatus} from '../../../constants/constants';
+import {fireAlert, fireReload} from '../../../utils/event-util';
 
 @customElement('gr-change-list-bulk-abandon-flow')
 export class GrChangeListBulkAbandonFlow extends LitElement {
@@ -56,7 +57,8 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
           .disableCancel=${!this.isCancelEnabled()}
           .disabled=${!this.isConfirmEnabled()}
           @confirm=${() => this.handleConfirm()}
-          @cancel=${() => this.actionOverlay.close()}
+          @cancel=${() => this.handleClose()}
+          .cancelLabel=${'Close'}
         >
           <div slot="header">
             ${this.selectedChanges.length} changes to abandon
@@ -137,6 +139,19 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
         this.requestUpdate();
       });
     }
+  }
+
+  private handleClose() {
+    // If all requests succeeded then trigger a reload
+
+    const allSuccess = Array.from(this.progress.values()).every(
+      status => status === ProgressStatus.SUCCESSFUL
+    );
+    if (allSuccess) {
+      fireAlert(this, 'Reloading page..');
+      fireReload(this, true);
+    }
+    this.actionOverlay.close();
   }
 }
 

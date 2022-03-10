@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Label;
@@ -115,8 +116,11 @@ public class SubmitRequirementsAdapter {
   }
 
   private static List<SubmitRequirementResult> createFromDefaultSubmitRecord(
-      List<Label> labels, List<LabelType> labelTypes, ObjectId psCommitId, boolean isForced) {
+      @Nullable List<Label> labels, List<LabelType> labelTypes, ObjectId psCommitId, boolean isForced) {
     ImmutableList.Builder<SubmitRequirementResult> result = ImmutableList.builder();
+    if (labels == null) {
+      return result.build();
+    }
     for (Label label : labels) {
       if (skipSubmitRequirementFor(label)) {
         continue;

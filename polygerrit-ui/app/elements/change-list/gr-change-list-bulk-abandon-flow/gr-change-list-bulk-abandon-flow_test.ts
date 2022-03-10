@@ -145,8 +145,22 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     const executeChangeAction = mockPromise<Response>();
     stubRestApi('executeChangeAction').returns(executeChangeAction);
 
+    assert.isNotOk(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').disabled
+    );
+    assert.isNotOk(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
+    );
+
     tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
     await element.updateComplete;
+
+    assert.isTrue(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').disabled
+    );
+    assert.isTrue(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
+    );
 
     assert.equal(
       queryAndAssert<HTMLTableDataCellElement>(
@@ -160,6 +174,13 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     await waitUntil(
       () =>
         element.progress.get(1 as NumericChangeId) === ProgressStatus.SUCCESSFUL
+    );
+
+    assert.isTrue(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').disabled
+    );
+    assert.isNotOk(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
     );
 
     assert.equal(

@@ -549,11 +549,11 @@ export const htmlTemplate = html`
       user-select: text;
     }
 
-    /** Make comments selectable when selected */
+    /** Make comments and check results selectable when selected */
     .selected-left.selected-comment
-      ::slotted(gr-comment-thread[diff-side='left']),
+      ::slotted(.comment-thread[diff-side='left']),
     .selected-right.selected-comment
-      ::slotted(gr-comment-thread[diff-side='right']) {
+      ::slotted(.comment-thread[diff-side='right']) {
       -webkit-user-select: text;
       -moz-user-select: text;
       -ms-user-select: text;

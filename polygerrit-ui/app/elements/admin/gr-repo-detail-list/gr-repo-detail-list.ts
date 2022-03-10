@@ -217,7 +217,7 @@ export class GrRepoDetailList extends LitElement {
       <gr-overlay id="createOverlay" with-backdrop>
         <gr-dialog
           id="createDialog"
-          ?disabled=${!this.newItemName}
+          ?disableConfirm=${!this.newItemName}
           confirm-label="Create"
           @confirm=${() => {
             this.handleCreateItem();

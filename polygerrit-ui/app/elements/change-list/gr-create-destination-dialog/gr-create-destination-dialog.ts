@@ -60,7 +60,7 @@ export class GrCreateDestinationDialog extends LitElement {
             assertIsDefined(this.createOverlay, 'createOverlay');
             this.createOverlay.close();
           }}
-          ?disabled=${!(this.repo && this.branch)}
+          .disableConfirm=${!(this.repo && this.branch)}
         >
           <div class="header" slot="header">Create change</div>
           <div class="main" slot="main">

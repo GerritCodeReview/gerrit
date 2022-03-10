@@ -80,7 +80,7 @@ export const htmlTemplate = html`
     <gr-dialog
       id="openDialog"
       class="invisible dialog"
-      disabled$="[[!_isValidPath(_path)]]"
+      ?disableConfirm="[[!_isValidPath(_path)]]"
       confirm-label="Confirm"
       confirm-on-enter=""
       on-confirm="_handleOpenConfirm"
@@ -123,7 +123,7 @@ export const htmlTemplate = html`
     <gr-dialog
       id="deleteDialog"
       class="invisible dialog"
-      disabled$="[[!_isValidPath(_path)]]"
+      disableConfirm="[[!_isValidPath(_path)]]"
       confirm-label="Delete"
       confirm-on-enter=""
       on-confirm="_handleDeleteConfirm"
@@ -141,7 +141,7 @@ export const htmlTemplate = html`
     <gr-dialog
       id="renameDialog"
       class="invisible dialog"
-      disabled$="[[!_computeRenameDisabled(_path, _newPath)]]"
+      disableConfirm="[[!_computeRenameDisabled(_path, _newPath)]]"
       confirm-label="Rename"
       confirm-on-enter=""
       on-confirm="_handleRenameConfirm"

@@ -118,7 +118,7 @@ export class GrAdminGroupList extends LitElement {
         <gr-dialog
           id="createDialog"
           class="confirmDialog"
-          ?disabled=${!this.hasNewGroupName}
+          ?disableConfirm=${!this.hasNewGroupName}
           confirm-label="Create"
           confirm-on-enter
           @confirm=${() => this.handleCreateGroup()}

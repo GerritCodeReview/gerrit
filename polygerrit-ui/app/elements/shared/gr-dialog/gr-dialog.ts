@@ -52,7 +52,10 @@ export class GrDialog extends LitElement {
   cancelLabel = 'Cancel';
 
   @property({type: Boolean})
-  disabled = false;
+  disableConfirm = false;
+
+  @property({type: Boolean})
+  disableCancel = false;
 
   @property({type: Boolean, attribute: 'confirm-on-enter'})
   confirmOnEnter = false;
@@ -134,6 +137,7 @@ export class GrDialog extends LitElement {
             id="cancel"
             class="${this.cancelLabel.length ? '' : 'hidden'}"
             link
+            ?disabled=${this.disableCancel}
             @click=${(e: Event) => this.handleCancelTap(e)}
           >
             ${this.cancelLabel}
@@ -143,7 +147,7 @@ export class GrDialog extends LitElement {
             link
             primary
             @click=${(e: Event) => this._handleConfirm(e)}
-            ?disabled=${this.disabled}
+            ?disabled=${this.disableConfirm}
             title=${this.confirmTooltip ?? ''}
           >
             ${this.confirmLabel}

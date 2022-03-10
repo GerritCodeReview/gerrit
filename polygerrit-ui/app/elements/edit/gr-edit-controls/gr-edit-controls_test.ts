@@ -137,7 +137,7 @@ suite('gr-edit-controls tests', () => {
       deleteStub.returns(Promise.resolve({ok: true}));
       MockInteractions.tap(queryAndAssert(element, '#delete'));
       await showDialogSpy.lastCall.returnValue;
-      assert.isTrue(element.$.deleteDialog.disabled);
+      assert.isTrue(element.$.deleteDialog.disableConfirm);
       assert.isFalse(queryStub.called);
       // Setup _focused manually - in headless mode Chrome sometimes don't
       // setup focus. flush and/or flushAsynchronousOperations don't help
@@ -146,7 +146,7 @@ suite('gr-edit-controls tests', () => {
       deleteAutocomplete.text = 'src/test.cpp';
       await flush();
       assert.isTrue(queryStub.called);
-      assert.isFalse(element.$.deleteDialog.disabled);
+      assert.isFalse(element.$.deleteDialog.disableConfirm);
       MockInteractions.tap(
         queryAndAssert(element.$.deleteDialog, 'gr-button[primary]')
       );
@@ -163,7 +163,7 @@ suite('gr-edit-controls tests', () => {
       deleteStub.returns(Promise.resolve({ok: false}));
       MockInteractions.tap(queryAndAssert(element, '#delete'));
       await showDialogSpy.lastCall.returnValue;
-      assert.isTrue(element.$.deleteDialog.disabled);
+      assert.isTrue(element.$.deleteDialog.disableConfirm);
       assert.isFalse(queryStub.called);
       // Setup _focused manually - in headless mode Chrome sometimes don't
       // setup focus. flush and/or flushAsynchronousOperations don't help
@@ -172,7 +172,7 @@ suite('gr-edit-controls tests', () => {
       deleteAutocomplete.text = 'src/test.cpp';
       await flush();
       assert.isTrue(queryStub.called);
-      assert.isFalse(element.$.deleteDialog.disabled);
+      assert.isFalse(element.$.deleteDialog.disableConfirm);
       MockInteractions.tap(
         queryAndAssert(element.$.deleteDialog, 'gr-button[primary]')
       );
@@ -188,10 +188,10 @@ suite('gr-edit-controls tests', () => {
     test('cancel', () => {
       MockInteractions.tap(queryAndAssert(element, '#delete'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.deleteDialog.disabled);
+        assert.isTrue(element.$.deleteDialog.disableConfirm);
         element.$.deleteDialog.querySelector('gr-autocomplete')!.text =
           'src/test.cpp';
-        assert.isFalse(element.$.deleteDialog.disabled);
+        assert.isFalse(element.$.deleteDialog.disableConfirm);
         MockInteractions.tap(
           queryAndAssert(element.$.deleteDialog, 'gr-button')
         );
@@ -218,7 +218,7 @@ suite('gr-edit-controls tests', () => {
       renameStub.returns(Promise.resolve({ok: true}));
       MockInteractions.tap(queryAndAssert(element, '#rename'));
       await showDialogSpy.lastCall.returnValue;
-      assert.isTrue(element.$.renameDialog.disabled);
+      assert.isTrue(element.$.renameDialog.disableConfirm);
       assert.isFalse(queryStub.called);
       // Setup _focused manually - in headless mode Chrome sometimes don't
       // setup focus. flush and/or flushAsynchronousOperations don't help
@@ -227,12 +227,12 @@ suite('gr-edit-controls tests', () => {
       renameAutocomplete.text = 'src/test.cpp';
       await flush();
       assert.isTrue(queryStub.called);
-      assert.isTrue(element.$.renameDialog.disabled);
+      assert.isTrue(element.$.renameDialog.disableConfirm);
 
       element.$.newPathIronInput.bindValue = 'src/test.newPath';
       await flush();
 
-      assert.isFalse(element.$.renameDialog.disabled);
+      assert.isFalse(element.$.renameDialog.disableConfirm);
       MockInteractions.tap(
         queryAndAssert(element.$.renameDialog, 'gr-button[primary]')
       );
@@ -249,7 +249,7 @@ suite('gr-edit-controls tests', () => {
       renameStub.returns(Promise.resolve({ok: false}));
       MockInteractions.tap(queryAndAssert(element, '#rename'));
       await showDialogSpy.lastCall.returnValue;
-      assert.isTrue(element.$.renameDialog.disabled);
+      assert.isTrue(element.$.renameDialog.disableConfirm);
       assert.isFalse(queryStub.called);
       // Setup _focused manually - in headless mode Chrome sometimes don't
       // setup focus. flush and/or flushAsynchronousOperations don't help
@@ -258,12 +258,12 @@ suite('gr-edit-controls tests', () => {
       renameAutocomplete.text = 'src/test.cpp';
       await flush();
       assert.isTrue(queryStub.called);
-      assert.isTrue(element.$.renameDialog.disabled);
+      assert.isTrue(element.$.renameDialog.disableConfirm);
 
       element.$.newPathIronInput.bindValue = 'src/test.newPath';
       await flush();
 
-      assert.isFalse(element.$.renameDialog.disabled);
+      assert.isFalse(element.$.renameDialog.disableConfirm);
       MockInteractions.tap(
         queryAndAssert(element.$.renameDialog, 'gr-button[primary]')
       );
@@ -279,11 +279,11 @@ suite('gr-edit-controls tests', () => {
     test('cancel', () => {
       MockInteractions.tap(queryAndAssert(element, '#rename'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.renameDialog.disabled);
+        assert.isTrue(element.$.renameDialog.disableConfirm);
         element.$.renameDialog.querySelector('gr-autocomplete')!.text =
           'src/test.cpp';
         element.$.newPathIronInput.bindValue = 'src/test.newPath';
-        assert.isFalse(element.$.renameDialog.disabled);
+        assert.isFalse(element.$.renameDialog.disableConfirm);
         MockInteractions.tap(
           queryAndAssert(element.$.renameDialog, 'gr-button')
         );

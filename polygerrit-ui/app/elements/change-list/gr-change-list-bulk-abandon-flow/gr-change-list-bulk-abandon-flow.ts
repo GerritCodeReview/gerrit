@@ -55,6 +55,8 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
         <gr-dialog
           @confirm=${() => this.handleConfirm()}
           @cancel=${() => this.actionOverlay.close()}
+          .disableConfirm=${!this.isConfirmEnabled()}
+          .disableCancel=${!this.isCancelEnabled()}
         >
           <div slot="header">
             ${this.selectedChanges.length} changes to abandon
@@ -90,6 +92,20 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
     return this.progress.has(changeNum)
       ? this.progress.get(changeNum)
       : ProgressStatus.NOT_STARTED;
+  }
+
+  private isConfirmEnabled() {
+    for (const status of this.progress.values()) {
+      if (status !== ProgressStatus.NOT_STARTED) return false;
+    }
+    return true;
+  }
+
+  private isCancelEnabled() {
+    for (const status of this.progress.values()) {
+      if (status !== ProgressStatus.NOT_STARTED) return false;
+    }
+    return true;
   }
 
   private isEnabled() {

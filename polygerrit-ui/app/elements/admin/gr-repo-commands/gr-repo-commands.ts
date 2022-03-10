@@ -147,7 +147,7 @@ export class GrRepoCommands extends LitElement {
         <gr-dialog
           id="createChangeDialog"
           confirm-label="Create"
-          ?disabled=${!this.canCreateChange}
+          ?disableConfirm=${!this.canCreateChange}
           @confirm=${() => {
             this.handleCreateChange();
           }}

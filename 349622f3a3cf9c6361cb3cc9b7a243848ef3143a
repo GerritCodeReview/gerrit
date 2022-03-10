@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3430a751_29cf9309",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T15:19:46Z",
+      "side": 1,
+      "message": "Thanks! 😊",
+      "revId": "349622f3a3cf9c6361cb3cc9b7a243848ef3143a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d37f1ac_4fda5aea",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T15:19:46Z",
+      "side": 1,
+      "message": "Use de-morgans law to distribute the negation so it\u0027s simply\n\n```\n?disabled\u003d${!this.isValidPath(this.path) || !this.isValidPath(this.newPath)}\n```\nSlightly more legible",
+      "revId": "349622f3a3cf9c6361cb3cc9b7a243848ef3143a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

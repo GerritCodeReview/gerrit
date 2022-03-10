@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef2254b2_bbbf095e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-admin-api/gr-admin-api_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-10T13:48:46Z",
+      "side": 1,
+      "message": "I still question why you need to set it to null in teardown.",
+      "revId": "65faae98d16049541210cf072cc04602f428e5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

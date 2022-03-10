@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e8cbbd4b_c72a88a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-10T15:12:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5bb1fbc6_f8fccfa8",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ccc000b2_e424e6d2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8507dac7_8c505dad",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-10T15:12:39Z",
+      "side": 1,
+      "message": "Was done by eslintfix.",
+      "parentUuid": "70e60b46_feaf1edb",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0291ea33_09de5382",
@@ -65,6 +101,24 @@
       "writtenOn": "2022-03-10T14:04:20Z",
       "side": 1,
       "message": "You can remove the constructor all together, it\u0027s not dong anything new.",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c3e46e5_72cbe4a5",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-10T15:12:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0291ea33_09de5382",
       "revId": "9891040a80584e7d676f381a34536cfc12390f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +140,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad3e045_6d8ec705",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-10T15:12:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e5dc502a_1b9209e4",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "754f9ac9_ea796035",
@@ -99,6 +171,24 @@
       "writtenOn": "2022-03-10T14:04:20Z",
       "side": 1,
       "message": "See my comment on handleTextChanged.\n\nThis could be applied to handleOpen* and handleDialogCancel.\n\nHere and throughout.",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4f554d7_f7bd5448",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-10T15:12:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "754f9ac9_ea796035",
       "revId": "9891040a80584e7d676f381a34536cfc12390f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +210,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e483a844_f9fe5677",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-10T15:12:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "588c9227_525358e0",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40f2e44a_e648b804",
@@ -133,6 +241,24 @@
       "writtenOn": "2022-03-10T14:04:20Z",
       "side": 1,
       "message": "As mentioned above.\n\n```\nprivate readonly handleTap \u003d (e: Event) \u003d\u003e {\n...\n```\n\nThis will create a member variable that contains a function that binds this (because lambdas bind this from context).  And then you can simplify above with\n\n\n```\n@click\u003d${this.handleTap}\n```",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76f444c0_95486fa7",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-10T15:12:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "40f2e44a_e648b804",
       "revId": "9891040a80584e7d676f381a34536cfc12390f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -154,6 +280,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20cdf7bd_897c614b",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-10T15:12:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e41814f1_9b869122",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7a01845_cdbb0db1",
@@ -167,6 +311,24 @@
       "writtenOn": "2022-03-10T14:04:20Z",
       "side": 1,
       "message": "Just inline element.openDialog, no need to create the extra variable.",
+      "revId": "9891040a80584e7d676f381a34536cfc12390f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55fc297a_ccbf4369",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-10T15:12:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d7a01845_cdbb0db1",
       "revId": "9891040a80584e7d676f381a34536cfc12390f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

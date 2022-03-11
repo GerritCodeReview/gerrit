@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dba897f0_3360854d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-03-11T12:41:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8fb704a_a8bb5abc",
+      "revId": "ddce1ac07cf346161aefa3a5fe942dd0ce38997d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9268c55_3f87a2d1",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-11T12:32:07Z",
       "side": 1,
       "message": "[optional] since the http based command is extracted into a variable, extract the SSH variant also in a variable. Actually even better would be to make then both string constants at the top of this class:\n\n private static final String HTTP_INSTALL_HOOK \u003d \" ...\";\n private static final String SSH_INSTALL_HOOK \u003d \"...\";",
+      "revId": "ddce1ac07cf346161aefa3a5fe942dd0ce38997d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7438802e_08f5a904",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-03-11T12:41:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9268c55_3f87a2d1",
       "revId": "ddce1ac07cf346161aefa3a5fe942dd0ce38997d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

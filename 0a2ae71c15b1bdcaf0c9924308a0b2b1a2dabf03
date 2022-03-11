@@ -46,6 +46,30 @@
       },
       "revId": "0a2ae71c15b1bdcaf0c9924308a0b2b1a2dabf03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "615c27ca_0af2e271",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-03-11T14:52:14Z",
+      "side": 1,
+      "message": "I guess I meant I can\u0027t see any changes pushed for review on that branch: https://gerrit-review.googlesource.com/q/project:gerrit+branch:stable-3.3-issue-15563",
+      "parentUuid": "a5113286_d9fafb49",
+      "range": {
+        "startLine": 8,
+        "startChar": 14,
+        "endLine": 8,
+        "endChar": 36
+      },
+      "revId": "0a2ae71c15b1bdcaf0c9924308a0b2b1a2dabf03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

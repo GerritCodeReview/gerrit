@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e61e36a_e7f40444",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-03-11T13:32:07Z",
+      "side": 1,
+      "message": "this doesn\u0027t belong to the SSH install hook command",
+      "range": {
+        "startLine": 272,
+        "startChar": 98,
+        "endLine": 272,
+        "endChar": 122
+      },
+      "revId": "5f719f64c74ad4fc80f21a25f5f5e41a9f8d059b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31a0268e_fd624f55",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-03-11T13:32:07Z",
+      "side": 1,
+      "message": "We shouldn\u0027t use SSH_INSTALL_HOOK as the format. Instead define format as:\n\n  \"%s\\n  or, for http(s):\\n%s\"\n  \nand provide SSH_INSTALL_HOOK as a parameter.\n\nSimilar like the HTTP_INSTALL_HOOK (line 380), the placeholders in SSH_INSTALL_HOOK need to be resolved first.",
+      "range": {
+        "startLine": 406,
+        "startChar": 10,
+        "endLine": 406,
+        "endChar": 26
+      },
+      "revId": "5f719f64c74ad4fc80f21a25f5f5e41a9f8d059b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

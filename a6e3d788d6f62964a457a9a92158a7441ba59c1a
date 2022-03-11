@@ -16,6 +16,24 @@
       "message": "i just tried applying this to master, and it fails epically. i suggest you rebase to master and then see how far back you can cherry-pick it.",
       "revId": "a6e3d788d6f62964a457a9a92158a7441ba59c1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "533fb9eb_645662a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-03-11T11:40:21Z",
+      "side": 1,
+      "message": "Yes, master, stable-3.4 and stable-3.5 has some additional code not present in stable-3.3. I will fix those conflicts when cherry-picking this change upward.",
+      "parentUuid": "07e74407_9f347376",
+      "revId": "a6e3d788d6f62964a457a9a92158a7441ba59c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

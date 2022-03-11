@@ -124,6 +124,24 @@
       "parentUuid": "8041d353_d2301694",
       "revId": "b766ae0461a26979faa30ed3b33d546ef1bb82c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b9d63cd_0933ea90",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-03-11T11:40:21Z",
+      "side": 1,
+      "message": "I agree, it is slightly redundant. But would not the current code be a bit more efficient because we skip some extra calculations when we return when accountState is empty?",
+      "parentUuid": "aad6baab_fd77851e",
+      "revId": "b766ae0461a26979faa30ed3b33d546ef1bb82c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

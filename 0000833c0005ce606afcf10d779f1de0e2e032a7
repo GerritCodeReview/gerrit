@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8018931_1848096d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-11T00:36:47Z",
+      "side": 1,
+      "message": "Removed as unused now per your other comment.",
+      "parentUuid": "d7ba8b0e_27c9c2e2",
+      "range": {
+        "startLine": 46,
+        "startChar": 37,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "0000833c0005ce606afcf10d779f1de0e2e032a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "718e28c0_a04ac4a3",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-03-10T19:38:26Z",
       "side": 1,
       "message": "I think this is not relevant anymore. We can remove this and introduce deepEqual since we use it quite often(more than 500 times)",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "0000833c0005ce606afcf10d779f1de0e2e032a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f13353b8_fb052f0e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-11T00:36:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "718e28c0_a04ac4a3",
       "range": {
         "startLine": 45,
         "startChar": 2,

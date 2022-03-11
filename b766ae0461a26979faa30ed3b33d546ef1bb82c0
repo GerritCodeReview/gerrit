@@ -106,6 +106,24 @@
       "parentUuid": "18905075_7ce84339",
       "revId": "b766ae0461a26979faa30ed3b33d546ef1bb82c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aad6baab_fd77851e",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-11T09:45:18Z",
+      "side": 1,
+      "message": "to drive the point home even more: the account ultimately ends up in OutgoingEmail.toAddress(), which does exactly the same check. iow, having it here redundantly just makes things slightly less efficient and obvious.",
+      "parentUuid": "8041d353_d2301694",
+      "revId": "b766ae0461a26979faa30ed3b33d546ef1bb82c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

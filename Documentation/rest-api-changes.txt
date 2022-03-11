@@ -77,8 +77,8 @@ Queries changes visible to the caller. The
 link:user-search.html#_search_operators[query string] must be provided
 by the `q` parameter. The `n` parameter can be used to limit the
 returned results. The `no-limit` parameter can be used remove the default
-limit on queries and return all results. This might not be supported by
-all index backends.
+limit on queries and return all results (does not apply to anonymous requests).
+This might not be supported by all index backends.
 
 As result a list of link:#change-info[ChangeInfo] entries is returned.
 The change output is sorted by the last update time, most recently

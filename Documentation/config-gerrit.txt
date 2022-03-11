@@ -3213,7 +3213,7 @@ results when searching with an offset. Requesting results starting past
 this threshold times the requested limit will result in an error. Set to
 0 for no limit.
 +
-Defaults to no limit.
+Defaults to 100.
 
 [[index.maxTerms]]index.maxTerms::
 +

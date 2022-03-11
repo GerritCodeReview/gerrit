@@ -22,6 +22,30 @@
       },
       "revId": "0a2ae71c15b1bdcaf0c9924308a0b2b1a2dabf03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5113286_d9fafb49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-11T14:33:59Z",
+      "side": 1,
+      "message": "The branch is visible:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.3-issue-15563",
+      "parentUuid": "b689f85a_3ef8f695",
+      "range": {
+        "startLine": 8,
+        "startChar": 14,
+        "endLine": 8,
+        "endChar": 36
+      },
+      "revId": "0a2ae71c15b1bdcaf0c9924308a0b2b1a2dabf03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

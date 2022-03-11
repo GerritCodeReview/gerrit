@@ -226,8 +226,10 @@ public class ProjectWatch {
         // Otherwise, still return true to stop notifications for this user.
         if (watchedTypes.contains(type)) {
           matching.bcc.accounts.add(accountId);
+          logger.atFine().log("Added account %s as watcher", accountId);
+        } else {
+          logger.atFine().log("Account %s is not watching %s", accountId, type);
         }
-        logger.atFine().log("Added account %s as watcher", accountId);
         return true;
       }
       logger.atFine().log("The filter did not match for account %s; skip notification", accountId);

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8fb704a_a8bb5abc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-03-11T12:32:07Z",
+      "side": 1,
+      "message": "Maybe rewrite this paragraph as:\n\nThe assumption that the existence of the SSH host key means that all users use SSH protocol is wrong. Some may use SSH and some will use HTTP protocol.\nSince a CommitValidationListener doesn\u0027t know which protocol was used provide\nboth SSH and HTTP variant of the command to install the commit message hook.",
+      "revId": "ddce1ac07cf346161aefa3a5fe942dd0ce38997d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9268c55_3f87a2d1",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-03-11T12:32:07Z",
+      "side": 1,
+      "message": "[optional] since the http based command is extracted into a variable, extract the SSH variant also in a variable. Actually even better would be to make then both string constants at the top of this class:\n\n private static final String HTTP_INSTALL_HOOK \u003d \" ...\";\n private static final String SSH_INSTALL_HOOK \u003d \"...\";",
+      "revId": "ddce1ac07cf346161aefa3a5fe942dd0ce38997d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

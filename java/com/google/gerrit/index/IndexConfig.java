@@ -17,6 +17,7 @@ package com.google.gerrit.index;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 import org.eclipse.jgit.lib.Config;
@@ -31,6 +32,8 @@ import org.eclipse.jgit.lib.Config;
 public abstract class IndexConfig {
   private static final int DEFAULT_MAX_TERMS = 1024;
 
+  @VisibleForTesting static final int DEFAULT_MAX_PAGES = 100;
+
   public static IndexConfig createDefault() {
     return builder().build();
   }
@@ -38,14 +41,18 @@ public abstract class IndexConfig {
   public static Builder fromConfig(Config cfg) {
     Builder b = builder();
     setIfPresent(cfg, "maxLimit", b::maxLimit);
-    setIfPresent(cfg, "maxPages", b::maxPages);
+    setIfPresent(cfg, "maxPages", DEFAULT_MAX_PAGES, b::maxPages);
     setIfPresent(cfg, "maxTerms", b::maxTerms);
     setTypeOrDefault(cfg, b::type);
     return b;
   }
 
   private static void setIfPresent(Config cfg, String name, IntConsumer setter) {
-    int n = cfg.getInt("index", null, name, 0);
+    setIfPresent(cfg, name, 0, setter);
+  }
+
+  private static void setIfPresent(Config cfg, String name, int def, IntConsumer setter) {
+    int n = cfg.getInt("index", null, name, def);
     if (n != 0) {
       setter.accept(n);
     }

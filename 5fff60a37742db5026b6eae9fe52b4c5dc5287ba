@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9474a0c_c3ab077f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-12T02:11:42Z",
+      "side": 1,
+      "message": "It should not be mentioned in the release notes because this breakage was never released: I figured out the regression when validating the generated .war whilst preparing Gerrit v3.3.10",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 19
+      },
+      "revId": "5fff60a37742db5026b6eae9fe52b4c5dc5287ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -21,8 +21,8 @@ import './gr-change-status';
 import {ChangeStates, GrChangeStatus, WIP_TOOLTIP} from './gr-change-status';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {MERGE_CONFLICT_TOOLTIP} from './gr-change-status';
-
-const basicFixture = fixtureFromElement('gr-change-status');
+import {fixture, html} from '@open-wc/testing-helpers';
+import {queryAndAssert} from '../../../test/test-utils';
 
 const PRIVATE_TOOLTIP =
   'This change is only visible to its owner and ' +
@@ -31,27 +31,29 @@ const PRIVATE_TOOLTIP =
 suite('gr-change-status tests', () => {
   let element: GrChangeStatus;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture<GrChangeStatus>(html`
+      <gr-change-status></gr-change-status>
+    `);
   });
 
-  test('WIP', () => {
+  test('WIP', async () => {
     element.status = ChangeStates.WIP;
-    flush();
+    await element.updateComplete;
     assert.equal(
-      element.shadowRoot!.querySelector<HTMLDivElement>('.chip')!.innerText,
+      queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
       'Work in Progress'
     );
     assert.equal(element.tooltipText, WIP_TOOLTIP);
     assert.isTrue(element.classList.contains('wip'));
   });
 
-  test('WIP flat', () => {
+  test('WIP flat', async () => {
     element.flat = true;
     element.status = ChangeStates.WIP;
-    flush();
+    await element.updateComplete;
     assert.equal(
-      element.shadowRoot!.querySelector<HTMLDivElement>('.chip')!.innerText,
+      queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
       'WIP'
     );
     assert.isDefined(element.tooltipText);
@@ -59,44 +61,47 @@ suite('gr-change-status tests', () => {
     assert.isTrue(element.hasAttribute('flat'));
   });
 
-  test('merged', () => {
+  test('merged', async () => {
     element.status = ChangeStates.MERGED;
-    flush();
+    await element.updateComplete;
     assert.equal(
-      element.shadowRoot!.querySelector<HTMLDivElement>('.chip')!.innerText,
+      queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
       'Merged'
     );
     assert.equal(element.tooltipText, '');
     assert.isTrue(element.classList.contains('merged'));
-    assert.isFalse(
-      element.showResolveIcon([{url: 'http://google.com'}], ChangeStates.MERGED)
-    );
+    element.resolveWeblinks = [{url: 'http://google.com'}];
+    element.status = ChangeStates.MERGED;
+    assert.isFalse(element.showResolveIcon());
   });
 
-  test('abandoned', () => {
+  test('abandoned', async () => {
     element.status = ChangeStates.ABANDONED;
-    flush();
+    await element.updateComplete;
     assert.equal(
-      element.shadowRoot!.querySelector<HTMLDivElement>('.chip')!.innerText,
+      queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
       'Abandoned'
     );
     assert.equal(element.tooltipText, '');
     assert.isTrue(element.classList.contains('abandoned'));
   });
 
-  test('merge conflict', () => {
+  test('merge conflict', async () => {
     const status = ChangeStates.MERGE_CONFLICT;
     element.status = status;
-    flush();
+    await element.updateComplete;
 
     assert.equal(
-      element.shadowRoot!.querySelector<HTMLDivElement>('.chip')!.innerText,
+      queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
       'Merge Conflict'
     );
     assert.equal(element.tooltipText, MERGE_CONFLICT_TOOLTIP);
     assert.isTrue(element.classList.contains('merge-conflict'));
-    assert.isFalse(element.hasStatusLink(undefined, [], status));
-    assert.isFalse(element.showResolveIcon([], status));
+    element.revertedChange = undefined;
+    element.resolveWeblinks = [];
+    element.status = status;
+    assert.isFalse(element.hasStatusLink());
+    assert.isFalse(element.showResolveIcon());
   });
 
   test('merge conflict with resolve link', () => {
@@ -104,9 +109,12 @@ suite('gr-change-status tests', () => {
     const url = 'http://google.com';
     const weblinks = [{url}];
 
-    assert.isTrue(element.hasStatusLink(undefined, weblinks, status));
-    assert.equal(element.getStatusLink(undefined, weblinks, status), url);
-    assert.isTrue(element.showResolveIcon(weblinks, status));
+    element.revertedChange = undefined;
+    element.resolveWeblinks = weblinks;
+    element.status = status;
+    assert.isTrue(element.hasStatusLink());
+    assert.equal(element.getStatusLink(), url);
+    assert.isTrue(element.showResolveIcon());
   });
 
   test('reverted change', () => {
@@ -115,51 +123,54 @@ suite('gr-change-status tests', () => {
     const revertedChange = createChange();
     sinon.stub(GerritNav, 'getUrlForSearchQuery').returns(url);
 
-    assert.isTrue(element.hasStatusLink(revertedChange, [], status));
-    assert.equal(element.getStatusLink(revertedChange, [], status), url);
+    element.revertedChange = revertedChange;
+    element.resolveWeblinks = [];
+    element.status = status;
+    assert.isTrue(element.hasStatusLink());
+    assert.equal(element.getStatusLink(), url);
   });
 
-  test('private', () => {
+  test('private', async () => {
     element.status = ChangeStates.PRIVATE;
-    flush();
+    await element.updateComplete;
     assert.equal(
-      element.shadowRoot!.querySelector<HTMLDivElement>('.chip')!.innerText,
+      queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
       'Private'
     );
     assert.equal(element.tooltipText, PRIVATE_TOOLTIP);
     assert.isTrue(element.classList.contains('private'));
   });
 
-  test('active', () => {
+  test('active', async () => {
     element.status = ChangeStates.ACTIVE;
-    flush();
+    await element.updateComplete;
     assert.equal(
-      element.shadowRoot!.querySelector<HTMLDivElement>('.chip')!.innerText,
+      queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
       'Active'
     );
     assert.equal(element.tooltipText, '');
     assert.isTrue(element.classList.contains('active'));
   });
 
-  test('ready to submit', () => {
+  test('ready to submit', async () => {
     element.status = ChangeStates.READY_TO_SUBMIT;
-    flush();
+    await element.updateComplete;
     assert.equal(
-      element.shadowRoot!.querySelector<HTMLDivElement>('.chip')!.innerText,
+      queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
       'Ready to submit'
     );
     assert.equal(element.tooltipText, '');
     assert.isTrue(element.classList.contains('ready-to-submit'));
   });
 
-  test('updating status removes the previous class', () => {
+  test('updating status removes the previous class', async () => {
     element.status = ChangeStates.PRIVATE;
-    flush();
+    await element.updateComplete;
     assert.isTrue(element.classList.contains('private'));
     assert.isFalse(element.classList.contains('wip'));
 
     element.status = ChangeStates.WIP;
-    flush();
+    await element.updateComplete;
     assert.isFalse(element.classList.contains('private'));
     assert.isTrue(element.classList.contains('wip'));
   });

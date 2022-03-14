@@ -16,6 +16,24 @@
       "message": "Please add a test for this.",
       "revId": "61f5faafe7046dd3534ba8a278dbec9faddada0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67b54296_51a94227",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-14T15:57:15Z",
+      "side": 1,
+      "message": "There is a test already?\nWhich part is missing from the test?",
+      "parentUuid": "2d035866_0b29f876",
+      "revId": "61f5faafe7046dd3534ba8a278dbec9faddada0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

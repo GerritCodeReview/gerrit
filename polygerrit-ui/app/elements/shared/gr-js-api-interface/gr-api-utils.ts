@@ -62,7 +62,7 @@ export function getPluginNameFromUrl(url: URL | string) {
 
   // Pathname should normally look like this:
   // /plugins/PLUGINNAME/static/SCRIPTNAME.js
-  // Or, for app/samples:
+  // Or:
   // /plugins/PLUGINNAME.js
   // TODO(taoalpha): guard with a regex
   return pathname.split('/')[2].split('.')[0];

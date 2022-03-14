@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import '../../shared/gr-account-link/gr-account-link';
+import '../../shared/gr-account-label/gr-account-label';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   GroupInfo,
@@ -119,11 +119,11 @@ export class GrGroupAuditLog extends LitElement {
             ? html`<a href=${this.computeGroupUrl(audit.member)}
                 >${this.getNameForGroup(audit.member)}</a
               >`
-            : html`<gr-account-link .account=${audit.member}></gr-account-link
+            : html`<gr-account-label .account=${audit.member}></gr-account-label
                 >${this.getIdForUser(audit.member)}`}
         </td>
         <td class="by-user">
-          <gr-account-link .account=${audit.user}></gr-account-link>
+          <gr-account-label .account=${audit.user}></gr-account-label>
           ${this.getIdForUser(audit.user)}
         </td>
       </tr>

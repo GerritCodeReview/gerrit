@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68544688_54ca1ccb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-14T11:36:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04fe3f05_e4e19f03",
+      "revId": "881dd195aff1d1214d8d21ff0afa6f1aabd78994",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "560b4663_c7c0389f",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-14T09:42:44Z",
       "side": 1,
       "message": "What might be cleaner is an errFn that throws an exception and then you can .then and .catch in the consumer side of the promise.",
+      "revId": "881dd195aff1d1214d8d21ff0afa6f1aabd78994",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fc0d343_25d990ad",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-14T11:36:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "560b4663_c7c0389f",
       "revId": "881dd195aff1d1214d8d21ff0afa6f1aabd78994",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

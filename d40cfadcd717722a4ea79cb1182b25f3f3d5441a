@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "369cb1fc_53c7bb4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-14T21:31:47Z",
+      "side": 0,
+      "message": "I feel this regressed by https://gerrit-review.googlesource.com/c/gerrit/+/324827/2/polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts#b189\n\nIt should preventDefault only when dropdown is open. I think removing this would disable jumping between items in dropdown by tab.",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 55
+      },
+      "revId": "d40cfadcd717722a4ea79cb1182b25f3f3d5441a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

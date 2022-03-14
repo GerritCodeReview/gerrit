@@ -16,6 +16,24 @@
       "message": "I\u0027m assuming if its abandoned it won\u0027t have an actions.abandon?",
       "revId": "c60b68a8893ee5ffb61e457ac6387427ae61749c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39f0f47a_b6e24917",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-14T16:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2b545e_417be859",
+      "revId": "c60b68a8893ee5ffb61e457ac6387427ae61749c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

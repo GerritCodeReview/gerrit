@@ -25,6 +25,7 @@ import {sharedStyles} from '../../styles/shared-styles';
 import {DependencyRequestEvent} from '../../models/dependency';
 import {addShortcut, Key} from '../../utils/dom-util';
 import {ShortcutController} from '../../elements/lit/shortcut-controller';
+import {getFocusableElements} from '../../utils/focusable';
 
 interface ReloadEventDetail {
   clearPatchset?: boolean;
@@ -407,6 +408,11 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       );
     }
 
+    override focus(options?: FocusOptions): void {
+      const a = getFocusableElements(this).next();
+      if (!a.done) a.value.focus(options);
+    }
+
     cancelShowTask() {
       if (!this.showTask) return;
       this.showTask.cancel();
@@ -432,7 +438,6 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
       // Mark that the hovercard is now visible
       this._isShowing = true;
-      this.setAttribute('tabindex', '0');
 
       // Add it to the DOM and calculate its position
       this.container.appendChild(this);

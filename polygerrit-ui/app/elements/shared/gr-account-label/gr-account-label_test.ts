@@ -67,7 +67,13 @@ suite('gr-account-label tests', () => {
         <gr-hovercard-account for="hovercardTarget"></gr-hovercard-account>
         <span class="hovercardTargetWrapper" tabindex="0">
           <gr-avatar hidden="" imagesize="32"> </gr-avatar>
-          <span class="name" id="hovercardTarget" part="gr-account-label-text">
+          <span
+            class="name"
+            id="hovercardTarget"
+            part="gr-account-label-text"
+            role="button"
+            tabindex="0"
+          >
             kermit
           </span>
           <gr-endpoint-decorator

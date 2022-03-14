@@ -16,6 +16,24 @@
       "message": "Should we close before we reload?",
       "revId": "4503cb1909a01a6d644f4390912ab99531fa9b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44027d9c_2ea849af",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-14T08:57:22Z",
+      "side": 1,
+      "message": "Why would you not reload if some failed?",
+      "parentUuid": "e14839ab_fc8aa0ec",
+      "revId": "4503cb1909a01a6d644f4390912ab99531fa9b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

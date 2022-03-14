@@ -17,15 +17,15 @@
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../gr-icons/gr-icons';
 import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-change-status_html';
-import {customElement, property} from '@polymer/decorators';
 import {
   GeneratedWebLink,
   GerritNav,
 } from '../../core/gr-navigation/gr-navigation';
 import {ChangeInfo} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html, css} from 'lit';
+import {customElement, property} from 'lit/decorators';
 
 export enum ChangeStates {
   ABANDONED = 'Abandoned',
@@ -54,18 +54,14 @@ const PRIVATE_TOOLTIP =
   'current reviewers (or anyone with "View Private Changes" permission).';
 
 @customElement('gr-change-status')
-export class GrChangeStatus extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: Boolean, reflectToAttribute: true})
+export class GrChangeStatus extends LitElement {
+  @property({type: Boolean, reflect: true})
   flat = false;
 
   @property({type: Object})
   change?: ChangeInfo | ParsedChangeInfo;
 
-  @property({type: String, observer: '_updateChipDetails'})
+  @property({type: String})
   status?: ChangeStates;
 
   @property({type: String})
@@ -77,60 +73,170 @@ export class GrChangeStatus extends PolymerElement {
   @property({type: Object})
   resolveWeblinks?: GeneratedWebLink[] = [];
 
-  _computeStatusString(status?: ChangeStates) {
-    if (status === ChangeStates.WIP && !this.flat) {
-      return 'Work in Progress';
-    }
-    return status ?? '';
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        .chip {
+          border-radius: var(--border-radius);
+          background-color: var(--chip-background-color);
+          padding: 0 var(--spacing-m);
+          white-space: nowrap;
+        }
+        :host(.merged) .chip {
+          background-color: var(--status-merged);
+          color: var(--status-merged);
+        }
+        :host(.abandoned) .chip {
+          background-color: var(--status-abandoned);
+          color: var(--status-abandoned);
+        }
+        :host(.wip) .chip {
+          background-color: var(--status-wip);
+          color: var(--status-wip);
+        }
+        :host(.private) .chip {
+          background-color: var(--status-private);
+          color: var(--status-private);
+        }
+        :host(.merge-conflict) .chip {
+          background-color: var(--status-conflict);
+          color: var(--status-conflict);
+        }
+        :host(.active) .chip {
+          background-color: var(--status-active);
+          color: var(--status-active);
+        }
+        :host(.ready-to-submit) .chip {
+          background-color: var(--status-ready);
+          color: var(--status-ready);
+        }
+        :host(.revert-created) .chip {
+          background-color: var(--status-revert-created);
+          color: var(--status-revert-created);
+        }
+        :host(.revert-submitted) .chip {
+          background-color: var(--status-revert-created);
+          color: var(--status-revert-created);
+        }
+        .status-link {
+          text-decoration: none;
+        }
+        :host(.custom) .chip {
+          background-color: var(--status-custom);
+          color: var(--status-custom);
+        }
+        :host([flat]) .chip {
+          background-color: transparent;
+          padding: 0;
+        }
+        :host(:not([flat])) .chip,
+        .icon {
+          color: var(--status-text-color);
+        }
+        .icon {
+          --iron-icon-height: 18px;
+          --iron-icon-width: 18px;
+        }
+      `,
+    ];
   }
 
-  _toClassName(str?: ChangeStates) {
+  override render() {
+    return html`
+      <gr-tooltip-content
+        has-tooltip
+        position-below
+        .title=${this.tooltipText}
+        .maxWidth=${'40em'}
+      >
+        ${this.renderStatusLink()}
+      </gr-tooltip-content>
+    `;
+  }
+
+  private renderStatusLink() {
+    if (!this.hasStatusLink()) {
+      return html`
+        <div class="chip" aria-label="Label: ${this.status}">
+          ${this.computeStatusString()}
+        </div>
+      `;
+    }
+
+    return html`
+      <a class="status-link" href="${this.getStatusLink()}">
+        <div class="chip" aria-label="Label: ${this.status}">
+          ${this.computeStatusString()}
+          ${this.showResolveIcon()
+            ? html`<iron-icon class="icon" icon="gr-icons:edit"></iron-icon>`
+            : ''}
+        </div>
+      </a>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('status')) {
+      this.updateChipDetails(changedProperties.get('status') as ChangeStates);
+    }
+  }
+
+  private computeStatusString() {
+    if (this.status === ChangeStates.WIP && !this.flat) {
+      return 'Work in Progress';
+    }
+    return this.status ?? '';
+  }
+
+  private toClassName(str?: ChangeStates) {
     return str ? str.toLowerCase().replace(/\s/g, '-') : '';
   }
 
-  hasStatusLink(
-    revertedChange?: ChangeInfo,
-    resolveWeblinks?: GeneratedWebLink[],
-    status?: ChangeStates
-  ): boolean {
+  // private but used in test
+  hasStatusLink(): boolean {
     const isRevertCreatedOrSubmitted =
-      (status === ChangeStates.REVERT_SUBMITTED ||
-        status === ChangeStates.REVERT_CREATED) &&
-      revertedChange !== undefined;
+      (this.status === ChangeStates.REVERT_SUBMITTED ||
+        this.status === ChangeStates.REVERT_CREATED) &&
+      this.revertedChange !== undefined;
     return (
       isRevertCreatedOrSubmitted ||
-      !!(status === ChangeStates.MERGE_CONFLICT && resolveWeblinks?.length)
+      !!(
+        this.status === ChangeStates.MERGE_CONFLICT &&
+        this.resolveWeblinks?.length
+      )
     );
   }
 
-  getStatusLink(
-    revertedChange?: ChangeInfo,
-    resolveWeblinks?: GeneratedWebLink[],
-    status?: ChangeStates
-  ): string {
-    if (revertedChange) {
-      return GerritNav.getUrlForSearchQuery(`${revertedChange._number}`);
+  // private but used in test
+  getStatusLink(): string {
+    if (this.revertedChange) {
+      return GerritNav.getUrlForSearchQuery(`${this.revertedChange._number}`);
     }
-    if (status === ChangeStates.MERGE_CONFLICT && resolveWeblinks?.length) {
-      return resolveWeblinks[0].url ?? '';
+    if (
+      this.status === ChangeStates.MERGE_CONFLICT &&
+      this.resolveWeblinks?.length
+    ) {
+      return this.resolveWeblinks[0].url ?? '';
     }
     return '';
   }
 
-  showResolveIcon(
-    resolveWeblinks?: GeneratedWebLink[],
-    status?: ChangeStates
-  ): boolean {
-    return status === ChangeStates.MERGE_CONFLICT && !!resolveWeblinks?.length;
+  // private but used in test
+  showResolveIcon(): boolean {
+    return (
+      this.status === ChangeStates.MERGE_CONFLICT &&
+      !!this.resolveWeblinks?.length
+    );
   }
 
-  _updateChipDetails(status?: ChangeStates, previousStatus?: ChangeStates) {
+  private updateChipDetails(previousStatus?: ChangeStates) {
     if (previousStatus) {
-      this.classList.remove(this._toClassName(previousStatus));
+      this.classList.remove(this.toClassName(previousStatus));
     }
-    this.classList.add(this._toClassName(status));
+    this.classList.add(this.toClassName(this.status));
 
-    switch (status) {
+    switch (this.status) {
       case ChangeStates.WIP:
         this.tooltipText = WIP_TOOLTIP;
         break;

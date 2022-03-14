@@ -1213,12 +1213,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     change(r).attention(admin.email()).remove(new AttentionSetInput("remove"));
     change(r).current().submit();
 
-    AttentionSetUpdate attentionSet =
-        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("remove");
+    assertThat(getAttentionSetUpdatesForUser(r, admin)).isEmpty();
   }
 
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(

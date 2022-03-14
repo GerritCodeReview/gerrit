@@ -38,7 +38,10 @@ class HovercardMixinTest extends base {
   }
 
   override render() {
-    return html`<div id="container"><slot></slot></div>`;
+    return html` <div id="container">
+      <span tabindex="0" id="focusable"></span>
+      <slot></slot>
+    </div>`;
   }
 }
 
@@ -211,7 +214,7 @@ suite('gr-hovercard tests', () => {
     await element.updateComplete;
     assert.isTrue(element._isShowing);
     const activeElement = findActiveElement(document);
-    assert.isTrue(activeElement === element);
+    assert.equal(activeElement?.id, 'focusable');
   });
 
   test('when on mouseEvent, focus is not moved to hovercard', async () => {
@@ -222,6 +225,6 @@ suite('gr-hovercard tests', () => {
     await element.updateComplete;
     assert.isTrue(element._isShowing);
     const activeElement = findActiveElement(document);
-    assert.isTrue(activeElement !== element);
+    assert.notEqual(activeElement?.id, 'focusable');
   });
 });

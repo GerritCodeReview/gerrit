@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04fe3f05_e4e19f03",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-14T09:41:37Z",
+      "side": 1,
+      "message": "I don\u0027t think this will do what you want it to.\n\nAll promises resolve.  Which means that errFn will get called and then the promise will resolve so you\u0027ll have a quick \u0027FAILED\u0027 before it shows \u0027SUCCESSFUL\u0027",
+      "revId": "881dd195aff1d1214d8d21ff0afa6f1aabd78994",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

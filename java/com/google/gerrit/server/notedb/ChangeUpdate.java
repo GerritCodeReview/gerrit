@@ -820,7 +820,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
     }
 
-    updateAttentionSet(msg);
+    boolean hasAttentionSeUpdates = updateAttentionSet(msg);
+    if (isEmptyWithoutAttentionSet() && !hasAttentionSeUpdates) {
+      return NO_OP_UPDATE;
+    }
 
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage(msg.toString());
@@ -954,8 +957,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * <p>Changing the behaviour of this method might affect the way a ChangeUpdate is considered to
    * be an "Attention Set Change Only". Make sure the {@link #isAttentionSetChangeOnly} logic is
    * amended as well if needed.
+   *
+   * @return True if one or more attention set updates are appended to the {@code msg}, and false
+   *     otherwise.
    */
-  private void updateAttentionSet(StringBuilder msg) {
+  private boolean updateAttentionSet(StringBuilder msg) {
     if (plannedAttentionSetUpdates == null) {
       plannedAttentionSetUpdates = new HashMap<>();
     }
@@ -980,6 +986,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             .collect(ImmutableSet.toImmutableSet()));
 
     removeInactiveUsersFromAttentionSet(currentReviewers);
+
+    boolean hasUpdates = false;
 
     for (AttentionSetUpdate attentionSetUpdate : plannedAttentionSetUpdates.values()) {
       if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD
@@ -1015,7 +1023,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
 
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
+      hasUpdates = true;
     }
+    return hasUpdates;
   }
 
   private void removeInactiveUsersFromAttentionSet(Set<Account.Id> currentReviewers) {
@@ -1083,6 +1093,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @Override
   public boolean isEmpty() {
+    return isEmptyWithoutAttentionSet() && plannedAttentionSetUpdates == null;
+  }
+
+  private boolean isEmptyWithoutAttentionSet() {
     return commitSubject == null
         && approvals.isEmpty()
         && copiedApprovals.isEmpty()
@@ -1095,7 +1109,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && status == null
         && submissionId == null
         && submitRecords == null
-        && plannedAttentionSetUpdates == null
         && assignee == null
         && hashtags == null
         && topic == null

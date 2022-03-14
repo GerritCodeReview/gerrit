@@ -86,6 +86,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d89d771_f5dfa909",
+        "filename": "java/com/google/gerrit/extensions/events/AttentionSetListener.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-14T23:22:33Z",
+      "side": 1,
+      "message": "Ack; now that the AttentionSetUpdate is being included, this isn\u0027t simply a ChangeEvent anymore.",
+      "parentUuid": "29cc697c_a26b2964",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01557dd9_655e910b",
@@ -99,6 +117,24 @@
       "writtenOn": "2022-03-09T10:07:45Z",
       "side": 1,
       "message": "Could you add Javadoc here?",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00f222fa_8b2c55e0",
+        "filename": "java/com/google/gerrit/extensions/events/AttentionSetListener.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-14T23:22:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01557dd9_655e910b",
       "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -176,6 +212,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5764cb6f_46e4294a",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-14T23:22:33Z",
+      "side": 1,
+      "message": "The use case I\u0027m developing for is a notification service plugin that passes AttentionSet changes to another API. Having a \"diff\" for who was added or removed would be very useful, even if there\u0027s a chance they come in out-of-order.\n\nI can\u0027t simply include an \"AttentionSetUpdate\"; doing so would cause a circular dependency between `//java/com/google/gerrit/entities:entities` and `//java/com/google/gerrit/extensions:api`. So I had to define my own interface that contained both the user being added/removed and whether or not they were added (or removed).\n\nIs two sets too much? While it\u0027s clear that an \"AttentionSetUpdate\" object contains only one user being added or removed, it\u0027s not clear that the API should be constrained to that.",
+      "parentUuid": "59cdbef3_bc093cc2",
+      "range": {
+        "startLine": 109,
+        "startChar": 24,
+        "endLine": 109,
+        "endChar": 28
+      },
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b75b5fc_08a147e2",
         "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
         "patchSetId": 10
@@ -187,6 +247,24 @@
       "writtenOn": "2022-03-09T10:07:45Z",
       "side": 1,
       "message": "Can we have the name reflect that this helps with firing an event? The class name suggests that this object represents the change, or is in fact itself the event.",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc202440_13abef25",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-14T23:22:33Z",
+      "side": 1,
+      "message": "Sure, but then this class doesn\u0027t follow the pattern of the similar classes around it. What do you think of this?",
+      "parentUuid": "4b75b5fc_08a147e2",
       "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -208,6 +286,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ebecfa3_f4fa07b5",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-14T23:22:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fec28a53_f3712bc7",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c99ca251_261166a6",
@@ -221,6 +317,24 @@
       "writtenOn": "2022-03-09T10:07:45Z",
       "side": 1,
       "message": "This wording seems a bit misleading in the case where the listener is called (so the event is fired) but throws an exception.",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dc630a7_6caa8395",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-14T23:22:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c99ca251_261166a6",
       "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -242,6 +356,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ffc1b6f_0616d3ed",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-14T23:22:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6f4f39bf_f9bdcd71",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83625077_b8659e3f",
@@ -259,6 +391,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0b3d00e_1eef680c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-14T23:22:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "83625077_b8659e3f",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0183b09c_a335260c",
@@ -272,6 +422,30 @@
       "writtenOn": "2022-03-08T11:36:03Z",
       "side": 1,
       "message": "With this, we only could do one module, I think. Is it possible to follow the pattern of the listener in l.4792 (See above)?",
+      "range": {
+        "startLine": 4762,
+        "startChar": 16,
+        "endLine": 4762,
+        "endChar": 28
+      },
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9361bfae_62d3c243",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 4762,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-14T23:22:33Z",
+      "side": 1,
+      "message": "Ah, that explains that pattern! Done.",
+      "parentUuid": "0183b09c_a335260c",
       "range": {
         "startLine": 4762,
         "startChar": 16,

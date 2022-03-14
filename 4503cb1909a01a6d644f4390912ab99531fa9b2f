@@ -52,6 +52,24 @@
       "parentUuid": "44027d9c_2ea849af",
       "revId": "4503cb1909a01a6d644f4390912ab99531fa9b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "368c0523_1d757cd6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-14T09:09:03Z",
+      "side": 1,
+      "message": "I would reload always, regardless. It\u0027s confusing to have different behavior for each case.\n\nAdditionally, if a change is no longer there, it may have changed in the interim so it might have been abandoned manually in a different tab. Therefore, I would always reload post-close, so that the user sees the most up-to-date dashboard.",
+      "parentUuid": "e443b6d2_b5afc664",
+      "revId": "4503cb1909a01a6d644f4390912ab99531fa9b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

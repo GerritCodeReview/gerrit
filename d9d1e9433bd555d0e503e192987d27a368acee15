@@ -52,6 +52,24 @@
       "parentUuid": "59a2712c_88a55757",
       "revId": "d9d1e9433bd555d0e503e192987d27a368acee15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "540f5220_8f0e4fd5",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-14T09:13:10Z",
+      "side": 1,
+      "message": "This is part of the reason why I wanted to keep everything in the component.  The API for this function feels a bit off.  It\u0027s weird to talk to a model in terms of a high-level action but then get back a low-level primitive response like an HTTP Response.\n\nAnyways, let\u0027s keep this as is for now and refactor when we get a better sense of what other actions will look like.",
+      "parentUuid": "918b1a10_ec3a0ba3",
+      "revId": "d9d1e9433bd555d0e503e192987d27a368acee15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

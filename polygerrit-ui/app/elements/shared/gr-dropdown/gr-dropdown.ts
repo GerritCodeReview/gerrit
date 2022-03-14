@@ -139,7 +139,11 @@ export class GrDropdown extends PolymerElement {
       addShortcut(this, {key: Key.DOWN}, () => this._handleDown())
     );
     this.cleanups.push(
-      addShortcut(this, {key: Key.TAB}, () => this._handleTab())
+      addShortcut(
+        this,
+        {key: Key.TAB},
+        (e: KeyboardEvent) => this._handleTab(e),
+        {doNotPrevent: true})
     );
     this.cleanups.push(
       addShortcut(this, {key: Key.ENTER}, () => this._handleEnter())
@@ -181,8 +185,13 @@ export class GrDropdown extends PolymerElement {
   /**
    * Handle the tab key.
    */
-  _handleTab() {
-    // Tab in a native select is a no-op. Emulate this.
+  _handleTab(e: KeyboardEvent) {
+    // Tab in a native select is a no-op. Emulate this, but only if
+    // the dropdown is open.
+    if (this.$.dropdown.opened) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   }
 
   /**

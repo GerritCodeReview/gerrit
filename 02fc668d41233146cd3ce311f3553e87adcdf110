@@ -70,6 +70,30 @@
       },
       "revId": "02fc668d41233146cd3ce311f3553e87adcdf110",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "170d79a3_0a42309b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-03-14T07:34:32Z",
+      "side": 1,
+      "message": "\u003e At the very least, it\u0027s wonderfully useful (and well established practice) to test queries you want to use in configuration or automation with one of the query APIs.\n\nI agree to that. \n\n\u003e Not just in the per-request sense, but also in the \"every team that wants this feature has to write code for this now\" sense.\n\nI agree, but for this case specifically, not even a single team has asked if this could be used in queries. So I reside on the side of \"keep it as simple\".\n\n\u003e We\u0027ve had plenty of non-index predicates in the past, so why wouldn\u0027t we augment index capabilities with non-index functionality when it makes sense to? I think creating this whole extra layer of SubmitRequirementPredicates goes away if we do that.\n\nLuca is working on resolving an issue where certain queries (because of visibility-post-processing) bring down an entire server. You are right in that we could post process (and the visibility predicate works like that). But it comes at the risk of queries being very expensive in some corner cases that we then have to debug and figure out.",
+      "parentUuid": "2fdec33e_b9a1ca51",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "02fc668d41233146cd3ce311f3553e87adcdf110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

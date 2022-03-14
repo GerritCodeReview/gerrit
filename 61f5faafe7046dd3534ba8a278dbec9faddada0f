@@ -88,6 +88,24 @@
       "parentUuid": "8dc6771b_14911ce2",
       "revId": "61f5faafe7046dd3534ba8a278dbec9faddada0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "784e39f6_d67b59a7",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-14T16:32:14Z",
+      "side": 1,
+      "message": "Added cases for #1 and #2 in bulk-actions-model_test.\n\nThe waitUntil is checking that the the numericId 1 is associated with failed so that should cover that the correct errorId is being propagated between error functions.\n\nelement.progress.get(1 as NumericChangeId)",
+      "parentUuid": "6dae1d13_96348822",
+      "revId": "61f5faafe7046dd3534ba8a278dbec9faddada0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

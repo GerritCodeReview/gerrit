@@ -8,10 +8,11 @@ import {customElement, state, query} from 'lit/decorators';
 import {LitElement, html, css} from 'lit';
 import {resolve} from '../../../models/dependency';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
-import {NumericChangeId, ChangeInfo} from '../../../api/rest-api';
+import {NumericChangeId, ChangeInfo, ChangeStatus} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ProgressStatus} from '../../../constants/constants';
+import '../../shared/gr-dialog/gr-dialog';
 
 @customElement('gr-change-list-bulk-abandon-flow')
 export class GrChangeListBulkAbandonFlow extends LitElement {
@@ -95,8 +96,7 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
   private isEnabled() {
     return this.selectedChanges.every(
       change =>
-        // TODO: Add handling for when change is already abandoned
-        !!change.actions?.abandon
+        !!change.actions?.abandon || change.status === ChangeStatus.ABANDONED
     );
   }
 
@@ -107,18 +107,20 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
     }
     this.requestUpdate();
     const errFn = (changeNum: NumericChangeId) => {
-      this.progress.set(changeNum, ProgressStatus.FAILED);
-      this.requestUpdate();
+      throw new Error(`request for ${changeNum} failed`);
     };
     const promises = this.getBulkActionsModel().abandonChanges('', errFn);
     for (let index = 0; index < promises.length; index++) {
-      promises[index].then(result => {
-        const changeNum = this.selectedChanges[index]._number;
-        if (result?.status !== 200)
+      const changeNum = this.selectedChanges[index]._number;
+      promises[index]
+        .then(() => {
+          this.progress.set(changeNum, ProgressStatus.SUCCESSFUL);
+          this.requestUpdate();
+        })
+        .catch(() => {
           this.progress.set(changeNum, ProgressStatus.FAILED);
-        else this.progress.set(changeNum, ProgressStatus.SUCCESSFUL);
-        this.requestUpdate();
-      });
+          this.requestUpdate();
+        });
     }
   }
 }

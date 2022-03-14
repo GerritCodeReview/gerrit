@@ -28,12 +28,12 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {GrLabelInfo} from './gr-label-info';
 import {GrButton} from '../gr-button/gr-button';
 import {GrLabel} from '../gr-label/gr-label';
-import {GrAccountLink} from '../gr-account-link/gr-account-link';
 import {
   createAccountWithIdNameAndEmail,
   createParsedChange,
 } from '../../../test/test-data-generators';
 import {LabelInfo} from '../../../types/common';
+import {GrAccountLabel} from '../gr-account-label/gr-account-label';
 
 const basicFixture = fixtureFromElement('gr-label-info');
 
@@ -198,7 +198,7 @@ suite('gr-label-info tests', () => {
         },
       };
       await element.updateComplete;
-      const chips = queryAll<GrAccountLink>(element, 'gr-account-link');
+      const chips = queryAll<GrAccountLabel>(element, 'gr-account-label');
       assert.equal(chips[0].account!._account_id, element.account._account_id);
     });
   });

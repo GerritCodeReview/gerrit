@@ -21,7 +21,6 @@ import '../../../styles/gr-paper-styles';
 import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
-import '../../shared/gr-account-link/gr-account-link';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import '../../shared/gr-account-link/gr-account-link';
+import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-overlay/gr-overlay';
@@ -269,7 +269,7 @@ export class GrGroupMembers extends LitElement {
     return html`
       <tr>
         <td class="nameColumn">
-          <gr-account-link .account=${member}></gr-account-link>
+          <gr-account-label .account=${member}></gr-account-label>
         </td>
         <td>${member.email}</td>
         <td class="deleteColumn">

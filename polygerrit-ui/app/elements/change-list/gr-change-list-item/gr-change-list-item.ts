@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import '../../shared/gr-account-link/gr-account-link';
+import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-date-formatter/gr-date-formatter';
@@ -392,11 +392,11 @@ export class GrChangeListItem extends LitElement {
 
     return html`
       <td class="cell owner">
-        <gr-account-link
+        <gr-account-label
           highlightAttention
           .change=${this.change}
           .account=${this.change?.owner}
-        ></gr-account-link>
+        ></gr-account-label>
       </td>
     `;
   }
@@ -423,13 +423,13 @@ export class GrChangeListItem extends LitElement {
 
   private renderChangeReviewers(reviewer: AccountInfo, index: number) {
     return html`
-      <gr-account-link
+      <gr-account-label
         hideAvatar
         firstName
         highlightAttention
         .change=${this.change}
         .account=${reviewer}
-      ></gr-account-link
+      ></gr-account-label
       ><span ?hidden=${this.computeCommaHidden(index)} aria-hidden="true"
         >,
       </span>

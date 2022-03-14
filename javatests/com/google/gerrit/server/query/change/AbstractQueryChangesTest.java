@@ -1996,12 +1996,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestTimeUtil.setClock(new Timestamp(startMs + 2 * thirtyHoursInMs));
     submit(change2);
     TestTimeUtil.setClock(new Timestamp(startMs + 3 * thirtyHoursInMs));
-    // Put another approval on the change, just to update it.
+    // Put another approval on the change, just to update it. This does not record an update in
+    // NoteDb since this is a no/op.
     approve(change1);
     approve(change3);
 
     assertThat(TimeUtil.nowMs()).isEqualTo(startMs + 3 * thirtyHoursInMs);
-    assertThat(lastUpdatedMsApi(change3)).isEqualTo(startMs + 3 * thirtyHoursInMs);
+    assertThat(lastUpdatedMsApi(change3)).isEqualTo(startMs + thirtyHoursInMs);
     assertThat(lastUpdatedMsApi(change2)).isEqualTo(startMs + 2 * thirtyHoursInMs);
     assertThat(lastUpdatedMsApi(change1)).isEqualTo(startMs + 3 * thirtyHoursInMs);
 
@@ -2020,7 +2021,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("mergedbefore:2009-10-03", change3);
     // Changes are sorted by lastUpdatedOn first, then by mergedOn.
     // Even though Change2 was merged after Change3, Change3 is returned first.
-    assertQuery("mergedbefore:2009-10-04", change3, change2);
+    assertQuery("mergedbefore:2009-10-04", change2, change3);
 
     // Same test as above, but using filter code path.
     assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-01"));
@@ -2033,7 +2034,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-02 03:02:00 -0000\""), change3);
     assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-02 03:02:00\""), change3);
     assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-03"), change3);
-    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-04"), change3, change2);
+    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-04"), change2, change3);
   }
 
   @Test
@@ -2058,13 +2059,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     submit(change2);
 
     TestTimeUtil.setClock(new Timestamp(startMs + 3 * thirtyHoursInMs));
-    // Put another approval on the change, just to update it.
+    // Put another approval on the change, just to update it. This does not record an update
+    // in NoteDb since this is a no/op.
     approve(change1);
     approve(change3);
 
     assertThat(TimeUtil.nowMs()).isEqualTo(startMs + 3 * thirtyHoursInMs);
 
-    assertThat(lastUpdatedMsApi(change3)).isEqualTo(startMs + 3 * thirtyHoursInMs);
+    assertThat(lastUpdatedMsApi(change3)).isEqualTo(startMs + thirtyHoursInMs);
     assertThat(lastUpdatedMsApi(change2)).isEqualTo(startMs + 2 * thirtyHoursInMs);
     assertThat(lastUpdatedMsApi(change1)).isEqualTo(startMs + 3 * thirtyHoursInMs);
 
@@ -2072,36 +2074,36 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // 1. Change1 was not submitted and should be never returned.
     // 2. Change2 was merged on 2009-10-02 03:00:00 -0000
     // 3. Change3 was merged on 2009-10-03 09:00:00.0 -0000
-    assertQuery("mergedafter:2009-10-01", change3, change2);
+    assertQuery("mergedafter:2009-10-01", change2, change3);
     // Changes are sorted by lastUpdatedOn first, then by mergedOn.
-    // Even though Change2 was merged after Change3, Change3 is returned first.
-    assertQuery("mergedafter:\"2009-10-01 22:59:00 -0400\"", change3, change2);
-    assertQuery("mergedafter:\"2009-10-02 02:59:00 -0000\"", change3, change2);
+    // Change 2 (which was updated last) is returned before change 3.
+    assertQuery("mergedafter:\"2009-10-01 22:59:00 -0400\"", change2, change3);
+    assertQuery("mergedafter:\"2009-10-02 02:59:00 -0000\"", change2, change3);
     assertQuery("mergedafter:\"2009-10-01 23:02:00 -0400\"", change2);
     assertQuery("mergedafter:\"2009-10-02 03:02:00 -0000\"", change2);
     // Changes included on the date submitted.
-    assertQuery("mergedafter:2009-10-02", change3, change2);
+    assertQuery("mergedafter:2009-10-02", change2, change3);
     assertQuery("mergedafter:2009-10-03", change2);
 
     // Same test as above, but using filter code path.
 
-    assertQuery(makeIndexedPredicateFilterQuery("mergedafter:2009-10-01"), change3, change2);
+    assertQuery(makeIndexedPredicateFilterQuery("mergedafter:2009-10-01"), change2, change3);
     // Changes are sorted by lastUpdatedOn first, then by mergedOn.
     // Even though Change2 was merged after Change3, Change3 is returned first.
     assertQuery(
         makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-01 22:59:00 -0400\""),
-        change3,
-        change2);
+        change2,
+        change3);
     assertQuery(
         makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-02 02:59:00 -0000\""),
-        change3,
-        change2);
+        change2,
+        change3);
     assertQuery(
         makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-01 23:02:00 -0400\""), change2);
     assertQuery(
         makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-02 03:02:00 -0000\""), change2);
     // Changes included on the date submitted.
-    assertQuery(makeIndexedPredicateFilterQuery("mergedafter:2009-10-02"), change3, change2);
+    assertQuery(makeIndexedPredicateFilterQuery("mergedafter:2009-10-02"), change2, change3);
     assertQuery(makeIndexedPredicateFilterQuery("mergedafter:2009-10-03"), change2);
   }
 
@@ -2124,14 +2126,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     submit(change2);
     submit(change3);
     TestTimeUtil.setClock(new Timestamp(startMs + 2 * thirtyHoursInMs));
-    // Approve post submit just to update lastUpdatedOn
+    // Approve post submit just to update lastUpdatedOn. This does not record an update in NoteDb
+    // since this is a No/op.
     approve(change3);
     approve(change2);
     submit(change1);
 
     // All Changes were last updated at the same time.
-    assertThat(lastUpdatedMsApi(change3)).isEqualTo(startMs + 2 * thirtyHoursInMs);
-    assertThat(lastUpdatedMsApi(change2)).isEqualTo(startMs + 2 * thirtyHoursInMs);
+    assertThat(lastUpdatedMsApi(change3)).isEqualTo(startMs + thirtyHoursInMs);
+    assertThat(lastUpdatedMsApi(change2)).isEqualTo(startMs + thirtyHoursInMs);
     assertThat(lastUpdatedMsApi(change1)).isEqualTo(startMs + 2 * thirtyHoursInMs);
 
     // Changes are sorted by lastUpdatedOn first, then by mergedOn, then by Id in reverse order.

@@ -16,6 +16,23 @@
       "message": "I don\u0027t think this will do what you want it to.\n\nAll promises resolve.  Which means that errFn will get called and then the promise will resolve so you\u0027ll have a quick \u0027FAILED\u0027 before it shows \u0027SUCCESSFUL\u0027",
       "revId": "881dd195aff1d1214d8d21ff0afa6f1aabd78994",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "560b4663_c7c0389f",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-14T09:42:44Z",
+      "side": 1,
+      "message": "What might be cleaner is an errFn that throws an exception and then you can .then and .catch in the consumer side of the promise.",
+      "revId": "881dd195aff1d1214d8d21ff0afa6f1aabd78994",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

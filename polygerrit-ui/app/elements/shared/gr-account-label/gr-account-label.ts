@@ -256,7 +256,7 @@ export class GrAccountLabel extends LitElement {
           ${this.avatarShown
             ? html`<gr-avatar .account="${account}" imageSize="32"></gr-avatar>`
             : ''}
-          <span id="hovercardTarget" class="name" part="gr-account-label-text">
+          <span tabindex="0" role="button" id="hovercardTarget" class="name" part="gr-account-label-text">
             ${this._computeName(account, this.firstName, this._config)}
           </span>
           ${this.renderAccountStatusPlugins()}

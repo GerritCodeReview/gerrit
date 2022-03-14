@@ -52,6 +52,24 @@
       "parentUuid": "e7702728_6fe946c6",
       "revId": "fb040d7d3c71b48620a71f92e5617b3abd30622e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cee31efe_5d5dd2f8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-14T09:35:56Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "5ae33791_2ed892ca",
+      "revId": "fb040d7d3c71b48620a71f92e5617b3abd30622e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,6 +34,24 @@
       "parentUuid": "2d035866_0b29f876",
       "revId": "61f5faafe7046dd3534ba8a278dbec9faddada0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcbde8e1_2067a6f5",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-14T15:58:40Z",
+      "side": 1,
+      "message": "Bulk-actions-model was changed and there\u0027s no change to bulk-actions-model_test.",
+      "parentUuid": "67b54296_51a94227",
+      "revId": "61f5faafe7046dd3534ba8a278dbec9faddada0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -12,6 +12,7 @@ import {NumericChangeId, ChangeInfo} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ProgressStatus} from '../../../constants/constants';
+import '../../shared/gr-dialog/gr-dialog';
 
 @customElement('gr-change-list-bulk-abandon-flow')
 export class GrChangeListBulkAbandonFlow extends LitElement {

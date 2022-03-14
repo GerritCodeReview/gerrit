@@ -16,7 +16,7 @@
  */
 
 import '@polymer/iron-input/iron-input';
-import '../../shared/gr-account-link/gr-account-link';
+import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-dialog/gr-dialog';
@@ -342,7 +342,7 @@ export class GrRepoDetailList extends LitElement {
 
     return html`
       <div class="tagger">
-        <gr-account-link .account=${tagger}> </gr-account-link>
+        <gr-account-label .account=${tagger}> </gr-account-label>
         (<gr-date-formatter withTooltip .dateStr=${tagger.date}>
         </gr-date-formatter
         >)

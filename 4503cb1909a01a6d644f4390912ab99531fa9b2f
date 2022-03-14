@@ -34,6 +34,24 @@
       "parentUuid": "e14839ab_fc8aa0ec",
       "revId": "4503cb1909a01a6d644f4390912ab99531fa9b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e443b6d2_b5afc664",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-14T08:59:06Z",
+      "side": 1,
+      "message": "\u003e\u003e Should we close before we reload?\nYeah it\u0027s a minor difference I\u0027ll update.\n\n\u003e\u003e Why would you not reload if some failed?\nBecause there is a risk the failed change is now no longer part of the dashboard as it\u0027s been replaced with some other change. That\u0027s why I prefer not reloading and making sure the change is still part of the original view in which they interacted with.",
+      "parentUuid": "44027d9c_2ea849af",
+      "revId": "4503cb1909a01a6d644f4390912ab99531fa9b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

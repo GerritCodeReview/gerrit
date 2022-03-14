@@ -39,7 +39,7 @@ suite('gr-account-chip tests', () => {
   test('renders', () => {
     expect(element).shadowDom.to.equal(/* HTML */ `
       <div class="container">
-        <gr-account-link></gr-account-link>
+        <gr-account-label deselected=""></gr-account-label>
         <slot name="vote-chip"></slot>
         <gr-button
           aria-disabled="false"

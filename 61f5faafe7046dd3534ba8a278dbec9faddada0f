@@ -52,6 +52,24 @@
       "parentUuid": "67b54296_51a94227",
       "revId": "61f5faafe7046dd3534ba8a278dbec9faddada0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dc6771b_14911ce2",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-14T16:00:44Z",
+      "side": 1,
+      "message": "The test in gr-change-list-bulk-abandon-flow_test.ts is trying to abandon a change with status ABANDONED and verifying that the request succeeds.\n\nwhat exactly do you want tested in bulk-actions-model_test?",
+      "parentUuid": "fcbde8e1_2067a6f5",
+      "revId": "61f5faafe7046dd3534ba8a278dbec9faddada0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -70,6 +70,24 @@
       "parentUuid": "fcbde8e1_2067a6f5",
       "revId": "61f5faafe7046dd3534ba8a278dbec9faddada0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dae1d13_96348822",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-14T16:03:29Z",
+      "side": 1,
+      "message": "I would like this method tested in bulk-actions-model_test.ts because it\u0027s part of the bulk-actions-model API.\n\n1. That you\u0027re not calling executeChangeAction when the change is already abandoned.\n2. That executeChangeAction is called with.\n3. That executeChangeAction\u0027s call of its errFn will result in the errFn being called with the right change number.",
+      "parentUuid": "8dc6771b_14911ce2",
+      "revId": "61f5faafe7046dd3534ba8a278dbec9faddada0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

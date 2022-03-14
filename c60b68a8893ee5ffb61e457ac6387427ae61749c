@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b2b545e_417be859",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-14T16:34:20Z",
+      "side": 1,
+      "message": "I\u0027m assuming if its abandoned it won\u0027t have an actions.abandon?",
+      "revId": "c60b68a8893ee5ffb61e457ac6387427ae61749c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -70,6 +70,24 @@
       "parentUuid": "e443b6d2_b5afc664",
       "revId": "4503cb1909a01a6d644f4390912ab99531fa9b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ec5955b_42cd5127",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-14T09:15:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "368c0523_1d757cd6",
+      "revId": "4503cb1909a01a6d644f4390912ab99531fa9b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

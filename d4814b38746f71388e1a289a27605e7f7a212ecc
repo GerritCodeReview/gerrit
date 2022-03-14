@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fa8bd3f_736b67de",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-14T11:56:22Z",
+      "side": 1,
+      "message": "What is this guarding against?",
+      "revId": "d4814b38746f71388e1a289a27605e7f7a212ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

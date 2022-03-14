@@ -30,7 +30,7 @@ export const htmlTemplate = html`
     :host(.disable-context-control-buttons) .section {
       border-right: none;
     }
-    :host(.hide-line-length-indicator) .full-width td.content .content {
+    :host(.hide-line-length-indicator) .full-width td.content .contentText {
       background-image: none;
     }
 
@@ -38,16 +38,16 @@ export const htmlTemplate = html`
       font-family: var(--monospace-font-family, ''), 'Roboto Mono';
       font-size: var(--font-size, var(--font-size-code, 12px));
       /* usually 16px = 12px + 4px */
-      --line-height-code: calc(
+      line-height: calc(
         var(--font-size, var(--font-size-code, 12px)) + var(--spacing-s, 4px)
       );
-      line-height: var(--line-height-code);
     }
 
     .thread-group {
       display: block;
       max-width: var(--content-width, 80ch);
       white-space: normal;
+      background-color: var(--diff-blank-background-color);
     }
     .diffContainer {
       max-width: var(--diff-max-width, none);
@@ -109,10 +109,10 @@ export const htmlTemplate = html`
     .lineNumButton {
       display: block;
       width: 100%;
+      height: 100%;
       background-color: var(--diff-blank-background-color);
       box-shadow: var(--line-number-box-shadow, unset);
     }
-
     td.lineNum {
       vertical-align: top;
     }
@@ -157,73 +157,12 @@ export const htmlTemplate = html`
       outline: none;
       user-select: none;
     }
-
-    /**
-     * Defines styles for the line number cell of the focused line.
-     * It adds a bottom-left-top border via box-shadow so it doesn't
-     * take any space in the DOM (to avoid flickering whenever selected line changes).
-     */
-    .diff-row.target-row.target-side-left td.lineNum.left,
-    .diff-row.target-row.target-side-right td.lineNum.right {
-      /* Add a padding so children's spacing don't hide the box shadow border */
-      padding: 1px 0 1px 1px;
-      /* remove 2px for button height to make sure added padding (1px top, 1px bottom) won't affect overall row height */
-      line-height: calc(var(--line-height-code) - 2px);
-      box-shadow:
-        /* Border top: */ inset 0 1px 0 0
-          var(--focused-line-outline-color),
-        /* Border bottom: */ inset 0 -1px 0 0 var(--focused-line-outline-color),
-        /* Border left: */ inset 1px 0 0 0 var(--focused-line-outline-color);
-    }
-
-    /**
-     * For all line numbers where a top-bottom border (box-shadow) will rendered we need to
-     * remove previous styling and specify a more prominent color.
-     */
-    .diff-row.target-row.target-side-left td.left.lineNum .lineNumButton,
-    .diff-row.target-row.target-side-right td.right.lineNum .lineNumButton {
-      /**
-       * Remove any type of conflicting box-shadow for the button (might be set for left-right).
-       * @see --line-number-box-shadow
-       */
-      box-shadow: none;
-      /* Increase prominency by using the primary text color for the selected line number. */
+    .diff-row.target-row.target-side-left .lineNumButton.left,
+    .diff-row.target-row.target-side-right .lineNumButton.right,
+    .diff-row.target-row.unified .lineNumButton {
+      background-color: var(--diff-selection-background-color);
       color: var(--primary-text-color);
     }
-
-    /**
-     * Defines styles for the content cell of the focused line.
-     * It adds a top-right-bottom border (via box-shadow so it doesn't take space in the DOM).
-     */
-    .diff-row.target-row.target-side-left td.left.content,
-    .diff-row.target-row.target-side-right td.right.content,
-    .diff-row.unified.target-row td.content {
-      box-shadow:
-      /* Border right: */ inset -1px 0 0 0 var(--focused-line-outline-color),
-        /* Border top: */ inset 0 1px 0 0 var(--focused-line-outline-color),
-        /* Border bottom: */ inset 0 -1px 0 0 var(--focused-line-outline-color);
-    }
-
-    /**
-     * Defines specific focus behavior for unified diff - don't interupt the
-     * outline (top/bottom borders) for right line number cell even if selection
-     * is placed on the left side.
-     * 
-     * Not using .lineNum here, because we also want to target cells in right
-     * line number column that don't contain an actual line number. Also
-     * excluding .content as it receives 'right' marker even for an unchanged
-     * line.
-     */
-    .diff-row.unified.target-row.target-side-left td.right:not(.content) {
-      padding: 1px 0;
-      /* remove 2px for button height to make sure added padding (1px top, 1px bottom) won't affect overall row height */
-      line-height: calc(var(--line-height-code) - 2px);
-      box-shadow:
-        /* Border top: */ inset 0 1px 0 0
-          var(--focused-line-outline-color),
-        /* Border bottom: */ inset 0 -1px 0 0 var(--focused-line-outline-color);
-    }
-
     .content {
       background-color: var(--diff-blank-background-color);
     }
@@ -252,7 +191,7 @@ export const htmlTemplate = html`
       display: block;
       margin-top: var(--spacing-xs);
     }
-    .content {
+    .contentText {
       background-color: var(--view-background-color);
     }
     .blank {
@@ -294,51 +233,51 @@ export const htmlTemplate = html`
       min-width: var(--content-width, 80ch);
       width: var(--content-width, 80ch);
     }
-    .content.add .intraline,
+    .content.add .contentText .intraline,
       /* If there are no intraline info, consider everything changed */
-      .content.add.no-intraline-info,
-      .delta.total .content.add {
+      .content.add.no-intraline-info .contentText,
+      .delta.total .content.add .contentText {
       background-color: var(--dark-add-highlight-color);
     }
-    .content.add {
+    .content.add .contentText {
       background-color: var(--light-add-highlight-color);
     }
-    .content.remove .content .intraline,
+    .content.remove .contentText .intraline,
       /* If there are no intraline info, consider everything changed */
-      .content.remove.no-intraline-info,
-      .delta.total .content.remove .content {
+      .content.remove.no-intraline-info .contentText,
+      .delta.total .content.remove .contentText {
       background-color: var(--dark-remove-highlight-color);
     }
-    .content.remove .content {
+    .content.remove .contentText {
       background-color: var(--light-remove-highlight-color);
     }
 
     /* dueToRebase */
-    .dueToRebase .content.add .intraline,
-    .delta.total.dueToRebase .content.add {
+    .dueToRebase .content.add .contentText .intraline,
+    .delta.total.dueToRebase .content.add .contentText {
       background-color: var(--dark-rebased-add-highlight-color);
     }
-    .dueToRebase .content.add {
+    .dueToRebase .content.add .contentText {
       background-color: var(--light-rebased-add-highlight-color);
     }
-    .dueToRebase .content.remove .content .intraline,
-    .delta.total.dueToRebase .content.remove .content {
+    .dueToRebase .content.remove .contentText .intraline,
+    .delta.total.dueToRebase .content.remove .contentText {
       background-color: var(--dark-rebased-remove-highlight-color);
     }
-    .dueToRebase .content.remove .content {
+    .dueToRebase .content.remove .contentText {
       background-color: var(--light-remove-add-highlight-color);
     }
 
     /* dueToMove */
-    .dueToMove .content.add,
+    .dueToMove .content.add .contentText,
     .dueToMove .moveControls.movedIn .moveHeader,
-    .delta.total.dueToMove .content.add {
+    .delta.total.dueToMove .content.add .contentText {
       background-color: var(--diff-moved-in-background);
     }
 
-    .dueToMove .content.remove .content,
+    .dueToMove .content.remove .contentText,
     .dueToMove .moveControls.movedOut .moveHeader,
-    .delta.total.dueToMove .content.remove .content {
+    .delta.total.dueToMove .content.remove .contentText {
       background-color: var(--diff-moved-out-background);
     }
 
@@ -354,12 +293,12 @@ export const htmlTemplate = html`
     }
 
     /* ignoredWhitespaceOnly */
-    .ignoredWhitespaceOnly .content.add .intraline,
-    .delta.total.ignoredWhitespaceOnly .content.add,
-    .ignoredWhitespaceOnly .content.add,
-    .ignoredWhitespaceOnly .content.remove .content .intraline,
-    .delta.total.ignoredWhitespaceOnly .content.remove .content,
-    .ignoredWhitespaceOnly .content.remove .content {
+    .ignoredWhitespaceOnly .content.add .contentText .intraline,
+    .delta.total.ignoredWhitespaceOnly .content.add .contentText,
+    .ignoredWhitespaceOnly .content.add .contentText,
+    .ignoredWhitespaceOnly .content.remove .contentText .intraline,
+    .delta.total.ignoredWhitespaceOnly .content.remove .contentText,
+    .ignoredWhitespaceOnly .content.remove .contentText {
       background-color: var(--view-background-color);
     }
 
@@ -414,6 +353,9 @@ export const htmlTemplate = html`
       height: 0;
     }
 
+    .displayLine .diff-row.target-row td {
+      box-shadow: inset 0 -1px var(--border-color);
+    }
     .br:after {
       /* Line feed */
       content: '\\A';
@@ -463,7 +405,6 @@ export const htmlTemplate = html`
     #diffTable:focus {
       outline: none;
     }
-
     #loadingError,
     #sizeWarning {
       display: none;

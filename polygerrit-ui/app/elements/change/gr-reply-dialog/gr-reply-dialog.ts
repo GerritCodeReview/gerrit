@@ -475,10 +475,10 @@ export class GrReplyDialog extends DIPolymerElement {
     this._focusOn(FocusTarget.ANY);
   }
 
-  getFocusStops() {
+  async getFocusStops() {
     const end = this._sendDisabled ? this.$.cancelButton : this.$.sendButton;
     return {
-      start: this.$.reviewers.focusStart,
+      start: await this.$.reviewers.focusStart,
       end,
     };
   }
@@ -656,7 +656,7 @@ export class GrReplyDialog extends DIPolymerElement {
       });
   }
 
-  _focusOn(section?: FocusTarget) {
+  async _focusOn(section?: FocusTarget) {
     // Safeguard- always want to focus on something.
     if (!section || section === FocusTarget.ANY) {
       section = this._chooseFocusTarget();
@@ -665,11 +665,11 @@ export class GrReplyDialog extends DIPolymerElement {
       const textarea = queryAndAssert<GrTextarea>(this, 'gr-textarea');
       setTimeout(() => textarea.getNativeTextarea().focus());
     } else if (section === FocusTarget.REVIEWERS) {
-      const reviewerEntry = this.$.reviewers.focusStart;
-      setTimeout(() => reviewerEntry.focus());
+      const reviewerEntry = await this.$.reviewers.focusStart;
+      reviewerEntry.focus();
     } else if (section === FocusTarget.CCS) {
-      const ccEntry = this.$.ccs.focusStart;
-      setTimeout(() => ccEntry.focus());
+      const ccEntry = await this.$.ccs.focusStart;
+      ccEntry.focus();
     }
   }
 
@@ -1131,7 +1131,7 @@ export class GrReplyDialog extends DIPolymerElement {
     this._rebuildReviewerArrays(this.change.reviewers, this._owner);
   }
 
-  _saveClickHandler(e: Event) {
+  async _saveClickHandler(e: Event) {
     e.preventDefault();
     if (!this.$.ccs.submitEntryText()) {
       // Do not proceed with the save if there is an invalid email entry in

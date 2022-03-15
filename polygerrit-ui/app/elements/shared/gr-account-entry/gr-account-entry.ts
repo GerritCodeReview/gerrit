@@ -14,30 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles';
+
 import '../gr-autocomplete/gr-autocomplete';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-account-entry_html';
-import {customElement, property} from '@polymer/decorators';
 import {
   AutocompleteQuery,
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html, css} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {BindValueChangeEvent} from '../../../types/events';
 
-export interface GrAccountEntry {
-  $: {
-    input: GrAutocomplete;
-  };
-}
 /**
  * gr-account-entry is an element for entering account
  * and/or group with autocomplete support.
  */
 @customElement('gr-account-entry')
-export class GrAccountEntry extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrAccountEntry extends LitElement {
+  // private but used in test
+  @query('#input') input?: GrAutocomplete;
 
   /**
    * Fired when an account is entered.
@@ -62,33 +57,72 @@ export class GrAccountEntry extends PolymerElement {
   @property({type: String})
   placeholder = '';
 
-  @property({type: Object, notify: true})
+  @property({type: Object})
   querySuggestions: AutocompleteQuery = () => Promise.resolve([]);
 
-  @property({type: String, observer: '_inputTextChanged'})
-  _inputText = '';
+  @state() private inputText = '';
+
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        gr-autocomplete {
+          display: inline-block;
+          flex: 1;
+          overflow: hidden;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <gr-autocomplete
+        id="input"
+        .borderless=${this.borderless}
+        .placeholder=${this.placeholder}
+        .query=${this.querySuggestions}
+        .allowNonSuggestedValues=${this.allowAnyInput}
+        @commit=${this.handleInputCommit}
+        clear-on-commit=""
+        warn-uncommitted=""
+        .text=${this.inputText}
+        .verticalOffset=${24}
+        @text-changed=${this.handleTextChanged}
+      >
+      </gr-autocomplete>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('inputText')) {
+      this.inputTextChanged();
+    }
+  }
 
   get focusStart() {
-    return this.$.input.focusStart;
+    return this.updateComplete.then(() => this.input!.focusStart);
   }
 
   override focus() {
-    this.$.input.focus();
+    this.updateComplete.then(() => this.input!.focus());
   }
 
   clear() {
-    this.$.input.clear();
+    this.updateComplete.then(() => this.input!.clear());
   }
 
   setText(text: string) {
-    this.$.input.setText(text);
+    this.updateComplete.then(() => this.input!.setText(text));
   }
 
   getText() {
-    return this.$.input.text;
+    return this.updateComplete.then(() => this.input!.text);
+    // assertIsDefined(this.input, 'input');
+    // return this.input.text;
   }
 
-  _handleInputCommit(e: CustomEvent) {
+  private handleInputCommit = (e: CustomEvent) => {
     this.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: e.detail.value},
@@ -96,16 +130,20 @@ export class GrAccountEntry extends PolymerElement {
         bubbles: true,
       })
     );
-    this.$.input.focus();
-  }
+    this.updateComplete.then(() => this.input!.focus());
+  };
 
-  _inputTextChanged(text: string) {
-    if (text.length && this.allowAnyInput) {
+  private inputTextChanged() {
+    if (this.inputText.length && this.allowAnyInput) {
       this.dispatchEvent(
         new CustomEvent('account-text-changed', {bubbles: true, composed: true})
       );
     }
   }
+
+  private handleTextChanged = (e: BindValueChangeEvent) => {
+    this.inputText = e.detail.value;
+  };
 }
 
 declare global {

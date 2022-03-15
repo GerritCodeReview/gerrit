@@ -26,12 +26,13 @@ import {
   DetailedLabelInfo,
   LabelNameToValuesMap,
 } from '../../../types/common';
-import {GrLabelScoreRow, Label} from '../gr-label-score-row/gr-label-score-row';
+import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {getAppContext} from '../../../services/app-context';
 import {
   getTriggerVotes,
   showNewSubmitRequirements,
   computeLabels,
+  Label,
 } from '../../../utils/label-util';
 import {ChangeStatus} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';

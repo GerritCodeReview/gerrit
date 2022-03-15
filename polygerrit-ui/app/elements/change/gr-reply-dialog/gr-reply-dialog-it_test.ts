@@ -103,6 +103,7 @@ suite('gr-reply-dialog-it tests', () => {
 
     element.$.ccs.entry!.setText('test');
     MockInteractions.tap(queryAndAssert(element, 'gr-button.send'));
+    assert.isFalse(element.$.ccs.submitEntryText());
     assert.isFalse(sendStub.called);
     flush();
 

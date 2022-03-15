@@ -30,9 +30,11 @@ import {
   GroupName,
   Suggestion,
 } from '../../../types/common';
-import {queryAll} from '../../../test/test-utils';
+import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
+import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 
 const basicFixture = fixtureFromElement('gr-account-list');
 
@@ -117,10 +119,14 @@ suite('gr-account-list tests', () => {
   test('account entry only appears when editable', async () => {
     element.readonly = false;
     await element.updateComplete;
-    assert.isFalse(element.entry!.hasAttribute('hidden'));
+    assert.isFalse(
+      queryAndAssert<GrAccountEntry>(element, '#entry').hasAttribute('hidden')
+    );
     element.readonly = true;
     await element.updateComplete;
-    assert.isTrue(element.entry!.hasAttribute('hidden'));
+    assert.isTrue(
+      queryAndAssert<GrAccountEntry>(element, '#entry').hasAttribute('hidden')
+    );
   });
 
   test('addition and removal of account/group chips', async () => {
@@ -295,13 +301,19 @@ suite('gr-account-list tests', () => {
     element.allowAnyInput = true;
     await element.updateComplete;
 
-    const getTextStub = sinon.stub(element.entry!, 'getText');
+    const getTextStub = sinon.stub(
+      queryAndAssert<GrAccountEntry>(element, '#entry'),
+      'getText'
+    );
     getTextStub.onFirstCall().returns('');
     getTextStub.onSecondCall().returns('test');
     getTextStub.onThirdCall().returns('test@test');
 
     // When entry is empty, return true.
-    const clearStub = sinon.stub(element.entry!, 'clear');
+    const clearStub = sinon.stub(
+      queryAndAssert<GrAccountEntry>(element, '#entry'),
+      'clear'
+    );
     assert.isTrue(element.submitEntryText());
     assert.isFalse(clearStub.called);
 
@@ -387,7 +399,9 @@ suite('gr-account-list tests', () => {
     const acct = makeAccount();
     handleAdd({account: acct, count: 1});
     await element.updateComplete;
-    assert.isTrue(element.entry!.hasAttribute('hidden'));
+    assert.isTrue(
+      queryAndAssert<GrAccountEntry>(element, '#entry').hasAttribute('hidden')
+    );
   });
 
   test('enter text calls suggestions provider', async () => {
@@ -410,8 +424,10 @@ suite('gr-account-list tests', () => {
       'makeSuggestionItem'
     );
 
-    const input = element.entry!.$.input;
-
+    const input = queryAndAssert<GrAutocomplete>(
+      queryAndAssert<GrAccountEntry>(element, '#entry'),
+      '#input'
+    );
     input.text = 'newTest';
     MockInteractions.focus(input.$.input);
     input.noDebounce = true;
@@ -446,7 +462,10 @@ suite('gr-account-list tests', () => {
 
   suite('keyboard interactions', () => {
     test('backspace at text input start removes last account', async () => {
-      const input = element.entry!.$.input;
+      const input = queryAndAssert<GrAutocomplete>(
+        queryAndAssert<GrAccountEntry>(element, '#entry'),
+        '#input'
+      );
       sinon.stub(input, '_updateSuggestions');
       sinon.stub(element, 'computeRemovable').returns(true);
       await await element.updateComplete;
@@ -472,7 +491,10 @@ suite('gr-account-list tests', () => {
     });
 
     test('arrow key navigation', async () => {
-      const input = element.entry!.$.input;
+      const input = queryAndAssert<GrAutocomplete>(
+        queryAndAssert<GrAccountEntry>(element, '#entry'),
+        '#input'
+      );
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       await element.updateComplete;

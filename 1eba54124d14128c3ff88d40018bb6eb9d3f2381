@@ -16,6 +16,29 @@
       "message": "Sorry for the double commit - I forgot to run google-java-format the first time around. ",
       "revId": "1eba54124d14128c3ff88d40018bb6eb9d3f2381",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "374da43b_4b6142ae",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-03-15T15:31:32Z",
+      "side": 1,
+      "message": "why double backslash here?",
+      "range": {
+        "startLine": 274,
+        "startChar": 90,
+        "endLine": 274,
+        "endChar": 92
+      },
+      "revId": "1eba54124d14128c3ff88d40018bb6eb9d3f2381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

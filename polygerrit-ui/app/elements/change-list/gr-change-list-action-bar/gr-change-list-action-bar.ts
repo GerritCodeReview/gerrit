@@ -1,4 +1,5 @@
-/**
+
+import "../gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow";/**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
@@ -108,6 +109,7 @@ export class GrChangeListActionBar extends LitElement {
               : nothing}
           </div>
           <div class="actionButtons">
+            <gr-change-list-bulk-vote-flow></gr-change-list-bulk-vote-flow>
             <gr-change-list-mark-active-flow></gr-change-list-mark-active-flow>
             <gr-change-list-bulk-abandon-flow>
             </gr-change-list-bulk-abandon-flow>

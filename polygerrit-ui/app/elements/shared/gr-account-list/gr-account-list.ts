@@ -394,8 +394,8 @@ export class GrAccountList extends PolymerElement {
    * submission was successful and false if not. If there is no text,
    * return true.
    */
-  submitEntryText() {
-    const text = this.$.entry.getText();
+  async submitEntryText() {
+    const text = await this.$.entry.getText();
     if (!text.length) {
       return true;
     }

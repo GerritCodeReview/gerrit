@@ -2553,10 +2553,10 @@ export class GrChangeView extends base {
     });
   }
 
-  _resetReplyOverlayFocusStops() {
+  async _resetReplyOverlayFocusStops() {
     const dialog = query<GrReplyDialog>(this, '#replyDialog');
     if (!dialog) return;
-    this.$.replyOverlay.setFocusStops(dialog.getFocusStops());
+    this.$.replyOverlay.setFocusStops(await dialog.getFocusStops());
   }
 
   _handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {

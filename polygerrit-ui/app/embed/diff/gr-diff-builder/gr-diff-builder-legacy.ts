@@ -352,6 +352,9 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     if (line.type !== GrDiffLineType.BLANK) {
       td.classList.add('content');
     }
+    if (side) {
+      td.classList.add(side);
+    }
 
     // If intraline info is not available, the entire line will be
     // considered as changed and marked as dark red / green color

@@ -32,6 +32,7 @@ import {
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
 import {assertNever, unique} from './common-util';
+import {Label} from '../elements/change/gr-label-score-row/gr-label-score-row';
 
 // Name of the standard Code-Review label.
 export enum StandardLabels {
@@ -292,6 +293,60 @@ export function orderSubmitRequirements(
     r => !PRIORITY_REQUIREMENTS_ORDER.includes(r.name)
   );
   return priorityRequirementList.concat(nonPriorityRequirements);
+}
+
+function getStringLabelValue(
+  labels: LabelNameToInfoMap,
+  labelName: string,
+  numberValue?: number
+): string {
+  const detailedInfo = labels[labelName] as DetailedLabelInfo;
+  if (detailedInfo.values) {
+    for (const labelValue of Object.keys(detailedInfo.values)) {
+      if (Number(labelValue) === numberValue) {
+        return labelValue;
+      }
+    }
+  }
+  // TODO: This code is sometimes executed with numberValue taking the
+  // values 0 and undefined.
+  // For now it is unclear how this is happening, ideally this code should
+  // never be executed.
+  return `${numberValue}`;
+}
+
+export function getVoteForAccount(
+  labelName: string,
+  account?: AccountInfo,
+  change?: ChangeInfo
+): string | null {
+  const labels = change?.labels;
+  if (!account || !labels) return null;
+  const votes = labels[labelName] as DetailedLabelInfo;
+  if (!votes.all?.length) return null;
+  for (let i = 0; i < votes.all.length; i++) {
+    if (votes.all[i]._account_id === account._account_id) {
+      return getStringLabelValue(labels, labelName, votes.all[i].value);
+    }
+  }
+  return null;
+}
+
+export function computeLabels(
+  account?: AccountInfo,
+  change?: ChangeInfo
+): Label[] {
+  if (!account) return [];
+  const labelsObj = change?.labels;
+  if (!labelsObj) return [];
+  return Object.keys(labelsObj)
+    .sort(labelCompare)
+    .map(key => {
+      return {
+        name: key,
+        value: getVoteForAccount(key, account, change),
+      };
+    });
 }
 
 export function getTriggerVotes(change?: ParsedChangeInfo | ChangeInfo) {

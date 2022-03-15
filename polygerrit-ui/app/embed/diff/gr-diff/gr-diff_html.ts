@@ -160,9 +160,65 @@ export const htmlTemplate = html`
     .diff-row.target-row.target-side-left .lineNumButton.left,
     .diff-row.target-row.target-side-right .lineNumButton.right,
     .diff-row.target-row.unified .lineNumButton {
-      background-color: var(--diff-selection-background-color);
       color: var(--primary-text-color);
     }
+    
+    
+    .diff-row.target-row.target-side-left td.left.content,
+    .diff-row.target-row.target-side-right td.right.content,
+    .diff-row.target-row.target-side-left td.left.lineNum,
+    .diff-row.target-row.target-side-right td.right.lineNum,
+    .diff-row.unified.target-row.target-side-left td.right:not(.content) {
+      position: relative;
+      background-size: cover;
+      margin: 0 auto;
+    }
+
+    .diff-row.target-row.target-side-left td.left.lineNum::before,
+    .diff-row.target-row.target-side-right td.right.lineNum::before {
+      border-style: solid;
+      border-width: 1px 0 1px 1px;
+      border-color: var(--focused-line-outline-color);
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      user-select: none;
+      content: " ";  
+    }
+
+    .diff-row.target-row.target-side-left td.left.content::before,
+    .diff-row.target-row.target-side-right td.right.content::before,
+    .diff-row.unified.target-row td.content::before {
+      border-style: solid;
+      border-width: 1px 1px 1px 0;
+      border-color: var(--focused-line-outline-color);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      user-select: none;
+      content: " ";
+    }
+
+    .diff-row.unified.target-row.target-side-left td.right:not(.content)::before {
+      border-style: solid;
+      border-width: 1px 0;
+      border-color: var(--focused-line-outline-color);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      user-select: none;
+      content: " ";
+    }
+
     .content {
       background-color: var(--diff-blank-background-color);
     }
@@ -353,9 +409,6 @@ export const htmlTemplate = html`
       height: 0;
     }
 
-    .displayLine .diff-row.target-row td {
-      box-shadow: inset 0 -1px var(--border-color);
-    }
     .br:after {
       /* Line feed */
       content: '\\A';

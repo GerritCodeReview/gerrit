@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "94063dc3_c90c0e4d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-15T21:34:35Z",
+      "side": 0,
+      "message": "The context controls in `no-left` view (shift-A) do not show:\nhttps://imgur.com/a/xaP9Gqh",
+      "revId": "c4165a96856dea97e5a09ef356a818d7f019c553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9a8e9551_d21a5080",
@@ -37,6 +54,30 @@
       "writtenOn": "2022-03-15T19:30:11Z",
       "side": 0,
       "message": "I\u0027m not sure which scenario that is supposed to hide exactly - line numbers on the right without line number information (data-value)? but when does that happen actually?",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 56
+      },
+      "revId": "c4165a96856dea97e5a09ef356a818d7f019c553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800110a3_cd989fbd",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-15T21:34:35Z",
+      "side": 0,
+      "message": "I am not sure. Maybe this is for lines that are deleted (on the left side). This rule probably makes sure that the placeholder is not rendered (which does not have a line number, but is rendered on the right side).",
+      "parentUuid": "1d1ecf57_9c9cdda1",
       "range": {
         "startLine": 23,
         "startChar": 32,

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55b0cc3b_ec105d4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-15T21:34:35Z",
+      "side": 1,
+      "message": "Cool. Much nicer!!",
+      "revId": "1d9b45c7a52f957e494a8fbe92400a41f220be09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef694a7_dd86a0b6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-15T21:34:35Z",
+      "side": 1,
+      "message": "For deleted lines in unified diff we need some additional rule:\nhttps://imgur.com/a/Hinj1ta",
+      "revId": "1d9b45c7a52f957e494a8fbe92400a41f220be09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

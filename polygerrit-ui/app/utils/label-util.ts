@@ -19,6 +19,7 @@ import {
   isQuickLabelInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
+  LabelNameToValueMap,
 } from '../api/rest-api';
 import {FlagsService, KnownExperimentId} from '../services/flags/flags';
 import {
@@ -31,8 +32,18 @@ import {
   VotingRangeInfo,
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
-import {assertNever, unique} from './common-util';
-import {Label} from '../elements/change/gr-label-score-row/gr-label-score-row';
+import {assertNever, unique, hasOwnProperty} from './common-util';
+
+export interface Label {
+  name: string;
+  value: string | null;
+}
+
+// TODO(TS): add description to explain what this is after moving
+// gr-label-scores to ts
+export interface LabelValuesMap {
+  [key: number]: number;
+}
 
 // Name of the standard Code-Review label.
 export enum StandardLabels {
@@ -318,7 +329,7 @@ function getStringLabelValue(
 export function getVoteForAccount(
   labelName: string,
   account?: AccountInfo,
-  change?: ChangeInfo
+  change?: ParsedChangeInfo | ChangeInfo
 ): string | null {
   const labels = change?.labels;
   if (!account || !labels) return null;
@@ -332,9 +343,41 @@ export function getVoteForAccount(
   return null;
 }
 
+export function computeOrderedLabelValues(
+  permittedLabels?: LabelNameToValueMap
+) {
+  if (!permittedLabels) return [];
+  const labels = Object.keys(permittedLabels);
+  const values: Set<number> = new Set();
+  for (const label of labels) {
+    for (const value of permittedLabels[label]) {
+      values.add(Number(value));
+    }
+  }
+
+  return Array.from(values.values()).sort((a, b) => a - b);
+}
+
+export function mergeLabelMaps(
+  a?: LabelNameToValueMap,
+  b?: LabelNameToValueMap
+): LabelNameToValueMap {
+  if (!a || !b) return {};
+  const ans: LabelNameToValueMap = {};
+  for (const key of Object.keys(a)) {
+    if (!hasOwnProperty(b, key)) continue;
+    ans[key] = mergeLabelValues(a[key], b[key]);
+  }
+  return ans;
+}
+
+export function mergeLabelValues(a: string[], b: string[]) {
+  return a.filter(value => b.includes(value));
+}
+
 export function computeLabels(
   account?: AccountInfo,
-  change?: ChangeInfo
+  change?: ParsedChangeInfo | ChangeInfo
 ): Label[] {
   if (!account) return [];
   const labelsObj = change?.labels;

@@ -1731,7 +1731,7 @@ suite('gr-change-view tests', () => {
   });
 
   suite('reply dialog tests', () => {
-    setup(() => {
+    setup(async () => {
       element._change = {
         ...createChangeViewChange(),
         // element has latest info
@@ -1740,6 +1740,7 @@ suite('gr-change-view tests', () => {
         current_revision: 'rev1' as CommitId,
         labels: {},
       };
+      await flush();
     });
 
     test('show reply dialog on open-reply-dialog event', async () => {

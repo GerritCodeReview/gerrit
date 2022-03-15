@@ -31,11 +31,7 @@ import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {getAppContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {classMap} from 'lit/directives/class-map';
-
-export interface Label {
-  name: string;
-  value: string | null;
-}
+import {Label} from '../../../utils/label-util';
 
 declare global {
   interface HTMLElementTagNameMap {

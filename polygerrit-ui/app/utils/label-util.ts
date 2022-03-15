@@ -19,6 +19,7 @@ import {
   isQuickLabelInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
+  LabelNameToValueMap,
 } from '../api/rest-api';
 import {FlagsService, KnownExperimentId} from '../services/flags/flags';
 import {
@@ -32,7 +33,10 @@ import {
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
 import {assertNever, unique} from './common-util';
-import {Label} from '../elements/change/gr-label-score-row/gr-label-score-row';
+import {
+  Label,
+  LabelValuesMap,
+} from '../elements/change/gr-label-score-row/gr-label-score-row';
 import {Execution} from '../constants/reporting';
 import {getAppContext} from '../services/app-context';
 
@@ -322,7 +326,7 @@ function getStringLabelValue(
 export function getVoteForAccount(
   labelName: string,
   account?: AccountInfo,
-  change?: ChangeInfo
+  change?: ParsedChangeInfo | ChangeInfo
 ): string | null {
   const labels = change?.labels;
   if (!labels) return null;
@@ -342,9 +346,28 @@ export function getVoteForAccount(
   return null;
 }
 
+export function computeColumns(permittedLabels?: LabelNameToValueMap) {
+  if (!permittedLabels) return;
+  const labels = Object.keys(permittedLabels);
+  const values: Set<number> = new Set();
+  for (const label of labels) {
+    for (const value of permittedLabels[label]) {
+      values.add(Number(value));
+    }
+  }
+
+  const orderedValues = Array.from(values.values()).sort((a, b) => a - b);
+
+  const labelValues: LabelValuesMap = {};
+  for (let i = 0; i < orderedValues.length; i++) {
+    labelValues[orderedValues[i]] = i;
+  }
+  return labelValues;
+}
+
 export function computeLabels(
   account?: AccountInfo,
-  change?: ChangeInfo
+  change?: ParsedChangeInfo | ChangeInfo
 ): Label[] {
   if (!account) return [];
   const labelsObj = change?.labels;

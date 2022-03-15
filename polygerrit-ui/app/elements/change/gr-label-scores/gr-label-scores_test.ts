@@ -26,7 +26,11 @@ import {
   createChange,
 } from '../../../test/test-data-generators';
 import {ChangeStatus} from '../../../constants/constants';
-import {getVoteForAccount, computeLabels} from '../../../utils/label-util';
+import {
+  getVoteForAccount,
+  computeLabels,
+  computeColumns,
+} from '../../../utils/label-util';
 
 const basicFixture = fixtureFromElement('gr-label-scores');
 
@@ -126,7 +130,7 @@ suite('gr-label-scores tests', () => {
   });
 
   test('_computeColumns', () => {
-    const labelValues = element._computeColumns();
+    const labelValues = computeColumns(element.permittedLabels);
     assert.deepEqual(labelValues, {
       '-2': 0,
       '-1': 1,

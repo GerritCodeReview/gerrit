@@ -24,7 +24,6 @@ import {
   ChangeInfo,
   AccountInfo,
   DetailedLabelInfo,
-  LabelNameToInfoMap,
   LabelNameToValuesMap,
 } from '../../../types/common';
 import {
@@ -35,8 +34,8 @@ import {
 import {getAppContext} from '../../../services/app-context';
 import {
   getTriggerVotes,
-  labelCompare,
   showNewSubmitRequirements,
+  computeLabels,
 } from '../../../utils/label-util';
 import {ChangeStatus} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -106,7 +105,7 @@ export class GrLabelScores extends LitElement {
   }
 
   private renderOldSubmitRequirements() {
-    const labels = this._computeLabels();
+    const labels = computeLabels(this.account, this.change);
     return html`${this.renderLabels(labels)}${this.renderErrorMessages()}`;
   }
 
@@ -117,7 +116,7 @@ export class GrLabelScores extends LitElement {
 
   private renderSubmitReqsLabels() {
     const triggerVotes = getTriggerVotes(this.change);
-    const labels = this._computeLabels().filter(
+    const labels = computeLabels(this.account, this.change).filter(
       label => !triggerVotes.includes(label.name)
     );
     if (!labels.length) return;
@@ -135,7 +134,7 @@ export class GrLabelScores extends LitElement {
 
   private renderTriggerVotes() {
     const triggerVotes = getTriggerVotes(this.change);
-    const labels = this._computeLabels().filter(label =>
+    const labels = computeLabels(this.account, this.change).filter(label =>
       triggerVotes.includes(label.name)
     );
     if (!labels.length) return;
@@ -214,69 +213,11 @@ export class GrLabelScores extends LitElement {
     return labels;
   }
 
-  private getStringLabelValue(
-    labels: LabelNameToInfoMap,
-    labelName: string,
-    numberValue?: number
-  ): string {
-    const detailedInfo = labels[labelName] as DetailedLabelInfo;
-    if (detailedInfo.values) {
-      for (const labelValue of Object.keys(detailedInfo.values)) {
-        if (Number(labelValue) === numberValue) {
-          return labelValue;
-        }
-      }
-    }
-    // TODO: This code is sometimes executed with numberValue taking the
-    // values 0 and undefined.
-    // For now it is unclear how this is happening, ideally this code should
-    // never be executed.
-    const stringVal = `${numberValue}`;
-    return stringVal;
-  }
-
   private getDefaultValue(labelName?: string) {
     const labels = this.change?.labels;
     if (!labelName || !labels?.[labelName]) return undefined;
     const labelInfo = labels[labelName] as DetailedLabelInfo;
     return labelInfo.default_value;
-  }
-
-  _getVoteForAccount(labelName: string): string | null {
-    const labels = this.change?.labels;
-    if (!labels) return null;
-    const votes = labels[labelName] as DetailedLabelInfo;
-    if (votes.all && votes.all.length > 0) {
-      for (let i = 0; i < votes.all.length; i++) {
-        if (
-          this.account &&
-          // TODO(TS): Replace == with === and check code can assign string to _account_id instead of number
-          // eslint-disable-next-line eqeqeq
-          votes.all[i]._account_id == this.account._account_id
-        ) {
-          return this.getStringLabelValue(
-            labels,
-            labelName,
-            votes.all[i].value
-          );
-        }
-      }
-    }
-    return null;
-  }
-
-  _computeLabels(): Label[] {
-    if (!this.account) return [];
-    const labelsObj = this.change?.labels;
-    if (!labelsObj) return [];
-    return Object.keys(labelsObj)
-      .sort(labelCompare)
-      .map(key => {
-        return {
-          name: key,
-          value: this._getVoteForAccount(key),
-        };
-      });
   }
 
   _computeColumns() {

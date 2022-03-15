@@ -69,6 +69,7 @@ import {
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -1182,10 +1183,10 @@ suite('gr-reply-dialog tests', () => {
     );
 
     // We should be focused on account entry input.
+    const reviewersEntry = queryAndAssert<GrAccountList>(element, '#reviewers');
     assert.isTrue(
       isFocusInsideElement(
-        queryAndAssert<GrAccountList>(element, '#reviewers').entry!.$.input.$
-          .input
+        queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').$.input
       )
     );
 
@@ -1243,16 +1244,20 @@ suite('gr-reply-dialog tests', () => {
 
     // We should be focused on account entry input.
     if (cc) {
+      const ccsEntry = queryAndAssert<GrAccountList>(element, '#ccs');
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#ccs').entry!.$.input.$.input
+          queryAndAssert<GrAutocomplete>(ccsEntry.entry, '#input').$.input
         )
       );
     } else {
+      const reviewersEntry = queryAndAssert<GrAccountList>(
+        element,
+        '#reviewers'
+      );
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#reviewers').entry!.$.input.$
-            .input
+          queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').$.input
         )
       );
     }

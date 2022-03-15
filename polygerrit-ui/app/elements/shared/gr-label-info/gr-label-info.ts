@@ -19,7 +19,6 @@ import '../../../styles/gr-voting-styles';
 import '../../../styles/shared-styles';
 import '../gr-vote-chip/gr-vote-chip';
 import '../gr-account-label/gr-account-label';
-import '../gr-account-link/gr-account-link';
 import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
@@ -174,7 +173,7 @@ export class GrLabelInfo extends LitElement {
         gr-button[disabled] iron-icon {
           color: var(--border-color);
         }
-        gr-account-link {
+        gr-account-label {
           --account-max-length: 100px;
           margin-right: var(--spacing-xs);
         }
@@ -300,10 +299,10 @@ export class GrLabelInfo extends LitElement {
         </gr-tooltip-content>
       </td>
       <td>
-        <gr-account-link
+        <gr-account-label
           .account="${mappedLabel.account}"
           .change="${change}"
-        ></gr-account-link>
+        ></gr-account-label>
       </td>
       <td>${this.renderRemoveVote(mappedLabel.account)}</td>
     </tr>`;

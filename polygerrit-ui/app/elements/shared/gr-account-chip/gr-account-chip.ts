@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-account-link/gr-account-link';
+import '../gr-account-label/gr-account-label';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import {
@@ -142,7 +142,7 @@ export class GrAccountChip extends LitElement {
           height: 1.2rem;
           width: 1.2rem;
         }
-        .container gr-account-link::part(gr-account-link-text) {
+        .container gr-account-label::part(gr-account-label-text) {
           color: var(--deemphasized-text-color);
         }
         .container.disliked {
@@ -197,14 +197,14 @@ export class GrAccountChip extends LitElement {
           closeShown: this.removable,
         })}"
       >
-        <gr-account-link
+        <gr-account-label
           .account="${this.account}"
           .change="${this.change}"
           ?forceAttention=${this.forceAttention}
           ?highlightAttention=${this.highlightAttention}
           .voteableText=${this.voteableText}
         >
-        </gr-account-link>
+        </gr-account-label>
         <slot name="vote-chip"></slot>
         <gr-button
           id="remove"

@@ -30,8 +30,8 @@ import {ShowAlertEventDetail} from '../../../types/events';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {classMap} from 'lit/directives/class-map';
-import {modifierPressed} from '../../../utils/dom-util';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
+import {ifDefined} from 'lit/directives/if-defined';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends LitElement {
@@ -246,8 +246,6 @@ export class GrAccountLabel extends LitElement {
             </gr-tooltip-content>`
           : ''}
         <span
-          tabindex="0"
-          @keydown="${(e: KeyboardEvent) => this.handleKeyDown(e)}"
           class="${classMap({
             hovercardTargetWrapper: true,
             hasAttention: this.attentionIconShown,
@@ -256,7 +254,13 @@ export class GrAccountLabel extends LitElement {
           ${this.avatarShown
             ? html`<gr-avatar .account="${account}" imageSize="32"></gr-avatar>`
             : ''}
-          <span id="hovercardTarget" class="name" part="gr-account-label-text">
+          <span
+            tabindex=${this.hideHovercard ? '-1' : '0'}
+            role=${ifDefined(this.hideHovercard ? undefined : 'button')}
+            id="hovercardTarget"
+            class="name"
+            part="gr-account-label-text"
+          >
             ${this._computeName(account, this.firstName, this._config)}
           </span>
           ${this.renderAccountStatusPlugins()}
@@ -295,15 +299,6 @@ export class GrAccountLabel extends LitElement {
         <span class="rightSidePadding"></span>
       </gr-endpoint-decorator>
     `;
-  }
-
-  handleKeyDown(e: KeyboardEvent) {
-    if (modifierPressed(e)) return;
-    // Only react to `return` and `space`.
-    if (e.keyCode !== 13 && e.keyCode !== 32) return;
-    e.preventDefault();
-    e.stopPropagation();
-    this.dispatchEvent(new Event('click'));
   }
 
   _isAttentionSetEnabled(

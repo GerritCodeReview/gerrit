@@ -18,10 +18,16 @@ import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
   <style include="shared-styles">
-    :host(.no-left) .sideBySide .left,
-    :host(.no-left) .sideBySide .left + td,
-    :host(.no-left) .sideBySide .right:not([data-value]),
-    :host(.no-left) .sideBySide .right:not([data-value]) + td {
+    /**
+     * This is used to hide all left side of the diff (e.g. diffs besides comments in the change log).
+     * Since 'left' and 'right' now is shared between different types of cells (e.g. line number, content)
+     * but also <col> definitions in <colgroup>, we exclude content cells (.content, .blank) according to
+     * css class logic defined in GrDiffBuilderLegacy.createTextEl.
+     */
+    :host(.no-left) .sideBySide .left:not(.content):not(.blank),
+    :host(.no-left) .sideBySide .left:not(.content):not(.blank) + td,
+    :host(.no-left) .sideBySide .right:not(.content):not(.blank):not([data-value]),
+    :host(.no-left) .sideBySide .right:not(.content):not(.blank):not([data-value]) + td {
       display: none;
     }
     :host(.disable-context-control-buttons) {
@@ -160,9 +166,52 @@ export const htmlTemplate = html`
     .diff-row.target-row.target-side-left .lineNumButton.left,
     .diff-row.target-row.target-side-right .lineNumButton.right,
     .diff-row.target-row.unified .lineNumButton {
-      background-color: var(--diff-selection-background-color);
       color: var(--primary-text-color);
     }
+
+    .diff-row.target-row.target-side-left td.left.content,
+    .diff-row.target-row.target-side-right td.right.content,
+    .diff-row.target-row.target-side-left td.left.lineNum,
+    .diff-row.target-row.target-side-right td.right.lineNum,
+    .diff-row.unified.target-row.target-side-left td.right:not(.content),
+    .diff-row.unified.target-row td.content {
+      position: relative;
+    }
+
+    .diff-row.target-row.target-side-left td.left.lineNum::before,
+    .diff-row.target-row.target-side-right td.right.lineNum::before,
+    .diff-row.target-row.target-side-left td.left.content::before,
+    .diff-row.target-row.target-side-right td.right.content::before,
+    .diff-row.unified.target-row.target-side-left
+      td.right:not(.content)::before,
+    .diff-row.unified.target-row td.content::before {
+      border-style: solid;
+      border-color: var(--focused-line-outline-color);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      user-select: none;
+      content: ' ';
+    }
+    .diff-row.target-row.target-side-left td.left.lineNum::before,
+    .diff-row.target-row.target-side-right td.right.lineNum::before {
+      border-width: 1px 0 1px 1px;
+    }
+
+    .diff-row.target-row.target-side-left td.left.content::before,
+    .diff-row.target-row.target-side-right td.right.content::before,
+    .diff-row.unified.target-row td.content::before {
+      border-width: 1px 1px 1px 0;
+    }
+
+    .diff-row.unified.target-row.target-side-left
+      td.right:not(.content)::before {
+      border-width: 1px 0;
+    }
+
     .content {
       background-color: var(--diff-blank-background-color);
     }
@@ -353,9 +402,6 @@ export const htmlTemplate = html`
       height: 0;
     }
 
-    .displayLine .diff-row.target-row td {
-      box-shadow: inset 0 -1px var(--border-color);
-    }
     .br:after {
       /* Line feed */
       content: '\\A';

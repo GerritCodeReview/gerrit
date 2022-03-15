@@ -790,6 +790,16 @@ export function createSubmitRequirementResultInfo(
   };
 }
 
+export function createSubmitRequirementExpressionInfoWith(expression: string) {
+  return {
+    ...createSubmitRequirementResultInfo(),
+    submittability_expression_result: {
+      ...createSubmitRequirementExpressionInfo(),
+      expression,
+    },
+  };
+}
+
 export function createNonApplicableSubmitRequirementResultInfo(): SubmitRequirementResultInfo {
   return {
     name: 'Verified',

@@ -125,17 +125,6 @@ suite('gr-label-scores tests', () => {
     );
   });
 
-  test('_computeColumns', () => {
-    const labelValues = element._computeColumns();
-    assert.deepEqual(labelValues, {
-      '-2': 0,
-      '-1': 1,
-      '0': 2,
-      '1': 3,
-      '2': 4,
-    });
-  });
-
   suite('message', () => {
     test('shown when change is abandoned', async () => {
       element.change = {

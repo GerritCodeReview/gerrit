@@ -106,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87c2b56f_d2d876ee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-15T22:00:49Z",
+      "side": 1,
+      "message": "Fixed, at least tests work.",
+      "parentUuid": "9b0c4a8d_dae57ab0",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 30
+      },
+      "revId": "5cc685d33226747f7be2b9339685f225c1ba339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "106add0c_a609a526",
@@ -143,6 +167,30 @@
       "side": 1,
       "message": "Maybe just needed an `await flush()` after `basicFixture.instantiate()`, but if this works it\u0027s probably ok. Consider `await flush()` after `fixture()` anyway.",
       "parentUuid": "106add0c_a609a526",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 7
+      },
+      "revId": "5cc685d33226747f7be2b9339685f225c1ba339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "097824d1_4f2afca0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-15T22:00:49Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "4cd76234_5efbdef2",
       "range": {
         "startLine": 94,
         "startChar": 0,

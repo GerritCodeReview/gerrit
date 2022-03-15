@@ -16,6 +16,24 @@
       "message": "These should move into connectedCallback if you want to tear them down in disconnectedCallback.  We don\u0027t always call addTargetEventListeners.\n\nIs there a reason you want to tear them down at all? \n\nWhy not simply set these up in the constructor?",
       "revId": "6b2cbdfd2a4f244310eddc09a3a8a4279b8a6989",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "521009bc_c9e89367",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-15T19:59:19Z",
+      "side": 1,
+      "message": "1, you are right. I moved it to connectedCallback.\n2, Ben introduced this pattern of tearing down in disconnectedCallback. I am just following patter.\n3. I would be worried about leaking it if it is set in constructor",
+      "parentUuid": "5a0bf311_f6c379a3",
+      "revId": "6b2cbdfd2a4f244310eddc09a3a8a4279b8a6989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -30,6 +30,8 @@ import {
   labelCompare,
   LabelStatus,
   computeLabels,
+  mergeLabelMaps,
+  computeOrderedLabelValues,
 } from './label-util';
 import {
   AccountId,
@@ -240,6 +242,14 @@ suite('label-util', () => {
     assert.equal(getRepresentativeValue(labelInfo), -2);
   });
 
+  test('computeOrderedLabelValues', () => {
+    const labelValues = computeOrderedLabelValues({
+      'Code-Review': ['-2', '-1', ' 0', '+1', '+2'],
+      Verified: ['-1', ' 0', '+1'],
+    });
+    assert.deepEqual(labelValues, [-2, -1, 0, 1, 2]);
+  });
+
   test('computeLabels', async () => {
     const accountId = 123 as AccountId;
     const account = createAccountWithId(accountId);
@@ -290,6 +300,89 @@ suite('label-util', () => {
       {name: 'Code-Review', value: null},
       {name: 'Verified', value: '+1'},
     ]);
+  });
+
+  test('mergeLabelMaps', () => {
+    assert.deepEqual(
+      mergeLabelMaps(
+        {
+          A: ['-1', '0', '+1', '+2'],
+          B: ['-1', '0'],
+          C: ['-1', '0'],
+          D: ['0'],
+        },
+        undefined
+      ),
+      {}
+    );
+
+    assert.deepEqual(
+      mergeLabelMaps(undefined, {
+        A: ['-1', '0', '+1', '+2'],
+        B: ['-1', '0'],
+        C: ['-1', '0'],
+        D: ['0'],
+      }),
+      {}
+    );
+
+    assert.deepEqual(
+      mergeLabelMaps(
+        {
+          A: ['-1', '0', '+1', '+2'],
+          B: ['-1', '0'],
+          C: ['-1', '0'],
+          D: ['0'],
+        },
+        {
+          A: ['-1', '0', '+1', '+2'],
+          B: ['-1', '0'],
+          C: ['-1', '0'],
+          D: ['0'],
+        }
+      ),
+      {
+        A: ['-1', '0', '+1', '+2'],
+        B: ['-1', '0'],
+        C: ['-1', '0'],
+        D: ['0'],
+      }
+    );
+
+    assert.deepEqual(
+      mergeLabelMaps(
+        {
+          A: ['-1', '0', '+1', '+2'],
+          B: ['-1', '0'],
+          C: ['-1', '0'],
+        },
+        {
+          A: ['-1', '0', '+1', '+2'],
+          B: ['-1', '0'],
+          D: ['0'],
+        }
+      ),
+      {
+        A: ['-1', '0', '+1', '+2'],
+        B: ['-1', '0'],
+      }
+    );
+
+    assert.deepEqual(
+      mergeLabelMaps(
+        {
+          A: ['-1', '0', '+1', '+2'],
+          B: ['-1', '0'],
+          C: ['-1', '0'],
+        },
+        {
+          X: ['-1', '0', '+1', '+2'],
+          Y: ['-1', '0'],
+          Z: ['0'],
+        }
+      ),
+      {}
+    );
   });
 
   suite('extractAssociatedLabels()', () => {

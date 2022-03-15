@@ -966,6 +966,7 @@ suite('gr-reply-dialog tests', () => {
     // which the dom-repeat elements are stamped.
     await flush();
     tap(queryAndAssert(element, '.send'));
+    await flush();
     assert.isTrue(element.disabled);
 
     const review = await saveReviewPromise;
@@ -1182,7 +1183,7 @@ suite('gr-reply-dialog tests', () => {
     // We should be focused on account entry input.
     assert.isTrue(
       isFocusInsideElement(
-        queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
+        queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.input!.$
           .input
       )
     );
@@ -1241,13 +1242,13 @@ suite('gr-reply-dialog tests', () => {
     if (cc) {
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#ccs').$.entry.$.input.$.input
+          queryAndAssert<GrAccountList>(element, '#ccs').$.entry.input!.$.input
         )
       );
     } else {
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
+          queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.input!.$
             .input
         )
       );
@@ -2165,6 +2166,7 @@ suite('gr-reply-dialog tests', () => {
     await flush();
 
     tap(queryAndAssert(element, 'gr-button.send'));
+    await flush();
     assert.isTrue(sendStub.called);
   });
 
@@ -2174,10 +2176,8 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [];
     await flush();
 
-    assert.equal(
-      element.getFocusStops().end,
-      queryAndAssert(element, '#cancelButton')
-    );
+    let focusStops = await element.getFocusStops();
+    assert.equal(focusStops.end, queryAndAssert(element, '#cancelButton'));
     element.draftCommentThreads = [
       {
         ...createCommentThread([
@@ -2192,10 +2192,8 @@ suite('gr-reply-dialog tests', () => {
     ];
     await flush();
 
-    assert.equal(
-      element.getFocusStops().end,
-      queryAndAssert(element, '#sendButton')
-    );
+    focusStops = await element.getFocusStops();
+    assert.equal(focusStops.end, queryAndAssert(element, '#sendButton'));
   });
 
   test('setPluginMessage', () => {

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3563a84e_24da229e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-15T17:25:08Z",
+      "side": 1,
+      "message": "tests can write their own `element.querySelector` instead of exposing this one",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 0
+      },
+      "revId": "5cc685d33226747f7be2b9339685f225c1ba339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "55dffcf4_66736bf0",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts",
         "patchSetId": 2
@@ -14,6 +37,47 @@
       "writtenOn": "2022-03-15T16:54:19Z",
       "side": 1,
       "message": "I\u0027m not sure if this needs an await this.updateComplete; and same for the below parts up to getText. I remember this https://gerrit-review.googlesource.com/c/gerrit/+/330140 just not sure if it\u0027s needed here (i tried to add it to getText but it broke).",
+      "revId": "5cc685d33226747f7be2b9339685f225c1ba339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "910cd392_b7f213b1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-15T17:25:08Z",
+      "side": 1,
+      "message": "Should not be needed. Test should wait for updateComplete after fixture() in setup(), Prod callers should only call in the appropriate lifecycle anyway where input will be available for use.",
+      "parentUuid": "55dffcf4_66736bf0",
+      "revId": "5cc685d33226747f7be2b9339685f225c1ba339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eae46a7f_7cd71034",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-15T17:25:08Z",
+      "side": 1,
+      "message": "`await element.updateComplete;` should be avoided in production code. I think you need to put this at the end of your test `setup()` method instead.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 30
+      },
       "revId": "5cc685d33226747f7be2b9339685f225c1ba339a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -31,6 +95,30 @@
       "writtenOn": "2022-03-15T17:04:26Z",
       "side": 1,
       "message": "I did this because it seemed to fix the test, was getting:\n\n```\n  gr-account-list tests\n    ✖ addition and removal of account/group chips\n      Chrome Headless 99.0.4844.51 (Mac OS 10.15.7)\n    Error: Uncaught Error: input is not defined (.ts-out/polygerrit-ui/app/utils/common-util.js:66)\n        at Context.call (polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts:129:13)\n\n    ✖ enter text calls suggestions provider\n      Chrome Headless 99.0.4844.51 (Mac OS 10.15.7)\n    Error: selector \u0027#input\u0027 did not match anything\u0027\n        at queryAndAssert (polygerrit-ui/app/utils/common-util.ts:119:21)\n        at Context.call (polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts:391:19)\n\n    keyboard interactions\n      ✖ backspace at text input start removes last account\n        Chrome Headless 99.0.4844.51 (Mac OS 10.15.7)\n      Error: Trying to stub property \u0027_updateSuggestions\u0027 of null\n          at throwOnFalsyObject (polygerrit-ui/node_modules/sinon/pkg/lib/sinon/throw-on-falsy-object.js:7:1)\n          at Function.stub (polygerrit-ui/node_modules/sinon/pkg/lib/sinon/stub.js:75:1)\n          at Sandbox.stub (polygerrit-ui/node_modules/sinon/pkg/lib/sinon/sandbox.js:369:1)\n          at Context.call (polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts:427:13)\n\n      ✖ arrow key navigation\n        Chrome Headless 99.0.4844.51 (Mac OS 10.15.7)\n      TypeError: Cannot set properties of null (setting \u0027text\u0027)\n          at Context.call (polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts:453:17)\n\n  ✖ \"after all\" hook in \"{root}\"\n    Chrome Headless 99.0.4844.51 (Mac OS 10.15.7)\n  Uncaught Error: input is not defined\n```",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 7
+      },
+      "revId": "5cc685d33226747f7be2b9339685f225c1ba339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cd76234_5efbdef2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-15T17:25:08Z",
+      "side": 1,
+      "message": "Maybe just needed an `await flush()` after `basicFixture.instantiate()`, but if this works it\u0027s probably ok. Consider `await flush()` after `fixture()` anyway.",
+      "parentUuid": "106add0c_a609a526",
       "range": {
         "startLine": 94,
         "startChar": 0,

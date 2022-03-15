@@ -30,6 +30,7 @@ import {
   labelCompare,
   LabelStatus,
   computeLabels,
+  computeColumns,
 } from './label-util';
 import {
   AccountId,
@@ -238,6 +239,20 @@ suite('label-util', () => {
     assert.equal(getRepresentativeValue(labelInfo), 2);
     labelInfo = {all: [{value: 0}, {value: -2}]};
     assert.equal(getRepresentativeValue(labelInfo), -2);
+  });
+
+  test('computeColumns', () => {
+    const labelValues = computeColumns({
+      'Code-Review': ['-2', '-1', ' 0', '+1', '+2'],
+      Verified: ['-1', ' 0', '+1'],
+    });
+    assert.deepEqual(labelValues, {
+      '-2': 0,
+      '-1': 1,
+      '0': 2,
+      '1': 3,
+      '2': 4,
+    });
   });
 
   test('computeLabels', async () => {

@@ -98,11 +98,7 @@ export class BulkActionsModel
     this.setState({...this.subject$.getValue(), selectedChangeNums: []});
   }
 
-  abandonChanges(
-    reason?: string,
-    // errorFn is needed to avoid showing an error dialog
-    errFn?: (changeNum: NumericChangeId) => void
-  ): Promise<Response | undefined>[] {
+  abandonChanges(reason: string = ''): Promise<Response | undefined>[] {
     const current = this.subject$.getValue();
     return current.selectedChangeNums.map(changeNum => {
       if (!current.allChanges.get(changeNum))
@@ -111,13 +107,16 @@ export class BulkActionsModel
       if (change.status === ChangeStatus.ABANDONED) {
         return Promise.resolve(new Response());
       }
+      // errFn is needed to avoid showing an error dialog
       return this.restApiService.executeChangeAction(
         change._number,
         change.actions!.abandon!.method,
         '/abandon',
         undefined,
-        {message: reason ?? ''},
-        () => errFn && errFn(change._number)
+        {message: reason},
+        () => {
+          throw new Error(`request for ${changeNum} failed`);
+        }
       );
     });
   }

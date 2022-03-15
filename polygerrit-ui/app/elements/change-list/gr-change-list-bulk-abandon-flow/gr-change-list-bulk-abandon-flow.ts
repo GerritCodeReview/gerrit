@@ -8,12 +8,13 @@ import {customElement, state, query} from 'lit/decorators';
 import {LitElement, html, css} from 'lit';
 import {resolve} from '../../../models/dependency';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
-import {NumericChangeId, ChangeInfo, ChangeStatus} from '../../../api/rest-api';
+import {ChangeInfo, ChangeStatus} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {ProgressStatus} from '../../../constants/constants';
 import '../../shared/gr-dialog/gr-dialog';
 import {fireAlert, fireReload} from '../../../utils/event-util';
+import '../gr-change-list-bulk-action-table/gr-change-list-bulk-action-table';
+import {GrChangeListBulkActionTable} from '../gr-change-list-bulk-action-table/gr-change-list-bulk-action-table';
 
 @customElement('gr-change-list-bulk-abandon-flow')
 export class GrChangeListBulkAbandonFlow extends LitElement {
@@ -21,9 +22,10 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
 
   @state() selectedChanges: ChangeInfo[] = [];
 
-  @state() progress: Map<NumericChangeId, ProgressStatus> = new Map();
-
   @query('#actionOverlay') actionOverlay!: GrOverlay;
+
+  @query('gr-change-list-bulk-action-table')
+  bulkActionTable!: GrChangeListBulkActionTable;
 
   static override get styles() {
     return [
@@ -65,36 +67,16 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
             ${this.selectedChanges.length} changes to abandon
           </div>
           <div slot="main">
-            <table>
-              <thead>
-                <tr>
-                  <th>Subject</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${this.selectedChanges.map(
-                  change => html`
-                    <tr>
-                      <td>Change: ${change.subject}</td>
-                      <td id="status">
-                        Status: ${this.getStatus(change._number)}
-                      </td>
-                    </tr>
-                  `
-                )}
-              </tbody>
-            </table>
+            <gr-change-list-bulk-action-table
+              .columnTitles=${['Subject']}
+              .getColumnValues=${(change: ChangeInfo) => [
+                `Change: ${change.subject}`,
+              ]}
+            ></gr-change-list-bulk-action-table>
           </div>
         </gr-dialog>
       </gr-overlay>
     `;
-  }
-
-  private getStatus(changeNum: NumericChangeId) {
-    return this.progress.has(changeNum)
-      ? this.progress.get(changeNum)
-      : ProgressStatus.NOT_STARTED;
   }
 
   private isEnabled() {
@@ -107,41 +89,26 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
   private isConfirmEnabled() {
     // Action is allowed if none of the changes have any bulk action performed
     // on them. In case an error happens then we keep the button disabled.
-    for (const status of this.progress.values()) {
-      if (status !== ProgressStatus.NOT_STARTED) return false;
-    }
     return true;
+
+    // for (const status of this.progress.values()) {
+    //   if (status !== ProgressStatus.NOT_STARTED) return false;
+    // }
+    // return true;
   }
 
   private isCancelEnabled() {
-    for (const status of this.progress.values()) {
-      if (status === ProgressStatus.RUNNING) return false;
-    }
     return true;
+    // for (const status of this.progress.values()) {
+    //   if (status === ProgressStatus.RUNNING) return false;
+    // }
+    // return true;
   }
 
   private handleConfirm() {
-    this.progress.clear();
-    for (const change of this.selectedChanges) {
-      this.progress.set(change._number, ProgressStatus.RUNNING);
-    }
-    this.requestUpdate();
-    const errFn = (changeNum: NumericChangeId) => {
-      throw new Error(`request for ${changeNum} failed`);
-    };
-    const promises = this.getBulkActionsModel().abandonChanges('', errFn);
-    for (let index = 0; index < promises.length; index++) {
-      const changeNum = this.selectedChanges[index]._number;
-      promises[index]
-        .then(() => {
-          this.progress.set(changeNum, ProgressStatus.SUCCESSFUL);
-          this.requestUpdate();
-        })
-        .catch(() => {
-          this.progress.set(changeNum, ProgressStatus.FAILED);
-          this.requestUpdate();
-        });
-    }
+    this.bulkActionTable.trackBulkActionProgress(
+      this.getBulkActionsModel().abandonChanges()
+    );
   }
 
   private handleClose() {

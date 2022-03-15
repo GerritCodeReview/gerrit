@@ -126,7 +126,7 @@ suite('gr-label-scores tests', () => {
   });
 
   test('_computeColumns', () => {
-    const labelValues = element._computeColumns();
+    const labelValues = computeColumns(element.permittedLabels);
     assert.deepEqual(labelValues, {
       '-2': 0,
       '-1': 1,

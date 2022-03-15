@@ -86,8 +86,10 @@ suite('gr-change-list section', () => {
   });
 
   suite('bulk actions selection', () => {
+    let isEnabled: sinon.SinonStub;
     setup(async () => {
-      stubFlags('isEnabled').returns(true);
+      isEnabled = stubFlags('isEnabled');
+      isEnabled .returns(true)
       element.requestUpdate();
       await element.updateComplete;
     });
@@ -110,6 +112,27 @@ suite('gr-change-list section', () => {
       await element.updateComplete;
 
       assert.isTrue(syncStub.called);
+    });
+
+    test('changing section does on trigger model sync when flag is disabled', async () => {
+      isEnabled.returns(false);
+      const syncStub = sinon.stub(element.bulkActionsModel, 'sync');
+      assert.isFalse(syncStub.called);
+      element.changeSection = {
+        name: 'test',
+        query: 'test',
+        results: [
+          {
+            ...createChange(),
+            _number: 1 as NumericChangeId,
+            id: '1' as ChangeInfoId,
+          },
+        ],
+        emptyStateSlotName: 'test',
+      };
+      await element.updateComplete;
+
+      assert.isFalse(syncStub.called);
     });
 
     test('actions header is enabled/disabled based on selected changes', async () => {

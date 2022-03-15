@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de611293_86ed2f81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-03-15T15:31:06Z",
+      "side": 1,
+      "message": "Not sure, I am the best person to review this, but the shas all seem to line up. I also see that 1.2.18.2 fixes CVE-2022-23305 and 1.2.18.3 fixes CVE-2020-9488. This updates to 1.2.19 which should include both fixes. LGTM.",
+      "revId": "994f139abf06bf2ed663774fecc5273768a7dc14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

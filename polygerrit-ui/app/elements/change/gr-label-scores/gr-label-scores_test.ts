@@ -117,17 +117,12 @@ suite('gr-label-scores tests', () => {
     assert.deepEqual(element.getLabelValues(false), {});
   });
 
-  test('_getVoteForAccount', () => {
+  test('getVoteForAccount', () => {
     const labelName = 'Code-Review';
     assert.strictEqual(
       getVoteForAccount(labelName, element.account, element.change),
       '+1'
     );
-  });
-
-  test('computeOrderedLabelValues', () => {
-    const labelValues = element.computeOrderedLabelValues();
-    assert.deepEqual(labelValues, [-2, -1, 0, 1, 2]);
   });
 
   suite('message', () => {

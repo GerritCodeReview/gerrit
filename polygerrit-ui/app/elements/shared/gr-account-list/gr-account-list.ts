@@ -39,8 +39,10 @@ import {classMap} from 'lit/directives/class-map';
 import {
   AutocompleteQuery,
   AutocompleteSuggestion,
+  GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
 import {ValueChangedEvent} from '../../../types/events';
+import {queryAndAssert} from '../../../utils/common-util';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
@@ -404,7 +406,8 @@ export class GrAccountList extends LitElement {
 
   private handleInputKeydown(e: KeyboardEvent) {
     const target = e.target as GrAccountEntry;
-    const input = this.getOwnNativeInput(target.$.input.$.input);
+    const entryInput = queryAndAssert<GrAutocomplete>(target, '#input');
+    const input = this.getOwnNativeInput(entryInput.$.input);
     if (
       input.selectionStart !== input.selectionEnd ||
       input.selectionStart !== 0

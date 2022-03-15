@@ -658,7 +658,7 @@ export class GrReplyDialog extends DIPolymerElement {
       });
   }
 
-  _focusOn(section?: FocusTarget) {
+  async _focusOn(section?: FocusTarget) {
     // Safeguard- always want to focus on something.
     if (!section || section === FocusTarget.ANY) {
       section = this._chooseFocusTarget();

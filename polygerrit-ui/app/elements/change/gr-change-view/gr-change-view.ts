@@ -2553,7 +2553,7 @@ export class GrChangeView extends base {
     });
   }
 
-  _resetReplyOverlayFocusStops() {
+  async _resetReplyOverlayFocusStops() {
     const dialog = query<GrReplyDialog>(this, '#replyDialog');
     const focusStops = dialog?.getFocusStops();
     if (!focusStops) return;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28e0c335_ce5d94a6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-15T19:16:38Z",
+      "side": 1,
+      "message": "adding the side class up here makes it also work for the \u0027FILE\u0027 line - previously ignored in the previous solution.",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 5
+      },
+      "revId": "a5f8215c0d902b909e3f6b8b3831e9c723c3ebf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

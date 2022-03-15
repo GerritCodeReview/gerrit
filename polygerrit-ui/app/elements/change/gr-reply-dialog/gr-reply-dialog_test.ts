@@ -69,6 +69,7 @@ import {
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -1180,10 +1181,10 @@ suite('gr-reply-dialog tests', () => {
     );
 
     // We should be focused on account entry input.
+    const reviewersEntry = queryAndAssert<GrAccountList>(element, '#reviewers');
     assert.isTrue(
       isFocusInsideElement(
-        queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
-          .input
+        queryAndAssert<GrAutocomplete>(reviewersEntry.$.entry, '#input').$.input
       )
     );
 
@@ -1239,15 +1240,20 @@ suite('gr-reply-dialog tests', () => {
 
     // We should be focused on account entry input.
     if (cc) {
+      const ccsEntry = queryAndAssert<GrAccountList>(element, '#ccs');
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#ccs').$.entry.$.input.$.input
+          queryAndAssert<GrAutocomplete>(ccsEntry.$.entry, '#input').$.input
         )
       );
     } else {
+      const reviewersEntry = queryAndAssert<GrAccountList>(
+        element,
+        '#reviewers'
+      );
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
+          queryAndAssert<GrAutocomplete>(reviewersEntry.$.entry, '#input').$
             .input
         )
       );
@@ -2165,6 +2171,7 @@ suite('gr-reply-dialog tests', () => {
     await flush();
 
     tap(queryAndAssert(element, 'gr-button.send'));
+    await flush();
     assert.isTrue(sendStub.called);
   });
 
@@ -2174,10 +2181,8 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [];
     await flush();
 
-    assert.equal(
-      element.getFocusStops().end,
-      queryAndAssert(element, '#cancelButton')
-    );
+    let focusStops = await element.getFocusStops();
+    assert.equal(focusStops.end, queryAndAssert(element, '#cancelButton'));
     element.draftCommentThreads = [
       {
         ...createCommentThread([
@@ -2192,10 +2197,8 @@ suite('gr-reply-dialog tests', () => {
     ];
     await flush();
 
-    assert.equal(
-      element.getFocusStops().end,
-      queryAndAssert(element, '#sendButton')
-    );
+    focusStops = await element.getFocusStops();
+    assert.equal(focusStops.end, queryAndAssert(element, '#sendButton'));
   });
 
   test('setPluginMessage', () => {

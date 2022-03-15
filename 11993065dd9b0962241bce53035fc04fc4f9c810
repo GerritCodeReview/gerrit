@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1808a458_7ce4af05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-03-15T09:10:15Z",
+      "side": 1,
+      "message": "I tried to fix by adapting RemoveAttentionSetOp not to always return true, but it broke many tests. There is a comment that this is done intentionally but some BG is still missing.\n\nI played around on this path but was not able to resolve it this way.",
+      "revId": "11993065dd9b0962241bce53035fc04fc4f9c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -322,7 +322,7 @@ function getStringLabelValue(
 export function getVoteForAccount(
   labelName: string,
   account?: AccountInfo,
-  change?: ChangeInfo
+  change?: ParsedChangeInfo | ChangeInfo
 ): string | null {
   const labels = change?.labels;
   if (!labels) return null;
@@ -344,7 +344,7 @@ export function getVoteForAccount(
 
 export function computeLabels(
   account?: AccountInfo,
-  change?: ChangeInfo
+  change?: ParsedChangeInfo | ChangeInfo
 ): Label[] {
   if (!account) return [];
   const labelsObj = change?.labels;

@@ -23,9 +23,12 @@ import {debounce, DelayedTask} from '../../utils/async-util';
 import {hovercardStyles} from '../../styles/gr-hovercard-styles';
 import {sharedStyles} from '../../styles/shared-styles';
 import {DependencyRequestEvent} from '../../models/dependency';
-import {addShortcut, Key} from '../../utils/dom-util';
+import {addShortcut, findActiveElement, Key, Modifier} from '../../utils/dom-util';
 import {ShortcutController} from '../../elements/lit/shortcut-controller';
-import {getFocusableElements} from '../../utils/focusable';
+import {
+  getFocusableElements,
+  getFocusableElementsReverse,
+} from '../../utils/focusable';
 
 interface ReloadEventDetail {
   clearPatchset?: boolean;
@@ -199,6 +202,30 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         );
       }
       this.addEventListener('request-dependency', this.resolveDep);
+      this.targetCleanups.push(
+        addShortcut(
+          this,
+          {key: Key.TAB},
+          (e: KeyboardEvent) => {
+            this.pressTab(e);
+          },
+          {
+            doNotPrevent: true,
+          }
+        )
+      );
+      this.targetCleanups.push(
+        addShortcut(
+          this,
+          {key: Key.TAB, modifiers: [Modifier.SHIFT_KEY]},
+          (e: KeyboardEvent) => {
+            this.pressShiftTab(e);
+          },
+          {
+            doNotPrevent: true,
+          }
+        )
+      );
     }
 
     private removeTargetEventListeners() {
@@ -411,6 +438,24 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     override focus(options?: FocusOptions): void {
       const a = getFocusableElements(this).next();
       if (!a.done) a.value.focus(options);
+    }
+
+    pressTab(e: KeyboardEvent) {
+      const activeElement = findActiveElement(document);
+      const lastFocusable = getFocusableElementsReverse(this).next();
+      if (!lastFocusable.done && activeElement === lastFocusable.value) {
+        e.preventDefault();
+        this.forceHide();
+      }
+    }
+
+    pressShiftTab(e: KeyboardEvent) {
+      const activeElement = findActiveElement(document);
+      const firstFocusable = getFocusableElements(this).next();
+      if (!firstFocusable.done && activeElement === firstFocusable.value) {
+        e.preventDefault();
+        this.forceHide();
+      }
     }
 
     cancelShowTask() {

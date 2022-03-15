@@ -33,8 +33,7 @@ import {
 import {queryAll} from '../../../test/test-utils';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-
-const basicFixture = fixtureFromElement('gr-account-list');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
   init() {}
@@ -88,11 +87,13 @@ suite('gr-account-list tests', () => {
     );
   }
 
-  setup(() => {
+  setup(async () => {
     existingAccount1 = makeAccount();
     existingAccount2 = makeAccount();
 
-    element = basicFixture.instantiate();
+    element = await fixture<GrAccountList>(html`
+      <gr-account-list></gr-account-list>
+    `);
     element.accounts = [existingAccount1, existingAccount2];
     suggestionsProvider = new MockSuggestionsProvider();
     element.suggestionsProvider = suggestionsProvider;
@@ -387,8 +388,7 @@ suite('gr-account-list tests', () => {
       'makeSuggestionItem'
     );
 
-    const input = element.$.entry.$.input;
-
+    const input = element.$.entry.input!;
     input.text = 'newTest';
     MockInteractions.focus(input.$.input);
     input.noDebounce = true;
@@ -423,7 +423,7 @@ suite('gr-account-list tests', () => {
 
   suite('keyboard interactions', () => {
     test('backspace at text input start removes last account', async () => {
-      const input = element.$.entry.$.input;
+      const input = element.$.entry.input!;
       sinon.stub(input, '_updateSuggestions');
       sinon.stub(element, '_computeRemovable').returns(true);
       await flush();
@@ -449,7 +449,7 @@ suite('gr-account-list tests', () => {
     });
 
     test('arrow key navigation', async () => {
-      const input = element.$.entry.$.input;
+      const input = element.$.entry.input!;
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       flush();

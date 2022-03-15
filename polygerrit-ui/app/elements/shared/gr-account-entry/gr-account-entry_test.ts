@@ -18,48 +18,48 @@
 import '../../../test/common-test-setup-karma';
 import './gr-account-entry';
 import {GrAccountEntry} from './gr-account-entry';
-
-const basicFixture = fixtureFromElement('gr-account-entry');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-account-entry tests', () => {
   let element: GrAccountEntry;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture<GrAccountEntry>(html`
+      <gr-account-entry></gr-account-entry>
+    `);
   });
 
-  test('account-text-changed fired when input text changed and allowAnyInput', () => {
+  test('account-text-changed fired when input text changed and allowAnyInput', async () => {
     // Spy on query, as that is called when _updateSuggestions proceeds.
     const changeStub = sinon.stub();
     element.allowAnyInput = true;
     element.querySuggestions = () => Promise.resolve([]);
     element.addEventListener('account-text-changed', changeStub);
-    element.$.input.text = 'a';
+    element.input!.text = 'a';
+    await element.updateComplete;
     assert.isTrue(changeStub.calledOnce);
-    element.$.input.text = 'ab';
+    element.input!.text = 'ab';
+    await element.updateComplete;
     assert.isTrue(changeStub.calledTwice);
   });
 
-  test(
-    'account-text-changed not fired when input text changed without ' +
-      'allowAnyInput',
-    () => {
-      // Spy on query, as that is called when _updateSuggestions proceeds.
-      const changeStub = sinon.stub();
-      element.querySuggestions = () => Promise.resolve([]);
-      element.addEventListener('account-text-changed', changeStub);
-      element.$.input.text = 'a';
-      assert.isFalse(changeStub.called);
-    }
-  );
-
-  test('setText', () => {
+  test('account-text-changed not fired when input text changed without allowAnyInput', async () => {
     // Spy on query, as that is called when _updateSuggestions proceeds.
-    const suggestSpy = sinon.spy(element.$.input, 'query');
-    element.setText('test text');
-    flush();
+    const changeStub = sinon.stub();
+    element.querySuggestions = () => Promise.resolve([]);
+    element.addEventListener('account-text-changed', changeStub);
+    element.input!.text = 'a';
+    await element.updateComplete;
+    assert.isFalse(changeStub.called);
+  });
 
-    assert.equal(element.$.input.$.input.value, 'test text');
+  test('setText', async () => {
+    // Spy on query, as that is called when _updateSuggestions proceeds.
+    const suggestSpy = sinon.spy(element.input!, 'query');
+    element.setText('test text');
+    await element.updateComplete;
+
+    assert.equal(element.input!.$.input.value, 'test text');
     assert.isFalse(suggestSpy.called);
   });
 });

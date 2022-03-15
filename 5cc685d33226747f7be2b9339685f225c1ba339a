@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55dffcf4_66736bf0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-15T16:54:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this needs an await this.updateComplete; and same for the below parts up to getText. I remember this https://gerrit-review.googlesource.com/c/gerrit/+/330140 just not sure if it\u0027s needed here (i tried to add it to getText but it broke).",
+      "revId": "5cc685d33226747f7be2b9339685f225c1ba339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

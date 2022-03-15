@@ -26,16 +26,13 @@ import {
   DetailedLabelInfo,
   LabelNameToValuesMap,
 } from '../../../types/common';
-import {
-  GrLabelScoreRow,
-  Label,
-  LabelValuesMap,
-} from '../gr-label-score-row/gr-label-score-row';
+import {GrLabelScoreRow, Label} from '../gr-label-score-row/gr-label-score-row';
 import {getAppContext} from '../../../services/app-context';
 import {
   getTriggerVotes,
   showNewSubmitRequirements,
   computeLabels,
+  computeColumns,
 } from '../../../utils/label-util';
 import {ChangeStatus} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -155,7 +152,7 @@ export class GrLabelScores extends LitElement {
       this.flagsService,
       this.change
     );
-    const labelValues = this._computeColumns();
+    const labelValues = computeColumns(this.permittedLabels);
     return html`<div
       class="scoresTable ${newSubReqs ? 'newSubmitRequirements' : ''}"
     >
@@ -218,25 +215,6 @@ export class GrLabelScores extends LitElement {
     if (!labelName || !labels?.[labelName]) return undefined;
     const labelInfo = labels[labelName] as DetailedLabelInfo;
     return labelInfo.default_value;
-  }
-
-  _computeColumns() {
-    if (!this.permittedLabels) return;
-    const labels = Object.keys(this.permittedLabels);
-    const values: Set<number> = new Set();
-    for (const label of labels) {
-      for (const value of this.permittedLabels[label]) {
-        values.add(Number(value));
-      }
-    }
-
-    const orderedValues = Array.from(values.values()).sort((a, b) => a - b);
-
-    const labelValues: LabelValuesMap = {};
-    for (let i = 0; i < orderedValues.length; i++) {
-      labelValues[orderedValues[i]] = i;
-    }
-    return labelValues;
   }
 
   private computeLabelAccessClass(label?: string) {

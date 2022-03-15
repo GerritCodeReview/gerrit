@@ -26,6 +26,8 @@ import {
   createChange,
 } from '../../../test/test-data-generators';
 import {ChangeStatus} from '../../../constants/constants';
+import {getVoteForAccount, computeLabels} from '../../../utils/label-util';
+import {getAppContext} from '../../../services/app-context';
 
 const basicFixture = fixtureFromElement('gr-label-scores');
 
@@ -118,7 +120,15 @@ suite('gr-label-scores tests', () => {
 
   test('_getVoteForAccount', () => {
     const labelName = 'Code-Review';
-    assert.strictEqual(element._getVoteForAccount(labelName), '+1');
+    assert.strictEqual(
+      getVoteForAccount(
+        getAppContext().reportingService,
+        labelName,
+        element.account,
+        element.change
+      ),
+      '+1'
+    );
   });
 
   test('_computeColumns', () => {
@@ -160,7 +170,11 @@ suite('gr-label-scores tests', () => {
     };
     element.change = change;
     await flush();
-    let labels = element._computeLabels();
+    let labels = computeLabels(
+      getAppContext().reportingService,
+      element.account,
+      element.change
+    );
     assert.deepEqual(labels, [
       {name: 'Code-Review', value: null},
       {name: 'Verified', value: null},
@@ -181,7 +195,11 @@ suite('gr-label-scores tests', () => {
       },
     };
     await flush();
-    labels = element._computeLabels();
+    labels = computeLabels(
+      getAppContext().reportingService,
+      element.account,
+      element.change
+    );
     assert.deepEqual(labels, [
       {name: 'Code-Review', value: null},
       {name: 'Verified', value: '+1'},

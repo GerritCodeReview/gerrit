@@ -30,6 +30,7 @@ import {
   labelCompare,
   LabelStatus,
   computeLabels,
+  computeColumns,
 } from './label-util';
 import {
   AccountId,
@@ -47,6 +48,7 @@ import {
   createNonApplicableSubmitRequirementResultInfo,
   createDetailedLabelInfo,
   createAccountWithId,
+  createSubmitRequirementExpressionInfoWith,
 } from '../test/test-data-generators';
 import {
   SubmitRequirementResultInfo,
@@ -240,6 +242,20 @@ suite('label-util', () => {
     assert.equal(getRepresentativeValue(labelInfo), -2);
   });
 
+  test('computeColumns', () => {
+    const labelValues = computeColumns({
+      'Code-Review': ['-2', '-1', ' 0', '+1', '+2'],
+      Verified: ['-1', ' 0', '+1'],
+    });
+    assert.deepEqual(labelValues, {
+      '-2': 0,
+      '-1': 1,
+      '0': 2,
+      '1': 3,
+      '2': 4,
+    });
+  });
+
   test('computeLabels', async () => {
     const accountId = 123 as AccountId;
     const account = createAccountWithId(accountId);
@@ -293,16 +309,6 @@ suite('label-util', () => {
   });
 
   suite('extractAssociatedLabels()', () => {
-    function createSubmitRequirementExpressionInfoWith(expression: string) {
-      return {
-        ...createSubmitRequirementResultInfo(),
-        submittability_expression_result: {
-          ...createSubmitRequirementExpressionInfo(),
-          expression,
-        },
-      };
-    }
-
     test('1 label', () => {
       const submitRequirement = createSubmitRequirementExpressionInfoWith(
         'label:Verified=MAX -label:Verified=MIN'

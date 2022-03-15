@@ -31,9 +31,10 @@ import {
   SuggestedReviewerAccountInfo,
   Suggestion,
 } from '../../../types/common';
-import {queryAll} from '../../../test/test-utils';
+import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
 
 const basicFixture = fixtureFromElement('gr-account-list');
 
@@ -90,7 +91,7 @@ suite('gr-account-list tests', () => {
     );
   }
 
-  setup(() => {
+  setup(async () => {
     existingAccount1 = makeAccount();
     existingAccount2 = makeAccount();
 
@@ -98,6 +99,7 @@ suite('gr-account-list tests', () => {
     element.accounts = [existingAccount1, existingAccount2];
     suggestionsProvider = new MockSuggestionsProvider();
     element.suggestionsProvider = suggestionsProvider;
+    await flush();
   });
 
   test('account entry only appears when editable', () => {
@@ -391,8 +393,7 @@ suite('gr-account-list tests', () => {
       'makeSuggestionItem'
     );
 
-    const input = element.$.entry.$.input;
-
+    const input = queryAndAssert<GrAutocomplete>(element.$.entry, '#input');
     input.text = 'newTest';
     MockInteractions.focus(input.$.input);
     input.noDebounce = true;
@@ -427,7 +428,8 @@ suite('gr-account-list tests', () => {
 
   suite('keyboard interactions', () => {
     test('backspace at text input start removes last account', async () => {
-      const input = element.$.entry.$.input;
+      const entry = element.$.entry;
+      const input = queryAndAssert<GrAutocomplete>(entry, '#input');
       sinon.stub(input, '_updateSuggestions');
       sinon.stub(element, '_computeRemovable').returns(true);
       await flush();
@@ -453,7 +455,8 @@ suite('gr-account-list tests', () => {
     });
 
     test('arrow key navigation', async () => {
-      const input = element.$.entry.$.input;
+      const entry = element.$.entry;
+      const input = queryAndAssert<GrAutocomplete>(entry, '#input');
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       flush();

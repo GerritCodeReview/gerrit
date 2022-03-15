@@ -30,9 +30,11 @@ import {
   GroupName,
   Suggestion,
 } from '../../../types/common';
-import {queryAll} from '../../../test/test-utils';
+import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
+import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 
 const basicFixture = fixtureFromElement('gr-account-list');
 
@@ -410,8 +412,10 @@ suite('gr-account-list tests', () => {
       'makeSuggestionItem'
     );
 
-    const input = element.entry!.$.input;
-
+    const input = queryAndAssert<GrAutocomplete>(
+      queryAndAssert<GrAccountEntry>(element, '#entry'),
+      '#input'
+    );
     input.text = 'newTest';
     MockInteractions.focus(input.$.input);
     input.noDebounce = true;
@@ -446,7 +450,10 @@ suite('gr-account-list tests', () => {
 
   suite('keyboard interactions', () => {
     test('backspace at text input start removes last account', async () => {
-      const input = element.entry!.$.input;
+      const input = queryAndAssert<GrAutocomplete>(
+        queryAndAssert<GrAccountEntry>(element, '#entry'),
+        '#input'
+      );
       sinon.stub(input, '_updateSuggestions');
       sinon.stub(element, 'computeRemovable').returns(true);
       await await element.updateComplete;
@@ -472,7 +479,10 @@ suite('gr-account-list tests', () => {
     });
 
     test('arrow key navigation', async () => {
-      const input = element.entry!.$.input;
+      const input = queryAndAssert<GrAutocomplete>(
+        queryAndAssert<GrAccountEntry>(element, '#entry'),
+        '#input'
+      );
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       await element.updateComplete;

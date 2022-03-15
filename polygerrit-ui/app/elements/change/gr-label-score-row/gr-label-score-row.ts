@@ -31,17 +31,7 @@ import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {getAppContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {classMap} from 'lit/directives/class-map';
-
-export interface Label {
-  name: string;
-  value: string | null;
-}
-
-// TODO(TS): add description to explain what this is after moving
-// gr-label-scores to ts
-export interface LabelValuesMap {
-  [key: number]: number;
-}
+import {LabelValuesMap, Label} from '../../../utils/label-util';
 
 declare global {
   interface HTMLElementTagNameMap {

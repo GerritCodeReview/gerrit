@@ -1138,7 +1138,9 @@ export class GrRestApiServiceImpl
         ListChangesOption.CHANGE_ACTIONS,
         ListChangesOption.CURRENT_ACTIONS,
         ListChangesOption.CURRENT_REVISION,
-        ListChangesOption.DETAILED_LABELS
+        ListChangesOption.DETAILED_LABELS,
+        // TODO: remove this option and merge requirements from dashbaord req
+        ListChangesOption.SUBMIT_REQUIREMENTS
       )
     );
     return changeDetails;
